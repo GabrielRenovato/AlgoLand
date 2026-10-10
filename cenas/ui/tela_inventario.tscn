@@ -3,13 +3,14 @@
 [ext_resource type="Script" path="res://Codigos/UI/tela_inventario.gd" id="1_tela"]
 [ext_resource type="Texture2D" path="res://UI/craftpix-net-420010-pixel-game-user-interface-for-platformer/1 Interface/TileMap.png" id="2_tilemap"]
 [ext_resource type="PackedScene" path="res://cenas/ui/componentes/slot_ui.tscn" id="3_slot"]
-[ext_resource type="FontFile" path="res://UI/Planes_ValMore.ttf" id="4_fonte"]
 [ext_resource type="Texture2D" path="res://UI/Cute RPG - Icons (1)/Cute RPG - Icons/16x16/CuteRPG_Icons06.png" id="5_icones"]
+[ext_resource type="Texture2D" path="res://UI/sem org/3 Icons/Icons_37.png" id="6_icone_fechar"]
+[ext_resource type="Theme" path="res://recursos/ui/tema_sidebar.tres" id="7_tema"]
+[ext_resource type="FontFile" path="res://UI/craftpix-net-775352-game-user-interface-pixel-art/6 Font/CraftPixNet Survival Kit.otf" id="8_fonte_titulo"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_titulo"]
-font = ExtResource("4_fonte")
-font_size = 8
-shadow_color = Color(0, 0, 0, 1)
+[sub_resource type="LabelSettings" id="LabelSettings_cabecalho"]
+font = ExtResource("8_fonte_titulo")
+font_color = Color(0.13, 0.12, 0.18, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_espada"]
 atlas = ExtResource("5_icones")
@@ -53,14 +54,18 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_tela")
 
-[node name="Painel" type="Control" parent="."]
-layout_mode = 0
-offset_left = 79.0
-offset_top = 87.0
-offset_right = 191.0
-offset_bottom = 263.0
+[node name="Sidebar" type="Control" parent="."]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -144.0
+grow_horizontal = 0
+grow_vertical = 2
 
-[node name="Fundo" type="NinePatchRect" parent="Painel"]
+[node name="Fundo" type="NinePatchRect" parent="Sidebar"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -77,24 +82,70 @@ patch_margin_bottom = 16
 axis_stretch_horizontal = 2
 axis_stretch_vertical = 2
 
-[node name="Titulo" type="Label" parent="Painel"]
-layout_mode = 0
-offset_left = 4.0
-offset_top = 3.0
-offset_right = 115.0
-offset_bottom = 17.0
+[node name="Titulo" type="Label" parent="Sidebar"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = -1.0
+offset_right = -14.0
+offset_bottom = 13.0
+grow_horizontal = 2
 mouse_filter = 2
-text = "CHARACTER"
-label_settings = SubResource("LabelSettings_titulo")
+text = "PERSONAGEM"
+label_settings = SubResource("LabelSettings_cabecalho")
 horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="Boneco" type="Control" parent="Painel"]
+[node name="BotaoFechar" type="TextureButton" parent="Sidebar"]
+modulate = Color(0.13, 0.12, 0.18, 1)
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -18.0
+offset_top = 3.0
+offset_right = -8.0
+offset_bottom = 13.0
+grow_horizontal = 0
+texture_normal = ExtResource("6_icone_fechar")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Painel" type="Control" parent="Sidebar"]
+layout_mode = 0
+offset_left = 16.0
+offset_right = 128.0
+offset_bottom = 176.0
+mouse_filter = 2
+
+[node name="Separador" type="ColorRect" parent="Sidebar"]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 160.0
+offset_right = 130.0
+offset_bottom = 161.0
+mouse_filter = 2
+color = Color(0.55, 0.58, 0.66, 0.6)
+
+[node name="Atributos" type="GridContainer" parent="Sidebar"]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 166.0
+offset_right = 126.0
+offset_bottom = 300.0
+mouse_filter = 2
+theme = ExtResource("7_tema")
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 2
+columns = 2
+
+[node name="Boneco" type="Control" parent="Sidebar/Painel"]
 layout_mode = 0
 offset_right = 112.0
 offset_bottom = 176.0
 mouse_filter = 2
 
-[node name="Corpo" type="TextureRect" parent="Painel/Boneco"]
+[node name="Corpo" type="TextureRect" parent="Sidebar/Painel/Boneco"]
 layout_mode = 0
 offset_left = 26.0
 offset_top = 7.0
@@ -102,7 +153,7 @@ offset_right = 90.0
 offset_bottom = 71.0
 mouse_filter = 2
 
-[node name="Roupa" type="TextureRect" parent="Painel/Boneco"]
+[node name="Roupa" type="TextureRect" parent="Sidebar/Painel/Boneco"]
 layout_mode = 0
 offset_left = 26.0
 offset_top = 7.0
@@ -110,7 +161,7 @@ offset_right = 90.0
 offset_bottom = 71.0
 mouse_filter = 2
 
-[node name="Cabelo" type="TextureRect" parent="Painel/Boneco"]
+[node name="Cabelo" type="TextureRect" parent="Sidebar/Painel/Boneco"]
 layout_mode = 0
 offset_left = 26.0
 offset_top = -3.0
@@ -118,7 +169,7 @@ offset_right = 90.0
 offset_bottom = 61.0
 mouse_filter = 2
 
-[node name="SilhuetaArma" type="TextureRect" parent="Painel"]
+[node name="SilhuetaArma" type="TextureRect" parent="Sidebar/Painel"]
 texture_filter = 1
 layout_mode = 0
 offset_left = 30.8
@@ -130,7 +181,7 @@ texture = SubResource("AtlasTexture_espada")
 expand_mode = 1
 stretch_mode = 0
 
-[node name="SilhuetaCabeca" type="TextureRect" parent="Painel"]
+[node name="SilhuetaCabeca" type="TextureRect" parent="Sidebar/Painel"]
 texture_filter = 1
 layout_mode = 0
 offset_left = 13.56
@@ -142,7 +193,7 @@ texture = SubResource("AtlasTexture_cabeca")
 expand_mode = 1
 stretch_mode = 0
 
-[node name="SilhuetaCorpo" type="TextureRect" parent="Painel"]
+[node name="SilhuetaCorpo" type="TextureRect" parent="Sidebar/Painel"]
 texture_filter = 1
 layout_mode = 0
 offset_left = 13.56
@@ -154,7 +205,7 @@ texture = SubResource("AtlasTexture_corpo")
 expand_mode = 1
 stretch_mode = 0
 
-[node name="SilhuetaLuvas" type="TextureRect" parent="Painel"]
+[node name="SilhuetaLuvas" type="TextureRect" parent="Sidebar/Painel"]
 texture_filter = 1
 layout_mode = 0
 offset_left = 13.56
@@ -166,7 +217,7 @@ texture = SubResource("AtlasTexture_luvas")
 expand_mode = 1
 stretch_mode = 0
 
-[node name="SilhuetaBotas" type="TextureRect" parent="Painel"]
+[node name="SilhuetaBotas" type="TextureRect" parent="Sidebar/Painel"]
 texture_filter = 1
 layout_mode = 0
 offset_left = 13.56
@@ -178,7 +229,7 @@ texture = SubResource("AtlasTexture_botas")
 expand_mode = 1
 stretch_mode = 0
 
-[node name="SilhuetaAnel1" type="TextureRect" parent="Painel"]
+[node name="SilhuetaAnel1" type="TextureRect" parent="Sidebar/Painel"]
 texture_filter = 1
 layout_mode = 0
 offset_left = 83.96
@@ -190,7 +241,7 @@ texture = SubResource("AtlasTexture_anel")
 expand_mode = 1
 stretch_mode = 0
 
-[node name="SilhuetaAnel2" type="TextureRect" parent="Painel"]
+[node name="SilhuetaAnel2" type="TextureRect" parent="Sidebar/Painel"]
 texture_filter = 1
 layout_mode = 0
 offset_left = 83.96
@@ -202,7 +253,7 @@ texture = SubResource("AtlasTexture_anel")
 expand_mode = 1
 stretch_mode = 0
 
-[node name="SilhuetaColar" type="TextureRect" parent="Painel"]
+[node name="SilhuetaColar" type="TextureRect" parent="Sidebar/Painel"]
 texture_filter = 1
 layout_mode = 0
 offset_left = 83.96
@@ -214,7 +265,7 @@ texture = SubResource("AtlasTexture_colar")
 expand_mode = 1
 stretch_mode = 0
 
-[node name="SilhuetaEscudo" type="TextureRect" parent="Painel"]
+[node name="SilhuetaEscudo" type="TextureRect" parent="Sidebar/Painel"]
 texture_filter = 1
 layout_mode = 0
 offset_left = 83.88
@@ -226,7 +277,7 @@ texture = SubResource("AtlasTexture_escudo")
 expand_mode = 1
 stretch_mode = 0
 
-[node name="SlotCabeca" parent="Painel" instance=ExtResource("3_slot")]
+[node name="SlotCabeca" parent="Sidebar/Painel" instance=ExtResource("3_slot")]
 layout_mode = 0
 offset_left = 13.0
 offset_top = 19.0
@@ -235,7 +286,7 @@ offset_bottom = 35.0
 tipo_slot = "cabeca"
 mostrar_fundo = false
 
-[node name="SlotCorpo" parent="Painel" instance=ExtResource("3_slot")]
+[node name="SlotCorpo" parent="Sidebar/Painel" instance=ExtResource("3_slot")]
 layout_mode = 0
 offset_left = 13.0
 offset_top = 36.0
@@ -244,7 +295,7 @@ offset_bottom = 52.0
 tipo_slot = "corpo"
 mostrar_fundo = false
 
-[node name="SlotLuvas" parent="Painel" instance=ExtResource("3_slot")]
+[node name="SlotLuvas" parent="Sidebar/Painel" instance=ExtResource("3_slot")]
 layout_mode = 0
 offset_left = 13.0
 offset_top = 53.0
@@ -253,7 +304,7 @@ offset_bottom = 69.0
 tipo_slot = "luvas"
 mostrar_fundo = false
 
-[node name="SlotBotas" parent="Painel" instance=ExtResource("3_slot")]
+[node name="SlotBotas" parent="Sidebar/Painel" instance=ExtResource("3_slot")]
 layout_mode = 0
 offset_left = 13.0
 offset_top = 71.0
@@ -262,7 +313,7 @@ offset_bottom = 87.0
 tipo_slot = "botas"
 mostrar_fundo = false
 
-[node name="SlotArma" parent="Painel" instance=ExtResource("3_slot")]
+[node name="SlotArma" parent="Sidebar/Painel" instance=ExtResource("3_slot")]
 layout_mode = 0
 offset_left = 30.0
 offset_top = 71.0
@@ -271,7 +322,7 @@ offset_bottom = 87.0
 tipo_slot = "arma"
 mostrar_fundo = false
 
-[node name="SlotEscudo" parent="Painel" instance=ExtResource("3_slot")]
+[node name="SlotEscudo" parent="Sidebar/Painel" instance=ExtResource("3_slot")]
 layout_mode = 0
 offset_left = 83.0
 offset_top = 71.0
@@ -280,7 +331,7 @@ offset_bottom = 87.0
 tipo_slot = "escudo"
 mostrar_fundo = false
 
-[node name="Mochila" type="GridContainer" parent="Painel"]
+[node name="Mochila" type="GridContainer" parent="Sidebar/Painel"]
 layout_mode = 0
 offset_left = 13.0
 offset_top = 100.0

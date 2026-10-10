@@ -1,6 +1,7 @@
 extends Control
 
 const CENA_SLOT := preload("res://cenas/ui/componentes/slot_ui.tscn")
+const IconesItens := preload("res://Codigos/UI/icones_itens.gd")
 const LADO_QUADRO_BONECO := 64
 const NOMES_SLOTS_EQUIPAMENTO := ["SlotCabeca", "SlotCorpo", "SlotLuvas", "SlotBotas", "SlotArma", "SlotEscudo"]
 
@@ -8,12 +9,15 @@ var _atualizacao_pendente: bool = false
 var _slots_mochila: Array[Control] = []
 var _slots_equipamento: Dictionary = {}
 
-@onready var _grade: GridContainer = $Painel/Mochila
-@onready var _corpo: TextureRect = $Painel/Boneco/Corpo
-@onready var _roupa: TextureRect = $Painel/Boneco/Roupa
-@onready var _cabelo: TextureRect = $Painel/Boneco/Cabelo
+@onready var _grade: GridContainer = $Sidebar/Painel/Mochila
+@onready var _corpo: TextureRect = $Sidebar/Painel/Boneco/Corpo
+@onready var _roupa: TextureRect = $Sidebar/Painel/Boneco/Roupa
+@onready var _cabelo: TextureRect = $Sidebar/Painel/Boneco/Cabelo
+@onready var _atributos: GridContainer = $Sidebar/Atributos
 
 func _ready() -> void:
+	add_to_group("tela_inventario")
+	$Sidebar/BotaoFechar.pressed.connect(EventosJogo.fechar_tela.emit.bind("inventario"))
 	for i in InventarioJogador.TAMANHO_MOCHILA:
 		var slot: Control = CENA_SLOT.instantiate()
 		slot.tipo_slot = "mochila"
@@ -21,7 +25,7 @@ func _ready() -> void:
 		_grade.add_child(slot)
 		_slots_mochila.append(slot)
 	for nome in NOMES_SLOTS_EQUIPAMENTO:
-		var slot: Control = get_node("Painel/" + nome)
+		var slot: Control = get_node("Sidebar/Painel/" + nome)
 		_slots_equipamento[slot.tipo_slot] = slot
 
 	InventarioJogador.mochila_alterada.connect(_agendar_atualizacao)
@@ -47,9 +51,38 @@ func _atualizar() -> void:
 	for slot in _slots_equipamento:
 		_slots_equipamento[slot].exibir(InventarioJogador.equipados[slot])
 	_atualizar_boneco()
+	atualizar_atributos()
+
+# Equipar e comprar mudam as estatísticas do Jogador; espera um frame para ele recalcular
+func atualizar_atributos() -> void:
+	if not is_node_ready():
+		return
+	await get_tree().process_frame
+	var jogador := IconesItens.obter_jogador(get_tree())
+	if jogador == null:
+		return
+	var est = jogador.estatisticas
+	var valores := [
+		["VIDA", "%d/%d" % [jogador.hp_atual, est.hp_maximo]], ["DANO", str(est.dano_ataque)],
+		["FOR", str(est.forca)], ["DEF", str(est.defesa)],
+		["AGI", str(est.agilidade)], ["VIT", str(est.vitalidade)],
+		["INT", str(est.inteligencia)], ["SOR", str(est.sorte)],
+	]
+	var rotulos := _atributos.get_children()
+	if rotulos.size() != valores.size():
+		for filho in rotulos:
+			filho.free()
+		rotulos.clear()
+		for i in valores.size():
+			var rotulo := Label.new()
+			rotulo.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			_atributos.add_child(rotulo)
+			rotulos.append(rotulo)
+	for i in valores.size():
+		rotulos[i].text = "%s %s" % valores[i]
 
 func _atualizar_boneco() -> void:
-	var jogador := preload("res://Codigos/UI/icones_itens.gd").obter_jogador(get_tree())
+	var jogador := IconesItens.obter_jogador(get_tree())
 	if jogador == null:
 		return
 	_corpo.texture = _quadro(jogador.sprite_corpo.texture, 0)

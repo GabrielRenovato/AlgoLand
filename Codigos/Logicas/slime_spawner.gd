@@ -37,7 +37,8 @@ func _ready() -> void:
 	else:
 		push_error("Nó principal não encontrado ou inválido")
 
-func spawnar_inimigos(num_inimigos: int, multiplicador_vida: float, multiplicador_dano: float) -> void:
+## cena vazia = sorteia de cenas_inimigos
+func spawnar_inimigos(num_inimigos: int, multiplicador_vida: float, multiplicador_dano: float, cena: PackedScene = null) -> void:
 	if pontos_spawn.size() == 0:
 		push_error("Nenhum ponto de spawn disponível")
 		return
@@ -52,7 +53,7 @@ func spawnar_inimigos(num_inimigos: int, multiplicador_vida: float, multiplicado
 			return
 
 		var ponto_spawn = obter_melhor_ponto_spawn()
-		var sucesso = await spawnar_inimigo_com_tentativas(ponto_spawn, multiplicador_vida, multiplicador_dano)
+		var sucesso = await spawnar_inimigo_com_tentativas(ponto_spawn, multiplicador_vida, multiplicador_dano, cena)
 		total_spawnado += 1
 		if not sucesso and is_instance_valid(gerenciador_ondas):
 			gerenciador_ondas.descontar_inimigo_nao_spawnado()
@@ -60,10 +61,10 @@ func spawnar_inimigos(num_inimigos: int, multiplicador_vida: float, multiplicado
 			return
 		await get_tree().create_timer(atraso_spawn).timeout
 
-func spawnar_inimigo_com_tentativas(spawn: Marker2D, multiplicador_vida: float, multiplicador_dano: float) -> bool:
+func spawnar_inimigo_com_tentativas(spawn: Marker2D, multiplicador_vida: float, multiplicador_dano: float, cena: PackedScene = null) -> bool:
 	var tentativas = 0
 	while tentativas < max_tentativas_spawn:
-		var resultado = await spawnar_inimigo_em(spawn, multiplicador_vida, multiplicador_dano)
+		var resultado = await spawnar_inimigo_em(spawn, multiplicador_vida, multiplicador_dano, cena)
 		if resultado:
 			return true
 		tentativas += 1
@@ -90,7 +91,7 @@ func obter_ponto_spawn_aleatorio() -> Marker2D:
 	var indice = randi() % pontos_spawn.size()
 	return pontos_spawn[indice]
 
-func spawnar_inimigo_em(spawn: Marker2D, multiplicador_vida: float, multiplicador_dano: float) -> bool:
+func spawnar_inimigo_em(spawn: Marker2D, multiplicador_vida: float, multiplicador_dano: float, cena: PackedScene = null) -> bool:
 	# Verificações de segurança
 	if spawn == null or not is_instance_valid(spawn):
 		push_error("Ponto de spawn inválido")
@@ -104,8 +105,7 @@ func spawnar_inimigo_em(spawn: Marker2D, multiplicador_vida: float, multiplicado
 		push_error("Cena principal não é válida")
 		return false
 	
-	var indice_aleatorio = randi() % cenas_inimigos.size()
-	var cena_inimigo = cenas_inimigos[indice_aleatorio]
+	var cena_inimigo = cena if cena != null else cenas_inimigos[randi() % cenas_inimigos.size()]
 	if cena_inimigo == null:
 		push_error("Cena de inimigo selecionada é nula")
 		return false

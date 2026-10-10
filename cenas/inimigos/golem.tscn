@@ -1,0 +1,40 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://Codigos/Inimigos/Golem.gd" id="1_golem"]
+[ext_resource type="Texture2D" path="res://inimigos/golem/run/Golem1_Run_full.png" id="2_corrida"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_corpo"]
+size = Vector2(24, 10)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_toque"]
+size = Vector2(30, 24)
+
+[node name="Golem" type="CharacterBody2D" groups=["enemy"]]
+script = ExtResource("1_golem")
+velocidade = 26
+aceleracao = 300.0
+raio_parada = 10.0
+alcance_separacao = 30.0
+tempo_recarga_ataque = 1.6
+alcance_ataque = 34.0
+dano = 15.0
+vida = 260
+usar_barra_vida = false
+
+[node name="Texture" type="Sprite2D" parent="."]
+position = Vector2(0, -8)
+texture = ExtResource("2_corrida")
+hframes = 8
+vframes = 4
+
+[node name="colision_body" type="CollisionShape2D" parent="."]
+position = Vector2(0, -3)
+shape = SubResource("RectangleShape2D_corpo")
+
+[node name="ataque" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="attack_colision_player" type="CollisionShape2D" parent="ataque"]
+position = Vector2(0, -14)
+shape = SubResource("RectangleShape2D_toque")

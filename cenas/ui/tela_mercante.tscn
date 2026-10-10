@@ -1,85 +1,32 @@
-[gd_scene format=3]
+[gd_scene load_steps=16 format=3]
 
 [ext_resource type="Script" path="res://Codigos/UI/tela_mercante.gd" id="1_script"]
-[ext_resource type="FontFile" path="res://UI/craftpix-net-775352-game-user-interface-pixel-art/6 Font/CraftPixNet Survival Kit.otf" id="2_fonte_craft"]
-[ext_resource type="FontFile" path="res://UI/craftpix-781165-game-ui-pixel-art (1)/Font/Planes_ValMore.ttf" id="3_fonte_planes"]
-[ext_resource type="FontFile" path="res://UI/craftpix-net-420010-pixel-game-user-interface-for-platformer/TinyFontCraftpixPixel.otf" id="4_fonte_tiny"]
-[ext_resource type="Texture2D" path="res://UI/craftpix-net-420010-pixel-game-user-interface-for-platformer/1 Interface/Tile_37.png" id="5_tile37"]
-[ext_resource type="Texture2D" path="res://UI/craftpix-net-420010-pixel-game-user-interface-for-platformer/1 Interface/Tile_38.png" id="6_tile38"]
-[ext_resource type="Texture2D" path="res://UI/craftpix-net-420010-pixel-game-user-interface-for-platformer/1 Interface/Tile_39.png" id="7_tile39"]
-[ext_resource type="Texture2D" path="res://UI/craftpix-net-420010-pixel-game-user-interface-for-platformer/1 Interface/Tile_58.png" id="8_tile58"]
-[ext_resource type="Texture2D" path="res://UI/craftpix-net-420010-pixel-game-user-interface-for-platformer/1 Interface/Tile_59.png" id="9_tile59"]
-[ext_resource type="Texture2D" path="res://UI/craftpix-net-420010-pixel-game-user-interface-for-platformer/1 Interface/Tile_60.png" id="10_tile60"]
-[ext_resource type="Texture2D" path="res://UI/craftpix-net-420010-pixel-game-user-interface-for-platformer/1 Interface/Tile_71.png" id="11_tile71"]
-[ext_resource type="Texture2D" path="res://UI/craftpix-net-420010-pixel-game-user-interface-for-platformer/1 Interface/Tile_72.png" id="12_tile72"]
-[ext_resource type="Texture2D" path="res://UI/craftpix-net-420010-pixel-game-user-interface-for-platformer/1 Interface/Tile_73.png" id="13_tile73"]
-[ext_resource type="Texture2D" path="res://UI/craftpix-net-420010-pixel-game-user-interface-for-platformer/1 Interface/Tile_46.png" id="14_tile46"]
-[ext_resource type="Texture2D" path="res://UI/craftpix-net-420010-pixel-game-user-interface-for-platformer/1 Interface/TileMap.png" id="15_tilemap"]
-[ext_resource type="Texture2D" path="res://UI/sem org/2 Bars/Band2_on.png" id="16_band_on"]
-[ext_resource type="Texture2D" path="res://UI/sem org/2 Bars/Band2_off.png" id="17_band_off"]
-[ext_resource type="Texture2D" path="res://images/one_0108_v01.png" id="18_espada"]
-[ext_resource type="Texture2D" path="res://CharacterSprites/Arms/spears/spear_1.png" id="19_lanca"]
-[ext_resource type="Texture2D" path="res://CharacterSprites/Arms/shields/shield_1.png" id="20_escudo"]
-[ext_resource type="Texture2D" path="res://UI/sem org/3 Icons/Icons_14.png" id="21_icone_voltar"]
-[ext_resource type="Texture2D" path="res://UI/sem org/3 Icons/Icons_37.png" id="22_icone_fechar"]
-[ext_resource type="Texture2D" path="res://UI/craftpix-net-775352-game-user-interface-pixel-art/1 Frames/Frame2.png" id="23_frame2"]
-[ext_resource type="PackedScene" path="res://cenas/item_spec.tscn" id="24_item_spec"]
-[ext_resource type="PackedScene" path="res://cenas/moedas.tscn" id="25_moedas"]
-[ext_resource type="PackedScene" path="res://cenas/slot.tscn" id="26_slot"]
+[ext_resource type="Theme" path="res://recursos/ui/tema_sidebar.tres" id="2_tema"]
+[ext_resource type="Texture2D" path="res://UI/craftpix-net-420010-pixel-game-user-interface-for-platformer/1 Interface/TileMap.png" id="3_tilemap"]
+[ext_resource type="FontFile" path="res://UI/craftpix-net-775352-game-user-interface-pixel-art/6 Font/CraftPixNet Survival Kit.otf" id="4_fonte_titulo"]
+[ext_resource type="Texture2D" path="res://UI/sem org/3 Icons/Icons_37.png" id="5_icone_fechar"]
+[ext_resource type="Texture2D" uid="uid://cqxopks5b2xfq" path="res://UI/icons-coin/32x32/3.png" id="9_moeda"]
+[ext_resource type="PackedScene" path="res://cenas/slot.tscn" id="10_slot"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_canto"]
-atlas = ExtResource("15_tilemap")
-region = Rect2(96, 96, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_borda"]
-atlas = ExtResource("15_tilemap")
-region = Rect2(112, 96, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_canto_dir"]
-atlas = ExtResource("15_tilemap")
-region = Rect2(128, 96, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_espada"]
-atlas = ExtResource("18_espada")
-region = Rect2(0, 0, 15.058824, 42.666668)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_lanca"]
-atlas = ExtResource("19_lanca")
-region = Rect2(384, 64, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_escudo"]
-atlas = ExtResource("20_escudo")
-region = Rect2(0, 256, 64, 64)
-
-[sub_resource type="LabelSettings" id="LabelSettings_botao_arma"]
-font = ExtResource("2_fonte_craft")
-font_size = 10
-shadow_color = Color(0, 0, 0, 1)
-
-[sub_resource type="LabelSettings" id="LabelSettings_info"]
-font = ExtResource("4_fonte_tiny")
-font_size = 8
-shadow_color = Color(0, 0, 0, 1)
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_moldura"]
+content_margin_left = 8.0
+content_margin_top = 1.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+texture = ExtResource("3_tilemap")
+texture_margin_left = 16.0
+texture_margin_top = 16.0
+texture_margin_right = 16.0
+texture_margin_bottom = 16.0
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 2
+region_rect = Rect2(96, 64, 48, 48)
 
 [sub_resource type="LabelSettings" id="LabelSettings_titulo"]
-font = ExtResource("2_fonte_craft")
-font_size = 24
-shadow_color = Color(0, 0, 0, 1)
+font = ExtResource("4_fonte_titulo")
+font_color = Color(0.13, 0.12, 0.18, 1)
 
-[sub_resource type="LabelSettings" id="LabelSettings_arraste"]
-font = ExtResource("2_fonte_craft")
-font_size = 12
-shadow_color = Color(0, 0, 0, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_transparente"]
-bg_color = Color(0.6, 0.6, 0.6, 0)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_upgrade"]
-bg_color = Color(0.517561, 0.580081, 0.863594, 1)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
+[sub_resource type="ButtonGroup" id="ButtonGroup_abas"]
 
 [node name="TelaMercante" type="Control"]
 layout_mode = 3
@@ -89,658 +36,322 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme = ExtResource("2_tema")
 script = ExtResource("1_script")
 
-[node name="Painel" type="Control" parent="."]
-layout_mode = 0
-offset_left = 216.0
-offset_top = 87.0
-offset_right = 440.0
-offset_bottom = 232.6
+[node name="Painel" type="PanelContainer" parent="."]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 176.0
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_moldura")
 
-[node name="Conteudo" type="Control" parent="Painel"]
-layout_mode = 0
-offset_left = 112.0
-offset_top = 44.8
-offset_right = 112.0
-offset_bottom = 44.8
-scale = Vector2(0.7, 0.7)
+[node name="Linhas" type="VBoxContainer" parent="Painel"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Cabecalho" type="Control" parent="Painel/Linhas"]
+custom_minimum_size = Vector2(0, 14)
+layout_mode = 2
 mouse_filter = 2
 
-[node name="Tile59" type="TextureRect" parent="Painel/Conteudo"]
-layout_mode = 0
-offset_left = -156.571
-offset_top = -50.8571
-offset_right = -140.571
-offset_bottom = -34.8571
-mouse_filter = 2
-texture = ExtResource("9_tile59")
-expand_mode = 1
-
-[node name="Tile60" type="TextureRect" parent="Painel/Conteudo"]
-layout_mode = 0
-offset_left = 136.286
-offset_top = -49.4286
-offset_right = 152.286
-offset_bottom = -33.4286
-mouse_filter = 2
-texture = ExtResource("9_tile59")
-expand_mode = 1
-
-[node name="Fundo" type="Control" parent="Painel/Conteudo"]
-layout_mode = 0
-mouse_filter = 2
-
-[node name="Preenchimento" type="TextureRect" parent="Painel/Conteudo/Fundo"]
-layout_mode = 0
-offset_left = -144.0
-offset_top = -48.0
-offset_right = 144.0
-offset_bottom = 128.0
-mouse_filter = 2
-texture = ExtResource("9_tile59")
-expand_mode = 1
-stretch_mode = 1
-
-[node name="Borda" type="Control" parent="Painel/Conteudo"]
-layout_mode = 0
-mouse_filter = 2
-
-[node name="CantoSuperiorEsquerdo" type="TextureRect" parent="Painel/Conteudo/Borda"]
-layout_mode = 0
-offset_left = -160.0
-offset_top = -64.0
-offset_right = -144.0
-offset_bottom = -48.0
-mouse_filter = 2
-texture = ExtResource("5_tile37")
-expand_mode = 1
-
-[node name="LadoSuperior" type="TextureRect" parent="Painel/Conteudo/Borda"]
-layout_mode = 0
-offset_left = -144.0
-offset_top = -64.0
-offset_right = 144.0
-offset_bottom = -48.0
-mouse_filter = 2
-texture = ExtResource("6_tile38")
-expand_mode = 1
-stretch_mode = 1
-
-[node name="CantoSuperiorDireito" type="TextureRect" parent="Painel/Conteudo/Borda"]
-layout_mode = 0
-offset_left = 144.0
-offset_top = -64.0
-offset_right = 160.0
-offset_bottom = -48.0
-mouse_filter = 2
-texture = ExtResource("7_tile39")
-expand_mode = 1
-
-[node name="LadoEsquerdo" type="TextureRect" parent="Painel/Conteudo/Borda"]
-layout_mode = 0
-offset_left = -160.0
-offset_top = -48.0
-offset_right = -144.0
-offset_bottom = 128.0
-mouse_filter = 2
-texture = ExtResource("8_tile58")
-expand_mode = 1
-stretch_mode = 1
-
-[node name="LadoDireito" type="TextureRect" parent="Painel/Conteudo/Borda"]
-layout_mode = 0
-offset_left = 144.0
-offset_top = -48.0
-offset_right = 160.0
-offset_bottom = 128.0
-mouse_filter = 2
-texture = ExtResource("10_tile60")
-expand_mode = 1
-stretch_mode = 1
-
-[node name="CantoInferiorEsquerdo" type="TextureRect" parent="Painel/Conteudo/Borda"]
-layout_mode = 0
-offset_left = -160.0
-offset_top = 128.0
-offset_right = -144.0
-offset_bottom = 144.0
-mouse_filter = 2
-texture = ExtResource("11_tile71")
-expand_mode = 1
-
-[node name="LadoInferior" type="TextureRect" parent="Painel/Conteudo/Borda"]
-layout_mode = 0
-offset_left = -144.0
-offset_top = 128.0
-offset_right = 144.0
-offset_bottom = 144.0
-mouse_filter = 2
-texture = ExtResource("12_tile72")
-expand_mode = 1
-stretch_mode = 1
-
-[node name="CantoInferiorDireito" type="TextureRect" parent="Painel/Conteudo/Borda"]
-layout_mode = 0
-offset_left = 144.0
-offset_top = 128.0
-offset_right = 160.0
-offset_bottom = 144.0
-mouse_filter = 2
-texture = ExtResource("13_tile73")
-expand_mode = 1
-
-[node name="Armas" type="Control" parent="Painel/Conteudo"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 0
-offset_left = -159.0
-offset_top = -58.1428
-offset_right = 165.0
-offset_bottom = 145.857
-mouse_filter = 2
-
-[node name="Braco" type="Control" parent="Painel/Conteudo/Armas"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-mouse_filter = 2
-
-[node name="Band2Off" type="TextureRect" parent="Painel/Conteudo/Armas/Braco"]
-layout_mode = 0
-offset_left = 16.67862
-offset_top = 12.42848
-offset_right = 61.85718
-offset_bottom = 58.95232
-mouse_filter = 2
-texture = ExtResource("14_tile46")
-expand_mode = 1
-
-[node name="espada" type="TextureButton" parent="Painel/Conteudo/Armas/Braco"]
-unique_name_in_owner = true
-layout_mode = 0
-offset_left = 14.0
-offset_top = 59.0
-offset_right = 64.0
-offset_bottom = 71.0
-texture_normal = ExtResource("16_band_on")
-texture_pressed = ExtResource("17_band_off")
-stretch_mode = 0
-
-[node name="Texto" type="Label" parent="Painel/Conteudo/Armas/Braco/espada"]
-layout_mode = 0
-offset_right = 50.0
-offset_bottom = 12.0
-text = "EQUIP"
-label_settings = SubResource("LabelSettings_botao_arma")
-horizontal_alignment = 1
-
-[node name="sword2" type="TextureRect" parent="Painel/Conteudo/Armas/Braco"]
-layout_mode = 0
-offset_left = 22.68625
-offset_top = -2.03175
-offset_right = 55.31375
-offset_bottom = 66.03175
-mouse_filter = 2
-texture = SubResource("AtlasTexture_espada")
-expand_mode = 1
-
-[node name="Lanca" type="Control" parent="Painel/Conteudo/Armas"]
-layout_mode = 0
-offset_left = 69.0
-offset_top = -1.0
-offset_right = 144.0
-offset_bottom = 82.0
-mouse_filter = 2
-
-[node name="Band2Off" type="TextureRect" parent="Painel/Conteudo/Armas/Lanca"]
-layout_mode = 0
-offset_left = 15.71428
-offset_top = 13.42848
-offset_right = 61.42852
-offset_bottom = 58.95232
-mouse_filter = 2
-texture = ExtResource("14_tile46")
-expand_mode = 1
-
-[node name="lanca" type="TextureButton" parent="Painel/Conteudo/Armas/Lanca"]
-unique_name_in_owner = true
-layout_mode = 0
-offset_left = 14.0
-offset_top = 59.0
-offset_right = 64.0
-offset_bottom = 71.0
-texture_normal = ExtResource("16_band_on")
-texture_pressed = ExtResource("17_band_off")
-stretch_mode = 0
-
-[node name="Texto" type="Label" parent="Painel/Conteudo/Armas/Lanca/lanca"]
-layout_mode = 0
-offset_right = 50.0
-offset_bottom = 12.0
-text = "EQUIP"
-label_settings = SubResource("LabelSettings_botao_arma")
-horizontal_alignment = 1
-
-[node name="spear2" type="TextureRect" parent="Painel/Conteudo/Armas/Lanca"]
-layout_mode = 0
-offset_left = 8.4
-offset_top = 15.376
-offset_right = 91.6
-offset_bottom = 76.624
-mouse_filter = 2
-texture = SubResource("AtlasTexture_lanca")
-expand_mode = 1
-
-[node name="Escudo" type="Control" parent="Painel/Conteudo/Armas"]
-layout_mode = 0
-offset_left = 136.143
-offset_top = -1.8572
-offset_right = 176.143
-offset_bottom = 38.1428
-mouse_filter = 2
-
-[node name="Band2Off" type="TextureRect" parent="Painel/Conteudo/Armas/Escudo"]
-layout_mode = 0
-offset_left = 15.71418
-offset_top = 14.28578
-offset_right = 61.42842
-offset_bottom = 60.00002
-mouse_filter = 2
-texture = ExtResource("14_tile46")
-expand_mode = 1
-
-[node name="Escudo" type="TextureButton" parent="Painel/Conteudo/Armas/Escudo"]
-unique_name_in_owner = true
-layout_mode = 0
-offset_left = 14.0
-offset_top = 59.0
-offset_right = 64.0
-offset_bottom = 71.0
-texture_normal = ExtResource("16_band_on")
-texture_pressed = ExtResource("17_band_off")
-stretch_mode = 0
-
-[node name="Texto" type="Label" parent="Painel/Conteudo/Armas/Escudo/Escudo"]
-layout_mode = 0
-offset_right = 50.0
-offset_bottom = 12.0
-text = "EQUIP"
-label_settings = SubResource("LabelSettings_botao_arma")
-horizontal_alignment = 1
-
-[node name="shield" type="TextureRect" parent="Painel/Conteudo/Armas/Escudo"]
-layout_mode = 0
-offset_left = -26.8571
-offset_top = -15.3897
-offset_right = 101.1429
-offset_bottom = 78.8183
-mouse_filter = 2
-texture = SubResource("AtlasTexture_escudo")
-expand_mode = 1
-
-[node name="Botoes" type="Panel" parent="Painel/Conteudo"]
-unique_name_in_owner = true
-layout_mode = 0
-offset_left = -160.0
-offset_top = -57.1428
-offset_right = -120.0
-offset_bottom = -17.1428
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_transparente")
-
-[node name="IniciarOnda" type="Button" parent="Painel/Conteudo/Botoes"]
-unique_name_in_owner = true
-layout_mode = 0
-offset_left = 110.0
-offset_top = 46.0
-offset_right = 216.0
-offset_bottom = 72.0
-theme_override_fonts/font = ExtResource("2_fonte_craft")
-theme_override_styles/focus = SubResource("StyleBoxFlat_transparente")
-text = "START WAVE"
-flat = true
-
-[node name="opcaoArmas" type="Button" parent="Painel/Conteudo/Botoes"]
-unique_name_in_owner = true
-layout_mode = 0
-offset_left = 110.0
-offset_top = 69.0
-offset_right = 216.0
-offset_bottom = 95.0
-theme_override_fonts/font = ExtResource("2_fonte_craft")
-text = "WEAPONS\n"
-flat = true
-
-[node name="Construir" type="Button" parent="Painel/Conteudo/Botoes"]
-unique_name_in_owner = true
-layout_mode = 0
-offset_left = 110.0
-offset_top = 94.0
-offset_right = 216.0
-offset_bottom = 120.0
-theme_override_fonts/font = ExtResource("2_fonte_craft")
-text = "BUILD\n"
-flat = true
-
-[node name="Sair" type="Button" parent="Painel/Conteudo/Botoes"]
-unique_name_in_owner = true
-layout_mode = 0
-offset_left = 133.0
-offset_top = 149.0
-offset_right = 196.0
-offset_bottom = 175.0
-theme_override_fonts/font = ExtResource("2_fonte_craft")
-text = "LEAVE\n"
-flat = true
-
-[node name="Atualizar" type="Button" parent="Painel/Conteudo/Botoes"]
-layout_mode = 0
-offset_left = 131.0
-offset_top = 122.0
-offset_right = 197.0
-offset_bottom = 148.0
-theme_override_fonts/font = ExtResource("2_fonte_craft")
-text = "ANVIL\n"
-flat = true
-
-[node name="ContainerItens" type="GridContainer" parent="Painel/Conteudo"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 0
-offset_left = -160.0
-offset_top = -57.1428
-offset_right = -160.0
-offset_bottom = -57.1428
-theme_override_constants/h_separation = 30
-theme_override_constants/v_separation = 30
-columns = 5
-
-[node name="EspecificacaoItem" parent="Painel/Conteudo" instance=ExtResource("24_item_spec")]
-unique_name_in_owner = true
-visible = false
-layout_mode = 0
-offset_left = 7.14286
-offset_top = -42.5714
-offset_right = 157.143
-offset_bottom = 150.428
-mouse_filter = 2
-
-[node name="Moedas" parent="Painel/Conteudo" instance=ExtResource("25_moedas")]
-unique_name_in_owner = true
-visible = false
-layout_mode = 0
-offset_left = -154.714
-offset_top = 114.143
-offset_right = -114.714
-offset_bottom = 154.143
-mouse_filter = 2
-
-[node name="Atualizar" type="Control" parent="Painel/Conteudo"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 0
-offset_left = -160.0
-offset_top = -57.1428
-offset_right = 160.0
-offset_bottom = 142.8572
-mouse_filter = 2
-
-[node name="InfoItemUpgrade" type="Control" parent="Painel/Conteudo/Atualizar"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 0
-offset_left = 160.0
-offset_top = 57.1428
-offset_right = 160.0
-offset_bottom = 57.1428
-mouse_filter = 2
-
-[node name="CantoSuperiorEsquerdo" type="TextureRect" parent="Painel/Conteudo/Atualizar/InfoItemUpgrade"]
-layout_mode = 0
-offset_left = -48.0
-offset_top = 32.0
-offset_right = -32.0
-offset_bottom = 48.0
-pivot_offset = Vector2(8, 8)
-rotation = 1.5707964
-mouse_filter = 2
-texture = SubResource("AtlasTexture_canto")
-expand_mode = 1
-
-[node name="Lado1" type="TextureRect" parent="Painel/Conteudo/Atualizar/InfoItemUpgrade"]
-layout_mode = 0
-offset_left = -32.0
-offset_top = 32.0
-offset_right = -16.0
-offset_bottom = 48.0
-mouse_filter = 2
-texture = SubResource("AtlasTexture_borda")
-expand_mode = 1
-flip_h = true
-flip_v = true
-
-[node name="Lado2" type="TextureRect" parent="Painel/Conteudo/Atualizar/InfoItemUpgrade"]
-layout_mode = 0
-offset_left = -16.0
-offset_top = 32.0
-offset_right = 0.0
-offset_bottom = 48.0
-mouse_filter = 2
-texture = SubResource("AtlasTexture_borda")
-expand_mode = 1
-flip_h = true
-flip_v = true
-
-[node name="Lado3" type="TextureRect" parent="Painel/Conteudo/Atualizar/InfoItemUpgrade"]
-layout_mode = 0
-offset_top = 32.0
-offset_right = 16.0
-offset_bottom = 48.0
-mouse_filter = 2
-texture = SubResource("AtlasTexture_borda")
-expand_mode = 1
-flip_h = true
-flip_v = true
-
-[node name="Lado4" type="TextureRect" parent="Painel/Conteudo/Atualizar/InfoItemUpgrade"]
-layout_mode = 0
-offset_left = 16.0
-offset_top = 32.0
-offset_right = 32.0
-offset_bottom = 48.0
-mouse_filter = 2
-texture = SubResource("AtlasTexture_borda")
-expand_mode = 1
-flip_h = true
-flip_v = true
-
-[node name="CantoSuperiorDireito" type="TextureRect" parent="Painel/Conteudo/Atualizar/InfoItemUpgrade"]
-layout_mode = 0
-offset_left = 32.0
-offset_top = 32.0
-offset_right = 48.0
-offset_bottom = 48.0
-pivot_offset = Vector2(8, 8)
-rotation = -1.5707964
-mouse_filter = 2
-texture = SubResource("AtlasTexture_canto_dir")
-expand_mode = 1
-
-[node name="CorpoEBase" type="NinePatchRect" parent="Painel/Conteudo/Atualizar/InfoItemUpgrade"]
-layout_mode = 0
-offset_left = -48.0
-offset_top = 48.0
-offset_right = 48.0
-offset_bottom = 112.0
-mouse_filter = 2
-texture = ExtResource("15_tilemap")
-region_rect = Rect2(96, 80, 48, 32)
-patch_margin_left = 16
-patch_margin_top = 0
-patch_margin_right = 16
-patch_margin_bottom = 16
-axis_stretch_horizontal = 1
-axis_stretch_vertical = 1
-
-[node name="ConteudoTextos" type="Control" parent="Painel/Conteudo/Atualizar/InfoItemUpgrade"]
-unique_name_in_owner = true
-layout_mode = 0
-offset_left = -40.0
-offset_top = 40.0
-offset_right = 41.0
-offset_bottom = 106.0
-mouse_filter = 2
-
-[node name="FOR" type="Label" parent="Painel/Conteudo/Atualizar/InfoItemUpgrade/ConteudoTextos"]
-layout_mode = 0
-offset_right = 81.0
-offset_bottom = 13.0
-text = "1"
-label_settings = SubResource("LabelSettings_info")
-horizontal_alignment = 1
-
-[node name="DAN" type="Label" parent="Painel/Conteudo/Atualizar/InfoItemUpgrade/ConteudoTextos"]
-layout_mode = 0
-offset_top = 11.4286
-offset_right = 81.0
-offset_bottom = 27.4286
-text = "1"
-label_settings = SubResource("LabelSettings_info")
-horizontal_alignment = 1
-
-[node name="DEF" type="Label" parent="Painel/Conteudo/Atualizar/InfoItemUpgrade/ConteudoTextos"]
-layout_mode = 0
-offset_right = 81.0
-offset_bottom = 16.0
-text = "1"
-label_settings = SubResource("LabelSettings_info")
-horizontal_alignment = 1
-
-[node name="VIT" type="Label" parent="Painel/Conteudo/Atualizar/InfoItemUpgrade/ConteudoTextos"]
-layout_mode = 0
-offset_top = 11.4286
-offset_right = 81.0
-offset_bottom = 27.4286
-text = "1"
-label_settings = SubResource("LabelSettings_info")
-horizontal_alignment = 1
-
-[node name="NIVEL" type="Label" parent="Painel/Conteudo/Atualizar/InfoItemUpgrade/ConteudoTextos"]
-layout_mode = 0
-offset_left = 1.42857
-offset_top = 27.1429
-offset_right = 82.4286
-offset_bottom = 94.1429
-text = "WAVE 4 REQUIRED"
-label_settings = SubResource("LabelSettings_info")
-horizontal_alignment = 1
-
-[node name="Slot" parent="Painel/Conteudo/Atualizar" instance=ExtResource("26_slot")]
-unique_name_in_owner = true
-z_index = 100
-layout_mode = 0
-offset_left = 152.0
-offset_top = 49.1429
-offset_right = 168.0
-offset_bottom = 65.1429
-tipos_aceitos = Array[String](["espada_basica", "lanca_basica", "escudo_basico"])
-
-[node name="Titulo" type="Label" parent="Painel/Conteudo/Atualizar"]
-layout_mode = 0
-offset_left = -0.428574
-offset_top = 7.71428
-offset_right = 324.571
-offset_bottom = 35.7143
-text = "BIGORNA"
+[node name="Titulo" type="Label" parent="Painel/Linhas/Cabecalho"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "FERREIRO"
 label_settings = SubResource("LabelSettings_titulo")
 horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="CliqueUpgrade" type="Button" parent="Painel/Conteudo/Atualizar"]
+[node name="BotaoFechar" type="TextureButton" parent="Painel/Linhas/Cabecalho"]
 unique_name_in_owner = true
-layout_mode = 0
-offset_left = 108.571
-offset_top = 170.0
-offset_right = 211.571
-offset_bottom = 192.0
-theme_override_fonts/font = ExtResource("3_fonte_planes")
-theme_override_font_sizes/font_size = 12
-theme_override_styles/focus = SubResource("StyleBoxFlat_transparente")
-theme_override_styles/normal = SubResource("StyleBoxFlat_upgrade")
-text = "MELHORAR"
+modulate = Color(0.13, 0.12, 0.18, 1)
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -10.0
+offset_top = -5.0
+offset_bottom = 5.0
+grow_horizontal = 0
+grow_vertical = 2
+texture_normal = ExtResource("5_icone_fechar")
+ignore_texture_size = true
+stretch_mode = 5
 
-[node name="Sprite2D" type="TextureRect" parent="Painel/Conteudo/Atualizar"]
-layout_mode = 0
-offset_left = 148.5715
-offset_top = 45.7143
-offset_right = 171.4285
-offset_bottom = 68.5713
+[node name="Abas" type="HBoxContainer" parent="Painel/Linhas"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="AbaEncantar" type="Button" parent="Painel/Linhas/Abas"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"BotaoAba"
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("ButtonGroup_abas")
+text = "ENCANTAR"
+
+[node name="AbaLoja" type="Button" parent="Painel/Linhas/Abas"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"BotaoAba"
+toggle_mode = true
+button_group = SubResource("ButtonGroup_abas")
+text = "LOJA"
+
+[node name="AbaBigorna" type="Button" parent="Painel/Linhas/Abas"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"BotaoAba"
+toggle_mode = true
+button_group = SubResource("ButtonGroup_abas")
+text = "BIGORNA"
+
+[node name="Conteudo" type="Control" parent="Painel/Linhas"]
+layout_mode = 2
+size_flags_vertical = 3
 mouse_filter = 2
-texture = ExtResource("16_band_on")
-expand_mode = 1
 
-[node name="Label" type="Label" parent="Painel/Conteudo/Atualizar"]
-layout_mode = 0
-offset_left = 4.0
-offset_top = 77.0
-offset_right = 313.0
-offset_bottom = 100.0
-text = "ARRASTE UMA ARMA AQUI"
-label_settings = SubResource("LabelSettings_arraste")
+[node name="Encantar" type="VBoxContainer" parent="Painel/Linhas/Conteudo"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 5
+
+[node name="CentroSlot" type="CenterContainer" parent="Painel/Linhas/Conteudo/Encantar"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+
+[node name="SlotEncantar" parent="Painel/Linhas/Conteudo/Encantar/CentroSlot" instance=ExtResource("10_slot")]
+unique_name_in_owner = true
+layout_mode = 2
+tipos_aceitos = Array[String](["espada_basica", "lanca_basica"])
+
+[node name="RotuloArrasteEncantar" type="Label" parent="Painel/Linhas/Conteudo/Encantar"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+text = "ARRASTE UMA ESPADA OU LANCA DO INVENTARIO PARA ENCANTAR"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="InfoEncantar" type="VBoxContainer" parent="Painel/Linhas/Conteudo/Encantar"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="EncantamentoAtual" type="Label" parent="Painel/Linhas/Conteudo/Encantar/InfoEncantar"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "SEM ENCANTAMENTO"
 horizontal_alignment = 1
 
-[node name="Moldura2" type="TextureRect" parent="Painel/Conteudo"]
+[node name="Opcoes" type="GridContainer" parent="Painel/Linhas/Conteudo/Encantar/InfoEncantar"]
 unique_name_in_owner = true
-layout_mode = 0
-offset_left = -158.571
-offset_top = -62.8571
-offset_right = -145.571
-offset_bottom = -49.8571
-mouse_filter = 2
-texture = ExtResource("23_frame2")
-expand_mode = 1
+layout_mode = 2
+theme_override_constants/h_separation = 3
+theme_override_constants/v_separation = 3
+columns = 2
 
-[node name="Frame3" type="TextureRect" parent="Painel/Conteudo"]
-layout_mode = 0
-offset_left = 149.214
-offset_top = -66.5
-offset_right = 162.214
-offset_bottom = -53.5
-mouse_filter = 2
-texture = ExtResource("23_frame2")
-expand_mode = 1
-
-[node name="BotaoVoltar" type="Button" parent="Painel/Conteudo"]
+[node name="DescricaoEncantamento" type="Label" parent="Painel/Linhas/Conteudo/Encantar/InfoEncantar"]
 unique_name_in_owner = true
-z_index = 2
-layout_mode = 0
-offset_left = -157.786
-offset_top = -62.0714
-offset_right = -141.786
-offset_bottom = -47.0714
-scale = Vector2(0.8, 0.8)
-icon = ExtResource("21_icone_voltar")
-flat = true
-expand_icon = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+text = "ESCOLHA UM ELEMENTO"
+horizontal_alignment = 1
+autowrap_mode = 2
 
-[node name="CloseModal" type="Button" parent="Painel/Conteudo"]
-layout_mode = 0
-offset_left = 151.429
-offset_top = -64.2856
-offset_right = 183.429
-offset_bottom = -32.2856
-scale = Vector2(0.28, 0.28)
-icon = ExtResource("22_icone_fechar")
-flat = true
+[node name="CustoEncantamento" type="Label" parent="Painel/Linhas/Conteudo/Encantar/InfoEncantar"]
+unique_name_in_owner = true
+layout_mode = 2
+horizontal_alignment = 1
 
-[connection signal="pressed" from="Painel/Conteudo/Armas/Braco/espada" to="." method="_on_espada_pressionado"]
-[connection signal="pressed" from="Painel/Conteudo/Armas/Lanca/lanca" to="." method="_on_lanca_pressionado"]
-[connection signal="pressed" from="Painel/Conteudo/Armas/Escudo/Escudo" to="." method="_on_escudo_pressionado"]
-[connection signal="pressed" from="Painel/Conteudo/Botoes/IniciarOnda" to="." method="_on_iniciar_onda_pressionado"]
-[connection signal="pressed" from="Painel/Conteudo/Botoes/opcaoArmas" to="." method="_on_armas_pressionado"]
-[connection signal="pressed" from="Painel/Conteudo/Botoes/Construir" to="." method="_on_construir_pressionado"]
-[connection signal="pressed" from="Painel/Conteudo/Botoes/Sair" to="." method="_on_sair_pressionado"]
-[connection signal="pressed" from="Painel/Conteudo/Botoes/Atualizar" to="." method="_on_atualizar_pressionado"]
-[connection signal="pressed" from="Painel/Conteudo/Atualizar/CliqueUpgrade" to="." method="_on_clique_upgrade_pressionado"]
-[connection signal="pressed" from="Painel/Conteudo/BotaoVoltar" to="." method="_on_botao_voltar_pressionado"]
-[connection signal="pressed" from="Painel/Conteudo/CloseModal" to="." method="_on_sair_pressionado"]
+[node name="BotaoEncantar" type="Button" parent="Painel/Linhas/Conteudo/Encantar/InfoEncantar"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "ENCANTAR"
+
+[node name="Loja" type="VBoxContainer" parent="Painel/Linhas/Conteudo"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 6
+
+[node name="GradeItens" type="GridContainer" parent="Painel/Linhas/Conteudo/Loja"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/h_separation = 2
+theme_override_constants/v_separation = 3
+columns = 5
+
+[node name="Detalhe" type="VBoxContainer" parent="Painel/Linhas/Conteudo/Loja"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="NomeItem" type="Label" parent="Painel/Linhas/Conteudo/Loja/Detalhe"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.45, 1)
+text = "NOME"
+horizontal_alignment = 1
+
+[node name="DescricaoItem" type="Label" parent="Painel/Linhas/Conteudo/Loja/Detalhe"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+text = "DESCRICAO"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="LinhaPreco" type="HBoxContainer" parent="Painel/Linhas/Conteudo/Loja/Detalhe"]
+layout_mode = 2
+alignment = 1
+
+[node name="IconeMoeda" type="TextureRect" parent="Painel/Linhas/Conteudo/Loja/Detalhe/LinhaPreco"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("9_moeda")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="PrecoItem" type="Label" parent="Painel/Linhas/Conteudo/Loja/Detalhe/LinhaPreco"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0"
+
+[node name="BotaoComprar" type="Button" parent="Painel/Linhas/Conteudo/Loja/Detalhe"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+custom_minimum_size = Vector2(80, 0)
+text = "COMPRAR"
+
+[node name="Bigorna" type="VBoxContainer" parent="Painel/Linhas/Conteudo"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 6
+
+[node name="MolduraSlot" type="CenterContainer" parent="Painel/Linhas/Conteudo/Bigorna"]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="SlotBigorna" parent="Painel/Linhas/Conteudo/Bigorna/MolduraSlot" instance=ExtResource("10_slot")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+tipos_aceitos = Array[String](["espada_basica", "lanca_basica", "escudo_basico"])
+
+[node name="RotuloArraste" type="Label" parent="Painel/Linhas/Conteudo/Bigorna"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+text = "ARRASTE UMA ARMA DO INVENTARIO PARA A BIGORNA"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="InfoUpgrade" type="VBoxContainer" parent="Painel/Linhas/Conteudo/Bigorna"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="TituloUpgrade" type="Label" parent="Painel/Linhas/Conteudo/Bigorna/InfoUpgrade"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.45, 1)
+text = "ESPADA NV 1 > 2"
+horizontal_alignment = 1
+
+[node name="AtributosUpgrade" type="Label" parent="Painel/Linhas/Conteudo/Bigorna/InfoUpgrade"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "DANO 1 > 2"
+horizontal_alignment = 1
+
+[node name="RequisitosUpgrade" type="Label" parent="Painel/Linhas/Conteudo/Bigorna/InfoUpgrade"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+text = "CUSTO 0 MOEDAS"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="BloqueioUpgrade" type="Label" parent="Painel/Linhas/Conteudo/Bigorna/InfoUpgrade"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.45, 0.45, 1)
+text = "LIBERA NA ONDA 8"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="BotaoMelhorar" type="Button" parent="Painel/Linhas/Conteudo/Bigorna"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "MELHORAR"
+
+[node name="Rodape" type="VBoxContainer" parent="Painel/Linhas"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="LinhaMoedas" type="HBoxContainer" parent="Painel/Linhas/Rodape"]
+layout_mode = 2
+alignment = 1
+
+[node name="IconeMoeda" type="TextureRect" parent="Painel/Linhas/Rodape/LinhaMoedas"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("9_moeda")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="RotuloMoedas" type="Label" parent="Painel/Linhas/Rodape/LinhaMoedas"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0"
+
+[node name="BotaoIniciarOnda" type="Button" parent="Painel/Linhas/Rodape"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+theme_type_variation = &"BotaoPrimario"
+text = "INICIAR ONDA"

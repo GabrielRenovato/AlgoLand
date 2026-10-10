@@ -1,6 +1,8 @@
 extends CharacterBody2D
 class_name InimigoBase
 
+const EfeitosLuz := preload("res://Codigos/Efeitos/efeitos_luz.gd")
+
 # -----------------------------
 # CONFIGURAÇÕES DE MOVIMENTO
 # -----------------------------
@@ -26,6 +28,7 @@ var pode_atacar: bool = true
 # VARIÁVEIS DE VIDA
 # -----------------------------
 @export var vida: int = 30
+@export var usar_barra_vida: bool = true
 var esta_morto: bool = false
 
 # -----------------------------
@@ -37,12 +40,23 @@ var esta_atacando: bool = false
 # -----------------------------
 # NÓS DE ANIMAÇÃO E COLISÃO
 # -----------------------------
-@onready var arvore_animacao: AnimationTree = $AnimationTree
-@onready var estado_animacao = arvore_animacao.get("parameters/playback")
-@onready var posicao_blend = arvore_animacao.get("parameters/run/blend_position")
+# Opcionais: o golem anima o Sprite2D por código e não tem AnimationTree
+@onready var arvore_animacao: AnimationTree = get_node_or_null("AnimationTree")
+@onready var estado_animacao = arvore_animacao.get("parameters/playback") if arvore_animacao else null
+@onready var posicao_blend = arvore_animacao.get("parameters/run/blend_position") if arvore_animacao else Vector2.ZERO
 @onready var sprite = $Texture  # Nó do sprite para efeito de piscar
 
 var _jogador_cache: Node2D
+
+const COR_QUEIMANDO := Color(1.0, 0.65, 0.45)
+const COR_CONGELADO := Color(0.6, 0.85, 1.0)
+var _queimadura_restante := 0.0
+var _queimadura_dano := 0
+var _queimadura_intervalo := 0.5
+var _queimadura_acumulado := 0.0
+var _queimadura_cor := Color.WHITE
+var _lentidao := 0.0
+var _lentidao_restante := 0.0
 
 signal atingiu_jogador
 signal inimigo_morreu
@@ -52,15 +66,18 @@ func _ready() -> void:
 		arvore_animacao.active = true
 		definir_animacao("run")
 
-	# Se o nó HPBar não estiver presente, instancia e adiciona como filho do inimigo.
-	if not has_node("HPBar"):
+	# Chefes mostram a vida no HUD em vez da barrinha sobre a cabeça
+	if usar_barra_vida and not has_node("HPBar"):
 		var cena_barra_hp = preload("res://cenas/barra-de-vida.tscn")
 		var instancia_barra_hp = cena_barra_hp.instantiate()
 		instancia_barra_hp.name = "HPBar"
 		add_child(instancia_barra_hp)
-		instancia_barra_hp.position = Vector2(0, -40)
+		instancia_barra_hp.position = Vector2(0, -22)
 
 func _physics_process(delta: float) -> void:
+	if esta_morto:
+		return
+	_atualizar_efeitos(delta)
 	if esta_morto:
 		return
 
@@ -74,7 +91,7 @@ func _physics_process(delta: float) -> void:
 	if alvo:
 		var para_alvo := alvo.global_position - global_position
 		if para_alvo.length() > raio_parada:
-			desejada += para_alvo.normalized() * velocidade
+			desejada += para_alvo.normalized() * velocidade * (1.0 - _lentidao)
 	velocity = velocity.move_toward(desejada, aceleracao * delta)
 	if velocity.length() > 1.0:
 		definir_direcao_animacao(velocity)
@@ -144,6 +161,45 @@ func receber_dano(quantidade_dano: int, forca_knockback: Vector2 = Vector2.ZERO)
 	if not esta_atacando:
 		definir_animacao("run")
 
+# Dano de encantamento (queimadura, raio): sem knockback nem piscar, senão o slime trava a cada tick
+func receber_dano_efeito(quantidade_dano: int, cor: Color) -> void:
+	if esta_morto:
+		return
+	vida -= quantidade_dano
+	gerar_rotulo_dano(quantidade_dano, cor)
+	if has_node("HPBar"):
+		get_node("HPBar").atualizar_barra(vida)
+	if vida <= 0:
+		morrer()
+
+func aplicar_queimadura(dano_tick: int, intervalo: float, duracao: float, cor: Color) -> void:
+	_queimadura_dano = dano_tick
+	_queimadura_intervalo = intervalo
+	_queimadura_restante = duracao
+	_queimadura_cor = cor
+
+func aplicar_lentidao(fracao: float, duracao: float) -> void:
+	_lentidao = maxf(_lentidao, fracao)
+	_lentidao_restante = duracao
+
+func _atualizar_efeitos(delta: float) -> void:
+	if _lentidao_restante > 0.0:
+		_lentidao_restante -= delta
+		if _lentidao_restante <= 0.0:
+			_lentidao = 0.0
+	if _queimadura_restante > 0.0:
+		_queimadura_restante -= delta
+		_queimadura_acumulado += delta
+		if _queimadura_acumulado >= _queimadura_intervalo:
+			_queimadura_acumulado -= _queimadura_intervalo
+			receber_dano_efeito(_queimadura_dano, _queimadura_cor)
+	var tom := Color.WHITE
+	if _queimadura_restante > 0.0:
+		tom = COR_QUEIMANDO
+	elif _lentidao_restante > 0.0:
+		tom = COR_CONGELADO
+	sprite.modulate = Color(tom, sprite.modulate.a)
+
 func piscar_dano() -> void:
 	for i in range(5):
 		sprite.modulate.a = 0.3
@@ -155,6 +211,7 @@ func morrer() -> void:
 	if esta_morto:
 		return
 	esta_morto = true
+	EfeitosLuz.criar_flash(get_tree().current_scene, global_position, Color(0.6, 1.0, 0.6), 1.4, 0.9, 0.35)
 	definir_animacao("dead")
 	await get_tree().create_timer(0.2).timeout
 	emit_signal("inimigo_morreu")
@@ -190,12 +247,12 @@ func obter_jogador() -> Node2D:
 # -------------------------------------------------
 # FUNÇÃO PARA CRIAR O TEXTO DE DANO ACIMA DO INIMIGO
 # -------------------------------------------------
-func gerar_rotulo_dano(valor_dano: int) -> void:
+func gerar_rotulo_dano(valor_dano: int, cor: Color = Color.WHITE) -> void:
 	var cena_rotulo = preload("res://cenas/dano-flutuante.tscn")
 	var instancia_rotulo = cena_rotulo.instantiate()
 
 	instancia_rotulo.global_position = global_position - Vector2(0, 20)
 
-	instancia_rotulo.definir_dano(valor_dano)
+	instancia_rotulo.definir_dano(valor_dano, cor)
 
 	get_tree().current_scene.add_child(instancia_rotulo)

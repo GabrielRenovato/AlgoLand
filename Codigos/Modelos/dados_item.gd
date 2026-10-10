@@ -26,6 +26,9 @@ const NOMES := {
 @export_enum("comum", "incomum", "raro", "epico", "lendario") var raridade: String = "comum"
 @export var icone: Texture2D
 @export var duas_maos: bool = false
+## Vazio = sem encantamento; ver Codigos/DadosLocais/encantamentos.gd
+@export var encantamento: String = ""
+@export var nivel_encantamento: int = 0
 
 func nome() -> String:
 	return NOMES.get(tipo, tipo.to_upper())
@@ -42,6 +45,8 @@ func para_dict() -> Dictionary:
 		"nivel": nivel,
 		"raridade": raridade,
 		"duas_maos": duas_maos,
+		"encantamento": encantamento,
+		"nivel_encantamento": nivel_encantamento,
 	}
 
 static func de_dict(d: Dictionary) -> DadosItem:
@@ -52,4 +57,6 @@ static func de_dict(d: Dictionary) -> DadosItem:
 	item.nivel = int(d.get("nivel", 1))
 	item.raridade = str(d.get("raridade", "comum"))
 	item.duas_maos = bool(d.get("duas_maos", false))
+	item.encantamento = str(d.get("encantamento", ""))
+	item.nivel_encantamento = int(d.get("nivel_encantamento", 0))
 	return item

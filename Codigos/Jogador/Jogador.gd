@@ -1,5 +1,8 @@
 extends CharacterBody2D
 
+const EfeitosLuz := preload("res://Codigos/Efeitos/efeitos_luz.gd")
+const Encantamentos := preload("res://Codigos/DadosLocais/encantamentos.gd")
+
 # Preload do banco de dados de armas (nome: banco_dados_armas)
 var banco_dados_armas = preload("res://Codigos/DadosLocais/Equipamentos.gd")
 signal equipamento_alterado
@@ -92,8 +95,6 @@ var array_roupa_forja: Array[Texture2D] = []
 @onready var sprites_compostos: Composto = Composto.new()
 @onready var camera: Camera2D = $Camera2D
 
-@onready var rotulo_hp = $"/root/cenario/UI/Hp"
-@onready var rotulo_moedas: Label = $"/root/cenario/UI/Moedas/contador"
 
 signal personalizacao_finalizada(cabelo: int, roupa: int, cor_cabelo: Color, apelido: String)
 signal jogador_morreu
@@ -137,10 +138,15 @@ var temporizador_invul: float = 0.0
 @export var cor_rastro_dash: Color = Color(0.55, 0.8, 1.0, 0.6)
 var esta_em_dash: bool = false
 var _dash_disponivel: bool = true
-var _tempo_proximo_rastro: float = 0.0
 
-@onready var barra_hp_cheia = $"/root/cenario/UI/BarraVidaCheia"
-@onready var barra_hp_vazia = $"/root/cenario/UI/BarraVidaVazia"
+@export var stamina_maxima: float = 100.0
+# 35 por dash: dá 2 dashes seguidos e o terceiro precisa esperar recarregar
+@export var custo_stamina_dash: float = 35.0
+@export var regeneracao_stamina: float = 30.0
+@export var atraso_regeneracao_stamina: float = 0.6
+var stamina: float = 100.0
+var _espera_regeneracao: float = 0.0
+var _tempo_proximo_rastro: float = 0.0
 
 # ---------------------------
 # COMBO
@@ -388,6 +394,7 @@ func iniciar_dash() -> void:
 
 	esta_em_dash = true
 	_dash_disponivel = false
+	_gastar_stamina(custo_stamina_dash)
 	invulneravel = true
 	temporizador_invul = duracao_dash
 	velocity = dir * velocidade_dash
@@ -400,6 +407,23 @@ func iniciar_dash() -> void:
 
 	await get_tree().create_timer(recarga_dash).timeout
 	_dash_disponivel = true
+
+func _gastar_stamina(quantidade: float) -> void:
+	stamina = maxf(stamina - quantidade, 0.0)
+	_espera_regeneracao = atraso_regeneracao_stamina
+	_avisar_stamina()
+
+func _regenerar_stamina(delta: float) -> void:
+	if stamina >= stamina_maxima:
+		return
+	if _espera_regeneracao > 0.0:
+		_espera_regeneracao -= delta
+		return
+	stamina = minf(stamina + regeneracao_stamina * delta, stamina_maxima)
+	_avisar_stamina()
+
+func _avisar_stamina() -> void:
+	get_tree().call_group("hud", "atualizar_stamina", stamina, stamina_maxima)
 
 func _atualizar_dash(delta: float) -> void:
 	_tempo_proximo_rastro -= delta
@@ -476,8 +500,13 @@ func conectar_sinal_se_nao_conectado(no: Node, nome_sinal: String, metodo: Strin
 		no.connect(nome_sinal, Callable(self, metodo))
 
 func _physics_process(delta: float) -> void:
+	_regenerar_stamina(delta)
 	if not movimento_habilitado:
 		_pedido_ataque = false
+		# Sem isso a velocidade da corrida fica congelada e a animação continua correndo com a loja aberta
+		if not esta_forjando and velocity != Vector2.ZERO:
+			velocity = Vector2.ZERO
+			animar()
 		return
 
 	if Input.is_action_just_pressed("debug_damage"):
@@ -493,8 +522,10 @@ func _physics_process(delta: float) -> void:
 		return
 
 	if Input.is_action_just_pressed("rolar") and _dash_disponivel and not _esta_atacando and not esta_forjando:
-		iniciar_dash()
-		return
+		if stamina >= custo_stamina_dash:
+			iniciar_dash()
+			return
+		get_tree().call_group("hud", "avisar_stamina_insuficiente")
 
 	if temporizador_knockback > 0:
 		temporizador_knockback -= delta
@@ -603,6 +634,7 @@ func logica_combo_ataque() -> void:
 func iniciar_slash_ataque_lanca(nome_anim: String, tempo_slash: float) -> void:
 	# Ajusta a velocidade da animação se necessário (pode ser removido se não for desejado)
 	reprodutor_anim.speed_scale = 0.2
+	_flash_golpe()
 	_esta_atacando = true
 	$AreaAtaque.monitoring = true
 	$AreaAtaque.monitorable = true
@@ -612,7 +644,12 @@ func iniciar_slash_ataque_lanca(nome_anim: String, tempo_slash: float) -> void:
 	_temporizador.start(tempo_slash)
 	_pode_encadear_combo = true
 
+func _flash_golpe() -> void:
+	EfeitosLuz.criar_flash(get_tree().current_scene, global_position + _direcao_ataque * 14.0,
+			Color(1, 0.95, 0.8), 0.9, 0.7, 0.15)
+
 func iniciar_slash_ataque(nome_anim: String, tempo_slash: float) -> void:
+	_flash_golpe()
 	_esta_atacando = true
 	$AreaAtaque.monitoring = true
 	$AreaAtaque.monitorable = true
@@ -683,6 +720,57 @@ func _on_area_entrou_area_ataque(area: Area2D) -> void:
 	if area.is_in_group("enemy"):
 		aplicar_golpe(area, (area.global_position - position).normalized())
 
+func _aplicar_encantamento(alvo: Node, dano_golpe: int) -> void:
+	var arma = InventarioJogador.equipados.get("arma")
+	if arma == null or arma.encantamento == "" or not is_instance_valid(alvo):
+		return
+	var tipo: String = arma.encantamento
+	var efeito := Encantamentos.efeito(tipo, arma.nivel_encantamento)
+	var cor := Encantamentos.cor(tipo)
+	match tipo:
+		"fogo":
+			if alvo.has_method("aplicar_queimadura"):
+				alvo.aplicar_queimadura(efeito["dano_tick"], efeito["intervalo"], efeito["duracao"], cor)
+		"gelo":
+			if alvo.has_method("aplicar_lentidao"):
+				alvo.aplicar_lentidao(efeito["lentidao"], efeito["duracao"])
+		"raio":
+			_saltar_raio(alvo, maxi(1, roundi(dano_golpe * efeito["fracao_dano"])), efeito["alcance"], cor)
+		"vampirico":
+			hp_atual = mini(hp_atual + maxi(1, roundi(dano_golpe * efeito["roubo"])), estatisticas.hp_maximo)
+			atualizar_barra_hp()
+
+func _saltar_raio(origem: Node2D, dano_raio: int, alcance: float, cor: Color) -> void:
+	var alvo_raio: Node2D = null
+	var menor := alcance
+	for inimigo in get_tree().get_nodes_in_group("enemy"):
+		if inimigo == origem or not (inimigo is Node2D) or inimigo.get("esta_morto"):
+			continue
+		var distancia := origem.global_position.distance_to(inimigo.global_position)
+		if distancia < menor:
+			menor = distancia
+			alvo_raio = inimigo
+	if alvo_raio == null or not alvo_raio.has_method("receber_dano_efeito"):
+		return
+	_desenhar_raio(origem.global_position, alvo_raio.global_position, cor)
+	alvo_raio.receber_dano_efeito(dano_raio, cor)
+
+func _desenhar_raio(de: Vector2, ate: Vector2, cor: Color) -> void:
+	var linha := Line2D.new()
+	linha.width = 1.5
+	linha.default_color = cor
+	linha.z_index = 20
+	var passos := 6
+	var normal := (ate - de).orthogonal().normalized()
+	for i in passos + 1:
+		var t := float(i) / passos
+		var desvio := 0.0 if i == 0 or i == passos else randf_range(-4.0, 4.0)
+		linha.add_point(de.lerp(ate, t) + normal * desvio)
+	get_tree().current_scene.add_child(linha)
+	var tween := linha.create_tween()
+	tween.tween_property(linha, "modulate:a", 0.0, 0.2)
+	tween.tween_callback(linha.queue_free)
+
 func aplicar_golpe(alvo: Node, direcao_knockback: Vector2) -> void:
 	if not alvo.has_method("receber_dano"):
 		return
@@ -691,6 +779,7 @@ func aplicar_golpe(alvo: Node, direcao_knockback: Vector2) -> void:
 	var golpe = estatisticas.calcular_dano_golpe()
 	var forca = 225.0 if golpe["critico"] else 150.0
 	alvo.receber_dano(golpe["dano"], direcao_knockback * forca)
+	_aplicar_encantamento(alvo, golpe["dano"])
 	if estatisticas.roubo_vida > 0:
 		var percentual = min(estatisticas.roubo_vida, estatisticas.ROUBO_VIDA_MAXIMO) / 100.0
 		var cura = max(1, int(round(golpe["dano"] * percentual)))
@@ -793,8 +882,7 @@ func gastar_moedas(quantidade: int) -> void:
 	atualizar_rotulo_moedas()
 
 func atualizar_rotulo_moedas() -> void:
-	if rotulo_moedas:
-		rotulo_moedas.text = str(DadosJogo.moedas)
+	DadosJogo.atualizar_ui_moedas()
 
 # ---------------------------
 # FUNÇÕES DE EQUIPAR/DESEQUIPAR
@@ -963,11 +1051,7 @@ func receber_dano(dano: int, forca_knockback: Vector2 = Vector2.ZERO) -> void:
 		morrer()
 
 func atualizar_barra_hp() -> void:
-	var fracao = float(hp_atual) / float(estatisticas.hp_maximo)
-	if not barra_hp_cheia:
-		return
-	barra_hp_cheia.scale.x = fracao
-	rotulo_hp.text = str(hp_atual) + "/" + str(estatisticas.hp_maximo)
+	get_tree().call_group("hud", "atualizar_vida", hp_atual, estatisticas.hp_maximo)
 
 func morrer() -> void:
 	estaMorto = true
@@ -975,6 +1059,8 @@ func morrer() -> void:
 	gerenciador_ondas.parar_ondas()
 	hp_atual = estatisticas.hp_maximo
 	atualizar_barra_hp()
+	stamina = stamina_maxima
+	_avisar_stamina()
 	DadosJogo.moedas = 0
 	DadosDosItems.resetar_precos()
 	atualizar_rotulo_moedas()

@@ -8,8 +8,9 @@ var tempo_vida_inicial: float
 func _ready() -> void:
 	tempo_vida_inicial = tempo_vida
 
-func definir_dano(valor_dano: int):
+func definir_dano(valor_dano: int, cor: Color = Color.WHITE):
 	$Rotulo.text = str(valor_dano)
+	$Rotulo.modulate = cor
 
 func _process(delta: float) -> void:
 	position.y -= velocidade_flutuacao * delta

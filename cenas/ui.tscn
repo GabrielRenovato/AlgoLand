@@ -1,99 +1,273 @@
-[gd_scene load_steps=13 format=3 uid="uid://idfadyrk0auf"]
+[gd_scene load_steps=16 format=3 uid="uid://idfadyrk0auf"]
 
-[ext_resource type="Script" uid="uid://cgyxmrwl7qv06" path="res://Codigos/Logicas/control.gd" id="1_uhhk1"]
-[ext_resource type="FontFile" uid="uid://dwub7qum41gaq" path="res://UI/Planes_ValMore.ttf" id="2_nwwd0"]
-[ext_resource type="Script" uid="uid://dotco0yycjhr2" path="res://Codigos/Logicas/wave.gd" id="3_50t8h"]
-[ext_resource type="Texture2D" uid="uid://cfhlumu376grb" path="res://UI/sem org/5 Logo/Logo.png" id="3_cfvah"]
-[ext_resource type="Texture2D" uid="uid://y6govco4twv7" path="res://UI/sem org/2 Bars/Band2_off.png" id="5_t1nvj"]
-[ext_resource type="Texture2D" uid="uid://crcpsqbhgylr7" path="res://UI/sem org/2 Bars/Healthbar_full.png" id="6_p6ugm"]
-[ext_resource type="Texture2D" uid="uid://b4i4jaaj50hva" path="res://UI/sem org/2 Bars/Healthbar_empty.png" id="7_6xg6j"]
-[ext_resource type="PackedScene" uid="uid://cdlhjfru12f0w" path="res://cenas/moedas.tscn" id="8_dsu43"]
-[ext_resource type="PackedScene" uid="uid://dsd2y11vv3y3c" path="res://cenas/info_tab.tscn" id="9_tmm8h"]
+[ext_resource type="Script" path="res://Codigos/UI/hud.gd" id="1_hud"]
+[ext_resource type="FontFile" uid="uid://dwub7qum41gaq" path="res://UI/Planes_ValMore.ttf" id="2_planes"]
+[ext_resource type="FontFile" uid="uid://b13xmp6wu4ea" path="res://UI/craftpix-net-775352-game-user-interface-pixel-art/6 Font/CraftPixNet Survival Kit.otf" id="3_craftpix"]
+[ext_resource type="Texture2D" path="res://UI/craftpix-net-420010-pixel-game-user-interface-for-platformer/4 Bars/13.png" id="4_coracao"]
+[ext_resource type="Texture2D" path="res://UI/craftpix-net-420010-pixel-game-user-interface-for-platformer/3 Icons/Icon_01.png" id="5_caveira"]
+[ext_resource type="Texture2D" path="res://UI/craftpix-net-420010-pixel-game-user-interface-for-platformer/3 Icons/Icon_49.png" id="10_raio"]
+[ext_resource type="Texture2D" uid="uid://d1iiqnaqd3rjw" path="res://UI/craftpix-net-420010-pixel-game-user-interface-for-platformer/1 Interface/TileMap.png" id="6_tilemap"]
+[ext_resource type="Script" path="res://Codigos/UI/barra_pecas.gd" id="7_barra"]
+[ext_resource type="Texture2D" uid="uid://cqxopks5b2xfq" path="res://UI/icons-coin/32x32/3.png" id="8_moeda"]
+[ext_resource type="PackedScene" uid="uid://dsd2y11vv3y3c" path="res://cenas/info_tab.tscn" id="9_info_tab"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_drs66"]
-font = ExtResource("2_nwwd0")
-font_size = 12
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_moldura"]
+content_margin_left = 6.0
+content_margin_top = 1.0
+content_margin_right = 6.0
+content_margin_bottom = 6.0
+texture = ExtResource("6_tilemap")
+texture_margin_left = 16.0
+texture_margin_top = 16.0
+texture_margin_right = 16.0
+texture_margin_bottom = 16.0
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 2
+region_rect = Rect2(96, 64, 48, 48)
 
-[sub_resource type="LabelSettings" id="LabelSettings_v0hah"]
-font = ExtResource("2_nwwd0")
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_fita"]
+content_margin_left = 10.0
+content_margin_top = 1.0
+content_margin_right = 10.0
+content_margin_bottom = 4.0
+texture = ExtResource("6_tilemap")
+texture_margin_left = 8.0
+texture_margin_top = 4.0
+texture_margin_right = 8.0
+texture_margin_bottom = 6.0
+axis_stretch_horizontal = 1
+region_rect = Rect2(192, 0, 48, 16)
 
-[sub_resource type="LabelSettings" id="LabelSettings_r58lk"]
-font = ExtResource("2_nwwd0")
+[sub_resource type="LabelSettings" id="LabelSettings_numero"]
+font = ExtResource("2_planes")
 font_size = 10
-shadow_color = Color(0, 0, 0, 1)
+outline_size = 2
+outline_color = Color(0.13, 0.12, 0.18, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_cabecalho"]
+font = ExtResource("3_craftpix")
+font_color = Color(0.13, 0.12, 0.18, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_banner"]
+font = ExtResource("3_craftpix")
+font_color = Color(1, 0.93, 0.8, 1)
+outline_size = 2
+outline_color = Color(0.13, 0.12, 0.18, 1)
 
 [node name="UI" type="CanvasLayer"]
-script = ExtResource("1_uhhk1")
+script = ExtResource("1_hud")
 
-[node name="enemiesCount" type="TextureRect" parent="."]
+[node name="Status" type="VBoxContainer" parent="."]
 texture_filter = 1
-offset_left = 248.0
-offset_top = 309.0
-offset_right = 341.0
-offset_bottom = 323.0
-texture = ExtResource("5_t1nvj")
+offset_left = 6.0
+offset_top = 6.0
+offset_right = 6.0
+offset_bottom = 6.0
+mouse_filter = 2
+theme_override_constants/separation = 3
 
-[node name="enemies_label" type="Label" parent="enemiesCount"]
+[node name="LinhaVida" type="HBoxContainer" parent="Status"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 3
+
+[node name="Coracao" type="TextureRect" parent="Status/LinhaVida"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(10, 8)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+pivot_offset = Vector2(5, 4)
+texture = ExtResource("4_coracao")
+stretch_mode = 3
+
+[node name="BarraVida" type="Control" parent="Status/LinhaVida"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 8)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+script = ExtResource("7_barra")
+
+[node name="RotuloVida" type="Label" parent="Status/LinhaVida"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0/0"
+label_settings = SubResource("LabelSettings_numero")
+vertical_alignment = 1
+
+[node name="LinhaStamina" type="HBoxContainer" parent="Status"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 3
+
+[node name="IconeStamina" type="TextureRect" parent="Status/LinhaStamina"]
+unique_name_in_owner = true
+modulate = Color(1, 0.85, 0.3, 1)
+custom_minimum_size = Vector2(10, 8)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("10_raio")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="BarraStamina" type="Control" parent="Status/LinhaStamina"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 8)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+script = ExtResource("7_barra")
+cor = Color(1, 0.85, 0.3, 1)
+[node name="LinhaMoedas" type="HBoxContainer" parent="Status"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 3
+
+[node name="IconeMoeda" type="TextureRect" parent="Status/LinhaMoedas"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("8_moeda")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="RotuloMoedas" type="Label" parent="Status/LinhaMoedas"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0"
+label_settings = SubResource("LabelSettings_numero")
+vertical_alignment = 1
+
+[node name="PainelOnda" type="PanelContainer" parent="."]
 texture_filter = 1
-layout_mode = 0
-offset_left = 4.0
-offset_top = 1.0
-offset_right = 89.0
-offset_bottom = 14.0
-text = "Enemys"
-label_settings = SubResource("LabelSettings_drs66")
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -6.0
+offset_top = 6.0
+offset_right = -6.0
+offset_bottom = 6.0
+grow_horizontal = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_moldura")
+
+[node name="Linhas" type="VBoxContainer" parent="PainelOnda"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="RotuloOnda" type="Label" parent="PainelOnda/Linhas"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 14)
+layout_mode = 2
+text = "ONDA 1"
+label_settings = SubResource("LabelSettings_cabecalho")
 horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="wave" type="TextureRect" parent="."]
+[node name="LinhaInimigos" type="HBoxContainer" parent="PainelOnda/Linhas"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 17)
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 3
+
+[node name="Caveira" type="TextureRect" parent="PainelOnda/Linhas/LinhaInimigos"]
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("5_caveira")
+stretch_mode = 3
+
+[node name="RotuloInimigos" type="Label" parent="PainelOnda/Linhas/LinhaInimigos"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "0/0"
+label_settings = SubResource("LabelSettings_numero")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BarraInimigos" type="Control" parent="PainelOnda/Linhas/LinhaInimigos"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 8)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+script = ExtResource("7_barra")
+
+[node name="RotuloEspera" type="Label" parent="PainelOnda/Linhas"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 17)
+layout_mode = 2
+text = "PREPARE-SE"
+label_settings = SubResource("LabelSettings_numero")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PainelChefe" type="VBoxContainer" parent="."]
+unique_name_in_owner = true
+visible = false
 texture_filter = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -46.0
-offset_right = 46.0
-offset_bottom = 57.0
+offset_left = -96.0
+offset_top = 6.0
+offset_right = 96.0
+offset_bottom = 30.0
 grow_horizontal = 2
-texture = ExtResource("3_cfvah")
-expand_mode = 1
-script = ExtResource("3_50t8h")
+mouse_filter = 2
+theme_override_constants/separation = 1
 
-[node name="WaveLabel" type="Label" parent="wave"]
-layout_mode = 0
-offset_left = 17.0
-offset_top = 32.0
-offset_right = 79.0
-offset_bottom = 48.0
-text = "1"
-label_settings = SubResource("LabelSettings_v0hah")
+[node name="NomeChefe" type="Label" parent="PainelChefe"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "GOLEM DE PEDRA"
+label_settings = SubResource("LabelSettings_banner")
 horizontal_alignment = 1
 
-[node name="BarraVidaVazia" type="Sprite2D" parent="."]
-position = Vector2(295.375, 299.125)
-scale = Vector2(0.950521, 1.35417)
-texture = ExtResource("7_6xg6j")
-
-[node name="BarraVidaCheia" type="TextureRect" parent="."]
-offset_left = 249.0
-offset_top = 291.0
-offset_right = 345.0
-offset_bottom = 303.0
-scale = Vector2(0.958333, 1.33333)
-size_flags_horizontal = 0
-texture = ExtResource("6_p6ugm")
-
-[node name="Hp" type="Label" parent="."]
+[node name="BarraChefe" type="Control" parent="PainelChefe"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(192, 8)
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("7_barra")
+[node name="FaixaBanner" type="PanelContainer" parent="."]
+unique_name_in_owner = true
 texture_filter = 1
-offset_left = 283.0
-offset_top = 294.0
-offset_right = 316.0
-offset_bottom = 306.0
-text = "10/10"
-label_settings = SubResource("LabelSettings_r58lk")
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.3
+anchor_right = 0.5
+anchor_bottom = 0.3
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_fita")
 
-[node name="Moedas" parent="." instance=ExtResource("8_dsu43")]
-offset_left = 246.0
-offset_top = 268.0
-offset_right = 311.0
-offset_bottom = 297.0
+[node name="Textos" type="VBoxContainer" parent="FaixaBanner"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = -2
 
-[node name="InfoTab" parent="." instance=ExtResource("9_tmm8h")]
+[node name="SubtituloBanner" type="Label" parent="FaixaBanner/Textos"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "BATALHA DE CHEFE"
+label_settings = SubResource("LabelSettings_numero")
+horizontal_alignment = 1
+
+[node name="RotuloBanner" type="Label" parent="FaixaBanner/Textos"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "ONDA 1"
+label_settings = SubResource("LabelSettings_banner")
+horizontal_alignment = 1
+
+[node name="InfoTab" parent="." instance=ExtResource("9_info_tab")]

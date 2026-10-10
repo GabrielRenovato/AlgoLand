@@ -1,37 +1,31 @@
 extends Node2D
 
+## Tempo visível depois do último dano; com vida cheia a barra fica escondida
+const TEMPO_VISIVEL := 2.5
+
 @export var vida_maxima: int = 30
 var vida_atual: int = vida_maxima
 
-@onready var sprite_barra: Sprite2D = $Sprite2D
+@onready var barra: Control = $Barra
 
-# Armazena a largura original da textura
-var largura_original: float = 0.0
+var _tween_visivel: Tween
 
 func _ready() -> void:
-	# Ativamos a região para poder recortar a textura
-	sprite_barra.region_enabled = true
-
-	# Garante que o 'region_rect' comece do tamanho total da textura
-	# (supondo que sprite_barra.texture não seja null).
-	if sprite_barra.texture:
-		sprite_barra.region_rect.size = sprite_barra.texture.get_size()
-		largura_original = sprite_barra.texture.get_size().x
-	
-	# Ajuste inicial (caso queira começar em 100% de vida)
+	modulate.a = 0.0
 	definir_vida_atual(vida_maxima)
 
 func definir_vida_atual(valor: int) -> void:
-	vida_atual = clamp(valor, 0, vida_maxima)
-	# se quiser chamar atualizar_barra aqui, então passamos valor também
-	atualizar_barra(valor)
+	vida_atual = clampi(valor, 0, vida_maxima)
+	barra.definir(vida_atual, vida_maxima, false)
 
 func atualizar_barra(nova_vida: int) -> void:
-	vida_atual = clamp(nova_vida, 0, vida_maxima)
-	if not sprite_barra.texture:
+	vida_atual = clampi(nova_vida, 0, vida_maxima)
+	barra.definir(vida_atual, vida_maxima)
+	if _tween_visivel:
+		_tween_visivel.kill()
+	modulate.a = 1.0
+	if vida_atual <= 0:
 		return
-
-	var proporcao = float(vida_atual) / float(vida_maxima)
-	var retangulo = sprite_barra.region_rect
-	retangulo.size.x = largura_original * proporcao
-	sprite_barra.region_rect = retangulo
+	_tween_visivel = create_tween()
+	_tween_visivel.tween_interval(TEMPO_VISIVEL)
+	_tween_visivel.tween_property(self, "modulate:a", 0.0, 0.4)

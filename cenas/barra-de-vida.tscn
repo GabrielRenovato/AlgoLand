@@ -1,13 +1,18 @@
 [gd_scene load_steps=3 format=3 uid="uid://b6nyd4j3mlgs1"]
 
 [ext_resource type="Script" uid="uid://v27vwkpvy1x2" path="res://Codigos/Design/Barra-de-vida.gd" id="1_njar3"]
-[ext_resource type="Texture2D" uid="uid://brcfp5ubvo636" path="res://UI/craftpix-net-420010-pixel-game-user-interface-for-platformer/4 Bars/8.png" id="2_hw0od"]
+[ext_resource type="Script" path="res://Codigos/UI/barra_pecas.gd" id="2_pecas"]
 
 [node name="HPBar" type="Node2D"]
 z_index = 1000
 script = ExtResource("1_njar3")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(-0.25, 18)
-scale = Vector2(1.40625, 0.25)
-texture = ExtResource("2_hw0od")
+[node name="Barra" type="Control" parent="."]
+texture_filter = 1
+offset_left = -8.0
+offset_top = -2.0
+offset_right = 24.0
+offset_bottom = 6.0
+scale = Vector2(0.5, 0.5)
+mouse_filter = 2
+script = ExtResource("2_pecas")

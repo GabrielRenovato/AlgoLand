@@ -30,6 +30,12 @@ var _pendentes_itens: Array = []
 func _init() -> void:
 	_limpar()
 
+func limpar() -> void:
+	_limpar()
+	_avisar_mochila()
+	for slot in SLOTS:
+		_avisar_slot(slot)
+
 func _limpar() -> void:
 	mochila.clear()
 	mochila.resize(TAMANHO_MOCHILA)
@@ -128,6 +134,15 @@ func desequipar(slot: String, indice: int = -1) -> bool:
 
 func subir_nivel(item) -> void:
 	item.nivel += 1
+	_avisar_item(item)
+
+# Um encantamento por item: outro tipo substitui o atual e volta ao nível 1
+func encantar(item, tipo: String) -> void:
+	if item.encantamento == tipo:
+		item.nivel_encantamento += 1
+	else:
+		item.encantamento = tipo
+		item.nivel_encantamento = 1
 	_avisar_item(item)
 
 func esta_vazio() -> bool:

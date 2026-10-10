@@ -4,11 +4,11 @@ const FATOR_PRECO_RECOMPRA: float = 1.2
 
 var itens: Dictionary = {
 	"item_1": {
-		"nome": "Fúria Afiada",
+		"nome": "Furia Afiada",
 		"icone": "res://UI/craftpix-net-629015-100-skill-icons-pack-for-rpg/PNG/skill icon 85.png",
 		"preco": 120,
 		"preco_base": 120,
-		"descricao": "Adiciona 3 de força (+3 de dano por golpe)",
+		"descricao": "Adiciona 3 de forca (+3 de dano por golpe)",
 		"efeitos": {
 			"forca": 3
 		}
@@ -24,7 +24,7 @@ var itens: Dictionary = {
 		}
 	},
 	"item_3": {
-		"nome": "Passo do Relâmpago",
+		"nome": "Passo do Relampago",
 		"icone": "res://UI/craftpix-net-629015-100-skill-icons-pack-for-rpg/PNG/skill icon 80.png",
 		"preco": 150,
 		"preco_base": 150,
@@ -34,7 +34,7 @@ var itens: Dictionary = {
 		}
 	},
 	"item_4": {
-		"nome": "Bastião Inquebrável",
+		"nome": "Bastiao Inquebravel",
 		"icone": "res://UI/craftpix-net-629015-100-skill-icons-pack-for-rpg/PNG/skill icon 76.png",
 		"preco": 180,
 		"preco_base": 180,
@@ -44,21 +44,21 @@ var itens: Dictionary = {
 		}
 	},
 	"item_5": {
-		"nome": "Coração Robusto",
+		"nome": "Coracao Robusto",
 		"icone": "res://UI/craftpix-net-629015-100-skill-icons-pack-for-rpg/PNG/skill icon 70.png",
 		"preco": 120,
 		"preco_base": 120,
-		"descricao": "+4 de vitalidade (+24 de HP máximo)",
+		"descricao": "+4 de vitalidade (+24 de HP maximo)",
 		"efeitos": {
 			"vitalidade": 4
 		}
 	},
 	"item_6": {
-		"nome": "Olho do Falcão",
+		"nome": "Olho do Falcao",
 		"icone": "res://UI/craftpix-net-629015-100-skill-icons-pack-for-rpg/PNG/skill icon 79.png",
 		"preco": 200,
 		"preco_base": 200,
-		"descricao": "+5 de sorte (+5% de crítico, +0,1x dano crítico)",
+		"descricao": "+5 de sorte (+5% de critico, +0,1x dano critico)",
 		"efeitos": {
 			"sorte": 5
 		}
@@ -73,7 +73,7 @@ func obter_dados_item(id_item: String) -> Dictionary:
 func definir_dados_item(id_item: String, dados_item: Dictionary) -> void:
 	itens[id_item] = dados_item
 
-# Versão mais robusta com validação
+# Versao mais robusta com validacao
 func definir_dados_item_seguro(id_item: String, nome: String, icone: String, preco: int, descricao: String, efeitos: Dictionary) -> void:
 	itens[id_item] = {
 		"nome": nome,

@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=4 uid="uid://dtphjwfloo87l"]
+[gd_scene load_steps=46format=4 uid="uid://dtphjwfloo87l"]
 
 [ext_resource type="Texture2D" uid="uid://dculgfvuqr31p" path="res://Tiles/23.05a - Arctic Woodland 1.1/arctic woodland v1.png" id="1_quwo3"]
 [ext_resource type="Script" uid="uid://d1de2ww2unulu" path="res://Codigos/Design/Terreno-do-mapa.gd" id="1_yqe8b"]
@@ -8,6 +8,8 @@
 [ext_resource type="Texture2D" uid="uid://wmqxya8c6ujg" path="res://Tiles/23.05a - Arctic Woodland 1.1/frozen effect/frozen effect 32x48.png" id="5_8o48i"]
 [ext_resource type="Texture2D" uid="uid://1cvispaam4is" path="res://Tiles/20.03a - Traveler's Camp 2.0/travelers camp 32x32.png" id="6_w7rf3"]
 [ext_resource type="Script" uid="uid://cq7erckh6jye6" path="res://Codigos/Design/Fogueira.gd" id="7_5ioce"]
+[ext_resource type="Texture2D" path="res://recursos/luz/luz_radial.tres" id="90_luz"]
+[ext_resource type="Script" path="res://Codigos/Efeitos/luz_tremulante.gd" id="91_luz"]
 [ext_resource type="Texture2D" uid="uid://bnb81ovfn3jat" path="res://Tiles/20.03a - Traveler's Camp 2.0/travelers camp tent 16x16.png" id="7_ku353"]
 [ext_resource type="Texture2D" uid="uid://cmds4pq18qgdc" path="res://Tiles/20.03a - Traveler's Camp 2.0/travelers camp tent 64x64.png" id="8_fyr4y"]
 [ext_resource type="Texture2D" uid="uid://r6n04i0kqy6w" path="res://Tiles/20.03a - Traveler's Camp 2.0/travelers camp tent interior 96x112.png" id="9_bydjm"]
@@ -3928,3 +3930,12 @@ sprite_frames = SubResource("SpriteFrames_w6jre")
 animation = &"acesa"
 frame_progress = 0.898556
 script = ExtResource("7_5ioce")
+
+[node name="LuzFogueira" type="PointLight2D" parent="CharacterBody2D/fogueira" groups=["luzes_noturnas"]]
+scale = Vector2(1.14286, 1.10345)
+color = Color(1, 0.62, 0.3, 1)
+energy = 1.0
+shadow_enabled = false
+texture = ExtResource("90_luz")
+texture_scale = 2.6
+script = ExtResource("91_luz")

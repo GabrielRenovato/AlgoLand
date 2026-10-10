@@ -23,8 +23,4 @@ func resetar_moedas() -> void:
 	atualizar_ui_moedas()
 
 func atualizar_ui_moedas() -> void:
-	# Se você tem um Label em /root/cenario/UI/Coins/count
-	# e quer atualizar seu texto:
-	var rotulo = get_tree().get_root().get_node_or_null("cenario/UI/Moedas/contador")
-	if rotulo and rotulo is Label:
-		rotulo.text = str(moedas)
+	get_tree().call_group("hud", "atualizar_moedas", moedas)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://b1h1u10dvlyy2"]
+[gd_scene load_steps=13format=3 uid="uid://b1h1u10dvlyy2"]
 
 [ext_resource type="Script" uid="uid://db3x0y14736pc" path="res://Codigos/Logicas/cenario.gd" id="1_xi8ta"]
 [ext_resource type="PackedScene" uid="uid://dtphjwfloo87l" path="res://cenas/terreno.tscn" id="2_rmsv3"]
@@ -9,6 +9,8 @@
 [ext_resource type="PackedScene" uid="uid://5kwygxonpkpt" path="res://cenas/mercante.tscn" id="6_vktsx"]
 [ext_resource type="PackedScene" uid="uid://idfadyrk0auf" path="res://cenas/ui.tscn" id="8_js8mk"]
 [ext_resource type="PackedScene" path="res://cenas/ui/interface.tscn" id="9_interface"]
+[ext_resource type="PackedScene" path="res://cenas/efeitos/vinheta.tscn" id="10_vinheta"]
+[ext_resource type="Script" path="res://Codigos/Efeitos/iluminacao.gd" id="11_iluminacao"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wpor1"]
 size = Vector2(453.875, 259)
@@ -34,6 +36,15 @@ collision_mask = 97
 z_index = 1
 position = Vector2(569, 176)
 collision_layer = 32
+
+[node name="Vinheta" parent="." instance=ExtResource("10_vinheta")]
+layer = 1
+
+[node name="Iluminacao" type="Node" parent="."]
+script = ExtResource("11_iluminacao")
+
+[node name="CanvasModulate" type="CanvasModulate" parent="Iluminacao"]
+color = Color(0.86, 0.88, 1, 1)
 
 [node name="UI" parent="." instance=ExtResource("8_js8mk")]
 

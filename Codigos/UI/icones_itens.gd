@@ -24,29 +24,35 @@ static func obter_jogador(arvore: SceneTree) -> Node:
 static func obter(item: DadosItem, arvore: SceneTree) -> Texture2D:
 	if item == null:
 		return null
-	var jogador := obter_jogador(arvore)
 	if ARMAS.has(item.tipo):
-		var definicao: Dictionary = ARMAS[item.tipo]
-		var textura: Texture2D = null
-		if jogador != null:
-			var sprite: Sprite2D = jogador.get(definicao["sprite"])
-			if sprite != null:
-				textura = sprite.texture
-		if textura == null and ResourceLoader.exists(definicao["alternativa"]):
-			textura = load(definicao["alternativa"])
-		if textura == null:
-			return null
-		var tamanho := textura.get_size()
-		var largura := int(tamanho.x / float(COLUNAS_ARMAS))
-		var altura := int(tamanho.y / float(LINHAS_ARMAS))
-		var quadro: int = definicao["frame"]
-		var regiao := Rect2i((quadro % COLUNAS_ARMAS) * largura, int(quadro / float(COLUNAS_ARMAS)) * altura, largura, altura)
-		return _recortar(textura, regiao)
+		return obter_arma(item.tipo, arvore)
+	var jogador := obter_jogador(arvore)
 	if ARMADURAS.has(item.tipo) and jogador != null:
 		var sprite_armadura: Sprite2D = jogador.get(ARMADURAS[item.tipo])
 		if sprite_armadura != null and sprite_armadura.texture != null:
 			return _recortar(sprite_armadura.texture, Rect2i(Vector2i.ZERO, Vector2i(sprite_armadura.texture.get_size())))
 	return null
+
+static func obter_arma(tipo: String, arvore: SceneTree) -> Texture2D:
+	if not ARMAS.has(tipo):
+		return null
+	var definicao: Dictionary = ARMAS[tipo]
+	var textura: Texture2D = null
+	var jogador := obter_jogador(arvore)
+	if jogador != null:
+		var sprite: Sprite2D = jogador.get(definicao["sprite"])
+		if sprite != null:
+			textura = sprite.texture
+	if textura == null and ResourceLoader.exists(definicao["alternativa"]):
+		textura = load(definicao["alternativa"])
+	if textura == null:
+		return null
+	var tamanho := textura.get_size()
+	var largura := int(tamanho.x / float(COLUNAS_ARMAS))
+	var altura := int(tamanho.y / float(LINHAS_ARMAS))
+	var quadro: int = definicao["frame"]
+	var regiao := Rect2i((quadro % COLUNAS_ARMAS) * largura, int(quadro / float(COLUNAS_ARMAS)) * altura, largura, altura)
+	return _recortar(textura, regiao)
 
 # Os quadros tem muito espaco transparente; recorta ao conteudo para o icone nao ficar minusculo em 14px
 static func _recortar(textura: Texture2D, regiao: Rect2i) -> Texture2D:
