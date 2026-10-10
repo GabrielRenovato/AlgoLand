@@ -467,7 +467,6 @@ offset_bottom = 12.0
 text = "HAIR COLOR"
 label_settings = SubResource("LabelSettings_bexmh")
 
-[connection signal="text_changed" from="Container/Apelido/CampoTexto" to="." method="_on_line_edit_text_changed"]
 [connection signal="mouse_entered" from="Container/Salvar/Botao" to="Container/Salvar/Botao" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="Container/Salvar/Botao" to="Container/Salvar/Botao" method="_on_mouse_exited"]
 [connection signal="pressed" from="Container/Salvar/Botao" to="Container/Salvar/Botao" method="_on_pressed"]

@@ -150,4 +150,3 @@ offset_bottom = 70.0
 text = "CREATE CHARACTER"
 label_settings = SubResource("LabelSettings_2w8pq")
 
-[connection signal="tree_exited" from="." to="." method="_on_tree_exited"]

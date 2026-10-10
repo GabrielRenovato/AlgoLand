@@ -1,13 +1,16 @@
 extends CanvasLayer
 
+const FONTE_STATUS: FontFile = preload("res://UI/Planes_ValMore.ttf")
+
 func _ready() -> void:
 	$InformacaoPersonagem.visible = false
 
-func _process(_delta: float) -> void:
-	if Input.is_action_pressed("show_stats"):
+# Reconstruir os rótulos todo frame (com load de fonte) enquanto a tecla estava segurada pesava à toa
+func _unhandled_input(evento: InputEvent) -> void:
+	if evento.is_action_pressed("show_stats") and not evento.is_echo():
 		$InformacaoPersonagem.visible = true
 		atualizar_menu()
-	else:
+	elif evento.is_action_released("show_stats"):
 		$InformacaoPersonagem.visible = false
 
 func atualizar_menu() -> void:
@@ -29,7 +32,7 @@ func atualizar_menu() -> void:
 		"DAN: " + str(jogador.estatisticas.dano_ataque)
 	]
 
-	var arquivo_fonte: FontFile = load("res://UI/Planes_ValMore.ttf") as FontFile
+	var arquivo_fonte: FontFile = FONTE_STATUS
 
 	for linha_estatistica in array_estatisticas:
 		var rotulo = Label.new()

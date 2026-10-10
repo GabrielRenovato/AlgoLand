@@ -10,9 +10,13 @@ signal sinal_ondas_paradas
 @export var intervalo_onda: float = 15.0
 @export var max_ondas: int = 1000
 @export var aumento_deteccao_por_onda: float = 0.2
-@export var recompensa_ouro_base: int = 100
+@export var inimigos_extra_por_onda: int = 3
+@export var recompensa_ouro_base: int = 25
+@export var recompensa_ouro_por_onda: int = 15
+@export var moedas_por_inimigo_base: int = 3
 @onready var comerciante = $"../../Merchant"
-const MAX_INIMIGOS_ATIVOS: int = 70
+const MAX_INIMIGOS_POR_ONDA: int = 60
+const MAX_INIMIGOS_ATIVOS: int = 25
 @export var caminho_area_spawn: NodePath = NodePath("/root/cenario/SpawnArea")
 
 var onda_atual: int = 1
@@ -29,6 +33,7 @@ var onda_em_andamento: bool = false
 @onready var jogador = get_node("/root/cenario/Jogador")
 @onready var ui = get_node("/root/cenario/UI")
 func _ready() -> void:
+	add_to_group("gerenciador_ondas")
 	await get_tree().create_timer(0.0).timeout
 	onda_atual = onda_inicial
 	gerador = get_tree().get_root().get_node("/root/cenario/enemySpawner")
@@ -38,7 +43,7 @@ func iniciar_onda() -> void:
 	ondas_paradas = false
 	if jogador.estaMorto:
 		onda_atual = 1
-		jogador.isDead = false
+		jogador.estaMorto = false
 	if ondas_paradas:
 		return
 	if onda_atual > max_ondas:
@@ -48,11 +53,9 @@ func iniciar_onda() -> void:
 	comerciante.visible = false
 	onda_em_andamento = true
 	# Define o total de inimigos para a onda no início
-	inimigos_vivos = int(max_inimigos * pow(1.5, onda_atual - 1))
-	# Não sobrescreva a contagem no gerador!
-	multiplicador_vida_inimigo = 1.0 + (onda_atual * 0.2)
-	multiplicador_dano_inimigo = 1.0 + (onda_atual * 0.1)
-	var escala_deteccao = 1.0 + (onda_atual - 1) * aumento_deteccao_por_onda
+	inimigos_vivos = min(max_inimigos + inimigos_extra_por_onda * (onda_atual - 1), MAX_INIMIGOS_POR_ONDA)
+	multiplicador_vida_inimigo = 1.0 + 0.15 * (onda_atual - 1)
+	multiplicador_dano_inimigo = 1.0 + 0.08 * (onda_atual - 1)
 	var banner_onda = get_tree().get_root().get_node("cenario/UI/wave")
 	if banner_onda:
 		banner_onda.show_wave_number(onda_atual)
@@ -61,19 +64,25 @@ func iniciar_onda() -> void:
 	gerador.spawnar_inimigos(inimigos_vivos, multiplicador_vida_inimigo, multiplicador_dano_inimigo)
 
 func atualizar_ui() -> void:
-	if $enemiesCount/enemies_label:
-		$enemiesCount/enemies_label.text = "Inimigos: " + str(inimigos_vivos)
+	if ui:
+		ui.rotulo_inimigos.text = "Inimigos: " + str(inimigos_vivos)
 
 func inimigo_morreu() -> void:
+	DadosJogo.adicionar_moedas(moedas_por_inimigo_base + int(onda_atual / 4.0))
+	_descontar_inimigo()
+
+# Spawn que falhou: encerra a onda sem dar moedas de abate
+func descontar_inimigo_nao_spawnado() -> void:
+	_descontar_inimigo()
+
+func _descontar_inimigo() -> void:
 	inimigos_vivos -= 1
 	atualizar_ui()
 	if inimigos_vivos <= 0:
-		var recompensa = recompensa_ouro_base * onda_atual
+		var recompensa = recompensa_ouro_base + recompensa_ouro_por_onda * onda_atual
 		DadosJogo.adicionar_moedas(recompensa)
 		comerciante.visible = true
-		var loja = get_tree().get_root().get_node_or_null("cenario/UI/MerchantMenu")
-		if loja and loja.is_visible():
-			loja.update_coins_display()
+		get_tree().call_group("tela_mercante", "atualizar_exibicao_moedas")
 		onda_em_andamento = false
 		emit_signal("onda_completada", onda_atual)
 		onda_atual += 1
@@ -88,6 +97,5 @@ func parar_ondas() -> void:
 	onda_atual = 1
 	inimigos_vivos = 0
 	onda_em_andamento = false
-	var ui = get_tree().get_root().get_node("cenario/UI")
 	if ui:
-		ui.enemies_label.text = "Inimigos"
+		ui.rotulo_inimigos.text = "Inimigos"

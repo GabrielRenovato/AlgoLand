@@ -1,16 +1,16 @@
-[gd_scene load_steps=21 format=4 uid="uid://bf6koeuf0he2t"]
+[gd_scene format=4 uid="uid://bq373000ylu0o"]
 
-[ext_resource type="Script" uid="uid://bpoxmf71xslk6" path="res://Codigos/Design/Inventario.gd" id="1_3ee8g"]
+[ext_resource type="Script" path="res://Codigos/Design/Inventario.gd" id="1_3ee8g"]
 [ext_resource type="Script" uid="uid://ofbeefpeh01o" path="res://Codigos/Jogador/customizacao-do-jogador.gd" id="1_vfbku"]
 [ext_resource type="Texture2D" uid="uid://bj2dckfe0s2an" path="res://CharacterSprites/Body/body_1.png" id="2_voeqa"]
 [ext_resource type="Texture2D" uid="uid://bfehvhr7stacf" path="res://CharacterSprites/Hair/hair (1).png" id="3_4h4ys"]
 [ext_resource type="Texture2D" uid="uid://21q8d7mh05k4" path="res://CharacterSprites/Outfit/outfit (4).png" id="4_5kdp8"]
 [ext_resource type="FontFile" uid="uid://dwub7qum41gaq" path="res://UI/Planes_ValMore.ttf" id="4_7t3ny"]
-[ext_resource type="PackedScene" uid="uid://vbu0fvbbrd75" path="res://cenas/item_slot.tscn" id="7_jy1ed"]
+[ext_resource type="PackedScene" path="res://cenas/item_slot.tscn" id="7_jy1ed"]
 [ext_resource type="Texture2D" uid="uid://bg1vd0emfbnea" path="res://UI/Cute RPG - Icons (1)/Cute RPG - Icons/16x16/CuteRPG_Icons06.png" id="8_cx3qh"]
 [ext_resource type="Texture2D" uid="uid://d1iiqnaqd3rjw" path="res://UI/craftpix-net-420010-pixel-game-user-interface-for-platformer/1 Interface/TileMap.png" id="9_qog3r"]
 [ext_resource type="Texture2D" uid="uid://bwj43a1r3iam6" path="res://UI/items/16x16.png" id="10_gar06"]
-[ext_resource type="FontFile" uid="uid://dirq4dnsbaakj" path="res://UI/craftpix-781165-game-ui-pixel-art (1)/Font/Planes_ValMore.ttf" id="11_c5u6b"]
+[ext_resource type="PackedScene" uid="uid://delx88t4jwfoh" path="res://cenas/slot.tscn" id="13_slot"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sosyx"]
 size = Vector2(12, 28)
@@ -1332,35 +1332,25 @@ texture = ExtResource("10_gar06")
 sources/0 = SubResource("TileSetAtlasSource_gar06")
 sources/2 = SubResource("TileSetAtlasSource_c5u6b")
 
-[sub_resource type="LabelSettings" id="LabelSettings_4ldf4"]
-font = ExtResource("11_c5u6b")
-font_size = 6
-shadow_color = Color(0, 0, 0, 1)
-
-[sub_resource type="LabelSettings" id="LabelSettings_n01hi"]
-font = ExtResource("11_c5u6b")
-font_size = 6
-shadow_color = Color(0, 0, 0, 1)
-
-[node name="Inventario" type="Node2D"]
+[node name="Inventario" type="Node2D" unique_id=1467390876]
 script = ExtResource("1_3ee8g")
 
-[node name="PersonalizacaoJogador" type="CharacterBody2D" parent="."]
+[node name="PersonalizacaoJogador" type="CharacterBody2D" parent="." unique_id=414179711]
 z_index = 1
 position = Vector2(170, 135)
 script = ExtResource("1_vfbku")
 
-[node name="Corpo" type="Sprite2D" parent="PersonalizacaoJogador"]
+[node name="Corpo" type="Sprite2D" parent="PersonalizacaoJogador" unique_id=151218973]
 texture = ExtResource("2_voeqa")
 hframes = 8
 vframes = 8
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PersonalizacaoJogador"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PersonalizacaoJogador" unique_id=970244177]
 visible = false
 position = Vector2(245, 172)
 shape = SubResource("RectangleShape2D_sosyx")
 
-[node name="Cabelo" type="Sprite2D" parent="PersonalizacaoJogador"]
+[node name="Cabelo" type="Sprite2D" parent="PersonalizacaoJogador" unique_id=2052307816]
 z_index = 4
 position = Vector2(0, -10)
 texture = ExtResource("3_4h4ys")
@@ -1368,19 +1358,19 @@ hframes = 8
 vframes = 8
 frame = 1
 
-[node name="Roupa" type="Sprite2D" parent="PersonalizacaoJogador"]
+[node name="Roupa" type="Sprite2D" parent="PersonalizacaoJogador" unique_id=154264675]
 texture = ExtResource("4_5kdp8")
 hframes = 8
 vframes = 8
 
-[node name="Espada" type="Sprite2D" parent="PersonalizacaoJogador"]
+[node name="Espada" type="Sprite2D" parent="PersonalizacaoJogador" unique_id=2083985849]
 
-[node name="Escudo" type="Sprite2D" parent="PersonalizacaoJogador"]
+[node name="Escudo" type="Sprite2D" parent="PersonalizacaoJogador" unique_id=1167776193]
 
-[node name="Lanca" type="Sprite2D" parent="PersonalizacaoJogador"]
+[node name="Lanca" type="Sprite2D" parent="PersonalizacaoJogador" unique_id=868374847]
 position = Vector2(-5.24521e-06, 0)
 
-[node name="Label" type="Label" parent="."]
+[node name="Label" type="Label" parent="." unique_id=335464032]
 z_index = 50
 offset_left = 116.0
 offset_top = 99.0
@@ -1390,118 +1380,142 @@ text = "CHARACTER"
 label_settings = SubResource("LabelSettings_apmlk")
 horizontal_alignment = 1
 
-[node name="espada_basica" parent="." groups=["draggable_items", "espada_basica"] instance=ExtResource("7_jy1ed")]
-z_index = 700
-position = Vector2(150, 175)
+[node name="SlotArma" parent="." unique_id=1679260116 instance=ExtResource("13_slot")]
+z_index = 6
+offset_left = 142.0
+offset_top = 167.0
+offset_right = 158.0
+offset_bottom = 183.0
+tipos_aceitos = Array[String](["espada_basica", "lanca_basica"])
 
-[node name="lanca_basica" parent="." groups=["lanca_basica"] instance=ExtResource("7_jy1ed")]
-z_index = 700
-position = Vector2(150, 175)
+[node name="SlotEscudo" parent="." unique_id=1115305945 instance=ExtResource("13_slot")]
+z_index = 6
+offset_left = 195.0
+offset_top = 167.0
+offset_right = 211.0
+offset_bottom = 183.0
+tipos_aceitos = Array[String](["escudo_basico"])
 
-[node name="escudo_basico" parent="." groups=["draggable_items", "escudo_basico"] instance=ExtResource("7_jy1ed")]
+[node name="espada_basica" parent="." unique_id=142978990 instance=ExtResource("7_jy1ed")]
 z_index = 700
-position = Vector2(203, 175)
+offset_left = 142.0
+offset_top = 167.0
+offset_right = 158.0
+offset_bottom = 183.0
 
-[node name="cabeca_basica" parent="." groups=["cabeca_basica", "draggable_items"] instance=ExtResource("7_jy1ed")]
+[node name="lanca_basica" parent="." unique_id=894143830 instance=ExtResource("7_jy1ed")]
 z_index = 700
-position = Vector2(133, 123)
+offset_left = 154.0
+offset_top = 208.0
+offset_right = 170.0
+offset_bottom = 224.0
+tipo_item = "lanca_basica"
 
-[node name="armadura_basica" parent="." groups=["armadura_basica", "draggable_items"] instance=ExtResource("7_jy1ed")]
+[node name="escudo_basico" parent="." unique_id=1680470500 instance=ExtResource("7_jy1ed")]
 z_index = 700
-position = Vector2(133, 140)
+offset_left = 195.0
+offset_top = 167.0
+offset_right = 211.0
+offset_bottom = 183.0
+tipo_item = "escudo_basico"
 
-[node name="luvas_basicas" parent="." groups=["draggable_items", "luvas_basicas"] instance=ExtResource("7_jy1ed")]
+[node name="cabeca_basica" parent="." unique_id=1739613426 instance=ExtResource("7_jy1ed")]
 z_index = 700
-position = Vector2(133, 157)
+offset_left = 125.0
+offset_top = 115.0
+offset_right = 141.0
+offset_bottom = 131.0
+mouse_filter = 2
+tipo_item = "cabeca_basica"
 
-[node name="botas_basicas" parent="." groups=["botas_basicas", "draggable_items"] instance=ExtResource("7_jy1ed")]
+[node name="armadura_basica" parent="." unique_id=493328404 instance=ExtResource("7_jy1ed")]
 z_index = 700
-position = Vector2(133, 175)
+offset_left = 125.0
+offset_top = 132.0
+offset_right = 141.0
+offset_bottom = 148.0
+mouse_filter = 2
+tipo_item = "armadura_basica"
 
-[node name="slot_espada_vazio" type="TileMapLayer" parent="."]
+[node name="luvas_basicas" parent="." unique_id=1983241323 instance=ExtResource("7_jy1ed")]
+z_index = 700
+offset_left = 125.0
+offset_top = 149.0
+offset_right = 141.0
+offset_bottom = 165.0
+mouse_filter = 2
+tipo_item = "luvas_basicas"
+
+[node name="botas_basicas" parent="." unique_id=2043124792 instance=ExtResource("7_jy1ed")]
+z_index = 700
+offset_left = 125.0
+offset_top = 167.0
+offset_right = 141.0
+offset_bottom = 183.0
+mouse_filter = 2
+tipo_item = "botas_basicas"
+
+[node name="slot_espada_vazio" type="TileMapLayer" parent="." unique_id=1010083233]
 z_index = 5
 position = Vector2(2, -1)
 scale = Vector2(0.88, 0.88)
 tile_map_data = PackedByteArray("AAAKAAwAAAAKAAMAAAA=")
 tile_set = SubResource("TileSet_gar06")
 
-[node name="cabeca" type="TileMapLayer" parent="."]
+[node name="cabeca" type="TileMapLayer" parent="." unique_id=823322444]
 z_index = 5
 position = Vector2(27, 3)
 scale = Vector2(0.88, 0.88)
 tile_map_data = PackedByteArray("AAAHAAgAAAAMAAMAAAA=")
 tile_set = SubResource("TileSet_gar06")
 
-[node name="corpo" type="TileMapLayer" parent="."]
+[node name="corpo" type="TileMapLayer" parent="." unique_id=1757458338]
 z_index = 5
 position = Vector2(27, 6)
 scale = Vector2(0.88, 0.88)
 tile_map_data = PackedByteArray("AAAHAAkAAAANAAQAAAA=")
 tile_set = SubResource("TileSet_gar06")
 
-[node name="luvas" type="TileMapLayer" parent="."]
+[node name="luvas" type="TileMapLayer" parent="." unique_id=361719088]
 z_index = 5
 position = Vector2(27, -5)
 scale = Vector2(0.88, 0.88)
 tile_map_data = PackedByteArray("AAAHAAsAAAAMAAUAAAA=")
 tile_set = SubResource("TileSet_gar06")
 
-[node name="ring" type="TileMapLayer" parent="."]
+[node name="ring" type="TileMapLayer" parent="." unique_id=711831005]
 z_index = 5
 position = Vector2(27, 3)
 scale = Vector2(0.88, 0.88)
 tile_map_data = PackedByteArray("AAAMAAgAAAAOAAcAAAA=")
 tile_set = SubResource("TileSet_gar06")
 
-[node name="ring2" type="TileMapLayer" parent="."]
+[node name="ring2" type="TileMapLayer" parent="." unique_id=1883324067]
 z_index = 5
 position = Vector2(27, 6)
 scale = Vector2(0.88, 0.88)
 tile_map_data = PackedByteArray("AAAMAAkAAAAOAAcAAAA=")
 tile_set = SubResource("TileSet_gar06")
 
-[node name="neclake" type="TileMapLayer" parent="."]
+[node name="neclake" type="TileMapLayer" parent="." unique_id=1995659506]
 z_index = 5
 position = Vector2(27, 9)
 scale = Vector2(0.88, 0.88)
 tile_map_data = PackedByteArray("AAAMAAoAAAADAAAAAAA=")
 tile_set = SubResource("TileSet_gar06")
 
-[node name="slot_escudo_vazio" type="TileMapLayer" parent="."]
+[node name="slot_escudo_vazio" type="TileMapLayer" parent="." unique_id=263936835]
 z_index = 5
 position = Vector2(41, 41)
 scale = Vector2(0.88, 0.88)
 tile_map_data = PackedByteArray("AAALAAkAAAAKAAYAAAA=")
 tile_set = SubResource("TileSet_gar06")
 
-[node name="TileMapLayer" type="TileMapLayer" parent="."]
+[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=400472711]
 tile_map_data = PackedByteArray("AAAHAAwAAAAGAAUAAAAHAAsAAAAGAAUAAAAHAAoAAAAGAAUAAAAHAAkAAAAGAAUAAAAHAAgAAAAGAAUAAAAHAAcAAAAGAAUAAAAHAAYAAAAGAAQAAAAIAAYAAAAHAAQAAAAJAAYAAAAHAAQAAAAKAAYAAAAHAAQAAAALAAYAAAAHAAQAAAAIAAcAAAAHAAUAAAAJAAcAAAAHAAUAAAAKAAcAAAAHAAUAAAALAAcAAAAHAAUAAAALAAgAAAAHAAUAAAALAAkAAAAHAAUAAAALAAoAAAAHAAUAAAALAAsAAAAHAAUAAAAIAAsAAAAHAAUAAAAIAAoAAAAHAAUAAAAIAAkAAAAHAAUAAAAIAAgAAAAHAAUAAAAJAAgAAAAHAAUAAAAKAAgAAAAHAAUAAAAKAAkAAAAHAAUAAAAKAAoAAAAHAAUAAAAKAAsAAAAHAAUAAAAJAAsAAAAHAAUAAAAJAAoAAAAHAAUAAAAJAAkAAAAHAAUAAAAHAA0AAAAGAAUAAAAHAA4AAAAGAAUAAAALABAAAAAHAAYAAAAKABAAAAAHAAYAAAAJABAAAAAHAAYAAAAIABAAAAAHAAYAAAAMAAYAAAAHAAQAAAANAAYAAAAIAAQAAAAMAAcAAAAHAAUAAAANAAcAAAAIAAUAAAANAAgAAAAIAAUAAAANAAkAAAAIAAUAAAANAAoAAAAIAAUAAAANAAsAAAAIAAUAAAANAAwAAAAIAAUAAAANAA0AAAAIAAUAAAANAA4AAAAIAAUAAAANAA8AAAAIAAUAAAAHAA8AAAAGAAUAAAAMAAgAAAAHAAUAAAAMAAkAAAAHAAUAAAAMAAoAAAAHAAUAAAAMAAsAAAAHAAUAAAAMABAAAAAHAAYAAAAHABAAAAAGAAYAAAANABAAAAAIAAYAAAAIAAwAAAAHAAUAAAAIAA0AAAAHAAUAAAAIAA4AAAAHAAUAAAAIAA8AAAAHAAUAAAAJAA8AAAAHAAUAAAAKAA8AAAAHAAUAAAAKAA4AAAAHAAUAAAAKAA0AAAAHAAUAAAAKAAwAAAAHAAUAAAAJAAwAAAAHAAUAAAAJAA0AAAAHAAUAAAAJAA4AAAAHAAUAAAALAAwAAAAHAAUAAAAMAAwAAAAHAAUAAAAMAA0AAAAHAAUAAAALAA4AAAAHAAUAAAALAA8AAAAHAAUAAAALAA0AAAAHAAUAAAAMAA8AAAAHAAUAAAAMAA4AAAAHAAUAAAA=")
 tile_set = SubResource("TileSet_g2ee7")
 
-[node name="Panel" type="Panel" parent="."]
-offset_left = 124.0
-offset_top = 192.0
-offset_right = 164.0
-offset_bottom = 201.0
-
-[node name="Value" type="Label" parent="Panel"]
-layout_mode = 0
-offset_left = 29.0
-offset_top = 2.0
-offset_right = 66.0
-offset_bottom = 11.0
-text = "78"
-label_settings = SubResource("LabelSettings_4ldf4")
-
-[node name="Status" type="Label" parent="Panel"]
-layout_mode = 0
-offset_left = 2.0
-offset_right = 18.0
-offset_bottom = 9.0
-text = "Força"
-label_settings = SubResource("LabelSettings_n01hi")
-
-[node name="bota" type="TileMapLayer" parent="."]
+[node name="bota" type="TileMapLayer" parent="." unique_id=535111215]
 z_index = 5
 position = Vector2(27, -1)
 scale = Vector2(0.88, 0.88)

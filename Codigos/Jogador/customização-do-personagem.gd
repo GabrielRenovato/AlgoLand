@@ -33,8 +33,7 @@ func _ao_personalizacao_jogador_finalizada(cabelo, roupa, cor, apelido):
 		print("Erro ao abrir o arquivo para escrita.")
 		return
 
-	var json = JSON.new()
-	var string_json = json.stringify(dados)
+	var string_json = JSON.stringify(dados)
 	arquivo.store_string(string_json)
 	arquivo.close()
 

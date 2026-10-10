@@ -1,6 +1,6 @@
 extends Node2D
 
-@export var vida_maxima: int = 25
+@export var vida_maxima: int = 30
 var vida_atual: int = vida_maxima
 
 @onready var sprite_barra: Sprite2D = $Sprite2D

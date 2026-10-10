@@ -4,43 +4,34 @@ class_name InimigoBase
 # -----------------------------
 # CONFIGURAÇÕES DE MOVIMENTO
 # -----------------------------
-@export var velocidade: int = 30
-@export var velocidade_patrulha: int = 20
-@export var alcance_separacao: float = 50.0
-@export var forca_separacao: float = 20.0
-var direcao: Vector2 = Vector2.ZERO
+@export var velocidade: int = 50
+@export var aceleracao: float = 400.0
+# Perto do centro do jogador o slime para de empurrar na direção dele
+@export var raio_parada: float = 4.0
+@export var desaceleracao_knockback: float = 900.0
+# O slime tem cerca de 17 px; um alcance maior fazia a multidão se afastar demais
+@export var alcance_separacao: float = 18.0
+@export var forca_separacao: float = 40.0
 var ultima_direcao_horizontal: float = 1.0  # 1 para direita, -1 para esquerda
 
 # -----------------------------
 # CONFIGURAÇÕES DE ATAQUE
 # -----------------------------
-@export var tempo_recarga_ataque: float = 1.5
-@export var alcance_ataque: float = 20.0   # Distância mínima para que o attack animado seja priorizado
+@export var tempo_recarga_ataque: float = 1.8
+@export var alcance_ataque: float = 20.0   # Distância mínima para disparar a animação de ataque
 var pode_atacar: bool = true
-var dano: float = 15
+@export var dano: float = 12.0
 
 # -----------------------------
 # VARIÁVEIS DE VIDA
 # -----------------------------
-@export var vida: int = 25
+@export var vida: int = 30
 var esta_morto: bool = false
 
 # -----------------------------
 # ESTADOS
 # -----------------------------
-var esta_perseguindo: bool = false
 var esta_recuando: bool = false
-var esta_danificado: bool = false
-var esta_patrulhando: bool = true
-var direcao_patrulha: Vector2 = Vector2.RIGHT
-var temporizador_patrulha: float = 0.0
-@export var duracao_patrulha: float = 2.0
-@export var distancia_minima: float = 10.0
-
-# Flag para indicar se o player está na área de ataque.
-var na_area_ataque: bool = false
-
-# Flag para indicar se o inimigo está atacando.
 var esta_atacando: bool = false
 
 # -----------------------------
@@ -51,89 +42,71 @@ var esta_atacando: bool = false
 @onready var posicao_blend = arvore_animacao.get("parameters/run/blend_position")
 @onready var sprite = $Texture  # Nó do sprite para efeito de piscar
 
+var _jogador_cache: Node2D
+
 signal atingiu_jogador
 signal inimigo_morreu
 
 func _ready() -> void:
-	# Ativa a AnimationTree e define o estado "run"
 	if arvore_animacao:
 		arvore_animacao.active = true
 		definir_animacao("run")
-	
-	# Configura a área de DETECÇÃO
-	if $DetectionArea:
-		$DetectionArea.monitoring = true
-		$DetectionArea.monitorable = true
-		$DetectionArea.set_collision_mask_value(2, true)
-		if not $DetectionArea.is_connected("body_entered", Callable(self, "_on_area_2d_body_entered")):
-			$DetectionArea.connect("body_entered", Callable(self, "_on_area_2d_body_entered"))
-		if not $DetectionArea.is_connected("body_exited", Callable(self, "_on_area_2d_body_exited")):
-			$DetectionArea.connect("body_exited", Callable(self, "_on_area_2d_body_exited"))
-	
-	# >>> INTEGRAÇÃO DA BARRA DE HP <<<
+
 	# Se o nó HPBar não estiver presente, instancia e adiciona como filho do inimigo.
 	if not has_node("HPBar"):
 		var cena_barra_hp = preload("res://cenas/barra-de-vida.tscn")
 		var instancia_barra_hp = cena_barra_hp.instantiate()
 		instancia_barra_hp.name = "HPBar"
 		add_child(instancia_barra_hp)
-		# Posiciona a barra acima do inimigo (ajuste conforme necessário)
 		instancia_barra_hp.position = Vector2(0, -40)
 
 func _physics_process(delta: float) -> void:
-	# Não chama super() para evitar a lógica da classe base que impede movimento durante ataque
-	if esta_morto or not has_method("obter_jogador"):
+	if esta_morto:
 		return
-	
-	var velocidade_base = Vector2.ZERO
 
-	# Se estiver recuando (knockback)
 	if esta_recuando:
+		velocity = velocity.move_toward(Vector2.ZERO, desaceleracao_knockback * delta)
 		move_and_slide()
 		return
 
-	# MODO PATRULHA
-	if esta_patrulhando:
-		temporizador_patrulha += delta
-		if temporizador_patrulha >= duracao_patrulha:
-			temporizador_patrulha = 0.0
-			direcao_patrulha = -direcao_patrulha
-		definir_direcao_animacao(direcao_patrulha)
-		velocidade_base = direcao_patrulha * velocidade_patrulha + calcular_separacao()
-
-	# PERSEGUIÇÃO
-	elif esta_perseguindo:
-		var jogador = obter_jogador()
-		if jogador:
-			var distancia_para_jogador = position.distance_to(jogador.position)
-			if distancia_para_jogador > distancia_minima:
-				direcao = (jogador.position - position).normalized()
-				definir_direcao_animacao(direcao)
-			else:
-				direcao = Vector2.ZERO
-				velocidade_base = Vector2.ZERO
-			velocidade_base = direcao * velocidade
-	else:
-		velocidade_base = Vector2.ZERO
-		definir_direcao_animacao(Vector2(ultima_direcao_horizontal, 0))
-
-	velocity = velocidade_base
+	var desejada := calcular_separacao()
+	var alvo := obter_jogador()
+	if alvo:
+		var para_alvo := alvo.global_position - global_position
+		if para_alvo.length() > raio_parada:
+			desejada += para_alvo.normalized() * velocidade
+	velocity = velocity.move_toward(desejada, aceleracao * delta)
+	if velocity.length() > 1.0:
+		definir_direcao_animacao(velocity)
 	move_and_slide()
+	aplicar_dano_contato()
 
 func calcular_separacao() -> Vector2:
-	var vetor_repulsao = Vector2.ZERO
-	var contador_vizinhos = 0
+	var vetor_repulsao := Vector2.ZERO
 	for outro in get_tree().get_nodes_in_group("enemy"):
-		if outro != self:
-			var dist = position.distance_to(outro.position)
-			if dist < alcance_separacao:
-				var diff = (position - outro.position).normalized()
-				vetor_repulsao += diff / dist
-				contador_vizinhos += 1
-	if contador_vizinhos > 0:
-		vetor_repulsao /= float(contador_vizinhos)
-		vetor_repulsao *= forca_separacao
-	return vetor_repulsao
+		if outro == self:
+			continue
+		var diff: Vector2 = global_position - outro.global_position
+		var dist := diff.length()
+		if dist >= alcance_separacao:
+			continue
+		# Slimes sobrepostos têm diff zero: sem um empurrão aleatório a normalização gera NaN
+		if dist < 0.01:
+			vetor_repulsao += Vector2.from_angle(randf() * TAU)
+			continue
+		vetor_repulsao += (diff / dist) * (1.0 - dist / alcance_separacao)
+	return (vetor_repulsao * forca_separacao).limit_length(forca_separacao)
+
+# Os i-frames do jogador impedem dano a cada frame e o empilhamento de vários slimes
+func aplicar_dano_contato() -> void:
+	var jogador := obter_jogador()
+	if not jogador:
+		return
+	for corpo in $ataque.get_overlapping_bodies():
+		if corpo == jogador:
+			if not jogador.invulneravel:
+				atingiu_jogador.emit()
+			jogador.receber_dano(obter_dano(), (jogador.global_position - global_position).normalized() * 150.0)
 
 func receber_dano(quantidade_dano: int, forca_knockback: Vector2 = Vector2.ZERO) -> void:
 	if esta_morto:
@@ -141,40 +114,32 @@ func receber_dano(quantidade_dano: int, forca_knockback: Vector2 = Vector2.ZERO)
 
 	vida -= quantidade_dano
 
-	# Exibe texto de dano flutuante
 	gerar_rotulo_dano(quantidade_dano)
-	
-	# Atualiza a barra de HP, se existir
+
 	if has_node("HPBar"):
 		get_node("HPBar").atualizar_barra(vida)
 
-	# Verifica se o inimigo morreu
 	if vida <= 0:
 		morrer()
 		return
 
-	# Se não estiver atacando, volta a animação para "run"
 	if not esta_atacando:
 		definir_animacao("run")
 
-	# Se não foi passado forca_knockback, calcula um padrão
 	if forca_knockback == Vector2.ZERO:
-		forca_knockback = (position - obter_jogador().position).normalized() * 300.0
+		var jogador := obter_jogador()
+		if jogador:
+			forca_knockback = (global_position - jogador.global_position).normalized() * 300.0
 
-	# Aplica o knockback (recuo)
+	# A velocidade decai no _physics_process, então o slime não desliza em linha reta
 	esta_recuando = true
 	velocity = forca_knockback
-	move_and_slide()
 
-	# Espera um pouco (0.3s) para manter o knockback
-	await get_tree().create_timer(0.3).timeout
+	await get_tree().create_timer(0.2).timeout
 	esta_recuando = false
-	velocity = Vector2.ZERO
 
-	# Pisca para indicar dano
 	piscar_dano()
 
-	# Espera mais um pouco antes de voltar para a animação "run"
 	await get_tree().create_timer(0.5).timeout
 	if not esta_atacando:
 		definir_animacao("run")
@@ -214,38 +179,13 @@ func definir_direcao_animacao(dir: Vector2) -> void:
 	posicao_blend.y = 0
 	arvore_animacao.set("parameters/run/blend_position", posicao_blend)
 
-func definir_escala_deteccao(escala: float) -> void:
-	var area_deteccao = get_node_or_null("DetectionArea")
-	if area_deteccao:
-		var colisao = area_deteccao.get_node_or_null("CollisionShape2D")
-		if colisao and colisao.shape is RectangleShape2D:
-			var retangulo = colisao.shape as RectangleShape2D
-			retangulo.extents *= escala
-			colisao.shape = retangulo
-
 func obter_dano() -> int:
-	return dano
+	return int(dano)
 
-# Para ser sobrescrito nos filhos (Ex: SlimeEscorregadio.gd)
 func obter_jogador() -> Node2D:
-	return null
-
-# -----------------------------
-# DETECÇÃO DO JOGADOR
-# -----------------------------
-func _on_area_2d_body_entered(body: Node2D) -> void:
-	if body == obter_jogador():
-		esta_perseguindo = true
-		esta_patrulhando = false
-		atingiu_jogador.emit()
-
-func _on_area_2d_body_exited(body: Node2D) -> void:
-	if body == obter_jogador():
-		if not na_area_ataque:
-			esta_perseguindo = false
-			esta_patrulhando = true
-			temporizador_patrulha = 0.0
-			direcao_patrulha = Vector2.RIGHT
+	if not is_instance_valid(_jogador_cache):
+		_jogador_cache = get_tree().current_scene.get_node_or_null("Jogador")
+	return _jogador_cache
 
 # -------------------------------------------------
 # FUNÇÃO PARA CRIAR O TEXTO DE DANO ACIMA DO INIMIGO
@@ -254,11 +194,8 @@ func gerar_rotulo_dano(valor_dano: int) -> void:
 	var cena_rotulo = preload("res://cenas/dano-flutuante.tscn")
 	var instancia_rotulo = cena_rotulo.instantiate()
 
-	# Posição do Node2D (a cena do texto)
 	instancia_rotulo.global_position = global_position - Vector2(0, 20)
 
-	# Chama o método 'definir_dano' do script
 	instancia_rotulo.definir_dano(valor_dano)
 
-	# Adiciona na cena
 	get_tree().current_scene.add_child(instancia_rotulo)

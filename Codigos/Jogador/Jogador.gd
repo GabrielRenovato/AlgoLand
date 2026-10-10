@@ -10,15 +10,15 @@ var ataques_bloqueados: bool = false
 @export_category("Variáveis")
 @export var _friccao: float = 0.3
 @export var _aceleracao: float = 0.3
-@export var _forca_knockback: float = 200.0
 @export var _decaimento_knockback: float = 0.1
-@export var nivel_escudo: int = 1
+var nivel_escudo: int:
+	get: return _nivel_no_modelo("escudo_basico")
 var esta_forjando: bool = false
 var id_escudo_atual: String = "escudo_basico"
 var movimento_habilitado: bool = true
 
 # Vitalidade: separando base e bônus
-var vitalidade_base: int = 100            # Valor base de vitalidade
+var vitalidade_base: int = 5              # Valor base de vitalidade
 var bonus_vitalidade: int = 0             # Soma de todos os bônus de vitalidade
 var vitalidade_atual: int = vitalidade_base  # Vitalidade total (base + bônus)
 
@@ -26,20 +26,32 @@ var vitalidade_atual: int = vitalidade_base  # Vitalidade total (base + bônus)
 var bonus_defesa: int = 0               # Soma de todos os bônus de defesa
 
 @export var tipo_item_atual: String = ""  # "espada", "lanca", etc.
-var _combo_lanca_em_progresso: bool = false
 # >>> Escudo controlado separadamente <<<
 @export var usando_escudo: bool = false
 var ataque_enfileirado: bool = false
 # Variável que controla o nível da arma (espada)
-@export var nivel_espada: int = 1
+var nivel_espada: int:
+	get: return _nivel_no_modelo("espada_basica")
 var id_arma_atual: String = "espada_basica"
 @export var usando_espada: bool = false
 
 # Variáveis para controlar a lança
 @export var usando_lanca: bool = false
-@export var nivel_lanca: int = 1
+var nivel_lanca: int:
+	get: return _nivel_no_modelo("lanca_basica")
 var id_lanca_atual: String = "lanca_basica"
 var botao_ataque_pressionado: bool = false
+const TIPOS_ARMADURA := {
+	"cabeca_basica": "usando_cabeca",
+	"armadura_basica": "usando_corpo",
+	"luvas_basicas": "usando_luvas",
+	"botas_basicas": "usando_botas",
+}
+
+# Evita eco: mudanças vindas do modelo não podem voltar para ele (e vice-versa)
+var _sincronizando: bool = false
+# Lido em _unhandled_input para que cliques consumidos pela GUI não ataquem
+var _pedido_ataque: bool = false
 @export_category("Objetos")
 @export var _arvore_animacao: AnimationTree = null
 @export var _temporizador: Timer = null  # Timer para controlar a duração de cada golpe
@@ -113,8 +125,19 @@ var _direcao_ataque: Vector2 = Vector2.DOWN
 var hp_atual: int
 
 var invulneravel: bool = false
-var tempo_invul: float = 0.5
+var tempo_invul: float = 0.6
 var temporizador_invul: float = 0.0
+
+@export var duracao_dash: float = 0.15
+@export var velocidade_dash: float = 380.0
+@export var recarga_dash: float = 0.6
+@export var intervalo_rastro_dash: float = 0.025
+@export var duracao_rastro_dash: float = 0.25
+# Tom azulado das "sombras" deixadas pelo dash
+@export var cor_rastro_dash: Color = Color(0.55, 0.8, 1.0, 0.6)
+var esta_em_dash: bool = false
+var _dash_disponivel: bool = true
+var _tempo_proximo_rastro: float = 0.0
 
 @onready var barra_hp_cheia = $"/root/cenario/UI/BarraVidaCheia"
 @onready var barra_hp_vazia = $"/root/cenario/UI/BarraVidaVazia"
@@ -125,7 +148,6 @@ var temporizador_invul: float = 0.0
 var _esta_atacando: bool = false
 var _fase_combo: int = 0
 var _pode_encadear_combo: bool = false
-var _combo_maximo: int = 3
 
 # Tempos para cada slash da espada
 var _tempo_slash_1: float = 0.3
@@ -174,11 +196,11 @@ var id_botas_atual: String  = "armadura_botas"
 
 func _ready() -> void:
 	# Inicializa vitalidade e defesa corretamente
-	vitalidade_base = 100
+	vitalidade_base = 5
 	bonus_vitalidade = 0
 	_temporizador = $AttackTimer
 	bonus_defesa = 0
-	estatisticas.vitalidade = vitalidade_base  # 100, não 5
+	estatisticas.vitalidade = vitalidade_base
 	estatisticas.defesa = 0  # Será calculado depois
 	vitalidade_atual = vitalidade_base
 	_arvore_animacao = $CompositeSprites/Animation/AnimationTree
@@ -280,9 +302,144 @@ func _ready() -> void:
 	hp_atual = estatisticas.hp_maximo
 	atualizar_barra_hp()
 
+	_iniciar_inventario()
+
+func _iniciar_inventario() -> void:
+	if InventarioJogador.esta_vazio() and not InventarioJogador.carregar():
+		InventarioJogador.criar_itens_iniciais()
+	_aplicar_modelo()
+	# As armaduras já foram equipadas acima; alinha o modelo caso o arquivo salvo divirja
+	_enviar_estado_ao_modelo()
+	equipamento_alterado.connect(_enviar_estado_ao_modelo)
+	InventarioJogador.equipamento_alterado.connect(_ao_modelo_equipamento_alterado)
+	EventosJogo.tela_fechada.connect(_ao_tela_fechada)
+
+func _nivel_no_modelo(tipo: String) -> int:
+	var item: DadosItem = InventarioJogador.buscar_por_tipo(tipo)
+	return item.nivel if item != null else 1
+
+func _subir_nivel_no_modelo(tipo: String) -> void:
+	var item: DadosItem = InventarioJogador.buscar_por_tipo(tipo)
+	if item == null:
+		return
+	InventarioJogador.subir_nivel(item)
+	InventarioJogador.salvar()
+
+func _ao_tela_fechada(_nome: String) -> void:
+	InventarioJogador.salvar()
+
+# Desequipa antes de equipar para que a arma de duas mãos não esbarre no escudo ainda equipado
+func _enviar_estado_ao_modelo() -> void:
+	if _sincronizando:
+		return
+	_sincronizando = true
+	var estados := {"espada_basica": usando_espada, "lanca_basica": usando_lanca, "escudo_basico": usando_escudo}
+	for tipo in TIPOS_ARMADURA:
+		estados[tipo] = get(TIPOS_ARMADURA[tipo])
+	for tipo in estados:
+		var item: DadosItem = InventarioJogador.buscar_por_tipo(tipo)
+		if item != null and not estados[tipo] and InventarioJogador.slot_de(item) != "":
+			InventarioJogador.desequipar(item.categoria)
+	for tipo in estados:
+		var item: DadosItem = InventarioJogador.buscar_por_tipo(tipo)
+		if item != null and estados[tipo] and InventarioJogador.slot_de(item) == "":
+			InventarioJogador.equipar(item)
+	_sincronizando = false
+
+func _ao_modelo_equipamento_alterado(_slot: String) -> void:
+	_aplicar_modelo()
+
+func _aplicar_modelo() -> void:
+	if _sincronizando:
+		return
+	_sincronizando = true
+	var arma = InventarioJogador.equipados["arma"]
+	var escudo = InventarioJogador.equipados["escudo"]
+	var tipo_arma: String = arma.tipo if arma != null else ""
+
+	if escudo == null and usando_escudo:
+		desequipar_escudo()
+	if tipo_arma != "espada_basica" and usando_espada:
+		desequipar_espada()
+	if tipo_arma != "lanca_basica" and usando_lanca:
+		desequipar_lanca()
+	if tipo_arma == "espada_basica" and not usando_espada:
+		equipar_espada()
+	elif tipo_arma == "lanca_basica" and not usando_lanca:
+		equipar_lanca()
+	if escudo != null and not usando_escudo:
+		equipar_escudo()
+
+	_sincronizando = false
+
 func _on_onda_completada(_onda: int) -> void:
 	hp_atual = estatisticas.hp_maximo
 	atualizar_barra_hp()
+	InventarioJogador.salvar()
+
+func iniciar_dash() -> void:
+	var dir = Vector2(
+		Input.get_axis("move_left", "move_right"),
+		Input.get_axis("move_up", "move_down")
+	)
+	if dir == Vector2.ZERO:
+		dir = _direcao_ataque
+	dir = dir.normalized()
+
+	esta_em_dash = true
+	_dash_disponivel = false
+	invulneravel = true
+	temporizador_invul = duracao_dash
+	velocity = dir * velocidade_dash
+	_tempo_proximo_rastro = 0.0
+
+	await get_tree().create_timer(duracao_dash).timeout
+	# Sai do dash com parte do impulso, para não parar seco
+	velocity *= 0.35
+	esta_em_dash = false
+
+	await get_tree().create_timer(recarga_dash).timeout
+	_dash_disponivel = true
+
+func _atualizar_dash(delta: float) -> void:
+	_tempo_proximo_rastro -= delta
+	if _tempo_proximo_rastro <= 0.0:
+		_tempo_proximo_rastro = intervalo_rastro_dash
+		_criar_rastro_dash()
+	move_and_slide()
+	animar()
+
+# Copia os sprites visíveis do personagem no ponto atual e desvanece a cópia (afterimage)
+func _criar_rastro_dash() -> void:
+	var cena_atual := get_tree().current_scene
+	if cena_atual == null:
+		return
+	var rastro := Node2D.new()
+	rastro.global_position = $CompositeSprites.global_position
+	rastro.z_index = z_index - 1
+	rastro.modulate = cor_rastro_dash
+	for camada in [$CompositeSprites/BaseSprites, $CompositeSprites/Armaduras]:
+		if not camada.visible:
+			continue
+		for sprite in camada.get_children():
+			if sprite is Sprite2D and sprite.visible and sprite.texture:
+				var copia := Sprite2D.new()
+				copia.texture = sprite.texture
+				copia.hframes = sprite.hframes
+				copia.vframes = sprite.vframes
+				copia.frame = sprite.frame
+				copia.flip_h = sprite.flip_h
+				copia.flip_v = sprite.flip_v
+				copia.position = camada.position + sprite.position
+				copia.rotation = sprite.rotation
+				copia.scale = sprite.scale
+				copia.z_index = sprite.z_index
+				copia.self_modulate = sprite.self_modulate * sprite.modulate
+				rastro.add_child(copia)
+	cena_atual.add_child(rastro)
+	var tween := rastro.create_tween()
+	tween.tween_property(rastro, "modulate:a", 0.0, duracao_rastro_dash)
+	tween.tween_callback(rastro.queue_free)
 
 func bloquear_ataques(bloquear: bool) -> void:
 	ataques_bloqueados = bloquear
@@ -320,6 +477,7 @@ func conectar_sinal_se_nao_conectado(no: Node, nome_sinal: String, metodo: Strin
 
 func _physics_process(delta: float) -> void:
 	if not movimento_habilitado:
+		_pedido_ataque = false
 		return
 
 	if Input.is_action_just_pressed("debug_damage"):
@@ -330,32 +488,26 @@ func _physics_process(delta: float) -> void:
 		if temporizador_invul <= 0:
 			invulneravel = false
 
+	if esta_em_dash:
+		_atualizar_dash(delta)
+		return
+
+	if Input.is_action_just_pressed("rolar") and _dash_disponivel and not _esta_atacando and not esta_forjando:
+		iniciar_dash()
+		return
+
 	if temporizador_knockback > 0:
 		temporizador_knockback -= delta
 		velocity = _knockback
 		_knockback = _knockback.lerp(Vector2.ZERO, _decaimento_knockback)
 	else:
-		mover(delta)
+		mover()
 		logica_combo_ataque()  # Chamado a cada frame
 
 	move_and_slide()
 	animar()
 
-	# Checa colisões com inimigos
-	for i in range(get_slide_collision_count()):
-		var colisao = get_slide_collision(i)
-		var colisor = colisao.get_collider()
-		if colisor and colisor.is_in_group("enemy") and not invulneravel:
-			var direcao_knockback = (position - colisor.position).normalized()
-			var dano_inimigo = 1
-			if colisor.has_method("obter_dano"):
-				dano_inimigo = colisor.obter_dano()
-			receber_dano(dano_inimigo, direcao_knockback * _forca_knockback)
-			invulneravel = true
-			temporizador_invul = tempo_invul
-			break
-
-func mover(delta: float) -> void:
+func mover() -> void:
 	# Se o jogador está no meio de um ataque, não movimenta
 	if _esta_atacando:
 		velocity.x = lerp(velocity.x, 0.0, _friccao)
@@ -387,10 +539,10 @@ func mover(delta: float) -> void:
 		var bonus_velocidade_item = estatisticas.bonus_velocidade_item
 
 		# 3) Soma também o bônus de agilidade, caso queira
-		var bonus_agilidade = float(estatisticas.agilidade) * 0.5
+		var bonus_agilidade = float(estatisticas.agilidade) * 1.5
 
 		# 4) Soma tudo para obter a velocidade final
-		var velocidade_final = velocidade_base + bonus_velocidade_item + bonus_agilidade
+		var velocidade_final = min(velocidade_base + bonus_velocidade_item + bonus_agilidade, estatisticas.VELOCIDADE_MAXIMA)
 
 		# Move interpolando a velocidade atual para a velocidade desejada
 		velocity.x = lerp(velocity.x, dir.x * velocidade_final, _aceleracao)
@@ -411,11 +563,17 @@ func mover(delta: float) -> void:
 # ---------------------------
 # COMBO / ATAQUE
 # ---------------------------
+func _unhandled_input(evento: InputEvent) -> void:
+	if evento.is_action_pressed("attack"):
+		_pedido_ataque = true
+
 func logica_combo_ataque() -> void:
+	var atacar := _pedido_ataque
+	_pedido_ataque = false
 	if ataques_bloqueados or get_viewport().gui_get_focus_owner() != null:
 		return
 
-	if Input.is_action_just_pressed("attack"):
+	if atacar:
 		if _esta_atacando:
 			ataque_enfileirado = true
 		else:
@@ -507,7 +665,6 @@ func _on_timeout_janela_combo() -> void:
 # Animação
 # ---------------------------
 func animar() -> void:
-	print(_maquina_estados)
 	if _esta_atacando:
 		return
 	if velocity.length() > 2:
@@ -520,15 +677,25 @@ func animar() -> void:
 
 func _on_corpo_entrou_area_ataque(corpo: Node2D) -> void:
 	if corpo.is_in_group("enemy"):
-		var direcao_knockback = (corpo.position - position).normalized()
-		if corpo.has_method("receber_dano"):
-			corpo.receber_dano(estatisticas.dano_ataque, direcao_knockback * 150.0)
+		aplicar_golpe(corpo, (corpo.position - position).normalized())
 
 func _on_area_entrou_area_ataque(area: Area2D) -> void:
 	if area.is_in_group("enemy"):
-		var direcao_knockback = (area.global_position - position).normalized()
-		if area.has_method("receber_dano"):
-			area.receber_dano(estatisticas.dano_ataque, direcao_knockback * 150.0)
+		aplicar_golpe(area, (area.global_position - position).normalized())
+
+func aplicar_golpe(alvo: Node, direcao_knockback: Vector2) -> void:
+	if not alvo.has_method("receber_dano"):
+		return
+	if "esta_morto" in alvo and alvo.esta_morto:
+		return
+	var golpe = estatisticas.calcular_dano_golpe()
+	var forca = 225.0 if golpe["critico"] else 150.0
+	alvo.receber_dano(golpe["dano"], direcao_knockback * forca)
+	if estatisticas.roubo_vida > 0:
+		var percentual = min(estatisticas.roubo_vida, estatisticas.ROUBO_VIDA_MAXIMO) / 100.0
+		var cura = max(1, int(round(golpe["dano"] * percentual)))
+		hp_atual = min(hp_atual + cura, estatisticas.hp_maximo)
+		atualizar_barra_hp()
 
 # ---------------------------
 # Visibilidade dos sprites
@@ -632,6 +799,15 @@ func atualizar_rotulo_moedas() -> void:
 # ---------------------------
 # FUNÇÕES DE EQUIPAR/DESEQUIPAR
 # ---------------------------
+func atualizar_dano_arma() -> void:
+	var dados := {}
+	if usando_espada:
+		dados = status_armas.obter_dados_nivel_arma(id_arma_atual, nivel_espada)
+	elif usando_lanca:
+		dados = status_armas.obter_dados_nivel_arma(id_lanca_atual, nivel_lanca)
+	estatisticas.dano_arma = dados.get("dano", 0)
+	estatisticas.calcular_estatisticas_derivadas(usando_espada or usando_lanca)
+
 func equipar_espada() -> void:
 	# Se já estiver usando espada, remover
 	if usando_espada:
@@ -647,13 +823,13 @@ func equipar_espada() -> void:
 	eh_arma_duas_maos = false
 	atualizar_texturas_espada()
 	sprite_espada.visible = true
-	estatisticas.calcular_estatisticas_derivadas(usando_espada)  # Indica que uma arma está equipada
+	atualizar_dano_arma()
 	emit_signal("equipamento_alterado")
 
 func desequipar_espada() -> void:
 	usando_espada = false
 	sprite_espada.visible = false
-	estatisticas.calcular_estatisticas_derivadas(false)
+	atualizar_dano_arma()
 	emit_signal("equipamento_alterado")
 
 func equipar_lanca() -> void:
@@ -670,7 +846,7 @@ func equipar_lanca() -> void:
 	tipo_item_atual = "lanca_basica"
 	usando_lanca = true
 	eh_arma_duas_maos = true
-	estatisticas.calcular_estatisticas_derivadas(usando_lanca)
+	atualizar_dano_arma()
 	atualizar_texturas_lanca()
 	sprite_lanca.visible = true
 	emit_signal("equipamento_alterado")
@@ -679,7 +855,7 @@ func desequipar_lanca() -> void:
 	usando_lanca = false
 	eh_arma_duas_maos = false
 	sprite_lanca.visible = false
-	estatisticas.calcular_estatisticas_derivadas(usando_lanca)
+	atualizar_dano_arma()
 	emit_signal("equipamento_alterado")
 
 func equipar_escudo() -> void:
@@ -697,20 +873,19 @@ func equipar_escudo() -> void:
 	var instancia_bd_armas = preload("res://Codigos/DadosLocais/Equipamentos.gd").new()
 	var dados_escudo = instancia_bd_armas.obter_dados_nivel_arma(id_escudo_atual, nivel_escudo)
 
-	# Aplica o bônus de vitalidade do escudo
+	var bonus_hp_escudo = 0
 	if dados_escudo.has("bonus_vitalidade"):
 		bonus_vitalidade += dados_escudo["bonus_vitalidade"]
 		vitalidade_atual = vitalidade_base + bonus_vitalidade
 		estatisticas.vitalidade = vitalidade_atual
-		# Ajusta o HP atual para não exceder o máximo
-		hp_atual = min(hp_atual + dados_escudo["bonus_vitalidade"], estatisticas.hp_maximo)
+		bonus_hp_escudo = dados_escudo["bonus_vitalidade"] * 6
 
-	# Aplica o bônus de defesa do escudo (se houver)
-	if dados_escudo.has("bonus_forca"):
-		bonus_defesa += dados_escudo["bonus_forca"]
+	if dados_escudo.has("bonus_defesa"):
+		bonus_defesa += dados_escudo["bonus_defesa"]
 		estatisticas.defesa = bonus_defesa
 
 	estatisticas.calcular_estatisticas_derivadas(usando_espada or usando_lanca)
+	hp_atual = min(hp_atual + bonus_hp_escudo, estatisticas.hp_maximo)
 	atualizar_barra_hp()
 	emit_signal("equipamento_alterado")
 
@@ -721,20 +896,17 @@ func desequipar_escudo() -> void:
 	var instancia_bd_armas = preload("res://Codigos/DadosLocais/Equipamentos.gd").new()
 	var dados_escudo = instancia_bd_armas.obter_dados_nivel_arma(id_escudo_atual, nivel_escudo)
 
-	# Remove o bônus de vitalidade do escudo
 	if dados_escudo.has("bonus_vitalidade"):
 		bonus_vitalidade -= dados_escudo["bonus_vitalidade"]
 		vitalidade_atual = vitalidade_base + bonus_vitalidade
 		estatisticas.vitalidade = vitalidade_atual
-		# Ajusta o HP atual para o máximo se ultrapassado
-		hp_atual = min(hp_atual, estatisticas.hp_maximo)
 
-	# Remove o bônus de defesa do escudo (se houver)
-	if dados_escudo.has("bonus_forca"):
-		bonus_defesa -= dados_escudo["bonus_forca"]
+	if dados_escudo.has("bonus_defesa"):
+		bonus_defesa -= dados_escudo["bonus_defesa"]
 		estatisticas.defesa = bonus_defesa
 
 	estatisticas.calcular_estatisticas_derivadas(usando_espada or usando_lanca)
+	hp_atual = min(hp_atual, estatisticas.hp_maximo)
 	atualizar_barra_hp()
 
 	usando_escudo = false
@@ -744,20 +916,10 @@ func desequipar_escudo() -> void:
 # ---------------------------
 # COMPRAS
 # ---------------------------
-func comprar_item(id_item: String) -> void:
-	var dados_item = banco_dados_armas.obter_dados_item(id_item)
-	if dados_item == {}:
-		return
-	if DadosJogo.moedas >= dados_item.preco:
-		gastar_moedas(dados_item.preco)
-		itens_comprados.append(dados_item)
-		aplicar_efeitos_item(dados_item)
-	else:
-		return
-
 func aplicar_efeitos_item(dados_item: Dictionary) -> void:
 	if not dados_item.has("efeitos"):
 		return
+	var hp_maximo_anterior = estatisticas.hp_maximo
 	for chave_efeito in dados_item.efeitos.keys():
 		var valor_efeito = dados_item.efeitos[chave_efeito]
 		match chave_efeito:
@@ -769,18 +931,31 @@ func aplicar_efeitos_item(dados_item: Dictionary) -> void:
 				estatisticas.defesa = bonus_defesa
 			"agilidade":
 				estatisticas.agilidade += valor_efeito
+			"vitalidade":
+				# Mesmo caminho do bônus do escudo, senão o próximo equipar/desequipar sobrescreve
+				bonus_vitalidade += valor_efeito
+				vitalidade_atual = vitalidade_base + bonus_vitalidade
+				estatisticas.vitalidade = vitalidade_atual
 			"roubo_vida":
 				estatisticas.roubo_vida += valor_efeito
+			"sorte":
+				estatisticas.sorte += valor_efeito
 			_:
 				pass
-	estatisticas.calcular_estatisticas_derivadas(usando_espada)
+	estatisticas.calcular_estatisticas_derivadas(usando_espada or usando_lanca)
+	hp_atual = min(hp_atual + max(estatisticas.hp_maximo - hp_maximo_anterior, 0), estatisticas.hp_maximo)
+	atualizar_barra_hp()
 
 # ---------------------------
 # DANO / MORTE
 # ---------------------------
 func receber_dano(dano: int, forca_knockback: Vector2 = Vector2.ZERO) -> void:
-	dano = max(dano - estatisticas.defesa, 0)
-	hp_atual = max(hp_atual - dano, 0)
+	if invulneravel or estaMorto:
+		return
+	var dano_final = max(1, int(round(dano * (1.0 - estatisticas.reducao_dano()))))
+	hp_atual = max(hp_atual - dano_final, 0)
+	invulneravel = true
+	temporizador_invul = tempo_invul
 	atualizar_barra_hp()
 	if forca_knockback != Vector2.ZERO:
 		aplicar_knockback(forca_knockback)
@@ -801,6 +976,7 @@ func morrer() -> void:
 	hp_atual = estatisticas.hp_maximo
 	atualizar_barra_hp()
 	DadosJogo.moedas = 0
+	DadosDosItems.resetar_precos()
 	atualizar_rotulo_moedas()
 
 func aplicar_knockback(forca: Vector2) -> void:
@@ -891,49 +1067,7 @@ func aplicar_dados_carregados(dados: Dictionary) -> void:
 		cabelo_ataque.modulate = cor_cabelo_salva
 		cabelo_lanca_ataque.modulate = cor_cabelo_salva
 
-	if dados.has("nivel_espada"):
-		nivel_espada = dados["nivel_espada"]
-		atualizar_texturas_espada()
-		var nova_forca = status_armas.obter_forca_para_nivel(nivel_espada)
-		estatisticas.forca = nova_forca
-		estatisticas.calcular_estatisticas_derivadas(usando_espada)
-
-	if dados.has("usando_espada"):
-		usando_espada = dados["usando_espada"]
-		if usando_espada and _maquina_estados:
-			_maquina_estados.travel("running")
-
-	if dados.has("nivel_lanca"):
-		nivel_lanca = dados["nivel_lanca"]
-		atualizar_texturas_lanca()
-
-	if dados.has("usando_lanca"):
-		usando_lanca = dados["usando_lanca"]
-
-	# Se quiser salvar/carregar se o escudo estava equipado
-	if dados.has("usando_escudo") and dados["usando_escudo"] == true:
-		# Equipa escudo ao carregar, disparando todos os bônus corretamente
-		equipar_escudo()
-
-	if dados.has("nivel_cabeca"):
-		nivel_cabeca = dados["nivel_cabeca"]
-	if dados.has("usando_cabeca") and dados["usando_cabeca"] == true:
-		equipar_cabeca()
-
-	if dados.has("nivel_corpo"):
-		nivel_corpo = dados["nivel_corpo"]
-	if dados.has("usando_corpo") and dados["usando_corpo"] == true:
-		equipar_corpo()
-
-	if dados.has("nivel_luvas"):
-		nivel_luvas = dados["nivel_luvas"]
-	if dados.has("usando_luvas") and dados["usando_luvas"] == true:
-		equipar_luvas()
-
-	if dados.has("nivel_botas"):
-		nivel_botas = dados["nivel_botas"]
-	if dados.has("usando_botas") and dados["usando_botas"] == true:
-		equipar_botas()
+	atualizar_dano_arma()
 
 func carregar_texturas_forja() -> void:
 	if array_cabelo_forja.size() > 0:
@@ -995,12 +1129,9 @@ func _on_forja_finalizada(tipo_item: String) -> void:
 
 	match tipo_item:
 		"espada_basica":
-			nivel_espada += 1
+			_subir_nivel_no_modelo(tipo_item)
 			atualizar_texturas_espada()
-			var dados_espada = instancia_bd_armas.obter_dados_nivel_arma(id_arma_atual, nivel_espada)
-			if dados_espada.has("bonus_forca"):
-				estatisticas.forca = dados_espada["bonus_forca"]
-			estatisticas.calcular_estatisticas_derivadas(usando_espada)
+			atualizar_dano_arma()
 
 		"escudo_basico":
 			# Se estava usando o escudo, remove o bônus antigo primeiro
@@ -1008,10 +1139,10 @@ func _on_forja_finalizada(tipo_item: String) -> void:
 				var dados_escudo_antigo = instancia_bd_armas.obter_dados_nivel_arma(id_escudo_atual, nivel_escudo)
 				if dados_escudo_antigo.has("bonus_vitalidade"):
 					bonus_vitalidade -= dados_escudo_antigo["bonus_vitalidade"]
-				if dados_escudo_antigo.has("bonus_forca"):
-					bonus_defesa -= dados_escudo_antigo["bonus_forca"]
+				if dados_escudo_antigo.has("bonus_defesa"):
+					bonus_defesa -= dados_escudo_antigo["bonus_defesa"]
 
-			nivel_escudo += 1
+			_subir_nivel_no_modelo(tipo_item)
 			atualizar_texturas_escudo()
 
 			# Aplica o novo bônus se estiver usando o escudo
@@ -1021,8 +1152,8 @@ func _on_forja_finalizada(tipo_item: String) -> void:
 					bonus_vitalidade += novos_dados_escudo["bonus_vitalidade"]
 					vitalidade_atual = vitalidade_base + bonus_vitalidade
 					estatisticas.vitalidade = vitalidade_atual
-				if novos_dados_escudo.has("bonus_forca"):
-					bonus_defesa += novos_dados_escudo["bonus_forca"]
+				if novos_dados_escudo.has("bonus_defesa"):
+					bonus_defesa += novos_dados_escudo["bonus_defesa"]
 					estatisticas.defesa = bonus_defesa
 
 			estatisticas.calcular_estatisticas_derivadas(usando_espada or usando_lanca)
@@ -1030,12 +1161,9 @@ func _on_forja_finalizada(tipo_item: String) -> void:
 			atualizar_barra_hp()
 
 		"lanca_basica":
-			nivel_lanca += 1
+			_subir_nivel_no_modelo(tipo_item)
 			atualizar_texturas_lanca()
-			var dados_lanca = instancia_bd_armas.obter_dados_nivel_arma(id_lanca_atual, nivel_lanca)
-			if dados_lanca.has("bonus_forca"):
-				estatisticas.forca = dados_lanca["bonus_forca"]
-			estatisticas.calcular_estatisticas_derivadas(usando_lanca)
+			atualizar_dano_arma()
 
 	atualizar_aparencia_arma() # Garante atualização visual correta
 	emit_signal("forja_finalizada")
@@ -1160,7 +1288,8 @@ func equipar_cabeca() -> void:
 			bonus_vitalidade += dados_cabeca["bonus_vitalidade"]
 			vitalidade_atual = vitalidade_base + bonus_vitalidade
 			estatisticas.vitalidade = vitalidade_atual
-			hp_atual = min(hp_atual + dados_cabeca["bonus_vitalidade"], estatisticas.hp_maximo)
+			estatisticas.calcular_estatisticas_derivadas(usando_espada or usando_lanca)
+			hp_atual = min(hp_atual + dados_cabeca["bonus_vitalidade"] * 6, estatisticas.hp_maximo)
 		
 		if dados_cabeca.has("bonus_defesa"):
 			bonus_defesa += dados_cabeca["bonus_defesa"]
@@ -1182,7 +1311,8 @@ func equipar_corpo() -> void:
 			bonus_vitalidade += dados_corpo["bonus_vitalidade"]
 			vitalidade_atual = vitalidade_base + bonus_vitalidade
 			estatisticas.vitalidade = vitalidade_atual
-			hp_atual = min(hp_atual + dados_corpo["bonus_vitalidade"], estatisticas.hp_maximo)
+			estatisticas.calcular_estatisticas_derivadas(usando_espada or usando_lanca)
+			hp_atual = min(hp_atual + dados_corpo["bonus_vitalidade"] * 6, estatisticas.hp_maximo)
 		
 		if dados_corpo.has("bonus_defesa"):
 			bonus_defesa += dados_corpo["bonus_defesa"]
@@ -1204,7 +1334,8 @@ func equipar_luvas() -> void:
 			bonus_vitalidade += dados_luvas["bonus_vitalidade"]
 			vitalidade_atual = vitalidade_base + bonus_vitalidade
 			estatisticas.vitalidade = vitalidade_atual
-			hp_atual = min(hp_atual + dados_luvas["bonus_vitalidade"], estatisticas.hp_maximo)
+			estatisticas.calcular_estatisticas_derivadas(usando_espada or usando_lanca)
+			hp_atual = min(hp_atual + dados_luvas["bonus_vitalidade"] * 6, estatisticas.hp_maximo)
 		
 		if dados_luvas.has("bonus_defesa"):
 			bonus_defesa += dados_luvas["bonus_defesa"]
@@ -1226,7 +1357,8 @@ func equipar_botas() -> void:
 			bonus_vitalidade += dados_botas["bonus_vitalidade"]
 			vitalidade_atual = vitalidade_base + bonus_vitalidade
 			estatisticas.vitalidade = vitalidade_atual
-			hp_atual = min(hp_atual + dados_botas["bonus_vitalidade"], estatisticas.hp_maximo)
+			estatisticas.calcular_estatisticas_derivadas(usando_espada or usando_lanca)
+			hp_atual = min(hp_atual + dados_botas["bonus_vitalidade"] * 6, estatisticas.hp_maximo)
 		
 		if dados_botas.has("bonus_defesa"):
 			bonus_defesa += dados_botas["bonus_defesa"]

@@ -1,7 +1,6 @@
 extends Node2D
 
 @onready var principal = get_node("/root/cenario")
-signal acerto_p
 
 @export var cenas_inimigos: Array[PackedScene] = [
 	preload("res://cenas/inimigos/slime.tscn"),
@@ -13,6 +12,8 @@ var gerenciador_ondas
 @export var max_tentativas_spawn: int = 3
 @export var prevenir_spawns_consecutivos: bool = true
 var ultimo_indice_spawn: int = -1
+const VELOCIDADE_INIMIGO_MAXIMA: int = 85
+@export var velocidade_extra_por_onda: float = 1.5
 
 func tem_propriedade(obj: Object, nome_propriedade: String) -> bool:
 	for prop in obj.get_property_list():
@@ -43,20 +44,21 @@ func spawnar_inimigos(num_inimigos: int, multiplicador_vida: float, multiplicado
 	
 	var total_spawnado: int = 0
 	while total_spawnado < num_inimigos:
+		while gerenciador_ondas and get_tree().get_nodes_in_group("enemy").size() >= gerenciador_ondas.MAX_INIMIGOS_ATIVOS:
+			if gerenciador_ondas.ondas_paradas:
+				return
+			await get_tree().create_timer(0.5).timeout
 		if gerenciador_ondas and gerenciador_ondas.ondas_paradas:
 			return
-		
+
 		var ponto_spawn = obter_melhor_ponto_spawn()
 		var sucesso = await spawnar_inimigo_com_tentativas(ponto_spawn, multiplicador_vida, multiplicador_dano)
-		if sucesso:
-			total_spawnado += 1
+		total_spawnado += 1
+		if not sucesso and is_instance_valid(gerenciador_ondas):
+			gerenciador_ondas.descontar_inimigo_nao_spawnado()
 		if gerenciador_ondas and gerenciador_ondas.ondas_paradas:
 			return
 		await get_tree().create_timer(atraso_spawn).timeout
-	
-	# Não sobrescreva o contador de inimigos; o GerenciadorOndas já o definiu no início da onda.
-	# if is_instance_valid(gerenciador_ondas):
-	#     gerenciador_ondas.inimigos_vivos = total_spawnado
 
 func spawnar_inimigo_com_tentativas(spawn: Marker2D, multiplicador_vida: float, multiplicador_dano: float) -> bool:
 	var tentativas = 0
@@ -114,16 +116,21 @@ func spawnar_inimigo_em(spawn: Marker2D, multiplicador_vida: float, multiplicado
 		return false
 
 	inimigo.name = "Inimigo_" + str(randi() % 10000)
-	var nome_inimigo = inimigo.name  # Armazena o nome para referência
 	var deslocamento = Vector2(randf_range(-20, 20), randf_range(-20, 20))
 	inimigo.position = spawn.global_position + deslocamento
 
 	if tem_propriedade(inimigo, "vida"):
-		inimigo.vida *= multiplicador_vida
+		inimigo.vida = int(round(inimigo.vida * multiplicador_vida))
 	if tem_propriedade(inimigo, "dano"):
 		inimigo.dano *= multiplicador_dano
+	if tem_propriedade(inimigo, "velocidade") and is_instance_valid(gerenciador_ondas):
+		inimigo.velocidade = min(int(inimigo.velocidade + velocidade_extra_por_onda * (gerenciador_ondas.onda_atual - 1)), VELOCIDADE_INIMIGO_MAXIMA)
 
 	principal.add_child(inimigo)
+	if inimigo.has_node("HPBar"):
+		var barra = inimigo.get_node("HPBar")
+		barra.vida_maxima = inimigo.vida
+		barra.definir_vida_atual(inimigo.vida)
 	inimigo.z_index = 10
 	if inimigo.has_node("Sprite2D"):
 		var sprite = inimigo.get_node("Sprite2D")
@@ -138,8 +145,9 @@ func spawnar_inimigo_em(spawn: Marker2D, multiplicador_vida: float, multiplicado
 		return false
 
 	if inimigo is CollisionObject2D:
-		inimigo.collision_layer = (1 << 2) | (1 << 3)
-		inimigo.collision_mask = (1 << 10) - 1
+		# Layer 3 = corpo do inimigo; mask só no mundo, então não bloqueia jogador nem outros slimes
+		inimigo.collision_layer = 1 << 2
+		inimigo.collision_mask = 1
 	
 	inimigo.add_to_group("enemy")
 	if is_instance_valid(gerenciador_ondas):
@@ -159,7 +167,7 @@ func spawnar_inimigo_em(spawn: Marker2D, multiplicador_vida: float, multiplicado
 			if is_instance_valid(colisao):
 				colisao.set_deferred("disabled", false)
 	
-	var timer = get_tree().create_timer(1.0)
+	var timer = get_tree().create_timer(0.1)
 	await timer.timeout
 	
 	return true

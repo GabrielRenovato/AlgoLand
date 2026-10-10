@@ -1,0 +1,40 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://Codigos/UI/item_ui.gd" id="1_itemui"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_moldura"]
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.0306703, 0.228581, 0.263116, 1)
+border_blend = true
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="ItemUi" type="Control"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 16.0
+offset_bottom = 16.0
+script = ExtResource("1_itemui")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 0
+offset_right = 16.0
+offset_bottom = 16.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_moldura")
+
+[node name="Icone" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 15.0
+offset_bottom = 15.0
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5

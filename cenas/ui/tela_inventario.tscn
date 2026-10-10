@@ -1,0 +1,291 @@
+[gd_scene load_steps=19 format=3]
+
+[ext_resource type="Script" path="res://Codigos/UI/tela_inventario.gd" id="1_tela"]
+[ext_resource type="Texture2D" path="res://UI/craftpix-net-420010-pixel-game-user-interface-for-platformer/1 Interface/TileMap.png" id="2_tilemap"]
+[ext_resource type="PackedScene" path="res://cenas/ui/componentes/slot_ui.tscn" id="3_slot"]
+[ext_resource type="FontFile" path="res://UI/Planes_ValMore.ttf" id="4_fonte"]
+[ext_resource type="Texture2D" path="res://UI/Cute RPG - Icons (1)/Cute RPG - Icons/16x16/CuteRPG_Icons06.png" id="5_icones"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_titulo"]
+font = ExtResource("4_fonte")
+font_size = 8
+shadow_color = Color(0, 0, 0, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_espada"]
+atlas = ExtResource("5_icones")
+region = Rect2(160, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cabeca"]
+atlas = ExtResource("5_icones")
+region = Rect2(192, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_corpo"]
+atlas = ExtResource("5_icones")
+region = Rect2(208, 64, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_luvas"]
+atlas = ExtResource("5_icones")
+region = Rect2(192, 80, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_botas"]
+atlas = ExtResource("5_icones")
+region = Rect2(192, 96, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_anel"]
+atlas = ExtResource("5_icones")
+region = Rect2(224, 112, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_colar"]
+atlas = ExtResource("5_icones")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_escudo"]
+atlas = ExtResource("5_icones")
+region = Rect2(160, 96, 16, 16)
+
+[node name="TelaInventario" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_tela")
+
+[node name="Painel" type="Control" parent="."]
+layout_mode = 0
+offset_left = 79.0
+offset_top = 87.0
+offset_right = 191.0
+offset_bottom = 263.0
+
+[node name="Fundo" type="NinePatchRect" parent="Painel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_tilemap")
+region_rect = Rect2(96, 64, 48, 48)
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 2
+
+[node name="Titulo" type="Label" parent="Painel"]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 3.0
+offset_right = 115.0
+offset_bottom = 17.0
+mouse_filter = 2
+text = "CHARACTER"
+label_settings = SubResource("LabelSettings_titulo")
+horizontal_alignment = 1
+
+[node name="Boneco" type="Control" parent="Painel"]
+layout_mode = 0
+offset_right = 112.0
+offset_bottom = 176.0
+mouse_filter = 2
+
+[node name="Corpo" type="TextureRect" parent="Painel/Boneco"]
+layout_mode = 0
+offset_left = 26.0
+offset_top = 7.0
+offset_right = 90.0
+offset_bottom = 71.0
+mouse_filter = 2
+
+[node name="Roupa" type="TextureRect" parent="Painel/Boneco"]
+layout_mode = 0
+offset_left = 26.0
+offset_top = 7.0
+offset_right = 90.0
+offset_bottom = 71.0
+mouse_filter = 2
+
+[node name="Cabelo" type="TextureRect" parent="Painel/Boneco"]
+layout_mode = 0
+offset_left = 26.0
+offset_top = -3.0
+offset_right = 90.0
+offset_bottom = 61.0
+mouse_filter = 2
+
+[node name="SilhuetaArma" type="TextureRect" parent="Painel"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 30.8
+offset_top = 71.96
+offset_right = 44.88
+offset_bottom = 86.04
+mouse_filter = 2
+texture = SubResource("AtlasTexture_espada")
+expand_mode = 1
+stretch_mode = 0
+
+[node name="SilhuetaCabeca" type="TextureRect" parent="Painel"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 13.56
+offset_top = 19.64
+offset_right = 27.64
+offset_bottom = 33.72
+mouse_filter = 2
+texture = SubResource("AtlasTexture_cabeca")
+expand_mode = 1
+stretch_mode = 0
+
+[node name="SilhuetaCorpo" type="TextureRect" parent="Painel"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 13.56
+offset_top = 36.72
+offset_right = 27.64
+offset_bottom = 50.8
+mouse_filter = 2
+texture = SubResource("AtlasTexture_corpo")
+expand_mode = 1
+stretch_mode = 0
+
+[node name="SilhuetaLuvas" type="TextureRect" parent="Painel"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 13.56
+offset_top = 53.88
+offset_right = 27.64
+offset_bottom = 67.96
+mouse_filter = 2
+texture = SubResource("AtlasTexture_luvas")
+expand_mode = 1
+stretch_mode = 0
+
+[node name="SilhuetaBotas" type="TextureRect" parent="Painel"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 13.56
+offset_top = 71.96
+offset_right = 27.64
+offset_bottom = 86.04
+mouse_filter = 2
+texture = SubResource("AtlasTexture_botas")
+expand_mode = 1
+stretch_mode = 0
+
+[node name="SilhuetaAnel1" type="TextureRect" parent="Painel"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 83.96
+offset_top = 19.64
+offset_right = 98.04
+offset_bottom = 33.72
+mouse_filter = 2
+texture = SubResource("AtlasTexture_anel")
+expand_mode = 1
+stretch_mode = 0
+
+[node name="SilhuetaAnel2" type="TextureRect" parent="Painel"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 83.96
+offset_top = 36.72
+offset_right = 98.04
+offset_bottom = 50.8
+mouse_filter = 2
+texture = SubResource("AtlasTexture_anel")
+expand_mode = 1
+stretch_mode = 0
+
+[node name="SilhuetaColar" type="TextureRect" parent="Painel"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 83.96
+offset_top = 53.8
+offset_right = 98.04
+offset_bottom = 67.88
+mouse_filter = 2
+texture = SubResource("AtlasTexture_colar")
+expand_mode = 1
+stretch_mode = 0
+
+[node name="SilhuetaEscudo" type="TextureRect" parent="Painel"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 83.88
+offset_top = 71.72
+offset_right = 97.96
+offset_bottom = 85.8
+mouse_filter = 2
+texture = SubResource("AtlasTexture_escudo")
+expand_mode = 1
+stretch_mode = 0
+
+[node name="SlotCabeca" parent="Painel" instance=ExtResource("3_slot")]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 19.0
+offset_right = 29.0
+offset_bottom = 35.0
+tipo_slot = "cabeca"
+mostrar_fundo = false
+
+[node name="SlotCorpo" parent="Painel" instance=ExtResource("3_slot")]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 36.0
+offset_right = 29.0
+offset_bottom = 52.0
+tipo_slot = "corpo"
+mostrar_fundo = false
+
+[node name="SlotLuvas" parent="Painel" instance=ExtResource("3_slot")]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 53.0
+offset_right = 29.0
+offset_bottom = 69.0
+tipo_slot = "luvas"
+mostrar_fundo = false
+
+[node name="SlotBotas" parent="Painel" instance=ExtResource("3_slot")]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 71.0
+offset_right = 29.0
+offset_bottom = 87.0
+tipo_slot = "botas"
+mostrar_fundo = false
+
+[node name="SlotArma" parent="Painel" instance=ExtResource("3_slot")]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 71.0
+offset_right = 46.0
+offset_bottom = 87.0
+tipo_slot = "arma"
+mostrar_fundo = false
+
+[node name="SlotEscudo" parent="Painel" instance=ExtResource("3_slot")]
+layout_mode = 0
+offset_left = 83.0
+offset_top = 71.0
+offset_right = 99.0
+offset_bottom = 87.0
+tipo_slot = "escudo"
+mostrar_fundo = false
+
+[node name="Mochila" type="GridContainer" parent="Painel"]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 100.0
+offset_right = 101.0
+offset_bottom = 152.0
+theme_override_constants/h_separation = 2
+theme_override_constants/v_separation = 2
+columns = 5

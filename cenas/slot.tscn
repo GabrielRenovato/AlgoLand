@@ -1,22 +1,33 @@
 [gd_scene load_steps=3 format=3 uid="uid://delx88t4jwfoh"]
 
-[ext_resource type="Script" uid="uid://xw8lb53m2kne" path="res://Codigos/Logicas/slot.gd" id="1_trewy"]
+[ext_resource type="Script" path="res://Codigos/Logicas/slot.gd" id="1_slot"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_drht8"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_slot"]
+bg_color = Color(0.11, 0.11, 0.16, 0.95)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.55, 0.58, 0.66, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
 
-[node name="Slot" type="Node2D"]
-script = ExtResource("1_trewy")
+[node name="Slot" type="Control"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 16.0
+offset_bottom = 16.0
+script = ExtResource("1_slot")
 
-[node name="Area2D" type="Area2D" parent="." groups=["shield", "sword"]]
-collision_layer = 2048
-collision_mask = 1024
+[node name="Fundo" type="Panel" parent="."]
+layout_mode = 0
+offset_right = 16.0
+offset_bottom = 16.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_slot")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" groups=["shield", "sword"]]
-light_mask = 2048
-visibility_layer = 1024
-shape = SubResource("RectangleShape2D_drht8")
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-
-[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
-[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
+[node name="Icone" type="Sprite2D" parent="."]
+position = Vector2(8, 8)

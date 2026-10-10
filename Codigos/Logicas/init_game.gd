@@ -8,9 +8,6 @@ func _ready() -> void:
 	save_file_path = documents_dir.path_join("configuracao_jogador.json")
 	print("Arquivo será buscado em: ", save_file_path)
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta: float) -> void:
-	pass
 
 
 func _on_start_game_pressed() -> void:

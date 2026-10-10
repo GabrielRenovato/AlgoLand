@@ -16,6 +16,8 @@ func _ready():
 		print("❌ ERRO: GerenciadorOndas não encontrado!")
 
 func _ao_onda_iniciada(onda: int):
-	print("🔵 Onda iniciada:", onda)
 	rotulo_onda.text = str(onda)
 	rotulo_inimigos.text = "Inimigos: " + str(gerenciador_ondas.inimigos_vivos)
+
+func _ao_onda_completada(_onda: int) -> void:
+	rotulo_inimigos.text = "Inimigos: 0"

@@ -13,9 +13,6 @@ func _ready() -> void:
 		gerenciador_ondas.connect("sinal_ondas_paradas",  Callable(self, "_on_ondas_paradas"))
 	
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta: float) -> void:
-	pass
 
 func onda_iniciada(_onda: int) -> void:
 	barraca_aberta.visible = false

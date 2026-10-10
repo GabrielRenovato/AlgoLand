@@ -1,59 +1,127 @@
-extends Node2D
+extends Control
 
-@export var tipos_aceitos: Array[String] = []  # Se vazio, aceita todos os tipos
 signal item_alterado(tem_item: bool)
 
-# Variável para armazenar a referência do item dropado neste slot
+@export var tipos_aceitos: Array[String] = []
+
+const LADO_ICONE := 14.0
+const COR_MOLDURA := Color(1.0, 0.82, 0.3, 0.9)
+const COR_MOLDURA_HOVER := Color(1.0, 0.9, 0.45, 1.0)
+const COR_PREENCHIMENTO_HOVER := Color(1.0, 0.85, 0.35, 0.25)
+
 var item_atual: Node = null
 
+var _arrasto_valido: bool = false
+var _mouse_em_cima: bool = false
+var _arrastando_daqui: bool = false
+var _moldura: Control
+
+@onready var icone: Sprite2D = $Icone
+@onready var fundo: Panel = $Fundo
+@onready var _estilo_fundo_original: StyleBox = fundo.get_theme_stylebox("panel")
+
 func _ready() -> void:
-	# Configurar as camadas para o inventário (exemplo: layer 15, mask 15)
-	$Area2D.collision_layer = 15
-	$Area2D.collision_mask = 15
-	
-	$Area2D.connect("area_entered", Callable(self, "_ao_area_2d_area_entrou"))
-	$Area2D.connect("area_exited", Callable(self, "_ao_area_2d_area_saiu"))
-	$Area2D.connect("mouse_entered", Callable(self, "_ao_area_2d_mouse_entrou"))
-	$Area2D.connect("mouse_exited", Callable(self, "_ao_area_2d_mouse_saiu"))
-	
-	$Area2D.monitoring = true
-	$Area2D.monitorable = true
+	mouse_entered.connect(_ao_mouse_entrar)
+	mouse_exited.connect(_ao_mouse_sair)
+	# Desenhada por cima do fundo e do ícone; só aparece durante um arrasto compatível
+	_moldura = Control.new()
+	_moldura.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_moldura.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_moldura.draw.connect(_desenhar_moldura)
+	add_child(_moldura)
 
-# Função que verifica se o tipo do item é aceito pelo slot.
-# Se tipos_aceitos estiver vazio, aceita qualquer item.
 func aceita_tipo_item(tipo_item: String) -> bool:
-	if tipos_aceitos.size() == 0:
-		return true
-	return tipos_aceitos.has(tipo_item)
+	return tipos_aceitos.is_empty() or tipos_aceitos.has(tipo_item)
 
-# Quando um item (área) entra na área do slot...
-func _ao_area_2d_area_entrou(area: Area2D) -> void:
-	var pai = area.get_parent()
-	# O item dropado deve implementar a função obter_tipo_item()
-	if pai.has_method("obter_tipo_item"):
-		var tipo = pai.obter_tipo_item()
-		if aceita_tipo_item(tipo):
-			# Marca que o item pode ser dropado aqui
-			pai.esta_dentro_area_soltar = true
-			pai.ref_slot = self
-			item_atual = pai  # Armazena o item atual no slot
-			emit_signal("item_alterado", true)
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_DRAG_BEGIN:
+		_arrasto_valido = _dados_validos(get_viewport().gui_get_drag_data())
+		_moldura.queue_redraw()
+	elif what == NOTIFICATION_DRAG_END:
+		_arrasto_valido = false
+		_moldura.queue_redraw()
+		if _arrastando_daqui:
+			_arrastando_daqui = false
+			icone.visible = true
+			if not get_viewport().gui_is_drag_successful():
+				limpar()
 
-# Quando o item sai da área do slot, limpa a referência
-func _ao_area_2d_area_saiu(area: Area2D) -> void:
-	var pai = area.get_parent()
-	if pai.has_method("obter_tipo_item"):
-		pai.esta_dentro_area_soltar = false
-		pai.ref_slot = null
-		if item_atual == pai:
-			item_atual = null
-			emit_signal("item_alterado", false)
-	print("Slot: item saiu")
+func _get_drag_data(_posicao: Vector2) -> Variant:
+	if item_atual == null or icone.texture == null:
+		return null
+	_arrastando_daqui = true
+	PreviewArrasto.mostrar(_criar_preview_icone())
+	icone.visible = false
+	return {"tipo_item": item_atual.obter_tipo_item(), "origem": item_atual, "slot_origem": self}
 
-# Efeitos visuais ao passar o mouse sobre o slot
-func _ao_area_2d_mouse_entrou() -> void:
-	# Exemplo: destaque com modulação ou mudança de escala
-	modulate = Color(1, 1, 1, 1)  # Ajuste conforme sua arte
+func _can_drop_data(_posicao: Vector2, dados: Variant) -> bool:
+	return _dados_validos(dados)
 
-func _ao_area_2d_mouse_saiu() -> void:
-	modulate = Color(1, 1, 1, 1)
+func _drop_data(_posicao: Vector2, dados: Variant) -> void:
+	_colocar_item(dados["origem"])
+
+func limpar() -> void:
+	var tinha_item := item_atual != null
+	if tinha_item and is_instance_valid(item_atual):
+		item_atual.definir_em_uso(false)
+	item_atual = null
+	icone.texture = null
+	fundo.add_theme_stylebox_override("panel", _estilo_fundo_original)
+	if tinha_item:
+		item_alterado.emit(false)
+
+func _dados_validos(dados: Variant) -> bool:
+	if not (dados is Dictionary) or not dados.has("tipo_item"):
+		return false
+	return aceita_tipo_item(dados["tipo_item"])
+
+func _colocar_item(origem: Node) -> void:
+	if item_atual != null and item_atual != origem and is_instance_valid(item_atual):
+		item_atual.definir_em_uso(false)
+	item_atual = origem
+	origem.definir_em_uso(true)
+	_copiar_icone(origem)
+	item_alterado.emit(true)
+
+func _criar_preview_icone() -> Control:
+	var preview := Control.new()
+	preview.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var copia := icone.duplicate() as Sprite2D
+	copia.position = Vector2.ZERO
+	copia.visible = true
+	preview.add_child(copia)
+	return preview
+
+func _copiar_icone(origem: Control) -> void:
+	var textura: Texture2D = origem.obter_textura_icone()
+	icone.hframes = 1
+	icone.vframes = 1
+	icone.frame = 0
+	icone.texture = textura
+	icone.position = size / 2.0
+	var maior := 1.0
+	if textura != null:
+		maior = maxf(maxf(textura.get_width(), textura.get_height()), 1.0)
+	var escala_final := Vector2.ONE * minf(1.0, LADO_ICONE / maior)
+	icone.modulate = Color.WHITE
+	var estilo := _estilo_fundo_original.duplicate() as StyleBoxFlat
+	estilo.border_color = origem.obter_cor_raridade()
+	fundo.add_theme_stylebox_override("panel", estilo)
+	icone.scale = escala_final * 1.4
+	create_tween().tween_property(icone, "scale", escala_final, 0.15).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+
+func _desenhar_moldura() -> void:
+	if not _arrasto_valido:
+		return
+	var retangulo := Rect2(Vector2.ZERO, size)
+	if _mouse_em_cima:
+		_moldura.draw_rect(retangulo, COR_PREENCHIMENTO_HOVER)
+	_moldura.draw_rect(retangulo.grow(-0.5), COR_MOLDURA_HOVER if _mouse_em_cima else COR_MOLDURA, false, 1.0)
+
+func _ao_mouse_entrar() -> void:
+	_mouse_em_cima = true
+	_moldura.queue_redraw()
+
+func _ao_mouse_sair() -> void:
+	_mouse_em_cima = false
+	_moldura.queue_redraw()

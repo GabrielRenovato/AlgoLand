@@ -134,8 +134,7 @@ func salvar_em_json(indice_cabelo: int, indice_roupa: int, cor_escolhida: Color,
 		}
 	}
 
-	var json = JSON.new()
-	var string_json = json.stringify(dados)
+	var string_json = JSON.stringify(dados)
 	arquivo.store_string(string_json)
 	arquivo.close()
 

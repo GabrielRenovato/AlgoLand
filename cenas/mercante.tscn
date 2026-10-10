@@ -1,8 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://5kwygxonpkpt"]
+[gd_scene load_steps=7format=3 uid="uid://5kwygxonpkpt"]
 
 [ext_resource type="Texture2D" uid="uid://bx8nyvg8qemk7" path="res://NPC/npc merchant A v00.png" id="1_5nqid"]
 [ext_resource type="Texture2D" uid="uid://dckgvjj6um2eq" path="res://UI/craftpix-net-775352-game-user-interface-pixel-art/1 Frames/Frame2.png" id="2_3fri6"]
-[ext_resource type="PackedScene" uid="uid://cr71vbrmc2m6t" path="res://cenas/menu-do-mercante.tscn" id="2_auqq5"]
 [ext_resource type="Script" uid="uid://cr2qyggnekl04" path="res://Codigos/Logicas/merchant.gd" id="3_8n8mb"]
 [ext_resource type="FontFile" uid="uid://b13xmp6wu4ea" path="res://UI/craftpix-net-775352-game-user-interface-pixel-art/6 Font/CraftPixNet Survival Kit.otf" id="4_dv8ra"]
 
@@ -17,9 +16,6 @@ radius = 45.2769
 texture_filter = 1
 position = Vector2(303, 154)
 script = ExtResource("3_8n8mb")
-
-[node name="MenuMerchant" parent="." instance=ExtResource("2_auqq5")]
-visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 2)
@@ -48,10 +44,11 @@ text = "F"
 flat = true
 
 [node name="Area2D" type="Area2D" parent="."]
+collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("CircleShape2D_0ydix")
 
-[connection signal="pressed" from="button/openMenu" to="." method="_on_open_menu_pressed"]
+[connection signal="pressed" from="button/openMenu" to="." method="open_menu"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
