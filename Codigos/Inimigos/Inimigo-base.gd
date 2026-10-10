@@ -15,6 +15,13 @@ const EfeitosLuz := preload("res://Codigos/Efeitos/efeitos_luz.gd")
 @export var alcance_separacao: float = 18.0
 @export var forca_separacao: float = 40.0
 var ultima_direcao_horizontal: float = 1.0  # 1 para direita, -1 para esquerda
+## Distância da origem até os pés do sprite, para decidir se fica na frente ou atrás do jogador
+@export var altura_pes: float = 5.0
+# Pés do jogador ficam 11 px abaixo da origem (quadro de 64 centralizado)
+const PES_JOGADOR := 11.0
+const Z_ATRAS_JOGADOR := 1
+# Acima das partes do jogador (até z 5) e abaixo das copas das árvores (z 10)
+const Z_FRENTE_JOGADOR := 6
 
 # -----------------------------
 # CONFIGURAÇÕES DE ATAQUE
@@ -80,6 +87,7 @@ func _physics_process(delta: float) -> void:
 	_atualizar_efeitos(delta)
 	if esta_morto:
 		return
+	_atualizar_ordem_desenho()
 
 	if esta_recuando:
 		velocity = velocity.move_toward(Vector2.ZERO, desaceleracao_knockback * delta)
@@ -97,6 +105,15 @@ func _physics_process(delta: float) -> void:
 		definir_direcao_animacao(velocity)
 	move_and_slide()
 	aplicar_dano_contato()
+
+# As partes do jogador usam z 2 a 5; com z fixo o inimigo ficava sempre por cima (ou sempre por baixo).
+# Compara os pés dos dois: quem está mais abaixo na tela é desenhado na frente
+func _atualizar_ordem_desenho() -> void:
+	var jogador := obter_jogador()
+	if jogador == null:
+		return
+	var na_frente := global_position.y + altura_pes > jogador.global_position.y + PES_JOGADOR
+	z_index = Z_FRENTE_JOGADOR if na_frente else Z_ATRAS_JOGADOR
 
 func calcular_separacao() -> Vector2:
 	var vetor_repulsao := Vector2.ZERO
@@ -119,11 +136,13 @@ func aplicar_dano_contato() -> void:
 	var jogador := obter_jogador()
 	if not jogador:
 		return
-	for corpo in $ataque.get_overlapping_bodies():
-		if corpo == jogador:
+	# O corpo do jogador é só o círculo dos pés; o dano é contra a AreaDano, do tamanho do personagem
+	for area in $ataque.get_overlapping_areas():
+		if area.get_parent() == jogador:
 			if not jogador.invulneravel:
 				atingiu_jogador.emit()
 			jogador.receber_dano(obter_dano(), (jogador.global_position - global_position).normalized() * 150.0)
+			return
 
 func receber_dano(quantidade_dano: int, forca_knockback: Vector2 = Vector2.ZERO) -> void:
 	if esta_morto:

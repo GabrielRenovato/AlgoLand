@@ -23,13 +23,11 @@ signal inimigos_alterados(vivos: int, total: int)
 const CENA_CHEFE := preload("res://cenas/inimigos/golem.tscn")
 const MAX_INIMIGOS_POR_ONDA: int = 60
 const MAX_INIMIGOS_ATIVOS: int = 25
-@export var caminho_area_spawn: NodePath = NodePath("/root/cenario/SpawnArea")
 
 var onda_atual: int = 1
 var inimigos_vivos: int = 0
 var total_inimigos_onda: int = 0
 var gerador
-var area_spawn: Area2D
 var ondas_paradas: bool = false
 
 var multiplicador_vida_inimigo: float = 1.0
@@ -43,7 +41,6 @@ func _ready() -> void:
 	await get_tree().create_timer(0.0).timeout
 	onda_atual = onda_inicial
 	gerador = get_tree().get_root().get_node("/root/cenario/enemySpawner")
-	area_spawn = get_node(caminho_area_spawn)
 
 func iniciar_onda() -> void:
 	ondas_paradas = false

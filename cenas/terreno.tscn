@@ -3913,17 +3913,18 @@ z_index = 12
 tile_map_data = PackedByteArray("AAAgAAYAAAAEAAAAAAAgAAcAAAAEAAEAAAAhAAYAAAAFAAAAAAAhAAcAAAAFAAEAAAAiAAYAAAAGAAAAAAAiAAcAAAAGAAEAAAAjAAcAAAAHAAEAAAA=")
 tile_set = SubResource("TileSet_ptl8b")
 
-[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+[node name="Fogueira" type="StaticBody2D" parent="."]
 z_index = 1
 position = Vector2(-4, -15)
 collision_layer = 64
+collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Fogueira"]
 position = Vector2(557, 191)
 scale = Vector2(0.875, 0.90625)
 shape = SubResource("RectangleShape2D_vocr3")
 
-[node name="fogueira" type="AnimatedSprite2D" parent="CharacterBody2D"]
+[node name="fogueira" type="AnimatedSprite2D" parent="Fogueira"]
 position = Vector2(557, 189)
 scale = Vector2(0.875, 0.90625)
 sprite_frames = SubResource("SpriteFrames_w6jre")
@@ -3931,7 +3932,7 @@ animation = &"acesa"
 frame_progress = 0.898556
 script = ExtResource("7_5ioce")
 
-[node name="LuzFogueira" type="PointLight2D" parent="CharacterBody2D/fogueira" groups=["luzes_noturnas"]]
+[node name="LuzFogueira" type="PointLight2D" parent="Fogueira/fogueira" groups=["luzes_noturnas"]]
 scale = Vector2(1.14286, 1.10345)
 color = Color(1, 0.62, 0.3, 1)
 energy = 1.0
@@ -3939,3 +3940,11 @@ shadow_enabled = false
 texture = ExtResource("90_luz")
 texture_scale = 2.6
 script = ExtResource("91_luz")
+
+[node name="LimiteArena" type="StaticBody2D" parent="."]
+collision_layer = 64
+collision_mask = 0
+
+[node name="Contorno" type="CollisionPolygon2D" parent="LimiteArena"]
+build_mode = 1
+polygon = PackedVector2Array(-112, 112, -112, 16, -112, -64, -56, -104, -8, -152, 56, -184, 120, -200, 200, -216, 264, -216, 344, -200, 408, -184, 472, -152, 536, -120, 568, -80, 616, -32, 664, 0, 680, 64, 712, 112, 744, 176, 776, 240, 760, 304, 744, 336, 694, 395, 630, 443, 550, 459, 470, 475, 390, 475, 326, 475, 262, 471, 182, 475, 102, 475, 22, 491, -58, 491, -106, 427, -112, 352, -112, 288, -112, 208)

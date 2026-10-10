@@ -275,9 +275,7 @@ func _ready() -> void:
 	if _arvore_animacao:
 		_maquina_estados = _arvore_animacao.get("parameters/playback")
 
-	# Configura a área de ataque
-	$AreaAtaque.collision_layer = 1 << 1
-	$AreaAtaque.collision_mask = 1 << 2
+	# Camadas da área de ataque ficam na cena (camada nenhuma, máscara inimigos)
 	$AreaAtaque.monitoring = false
 	$AreaAtaque.monitorable = false
 

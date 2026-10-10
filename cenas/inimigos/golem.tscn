@@ -10,6 +10,8 @@ size = Vector2(24, 10)
 size = Vector2(30, 24)
 
 [node name="Golem" type="CharacterBody2D" groups=["enemy"]]
+collision_layer = 4
+collision_mask = 68
 script = ExtResource("1_golem")
 velocidade = 26
 aceleracao = 300.0
@@ -20,6 +22,7 @@ alcance_ataque = 34.0
 dano = 15.0
 vida = 260
 usar_barra_vida = false
+altura_pes = 0.0
 
 [node name="Texture" type="Sprite2D" parent="."]
 position = Vector2(0, -8)

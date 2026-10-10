@@ -37,6 +37,7 @@ func _physics_process(delta: float) -> void:
 		return
 	if _atacando:
 		_atualizar_efeitos(delta)
+		_atualizar_ordem_desenho()
 		velocity = Vector2.ZERO
 		move_and_slide()
 		aplicar_dano_contato()

@@ -212,7 +212,10 @@ size = Vector2(17, 13)
 size = Vector2(21, 17)
 
 [node name="Slime_Slippery" type="CharacterBody2D" groups=["enemy"]]
+collision_layer = 4
+collision_mask = 68
 script = ExtResource("1_i62ro")
+raio_parada = 10.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

@@ -131,7 +131,6 @@ func spawnar_inimigo_em(spawn: Marker2D, multiplicador_vida: float, multiplicado
 		var barra = inimigo.get_node("HPBar")
 		barra.vida_maxima = inimigo.vida
 		barra.definir_vida_atual(inimigo.vida)
-	inimigo.z_index = 10
 	if inimigo.has_node("Sprite2D"):
 		var sprite = inimigo.get_node("Sprite2D")
 		sprite.modulate.a = 1.0
@@ -144,11 +143,6 @@ func spawnar_inimigo_em(spawn: Marker2D, multiplicador_vida: float, multiplicado
 			inimigo.queue_free()
 		return false
 
-	if inimigo is CollisionObject2D:
-		# Layer 3 = corpo do inimigo; mask só no mundo, então não bloqueia jogador nem outros slimes
-		inimigo.collision_layer = 1 << 2
-		inimigo.collision_mask = 1
-	
 	inimigo.add_to_group("enemy")
 	if is_instance_valid(gerenciador_ondas):
 		if inimigo.has_signal("inimigo_morreu"):
