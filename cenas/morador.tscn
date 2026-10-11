@@ -1,0 +1,38 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://Codigos/Logicas/morador.gd" id="1_morador"]
+[ext_resource type="Script" path="res://Codigos/Logicas/interagivel.gd" id="2_interagivel"]
+[ext_resource type="Script" path="res://Codigos/Design/profundidade_estatica.gd" id="3_profundidade"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_corpo"]
+radius = 7.0
+height = 18.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_interacao"]
+radius = 40.0
+
+[node name="Morador" type="CharacterBody2D"]
+texture_filter = 1
+collision_layer = 32
+collision_mask = 0
+script = ExtResource("1_morador")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 6)
+shape = SubResource("CapsuleShape2D_corpo")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+hframes = 4
+vframes = 8
+
+[node name="Profundidade" type="Node" parent="."]
+script = ExtResource("3_profundidade")
+y_base_local = 14.0
+
+[node name="Interacao" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("2_interagivel")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Interacao"]
+shape = SubResource("CircleShape2D_interacao")

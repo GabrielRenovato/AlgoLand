@@ -12,7 +12,9 @@ const COR_STAMINA_VAZIA := Color(1, 0.3, 0.3)
 @onready var barra_stamina: Control = %BarraStamina
 @onready var icone_stamina: TextureRect = %IconeStamina
 @onready var rotulo_moedas: Label = %RotuloMoedas
+@onready var rotulo_brasas: Label = %RotuloBrasas
 @onready var rotulo_onda: Label = %RotuloOnda
+@onready var rotulo_evento: Label = %RotuloEvento
 @onready var linha_inimigos: Control = %LinhaInimigos
 @onready var rotulo_inimigos: Label = %RotuloInimigos
 @onready var barra_inimigos: Control = %BarraInimigos
@@ -34,8 +36,11 @@ var _gerenciador: Node
 func _ready() -> void:
 	add_to_group("hud")
 	faixa_banner.hide()
+	rotulo_evento.hide()
 	_mostrar_inimigos(false)
 	atualizar_moedas(DadosJogo.moedas)
+	atualizar_brasas(Progresso.brasas)
+	Progresso.brasas_alteradas.connect(atualizar_brasas)
 	# O Jogador fica antes na árvore e já atualizou a vida antes deste nó entrar no grupo
 	var jogador := get_parent().get_node_or_null("Jogador")
 	if jogador:
@@ -63,6 +68,7 @@ func _conectar_gerenciador() -> void:
 	gerenciador.onda_completada.connect(_ao_onda_completada)
 	gerenciador.sinal_ondas_paradas.connect(_ao_ondas_paradas)
 	gerenciador.inimigos_alterados.connect(_ao_inimigos_alterados)
+	gerenciador.evento_alterado.connect(_ao_evento_alterado)
 	rotulo_onda.text = "ONDA %d" % gerenciador.onda_atual
 
 func atualizar_vida(atual: int, maximo: int) -> void:
@@ -107,6 +113,17 @@ func avisar_stamina_insuficiente() -> void:
 func atualizar_moedas(quantidade: int) -> void:
 	rotulo_moedas.text = str(quantidade)
 
+func atualizar_brasas(quantidade: int) -> void:
+	rotulo_brasas.text = str(quantidade)
+
+## Rótulo da onda fora dos eventos do gerenciador (a Mística muda a onda inicial)
+func atualizar_rotulo_onda(onda: int) -> void:
+	rotulo_onda.text = "ONDA %d" % onda
+
+## Banner no centro da tela para avisos de outros sistemas (reviver, estações, eventos)
+func anunciar(texto: String, subtitulo := "", tempo_visivel := 1.5) -> void:
+	_mostrar_banner(texto, subtitulo, tempo_visivel)
+
 func _ao_onda_iniciada(onda: int) -> void:
 	_mostrar_inimigos(true)
 	if _gerenciador != null and _gerenciador.onda_bonus:
@@ -118,7 +135,20 @@ func _ao_onda_iniciada(onda: int) -> void:
 		rotulo_onda.text = "CHEFE"
 		return
 	rotulo_onda.text = "ONDA %d" % onda
-	_mostrar_banner("ONDA %d" % onda)
+	# O evento (se houver) entra como subtítulo do banner da onda
+	var evento: Dictionary = _gerenciador.evento_atual if _gerenciador != null else {}
+	if evento.is_empty():
+		_mostrar_banner("ONDA %d" % onda)
+	else:
+		_mostrar_banner("ONDA %d" % onda, "%s - %s" % [evento["nome"], evento["resumo"]], 2.4)
+
+## Indicador fixo no painel da onda enquanto o evento durar
+func _ao_evento_alterado(evento: Dictionary) -> void:
+	rotulo_evento.visible = not evento.is_empty()
+	if evento.is_empty():
+		return
+	rotulo_evento.text = evento["nome"]
+	rotulo_evento.modulate = evento["cor"]
 
 func _ao_onda_completada(onda: int) -> void:
 	_mostrar_inimigos(false)
@@ -138,6 +168,7 @@ func _eh_onda_chefe(onda: int) -> bool:
 
 func _ao_ondas_paradas() -> void:
 	rotulo_onda.text = "ONDA 1"
+	rotulo_evento.hide()
 	_mostrar_inimigos(false)
 	esconder_chefe()
 

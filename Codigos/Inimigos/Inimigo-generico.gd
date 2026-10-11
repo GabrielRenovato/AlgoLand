@@ -147,6 +147,8 @@ func morrer() -> void:
 	if esta_morto:
 		return
 	esta_morto = true
+	_tocar_som_morte()
+	_ao_morrer_chefe()
 	_estado = "morte"
 	_quadro = 0.0
 	EfeitosLuz.criar_flash(get_tree().current_scene, global_position, Color(0.6, 1.0, 0.6), 1.4, 0.9, 0.35)

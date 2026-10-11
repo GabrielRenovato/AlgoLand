@@ -119,6 +119,8 @@ signal jogador_morreu
 @export var estaMorto = false
 @onready var gerenciador_ondas = get_node("/root/cenario/enemySpawner/GerenciadorOndas")
 
+## Para onde o jogador volta depois de cair (a posição inicial da cena, junto da fogueira)
+var _posicao_acampamento: Vector2 = Vector2.ZERO
 var apelido: String = ""
 var inimigos_danificados: Array[Node] = []
 var itens_comprados: Array[Dictionary] = []
@@ -157,6 +159,8 @@ var esta_em_dash: bool = false
 var _dash_disponivel: bool = true
 
 @export var stamina_maxima: float = 100.0
+# Estamina sem a melhoria "folego" (Progresso); stamina_maxima = base * (1 + bonus)
+var _stamina_base: float = 100.0
 # 35 por dash: dá 2 dashes seguidos e o terceiro precisa esperar recarregar
 @export var custo_stamina_dash: float = 35.0
 @export var regeneracao_stamina: float = 30.0
@@ -339,6 +343,11 @@ func _ready() -> void:
 
 	_iniciar_inventario()
 
+	_stamina_base = stamina_maxima
+	_posicao_acampamento = global_position
+	Progresso.melhorias_alteradas.connect(aplicar_melhorias_permanentes)
+	aplicar_melhorias_permanentes()
+
 func _iniciar_inventario() -> void:
 	if InventarioJogador.esta_vazio() and not InventarioJogador.carregar():
 		InventarioJogador.criar_itens_iniciais()
@@ -442,6 +451,7 @@ func iniciar_dash() -> void:
 	esta_em_dash = true
 	_dash_disponivel = false
 	_gastar_stamina(custo_stamina_dash)
+	Sons.tocar("dash")
 	invulneravel = true
 	temporizador_invul = duracao_dash
 	velocity = dir * velocidade_dash
@@ -691,6 +701,7 @@ func iniciar_slash_ataque_lanca(nome_anim: String, tempo_slash: float) -> void:
 	# Ajusta a velocidade da animação se necessário (pode ser removido se não for desejado)
 	reprodutor_anim.speed_scale = 0.2
 	_flash_golpe()
+	Sons.tocar("golpe_lanca")
 	_esta_atacando = true
 	$AreaAtaque.monitoring = true
 	$AreaAtaque.monitorable = true
@@ -706,6 +717,7 @@ func _flash_golpe() -> void:
 
 func iniciar_slash_ataque(nome_anim: String, tempo_slash: float) -> void:
 	_flash_golpe()
+	Sons.tocar("golpe_espada")
 	_esta_atacando = true
 	$AreaAtaque.monitoring = true
 	$AreaAtaque.monitorable = true
@@ -1127,6 +1139,7 @@ func _ao_disparo_liberado(direcao: Vector2) -> void:
 	get_tree().current_scene.add_child(flecha)
 	flecha.global_position = global_position + Vector2(0, 2) + direcao * 12.0
 	flecha.iniciar(self, direcao)
+	Sons.tocar("flecha")
 
 func _ao_disparo_terminado() -> void:
 	_esta_atacando = false
@@ -1240,22 +1253,121 @@ func receber_dano(dano: int, forca_knockback: Vector2 = Vector2.ZERO) -> void:
 	if hp_atual <= 0:
 		morrer()
 	else:
+		Sons.tocar("jogador_dano")
 		_tocar_pose("ferido", 0.3)
 
 func atualizar_barra_hp() -> void:
 	get_tree().call_group("hud", "atualizar_vida", hp_atual, estatisticas.hp_maximo)
 
 func morrer() -> void:
+	if estaMorto:
+		return
+	# Curandeira: um reviver por partida, com metade da vida e uns segundos de invulnerabilidade
+	if Progresso.usar_reviver():
+		_reviver_com_curandeira()
+		return
 	estaMorto = true
+	Sons.tocar("jogador_morre", 0.0)
 	emit_signal("jogador_morreu")
 	gerenciador_ondas.parar_ondas()
+	desabilitar_todas_acoes(true)
+	Progresso.encerrar_partida()
+	# O jogador só volta ao acampamento quando confirmar na tela (ver reiniciar_para_nova_partida)
+	EventosJogo.abrir_tela.emit("fim_partida")
+
+func _reviver_com_curandeira() -> void:
+	hp_atual = maxi(1, roundi(estatisticas.hp_maximo * Progresso.VIDA_REVIVER))
+	invulneravel = true
+	temporizador_invul = Progresso.INVULNERABILIDADE_REVIVER
+	atualizar_barra_hp()
+	Sons.tocar("reviver", 0.0)
+	get_tree().call_group("hud", "anunciar", "A CURANDEIRA TE REVIVEU", "VIDA %d%%" % roundi(Progresso.VIDA_REVIVER * 100.0), 2.0)
+
+## Morte roguelite: perde ouro, equipamento e totens comprados (volta ao kit inicial) e reaparece junto da fogueira.
+## Só as melhorias permanentes (Progresso) continuam. Chamado pela tela de fim de partida ao confirmar
+func reiniciar_para_nova_partida() -> void:
+	_remover_efeitos_itens_comprados()
+	_desequipar_arma_e_escudo_sem_modelo()
+	# Kit inicial: armadura equipada e armas na mochila (sem arma na mão)
+	InventarioJogador.limpar()
+	InventarioJogador.criar_itens_iniciais()
+	InventarioJogador.salvar()
+	DadosJogo.moedas = Progresso.ouro_inicial()
+	DadosDosItems.resetar_precos()
+	atualizar_rotulo_moedas()
+	_cancelar_acoes_em_andamento()
+	global_position = _posicao_acampamento
+	if camera != null:
+		camera.reset_smoothing()
+	estaMorto = false
+	invulneravel = false
+	temporizador_invul = 0.0
+	Progresso.iniciar_partida()
+	estatisticas.calcular_estatisticas_derivadas(false)
 	hp_atual = estatisticas.hp_maximo
 	atualizar_barra_hp()
 	stamina = stamina_maxima
 	_avisar_stamina()
-	DadosJogo.moedas = 0
-	DadosDosItems.resetar_precos()
-	atualizar_rotulo_moedas()
+
+# Os totens da loja somam em estatisticas/bônus; desfaz cada um (a lista guarda os dados de compra)
+func _remover_efeitos_itens_comprados() -> void:
+	for dados_item in itens_comprados:
+		var efeitos: Dictionary = dados_item.get("efeitos", {})
+		for chave_efeito in efeitos:
+			var valor_efeito = efeitos[chave_efeito]
+			match chave_efeito:
+				"forca":
+					estatisticas.forca -= valor_efeito
+				"defesa":
+					bonus_defesa -= valor_efeito
+					estatisticas.defesa = bonus_defesa
+				"agilidade":
+					estatisticas.agilidade -= valor_efeito
+				"vitalidade":
+					bonus_vitalidade -= valor_efeito
+					vitalidade_atual = vitalidade_base + bonus_vitalidade
+					estatisticas.vitalidade = vitalidade_atual
+				"roubo_vida":
+					estatisticas.roubo_vida -= valor_efeito
+				"sorte":
+					estatisticas.sorte -= valor_efeito
+	itens_comprados.clear()
+
+# Tira da mão o que o modelo ainda guarda (o escudo desfaz o bônus pelo nível dele, que vem do modelo).
+# _sincronizando evita que o personagem devolva a mudança ao modelo antes de ele ser esvaziado
+func _desequipar_arma_e_escudo_sem_modelo() -> void:
+	_sincronizando = true
+	desequipar_espada()
+	desequipar_lanca()
+	desequipar_arco()
+	desequipar_escudo()
+	_sincronizando = false
+
+func _cancelar_acoes_em_andamento() -> void:
+	velocity = Vector2.ZERO
+	_knockback = Vector2.ZERO
+	temporizador_knockback = 0.0
+	esta_em_dash = false
+	_esta_atacando = false
+	if _temporizador:
+		_temporizador.stop()
+	ataque_enfileirado = false
+	_pedido_ataque = false
+	_fase_combo = 0
+	$AreaAtaque.monitoring = false
+	$AreaAtaque.monitorable = false
+	definir_sprites_visiveis(false)
+
+## Aplica as melhorias permanentes de vida (vigor), dano (forca) e estamina (folego); chamado ao comprar uma melhoria
+func aplicar_melhorias_permanentes() -> void:
+	var hp_maximo_anterior: int = estatisticas.hp_maximo
+	var stamina_maxima_anterior := stamina_maxima
+	stamina_maxima = _stamina_base * (1.0 + Progresso.bonus("folego"))
+	stamina = clampf(stamina + (stamina_maxima - stamina_maxima_anterior), 0.0, stamina_maxima)
+	estatisticas.calcular_estatisticas_derivadas(usando_espada or usando_lanca)
+	hp_atual = mini(hp_atual + maxi(estatisticas.hp_maximo - hp_maximo_anterior, 0), estatisticas.hp_maximo)
+	atualizar_barra_hp()
+	_avisar_stamina()
 
 func aplicar_knockback(forca: Vector2) -> void:
 	_knockback = forca

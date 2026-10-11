@@ -37,6 +37,8 @@ const ONDA_INICIAL_MUTANTE := 6
 const CHANCE_MUTANTE_BASE := 0.05
 const CHANCE_MUTANTE_POR_ONDA := 0.015
 const CHANCE_MUTANTE_MAXIMA := 0.35
+# Teto com o evento ELITE (a chance é multiplicada depois do teto normal)
+const CHANCE_MUTANTE_MAXIMA_ELITE := 0.9
 
 var pontos_spawn := []
 var gerenciador_ondas
@@ -70,7 +72,8 @@ func _ready() -> void:
 		push_error("Nó principal não encontrado ou inválido")
 
 ## cena vazia = sorteia de cenas_inimigos
-func spawnar_inimigos(num_inimigos: int, multiplicador_vida: float, multiplicador_dano: float, cena: PackedScene = null) -> void:
+## config_chefe: {nome, escala, mult_vida, mult_dano, habilidade, altura_coroa}; vazio = inimigo comum (ver Inimigo-base.tornar_chefe)
+func spawnar_inimigos(num_inimigos: int, multiplicador_vida: float, multiplicador_dano: float, cena: PackedScene = null, config_chefe: Dictionary = {}) -> void:
 	if pontos_spawn.size() == 0:
 		push_error("Nenhum ponto de spawn disponível")
 		return
@@ -85,7 +88,7 @@ func spawnar_inimigos(num_inimigos: int, multiplicador_vida: float, multiplicado
 			return
 
 		var ponto_spawn = obter_melhor_ponto_spawn()
-		var sucesso = await spawnar_inimigo_com_tentativas(ponto_spawn, multiplicador_vida, multiplicador_dano, cena)
+		var sucesso = await spawnar_inimigo_com_tentativas(ponto_spawn, multiplicador_vida, multiplicador_dano, cena, config_chefe)
 		total_spawnado += 1
 		if not sucesso and is_instance_valid(gerenciador_ondas):
 			gerenciador_ondas.descontar_inimigo_nao_spawnado()
@@ -93,10 +96,10 @@ func spawnar_inimigos(num_inimigos: int, multiplicador_vida: float, multiplicado
 			return
 		await get_tree().create_timer(atraso_spawn).timeout
 
-func spawnar_inimigo_com_tentativas(spawn: Marker2D, multiplicador_vida: float, multiplicador_dano: float, cena: PackedScene = null) -> bool:
+func spawnar_inimigo_com_tentativas(spawn: Marker2D, multiplicador_vida: float, multiplicador_dano: float, cena: PackedScene = null, config_chefe: Dictionary = {}) -> bool:
 	var tentativas = 0
 	while tentativas < max_tentativas_spawn:
-		var resultado = await spawnar_inimigo_em(spawn, multiplicador_vida, multiplicador_dano, cena)
+		var resultado = await spawnar_inimigo_em(spawn, multiplicador_vida, multiplicador_dano, cena, config_chefe)
 		if resultado:
 			return true
 		tentativas += 1
@@ -113,10 +116,35 @@ func obter_pool_especies(onda: int) -> Array[PackedScene]:
 	return pool
 
 func _deve_ser_mutante(onda: int) -> bool:
-	if onda < ONDA_INICIAL_MUTANTE:
-		return false
-	var chance := minf(CHANCE_MUTANTE_BASE + CHANCE_MUTANTE_POR_ONDA * (onda - ONDA_INICIAL_MUTANTE), CHANCE_MUTANTE_MAXIMA)
-	return randf() < chance
+	return randf() < chance_mutante(onda, _mult_evento("mutante"))
+
+## Chance de um inimigo sorteado nascer mutante. O evento ELITE (mult > 1) multiplica a chance e vale
+## também antes da onda em que os mutantes costumam aparecer
+func chance_mutante(onda: int, mult_evento: float = 1.0) -> float:
+	if onda < ONDA_INICIAL_MUTANTE and mult_evento <= 1.0:
+		return 0.0
+	var base := minf(CHANCE_MUTANTE_BASE + CHANCE_MUTANTE_POR_ONDA * maxi(onda - ONDA_INICIAL_MUTANTE, 0), CHANCE_MUTANTE_MAXIMA)
+	return minf(base * mult_evento, CHANCE_MUTANTE_MAXIMA_ELITE) if mult_evento > 1.0 else base
+
+## Modificador do evento da onda (1.0 se não houver); chaves: vida, dano, velocidade, mutante
+func _mult_evento(chave: String) -> float:
+	if is_instance_valid(gerenciador_ondas) and gerenciador_ondas.has_method("mult_evento"):
+		return gerenciador_ondas.mult_evento(chave)
+	return 1.0
+
+## Velocidade que o inimigo de velocidade `base` tem na onda: sobe por onda, com teto
+func velocidade_na_onda(base: int, onda: int) -> int:
+	return mini(int(base + velocidade_extra_por_onda * (onda - 1)), VELOCIDADE_INIMIGO_MAXIMA)
+
+## Vida, dano e velocidade de um inimigo recém-criado (antes de entrar na árvore): multiplicadores da onda,
+## velocidade que cresce por onda (com teto) e os modificadores do evento em andamento
+func aplicar_atributos(inimigo: Node, multiplicador_vida: float, multiplicador_dano: float) -> void:
+	if tem_propriedade(inimigo, "vida"):
+		inimigo.vida = int(round(inimigo.vida * multiplicador_vida * _mult_evento("vida")))
+	if tem_propriedade(inimigo, "dano"):
+		inimigo.dano *= multiplicador_dano * _mult_evento("dano")
+	if tem_propriedade(inimigo, "velocidade") and is_instance_valid(gerenciador_ondas):
+		inimigo.velocidade = int(round(velocidade_na_onda(inimigo.velocidade, gerenciador_ondas.onda_atual) * _mult_evento("velocidade")))
 
 func obter_melhor_ponto_spawn() -> Marker2D:
 	if pontos_spawn.size() <= 1:
@@ -138,7 +166,7 @@ func obter_ponto_spawn_aleatorio() -> Marker2D:
 	var indice = randi() % pontos_spawn.size()
 	return pontos_spawn[indice]
 
-func spawnar_inimigo_em(spawn: Marker2D, multiplicador_vida: float, multiplicador_dano: float, cena: PackedScene = null) -> bool:
+func spawnar_inimigo_em(spawn: Marker2D, multiplicador_vida: float, multiplicador_dano: float, cena: PackedScene = null, config_chefe: Dictionary = {}) -> bool:
 	# Verificações de segurança
 	if spawn == null or not is_instance_valid(spawn):
 		push_error("Ponto de spawn inválido")
@@ -172,12 +200,11 @@ func spawnar_inimigo_em(spawn: Marker2D, multiplicador_vida: float, multiplicado
 	if cena == null and inimigo.has_method("tornar_mutante") and _deve_ser_mutante(onda_atual):
 		inimigo.tornar_mutante()
 
-	if tem_propriedade(inimigo, "vida"):
-		inimigo.vida = int(round(inimigo.vida * multiplicador_vida))
-	if tem_propriedade(inimigo, "dano"):
-		inimigo.dano *= multiplicador_dano
-	if tem_propriedade(inimigo, "velocidade") and is_instance_valid(gerenciador_ondas):
-		inimigo.velocidade = min(int(inimigo.velocidade + velocidade_extra_por_onda * (gerenciador_ondas.onda_atual - 1)), VELOCIDADE_INIMIGO_MAXIMA)
+	# Chefe: vira chefe antes dos multiplicadores, que então valem sobre a vida já ampliada
+	if not config_chefe.is_empty() and inimigo.has_method("tornar_chefe"):
+		inimigo.tornar_chefe(config_chefe["nome"], config_chefe["escala"], config_chefe["mult_vida"], config_chefe.get("mult_dano", 1.0), config_chefe.get("habilidade", ""), config_chefe.get("altura_coroa", -1.0))
+
+	aplicar_atributos(inimigo, multiplicador_vida, multiplicador_dano)
 
 	principal.add_child(inimigo)
 	if inimigo.has_node("HPBar"):

@@ -79,6 +79,8 @@ func _montar_menu() -> void:
 	botao_nao.pressed.connect(_fechar_painel)
 	var primeiro := botao_continuar if botao_continuar.visible else botao_novo_jogo
 	primeiro.grab_focus()
+	# Depois do foco inicial, para a tela não abrir com um "tick"; mover o foco e confirmar soam
+	Sons.ligar_botoes(self)
 
 func _configurar_botao(botao: Button) -> void:
 	botao.set_meta("texto_base", botao.text)
@@ -178,6 +180,7 @@ func _ao_novo_jogo() -> void:
 		# Foca NAO por segurança: SIM apaga o progresso
 		_abrir_painel(confirmar_novo_jogo, botao_novo_jogo, botao_nao)
 	else:
+		Progresso.apagar()
 		_trocar_cena(CENA_CUSTOMIZACAO)
 
 func _ao_confirmar_novo_jogo() -> void:
@@ -186,6 +189,8 @@ func _ao_confirmar_novo_jogo() -> void:
 	for caminho in [caminho_save_personagem, caminho_save_inventario]:
 		if FileAccess.file_exists(caminho):
 			DirAccess.remove_absolute(ProjectSettings.globalize_path(caminho))
+	# Brasas, melhorias e moradores também recomeçam do zero (apaga user://progresso.json)
+	Progresso.apagar()
 	InventarioJogador.limpar()
 	DadosJogo.resetar_moedas()
 	_trocar_cena(CENA_CUSTOMIZACAO)

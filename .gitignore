@@ -4,3 +4,6 @@
 
 # Zips originais dos pacotes de sprites pagos (nao redistribuir em repo publico)
 SPRITES GERAL/_zips_originais/
+
+# Python (ferramentas/)
+__pycache__/

@@ -74,17 +74,123 @@ const CoroaMutante := preload("res://Codigos/Efeitos/coroa_mutante.gd")
 var eh_mutante: bool = false
 
 func tornar_mutante() -> void:
-	if eh_mutante:
+	if eh_mutante or eh_chefe:
 		return
 	eh_mutante = true
 	vida = roundi(vida * MUTANTE_MULT_VIDA)
 	dano *= MUTANTE_MULT_DANO
-	scale *= MUTANTE_ESCALA
+	_aplicar_escala(MUTANTE_ESCALA)
 	# Mantém a cor original; a coroa cinza acima da barra de vida identifica o mutante
+	_adicionar_coroa(CoroaMutante.PALETA_CINZA, MUTANTE_ESCALA)
+
+# A escala do nó já aumenta sprite e colisão; as distâncias medidas em coordenadas globais acompanham
+# (ordem de desenho pelos pés, alcance de ataque, parada e separação). A barra e a coroa ficam em
+# coordenadas locais e crescem junto com o nó
+func _aplicar_escala(escala: float) -> void:
+	scale *= escala
+	altura_pes *= escala
+	alcance_ataque *= escala
+	raio_parada *= escala
+	alcance_separacao *= escala
+
+func _adicionar_coroa(paleta: Dictionary, tamanho: float, altura: float = -1.0) -> void:
 	var coroa := CoroaMutante.new()
 	coroa.name = "CoroaMutante"
-	coroa.position = Vector2(0, -altura_barra_vida - 4)
+	coroa.paleta = paleta
+	coroa.position = Vector2(0, -(altura_barra_vida + 4 if altura < 0.0 else altura))
+	# Compensa a escala do nó para o tamanho do desenho não depender do tamanho do inimigo
+	coroa.scale = Vector2.ONE * tamanho / maxf(scale.x, 0.01)
 	add_child(coroa)
+
+# -----------------------------
+# VARIANTE CHEFE
+# -----------------------------
+# Qualquer espécie vira chefe: maior, com muita vida, barra no HUD (como o Golem), coroa dourada e,
+# opcionalmente, uma habilidade própria (ver habilidade_chefe.gd)
+const CHEFE_RESISTENCIA_KNOCKBACK := 0.08
+const CHEFE_RECOMPENSA_MOEDAS := 250
+const HabilidadeChefe := preload("res://Codigos/Inimigos/habilidade_chefe.gd")
+var eh_chefe: bool = false
+var nome_chefe: String = ""
+var vida_maxima: int = 0
+var recompensa_chefe: int = CHEFE_RECOMPENSA_MOEDAS
+var habilidade_chefe: Node = null
+var _chefe_encerrado: bool = false
+## Invocado por um chefe: não conta na onda, não dá ouro nem Brasas e some quando o chefe morre
+var eh_lacaio: bool = false
+
+## Chamar antes de entrar na árvore e antes de o spawner aplicar os multiplicadores da onda
+## altura_coroa: distância (em coordenadas locais) da origem até o alto da cabeça; -1 usa a da barra de vida
+func tornar_chefe(nome: String, escala: float, mult_vida: float, mult_dano: float = 1.0, tipo_habilidade: String = "", altura_coroa: float = -1.0) -> void:
+	if eh_chefe:
+		return
+	eh_chefe = true
+	nome_chefe = nome
+	vida = roundi(vida * mult_vida)
+	dano *= mult_dano
+	# A vida aparece no HUD, não na barrinha sobre a cabeça
+	usar_barra_vida = false
+	if has_node("HPBar"):
+		get_node("HPBar").queue_free()
+	_aplicar_escala(escala)
+	_adicionar_coroa(CoroaMutante.PALETA_DOURADA, 1.4, altura_coroa)
+	if tipo_habilidade != "":
+		var habilidade := HabilidadeChefe.new()
+		habilidade.name = "HabilidadeChefe"
+		habilidade.tipo = tipo_habilidade
+		add_child(habilidade)
+		habilidade_chefe = habilidade
+
+## Os lacaios são inimigos comuns fora da contagem da onda
+func tornar_lacaio() -> void:
+	eh_lacaio = true
+
+func _iniciar_chefe() -> void:
+	vida_maxima = vida
+	Sons.tocar("chefe_aparece", 0.0)
+	get_tree().call_group("hud", "mostrar_chefe", nome_chefe, vida, vida_maxima)
+
+func _avisar_vida_chefe() -> void:
+	get_tree().call_group("hud", "atualizar_chefe", maxi(vida, 0), vida_maxima)
+	if habilidade_chefe != null and vida > 0:
+		habilidade_chefe.ao_vida_mudou(vida, vida_maxima)
+
+## Som da morte: o chefe tem o seu; lacaios invocados morrem em silêncio para não encher a luta de barulho
+func _tocar_som_morte() -> void:
+	if eh_chefe:
+		Sons.tocar("chefe_morre", 0.0)
+	elif not eh_lacaio:
+		Sons.tocar("inimigo_morre", 0.12)
+
+# Chamado por morrer() (cada espécie tem o seu): recompensa, progresso, HUD e fim das habilidades
+func _ao_morrer_chefe() -> void:
+	if not eh_chefe or _chefe_encerrado:
+		return
+	_chefe_encerrado = true
+	if habilidade_chefe != null:
+		habilidade_chefe.encerrar()
+	DadosJogo.adicionar_moedas(recompensa_chefe)
+	_registrar_chefe_no_progresso()
+	get_tree().call_group("hud", "esconder_chefe")
+	_tremer_camera(4.0, 0.4)
+
+# O chefe derrotado vale Brasas e libera o checkpoint da Mística, mesmo que o jogador caia antes do fim da onda
+func _registrar_chefe_no_progresso() -> void:
+	var gerenciador := get_tree().get_first_node_in_group("gerenciador_ondas")
+	if gerenciador != null:
+		Progresso.registrar_chefe(gerenciador.onda_atual)
+
+func _tremer_camera(intensidade: float, duracao: float) -> void:
+	var jogador := obter_jogador()
+	var camera: Camera2D = jogador.get_node_or_null("Camera2D") if jogador else null
+	if camera == null:
+		return
+	var tween := camera.create_tween()
+	var passos := 6
+	for i in passos:
+		var forca := intensidade * (1.0 - float(i) / passos)
+		tween.tween_property(camera, "offset", Vector2(randf_range(-forca, forca), randf_range(-forca, forca)), duracao / passos)
+	tween.tween_property(camera, "offset", Vector2.ZERO, 0.03)
 
 var _queimadura_restante := 0.0
 var _queimadura_dano := 0
@@ -110,6 +216,9 @@ func _ready() -> void:
 		add_child(instancia_barra_hp)
 		instancia_barra_hp.position = Vector2(0, -altura_barra_vida)
 
+	if eh_chefe:
+		_iniciar_chefe()
+
 	# Inimigos de chão seguem a malha de navegação da arena para contornar lago, barraca, pedras...
 	# Voadores (máscara 0) passam por cima de tudo e continuam indo em linha reta
 	if collision_mask != 0:
@@ -125,6 +234,11 @@ func _physics_process(delta: float) -> void:
 	if esta_morto:
 		return
 	_atualizar_ordem_desenho()
+
+	# Investida e conjurações do chefe: a habilidade comanda o corpo enquanto durarem
+	if habilidade_chefe != null and habilidade_chefe.assumiu_movimento():
+		habilidade_chefe.mover(delta)
+		return
 
 	if esta_recuando:
 		velocity = velocity.move_toward(Vector2.ZERO, desaceleracao_knockback * delta)
@@ -201,11 +315,14 @@ func receber_dano(quantidade_dano: int, forca_knockback: Vector2 = Vector2.ZERO)
 
 	if has_node("HPBar"):
 		get_node("HPBar").atualizar_barra(vida)
+	if eh_chefe:
+		_avisar_vida_chefe()
 
 	if vida <= 0:
 		morrer()
 		return
 
+	Sons.tocar("acerto", 0.12, -2.0 if eh_chefe else 0.0)
 	if not esta_atacando:
 		definir_animacao("run")
 
@@ -213,6 +330,8 @@ func receber_dano(quantidade_dano: int, forca_knockback: Vector2 = Vector2.ZERO)
 		var jogador := obter_jogador()
 		if jogador:
 			forca_knockback = (global_position - jogador.global_position).normalized() * 300.0
+	if eh_chefe:
+		forca_knockback *= CHEFE_RESISTENCIA_KNOCKBACK
 
 	# A velocidade decai no _physics_process, então o slime não desliza em linha reta
 	esta_recuando = true
@@ -235,6 +354,8 @@ func receber_dano_efeito(quantidade_dano: int, cor: Color) -> void:
 	gerar_rotulo_dano(quantidade_dano, cor)
 	if has_node("HPBar"):
 		get_node("HPBar").atualizar_barra(vida)
+	if eh_chefe:
+		_avisar_vida_chefe()
 	if vida <= 0:
 		morrer()
 
@@ -277,6 +398,8 @@ func morrer() -> void:
 	if esta_morto:
 		return
 	esta_morto = true
+	_tocar_som_morte()
+	_ao_morrer_chefe()
 	EfeitosLuz.criar_flash(get_tree().current_scene, global_position, Color(0.6, 1.0, 0.6), 1.4, 0.9, 0.35)
 	definir_animacao("dead")
 	await get_tree().create_timer(0.2).timeout
@@ -317,7 +440,7 @@ func gerar_rotulo_dano(valor_dano: int, cor: Color = Color.WHITE) -> void:
 	var cena_rotulo = preload("res://cenas/dano-flutuante.tscn")
 	var instancia_rotulo = cena_rotulo.instantiate()
 
-	instancia_rotulo.global_position = global_position - Vector2(0, 20)
+	instancia_rotulo.global_position = global_position - Vector2(0, 20.0 * maxf(scale.y, 1.0))
 
 	instancia_rotulo.definir_dano(valor_dano, cor)
 

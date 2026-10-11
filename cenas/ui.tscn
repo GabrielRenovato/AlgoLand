@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://idfadyrk0auf"]
+[gd_scene load_steps=17 format=3 uid="uid://idfadyrk0auf"]
 
 [ext_resource type="Script" path="res://Codigos/UI/hud.gd" id="1_hud"]
 [ext_resource type="FontFile" uid="uid://dwub7qum41gaq" path="res://UI/Planes_ValMore.ttf" id="2_planes"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" path="res://Codigos/UI/barra_pecas.gd" id="7_barra"]
 [ext_resource type="Texture2D" uid="uid://cqxopks5b2xfq" path="res://UI/icons-coin/32x32/3.png" id="8_moeda"]
 [ext_resource type="PackedScene" uid="uid://dsd2y11vv3y3c" path="res://cenas/info_tab.tscn" id="9_info_tab"]
+[ext_resource type="Texture2D" path="res://UI/icone_brasa.png" id="11_brasa"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_moldura"]
 content_margin_left = 6.0
@@ -141,6 +142,26 @@ text = "0"
 label_settings = SubResource("LabelSettings_numero")
 vertical_alignment = 1
 
+[node name="Espaco" type="Control" parent="Status/LinhaMoedas"]
+custom_minimum_size = Vector2(4, 0)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="IconeBrasa" type="TextureRect" parent="Status/LinhaMoedas"]
+custom_minimum_size = Vector2(9, 10)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("11_brasa")
+stretch_mode = 5
+
+[node name="RotuloBrasas" type="Label" parent="Status/LinhaMoedas"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0"
+label_settings = SubResource("LabelSettings_numero")
+vertical_alignment = 1
+
 [node name="PainelOnda" type="PanelContainer" parent="."]
 texture_filter = 1
 anchors_preset = 1
@@ -166,6 +187,15 @@ custom_minimum_size = Vector2(0, 14)
 layout_mode = 2
 text = "ONDA 1"
 label_settings = SubResource("LabelSettings_cabecalho")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RotuloEvento" type="Label" parent="PainelOnda/Linhas"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "HORDA"
+label_settings = SubResource("LabelSettings_numero")
 horizontal_alignment = 1
 vertical_alignment = 1
 

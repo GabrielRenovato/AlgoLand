@@ -34,6 +34,9 @@ EventosJogo="*res://Codigos/Globais/eventos_jogo.gd"
 InventarioJogador="*res://Codigos/Modelos/modelo_inventario.gd"
 PreviewArrasto="*res://Codigos/UI/preview_arrasto.gd"
 Controle="*res://Codigos/Globais/controle.gd"
+Progresso="*res://Codigos/Globais/progresso.gd"
+Sons="*res://Codigos/Globais/sons.gd"
+PainelDebug="*res://Codigos/UI/painel_debug.gd"
 
 [display]
 

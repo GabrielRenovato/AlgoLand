@@ -16,6 +16,7 @@ const ARMAS := {
 	"escudo_basico": {"sprite": "sprite_escudo", "frame": 32, "alternativa": "res://CharacterSprites/Arms/shields/shield_1.png"},
 }
 const ALJAVA := "res://CharacterSprites/Arco/carregando/aljava.png"
+const QUADRO_ALJAVA := Rect2i(0, 64, 64, 64)
 const ARMADURAS := {
 	"cabeca_basica": "sprite_armadura_cabeca",
 	"armadura_basica": "sprite_armadura_corpo",
@@ -34,7 +35,8 @@ static func obter(item: DadosItem, arvore: SceneTree) -> Texture2D:
 	if item == null:
 		return null
 	if item.tipo == "aljava_basica":
-		return load(ALJAVA)
+		# A folha tem 8x8 quadros de 64px: usa um só (o da aljava de lado) senão o ícone vira a folha inteira encolhida
+		return _recortar(load(ALJAVA), QUADRO_ALJAVA)
 	if ARMAS.get(item.tipo, {}).has("pasta_icone"):
 		return load(ARMAS[item.tipo]["pasta_icone"] % clampi(item.nivel, 1, 5))
 	if ARMAS.has(item.tipo):

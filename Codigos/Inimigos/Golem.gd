@@ -19,7 +19,6 @@ const IndicadorAtaqueScript := preload("res://Codigos/Efeitos/indicador_ataque.g
 @export var forca_impacto: float = 260.0
 @export var recompensa_moedas: int = 250
 
-var vida_maxima: int
 var _animacao := "run"
 var _quadro := 0.0
 var _linha := 0
@@ -32,6 +31,7 @@ func _ready() -> void:
 	vida_maxima = vida
 	_tocar("run")
 	get_tree().call_group("hud", "mostrar_chefe", NOME, vida, vida_maxima)
+	Sons.tocar("chefe_aparece", 0.0)
 
 func _physics_process(delta: float) -> void:
 	_animar(delta)
@@ -88,7 +88,9 @@ func morrer() -> void:
 	$colision_body.set_deferred("disabled", true)
 	$ataque.set_deferred("monitoring", false)
 	_tocar("dead")
+	Sons.tocar("chefe_morre", 0.0)
 	DadosJogo.adicionar_moedas(recompensa_moedas)
+	_registrar_chefe_no_progresso()
 	get_tree().call_group("hud", "esconder_chefe")
 	_tremer_camera(4.0, 0.4)
 	await get_tree().create_timer(1.2).timeout
@@ -185,15 +187,3 @@ func _animar(delta: float) -> void:
 func _aplicar_quadro() -> void:
 	var quadros: int = ANIMACOES[_animacao]["quadros"]
 	sprite.frame = _linha * quadros + mini(int(_quadro), quadros - 1)
-
-func _tremer_camera(intensidade: float, duracao: float) -> void:
-	var jogador := obter_jogador()
-	var camera: Camera2D = jogador.get_node_or_null("Camera2D") if jogador else null
-	if camera == null:
-		return
-	var tween := camera.create_tween()
-	var passos := 6
-	for i in passos:
-		var forca := intensidade * (1.0 - float(i) / passos)
-		tween.tween_property(camera, "offset", Vector2(randf_range(-forca, forca), randf_range(-forca, forca)), duracao / passos)
-	tween.tween_property(camera, "offset", Vector2.ZERO, 0.03)

@@ -32,15 +32,17 @@ const ROUBO_VIDA_MAXIMO: int = 30
 const VELOCIDADE_MAXIMA: float = 180.0
 
 func calcular_estatisticas_derivadas(_arma_equipada: bool = false):
-	hp_maximo = 40 + vitalidade * 6
-	dano_ataque = dano_arma + forca
+	# Melhorias permanentes (Progresso): vigor aumenta a vida máxima e força o dano
+	hp_maximo = roundi((40 + vitalidade * 6) * (1.0 + Progresso.bonus("vigor")))
+	dano_ataque = roundi((dano_arma + forca) * (1.0 + Progresso.bonus("forca")))
 	chance_critico = clamp(0.05 + sorte * 0.01, 0.0, 0.6)
 	dano_critico = 1.5 + sorte * 0.02
 	velocidade_movimento = min(velocidade_base_movimento + bonus_velocidade_item + agilidade * 1.5, VELOCIDADE_MAXIMA)
 	# defesa não é recalculada aqui: vem de Jogador.bonus_defesa (armaduras/escudo/loja)
 
 func reducao_dano() -> float:
-	return min(float(defesa) / (float(defesa) + K_DEFESA), REDUCAO_MAXIMA)
+	# A couraça (Progresso) soma por fora da fórmula de defesa
+	return min(float(defesa) / (float(defesa) + K_DEFESA) + Progresso.bonus("couraca"), REDUCAO_MAXIMA)
 
 func calcular_dano_golpe() -> Dictionary:
 	var critico: bool = randf() < chance_critico

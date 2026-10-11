@@ -1,0 +1,115 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://Codigos/UI/tela_acampamento.gd" id="1_tela"]
+[ext_resource type="Theme" uid="uid://dopk8ho1d0tm2" path="res://recursos/ui/tema_menu.tres" id="2_tema"]
+[ext_resource type="StyleBoxFlat" path="res://recursos/ui/estilo_painel_menu.tres" id="3_estilo"]
+[ext_resource type="Texture2D" path="res://UI/icone_brasa.png" id="4_brasa"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_abas"]
+
+[node name="TelaAcampamento" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_tema")
+script = ExtResource("1_tela")
+
+[node name="Fundo" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.5)
+
+[node name="Centro" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Painel" type="PanelContainer" parent="Centro"]
+texture_filter = 1
+custom_minimum_size = Vector2(340, 0)
+layout_mode = 2
+theme_override_styles/panel = ExtResource("3_estilo")
+
+[node name="Linhas" type="VBoxContainer" parent="Centro/Painel"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Cabecalho" type="HBoxContainer" parent="Centro/Painel/Linhas"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Titulo" type="Label" parent="Centro/Painel/Linhas/Cabecalho"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0.82, 0.3, 1)
+theme_override_font_sizes/font_size = 16
+text = "ACAMPAMENTO"
+
+[node name="IconeBrasa" type="TextureRect" parent="Centro/Painel/Linhas/Cabecalho"]
+custom_minimum_size = Vector2(9, 10)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = ExtResource("4_brasa")
+stretch_mode = 5
+
+[node name="RotuloBrasas" type="Label" parent="Centro/Painel/Linhas/Cabecalho"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.7, 0.25, 1)
+text = "0"
+
+[node name="Abas" type="HBoxContainer" parent="Centro/Painel/Linhas"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="AbaMelhorias" type="Button" parent="Centro/Painel/Linhas/Abas"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+toggle_mode = true
+button_pressed = true
+button_group = SubResource("ButtonGroup_abas")
+text = "MELHORIAS"
+
+[node name="AbaMoradores" type="Button" parent="Centro/Painel/Linhas/Abas"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+toggle_mode = true
+button_group = SubResource("ButtonGroup_abas")
+text = "MORADORES"
+
+[node name="ListaMelhorias" type="VBoxContainer" parent="Centro/Painel/Linhas"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="ListaMoradores" type="VBoxContainer" parent="Centro/Painel/Linhas"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="Recorde" type="Label" parent="Centro/Painel/Linhas"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.7, 0.62, 1)
+text = "RECORDE: ONDA 0"
+horizontal_alignment = 1
+
+[node name="BotaoFechar" type="Button" parent="Centro/Painel/Linhas"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "FECHAR"

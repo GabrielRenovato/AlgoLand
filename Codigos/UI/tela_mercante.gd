@@ -64,6 +64,9 @@ func _ready() -> void:
 	_botao_comprar.pressed.connect(_comprar_item_selecionado)
 	_botao_melhorar.pressed.connect(_ao_melhorar_pressionado)
 	_botao_iniciar_onda.pressed.connect(_ao_iniciar_onda_pressionado)
+	# Comprar, melhorar e encantar têm som próprio (compra/melhoria/erro), no lugar do "confirmar" genérico
+	for botao in [_botao_comprar, _botao_melhorar, _botao_encantar]:
+		botao.set_meta(Sons.META_SOM_PROPRIO, true)
 	_slot_encantar.item_alterado.connect(_ao_item_encantar_alterado)
 	_slot_bigorna.item_alterado.connect(_ao_item_slot_alterado)
 	visibility_changed.connect(_ao_visibilidade_alterada)
@@ -239,10 +242,13 @@ func _comprar_arma(tipo: String) -> void:
 	var jogador := IconesItens.obter_jogador(get_tree())
 	var preco: int = Equipamentos.ARMAS_LOJA[tipo]["preco"]
 	if jogador == null or DadosJogo.moedas < preco or InventarioJogador.buscar_por_tipo(tipo) != null:
+		Sons.tocar("erro", 0.0)
 		return
 	if not InventarioJogador.adicionar_arma_nova(tipo):
+		Sons.tocar("erro", 0.0)
 		return
 	jogador.gastar_moedas(preco)
+	Sons.tocar("compra", 0.0)
 	InventarioJogador.salvar()
 	atualizar_exibicao_moedas()
 
@@ -256,8 +262,10 @@ func _comprar_item_selecionado() -> void:
 		return
 	var preco: int = dados.get("preco", 0)
 	if DadosJogo.moedas < preco:
+		Sons.tocar("erro", 0.0)
 		return
 	jogador.gastar_moedas(preco)
+	Sons.tocar("compra", 0.0)
 	jogador.aplicar_efeitos_item(dados)
 	jogador.itens_comprados.append(dados.duplicate())
 	dados["preco"] = int(round(preco * DadosDosItems.FATOR_PRECO_RECOMPRA))
@@ -340,8 +348,10 @@ func _ao_melhorar_pressionado() -> void:
 	var jogador := IconesItens.obter_jogador(get_tree())
 	var dados := _dados_upgrade()
 	if jogador == null or dados.is_empty() or dados["proximo"].is_empty() or not (dados["onda_ok"] and dados["moedas_ok"]):
+		Sons.tocar("erro", 0.0)
 		return
 	jogador.gastar_moedas(dados["custo"])
+	Sons.tocar("melhoria", 0.0)
 	atualizar_exibicao_moedas()
 	jogador.iniciar_forja(dados["tipo_item"])
 	_slot_bigorna.limpar()
@@ -439,8 +449,10 @@ func _ao_encantar_pressionado() -> void:
 	var proximo := _proximo_nivel_encantamento(item)
 	var custo := Encantamentos.custo(proximo)
 	if proximo > Encantamentos.NIVEL_MAXIMO or DadosJogo.moedas < custo:
+		Sons.tocar("erro", 0.0)
 		return
 	jogador.gastar_moedas(custo)
+	Sons.tocar("melhoria", 0.0)
 	InventarioJogador.encantar(item, _encantamento_escolhido)
 	InventarioJogador.salvar()
 	atualizar_exibicao_moedas()

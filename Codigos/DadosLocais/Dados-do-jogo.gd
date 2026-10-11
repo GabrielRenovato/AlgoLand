@@ -8,6 +8,9 @@ func _ready() -> void:
 
 func adicionar_moedas(quantidade: int) -> void:
 	moedas += quantidade
+	if quantidade > 0:
+		Sons.tocar("moeda", 0.05)
+	Progresso.registrar_ouro(quantidade)
 	atualizar_ui_moedas()
 
 func gastar_moedas(quantidade: int) -> bool:
@@ -18,8 +21,9 @@ func gastar_moedas(quantidade: int) -> bool:
 		return true
 	return false
 
+# Novo jogo: só o ouro inicial da melhoria "bolsa" (o progresso acabou de ser apagado, então começa em 0)
 func resetar_moedas() -> void:
-	moedas = 1000
+	moedas = Progresso.ouro_inicial()
 	atualizar_ui_moedas()
 
 func atualizar_ui_moedas() -> void:
