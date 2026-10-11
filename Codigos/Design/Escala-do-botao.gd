@@ -6,7 +6,9 @@ var escala_original = Vector2(1, 1)
 var escala_hover = Vector2(1.2, 1.2)
 
 func _ready():
-	pass
+	# No controle o destaque vem pelo foco (não há mouse em cima)
+	focus_entered.connect(_on_mouse_entered)
+	focus_exited.connect(_on_mouse_exited)
 
 func _on_mouse_entered():
 	# Aumentar a escala ao passar o mouse

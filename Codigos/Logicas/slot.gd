@@ -23,6 +23,11 @@ var _moldura: Control
 func _ready() -> void:
 	mouse_entered.connect(_ao_mouse_entrar)
 	mouse_exited.connect(_ao_mouse_sair)
+	# No controle: o slot recebe foco e confirmar nele devolve o item ao inventário
+	focus_mode = Control.FOCUS_ALL
+	focus_entered.connect(_ao_foco_alterado)
+	focus_exited.connect(_ao_foco_alterado)
+	gui_input.connect(_ao_entrada)
 	# Desenhada por cima do fundo e do ícone; só aparece durante um arrasto compatível
 	_moldura = Control.new()
 	_moldura.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -58,7 +63,7 @@ func _can_drop_data(_posicao: Vector2, dados: Variant) -> bool:
 	return _dados_validos(dados)
 
 func _drop_data(_posicao: Vector2, dados: Variant) -> void:
-	_colocar_item(dados["origem"])
+	colocar_item(dados["origem"])
 
 func limpar() -> void:
 	var tinha_item := item_atual != null
@@ -75,7 +80,7 @@ func _dados_validos(dados: Variant) -> bool:
 		return false
 	return aceita_tipo_item(dados["tipo_item"])
 
-func _colocar_item(origem: Node) -> void:
+func colocar_item(origem: Node) -> void:
 	if item_atual != null and item_atual != origem and is_instance_valid(item_atual):
 		item_atual.definir_em_uso(false)
 	item_atual = origem
@@ -110,7 +115,17 @@ func _copiar_icone(origem: Control) -> void:
 	icone.scale = escala_final * 1.4
 	create_tween().tween_property(icone, "scale", escala_final, 0.15).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 
+func _ao_foco_alterado() -> void:
+	_moldura.queue_redraw()
+
+func _ao_entrada(evento: InputEvent) -> void:
+	if evento.is_action_pressed("ui_accept") and item_atual != null:
+		limpar()
+		accept_event()
+
 func _desenhar_moldura() -> void:
+	if has_focus():
+		_moldura.draw_rect(Rect2(Vector2.ZERO, size).grow(-0.5), COR_MOLDURA_HOVER, false, 1.0)
 	if not _arrasto_valido:
 		return
 	var retangulo := Rect2(Vector2.ZERO, size)

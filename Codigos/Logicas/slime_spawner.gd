@@ -32,7 +32,7 @@ const ESTAGIOS: Array[Array] = [
 # Passado o último estágio, volta a repetir daqui (sem o estágio só de slimes); a vida e o dano seguem subindo por onda
 const ESTAGIO_INICIO_CICLO := 2
 
-# Variante "mutante": maior, mais forte e recolorida; some em ondas mais avançadas
+# Variante "mutante": maior e mais forte, com uma coroa cinza acima da barra de vida; aparece nas ondas mais avançadas
 const ONDA_INICIAL_MUTANTE := 6
 const CHANCE_MUTANTE_BASE := 0.05
 const CHANCE_MUTANTE_POR_ONDA := 0.015

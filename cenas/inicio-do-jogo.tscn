@@ -1,12 +1,21 @@
-[gd_scene load_steps=13format=3]
+[gd_scene format=3 uid="uid://cwohs50op1f8l"]
 
-[ext_resource type="Script" path="res://Codigos/UI/tela_inicial.gd" id="1_tela"]
-[ext_resource type="PackedScene" path="res://cenas/terreno.tscn" id="2_terreno"]
+[ext_resource type="Script" uid="uid://btiqd6aes5cm7" path="res://Codigos/UI/tela_inicial.gd" id="1_tela"]
+[ext_resource type="PackedScene" uid="uid://dtphjwfloo87l" path="res://cenas/terreno.tscn" id="2_terreno"]
 [ext_resource type="Theme" path="res://recursos/ui/tema_menu.tres" id="3_tema"]
-[ext_resource type="FontFile" path="res://UI/craftpix-net-775352-game-user-interface-pixel-art/6 Font/CraftPixNet Survival Kit.otf" id="4_fonte"]
-[ext_resource type="Texture2D" path="res://UI/craftpix-net-420010-pixel-game-user-interface-for-platformer/1 Interface/TileMap.png" id="5_tilemap"]
-[ext_resource type="FontFile" path="res://UI/Planes_ValMore.ttf" id="6_planes"]
+[ext_resource type="FontFile" uid="uid://b13xmp6wu4ea" path="res://UI/craftpix-net-775352-game-user-interface-pixel-art/6 Font/CraftPixNet Survival Kit.otf" id="4_fonte"]
+[ext_resource type="Texture2D" uid="uid://d1iiqnaqd3rjw" path="res://UI/craftpix-net-420010-pixel-game-user-interface-for-platformer/1 Interface/TileMap.png" id="5_tilemap"]
+[ext_resource type="FontFile" uid="uid://dwub7qum41gaq" path="res://UI/Planes_ValMore.ttf" id="6_planes"]
 [ext_resource type="PackedScene" path="res://cenas/efeitos/vinheta.tscn" id="7_vinheta"]
+[ext_resource type="Script" path="res://Codigos/Design/profundidade_estatica.gd" id="8_profundidade"]
+
+[sub_resource type="Gradient" id="Gradient_lateral"]
+colors = PackedColorArray(0, 0, 0, 0.6, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_lateral"]
+gradient = SubResource("Gradient_lateral")
+width = 260
+height = 4
 
 [sub_resource type="LabelSettings" id="LabelSettings_titulo"]
 font = ExtResource("4_fonte")
@@ -35,29 +44,18 @@ axis_stretch_horizontal = 2
 axis_stretch_vertical = 2
 region_rect = Rect2(96, 64, 48, 48)
 
-[sub_resource type="Gradient" id="Gradient_lateral"]
-offsets = PackedFloat32Array(0, 1)
-colors = PackedColorArray(0, 0, 0, 0.6, 0, 0, 0, 0)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_lateral"]
-gradient = SubResource("Gradient_lateral")
-width = 260
-height = 4
-fill_from = Vector2(0, 0)
-fill_to = Vector2(1, 0)
-
-[node name="InicioDoJogo" type="Node2D"]
+[node name="InicioDoJogo" type="Node2D" unique_id=215836441]
 script = ExtResource("1_tela")
 
-[node name="Cenario" parent="." instance=ExtResource("2_terreno")]
+[node name="Cenario" parent="." unique_id=66432697 instance=ExtResource("2_terreno")]
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="." unique_id=61456181]
 position = Vector2(495, 150)
 zoom = Vector2(2, 2)
 
-[node name="Neve" type="CPUParticles2D" parent="."]
+[node name="Neve" type="CPUParticles2D" parent="." unique_id=800911113]
+z_index = 1000
 position = Vector2(495, 59)
-z_index = 20
 amount = 220
 lifetime = 10.0
 preprocess = 10.0
@@ -68,16 +66,14 @@ spread = 20.0
 gravity = Vector2(0, 2)
 initial_velocity_min = 6.0
 initial_velocity_max = 14.0
-scale_amount_min = 1.0
 scale_amount_max = 2.0
 color = Color(1, 1, 1, 0.85)
 
-[node name="Personagem" type="Node2D" parent="."]
+[node name="Personagem" type="Node2D" parent="." unique_id=92988838]
 unique_name_in_owner = true
-z_index = 15
 position = Vector2(531, 198)
 
-[node name="Corpo" type="Sprite2D" parent="Personagem"]
+[node name="Corpo" type="Sprite2D" parent="Personagem" unique_id=505395307]
 unique_name_in_owner = true
 z_index = 3
 position = Vector2(0, -12)
@@ -85,7 +81,7 @@ hframes = 8
 vframes = 8
 frame = 16
 
-[node name="Roupa" type="Sprite2D" parent="Personagem"]
+[node name="Roupa" type="Sprite2D" parent="Personagem" unique_id=1542543556]
 unique_name_in_owner = true
 z_index = 4
 position = Vector2(0, -12)
@@ -93,7 +89,7 @@ hframes = 8
 vframes = 8
 frame = 16
 
-[node name="Cabelo" type="Sprite2D" parent="Personagem"]
+[node name="Cabelo" type="Sprite2D" parent="Personagem" unique_id=1844793891]
 unique_name_in_owner = true
 z_index = 4
 position = Vector2(0, -12)
@@ -101,16 +97,20 @@ hframes = 8
 vframes = 8
 frame = 16
 
-[node name="Crepusculo" type="CanvasModulate" parent="."]
+[node name="Profundidade" type="Node" parent="Personagem"]
+script = ExtResource("8_profundidade")
+y_base_local = -1.0
+
+[node name="Crepusculo" type="CanvasModulate" parent="." unique_id=2049763861]
 color = Color(0.46, 0.48, 0.72, 1)
 
-[node name="Vinheta" parent="." instance=ExtResource("7_vinheta")]
+[node name="Vinheta" parent="." unique_id=1133335628 instance=ExtResource("7_vinheta")]
 layer = 0
 intensidade = 0.45
 
-[node name="Interface" type="CanvasLayer" parent="."]
+[node name="Interface" type="CanvasLayer" parent="." unique_id=2049473604]
 
-[node name="Raiz" type="Control" parent="Interface"]
+[node name="Raiz" type="Control" parent="Interface" unique_id=7814378]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -120,7 +120,7 @@ grow_vertical = 2
 mouse_filter = 2
 theme = ExtResource("3_tema")
 
-[node name="FundoLateral" type="TextureRect" parent="Interface/Raiz"]
+[node name="FundoLateral" type="TextureRect" parent="Interface/Raiz" unique_id=1558243186]
 layout_mode = 1
 anchors_preset = 9
 anchor_bottom = 1.0
@@ -130,7 +130,7 @@ mouse_filter = 2
 texture = SubResource("GradientTexture2D_lateral")
 expand_mode = 1
 
-[node name="Titulo" type="Label" parent="Interface/Raiz"]
+[node name="Titulo" type="Label" parent="Interface/Raiz" unique_id=1496149634]
 unique_name_in_owner = true
 layout_mode = 0
 offset_left = 28.0
@@ -140,7 +140,7 @@ offset_bottom = 94.0
 text = "ALGOLAND"
 label_settings = SubResource("LabelSettings_titulo")
 
-[node name="Menu" type="VBoxContainer" parent="Interface/Raiz"]
+[node name="Menu" type="VBoxContainer" parent="Interface/Raiz" unique_id=627370945]
 unique_name_in_owner = true
 layout_mode = 0
 offset_left = 28.0
@@ -149,37 +149,38 @@ offset_right = 138.0
 offset_bottom = 246.0
 theme_override_constants/separation = 4
 
-[node name="BotaoContinuar" type="Button" parent="Interface/Raiz/Menu"]
+[node name="BotaoContinuar" type="Button" parent="Interface/Raiz/Menu" unique_id=1585018021]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(110, 22)
 layout_mode = 2
 text = "CONTINUAR"
 
-[node name="BotaoNovoJogo" type="Button" parent="Interface/Raiz/Menu"]
+[node name="BotaoNovoJogo" type="Button" parent="Interface/Raiz/Menu" unique_id=1008065725]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(110, 22)
 layout_mode = 2
 text = "NOVO JOGO"
 
-[node name="BotaoOpcoes" type="Button" parent="Interface/Raiz/Menu"]
+[node name="BotaoOpcoes" type="Button" parent="Interface/Raiz/Menu" unique_id=64095574]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(110, 22)
 layout_mode = 2
 text = "OPCOES"
 
-[node name="BotaoCreditos" type="Button" parent="Interface/Raiz/Menu"]
+[node name="BotaoCreditos" type="Button" parent="Interface/Raiz/Menu" unique_id=1897493379]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(110, 22)
 layout_mode = 2
 text = "CREDITOS"
 
-[node name="BotaoSair" type="Button" parent="Interface/Raiz/Menu"]
+[node name="BotaoSair" type="Button" parent="Interface/Raiz/Menu" unique_id=370128105]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(110, 22)
 layout_mode = 2
 text = "SAIR"
 
-[node name="Versao" type="Label" parent="Interface/Raiz"]
+[node name="Versao" type="Label" parent="Interface/Raiz" unique_id=2047826745]
+modulate = Color(1, 1, 1, 0.6)
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -189,12 +190,11 @@ offset_top = -18.0
 offset_right = 66.0
 offset_bottom = -6.0
 grow_vertical = 0
-modulate = Color(1, 1, 1, 0.6)
 text = "v0.1"
 label_settings = SubResource("LabelSettings_painel")
 vertical_alignment = 2
 
-[node name="Escurecer" type="ColorRect" parent="Interface/Raiz"]
+[node name="Escurecer" type="ColorRect" parent="Interface/Raiz" unique_id=740614031]
 unique_name_in_owner = true
 visible = false
 layout_mode = 1
@@ -206,7 +206,7 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 0.45)
 
-[node name="PainelOpcoes" type="PanelContainer" parent="Interface/Raiz"]
+[node name="PainelOpcoes" type="PanelContainer" parent="Interface/Raiz" unique_id=1858323278]
 unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(220, 0)
@@ -220,11 +220,11 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_painel")
 
-[node name="Conteudo" type="VBoxContainer" parent="Interface/Raiz/PainelOpcoes"]
+[node name="Conteudo" type="VBoxContainer" parent="Interface/Raiz/PainelOpcoes" unique_id=951371498]
 layout_mode = 2
 theme_override_constants/separation = 6
 
-[node name="Titulo" type="Label" parent="Interface/Raiz/PainelOpcoes/Conteudo"]
+[node name="Titulo" type="Label" parent="Interface/Raiz/PainelOpcoes/Conteudo" unique_id=405055986]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 text = "OPCOES"
@@ -232,91 +232,91 @@ label_settings = SubResource("LabelSettings_painel")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="LinhaVolume" type="HBoxContainer" parent="Interface/Raiz/PainelOpcoes/Conteudo"]
+[node name="LinhaVolume" type="HBoxContainer" parent="Interface/Raiz/PainelOpcoes/Conteudo" unique_id=1853538777]
 layout_mode = 2
 
-[node name="Nome" type="Label" parent="Interface/Raiz/PainelOpcoes/Conteudo/LinhaVolume"]
+[node name="Nome" type="Label" parent="Interface/Raiz/PainelOpcoes/Conteudo/LinhaVolume" unique_id=892713580]
 custom_minimum_size = Vector2(70, 0)
 layout_mode = 2
 text = "VOLUME"
 
-[node name="BotaoVolumeMenos" type="Button" parent="Interface/Raiz/PainelOpcoes/Conteudo/LinhaVolume"]
+[node name="BotaoVolumeMenos" type="Button" parent="Interface/Raiz/PainelOpcoes/Conteudo/LinhaVolume" unique_id=2105789351]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(22, 18)
 layout_mode = 2
 text = "<"
 
-[node name="ValorVolume" type="Label" parent="Interface/Raiz/PainelOpcoes/Conteudo/LinhaVolume"]
+[node name="ValorVolume" type="Label" parent="Interface/Raiz/PainelOpcoes/Conteudo/LinhaVolume" unique_id=666497224]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(54, 0)
 layout_mode = 2
 horizontal_alignment = 1
 
-[node name="BotaoVolumeMais" type="Button" parent="Interface/Raiz/PainelOpcoes/Conteudo/LinhaVolume"]
+[node name="BotaoVolumeMais" type="Button" parent="Interface/Raiz/PainelOpcoes/Conteudo/LinhaVolume" unique_id=1448374173]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(22, 18)
 layout_mode = 2
 text = ">"
 
-[node name="LinhaTelaCheia" type="HBoxContainer" parent="Interface/Raiz/PainelOpcoes/Conteudo"]
+[node name="LinhaTelaCheia" type="HBoxContainer" parent="Interface/Raiz/PainelOpcoes/Conteudo" unique_id=1063291238]
 layout_mode = 2
 
-[node name="Nome" type="Label" parent="Interface/Raiz/PainelOpcoes/Conteudo/LinhaTelaCheia"]
+[node name="Nome" type="Label" parent="Interface/Raiz/PainelOpcoes/Conteudo/LinhaTelaCheia" unique_id=1374199555]
 custom_minimum_size = Vector2(70, 0)
 layout_mode = 2
 text = "TELA CHEIA"
 
-[node name="BotaoTelaCheiaMenos" type="Button" parent="Interface/Raiz/PainelOpcoes/Conteudo/LinhaTelaCheia"]
+[node name="BotaoTelaCheiaMenos" type="Button" parent="Interface/Raiz/PainelOpcoes/Conteudo/LinhaTelaCheia" unique_id=1743378234]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(22, 18)
 layout_mode = 2
 text = "<"
 
-[node name="ValorTelaCheia" type="Label" parent="Interface/Raiz/PainelOpcoes/Conteudo/LinhaTelaCheia"]
+[node name="ValorTelaCheia" type="Label" parent="Interface/Raiz/PainelOpcoes/Conteudo/LinhaTelaCheia" unique_id=49488883]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(54, 0)
 layout_mode = 2
 horizontal_alignment = 1
 
-[node name="BotaoTelaCheiaMais" type="Button" parent="Interface/Raiz/PainelOpcoes/Conteudo/LinhaTelaCheia"]
+[node name="BotaoTelaCheiaMais" type="Button" parent="Interface/Raiz/PainelOpcoes/Conteudo/LinhaTelaCheia" unique_id=1113086523]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(22, 18)
 layout_mode = 2
 text = ">"
 
-[node name="LinhaFps" type="HBoxContainer" parent="Interface/Raiz/PainelOpcoes/Conteudo"]
+[node name="LinhaFps" type="HBoxContainer" parent="Interface/Raiz/PainelOpcoes/Conteudo" unique_id=57710186]
 layout_mode = 2
 
-[node name="Nome" type="Label" parent="Interface/Raiz/PainelOpcoes/Conteudo/LinhaFps"]
+[node name="Nome" type="Label" parent="Interface/Raiz/PainelOpcoes/Conteudo/LinhaFps" unique_id=1794774409]
 custom_minimum_size = Vector2(70, 0)
 layout_mode = 2
 text = "FPS"
 
-[node name="BotaoFpsMenos" type="Button" parent="Interface/Raiz/PainelOpcoes/Conteudo/LinhaFps"]
+[node name="BotaoFpsMenos" type="Button" parent="Interface/Raiz/PainelOpcoes/Conteudo/LinhaFps" unique_id=307659953]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(22, 18)
 layout_mode = 2
 text = "<"
 
-[node name="ValorFps" type="Label" parent="Interface/Raiz/PainelOpcoes/Conteudo/LinhaFps"]
+[node name="ValorFps" type="Label" parent="Interface/Raiz/PainelOpcoes/Conteudo/LinhaFps" unique_id=109771382]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(54, 0)
 layout_mode = 2
 horizontal_alignment = 1
 
-[node name="BotaoFpsMais" type="Button" parent="Interface/Raiz/PainelOpcoes/Conteudo/LinhaFps"]
+[node name="BotaoFpsMais" type="Button" parent="Interface/Raiz/PainelOpcoes/Conteudo/LinhaFps" unique_id=123795034]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(22, 18)
 layout_mode = 2
 text = ">"
 
-[node name="BotaoVoltarOpcoes" type="Button" parent="Interface/Raiz/PainelOpcoes/Conteudo"]
+[node name="BotaoVoltarOpcoes" type="Button" parent="Interface/Raiz/PainelOpcoes/Conteudo" unique_id=1209348737]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 22)
 layout_mode = 2
 text = "VOLTAR"
 
-[node name="PainelCreditos" type="PanelContainer" parent="Interface/Raiz"]
+[node name="PainelCreditos" type="PanelContainer" parent="Interface/Raiz" unique_id=1569505122]
 unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(240, 0)
@@ -330,11 +330,11 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_painel")
 
-[node name="Conteudo" type="VBoxContainer" parent="Interface/Raiz/PainelCreditos"]
+[node name="Conteudo" type="VBoxContainer" parent="Interface/Raiz/PainelCreditos" unique_id=1512254200]
 layout_mode = 2
 theme_override_constants/separation = 6
 
-[node name="Titulo" type="Label" parent="Interface/Raiz/PainelCreditos/Conteudo"]
+[node name="Titulo" type="Label" parent="Interface/Raiz/PainelCreditos/Conteudo" unique_id=520184746]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 text = "CREDITOS"
@@ -342,30 +342,30 @@ label_settings = SubResource("LabelSettings_painel")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Nome" type="Label" parent="Interface/Raiz/PainelCreditos/Conteudo"]
+[node name="Nome" type="Label" parent="Interface/Raiz/PainelCreditos/Conteudo" unique_id=1355848187]
 layout_mode = 2
 text = "ALGOLAND"
 horizontal_alignment = 1
 
-[node name="Autor" type="Label" parent="Interface/Raiz/PainelCreditos/Conteudo"]
+[node name="Autor" type="Label" parent="Interface/Raiz/PainelCreditos/Conteudo" unique_id=184014308]
 layout_mode = 2
 text = "Desenvolvido por Gabriel Renovato"
 horizontal_alignment = 1
 autowrap_mode = 3
 
-[node name="Arte" type="Label" parent="Interface/Raiz/PainelCreditos/Conteudo"]
+[node name="Arte" type="Label" parent="Interface/Raiz/PainelCreditos/Conteudo" unique_id=1385229338]
 layout_mode = 2
 text = "Arte: Mana Seed (Seliel the Shaper), CraftPix.net, Cute RPG Icons"
 horizontal_alignment = 1
 autowrap_mode = 3
 
-[node name="BotaoVoltarCreditos" type="Button" parent="Interface/Raiz/PainelCreditos/Conteudo"]
+[node name="BotaoVoltarCreditos" type="Button" parent="Interface/Raiz/PainelCreditos/Conteudo" unique_id=1929890562]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 22)
 layout_mode = 2
 text = "VOLTAR"
 
-[node name="ConfirmarNovoJogo" type="PanelContainer" parent="Interface/Raiz"]
+[node name="ConfirmarNovoJogo" type="PanelContainer" parent="Interface/Raiz" unique_id=650337474]
 unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(220, 0)
@@ -379,11 +379,11 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_painel")
 
-[node name="Conteudo" type="VBoxContainer" parent="Interface/Raiz/ConfirmarNovoJogo"]
+[node name="Conteudo" type="VBoxContainer" parent="Interface/Raiz/ConfirmarNovoJogo" unique_id=1026477759]
 layout_mode = 2
 theme_override_constants/separation = 6
 
-[node name="Titulo" type="Label" parent="Interface/Raiz/ConfirmarNovoJogo/Conteudo"]
+[node name="Titulo" type="Label" parent="Interface/Raiz/ConfirmarNovoJogo/Conteudo" unique_id=1968443876]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 text = "NOVO JOGO"
@@ -391,32 +391,32 @@ label_settings = SubResource("LabelSettings_painel")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Pergunta" type="Label" parent="Interface/Raiz/ConfirmarNovoJogo/Conteudo"]
+[node name="Pergunta" type="Label" parent="Interface/Raiz/ConfirmarNovoJogo/Conteudo" unique_id=1092437268]
 layout_mode = 2
 text = "APAGAR O PROGRESSO SALVO?"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="Botoes" type="HBoxContainer" parent="Interface/Raiz/ConfirmarNovoJogo/Conteudo"]
+[node name="Botoes" type="HBoxContainer" parent="Interface/Raiz/ConfirmarNovoJogo/Conteudo" unique_id=1751639448]
 layout_mode = 2
 theme_override_constants/separation = 6
 
-[node name="BotaoSim" type="Button" parent="Interface/Raiz/ConfirmarNovoJogo/Conteudo/Botoes"]
+[node name="BotaoSim" type="Button" parent="Interface/Raiz/ConfirmarNovoJogo/Conteudo/Botoes" unique_id=609677258]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 22)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "SIM"
 
-[node name="BotaoNao" type="Button" parent="Interface/Raiz/ConfirmarNovoJogo/Conteudo/Botoes"]
+[node name="BotaoNao" type="Button" parent="Interface/Raiz/ConfirmarNovoJogo/Conteudo/Botoes" unique_id=1693131366]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 22)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "NAO"
 
-[node name="Transicao" type="ColorRect" parent="Interface/Raiz"]
+[node name="Transicao" type="ColorRect" parent="Interface/Raiz" unique_id=1168353862]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15

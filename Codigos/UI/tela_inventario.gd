@@ -34,6 +34,17 @@ func _ready() -> void:
 	visibility_changed.connect(_ao_visibilidade_alterada)
 	_atualizar()
 
+## Chamado pela Interface ao abrir a tela: no controle, o foco começa na arma equipada (ou na mochila)
+func focar_inicio() -> void:
+	var inicio: Control = _slots_equipamento.get("arma")
+	if inicio == null or inicio.item_atual == null:
+		inicio = _slots_mochila[0]
+		for slot in _slots_mochila:
+			if slot.item_atual != null:
+				inicio = slot
+				break
+	Controle.focar(inicio)
+
 func _ao_visibilidade_alterada() -> void:
 	if visible:
 		_atualizar()

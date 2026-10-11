@@ -26,6 +26,11 @@ func _ready() -> void:
 	_icone_vazio.modulate = COR_ICONE_VAZIO
 	mouse_entered.connect(_ao_mouse_entrar)
 	mouse_exited.connect(_ao_mouse_sair)
+	# No controle não há arrasto: o slot recebe foco e confirmar usa o item (ver _usar_com_controle)
+	focus_mode = Control.FOCUS_ALL
+	focus_entered.connect(_ao_foco_alterado)
+	focus_exited.connect(_ao_foco_alterado)
+	gui_input.connect(_ao_entrada)
 	# Desenhada por cima do fundo e do item; so aparece durante um arrasto compativel
 	_moldura = Control.new()
 	_moldura.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -67,7 +72,34 @@ func _dados_validos(dados: Variant) -> bool:
 	# Item ja equipado nao tem celula na mochila, entao nao pode ser "equipado" de novo
 	return item.categoria == tipo_slot and InventarioJogador.indice_de(item) != -1 and InventarioJogador.pode_equipar(item)
 
+func _ao_foco_alterado() -> void:
+	_moldura.queue_redraw()
+
+func _ao_entrada(evento: InputEvent) -> void:
+	if evento.is_action_pressed("ui_accept"):
+		_usar_com_controle()
+		accept_event()
+
+# Com a bigorna/encantamento abertos o item vai para o slot do mercador; senão, mochila equipa e
+# equipamento volta para a mochila. Só armas e escudo, como no arrasto (ver item_ui._get_drag_data)
+func _usar_com_controle() -> void:
+	if item_atual == null or _item_ui.em_uso:
+		return
+	var mercante := get_tree().get_first_node_in_group("tela_mercante")
+	if mercante != null and mercante.is_visible_in_tree() and mercante.receber_item_do_controle(_item_ui):
+		return
+	if not item_atual.categoria in ["arma", "escudo"]:
+		return
+	if tipo_slot == "mochila":
+		InventarioJogador.equipar(item_atual)
+	else:
+		InventarioJogador.desequipar(tipo_slot)
+
 func _desenhar_moldura() -> void:
+	if has_focus():
+		var foco := Rect2(Vector2.ZERO, size)
+		_moldura.draw_rect(foco, COR_PREENCHIMENTO_HOVER)
+		_moldura.draw_rect(foco.grow(-0.5), COR_MOLDURA_HOVER, false, 1.0)
 	# Na grade da mochila so a celula sob o mouse acende, senao a grade inteira piscaria
 	if not _arrasto_valido or (tipo_slot == "mochila" and not _mouse_em_cima):
 		return

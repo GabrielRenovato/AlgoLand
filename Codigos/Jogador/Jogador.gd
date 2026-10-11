@@ -6,6 +6,7 @@ const Equipamentos := preload("res://Codigos/DadosLocais/Equipamentos.gd")
 const ArcoJogador := preload("res://Codigos/Jogador/arco_jogador.gd")
 const Flecha := preload("res://Codigos/Jogador/flecha.gd")
 const ReacaoJogador := preload("res://Codigos/Jogador/reacao_jogador.gd")
+const Profundidade := preload("res://Codigos/Globais/profundidade.gd")
 const ALCANCE_MIRA_ARCO := 260.0
 const TEXTURA_ALJAVA := preload("res://CharacterSprites/Arco/carregando/aljava.png")
 
@@ -549,6 +550,8 @@ func conectar_sinal_se_nao_conectado(no: Node, nome_sinal: String, metodo: Strin
 
 func _physics_process(delta: float) -> void:
 	_regenerar_stamina(delta)
+	# Mesma escala de profundidade de inimigos, árvores e objetos (ver Profundidade)
+	z_index = Profundidade.z_de(global_position.y + Profundidade.PES_JOGADOR)
 	if not movimento_habilitado:
 		_pedido_ataque = false
 		# Sem isso a velocidade da corrida fica congelada e a animação continua correndo com a loja aberta
@@ -812,7 +815,7 @@ func _desenhar_raio(de: Vector2, ate: Vector2, cor: Color) -> void:
 	var linha := Line2D.new()
 	linha.width = 1.5
 	linha.default_color = cor
-	linha.z_index = 20
+	linha.z_index = Profundidade.Z_TOPO
 	var passos := 6
 	var normal := (ate - de).orthogonal().normalized()
 	for i in passos + 1:

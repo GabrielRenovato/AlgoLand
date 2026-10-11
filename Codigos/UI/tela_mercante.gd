@@ -109,6 +109,23 @@ func _tem_arma_equipada(jogador: Node) -> bool:
 func _fechar() -> void:
 	EventosJogo.fechar_tela.emit("mercante")
 
+# --- Controle ---
+
+## Chamado pela Interface ao abrir a tela: no controle, o foco começa na primeira aba
+func focar_inicio() -> void:
+	Controle.focar(_aba_encantar)
+
+## No controle não dá para arrastar: confirmar num item do inventário o coloca na bigorna ou no
+## encantamento, se uma dessas abas estiver aberta. Retorna false para o inventário usar o item normalmente
+func receber_item_do_controle(origem: Control) -> bool:
+	for par in [[_painel_bigorna, _slot_bigorna], [_painel_encantar, _slot_encantar]]:
+		var painel: Control = par[0]
+		var slot: Control = par[1]
+		if painel.visible and slot.aceita_tipo_item(origem.obter_tipo_item()):
+			slot.colocar_item(origem)
+			return true
+	return false
+
 func _ao_iniciar_onda_pressionado() -> void:
 	var jogador := IconesItens.obter_jogador(get_tree())
 	if jogador != null and not _tem_arma_equipada(jogador):

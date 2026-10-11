@@ -94,7 +94,7 @@ func _sortear_onda_bonus(chefe: bool) -> bool:
 	return randf() < chance_onda_bonus
 
 func eh_onda_chefe(onda: int) -> bool:
-	return onda == 1 or (intervalo_chefe > 0 and onda % intervalo_chefe == 0)
+	return intervalo_chefe > 0 and onda % intervalo_chefe == 0
 
 func atualizar_ui() -> void:
 	inimigos_alterados.emit(inimigos_vivos, total_inimigos_onda)

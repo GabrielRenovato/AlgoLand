@@ -2,6 +2,7 @@ extends CharacterBody2D
 class_name InimigoBase
 
 const EfeitosLuz := preload("res://Codigos/Efeitos/efeitos_luz.gd")
+const Profundidade := preload("res://Codigos/Globais/profundidade.gd")
 
 # -----------------------------
 # CONFIGURAÇÕES DE MOVIMENTO
@@ -16,13 +17,8 @@ const EfeitosLuz := preload("res://Codigos/Efeitos/efeitos_luz.gd")
 # Os inimigos não colidem mais entre si (máscara só do mundo): a separação é o que evita o empilhamento
 @export var forca_separacao: float = 60.0
 var ultima_direcao_horizontal: float = 1.0  # 1 para direita, -1 para esquerda
-## Distância da origem até os pés do sprite, para decidir se fica na frente ou atrás do jogador
+## Distância da origem até os pés do sprite, usada na ordem de desenho (ver Profundidade)
 @export var altura_pes: float = 5.0
-# Pés do jogador ficam 11 px abaixo da origem (quadro de 64 centralizado)
-const PES_JOGADOR := 11.0
-const Z_ATRAS_JOGADOR := 1
-# Acima das partes do jogador (até z 5) e abaixo das copas das árvores (z 10)
-const Z_FRENTE_JOGADOR := 6
 
 # -----------------------------
 # CONFIGURAÇÕES DE ATAQUE
@@ -58,6 +54,12 @@ var esta_atacando: bool = false
 
 var _jogador_cache: Node2D
 
+# Navegação (só inimigos de chão)
+const INTERVALO_ROTA := 0.25
+const DISTANCIA_PERSEGUICAO_DIRETA := 24.0
+var _agente: NavigationAgent2D
+var _tempo_rota := 0.0
+
 const COR_QUEIMANDO := Color(1.0, 0.65, 0.45)
 const COR_CONGELADO := Color(0.6, 0.85, 1.0)
 
@@ -68,7 +70,7 @@ const COR_CONGELADO := Color(0.6, 0.85, 1.0)
 const MUTANTE_ESCALA := 1.55
 const MUTANTE_MULT_VIDA := 1.9
 const MUTANTE_MULT_DANO := 1.35
-const COR_MUTANTE := Color(0.85, 0.4, 1.0)
+const CoroaMutante := preload("res://Codigos/Efeitos/coroa_mutante.gd")
 var eh_mutante: bool = false
 
 func tornar_mutante() -> void:
@@ -78,6 +80,11 @@ func tornar_mutante() -> void:
 	vida = roundi(vida * MUTANTE_MULT_VIDA)
 	dano *= MUTANTE_MULT_DANO
 	scale *= MUTANTE_ESCALA
+	# Mantém a cor original; a coroa cinza acima da barra de vida identifica o mutante
+	var coroa := CoroaMutante.new()
+	coroa.name = "CoroaMutante"
+	coroa.position = Vector2(0, -altura_barra_vida - 4)
+	add_child(coroa)
 
 var _queimadura_restante := 0.0
 var _queimadura_dano := 0
@@ -103,6 +110,14 @@ func _ready() -> void:
 		add_child(instancia_barra_hp)
 		instancia_barra_hp.position = Vector2(0, -altura_barra_vida)
 
+	# Inimigos de chão seguem a malha de navegação da arena para contornar lago, barraca, pedras...
+	# Voadores (máscara 0) passam por cima de tudo e continuam indo em linha reta
+	if collision_mask != 0:
+		_agente = NavigationAgent2D.new()
+		_agente.path_desired_distance = 8.0
+		_agente.target_desired_distance = 6.0
+		add_child(_agente)
+
 func _physics_process(delta: float) -> void:
 	if esta_morto:
 		return
@@ -121,21 +136,31 @@ func _physics_process(delta: float) -> void:
 	if alvo:
 		var para_alvo := alvo.global_position - global_position
 		if para_alvo.length() > raio_parada:
-			desejada += para_alvo.normalized() * velocidade * (1.0 - _lentidao)
+			desejada += _direcao_ate(alvo, para_alvo, delta) * velocidade * (1.0 - _lentidao)
 	velocity = velocity.move_toward(desejada, aceleracao * delta)
 	if velocity.length() > 1.0:
 		definir_direcao_animacao(velocity)
 	move_and_slide()
 	aplicar_dano_contato()
 
-# As partes do jogador usam z 2 a 5; com z fixo o inimigo ficava sempre por cima (ou sempre por baixo).
-# Compara os pés dos dois: quem está mais abaixo na tela é desenhado na frente
+# Direção do próximo ponto da rota até o jogador. Sem malha (tela inicial), sem rota ou já perto,
+# volta à perseguição direta
+func _direcao_ate(alvo: Node2D, para_alvo: Vector2, delta: float) -> Vector2:
+	var direta := para_alvo.normalized()
+	if _agente == null or para_alvo.length() < DISTANCIA_PERSEGUICAO_DIRETA:
+		return direta
+	_tempo_rota -= delta
+	if _tempo_rota <= 0.0:
+		_tempo_rota = INTERVALO_ROTA
+		_agente.target_position = alvo.global_position
+	if _agente.is_navigation_finished():
+		return direta
+	var ate_proximo := _agente.get_next_path_position() - global_position
+	return ate_proximo.normalized() if ate_proximo.length() > 0.5 else direta
+
+# Quem está mais abaixo na tela é desenhado na frente (jogador, árvores e objetos usam a mesma escala)
 func _atualizar_ordem_desenho() -> void:
-	var jogador := obter_jogador()
-	if jogador == null:
-		return
-	var na_frente := global_position.y + altura_pes > jogador.global_position.y + PES_JOGADOR
-	z_index = Z_FRENTE_JOGADOR if na_frente else Z_ATRAS_JOGADOR
+	z_index = Profundidade.z_de(global_position.y + altura_pes)
 
 func calcular_separacao() -> Vector2:
 	var vetor_repulsao := Vector2.ZERO
@@ -234,7 +259,7 @@ func _atualizar_efeitos(delta: float) -> void:
 		if _queimadura_acumulado >= _queimadura_intervalo:
 			_queimadura_acumulado -= _queimadura_intervalo
 			receber_dano_efeito(_queimadura_dano, _queimadura_cor)
-	var tom := COR_MUTANTE if eh_mutante else Color.WHITE
+	var tom := Color.WHITE
 	if _queimadura_restante > 0.0:
 		tom = COR_QUEIMANDO
 	elif _lentidao_restante > 0.0:

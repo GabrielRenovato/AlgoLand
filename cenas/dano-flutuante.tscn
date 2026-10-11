@@ -9,6 +9,7 @@ font_color = Color(1, 1, 0, 1)
 shadow_color = Color(0, 0, 0, 1)
 
 [node name="FloatingDamageLabel" type="Node2D"]
+z_index = 1000
 script = ExtResource("1_i5eyu")
 
 [node name="Rotulo" type="Label" parent="."]

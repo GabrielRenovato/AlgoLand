@@ -2,6 +2,7 @@ extends Node2D
 class_name IndicadorAtaque
 
 const TEXTURA_LUZ := preload("res://recursos/luz/luz_radial.tres")
+const Profundidade := preload("res://Codigos/Globais/profundidade.gd")
 
 var raio: float = 64.0
 var progresso: float = 0.0
@@ -19,7 +20,7 @@ const COR_MARCADOR := Color(1.0, 0.6, 0.2, 0.9)
 const COR_FLASH := Color(1.0, 0.9, 0.6, 0.75)
 
 func _ready() -> void:
-	z_index = 0
+	z_index = Profundidade.Z_CHAO + 10
 	z_as_relative = false
 	top_level = true
 	var mat := CanvasItemMaterial.new()
