@@ -6,6 +6,38 @@ extends Node2D
 	preload("res://cenas/inimigos/slime.tscn"),
 ]
 
+# Cada estágio dura ONDAS_POR_ESTAGIO ondas e tem no máximo 2 tipos de inimigo: os antigos saem de cena
+# conforme os novos entram, em vez de acumular uma mistura. O mímico fica de fora: só aparece no estágio
+# bônus (ver Gerenciador-de-ondas.gd)
+const CENA_SLIME := preload("res://cenas/inimigos/slime.tscn")
+const CENA_MORCEGO := preload("res://cenas/inimigos/morcego.tscn")
+const CENA_VESPA := preload("res://cenas/inimigos/vespa.tscn")
+const CENA_COGUMELO := preload("res://cenas/inimigos/cogumelo.tscn")
+const CENA_FLOR := preload("res://cenas/inimigos/flor.tscn")
+const CENA_CARANGUEJO := preload("res://cenas/inimigos/caranguejo.tscn")
+const CENA_GREMLIN := preload("res://cenas/inimigos/gremlin.tscn")
+const CENA_FALCAO := preload("res://cenas/inimigos/falcao.tscn")
+const ONDAS_POR_ESTAGIO := 2
+const ESTAGIOS: Array[Array] = [
+	[CENA_SLIME],
+	[CENA_SLIME, CENA_MORCEGO],
+	[CENA_MORCEGO, CENA_VESPA],
+	[CENA_COGUMELO],
+	[CENA_COGUMELO, CENA_FLOR],
+	[CENA_FLOR, CENA_CARANGUEJO],
+	[CENA_CARANGUEJO, CENA_GREMLIN],
+	[CENA_GREMLIN, CENA_FALCAO],
+	[CENA_FALCAO, CENA_VESPA],
+]
+# Passado o último estágio, volta a repetir daqui (sem o estágio só de slimes); a vida e o dano seguem subindo por onda
+const ESTAGIO_INICIO_CICLO := 2
+
+# Variante "mutante": maior, mais forte e recolorida; some em ondas mais avançadas
+const ONDA_INICIAL_MUTANTE := 6
+const CHANCE_MUTANTE_BASE := 0.05
+const CHANCE_MUTANTE_POR_ONDA := 0.015
+const CHANCE_MUTANTE_MAXIMA := 0.35
+
 var pontos_spawn := []
 var gerenciador_ondas
 @export var atraso_spawn: float = 0.5
@@ -71,6 +103,21 @@ func spawnar_inimigo_com_tentativas(spawn: Marker2D, multiplicador_vida: float, 
 		await get_tree().create_timer(0.1).timeout
 	return false
 
+## Tipos de inimigo da onda (no máximo 2); ver ESTAGIOS
+func obter_pool_especies(onda: int) -> Array[PackedScene]:
+	var estagio := (maxi(onda, 1) - 1) / ONDAS_POR_ESTAGIO
+	if estagio >= ESTAGIOS.size():
+		estagio = ESTAGIO_INICIO_CICLO + (estagio - ESTAGIOS.size()) % (ESTAGIOS.size() - ESTAGIO_INICIO_CICLO)
+	var pool: Array[PackedScene] = []
+	pool.assign(ESTAGIOS[estagio])
+	return pool
+
+func _deve_ser_mutante(onda: int) -> bool:
+	if onda < ONDA_INICIAL_MUTANTE:
+		return false
+	var chance := minf(CHANCE_MUTANTE_BASE + CHANCE_MUTANTE_POR_ONDA * (onda - ONDA_INICIAL_MUTANTE), CHANCE_MUTANTE_MAXIMA)
+	return randf() < chance
+
 func obter_melhor_ponto_spawn() -> Marker2D:
 	if pontos_spawn.size() <= 1:
 		return pontos_spawn[0]
@@ -105,11 +152,13 @@ func spawnar_inimigo_em(spawn: Marker2D, multiplicador_vida: float, multiplicado
 		push_error("Cena principal não é válida")
 		return false
 	
-	var cena_inimigo = cena if cena != null else cenas_inimigos[randi() % cenas_inimigos.size()]
+	var onda_atual: int = gerenciador_ondas.onda_atual if is_instance_valid(gerenciador_ondas) else 1
+	var pool := obter_pool_especies(onda_atual)
+	var cena_inimigo = cena if cena != null else pool[randi() % pool.size()]
 	if cena_inimigo == null:
 		push_error("Cena de inimigo selecionada é nula")
 		return false
-	
+
 	var inimigo = cena_inimigo.instantiate()
 	if inimigo == null:
 		push_error("Falha ao instanciar inimigo")
@@ -118,6 +167,10 @@ func spawnar_inimigo_em(spawn: Marker2D, multiplicador_vida: float, multiplicado
 	inimigo.name = "Inimigo_" + str(randi() % 10000)
 	var deslocamento = Vector2(randf_range(-20, 20), randf_range(-20, 20))
 	inimigo.position = spawn.global_position + deslocamento
+
+	# Mutante: só nos sorteios normais (não no chefe nem na escolta, que vêm com "cena" fixa)
+	if cena == null and inimigo.has_method("tornar_mutante") and _deve_ser_mutante(onda_atual):
+		inimigo.tornar_mutante()
 
 	if tem_propriedade(inimigo, "vida"):
 		inimigo.vida = int(round(inimigo.vida * multiplicador_vida))

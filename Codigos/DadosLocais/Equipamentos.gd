@@ -1,5 +1,31 @@
 extends Node
 
+# Familia define qual conjunto de animacoes a arma usa (espada = uma mao, lanca = duas maos)
+const FAMILIAS := {
+	"espada_basica": "espada",
+	"espada_gemea": "espada",
+	"machado": "espada",
+	"maca": "espada",
+	"arco_curvo": "arco",
+	"arco_curto": "arco",
+	"arco_longo": "arco",
+	"lanca_basica": "lanca",
+	"escudo_basico": "escudo",
+}
+const NIVEIS_ONDA := [0, 4, 8, 14, 22]
+const NIVEIS_CUSTO := [0, 200, 500, 1000, 2000]
+# Armas compradas na loja. Espadas: sprites em CharacterSprites/Arms/<id>/base_N.png e ataque_N.png.
+# Arcos: sprites em CharacterSprites/Arco/arcos/<codigo>_N_p2.png (parado/andando) e _p3.png (disparo);
+# "tempo_disparo" multiplica a duração da animação de disparo (menor = mais rápido)
+const ARMAS_LOJA := {
+	"espada_gemea": {"nome": "Espada Gêmea", "dano": [9, 13, 20, 30, 43], "preco": 400},
+	"machado": {"nome": "Machado", "dano": [10, 15, 22, 33, 47], "preco": 600},
+	"maca": {"nome": "Maça", "dano": [9, 14, 21, 31, 45], "preco": 500},
+	"arco_curto": {"nome": "Arco Curto", "codigo": "bo02", "duas_maos": true, "tempo_disparo": 0.5, "dano": [10, 15, 22, 33, 47], "preco": 500},
+	"arco_curvo": {"nome": "Arco Curvo", "codigo": "bo01", "duas_maos": true, "tempo_disparo": 0.65, "dano": [14, 20, 30, 44, 62], "preco": 700},
+	"arco_longo": {"nome": "Arco Longo", "codigo": "bo03", "duas_maos": true, "tempo_disparo": 0.8, "dano": [18, 26, 38, 56, 78], "preco": 900},
+}
+
 var armas = {
 	# ==========================
 	# 1) ARMAS JA EXISTENTES
@@ -276,6 +302,36 @@ var armaduras = {
 		}
 	}
 }
+
+func _init() -> void:
+	for id in ARMAS_LOJA:
+		armas[id] = _montar_arma_loja(id)
+
+func _montar_arma_loja(id: String) -> Dictionary:
+	var definicao: Dictionary = ARMAS_LOJA[id]
+	var niveis := {}
+	var eh_arco: bool = definicao.has("codigo")
+	for i in 5:
+		var caminho_base := "res://CharacterSprites/Arms/%s/base_%d.png" % [id, i + 1]
+		var caminho_ataque := "res://CharacterSprites/Arms/%s/ataque_%d.png" % [id, i + 1]
+		if eh_arco:
+			caminho_base = "res://CharacterSprites/Arco/arcos/%s_%d_p2.png" % [definicao["codigo"], i + 1]
+			caminho_ataque = "res://CharacterSprites/Arco/arcos/%s_%d_p3.png" % [definicao["codigo"], i + 1]
+		var textura_carregando: Texture2D = null
+		if eh_arco:
+			textura_carregando = load("res://CharacterSprites/Arco/carregando/arco_%s_%d.png" % [definicao["codigo"], i + 1])
+		niveis[i + 1] = {
+			"textura_carregando": textura_carregando,
+			"textura": load(caminho_base),
+			"textura_ataque": load(caminho_ataque),
+			"onda_necessaria": NIVEIS_ONDA[i],
+			"dano": definicao["dano"][i],
+			"custo": NIVEIS_CUSTO[i],
+		}
+	return {"nome": definicao["nome"], "niveis": niveis, "tempo_disparo": definicao.get("tempo_disparo", 1.0)}
+
+static func familia_de(tipo: String) -> String:
+	return FAMILIAS.get(tipo, "")
 
 func obter_dados_nivel_arma(id_arma: String, nivel: int) -> Dictionary:
 	if not armas.has(id_arma):

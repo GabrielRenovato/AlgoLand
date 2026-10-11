@@ -1,12 +1,21 @@
 extends RefCounted
 
+const Equipamentos := preload("res://Codigos/DadosLocais/Equipamentos.gd")
+
 const COLUNAS_ARMAS := 8
 const LINHAS_ARMAS := 8
 const ARMAS := {
 	"espada_basica": {"sprite": "sprite_espada", "frame": 42, "alternativa": "res://CharacterSprites/Arms/swords/Sword_1.png"},
+	"espada_gemea": {"frame": 42, "alternativa": "res://CharacterSprites/Arms/espada_gemea/base_1.png"},
+	"machado": {"frame": 42, "alternativa": "res://CharacterSprites/Arms/machado/base_1.png"},
+	"maca": {"frame": 42, "alternativa": "res://CharacterSprites/Arms/maca/base_1.png"},
+	"arco_curto": {"pasta_icone": "res://CharacterSprites/Arco/arcos/icone_bo02_%d.png"},
+	"arco_curvo": {"pasta_icone": "res://CharacterSprites/Arco/arcos/icone_bo01_%d.png"},
+	"arco_longo": {"pasta_icone": "res://CharacterSprites/Arco/arcos/icone_bo03_%d.png"},
 	"lanca_basica": {"sprite": "sprite_lanca", "frame": 13, "alternativa": "res://CharacterSprites/Arms/spears/spear_1.png"},
 	"escudo_basico": {"sprite": "sprite_escudo", "frame": 32, "alternativa": "res://CharacterSprites/Arms/shields/shield_1.png"},
 }
+const ALJAVA := "res://CharacterSprites/Arco/carregando/aljava.png"
 const ARMADURAS := {
 	"cabeca_basica": "sprite_armadura_cabeca",
 	"armadura_basica": "sprite_armadura_corpo",
@@ -24,8 +33,12 @@ static func obter_jogador(arvore: SceneTree) -> Node:
 static func obter(item: DadosItem, arvore: SceneTree) -> Texture2D:
 	if item == null:
 		return null
+	if item.tipo == "aljava_basica":
+		return load(ALJAVA)
+	if ARMAS.get(item.tipo, {}).has("pasta_icone"):
+		return load(ARMAS[item.tipo]["pasta_icone"] % clampi(item.nivel, 1, 5))
 	if ARMAS.has(item.tipo):
-		return obter_arma(item.tipo, arvore)
+		return obter_arma(item.tipo, arvore, item.nivel)
 	var jogador := obter_jogador(arvore)
 	if ARMADURAS.has(item.tipo) and jogador != null:
 		var sprite_armadura: Sprite2D = jogador.get(ARMADURAS[item.tipo])
@@ -33,16 +46,20 @@ static func obter(item: DadosItem, arvore: SceneTree) -> Texture2D:
 			return _recortar(sprite_armadura.texture, Rect2i(Vector2i.ZERO, Vector2i(sprite_armadura.texture.get_size())))
 	return null
 
-static func obter_arma(tipo: String, arvore: SceneTree) -> Texture2D:
+static func obter_arma(tipo: String, arvore: SceneTree, nivel: int = 1) -> Texture2D:
 	if not ARMAS.has(tipo):
 		return null
 	var definicao: Dictionary = ARMAS[tipo]
+	if definicao.has("pasta_icone"):
+		return load(definicao["pasta_icone"] % 1)
+	# A textura vem dos dados do nível do item, não dos sprites do jogador (que podem mostrar outra coisa,
+	# como a aljava no nó do escudo enquanto o arco está equipado)
 	var textura: Texture2D = null
-	var jogador := obter_jogador(arvore)
-	if jogador != null:
-		var sprite: Sprite2D = jogador.get(definicao["sprite"])
-		if sprite != null:
-			textura = sprite.texture
+	var banco := Equipamentos.new()
+	var dados_nivel: Dictionary = banco.obter_dados_nivel_arma(tipo, nivel)
+	banco.free()
+	if dados_nivel.get("textura") is Texture2D:
+		textura = dados_nivel["textura"]
 	if textura == null and ResourceLoader.exists(definicao["alternativa"]):
 		textura = load(definicao["alternativa"])
 	if textura == null:

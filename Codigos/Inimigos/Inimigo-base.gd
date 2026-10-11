@@ -13,7 +13,8 @@ const EfeitosLuz := preload("res://Codigos/Efeitos/efeitos_luz.gd")
 @export var desaceleracao_knockback: float = 900.0
 # O slime tem cerca de 17 px; um alcance maior fazia a multidão se afastar demais
 @export var alcance_separacao: float = 18.0
-@export var forca_separacao: float = 40.0
+# Os inimigos não colidem mais entre si (máscara só do mundo): a separação é o que evita o empilhamento
+@export var forca_separacao: float = 60.0
 var ultima_direcao_horizontal: float = 1.0  # 1 para direita, -1 para esquerda
 ## Distância da origem até os pés do sprite, para decidir se fica na frente ou atrás do jogador
 @export var altura_pes: float = 5.0
@@ -36,6 +37,8 @@ var pode_atacar: bool = true
 # -----------------------------
 @export var vida: int = 30
 @export var usar_barra_vida: bool = true
+## Distância da origem até a barra de vida (acima da cabeça do sprite)
+@export var altura_barra_vida: float = 22.0
 var esta_morto: bool = false
 
 # -----------------------------
@@ -57,6 +60,25 @@ var _jogador_cache: Node2D
 
 const COR_QUEIMANDO := Color(1.0, 0.65, 0.45)
 const COR_CONGELADO := Color(0.6, 0.85, 1.0)
+
+# -----------------------------
+# VARIANTE MUTANTE
+# -----------------------------
+# Versão maior e mais forte de qualquer inimigo, sorteada pelo spawner nas ondas mais altas
+const MUTANTE_ESCALA := 1.55
+const MUTANTE_MULT_VIDA := 1.9
+const MUTANTE_MULT_DANO := 1.35
+const COR_MUTANTE := Color(0.85, 0.4, 1.0)
+var eh_mutante: bool = false
+
+func tornar_mutante() -> void:
+	if eh_mutante:
+		return
+	eh_mutante = true
+	vida = roundi(vida * MUTANTE_MULT_VIDA)
+	dano *= MUTANTE_MULT_DANO
+	scale *= MUTANTE_ESCALA
+
 var _queimadura_restante := 0.0
 var _queimadura_dano := 0
 var _queimadura_intervalo := 0.5
@@ -79,7 +101,7 @@ func _ready() -> void:
 		var instancia_barra_hp = cena_barra_hp.instantiate()
 		instancia_barra_hp.name = "HPBar"
 		add_child(instancia_barra_hp)
-		instancia_barra_hp.position = Vector2(0, -22)
+		instancia_barra_hp.position = Vector2(0, -altura_barra_vida)
 
 func _physics_process(delta: float) -> void:
 	if esta_morto:
@@ -212,7 +234,7 @@ func _atualizar_efeitos(delta: float) -> void:
 		if _queimadura_acumulado >= _queimadura_intervalo:
 			_queimadura_acumulado -= _queimadura_intervalo
 			receber_dano_efeito(_queimadura_dano, _queimadura_cor)
-	var tom := Color.WHITE
+	var tom := COR_MUTANTE if eh_mutante else Color.WHITE
 	if _queimadura_restante > 0.0:
 		tom = COR_QUEIMANDO
 	elif _lentidao_restante > 0.0:

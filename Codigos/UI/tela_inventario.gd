@@ -3,7 +3,7 @@ extends Control
 const CENA_SLOT := preload("res://cenas/ui/componentes/slot_ui.tscn")
 const IconesItens := preload("res://Codigos/UI/icones_itens.gd")
 const LADO_QUADRO_BONECO := 64
-const NOMES_SLOTS_EQUIPAMENTO := ["SlotCabeca", "SlotCorpo", "SlotLuvas", "SlotBotas", "SlotArma", "SlotEscudo"]
+const NOMES_SLOTS_EQUIPAMENTO := ["SlotCabeca", "SlotCorpo", "SlotLuvas", "SlotBotas", "SlotArma", "SlotEscudo", "SlotSecundaria"]
 
 var _atualizacao_pendente: bool = false
 var _slots_mochila: Array[Control] = []
@@ -55,9 +55,11 @@ func _atualizar() -> void:
 
 # Equipar e comprar mudam as estatísticas do Jogador; espera um frame para ele recalcular
 func atualizar_atributos() -> void:
-	if not is_node_ready():
+	if not is_node_ready() or not is_inside_tree() or get_tree() == null:
 		return
 	await get_tree().process_frame
+	if not is_inside_tree() or get_tree() == null:
+		return
 	var jogador := IconesItens.obter_jogador(get_tree())
 	if jogador == null:
 		return

@@ -1,0 +1,79 @@
+[gd_scene load_steps=32 format=3]
+
+[ext_resource type="Script" path="res://Codigos/Inimigos/Inimigo-generico.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.10a - Greedy Gremlin/greedy gremlin (base) v01.png" id="2_v01"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.10a - Greedy Gremlin/greedy gremlin (base) v02.png" id="2_v02"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.10a - Greedy Gremlin/greedy gremlin (base) v03.png" id="2_v03"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.10a - Greedy Gremlin/greedy gremlin (base) v04.png" id="2_v04"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.10a - Greedy Gremlin/greedy gremlin (base) v05.png" id="2_v05"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.10a - Greedy Gremlin/greedy gremlin (base) v06.png" id="2_v06"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.10a - Greedy Gremlin/greedy gremlin (base) v07.png" id="2_v07"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.10a - Greedy Gremlin/greedy gremlin (horns and tail) v01.png" id="2_v08"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.10a - Greedy Gremlin/greedy gremlin (horns and tail) v02.png" id="2_v09"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.10a - Greedy Gremlin/greedy gremlin (horns and tail) v03.png" id="2_v10"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.10a - Greedy Gremlin/greedy gremlin (horns and tail) v04.png" id="2_v11"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.10a - Greedy Gremlin/greedy gremlin (horns and tail) v05.png" id="2_v12"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.10a - Greedy Gremlin/greedy gremlin (horns and tail) v06.png" id="2_v13"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.10a - Greedy Gremlin/greedy gremlin (horns and tail) v07.png" id="2_v14"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.10a - Greedy Gremlin/greedy gremlin (horns) v01.png" id="2_v15"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.10a - Greedy Gremlin/greedy gremlin (horns) v02.png" id="2_v16"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.10a - Greedy Gremlin/greedy gremlin (horns) v03.png" id="2_v17"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.10a - Greedy Gremlin/greedy gremlin (horns) v04.png" id="2_v18"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.10a - Greedy Gremlin/greedy gremlin (horns) v05.png" id="2_v19"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.10a - Greedy Gremlin/greedy gremlin (horns) v06.png" id="2_v20"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.10a - Greedy Gremlin/greedy gremlin (horns) v07.png" id="2_v21"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.10a - Greedy Gremlin/greedy gremlin (tail) v01.png" id="2_v22"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.10a - Greedy Gremlin/greedy gremlin (tail) v02.png" id="2_v23"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.10a - Greedy Gremlin/greedy gremlin (tail) v03.png" id="2_v24"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.10a - Greedy Gremlin/greedy gremlin (tail) v04.png" id="2_v25"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.10a - Greedy Gremlin/greedy gremlin (tail) v05.png" id="2_v26"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.10a - Greedy Gremlin/greedy gremlin (tail) v06.png" id="2_v27"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.10a - Greedy Gremlin/greedy gremlin (tail) v07.png" id="2_v28"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_corpo"]
+size = Vector2(22, 18)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_toque"]
+size = Vector2(28, 22)
+
+[node name="Gremlin_Greedy" type="CharacterBody2D" groups=["enemy"]]
+collision_layer = 4
+collision_mask = 64
+script = ExtResource("1_script")
+texturas = [ExtResource("2_v01"), ExtResource("2_v02"), ExtResource("2_v03"), ExtResource("2_v04"), ExtResource("2_v05"), ExtResource("2_v06"), ExtResource("2_v07"), ExtResource("2_v08"), ExtResource("2_v09"), ExtResource("2_v10"), ExtResource("2_v11"), ExtResource("2_v12"), ExtResource("2_v13"), ExtResource("2_v14"), ExtResource("2_v15"), ExtResource("2_v16"), ExtResource("2_v17"), ExtResource("2_v18"), ExtResource("2_v19"), ExtResource("2_v20"), ExtResource("2_v21"), ExtResource("2_v22"), ExtResource("2_v23"), ExtResource("2_v24"), ExtResource("2_v25"), ExtResource("2_v26"), ExtResource("2_v27"), ExtResource("2_v28")]
+colunas = 8
+linhas = 8
+parado = false
+anims = {"andar_baixo": [0, 1, 2, 3], "andar_cima": [8, 9, 10, 11], "andar_lado": [16, 17, 18, 19], "ataque_baixo": [28, 29, 29], "ataque_cima": [33, 34, 34], "ataque_lado": [44, 45, 46], "morte": [52, 53, 54, 55]}
+lado_olha_direita = true
+espelhar_sempre = false
+fps_andar = 9.0
+fps_ataque = 9.0
+fps_morte = 7.0
+velocidade = 55
+aceleracao = 380.0
+raio_parada = 11.0
+alcance_separacao = 28.0
+altura_pes = 14.0
+altura_barra_vida = 17.0
+tempo_recarga_ataque = 1.4
+alcance_ataque = 18.0
+dano = 13.0
+vida = 40
+
+[node name="Texture" type="Sprite2D" parent="."]
+texture = ExtResource("2_v01")
+hframes = 8
+vframes = 8
+
+[node name="colision_body" type="CollisionShape2D" parent="."]
+position = Vector2(0, 1)
+shape = SubResource("RectangleShape2D_corpo")
+
+[node name="ataque" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="attack_colision_player" type="CollisionShape2D" parent="ataque"]
+position = Vector2(0, 1)
+shape = SubResource("RectangleShape2D_toque")

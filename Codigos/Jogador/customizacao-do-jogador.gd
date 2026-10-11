@@ -23,7 +23,7 @@ func _ready() -> void:
 			sprites_cabelo.append(recurso_cabelo)
 	
 	# 2) Carrega as sprites de roupa (exemplo de 1 a 8)
-	for i in range(1, 8):
+	for i in range(1, 13):
 		var caminho_roupa = "res://CharacterSprites/Outfit/outfit (%d).png" % i
 		var recurso_roupa = load(caminho_roupa)
 		if recurso_roupa:

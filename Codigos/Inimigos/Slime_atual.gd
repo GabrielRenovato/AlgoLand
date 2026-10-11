@@ -2,6 +2,14 @@ extends "Inimigo-base.gd"
 class_name SlimeEscorregadio
 var esta_atacando_atualmente = false
 
+## Variações de cor sorteadas no spawn; preenchidas na cena com as 20 cores do pacote
+@export var texturas: Array[Texture2D] = []
+
+func _ready() -> void:
+	if texturas.size() > 0:
+		sprite.texture = texturas[randi() % texturas.size()]
+	super()
+
 func _physics_process(delta: float) -> void:
 	super(delta)
 	if esta_morto or not pode_atacar:

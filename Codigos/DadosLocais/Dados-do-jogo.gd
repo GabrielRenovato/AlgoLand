@@ -1,6 +1,6 @@
 extends Node
 
-var moedas: int = 0
+var moedas: int = 10000  # TESTE: ouro inicial para testar as armas; voltar para 0 depois
 
 func _ready() -> void:
 	# Atualiza a UI de moedas (caso já exista)

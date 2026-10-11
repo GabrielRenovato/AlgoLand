@@ -41,9 +41,21 @@ func _ready() -> void:
 	if jogador:
 		jogador.atualizar_barra_hp()
 		atualizar_stamina(jogador.stamina, jogador.stamina_maxima)
-	# O GerenciadorOndas fica dentro do enemySpawner e pode entrar na árvore depois do HUD
-	await get_tree().process_frame
-	var gerenciador := get_tree().get_first_node_in_group("gerenciador_ondas")
+	_conectar_gerenciador()
+
+func _conectar_gerenciador() -> void:
+	var gerenciador: Node = null
+	if is_inside_tree() and get_tree():
+		gerenciador = get_tree().get_first_node_in_group("gerenciador_ondas")
+	if gerenciador == null and get_parent():
+		gerenciador = get_parent().get_node_or_null("enemySpawner/GerenciadorOndas")
+	if gerenciador == null:
+		if not is_inside_tree() or get_tree() == null:
+			return
+		await get_tree().process_frame
+		if not is_inside_tree() or get_tree() == null:
+			return
+		gerenciador = get_tree().get_first_node_in_group("gerenciador_ondas")
 	if gerenciador == null:
 		return
 	_gerenciador = gerenciador
@@ -97,6 +109,10 @@ func atualizar_moedas(quantidade: int) -> void:
 
 func _ao_onda_iniciada(onda: int) -> void:
 	_mostrar_inimigos(true)
+	if _gerenciador != null and _gerenciador.onda_bonus:
+		rotulo_onda.text = "BONUS"
+		_mostrar_banner("ESTAGIO BONUS", "MIMICOS! MAIS OURO", 2.2)
+		return
 	# Na onda do chefe o anúncio é dele (mostrar_chefe), não da onda
 	if _eh_onda_chefe(onda):
 		rotulo_onda.text = "CHEFE"
@@ -105,8 +121,13 @@ func _ao_onda_iniciada(onda: int) -> void:
 	_mostrar_banner("ONDA %d" % onda)
 
 func _ao_onda_completada(onda: int) -> void:
-	rotulo_onda.text = "ONDA %d" % (onda + 1)
 	_mostrar_inimigos(false)
+	# O bônus não avança a onda: a próxima é a mesma que ficou esperando
+	if _gerenciador != null and _gerenciador.onda_bonus:
+		rotulo_onda.text = "ONDA %d" % onda
+		_mostrar_banner("BONUS CONCLUIDO", "PROXIMA: ONDA %d" % onda)
+		return
+	rotulo_onda.text = "ONDA %d" % (onda + 1)
 	if _eh_onda_chefe(onda):
 		_mostrar_banner("CHEFE DERROTADO", "ONDA %d CONCLUIDA" % onda)
 	else:
@@ -138,7 +159,10 @@ func _mostrar_banner(texto: String, subtitulo := "", tempo_visivel := 1.5) -> vo
 	faixa_banner.modulate.a = 0.0
 	faixa_banner.scale = ESCALA_BANNER * 1.3
 	# Espera o PanelContainer recalcular o tamanho para o texto novo
-	await get_tree().process_frame
+	if is_inside_tree() and get_tree():
+		await get_tree().process_frame
+	if not is_inside_tree():
+		return
 	faixa_banner.pivot_offset = faixa_banner.size / 2.0
 	_tween_banner = create_tween()
 	_tween_banner.set_parallel()

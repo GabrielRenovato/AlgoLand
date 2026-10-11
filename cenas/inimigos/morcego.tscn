@@ -1,0 +1,57 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://Codigos/Inimigos/Inimigo-generico.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.04b - Bashful Bat 2.0/bashful bat v01.png" id="2_v01"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.04b - Bashful Bat 2.0/bashful bat v02.png" id="2_v02"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.04b - Bashful Bat 2.0/bashful bat v03.png" id="2_v03"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.04b - Bashful Bat 2.0/bashful bat v04.png" id="2_v04"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.04b - Bashful Bat 2.0/bashful bat v05.png" id="2_v05"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.04b - Bashful Bat 2.0/bashful bat v06.png" id="2_v06"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_corpo"]
+size = Vector2(14, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_toque"]
+size = Vector2(18, 20)
+
+[node name="Morcego_Bashful" type="CharacterBody2D" groups=["enemy"]]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("1_script")
+texturas = [ExtResource("2_v01"), ExtResource("2_v02"), ExtResource("2_v03"), ExtResource("2_v04"), ExtResource("2_v05"), ExtResource("2_v06")]
+colunas = 4
+linhas = 4
+parado = false
+anims = {"andar_baixo": [8, 9, 10, 11], "andar_cima": [0, 1, 2, 3], "andar_lado": [4, 5, 6, 7], "ataque_baixo": [8, 9, 10, 11], "ataque_cima": [0, 1, 2, 3], "ataque_lado": [4, 5, 6, 7], "morte": [12, 13, 15]}
+lado_olha_direita = false
+espelhar_sempre = false
+fps_andar = 10.0
+fps_ataque = 14.0
+fps_morte = 6.0
+velocidade = 85
+aceleracao = 420.0
+raio_parada = 8.0
+alcance_separacao = 20.0
+altura_pes = 12.0
+altura_barra_vida = 19.0
+tempo_recarga_ataque = 1.1
+alcance_ataque = 14.0
+dano = 8.0
+vida = 16
+
+[node name="Texture" type="Sprite2D" parent="."]
+texture = ExtResource("2_v01")
+hframes = 4
+vframes = 4
+
+[node name="colision_body" type="CollisionShape2D" parent="."]
+position = Vector2(0, -1)
+shape = SubResource("RectangleShape2D_corpo")
+
+[node name="ataque" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="attack_colision_player" type="CollisionShape2D" parent="ataque"]
+position = Vector2(0, -1)
+shape = SubResource("RectangleShape2D_toque")

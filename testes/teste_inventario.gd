@@ -15,6 +15,7 @@ func _initialize() -> void:
 	_testar_dict()
 	_testar_sinais()
 	_testar_itens_iniciais()
+	_testar_arco_exige_aljava()
 	quit(_falhas)
 
 func _verificar(nome: String, condicao: bool, detalhe: String = "") -> void:
@@ -172,14 +173,32 @@ func _testar_itens_iniciais() -> void:
 	for slot in modelo.SLOTS:
 		if modelo.equipados[slot] != null:
 			total += 1
-	_verificar("criar_itens_iniciais cria 7 itens", total == 7 and not modelo.esta_vazio(), "total=%d" % total)
+	_verificar("criar_itens_iniciais cria 8 itens", total == 8 and not modelo.esta_vazio(), "total=%d" % total)
 	var armas_na_mochila: bool = modelo.mochila[0].tipo == "espada_basica" and modelo.mochila[1].tipo == "lanca_basica" and modelo.mochila[2].tipo == "escudo_basico" and modelo.mochila[3] == null
 	_verificar("armas e escudo comecam na mochila", armas_na_mochila and modelo.equipados["arma"] == null and modelo.equipados["escudo"] == null, "mochila[0]=%s" % str(modelo.mochila[0]))
 	var armaduras_equipadas: bool = modelo.equipados["cabeca"].tipo == "cabeca_basica" and modelo.equipados["corpo"].tipo == "armadura_basica" and modelo.equipados["luvas"].tipo == "luvas_basicas" and modelo.equipados["botas"].tipo == "botas_basicas"
 	_verificar("armaduras comecam equipadas", armaduras_equipadas, "armaduras fora do lugar")
-	_verificar("criar_itens_iniciais emite cada sinal uma vez", contagem["mochila"] == 1 and contagem["slots"] == 4 and contagem["itens"] == 0, str(contagem))
+	_verificar("aljava comeca equipada", modelo.equipados["secundaria"].tipo == "aljava_basica", "secundaria=%s" % str(modelo.equipados["secundaria"]))
+	_verificar("criar_itens_iniciais emite cada sinal uma vez", contagem["mochila"] == 1 and contagem["slots"] == 5 and contagem["itens"] == 0, str(contagem))
 	var lanca = modelo.buscar_por_tipo("lanca_basica")
 	_verificar("buscar_por_tipo acha na mochila e equipado", lanca != null and lanca.nivel == 1 and modelo.buscar_por_tipo("botas_basicas") != null and modelo.buscar_por_tipo("inexistente") == null, "busca falhou")
 	modelo.subir_nivel(lanca)
 	_verificar("nivel lido pelo tipo apos subir_nivel", modelo.buscar_por_tipo("lanca_basica").nivel == 2, "nivel=%d" % modelo.buscar_por_tipo("lanca_basica").nivel)
+	modelo.free()
+
+func _testar_arco_exige_aljava() -> void:
+	var modelo = _modelo()
+	var arco = _item("arco_curto", "arma", true)
+	var aljava = _item("aljava_basica", "secundaria")
+	var espada = _item("espada_basica", "arma")
+	modelo.adicionar(arco)
+	modelo.adicionar(aljava)
+	modelo.adicionar(espada)
+	_verificar("arco nao pode ser equipado sem aljava", not modelo.pode_equipar(arco) and not modelo.equipar(arco), "equipou sem aljava")
+	modelo.equipar(aljava)
+	_verificar("arco equipa com aljava equipada", modelo.equipar(arco) and modelo.slot_de(arco) == "arma", "nao equipou")
+	_verificar("aljava nao pode ser desequipada com arco equipado", not modelo.desequipar("secundaria") and modelo.slot_de(aljava) == "secundaria", "desequipou")
+	_verificar("aljava nao pode ser movida para a mochila com arco equipado", not modelo.mover_para_mochila(aljava, 5) and modelo.slot_de(aljava) == "secundaria", "moveu")
+	modelo.equipar(espada)
+	_verificar("troca de arma libera a aljava", modelo.desequipar("secundaria") and modelo.slot_de(aljava) == "", "nao liberou")
 	modelo.free()

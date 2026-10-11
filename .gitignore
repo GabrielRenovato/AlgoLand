@@ -1,3 +1,6 @@
 # Godot 4+ specific ignores
 .godot/
 /android/
+
+# Zips originais dos pacotes de sprites pagos (nao redistribuir em repo publico)
+SPRITES GERAL/_zips_originais/

@@ -1,0 +1,18 @@
+Animations by row
+
+1st row: 4-frame idle, 4-frame move (down)
+2nd row: 4-frame idle, 4-frame move (up)
+3rd row: 4-frame idle, 4-frame move (right)
+4th row: 4-frame claw, 3-frame bite (down) 1-frame hurt (down or right)
+5th row: 4-frame claw, 3-frame bite, 1-frame hurt (up)
+6th row: 4-frame claw, 3-frame bite, shadow sprite
+7th row: 4 frame look around idle (down or right), 2-frame knockdown (down or right), 2-frame knockdown (up)
+8th row: intentionally left blank
+
+Suggested animation timing (in milliseconds)
+
+idle AND move: 180, all frames
+claw: 180, 60, 80, 300
+bite: 120, 80, 300
+look around idle: 180, 400, 180, 400 (ping-pong)
+knockdown: (first play hurt at 180, then) 180, 300 (repeat, then stay down)

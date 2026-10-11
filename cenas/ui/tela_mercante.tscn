@@ -141,7 +141,7 @@ layout_mode = 2
 [node name="SlotEncantar" parent="Painel/Linhas/Conteudo/Encantar/CentroSlot" instance=ExtResource("10_slot")]
 unique_name_in_owner = true
 layout_mode = 2
-tipos_aceitos = Array[String](["espada_basica", "lanca_basica"])
+tipos_aceitos = Array[String](["espada_basica", "espada_gemea", "machado", "maca", "arco_curto", "arco_curvo", "arco_longo", "lanca_basica"])
 
 [node name="RotuloArrasteEncantar" type="Label" parent="Painel/Linhas/Conteudo/Encantar"]
 unique_name_in_owner = true
@@ -275,7 +275,7 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-tipos_aceitos = Array[String](["espada_basica", "lanca_basica", "escudo_basico"])
+tipos_aceitos = Array[String](["espada_basica", "espada_gemea", "machado", "maca", "arco_curto", "arco_curvo", "arco_longo", "lanca_basica", "escudo_basico"])
 
 [node name="RotuloArraste" type="Label" parent="Painel/Linhas/Conteudo/Bigorna"]
 unique_name_in_owner = true

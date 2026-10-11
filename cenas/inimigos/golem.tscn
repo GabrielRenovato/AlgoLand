@@ -4,34 +4,35 @@
 [ext_resource type="Texture2D" path="res://inimigos/golem/run/Golem1_Run_full.png" id="2_corrida"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_corpo"]
-size = Vector2(24, 10)
+size = Vector2(34, 14)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_toque"]
-size = Vector2(30, 24)
+size = Vector2(42, 34)
 
 [node name="Golem" type="CharacterBody2D" groups=["enemy"]]
 collision_layer = 4
-collision_mask = 68
+collision_mask = 64
 script = ExtResource("1_golem")
 velocidade = 26
 aceleracao = 300.0
-raio_parada = 10.0
-alcance_separacao = 30.0
+raio_parada = 14.0
+alcance_separacao = 42.0
 tempo_recarga_ataque = 1.6
-alcance_ataque = 34.0
+alcance_ataque = 48.0
 dano = 15.0
 vida = 260
 usar_barra_vida = false
-altura_pes = 0.0
+altura_pes = 11.0
 
 [node name="Texture" type="Sprite2D" parent="."]
-position = Vector2(0, -8)
+position = Vector2(0, -16)
+scale = Vector2(1.4, 1.4)
 texture = ExtResource("2_corrida")
 hframes = 8
 vframes = 4
 
 [node name="colision_body" type="CollisionShape2D" parent="."]
-position = Vector2(0, -3)
+position = Vector2(0, -4)
 shape = SubResource("RectangleShape2D_corpo")
 
 [node name="ataque" type="Area2D" parent="."]
@@ -39,5 +40,5 @@ collision_layer = 0
 collision_mask = 2
 
 [node name="attack_colision_player" type="CollisionShape2D" parent="ataque"]
-position = Vector2(0, -14)
+position = Vector2(0, -18)
 shape = SubResource("RectangleShape2D_toque")

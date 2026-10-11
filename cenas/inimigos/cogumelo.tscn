@@ -1,0 +1,74 @@
+[gd_scene load_steps=27 format=3]
+
+[ext_resource type="Script" path="res://Codigos/Inimigos/Inimigo-generico.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.12a - Moody Mushroom 3.0/moody mushroom A v01.png" id="2_v01"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.12a - Moody Mushroom 3.0/moody mushroom A v02.png" id="2_v02"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.12a - Moody Mushroom 3.0/moody mushroom A v03.png" id="2_v03"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.12a - Moody Mushroom 3.0/moody mushroom A v04.png" id="2_v04"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.12a - Moody Mushroom 3.0/moody mushroom A v05.png" id="2_v05"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.12a - Moody Mushroom 3.0/moody mushroom B v01.png" id="2_v06"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.12a - Moody Mushroom 3.0/moody mushroom B v02.png" id="2_v07"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.12a - Moody Mushroom 3.0/moody mushroom B v03.png" id="2_v08"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.12a - Moody Mushroom 3.0/moody mushroom B v04.png" id="2_v09"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.12a - Moody Mushroom 3.0/moody mushroom B v05.png" id="2_v10"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.12a - Moody Mushroom 3.0/moody mushroom C v01.png" id="2_v11"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.12a - Moody Mushroom 3.0/moody mushroom C v02.png" id="2_v12"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.12a - Moody Mushroom 3.0/moody mushroom C v03.png" id="2_v13"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.12a - Moody Mushroom 3.0/moody mushroom C v04.png" id="2_v14"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.12a - Moody Mushroom 3.0/moody mushroom C v05.png" id="2_v15"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.12a - Moody Mushroom 3.0/moody mushroom D v01.png" id="2_v16"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.12a - Moody Mushroom 3.0/moody mushroom D v02.png" id="2_v17"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.12a - Moody Mushroom 3.0/moody mushroom D v03.png" id="2_v18"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.12a - Moody Mushroom 3.0/moody mushroom D v04.png" id="2_v19"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.12a - Moody Mushroom 3.0/moody mushroom D v05.png" id="2_v20"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.12a - Moody Mushroom 3.0/moody mushroom E v01.png" id="2_v21"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.12a - Moody Mushroom 3.0/moody mushroom E v02.png" id="2_v22"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.12a - Moody Mushroom 3.0/moody mushroom E v03.png" id="2_v23"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_corpo"]
+size = Vector2(16, 22)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_toque"]
+size = Vector2(18, 24)
+
+[node name="Cogumelo_Moody" type="CharacterBody2D" groups=["enemy"]]
+collision_layer = 4
+collision_mask = 64
+script = ExtResource("1_script")
+texturas = [ExtResource("2_v01"), ExtResource("2_v02"), ExtResource("2_v03"), ExtResource("2_v04"), ExtResource("2_v05"), ExtResource("2_v06"), ExtResource("2_v07"), ExtResource("2_v08"), ExtResource("2_v09"), ExtResource("2_v10"), ExtResource("2_v11"), ExtResource("2_v12"), ExtResource("2_v13"), ExtResource("2_v14"), ExtResource("2_v15"), ExtResource("2_v16"), ExtResource("2_v17"), ExtResource("2_v18"), ExtResource("2_v19"), ExtResource("2_v20"), ExtResource("2_v21"), ExtResource("2_v22"), ExtResource("2_v23")]
+colunas = 8
+linhas = 8
+parado = false
+anims = {"andar_baixo": [16, 17, 18, 19], "andar_cima": [8, 9, 10, 11], "andar_lado": [20, 21, 22, 23], "ataque_baixo": [28, 29, 28], "morte": [48, 49, 50, 52, 53]}
+lado_olha_direita = true
+espelhar_sempre = false
+fps_andar = 7.0
+fps_ataque = 8.0
+fps_morte = 6.0
+velocidade = 38
+aceleracao = 300.0
+raio_parada = 11.0
+alcance_separacao = 22.0
+altura_pes = 13.0
+altura_barra_vida = 20.0
+tempo_recarga_ataque = 1.7
+alcance_ataque = 16.0
+dano = 11.0
+vida = 50
+
+[node name="Texture" type="Sprite2D" parent="."]
+texture = ExtResource("2_v01")
+hframes = 8
+vframes = 8
+
+[node name="colision_body" type="CollisionShape2D" parent="."]
+position = Vector2(0, -1)
+shape = SubResource("RectangleShape2D_corpo")
+
+[node name="ataque" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="attack_colision_player" type="CollisionShape2D" parent="ataque"]
+position = Vector2(0, -1)
+shape = SubResource("RectangleShape2D_toque")

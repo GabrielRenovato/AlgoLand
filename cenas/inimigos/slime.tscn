@@ -1,7 +1,17 @@
-[gd_scene load_steps=26 format=3 uid="uid://g8r1rfw2l8tx"]
+[gd_scene load_steps=36 format=3 uid="uid://g8r1rfw2l8tx"]
 
 [ext_resource type="Script" uid="uid://v3pjeqyhwiok" path="res://Codigos/Inimigos/Slime_atual.gd" id="1_i62ro"]
 [ext_resource type="Texture2D" uid="uid://ccmqngjfq1d4j" path="res://inimigos/slippery_slime.png" id="1_ro10n"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/20.11b - Slippery Slime 2.0/slippery slime v01.png" id="2_var01"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/20.11b - Slippery Slime 2.0/slippery slime v02.png" id="2_var02"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/20.11b - Slippery Slime 2.0/slippery slime v03.png" id="2_var03"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/20.11b - Slippery Slime 2.0/slippery slime v04.png" id="2_var04"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/20.11b - Slippery Slime 2.0/slippery slime v05.png" id="2_var05"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/20.11b - Slippery Slime 2.0/slippery slime v06.png" id="2_var06"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/20.11b - Slippery Slime 2.0/slippery slime v07.png" id="2_var07"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/20.11b - Slippery Slime 2.0/slippery slime v08.png" id="2_var08"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/20.11b - Slippery Slime 2.0/slippery slime v09.png" id="2_var09"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/20.11b - Slippery Slime 2.0/slippery slime v10.png" id="2_var10"]
 
 [sub_resource type="Animation" id="Animation_uhxg8"]
 length = 0.001
@@ -213,9 +223,10 @@ size = Vector2(21, 17)
 
 [node name="Slime_Slippery" type="CharacterBody2D" groups=["enemy"]]
 collision_layer = 4
-collision_mask = 68
+collision_mask = 64
 script = ExtResource("1_i62ro")
 raio_parada = 10.0
+texturas = [ExtResource("2_var01"), ExtResource("2_var02"), ExtResource("2_var03"), ExtResource("2_var04"), ExtResource("2_var05"), ExtResource("2_var06"), ExtResource("2_var07"), ExtResource("2_var08"), ExtResource("2_var09"), ExtResource("2_var10")]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

@@ -11,8 +11,15 @@ const CORES_RARIDADE := {
 # Sem acentos: as fontes pixel do projeto não os suportam
 const NOMES := {
 	"espada_basica": "ESPADA",
+	"espada_gemea": "ESPADA GEMEA",
+	"machado": "MACHADO",
+	"maca": "MACA",
+	"arco_curto": "ARCO CURTO",
+	"arco_curvo": "ARCO CURVO",
+	"arco_longo": "ARCO LONGO",
 	"lanca_basica": "LANCA",
 	"escudo_basico": "ESCUDO",
+	"aljava_basica": "ALJAVA",
 	"cabeca_basica": "ELMO",
 	"armadura_basica": "ARMADURA",
 	"luvas_basicas": "LUVAS",
@@ -21,7 +28,7 @@ const NOMES := {
 
 @export var id: StringName = &""
 @export var tipo: String = "espada_basica"
-@export_enum("arma", "escudo", "cabeca", "corpo", "luvas", "botas") var categoria: String = "arma"
+@export_enum("arma", "escudo", "secundaria", "cabeca", "corpo", "luvas", "botas") var categoria: String = "arma"
 @export var nivel: int = 1
 @export_enum("comum", "incomum", "raro", "epico", "lendario") var raridade: String = "comum"
 @export var icone: Texture2D

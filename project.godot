@@ -122,7 +122,6 @@ rolar={
 ]
 }
 
-
 [layer_names]
 
 2d_physics/layer_2="jogador"

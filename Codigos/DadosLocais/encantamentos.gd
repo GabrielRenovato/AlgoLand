@@ -3,7 +3,7 @@ extends RefCounted
 const NIVEL_MAXIMO := 3
 const CUSTO_POR_NIVEL := 120
 # Só armas de ataque: o escudo não acerta inimigos
-const TIPOS_ENCANTAVEIS: Array[String] = ["espada_basica", "lanca_basica"]
+const TIPOS_ENCANTAVEIS: Array[String] = ["espada_basica", "espada_gemea", "machado", "maca", "arco_curto", "arco_curvo", "arco_longo", "lanca_basica"]
 
 const TIPOS := {
 	"fogo": {"nome": "FOGO", "cor": Color(1.0, 0.55, 0.2)},

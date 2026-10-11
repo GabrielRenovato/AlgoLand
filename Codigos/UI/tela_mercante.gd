@@ -5,7 +5,8 @@ const Equipamentos := preload("res://Codigos/DadosLocais/Equipamentos.gd")
 const Encantamentos := preload("res://Codigos/DadosLocais/encantamentos.gd")
 
 # As fontes pixel do jogo não têm acentos nem "→"; os textos do painel usam ASCII
-const NOMES_UPGRADE := {"espada_basica": "ESPADA", "lanca_basica": "LANCA", "escudo_basico": "ESCUDO"}
+const PREFIXO_ARMA_LOJA := "arma:"
+const CATEGORIAS_LOJA := {"totens": "TOTENS", "armas": "ARMAS"}
 const COR_TEXTO_OK := Color(0.93, 0.9, 0.85)
 const COR_TEXTO_BLOQUEADO := Color(1, 0.45, 0.45)
 const LADO_BOTAO_ITEM := 30
@@ -19,6 +20,8 @@ var _equipamentos := Equipamentos.new()
 var _chave_item_selecionado := ""
 var _encantamento_escolhido := ""
 var _botoes_encantamento: Dictionary = {}
+# Botões da grade da loja agrupados por categoria ("totens" ou "armas")
+var _botoes_loja: Dictionary = {"totens": [], "armas": []}
 
 @onready var _aba_encantar: Button = %AbaEncantar
 @onready var _aba_loja: Button = %AbaLoja
@@ -76,7 +79,7 @@ func _process(_delta: float) -> void:
 	if jogador == null:
 		return
 	_botao_iniciar_onda.disabled = not _tem_arma_equipada(jogador)
-	_aba_bigorna.disabled = not (jogador.usando_espada or jogador.usando_lanca)
+	_aba_bigorna.disabled = not (jogador.usando_espada or jogador.usando_lanca or jogador.usando_arco)
 
 func _ao_visibilidade_alterada() -> void:
 	set_process(visible)
@@ -101,7 +104,7 @@ func _mostrar_aba(painel: Control) -> void:
 	elif painel == _painel_bigorna:
 		atualizar_painel_upgrade()
 func _tem_arma_equipada(jogador: Node) -> bool:
-	return jogador.usando_espada or jogador.usando_lanca or jogador.usando_escudo
+	return jogador.usando_espada or jogador.usando_lanca or jogador.usando_arco or jogador.usando_escudo
 
 func _fechar() -> void:
 	EventosJogo.fechar_tela.emit("mercante")
@@ -125,28 +128,62 @@ func atualizar_exibicao_moedas() -> void:
 # --- Loja ---
 
 func _montar_loja() -> void:
+	_montar_abas_loja()
 	for chave in DadosDosItems.itens.keys():
 		var dados: Dictionary = DadosDosItems.obter_dados_item(chave)
 		if dados.is_empty():
 			continue
-		var botao := Button.new()
-		botao.theme_type_variation = &"BotaoSlot"
-		botao.custom_minimum_size = Vector2(LADO_BOTAO_ITEM, LADO_BOTAO_ITEM)
-		# Ícone como filho com recuo: o icon do Button ignora a margem e cobre a moldura
-		var icone := TextureRect.new()
-		icone.texture = load(dados["icone"])
-		icone.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-		icone.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-		icone.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		icone.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-		icone.offset_left = RECUO_ICONE
-		icone.offset_top = RECUO_ICONE
-		icone.offset_right = -RECUO_ICONE
-		icone.offset_bottom = -RECUO_ICONE
-		botao.add_child(icone)
-		botao.tooltip_text = String(dados["nome"]).to_upper()
-		botao.pressed.connect(_selecionar_item.bind(chave))
-		_grade_itens.add_child(botao)
+		_adicionar_botao_loja("totens", chave, load(dados["icone"]), String(dados["nome"]).to_upper())
+	for tipo in Equipamentos.ARMAS_LOJA:
+		_adicionar_botao_loja("armas", PREFIXO_ARMA_LOJA + tipo, IconesItens.obter_arma(tipo, get_tree()), DadosItem.NOMES[tipo])
+	_mostrar_categoria_loja("totens")
+
+# Abas TOTENS / ARMAS acima da grade
+func _montar_abas_loja() -> void:
+	var linha := HBoxContainer.new()
+	linha.add_theme_constant_override("separation", 2)
+	var grupo := ButtonGroup.new()
+	for categoria in CATEGORIAS_LOJA:
+		var aba := Button.new()
+		aba.theme_type_variation = &"BotaoAba"
+		aba.toggle_mode = true
+		aba.button_group = grupo
+		aba.text = CATEGORIAS_LOJA[categoria]
+		aba.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		aba.pressed.connect(_mostrar_categoria_loja.bind(categoria))
+		aba.button_pressed = categoria == "totens"
+		linha.add_child(aba)
+	_grade_itens.get_parent().add_child(linha)
+	_grade_itens.get_parent().move_child(linha, _grade_itens.get_index())
+
+func _mostrar_categoria_loja(categoria: String) -> void:
+	for chave in _botoes_loja:
+		for botao in _botoes_loja[chave]:
+			botao.visible = chave == categoria
+	# O item selecionado pode ser de outra categoria
+	_detalhe.visible = false
+	_chave_item_selecionado = ""
+
+func _adicionar_botao_loja(categoria: String, chave: String, textura: Texture2D, nome: String) -> void:
+	var botao := Button.new()
+	botao.theme_type_variation = &"BotaoSlot"
+	botao.custom_minimum_size = Vector2(LADO_BOTAO_ITEM, LADO_BOTAO_ITEM)
+	# Ícone como filho com recuo: o icon do Button ignora a margem e cobre a moldura
+	var icone := TextureRect.new()
+	icone.texture = textura
+	icone.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	icone.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	icone.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	icone.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	icone.offset_left = RECUO_ICONE
+	icone.offset_top = RECUO_ICONE
+	icone.offset_right = -RECUO_ICONE
+	icone.offset_bottom = -RECUO_ICONE
+	botao.add_child(icone)
+	botao.tooltip_text = nome
+	botao.pressed.connect(_selecionar_item.bind(chave))
+	_grade_itens.add_child(botao)
+	_botoes_loja[categoria].append(botao)
 
 func _selecionar_item(chave: String) -> void:
 	_chave_item_selecionado = chave
@@ -154,6 +191,10 @@ func _selecionar_item(chave: String) -> void:
 	_atualizar_detalhe()
 
 func _atualizar_detalhe() -> void:
+	if _chave_item_selecionado.begins_with(PREFIXO_ARMA_LOJA):
+		_atualizar_detalhe_arma(_chave_item_selecionado.trim_prefix(PREFIXO_ARMA_LOJA))
+		return
+	_botao_comprar.text = "COMPRAR"
 	var dados: Dictionary = DadosDosItems.obter_dados_item(_chave_item_selecionado)
 	if dados.is_empty():
 		_detalhe.visible = false
@@ -165,7 +206,33 @@ func _atualizar_detalhe() -> void:
 	_preco_item.modulate = COR_TEXTO_OK if pode_comprar else COR_TEXTO_BLOQUEADO
 	_botao_comprar.disabled = not pode_comprar
 
+func _atualizar_detalhe_arma(tipo: String) -> void:
+	var definicao: Dictionary = Equipamentos.ARMAS_LOJA[tipo]
+	var ja_possui: bool = InventarioJogador.buscar_por_tipo(tipo) != null
+	_nome_item.text = DadosItem.NOMES[tipo]
+	var tipo_arma := "ARCO DE DUAS MAOS" if definicao.get("duas_maos", false) else "ARMA DE UMA MAO"
+	_descricao_item.text = "%s  DANO BASE %d  EVOLUI ATE NV 5" % [tipo_arma, definicao["dano"][0]]
+	_preco_item.text = str(definicao["preco"])
+	var pode_comprar: bool = DadosJogo.moedas >= int(definicao["preco"])
+	_preco_item.modulate = COR_TEXTO_OK if pode_comprar else COR_TEXTO_BLOQUEADO
+	_botao_comprar.text = "COMPRADA" if ja_possui else "COMPRAR"
+	_botao_comprar.disabled = ja_possui or not pode_comprar
+
+func _comprar_arma(tipo: String) -> void:
+	var jogador := IconesItens.obter_jogador(get_tree())
+	var preco: int = Equipamentos.ARMAS_LOJA[tipo]["preco"]
+	if jogador == null or DadosJogo.moedas < preco or InventarioJogador.buscar_por_tipo(tipo) != null:
+		return
+	if not InventarioJogador.adicionar_arma_nova(tipo):
+		return
+	jogador.gastar_moedas(preco)
+	InventarioJogador.salvar()
+	atualizar_exibicao_moedas()
+
 func _comprar_item_selecionado() -> void:
+	if _chave_item_selecionado.begins_with(PREFIXO_ARMA_LOJA):
+		_comprar_arma(_chave_item_selecionado.trim_prefix(PREFIXO_ARMA_LOJA))
+		return
 	var jogador := IconesItens.obter_jogador(get_tree())
 	var dados: Dictionary = DadosDosItems.itens.get(_chave_item_selecionado, {})
 	if jogador == null or dados.is_empty():
@@ -185,24 +252,18 @@ func _comprar_item_selecionado() -> void:
 func _ao_item_slot_alterado(_tem_item: bool) -> void:
 	atualizar_painel_upgrade()
 
-func _nivel_atual_do_item(jogador: Node, tipo_item: String) -> int:
-	match tipo_item:
-		"espada_basica":
-			return jogador.nivel_espada
-		"lanca_basica":
-			return jogador.nivel_lanca
-		"escudo_basico":
-			return jogador.nivel_escudo
-	return 0
+func _nivel_atual_do_item(tipo_item: String) -> int:
+	var item = InventarioJogador.buscar_por_tipo(tipo_item)
+	return item.nivel if item != null else 0
 
 # Vazio se não há item válido na bigorna
 func _dados_upgrade() -> Dictionary:
 	var item: Node = _slot_bigorna.item_atual
 	var jogador := IconesItens.obter_jogador(get_tree())
-	if item == null or jogador == null or not NOMES_UPGRADE.has(item.obter_tipo_item()):
+	if item == null or jogador == null or not Equipamentos.FAMILIAS.has(item.obter_tipo_item()):
 		return {}
 	var tipo_item: String = item.obter_tipo_item()
-	var nivel: int = _nivel_atual_do_item(jogador, tipo_item)
+	var nivel: int = _nivel_atual_do_item(tipo_item)
 	var proximo: Dictionary = _equipamentos.obter_dados_nivel_arma(tipo_item, nivel + 1)
 	var gerenciador_ondas := get_tree().get_first_node_in_group("gerenciador_ondas")
 	var onda_atual: int = gerenciador_ondas.onda_atual if gerenciador_ondas != null else 0
@@ -229,7 +290,7 @@ func atualizar_painel_upgrade() -> void:
 		_botao_melhorar.disabled = true
 		return
 
-	var nome: String = NOMES_UPGRADE[dados["tipo_item"]]
+	var nome: String = DadosItem.NOMES[dados["tipo_item"]]
 	var nivel: int = dados["nivel"]
 	var atual: Dictionary = dados["atual"]
 	var proximo: Dictionary = dados["proximo"]

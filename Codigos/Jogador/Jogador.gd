@@ -2,6 +2,12 @@ extends CharacterBody2D
 
 const EfeitosLuz := preload("res://Codigos/Efeitos/efeitos_luz.gd")
 const Encantamentos := preload("res://Codigos/DadosLocais/encantamentos.gd")
+const Equipamentos := preload("res://Codigos/DadosLocais/Equipamentos.gd")
+const ArcoJogador := preload("res://Codigos/Jogador/arco_jogador.gd")
+const Flecha := preload("res://Codigos/Jogador/flecha.gd")
+const ReacaoJogador := preload("res://Codigos/Jogador/reacao_jogador.gd")
+const ALCANCE_MIRA_ARCO := 260.0
+const TEXTURA_ALJAVA := preload("res://CharacterSprites/Arco/carregando/aljava.png")
 
 # Preload do banco de dados de armas (nome: banco_dados_armas)
 var banco_dados_armas = preload("res://Codigos/DadosLocais/Equipamentos.gd")
@@ -34,15 +40,25 @@ var bonus_defesa: int = 0               # Soma de todos os bônus de defesa
 var ataque_enfileirado: bool = false
 # Variável que controla o nível da arma (espada)
 var nivel_espada: int:
-	get: return _nivel_no_modelo("espada_basica")
+	get: return _nivel_no_modelo(id_arma_atual)
 var id_arma_atual: String = "espada_basica"
 @export var usando_espada: bool = false
 
 # Variáveis para controlar a lança
 @export var usando_lanca: bool = false
 var nivel_lanca: int:
-	get: return _nivel_no_modelo("lanca_basica")
+	get: return _nivel_no_modelo(id_lanca_atual)
 var id_lanca_atual: String = "lanca_basica"
+
+# Arco: camadas visuais próprias (arco_jogador.gd) no lugar de BaseSprites
+@export var usando_arco: bool = false
+var nivel_arco: int:
+	get: return _nivel_no_modelo(id_arco_atual)
+var id_arco_atual: String = "arco_curvo"
+var no_arco: ArcoJogador = null
+# Poses curtas de sacar/guardar a arma, esquiva e ferido (reacao_jogador.gd)
+var no_reacao: ReacaoJogador = null
+var _inventario_pronto: bool = false
 var botao_ataque_pressionado: bool = false
 const TIPOS_ARMADURA := {
 	"cabeca_basica": "usando_cabeca",
@@ -219,6 +235,20 @@ func _ready() -> void:
 	add_child(_temporizador_janela_combo)
 	_temporizador_janela_combo.connect("timeout", Callable(self, "_on_timeout_janela_combo"))
 
+	no_arco = ArcoJogador.new()
+	no_arco.name = "Arco"
+	no_arco.jogador = self
+	no_arco.visible = false
+	$CompositeSprites.add_child(no_arco)
+	no_arco.disparo_liberado.connect(_ao_disparo_liberado)
+	no_arco.disparo_terminado.connect(_ao_disparo_terminado)
+
+	no_reacao = ReacaoJogador.new()
+	no_reacao.name = "Reacao"
+	no_reacao.jogador = self
+	$CompositeSprites.add_child(no_reacao)
+	no_reacao.terminou.connect(_atualizar_visual_arco)
+
 	# Ajusta sprite básico do Corpo
 	sprite_corpo.texture = sprites_compostos.folha_sprite_corpo[0]
 
@@ -231,7 +261,7 @@ func _ready() -> void:
 		if recurso_cabelo:
 			array_ataque_cabelo.append(recurso_cabelo)
 
-	for i in range(1, 8):
+	for i in range(1, 13):
 		var caminho_roupa = "res://CharacterSprites/Outfit/Attack/slash_1_sword/outfit(%d).png" % i
 		var recurso_roupa = load(caminho_roupa)
 		if recurso_roupa:
@@ -245,7 +275,7 @@ func _ready() -> void:
 			array_ataque_cabelo_lanca.append(recurso_cabelo_lanca)
 
 	# >>> Arrays de roupa para lança <<<
-	for i in range(1, 8):
+	for i in range(1, 13):
 		var caminho_roupa_lanca = "res://CharacterSprites/Outfit/Attack/slash_1_spear/outfit (%d).png" % i
 		var recurso_roupa_lanca = load(caminho_roupa_lanca)
 		if recurso_roupa_lanca:
@@ -317,6 +347,7 @@ func _iniciar_inventario() -> void:
 	equipamento_alterado.connect(_enviar_estado_ao_modelo)
 	InventarioJogador.equipamento_alterado.connect(_ao_modelo_equipamento_alterado)
 	EventosJogo.tela_fechada.connect(_ao_tela_fechada)
+	_inventario_pronto = true
 
 func _nivel_no_modelo(tipo: String) -> int:
 	var item: DadosItem = InventarioJogador.buscar_por_tipo(tipo)
@@ -337,7 +368,15 @@ func _enviar_estado_ao_modelo() -> void:
 	if _sincronizando:
 		return
 	_sincronizando = true
-	var estados := {"espada_basica": usando_espada, "lanca_basica": usando_lanca, "escudo_basico": usando_escudo}
+	var estados := {"escudo_basico": usando_escudo}
+	for tipo in Equipamentos.FAMILIAS:
+		match Equipamentos.familia_de(tipo):
+			"espada":
+				estados[tipo] = usando_espada and tipo == id_arma_atual
+			"lanca":
+				estados[tipo] = usando_lanca and tipo == id_lanca_atual
+			"arco":
+				estados[tipo] = usando_arco and tipo == id_arco_atual
 	for tipo in TIPOS_ARMADURA:
 		estados[tipo] = get(TIPOS_ARMADURA[tipo])
 	for tipo in estados:
@@ -363,14 +402,23 @@ func _aplicar_modelo() -> void:
 
 	if escudo == null and usando_escudo:
 		desequipar_escudo()
-	if tipo_arma != "espada_basica" and usando_espada:
+	var familia: String = Equipamentos.familia_de(tipo_arma)
+	# Trocar por outra arma da mesma família também desequipa, para recarregar as texturas
+	if usando_espada and (familia != "espada" or tipo_arma != id_arma_atual):
 		desequipar_espada()
-	if tipo_arma != "lanca_basica" and usando_lanca:
+	if usando_lanca and (familia != "lanca" or tipo_arma != id_lanca_atual):
 		desequipar_lanca()
-	if tipo_arma == "espada_basica" and not usando_espada:
+	if usando_arco and (familia != "arco" or tipo_arma != id_arco_atual):
+		desequipar_arco()
+	if familia == "espada" and not usando_espada:
+		id_arma_atual = tipo_arma
 		equipar_espada()
-	elif tipo_arma == "lanca_basica" and not usando_lanca:
+	elif familia == "lanca" and not usando_lanca:
+		id_lanca_atual = tipo_arma
 		equipar_lanca()
+	elif familia == "arco" and not usando_arco:
+		id_arco_atual = tipo_arma
+		equipar_arco()
 	if escudo != null and not usando_escudo:
 		equipar_escudo()
 
@@ -397,6 +445,8 @@ func iniciar_dash() -> void:
 	temporizador_invul = duracao_dash
 	velocity = dir * velocidade_dash
 	_tempo_proximo_rastro = 0.0
+	_direcao_ataque = dir
+	_tocar_pose("esquiva", duracao_dash)
 
 	await get_tree().create_timer(duracao_dash).timeout
 	# Sai do dash com parte do impulso, para não parar seco
@@ -440,7 +490,7 @@ func _criar_rastro_dash() -> void:
 	rastro.global_position = $CompositeSprites.global_position
 	rastro.z_index = z_index - 1
 	rastro.modulate = cor_rastro_dash
-	for camada in [$CompositeSprites/BaseSprites, $CompositeSprites/Armaduras]:
+	for camada in [$CompositeSprites/BaseSprites, $CompositeSprites/Armaduras, no_arco, no_reacao]:
 		if not camada.visible:
 			continue
 		for sprite in camada.get_children():
@@ -560,7 +610,7 @@ func mover() -> void:
 		#    - Sem arma: base = 64
 		#    - Com arma (espada ou lança): base = 114
 		var velocidade_base = 64.0
-		if usando_espada or usando_lanca:
+		if usando_espada or usando_lanca or usando_arco:
 			velocidade_base = 114.0
 
 		# 2) Soma os bônus que já estão em estatisticas
@@ -577,8 +627,8 @@ func mover() -> void:
 		velocity.x = lerp(velocity.x, dir.x * velocidade_final, _aceleracao)
 		velocity.y = lerp(velocity.y, dir.y * velocidade_final, _aceleracao)
 
-		# Atualiza a animação dependendo de ter (espada/lança) ou não
-		if usando_espada or usando_lanca:
+		# Atualiza a animação dependendo de ter (espada/lança/arco) ou não
+		if usando_espada or usando_lanca or usando_arco:
 			_arvore_animacao.set("parameters/idle/blend_position", dir)
 			_arvore_animacao.set("parameters/running/blend_position", dir)
 		else:
@@ -601,6 +651,9 @@ func logica_combo_ataque() -> void:
 	_pedido_ataque = false
 	if ataques_bloqueados or get_viewport().gui_get_focus_owner() != null:
 		return
+	# Durante a pose (sacar, esquiva, ferido) o jogador não ataca
+	if no_reacao.visible:
+		return
 
 	if atacar:
 		if _esta_atacando:
@@ -617,6 +670,8 @@ func logica_combo_ataque() -> void:
 				elif _fase_combo == 2:
 					_fase_combo = 3
 					iniciar_slash_ataque("AtaqueEspadaSlash_3", _tempo_slash_3)
+			elif usando_arco:
+				_iniciar_disparo()
 			# Caso queira manter a lógica de lança, deixe o bloco abaixo
 			elif usando_lanca:
 				if _fase_combo == 0:
@@ -703,7 +758,7 @@ func animar() -> void:
 	if _esta_atacando:
 		return
 	if velocity.length() > 2:
-		if usando_espada or usando_lanca:
+		if usando_espada or usando_lanca or usando_arco:
 			_maquina_estados.travel("running")
 		else:
 			_maquina_estados.travel("run")
@@ -891,6 +946,8 @@ func atualizar_dano_arma() -> void:
 		dados = status_armas.obter_dados_nivel_arma(id_arma_atual, nivel_espada)
 	elif usando_lanca:
 		dados = status_armas.obter_dados_nivel_arma(id_lanca_atual, nivel_lanca)
+	elif usando_arco:
+		dados = status_armas.obter_dados_nivel_arma(id_arco_atual, nivel_arco)
 	estatisticas.dano_arma = dados.get("dano", 0)
 	estatisticas.calcular_estatisticas_derivadas(usando_espada or usando_lanca)
 
@@ -903,6 +960,8 @@ func equipar_espada() -> void:
 	# Se estiver usando lança, remover antes
 	if usando_lanca:
 		desequipar_lanca()
+	if usando_arco:
+		desequipar_arco()
 
 	tipo_item_atual = ""
 	usando_espada = true
@@ -910,9 +969,12 @@ func equipar_espada() -> void:
 	atualizar_texturas_espada()
 	sprite_espada.visible = true
 	atualizar_dano_arma()
+	_tocar_pose("sacar")
 	emit_signal("equipamento_alterado")
 
 func desequipar_espada() -> void:
+	if usando_espada:
+		_tocar_pose("guardar")
 	usando_espada = false
 	sprite_espada.visible = false
 	atualizar_dano_arma()
@@ -926,6 +988,9 @@ func equipar_lanca() -> void:
 	if usando_espada:
 		desequipar_espada()
 
+	if usando_arco:
+		desequipar_arco()
+
 	if usando_escudo:
 		desequipar_escudo()
 
@@ -935,14 +1000,138 @@ func equipar_lanca() -> void:
 	atualizar_dano_arma()
 	atualizar_texturas_lanca()
 	sprite_lanca.visible = true
+	_tocar_pose("sacar")
 	emit_signal("equipamento_alterado")
 
 func desequipar_lanca() -> void:
+	if usando_lanca:
+		_tocar_pose("guardar")
 	usando_lanca = false
 	eh_arma_duas_maos = false
 	sprite_lanca.visible = false
 	atualizar_dano_arma()
 	emit_signal("equipamento_alterado")
+
+func equipar_arco() -> void:
+	if usando_arco:
+		desequipar_arco()
+		return
+	if usando_espada:
+		desequipar_espada()
+	if usando_lanca:
+		desequipar_lanca()
+	# Arco usa as duas mãos
+	if usando_escudo:
+		desequipar_escudo()
+
+	tipo_item_atual = id_arco_atual
+	usando_arco = true
+	eh_arma_duas_maos = true
+	atualizar_dano_arma()
+	atualizar_texturas_arco()
+	sprite_espada.visible = false
+	sprite_escudo.visible = true
+	_atualizar_visual_arco()
+	_tocar_pose("sacar")
+	emit_signal("equipamento_alterado")
+
+func desequipar_arco() -> void:
+	if not usando_arco:
+		return
+	_tocar_pose("guardar")
+	usando_arco = false
+	eh_arma_duas_maos = false
+	if _esta_atacando:
+		_esta_atacando = false
+	no_arco.parar_disparo()
+	sprite_espada.visible = false
+	sprite_escudo.visible = false
+	_atualizar_visual_arco()
+	atualizar_dano_arma()
+	emit_signal("equipamento_alterado")
+
+# Com o arco: andando, BaseSprites + arco/aljava de no_arco; disparando, no_arco desenha o personagem inteiro
+func _atualizar_visual_arco() -> void:
+	var em_pose: bool = no_reacao.visible and not esta_forjando
+	var disparando: bool = usando_arco and no_arco.esta_disparando()
+	no_arco.visible = usando_arco and not esta_forjando and not em_pose
+	$CompositeSprites/BaseSprites.visible = not esta_forjando and not em_pose and not disparando
+	if esta_forjando:
+		no_reacao.visible = false
+
+# Família visual das poses da página 1; vazio se estiver desarmado
+func _familia_das_poses() -> String:
+	if usando_arco:
+		return "arco"
+	if usando_lanca:
+		return "lanca"
+	if usando_espada:
+		return "um_mao"
+	return ""
+
+# Lê o equipamento atual, então "guardar" deve ser chamado antes de zerar as flags
+func _tocar_pose(pose: String, duracao: float = 0.25) -> void:
+	var familia := _familia_das_poses()
+	if familia == "" or not _inventario_pronto or esta_forjando or _esta_atacando or estaMorto:
+		return
+	var id_arma := id_arma_atual
+	var nivel := nivel_espada
+	match familia:
+		"lanca":
+			id_arma = id_lanca_atual
+			nivel = nivel_lanca
+		"arco":
+			id_arma = id_arco_atual
+			nivel = nivel_arco
+	var nivel_do_escudo := nivel_escudo if (usando_escudo and familia == "um_mao") else 0
+	no_reacao.tocar(pose, _direcao_ataque, familia, id_arma, nivel, nivel_do_escudo, duracao)
+	_atualizar_visual_arco()
+
+func atualizar_texturas_arco() -> void:
+	var dados_nivel: Dictionary = status_armas.obter_dados_nivel_arma(id_arco_atual, nivel_arco)
+	if dados_nivel.has("textura") and dados_nivel.has("textura_ataque"):
+		no_arco.configurar(dados_nivel["textura"], dados_nivel["textura_ataque"])
+	# Andando, só a aljava aparece: um sprite solto no nó do escudo, movido pela animação.
+	# O arco só é desenhado durante o disparo (no_arco).
+	sprite_escudo.texture = TEXTURA_ALJAVA
+
+func _iniciar_disparo() -> void:
+	var mira := _mira_do_disparo()
+	_direcao_ataque = mira
+	# Depois do disparo o corpo volta olhando para onde mirou
+	_arvore_animacao.set("parameters/idle/blend_position", mira)
+	_arvore_animacao.set("parameters/running/blend_position", mira)
+	_esta_atacando = true
+	var tempo: float = status_armas.armas[id_arco_atual].get("tempo_disparo", 0.65)
+	no_arco.disparar(mira, tempo)
+	_atualizar_visual_arco()
+
+# Mira no inimigo vivo mais próximo ao alcance; sem alvo, segue a última direção de movimento
+func _mira_do_disparo() -> Vector2:
+	var menor := ALCANCE_MIRA_ARCO
+	var mira := _direcao_ataque
+	for inimigo in get_tree().get_nodes_in_group("enemy"):
+		if not (inimigo is Node2D) or inimigo.get("esta_morto"):
+			continue
+		var distancia := global_position.distance_to(inimigo.global_position)
+		if distancia < menor:
+			menor = distancia
+			mira = (inimigo.global_position - global_position).normalized()
+	return mira
+
+func _ao_disparo_liberado(direcao: Vector2) -> void:
+	var flecha := Flecha.new()
+	get_tree().current_scene.add_child(flecha)
+	flecha.global_position = global_position + Vector2(0, 2) + direcao * 12.0
+	flecha.iniciar(self, direcao)
+
+func _ao_disparo_terminado() -> void:
+	_esta_atacando = false
+	_atualizar_visual_arco()
+	var repetir := ataque_enfileirado or Input.is_action_pressed("attack")
+	ataque_enfileirado = false
+	if repetir and usando_arco and not ataques_bloqueados and movimento_habilitado and get_viewport().gui_get_focus_owner() == null:
+		_iniciar_disparo()
 
 func equipar_escudo() -> void:
 	if usando_escudo:
@@ -1047,6 +1236,8 @@ func receber_dano(dano: int, forca_knockback: Vector2 = Vector2.ZERO) -> void:
 		aplicar_knockback(forca_knockback)
 	if hp_atual <= 0:
 		morrer()
+	else:
+		_tocar_pose("ferido", 0.3)
 
 func atualizar_barra_hp() -> void:
 	get_tree().call_group("hud", "atualizar_vida", hp_atual, estatisticas.hp_maximo)
@@ -1082,7 +1273,9 @@ func aplicar_knockback(forca: Vector2) -> void:
 		$CompositeSprites/AttackSpearAnimation/Corpo,
 		$CompositeSprites/AttackSpearAnimation/Lanca,
 		$CompositeSprites/AttackSpearAnimation/Cabelo,
-		$CompositeSprites/AttackSpearAnimation/Roupa
+		$CompositeSprites/AttackSpearAnimation/Roupa,
+		no_arco,
+		no_reacao
 	]
 
 	for i in range(5):
@@ -1162,7 +1355,7 @@ func carregar_texturas_forja() -> void:
 		if textura_cabelo:
 			array_cabelo_forja.append(textura_cabelo)
 
-	for i in range(1, 8):
+	for i in range(1, 13):
 		var caminho_roupa = "res://CharacterSprites/body_smithing/Outfit/outfit (%d).png" % i
 		var textura_roupa = load(caminho_roupa)
 		if textura_roupa:
@@ -1190,6 +1383,8 @@ func iniciar_forja(tipo_item: String) -> void:
 	movimento_habilitado = false
 	no_forja.visible = true
 	$CompositeSprites/BaseSprites.visible = false
+	no_arco.visible = false
+	no_reacao.visible = false
 
 	if _arvore_animacao and _maquina_estados:
 		_maquina_estados.travel("smithing")
@@ -1204,20 +1399,20 @@ func iniciar_forja(tipo_item: String) -> void:
 func _on_forja_finalizada(tipo_item: String) -> void:
 	esta_forjando = false
 	no_forja.visible = false
-	$CompositeSprites/BaseSprites.visible = true
+	_atualizar_visual_arco()
 	if _arvore_animacao and _maquina_estados:
 		_maquina_estados.travel("idle")
 	movimento_habilitado = true
 
 	var instancia_bd_armas = preload("res://Codigos/DadosLocais/Equipamentos.gd").new()
 
-	match tipo_item:
-		"espada_basica":
+	match Equipamentos.familia_de(tipo_item):
+		"espada":
 			_subir_nivel_no_modelo(tipo_item)
 			atualizar_texturas_espada()
 			atualizar_dano_arma()
 
-		"escudo_basico":
+		"escudo":
 			# Se estava usando o escudo, remove o bônus antigo primeiro
 			if usando_escudo:
 				var dados_escudo_antigo = instancia_bd_armas.obter_dados_nivel_arma(id_escudo_atual, nivel_escudo)
@@ -1244,9 +1439,14 @@ func _on_forja_finalizada(tipo_item: String) -> void:
 			hp_atual = min(hp_atual, estatisticas.hp_maximo)
 			atualizar_barra_hp()
 
-		"lanca_basica":
+		"lanca":
 			_subir_nivel_no_modelo(tipo_item)
 			atualizar_texturas_lanca()
+			atualizar_dano_arma()
+
+		"arco":
+			_subir_nivel_no_modelo(tipo_item)
+			atualizar_texturas_arco()
 			atualizar_dano_arma()
 
 	atualizar_aparencia_arma() # Garante atualização visual correta
@@ -1349,6 +1549,9 @@ func desabilitar_todas_acoes(desabilitar: bool) -> void:
 	ataques_bloqueados = desabilitar
 	movimento_habilitado = !desabilitar
 
+	if desabilitar and usando_arco:
+		no_arco.parar_disparo()
+		_atualizar_visual_arco()
 	if desabilitar and _esta_atacando:
 		_esta_atacando = false
 		$AreaAtaque.monitoring = false

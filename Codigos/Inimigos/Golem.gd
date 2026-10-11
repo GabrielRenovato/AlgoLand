@@ -12,9 +12,10 @@ const ANIMACOES := {
 const QUADRO_IMPACTO := 5
 # Empurrão recebido é uma fração do normal: o chefe não pode ser jogado longe
 const RESISTENCIA_KNOCKBACK := 0.08
+const IndicadorAtaqueScript := preload("res://Codigos/Efeitos/indicador_ataque.gd")
 
 @export var dano_impacto: float = 25.0
-@export var raio_impacto: float = 46.0
+@export var raio_impacto: float = 64.0
 @export var forca_impacto: float = 260.0
 @export var recompensa_moedas: int = 250
 
@@ -24,6 +25,7 @@ var _quadro := 0.0
 var _linha := 0
 var _atacando := false
 var _impacto_feito := false
+var _indicador: Node2D = null
 
 func _ready() -> void:
 	super()
@@ -67,9 +69,19 @@ func receber_dano_efeito(quantidade_dano: int, cor: Color) -> void:
 func _avisar_vida() -> void:
 	get_tree().call_group("hud", "atualizar_chefe", maxi(vida, 0), vida_maxima)
 
+func gerar_rotulo_dano(valor_dano: int, cor: Color = Color.WHITE) -> void:
+	var cena_rotulo = preload("res://cenas/dano-flutuante.tscn")
+	var instancia_rotulo = cena_rotulo.instantiate()
+	instancia_rotulo.global_position = global_position - Vector2(0, 52)
+	instancia_rotulo.definir_dano(valor_dano, cor)
+	get_tree().current_scene.add_child(instancia_rotulo)
+
 func morrer() -> void:
 	if esta_morto:
 		return
+	if is_instance_valid(_indicador):
+		_indicador.cancelar()
+		_indicador = null
 	esta_morto = true
 	_atacando = false
 	velocity = Vector2.ZERO
@@ -84,6 +96,11 @@ func morrer() -> void:
 	var tween := create_tween()
 	tween.tween_property(self, "modulate:a", 0.0, 0.5)
 	tween.tween_callback(queue_free)
+
+func _exit_tree() -> void:
+	if is_instance_valid(_indicador):
+		_indicador.queue_free()
+		_indicador = null
 
 func definir_animacao(nome_animacao: String) -> void:
 	# A base pede "run" depois de levar dano; durante o soco a animação não pode ser cortada
@@ -103,9 +120,24 @@ func _iniciar_ataque(alvo: Node2D) -> void:
 	_impacto_feito = false
 	definir_direcao_animacao(alvo.global_position - global_position)
 	_tocar("attack")
+	_iniciar_indicador_ataque()
+
+func _iniciar_indicador_ataque() -> void:
+	if is_instance_valid(_indicador):
+		_indicador.queue_free()
+		_indicador = null
+	var ind := IndicadorAtaqueScript.new()
+	var pai: Node = get_parent() if get_parent() else get_tree().current_scene
+	if pai:
+		pai.add_child(ind)
+		ind.configurar(global_position, raio_impacto)
+		_indicador = ind
 
 func _impacto() -> void:
 	_impacto_feito = true
+	if is_instance_valid(_indicador):
+		_indicador.detonar_impacto()
+		_indicador = null
 	_tremer_camera(3.0, 0.25)
 	var jogador := obter_jogador()
 	if jogador and global_position.distance_to(jogador.global_position) < raio_impacto:
@@ -114,6 +146,9 @@ func _impacto() -> void:
 
 func _fim_ataque() -> void:
 	_atacando = false
+	if is_instance_valid(_indicador):
+		_indicador.cancelar()
+		_indicador = null
 	_tocar("run")
 	await get_tree().create_timer(tempo_recarga_ataque).timeout
 	pode_atacar = true
@@ -139,8 +174,12 @@ func _animar(delta: float) -> void:
 		_quadro = quadros - 0.001
 		if _animacao == "attack" and _atacando:
 			_fim_ataque()
-	if _animacao == "attack" and _atacando and not _impacto_feito and int(_quadro) >= QUADRO_IMPACTO:
-		_impacto()
+	if _animacao == "attack" and _atacando and not _impacto_feito:
+		if is_instance_valid(_indicador):
+			var prog := clampf(_quadro / float(QUADRO_IMPACTO), 0.0, 1.0)
+			_indicador.atualizar_progresso(prog)
+		if int(_quadro) >= QUADRO_IMPACTO:
+			_impacto()
 	_aplicar_quadro()
 
 func _aplicar_quadro() -> void:

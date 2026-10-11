@@ -331,6 +331,15 @@ offset_bottom = 87.0
 tipo_slot = "escudo"
 mostrar_fundo = false
 
+[node name="SlotSecundaria" parent="Sidebar/Painel" instance=ExtResource("3_slot")]
+layout_mode = 0
+offset_left = 47.0
+offset_top = 90.0
+offset_right = 63.0
+offset_bottom = 106.0
+tipo_slot = "secundaria"
+mostrar_fundo = false
+
 [node name="Mochila" type="GridContainer" parent="Sidebar/Painel"]
 layout_mode = 0
 offset_left = 13.0

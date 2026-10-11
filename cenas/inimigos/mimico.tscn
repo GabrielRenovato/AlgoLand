@@ -1,0 +1,79 @@
+[gd_scene load_steps=32 format=3]
+
+[ext_resource type="Script" path="res://Codigos/Inimigos/Inimigo-generico.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.07a - Malevolent Mimic 2.0/malevolent mimic A v01.png" id="2_v01"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.07a - Malevolent Mimic 2.0/malevolent mimic A v02.png" id="2_v02"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.07a - Malevolent Mimic 2.0/malevolent mimic A v03.png" id="2_v03"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.07a - Malevolent Mimic 2.0/malevolent mimic A v04.png" id="2_v04"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.07a - Malevolent Mimic 2.0/malevolent mimic A v05.png" id="2_v05"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.07a - Malevolent Mimic 2.0/malevolent mimic A v06.png" id="2_v06"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.07a - Malevolent Mimic 2.0/malevolent mimic A v07.png" id="2_v07"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.07a - Malevolent Mimic 2.0/malevolent mimic B v01.png" id="2_v08"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.07a - Malevolent Mimic 2.0/malevolent mimic B v02.png" id="2_v09"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.07a - Malevolent Mimic 2.0/malevolent mimic B v03.png" id="2_v10"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.07a - Malevolent Mimic 2.0/malevolent mimic B v04.png" id="2_v11"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.07a - Malevolent Mimic 2.0/malevolent mimic B v05.png" id="2_v12"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.07a - Malevolent Mimic 2.0/malevolent mimic B v06.png" id="2_v13"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.07a - Malevolent Mimic 2.0/malevolent mimic B v07.png" id="2_v14"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.07a - Malevolent Mimic 2.0/malevolent mimic C v01.png" id="2_v15"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.07a - Malevolent Mimic 2.0/malevolent mimic C v02.png" id="2_v16"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.07a - Malevolent Mimic 2.0/malevolent mimic C v03.png" id="2_v17"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.07a - Malevolent Mimic 2.0/malevolent mimic C v04.png" id="2_v18"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.07a - Malevolent Mimic 2.0/malevolent mimic C v05.png" id="2_v19"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.07a - Malevolent Mimic 2.0/malevolent mimic C v06.png" id="2_v20"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.07a - Malevolent Mimic 2.0/malevolent mimic C v07.png" id="2_v21"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.07a - Malevolent Mimic 2.0/malevolent mimic D v01.png" id="2_v22"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.07a - Malevolent Mimic 2.0/malevolent mimic D v02.png" id="2_v23"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.07a - Malevolent Mimic 2.0/malevolent mimic D v03.png" id="2_v24"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.07a - Malevolent Mimic 2.0/malevolent mimic D v04.png" id="2_v25"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.07a - Malevolent Mimic 2.0/malevolent mimic D v05.png" id="2_v26"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.07a - Malevolent Mimic 2.0/malevolent mimic D v06.png" id="2_v27"]
+[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.07a - Malevolent Mimic 2.0/malevolent mimic D v07.png" id="2_v28"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_corpo"]
+size = Vector2(18, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_toque"]
+size = Vector2(22, 20)
+
+[node name="Mimico_Malevolent" type="CharacterBody2D" groups=["enemy"]]
+collision_layer = 4
+collision_mask = 64
+script = ExtResource("1_script")
+texturas = [ExtResource("2_v01"), ExtResource("2_v02"), ExtResource("2_v03"), ExtResource("2_v04"), ExtResource("2_v05"), ExtResource("2_v06"), ExtResource("2_v07"), ExtResource("2_v08"), ExtResource("2_v09"), ExtResource("2_v10"), ExtResource("2_v11"), ExtResource("2_v12"), ExtResource("2_v13"), ExtResource("2_v14"), ExtResource("2_v15"), ExtResource("2_v16"), ExtResource("2_v17"), ExtResource("2_v18"), ExtResource("2_v19"), ExtResource("2_v20"), ExtResource("2_v21"), ExtResource("2_v22"), ExtResource("2_v23"), ExtResource("2_v24"), ExtResource("2_v25"), ExtResource("2_v26"), ExtResource("2_v27"), ExtResource("2_v28")]
+colunas = 4
+linhas = 5
+parado = false
+anims = {"andar_baixo": [0, 1, 2, 3], "andar_cima": [4, 5, 6, 7], "ataque_baixo": [8, 10, 12], "morte": [14, 15]}
+lado_olha_direita = true
+espelhar_sempre = false
+fps_andar = 5.0
+fps_ataque = 8.0
+fps_morte = 5.0
+velocidade = 30
+aceleracao = 260.0
+raio_parada = 14.0
+alcance_separacao = 24.0
+altura_pes = 11.0
+altura_barra_vida = 13.0
+tempo_recarga_ataque = 1.8
+alcance_ataque = 30.0
+dano = 20.0
+vida = 70
+
+[node name="Texture" type="Sprite2D" parent="."]
+texture = ExtResource("2_v01")
+hframes = 4
+vframes = 5
+
+[node name="colision_body" type="CollisionShape2D" parent="."]
+position = Vector2(0, 2)
+shape = SubResource("RectangleShape2D_corpo")
+
+[node name="ataque" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="attack_colision_player" type="CollisionShape2D" parent="ataque"]
+position = Vector2(0, 2)
+shape = SubResource("RectangleShape2D_toque")

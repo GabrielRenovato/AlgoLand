@@ -2,17 +2,19 @@ extends Node
 
 # Sem class_name: o nome "InventarioJogador" é o do autoload e o global colidiria
 const DadosItemScript := preload("res://Codigos/Modelos/dados_item.gd")
+const Equipamentos := preload("res://Codigos/DadosLocais/Equipamentos.gd")
 
 signal mochila_alterada
 signal equipamento_alterado(slot: String)
 signal item_alterado(item)
 
 const TAMANHO_MOCHILA := 15
-const SLOTS := ["arma", "escudo", "cabeca", "corpo", "luvas", "botas"]
+const SLOTS := ["arma", "escudo", "secundaria", "cabeca", "corpo", "luvas", "botas"]
 const DEFINICOES_INICIAIS := [
 	{"tipo": "espada_basica", "categoria": "arma", "duas_maos": false, "equipado": false},
 	{"tipo": "lanca_basica", "categoria": "arma", "duas_maos": true, "equipado": false},
 	{"tipo": "escudo_basico", "categoria": "escudo", "duas_maos": false, "equipado": false},
+	{"tipo": "aljava_basica", "categoria": "secundaria", "duas_maos": false, "equipado": true},
 	{"tipo": "cabeca_basica", "categoria": "cabeca", "duas_maos": false, "equipado": true},
 	{"tipo": "armadura_basica", "categoria": "corpo", "duas_maos": false, "equipado": true},
 	{"tipo": "luvas_basicas", "categoria": "luvas", "duas_maos": false, "equipado": true},
@@ -68,6 +70,8 @@ func mover_para_mochila(item, indice: int) -> bool:
 	var indice_origem := indice_de(item)
 	if slot_origem == "" and indice_origem == -1:
 		return false
+	if _aljava_obrigatoria(slot_origem):
+		return false
 	if indice_origem == indice:
 		return true
 	var ocupante = mochila[indice]
@@ -95,7 +99,17 @@ func pode_equipar(item) -> bool:
 		var arma = equipados["arma"]
 		if arma != null and arma.duas_maos:
 			return false
+	# Arco exige aljava equipada: sem ela não tem de onde tirar as flechas
+	if item.categoria == "arma" and Equipamentos.familia_de(item.tipo) == "arco" and equipados["secundaria"] == null:
+		return false
 	return true
+
+# Enquanto o arco estiver equipado a aljava é obrigatória, então ela não pode ser retirada
+func _aljava_obrigatoria(slot: String) -> bool:
+	if slot != "secundaria":
+		return false
+	var arma = equipados["arma"]
+	return arma != null and Equipamentos.familia_de(arma.tipo) == "arco"
 
 func equipar(item) -> bool:
 	var celula := indice_de(item)
@@ -121,6 +135,8 @@ func equipar(item) -> bool:
 func desequipar(slot: String, indice: int = -1) -> bool:
 	var item = equipados.get(slot)
 	if item == null:
+		return false
+	if _aljava_obrigatoria(slot):
 		return false
 	if indice == -1:
 		indice = _primeira_livre()
@@ -199,10 +215,17 @@ func carregar(caminho: String = "user://inventario.json") -> bool:
 		for slot in SLOTS:
 			if dados_equipados.get(slot) is Dictionary:
 				equipados[slot] = DadosItemScript.de_dict(dados_equipados[slot])
+	_migrar_aljava()
 	_avisar_mochila()
 	for slot in SLOTS:
 		_avisar_slot(slot)
 	return true
+
+# Saves anteriores à aljava podem ter um arco equipado sem ela; concede uma para não travar o personagem
+func _migrar_aljava() -> void:
+	var arma = equipados["arma"]
+	if arma != null and Equipamentos.familia_de(arma.tipo) == "arco" and equipados["secundaria"] == null:
+		equipados["secundaria"] = _criar_item({"tipo": "aljava_basica", "categoria": "secundaria", "duas_maos": false})
 
 func _primeira_livre() -> int:
 	return mochila.find(null)
@@ -216,6 +239,11 @@ func buscar_por_tipo(tipo: String):
 		if item != null and item.tipo == tipo:
 			return item
 	return null
+
+# Armas compradas na loja: vão para a mochila
+func adicionar_arma_nova(tipo: String) -> bool:
+	var duas_maos: bool = Equipamentos.ARMAS_LOJA.get(tipo, {}).get("duas_maos", false)
+	return adicionar(_criar_item({"tipo": tipo, "categoria": "arma", "duas_maos": duas_maos})) != -1
 
 func _criar_item(definicao: Dictionary):
 	var item = DadosItemScript.new()
