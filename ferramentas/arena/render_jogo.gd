@@ -3,7 +3,9 @@ extends SceneTree
 # Precisa de janela (nao headless). Uso:
 #   godot --path . --script res://ferramentas/arena/render_jogo.gd -- <cena.tscn> <tomadas.json> <pasta_saida>
 # Tomadas: {"nome":"x","estacao":0..3,"jogador":[x,y],"quadros":40,"hora":12.0}
-# "jogador" em coordenadas do terreno (cenario: soma (-4, 14)); "hora" fixa a hora do ciclo dia/noite (0..24).
+# "jogador" em coordenadas do terreno (cenario: soma (-4, 14); fazenda e casa: coordenadas da propria cena);
+# "hora" fixa a hora do ciclo dia/noite (0..24); "dia" poe o Calendario nesse dia (so a data do HUD; a estacao visual
+# continua vindo de "estacao"). Ex.: estacao 2 + dia 15 = "OUTONO - DIA 1".
 # Etapa 3 (so cenario.tscn): "chefe" (indice em GerenciadorOndas.CHEFES) com "onda", "dx"/"dy" (distancia do jogador),
 # "acoes" (metodos da habilidade a chamar: invocar_cogumelos, iniciar_esporos, iniciar_investida), "vida_pct" (0..1);
 # "evento" (id de GerenciadorOndas.EVENTOS) acende o evento da onda e o banner.
@@ -11,6 +13,10 @@ extends SceneTree
 # tempestade, neve_leve, neve_forte), aplicado sem fade; sem "clima" vale o padrao da estacao. "raio": {"dx","dy","aviso"}
 # cria um raio a (dx,dy) dos pes do jogador (aviso em s: 5 = so o indicador no chao; 0 = o raio ja cai).
 # Com "clima" as tomadas esperam o fade do tom; use "quadros" altos nas que dependem das animacoes.
+# Pocoes (cinto do HUD): "pocoes" = {"id": n} poe o estoque da Fazenda; "beber" = [ids] bebe na ordem (sem a espera entre
+# goles); "selecionar" = id escolhe a pocao do cinto; "sementes_chao" = n saquinhos de semente espalhados a ~70 px do jogador
+# (ou "sementes_chao" = ["id", ...] para escolher as sementes, ex.: ver o brilho das raras).
+# ATENCAO: beber grava o estoque no user://fazenda.json real (faça backup do user://).
 
 var _tomadas: Array = []
 var _pasta := ""
@@ -36,9 +42,16 @@ func _process(_delta: float) -> bool:
 		var est := _cena.find_child("Estacoes", true, false)
 		if est and t.has("estacao"):
 			est.definir_estacao(int(t["estacao"]), true)
+		if t.has("dia"):
+			root.get_node("Calendario").dia = int(t["dia"])
+			for hud in get_nodes_in_group("hud"):
+				hud.atualizar_data()
 		var jogador := _cena.get_node_or_null("Jogador")
 		if jogador and t.has("jogador"):
-			jogador.global_position = Vector2(float(t["jogador"][0]) - 4.0, float(t["jogador"][1]) + 14.0)
+			var desloc := Vector2(-4.0, 14.0) if _cena.name == "cenario" else Vector2.ZERO
+			jogador.global_position = Vector2(float(t["jogador"][0]), float(t["jogador"][1])) + desloc
+			if jogador.camera != null:
+				jogador.camera.reset_smoothing()
 		var luz := _cena.get_node_or_null("Iluminacao")
 		if luz and t.has("hora"):
 			luz.hora = float(t["hora"])
@@ -46,6 +59,8 @@ func _process(_delta: float) -> bool:
 			luz._aplicar()
 		_montar_etapa3(t)
 		_montar_clima(t)
+		_montar_pocoes(t)
+		_montar_painel_titulo(t)
 		_espera = int(t.get("quadros", 40))
 	else:
 		_espera -= 1
@@ -57,6 +72,50 @@ func _process(_delta: float) -> bool:
 			_i += 1
 			_espera = -1
 	return false
+
+# So inicio-do-jogo.tscn: "abrir" = "creditos" | "opcoes" aperta o botao do menu; "rolar" = pixels de rolagem dos creditos;
+# "menu" = true fecha o painel aberto (volta ao menu)
+func _montar_painel_titulo(t: Dictionary) -> void:
+	if _cena.name != "InicioDoJogo":
+		return
+	if t.get("menu", false) and _cena._painel_aberto != null:
+		_cena._fechar_painel()
+	match String(t.get("abrir", "")):
+		"creditos":
+			_cena.botao_creditos.pressed.emit()
+		"opcoes":
+			_cena.botao_opcoes.pressed.emit()
+	if t.has("rolar"):
+		_cena.rolagem_creditos.scroll_vertical = int(t["rolar"])
+
+func _montar_pocoes(t: Dictionary) -> void:
+	var fazenda := root.get_node("Fazenda")
+	var jogador := _cena.get_node_or_null("Jogador")
+	if t.has("pocoes"):
+		fazenda.pocoes = {}
+		for id in t["pocoes"]:
+			fazenda.pocoes[id] = int(t["pocoes"][id])
+		fazenda.bolsas_alteradas.emit()
+	if jogador != null and jogador.get("efeitos_pocao") != null:
+		var efeitos: Node = jogador.efeitos_pocao
+		for id in t.get("beber", []):
+			efeitos._espera = 0.0
+			efeitos.beber(String(id))
+		if t.has("selecionar"):
+			while efeitos.selecionada != String(t["selecionar"]) and not fazenda.pocoes_que_tem().is_empty():
+				efeitos.trocar(1)
+	var chao = t.get("sementes_chao", 0)
+	var qtd_chao: int = chao.size() if chao is Array else int(chao)
+	if jogador != null and qtd_chao > 0:
+		var drop_gd: GDScript = load("res://Codigos/Logicas/semente_drop.gd")
+		var rng := RandomNumberGenerator.new()
+		rng.seed = 3
+		for i in qtd_chao:
+			var drop: Node2D = drop_gd.new()
+			drop.semente = String(chao[i]) if chao is Array else drop_gd.sortear_planta(root.get_node("Calendario").estacao(), rng)
+			var ponto: Vector2 = jogador.global_position + Vector2.from_angle(TAU * i / float(qtd_chao)) * 70.0
+			drop.preparar_pulo(ponto, ponto)
+			_cena.add_child(drop)
 
 # Clima e raio da tomada: o clima entra na hora (sem fade) e o tom escuro da luz e reaplicado no ciclo parado
 func _montar_clima(t: Dictionary) -> void:

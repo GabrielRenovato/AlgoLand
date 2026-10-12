@@ -31,6 +31,10 @@ func _rodar() -> void:
 	await process_frame
 	_progresso = root.get_node("Progresso")
 	_progresso.caminho_save = CAMINHO_PROGRESSO
+	# O clima do mundo fica no autoload Fazenda (as ondas o mudam): arquivo de teste, sem o save real
+	var fazenda_isolada = root.get_node("Fazenda")
+	fazenda_isolada.caminho_save = "user://teste_morte_fazenda.json"
+	fazenda_isolada.apagar()
 	# O _ready já carregou o progresso real do jogador (moradores, melhorias): começa do zero, só no arquivo do teste
 	_progresso.apagar()
 	var inventario = root.get_node("InventarioJogador")
@@ -189,4 +193,6 @@ func _rodar() -> void:
 	# limpeza
 	if FileAccess.file_exists(CAMINHO_PROGRESSO):
 		DirAccess.remove_absolute(ProjectSettings.globalize_path(CAMINHO_PROGRESSO))
+	if FileAccess.file_exists("user://teste_morte_fazenda.json"):
+		DirAccess.remove_absolute(ProjectSettings.globalize_path("user://teste_morte_fazenda.json"))
 	quit(_falhas)

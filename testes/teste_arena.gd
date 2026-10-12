@@ -2,10 +2,12 @@ extends SceneTree
 
 # Rodar: godot --headless --path . --script res://testes/teste_arena.gd
 # Confere a arena sazonal (cenas/terreno.tscn): malha de navegação, spawns fora de obstáculos, ciclo de estações,
-# troca de texturas e a tela de título fixa no inverno.
+# troca de texturas, a estação seguindo o calendário de dias (não as ondas) e a tela de título fixa no inverno.
 # ATENCAO: carrega a cena de jogo de verdade (pode regravar user://inventario.json); faça backup do user:// antes.
 
 const Profundidade := preload("res://Codigos/Globais/profundidade.gd")
+const CAMINHO_FAZENDA := "user://teste_arena_fazenda.json"
+const CAMINHO_CALENDARIO := "user://teste_arena_calendario.json"
 
 # Carregado em _rodar: estacoes.gd usa autoloads (Sons), que só existem depois do primeiro quadro
 var Estacoes: GDScript
@@ -33,7 +35,15 @@ func _quadros(n: int) -> void:
 func _rodar() -> void:
 	await process_frame
 	Estacoes = load("res://Codigos/Design/estacoes.gd")
-	_testar_mapa_de_ondas_para_estacoes()
+	# O calendário usa um arquivo de teste (dormir salva) e começa no dia 1
+	var calendario = root.get_node("Calendario")
+	calendario.caminho_save = CAMINHO_CALENDARIO
+	calendario.apagar()
+	# Dormir tambem faz o autoload Fazenda avancar o dia e salvar: arquivo de teste proprio
+	var fazenda = root.get_node("Fazenda")
+	fazenda.caminho_save = CAMINHO_FAZENDA
+	fazenda.apagar()
+	_testar_mapa_de_dias_para_estacoes()
 	_cena = load("res://cenas/cenario.tscn").instantiate()
 	root.add_child(_cena)
 	current_scene = _cena
@@ -46,18 +56,24 @@ func _rodar() -> void:
 	await _testar_navegacao()
 	await _testar_profundidade_do_carvalho()
 	_testar_troca_de_estacao()
-	await _testar_ciclo_por_ondas()
+	await _testar_ciclo_por_calendario()
 	_cena.queue_free()
 	await _quadros(3)
 	await _testar_tela_de_titulo()
+	calendario.apagar()
+	await _quadros(2)
+	fazenda.apagar()
+	if FileAccess.file_exists(CAMINHO_FAZENDA):
+		DirAccess.remove_absolute(ProjectSettings.globalize_path(CAMINHO_FAZENDA))
 	print("FALHAS: ", _falhas)
 	quit(_falhas)
 
-func _testar_mapa_de_ondas_para_estacoes() -> void:
-	var esperado := {1: 0, 5: 0, 6: 1, 10: 1, 11: 2, 15: 2, 16: 3, 20: 3, 21: 0, 26: 1, 40: 3, 41: 0}
-	for onda in esperado:
-		_verificar("onda %d -> estacao %d" % [onda, esperado[onda]], Estacoes.estacao_da_onda(onda) == esperado[onda],
-				"obteve %d" % Estacoes.estacao_da_onda(onda))
+func _testar_mapa_de_dias_para_estacoes() -> void:
+	var calendario = root.get_node("Calendario")
+	var esperado := {1: 0, 7: 0, 8: 1, 14: 1, 15: 2, 21: 2, 22: 3, 28: 3, 29: 0, 36: 1, 50: 3, 57: 0}
+	for dia in esperado:
+		_verificar("dia %d -> estacao %d" % [dia, esperado[dia]], calendario.estacao(dia) == esperado[dia],
+				"obteve %d" % calendario.estacao(dia))
 
 func _testar_estrutura() -> void:
 	for caminho in ["BarracaAberta", "BarracaAberta/Colisao/Forma", "BarraFechada", "BarraFechada/1", "Fogueira",
@@ -215,41 +231,43 @@ func _testar_troca_de_estacao() -> void:
 		_verificar("estacao %d: neve %s" % [i, "ligada" if i == 3 else "desligada"], meteoro.eh_neve(meteoro.clima_atual) == (i == 3), "")
 		_verificar("estacao %d: sem particulas de neve antigas" % i, get_nodes_in_group("clima_neve").is_empty(), "")
 
-func _testar_ciclo_por_ondas() -> void:
+# A estação segue o Calendario (só muda ao dormir): as ondas e a morte não mexem nela
+func _testar_ciclo_por_calendario() -> void:
+	var calendario = root.get_node("Calendario")
+	calendario.apagar()
 	_estacoes.definir_estacao(0, true)
 	var luz = get_first_node_in_group("iluminacao")
 	_verificar("iluminacao com tom da estacao", luz != null and luz.tom_estacao != Color.WHITE, "")
-	# onda 3 completa: continua primavera
+	_verificar("arena abre na estacao do calendario (dia 1: primavera)", _estacoes.estacao_atual == calendario.estacao(), "")
+	# ondas completas, bonus, onda iniciada e ondas paradas (morte): continua primavera
 	_gerenciador.onda_bonus = false
-	_gerenciador.onda_completada.emit(3)
-	await create_timer(0.3).timeout
-	_verificar("onda 3 completa: continua primavera", _estacoes.estacao_atual == 0, "")
-	# onda 5 completa: vai para verao depois do atraso + fade
-	_gerenciador.onda_completada.emit(5)
-	await create_timer(Estacoes.ATRASO_TROCA + Estacoes.DURACAO_FADE_SAIDA + 0.4).timeout
-	_verificar("onda 5 completa: verao", _estacoes.estacao_atual == 1, "estacao=%d" % _estacoes.estacao_atual)
-	# bonus nao avanca a onda: onda 10 com bonus fica no verao
+	for onda in [3, 5, 10, 15, 20]:
+		_gerenciador.onda_completada.emit(onda)
+		_gerenciador.onda_iniciada.emit(onda + 1)
 	_gerenciador.onda_bonus = true
 	_gerenciador.onda_completada.emit(10)
-	await create_timer(Estacoes.ATRASO_TROCA + 0.6).timeout
-	_verificar("bonus na onda 10 nao muda de estacao", _estacoes.estacao_atual == 1, "estacao=%d" % _estacoes.estacao_atual)
 	_gerenciador.onda_bonus = false
-	# onda iniciada que ja pertence a outra estacao: alinha sem fade
-	_gerenciador.onda_iniciada.emit(11)
-	_verificar("onda 11 iniciada: outono sem esperar", _estacoes.estacao_atual == 2, "estacao=%d" % _estacoes.estacao_atual)
-	# onda completada seguida de inicio antes do atraso cancela a troca agendada
-	_gerenciador.onda_completada.emit(15)
-	_gerenciador.onda_iniciada.emit(15)
-	await create_timer(Estacoes.ATRASO_TROCA + 1.2).timeout
-	_verificar("troca agendada cancelada se a onda recomeca", _estacoes.estacao_atual == 2, "estacao=%d" % _estacoes.estacao_atual)
-	# ondas paradas (morte): volta para a estacao da onda inicial
 	_gerenciador.sinal_ondas_paradas.emit()
-	_verificar("ondas paradas: volta a primavera", _estacoes.estacao_atual == 0, "estacao=%d" % _estacoes.estacao_atual)
-	# Mistica: comecar na onda 11 -> outono
-	_gerenciador.onda_inicial_definida.emit(11)
-	await create_timer(1.6).timeout
-	_verificar("checkpoint da mistica na onda 11: outono", _estacoes.estacao_atual == 2, "estacao=%d" % _estacoes.estacao_atual)
+	await create_timer(Estacoes.DURACAO_FADE_SAIDA + 0.6).timeout
+	_verificar("ondas, bonus e morte nao mudam a estacao", _estacoes.estacao_atual == 0, "estacao=%d" % _estacoes.estacao_atual)
+	# dormir no ultimo dia da primavera (dia 7): vai para o verao com fade
+	calendario.dia = 7
+	calendario.dormir()
+	await create_timer(Estacoes.DURACAO_FADE_SAIDA + Estacoes.ATRASO_AVISO + 0.5).timeout
+	_verificar("dormir no dia 7: dia 8 e verao", calendario.dia == 8 and _estacoes.estacao_atual == 1, "dia=%d estacao=%d" % [calendario.dia, _estacoes.estacao_atual])
+	# dormir dentro da estacao nao troca
+	calendario.dormir()
+	await create_timer(0.5).timeout
+	_verificar("dormir dentro da estacao: continua verao", _estacoes.estacao_atual == 1, "estacao=%d" % _estacoes.estacao_atual)
+	# morte (ondas paradas) depois de virar a estacao nao volta ao calendario antigo
 	_gerenciador.sinal_ondas_paradas.emit()
+	_verificar("ondas paradas nao voltam a primavera", _estacoes.estacao_atual == 1, "estacao=%d" % _estacoes.estacao_atual)
+	calendario.dia = 14
+	calendario.dormir()
+	await create_timer(Estacoes.DURACAO_FADE_SAIDA + Estacoes.ATRASO_AVISO + 0.5).timeout
+	_verificar("dia 15: outono", _estacoes.estacao_atual == 2, "estacao=%d" % _estacoes.estacao_atual)
+	calendario.apagar()
+	_estacoes.definir_estacao(0, true)
 
 func _testar_tela_de_titulo() -> void:
 	var titulo: Node = load("res://cenas/inicio-do-jogo.tscn").instantiate()

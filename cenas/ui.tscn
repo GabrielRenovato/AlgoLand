@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://idfadyrk0auf"]
+[gd_scene load_steps=15 format=3 uid="uid://idfadyrk0auf"]
 
 [ext_resource type="Script" path="res://Codigos/UI/hud.gd" id="1_hud"]
 [ext_resource type="FontFile" uid="uid://dwub7qum41gaq" path="res://UI/Planes_ValMore.ttf" id="2_planes"]
@@ -11,20 +11,6 @@
 [ext_resource type="Texture2D" uid="uid://cqxopks5b2xfq" path="res://UI/icons-coin/32x32/3.png" id="8_moeda"]
 [ext_resource type="PackedScene" uid="uid://dsd2y11vv3y3c" path="res://cenas/info_tab.tscn" id="9_info_tab"]
 [ext_resource type="Texture2D" path="res://UI/icone_brasa.png" id="11_brasa"]
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_moldura"]
-content_margin_left = 6.0
-content_margin_top = 1.0
-content_margin_right = 6.0
-content_margin_bottom = 6.0
-texture = ExtResource("6_tilemap")
-texture_margin_left = 16.0
-texture_margin_top = 16.0
-texture_margin_right = 16.0
-texture_margin_bottom = 16.0
-axis_stretch_horizontal = 2
-axis_stretch_vertical = 2
-region_rect = Rect2(96, 64, 48, 48)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_fita"]
 content_margin_left = 10.0
@@ -44,10 +30,6 @@ font = ExtResource("2_planes")
 font_size = 10
 outline_size = 2
 outline_color = Color(0.13, 0.12, 0.18, 1)
-
-[sub_resource type="LabelSettings" id="LabelSettings_cabecalho"]
-font = ExtResource("3_craftpix")
-font_color = Color(0.13, 0.12, 0.18, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_banner"]
 font = ExtResource("3_craftpix")
@@ -162,8 +144,7 @@ text = "0"
 label_settings = SubResource("LabelSettings_numero")
 vertical_alignment = 1
 
-[node name="PainelOnda" type="PanelContainer" parent="."]
-texture_filter = 1
+[node name="CantoDireito" type="VBoxContainer" parent="."]
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
@@ -173,56 +154,60 @@ offset_right = -6.0
 offset_bottom = 6.0
 grow_horizontal = 0
 mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxTexture_moldura")
+theme_override_constants/separation = 6
 
-[node name="Linhas" type="VBoxContainer" parent="PainelOnda"]
-custom_minimum_size = Vector2(80, 0)
+[node name="PainelOnda" type="MarginContainer" parent="CantoDireito"]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 8
+mouse_filter = 2
+
+[node name="Linhas" type="VBoxContainer" parent="CantoDireito/PainelOnda"]
 layout_mode = 2
 mouse_filter = 2
-theme_override_constants/separation = 4
+theme_override_constants/separation = 1
 
-[node name="RotuloOnda" type="Label" parent="PainelOnda/Linhas"]
+[node name="RotuloOnda" type="Label" parent="CantoDireito/PainelOnda/Linhas"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 14)
 layout_mode = 2
 text = "ONDA 1"
-label_settings = SubResource("LabelSettings_cabecalho")
-horizontal_alignment = 1
+label_settings = SubResource("LabelSettings_banner")
+horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="RotuloEvento" type="Label" parent="PainelOnda/Linhas"]
+[node name="RotuloEvento" type="Label" parent="CantoDireito/PainelOnda/Linhas"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 text = "HORDA"
 label_settings = SubResource("LabelSettings_numero")
-horizontal_alignment = 1
+horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="LinhaInimigos" type="HBoxContainer" parent="PainelOnda/Linhas"]
+[node name="LinhaInimigos" type="HBoxContainer" parent="CantoDireito/PainelOnda/Linhas"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 17)
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 3
+alignment = 2
 
-[node name="Caveira" type="TextureRect" parent="PainelOnda/Linhas/LinhaInimigos"]
+[node name="Caveira" type="TextureRect" parent="CantoDireito/PainelOnda/Linhas/LinhaInimigos"]
 layout_mode = 2
 size_flags_vertical = 4
 mouse_filter = 2
 texture = ExtResource("5_caveira")
 stretch_mode = 3
 
-[node name="RotuloInimigos" type="Label" parent="PainelOnda/Linhas/LinhaInimigos"]
+[node name="RotuloInimigos" type="Label" parent="CantoDireito/PainelOnda/Linhas/LinhaInimigos"]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 3
 text = "0/0"
 label_settings = SubResource("LabelSettings_numero")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="BarraInimigos" type="Control" parent="PainelOnda/Linhas/LinhaInimigos"]
+[node name="BarraInimigos" type="Control" parent="CantoDireito/PainelOnda/Linhas/LinhaInimigos"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(32, 8)
 layout_mode = 2
@@ -230,14 +215,51 @@ size_flags_vertical = 4
 mouse_filter = 2
 script = ExtResource("7_barra")
 
-[node name="RotuloEspera" type="Label" parent="PainelOnda/Linhas"]
+[node name="RotuloEspera" type="Label" parent="CantoDireito/PainelOnda/Linhas"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 17)
 layout_mode = 2
 text = "PREPARE-SE"
 label_settings = SubResource("LabelSettings_numero")
-horizontal_alignment = 1
+horizontal_alignment = 2
 vertical_alignment = 1
+
+[node name="PainelTempo" type="HBoxContainer" parent="CantoDireito"]
+texture_filter = 1
+layout_mode = 2
+size_flags_horizontal = 8
+mouse_filter = 2
+theme_override_constants/separation = 3
+
+[node name="ColunaTempo" type="VBoxContainer" parent="CantoDireito/PainelTempo"]
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="RotuloData" type="Label" parent="CantoDireito/PainelTempo/ColunaTempo"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "PRIMAVERA - DIA 1"
+label_settings = SubResource("LabelSettings_numero")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="RotuloHora" type="Label" parent="CantoDireito/PainelTempo/ColunaTempo"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "06:00"
+label_settings = SubResource("LabelSettings_numero")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Relogio" type="TextureRect" parent="CantoDireito/PainelTempo"]
+unique_name_in_owner = true
+texture_filter = 1
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+stretch_mode = 5
 
 [node name="PainelChefe" type="VBoxContainer" parent="."]
 unique_name_in_owner = true

@@ -6,7 +6,8 @@ extends SceneTree
 
 const NOMES := ["golpe_espada", "golpe_lanca", "flecha", "acerto", "inimigo_morre", "jogador_dano", "jogador_morre",
 	"dash", "reviver", "moeda", "compra", "melhoria", "erro", "onda_inicio", "onda_fim", "chefe_aparece",
-	"chefe_morre", "estacao", "trovao", "menu_mover", "menu_confirmar"]
+	"chefe_morre", "estacao", "trovao", "menu_mover", "menu_confirmar", "enxada", "regar", "plantar", "colher", "caldeirao", "beber",
+	"pegar_semente"]
 
 var _falhas: int = 0
 

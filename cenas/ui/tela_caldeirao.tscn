@@ -1,0 +1,160 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://Codigos/UI/tela_caldeirao.gd" id="1_tela"]
+[ext_resource type="Theme" path="res://recursos/ui/tema_sidebar.tres" id="2_tema"]
+[ext_resource type="Texture2D" path="res://UI/craftpix-net-420010-pixel-game-user-interface-for-platformer/1 Interface/TileMap.png" id="3_tilemap"]
+[ext_resource type="FontFile" path="res://UI/craftpix-net-775352-game-user-interface-pixel-art/6 Font/CraftPixNet Survival Kit.otf" id="4_fonte_titulo"]
+[ext_resource type="Texture2D" path="res://UI/sem org/3 Icons/Icons_37.png" id="5_icone_fechar"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_moldura"]
+content_margin_left = 8.0
+content_margin_top = 1.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+texture = ExtResource("3_tilemap")
+texture_margin_left = 16.0
+texture_margin_top = 16.0
+texture_margin_right = 16.0
+texture_margin_bottom = 16.0
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 2
+region_rect = Rect2(96, 64, 48, 48)
+
+[sub_resource type="LabelSettings" id="LabelSettings_titulo"]
+font = ExtResource("4_fonte_titulo")
+font_color = Color(0.13, 0.12, 0.18, 1)
+
+[node name="TelaCaldeirao" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("2_tema")
+script = ExtResource("1_tela")
+
+[node name="Painel" type="PanelContainer" parent="."]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -176.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_moldura")
+
+[node name="Linhas" type="VBoxContainer" parent="Painel"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Cabecalho" type="Control" parent="Painel/Linhas"]
+custom_minimum_size = Vector2(0, 14)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Titulo" type="Label" parent="Painel/Linhas/Cabecalho"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "CALDEIRAO"
+label_settings = SubResource("LabelSettings_titulo")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BotaoFechar" type="TextureButton" parent="Painel/Linhas/Cabecalho"]
+unique_name_in_owner = true
+modulate = Color(0.13, 0.12, 0.18, 1)
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -10.0
+offset_top = -5.0
+offset_bottom = 5.0
+grow_horizontal = 0
+grow_vertical = 2
+tooltip_text = "VOLTAR"
+texture_normal = ExtResource("5_icone_fechar")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Grade" type="GridContainer" parent="Painel/Linhas"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/h_separation = 3
+theme_override_constants/v_separation = 3
+columns = 3
+
+[node name="Detalhe" type="VBoxContainer" parent="Painel/Linhas"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Nome" type="Label" parent="Painel/Linhas/Detalhe"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.45, 1)
+text = "NOME"
+horizontal_alignment = 1
+
+[node name="Texto" type="Label" parent="Painel/Linhas/Detalhe"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+text = "TEXTO"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Efeito" type="Label" parent="Painel/Linhas/Detalhe"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 1, 0.5, 1)
+text = "EFEITO"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Info" type="Label" parent="Painel/Linhas/Detalhe"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.7, 0.62, 1)
+text = "TEM 0"
+horizontal_alignment = 1
+
+[node name="TituloIngredientes" type="Label" parent="Painel/Linhas/Detalhe"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.45, 1)
+text = "INGREDIENTES"
+horizontal_alignment = 1
+
+[node name="Ingredientes" type="VBoxContainer" parent="Painel/Linhas/Detalhe"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 3
+
+[node name="Aviso" type="Label" parent="Painel/Linhas/Detalhe"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="BotaoFazer" type="Button" parent="Painel/Linhas/Detalhe"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+focus_mode = 0
+text = "FAZER"

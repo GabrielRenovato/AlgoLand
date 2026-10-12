@@ -1,0 +1,101 @@
+[
+ {
+  "nome": "fazenda_primavera",
+  "estacao": 0,
+  "dia": 1,
+  "jogador": [
+   632,
+   284
+  ],
+  "quadros": 70,
+  "hora": 12.0
+ },
+ {
+  "nome": "fazenda_verao",
+  "estacao": 1,
+  "dia": 8,
+  "jogador": [
+   632,
+   284
+  ],
+  "quadros": 70,
+  "hora": 12.0
+ },
+ {
+  "nome": "fazenda_outono",
+  "estacao": 2,
+  "dia": 15,
+  "jogador": [
+   632,
+   284
+  ],
+  "quadros": 70,
+  "hora": 12.0
+ },
+ {
+  "nome": "fazenda_inverno",
+  "estacao": 3,
+  "dia": 22,
+  "jogador": [
+   632,
+   284
+  ],
+  "quadros": 70,
+  "hora": 12.0
+ },
+ {
+  "nome": "fazenda_atras_do_telhado",
+  "estacao": 0,
+  "dia": 1,
+  "jogador": [
+   608,
+   214
+  ],
+  "quadros": 70,
+  "hora": 12.0
+ },
+ {
+  "nome": "fazenda_caverna_aviso",
+  "estacao": 0,
+  "dia": 1,
+  "jogador": [
+   184,
+   86
+  ],
+  "quadros": 70,
+  "hora": 12.0
+ },
+ {
+  "nome": "fazenda_porta_aviso",
+  "estacao": 0,
+  "dia": 1,
+  "jogador": [
+   632,
+   258
+  ],
+  "quadros": 70,
+  "hora": 12.0
+ },
+ {
+  "nome": "fazenda_plantio_outono",
+  "estacao": 2,
+  "dia": 15,
+  "jogador": [
+   380,
+   330
+  ],
+  "quadros": 70,
+  "hora": 17.0
+ },
+ {
+  "nome": "fazenda_noite_verao",
+  "estacao": 1,
+  "dia": 8,
+  "jogador": [
+   632,
+   284
+  ],
+  "quadros": 70,
+  "hora": 22.0
+ }
+]

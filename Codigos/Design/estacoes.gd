@@ -5,13 +5,12 @@ extends Node
 ## chuva, neve, nuvens e raios em sprites) e o tom da luz.
 ## Fica como filho do nó raiz do terreno (cenas/terreno.tscn); o gerador (ferramentas/arena/gerar_arena.py) o cria.
 ##
-## Índices: 0 primavera, 1 verão, 2 outono, 3 inverno. A estação avança a cada ONDAS_POR_ESTACAO ondas
-## (1-5 primavera, 6-10 verão, 11-15 outono, 16-20 inverno, depois repete). Na tela de título não existe
-## gerenciador de ondas: a estação fica fixa em `estacao_inicial` (inverno, por causa da neve do título).
+## Índices: 0 primavera, 1 verão, 2 outono, 3 inverno. A estação segue o calendário de dias (autoload Calendario,
+## que só avança ao dormir) na arena e na fazenda; as ondas não mexem nela. Na tela de título não há calendário a
+## seguir: a estação fica fixa em `estacao_inicial` (inverno, por causa da neve do título).
 
 signal estacao_mudou(indice: int)
 
-const ONDAS_POR_ESTACAO := 5
 ## Texto do banner (a fonte do jogo não tem acentos)
 const NOMES: Array[String] = ["PRIMAVERA", "VERAO", "OUTONO", "INVERNO"]
 const Profundidade := preload("res://Codigos/Globais/profundidade.gd")
@@ -59,14 +58,16 @@ const FORMA_BRILHO: Array[String] = ["..X..", ".XXX.", "XXXXX", ".XXX.", "..X.."
 
 const DURACAO_FADE_SAIDA := 0.45
 const DURACAO_FADE_ENTRADA := 0.6
-## Espera depois da onda completada: o aviso "ONDA N CONCLUIDA" do HUD termina antes do fade
-const ATRASO_TROCA := 1.9
+## Espera entre o fim do fade e o aviso de "NOVA ESTACAO"
+const ATRASO_AVISO := 0.15
 ## Retângulo do mundo (coordenadas do terreno) coberto pelas partículas de clima
 const AREA_CLIMA_CENTRO := Vector2(332, 137)
 const AREA_CLIMA_EXTENSAO := Vector2(470, 380)
 
-## Estação usada quando não há gerenciador de ondas (tela de título)
+## Estação usada quando não há calendário a seguir (tela de título)
 @export_range(0, 3) var estacao_inicial: int = 3
+## Segue o Calendario (a fazenda liga isto; a arena é detectada pelo gerenciador de ondas irmão do terreno)
+@export var seguir_calendario: bool = false
 
 var estacao_atual := -1
 
@@ -76,7 +77,6 @@ var _fonte_brilho: TileSetAtlasSource
 var _atlas_arvores: Array[AtlasTexture] = []
 var _atlas_variacao: Array[AtlasTexture] = []
 var _atlas_amostra: Array[AtlasTexture] = []
-var _gerenciador: Node
 var _clima: Node2D
 ## Chuva, neve, nuvens e raios (clima.gd); filho deste nó
 var meteorologia: Node
@@ -88,10 +88,7 @@ var _painel_fade: ColorRect
 var _tween_fade: Tween
 var _tween_tom: Tween
 var _id_troca := 0
-
-@warning_ignore("integer_division")
-static func estacao_da_onda(onda: int) -> int:
-	return ((maxi(onda, 1) - 1) / ONDAS_POR_ESTACAO) % NOMES.size()
+var _calendario_ligado := false
 
 func _ready() -> void:
 	_terreno = get_parent() as Node2D
@@ -108,16 +105,12 @@ func _ready() -> void:
 	meteorologia.name = "Meteorologia"
 	add_child(meteorologia)
 	meteorologia.clima_mudou.connect(_ao_clima_mudou)
-	# Na tela de título o gerenciador não existe: estação fixa
-	_gerenciador = get_node_or_null("../../enemySpawner/GerenciadorOndas")
+	# Na tela de título não há gerenciador de ondas nem calendário a seguir: estação fixa
+	_calendario_ligado = seguir_calendario or get_node_or_null("../../enemySpawner/GerenciadorOndas") != null
 	var inicial := estacao_inicial
-	if _gerenciador:
-		inicial = estacao_da_onda(_gerenciador.onda_inicial)
-		_gerenciador.onda_iniciada.connect(_ao_onda_iniciada)
-		_gerenciador.onda_completada.connect(_ao_onda_completada)
-		_gerenciador.sinal_ondas_paradas.connect(_ao_ondas_paradas)
-		if _gerenciador.has_signal("onda_inicial_definida"):
-			_gerenciador.onda_inicial_definida.connect(_ao_onda_inicial_definida)
+	if _calendario_ligado:
+		inicial = Calendario.estacao()
+		Calendario.estacao_mudou.connect(_ao_calendario_estacao_mudou)
 	definir_estacao(inicial, true)
 	# A Iluminacao do cenario vem depois do terreno na árvore: o tom inicial entra quando ela já está no grupo
 	_aplicar_tom.call_deferred(inicial, true)
@@ -316,7 +309,7 @@ func _aplicar_tom(indice: int, imediato: bool) -> void:
 	_tween_tom = create_tween()
 	_tween_tom.tween_property(luz, "tom_estacao", TONS[indice], 1.2)
 
-# --- Fade e ciclo por ondas -----------------------------------------------------------------------------
+# --- Fade e calendário -----------------------------------------------------------------------------
 
 func _criar_fade() -> void:
 	_camada_fade = CanvasLayer.new()
@@ -330,35 +323,13 @@ func _criar_fade() -> void:
 	_camada_fade.add_child(_painel_fade)
 	add_child(_camada_fade)
 
-func _ao_onda_completada(onda: int) -> void:
-	# O bônus não avança a onda: a próxima é a mesma que ficou esperando
-	var proxima := onda if _gerenciador.onda_bonus else onda + 1
-	var alvo := estacao_da_onda(proxima)
+## O calendário virou de estação (dormiu no último dia): troca com fade e avisa no HUD
+func _ao_calendario_estacao_mudou(alvo: int) -> void:
 	if alvo == estacao_atual:
 		return
-	var id := _id_troca + 1
-	_id_troca = id
-	await get_tree().create_timer(ATRASO_TROCA).timeout
-	if id != _id_troca or not is_inside_tree():
-		return  # outra troca, ondas paradas ou onda já iniciada
 	definir_estacao(alvo)
-	await get_tree().create_timer(DURACAO_FADE_SAIDA + 0.15).timeout
-	if is_inside_tree():
+	var id := _id_troca  # definir_estacao já o incrementou: outra troca no meio cancela o aviso
+	await get_tree().create_timer(DURACAO_FADE_SAIDA + ATRASO_AVISO).timeout
+	if id == _id_troca and is_inside_tree():
 		Sons.tocar("estacao", 0.0)
 		get_tree().call_group("hud", "anunciar", NOMES[alvo], "NOVA ESTACAO", 2.0)
-
-func _ao_onda_iniciada(onda: int) -> void:
-	# Segurança: se a onda começou antes da troca agendada (ou o checkpoint mudou a onda), alinha sem fade
-	var alvo := estacao_da_onda(onda)
-	if alvo != estacao_atual:
-		definir_estacao(alvo, true)
-	else:
-		_id_troca += 1  # cancela troca pendente
-
-func _ao_ondas_paradas() -> void:
-	# Morreu/parou: volta para a estação da onda inicial da próxima partida
-	definir_estacao(estacao_da_onda(_gerenciador.onda_inicial), true)
-
-func _ao_onda_inicial_definida(onda: int) -> void:
-	# Mística: a partida vai começar em outra onda (e portanto em outra estação)
-	definir_estacao(estacao_da_onda(onda))

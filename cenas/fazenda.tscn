@@ -1,0 +1,35 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="PackedScene" path="res://cenas/terreno_fazenda.tscn" id="terreno"]
+[ext_resource type="PackedScene" path="res://cenas/Jogador.tscn" id="jogador"]
+[ext_resource type="PackedScene" path="res://cenas/efeitos/vinheta.tscn" id="vinheta"]
+[ext_resource type="Script" path="res://Codigos/Efeitos/iluminacao.gd" id="iluminacao"]
+[ext_resource type="PackedScene" path="res://cenas/ui.tscn" id="ui"]
+[ext_resource type="PackedScene" path="res://cenas/ui/interface.tscn" id="interface"]
+[ext_resource type="Script" path="res://Codigos/Logicas/fazenda.gd" id="fazenda_gd"]
+
+[node name="fazenda" type="Node2D"]
+script = ExtResource("fazenda_gd")
+limites = Rect2(0, 0, 960, 672)
+metadata/titulo_hud = "FAZENDA"
+metadata/barra_ferramentas = true
+
+[node name="Terrains" parent="." instance=ExtResource("terreno")]
+
+[node name="Jogador" parent="." instance=ExtResource("jogador")]
+z_index = 1
+position = Vector2(184, 114)
+collision_mask = 96
+
+[node name="Vinheta" parent="." instance=ExtResource("vinheta")]
+layer = 1
+
+[node name="Iluminacao" type="Node" parent="."]
+script = ExtResource("iluminacao")
+
+[node name="CanvasModulate" type="CanvasModulate" parent="Iluminacao"]
+color = Color(0.86, 0.88, 1, 1)
+
+[node name="UI" parent="." instance=ExtResource("ui")]
+
+[node name="Interface" parent="." instance=ExtResource("interface")]

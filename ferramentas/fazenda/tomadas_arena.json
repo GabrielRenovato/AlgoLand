@@ -1,0 +1,24 @@
+[
+ {
+  "nome": "arena_caverna_aviso",
+  "estacao": 0,
+  "dia": 1,
+  "jogador": [
+   264,
+   -115
+  ],
+  "quadros": 80,
+  "hora": 12.0
+ },
+ {
+  "nome": "arena_caverna_longe_sem_aviso",
+  "estacao": 0,
+  "dia": 1,
+  "jogador": [
+   264,
+   -60
+  ],
+  "quadros": 60,
+  "hora": 12.0
+ }
+]

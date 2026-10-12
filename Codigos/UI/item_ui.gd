@@ -1,6 +1,10 @@
 extends Control
 
 const IconesItens := preload("res://Codigos/UI/icones_itens.gd")
+const Encantamentos := preload("res://Codigos/DadosLocais/encantamentos.gd")
+const FONTE_DICA := preload("res://UI/Planes_ValMore.ttf")
+const COR_DICA_DETALHE := Color(0.7, 0.68, 0.64)
+const NOMES_RARIDADE := {"comum": "COMUM", "incomum": "INCOMUM", "raro": "RARO", "epico": "EPICO", "lendario": "LENDARIO"}
 
 const ESCALA_PREVIEW := 1.2
 const BRILHO_HOVER := Color(1.15, 1.15, 1.15, 1.0)
@@ -31,7 +35,30 @@ func exibir(item: DadosItem) -> void:
 	var estilo := moldura.get_theme_stylebox("panel").duplicate() as StyleBoxFlat
 	estilo.border_color = item.cor_raridade()
 	moldura.add_theme_stylebox_override("panel", estilo)
-	tooltip_text = "%s  NV %d  (%s)" % [item.nome(), item.nivel, item.raridade.capitalize()]
+	# O texto é a versão simples (acessibilidade/testes); o desenho da dica vem de _make_custom_tooltip
+	tooltip_text = "%s  NV %d  %s" % [item.nome(), item.nivel, NOMES_RARIDADE.get(item.raridade, item.raridade.to_upper())]
+
+## Dica do item no estilo do jogo (a caixa vem do tema global: TooltipPanel com a moldura de slot do pack):
+## nome na cor da raridade, nível e raridade embaixo e, se tiver, o encantamento na cor do elemento
+func _make_custom_tooltip(_texto: String) -> Object:
+	if dados == null:
+		return null
+	var linhas := VBoxContainer.new()
+	linhas.add_theme_constant_override("separation", 0)
+	linhas.add_child(_linha_dica(dados.nome(), dados.cor_raridade()))
+	linhas.add_child(_linha_dica("NV %d  %s" % [dados.nivel, NOMES_RARIDADE.get(dados.raridade, dados.raridade.to_upper())], COR_DICA_DETALHE))
+	if dados.encantamento != "":
+		linhas.add_child(_linha_dica("%s NV %d" % [Encantamentos.nome(dados.encantamento), dados.nivel_encantamento],
+				Encantamentos.cor(dados.encantamento)))
+	return linhas
+
+func _linha_dica(texto: String, cor: Color) -> Label:
+	var rotulo := Label.new()
+	rotulo.text = texto
+	rotulo.add_theme_font_override("font", FONTE_DICA)
+	rotulo.add_theme_font_size_override("font_size", 10)
+	rotulo.add_theme_color_override("font_color", cor)
+	return rotulo
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_DRAG_BEGIN:

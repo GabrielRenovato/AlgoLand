@@ -1,4 +1,4 @@
-[gd_scene load_steps=132 format=3 uid="uid://dtphjwfloo87l"]
+[gd_scene load_steps=134 format=3 uid="uid://dtphjwfloo87l"]
 
 [ext_resource type="Texture2D" uid="uid://dculgfvuqr31p" path="res://Tiles/23.05a - Arctic Woodland 1.1/arctic woodland v1.png" id="1_quwo3"]
 
@@ -33,6 +33,8 @@
 [ext_resource type="Texture2D" path="res://Tiles/Seasonal Forest/seasonal water animations/winter water sparkles B 16x16.png" id="brilho_folha"]
 
 [ext_resource type="Script" path="res://Codigos/Design/estacoes.gd" id="estacoes_script"]
+
+[ext_resource type="Script" path="res://Codigos/Logicas/passagem.gd" id="passagem_script"]
 
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_3wph6"]
@@ -836,6 +838,9 @@ texture = ExtResource("brilho_folha")
 0:2/animation_frame_2/duration = 0.3
 0:2/animation_frame_3/duration = 0.3
 0:2/0 = 0
+
+[sub_resource type="RectangleShape2D" id="Forma_passagem"]
+size = Vector2(56, 24)
 
 [sub_resource type="TileSet" id="TileSet_brilho"]
 sources/0 = SubResource("TileSetAtlasSource_brilho")
@@ -4911,6 +4916,19 @@ polygon = PackedVector2Array(640, 376, 656, 376, 656, 384, 640, 384)
 
 [node name="Navegacao" type="NavigationRegion2D" parent="."]
 script = ExtResource("navegacao")
+
+[node name="PassagemCaverna" type="Area2D" parent="."]
+position = Vector2(264, -106)
+script = ExtResource("passagem_script")
+cena_destino = "res://cenas/fazenda.tscn"
+ponto_chegada = "caverna"
+deslocamento_aviso = Vector2(0, -38)
+
+[node name="Forma" type="CollisionShape2D" parent="PassagemCaverna"]
+shape = SubResource("Forma_passagem")
+
+[node name="Chegada_caverna" type="Marker2D" parent="." groups=["chegada"]]
+position = Vector2(264, -82)
 
 [node name="Estacoes" type="Node" parent="."]
 script = ExtResource("estacoes_script")

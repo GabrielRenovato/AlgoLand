@@ -1,6 +1,9 @@
 extends "Inimigo-base.gd"
 
 const NOME := "GOLEM DE PEDRA"
+## O golem já nasce chefe (não passa por tornar_chefe, então eh_chefe fica falso): quem precisa saber se o inimigo é
+## chefe sem mexer no comportamento da base (ex.: o drop de sementes) olha isto
+const CHEFE_NATIVO := true
 # Folhas de 128x128 em 4 linhas: frente, costas, esquerda, direita
 const LINHAS_DIRECAO := 4
 const ANIMACOES := {

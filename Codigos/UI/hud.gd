@@ -5,6 +5,8 @@ const FRACAO_VIDA_BAIXA := 0.3
 const ESCALA_BANNER := Vector2(2, 2)
 const COR_STAMINA := Color(1, 0.85, 0.3)
 const COR_STAMINA_VAZIA := Color(1, 0.3, 0.3)
+const BarraFerramentas := preload("res://Codigos/UI/barra_ferramentas.gd")
+const CintoPocoes := preload("res://Codigos/UI/cinto_pocoes.gd")
 
 @onready var coracao: TextureRect = %Coracao
 @onready var barra_vida: Control = %BarraVida
@@ -13,6 +15,10 @@ const COR_STAMINA_VAZIA := Color(1, 0.3, 0.3)
 @onready var icone_stamina: TextureRect = %IconeStamina
 @onready var rotulo_moedas: Label = %RotuloMoedas
 @onready var rotulo_brasas: Label = %RotuloBrasas
+@onready var rotulo_data: Label = %RotuloData
+@onready var relogio: TextureRect = %Relogio
+@onready var rotulo_hora: Label = %RotuloHora
+@onready var painel_onda: Control = %PainelOnda
 @onready var rotulo_onda: Label = %RotuloOnda
 @onready var rotulo_evento: Label = %RotuloEvento
 @onready var linha_inimigos: Control = %LinhaInimigos
@@ -26,12 +32,29 @@ const COR_STAMINA_VAZIA := Color(1, 0.3, 0.3)
 @onready var rotulo_banner: Label = %RotuloBanner
 @onready var subtitulo_banner: Label = %SubtituloBanner
 
+# Folha 6x3 de quadros 32x32 (UI/Clock/Others/clock.png do Farm RPG): colunas = hora do dia, linhas = estação
+const TEXTURA_RELOGIO := preload("res://UI/fazenda/relogio.png")
+const LADO_RELOGIO := 32
+# primavera e verão usam a paisagem verde; outono a laranja; inverno a de neve
+const LINHA_RELOGIO_POR_ESTACAO := [0, 0, 1, 2]
+# [de, até, coluna]: as cores do céu acompanham os pontos do dia de iluminacao.gd
+const FAIXAS_RELOGIO := [
+	[0.0, 4.5, 4], [4.5, 7.5, 5], [7.5, 11.0, 0], [11.0, 16.0, 1],
+	[16.0, 19.5, 2], [19.5, 21.0, 3], [21.0, 24.0, 4],
+]
+
 var _vida_atual := -1
+var _quadro_relogio := AtlasTexture.new()
+var _iluminacao: Node
 var _tween_coracao: Tween
 var _tween_banner: Tween
 var _tween_stamina: Tween
 var _vida_baixa := false
 var _gerenciador: Node
+## Só na fazenda (meta "barra_ferramentas" da cena): a ferramenta ativa
+var barra_ferramentas: Control = null
+## Só na arena (cena com ondas): as poções do jogador
+var cinto_pocoes: Control = null
 
 func _ready() -> void:
 	add_to_group("hud")
@@ -41,6 +64,14 @@ func _ready() -> void:
 	atualizar_moedas(DadosJogo.moedas)
 	atualizar_brasas(Progresso.brasas)
 	Progresso.brasas_alteradas.connect(atualizar_brasas)
+	atualizar_data()
+	Calendario.dia_passou.connect(_ao_dia_passou)
+	Calendario.estacao_mudou.connect(_ao_estacao_mudou)
+	_montar_relogio()
+	if get_parent() != null and bool(get_parent().get_meta("barra_ferramentas", false)):
+		barra_ferramentas = BarraFerramentas.new()
+		barra_ferramentas.name = "BarraFerramentas"
+		add_child(barra_ferramentas)
 	# O Jogador fica antes na árvore e já atualizou a vida antes deste nó entrar no grupo
 	var jogador := get_parent().get_node_or_null("Jogador")
 	if jogador:
@@ -62,14 +93,100 @@ func _conectar_gerenciador() -> void:
 			return
 		gerenciador = get_tree().get_first_node_in_group("gerenciador_ondas")
 	if gerenciador == null:
+		_modo_sem_ondas()
 		return
 	_gerenciador = gerenciador
+	_criar_cinto_pocoes()
 	gerenciador.onda_iniciada.connect(_ao_onda_iniciada)
 	gerenciador.onda_completada.connect(_ao_onda_completada)
 	gerenciador.sinal_ondas_paradas.connect(_ao_ondas_paradas)
 	gerenciador.inimigos_alterados.connect(_ao_inimigos_alterados)
 	gerenciador.evento_alterado.connect(_ao_evento_alterado)
 	rotulo_onda.text = "ONDA %d" % gerenciador.onda_atual
+
+## Data do calendário ("PRIMAVERA - DIA 3"), nas cenas de jogo
+func atualizar_data() -> void:
+	rotulo_data.text = Calendario.texto_data()
+
+func _ao_dia_passou(_dia: int) -> void:
+	atualizar_data()
+
+func _ao_estacao_mudou(_estacao: int) -> void:
+	_atualizar_relogio()
+
+# --- Relógio (janelinha do Farm RPG: a paisagem muda com a estação e o céu com a hora do dia) --------------
+
+func _montar_relogio() -> void:
+	_quadro_relogio.atlas = TEXTURA_RELOGIO
+	relogio.texture = _quadro_relogio
+	# A Iluminacao (que conta as horas) pode entrar na árvore depois do HUD
+	_ligar_iluminacao.call_deferred()
+
+func _ligar_iluminacao() -> void:
+	_iluminacao = get_tree().get_first_node_in_group("iluminacao") if is_inside_tree() else null
+	if _iluminacao != null and _iluminacao.has_signal("hora_mudou"):
+		_iluminacao.hora_mudou.connect(_ao_hora_mudou)
+	_atualizar_relogio()
+
+func _ao_hora_mudou(_hora: int, _minuto: int) -> void:
+	_atualizar_relogio()
+
+func _atualizar_relogio() -> void:
+	var hora := 6.0
+	if is_instance_valid(_iluminacao):
+		hora = float(_iluminacao.hora)
+	var linha: int = LINHA_RELOGIO_POR_ESTACAO[clampi(Calendario.estacao(), 0, 3)]
+	_quadro_relogio.region = Rect2(coluna_relogio(hora) * LADO_RELOGIO, linha * LADO_RELOGIO, LADO_RELOGIO, LADO_RELOGIO)
+	rotulo_hora.text = texto_hora(hora)
+	rotulo_hora.visible = is_instance_valid(_iluminacao)
+
+## Coluna da folha do relógio para a hora (0..24): manhã, dia, tarde, anoitecer, noite e madrugada
+static func coluna_relogio(hora: float) -> int:
+	for faixa in FAIXAS_RELOGIO:
+		if hora >= faixa[0] and hora < faixa[1]:
+			return int(faixa[2])
+	return 4
+
+## "06:30": minutos de 10 em 10, como nos relógios de fazenda (o ciclo anda rápido e o número não fica piscando)
+static func texto_hora(hora: float) -> String:
+	var minutos_totais := int(floor(hora * 60.0))
+	return "%02d:%02d" % [(minutos_totais / 60) % 24, (minutos_totais % 60) / 10 * 10]
+
+func _criar_cinto_pocoes() -> void:
+	var jogador := get_parent().get_node_or_null("Jogador") if get_parent() != null else null
+	if jogador == null or jogador.get("efeitos_pocao") == null or cinto_pocoes != null:
+		return
+	cinto_pocoes = CintoPocoes.new()
+	cinto_pocoes.name = "CintoPocoes"
+	cinto_pocoes.efeitos = jogador.efeitos_pocao
+	add_child(cinto_pocoes)
+
+## Por que a poção não foi bebida (SEM POCOES, VIDA CHEIA...)
+func avisar_pocao(texto: String) -> void:
+	if cinto_pocoes != null:
+		cinto_pocoes.mostrar_aviso(texto)
+
+## Saquinho de semente recolhido na arena
+func avisar_semente(id: String) -> void:
+	if cinto_pocoes != null:
+		cinto_pocoes.avisar_semente(id)
+
+## Aviso de por que a ferramenta não pôde ser usada (só existe na fazenda)
+func avisar_ferramenta(texto: String) -> void:
+	if barra_ferramentas != null:
+		barra_ferramentas.mostrar_aviso(texto)
+
+## Fazenda e casa não têm ondas: o quadro da onda some e o relógio sobe para o canto
+## (o título guarda o nome do lugar, meta "titulo_hud" da cena)
+func _modo_sem_ondas() -> void:
+	var titulo := ""
+	if get_parent() != null:
+		titulo = String(get_parent().get_meta("titulo_hud", ""))
+	rotulo_onda.text = titulo if titulo != "" else "FAZENDA"
+	rotulo_evento.hide()
+	linha_inimigos.hide()
+	rotulo_espera.hide()
+	painel_onda.hide()
 
 func atualizar_vida(atual: int, maximo: int) -> void:
 	var levou_dano := _vida_atual >= 0 and atual < _vida_atual

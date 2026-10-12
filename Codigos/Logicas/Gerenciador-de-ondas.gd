@@ -5,8 +5,6 @@ signal onda_completada(onda: int)
 signal jogo_ganho()
 signal sinal_ondas_paradas
 signal inimigos_alterados(vivos: int, total: int)
-## A Mística mudou a onda em que a partida começa (a estação do ano acompanha)
-signal onda_inicial_definida(onda: int)
 ## Evento da onda que começou (ou {} quando terminou): o HUD mostra o indicador
 signal evento_alterado(evento: Dictionary)
 
@@ -36,7 +34,6 @@ signal evento_alterado(evento: Dictionary)
 ## Slimes que acompanham o chefe; poucos para a luta ser contra ele
 @export var escolta_chefe: int = 2
 const CENA_CHEFE := preload("res://cenas/inimigos/golem.tscn")
-const EstacoesScript := preload("res://Codigos/Design/estacoes.gd")
 ## altura_coroa = altura do alto da cabeça em coordenadas locais (a coroa dourada fica ali)
 ## Rodízio de chefes: onda 10 golem, 20 rei slime, 30 caranguejo, 40 cogumelo, 50 golem de novo...
 ## Sem "escala" é o golem, que tem o comportamento próprio; os demais usam Inimigo-base.tornar_chefe
@@ -69,7 +66,7 @@ const EVENTOS: Array[Dictionary] = [
 	{"id": "tempestade", "nome": "TEMPESTADE", "resumo": "RAIOS NO CAMPO", "cor": Color(0.55, 0.72, 1.0),
 		"ouro": 1.4, "nao_no_inverno": true},
 ]
-## Índice da estação em que o evento "nao_no_inverno" não sorteia (ver Codigos/Design/estacoes.gd)
+## Índice da estação em que o evento "nao_no_inverno" não sorteia (a estação vem do Calendario)
 const ESTACAO_INVERNO: int = 3
 const ONDA_MINIMA_EVENTO: int = 4
 const CHANCE_EVENTO: float = 0.25
@@ -111,9 +108,19 @@ var _rng := RandomNumberGenerator.new()
 func _ready() -> void:
 	add_to_group("gerenciador_ondas")
 	_rng.randomize()
+	# Voltando da fazenda (Transicao): a partida em andamento continua. Lido antes do await, que atravessa
+	# alguns quadros da troca de cena
+	var voltando: bool = Transicao.retornando and Transicao.estado.has("onda_atual")
 	await get_tree().create_timer(0.0).timeout
 	onda_atual = onda_inicial
 	gerador = get_tree().get_root().get_node("/root/cenario/enemySpawner")
+	if voltando:
+		# Mesma onda de antes e nada de reiniciar a partida, o ouro nem o checkpoint (ficam no Progresso e no DadosJogo)
+		onda_atual = int(Transicao.estado["onda_atual"])
+		if not Progresso.partida_ativa:
+			Progresso.iniciar_partida()
+		get_tree().call_group("hud", "atualizar_rotulo_onda", onda_atual)
+		return
 	# Uma partida nova começa junto com a cena de jogo (a morte inicia outra, ver Jogador.reiniciar_para_nova_partida)
 	Progresso.iniciar_partida()
 	if DadosJogo.moedas == 0:
@@ -139,7 +146,7 @@ func iniciar_onda() -> void:
 	onda_bonus = _sortear_onda_bonus(chefe)
 	_bonus_na_onda_anterior = onda_bonus
 	_definir_evento(sortear_evento(onda_atual, chefe, onda_bonus, _id_evento_anterior, _rng, chance_evento,
-			EstacoesScript.estacao_da_onda(onda_atual)))
+			Calendario.estacao()))
 	if onda_bonus:
 		inimigos_vivos = mini(mimicos_bonus_base + onda_atual / 2, MAX_MIMICOS_BONUS)
 	elif chefe:
@@ -282,6 +289,8 @@ func _descontar_inimigo() -> void:
 		Progresso.registrar_onda_concluida(onda_atual, eh_onda_chefe(onda_atual) and not onda_bonus, onda_bonus)
 		emit_signal("onda_completada", onda_atual)
 		Sons.tocar("onda_fim", 0.0)
+		# Saquinhos de semente que ficaram no chão voam até o jogador
+		get_tree().call_group("semente_drop", "atrair")
 		_encerrar_evento()
 		# O bônus é um estágio extra: a próxima onda é a mesma que ficou esperando
 		if not onda_bonus:
@@ -293,7 +302,6 @@ func definir_onda_inicial(onda: int) -> void:
 		return
 	onda_atual = onda
 	get_tree().call_group("hud", "atualizar_rotulo_onda", onda)
-	onda_inicial_definida.emit(onda)
 
 func parar_ondas() -> void:
 	ondas_paradas = true

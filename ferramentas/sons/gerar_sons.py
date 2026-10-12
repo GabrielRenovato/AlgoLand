@@ -373,6 +373,91 @@ def chuva():
     return [(0, saida)]
 
 
+def enxada():
+    """Golpe na terra: baque grave e abafado com um estalo de torrões."""
+    return [
+        voz("ruido", 900, 200, dur=0.17, ataque=0.002, decaimento=0.05, sustentacao=0.3, liberacao=0.09,
+            filtro_ini=0.3, filtro_fim=0.07, volume=0.9, semente=601),
+        voz("triangulo", 150, 55, dur=0.15, ataque=0.002, decaimento=0.05, sustentacao=0.4, liberacao=0.08,
+            volume=0.75, semente=602),
+        voz("ruido", 3200, 1400, dur=0.07, inicio=0.03, ataque=0.001, decaimento=0.02, sustentacao=0.3,
+            liberacao=0.04, filtro_ini=0.5, filtro_fim=0.25, volume=0.3, semente=603),
+    ]
+
+
+def regar():
+    """Água saindo do regador: chiado filtrado e borbulhante, um pouco mais longo que os outros golpes."""
+    return [
+        voz("ruido", 2600, 3400, dur=0.55, ataque=0.07, decaimento=0.12, sustentacao=0.65, liberacao=0.22,
+            filtro_ini=0.28, filtro_fim=0.42, vibrato_hz=23, vibrato_prof=0.3, volume=0.8, semente=611),
+        voz("triangulo", 520, 980, dur=0.07, inicio=0.12, ataque=0.003, decaimento=0.02, sustentacao=0.5,
+            liberacao=0.03, volume=0.35, semente=612),
+        voz("triangulo", 430, 860, dur=0.07, inicio=0.27, ataque=0.003, decaimento=0.02, sustentacao=0.5,
+            liberacao=0.03, volume=0.3, semente=613),
+        voz("triangulo", 610, 1100, dur=0.06, inicio=0.39, ataque=0.003, decaimento=0.02, sustentacao=0.5,
+            liberacao=0.03, volume=0.3, semente=614),
+    ]
+
+
+def plantar():
+    """Semente caindo na terra: um plop curto e dois grãos."""
+    return [
+        voz("triangulo", 330, 540, dur=0.1, ataque=0.002, decaimento=0.04, sustentacao=0.4, liberacao=0.05,
+            volume=0.7, semente=621),
+        voz("ruido", 1800, 600, dur=0.06, ataque=0.001, decaimento=0.02, sustentacao=0.3, liberacao=0.03,
+            filtro_ini=0.45, filtro_fim=0.2, volume=0.4, semente=622),
+        voz("triangulo", 260, 420, dur=0.08, inicio=0.09, ataque=0.002, decaimento=0.03, sustentacao=0.35,
+            liberacao=0.04, volume=0.45, semente=623),
+    ]
+
+
+def colher():
+    """Planta arrancada da terra: estalo seco e um pop agudo de recompensa."""
+    return [
+        voz("ruido", 2400, 700, dur=0.08, ataque=0.001, decaimento=0.03, sustentacao=0.3, liberacao=0.04,
+            filtro_ini=0.55, filtro_fim=0.2, volume=0.55, semente=631),
+        voz("quadrada", 420, 980, dur=0.09, inicio=0.04, ataque=0.002, decaimento=0.03, sustentacao=0.5,
+            liberacao=0.04, duty=0.25, volume=0.6, semente=632),
+        voz("triangulo", nota(SOL5), dur=0.14, inicio=0.12, ataque=0.002, decaimento=0.05, sustentacao=0.4,
+            liberacao=0.08, volume=0.55, semente=633),
+    ]
+
+
+def caldeirao():
+    """Pocao pronta no caldeirao: bolhas que sobem (plops graves e rapidos) e um brilho magico no fim."""
+    bolhas = []
+    for k, (f0, t0) in enumerate([(180, 0.0), (240, 0.07), (200, 0.13), (300, 0.2), (260, 0.26), (360, 0.33)]):
+        bolhas.append(voz("triangulo", f0, f0 * 2.4, dur=0.07, inicio=t0, ataque=0.002, decaimento=0.03,
+                          sustentacao=0.4, liberacao=0.03, volume=0.6, semente=651 + k))
+    return (bolhas
+            + [voz("ruido", 900, 400, dur=0.4, ataque=0.02, decaimento=0.1, sustentacao=0.4, liberacao=0.2,
+                   filtro_ini=0.25, filtro_fim=0.1, volume=0.35, semente=660)]
+            + melodia("triangulo", [SOL5, DO6, MI6], 0.07, inicio=0.42, decaimento=0.04, sustentacao=0.5,
+                      liberacao=0.08, vibrato_hz=8, vibrato_prof=0.015, volume=0.55))
+
+
+def beber():
+    """Pocao bebida: dois goles (glub glub) e o efeito subindo em arpejo."""
+    return ([voz("quadrada", 260, 150, dur=0.08, ataque=0.002, decaimento=0.03, sustentacao=0.5, liberacao=0.03,
+                 duty=0.25, filtro_ini=0.35, volume=0.65, semente=671),
+             voz("quadrada", 240, 135, dur=0.08, inicio=0.11, ataque=0.002, decaimento=0.03, sustentacao=0.5,
+                 liberacao=0.03, duty=0.25, filtro_ini=0.35, volume=0.65, semente=672)]
+            + melodia("quadrada", [DO5, MI5, SOL5, DO6], 0.05, inicio=0.22, duty=0.125, decaimento=0.02,
+                      sustentacao=0.55, liberacao=0.05, volume=0.5))
+
+
+def pegar_semente():
+    """Saquinho de semente recolhido: um pop macio e um trinado curto (mais suave que a moeda)."""
+    return [
+        voz("triangulo", 420, 820, dur=0.07, ataque=0.002, decaimento=0.03, sustentacao=0.5, liberacao=0.03,
+            volume=0.7, semente=681),
+        voz("triangulo", nota(MI5), dur=0.1, inicio=0.06, ataque=0.002, decaimento=0.03, sustentacao=0.5,
+            liberacao=0.05, volume=0.55, semente=682),
+        voz("triangulo", nota(SOL5), dur=0.13, inicio=0.12, ataque=0.002, decaimento=0.04, sustentacao=0.45,
+            liberacao=0.08, volume=0.5, semente=683),
+    ]
+
+
 # nome -> (nivel de pico, funcao). O nivel varia para balancear o volume entre os sons
 SONS = {
     "golpe_espada": (0.75, golpe_espada),
@@ -397,6 +482,13 @@ SONS = {
     "menu_confirmar": (0.55, menu_confirmar),
     "trovao": (0.9, trovao),
     "chuva": (0.5, chuva),
+    "enxada": (0.8, enxada),
+    "regar": (0.55, regar),
+    "plantar": (0.6, plantar),
+    "colher": (0.65, colher),
+    "caldeirao": (0.7, caldeirao),
+    "beber": (0.7, beber),
+    "pegar_semente": (0.55, pegar_semente),
 }
 # Sons que se repetem em loop (sem o fade de 2 ms no fim)
 SONS_EM_LOOP = {"chuva"}

@@ -17,6 +17,7 @@ const INTERVALOS := {
 	"inimigo_morre": 0.04,
 	"golpe_espada": 0.05,
 	"golpe_lanca": 0.05,
+	"pegar_semente": 0.05,
 }
 
 const STREAMS := {
@@ -41,6 +42,13 @@ const STREAMS := {
 	"trovao": preload("res://sons/trovao.wav"),
 	"menu_mover": preload("res://sons/menu_mover.wav"),
 	"menu_confirmar": preload("res://sons/menu_confirmar.wav"),
+	"enxada": preload("res://sons/enxada.wav"),
+	"regar": preload("res://sons/regar.wav"),
+	"plantar": preload("res://sons/plantar.wav"),
+	"colher": preload("res://sons/colher.wav"),
+	"caldeirao": preload("res://sons/caldeirao.wav"),
+	"beber": preload("res://sons/beber.wav"),
+	"pegar_semente": preload("res://sons/pegar_semente.wav"),
 }
 
 ## Botões marcados com esta meta têm som próprio (compra, melhoria...) e não tocam o "menu_confirmar" padrão

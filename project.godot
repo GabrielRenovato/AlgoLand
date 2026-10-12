@@ -35,6 +35,9 @@ InventarioJogador="*res://Codigos/Modelos/modelo_inventario.gd"
 PreviewArrasto="*res://Codigos/UI/preview_arrasto.gd"
 Controle="*res://Codigos/Globais/controle.gd"
 Progresso="*res://Codigos/Globais/progresso.gd"
+Calendario="*res://Codigos/Globais/calendario.gd"
+Fazenda="*res://Codigos/Globais/fazenda_dados.gd"
+Transicao="*res://Codigos/Globais/transicao.gd"
 Sons="*res://Codigos/Globais/sons.gd"
 PainelDebug="*res://Codigos/UI/painel_debug.gd"
 
@@ -61,6 +64,10 @@ cabeca_basica=""
 armadura_basica=""
 botas_basicas=""
 luvas_basicas=""
+
+[gui]
+
+theme/custom="res://recursos/ui/tema_global.tres"
 
 [input]
 
@@ -152,6 +159,24 @@ rolar={
 "deadzone": 0.5,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194325,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
 , Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":1,"pressure":0.0,"pressed":true,"script":null)
+]
+}
+ferramenta_anterior={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":81,"key_label":0,"unicode":113,"location":0,"echo":false,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":9,"pressure":0.0,"pressed":true,"script":null)
+]
+}
+ferramenta_proxima={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":69,"key_label":0,"unicode":101,"location":0,"echo":false,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":10,"pressure":0.0,"pressed":true,"script":null)
+]
+}
+usar_pocao={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":82,"key_label":0,"unicode":114,"location":0,"echo":false,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":2,"pressure":0.0,"pressed":true,"script":null)
 ]
 }
 

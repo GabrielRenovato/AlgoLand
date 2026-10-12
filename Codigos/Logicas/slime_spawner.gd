@@ -17,6 +17,7 @@ const CENA_FLOR := preload("res://cenas/inimigos/flor.tscn")
 const CENA_CARANGUEJO := preload("res://cenas/inimigos/caranguejo.tscn")
 const CENA_GREMLIN := preload("res://cenas/inimigos/gremlin.tscn")
 const CENA_FALCAO := preload("res://cenas/inimigos/falcao.tscn")
+const SementeDrop := preload("res://Codigos/Logicas/semente_drop.gd")
 const ONDAS_POR_ESTAGIO := 2
 const ESTAGIOS: Array[Array] = [
 	[CENA_SLIME],
@@ -42,6 +43,7 @@ const CHANCE_MUTANTE_MAXIMA_ELITE := 0.9
 
 var pontos_spawn := []
 var gerenciador_ondas
+var _rng_sementes := RandomNumberGenerator.new()
 @export var atraso_spawn: float = 0.5
 @export var max_tentativas_spawn: int = 3
 @export var prevenir_spawns_consecutivos: bool = true
@@ -57,6 +59,7 @@ func tem_propriedade(obj: Object, nome_propriedade: String) -> bool:
 
 func _ready() -> void:
 	randomize()
+	_rng_sementes.randomize()
 	await get_tree().process_frame
 	# Coleta todos os pontos de spawn
 	for child in get_children():
@@ -226,6 +229,9 @@ func spawnar_inimigo_em(spawn: Marker2D, multiplicador_vida: float, multiplicado
 	inimigo.add_to_group("enemy")
 	if is_instance_valid(gerenciador_ondas):
 		if inimigo.has_signal("inimigo_morreu"):
+			# Sementes para a fazenda (os lacaios dos chefes não passam por aqui: não soltam nada). Liga antes do
+			# gerenciador: os saquinhos do último inimigo já existem quando a onda termina e são atraídos junto
+			inimigo.connect("inimigo_morreu", _soltar_sementes.bind(inimigo))
 			inimigo.connect("inimigo_morreu", Callable(gerenciador_ondas, "inimigo_morreu"))
 		else:
 			push_warning("Inimigo não possui o sinal 'inimigo_morreu'")
@@ -245,3 +251,7 @@ func spawnar_inimigo_em(spawn: Marker2D, multiplicador_vida: float, multiplicado
 	await timer.timeout
 	
 	return true
+
+## Saquinhos de semente no lugar onde o inimigo morreu (chance e sorteio em semente_drop.gd)
+func _soltar_sementes(inimigo: Node2D) -> void:
+	SementeDrop.soltar_de(inimigo, principal, _rng_sementes)

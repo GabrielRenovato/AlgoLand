@@ -9,6 +9,26 @@ const CENA_CUSTOMIZACAO := "res://cenas/customizacao-de-personagem.tscn"
 const VALORES_FPS := [30, 60, 120, 0]
 const ROTULOS_FPS := ["30", "60", "120", "SEM LIMITE"]
 const BRILHO_FOCO := Color(1.15, 1.15, 1.15)
+const PASSO_ROLAGEM_CREDITOS := 24
+const COR_TITULO_CREDITOS := Color(1.0, 0.82, 0.3)
+const COR_LINK_CREDITOS := Color(0.65, 0.8, 1.0)
+const FONTE_CREDITOS := preload("res://UI/Planes_ValMore.ttf")
+# Textos em ASCII maiusculo (a fonte nao tem acentos). Cada bloco: titulo, link opcional e linhas de descricao.
+# Origem de cada informacao: leia os arquivos de licenca/readme das pastas de assets (Mana Seed, Farm RPG, craftpix, PixyMoon).
+const CREDITOS := [
+	{"titulo": "ALGOLAND", "linhas": ["DESENVOLVIDO POR GABRIEL RENOVATO"]},
+	{"titulo": "SELIEL THE SHAPER - MANA SEED", "link": "SELIEL-THE-SHAPER.ITCH.IO",
+			"linhas": ["PERSONAGEM, ROUPAS E CABELOS", "ANIMACOES DE COMBATE", "INIMIGOS E NPCS",
+			"CENARIOS: TRAVELER'S CAMP E ARCTIC WOODLAND", "CENARIOS: SEASONAL FOREST E STARTER PACK",
+			"EFEITOS DE CLIMA"]},
+	{"titulo": "EMANUELLEDEV", "link": "EMANUELLEDEV.ITCH.IO",
+			"linhas": ["FARM RPG - TINY ASSET PACK", "PLANTAS, ICONES E OBJETOS DA FAZENDA"]},
+	{"titulo": "CRAFTPIX.NET",
+			"linhas": ["INTERFACE, FONTES, ICONES E MOEDAS"]},
+	{"titulo": "PIXYMOON", "link": "PIXYMOON.ITCH.IO", "linhas": ["CUTE RPG - ICONS"]},
+	{"titulo": "TAKANAZWA5", "linhas": ["GDCONSOLE (LICENCA MIT)"]},
+	{"titulo": "SONS", "linhas": ["SONS GERADOS POR CODIGO"]},
+]
 
 @export var caminho_save_personagem := "user://configuracao_jogador.json"
 @export var caminho_save_inventario := "user://inventario.json"
@@ -28,6 +48,8 @@ const BRILHO_FOCO := Color(1.15, 1.15, 1.15)
 @onready var botao_voltar_opcoes: Button = %BotaoVoltarOpcoes
 @onready var painel_creditos: Control = %PainelCreditos
 @onready var botao_voltar_creditos: Button = %BotaoVoltarCreditos
+@onready var rolagem_creditos: ScrollContainer = %Rolagem
+@onready var lista_creditos: VBoxContainer = %Lista
 @onready var confirmar_novo_jogo: Control = %ConfirmarNovoJogo
 @onready var botao_sim: Button = %BotaoSim
 @onready var botao_nao: Button = %BotaoNao
@@ -47,6 +69,7 @@ func _ready() -> void:
 	_animar_titulo()
 	_animar_respiracao()
 	_montar_opcoes()
+	_montar_creditos()
 	_montar_menu()
 	_fade_entrada()
 	# Fogo no máximo: a tela inicial é sempre crepúsculo
@@ -117,6 +140,41 @@ func _montar_opcoes() -> void:
 			botao.focus_neighbor_bottom = abaixo.get_path()
 	botao_voltar_opcoes.focus_neighbor_top = (_linhas[_linhas.size() - 1]["menos"] as Button).get_path()
 
+# Monta a lista de creditos a partir de CREDITOS. A rolagem funciona no controle: cima/baixo no botao VOLTAR
+func _montar_creditos() -> void:
+	for bloco in CREDITOS:
+		_adicionar_texto_credito(bloco["titulo"], COR_TITULO_CREDITOS)
+		if bloco.has("link"):
+			_adicionar_texto_credito(bloco["link"], COR_LINK_CREDITOS)
+		for linha in bloco["linhas"]:
+			_adicionar_texto_credito(linha, Color.WHITE)
+		var espaco := Control.new()
+		espaco.custom_minimum_size = Vector2(0, 4)
+		lista_creditos.add_child(espaco)
+	botao_voltar_creditos.focus_neighbor_top = botao_voltar_creditos.get_path()
+	botao_voltar_creditos.focus_neighbor_bottom = botao_voltar_creditos.get_path()
+	botao_voltar_creditos.gui_input.connect(_ao_entrada_creditos)
+
+func _adicionar_texto_credito(texto: String, cor: Color) -> void:
+	var rotulo := Label.new()
+	rotulo.text = texto
+	rotulo.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	rotulo.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	rotulo.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	rotulo.add_theme_font_override("font", FONTE_CREDITOS)
+	rotulo.add_theme_font_size_override("font_size", 8)
+	rotulo.add_theme_color_override("font_color", cor)
+	rotulo.add_theme_color_override("font_shadow_color", Color.BLACK)
+	lista_creditos.add_child(rotulo)
+
+func _ao_entrada_creditos(evento: InputEvent) -> void:
+	if evento.is_action_pressed("ui_up"):
+		rolagem_creditos.scroll_vertical -= PASSO_ROLAGEM_CREDITOS
+		get_viewport().set_input_as_handled()
+	elif evento.is_action_pressed("ui_down"):
+		rolagem_creditos.scroll_vertical += PASSO_ROLAGEM_CREDITOS
+		get_viewport().set_input_as_handled()
+
 func _adicionar_linha(chave: String, valores: Array, rotulos: Array, indice: int, menos: Button, rotulo_valor: Label, mais: Button) -> void:
 	var linha := {"chave": chave, "valores": valores, "rotulos": rotulos, "indice": indice,
 			"rotulo": rotulo_valor, "menos": menos, "mais": mais}
@@ -158,6 +216,8 @@ func _abrir_painel(painel: Control, origem: Button, foco: Control) -> void:
 	menu.hide()
 	escurecer.show()
 	painel.show()
+	if painel == painel_creditos:
+		rolagem_creditos.scroll_vertical = 0
 	foco.grab_focus()
 
 func _fechar_painel() -> void:
@@ -181,6 +241,9 @@ func _ao_novo_jogo() -> void:
 		_abrir_painel(confirmar_novo_jogo, botao_novo_jogo, botao_nao)
 	else:
 		Progresso.apagar()
+		Calendario.apagar()
+		Fazenda.apagar()
+		Transicao.limpar()
 		_trocar_cena(CENA_CUSTOMIZACAO)
 
 func _ao_confirmar_novo_jogo() -> void:
@@ -191,6 +254,11 @@ func _ao_confirmar_novo_jogo() -> void:
 			DirAccess.remove_absolute(ProjectSettings.globalize_path(caminho))
 	# Brasas, melhorias e moradores também recomeçam do zero (apaga user://progresso.json)
 	Progresso.apagar()
+	# O calendário volta ao dia 1 (apaga user://calendario.json) e nada fica guardado de trocas de cena anteriores
+	Calendario.apagar()
+	# A fazenda também recomeça: solo, plantas, sementes, bolsa de colheita e poções (apaga user://fazenda.json)
+	Fazenda.apagar()
+	Transicao.limpar()
 	InventarioJogador.limpar()
 	DadosJogo.resetar_moedas()
 	_trocar_cena(CENA_CUSTOMIZACAO)

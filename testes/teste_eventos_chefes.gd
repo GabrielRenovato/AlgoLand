@@ -57,6 +57,10 @@ func _rodar() -> void:
 	Gerenciador = load("res://Codigos/Logicas/Gerenciador-de-ondas.gd")
 	_progresso = root.get_node("Progresso")
 	_progresso.caminho_save = CAMINHO_PROGRESSO
+	# O clima do mundo fica no autoload Fazenda (as ondas o mudam): arquivo de teste, sem o save real
+	var fazenda_isolada = root.get_node("Fazenda")
+	fazenda_isolada.caminho_save = "user://teste_eventos_chefes_fazenda.json"
+	fazenda_isolada.apagar()
 	_progresso.melhorias = {}
 	_dados_jogo = root.get_node("DadosJogo")
 
@@ -89,6 +93,8 @@ func _rodar() -> void:
 	if FileAccess.file_exists(CAMINHO_PROGRESSO):
 		DirAccess.remove_absolute(ProjectSettings.globalize_path(CAMINHO_PROGRESSO))
 	print("FALHAS: ", _falhas)
+	if FileAccess.file_exists("user://teste_eventos_chefes_fazenda.json"):
+		DirAccess.remove_absolute(ProjectSettings.globalize_path("user://teste_eventos_chefes_fazenda.json"))
 	quit(_falhas)
 
 # -----------------------------------------------------------------

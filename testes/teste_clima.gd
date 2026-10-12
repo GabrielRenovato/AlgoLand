@@ -51,6 +51,10 @@ func _rodar() -> void:
 	IndicadorAtaqueScript = load("res://Codigos/Efeitos/indicador_ataque.gd")
 	_progresso = root.get_node("Progresso")
 	_progresso.caminho_save = CAMINHO_PROGRESSO
+	# O clima do mundo fica no autoload Fazenda (as ondas o mudam): arquivo de teste, sem o save real
+	var fazenda_isolada = root.get_node("Fazenda")
+	fazenda_isolada.caminho_save = "user://teste_clima_fazenda.json"
+	fazenda_isolada.apagar()
 	_progresso.melhorias = {}
 
 	_testar_sorteio_de_clima()
@@ -89,6 +93,8 @@ func _rodar() -> void:
 	if FileAccess.file_exists(CAMINHO_PROGRESSO):
 		DirAccess.remove_absolute(ProjectSettings.globalize_path(CAMINHO_PROGRESSO))
 	print("FALHAS: ", _falhas)
+	if FileAccess.file_exists("user://teste_clima_fazenda.json"):
+		DirAccess.remove_absolute(ProjectSettings.globalize_path("user://teste_clima_fazenda.json"))
 	quit(_falhas)
 
 # -----------------------------------------------------------------
@@ -163,17 +169,17 @@ func _testar_sorteio_do_evento() -> void:
 		var e: Dictionary = Gerenciador.sortear_evento(8, false, false, "", rng, 1.0, 3)
 		outros_no_inverno[e["id"]] = true
 	_verificar("inverno ainda sorteia os outros 5 eventos", outros_no_inverno.size() == 5 and not outros_no_inverno.has("tempestade"), str(outros_no_inverno.keys()))
-	# O gerenciador usa a estação da onda: onda 16..20 = inverno
+	# O gerenciador usa a estação do calendário (dias 22..28 = inverno)
 	_gerenciador_estacao_da_onda()
 
-# A estação passada ao sorteio pelo gerenciador (iniciar_onda) vem de estacao_da_onda
+# A estação passada ao sorteio pelo gerenciador (iniciar_onda) vem do Calendario: dias 22 a 28 = inverno
 func _gerenciador_estacao_da_onda() -> void:
-	var Estacoes: GDScript = load("res://Codigos/Design/estacoes.gd")
+	var calendario = root.get_node("Calendario")
 	var inverno_ok := true
-	for onda in range(16, 21):
-		if Estacoes.estacao_da_onda(onda) != Gerenciador.ESTACAO_INVERNO:
+	for dia in range(22, 29):
+		if calendario.estacao(dia) != Gerenciador.ESTACAO_INVERNO:
 			inverno_ok = false
-	_verificar("ondas 16 a 20 sao o inverno do sorteio", inverno_ok, "")
+	_verificar("dias 22 a 28 sao o inverno do sorteio", inverno_ok, "")
 
 # -----------------------------------------------------------------
 # Estados: camadas, ordem, velocidades
@@ -355,24 +361,38 @@ func _testar_sorteio_por_onda() -> void:
 		[E.NUBLADO, E.CHUVA_LEVE, E.CHUVA_FORTE],
 		[E.NEVE_LEVE, E.NEVE_FORTE],
 	]
-	_est.definir_estacao(0, true)
 	_meteoro._rng.seed = 99
 	var tudo_ok := true
 	var vistos := {}
-	for onda in range(1, 21):
-		_gerenciador.onda_iniciada.emit(onda)
-		var est: int = _est.estacao_da_onda(onda)
-		vistos[_meteoro.clima_atual] = true
-		if not (_meteoro.clima_atual in permitidos[est]) or _meteoro.clima_base != _meteoro.clima_atual:
-			tudo_ok = false
-			print("  onda ", onda, " estacao ", est, " clima ", _meteoro.clima_atual)
-	_verificar("onda iniciada sorteia o clima da estacao da onda (20 ondas, %d climas vistos)" % vistos.size(), tudo_ok and vistos.size() >= 5, str(vistos.keys()))
-	# Ao parar as ondas volta ao clima padrao da estacao da onda inicial (primavera = limpo)
+	# A estacao vem do calendario (aqui trocada na mao): 5 ondas em cada uma das 4 estacoes
+	for est in 4:
+		_est.definir_estacao(est, true)
+		for onda in range(1, 6):
+			_gerenciador.onda_iniciada.emit(onda)
+			vistos[_meteoro.clima_atual] = true
+			if not (_meteoro.clima_atual in permitidos[est]) or _meteoro.clima_base != _meteoro.clima_atual:
+				tudo_ok = false
+				print("  onda ", onda, " estacao ", est, " clima ", _meteoro.clima_atual)
+	_verificar("onda iniciada sorteia o clima da estacao atual (20 ondas, %d climas vistos)" % vistos.size(), tudo_ok and vistos.size() >= 5, str(vistos.keys()))
+	# O clima é do mundo (Fazenda.clima_hoje): o sorteio da onda muda o tempo da fazenda também
+	var fazenda = root.get_node("Fazenda")
+	_est.definir_estacao(1, true)
 	_gerenciador.onda_iniciada.emit(12)
+	var sorteado: int = _meteoro.clima_atual
+	_verificar("onda sorteia o clima do mundo (o mesmo da fazenda)", fazenda.clima_hoje == sorteado, "fazenda=%d arena=%d" % [fazenda.clima_hoje, sorteado])
+	# Parar as ondas (morrer) não muda o tempo do mundo; a estacao em si nao muda (e do calendario)
 	_meteoro.definir_clima(E.CHUVA_FORTE, true)
 	_gerenciador.sinal_ondas_paradas.emit()
-	_verificar("ondas paradas: clima padrao da estacao da onda inicial", _meteoro.clima_atual == Clima.clima_padrao(_est.estacao_atual) and _meteoro.clima_base == _meteoro.clima_atual and not _meteoro.tempestade_ativa, "clima=%d est=%d" % [_meteoro.clima_atual, _est.estacao_atual])
-	_verificar("ondas paradas: estacao volta para a primavera", _est.estacao_atual == 0, "est=%d" % _est.estacao_atual)
+	_verificar("ondas paradas: volta ao clima do mundo", _meteoro.clima_atual == sorteado and _meteoro.clima_base == _meteoro.clima_atual and not _meteoro.tempestade_ativa, "clima=%d mundo=%d" % [_meteoro.clima_atual, sorteado])
+	# O tempo mudou em outro lugar (ex.: dormir na fazenda): a arena segue
+	fazenda.definir_clima_hoje(E.NUBLADO)
+	_verificar("arena segue o clima do mundo quando ele muda", _meteoro.clima_atual == E.NUBLADO, "clima=%d" % _meteoro.clima_atual)
+	# Chuva no mundo molha o solo arado da fazenda
+	fazenda.solo[Vector2i(2, 2)] = {"planta": "", "dias": 0, "molhado": false, "murcha": false}
+	fazenda.definir_clima_hoje(E.CHUVA_LEVE)
+	_verificar("chuva no mundo rega o solo da fazenda", bool(fazenda.solo[Vector2i(2, 2)]["molhado"]), str(fazenda.solo[Vector2i(2, 2)]))
+	fazenda.solo.erase(Vector2i(2, 2))
+	_verificar("ondas paradas: a estacao nao muda", _est.estacao_atual == 1, "est=%d" % _est.estacao_atual)
 	# Troca de estacao zera o clima para o padrao da nova
 	_est.definir_estacao(2, true)
 	_meteoro.definir_clima(E.CHUVA_FORTE, true)
@@ -712,7 +732,7 @@ func _testar_limpeza() -> void:
 	_verificar("parar_ondas limpa os raios", _meteoro.raios_ativos() == 0 and get_nodes_in_group("raios_clima").filter(func(n): return is_instance_valid(n) and not n.is_queued_for_deletion()).is_empty(), "raios=%d" % _meteoro.raios_ativos())
 	_verificar("parar_ondas limpa os indicadores de aviso", _contar_indicadores() == 0, "ind=%d" % _contar_indicadores())
 	_verificar("parar_ondas desfaz a tempestade e o evento", _meteoro.clima_atual != Clima.Estado.TEMPESTADE and not _meteoro.tempestade_ativa and _gerenciador.evento_atual.is_empty(), "clima=%d" % _meteoro.clima_atual)
-	_verificar("parar_ondas: clima padrao da estacao", _meteoro.clima_atual == Clima.clima_padrao(_est.estacao_atual), "clima=%d" % _meteoro.clima_atual)
+	_verificar("parar_ondas: volta ao clima do mundo", _meteoro.clima_atual == Clima.clima_do_mundo(_est.estacao_atual), "clima=%d" % _meteoro.clima_atual)
 	# nenhum raio novo depois de parar
 	await create_timer(5.0).timeout
 	_verificar("sem tempestade nao ha raios novos", _meteoro.raios_ativos() == 0, "")
@@ -743,6 +763,7 @@ func _testar_tempestade_em_onda_de_verdade() -> void:
 	_gerenciador.iniciar_onda()
 	_verificar("onda de verdade: o sorteio do gerenciador trouxe TEMPESTADE (onda 5, primavera)", _gerenciador.evento_atual.get("id", "") == "tempestade", str(_gerenciador.evento_atual.get("id", "-")))
 	_verificar("onda de verdade: clima TEMPESTADE e HUD", _meteoro.clima_atual == Clima.Estado.TEMPESTADE and _hud.rotulo_evento.text == "TEMPESTADE", "clima=%d" % _meteoro.clima_atual)
+	_verificar("tempestade na arena = chuva forte no mundo (fazenda)", root.get_node("Fazenda").clima_hoje == Clima.Estado.CHUVA_FORTE, "fazenda=%d" % root.get_node("Fazenda").clima_hoje)
 	var total: int = _gerenciador.total_inimigos_onda
 	_meteoro.raios_criados = 0
 	# durante 6 s a onda segue: o jogador fica de pe (o objetivo e ver os raios caindo) e os inimigos vivos

@@ -11,9 +11,11 @@ extends Node
 ## - O clima escurece a tela pelo Iluminacao.tom_clima (por cima do ciclo, da estação e do evento) e a chuva toca em loop.
 ## - TEMPESTADE é um evento de onda (Gerenciador-de-ondas EVENTOS): chuva forte + raios (ver Codigos/Efeitos/raio.gd).
 ##
-## O clima é sorteado no INÍCIO de cada onda (ver sortear_clima) e vale até a próxima: assim o aviso/banner da onda e a
-## mudança do tempo acontecem juntos, e o acampamento entre ondas mantém o tempo da onda anterior. Ao trocar de estação
-## (ou parar as ondas) volta ao clima padrão da estação; o inverno nunca fica sem neve e a tela de título é só NEVE_LEVE.
+## O clima é do MUNDO, não da cena: arena e fazenda dividem o mesmo tempo, guardado em Fazenda.clima_hoje (salvo com a
+## fazenda). Dormir sorteia o clima do novo dia; o início de cada onda sorteia de novo (ver sortear_clima) e muda o clima
+## do mundo, então se chove na arena também chove na fazenda (e a chuva rega o solo arado). A TEMPESTADE do evento vale só
+## na arena: para o mundo ela é chuva forte. Morrer ou parar as ondas não muda o tempo. O inverno nunca fica sem neve e
+## a tela de título (que não segue o calendário) é só NEVE_LEVE.
 
 signal clima_mudou(estado: int)
 ## Um raio acabou de ser criado (começa o aviso no chão); usado por testes e depuração
@@ -55,6 +57,7 @@ const SORTEIO_POR_ESTACAO: Array = [
 	[[Estado.NUBLADO, 30], [Estado.CHUVA_LEVE, 40], [Estado.CHUVA_FORTE, 30]],
 	[[Estado.NEVE_LEVE, 60], [Estado.NEVE_FORTE, 40]],
 ]
+const ESTACAO_INVERNO := 3
 ## Clima de quando não há sorteio (início, troca de estação, ondas paradas)
 const CLIMA_PADRAO: Array = [Estado.LIMPO, Estado.LIMPO, Estado.NUBLADO, Estado.NEVE_LEVE]
 
@@ -196,6 +199,18 @@ static func eh_chuva(estado: int) -> bool:
 static func eh_neve(estado: int) -> bool:
 	return estado == Estado.NEVE_LEVE or estado == Estado.NEVE_FORTE
 
+## Neve só no inverno e o inverno só com neve; o resto vale em qualquer estação
+static func vale_na_estacao(estado: int, estacao: int) -> bool:
+	return eh_neve(estado) == (estacao == ESTACAO_INVERNO)
+
+## Clima do mundo que vale na estação `estacao`; um estado que não combina com ela (o painel de debug troca só o
+## visual da estação) cai no padrão
+static func clima_do_mundo(estacao: int) -> int:
+	var estado: int = Fazenda.clima_hoje
+	if estado >= 0 and vale_na_estacao(estado, estacao):
+		return estado
+	return clima_padrao(estacao)
+
 func _ready() -> void:
 	add_to_group("clima")
 	_rng.randomize()
@@ -208,6 +223,25 @@ func _ready() -> void:
 	_criar_flash()
 	_criar_som()
 	_conectar_gerenciador()
+	# O Estacoes só decide se segue o calendário depois de criar este nó
+	_ligar_clima_do_mundo.call_deferred()
+
+## Arena e fazenda seguem o clima do mundo (a tela de título não)
+func segue_mundo() -> bool:
+	return get_parent() != null and bool(get_parent().get("_calendario_ligado"))
+
+func _ligar_clima_do_mundo() -> void:
+	if segue_mundo() and not Fazenda.clima_do_dia_mudou.is_connected(_ao_clima_do_mundo_mudou):
+		Fazenda.clima_do_dia_mudou.connect(_ao_clima_do_mundo_mudou)
+		_ao_clima_do_mundo_mudou(Fazenda.clima_hoje)
+
+## O tempo mudou em outro lugar (dormir, onda): durante a tempestade da arena ela continua por cima
+func _ao_clima_do_mundo_mudou(_estado: int) -> void:
+	if estacao_atual < 0:
+		return
+	clima_base = clima_do_mundo(estacao_atual)
+	if not tempestade_ativa:
+		definir_clima(clima_base)
 
 func _conectar_gerenciador() -> void:
 	# O Estacoes já achou o gerenciador pelo caminho; aqui o grupo cobre o mesmo nó (na tela de título não existe)
@@ -230,7 +264,7 @@ func definir_estacao(indice: int, imediato := false) -> void:
 		return
 	estacao_atual = indice
 	tempestade_ativa = false
-	clima_base = clima_padrao(indice)
+	clima_base = clima_do_mundo(indice) if segue_mundo() else clima_padrao(indice)
 	definir_clima(clima_base, imediato)
 
 ## Muda o clima com fade (ou na hora). Sair da TEMPESTADE apaga os raios
@@ -253,16 +287,21 @@ func definir_clima(estado: int, imediato := false) -> void:
 
 func _ao_onda_iniciada(onda: int) -> void:
 	# A estação da onda (o Estacoes só a alinha depois, se a onda começou antes da troca agendada)
-	var estacao: int = get_parent().estacao_da_onda(onda)
+	var estacao: int = get_parent().estacao_atual
 	if estacao != estacao_atual:
 		estacao_atual = estacao
 	clima_base = sortear_clima(estacao, _rng)
-	if not tempestade_ativa:
-		definir_clima(clima_base)
+	# Durante a tempestade o mundo fica na chuva forte; o sorteio vale quando ela passar
+	if tempestade_ativa:
+		return
+	if segue_mundo():
+		Fazenda.definir_clima_hoje(clima_base)
+	definir_clima(clima_base)
 
+## Morrer ou parar as ondas não muda o tempo do mundo; só acaba a tempestade da arena
 func _ao_ondas_paradas() -> void:
 	tempestade_ativa = false
-	clima_base = clima_padrao(estacao_atual)
+	clima_base = clima_do_mundo(estacao_atual) if segue_mundo() else clima_padrao(estacao_atual)
 	definir_clima(clima_base)
 	limpar_raios()
 
@@ -271,8 +310,13 @@ func _ao_evento_alterado(evento: Dictionary) -> void:
 	if String(evento.get("id", "")) == "tempestade":
 		tempestade_ativa = true
 		definir_clima(Estado.TEMPESTADE)
+		# Para o resto do mundo (a fazenda) a tempestade é chuva forte: rega, mas sem raios
+		if segue_mundo():
+			Fazenda.definir_clima_hoje(Estado.CHUVA_FORTE)
 	elif tempestade_ativa:
 		tempestade_ativa = false
+		if segue_mundo():
+			Fazenda.definir_clima_hoje(clima_base)
 		definir_clima(clima_base)
 		limpar_raios()
 

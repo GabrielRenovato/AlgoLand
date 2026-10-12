@@ -7,7 +7,7 @@ const TELAS_ACOMPANHANTES := {"mercante": ["inventario"]}
 # Ações de jogo que dividem botão com os menus (B fecha a tela e também rola; A confirma e também ataca)
 const ACOES_DO_JOGADOR := ["rolar", "attack"]
 # Telas no centro da tela: em vez de deslizar de uma borda, aparecem com fade
-const TELAS_CENTRAIS := ["acampamento", "mistica", "fim_partida"]
+const TELAS_CENTRAIS := ["acampamento", "mistica", "fim_partida", "dormir"]
 # Só se fecha pelo próprio botão (B/Esc e o atalho do inventário são ignorados)
 const TELAS_OBRIGATORIAS := ["fim_partida"]
 
@@ -19,6 +19,8 @@ var _telas_abertas: Array[String] = []
 	"acampamento": $TelaAcampamento,
 	"mistica": $TelaMistica,
 	"fim_partida": $TelaFimPartida,
+	"dormir": $TelaDormir,
+	"caldeirao": $TelaCaldeirao,
 }
 @onready var _paineis: Dictionary = {
 	"inventario": $TelaInventario/Sidebar,
@@ -26,6 +28,8 @@ var _telas_abertas: Array[String] = []
 	"acampamento": $TelaAcampamento/Centro/Painel,
 	"mistica": $TelaMistica/Centro/Painel,
 	"fim_partida": $TelaFimPartida/Centro/Painel,
+	"dormir": $TelaDormir/Centro/Painel,
+	"caldeirao": $TelaCaldeirao/Painel,
 }
 
 func _ready() -> void:

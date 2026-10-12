@@ -22,6 +22,10 @@ func _rodar() -> void:
 	await process_frame
 	var progresso = root.get_node("Progresso")
 	progresso.caminho_save = CAMINHO_PROGRESSO
+	# O clima do mundo fica no autoload Fazenda (as ondas o mudam): arquivo de teste, sem o save real
+	var fazenda_isolada = root.get_node("Fazenda")
+	fazenda_isolada.caminho_save = "user://teste_ondas_progresso_fazenda.json"
+	fazenda_isolada.apagar()
 	progresso.melhorias = {"saque": 5}
 	var cena: Node = load("res://cenas/cenario.tscn").instantiate()
 	root.add_child(cena)
@@ -54,4 +58,6 @@ func _rodar() -> void:
 	_verificar("onda seguinte e a 2", gerenciador.onda_atual == 2, "onda=%d" % gerenciador.onda_atual)
 	if FileAccess.file_exists(CAMINHO_PROGRESSO):
 		DirAccess.remove_absolute(ProjectSettings.globalize_path(CAMINHO_PROGRESSO))
+	if FileAccess.file_exists("user://teste_ondas_progresso_fazenda.json"):
+		DirAccess.remove_absolute(ProjectSettings.globalize_path("user://teste_ondas_progresso_fazenda.json"))
 	quit(_falhas)

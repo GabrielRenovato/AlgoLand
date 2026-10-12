@@ -1,0 +1,29 @@
+[
+ {
+  "nome": "casa_interior",
+  "dia": 1,
+  "jogador": [
+   96,
+   90
+  ],
+  "quadros": 60
+ },
+ {
+  "nome": "casa_cama_aviso",
+  "dia": 1,
+  "jogador": [
+   72,
+   48
+  ],
+  "quadros": 70
+ },
+ {
+  "nome": "casa_saida_aviso",
+  "dia": 1,
+  "jogador": [
+   96,
+   118
+  ],
+  "quadros": 70
+ }
+]

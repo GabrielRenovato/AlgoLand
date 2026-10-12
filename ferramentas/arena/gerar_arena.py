@@ -63,6 +63,11 @@ ESTACAO_INICIAL = 3  # a cena sai no inverno (como o terreno antigo); estacoes.g
 
 USAR_MURO = False
 TILE = 16
+# Caverna ao norte (origem em tiles). A boca fica no meio da base do bloco 5x5; a passagem para a fazenda
+# (Area2D) e o ponto de chegada de quem volta de la ficam logo a frente dela
+CAV_OX, CAV_OY = 14, -12
+PASSAGEM_CAVERNA = (CAV_OX * TILE + 40, (CAV_OY + 5) * TILE + 6)  # centro da zona de interacao
+CHEGADA_CAVERNA = (CAV_OX * TILE + 40, (CAV_OY + 5) * TILE + 30)
 RNG = random.Random(20260711)
 
 # Pontos de spawn dos inimigos (Marker2D do enemySpawner) em coordenadas do terreno. O spawner tem escala
@@ -662,7 +667,6 @@ def construir(base):
     yf = (MESA_OY + 7) * TILE
     mesa_x0, mesa_x1 = MESA_OX * TILE, (MESA_OX + MESA_W) * TILE
     m.lagoa.pe = (mesa_x0 - 9, yf + 4, mesa_x1 + 9, yf + 64)
-    CAV_OX, CAV_OY = 14, -12
     caverna = montar_caverna(CAV_OX, CAV_OY)
     m.penhasco.update(caverna)
     poli_mesa = poligono_de_stamp(montar_mesa(MESA_OX, MESA_OY, MESA_W, True), solido_penhasco)
@@ -964,6 +968,15 @@ def escrever_cena(m):
             continue
         blocos_nos.append(n["bloco"])
         kept_nos.append(n["bloco"])
+    # passagem para a fazenda (boca da caverna): so entre ondas, aviso F/Y (Codigos/Logicas/passagem.gd), e o
+    # ponto onde o jogador reaparece ao voltar da fazenda
+    blocos_nos.append('[node name="PassagemCaverna" type="Area2D" parent="."]\nposition = Vector2(%s, %s)\n'
+                      'script = ExtResource("passagem_script")\ncena_destino = "res://cenas/fazenda.tscn"\n'
+                      'ponto_chegada = "caverna"\ndeslocamento_aviso = Vector2(0, -38)\n' % (
+                          T.fmt(PASSAGEM_CAVERNA[0]), T.fmt(PASSAGEM_CAVERNA[1])))
+    blocos_nos.append('[node name="Forma" type="CollisionShape2D" parent="PassagemCaverna"]\nshape = SubResource("Forma_passagem")\n')
+    blocos_nos.append('[node name="Chegada_caverna" type="Marker2D" parent="." groups=["chegada"]]\nposition = Vector2(%s, %s)\n' % (
+        T.fmt(CHEGADA_CAVERNA[0]), T.fmt(CHEGADA_CAVERNA[1])))
     blocos_nos.append('[node name="Estacoes" type="Node" parent="."]\nscript = ExtResource("estacoes_script")\n'
                       'estacao_inicial = %d\n' % ESTACAO_INICIAL)
 
@@ -985,6 +998,7 @@ def escrever_cena(m):
     ext_out.append('[ext_resource type="Texture2D" path="res://Tiles/Seasonal Forest/seasonal water animations/%s" id="brilho_folha"]'
                    % BRILHO_ARQUIVOS[ESTACAO_INICIAL])
     ext_out.append('[ext_resource type="Script" path="res://Codigos/Design/estacoes.gd" id="estacoes_script"]')
+    ext_out.append('[ext_resource type="Script" path="res://Codigos/Logicas/passagem.gd" id="passagem_script"]')
 
     sub_out = []
     for i, b in base.sub.items():
@@ -1011,6 +1025,7 @@ def escrever_cena(m):
             brilho.append("0:%d/animation_frame_%d/duration = 0.3" % (r, f))
         brilho.append("0:%d/0 = 0" % r)
     sub_out.append("\n".join(brilho) + "\n")
+    sub_out.append('[sub_resource type="RectangleShape2D" id="Forma_passagem"]\nsize = Vector2(56, 24)\n')
     sub_out.append('[sub_resource type="TileSet" id="TileSet_brilho"]\nsources/0 = SubResource("TileSetAtlasSource_brilho")\n')
     for ident, cfg in (("Atlas_carvalho", CARVALHO), ("Atlas_arbusto_g", ARBUSTO_G), ("Atlas_arbusto_m", ARBUSTO_M)):
         r = cfg["regiao"]

@@ -44,6 +44,9 @@ func _ready() -> void:
 	_gradiente.offsets = PackedFloat32Array(PONTOS_DO_DIA.map(func(p): return p[0] / 24.0))
 	_gradiente.colors = PackedColorArray(PONTOS_DO_DIA.map(func(p): return p[1]))
 	hora = hora_inicial
+	# Atravessando a porta (Transicao) o dia segue a hora em que estava, em vez de voltar para a manhã
+	if Transicao.hora_salva >= 0.0:
+		hora = Transicao.hora_salva
 	_aplicar()
 
 func _process(delta: float) -> void:

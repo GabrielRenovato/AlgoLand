@@ -1,0 +1,159 @@
+[
+ {
+  "nome": "plantio_primavera",
+  "estacao": 0,
+  "campo": "estagios",
+  "ferramenta": "semente:cenoura",
+  "sementes": {
+   "cenoura": 5,
+   "morango": 2
+  }
+ },
+ {
+  "nome": "plantio_verao",
+  "estacao": 1,
+  "campo": "estagios",
+  "ferramenta": "regador",
+  "sementes": {
+   "tomate": 4
+  }
+ },
+ {
+  "nome": "plantio_outono",
+  "estacao": 2,
+  "campo": "estagios",
+  "ferramenta": "mao"
+ },
+ {
+  "nome": "plantio_inverno_resto_seco",
+  "estacao": 3,
+  "campo": "murcho",
+  "ferramenta": "enxada"
+ },
+ {
+  "nome": "plantio_verao_resto_seco",
+  "estacao": 1,
+  "campo": "murcho",
+  "ferramenta": "enxada"
+ },
+ {
+  "nome": "plantio_chuva",
+  "estacao": 0,
+  "campo": "estagios",
+  "clima": "chuva_leve",
+  "ferramenta": "regador",
+  "quadros": 90
+ },
+ {
+  "nome": "plantio_noite_outono",
+  "estacao": 2,
+  "campo": "estagios",
+  "hora": 21.0,
+  "ferramenta": "mao"
+ },
+ {
+  "nome": "solo_arado_primavera",
+  "estacao": 0,
+  "campo": "arado",
+  "zoom": 2.2,
+  "jogador": [
+   392,
+   338
+  ],
+  "ferramenta": "regador"
+ },
+ {
+  "nome": "solo_arado_verao",
+  "estacao": 1,
+  "campo": "arado",
+  "zoom": 2.2,
+  "jogador": [
+   392,
+   338
+  ],
+  "ferramenta": "regador"
+ },
+ {
+  "nome": "solo_arado_outono",
+  "estacao": 2,
+  "campo": "arado",
+  "zoom": 2.2,
+  "jogador": [
+   392,
+   338
+  ],
+  "ferramenta": "regador"
+ },
+ {
+  "nome": "solo_arado_inverno",
+  "estacao": 3,
+  "campo": "arado",
+  "zoom": 2.2,
+  "jogador": [
+   392,
+   338
+  ],
+  "ferramenta": "regador"
+ },
+ {
+  "nome": "barra_sementes_aviso",
+  "estacao": 0,
+  "campo": "vazio",
+  "jogador": [
+   150,
+   300
+  ],
+  "ferramenta": "semente:morango",
+  "sementes": {
+   "cenoura": 5,
+   "batata": 3,
+   "couve_flor": 2,
+   "morango": 7
+  },
+  "aviso": "FORA DA AREA DE PLANTIO"
+ },
+ {
+  "nome": "barra_enxada",
+  "estacao": 0,
+  "campo": "arado",
+  "ferramenta": "enxada"
+ },
+ {
+  "nome": "tela_caldeirao",
+  "estacao": 0,
+  "tela": "caldeirao",
+  "colheita": {
+   "cenoura": 3,
+   "morango": 1,
+   "batata": 1,
+   "tomate": 2,
+   "melancia": 1,
+   "uva": 1
+  },
+  "pocoes": {
+   "cura": 2
+  }
+ },
+ {
+  "nome": "tela_caldeirao_vazio",
+  "estacao": 0,
+  "tela": "caldeirao"
+ },
+ {
+  "nome": "mundo_caldeirao",
+  "estacao": 0,
+  "jogador": [
+   516,
+   402
+  ],
+  "campo": "vazio",
+  "hora": 12.0
+ },
+ {
+  "nome": "painel_debug",
+  "estacao": 0,
+  "campo": "estagios",
+  "debug": true,
+  "ferramenta": "enxada"
+ }
+]

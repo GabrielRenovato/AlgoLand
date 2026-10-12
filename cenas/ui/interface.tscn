@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene load_steps=9 format=3]
 
 [ext_resource type="Script" path="res://Codigos/UI/interface.gd" id="1_interface"]
 [ext_resource type="PackedScene" path="res://cenas/ui/tela_inventario.tscn" id="2_tela"]
@@ -6,6 +6,8 @@
 [ext_resource type="PackedScene" path="res://cenas/ui/tela_acampamento.tscn" id="4_acampamento"]
 [ext_resource type="PackedScene" path="res://cenas/ui/tela_mistica.tscn" id="5_mistica"]
 [ext_resource type="PackedScene" path="res://cenas/ui/tela_fim_partida.tscn" id="6_fim"]
+[ext_resource type="PackedScene" path="res://cenas/ui/tela_dormir.tscn" id="7_dormir"]
+[ext_resource type="PackedScene" path="res://cenas/ui/tela_caldeirao.tscn" id="9_caldeirao"]
 
 [node name="Interface" type="CanvasLayer"]
 layer = 10
@@ -20,3 +22,7 @@ script = ExtResource("1_interface")
 [node name="TelaMistica" parent="." instance=ExtResource("5_mistica")]
 
 [node name="TelaFimPartida" parent="." instance=ExtResource("6_fim")]
+
+[node name="TelaDormir" parent="." instance=ExtResource("7_dormir")]
+
+[node name="TelaCaldeirao" parent="." instance=ExtResource("9_caldeirao")]

@@ -6,6 +6,8 @@ const Equipamentos := preload("res://Codigos/DadosLocais/Equipamentos.gd")
 const ArcoJogador := preload("res://Codigos/Jogador/arco_jogador.gd")
 const Flecha := preload("res://Codigos/Jogador/flecha.gd")
 const ReacaoJogador := preload("res://Codigos/Jogador/reacao_jogador.gd")
+const FazendaJogador := preload("res://Codigos/Jogador/fazenda_jogador.gd")
+const EfeitosPocao := preload("res://Codigos/Jogador/efeitos_pocao.gd")
 const Profundidade := preload("res://Codigos/Globais/profundidade.gd")
 const ALCANCE_MIRA_ARCO := 260.0
 const TEXTURA_ALJAVA := preload("res://CharacterSprites/Arco/carregando/aljava.png")
@@ -59,6 +61,18 @@ var id_arco_atual: String = "arco_curvo"
 var no_arco: ArcoJogador = null
 # Poses curtas de sacar/guardar a arma, esquiva e ferido (reacao_jogador.gd)
 var no_reacao: ReacaoJogador = null
+# Enxada, machado, picareta, plantar, regar e colher (fazenda_jogador.gd); trava o jogador enquanto dura
+var no_fazenda: FazendaJogador = null
+var esta_em_acao_fazenda: bool = false
+## Na fazenda não há armas em uso: o botão de ataque pede a ferramenta ativa (sinal ferramenta_pedida) em vez de atacar.
+## O Plantio (Codigos/Logicas/plantio.gd) liga isto; as armas seguem equipadas e o dash continua valendo
+var modo_fazenda: bool = false
+## Poções bebidas e o cinto (efeitos_pocao.gd). Só se bebe na arena: Q/E (LB/RB) trocam a poção, R (X) bebe
+var efeitos_pocao: EfeitosPocao = null
+## Teto da redução de dano somando a poção de pedra (a da defesa sozinha para em REDUCAO_MAXIMA)
+const REDUCAO_MAXIMA_COM_POCAO := 0.85
+## Distância à frente dos pés onde a ação de fazenda acontece (o tile que a enxada acerta)
+const ALCANCE_ACAO_FAZENDA := 14.0
 var _inventario_pronto: bool = false
 var botao_ataque_pressionado: bool = false
 const TIPOS_ARMADURA := {
@@ -115,9 +129,16 @@ var array_roupa_forja: Array[Texture2D] = []
 
 signal personalizacao_finalizada(cabelo: int, roupa: int, cor_cabelo: Color, apelido: String)
 signal jogador_morreu
+## Ações de fazenda (fazenda_jogador.gd): "impacto" no quadro em que a ferramenta acerta o chão, com o ponto
+## à frente do jogador; "concluida" quando a animação acaba
+signal acao_fazenda_impacto(acao: String, ponto: Vector2)
+signal acao_fazenda_concluida(acao: String)
+## Botão de ataque apertado com modo_fazenda ligado ("usar ferramenta")
+signal ferramenta_pedida
 
 @export var estaMorto = false
-@onready var gerenciador_ondas = get_node("/root/cenario/enemySpawner/GerenciadorOndas")
+## Só existe na arena (cenario.tscn); na fazenda e na casa é null e o jogador não morre nem recebe ondas
+@onready var gerenciador_ondas = get_node_or_null("../enemySpawner/GerenciadorOndas")
 
 ## Para onde o jogador volta depois de cair (a posição inicial da cena, junto da fogueira)
 var _posicao_acampamento: Vector2 = Vector2.ZERO
@@ -254,6 +275,17 @@ func _ready() -> void:
 	$CompositeSprites.add_child(no_reacao)
 	no_reacao.terminou.connect(_atualizar_visual_arco)
 
+	no_fazenda = FazendaJogador.new()
+	no_fazenda.name = "Fazenda"
+	no_fazenda.jogador = self
+	$CompositeSprites.add_child(no_fazenda)
+	no_fazenda.impacto.connect(_ao_impacto_fazenda)
+	no_fazenda.terminou.connect(_ao_fim_acao_fazenda)
+
+	efeitos_pocao = EfeitosPocao.new()
+	efeitos_pocao.name = "EfeitosPocao"
+	add_child(efeitos_pocao)
+
 	# Ajusta sprite básico do Corpo
 	sprite_corpo.texture = sprites_compostos.folha_sprite_corpo[0]
 
@@ -322,7 +354,8 @@ func _ready() -> void:
 	aplicar_dados_carregados(dados_carregados)
 
 	no_forja.visible = false
-	gerenciador_ondas.connect("onda_completada", Callable(self, "_on_onda_completada"))
+	if gerenciador_ondas != null:
+		gerenciador_ondas.connect("onda_completada", Callable(self, "_on_onda_completada"))
 	definir_sprites_visiveis(false)
 	atualizar_rotulo_moedas()
 	atualizar_barra_hp()
@@ -475,10 +508,12 @@ func _gastar_stamina(quantidade: float) -> void:
 func _regenerar_stamina(delta: float) -> void:
 	if stamina >= stamina_maxima:
 		return
-	if _espera_regeneracao > 0.0:
+	# Poção de fôlego: sem a espera depois de gastar e recupera mais rápido
+	var folego := efeitos_pocao.bonus("folego") if efeitos_pocao != null else 0.0
+	if _espera_regeneracao > 0.0 and folego <= 0.0:
 		_espera_regeneracao -= delta
 		return
-	stamina = minf(stamina + regeneracao_stamina * delta, stamina_maxima)
+	stamina = minf(stamina + regeneracao_stamina * (1.0 + folego) * delta, stamina_maxima)
 	_avisar_stamina()
 
 func _avisar_stamina() -> void:
@@ -578,6 +613,12 @@ func _physics_process(delta: float) -> void:
 		if temporizador_invul <= 0:
 			invulneravel = false
 
+	# Durante a ação de fazenda o jogador fica parado: sem andar, atacar ou rolar
+	if esta_em_acao_fazenda:
+		_pedido_ataque = false
+		velocity = Vector2.ZERO
+		return
+
 	if esta_em_dash:
 		_atualizar_dash(delta)
 		return
@@ -635,6 +676,8 @@ func mover() -> void:
 
 		# 4) Soma tudo para obter a velocidade final
 		var velocidade_final = min(velocidade_base + bonus_velocidade_item + bonus_agilidade, estatisticas.VELOCIDADE_MAXIMA)
+		# 5) Poção de velocidade multiplica por cima (pode passar do teto enquanto dura)
+		velocidade_final *= 1.0 + efeitos_pocao.bonus("velocidade")
 
 		# Move interpolando a velocidade atual para a velocidade desejada
 		velocity.x = lerp(velocity.x, dir.x * velocidade_final, _aceleracao)
@@ -658,11 +701,46 @@ func mover() -> void:
 func _unhandled_input(evento: InputEvent) -> void:
 	if evento.is_action_pressed("attack"):
 		_pedido_ataque = true
+	elif _cinto_de_pocoes_ativo():
+		if evento.is_action_pressed("usar_pocao"):
+			usar_pocao()
+			get_viewport().set_input_as_handled()
+		elif evento.is_action_pressed("ferramenta_proxima"):
+			efeitos_pocao.trocar(1)
+			get_viewport().set_input_as_handled()
+		elif evento.is_action_pressed("ferramenta_anterior"):
+			efeitos_pocao.trocar(-1)
+			get_viewport().set_input_as_handled()
+
+## O cinto só vale na arena (na fazenda Q/E trocam a ferramenta), com o jogador vivo e sem tela aberta
+func _cinto_de_pocoes_ativo() -> bool:
+	return efeitos_pocao != null and gerenciador_ondas != null and not modo_fazenda and not estaMorto \
+			and movimento_habilitado and get_viewport().gui_get_focus_owner() == null
+
+## Bebe a poção escolhida no cinto; se não deu, o HUD mostra o motivo
+func usar_pocao() -> String:
+	var motivo := efeitos_pocao.beber_selecionada()
+	if motivo != "":
+		Sons.tocar("erro", 0.0)
+		get_tree().call_group("hud", "avisar_pocao", motivo)
+	return motivo
+
+## Cura `quantidade` de vida (poção de cura), sem passar da máxima
+func curar(quantidade: int) -> void:
+	if estaMorto or quantidade <= 0:
+		return
+	hp_atual = mini(hp_atual + quantidade, estatisticas.hp_maximo)
+	atualizar_barra_hp()
 
 func logica_combo_ataque() -> void:
 	var atacar := _pedido_ataque
 	_pedido_ataque = false
 	if ataques_bloqueados or get_viewport().gui_get_focus_owner() != null:
+		return
+	# Na fazenda o ataque vira "usar ferramenta" (quem decide e toca a animação é o Plantio)
+	if modo_fazenda:
+		if atacar and not esta_em_acao_fazenda:
+			ferramenta_pedida.emit()
 		return
 	# Durante a pose (sacar, esquiva, ferido) o jogador não ataca
 	if no_reacao.visible:
@@ -845,6 +923,8 @@ func aplicar_golpe(alvo: Node, direcao_knockback: Vector2) -> void:
 	if "esta_morto" in alvo and alvo.esta_morto:
 		return
 	var golpe = estatisticas.calcular_dano_golpe()
+	# Poção de força
+	golpe["dano"] = maxi(1, roundi(golpe["dano"] * (1.0 + efeitos_pocao.bonus("forca"))))
 	var forca = 225.0 if golpe["critico"] else 150.0
 	alvo.receber_dano(golpe["dano"], direcao_knockback * forca)
 	_aplicar_encantamento(alvo, golpe["dano"])
@@ -853,6 +933,10 @@ func aplicar_golpe(alvo: Node, direcao_knockback: Vector2) -> void:
 		var cura = max(1, int(round(golpe["dano"] * percentual)))
 		hp_atual = min(hp_atual + cura, estatisticas.hp_maximo)
 		atualizar_barra_hp()
+	# Poção vampírica: soma por fora do roubo de vida dos itens
+	var vampiro := efeitos_pocao.bonus("vampiro")
+	if vampiro > 0.0:
+		curar(maxi(1, roundi(golpe["dano"] * vampiro)))
 
 # ---------------------------
 # Visibilidade dos sprites
@@ -1069,8 +1153,9 @@ func desequipar_arco() -> void:
 func _atualizar_visual_arco() -> void:
 	var em_pose: bool = no_reacao.visible and not esta_forjando
 	var disparando: bool = usando_arco and no_arco.esta_disparando()
-	no_arco.visible = usando_arco and not esta_forjando and not em_pose
-	$CompositeSprites/BaseSprites.visible = not esta_forjando and not em_pose and not disparando
+	var na_fazenda: bool = esta_em_acao_fazenda
+	no_arco.visible = usando_arco and not esta_forjando and not em_pose and not na_fazenda
+	$CompositeSprites/BaseSprites.visible = not esta_forjando and not em_pose and not disparando and not na_fazenda
 	if esta_forjando:
 		no_reacao.visible = false
 
@@ -1240,10 +1325,54 @@ func aplicar_efeitos_item(dados_item: Dictionary) -> void:
 # ---------------------------
 # DANO / MORTE
 # ---------------------------
+# ---------------------------
+# AÇÕES DE FAZENDA
+# ---------------------------
+## Toca uma ação de fazenda ("enxada", "machado", "picareta", "plantar", "regar", "colher") virada para a
+## última direção. Retorna false se o jogador estiver ocupado (atacando, rolando, forjando, em menu...)
+func acao_fazenda(acao: String) -> bool:
+	if not FazendaJogador.ACOES.has(acao):
+		return false
+	if estaMorto or esta_forjando or esta_em_dash or _esta_atacando or esta_em_acao_fazenda or not movimento_habilitado:
+		return false
+	if usando_arco and no_arco.esta_disparando():
+		return false
+	esta_em_acao_fazenda = true
+	velocity = Vector2.ZERO
+	no_reacao.visible = false
+	no_fazenda.tocar(acao, _direcao_ataque)
+	_atualizar_visual_arco()
+	return true
+
+## Ponto do chão à frente dos pés, na direção em que o jogador está virado (alvo da enxada, do regador...)
+func ponto_acao_fazenda() -> Vector2:
+	var linha := ArcoJogador.linha_da_direcao(_direcao_ataque)
+	var frente: Vector2 = [Vector2.DOWN, Vector2.UP, Vector2.RIGHT, Vector2.LEFT][linha]
+	return global_position + Vector2(0, Profundidade.PES_JOGADOR) + frente * ALCANCE_ACAO_FAZENDA
+
+func cancelar_acao_fazenda() -> void:
+	if not esta_em_acao_fazenda:
+		return
+	no_fazenda.parar()
+	esta_em_acao_fazenda = false
+	_atualizar_visual_arco()
+
+func _ao_impacto_fazenda(acao: String) -> void:
+	acao_fazenda_impacto.emit(acao, ponto_acao_fazenda())
+
+func _ao_fim_acao_fazenda(acao: String) -> void:
+	esta_em_acao_fazenda = false
+	_atualizar_visual_arco()
+	acao_fazenda_concluida.emit(acao)
+
 func receber_dano(dano: int, forca_knockback: Vector2 = Vector2.ZERO) -> void:
 	if invulneravel or estaMorto:
 		return
-	var dano_final = max(1, int(round(dano * (1.0 - estatisticas.reducao_dano()))))
+	# Levar dano interrompe a ação de fazenda
+	cancelar_acao_fazenda()
+	# Poção de pedra soma na redução da defesa
+	var reducao := minf(estatisticas.reducao_dano() + efeitos_pocao.bonus("pedra"), REDUCAO_MAXIMA_COM_POCAO)
+	var dano_final = max(1, int(round(dano * (1.0 - reducao))))
 	hp_atual = max(hp_atual - dano_final, 0)
 	invulneravel = true
 	temporizador_invul = tempo_invul
@@ -1262,11 +1391,17 @@ func atualizar_barra_hp() -> void:
 func morrer() -> void:
 	if estaMorto:
 		return
+	# Fora da arena (fazenda e casa) não há partida para perder: a vida só encosta no mínimo
+	if gerenciador_ondas == null:
+		hp_atual = 1
+		atualizar_barra_hp()
+		return
 	# Curandeira: um reviver por partida, com metade da vida e uns segundos de invulnerabilidade
 	if Progresso.usar_reviver():
 		_reviver_com_curandeira()
 		return
 	estaMorto = true
+	efeitos_pocao.limpar()
 	Sons.tocar("jogador_morre", 0.0)
 	emit_signal("jogador_morreu")
 	gerenciador_ondas.parar_ondas()
@@ -1282,6 +1417,31 @@ func _reviver_com_curandeira() -> void:
 	atualizar_barra_hp()
 	Sons.tocar("reviver", 0.0)
 	get_tree().call_group("hud", "anunciar", "A CURANDEIRA TE REVIVEU", "VIDA %d%%" % roundi(Progresso.VIDA_REVIVER * 100.0), 2.0)
+
+## Dormir na cama: vida e estamina cheias
+func descansar() -> void:
+	hp_atual = estatisticas.hp_maximo
+	atualizar_barra_hp()
+	stamina = stamina_maxima
+	_avisar_stamina()
+
+## Devolve o que atravessa a troca de cena (Transicao): totens comprados, vida e estamina. Os totens somam em
+## estatísticas que moram neste nó, então são reaplicados antes de restaurar a vida (que o aumento de vida máxima
+## poderia empurrar). Sem foto guardada (partida nova), não faz nada
+func aplicar_estado_de_transicao(estado: Dictionary) -> void:
+	if estado.is_empty():
+		return
+	var totens = estado.get("itens_comprados", [])
+	if totens is Array and itens_comprados.is_empty():
+		for dados_item in totens:
+			aplicar_efeitos_item(dados_item)
+			itens_comprados.append(dados_item.duplicate(true))
+	if estado.has("hp"):
+		hp_atual = clampi(int(estado["hp"]), 1, estatisticas.hp_maximo)
+		atualizar_barra_hp()
+	if estado.has("stamina"):
+		stamina = clampf(float(estado["stamina"]), 0.0, stamina_maxima)
+		_avisar_stamina()
 
 ## Morte roguelite: perde ouro, equipamento e totens comprados (volta ao kit inicial) e reaparece junto da fogueira.
 ## Só as melhorias permanentes (Progresso) continuam. Chamado pela tela de fim de partida ao confirmar
