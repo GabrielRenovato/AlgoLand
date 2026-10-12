@@ -129,6 +129,13 @@ func _montar_opcoes() -> void:
 			%BotaoTelaCheiaMenos, %ValorTelaCheia, %BotaoTelaCheiaMais)
 	_adicionar_linha("max_fps", VALORES_FPS, ROTULOS_FPS, indice_fps if indice_fps != -1 else 1,
 			%BotaoFpsMenos, %ValorFps, %BotaoFpsMais)
+	_adicionar_linha("vibracao", [false, true], ["NAO", "SIM"], 1 if _opcoes["vibracao"] else 0,
+			%BotaoVibracaoMenos, %ValorVibracao, %BotaoVibracaoMais)
+	var indice_layout := maxi(Opcoes.LAYOUTS_CONTROLE.find(_opcoes["layout_controle"]), 0)
+	_adicionar_linha("layout_controle", Opcoes.LAYOUTS_CONTROLE, ["AUTO", "XBOX", "NINTENDO", "PS"], indice_layout,
+			%BotaoBotoesMenos, %ValorBotoes, %BotaoBotoesMais)
+	Controle.dicas_alteradas.connect(_atualizar_dica_botoes)
+	_atualizar_dica_botoes()
 	for i in _linhas.size():
 		var anterior: Dictionary = _linhas[maxi(i - 1, 0)]
 		var proxima: Dictionary = _linhas[i + 1] if i + 1 < _linhas.size() else {}
@@ -139,6 +146,12 @@ func _montar_opcoes() -> void:
 			var abaixo: Button = proxima[lado] if not proxima.is_empty() else botao_voltar_opcoes
 			botao.focus_neighbor_bottom = abaixo.get_path()
 	botao_voltar_opcoes.focus_neighbor_top = (_linhas[_linhas.size() - 1]["menos"] as Button).get_path()
+
+# Diz como o jogo escreve os botões agora; se estiver trocado (A e B invertidos), é só mudar BOTOES
+func _atualizar_dica_botoes() -> void:
+	var a := Controle.rotulo_botao(JOY_BUTTON_A)
+	var b := Controle.rotulo_botao(JOY_BUTTON_B)
+	%DicaBotoes.text = "EM USO: %s  (CONFIRMA = %s, VOLTA = %s)" % [Controle.layout.to_upper(), a, b]
 
 # Monta a lista de creditos a partir de CREDITOS. A rolagem funciona no controle: cima/baixo no botao VOLTAR
 func _montar_creditos() -> void:
@@ -203,6 +216,9 @@ func _mudar_linha(numero: int, passo: int) -> void:
 	(linha["rotulo"] as Label).text = linha["rotulos"][indice]
 	_opcoes[linha["chave"]] = linha["valores"][indice]
 	_aplicar_e_salvar_opcoes()
+	# Quem liga a vibração sente na hora que funciona
+	if linha["chave"] == "vibracao" and _opcoes["vibracao"]:
+		Controle.vibrar(0.6, 0.6, 0.2)
 
 func _aplicar_e_salvar_opcoes() -> void:
 	Opcoes.aplicar(_opcoes)

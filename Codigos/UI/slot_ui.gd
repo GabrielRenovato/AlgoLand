@@ -39,6 +39,10 @@ func _ready() -> void:
 	add_child(_moldura)
 	exibir(item_atual)
 
+# Para a caixa de detalhe do inventário (UI e item_ui são nós internos do slot)
+func item_ui() -> Control:
+	return _item_ui
+
 func exibir(item: DadosItem) -> void:
 	item_atual = item
 	_item_ui.visible = item != null
@@ -83,7 +87,12 @@ func _ao_entrada(evento: InputEvent) -> void:
 # Com a bigorna/encantamento abertos o item vai para o slot do mercador; senão, mochila equipa e
 # equipamento volta para a mochila. Só armas e escudo, como no arrasto (ver item_ui._get_drag_data)
 func _usar_com_controle() -> void:
-	if item_atual == null or _item_ui.em_uso:
+	if item_atual == null:
+		return
+	if _item_ui.em_uso:
+		var ferreiro := get_tree().get_first_node_in_group("tela_mercante")
+		if ferreiro != null and ferreiro.is_visible_in_tree():
+			ferreiro.mostrar_mensagem("ESSA ARMA JA ESTA NO FERREIRO")
 		return
 	var mercante := get_tree().get_first_node_in_group("tela_mercante")
 	if mercante != null and mercante.is_visible_in_tree() and mercante.receber_item_do_controle(_item_ui):

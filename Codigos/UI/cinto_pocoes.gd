@@ -10,6 +10,8 @@ extends Control
 ## O cinto some quando não há poção nem efeito ativo (quem nunca fez poção não vê uma casa vazia).
 
 const TEMA := preload("res://recursos/ui/tema_menu.tres")
+# Planes_ValMore: o Y da CraftPixNet Survival Kit (fonte do tema) parece um "y" minúsculo; letras de botão usam esta
+const FONTE_TECLAS := preload("res://UI/Planes_ValMore.ttf")
 const Pocoes := preload("res://Codigos/DadosLocais/pocoes.gd")
 
 const LADO_CASA := 24
@@ -53,8 +55,8 @@ func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	_montar()
-	Controle.modo_alterado.connect(_ao_modo_controle)
-	_ao_modo_controle(Controle.usando_controle)
+	Controle.dicas_alteradas.connect(_atualizar_teclas)
+	_atualizar_teclas()
 	Fazenda.bolsas_alteradas.connect(_atualizar)
 	if efeitos != null:
 		efeitos.selecao_alterada.connect(_ao_selecao_alterada)
@@ -169,10 +171,12 @@ func _novo_rotulo(cor: Color) -> Label:
 	rotulo.add_theme_constant_override("outline_size", 3)
 	return rotulo
 
-func _ao_modo_controle(usando_controle: bool) -> void:
-	_tecla_anterior.text = "LB" if usando_controle else "Q"
-	_tecla_proxima.text = "RB" if usando_controle else "E"
-	_tecla_beber.text = "X BEBER" if usando_controle else "R BEBER"
+func _atualizar_teclas() -> void:
+	for rotulo in [_tecla_anterior, _tecla_proxima, _tecla_beber]:
+		rotulo.add_theme_font_override("font", FONTE_TECLAS)
+	_tecla_anterior.text = Controle.rotulo_acao("ferramenta_anterior")
+	_tecla_proxima.text = Controle.rotulo_acao("ferramenta_proxima")
+	_tecla_beber.text = Controle.rotulo_acao("usar_pocao") + " BEBER"
 
 func _ao_selecao_alterada(id: String) -> void:
 	_atualizar()

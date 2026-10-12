@@ -41,6 +41,10 @@ func exibir(item: DadosItem) -> void:
 ## Dica do item no estilo do jogo (a caixa vem do tema global: TooltipPanel com a moldura de slot do pack):
 ## nome na cor da raridade, nível e raridade embaixo e, se tiver, o encantamento na cor do elemento
 func _make_custom_tooltip(_texto: String) -> Object:
+	return tooltip_do_item()
+
+## O mesmo desenho da dica do mouse, para quem mostra o detalhe sem o mouse (o controle)
+func tooltip_do_item() -> Control:
 	if dados == null:
 		return null
 	var linhas := VBoxContainer.new()

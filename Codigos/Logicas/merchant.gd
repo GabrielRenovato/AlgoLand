@@ -1,9 +1,7 @@
 extends CharacterBody2D
 
-# Tecla/botão mostrado no aviso de interação (botão de cima do controle no padrão X-input)
-const TECLA_TECLADO := "F"
-const TECLA_CONTROLE := "Y"
 const Interagivel := preload("res://Codigos/Logicas/interagivel.gd")
+const FONTE_TECLA := preload("res://UI/Planes_ValMore.ttf")
 
 @onready var icon: Sprite2D = $button
 @onready var _rotulo_tecla: Button = $button/openMenu
@@ -15,11 +13,13 @@ func _ready() -> void:
 	# Dispute o F com a fogueira (zonas sobrepostas): só o mais próximo do jogador responde
 	add_to_group("interagiveis")
 	icon.visible = false
-	Controle.modo_alterado.connect(_ao_modo_controle)
-	_ao_modo_controle(Controle.usando_controle)
+	Controle.dicas_alteradas.connect(_atualizar_tecla)
+	_atualizar_tecla()
 
-func _ao_modo_controle(usando_controle: bool) -> void:
-	_rotulo_tecla.text = TECLA_CONTROLE if usando_controle else TECLA_TECLADO
+func _atualizar_tecla() -> void:
+	# Planes_ValMore: o Y da fonte do aviso parece um "y" minúsculo
+	_rotulo_tecla.add_theme_font_override("font", FONTE_TECLA)
+	_rotulo_tecla.text = Controle.rotulo_acao("open_menu")
 
 func _process(_delta: float) -> void:
 	icon.visible = player_in_range and visible and Interagivel.eh_o_mais_proximo(self)

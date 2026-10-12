@@ -232,7 +232,7 @@ text = "<"
 
 [node name="ValorVolume" type="Label" parent="Interface/Raiz/PainelOpcoes/Conteudo/LinhaVolume" unique_id=666497224]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(54, 0)
+custom_minimum_size = Vector2(58, 0)
 layout_mode = 2
 horizontal_alignment = 1
 
@@ -258,7 +258,7 @@ text = "<"
 
 [node name="ValorTelaCheia" type="Label" parent="Interface/Raiz/PainelOpcoes/Conteudo/LinhaTelaCheia" unique_id=49488883]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(54, 0)
+custom_minimum_size = Vector2(58, 0)
 layout_mode = 2
 horizontal_alignment = 1
 
@@ -284,7 +284,7 @@ text = "<"
 
 [node name="ValorFps" type="Label" parent="Interface/Raiz/PainelOpcoes/Conteudo/LinhaFps" unique_id=109771382]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(54, 0)
+custom_minimum_size = Vector2(58, 0)
 layout_mode = 2
 horizontal_alignment = 1
 
@@ -294,6 +294,61 @@ custom_minimum_size = Vector2(22, 18)
 layout_mode = 2
 text = ">"
 
+[node name="LinhaVibracao" type="HBoxContainer" parent="Interface/Raiz/PainelOpcoes/Conteudo"]
+layout_mode = 2
+
+[node name="Nome" type="Label" parent="Interface/Raiz/PainelOpcoes/Conteudo/LinhaVibracao"]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+text = "VIBRACAO"
+
+[node name="BotaoVibracaoMenos" type="Button" parent="Interface/Raiz/PainelOpcoes/Conteudo/LinhaVibracao"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(22, 18)
+layout_mode = 2
+text = "<"
+
+[node name="ValorVibracao" type="Label" parent="Interface/Raiz/PainelOpcoes/Conteudo/LinhaVibracao"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(58, 0)
+layout_mode = 2
+horizontal_alignment = 1
+
+[node name="BotaoVibracaoMais" type="Button" parent="Interface/Raiz/PainelOpcoes/Conteudo/LinhaVibracao"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(22, 18)
+layout_mode = 2
+text = ">"
+[node name="LinhaBotoes" type="HBoxContainer" parent="Interface/Raiz/PainelOpcoes/Conteudo"]
+layout_mode = 2
+
+[node name="Nome" type="Label" parent="Interface/Raiz/PainelOpcoes/Conteudo/LinhaBotoes"]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+text = "BOTOES"
+
+[node name="BotaoBotoesMenos" type="Button" parent="Interface/Raiz/PainelOpcoes/Conteudo/LinhaBotoes"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(22, 18)
+layout_mode = 2
+text = "<"
+
+[node name="ValorBotoes" type="Label" parent="Interface/Raiz/PainelOpcoes/Conteudo/LinhaBotoes"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(58, 0)
+layout_mode = 2
+horizontal_alignment = 1
+
+[node name="BotaoBotoesMais" type="Button" parent="Interface/Raiz/PainelOpcoes/Conteudo/LinhaBotoes"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(22, 18)
+layout_mode = 2
+text = ">"
+[node name="DicaBotoes" type="Label" parent="Interface/Raiz/PainelOpcoes/Conteudo"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.6)
+layout_mode = 2
+horizontal_alignment = 1
 [node name="BotaoVoltarOpcoes" type="Button" parent="Interface/Raiz/PainelOpcoes/Conteudo" unique_id=1209348737]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 22)

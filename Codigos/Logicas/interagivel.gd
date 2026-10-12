@@ -3,11 +3,9 @@ extends Area2D
 ## Zona de interação genérica (mesmo padrão do Merchant): aviso F/Y quando o jogador chega perto e abre a tela
 ## `nome_tela` pela Interface. Usada pela Fogueira (acampamento) e pelos moradores (Mística).
 
-# Tecla/botão mostrado no aviso de interação (botão de cima do controle no padrão X-input)
-const TECLA_TECLADO := "F"
-const TECLA_CONTROLE := "Y"
 const TEXTURA_AVISO := preload("res://UI/craftpix-net-775352-game-user-interface-pixel-art/1 Frames/Frame2.png")
-const FONTE_AVISO := preload("res://UI/craftpix-net-775352-game-user-interface-pixel-art/6 Font/CraftPixNet Survival Kit.otf")
+# Planes_ValMore: o Y da CraftPixNet Survival Kit se parece com um "y" minúsculo nas letras de botão do controle
+const FONTE_AVISO := preload("res://UI/Planes_ValMore.ttf")
 
 ## Nome da tela registrada na Interface (ex.: "acampamento", "mistica")
 @export var nome_tela: String = ""
@@ -31,8 +29,8 @@ func _ready() -> void:
 	body_exited.connect(_ao_corpo_saiu)
 	EventosJogo.tela_aberta.connect(_ao_tela_aberta)
 	EventosJogo.tela_fechada.connect(_ao_tela_fechada)
-	Controle.modo_alterado.connect(_ao_modo_controle)
-	_ao_modo_controle(Controle.usando_controle)
+	Controle.dicas_alteradas.connect(_atualizar_tecla)
+	_atualizar_tecla()
 
 # Mesma moldura e escala do aviso do mercador
 func _montar_aviso() -> void:
@@ -56,8 +54,9 @@ func _montar_aviso() -> void:
 	_rotulo_tecla.pressed.connect(abrir_tela)
 	_aviso.add_child(_rotulo_tecla)
 
-func _ao_modo_controle(usando_controle: bool) -> void:
-	_rotulo_tecla.text = TECLA_CONTROLE if usando_controle else TECLA_TECLADO
+# F no teclado; no controle, o botão como está escrito nele (Y no Xbox, X no 8BitDo)
+func _atualizar_tecla() -> void:
+	_rotulo_tecla.text = Controle.rotulo_acao("open_menu")
 
 func _process(_delta: float) -> void:
 	var disponivel := disponivel_para_interacao() and not _tela_aberta

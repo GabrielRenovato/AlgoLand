@@ -22,6 +22,12 @@ var _encantamento_escolhido := ""
 var _botoes_encantamento: Dictionary = {}
 # Botões da grade da loja agrupados por categoria ("totens" ou "armas")
 var _botoes_loja: Dictionary = {"totens": [], "armas": []}
+var _dica_abas: Label
+# Aviso curto (validação) acima das moedas: arma que não serve, moedas que faltam...
+var _mensagem: Label
+var _tween_mensagem: Tween
+# Botão da grade da loja que abriu o detalhe: o B volta para ele saindo do COMPRAR
+var _botao_item_loja: Button
 
 @onready var _aba_encantar: Button = %AbaEncantar
 @onready var _aba_loja: Button = %AbaLoja
@@ -69,9 +75,14 @@ func _ready() -> void:
 		botao.set_meta(Sons.META_SOM_PROPRIO, true)
 	_slot_encantar.item_alterado.connect(_ao_item_encantar_alterado)
 	_slot_bigorna.item_alterado.connect(_ao_item_slot_alterado)
+	_slot_encantar.pediu_item.connect(_ao_slot_vazio_confirmado.bind(_slot_encantar))
+	_slot_bigorna.pediu_item.connect(_ao_slot_vazio_confirmado.bind(_slot_bigorna))
 	visibility_changed.connect(_ao_visibilidade_alterada)
 	_montar_opcoes_encantamento()
 	_montar_loja()
+	_montar_dica_abas()
+	Controle.dicas_alteradas.connect(_atualizar_dicas)
+	_atualizar_dicas()
 	set_process(false)
 
 func _exit_tree() -> void:
@@ -95,6 +106,8 @@ func _ao_visibilidade_alterada() -> void:
 		_slot_bigorna.limpar()
 
 func _mostrar_aba(painel: Control) -> void:
+	if _mensagem != null:
+		_mensagem.hide()
 	for aba in [_painel_encantar, _painel_loja, _painel_bigorna]:
 		aba.visible = aba == painel
 	# Um item só pode estar num slot por vez; a aba escondida devolve o dela
@@ -121,13 +134,136 @@ func focar_inicio() -> void:
 ## No controle não dá para arrastar: confirmar num item do inventário o coloca na bigorna ou no
 ## encantamento, se uma dessas abas estiver aberta. Retorna false para o inventário usar o item normalmente
 func receber_item_do_controle(origem: Control) -> bool:
+	var slot := _slot_que_recebe(origem)
+	if slot == null:
+		_avisar_recusa(origem)
+		return false
+	slot.colocar_item(origem)
+	return true
+
+## Com BIGORNA ou ENCANTAR aberta, diz por que o item confirmado não foi para o slot
+func _avisar_recusa(origem: Control) -> void:
+	if not is_visible_in_tree():
+		return
+	if _painel_bigorna.visible:
+		mostrar_mensagem("SO ARMAS E ESCUDO VAO NA BIGORNA")
+	elif _painel_encantar.visible:
+		var escudo: bool = origem.obter_tipo_item() == "escudo_basico"
+		mostrar_mensagem("ESCUDO NAO PODE SER ENCANTADO" if escudo else "SO ARMAS DE ATAQUE PODEM SER ENCANTADAS")
+
+## Confirmar (controle) ou clicar (mouse) no slot vazio da BIGORNA/ENCANTAR: coloca a arma equipada que serve;
+## sem ela, leva o foco para a primeira arma que serve na mochila (ou avisa que não há nenhuma)
+func _ao_slot_vazio_confirmado(slot: Control) -> void:
+	var inventario := get_tree().get_first_node_in_group("tela_inventario")
+	if inventario == null:
+		return
+	var equipado: Control = inventario.item_equipado_que_serve(slot)
+	if equipado != null:
+		slot.colocar_item(equipado)
+		return
+	var candidato: Control = inventario.primeiro_slot_que_serve(slot)
+	var acao := "ENCANTAR" if slot == _slot_encantar else "MELHORAR"
+	if candidato == null:
+		mostrar_mensagem("VOCE NAO TEM ARMA PARA %s" % acao)
+		return
+	if Controle.usando_controle:
+		Controle.focar(candidato)
+		mostrar_mensagem("ESCOLHA A ARMA E APERTE %s" % Controle.rotulo_acao("ui_accept"))
+	else:
+		mostrar_mensagem("ARRASTE UMA ARMA DO INVENTARIO")
+
+func mostrar_mensagem(texto: String) -> void:
+	if _mensagem == null:
+		return
+	_mensagem.text = texto
+	_mensagem.modulate.a = 1.0
+	_mensagem.visible = true
+	Sons.tocar("erro")
+	if _tween_mensagem:
+		_tween_mensagem.kill()
+	_tween_mensagem = create_tween()
+	_tween_mensagem.tween_interval(2.6)
+	_tween_mensagem.tween_property(_mensagem, "modulate:a", 0.0, 0.3)
+	_tween_mensagem.tween_callback(_mensagem.hide)
+
+## Para onde o item vai se for confirmado agora ("NA BIGORNA" ou "NO ENCANTO"), ou "" se a tela não o recebe.
+## O inventário usa isso para dizer o que o botão faz no item em foco
+func destino_do_item(origem: Control) -> String:
+	var slot := _slot_que_recebe(origem)
+	if slot == _slot_bigorna:
+		return "NA BIGORNA"
+	return "NO ENCANTO" if slot == _slot_encantar else ""
+
+func _slot_que_recebe(origem: Control) -> Control:
+	if not is_visible_in_tree():
+		return null
 	for par in [[_painel_bigorna, _slot_bigorna], [_painel_encantar, _slot_encantar]]:
 		var painel: Control = par[0]
 		var slot: Control = par[1]
 		if painel.visible and slot.aceita_tipo_item(origem.obter_tipo_item()):
-			slot.colocar_item(origem)
-			return true
-	return false
+			return slot
+	return null
+
+# LB/RB (L/R no controle Nintendo; Q/E no teclado) trocam de aba, como nos menus de jogos de console.
+# O botão de voltar, saindo do COMPRAR, volta para o item da grade (só fecha a tela quando não há para onde voltar)
+func _unhandled_input(evento: InputEvent) -> void:
+	if not is_visible_in_tree():
+		return
+	if evento.is_action_pressed("close_menu") and Controle.usando_controle and is_instance_valid(_botao_item_loja) \
+			and get_viewport().gui_get_focus_owner() == _botao_comprar:
+		_botao_item_loja.grab_focus()
+		get_viewport().set_input_as_handled()
+		return
+	var passo := 0
+	if evento.is_action_pressed("ferramenta_anterior"):
+		passo = -1
+	elif evento.is_action_pressed("ferramenta_proxima"):
+		passo = 1
+	if passo == 0:
+		return
+	var abas: Array[Button] = [_aba_encantar, _aba_loja, _aba_bigorna]
+	var atual := 0
+	for i in abas.size():
+		if abas[i].button_pressed:
+			atual = i
+	var novo := atual + passo
+	while novo >= 0 and novo < abas.size() and abas[novo].disabled:
+		novo += passo
+	if novo < 0 or novo >= abas.size():
+		return
+	abas[novo].button_pressed = true
+	abas[novo].pressed.emit()
+	Controle.focar(abas[novo])
+	get_viewport().set_input_as_handled()
+
+# Dica fixa embaixo do painel, só no controle: quais botões trocam de aba
+func _montar_dica_abas() -> void:
+	_mensagem = Label.new()
+	_mensagem.visible = false
+	_mensagem.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_mensagem.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_mensagem.custom_minimum_size = Vector2(150, 0)
+	_mensagem.add_theme_color_override("font_color", COR_TEXTO_BLOQUEADO)
+	_botao_iniciar_onda.get_parent().add_child(_mensagem)
+	_botao_iniciar_onda.get_parent().move_child(_mensagem, 0)
+	_dica_abas = Label.new()
+	_dica_abas.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_dica_abas.modulate = Color(1, 1, 1, 0.6)
+	_dica_abas.add_theme_font_size_override("font_size", 8)
+	_botao_iniciar_onda.get_parent().add_child(_dica_abas)
+	_botao_iniciar_onda.get_parent().move_child(_dica_abas, _botao_iniciar_onda.get_index())
+
+# Textos que citam botões ou o mouse mudam com o modo e com o desenho do controle
+func _atualizar_dicas() -> void:
+	var confirmar := Controle.rotulo_acao("ui_accept")
+	if Controle.usando_controle:
+		_rotulo_arraste_encantar.text = "NO INVENTARIO, APERTE %s NA ARMA PARA ENCANTAR" % confirmar
+		_rotulo_arraste.text = "NO INVENTARIO, APERTE %s NA ARMA PARA COLOCAR NA BIGORNA" % confirmar
+	else:
+		_rotulo_arraste_encantar.text = "ARRASTE UMA ARMA DO INVENTARIO PARA ENCANTAR"
+		_rotulo_arraste.text = "ARRASTE UMA ARMA DO INVENTARIO PARA A BIGORNA"
+	_dica_abas.visible = Controle.usando_controle
+	_dica_abas.text = "%s / %s  TROCAR ABA" % [Controle.rotulo_acao("ferramenta_anterior"), Controle.rotulo_acao("ferramenta_proxima")]
 
 func _ao_iniciar_onda_pressionado() -> void:
 	var jogador := IconesItens.obter_jogador(get_tree())
@@ -201,9 +337,26 @@ func _adicionar_botao_loja(categoria: String, chave: String, textura: Texture2D,
 	icone.offset_bottom = -RECUO_ICONE
 	botao.add_child(icone)
 	botao.tooltip_text = nome
-	botao.pressed.connect(_selecionar_item.bind(chave))
+	botao.pressed.connect(_ao_confirmar_item_loja.bind(chave, botao))
+	# No controle não há mouse sobre o item: o detalhe aparece ao focar, e o botão de baixo só compra
+	botao.focus_entered.connect(_ao_focar_item_loja.bind(chave))
 	_grade_itens.add_child(botao)
 	_botoes_loja[categoria].append(botao)
+
+# Mouse: só seleciona e mostra o detalhe. Controle: seleciona e leva o foco direto para COMPRAR (ou avisa o que falta)
+func _ao_confirmar_item_loja(chave: String, botao: Button) -> void:
+	_selecionar_item(chave)
+	if not Controle.usando_controle:
+		return
+	_botao_item_loja = botao
+	if _botao_comprar.disabled:
+		mostrar_mensagem("MOEDAS INSUFICIENTES")
+		return
+	Controle.focar(_botao_comprar)
+
+func _ao_focar_item_loja(chave: String) -> void:
+	if Controle.usando_controle:
+		_selecionar_item(chave)
 
 func _selecionar_item(chave: String) -> void:
 	_chave_item_selecionado = chave

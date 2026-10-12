@@ -144,6 +144,7 @@ func _impacto() -> void:
 		_indicador.detonar_impacto()
 		_indicador = null
 	_tremer_camera(3.0, 0.25)
+	Controle.vibrar(0.5, 0.9, 0.25)
 	var jogador := obter_jogador()
 	if jogador and global_position.distance_to(jogador.global_position) < raio_impacto:
 		var direcao := (jogador.global_position - global_position).normalized()

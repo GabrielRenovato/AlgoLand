@@ -1,12 +1,13 @@
 extends CanvasLayer
 
 ## Teclado na tela para digitar com o controle (nome do personagem).
-## Direcional navega, A digita a tecla em foco, B apaga a última letra e Start (ou o botão OK) confirma.
+## Direcional navega, o botão de baixo digita a tecla em foco, o da direita apaga a última letra e Start (ou o botão OK) confirma.
 ## As fontes pixel do jogo não têm acentos, então o teclado só tem letras sem acento, números, - e _
 
 signal confirmado(texto: String)
 
 const TEMA := preload("res://recursos/ui/tema_menu.tres")
+const FONTE_TECLA := preload("res://UI/Planes_ValMore.ttf")
 const LINHAS := ["ABCDEFGHIJ", "KLMNOPQRST", "UVWXYZ-_", "0123456789"]
 const CAMADA := 50
 const LADO_TECLA := Vector2(18, 16)
@@ -18,11 +19,14 @@ var max_caracteres := 12
 var _rotulo: Label
 var _teclas: Array[Button] = []
 var _botao_ok: Button
+var _dica: Label
 
 func _ready() -> void:
 	layer = CAMADA
 	visible = false
 	_montar()
+	Controle.dicas_alteradas.connect(_atualizar_dica)
+	_atualizar_dica()
 
 func abrir(texto_inicial: String, maximo: int = 12) -> void:
 	max_caracteres = maximo
@@ -78,17 +82,23 @@ func _montar() -> void:
 	_botao_ok = _criar_tecla("OK", fechar)
 	acoes.add_child(_botao_ok)
 
-	var dica := Label.new()
-	dica.text = "A DIGITA   B APAGA   START CONFIRMA"
+	_dica = Label.new()
+	var dica := _dica
 	dica.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	dica.modulate = Color(1, 1, 1, 0.6)
 	coluna.add_child(dica)
+
+# Letras como estão no controle em uso (no 8BitDo o botão de baixo é B e o menu é +)
+func _atualizar_dica() -> void:
+	_dica.text = "%s DIGITA   %s APAGA   %s CONFIRMA" % [Controle.rotulo_botao(JOY_BUTTON_A), Controle.rotulo_botao(JOY_BUTTON_B), Controle.rotulo_botao(JOY_BUTTON_START)]
 
 func _criar_tecla(rotulo: String, acao: Callable) -> Button:
 	var tecla := Button.new()
 	tecla.text = rotulo
 	tecla.custom_minimum_size = LADO_TECLA
 	tecla.focus_mode = Control.FOCUS_ALL
+	# Planes_ValMore: o Y da fonte do tema parece um "y" minúsculo
+	tecla.add_theme_font_override("font", FONTE_TECLA)
 	tecla.pressed.connect(acao)
 	_teclas.append(tecla)
 	return tecla

@@ -6,6 +6,8 @@ extends Control
 ## Acima fica o aviso de por que a ação não pôde ser feita (FORA DA AREA DE PLANTIO...).
 
 const TEMA := preload("res://recursos/ui/tema_menu.tres")
+# Planes_ValMore: o Y da CraftPixNet Survival Kit (fonte do tema) parece um "y" minúsculo; letras de botão usam esta
+const FONTE_TECLAS := preload("res://UI/Planes_ValMore.ttf")
 const IconesFazenda := preload("res://Codigos/UI/icones_fazenda.gd")
 
 const LADO_CASA := 24
@@ -36,8 +38,8 @@ func _ready() -> void:
 	Fazenda.ferramenta_alterada.connect(_ao_ferramenta_alterada)
 	Fazenda.bolsas_alteradas.connect(_atualizar)
 	Calendario.estacao_mudou.connect(_ao_estacao_mudou)
-	Controle.modo_alterado.connect(_ao_modo_controle)
-	_ao_modo_controle(Controle.usando_controle)
+	Controle.dicas_alteradas.connect(_atualizar_teclas)
+	_atualizar_teclas()
 	_atualizar()
 
 func _montar() -> void:
@@ -83,9 +85,11 @@ func _ao_ferramenta_alterada(_ferramenta: String) -> void:
 func _ao_estacao_mudou(_estacao: int) -> void:
 	_atualizar()
 
-func _ao_modo_controle(usando_controle: bool) -> void:
-	_tecla_anterior.text = "LB" if usando_controle else "Q"
-	_tecla_proxima.text = "RB" if usando_controle else "E"
+func _atualizar_teclas() -> void:
+	for rotulo in [_tecla_anterior, _tecla_proxima]:
+		rotulo.add_theme_font_override("font", FONTE_TECLAS)
+	_tecla_anterior.text = Controle.rotulo_acao("ferramenta_anterior")
+	_tecla_proxima.text = Controle.rotulo_acao("ferramenta_proxima")
 
 ## Refaz as casas (a lista muda quando acaba uma semente, quando compra ou quando a estação vira)
 func _atualizar() -> void:

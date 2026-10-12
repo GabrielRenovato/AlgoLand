@@ -1,6 +1,8 @@
 extends Control
 
 signal item_alterado(tem_item: bool)
+## Confirmar (controle) ou clicar (mouse) num slot vazio: quem usa o slot decide de onde vem a arma
+signal pediu_item
 
 @export var tipos_aceitos: Array[String] = []
 
@@ -119,8 +121,14 @@ func _ao_foco_alterado() -> void:
 	_moldura.queue_redraw()
 
 func _ao_entrada(evento: InputEvent) -> void:
-	if evento.is_action_pressed("ui_accept") and item_atual != null:
-		limpar()
+	if evento.is_action_pressed("ui_accept"):
+		if item_atual != null:
+			limpar()
+		else:
+			pediu_item.emit()
+		accept_event()
+	elif item_atual == null and evento is InputEventMouseButton and evento.pressed and evento.button_index == MOUSE_BUTTON_LEFT:
+		pediu_item.emit()
 		accept_event()
 
 func _desenhar_moldura() -> void:

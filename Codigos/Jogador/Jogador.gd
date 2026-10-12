@@ -86,6 +86,10 @@ const TIPOS_ARMADURA := {
 var _sincronizando: bool = false
 # Lido em _unhandled_input para que cliques consumidos pela GUI não ataquem
 var _pedido_ataque: bool = false
+# No controle o B fecha as telas e também rola, e o A confirma e também ataca. O toque que fecha uma tela não pode
+# virar dash nem golpe: Input.action_release não cancela is_action_just_pressed, então fica uma janela sem ação
+const JANELA_SEM_ACAO_APOS_TELA_MS := 250
+var _sem_acao_ate_ms: int = 0
 @export_category("Objetos")
 @export var _arvore_animacao: AnimationTree = null
 @export var _temporizador: Timer = null  # Timer para controlar a duração de cada golpe
@@ -623,7 +627,8 @@ func _physics_process(delta: float) -> void:
 		_atualizar_dash(delta)
 		return
 
-	if Input.is_action_just_pressed("rolar") and _dash_disponivel and not _esta_atacando and not esta_forjando:
+	if Input.is_action_just_pressed("rolar") and _dash_disponivel and not _esta_atacando and not esta_forjando \
+			and Time.get_ticks_msec() >= _sem_acao_ate_ms:
 		if stamina >= custo_stamina_dash:
 			iniciar_dash()
 			return
@@ -700,7 +705,8 @@ func mover() -> void:
 # ---------------------------
 func _unhandled_input(evento: InputEvent) -> void:
 	if evento.is_action_pressed("attack"):
-		_pedido_ataque = true
+		if Time.get_ticks_msec() >= _sem_acao_ate_ms:
+			_pedido_ataque = true
 	elif _cinto_de_pocoes_ativo():
 		if evento.is_action_pressed("usar_pocao"):
 			usar_pocao()
@@ -927,6 +933,8 @@ func aplicar_golpe(alvo: Node, direcao_knockback: Vector2) -> void:
 	golpe["dano"] = maxi(1, roundi(golpe["dano"] * (1.0 + efeitos_pocao.bonus("forca"))))
 	var forca = 225.0 if golpe["critico"] else 150.0
 	alvo.receber_dano(golpe["dano"], direcao_knockback * forca)
+	# Toque leve a cada acerto; o crítico pesa mais
+	Controle.vibrar(0.0, 0.5 if golpe["critico"] else 0.2, 0.07)
 	_aplicar_encantamento(alvo, golpe["dano"])
 	if estatisticas.roubo_vida > 0:
 		var percentual = min(estatisticas.roubo_vida, estatisticas.ROUBO_VIDA_MAXIMO) / 100.0
@@ -1377,6 +1385,9 @@ func receber_dano(dano: int, forca_knockback: Vector2 = Vector2.ZERO) -> void:
 	invulneravel = true
 	temporizador_invul = tempo_invul
 	atualizar_barra_hp()
+	# O controle vibra mais forte quanto maior o pedaço da vida que o golpe levou
+	var forca_vibracao := clampf(0.3 + float(dano_final) / maxf(estatisticas.hp_maximo, 1.0) * 3.0, 0.3, 1.0)
+	Controle.vibrar(forca_vibracao * 0.6, forca_vibracao, 0.15 + forca_vibracao * 0.15)
 	if forca_knockback != Vector2.ZERO:
 		aplicar_knockback(forca_knockback)
 	if hp_atual <= 0:
@@ -1403,6 +1414,7 @@ func morrer() -> void:
 	estaMorto = true
 	efeitos_pocao.limpar()
 	Sons.tocar("jogador_morre", 0.0)
+	Controle.vibrar(0.6, 1.0, 0.6)
 	emit_signal("jogador_morreu")
 	gerenciador_ondas.parar_ondas()
 	desabilitar_todas_acoes(true)
@@ -1823,6 +1835,8 @@ func desabilitar_todas_acoes(desabilitar: bool) -> void:
 	# Código original
 	ataques_bloqueados = desabilitar
 	movimento_habilitado = !desabilitar
+	if not desabilitar:
+		_sem_acao_ate_ms = Time.get_ticks_msec() + JANELA_SEM_ACAO_APOS_TELA_MS
 
 	if desabilitar and usando_arco:
 		no_arco.parar_disparo()
