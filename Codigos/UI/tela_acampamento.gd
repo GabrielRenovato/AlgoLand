@@ -1,12 +1,15 @@
 extends Control
 
-## Fogueira: gasta Brasas em melhorias permanentes e contrata os moradores do acampamento
+## Fogueira: gasta Brasas em melhorias permanentes e contrata os moradores do acampamento.
+## Mesmo visual da mochila, da loja e do caldeirão (tema_sidebar.tres, moldura do TileMap.png, título escuro no alto e o X de fechar),
+## na lateral direita. Cada linha tem o nome e o nível, a descrição embaixo (quebra de linha) e o botão com o custo em Brasas.
 
 const COR_BRASAS := Color(1, 0.7, 0.25)
 const COR_SEM_BRASAS := Color(1, 0.45, 0.45)
 const COR_DESCRICAO := Color(0.75, 0.7, 0.62)
-const LARGURA_NOME := 62
-const LARGURA_NIVEL := 34
+const COR_NOME := Color(1, 0.85, 0.45)
+## Largura do texto da descrição (a linha tem 200: o resto é o botão de custo)
+const LARGURA_TEXTO := 128
 const LARGURA_BOTAO := 56
 const TEXTURA_BRASA := preload("res://UI/icone_brasa.png")
 
@@ -16,7 +19,7 @@ const TEXTURA_BRASA := preload("res://UI/icone_brasa.png")
 @onready var _lista_moradores: VBoxContainer = %ListaMoradores
 @onready var _rotulo_brasas: Label = %RotuloBrasas
 @onready var _rotulo_recorde: Label = %Recorde
-@onready var _botao_fechar: Button = %BotaoFechar
+@onready var _botao_fechar: TextureButton = %BotaoFechar
 
 # id -> {"nivel": Label, "botao": Button}
 var _linhas_melhorias: Dictionary = {}
@@ -67,36 +70,44 @@ func _primeiro_botao_ativo() -> Control:
 func _montar_melhorias() -> void:
 	for id in Progresso.ORDEM_MELHORIAS:
 		var dados: Dictionary = Progresso.MELHORIAS[id]
-		var linha := HBoxContainer.new()
-		linha.add_theme_constant_override("separation", 6)
-		var nome := _criar_rotulo(dados["nome"], LARGURA_NOME)
-		var nivel := _criar_rotulo("", LARGURA_NIVEL)
-		var descricao := _criar_rotulo(dados["descricao"], 0)
-		descricao.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		descricao.add_theme_color_override("font_color", COR_DESCRICAO)
+		var nivel := _criar_rotulo("", 0)
+		nivel.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 		var botao := _criar_botao_brasas()
 		botao.pressed.connect(_ao_comprar_melhoria.bind(id))
-		for no in [nome, nivel, descricao, botao]:
-			linha.add_child(no)
-		_lista_melhorias.add_child(linha)
+		_lista_melhorias.add_child(_criar_linha(dados["nome"], dados["descricao"], botao, nivel))
 		_linhas_melhorias[id] = {"nivel": nivel, "botao": botao}
 
 func _montar_moradores() -> void:
 	for id in Progresso.ORDEM_MORADORES:
 		var dados: Dictionary = Progresso.MORADORES[id]
-		var linha := HBoxContainer.new()
-		linha.add_theme_constant_override("separation", 6)
-		var nome := _criar_rotulo(dados["nome"], 74)
-		var descricao := _criar_rotulo(dados["descricao"], 0)
-		descricao.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		descricao.add_theme_color_override("font_color", COR_DESCRICAO)
 		var botao := _criar_botao_brasas()
-		botao.custom_minimum_size.x = 80
 		botao.pressed.connect(_ao_contratar.bind(id))
-		for no in [nome, descricao, botao]:
-			linha.add_child(no)
-		_lista_moradores.add_child(linha)
+		_lista_moradores.add_child(_criar_linha(dados["nome"], dados["descricao"], botao, null))
 		_botoes_moradores[id] = botao
+
+# Uma linha da lista: à esquerda o nome (e o nível, se tiver) com a descrição embaixo; à direita o botão de custo
+func _criar_linha(texto_nome: String, texto_descricao: String, botao: Button, nivel: Label) -> Control:
+	var linha := HBoxContainer.new()
+	linha.add_theme_constant_override("separation", 4)
+	var textos := VBoxContainer.new()
+	textos.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	textos.add_theme_constant_override("separation", 1)
+	var cima := HBoxContainer.new()
+	var nome := _criar_rotulo(texto_nome, 0)
+	nome.add_theme_color_override("font_color", COR_NOME)
+	nome.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	cima.add_child(nome)
+	if nivel != null:
+		cima.add_child(nivel)
+	textos.add_child(cima)
+	var descricao := _criar_rotulo(texto_descricao, LARGURA_TEXTO)
+	descricao.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	descricao.add_theme_color_override("font_color", COR_DESCRICAO)
+	textos.add_child(descricao)
+	linha.add_child(textos)
+	botao.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	linha.add_child(botao)
+	return linha
 
 func _criar_rotulo(texto: String, largura: int) -> Label:
 	var rotulo := Label.new()
@@ -109,7 +120,7 @@ func _criar_botao_brasas() -> Button:
 	var botao := Button.new()
 	# Melhoria/contratação soam (melhoria, compra ou erro) no lugar do "confirmar" genérico
 	botao.set_meta(Sons.META_SOM_PROPRIO, true)
-	botao.custom_minimum_size = Vector2(LARGURA_BOTAO, 18)
+	botao.custom_minimum_size = Vector2(LARGURA_BOTAO, 20)
 	botao.icon = TEXTURA_BRASA
 	return botao
 

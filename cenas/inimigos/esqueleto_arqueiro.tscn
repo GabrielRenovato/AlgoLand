@@ -1,0 +1,50 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://Codigos/Inimigos/esqueleto.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://inimigos/esqueletos/arqueiro.png" id="2_folha"]
+
+[sub_resource type="CircleShape2D" id="Corpo"]
+radius = 6.0
+
+[sub_resource type="CircleShape2D" id="Toque"]
+radius = 10.0
+
+[node name="Esqueleto_arqueiro" type="CharacterBody2D" groups=["enemy"]]
+collision_layer = 4
+collision_mask = 64
+script = ExtResource("1_script")
+texturas = [ExtResource("2_folha")]
+colunas = 6
+linhas = 7
+anims = {"andar_baixo": [0, 1, 2, 3, 4, 5], "andar_cima": [6, 7, 8, 9, 10, 11], "andar_lado": [12, 13, 14, 15, 16, 17], "ataque_baixo": [18, 19, 20, 21], "ataque_cima": [24, 25, 26, 27], "ataque_lado": [30, 31, 32, 33], "morte": [36, 37, 38, 39]}
+tipo_ataque = "flecha"
+tempo_recarga_ataque = 2.2
+fps_andar = 8.333333
+fps_ataque = 6.0
+fps_morte = 5.0
+velocidade = 48
+vida = 32
+dano = 10.0
+altura_pes = 16.0
+altura_barra_vida = 20.0
+alcance_separacao = 24.0
+raio_parada = 75.0
+alcance_ataque = 160.0
+
+[node name="Texture" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("2_folha")
+hframes = 6
+vframes = 7
+
+[node name="colision_body" type="CollisionShape2D" parent="."]
+position = Vector2(0, 16)
+shape = SubResource("Corpo")
+
+[node name="ataque" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="attack_colision_player" type="CollisionShape2D" parent="ataque"]
+position = Vector2(0, 12)
+shape = SubResource("Toque")

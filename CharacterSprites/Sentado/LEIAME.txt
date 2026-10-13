@@ -1,0 +1,4 @@
+Roupas da pagina 4 (Mana Seed Character Base: pose de sentar) na mesma ordem das roupas de andar de CharacterSprites/Outfit/outfit (N).png:
+1 undi v01 | 2 boxr v01 | 3 a 7 pfpn v05..v01 (Peasant Farmer Pants & Hat) | 8 a 12 fstr v01..v05
+(cada roupa de andar e o arquivo char_a_p1_1out_<codigo>.png desses pacotes; aqui esta o char_a_p4_1out_<codigo>.png dele).
+A forja (CharacterSprites/body_smithing/Outfit) e so o avental de ferreiro: nao serve para sentar.

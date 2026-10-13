@@ -49,6 +49,10 @@ func _physics_process(delta: float) -> void:
 func _ao_alvo_entrar(alvo: Node) -> void:
 	if _acertou:
 		return
+	if alvo.is_in_group("hurtbox_inimigo"):
+		alvo = alvo.get_parent()
+		if not is_instance_valid(alvo):
+			return
 	if not alvo.is_in_group("enemy"):
 		# Qualquer outra coisa nas camadas de máscara é parede/obstáculo
 		_acertou = true

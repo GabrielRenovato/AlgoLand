@@ -57,6 +57,8 @@ func _montar_aviso() -> void:
 # F no teclado; no controle, o botão como está escrito nele (Y no Xbox, X no 8BitDo)
 func _atualizar_tecla() -> void:
 	_rotulo_tecla.text = Controle.rotulo_acao("open_menu")
+	# Texto de toque ("AGIR") é mais comprido que uma tecla: fonte menor para caber no botão de 32 px
+	_rotulo_tecla.add_theme_font_size_override("font_size", 12 if _rotulo_tecla.text.length() <= 2 else 7)
 
 func _process(_delta: float) -> void:
 	var disponivel := disponivel_para_interacao() and not _tela_aberta

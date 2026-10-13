@@ -4,8 +4,11 @@ extends NavigationRegion2D
 ## menos todos os obstáculos sólidos (lago, árvores soltas, pedras, tocos, barraca, fogueira...).
 ## Assim o mapa pode ser regerado/editado sem precisar "assar" a navegação no editor.
 
-## Folga em volta dos obstáculos: metade do maior corpo de inimigo de chão (gremlin/caranguejo ~22 px) com sobra
-const RAIO_AGENTE := 14.0
+## Folga em volta dos obstáculos, por tamanho de corpo. O corpo dos inimigos é um retângulo que não gira, então o que conta é a metade do
+## lado maior (e a escala: mutantes e chefes são maiores que o inimigo comum). Uma malha só, com a folga do corpo pequeno, deixava os
+## grandes encostarem nas árvores e nas pedras e ficarem presos. Cada classe é uma malha em uma camada de navegação (bit 1, 2 e 3);
+## o inimigo escolhe a sua em Inimigo-base.gd (classe_de_navegacao)
+const RAIOS_AGENTE: Array[float] = [14.0, 21.0, 30.0]
 const LADOS_CIRCULO := 10
 
 @export var limite: NodePath = ^"../LimiteArena/Contorno"
@@ -21,10 +24,35 @@ func _ready() -> void:
 		var no := get_node_or_null(caminho)
 		if no:
 			_coletar(no, geometria)
-	var malha := NavigationPolygon.new()
-	malha.agent_radius = RAIO_AGENTE
-	NavigationServer2D.bake_from_source_geometry_data(malha, geometria)
-	navigation_polygon = malha
+	for i in RAIOS_AGENTE.size():
+		var malha := NavigationPolygon.new()
+		malha.agent_radius = RAIOS_AGENTE[i]
+		NavigationServer2D.bake_from_source_geometry_data(malha, geometria)
+		malha = _triangular(malha)
+		if i == 0:
+			navigation_layers = 1
+			navigation_polygon = malha
+			continue
+		# As malhas dos corpos maiores são regiões irmãs desta, cada uma na sua camada
+		var regiao := NavigationRegion2D.new()
+		regiao.name = "Navegacao_classe%d" % (i + 1)
+		regiao.navigation_layers = 1 << i
+		regiao.navigation_polygon = malha
+		regiao.transform = transform
+		get_parent().add_child.call_deferred(regiao)
+
+## O bake devolve polígonos convexos grandes e o A* do Godot custeia a rota pelo centro de cada um: com polígonos grandes, de dois pontos
+## vizinhos na borda de um obstáculo um escolhia contornar pela direita e o outro pela esquerda (rota até 60 px maior), e o inimigo ficava
+## indo e voltando. Em triângulos (os mesmos vértices e arestas, então a conectividade não muda) o custo acompanha a distância real
+func _triangular(malha: NavigationPolygon) -> NavigationPolygon:
+	var triangulos := NavigationPolygon.new()
+	triangulos.agent_radius = malha.agent_radius
+	triangulos.set_vertices(malha.get_vertices())
+	for k in malha.get_polygon_count():
+		var poligono := malha.get_polygon(k)
+		for m in range(1, poligono.size() - 1):
+			triangulos.add_polygon(PackedInt32Array([poligono[0], poligono[m], poligono[m + 1]]))
+	return triangulos
 
 func _coletar(no: Node, geometria: NavigationMeshSourceGeometryData2D) -> void:
 	if no is CollisionPolygon2D:

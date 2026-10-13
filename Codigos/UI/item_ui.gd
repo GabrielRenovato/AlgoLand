@@ -2,9 +2,13 @@ extends Control
 
 const IconesItens := preload("res://Codigos/UI/icones_itens.gd")
 const Encantamentos := preload("res://Codigos/DadosLocais/encantamentos.gd")
+const Conjuntos := preload("res://Codigos/DadosLocais/conjuntos_armadura.gd")
 const FONTE_DICA := preload("res://UI/Planes_ValMore.ttf")
 const COR_DICA_DETALHE := Color(0.7, 0.68, 0.64)
-const NOMES_RARIDADE := {"comum": "COMUM", "incomum": "INCOMUM", "raro": "RARO", "epico": "EPICO", "lendario": "LENDARIO"}
+const EstiloSlot := preload("res://Codigos/UI/estilo_slot.gd")
+const Raridades := preload("res://Codigos/DadosLocais/raridades.gd")
+## Cor das linhas de afixo no tooltip
+const COR_AFIXO := Color(0.55, 0.95, 0.65)
 
 const ESCALA_PREVIEW := 1.2
 const BRILHO_HOVER := Color(1.15, 1.15, 1.15, 1.0)
@@ -32,11 +36,10 @@ func exibir(item: DadosItem) -> void:
 		tooltip_text = ""
 		return
 	icone.texture = IconesItens.obter(item, get_tree())
-	var estilo := moldura.get_theme_stylebox("panel").duplicate() as StyleBoxFlat
-	estilo.border_color = item.cor_raridade()
-	moldura.add_theme_stylebox_override("panel", estilo)
+	# O quadrado do item (o sprite de slot da interface) na cor da raridade, por cima do quadrado do slot
+	moldura.add_theme_stylebox_override("panel", EstiloSlot.caixa_raridade(item.raridade))
 	# O texto é a versão simples (acessibilidade/testes); o desenho da dica vem de _make_custom_tooltip
-	tooltip_text = "%s  NV %d  %s" % [item.nome(), item.nivel, NOMES_RARIDADE.get(item.raridade, item.raridade.to_upper())]
+	tooltip_text = "%s  NV %d  %s" % [item.nome(), item.nivel, Raridades.nome(item.raridade)]
 
 ## Dica do item no estilo do jogo (a caixa vem do tema global: TooltipPanel com a moldura de slot do pack):
 ## nome na cor da raridade, nível e raridade embaixo e, se tiver, o encantamento na cor do elemento
@@ -50,10 +53,27 @@ func tooltip_do_item() -> Control:
 	var linhas := VBoxContainer.new()
 	linhas.add_theme_constant_override("separation", 0)
 	linhas.add_child(_linha_dica(dados.nome(), dados.cor_raridade()))
-	linhas.add_child(_linha_dica("NV %d  %s" % [dados.nivel, NOMES_RARIDADE.get(dados.raridade, dados.raridade.to_upper())], COR_DICA_DETALHE))
+	linhas.add_child(_linha_dica("NV %d  %s" % [dados.nivel, Raridades.nome(dados.raridade)], dados.cor_raridade()))
+	if dados.raridade != "comum" and dados.categoria in ["arma", "escudo", "cabeca", "corpo", "luvas", "botas"]:
+		linhas.add_child(_linha_dica("+%d%% STATUS" % roundi((dados.multiplicador_raridade() - 1.0) * 100.0), COR_DICA_DETALHE))
+	for id in dados.afixos:
+		linhas.add_child(_linha_dica(Raridades.texto_afixo(id, dados.afixos[id]), COR_AFIXO))
 	if dados.encantamento != "":
 		linhas.add_child(_linha_dica("%s NV %d" % [Encantamentos.nome(dados.encantamento), dados.nivel_encantamento],
 				Encantamentos.cor(dados.encantamento)))
+	var conjunto := Conjuntos.de_tipo(dados.tipo)
+	if conjunto != null:
+		var quantidade: int = conjunto.quantidade(InventarioJogador.equipados)
+		linhas.add_child(_linha_dica("CONJUNTO %s %d/4" % [conjunto.NOME, quantidade], dados.cor_raridade()))
+		if conjunto.TIPO_BONUS == "raio":
+			linhas.add_child(_linha_dica("4 PECAS: %d%% RAIO AO ACERTAR" % roundi(conjunto.CHANCE_BONUS * 100), COR_DICA_DETALHE))
+			linhas.add_child(_linha_dica("DANO %d%%  RECARGA %dS" % [roundi(conjunto.MULT_DANO_BONUS * 100), roundi(conjunto.RECARGA_BONUS)], COR_DICA_DETALHE))
+		elif conjunto.TIPO_BONUS == "congelamento":
+			linhas.add_child(_linha_dica("4 PECAS: %d%% CONGELAR AO ACERTAR" % roundi(conjunto.CHANCE_BONUS * 100), COR_DICA_DETALHE))
+			linhas.add_child(_linha_dica("DURACAO %dS  RECARGA %dS" % [roundi(conjunto.DURACAO_BONUS), roundi(conjunto.RECARGA_BONUS)], COR_DICA_DETALHE))
+		elif conjunto.TIPO_BONUS == "status":
+			var valores: Dictionary = conjunto.get_script_constant_map()
+			linhas.add_child(_linha_dica("4 PECAS: +%d%% DEFESA, +%d%% VITALIDADE" % [roundi(float(valores.get("BONUS_DEFESA", 0.0)) * 100), roundi(float(valores.get("BONUS_VITALIDADE", 0.0)) * 100)], COR_DICA_DETALHE))
 	return linhas
 
 func _linha_dica(texto: String, cor: Color) -> Label:
@@ -79,8 +99,8 @@ func _notification(what: int) -> void:
 func _get_drag_data(_posicao: Vector2) -> Variant:
 	if dados == null or em_uso or not is_visible_in_tree():
 		return null
-	# O Jogador ainda nao tem desequipar_* para armaduras; arrastar so mudaria o modelo e seria desfeito
-	if not dados.categoria in ["arma", "escudo"]:
+	# Armas, escudo e armaduras usam os slots do modelo de inventário.
+	if not dados.categoria in ["arma", "escudo", "cabeca", "corpo", "luvas", "botas"]:
 		return null
 	PreviewArrasto.mostrar(_criar_preview())
 	_arrastando = true
@@ -129,6 +149,13 @@ func obter_tipo_item() -> String:
 
 func obter_cor_raridade() -> Color:
 	return dados.cor_raridade() if dados != null else Color.WHITE
+
+## O item está numa casa da mochila (não equipado)
+func esta_na_mochila() -> bool:
+	return dados != null and InventarioJogador.indice_de(dados) != -1
+
+func obter_raridade() -> String:
+	return dados.raridade if dados != null else "comum"
 
 func obter_textura_icone() -> Texture2D:
 	return icone.texture

@@ -5,8 +5,12 @@ signal item_alterado(tem_item: bool)
 signal pediu_item
 
 @export var tipos_aceitos: Array[String] = []
+## Só aceita item que está na mochila (o slot de venda não leva o que está equipado)
+@export var somente_mochila: bool = false
 
-const LADO_ICONE := 14.0
+const EstiloSlot := preload("res://Codigos/UI/estilo_slot.gd")
+## O ícone cabe dentro da borda do sprite do slot (20 de lado, borda de 3 e 1 de folga)
+const LADO_ICONE := 12.0
 const COR_MOLDURA := Color(1.0, 0.82, 0.3, 0.9)
 const COR_MOLDURA_HOVER := Color(1.0, 0.9, 0.45, 1.0)
 const COR_PREENCHIMENTO_HOVER := Color(1.0, 0.85, 0.35, 0.25)
@@ -39,6 +43,12 @@ func _ready() -> void:
 
 func aceita_tipo_item(tipo_item: String) -> bool:
 	return tipos_aceitos.is_empty() or tipos_aceitos.has(tipo_item)
+
+## O item (nó item_ui) serve a este slot: o tipo é aceito e, se o slot pede, está na mochila
+func aceita_item(origem: Control) -> bool:
+	if not aceita_tipo_item(origem.obter_tipo_item()):
+		return false
+	return not somente_mochila or origem.esta_na_mochila()
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_DRAG_BEGIN:
@@ -80,6 +90,8 @@ func limpar() -> void:
 func _dados_validos(dados: Variant) -> bool:
 	if not (dados is Dictionary) or not dados.has("tipo_item"):
 		return false
+	if dados.has("origem") and dados["origem"] is Control and dados["origem"].has_method("esta_na_mochila"):
+		return aceita_item(dados["origem"])
 	return aceita_tipo_item(dados["tipo_item"])
 
 func colocar_item(origem: Node) -> void:
@@ -111,9 +123,7 @@ func _copiar_icone(origem: Control) -> void:
 		maior = maxf(maxf(textura.get_width(), textura.get_height()), 1.0)
 	var escala_final := Vector2.ONE * minf(1.0, LADO_ICONE / maior)
 	icone.modulate = Color.WHITE
-	var estilo := _estilo_fundo_original.duplicate() as StyleBoxFlat
-	estilo.border_color = origem.obter_cor_raridade()
-	fundo.add_theme_stylebox_override("panel", estilo)
+	fundo.add_theme_stylebox_override("panel", EstiloSlot.caixa_raridade(origem.obter_raridade()))
 	icone.scale = escala_final * 1.4
 	create_tween().tween_property(icone, "scale", escala_final, 0.15).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 

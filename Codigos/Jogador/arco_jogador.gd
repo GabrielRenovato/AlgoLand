@@ -18,8 +18,7 @@ const QUADROS_POR_LINHA := 8
 const DURACAO_DISPARO: Array[float] = [0.18, 0.1, 0.1, 0.1, 0.4, 0.05, 0.05, 0.1]
 const QUADRO_SOLTAR := 5
 const LINHA_DISPARO_RETO := 4
-const NUM_CABELOS := 2
-const NUM_ROUPAS := 12
+const Aparencia := preload("res://Codigos/DadosLocais/aparencia.gd")
 # Camadas relativas ao corpo (z = 3 em BaseSprites)
 const Z_ATRAS := 2
 const Z_CORPO := 3
@@ -40,6 +39,8 @@ var _textura_arco_p2: Texture2D = null
 var _textura_arco_p3: Texture2D = null
 var _cabelo_aplicado: int = -1
 var _roupa_aplicada: int = -1
+var _pecas_aplicadas: int = -1
+var _raizes_aplicadas: Dictionary = {}
 
 var _corpo: Sprite2D
 var _roupa: Sprite2D
@@ -177,12 +178,19 @@ func _aplicar_texturas() -> void:
 func _sincronizar_aparencia() -> void:
 	if jogador == null:
 		return
-	var cabelo: int = clampi(jogador.cabelo_atual, 0, NUM_CABELOS - 1)
-	var roupa: int = clampi(jogador.roupa_atual, 0, NUM_ROUPAS - 1)
-	if cabelo != _cabelo_aplicado:
-		_cabelo.texture = load(RAIZ + "cabelo_%d_p%d.png" % [cabelo + 1, _pagina])
+	var cabelo: int = Aparencia.indice_cabelo(jogador.cabelo_atual)
+	var roupa: int = Aparencia.indice_roupa(jogador.roupa_atual)
+	var pecas: int = jogador.pecas_cavaleiro
+	var raizes_lidas = jogador.get("raizes_armadura")
+	var raizes: Dictionary = raizes_lidas if raizes_lidas is Dictionary else {}
+	_corpo.texture = Aparencia.corpo("arco_p%d" % _pagina, roupa, pecas, raizes)
+	if cabelo != _cabelo_aplicado or roupa != _roupa_aplicada or pecas != _pecas_aplicadas or raizes != _raizes_aplicadas:
+		_cabelo.texture = Aparencia.cabelo(cabelo, "arco_p%d" % _pagina, roupa, pecas, raizes)
 		_cabelo_aplicado = cabelo
-	if roupa != _roupa_aplicada:
-		_roupa.texture = load(RAIZ + "roupa_%d_p%d.png" % [roupa + 1, _pagina])
+	if roupa != _roupa_aplicada or pecas != _pecas_aplicadas or raizes != _raizes_aplicadas:
+		_roupa.texture = Aparencia.roupa(roupa, "arco_p%d" % _pagina, pecas, raizes)
 		_roupa_aplicada = roupa
+	_pecas_aplicadas = pecas
+	_raizes_aplicadas = raizes.duplicate()
 	_cabelo.modulate = jogador.cor_cabelo
+	Aparencia.aplicar_cartola(_cabelo, _roupa, "arco_p%d" % _pagina, roupa, pecas, raizes)

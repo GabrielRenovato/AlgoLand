@@ -12,7 +12,7 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	super(delta)
-	if esta_morto or not pode_atacar:
+	if esta_morto or not pode_atacar or esta_atordoado():
 		return
 	var alvo := obter_jogador()
 	if alvo and global_position.distance_to(alvo.global_position) < alcance_ataque:

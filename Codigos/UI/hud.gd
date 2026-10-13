@@ -7,6 +7,7 @@ const COR_STAMINA := Color(1, 0.85, 0.3)
 const COR_STAMINA_VAZIA := Color(1, 0.3, 0.3)
 const BarraFerramentas := preload("res://Codigos/UI/barra_ferramentas.gd")
 const CintoPocoes := preload("res://Codigos/UI/cinto_pocoes.gd")
+const BarraArmas := preload("res://Codigos/UI/barra_armas.gd")
 
 @onready var coracao: TextureRect = %Coracao
 @onready var barra_vida: Control = %BarraVida
@@ -56,14 +57,33 @@ var barra_ferramentas: Control = null
 ## Só na arena (cena com ondas): as poções do jogador
 var cinto_pocoes: Control = null
 
+# Celular: o recorte da câmera e os cantos arredondados não podem cobrir a vida, o relógio e a onda
+func _respeitar_area_segura() -> void:
+	var m: Vector4 = Controle.margens_seguras()
+	if m == Vector4.ZERO:
+		return
+	var status: Control = $Status
+	status.offset_left += m.x
+	status.offset_right += m.x
+	status.offset_top += m.y
+	status.offset_bottom += m.y
+	var canto: Control = $CantoDireito
+	canto.offset_left -= m.z
+	canto.offset_right -= m.z
+	canto.offset_top += m.y
+	canto.offset_bottom += m.y
+
 func _ready() -> void:
 	add_to_group("hud")
+	_respeitar_area_segura()
 	faixa_banner.hide()
 	rotulo_evento.hide()
 	_mostrar_inimigos(false)
 	atualizar_moedas(DadosJogo.moedas)
 	atualizar_brasas(Progresso.brasas)
 	Progresso.brasas_alteradas.connect(atualizar_brasas)
+	_capacidade_mochila = InventarioJogador.capacidade()
+	InventarioJogador.capacidade_alterada.connect(_ao_capacidade_alterada)
 	atualizar_data()
 	Calendario.dia_passou.connect(_ao_dia_passou)
 	Calendario.estacao_mudou.connect(_ao_estacao_mudou)
@@ -160,6 +180,10 @@ func _criar_cinto_pocoes() -> void:
 	cinto_pocoes.name = "CintoPocoes"
 	cinto_pocoes.efeitos = jogador.efeitos_pocao
 	add_child(cinto_pocoes)
+	# Armas: a barra do estilo do Minecraft, embaixo no centro (só na arena)
+	var barra_armas := BarraArmas.new()
+	barra_armas.name = "BarraArmas"
+	add_child(barra_armas)
 
 ## Por que a poção não foi bebida (SEM POCOES, VIDA CHEIA...)
 func avisar_pocao(texto: String) -> void:
@@ -170,6 +194,29 @@ func avisar_pocao(texto: String) -> void:
 func avisar_semente(id: String) -> void:
 	if cinto_pocoes != null:
 		cinto_pocoes.avisar_semente(id)
+
+var _capacidade_mochila := 0
+
+## A mochila ganhou uma linha ao vencer a onda do requisito
+func _ao_capacidade_alterada(capacidade: int) -> void:
+	var ganho := capacidade - _capacidade_mochila
+	_capacidade_mochila = capacidade
+	if ganho > 0 and cinto_pocoes != null:
+		cinto_pocoes.avisar_equipamento("MOCHILA AMPLIADA: +%d ESPACOS" % ganho, Color(0.55, 0.95, 0.65))
+		Sons.tocar("melhoria", 0.0)
+
+## Equipamento recolhido na arena: o nome na cor da raridade ("ESPADA GEMEA LENDARIO")
+func avisar_equipamento(item: DadosItem) -> void:
+	if cinto_pocoes != null:
+		cinto_pocoes.avisar_equipamento("+ %s %s" % [item.nome(), item.nome_raridade()], item.cor_raridade())
+
+func avisar_equipamento_cheio() -> void:
+	if cinto_pocoes != null:
+		cinto_pocoes.avisar_equipamento("MOCHILA CHEIA", Color(1, 0.6, 0.5))
+
+func avisar_equipamento_vendido(item: DadosItem, valor: int) -> void:
+	if cinto_pocoes != null:
+		cinto_pocoes.avisar_equipamento("%s %s VENDIDO +%d" % [item.nome(), item.nome_raridade(), valor], item.cor_raridade())
 
 ## Aviso de por que a ferramenta não pôde ser usada (só existe na fazenda)
 func avisar_ferramenta(texto: String) -> void:

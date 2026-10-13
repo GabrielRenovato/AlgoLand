@@ -1,0 +1,115 @@
+{
+  "versao": 1,
+  "id": "cavalheiro",
+  "nome": "Mordomo",
+  "raridade": "lendario",
+  "arte": "res://CharacterSprites/Conjuntos/cavalheiro/conceito_v1.png",
+  "destino": "res://CharacterSprites/Conjuntos/cavalheiro/",
+  "onda_minima": 1,
+  "chances_drop": {
+    "normal": 0.0,
+    "mutante": 0.0,
+    "chefe": 0.0
+  },
+  "preco_base": 0,
+  "bonus": {
+    "tipo": "congelamento",
+    "pecas": 4,
+    "chance": 0.1,
+    "recarga": 2.0,
+    "multiplicador_dano": 0.0,
+    "aviso": 0.0,
+    "duracao": 2.0
+  },
+  "bases": {
+    "cabeca": {
+      "vitalidade": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "defesa": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "corpo": {
+      "vitalidade": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "defesa": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "luvas": {
+      "vitalidade": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "defesa": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "botas": {
+      "vitalidade": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "defesa": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  "recortes": {
+    "fim_elmo": 0.53,
+    "fim_peitoral": 0.79,
+    "fim_cartola": 0.33,
+    "largura_elmo": 16,
+    "altura_elmo": 14,
+    "encaixe_cartola": 7
+  },
+  "paleta": [
+    "15151f",
+    "262638",
+    "39394f",
+    "53536a",
+    "717185",
+    "f2e4ce",
+    "522b20",
+    "8d4b2c",
+    "bd7a40",
+    "dcb75f",
+    "64182d",
+    "a92b46"
+  ],
+  "modo_visual": "tecido",
+  "substituir_cabeca": false,
+  "arte_elmo": "res://CharacterSprites/Conjuntos/cavalheiro/cartolas_completas_v2.png"
+}

@@ -6,9 +6,22 @@ const FONTE_DICA := preload("res://UI/Planes_ValMore.ttf")
 const LARGURA_TEXTO_INFO := 90
 const LADO_QUADRO_BONECO := 64
 const NOMES_SLOTS_EQUIPAMENTO := ["SlotCabeca", "SlotCorpo", "SlotLuvas", "SlotBotas", "SlotArma", "SlotEscudo", "SlotSecundaria"]
+## Anéis e colar ainda não existem no jogo: os quadrados aparecem (com o símbolo apagado), mas não recebem foco nem item
+const NOMES_SLOTS_DECORATIVOS := ["SlotAnel1", "SlotAnel2", "SlotColar"]
+
+## A grade da mochila rola quando não cabe mais acima dos atributos (a mochila cresce com as linhas extras)
+const LARGURA_BARRA_ROLAGEM := 3
+const COR_TRILHO_ROLAGEM := Color("211f30")
+const COR_ALCA_ROLAGEM := Color("afbbc3")
+const FOLGA_SEPARADOR := 6.0
+## Espaço livre abaixo dos atributos até a borda de baixo da tela
+const FOLGA_BAIXO := 14.0
 
 var _atualizacao_pendente: bool = false
+var _rolagem: ScrollContainer
 var _slots_mochila: Array[Control] = []
+## Casas que mostram, apagada, a arma/escudo em uso que "ocupa" a casa na barra de baixo (ver InventarioJogador.celulas_da_mao)
+var _fantasmas: Array[Control] = []
 var _slots_equipamento: Dictionary = {}
 var _info_item: PanelContainer
 var _info_linhas: VBoxContainer
@@ -22,7 +35,8 @@ var _info_linhas: VBoxContainer
 func _ready() -> void:
 	add_to_group("tela_inventario")
 	$Sidebar/BotaoFechar.pressed.connect(EventosJogo.fechar_tela.emit.bind("inventario"))
-	for i in InventarioJogador.TAMANHO_MOCHILA:
+	_montar_rolagem()
+	for i in InventarioJogador.TAMANHO_MAXIMO:
 		var slot: Control = CENA_SLOT.instantiate()
 		slot.tipo_slot = "mochila"
 		slot.indice = i
@@ -32,11 +46,16 @@ func _ready() -> void:
 		var slot: Control = get_node("Sidebar/Painel/" + nome)
 		_slots_equipamento[slot.tipo_slot] = slot
 
+	for nome in NOMES_SLOTS_DECORATIVOS:
+		var decorativo: Control = get_node("Sidebar/Painel/" + nome)
+		decorativo.focus_mode = Control.FOCUS_NONE
+		decorativo.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_montar_info_item()
 	Controle.dicas_alteradas.connect(_atualizar_info_foco)
 	InventarioJogador.mochila_alterada.connect(_agendar_atualizacao)
 	InventarioJogador.equipamento_alterado.connect(_agendar_atualizacao)
 	InventarioJogador.item_alterado.connect(_agendar_atualizacao)
+	InventarioJogador.capacidade_alterada.connect(_agendar_atualizacao)
 	visibility_changed.connect(_ao_visibilidade_alterada)
 	_atualizar()
 
@@ -63,13 +82,75 @@ func _agendar_atualizacao(_ignorado: Variant = null) -> void:
 
 func _atualizar() -> void:
 	_atualizacao_pendente = false
+	for slot in _fantasmas:
+		slot.item_ui().definir_em_uso(false)
+	_fantasmas.clear()
+	_atualizar_linhas_da_mochila()
 	for i in _slots_mochila.size():
 		_slots_mochila[i].exibir(InventarioJogador.mochila[i])
+		# a casa da mão: o item em uso aparece apagado, para a grade bater com a barra de baixo (ele se mexe pelo slot de equipamento)
+		if InventarioJogador.mochila[i] == null and InventarioJogador.item_na_celula(i) != null:
+			_slots_mochila[i].exibir(InventarioJogador.item_na_celula(i))
+			_slots_mochila[i].item_ui().definir_em_uso(true)
+			_fantasmas.append(_slots_mochila[i])
 	for slot in _slots_equipamento:
 		_slots_equipamento[slot].exibir(InventarioJogador.equipados[slot])
 	_atualizar_boneco()
 	atualizar_atributos()
 	_atualizar_info_foco()
+
+## As casas liberadas aparecem normais; a linha seguinte aparece bloqueada (apagada, com o cadeado na última casa e o requisito no mouse);
+## o resto fica escondido. Os atributos descem junto com a grade
+func _atualizar_linhas_da_mochila() -> void:
+	var capacidade: int = InventarioJogador.capacidade()
+	var proxima: int = InventarioJogador.onda_da_proxima_linha()
+	var colunas: int = InventarioJogador.COLUNAS_MOCHILA
+	var fim_trancadas := capacidade + (colunas if proxima != -1 else 0)
+	var dica := "VENCA A ONDA %d PARA LIBERAR MAIS %d ESPACOS" % [proxima, colunas]
+	for i in _slots_mochila.size():
+		var slot: Control = _slots_mochila[i]
+		slot.visible = i < fim_trancadas
+		slot.definir_trancado(i >= capacidade and i < fim_trancadas, dica, i == fim_trancadas - 1)
+	_posicionar_atributos.call_deferred()
+
+## A grade vai para dentro de uma rolagem no mesmo lugar (só a barra vertical, fina, nas cores da moldura do inventário)
+func _montar_rolagem() -> void:
+	var painel := _grade.get_parent()
+	_rolagem = ScrollContainer.new()
+	_rolagem.name = "RolagemMochila"
+	_rolagem.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	_rolagem.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
+	# no controle, a rolagem acompanha a casa em foco
+	_rolagem.follow_focus = true
+	_rolagem.position = _grade.position
+	painel.add_child(_rolagem)
+	painel.move_child(_rolagem, _grade.get_index())
+	painel.remove_child(_grade)
+	_rolagem.add_child(_grade)
+	var barra := _rolagem.get_v_scroll_bar()
+	barra.custom_minimum_size.x = LARGURA_BARRA_ROLAGEM
+	var trilho := StyleBoxFlat.new()
+	trilho.bg_color = COR_TRILHO_ROLAGEM
+	var alca := StyleBoxFlat.new()
+	alca.bg_color = COR_ALCA_ROLAGEM
+	barra.add_theme_stylebox_override("scroll", trilho)
+	barra.add_theme_stylebox_override("scroll_focus", trilho)
+	for estado in ["grabber", "grabber_highlight", "grabber_pressed"]:
+		barra.add_theme_stylebox_override(estado, alca)
+
+## A grade ocupa o que precisa até o espaço que sobra acima dos atributos; passando disso, rola. Separador e atributos ficam logo abaixo
+func _posicionar_atributos() -> void:
+	var conteudo := _grade.get_combined_minimum_size()
+	var topo: float = _rolagem.get_parent().position.y + _rolagem.position.y
+	var altura_atributos: float = _atributos.get_combined_minimum_size().y
+	var disponivel: float = $Sidebar.size.y - topo - FOLGA_SEPARADOR * 2.0 - altura_atributos - FOLGA_BAIXO
+	var altura := minf(conteudo.y, maxf(disponivel, 20.0))
+	var rola := altura < conteudo.y
+	_rolagem.custom_minimum_size = Vector2(conteudo.x + (LARGURA_BARRA_ROLAGEM + 1 if rola else 0), altura)
+	_rolagem.size = _rolagem.custom_minimum_size
+	var separador: Control = $Sidebar/Separador
+	separador.position.y = topo + altura + FOLGA_SEPARADOR
+	_atributos.position.y = separador.position.y + FOLGA_SEPARADOR
 
 # Equipar e comprar mudam as estatísticas do Jogador; espera um frame para ele recalcular
 func atualizar_atributos() -> void:
@@ -183,7 +264,7 @@ func _verbo_do_item(slot: Control) -> String:
 		var destino: String = mercante.destino_do_item(slot.item_ui())
 		if destino != "":
 			return "COLOCAR " + destino
-	if not slot.item_atual.categoria in ["arma", "escudo"]:
+	if not slot.item_atual.categoria in ["arma", "escudo", "cabeca", "corpo", "luvas", "botas"]:
 		return ""
 	return "EQUIPAR" if slot.tipo_slot == "mochila" else "DESEQUIPAR"
 
@@ -193,13 +274,13 @@ func _verbo_do_item(slot: Control) -> String:
 func item_equipado_que_serve(destino: Control) -> Control:
 	for categoria in ["arma", "escudo"]:
 		var slot: Control = _slots_equipamento.get(categoria)
-		if slot != null and slot.item_atual != null and not slot.item_ui().em_uso and destino.aceita_tipo_item(slot.item_atual.tipo):
+		if slot != null and slot.item_atual != null and not slot.item_ui().em_uso and destino.aceita_item(slot.item_ui()):
 			return slot.item_ui()
 	return null
 
 ## Primeiro slot da mochila com um item que o slot do ferreiro aceita; null se não há
 func primeiro_slot_que_serve(destino: Control) -> Control:
 	for slot in _slots_mochila:
-		if slot.item_atual != null and not slot.item_ui().em_uso and destino.aceita_tipo_item(slot.item_atual.tipo):
+		if slot.item_atual != null and not slot.item_ui().em_uso and destino.aceita_item(slot.item_ui()):
 			return slot
 	return null

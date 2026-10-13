@@ -307,7 +307,7 @@ func _testar_neblina_e_hud() -> void:
 # Rodízio de chefes
 # -----------------------------------------------------------------
 func _testar_rodizio() -> void:
-	var esperado := {10: "golem", 20: "rei_slime", 30: "caranguejo", 40: "cogumelo", 50: "golem", 60: "rei_slime", 70: "caranguejo", 80: "cogumelo", 90: "golem"}
+	var esperado := {10: "minotauro", 20: "rei_slime", 30: "caranguejo", 40: "cogumelo", 50: "dragao_vermelho", 60: "minotauro", 70: "rei_slime", 80: "caranguejo", 90: "cogumelo", 100: "dragao_vermelho"}
 	var ok := true
 	var detalhe := ""
 	for onda in esperado:
@@ -315,9 +315,9 @@ func _testar_rodizio() -> void:
 		if id != esperado[onda]:
 			ok = false
 			detalhe += " onda %d=%s" % [onda, id]
-	_verificar("rodizio 10 golem, 20 rei slime, 30 caranguejo, 40 cogumelo, 50 golem...", ok, detalhe)
+	_verificar("rodizio 10 minotauro, 20 rei slime, 30 caranguejo, 40 cogumelo, 50 dragao...", ok, detalhe)
 	var nomes: Array = _gerenciador.CHEFES.map(func(c): return c["nome"])
-	_verificar("nomes dos chefes", nomes == ["GOLEM DE PEDRA", "REI SLIME", "CARANGUEJO COLOSSAL", "COGUMELO ANCIAO"], str(nomes))
+	_verificar("nomes dos chefes", nomes == ["MINOTAURO", "REI SLIME", "CARANGUEJO COLOSSAL", "COGUMELO ANCIAO", "DRAGAO VERMELHO"], str(nomes))
 	_verificar("chefe fica mais forte a cada ciclo (multiplicador por onda)", _gerenciador.mult_vida_onda(50) > _gerenciador.mult_vida_onda(10) and _gerenciador.mult_dano_onda(60) > _gerenciador.mult_dano_onda(20), "")
 
 # -----------------------------------------------------------------
@@ -669,7 +669,7 @@ func _testar_ondas_de_evento() -> void:
 
 func _testar_ondas_de_chefe() -> void:
 	_gerenciador.chance_evento = 0.0
-	var casos := [[10, "GOLEM DE PEDRA", false], [20, "REI SLIME", true], [30, "CARANGUEJO COLOSSAL", true], [40, "COGUMELO ANCIAO", true]]
+	var casos := [[10, "MINOTAURO", false], [20, "REI SLIME", true], [30, "CARANGUEJO COLOSSAL", true], [40, "COGUMELO ANCIAO", true]]
 	for caso in casos:
 		_limpar_inimigos()
 		_gerenciador.parar_ondas()
@@ -681,11 +681,11 @@ func _testar_ondas_de_chefe() -> void:
 		_dados_jogo.moedas = 0
 		_gerenciador.iniciar_onda()
 		_verificar("onda %d: sem evento na onda de chefe" % onda, _gerenciador.evento_atual.is_empty(), "")
-		_verificar("onda %d conta chefe + escolta" % onda, _gerenciador.inimigos_vivos == 1 + _gerenciador.escolta_chefe and _gerenciador.total_inimigos_onda == 3, "vivos=%d" % _gerenciador.inimigos_vivos)
+		_verificar("onda %d conta chefe + escolta" % onda, _gerenciador.inimigos_vivos == 1 + _gerenciador.escolta_chefe and _gerenciador.total_inimigos_onda == 1 + _gerenciador.escolta_chefe, "vivos=%d" % _gerenciador.inimigos_vivos)
 		await create_timer(2.5).timeout
 		var inimigos := get_nodes_in_group("enemy").filter(func(n): return is_instance_valid(n) and not n.esta_morto)
 		var chefes := inimigos.filter(func(n): return n.eh_chefe or n.has_method("_impacto"))
-		_verificar("onda %d: 1 chefe + %d na escolta" % [onda, _gerenciador.escolta_chefe], chefes.size() == 1 and inimigos.size() == 3, "chefes=%d inimigos=%d" % [chefes.size(), inimigos.size()])
+		_verificar("onda %d: 1 chefe + %d na escolta" % [onda, _gerenciador.escolta_chefe], chefes.size() == 1 and inimigos.size() == 1 + _gerenciador.escolta_chefe, "chefes=%d inimigos=%d" % [chefes.size(), inimigos.size()])
 		if chefes.size() == 1:
 			var chefe: Node = chefes[0]
 			if caso[2]:
@@ -695,7 +695,7 @@ func _testar_ondas_de_chefe() -> void:
 				var mult_vida: float = _gerenciador.mult_vida_onda(onda)
 				_verificar("onda %d: vida do chefe com multiplicadores da onda" % onda, chefe.vida_maxima == chefe.vida and chefe.vida_maxima > 200 * 1 and chefe.vida_maxima >= roundi(mult_vida * 30), "vida=%d" % chefe.vida_maxima)
 			else:
-				_verificar("onda 10: golem (comportamento proprio) com barra de chefe", _hud.painel_chefe.visible and _hud.nome_chefe.text == "GOLEM DE PEDRA" and not chefe.eh_chefe, "")
+				_verificar("onda 10: minotauro com comportamento proprio e barra de chefe", _hud.painel_chefe.visible and _hud.nome_chefe.text == "MINOTAURO" and chefe.eh_chefe, "")
 			if caso[1] == "COGUMELO ANCIAO":
 				chefe.habilidade_chefe.invocar_cogumelos()
 				chefe.habilidade_chefe.iniciar_esporos()

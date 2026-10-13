@@ -38,12 +38,16 @@ func _physics_process(delta: float) -> void:
 	if esta_morto:
 		_animar(delta)
 		return
+	if esta_congelado():
+		_atualizar_efeitos(delta)
+		velocity = Vector2.ZERO
+		return
 	if parado:
 		_processar_parado(delta)
 	else:
 		super(delta)
 	_animar(delta)
-	if not esta_atacando and pode_atacar:
+	if not esta_atacando and pode_atacar and not esta_atordoado():
 		var alvo := obter_jogador()
 		if alvo and global_position.distance_to(alvo.global_position) < alcance_ataque:
 			_iniciar_ataque(alvo.global_position - global_position)
@@ -147,6 +151,7 @@ func morrer() -> void:
 	if esta_morto:
 		return
 	esta_morto = true
+	_limpar_gelo_morte()
 	_tocar_som_morte()
 	_ao_morrer_chefe()
 	_estado = "morte"

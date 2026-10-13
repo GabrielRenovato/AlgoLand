@@ -20,6 +20,11 @@ func _atualizar_tecla() -> void:
 	# Planes_ValMore: o Y da fonte do aviso parece um "y" minúsculo
 	_rotulo_tecla.add_theme_font_override("font", FONTE_TECLA)
 	_rotulo_tecla.text = Controle.rotulo_acao("open_menu")
+	# Texto de toque ("AGIR") é mais comprido que uma tecla: fonte menor para caber no botão
+	if _rotulo_tecla.text.length() > 2:
+		_rotulo_tecla.add_theme_font_size_override("font_size", 7)
+	else:
+		_rotulo_tecla.remove_theme_font_size_override("font_size")
 
 func _process(_delta: float) -> void:
 	icon.visible = player_in_range and visible and Interagivel.eh_o_mais_proximo(self)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3]
+[gd_scene load_steps=43 format=3]
 
 [ext_resource type="Texture2D" path="res://Tiles/Starter Pack/home interiors, timber roof.png" id="interiores"]
 [ext_resource type="Texture2D" path="res://Tiles/Starter Pack/cozy furnishings sampler.png" id="moveis"]
@@ -9,6 +9,8 @@
 [ext_resource type="PackedScene" path="res://cenas/efeitos/vinheta.tscn" id="vinheta"]
 [ext_resource type="PackedScene" path="res://cenas/ui.tscn" id="ui"]
 [ext_resource type="PackedScene" path="res://cenas/ui/interface.tscn" id="interface"]
+[ext_resource type="Script" path="res://Codigos/Design/cama.gd" id="cama_script"]
+[ext_resource type="Script" path="res://Codigos/Logicas/cadeira.gd" id="cadeira_script"]
 
 [sub_resource type="TileSetAtlasSource" id="Fonte_casa"]
 texture = ExtResource("interiores")
@@ -52,10 +54,6 @@ texture = ExtResource("interiores")
 [sub_resource type="TileSet" id="TileSet_casa"]
 sources/0 = SubResource("Fonte_casa")
 
-[sub_resource type="AtlasTexture" id="Atlas_Cama"]
-atlas = ExtResource("moveis")
-region = Rect2(208, 6, 32, 58)
-
 [sub_resource type="AtlasTexture" id="Atlas_Bau"]
 atlas = ExtResource("moveis")
 region = Rect2(96, 32, 32, 16)
@@ -76,11 +74,50 @@ region = Rect2(1, 21, 13, 26)
 atlas = ExtResource("moveis")
 region = Rect2(1, 21, 13, 26)
 
+[sub_resource type="AtlasTexture" id="Atlas_Cama_0"]
+atlas = ExtResource("moveis")
+region = Rect2(208, 6, 32, 6)
+
+[sub_resource type="AtlasTexture" id="Atlas_Cama_1"]
+atlas = ExtResource("moveis")
+region = Rect2(208, 12, 32, 8)
+
+[sub_resource type="AtlasTexture" id="Atlas_Cama_2"]
+atlas = ExtResource("moveis")
+region = Rect2(208, 20, 32, 8)
+
+[sub_resource type="AtlasTexture" id="Atlas_Cama_3"]
+atlas = ExtResource("moveis")
+region = Rect2(208, 28, 32, 8)
+
+[sub_resource type="AtlasTexture" id="Atlas_Cama_4"]
+atlas = ExtResource("moveis")
+region = Rect2(208, 36, 32, 8)
+
+[sub_resource type="AtlasTexture" id="Atlas_Cama_5"]
+atlas = ExtResource("moveis")
+region = Rect2(208, 44, 32, 8)
+
+[sub_resource type="AtlasTexture" id="Atlas_Cama_6"]
+atlas = ExtResource("moveis")
+region = Rect2(208, 52, 32, 8)
+
+[sub_resource type="AtlasTexture" id="Atlas_Cama_7"]
+atlas = ExtResource("moveis")
+region = Rect2(208, 60, 32, 4)
+
 [sub_resource type="RectangleShape2D" id="Forma_saida"]
 size = Vector2(30, 18)
 
 [sub_resource type="RectangleShape2D" id="Forma_cama"]
 size = Vector2(84, 76)
+
+[sub_resource type="AtlasTexture" id="Atlas_Cafe"]
+atlas = ExtResource("moveis")
+region = Rect2(177, 68, 10, 8)
+
+[sub_resource type="CircleShape2D" id="Forma_cadeira"]
+radius = 15.0
 
 [sub_resource type="RectangleShape2D" id="Forma_ParedeNorte"]
 size = Vector2(320, 84)
@@ -154,6 +191,59 @@ color = Color(1, 0.94, 0.86, 1)
 [node name="Objetos3D" type="Node2D" parent="."]
 script = ExtResource("prof_grupo")
 
+[node name="Cama_f0" type="Sprite2D" parent="Objetos3D"]
+position = Vector2(40, 7.99)
+texture = SubResource("Atlas_Cama_0")
+centered = false
+offset = Vector2(-16, -5.99)
+
+[node name="Cama_f1" type="Sprite2D" parent="Objetos3D"]
+position = Vector2(40, 15.99)
+texture = SubResource("Atlas_Cama_1")
+centered = false
+offset = Vector2(-16, -7.99)
+
+[node name="Cama_f2" type="Sprite2D" parent="Objetos3D"]
+position = Vector2(40, 23.99)
+texture = SubResource("Atlas_Cama_2")
+centered = false
+offset = Vector2(-16, -7.99)
+
+[node name="Cama_f3" type="Sprite2D" parent="Objetos3D"]
+position = Vector2(40, 31.99)
+texture = SubResource("Atlas_Cama_3")
+centered = false
+offset = Vector2(-16, -7.99)
+
+[node name="Cama_f4" type="Sprite2D" parent="Objetos3D"]
+position = Vector2(40, 39.99)
+texture = SubResource("Atlas_Cama_4")
+centered = false
+offset = Vector2(-16, -7.99)
+
+[node name="Cama_f5" type="Sprite2D" parent="Objetos3D"]
+position = Vector2(40, 47.99)
+texture = SubResource("Atlas_Cama_5")
+centered = false
+offset = Vector2(-16, -7.99)
+
+[node name="Cama_f6" type="Sprite2D" parent="Objetos3D"]
+position = Vector2(40, 55.99)
+texture = SubResource("Atlas_Cama_6")
+centered = false
+offset = Vector2(-16, -7.99)
+
+[node name="Cama_f7" type="Sprite2D" parent="Objetos3D"]
+position = Vector2(40, 63.99)
+texture = SubResource("Atlas_Cama_7")
+centered = false
+offset = Vector2(-16, -7.99)
+
+[node name="CamaDormindo" type="Node2D" parent="Objetos3D"]
+position = Vector2(40, 60)
+script = ExtResource("cama_script")
+folha = ExtResource("moveis")
+
 [node name="Bau" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(96, 18)
 texture = SubResource("Atlas_Bau")
@@ -166,20 +256,14 @@ texture = SubResource("Atlas_Estante")
 centered = false
 offset = Vector2(-16, -48)
 
-[node name="Cama" type="Sprite2D" parent="Objetos3D"]
-position = Vector2(40, 60)
-texture = SubResource("Atlas_Cama")
-centered = false
-offset = Vector2(-16, -58)
-
 [node name="CadeiraE" type="Sprite2D" parent="Objetos3D"]
-position = Vector2(112, 104)
+position = Vector2(109, 104)
 texture = SubResource("Atlas_CadeiraE")
 centered = false
 offset = Vector2(-6, -26)
 
 [node name="CadeiraD" type="Sprite2D" parent="Objetos3D"]
-position = Vector2(160, 104)
+position = Vector2(163, 104)
 texture = SubResource("Atlas_CadeiraD")
 centered = false
 offset = Vector2(-6, -26)
@@ -190,6 +274,14 @@ position = Vector2(136, 106)
 texture = SubResource("Atlas_Mesa")
 centered = false
 offset = Vector2(-17, -42)
+
+[node name="Cafe_E" type="Sprite2D" parent="Objetos3D/Mesa"]
+position = Vector2(-9, -22)
+texture = SubResource("Atlas_Cafe")
+
+[node name="Cafe_D" type="Sprite2D" parent="Objetos3D/Mesa"]
+position = Vector2(9, -22)
+texture = SubResource("Atlas_Cafe")
 
 [node name="Colisoes" type="StaticBody2D" parent="."]
 collision_layer = 64
@@ -262,6 +354,34 @@ deslocamento_aviso = Vector2(0, -52)
 
 [node name="Forma" type="CollisionShape2D" parent="Cama"]
 shape = SubResource("Forma_cama")
+
+[node name="ZonaCadeiraE" type="Area2D" parent="."]
+position = Vector2(112, 98)
+script = ExtResource("cadeira_script")
+so_entre_ondas = false
+deslocamento_aviso = Vector2(0, -34)
+lado = 1
+assento = Vector2(1, -9)
+saida = Vector2(0, -20)
+cafe = NodePath("../Objetos3D/Mesa/Cafe_E")
+mesa = NodePath("../Objetos3D/Mesa")
+
+[node name="Forma" type="CollisionShape2D" parent="ZonaCadeiraE"]
+shape = SubResource("Forma_cadeira")
+
+[node name="ZonaCadeiraD" type="Area2D" parent="."]
+position = Vector2(160, 98)
+script = ExtResource("cadeira_script")
+so_entre_ondas = false
+deslocamento_aviso = Vector2(0, -34)
+lado = -1
+assento = Vector2(-1, -9)
+saida = Vector2(0, -20)
+cafe = NodePath("../Objetos3D/Mesa/Cafe_D")
+mesa = NodePath("../Objetos3D/Mesa")
+
+[node name="Forma" type="CollisionShape2D" parent="ZonaCadeiraD"]
+shape = SubResource("Forma_cadeira")
 
 [node name="Chegada_entrada" type="Marker2D" parent="." groups=["chegada"]]
 position = Vector2(96, 98)

@@ -14,7 +14,8 @@ Saida:
   - cenas/fazenda.tscn : o terreno + Jogador, luz, HUD, Interface e vinheta (sem inimigos nem ondas)
   - (Etapa B) o caldeirao onde a colheita vira pocao (Tiles/Farm RPG/caldeirao.png, copiado por ferramentas/fazenda/preparar_plantio.py), o
     no Plantio (solo arado, plantas e clima do dia) e a meta "barra_ferramentas" (o HUD mostra a barra da ferramenta ativa)
-  - cenas/casa.tscn : o interior (piso, parede com janela, cama, bau, estante, mesa e cadeiras do Mana Seed)
+  - cenas/casa.tscn : o interior (piso, parede com janela, cama, bau, estante, mesa e cadeiras do Mana Seed; duas xicaras de
+    cafe na mesa e as zonas das cadeiras: F senta e toma um cafezinho, ver Codigos/Logicas/cadeira.gd)
 
 Reaproveita de ferramentas/arena/gerar_arena.py as folhas sazonais, a terra em autotile (blob 3x3), a caverna e as medidas
 de colisao por pixel das arvores.
@@ -409,9 +410,30 @@ def escrever_casa():
     c.sub_recurso("TileSet", "TileSet_casa", ['sources/0 = SubResource("Fonte_casa")'])
     for nome, cfg in ((n, (r, p)) for n, r, p, _ in D.MOVEIS):
         r = cfg[0]
+        if nome == "Cama":
+            continue   # a cama e montada em faixas (abaixo)
         c.sub_recurso("AtlasTexture", "Atlas_" + nome, ['atlas = ExtResource("%s")' % sheet_mov, "region = Rect2(%d, %d, %d, %d)" % r])
+    # Cama em faixas horizontais alinhadas a grade de profundidade (8 px, ver profundidade.gd): a origem de cada faixa fica
+    # logo acima do fim da faixa (y = 8k + 7.99), assim quem esta na mesma faixa de altura fica NA FRENTE da cama e quem
+    # esta acima dela fica atras. Uma cama inteira com z pela base (y 60) cortava o jogador encostado de lado
+    cama_r, (cama_bx, cama_by) = next((r, p) for n, r, p, _ in D.MOVEIS if n == "Cama")
+    cama_topo = cama_by - cama_r[3]
+    cama_faixas = []
+    k = cama_topo // 8
+    while k * 8 < cama_by:
+        topo, base = max(k * 8, cama_topo), min(k * 8 + 8, cama_by)
+        cama_faixas.append((k, topo, base))
+        k += 1
+    for k, topo, base in cama_faixas:
+        c.sub_recurso("AtlasTexture", "Atlas_Cama_%d" % k, ['atlas = ExtResource("%s")' % sheet_mov,
+                      "region = Rect2(%d, %d, %d, %d)" % (cama_r[0], cama_r[1] + (topo - cama_topo), cama_r[2], base - topo)])
+    s_cama = c.recurso("Script", "res://Codigos/Design/cama.gd", "cama_script")
     c.sub_recurso("RectangleShape2D", "Forma_saida", ["size = Vector2(30, 18)"])
     c.sub_recurso("RectangleShape2D", "Forma_cama", ["size = Vector2(84, 76)"])
+    # xicara de cafe (cozy furnishings sampler: x 177, y 68, 10x8) e a zona de cada cadeira
+    c.sub_recurso("AtlasTexture", "Atlas_Cafe", ['atlas = ExtResource("%s")' % sheet_mov, "region = Rect2(177, 68, 10, 8)"])
+    c.sub_recurso("CircleShape2D", "Forma_cadeira", ["radius = 15.0"])
+    s_cadeira = c.recurso("Script", "res://Codigos/Logicas/cadeira.gd", "cadeira_script")
 
     c.no("casa", "Node2D", props=['metadata/titulo_hud = "CASA"'], raiz=True)
     # fundo escuro (a cor do tile de "parede por cima" da folha) alem do comodo
@@ -424,7 +446,17 @@ def escrever_casa():
     c.no("CanvasModulate", "CanvasModulate", props=["color = Color(1, 0.94, 0.86, 1)"])
 
     c.no("Objetos3D", "Node2D", props=['script = ExtResource("%s")' % s_grupo])
+    for k, topo, base in cama_faixas:
+        y_origem = k * 8 + 7.99
+        c.no("Cama_f%d" % k, "Sprite2D", "Objetos3D", [
+            "position = %s" % vec(cama_bx, y_origem), 'texture = SubResource("Atlas_Cama_%d")' % k, "centered = false",
+            "offset = %s" % vec(-(cama_r[2] // 2), topo - y_origem)])
+    # no que cuida do sono: deitar()/levantar() (cabeca, cobertor, Z), na base-centro da cama
+    c.no("CamaDormindo", "Node2D", "Objetos3D", ["position = %s" % vec(cama_bx, cama_by), 'script = ExtResource("%s")' % s_cama,
+                                                  'folha = ExtResource("%s")' % sheet_mov])
     for nome, regiao, (bx, by), espelho in sorted(D.MOVEIS, key=lambda m: m[2][1]):
+        if nome == "Cama":
+            continue
         w, h = regiao[2], regiao[3]
         props = ["position = %s" % vec(bx, by), 'texture = SubResource("Atlas_%s")' % nome, "centered = false",
                  "offset = %s" % vec(-(w // 2), -h)]
@@ -432,7 +464,12 @@ def escrever_casa():
             props.append("flip_h = true")
         c.no(nome, "Sprite2D", "Objetos3D", props)
 
-    # colisoes: paredes (a de baixo com o vao da porta), e a base de cada movel
+    # as xicaras de cafe sao filhas da mesa (desenham logo acima dela); a mesa esta em (136, 106) e o tampo vai de y 64 a 94
+    for nome_xicara, dx in (("Cafe_E", -9), ("Cafe_D", 9)):
+        c.no(nome_xicara, "Sprite2D", "Objetos3D/Mesa", ["position = %s" % vec(dx, -22), 'texture = SubResource("Atlas_Cafe")'])
+
+    # colisoes: paredes (a de baixo com o vao da porta), e a base de cada movel. A da cama tem a largura exata do desenho: o jogador
+    # encosta de lado e e desenhado por cima (a cama e fatiada em faixas, cada uma com a sua profundidade)
     c.no("Colisoes", "StaticBody2D", props=["collision_layer = 64", "collision_mask = 0"])
     sw, sh = D.SALA_W * TILE, D.SALA_H * TILE
     nx0, nx1 = D.NICHO_X[0] * TILE, (D.NICHO_X[1] + 1) * TILE
@@ -453,6 +490,13 @@ def escrever_casa():
     c.no("Cama", "Area2D", props=["position = %s" % vec(40, 34), 'script = ExtResource("%s")' % s_inter, 'nome_tela = "dormir"',
                                   "so_entre_ondas = false", "deslocamento_aviso = Vector2(0, -52)"])
     c.no("Forma", "CollisionShape2D", "Cama", ['shape = SubResource("Forma_cama")'])
+    # cadeiras: a esquerda (112, 104) olha para a direita e a direita (160, 104, espelhada) para a esquerda, as duas para a mesa
+    for nome_cad, bx, lado, cafe in (("CadeiraE", 112, 1, "Cafe_E"), ("CadeiraD", 160, -1, "Cafe_D")):
+        c.no("Zona" + nome_cad, "Area2D", props=["position = %s" % vec(bx, 98), 'script = ExtResource("%s")' % s_cadeira,
+                                                  "so_entre_ondas = false", "deslocamento_aviso = Vector2(0, -34)", "lado = %d" % lado,
+                                                  "assento = %s" % vec(1 * lado, -9), "saida = %s" % vec(0, -20),
+                                                  'cafe = NodePath("../Objetos3D/Mesa/%s")' % cafe, 'mesa = NodePath("../Objetos3D/Mesa")'])
+        c.no("Forma", "CollisionShape2D", "Zona" + nome_cad, ['shape = SubResource("Forma_cadeira")'])
     c.no("Chegada_entrada", "Marker2D", ".", ["position = %s" % vec(centro_nicho, sh - 14)], grupos=["chegada"])
     c.no("Chegada_cama", "Marker2D", ".", ["position = %s" % vec(70, 44)], grupos=["chegada"])
     c.no("Jogador", "", ".", ["z_index = 1", "position = %s" % vec(centro_nicho, sh - 14), "collision_mask = 96"], instancia=jogador)

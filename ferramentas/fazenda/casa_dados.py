@@ -93,13 +93,15 @@ def celulas_interior(janela=True):
 
 # Moveis: nome, regiao na folha (x, y, larg, alt), posicao da BASE-centro em px do comodo (x, y_base)
 # Regioes medidas por componentes de alfa e conferidas na ampliacao.
+# As cadeiras ficam 3 px para fora da zona de sentar (112 / 160): o jogador sentado ocupa o lado da mesa e o encosto (3 px) aparece
+# atras das costas dele, em vez de ficar escondido por elas
 MOVEIS = [
     ("Cama", (208, 6, 32, 58), (40, 60), False),
     ("Bau", (96, 32, 32, 16), (96, 18), False),
     ("Estante", (128, 0, 32, 48), (152, 24), False),
     ("Mesa", (39, 5, 34, 42), (136, 106), False),
-    ("CadeiraE", (1, 21, 13, 26), (112, 104), False),
-    ("CadeiraD", (1, 21, 13, 26), (160, 104), True),
+    ("CadeiraE", (1, 21, 13, 26), (109, 104), False),
+    ("CadeiraD", (1, 21, 13, 26), (163, 104), True),
 ]
 
 

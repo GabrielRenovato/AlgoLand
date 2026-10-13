@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://Codigos/Logicas/morador.gd" id="1_morador"]
 [ext_resource type="Script" path="res://Codigos/Logicas/interagivel.gd" id="2_interagivel"]
 [ext_resource type="Script" path="res://Codigos/Design/profundidade_estatica.gd" id="3_profundidade"]
 
+[ext_resource type="Script" path="res://Codigos/Logicas/npc_vivo.gd" id="npc_vivo"]
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_corpo"]
 radius = 7.0
 height = 18.0
@@ -24,6 +25,9 @@ shape = SubResource("CapsuleShape2D_corpo")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 hframes = 4
 vframes = 8
+
+[node name="NpcVivo" type="Node" parent="."]
+script = ExtResource("npc_vivo")
 
 [node name="Profundidade" type="Node" parent="."]
 script = ExtResource("3_profundidade")

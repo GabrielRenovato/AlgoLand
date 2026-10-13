@@ -1,15 +1,18 @@
 extends CanvasLayer
 
 const IconesItens := preload("res://Codigos/UI/icones_itens.gd")
+const ControlesToque := preload("res://Codigos/UI/controles_toque.gd")
 const DURACAO_ENTRADA := 0.15
 # Como no Diablo: a loja abre na esquerda e o inventário junto na direita, para arrastar itens entre os dois
 const TELAS_ACOMPANHANTES := {"mercante": ["inventario"]}
 # Ações de jogo que dividem botão com os menus (B fecha a tela e também rola; A confirma e também ataca)
 const ACOES_DO_JOGADOR := ["rolar", "attack"]
 # Telas no centro da tela: em vez de deslizar de uma borda, aparecem com fade
-const TELAS_CENTRAIS := ["acampamento", "mistica", "fim_partida", "dormir"]
+const TELAS_CENTRAIS := ["fim_partida", "dormir", "pausa"]
 # Só se fecha pelo próprio botão (B/Esc e o atalho do inventário são ignorados)
 const TELAS_OBRIGATORIAS := ["fim_partida"]
+# Telas coladas na lateral direita da tela, onde o X de fechar fica no canto
+const LATERAIS_DA_DIREITA := ["inventario", "caldeirao", "acampamento", "mistica"]
 
 var _telas_abertas: Array[String] = []
 
@@ -21,23 +24,77 @@ var _telas_abertas: Array[String] = []
 	"fim_partida": $TelaFimPartida,
 	"dormir": $TelaDormir,
 	"caldeirao": $TelaCaldeirao,
+	"pausa": $TelaPausa,
 }
 @onready var _paineis: Dictionary = {
 	"inventario": $TelaInventario/Sidebar,
 	"mercante": $TelaMercante/Painel,
-	"acampamento": $TelaAcampamento/Centro/Painel,
-	"mistica": $TelaMistica/Centro/Painel,
+	"acampamento": $TelaAcampamento/Painel,
+	"mistica": $TelaMistica/Painel,
 	"fim_partida": $TelaFimPartida/Centro/Painel,
 	"dormir": $TelaDormir/Centro/Painel,
 	"caldeirao": $TelaCaldeirao/Painel,
+	"pausa": $TelaPausa/Centro/Painel,
 }
 
 func _ready() -> void:
+	# A pausa para o jogo (get_tree().paused): a Interface precisa continuar recebendo Esc/B para fechá-la
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	for tela in _telas.values():
 		tela.visible = false
 	EventosJogo.abrir_tela.connect(_abrir_tela)
 	EventosJogo.fechar_tela.connect(_fechar_tela)
 	Controle.modo_alterado.connect(_ao_modo_controle)
+	# Celular: joystick e botões na tela (somem enquanto uma tela está aberta)
+	if Controle.usando_toque:
+		add_child(ControlesToque.new())
+		_ajustar_botoes_de_fechar_para_toque()
+
+## Celular: o X das telas é de 10 unidades (pequeno para o dedo) e, nas laterais da direita (mochila, caldeirão), fica colado no canto
+## da tela. O X passa para o lado esquerdo do título, cresce um pouco e ganha uma área de toque maior (um botão transparente de 56x16 por
+## cima, na altura da faixa do título para não cobrir os itens que vêm logo abaixo)
+const AREA_TOQUE_FECHAR := Vector2(56, 16)
+## Quanto o X cresce em cada lado (10 -> 12 unidades)
+const CRESCER_X := 1.0
+
+func _ajustar_botoes_de_fechar_para_toque() -> void:
+	for nome in _telas:
+		for botao: TextureButton in _telas[nome].find_children("BotaoFechar", "TextureButton", true, false):
+			var no_canto_direito: bool = botao.anchor_left >= 1.0 and nome in LATERAIS_DA_DIREITA
+			var area := Button.new()
+			area.name = "AreaFechar"
+			area.flat = true
+			area.focus_mode = Control.FOCUS_NONE
+			for estado in ["normal", "hover", "pressed", "focus", "disabled"]:
+				area.add_theme_stylebox_override(estado, StyleBoxEmpty.new())
+			area.set_meta(Sons.META_SOM_PROPRIO, true)
+			area.pressed.connect(_fechar_tela.bind(nome))
+			area.anchor_top = 0.0
+			area.anchor_bottom = 0.0
+			area.offset_top = 0.0
+			area.offset_bottom = AREA_TOQUE_FECHAR.y
+			botao.offset_top -= CRESCER_X
+			botao.offset_bottom += CRESCER_X
+			if no_canto_direito:
+				# O X vai para a esquerda do título
+				var largura := botao.offset_right - botao.offset_left
+				botao.anchor_left = 0.0
+				botao.anchor_right = 0.0
+				# Bem junto da borda: o título da mochila (centrado) começa em x 18
+				botao.offset_left = 3.0
+				botao.offset_right = 3.0 + largura + 2.0 * CRESCER_X
+				botao.grow_horizontal = Control.GROW_DIRECTION_END
+				area.anchor_left = 0.0
+				area.anchor_right = 0.0
+				area.offset_left = 0.0
+				area.offset_right = AREA_TOQUE_FECHAR.x
+			else:
+				botao.offset_left -= 2.0 * CRESCER_X
+				area.anchor_left = botao.anchor_left
+				area.anchor_right = botao.anchor_right
+				area.offset_left = botao.offset_right - AREA_TOQUE_FECHAR.x
+				area.offset_right = botao.offset_right + 4.0
+			botao.get_parent().add_child(area)
 
 func _unhandled_input(evento: InputEvent) -> void:
 	# Na tela de fim de partida só o botão dela segue em frente
@@ -52,9 +109,22 @@ func _unhandled_input(evento: InputEvent) -> void:
 			_abrir_tela("inventario")
 		get_viewport().set_input_as_handled()
 	elif evento.is_action_pressed("close_menu") and not _telas_abertas.is_empty():
+		# Dentro de OPCOES ou da confirmação da pausa, Esc/B só volta ao menu da pausa
+		if _telas_abertas.has("pausa") and _telas["pausa"].voltar_subtela():
+			get_viewport().set_input_as_handled()
+			return
 		for nome in _telas_abertas.duplicate():
 			_fechar_tela(nome)
 		get_viewport().set_input_as_handled()
+	elif evento.is_action_pressed("pausar"):
+		# Esc sem nenhuma tela aberta abre a pausa (o jogador sentado só se levanta: o mesmo Esc o levanta)
+		var jogador := IconesItens.obter_jogador(get_tree())
+		if _telas_abertas.is_empty() and not (jogador != null and bool(jogador.get("esta_sentado"))):
+			_abrir_tela("pausa")
+			get_viewport().set_input_as_handled()
+		elif _telas_abertas == ["pausa"]:
+			_fechar_tela("pausa")
+			get_viewport().set_input_as_handled()
 
 func _abrir_tela(nome: String, acompanhante := false) -> void:
 	if not _telas.has(nome) or _telas_abertas.has(nome):

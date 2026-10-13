@@ -12,9 +12,9 @@
 [ext_resource type="Script" path="res://Codigos/Efeitos/iluminacao.gd" id="11_iluminacao"]
 [ext_resource type="Script" path="res://Codigos/Design/profundidade_estatica.gd" id="12_profundidade"]
 [ext_resource type="PackedScene" path="res://cenas/morador.tscn" id="13_morador"]
-[ext_resource type="Texture2D" path="res://NPC/npc old woman A v00.png" id="14_curandeira"]
-[ext_resource type="Texture2D" path="res://NPC/npc bard A v00.png" id="15_bardo"]
-[ext_resource type="Texture2D" path="res://NPC/npc mystic A v00.png" id="16_mistica"]
+[ext_resource type="Texture2D" path="res://NPC/npc old woman A v01.png" id="14_curandeira"]
+[ext_resource type="Texture2D" path="res://NPC/npc bard A v01.png" id="15_bardo"]
+[ext_resource type="Texture2D" path="res://NPC/npc mystic A v01.png" id="16_mistica"]
 
 [node name="cenario" type="Node2D"]
 position = Vector2(6, 0)

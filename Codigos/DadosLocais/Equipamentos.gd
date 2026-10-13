@@ -1,5 +1,9 @@
 extends Node
 
+const Raridades := preload("res://Codigos/DadosLocais/raridades.gd")
+const Conjuntos := preload("res://Codigos/DadosLocais/conjuntos_armadura.gd")
+const ARMADURAS_ITENS := {"cabeca_basica": "armadura_cabeca", "armadura_basica": "armadura_corpo", "luvas_basicas": "armadura_luvas", "botas_basicas": "armadura_botas"}
+
 # Familia define qual conjunto de animacoes a arma usa (espada = uma mao, lanca = duas maos)
 const FAMILIAS := {
 	"espada_basica": "espada",
@@ -16,14 +20,16 @@ const NIVEIS_ONDA := [0, 4, 8, 14, 22]
 const NIVEIS_CUSTO := [0, 200, 500, 1000, 2000]
 # Armas compradas na loja. Espadas: sprites em CharacterSprites/Arms/<id>/base_N.png e ataque_N.png.
 # Arcos: sprites em CharacterSprites/Arco/arcos/<codigo>_N_p2.png (parado/andando) e _p3.png (disparo);
-# "tempo_disparo" multiplica a duração da animação de disparo (menor = mais rápido)
+# "tempo_disparo" multiplica a duração da animação de disparo (menor = mais rápido). "flechas" e "abertura_graus": quantas flechas saem de
+# uma vez e o ângulo entre elas (o arco longo atira 3 e é o mais lento). Com a força inicial (5) o dano por segundo de um nível 1 fica em
+# uns 30 (curto), 40 (curvo) e 63 (longo, se as 3 acertam): quanto mais caro o arco, mais ele rende.
 const ARMAS_LOJA := {
 	"espada_gemea": {"nome": "Espada Gêmea", "dano": [9, 13, 20, 30, 43], "preco": 400},
 	"machado": {"nome": "Machado", "dano": [10, 15, 22, 33, 47], "preco": 600},
 	"maca": {"nome": "Maça", "dano": [9, 14, 21, 31, 45], "preco": 500},
 	"arco_curto": {"nome": "Arco Curto", "codigo": "bo02", "duas_maos": true, "tempo_disparo": 0.5, "dano": [10, 15, 22, 33, 47], "preco": 500},
-	"arco_curvo": {"nome": "Arco Curvo", "codigo": "bo01", "duas_maos": true, "tempo_disparo": 0.65, "dano": [14, 20, 30, 44, 62], "preco": 700},
-	"arco_longo": {"nome": "Arco Longo", "codigo": "bo03", "duas_maos": true, "tempo_disparo": 0.8, "dano": [18, 26, 38, 56, 78], "preco": 900},
+	"arco_curvo": {"nome": "Arco Curvo", "codigo": "bo01", "duas_maos": true, "tempo_disparo": 0.6, "dano": [19, 27, 40, 58, 81], "preco": 700},
+	"arco_longo": {"nome": "Arco Longo", "codigo": "bo03", "duas_maos": true, "tempo_disparo": 1.1, "flechas": 3, "abertura_graus": 11.0, "dano": [18, 26, 38, 56, 78], "preco": 900},
 }
 
 var armas = {
@@ -328,10 +334,42 @@ func _montar_arma_loja(id: String) -> Dictionary:
 			"dano": definicao["dano"][i],
 			"custo": NIVEIS_CUSTO[i],
 		}
-	return {"nome": definicao["nome"], "niveis": niveis, "tempo_disparo": definicao.get("tempo_disparo", 1.0)}
+	return {"nome": definicao["nome"], "niveis": niveis, "tempo_disparo": definicao.get("tempo_disparo", 1.0),
+			"flechas": definicao.get("flechas", 1), "abertura_graus": definicao.get("abertura_graus", 0.0)}
 
 static func familia_de(tipo: String) -> String:
 	return FAMILIAS.get(tipo, "")
+
+## Preço de loja das armas que não se compram (o kit inicial); serve de base para vender
+const PRECO_BASICOS := {"espada_basica": 150, "lanca_basica": 250, "escudo_basico": 300}
+## Armas e escudo que podem cair dos inimigos (equipamento com raridade)
+const TIPOS_DROP: Array[String] = ["espada_basica", "espada_gemea", "machado", "maca", "lanca_basica", "arco_curto", "arco_curvo", "arco_longo", "escudo_basico"]
+## Quanto do que o item custou (preço de loja + melhorias na bigorna) o mercador paga, antes do multiplicador da raridade
+const FRACAO_VENDA := 0.3
+
+## Maior nível de arma que a onda já libera na bigorna (NIVEIS_ONDA): é até onde um drop pode vir evoluído
+static func nivel_liberado(onda: int) -> int:
+	var nivel := 1
+	for k in NIVEIS_ONDA.size():
+		if onda >= NIVEIS_ONDA[k]:
+			nivel = k + 1
+	return nivel
+
+static func preco_base(tipo: String) -> int:
+	var conjunto := Conjuntos.de_tipo(tipo)
+	if conjunto != null:
+		return conjunto.PRECO_BASE
+	if ARMAS_LOJA.has(tipo):
+		return int(ARMAS_LOJA[tipo]["preco"])
+	return int(PRECO_BASICOS.get(tipo, 100))
+
+## O que o mercador paga por um equipamento: o investimento (preço de loja + o custo de cada melhoria até o nível dele) x fração x multiplicador
+## da raridade. Assim vender nunca rende mais que comprar e melhorar de novo, e a raridade é o que faz valer a pena guardar ou vender
+static func preco_venda(tipo: String, raridade: String, nivel: int) -> int:
+	var investimento := preco_base(tipo)
+	for k in range(1, clampi(nivel, 1, NIVEIS_CUSTO.size())):
+		investimento += NIVEIS_CUSTO[k]
+	return maxi(roundi(investimento * FRACAO_VENDA * Raridades.multiplicador_preco(raridade)), 1)
 
 func obter_dados_nivel_arma(id_arma: String, nivel: int) -> Dictionary:
 	if not armas.has(id_arma):
@@ -344,6 +382,10 @@ func obter_dados_nivel_arma(id_arma: String, nivel: int) -> Dictionary:
 	return arma["niveis"][nivel]
 
 func obter_dados_nivel_armadura(id_armadura: String, nivel: int) -> Dictionary:
+	var conjunto := Conjuntos.de_tipo(id_armadura)
+	if conjunto != null:
+		return conjunto.dados(id_armadura, nivel)
+	id_armadura = ARMADURAS_ITENS.get(id_armadura, id_armadura)
 	if not armaduras.has(id_armadura):
 		return {}
 	var armadura = armaduras[id_armadura]

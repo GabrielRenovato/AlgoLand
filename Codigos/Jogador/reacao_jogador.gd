@@ -1,7 +1,8 @@
 extends Node2D
 
 # Poses curtas da "página 1" dos pacotes de combate (pONE1, pPOL1 e pBOW1): sacar/guardar a arma,
-# esquiva e ferido. Fica por cima das outras camadas só enquanto a pose dura (visible = false depois).
+# esquiva, ferido e aparar (guarda). Fica por cima das outras camadas só enquanto a pose dura (visible = false depois);
+# "aparar" dura até encerrar() (o jogador segura o botão).
 # Cada folha tem 8x8 quadros; linhas 0-3 = baixo, cima, direita, esquerda.
 
 signal terminou
@@ -11,11 +12,11 @@ const ArcoJogador := preload("res://Codigos/Jogador/arco_jogador.gd")
 const RAIZ := "res://CharacterSprites/Reacao/"
 const QUADROS_POR_LINHA := 8
 const COLUNAS_SACAR: Array[int] = [0, 1, 2]
+const COLUNA_APARAR := 3
 const COLUNA_ESQUIVA := 4
 const COLUNA_FERIDO := 5
 const DURACAO_QUADRO_SACAR := 0.08
-const NUM_CABELOS := 2
-const NUM_ROUPAS := 12
+const Aparencia := preload("res://Codigos/DadosLocais/aparencia.gd")
 const CODIGOS_UM_MAO := {"espada_basica": "sw01", "espada_gemea": "sw02", "machado": "ax01", "maca": "mc01"}
 const CODIGOS_ARCO := {"arco_curvo": "bo01", "arco_curto": "bo02", "arco_longo": "bo03"}
 # Camadas relativas ao corpo (z = 3 em BaseSprites)
@@ -42,6 +43,8 @@ var _linha: int = 0
 var _familia: String = ""
 var _cabelo_aplicado: int = -1
 var _roupa_aplicada: int = -1
+var _pecas_aplicadas: int = -1
+var _raizes_aplicadas: Dictionary = {}
 
 var _corpo: Sprite2D
 var _roupa: Sprite2D
@@ -68,6 +71,9 @@ func _criar_camada(z: int) -> Sprite2D:
 	add_child(sprite)
 	return sprite
 
+# Duração de quem fica até encerrar() (aparar): longa o bastante para nunca acabar sozinha
+const DURACAO_SEGURADA := 3600.0
+
 # familia: "um_mao", "lanca" ou "arco". duracao só vale para "esquiva" e "ferido".
 func tocar(pose: String, direcao: Vector2, familia: String, id_arma: String, nivel_arma: int, nivel_escudo: int, duracao: float = 0.25) -> void:
 	match pose:
@@ -77,6 +83,8 @@ func tocar(pose: String, direcao: Vector2, familia: String, id_arma: String, niv
 			var invertida := COLUNAS_SACAR.duplicate()
 			invertida.reverse()
 			_sequencia = invertida.map(func(coluna): return [coluna, DURACAO_QUADRO_SACAR])
+		"aparar":
+			_sequencia = [[COLUNA_APARAR, DURACAO_SEGURADA]]
 		"esquiva":
 			_sequencia = [[COLUNA_ESQUIVA, duracao]]
 		"ferido":
@@ -90,6 +98,23 @@ func tocar(pose: String, direcao: Vector2, familia: String, id_arma: String, niv
 	_carregar_texturas(id_arma, nivel_arma, nivel_escudo)
 	visible = true
 	_aplicar_quadro()
+
+## Vira a pose em andamento para outra direção (a guarda gira com o jogador)
+func virar(direcao: Vector2) -> void:
+	if not visible or _sequencia.is_empty():
+		return
+	var nova := ArcoJogador.linha_da_direcao(direcao)
+	if nova != _linha:
+		_linha = nova
+		_aplicar_quadro()
+
+## Acaba a pose na hora (soltar a guarda)
+func encerrar() -> void:
+	if not visible:
+		return
+	_sequencia = []
+	visible = false
+	terminou.emit()
 
 func _carregar_texturas(id_arma: String, nivel_arma: int, nivel_escudo: int) -> void:
 	var pasta := RAIZ + _familia + "/"
@@ -141,17 +166,24 @@ func _aplicar_quadro() -> void:
 func _z_da_ordem(chave: String, coluna: int) -> int:
 	return Z_FRENTE if ORDEM[chave][_linha][coluna] == "F" else Z_ATRAS
 
-# Cabelo e roupa escolhidos na customização do jogador
+# Cabelo e roupa escolhidos na criação do personagem, na folha da família da arma (um_mao, lanca ou arco)
 func _sincronizar_aparencia() -> void:
 	if jogador == null:
 		return
-	var pasta := RAIZ + _familia + "/"
-	var cabelo: int = clampi(jogador.cabelo_atual, 0, NUM_CABELOS - 1)
-	var roupa: int = clampi(jogador.roupa_atual, 0, NUM_ROUPAS - 1)
-	if cabelo != _cabelo_aplicado:
-		_cabelo.texture = load(pasta + "cabelo_%d.png" % (cabelo + 1))
+	var pagina := "reacao_" + _familia
+	var cabelo: int = Aparencia.indice_cabelo(jogador.cabelo_atual)
+	var roupa: int = Aparencia.indice_roupa(jogador.roupa_atual)
+	var pecas: int = jogador.pecas_cavaleiro
+	var raizes_lidas = jogador.get("raizes_armadura")
+	var raizes: Dictionary = raizes_lidas if raizes_lidas is Dictionary else {}
+	_corpo.texture = Aparencia.corpo(pagina, roupa, pecas, raizes)
+	if cabelo != _cabelo_aplicado or roupa != _roupa_aplicada or pecas != _pecas_aplicadas or raizes != _raizes_aplicadas:
+		_cabelo.texture = Aparencia.cabelo(cabelo, pagina, roupa, pecas, raizes)
 		_cabelo_aplicado = cabelo
-	if roupa != _roupa_aplicada:
-		_roupa.texture = load(pasta + "roupa_%d.png" % (roupa + 1))
+	if roupa != _roupa_aplicada or pecas != _pecas_aplicadas or raizes != _raizes_aplicadas:
+		_roupa.texture = Aparencia.roupa(roupa, pagina, pecas, raizes)
 		_roupa_aplicada = roupa
+	_pecas_aplicadas = pecas
+	_raizes_aplicadas = raizes.duplicate()
 	_cabelo.modulate = jogador.cor_cabelo
+	Aparencia.aplicar_cartola(_cabelo, _roupa, pagina, roupa, pecas, raizes)

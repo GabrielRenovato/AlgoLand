@@ -2,12 +2,13 @@ extends Control
 
 ## Mística: escolhe a onda inicial da próxima partida (checkpoint), só antes da primeira onda.
 ## A cada chefe derrotado libera a onda seguinte a ele (11, 21...) e paga uma compensação em ouro.
+## Mesmo visual da mochila, da loja e do caldeirão (tema_sidebar.tres, moldura do TileMap.png, título escuro no alto e o X de fechar).
 
 const COR_DESCRICAO := Color(0.75, 0.7, 0.62)
 
 @onready var _lista: VBoxContainer = %ListaCheckpoints
 @onready var _aviso: Label = %Aviso
-@onready var _botao_fechar: Button = %BotaoFechar
+@onready var _botao_fechar: TextureButton = %BotaoFechar
 
 var _grupo := ButtonGroup.new()
 var _botoes: Dictionary = {}

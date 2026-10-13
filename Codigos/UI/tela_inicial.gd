@@ -5,7 +5,7 @@ const Opcoes := preload("res://Codigos/Globais/opcoes_jogo.gd")
 const SpritesCompostos := preload("res://Codigos/Jogador/Sprites-compostos.gd")
 
 const CENA_JOGO := "res://cenas/cenario.tscn"
-const CENA_CUSTOMIZACAO := "res://cenas/customizacao-de-personagem.tscn"
+const CENA_CUSTOMIZACAO := "res://cenas/criacao_personagem.tscn"
 const VALORES_FPS := [30, 60, 120, 0]
 const ROTULOS_FPS := ["30", "60", "120", "SEM LIMITE"]
 const BRILHO_FOCO := Color(1.15, 1.15, 1.15)
@@ -136,6 +136,11 @@ func _montar_opcoes() -> void:
 			%BotaoBotoesMenos, %ValorBotoes, %BotaoBotoesMais)
 	Controle.dicas_alteradas.connect(_atualizar_dica_botoes)
 	_atualizar_dica_botoes()
+	# Celular: não existe tela cheia nem desenho de botões de controle para escolher
+	if Controle.usando_toque:
+		%BotaoTelaCheiaMenos.get_parent().visible = false
+		%BotaoBotoesMenos.get_parent().visible = false
+		%DicaBotoes.visible = false
 	for i in _linhas.size():
 		var anterior: Dictionary = _linhas[maxi(i - 1, 0)]
 		var proxima: Dictionary = _linhas[i + 1] if i + 1 < _linhas.size() else {}

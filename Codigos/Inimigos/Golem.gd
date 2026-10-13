@@ -37,6 +37,10 @@ func _ready() -> void:
 	Sons.tocar("chefe_aparece", 0.0)
 
 func _physics_process(delta: float) -> void:
+	if esta_congelado() and not esta_morto:
+		_atualizar_efeitos(delta)
+		velocity = Vector2.ZERO
+		return
 	_animar(delta)
 	if esta_morto:
 		return
@@ -48,6 +52,8 @@ func _physics_process(delta: float) -> void:
 		aplicar_dano_contato()
 		return
 	super(delta)
+	if esta_congelado():
+		return
 	var alvo := obter_jogador()
 	if alvo and pode_atacar and global_position.distance_to(alvo.global_position) < alcance_ataque:
 		_iniciar_ataque(alvo)
@@ -86,6 +92,7 @@ func morrer() -> void:
 		_indicador.cancelar()
 		_indicador = null
 	esta_morto = true
+	_limpar_gelo_morte()
 	_atacando = false
 	velocity = Vector2.ZERO
 	$colision_body.set_deferred("disabled", true)

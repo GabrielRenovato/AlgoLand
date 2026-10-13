@@ -9,14 +9,15 @@ extends Control
 ##    na cor da raridade.
 ## O cinto some quando não há poção nem efeito ativo (quem nunca fez poção não vê uma casa vazia).
 
+const EstiloSlot := preload("res://Codigos/UI/estilo_slot.gd")
 const TEMA := preload("res://recursos/ui/tema_menu.tres")
 # Planes_ValMore: o Y da CraftPixNet Survival Kit (fonte do tema) parece um "y" minúsculo; letras de botão usam esta
 const FONTE_TECLAS := preload("res://UI/Planes_ValMore.ttf")
 const Pocoes := preload("res://Codigos/DadosLocais/pocoes.gd")
 
 const LADO_CASA := 24
-const COR_FUNDO := Color(0.1, 0.08, 0.06, 0.85)
-const COR_BORDA := Color(1, 0.82, 0.3, 1)
+## No celular a casa cresce um pouco, para o dedo
+const LADO_CASA_TOQUE := 30
 const COR_NOME := Color(1, 0.96, 0.82)
 const COR_AVISO := Color(1, 0.6, 0.5)
 const COR_TECLA := Color(0.75, 0.7, 0.62)
@@ -45,6 +46,8 @@ var _rotulos_efeitos: Dictionary = {}   # efeito -> {"caixa": Control, "tempo": 
 var _tween_nome: Tween
 var _tween_aviso: Tween
 var _tween_semente: Tween
+var _tween_equipamento: Tween
+var _aviso_equipamento: Label
 var _semente_atual := ""
 var _semente_contagem := 0
 var _semente_ate := 0.0
@@ -96,6 +99,10 @@ func _montar() -> void:
 	_aviso_semente.name = "AvisoSemente"
 	_aviso_semente.modulate.a = 0.0
 	_coluna.add_child(_aviso_semente)
+	_aviso_equipamento = _novo_rotulo(COR_AVISO)
+	_aviso_equipamento.name = "AvisoEquipamento"
+	_aviso_equipamento.modulate.a = 0.0
+	_coluna.add_child(_aviso_equipamento)
 	_aviso = _novo_rotulo(COR_AVISO)
 	_aviso.name = "Aviso"
 	_aviso.modulate.a = 0.0
@@ -127,20 +134,24 @@ func _montar() -> void:
 	_tecla_beber.name = "TeclaBeber"
 	_linha_cinto.add_child(_tecla_beber)
 
+func _ao_casa_tocada(evento: InputEvent) -> void:
+	if efeitos != null and evento is InputEventMouseButton and evento.pressed and evento.button_index == MOUSE_BUTTON_LEFT:
+		efeitos.trocar(1)
+		accept_event()
+
 func _nova_casa() -> Control:
 	var casa := Control.new()
 	casa.name = "Casa"
-	casa.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	casa.custom_minimum_size = Vector2(LADO_CASA, LADO_CASA)
+	# Tocar (ou clicar) na casa passa para a próxima poção: no celular não há Q/E
+	casa.mouse_filter = Control.MOUSE_FILTER_STOP
+	casa.add_to_group("toque_hud")
+	casa.gui_input.connect(_ao_casa_tocada)
+	var lado := LADO_CASA_TOQUE if Controle.usando_toque else LADO_CASA
+	casa.custom_minimum_size = Vector2(lado, lado)
 	var fundo := Panel.new()
 	fundo.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	fundo.set_anchors_preset(Control.PRESET_FULL_RECT)
-	var estilo := StyleBoxFlat.new()
-	estilo.bg_color = COR_FUNDO
-	estilo.set_border_width_all(2)
-	estilo.border_color = COR_BORDA
-	estilo.set_corner_radius_all(2)
-	fundo.add_theme_stylebox_override("panel", estilo)
+	fundo.add_theme_stylebox_override("panel", EstiloSlot.caixa())
 	casa.add_child(fundo)
 	_icone = TextureRect.new()
 	_icone.name = "Icone"
@@ -177,6 +188,9 @@ func _atualizar_teclas() -> void:
 	_tecla_anterior.text = Controle.rotulo_acao("ferramenta_anterior")
 	_tecla_proxima.text = Controle.rotulo_acao("ferramenta_proxima")
 	_tecla_beber.text = Controle.rotulo_acao("usar_pocao") + " BEBER"
+	# No celular os botões da tela já têm o nome: as dicas de tecla só ocupariam lugar
+	for rotulo in [_tecla_anterior, _tecla_proxima, _tecla_beber]:
+		rotulo.visible = not Controle.usando_toque
 
 func _ao_selecao_alterada(id: String) -> void:
 	_atualizar()
@@ -240,6 +254,11 @@ func avisar_semente(id: String) -> void:
 		texto += " (%s)" % String(Fazenda.NOME_RARIDADE[raridade])
 	_aviso_semente.add_theme_color_override("font_color", Fazenda.COR_RARIDADE.get(raridade, COR_SEMENTE))
 	_mostrar(_aviso_semente, texto, JANELA_SEMENTE, "_tween_semente")
+
+## Equipamento recolhido ou vendido, ou mochila cheia: texto na cor da raridade
+func avisar_equipamento(texto: String, cor: Color) -> void:
+	_aviso_equipamento.add_theme_color_override("font_color", cor)
+	_mostrar(_aviso_equipamento, texto, DURACAO_AVISO, "_tween_equipamento")
 
 func _mostrar(rotulo: Label, texto: String, duracao: float, campo_tween: String) -> void:
 	rotulo.text = texto

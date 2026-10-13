@@ -1,0 +1,107 @@
+{
+  "versao": 1,
+  "id": "carrasco",
+  "nome": "Carrasco",
+  "raridade": "lendario",
+  "arte": "res://CharacterSprites/ArmaduraTeste/conceitos/set_cavaleiro_v1.png",
+  "destino": "res://CharacterSprites/ArmaduraCavaleiro/",
+  "onda_minima": 14,
+  "chances_drop": {
+    "normal": 0.05,
+    "mutante": 0.1,
+    "chefe": 0.2
+  },
+  "preco_base": 900,
+  "bonus": {
+    "tipo": "raio",
+    "pecas": 4,
+    "chance": 0.1,
+    "recarga": 2.0,
+    "multiplicador_dano": 2.0,
+    "aviso": 0.12
+  },
+  "bases": {
+    "cabeca": {
+      "vitalidade": [
+        2,
+        3,
+        5,
+        7,
+        9
+      ],
+      "defesa": [
+        2,
+        4,
+        7,
+        10,
+        14
+      ]
+    },
+    "corpo": {
+      "vitalidade": [
+        3,
+        5,
+        8,
+        11,
+        15
+      ],
+      "defesa": [
+        3,
+        6,
+        10,
+        15,
+        20
+      ]
+    },
+    "luvas": {
+      "vitalidade": [
+        1,
+        2,
+        3,
+        4,
+        6
+      ],
+      "defesa": [
+        1,
+        2,
+        4,
+        6,
+        9
+      ]
+    },
+    "botas": {
+      "vitalidade": [
+        1,
+        2,
+        3,
+        4,
+        6
+      ],
+      "defesa": [
+        1,
+        2,
+        4,
+        6,
+        9
+      ]
+    }
+  },
+  "recortes": {
+    "fim_elmo": 0.46,
+    "fim_peitoral": 0.76
+  },
+  "paleta": [
+    "141820",
+    "252a32",
+    "35434e",
+    "526674",
+    "7c96a5",
+    "aec5cd",
+    "dce9e8",
+    "f3f3df",
+    "2b1e20",
+    "493033",
+    "6b4641",
+    "956852"
+  ]
+}

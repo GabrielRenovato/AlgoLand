@@ -33,6 +33,8 @@ static var _impactos: Array[Texture2D] = []
 var raio_area := RAIO_AREA
 var dano_inimigo := 0
 var dano_jogador := 0
+## Raios aliados usam dano integral nos chefes; a tempestade mantém sua redução.
+var fracao_dano_chefe := FRACAO_DANO_CHEFE
 var caiu := false
 ## Quantos alvos o último raio atingiu (para testes e depuração)
 var atingidos_inimigos := 0
@@ -108,7 +110,7 @@ func _causar_dano() -> void:
 			continue
 		var dano := dano_inimigo
 		if bool(inimigo.get("eh_chefe")):
-			dano = maxi(1, roundi(dano * FRACAO_DANO_CHEFE))
+			dano = maxi(1, roundi(dano * fracao_dano_chefe))
 		inimigo.call("receber_dano", dano, _direcao_empurrao(inimigo.global_position) * FORCA_EMPURRAO)
 		atingidos_inimigos += 1
 	atingiu_jogador = false

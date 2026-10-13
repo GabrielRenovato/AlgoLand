@@ -218,7 +218,29 @@ func _rodar() -> void:
 	tela.get_node("%BotaoSim").pressed.emit()
 	await _quadros(2)
 	_verificar("SIM fecha a tela e comeca o sono (Transicao ocupada)", not tela.visible and _transicao.ocupada, "")
+	# a cama fica ocupada: o jogador some (o Character Base nao tem pose deitada), o cobertor respira e os Z sobem
+	var cama_sprite: Node = casa.get_node("Objetos3D/CamaDormindo")
+	await _quadros(5)
+	_verificar("cama ocupada: jogador some, cobertor e Z na cama", cama_sprite.deitado and not jogador.visible and cama_sprite.get_node_or_null("Cobertor") != null
+			and get_nodes_in_group("z_dormindo").size() >= 1 and not _transicao.esta_escuro(), "deitado=%s visivel=%s" % [cama_sprite.deitado, jogador.visible])
+	var cabeca: Node = cama_sprite.get_node_or_null("Cabeca")
+	_verificar("a cabeca do jogador aparece no travesseiro (corpo, roupa e cabelo dele recortados) com os olhos fechados",
+			cabeca != null and cabeca.get_node_or_null("sprite_corpo") != null and cabeca.get_node_or_null("sprite_cabelo") != null
+			and cabeca.get_node("sprite_cabelo").texture == jogador.sprite_cabelo.texture and cabeca.get_node("sprite_corpo").region_enabled
+			and cabeca.get_child_count() >= 3 + 4 and cabeca.get_index() < cama_sprite.get_node("Cobertor").get_index(), "")
+	var escala_min := 9.0
+	var escala_max := 0.0
+	for i in 70:
+		await process_frame
+		if is_instance_valid(cama_sprite.get_node_or_null("Cobertor")):
+			var e: float = cama_sprite.get_node("Cobertor").scale.y
+			escala_min = minf(escala_min, e)
+			escala_max = maxf(escala_max, e)
+	_verificar("o cobertor respira (a escala em y sobe e desce)", escala_max - escala_min > 0.02, "%.3f..%.3f" % [escala_min, escala_max])
 	_verificar("dormiu (sinal)", await _esperar(_transicao.dormiu, 12.0), "")
+	_verificar("acordou: jogador de volta, cama normal (sem cabeca, cobertor nem Z)", jogador.visible and not cama_sprite.deitado and cama_sprite.get_node_or_null("Cobertor") == null
+			and not is_instance_valid(cabeca)
+			and get_nodes_in_group("z_dormindo").is_empty(), "")
 	_verificar("dormir: dia 8, verao (a estacao virou)", _calendario.dia == 8 and _calendario.estacao() == 1, "dia=%d" % _calendario.dia)
 	_verificar("dormir: cura total e estamina cheia", jogador.hp_atual == jogador.estatisticas.hp_maximo and is_equal_approx(jogador.stamina, jogador.stamina_maxima), "hp=%d stamina=%.1f" % [jogador.hp_atual, jogador.stamina])
 	_verificar("dormir: calendario salvo (dia 8)", int(JSON.parse_string(FileAccess.get_file_as_string(CAMINHO_CALENDARIO)).get("dia", 0)) == 8, "")
@@ -351,8 +373,40 @@ func _testar_colisoes_casa(casa: Node, _jogador_no: Node) -> void:
 	_verificar("casa: paredes (norte, lados, sul) bloqueiam", ok_paredes, "")
 	_verificar("casa: o vao da porta e o centro do piso estao livres", not _ponto_bloqueado(espaco, Vector2(96, 120)) and not _ponto_bloqueado(espaco, Vector2(96, 50)), "")
 	_verificar("casa: cama, bau, estante e mesa bloqueiam", _ponto_bloqueado(espaco, Vector2(40, 40)) and _ponto_bloqueado(espaco, Vector2(96, 13)) and _ponto_bloqueado(espaco, Vector2(152, 20)) and _ponto_bloqueado(espaco, Vector2(136, 96)), "")
-	var cama: Node = casa.get_node("Cama")
 	_verificar("casa: a chegada ao acordar (Chegada_cama) esta livre", not _ponto_bloqueado(espaco, casa.get_node("Chegada_cama").global_position + Vector2(0, 9)), "")
+	# A colisao da cama tem a largura exata do desenho (24..56): o jogador encosta de lado, sem folga artificial
+	# (so o circulo de 5 px de raio dos pes: um ponto a 5 px da borda ainda toca, a 6 px ja esta livre)
+	_verificar("casa: a colisao da cama e exata (encosta de lado, sem alargar)", _ponto_bloqueado(espaco, Vector2(60, 40)) and not _ponto_bloqueado(espaco, Vector2(62, 40))
+			and _ponto_bloqueado(espaco, Vector2(20, 40)) and not _ponto_bloqueado(espaco, Vector2(18, 40)), "")
+	# A cama e fatiada em faixas de profundidade (alinhadas a grade de 8 px): o jogador do lado fica NA FRENTE das faixas da
+	# altura dele e atras so das que estao abaixo dos pes dele (uma cama inteira com z pela base cortava o jogador encostado)
+	var Prof := preload("res://Codigos/Globais/profundidade.gd")
+	var faixas: Array = []
+	for filho in casa.get_node("Objetos3D").get_children():
+		if filho.name.begins_with("Cama_f"):
+			faixas.append(filho)
+	_verificar("casa: a cama e feita de faixas horizontais (uma por faixa de 8 px da profundidade)", faixas.size() >= 7 and faixas.size() <= 9, "faixas=%d" % faixas.size())
+	var soma_alturas := 0.0
+	var contiguas := true
+	var anterior_base := -1.0
+	for f in faixas:
+		var h: float = f.texture.get_size().y
+		soma_alturas += h
+		var topo: float = f.position.y + f.offset.y
+		contiguas = contiguas and (anterior_base < 0.0 or absf(topo - anterior_base) < 0.01)
+		anterior_base = topo + h
+	_verificar("casa: as faixas somam os 58 px da cama, sem buracos nem sobreposicao", is_equal_approx(soma_alturas, 58.0) and contiguas, "soma=%.1f" % soma_alturas)
+	var z_do_jogador_ao_lado: int = Prof.z_de(36.0)   # pes do jogador no meio da cama
+	var atras_do_jogador := 0
+	var na_frente := 0
+	for f in faixas:
+		if f.z_index <= z_do_jogador_ao_lado:
+			atras_do_jogador += 1
+		else:
+			na_frente += 1
+	_verificar("casa: jogador ao lado (pes y=36): as faixas da altura dele ficam atras e so as de baixo na frente", atras_do_jogador >= 3 and na_frente >= 3, "atras=%d frente=%d" % [atras_do_jogador, na_frente])
+	var z_pes_abaixo: int = Prof.z_de(66.0)
+	_verificar("casa: jogador no pe da cama (y>=60): na frente de todas as faixas", faixas.all(func(f): return f.z_index <= z_pes_abaixo), "")
 
 # Ponto do chao (onde fica o circulo de colisao dos pes do jogador: raio 5) toca algum corpo da camada "mundo" (64)?
 func _ponto_bloqueado(espaco: PhysicsDirectSpaceState2D, ponto: Vector2) -> bool:

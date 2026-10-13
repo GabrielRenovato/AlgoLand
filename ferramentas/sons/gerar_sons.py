@@ -458,6 +458,40 @@ def pegar_semente():
     ]
 
 
+def aparo():
+    """Aparo perfeito: clangor de metal (dois tons altos que ressoam) sobre uma batida seca."""
+    return [
+        voz("ruido", 3800, 1500, dur=0.06, ataque=0.001, decaimento=0.02, sustentacao=0.3, liberacao=0.03,
+            filtro_ini=0.8, filtro_fim=0.4, volume=0.8, semente=701),
+        voz("quadrada", 1900, 1750, dur=0.26, ataque=0.001, decaimento=0.08, sustentacao=0.3, liberacao=0.12,
+            duty=0.125, vibrato_hz=22, vibrato_prof=0.01, volume=0.6, semente=702),
+        voz("quadrada", 2870, 2700, dur=0.2, ataque=0.001, decaimento=0.06, sustentacao=0.25, liberacao=0.1,
+            duty=0.25, volume=0.4, semente=703),
+    ]
+
+
+def bloqueio():
+    """Golpe segurado pela guarda: pancada abafada, sem o brilho do aparo perfeito."""
+    return [
+        voz("ruido", 1500, 380, dur=0.09, ataque=0.001, decaimento=0.03, sustentacao=0.3, liberacao=0.05,
+            filtro_ini=0.5, filtro_fim=0.2, volume=0.8, semente=711),
+        voz("quadrada", 200, 62, dur=0.12, ataque=0.001, decaimento=0.05, sustentacao=0.4, liberacao=0.06,
+            duty=0.5, volume=0.7, semente=712),
+    ]
+
+
+def escudada():
+    """Empurrao com o escudo: um chiado de ar e uma pancada grave logo depois."""
+    return [
+        voz("ruido", 2400, 700, dur=0.14, ataque=0.004, decaimento=0.05, sustentacao=0.4, liberacao=0.06,
+            filtro_ini=0.45, filtro_fim=0.2, volume=0.55, semente=721),
+        voz("quadrada", 150, 45, dur=0.16, inicio=0.07, ataque=0.001, decaimento=0.06, sustentacao=0.45, liberacao=0.08,
+            duty=0.5, volume=0.8, semente=722),
+        voz("ruido", 1200, 300, dur=0.1, inicio=0.07, ataque=0.001, decaimento=0.03, sustentacao=0.3, liberacao=0.06,
+            filtro_ini=0.5, filtro_fim=0.2, volume=0.7, semente=723),
+    ]
+
+
 # nome -> (nivel de pico, funcao). O nivel varia para balancear o volume entre os sons
 SONS = {
     "golpe_espada": (0.75, golpe_espada),
@@ -489,6 +523,9 @@ SONS = {
     "caldeirao": (0.7, caldeirao),
     "beber": (0.7, beber),
     "pegar_semente": (0.55, pegar_semente),
+    "aparo": (0.75, aparo),
+    "bloqueio": (0.7, bloqueio),
+    "escudada": (0.75, escudada),
 }
 # Sons que se repetem em loop (sem o fade de 2 ms no fim)
 SONS_EM_LOOP = {"chuva"}

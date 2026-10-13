@@ -1,0 +1,43 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://Codigos/Inimigos/dragao_vermelho.gd" id="1"]
+[ext_resource type="Texture2D" path="res://inimigos/dragao_vermelho/movimento.png" id="2"]
+
+[sub_resource type="RectangleShape2D" id="corpo"]
+size = Vector2(38, 20)
+
+[sub_resource type="RectangleShape2D" id="contato"]
+size = Vector2(42, 46)
+
+[node name="DragaoVermelho" type="CharacterBody2D" groups=["enemy", "boss_dragao"]]
+collision_layer = 0
+collision_mask = 64
+script = ExtResource("1")
+velocidade = 28.0
+aceleracao = 220.0
+raio_parada = 46.0
+alcance_separacao = 48.0
+dano = 18.0
+vida = 420
+usar_barra_vida = false
+altura_pes = 10.0
+
+[node name="Texture" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(0, -46)
+texture = ExtResource("2")
+hframes = 6
+vframes = 4
+
+[node name="colision_body" type="CollisionShape2D" parent="."]
+shape = SubResource("corpo")
+
+[node name="ataque" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+monitoring = false
+monitorable = false
+
+[node name="attack_colision_player" type="CollisionShape2D" parent="ataque"]
+position = Vector2(0, -14)
+shape = SubResource("contato")

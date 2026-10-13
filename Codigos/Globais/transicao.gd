@@ -16,6 +16,8 @@ signal dormiu
 const DURACAO_SAIDA := 0.35
 const DURACAO_ENTRADA := 0.45
 const DURACAO_DORMIR := 0.7
+## Quanto a cama fica ocupada (respirando, com os Z) antes de a tela escurecer
+const TEMPO_NA_CAMA := 1.3
 const HORA_ACORDAR := 6.0
 const CAMADA := 100
 const QUADROS_ESPERA_CHEGADA := 3
@@ -79,19 +81,28 @@ func dormir(ponto_acordar := "") -> void:
 	var jogador := _obter_jogador()
 	if jogador != null:
 		jogador.desabilitar_todas_acoes(true)
+	# Na casa o jogador se deita (some) e a cama respira um instante antes do fade; fora dela (apagou na arena ou na
+	# fazenda) vai direto para o escuro
+	var cama := get_tree().get_first_node_in_group("cama")
+	if cama != null and cama.has_method("deitar"):
+		cama.deitar()
+		await get_tree().create_timer(TEMPO_NA_CAMA).timeout
 	await escurecer(DURACAO_DORMIR)
 	Calendario.dormir()
 	Progresso.salvar()
 	InventarioJogador.salvar()
 	hora_salva = HORA_ACORDAR
 	var luz := get_tree().get_first_node_in_group("iluminacao")
-	if luz != null and "hora" in luz:
-		luz.hora = HORA_ACORDAR
+	if luz != null and luz.has_method("definir_hora"):
+		luz.definir_hora(HORA_ACORDAR)
 		luz._aplicar()
 	if jogador != null:
 		jogador.descansar()
 		_posicionar(jogador, ponto_acordar)
 	await get_tree().create_timer(0.5).timeout
+	# A cama volta ao normal e o jogador reaparece ao lado dela, ainda no escuro
+	if is_instance_valid(cama) and cama.has_method("levantar"):
+		cama.levantar()
 	await clarear(DURACAO_DORMIR)
 	if jogador != null and is_instance_valid(jogador):
 		jogador.desabilitar_todas_acoes(false)

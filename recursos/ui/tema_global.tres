@@ -5,14 +5,15 @@
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_dica"]
 content_margin_left = 7.0
-content_margin_top = 4.0
+content_margin_top = 5.0
 content_margin_right = 7.0
 content_margin_bottom = 7.0
 texture = ExtResource("2_moldura")
-texture_margin_left = 5.0
-texture_margin_top = 5.0
-texture_margin_right = 5.0
-texture_margin_bottom = 5.0
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 4.0
+region_rect = Rect2(1, 1, 19, 17)
 
 [resource]
 TooltipLabel/colors/font_color = Color(0.93, 0.9, 0.85, 1)

@@ -3,6 +3,7 @@ extends Control
 const IconesItens := preload("res://Codigos/UI/icones_itens.gd")
 const Equipamentos := preload("res://Codigos/DadosLocais/Equipamentos.gd")
 const Encantamentos := preload("res://Codigos/DadosLocais/encantamentos.gd")
+const Raridades := preload("res://Codigos/DadosLocais/raridades.gd")
 
 # As fontes pixel do jogo não têm acentos nem "→"; os textos do painel usam ASCII
 const PREFIXO_ARMA_LOJA := "arma:"
@@ -57,6 +58,15 @@ var _botao_item_loja: Button
 @onready var _requisitos_upgrade: Label = %RequisitosUpgrade
 @onready var _bloqueio_upgrade: Label = %BloqueioUpgrade
 @onready var _botao_melhorar: Button = %BotaoMelhorar
+@onready var _aba_vender: Button = %AbaVender
+@onready var _painel_vender: Control = %Vender
+@onready var _slot_venda: Control = %SlotVenda
+@onready var _rotulo_vender: Label = %RotuloVender
+@onready var _info_venda: Control = %InfoVenda
+@onready var _titulo_venda: Label = %TituloVenda
+@onready var _detalhe_venda: Label = %DetalheVenda
+@onready var _valor_venda: Label = %ValorVenda
+@onready var _botao_vender: Button = %BotaoVender
 @onready var _rotulo_moedas: Label = %RotuloMoedas
 @onready var _botao_iniciar_onda: Button = %BotaoIniciarOnda
 
@@ -65,6 +75,11 @@ func _ready() -> void:
 	_aba_encantar.pressed.connect(_mostrar_aba.bind(_painel_encantar))
 	_aba_loja.pressed.connect(_mostrar_aba.bind(_painel_loja))
 	_aba_bigorna.pressed.connect(_mostrar_aba.bind(_painel_bigorna))
+	_aba_vender.pressed.connect(_mostrar_aba.bind(_painel_vender))
+	_botao_vender.pressed.connect(_ao_vender_pressionado)
+	_botao_vender.set_meta(Sons.META_SOM_PROPRIO, true)
+	_slot_venda.item_alterado.connect(_ao_item_venda_alterado)
+	_slot_venda.pediu_item.connect(_ao_slot_vazio_confirmado.bind(_slot_venda))
 	%BotaoFechar.pressed.connect(_fechar)
 	_botao_encantar.pressed.connect(_ao_encantar_pressionado)
 	_botao_comprar.pressed.connect(_comprar_item_selecionado)
@@ -104,21 +119,27 @@ func _ao_visibilidade_alterada() -> void:
 	else:
 		_slot_encantar.limpar()
 		_slot_bigorna.limpar()
+		_slot_venda.limpar()
 
 func _mostrar_aba(painel: Control) -> void:
 	if _mensagem != null:
 		_mensagem.hide()
-	for aba in [_painel_encantar, _painel_loja, _painel_bigorna]:
+	for aba in [_painel_encantar, _painel_loja, _painel_bigorna, _painel_vender]:
 		aba.visible = aba == painel
 	# Um item só pode estar num slot por vez; a aba escondida devolve o dela
 	if painel != _painel_encantar:
 		_slot_encantar.limpar()
 	if painel != _painel_bigorna:
 		_slot_bigorna.limpar()
+	if painel != _painel_vender:
+		_slot_venda.limpar()
 	if painel == _painel_encantar:
 		atualizar_painel_encantar()
 	elif painel == _painel_bigorna:
 		atualizar_painel_upgrade()
+	elif painel == _painel_vender:
+		_atualizar_venda()
+
 func _tem_arma_equipada(jogador: Node) -> bool:
 	return jogador.usando_espada or jogador.usando_lanca or jogador.usando_arco or jogador.usando_escudo
 
@@ -147,6 +168,8 @@ func _avisar_recusa(origem: Control) -> void:
 		return
 	if _painel_bigorna.visible:
 		mostrar_mensagem("SO ARMAS E ESCUDO VAO NA BIGORNA")
+	elif _painel_vender.visible:
+		mostrar_mensagem("SO EQUIPAMENTO DA MOCHILA SE VENDE" if InventarioJogador.indice_de(origem.dados) == -1 else "ISSO NAO SE VENDE")
 	elif _painel_encantar.visible:
 		var escudo: bool = origem.obter_tipo_item() == "escudo_basico"
 		mostrar_mensagem("ESCUDO NAO PODE SER ENCANTADO" if escudo else "SO ARMAS DE ATAQUE PODEM SER ENCANTADAS")
@@ -162,7 +185,7 @@ func _ao_slot_vazio_confirmado(slot: Control) -> void:
 		slot.colocar_item(equipado)
 		return
 	var candidato: Control = inventario.primeiro_slot_que_serve(slot)
-	var acao := "ENCANTAR" if slot == _slot_encantar else "MELHORAR"
+	var acao := "ENCANTAR" if slot == _slot_encantar else ("VENDER" if slot == _slot_venda else "MELHORAR")
 	if candidato == null:
 		mostrar_mensagem("VOCE NAO TEM ARMA PARA %s" % acao)
 		return
@@ -192,15 +215,17 @@ func destino_do_item(origem: Control) -> String:
 	var slot := _slot_que_recebe(origem)
 	if slot == _slot_bigorna:
 		return "NA BIGORNA"
+	if slot == _slot_venda:
+		return "PARA VENDER"
 	return "NO ENCANTO" if slot == _slot_encantar else ""
 
 func _slot_que_recebe(origem: Control) -> Control:
 	if not is_visible_in_tree():
 		return null
-	for par in [[_painel_bigorna, _slot_bigorna], [_painel_encantar, _slot_encantar]]:
+	for par in [[_painel_bigorna, _slot_bigorna], [_painel_encantar, _slot_encantar], [_painel_vender, _slot_venda]]:
 		var painel: Control = par[0]
 		var slot: Control = par[1]
-		if painel.visible and slot.aceita_tipo_item(origem.obter_tipo_item()):
+		if painel.visible and slot.aceita_item(origem):
 			return slot
 	return null
 
@@ -221,7 +246,7 @@ func _unhandled_input(evento: InputEvent) -> void:
 		passo = 1
 	if passo == 0:
 		return
-	var abas: Array[Button] = [_aba_encantar, _aba_loja, _aba_bigorna]
+	var abas: Array[Button] = [_aba_encantar, _aba_loja, _aba_bigorna, _aba_vender]
 	var atual := 0
 	for i in abas.size():
 		if abas[i].button_pressed:
@@ -385,6 +410,9 @@ func _atualizar_detalhe_arma(tipo: String) -> void:
 	_nome_item.text = DadosItem.NOMES[tipo]
 	var tipo_arma := "ARCO DE DUAS MAOS" if definicao.get("duas_maos", false) else "ARMA DE UMA MAO"
 	_descricao_item.text = "%s  DANO BASE %d  EVOLUI ATE NV 5" % [tipo_arma, definicao["dano"][0]]
+	if int(definicao.get("flechas", 1)) > 1:
+		# o arco longo: o dano é de cada flecha
+		_descricao_item.text = "%s  %d FLECHAS POR TIRO, MAIS LENTO  DANO BASE %d CADA  EVOLUI ATE NV 5" % [tipo_arma, int(definicao["flechas"]), definicao["dano"][0]]
 	_preco_item.text = str(definicao["preco"])
 	var pode_comprar: bool = DadosJogo.moedas >= int(definicao["preco"])
 	_preco_item.modulate = COR_TEXTO_OK if pode_comprar else COR_TEXTO_BLOQUEADO
@@ -430,10 +458,6 @@ func _comprar_item_selecionado() -> void:
 func _ao_item_slot_alterado(_tem_item: bool) -> void:
 	atualizar_painel_upgrade()
 
-func _nivel_atual_do_item(tipo_item: String) -> int:
-	var item = InventarioJogador.buscar_por_tipo(tipo_item)
-	return item.nivel if item != null else 0
-
 # Vazio se não há item válido na bigorna
 func _dados_upgrade() -> Dictionary:
 	var item: Node = _slot_bigorna.item_atual
@@ -441,15 +465,19 @@ func _dados_upgrade() -> Dictionary:
 	if item == null or jogador == null or not Equipamentos.FAMILIAS.has(item.obter_tipo_item()):
 		return {}
 	var tipo_item: String = item.obter_tipo_item()
-	var nivel: int = _nivel_atual_do_item(tipo_item)
+	# O nível e a raridade são do item que está na bigorna (a instância), não do primeiro do mesmo tipo
+	var nivel: int = item.dados.nivel
+	var raridade: String = item.dados.raridade
 	var proximo: Dictionary = _equipamentos.obter_dados_nivel_arma(tipo_item, nivel + 1)
 	var gerenciador_ondas := get_tree().get_first_node_in_group("gerenciador_ondas")
 	var onda_atual: int = gerenciador_ondas.onda_atual if gerenciador_ondas != null else 0
 	var custo: int = proximo.get("custo", 0)
 	var onda_necessaria: int = proximo.get("onda_necessaria", 0)
 	return {
+		"item": item.dados,
 		"tipo_item": tipo_item,
 		"nivel": nivel,
+		"raridade": raridade,
 		"atual": _equipamentos.obter_dados_nivel_arma(tipo_item, nivel),
 		"proximo": proximo,
 		"custo": custo,
@@ -470,6 +498,8 @@ func atualizar_painel_upgrade() -> void:
 
 	var nome: String = DadosItem.NOMES[dados["tipo_item"]]
 	var nivel: int = dados["nivel"]
+	var raridade: String = dados["raridade"]
+	_titulo_upgrade.add_theme_color_override("font_color", Raridades.cor(raridade))
 	var atual: Dictionary = dados["atual"]
 	var proximo: Dictionary = dados["proximo"]
 	if proximo.is_empty():
@@ -484,10 +514,10 @@ func atualizar_painel_upgrade() -> void:
 	_titulo_upgrade.text = "%s NV %d > %d" % [nome, nivel, nivel + 1]
 	if dados["tipo_item"] == "escudo_basico":
 		_atributos_upgrade.text = "DEF %d > %d  VIT %d > %d" % [
-			atual.get("bonus_defesa", 0), proximo.get("bonus_defesa", 0),
-			atual.get("bonus_vitalidade", 0), proximo.get("bonus_vitalidade", 0)]
+			Raridades.escalar(atual.get("bonus_defesa", 0), raridade), Raridades.escalar(proximo.get("bonus_defesa", 0), raridade),
+			Raridades.escalar(atual.get("bonus_vitalidade", 0), raridade), Raridades.escalar(proximo.get("bonus_vitalidade", 0), raridade)]
 	else:
-		_atributos_upgrade.text = "DANO %d > %d" % [atual.get("dano", 0), proximo.get("dano", 0)]
+		_atributos_upgrade.text = "DANO %d > %d" % [Raridades.escalar(atual.get("dano", 0), raridade), Raridades.escalar(proximo.get("dano", 0), raridade)]
 
 	_requisitos_upgrade.text = "CUSTO %d MOEDAS" % dados["custo"]
 	_requisitos_upgrade.modulate = COR_TEXTO_OK if dados["moedas_ok"] else COR_TEXTO_BLOQUEADO
@@ -506,10 +536,50 @@ func _ao_melhorar_pressionado() -> void:
 	jogador.gastar_moedas(dados["custo"])
 	Sons.tocar("melhoria", 0.0)
 	atualizar_exibicao_moedas()
-	jogador.iniciar_forja(dados["tipo_item"])
+	jogador.iniciar_forja(dados["item"])
 	_slot_bigorna.limpar()
 	await get_tree().create_timer(0.1).timeout
 	_fechar()
+
+# --- Vender ---
+
+func _ao_item_venda_alterado(_tem_item: bool) -> void:
+	_atualizar_venda()
+
+## O que o mercador paga pelo item do slot de venda
+func _valor_do_item_venda() -> int:
+	var item: Node = _slot_venda.item_atual
+	if item == null or item.dados == null:
+		return 0
+	return Equipamentos.preco_venda(item.dados.tipo, item.dados.raridade, item.dados.nivel)
+
+func _atualizar_venda() -> void:
+	var item: Node = _slot_venda.item_atual
+	_rotulo_vender.visible = item == null
+	_info_venda.visible = item != null
+	_botao_vender.disabled = item == null
+	if item == null:
+		return
+	var dados: DadosItem = item.dados
+	_titulo_venda.text = "%s NV %d" % [dados.nome(), dados.nivel]
+	_titulo_venda.add_theme_color_override("font_color", dados.cor_raridade())
+	var detalhe := dados.nome_raridade()
+	for id in dados.afixos:
+		detalhe += "  " + Raridades.texto_afixo(id, dados.afixos[id])
+	_detalhe_venda.text = detalhe
+	_valor_venda.text = "VALE %d MOEDAS" % _valor_do_item_venda()
+
+func _ao_vender_pressionado() -> void:
+	var item: Node = _slot_venda.item_atual
+	if item == null or item.dados == null or not InventarioJogador.remover_da_mochila(item.dados):
+		Sons.tocar("erro", 0.0)
+		return
+	var valor := _valor_do_item_venda()
+	_slot_venda.limpar()
+	DadosJogo.adicionar_moedas(valor)
+	InventarioJogador.salvar()
+	atualizar_exibicao_moedas()
+	_atualizar_venda()
 
 # --- Encantar ---
 

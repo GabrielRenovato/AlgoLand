@@ -8,6 +8,8 @@ signal brasas_alteradas(brasas: int)
 signal melhorias_alteradas
 signal morador_contratado(id: String)
 signal checkpoint_alterado(onda: int)
+## A maior onda já vencida subiu (libera as linhas extras da mochila, ver modelo_inventario.gd)
+signal onda_vencida_alterada(onda: int)
 
 const CAMINHO_SAVE := "user://progresso.json"
 const NIVEL_MAXIMO := 5
@@ -44,6 +46,8 @@ const MORADORES := {
 # --- Dados permanentes ---
 var brasas: int = 0
 var recorde_onda: int = 0
+## Maior onda já VENCIDA (concluída), em qualquer partida; permanente como as melhorias
+var maior_onda_vencida: int = 0
 var melhorias: Dictionary = {}
 var moradores: Dictionary = {}
 ## Onda do maior chefe já derrotado (10, 20...); 0 se nenhum
@@ -110,6 +114,10 @@ func registrar_onda_concluida(onda: int, chefe: bool, bonus: bool) -> void:
 		bonus_concluidos += 1
 	else:
 		ondas_concluidas += 1
+		if onda > maior_onda_vencida:
+			maior_onda_vencida = onda
+			salvar()
+			onda_vencida_alterada.emit(maior_onda_vencida)
 	if chefe:
 		registrar_chefe(onda)
 
@@ -179,6 +187,7 @@ func comprar_melhoria(id: String) -> bool:
 	salvar()
 	brasas_alteradas.emit(brasas)
 	melhorias_alteradas.emit()
+	onda_vencida_alterada.emit(maior_onda_vencida)
 	return true
 
 ## Efeito total da melhoria no nível atual (fração para as porcentagens, ouro para a bolsa)
@@ -256,6 +265,7 @@ func salvar() -> bool:
 	var dados := {
 		"brasas": brasas,
 		"recorde_onda": recorde_onda,
+		"maior_onda_vencida": maior_onda_vencida,
 		"melhorias": melhorias,
 		"moradores": moradores,
 		"checkpoint_max": checkpoint_max,
@@ -272,6 +282,7 @@ func carregar() -> bool:
 		return false
 	brasas = maxi(int(dados.get("brasas", 0)), 0)
 	recorde_onda = maxi(int(dados.get("recorde_onda", 0)), 0)
+	maior_onda_vencida = maxi(int(dados.get("maior_onda_vencida", 0)), 0)
 	checkpoint_max = maxi(int(dados.get("checkpoint_max", 0)), 0)
 	var dados_melhorias = dados.get("melhorias", {})
 	if dados_melhorias is Dictionary:
@@ -295,10 +306,12 @@ func apagar() -> void:
 	partida_ativa = false
 	brasas_alteradas.emit(brasas)
 	melhorias_alteradas.emit()
+	onda_vencida_alterada.emit(maior_onda_vencida)
 
 func _zerar_dados() -> void:
 	brasas = 0
 	recorde_onda = 0
+	maior_onda_vencida = 0
 	checkpoint_max = 0
 	melhorias = {}
 	moradores = {}

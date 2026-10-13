@@ -1,0 +1,3 @@
+Ferramenta: image_gen integrada; fundo transparente.
+Referências: armadura enviada pelo usuário e proporções do personagem usado no jogo.
+Adaptar o set completo para pixel art compatível com Mana Seed, em quatro vistas: frente, costas, direita e esquerda. Personagem compacto com cabeça grande, câmera ligeiramente superior. Preservar viseira perfurada, elmo pontudo, aço escuro com bordas prateadas, ombreiras angulares, placa abdominal, luvas, joelheiras e botas segmentadas. Sem espada. Cobertura contínua do tórax e ombros, sem buracos de pele. Pixels quadrados, bordas duras, paleta restrita de aço azulado, prata e couro discreto; sem suavização ou gradientes. Referência visual estática, sem animações.

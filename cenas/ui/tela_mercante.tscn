@@ -119,6 +119,15 @@ toggle_mode = true
 button_group = SubResource("ButtonGroup_abas")
 text = "BIGORNA"
 
+[node name="AbaVender" type="Button" parent="Painel/Linhas/Abas"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"BotaoAba"
+toggle_mode = true
+button_group = SubResource("ButtonGroup_abas")
+text = "VENDER"
+
 [node name="Conteudo" type="Control" parent="Painel/Linhas"]
 layout_mode = 2
 size_flags_vertical = 3
@@ -327,6 +336,71 @@ custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 text = "MELHORAR"
+
+[node name="Vender" type="VBoxContainer" parent="Painel/Linhas/Conteudo"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 6
+
+[node name="MolduraSlotVenda" type="CenterContainer" parent="Painel/Linhas/Conteudo/Vender"]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="SlotVenda" parent="Painel/Linhas/Conteudo/Vender/MolduraSlotVenda" instance=ExtResource("10_slot")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+tipos_aceitos = Array[String](["espada_basica", "espada_gemea", "machado", "maca", "arco_curto", "arco_curvo", "arco_longo", "lanca_basica", "escudo_basico"])
+somente_mochila = true
+
+[node name="RotuloVender" type="Label" parent="Painel/Linhas/Conteudo/Vender"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+text = "ARRASTE UMA ARMA DA MOCHILA PARA VENDER"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="InfoVenda" type="VBoxContainer" parent="Painel/Linhas/Conteudo/Vender"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="TituloVenda" type="Label" parent="Painel/Linhas/Conteudo/Vender/InfoVenda"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "ESPADA NV 1"
+horizontal_alignment = 1
+
+[node name="DetalheVenda" type="Label" parent="Painel/Linhas/Conteudo/Vender/InfoVenda"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+text = "RARO"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="ValorVenda" type="Label" parent="Painel/Linhas/Conteudo/Vender/InfoVenda"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "VALE 0 MOEDAS"
+horizontal_alignment = 1
+
+[node name="BotaoVender" type="Button" parent="Painel/Linhas/Conteudo/Vender"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "VENDER"
 
 [node name="Rodape" type="VBoxContainer" parent="Painel/Linhas"]
 layout_mode = 2

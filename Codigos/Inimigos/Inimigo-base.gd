@@ -3,6 +3,8 @@ class_name InimigoBase
 
 const EfeitosLuz := preload("res://Codigos/Efeitos/efeitos_luz.gd")
 const Profundidade := preload("res://Codigos/Globais/profundidade.gd")
+const SementeDrop := preload("res://Codigos/Logicas/semente_drop.gd")
+const NavegacaoArena := preload("res://Codigos/Logicas/navegacao_arena.gd")
 
 # -----------------------------
 # CONFIGURAÇÕES DE MOVIMENTO
@@ -59,9 +61,20 @@ const INTERVALO_ROTA := 0.25
 const DISTANCIA_PERSEGUICAO_DIRETA := 24.0
 var _agente: NavigationAgent2D
 var _tempo_rota := 0.0
+# Anti-travamento: se anda para um lado e a parede o segura, escorrega ao longo dela por um instante (ver _vigiar_travamento)
+const TEMPO_PARADO_PARA_DESVIAR := 0.45
+const TEMPO_DESVIO := 0.7
+var _tempo_parado := 0.0
+var _desvio_restante := 0.0
+var _desvio_direcao := Vector2.ZERO
+var _sinal_desvio := 1.0
+var _ultimo_desvio_ms := -100000
+# Sem rota para o tamanho do corpo (largou num bolsão apertado demais): depois de um tempo usa a malha dos corpos pequenos
+var _tempo_sem_rota := 0.0
 
 const COR_QUEIMANDO := Color(1.0, 0.65, 0.45)
 const COR_CONGELADO := Color(0.6, 0.85, 1.0)
+const COR_ATORDOADO := Color(1.0, 0.95, 0.55)
 
 # -----------------------------
 # VARIANTE MUTANTE
@@ -88,6 +101,7 @@ func tornar_mutante() -> void:
 # coordenadas locais e crescem junto com o nó
 func _aplicar_escala(escala: float) -> void:
 	scale *= escala
+	_ajustar_agente()
 	altura_pes *= escala
 	alcance_ataque *= escala
 	raio_parada *= escala
@@ -199,6 +213,11 @@ var _queimadura_acumulado := 0.0
 var _queimadura_cor := Color.WHITE
 var _lentidao := 0.0
 var _lentidao_restante := 0.0
+var _congelado_restante := 0.0
+var _arvore_ativa_antes_gelo := false
+var _efeito_gelo: Node2D
+## Atordoado (aparo perfeito e escudada do jogador): fica parado, sem atacar nem dar dano de contato. Chefes não atordoam
+var _atordoado := 0.0
 
 signal atingiu_jogador
 signal inimigo_morreu
@@ -226,6 +245,7 @@ func _ready() -> void:
 		_agente.path_desired_distance = 8.0
 		_agente.target_desired_distance = 6.0
 		add_child(_agente)
+		_ajustar_agente()
 
 func _physics_process(delta: float) -> void:
 	if esta_morto:
@@ -234,6 +254,15 @@ func _physics_process(delta: float) -> void:
 	if esta_morto:
 		return
 	_atualizar_ordem_desenho()
+	if esta_congelado():
+		velocity = Vector2.ZERO
+		return
+
+	if _atordoado > 0.0:
+		_atordoado -= delta
+		velocity = velocity.move_toward(Vector2.ZERO, desaceleracao_knockback * delta)
+		move_and_slide()
+		return
 
 	# Investida e conjurações do chefe: a habilidade comanda o corpo enquanto durarem
 	if habilidade_chefe != null and habilidade_chefe.assumiu_movimento():
@@ -250,25 +279,88 @@ func _physics_process(delta: float) -> void:
 	if alvo:
 		var para_alvo := alvo.global_position - global_position
 		if para_alvo.length() > raio_parada:
-			desejada += _direcao_ate(alvo, para_alvo, delta) * velocidade * (1.0 - _lentidao)
+			var rumo := _direcao_ate(alvo, para_alvo, delta)
+			if _desvio_restante > 0.0:
+				_desvio_restante -= delta
+				rumo = _desvio_direcao
+			desejada += rumo * velocidade * (1.0 - _lentidao)
+			_alvo_do_rumo = para_alvo.normalized()
 	velocity = velocity.move_toward(desejada, aceleracao * delta)
 	if velocity.length() > 1.0:
 		definir_direcao_animacao(velocity)
 	move_and_slide()
+	_vigiar_travamento(delta, desejada)
 	aplicar_dano_contato()
 
-# Direção do próximo ponto da rota até o jogador. Sem malha (tela inicial), sem rota ou já perto,
+var _alvo_do_rumo := Vector2.ZERO
+
+## Classe de navegação do corpo (0 = comum, 1 = médio, 2 = grande): a malha da arena tem uma por tamanho (ver navegacao_arena.gd). Conta
+## a metade do lado maior do retângulo do corpo (ele não gira) vezes a escala: mutantes, o golem e os chefes são maiores que o comum
+func classe_de_navegacao() -> int:
+	var meio := NavegacaoArena.RAIOS_AGENTE[0]
+	var corpo := get_node_or_null("colision_body") as CollisionShape2D
+	if corpo != null and corpo.shape is RectangleShape2D:
+		meio = maxf(corpo.shape.size.x, corpo.shape.size.y) * 0.5 * maxf(absf(scale.x), absf(scale.y))
+	elif corpo != null and corpo.shape is CircleShape2D:
+		meio = corpo.shape.radius * maxf(absf(scale.x), absf(scale.y))
+	for i in NavegacaoArena.RAIOS_AGENTE.size():
+		if meio <= NavegacaoArena.RAIOS_AGENTE[i] + 0.5:
+			return i
+	return NavegacaoArena.RAIOS_AGENTE.size() - 1
+
+# Põe o agente na camada de navegação do tamanho do corpo (chamar de novo se a escala mudar)
+func _ajustar_agente() -> void:
+	if _agente == null:
+		return
+	var classe := classe_de_navegacao()
+	_agente.navigation_layers = 1 << classe
+	_agente.radius = NavegacaoArena.RAIOS_AGENTE[classe]
+	_agente.path_desired_distance = maxf(8.0, NavegacaoArena.RAIOS_AGENTE[classe] * 0.6)
+
+# O corpo quer andar mas quase não sai do lugar (encostado numa árvore, pedra, barraca...): depois de um instante escorrega ao longo da
+# parede (tangente à superfície em que bateu, para o lado do jogador) por TEMPO_DESVIO; de novo em seguida, troca de lado
+func _vigiar_travamento(delta: float, desejada: Vector2) -> void:
+	var quer := desejada.length() > velocidade * 0.4
+	var andou := get_real_velocity().length()
+	if not quer or andou > desejada.length() * 0.3 or esta_recuando or _desvio_restante > 0.0:
+		_tempo_parado = maxf(_tempo_parado - delta * 2.0, 0.0)
+		return
+	_tempo_parado += delta
+	if _tempo_parado < TEMPO_PARADO_PARA_DESVIAR or get_slide_collision_count() == 0:
+		return
+	var normal := get_slide_collision(0).get_normal()
+	var tangente := normal.orthogonal()
+	var agora := Time.get_ticks_msec()
+	if agora - _ultimo_desvio_ms < 2500:
+		_sinal_desvio = -_sinal_desvio   # o lado de antes não resolveu: tenta o outro
+	else:
+		_sinal_desvio = 1.0 if tangente.dot(_alvo_do_rumo) >= 0.0 else -1.0
+	_ultimo_desvio_ms = agora
+	_desvio_direcao = (tangente * _sinal_desvio + normal * 0.35).normalized()
+	_desvio_restante = TEMPO_DESVIO
+	_tempo_parado = 0.0
+
+# Direção do próximo ponto da rota até o jogador. Sem malha (tela inicial), sem rota ou já perto (e sem obstáculo no meio),
 # volta à perseguição direta
 func _direcao_ate(alvo: Node2D, para_alvo: Vector2, delta: float) -> Vector2:
 	var direta := para_alvo.normalized()
-	if _agente == null or para_alvo.length() < DISTANCIA_PERSEGUICAO_DIRETA:
+	if _agente == null:
+		return direta
+	if para_alvo.length() < DISTANCIA_PERSEGUICAO_DIRETA and not test_move(global_transform, direta * minf(para_alvo.length(), DISTANCIA_PERSEGUICAO_DIRETA)):
 		return direta
 	_tempo_rota -= delta
 	if _tempo_rota <= 0.0:
 		_tempo_rota = INTERVALO_ROTA
 		_agente.target_position = alvo.global_position
 	if _agente.is_navigation_finished():
+		# "Chegou" longe do jogador = sem rota para este tamanho: passa para a malha dos corpos pequenos
+		if para_alvo.length() > 3.0 * DISTANCIA_PERSEGUICAO_DIRETA:
+			_tempo_sem_rota += delta
+			if _tempo_sem_rota > 1.0 and _agente.navigation_layers != 1:
+				_agente.navigation_layers = 1
+				_tempo_sem_rota = 0.0
 		return direta
+	_tempo_sem_rota = 0.0
 	var ate_proximo := _agente.get_next_path_position() - global_position
 	return ate_proximo.normalized() if ate_proximo.length() > 0.5 else direta
 
@@ -295,7 +387,7 @@ func calcular_separacao() -> Vector2:
 # Os i-frames do jogador impedem dano a cada frame e o empilhamento de vários slimes
 func aplicar_dano_contato() -> void:
 	var jogador := obter_jogador()
-	if not jogador:
+	if not jogador or esta_atordoado():
 		return
 	# O corpo do jogador é só o círculo dos pés; o dano é contra a AreaDano, do tamanho do personagem
 	for area in $ataque.get_overlapping_areas():
@@ -365,11 +457,68 @@ func aplicar_queimadura(dano_tick: int, intervalo: float, duracao: float, cor: C
 	_queimadura_restante = duracao
 	_queimadura_cor = cor
 
+## Deixa o inimigo parado e inofensivo por `duracao` segundos. Chefes (os que viraram chefe e o golem) ignoram
+func atordoar(duracao: float) -> void:
+	if esta_morto or SementeDrop.eh_chefe(self):
+		return
+	_atordoado = maxf(_atordoado, duracao)
+
+## Empurra o inimigo sem dano (o aparo perfeito do jogador). Chefes mal se mexem
+func empurrar(forca: Vector2, duracao: float = 0.2) -> void:
+	if esta_morto:
+		return
+	if SementeDrop.eh_chefe(self):
+		forca *= 0.1
+	esta_recuando = true
+	velocity = forca
+	await get_tree().create_timer(duracao).timeout
+	esta_recuando = false
+
+func esta_atordoado() -> bool:
+	return _atordoado > 0.0 or esta_congelado()
+
+func esta_congelado() -> bool:
+	return _congelado_restante > 0.0
+
+func aplicar_congelamento(duracao: float) -> void:
+	if esta_morto or duracao <= 0:
+		return
+	if not esta_congelado() and arvore_animacao:
+		_arvore_ativa_antes_gelo = arvore_animacao.active
+		arvore_animacao.active = false
+	_congelado_restante = maxf(_congelado_restante, duracao)
+	velocity = Vector2.ZERO
+	if not is_instance_valid(_efeito_gelo):
+		_efeito_gelo = load("res://Codigos/Efeitos/congelamento.gd").new()
+		_efeito_gelo.name = "GeloMordomo"
+		add_child(_efeito_gelo)
+	else:
+		_efeito_gelo.renovar()
+	sprite.modulate = Color(COR_CONGELADO, sprite.modulate.a)
+
+func _descongelar() -> void:
+	_congelado_restante = 0.0
+	if arvore_animacao:
+		arvore_animacao.active = _arvore_ativa_antes_gelo
+	if is_instance_valid(_efeito_gelo):
+		_efeito_gelo.descongelar()
+
+func _limpar_gelo_morte() -> void:
+	if esta_congelado():
+		_descongelar()
+	if is_instance_valid(_efeito_gelo):
+		_efeito_gelo.queue_free()
+	sprite.modulate = Color(Color.WHITE, sprite.modulate.a)
+
 func aplicar_lentidao(fracao: float, duracao: float) -> void:
 	_lentidao = maxf(_lentidao, fracao)
 	_lentidao_restante = duracao
 
 func _atualizar_efeitos(delta: float) -> void:
+	if esta_congelado():
+		_congelado_restante = maxf(0.0, _congelado_restante - delta)
+		if not esta_congelado():
+			_descongelar()
 	if _lentidao_restante > 0.0:
 		_lentidao_restante -= delta
 		if _lentidao_restante <= 0.0:
@@ -381,10 +530,14 @@ func _atualizar_efeitos(delta: float) -> void:
 			_queimadura_acumulado -= _queimadura_intervalo
 			receber_dano_efeito(_queimadura_dano, _queimadura_cor)
 	var tom := Color.WHITE
-	if _queimadura_restante > 0.0:
+	if esta_congelado():
+		tom = COR_CONGELADO
+	elif _queimadura_restante > 0.0:
 		tom = COR_QUEIMANDO
 	elif _lentidao_restante > 0.0:
 		tom = COR_CONGELADO
+	elif _atordoado > 0.0:
+		tom = COR_ATORDOADO
 	sprite.modulate = Color(tom, sprite.modulate.a)
 
 func piscar_dano() -> void:
@@ -398,6 +551,7 @@ func morrer() -> void:
 	if esta_morto:
 		return
 	esta_morto = true
+	_limpar_gelo_morte()
 	_tocar_som_morte()
 	_ao_morrer_chefe()
 	EfeitosLuz.criar_flash(get_tree().current_scene, global_position, Color(0.6, 1.0, 0.6), 1.4, 0.9, 0.35)

@@ -45,7 +45,7 @@ const INTERVALO_ESPOROS := 6.0
 const PRIMEIROS_ESPOROS := 2.0
 const TEMPO_AVISO_ESPOROS := 1.0
 const RAIO_ESPOROS := 78.0
-const ALCANCE_GATILHO_ESPOROS := 120.0
+const ALCANCE_GATILHO_ESPOROS := RAIO_ESPOROS
 const MULT_DANO_ESPOROS := 1.7
 const FORCA_ESPOROS := 220.0
 const TEMPO_RECUPERACAO_ESPOROS := 0.4
@@ -82,6 +82,8 @@ func _exit_tree() -> void:
 
 func _physics_process(delta: float) -> void:
 	if _encerrada or _chefe == null or _chefe.esta_morto:
+		return
+	if _chefe.esta_congelado():
 		return
 	_limpar_lacaios_mortos()
 	match tipo:
@@ -136,6 +138,8 @@ func encerrar() -> void:
 # -----------------------------
 func _soltar_slimes() -> void:
 	if _encerrada or _chefe == null or _chefe.esta_morto:
+		return
+	if _chefe.esta_congelado():
 		return
 	for i in SLIMES_POR_LEVA:
 		var angulo := TAU * (i + randf() * 0.4) / SLIMES_POR_LEVA

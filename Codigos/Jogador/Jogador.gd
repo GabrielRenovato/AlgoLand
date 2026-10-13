@@ -2,14 +2,26 @@ extends CharacterBody2D
 
 const EfeitosLuz := preload("res://Codigos/Efeitos/efeitos_luz.gd")
 const Encantamentos := preload("res://Codigos/DadosLocais/encantamentos.gd")
+const Carrasco := preload("res://Codigos/DadosLocais/conjunto_carrasco.gd")
+const Mordomo := preload("res://CharacterSprites/Conjuntos/cavalheiro/definicao.gd")
+const Conjuntos := preload("res://Codigos/DadosLocais/conjuntos_armadura.gd")
+const RaioCarrasco := preload("res://Codigos/Efeitos/raio.gd")
 const Equipamentos := preload("res://Codigos/DadosLocais/Equipamentos.gd")
 const ArcoJogador := preload("res://Codigos/Jogador/arco_jogador.gd")
 const Flecha := preload("res://Codigos/Jogador/flecha.gd")
 const ReacaoJogador := preload("res://Codigos/Jogador/reacao_jogador.gd")
+const DefesaJogador := preload("res://Codigos/Jogador/defesa_jogador.gd")
 const FazendaJogador := preload("res://Codigos/Jogador/fazenda_jogador.gd")
 const EfeitosPocao := preload("res://Codigos/Jogador/efeitos_pocao.gd")
+const Aparencia := preload("res://Codigos/DadosLocais/aparencia.gd")
 const Profundidade := preload("res://Codigos/Globais/profundidade.gd")
+const Raridades := preload("res://Codigos/DadosLocais/raridades.gd")
 const ALCANCE_MIRA_ARCO := 260.0
+## Mira assistida do arco: com o jogador apontando uma direção, só inimigos dentro deste cone (cosseno do ângulo, uns 65 graus para cada
+## lado) atraem a flecha; sem alvo no cone ela vai para onde ele aponta
+const COSSENO_CONE_MIRA := 0.42
+## Inclinação mínima do direcional/joystick para contar como "estou apontando"
+const ZONA_MORTA_MIRA := 0.25
 const TEXTURA_ALJAVA := preload("res://CharacterSprites/Arco/carregando/aljava.png")
 
 # Preload do banco de dados de armas (nome: banco_dados_armas)
@@ -26,6 +38,20 @@ var ataques_bloqueados: bool = false
 var nivel_escudo: int:
 	get: return _nivel_no_modelo("escudo_basico")
 var esta_forjando: bool = false
+## Sentado numa cadeira (cadeira.gd): usa os nós da Forja, que têm as folhas da página 4 (pose de sentar na coluna 3 de
+## cada direção: linha 6 = olhando para a direita, linha 7 = para a esquerda)
+var esta_sentado: bool = false
+## O jogador pediu para levantar (F/Y, B/Esc ou andar): quem o sentou (cadeira.gd) o tira de lá
+signal pediu_levantar
+const QUADRO_SENTADO := {1: 51, -1: 59}
+## Tempo mínimo sentado antes de aceitar o pedido de levantar (o mesmo F que sentou não pode levantar na hora)
+const TEMPO_MINIMO_SENTADO := 0.5
+## Roupas da página 4 para a pose de sentar, na mesma ordem das de andar (a forja só tem o avental de ferreiro; ver
+## CharacterSprites/Sentado/LEIAME.txt)
+var _lado_sentado := 1
+var _z_sentado := 0
+var _tempo_sentado := 0.0
+var _arm_forja_visivel := true
 var id_escudo_atual: String = "escudo_basico"
 var movimento_habilitado: bool = true
 
@@ -61,6 +87,8 @@ var id_arco_atual: String = "arco_curvo"
 var no_arco: ArcoJogador = null
 # Poses curtas de sacar/guardar a arma, esquiva e ferido (reacao_jogador.gd)
 var no_reacao: ReacaoJogador = null
+## Aparar e escudada (defesa_jogador.gd)
+var defesa: DefesaJogador = null
 # Enxada, machado, picareta, plantar, regar e colher (fazenda_jogador.gd); trava o jogador enquanto dura
 var no_fazenda: FazendaJogador = null
 var esta_em_acao_fazenda: bool = false
@@ -74,6 +102,16 @@ const REDUCAO_MAXIMA_COM_POCAO := 0.85
 ## Distância à frente dos pés onde a ação de fazenda acontece (o tile que a enxada acerta)
 const ALCANCE_ACAO_FAZENDA := 14.0
 var _inventario_pronto: bool = false
+## Os itens (a instância, não só o tipo) que o corpo está usando: duas espadas iguais de raridades diferentes têm o mesmo tipo, mas dano e
+## afixos diferentes, então trocar de uma para a outra precisa reaplicar tudo (ver _aplicar_modelo)
+var _arma_aplicada: DadosItem = null
+var _escudo_aplicado: DadosItem = null
+## O que cada slot ("arma", "escudo") somou aos status (ver _pacote_do_item): ao trocar, subtrai exatamente isto, então nada "vaza"
+var _pacote_aplicado := {"arma": {}, "escudo": {}, "cabeca": {}, "corpo": {}, "luvas": {}, "botas": {}}
+var _recarga_carrasco := 0.0
+var _rng_carrasco := RandomNumberGenerator.new()
+var _recarga_mordomo := 0.0
+var _rng_mordomo := RandomNumberGenerator.new()
 var botao_ataque_pressionado: bool = false
 const TIPOS_ARMADURA := {
 	"cabeca_basica": "usando_cabeca",
@@ -106,9 +144,6 @@ signal forja_finalizada
 @onready var sprite_escudo = $CompositeSprites/BaseSprites/Escudo
 @onready var sprite_lanca = $CompositeSprites/BaseSprites/Lanca
 
-# Arrays exclusivos da Forja
-var array_cabelo_forja: Array[Texture2D] = []
-var array_roupa_forja: Array[Texture2D] = []
 
 # ---------------------------
 # AttackSwordAnimation (espada)
@@ -127,11 +162,9 @@ var array_roupa_forja: Array[Texture2D] = []
 @onready var cabelo_lanca_ataque = $CompositeSprites/AttackSpearAnimation/Cabelo
 @onready var roupa_lanca_ataque = $CompositeSprites/AttackSpearAnimation/Roupa
 
-@onready var sprites_compostos: Composto = Composto.new()
 @onready var camera: Camera2D = $Camera2D
 
 
-signal personalizacao_finalizada(cabelo: int, roupa: int, cor_cabelo: Color, apelido: String)
 signal jogador_morreu
 ## Ações de fazenda (fazenda_jogador.gd): "impacto" no quadro em que a ferramenta acerta o chão, com o ponto
 ## à frente do jogador; "concluida" quando a animação acaba
@@ -157,16 +190,9 @@ var status_armas = preload("res://Codigos/DadosLocais/Equipamentos.gd").new()
 var _knockback: Vector2 = Vector2.ZERO
 var temporizador_knockback: float = 0.0
 
-var array_ataque_cabelo: Array[Texture2D] = []
-var array_ataque_roupa: Array[Texture2D] = []
-
-# >>> Arrays de cabelo para lança <<<
-var array_ataque_cabelo_lanca: Array[Texture2D] = []
-
-# >>> Arrays de roupa para lança <<<
-var array_ataque_roupa_lanca: Array[Texture2D] = []
-
 var _direcao_ataque: Vector2 = Vector2.DOWN
+## Cardinal do último golpe de espada ou lança (desempate das diagonais)
+var _cardinal_anterior: Vector2 = Vector2.DOWN
 var hp_atual: int
 
 var invulneravel: bool = false
@@ -247,6 +273,8 @@ var id_botas_atual: String  = "armadura_botas"
 @export var usando_botas: bool  = false
 
 func _ready() -> void:
+	_rng_carrasco.randomize()
+	_rng_mordomo.randomize()
 	# Inicializa vitalidade e defesa corretamente
 	vitalidade_base = 5
 	bonus_vitalidade = 0
@@ -279,6 +307,11 @@ func _ready() -> void:
 	$CompositeSprites.add_child(no_reacao)
 	no_reacao.terminou.connect(_atualizar_visual_arco)
 
+	defesa = DefesaJogador.new()
+	defesa.name = "Defesa"
+	defesa.jogador = self
+	add_child(defesa)
+
 	no_fazenda = FazendaJogador.new()
 	no_fazenda.name = "Fazenda"
 	no_fazenda.jogador = self
@@ -291,57 +324,11 @@ func _ready() -> void:
 	add_child(efeitos_pocao)
 
 	# Ajusta sprite básico do Corpo
-	sprite_corpo.texture = sprites_compostos.folha_sprite_corpo[0]
+	sprite_corpo.texture = load("res://CharacterSprites/Body/body_1.png")
 
-	# ---------------------------
-	# Carrega arrays (espada)
-	# ---------------------------
-	for i in range(1, 3):
-		var caminho_cabelo = "res://CharacterSprites/Hair/Attack/slash_1_sword/hair (%d).png" % i
-		var recurso_cabelo = load(caminho_cabelo)
-		if recurso_cabelo:
-			array_ataque_cabelo.append(recurso_cabelo)
-
-	for i in range(1, 13):
-		var caminho_roupa = "res://CharacterSprites/Outfit/Attack/slash_1_sword/outfit(%d).png" % i
-		var recurso_roupa = load(caminho_roupa)
-		if recurso_roupa:
-			array_ataque_roupa.append(recurso_roupa)
-
-	# >>> Arrays de cabelo para lança <<<
-	for i in range(1, 3):
-		var caminho_cabelo_lanca = "res://CharacterSprites/Hair/Attack/slash_1_spear/hair (%d).png" % i
-		var recurso_cabelo_lanca = load(caminho_cabelo_lanca)
-		if recurso_cabelo_lanca:
-			array_ataque_cabelo_lanca.append(recurso_cabelo_lanca)
-
-	# >>> Arrays de roupa para lança <<<
-	for i in range(1, 13):
-		var caminho_roupa_lanca = "res://CharacterSprites/Outfit/Attack/slash_1_spear/outfit (%d).png" % i
-		var recurso_roupa_lanca = load(caminho_roupa_lanca)
-		if recurso_roupa_lanca:
-			array_ataque_roupa_lanca.append(recurso_roupa_lanca)
-
-	# Ajusta texturas iniciais
-	sprite_cabelo.texture = sprites_compostos.folha_sprite_cabelo[cabelo_atual]
-	sprite_roupa.texture = sprites_compostos.folha_sprite_roupa[roupa_atual]
+	# Cabelo e roupa de cada animação (andar, golpes, forja...): ver Codigos/DadosLocais/aparencia.gd
 	corpo_espada_escudo_ataque.texture = load("res://CharacterSprites/Body_sword_chield/body_attack_sword.png")
-
-	if array_ataque_cabelo.size() > 0 and cabelo_atual < array_ataque_cabelo.size():
-		cabelo_ataque.texture = array_ataque_cabelo[cabelo_atual]
-		cabelo_ataque.modulate = cor_cabelo
-
-	if array_ataque_roupa.size() > 0 and roupa_atual < array_ataque_roupa.size():
-		roupa_ataque.texture = array_ataque_roupa[roupa_atual]
-
-	# Lança
-	if array_ataque_cabelo_lanca.size() > 0 and cabelo_atual < array_ataque_cabelo_lanca.size():
-		cabelo_lanca_ataque.texture = array_ataque_cabelo_lanca[cabelo_atual]
-		cabelo_lanca_ataque.modulate = cor_cabelo
-
-	if array_ataque_roupa_lanca.size() > 0 and roupa_atual < array_ataque_roupa_lanca.size():
-		roupa_lanca_ataque.texture = array_ataque_roupa_lanca[roupa_atual]
-		roupa_lanca_ataque.modulate = Color(1, 1, 1)
+	_aplicar_aparencia()
 
 	if _arvore_animacao:
 		_maquina_estados = _arvore_animacao.get("parameters/playback")
@@ -364,21 +351,12 @@ func _ready() -> void:
 	atualizar_rotulo_moedas()
 	atualizar_barra_hp()
 
-	# Equipa armaduras padrão
-	nivel_cabeca   = 1
-	nivel_corpo   = 1
-	nivel_luvas = 1
-	nivel_botas  = 1
-
-	equipar_cabeca()
-	equipar_corpo()
-	equipar_luvas()
-	equipar_botas()
-
 	hp_atual = estatisticas.hp_maximo
 	atualizar_barra_hp()
 
 	_iniciar_inventario()
+	# As texturas antigas são ícones dos itens básicos; os bônus agora vêm dos slots do modelo.
+	carregar_conjunto_armadura(1)
 
 	_stamina_base = stamina_maxima
 	_posicao_acampamento = global_position
@@ -400,8 +378,7 @@ func _nivel_no_modelo(tipo: String) -> int:
 	var item: DadosItem = InventarioJogador.buscar_por_tipo(tipo)
 	return item.nivel if item != null else 1
 
-func _subir_nivel_no_modelo(tipo: String) -> void:
-	var item: DadosItem = InventarioJogador.buscar_por_tipo(tipo)
+func _subir_nivel_no_modelo(item: DadosItem) -> void:
 	if item == null:
 		return
 	InventarioJogador.subir_nivel(item)
@@ -424,8 +401,6 @@ func _enviar_estado_ao_modelo() -> void:
 				estados[tipo] = usando_lanca and tipo == id_lanca_atual
 			"arco":
 				estados[tipo] = usando_arco and tipo == id_arco_atual
-	for tipo in TIPOS_ARMADURA:
-		estados[tipo] = get(TIPOS_ARMADURA[tipo])
 	for tipo in estados:
 		var item: DadosItem = InventarioJogador.buscar_por_tipo(tipo)
 		if item != null and not estados[tipo] and InventarioJogador.slot_de(item) != "":
@@ -447,16 +422,22 @@ func _aplicar_modelo() -> void:
 	var escudo = InventarioJogador.equipados["escudo"]
 	var tipo_arma: String = arma.tipo if arma != null else ""
 
-	if escudo == null and usando_escudo:
+	# Outro escudo (mesmo do mesmo tipo, de outra raridade) também sai e entra de novo: os bônus são os do item
+	if usando_escudo and (escudo == null or escudo != _escudo_aplicado):
 		desequipar_escudo()
 	var familia: String = Equipamentos.familia_de(tipo_arma)
-	# Trocar por outra arma da mesma família também desequipa, para recarregar as texturas
-	if usando_espada and (familia != "espada" or tipo_arma != id_arma_atual):
+	# Trocar por outra arma da mesma família também desequipa, para recarregar as texturas; o mesmo vale para outra arma do MESMO tipo
+	# (raridade e nível próprios)
+	var outra_arma: bool = arma != _arma_aplicada
+	if usando_espada and (familia != "espada" or tipo_arma != id_arma_atual or outra_arma):
 		desequipar_espada()
-	if usando_lanca and (familia != "lanca" or tipo_arma != id_lanca_atual):
+	if usando_lanca and (familia != "lanca" or tipo_arma != id_lanca_atual or outra_arma):
 		desequipar_lanca()
-	if usando_arco and (familia != "arco" or tipo_arma != id_arco_atual):
+	if usando_arco and (familia != "arco" or tipo_arma != id_arco_atual or outra_arma):
 		desequipar_arco()
+	# Os afixos da arma valem antes do dano ser calculado em equipar_*
+	_arma_aplicada = arma
+	_aplicar_bonus_item("arma", arma)
 	if familia == "espada" and not usando_espada:
 		id_arma_atual = tipo_arma
 		equipar_espada()
@@ -468,8 +449,25 @@ func _aplicar_modelo() -> void:
 		equipar_arco()
 	if escudo != null and not usando_escudo:
 		equipar_escudo()
+	for slot in ["cabeca", "corpo", "luvas", "botas"]:
+		var item: DadosItem = InventarioJogador.equipados[slot]
+		_aplicar_bonus_item(slot, item)
+		set("usando_" + slot, item != null)
+		set("nivel_" + slot, item.nivel if item != null else 1)
+	_atualizar_bonus_conjuntos()
+	_aplicar_aparencia()
 
 	_sincronizando = false
+
+## Multiplicadores separados dos pacotes: trocar/sincronizar não acumula bônus.
+func _atualizar_bonus_conjuntos() -> void:
+	var anterior: int = estatisticas.hp_maximo
+	var bonus := Conjuntos.bonus_status(InventarioJogador.equipados)
+	estatisticas.bonus_defesa_conjunto = float(bonus["defesa"])
+	estatisticas.bonus_vitalidade_conjunto = float(bonus["vitalidade"])
+	estatisticas.calcular_estatisticas_derivadas(usando_espada or usando_lanca)
+	hp_atual = mini(hp_atual + maxi(estatisticas.hp_maximo - anterior, 0), estatisticas.hp_maximo)
+	atualizar_barra_hp()
 
 func _on_onda_completada(_onda: int) -> void:
 	hp_atual = estatisticas.hp_maximo
@@ -477,10 +475,7 @@ func _on_onda_completada(_onda: int) -> void:
 	InventarioJogador.salvar()
 
 func iniciar_dash() -> void:
-	var dir = Vector2(
-		Input.get_axis("move_left", "move_right"),
-		Input.get_axis("move_up", "move_down")
-	)
+	var dir = Controle.vetor_movimento()
 	if dir == Vector2.ZERO:
 		dir = _direcao_ataque
 	dir = dir.normalized()
@@ -598,11 +593,17 @@ func conectar_sinal_se_nao_conectado(no: Node, nome_sinal: String, metodo: Strin
 		no.connect(nome_sinal, Callable(self, metodo))
 
 func _physics_process(delta: float) -> void:
+	_recarga_carrasco = maxf(_recarga_carrasco - delta, 0.0)
+	_recarga_mordomo = maxf(_recarga_mordomo - delta, 0.0)
 	_regenerar_stamina(delta)
+	if esta_sentado:
+		_atualizar_sentado(delta)
+		return
 	# Mesma escala de profundidade de inimigos, árvores e objetos (ver Profundidade)
 	z_index = Profundidade.z_de(global_position.y + Profundidade.PES_JOGADOR)
 	if not movimento_habilitado:
 		_pedido_ataque = false
+		defesa.cancelar()
 		# Sem isso a velocidade da corrida fica congelada e a animação continua correndo com a loja aberta
 		if not esta_forjando and velocity != Vector2.ZERO:
 			velocity = Vector2.ZERO
@@ -630,6 +631,7 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("rolar") and _dash_disponivel and not _esta_atacando and not esta_forjando \
 			and Time.get_ticks_msec() >= _sem_acao_ate_ms:
 		if stamina >= custo_stamina_dash:
+			defesa.cancelar()
 			iniciar_dash()
 			return
 		get_tree().call_group("hud", "avisar_stamina_insuficiente")
@@ -638,6 +640,8 @@ func _physics_process(delta: float) -> void:
 		temporizador_knockback -= delta
 		velocity = _knockback
 		_knockback = _knockback.lerp(Vector2.ZERO, _decaimento_knockback)
+	elif defesa.atualizar(delta):
+		pass   # em guarda (ou na escudada): só vira, não anda nem ataca
 	else:
 		mover()
 		logica_combo_ataque()  # Chamado a cada frame
@@ -645,7 +649,39 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	animar()
 
+## Para onde o jogador aponta agora (direcional, analógico ou joystick); sem nada apertado, a última direção
+func direcao_apontada() -> Vector2:
+	var dir := Controle.vetor_movimento()
+	return dir.normalized() if dir.length() >= ZONA_MORTA_MIRA else _direcao_ataque
+
+## A direção cardinal (cima, baixo, esquerda ou direita) mais próxima de `dir`. Na diagonal exata mantém o eixo do golpe anterior, para a
+## mira não oscilar entre dois lados. Os golpes de espada e lança só existem nas quatro direções: na diagonal a animação misturava as
+## duas (mostrava um lado e o golpe saía para o outro)
+func _cardinal_de(dir: Vector2) -> Vector2:
+	var ax := absf(dir.x)
+	var ay := absf(dir.y)
+	var horizontal := Vector2(signf(dir.x), 0.0)
+	var vertical := Vector2(0.0, signf(dir.y))
+	if absf(ax - ay) < 0.2:
+		if _cardinal_anterior.x != 0.0 and signf(dir.x) == _cardinal_anterior.x:
+			return _cardinal_anterior
+		if _cardinal_anterior.y != 0.0 and signf(dir.y) == _cardinal_anterior.y:
+			return _cardinal_anterior
+		return horizontal if ax > 0.0 else vertical
+	return horizontal if ax > ay else vertical
+
+# Direção do próximo golpe: a que o jogador está apontando NESTE instante, em cardinal. Também vira o corpo para lá (parado e correndo)
+func _apontar_golpe() -> void:
+	_direcao_ataque = _cardinal_de(direcao_apontada())
+	_cardinal_anterior = _direcao_ataque
+	virar_para(_direcao_ataque)
+
 func mover() -> void:
+	# A mira acompanha o direcional mesmo no meio de um golpe (o golpe que já começou não muda; o próximo, enfileirado, sai para onde
+	# ele aponta agora e não para onde apontava no começo do golpe anterior)
+	var apontando := Controle.vetor_movimento()
+	if apontando.length() >= ZONA_MORTA_MIRA:
+		_direcao_ataque = apontando.normalized()
 	# Se o jogador está no meio de um ataque, não movimenta
 	if _esta_atacando:
 		velocity.x = lerp(velocity.x, 0.0, _friccao)
@@ -653,10 +689,7 @@ func mover() -> void:
 		return
 
 	# Lê o input de movimento (teclas de andar)
-	var dir = Vector2(
-		Input.get_axis("move_left", "move_right"),
-		Input.get_axis("move_up", "move_down")
-	)
+	var dir = Controle.vetor_movimento()
 
 	if dir != Vector2.ZERO:
 		# Normaliza a direção para não ficar maior que 1 em magnitude
@@ -781,9 +814,13 @@ func logica_combo_ataque() -> void:
 					_fase_combo = 3
 					iniciar_slash_ataque_lanca("AtaqueLancaSlash_1", _tempo_slash_lanca_1)
 
+var _alvos_area_golpe := {}
+
 func iniciar_slash_ataque_lanca(nome_anim: String, tempo_slash: float) -> void:
+	_alvos_area_golpe.clear()
 	# Ajusta a velocidade da animação se necessário (pode ser removido se não for desejado)
 	reprodutor_anim.speed_scale = 0.2
+	_apontar_golpe()
 	_flash_golpe()
 	Sons.tocar("golpe_lanca")
 	_esta_atacando = true
@@ -800,6 +837,8 @@ func _flash_golpe() -> void:
 			Color(1, 0.95, 0.8), 0.9, 0.7, 0.15)
 
 func iniciar_slash_ataque(nome_anim: String, tempo_slash: float) -> void:
+	_alvos_area_golpe.clear()
+	_apontar_golpe()
 	_flash_golpe()
 	Sons.tocar("golpe_espada")
 	_esta_atacando = true
@@ -846,6 +885,39 @@ func _on_temporizador_ataque_timeout() -> void:
 	# Se não houver ataque enfileirado, reinicia o combo
 	_fase_combo = 0
 
+## O acerto normal (espada, lança ou flecha) pode invocar um raio aliado. O raio não passa por aplicar_golpe,
+## portanto não gera outro raio, crítico, roubo de vida nem encantamentos em cadeia.
+func _tentar_raio_carrasco(alvo: Node2D, dano_golpe: int, sorteio: float = -1.0) -> bool:
+	if Carrasco.TIPO_BONUS != "raio":
+		return false
+	if not is_instance_valid(alvo) or not is_inside_tree() or estaMorto:
+		return false
+	var valor := _rng_carrasco.randf() if sorteio < 0.0 else sorteio
+	if not Carrasco.pode_ativar(InventarioJogador.equipados, _recarga_carrasco, valor):
+		return false
+	var cena := get_tree().current_scene
+	if cena == null:
+		return false
+	_recarga_carrasco = Carrasco.RECARGA_RAIO
+	var raio := RaioCarrasco.new()
+	raio.fracao_dano_chefe = 1.0
+	raio.add_to_group("raios_carrasco")
+	cena.add_child(raio)
+	raio.iniciar(alvo.global_position, Carrasco.AVISO_RAIO, maxi(1, roundi(dano_golpe * Carrasco.MULT_DANO_RAIO)), 0)
+	return true
+
+func _tentar_congelamento_mordomo(alvo: Node, sorteio: float = -1.0) -> bool:
+	if estaMorto or not is_instance_valid(alvo) or not alvo.has_method("aplicar_congelamento"):
+		return false
+	if "esta_morto" in alvo and alvo.esta_morto:
+		return false
+	var valor := _rng_mordomo.randf() if sorteio < 0 else sorteio
+	if Mordomo.TIPO_BONUS != "congelamento" or not Mordomo.pode_ativar(InventarioJogador.equipados, _recarga_mordomo, valor):
+		return false
+	_recarga_mordomo = Mordomo.RECARGA_BONUS
+	alvo.aplicar_congelamento(Mordomo.DURACAO_BONUS)
+	return true
+
 func _on_timeout_janela_combo() -> void:
 	_fase_combo = 0  # Reseta o combo independente do estágio
 	_pode_encadear_combo = false
@@ -869,6 +941,16 @@ func _on_corpo_entrou_area_ataque(corpo: Node2D) -> void:
 		aplicar_golpe(corpo, (corpo.position - position).normalized())
 
 func _on_area_entrou_area_ataque(area: Area2D) -> void:
+	if area.is_in_group("hurtbox_inimigo"):
+		var alvo := area.get_parent() as Node2D
+		if alvo == null or not alvo.is_in_group("enemy"):
+			return
+		var id := alvo.get_instance_id()
+		if _alvos_area_golpe.has(id):
+			return
+		_alvos_area_golpe[id] = true
+		aplicar_golpe(alvo, (alvo.global_position - global_position).normalized())
+		return
 	if area.is_in_group("enemy"):
 		aplicar_golpe(area, (area.global_position - position).normalized())
 
@@ -923,19 +1005,22 @@ func _desenhar_raio(de: Vector2, ate: Vector2, cor: Color) -> void:
 	tween.tween_property(linha, "modulate:a", 0.0, 0.2)
 	tween.tween_callback(linha.queue_free)
 
-func aplicar_golpe(alvo: Node, direcao_knockback: Vector2) -> void:
+## mult_dano e mult_empurrao: a escudada (defesa_jogador.gd) bate mais forte e empurra mais que o golpe da arma
+func aplicar_golpe(alvo: Node, direcao_knockback: Vector2, mult_dano: float = 1.0, mult_empurrao: float = 1.0) -> void:
 	if not alvo.has_method("receber_dano"):
 		return
 	if "esta_morto" in alvo and alvo.esta_morto:
 		return
 	var golpe = estatisticas.calcular_dano_golpe()
 	# Poção de força
-	golpe["dano"] = maxi(1, roundi(golpe["dano"] * (1.0 + efeitos_pocao.bonus("forca"))))
-	var forca = 225.0 if golpe["critico"] else 150.0
+	golpe["dano"] = maxi(1, roundi(golpe["dano"] * (1.0 + efeitos_pocao.bonus("forca")) * mult_dano))
+	var forca = (225.0 if golpe["critico"] else 150.0) * mult_empurrao
 	alvo.receber_dano(golpe["dano"], direcao_knockback * forca)
 	# Toque leve a cada acerto; o crítico pesa mais
 	Controle.vibrar(0.0, 0.5 if golpe["critico"] else 0.2, 0.07)
 	_aplicar_encantamento(alvo, golpe["dano"])
+	_tentar_raio_carrasco(alvo, golpe["dano"])
+	_tentar_congelamento_mordomo(alvo)
 	if estatisticas.roubo_vida > 0:
 		var percentual = min(estatisticas.roubo_vida, estatisticas.ROUBO_VIDA_MAXIMO) / 100.0
 		var cura = max(1, int(round(golpe["dano"] * percentual)))
@@ -976,62 +1061,54 @@ func definir_sprites_visiveis(esta_atacando: bool) -> void:
 # ---------------------------
 # CUSTOMIZAÇÃO
 # ---------------------------
-func trocar_cabelo_avancar() -> void:
-	cabelo_atual = (cabelo_atual + 1) % sprites_compostos.folha_sprite_cabelo.size()
-	sprite_cabelo.texture = sprites_compostos.folha_sprite_cabelo[cabelo_atual]
-	sprite_cabelo.modulate = cor_cabelo
-	if cabelo_atual < array_ataque_cabelo.size():
-		cabelo_ataque.texture = array_ataque_cabelo[cabelo_atual]
-		cabelo_ataque.modulate = cor_cabelo
-	if cabelo_atual < array_ataque_cabelo_lanca.size():
-		cabelo_lanca_ataque.texture = array_ataque_cabelo_lanca[cabelo_atual]
-		cabelo_lanca_ataque.modulate = cor_cabelo
-	if sprite_cabelo_forja and cabelo_atual < sprites_compostos.folha_sprite_cabelo.size():
-		sprite_cabelo_forja.texture = sprites_compostos.folha_sprite_cabelo[cabelo_atual]
-		sprite_cabelo_forja.modulate = cor_cabelo
+## Põe o cabelo e a roupa (índices de Aparencia) em todas as camadas do personagem: andar, golpes de espada e lança, forja e sentado
+## (as de fazenda, arco e reação se atualizam sozinhas ao tocar, lendo cabelo_atual e roupa_atual)
+var _pecas_cavaleiro_debug := 15
+var pecas_cavaleiro: int:
+	get:
+		if not Aparencia.raiz_armadura_visual(roupa_atual).is_empty():
+			return _pecas_cavaleiro_debug
+		return Conjuntos.mascara(InventarioJogador.equipados)
+	set(valor):
+		_pecas_cavaleiro_debug = valor & 15
 
-func trocar_cabelo_voltar() -> void:
-	cabelo_atual = (cabelo_atual - 1) % sprites_compostos.folha_sprite_cabelo.size()
-	if cabelo_atual < 0:
-		cabelo_atual = sprites_compostos.folha_sprite_cabelo.size() - 1
-	sprite_cabelo.texture = sprites_compostos.folha_sprite_cabelo[cabelo_atual]
-	sprite_cabelo.modulate = cor_cabelo
-	if cabelo_atual < array_ataque_cabelo.size():
-		cabelo_ataque.texture = array_ataque_cabelo[cabelo_atual]
-		cabelo_ataque.modulate = cor_cabelo
-	if cabelo_atual < array_ataque_cabelo_lanca.size():
-		cabelo_lanca_ataque.texture = array_ataque_cabelo_lanca[cabelo_atual]
-		cabelo_lanca_ataque.modulate = cor_cabelo
-	if sprite_cabelo_forja and cabelo_atual < sprites_compostos.folha_sprite_cabelo.size():
-		sprite_cabelo_forja.texture = sprites_compostos.folha_sprite_cabelo[cabelo_atual]
-		sprite_cabelo_forja.modulate = cor_cabelo
+var raizes_armadura: Dictionary:
+	get:
+		if not Aparencia.raiz_armadura_visual(roupa_atual).is_empty():
+			return {}
+		return Conjuntos.raizes(InventarioJogador.equipados)
 
-func trocar_roupa_avancar() -> void:
-	roupa_atual = (roupa_atual + 1) % sprites_compostos.folha_sprite_roupa.size()
-	sprite_roupa.texture = sprites_compostos.folha_sprite_roupa[roupa_atual]
-	if roupa_atual < array_ataque_roupa.size():
-		roupa_ataque.texture = array_ataque_roupa[roupa_atual]
-	if roupa_atual < array_ataque_roupa_lanca.size():
-		roupa_lanca_ataque.texture = array_ataque_roupa_lanca[roupa_atual]
-		roupa_lanca_ataque.modulate = Color(1, 1, 1)
-	if sprite_roupa_forja and roupa_atual < sprites_compostos.folha_sprite_roupa.size():
-		sprite_roupa_forja.texture = sprites_compostos.folha_sprite_roupa[roupa_atual]
+## Liga/desliga uma peça visual mantendo as outras equipadas.
+func definir_peca_cavaleiro(peca: String, ativa: bool) -> void:
+	if not Aparencia.PECAS_CAVALEIRO.has(peca):
+		return
+	var bit: int = Aparencia.PECAS_CAVALEIRO[peca]
+	pecas_cavaleiro = (pecas_cavaleiro | bit) if ativa else (pecas_cavaleiro & ~bit)
+	_aplicar_aparencia()
 
-func trocar_roupa_voltar() -> void:
-	roupa_atual = (roupa_atual - 1) % sprites_compostos.folha_sprite_roupa.size()
-	if roupa_atual < 0:
-		roupa_atual = sprites_compostos.folha_sprite_roupa.size() - 1
-	sprite_roupa.texture = sprites_compostos.folha_sprite_roupa[roupa_atual]
-	if roupa_atual < array_ataque_roupa.size():
-		roupa_ataque.texture = array_ataque_roupa[roupa_atual]
-	if roupa_atual < array_ataque_roupa_lanca.size():
-		roupa_lanca_ataque.texture = array_ataque_roupa_lanca[roupa_atual]
-		roupa_lanca_ataque.modulate = Color(1, 1, 1)
-	if sprite_roupa_forja and roupa_atual < sprites_compostos.folha_sprite_roupa.size():
-		sprite_roupa_forja.texture = sprites_compostos.folha_sprite_roupa[roupa_atual]
+func definir_aparencia(cabelo: int, roupa: int) -> void:
+	cabelo_atual = Aparencia.indice_cabelo(cabelo)
+	roupa_atual = Aparencia.indice_roupa(roupa)
+	_aplicar_aparencia()
 
-func salvar_personalizacao() -> void:
-	emit_signal("personalizacao_finalizada", cabelo_atual, roupa_atual, cor_cabelo, apelido)
+func _aplicar_aparencia() -> void:
+	if sprite_corpo:
+		sprite_corpo.texture = Aparencia.corpo("andar", roupa_atual, pecas_cavaleiro, raizes_armadura)
+	if corpo_espada_escudo_ataque:
+		corpo_espada_escudo_ataque.texture = Aparencia.corpo("espada", roupa_atual, pecas_cavaleiro, raizes_armadura)
+	if corpo_lanca_escudo_ataque:
+		corpo_lanca_escudo_ataque.texture = Aparencia.corpo("lanca", roupa_atual, pecas_cavaleiro, raizes_armadura)
+	sprite_cabelo.texture = Aparencia.cabelo(cabelo_atual, "andar", roupa_atual, pecas_cavaleiro, raizes_armadura)
+	sprite_roupa.texture = Aparencia.roupa(roupa_atual, "andar", pecas_cavaleiro, raizes_armadura)
+	cabelo_ataque.texture = Aparencia.cabelo(cabelo_atual, "espada", roupa_atual, pecas_cavaleiro, raizes_armadura)
+	roupa_ataque.texture = Aparencia.roupa(roupa_atual, "espada", pecas_cavaleiro, raizes_armadura)
+	cabelo_lanca_ataque.texture = Aparencia.cabelo(cabelo_atual, "lanca", roupa_atual, pecas_cavaleiro, raizes_armadura)
+	roupa_lanca_ataque.texture = Aparencia.roupa(roupa_atual, "lanca", pecas_cavaleiro, raizes_armadura)
+	definir_cor_cabelo(cor_cabelo)
+	if sprite_cabelo_forja:
+		aplicar_dados_forja()
+		if esta_sentado:
+			_aplicar_roupa_sentado()
 
 func adicionar_moedas(quantidade: int) -> void:
 	DadosJogo.moedas += quantidade
@@ -1055,7 +1132,10 @@ func atualizar_dano_arma() -> void:
 		dados = status_armas.obter_dados_nivel_arma(id_lanca_atual, nivel_lanca)
 	elif usando_arco:
 		dados = status_armas.obter_dados_nivel_arma(id_arco_atual, nivel_arco)
-	estatisticas.dano_arma = dados.get("dano", 0)
+	# A raridade da arma EM USO multiplica o dano do nível (Raridades.escalar)
+	var empunhada = InventarioJogador.equipados.get("arma")
+	var raridade: String = empunhada.raridade if empunhada != null else "comum"
+	estatisticas.dano_arma = Raridades.escalar(int(dados.get("dano", 0)), raridade)
 	estatisticas.calcular_estatisticas_derivadas(usando_espada or usando_lanca)
 
 func equipar_espada() -> void:
@@ -1159,12 +1239,13 @@ func desequipar_arco() -> void:
 
 # Com o arco: andando, BaseSprites + arco/aljava de no_arco; disparando, no_arco desenha o personagem inteiro
 func _atualizar_visual_arco() -> void:
-	var em_pose: bool = no_reacao.visible and not esta_forjando
+	var forja_ou_cadeira: bool = esta_forjando or esta_sentado
+	var em_pose: bool = no_reacao.visible and not forja_ou_cadeira
 	var disparando: bool = usando_arco and no_arco.esta_disparando()
 	var na_fazenda: bool = esta_em_acao_fazenda
-	no_arco.visible = usando_arco and not esta_forjando and not em_pose and not na_fazenda
-	$CompositeSprites/BaseSprites.visible = not esta_forjando and not em_pose and not disparando and not na_fazenda
-	if esta_forjando:
+	no_arco.visible = usando_arco and not forja_ou_cadeira and not em_pose and not na_fazenda
+	$CompositeSprites/BaseSprites.visible = not forja_ou_cadeira and not em_pose and not disparando and not na_fazenda
+	if forja_ou_cadeira:
 		no_reacao.visible = false
 
 # Família visual das poses da página 1; vazio se estiver desarmado
@@ -1178,9 +1259,14 @@ func _familia_das_poses() -> String:
 	return ""
 
 # Lê o equipamento atual, então "guardar" deve ser chamado antes de zerar as flags
+## Troca rápida pela barra de baixo: troca a arma na hora, sem a pose de sacar/guardar (ver barra_armas.gd)
+var troca_sem_pose: bool = false
+
 func _tocar_pose(pose: String, duracao: float = 0.25) -> void:
+	if troca_sem_pose and (pose == "sacar" or pose == "guardar"):
+		return
 	var familia := _familia_das_poses()
-	if familia == "" or not _inventario_pronto or esta_forjando or _esta_atacando or estaMorto:
+	if familia == "" or not _inventario_pronto or esta_forjando or esta_sentado or _esta_atacando or estaMorto:
 		return
 	var id_arma := id_arma_atual
 	var nivel := nivel_espada
@@ -1194,6 +1280,31 @@ func _tocar_pose(pose: String, duracao: float = 0.25) -> void:
 	var nivel_do_escudo := nivel_escudo if (usando_escudo and familia == "um_mao") else 0
 	no_reacao.tocar(pose, _direcao_ataque, familia, id_arma, nivel, nivel_do_escudo, duracao)
 	_atualizar_visual_arco()
+
+## Pode levantar a guarda agora? (armado, solto, sem tela aberta nem outra ação em andamento)
+func pode_aparar() -> bool:
+	if estaMorto or esta_sentado or esta_forjando or esta_em_dash or _esta_atacando or esta_em_acao_fazenda or modo_fazenda \
+			or ataques_bloqueados or not movimento_habilitado or temporizador_knockback > 0.0:
+		return false
+	if not _inventario_pronto or _familia_das_poses() == "" or no_reacao.visible or Time.get_ticks_msec() < _sem_acao_ate_ms:
+		return false
+	return get_viewport().gui_get_focus_owner() == null
+
+## Liga/desliga a AnimationTree. Desligada, ela para de reescrever os quadros das camadas (quem desenha à mão, como a escudada, precisa)
+func pausar_animacoes(pausar: bool) -> void:
+	if _arvore_animacao == null:
+		return
+	_arvore_animacao.active = not pausar
+	if not pausar and _maquina_estados:
+		_maquina_estados.travel("idle")
+
+func tocar_pose_aparar() -> void:
+	_tocar_pose("aparar")
+
+## Vira o personagem parado para `dir` (a pose de parado e a de correr passam a olhar para lá)
+func virar_para(dir: Vector2) -> void:
+	_arvore_animacao.set("parameters/idle/blend_position", dir)
+	_arvore_animacao.set("parameters/running/blend_position", dir)
 
 func atualizar_texturas_arco() -> void:
 	var dados_nivel: Dictionary = status_armas.obter_dados_nivel_arma(id_arco_atual, nivel_arco)
@@ -1217,21 +1328,34 @@ func _iniciar_disparo() -> void:
 # Mira no inimigo vivo mais próximo ao alcance; sem alvo, segue a última direção de movimento
 func _mira_do_disparo() -> Vector2:
 	var menor := ALCANCE_MIRA_ARCO
-	var mira := _direcao_ataque
+	var apontada := direcao_apontada()
+	var apontando := Controle.vetor_movimento().length() >= ZONA_MORTA_MIRA
+	var mira := apontada
 	for inimigo in get_tree().get_nodes_in_group("enemy"):
 		if not (inimigo is Node2D) or inimigo.get("esta_morto"):
 			continue
-		var distancia := global_position.distance_to(inimigo.global_position)
-		if distancia < menor:
-			menor = distancia
-			mira = (inimigo.global_position - global_position).normalized()
+		var para: Vector2 = inimigo.global_position - global_position
+		var distancia := para.length()
+		if distancia >= menor:
+			continue
+		# Apontando para um lado, o inimigo nas costas dele não rouba a flecha
+		if apontando and para.normalized().dot(apontada) < COSSENO_CONE_MIRA:
+			continue
+		menor = distancia
+		mira = para.normalized()
 	return mira
 
 func _ao_disparo_liberado(direcao: Vector2) -> void:
-	var flecha := Flecha.new()
-	get_tree().current_scene.add_child(flecha)
-	flecha.global_position = global_position + Vector2(0, 2) + direcao * 12.0
-	flecha.iniciar(self, direcao)
+	# Arcos de várias flechas (o longo atira 3): saem em leque, centradas na mira
+	var dados_arco: Dictionary = status_armas.armas.get(id_arco_atual, {})
+	var quantidade: int = maxi(int(dados_arco.get("flechas", 1)), 1)
+	var abertura := deg_to_rad(float(dados_arco.get("abertura_graus", 0.0)))
+	for i in quantidade:
+		var rumo := direcao.rotated((float(i) - float(quantidade - 1) / 2.0) * abertura)
+		var flecha := Flecha.new()
+		get_tree().current_scene.add_child(flecha)
+		flecha.global_position = global_position + Vector2(0, 2) + rumo * 12.0
+		flecha.iniciar(self, rumo)
 	Sons.tocar("flecha")
 
 func _ao_disparo_terminado() -> void:
@@ -1253,49 +1377,65 @@ func equipar_escudo() -> void:
 	usando_escudo = true
 	sprite_escudo.visible = true
 	atualizar_texturas_escudo()
-
-	var instancia_bd_armas = preload("res://Codigos/DadosLocais/Equipamentos.gd").new()
-	var dados_escudo = instancia_bd_armas.obter_dados_nivel_arma(id_escudo_atual, nivel_escudo)
-
-	var bonus_hp_escudo = 0
-	if dados_escudo.has("bonus_vitalidade"):
-		bonus_vitalidade += dados_escudo["bonus_vitalidade"]
-		vitalidade_atual = vitalidade_base + bonus_vitalidade
-		estatisticas.vitalidade = vitalidade_atual
-		bonus_hp_escudo = dados_escudo["bonus_vitalidade"] * 6
-
-	if dados_escudo.has("bonus_defesa"):
-		bonus_defesa += dados_escudo["bonus_defesa"]
-		estatisticas.defesa = bonus_defesa
-
-	estatisticas.calcular_estatisticas_derivadas(usando_espada or usando_lanca)
-	hp_atual = min(hp_atual + bonus_hp_escudo, estatisticas.hp_maximo)
-	atualizar_barra_hp()
+	_escudo_aplicado = InventarioJogador.equipados.get("escudo")
+	_aplicar_bonus_item("escudo", _escudo_aplicado)
 	emit_signal("equipamento_alterado")
 
 func desequipar_escudo() -> void:
 	if not usando_escudo:
 		return
 
-	var instancia_bd_armas = preload("res://Codigos/DadosLocais/Equipamentos.gd").new()
-	var dados_escudo = instancia_bd_armas.obter_dados_nivel_arma(id_escudo_atual, nivel_escudo)
-
-	if dados_escudo.has("bonus_vitalidade"):
-		bonus_vitalidade -= dados_escudo["bonus_vitalidade"]
-		vitalidade_atual = vitalidade_base + bonus_vitalidade
-		estatisticas.vitalidade = vitalidade_atual
-
-	if dados_escudo.has("bonus_defesa"):
-		bonus_defesa -= dados_escudo["bonus_defesa"]
-		estatisticas.defesa = bonus_defesa
-
-	estatisticas.calcular_estatisticas_derivadas(usando_espada or usando_lanca)
-	hp_atual = min(hp_atual, estatisticas.hp_maximo)
-	atualizar_barra_hp()
+	_escudo_aplicado = null
+	_aplicar_bonus_item("escudo", null)
 
 	usando_escudo = false
 	sprite_escudo.visible = false
 	emit_signal("equipamento_alterado")
+
+## O que o item equipado soma aos status: vida e defesa do escudo (do nível, vezes o multiplicador da raridade) e os afixos da raridade
+## (arma e escudo). Um item nulo não soma nada
+func _pacote_do_item(item: DadosItem) -> Dictionary:
+	var pacote := {"vitalidade": 0, "defesa": 0, "critico": 0.0, "dano_critico": 0.0, "roubo_vida": 0, "velocidade": 0.0}
+	if item == null:
+		return pacote
+	if item.categoria == "escudo":
+		var dados: Dictionary = status_armas.obter_dados_nivel_arma(item.tipo, item.nivel)
+		pacote["vitalidade"] = Raridades.escalar(int(dados.get("bonus_vitalidade", 0)), item.raridade)
+		pacote["defesa"] = Raridades.escalar(int(dados.get("bonus_defesa", 0)), item.raridade)
+	elif item.categoria in ["cabeca", "corpo", "luvas", "botas"]:
+		var dados: Dictionary = status_armas.obter_dados_nivel_armadura(item.tipo, item.nivel)
+		pacote["vitalidade"] = Raridades.escalar(int(dados.get("bonus_vitalidade", 0)), item.raridade)
+		pacote["defesa"] = Raridades.escalar(int(dados.get("bonus_defesa", 0)), item.raridade)
+	pacote["vitalidade"] += roundi(item.afixo("vitalidade"))
+	pacote["defesa"] += roundi(item.afixo("defesa"))
+	pacote["critico"] = item.afixo("critico")
+	pacote["dano_critico"] = item.afixo("dano_critico")
+	pacote["roubo_vida"] = roundi(item.afixo("roubo_vida"))
+	pacote["velocidade"] = item.afixo("velocidade")
+	return pacote
+
+## Troca o que cada slot soma aos status: tira exatamente o pacote anterior e põe o do item novo. Único caminho
+## destes bônus, então equipar, trocar, desequipar e subir de nível do escudo ou da arma nunca deixam sobras
+func _aplicar_bonus_item(slot: String, item: DadosItem) -> void:
+	var antigo: Dictionary = _pacote_aplicado[slot]
+	var novo := _pacote_do_item(item)
+	var hp_maximo_anterior: int = estatisticas.hp_maximo
+	var dif_vitalidade: int = int(novo["vitalidade"]) - int(antigo.get("vitalidade", 0))
+	var dif_defesa: int = int(novo["defesa"]) - int(antigo.get("defesa", 0))
+	bonus_vitalidade += dif_vitalidade
+	vitalidade_atual = vitalidade_base + bonus_vitalidade
+	estatisticas.vitalidade = vitalidade_atual
+	bonus_defesa += dif_defesa
+	estatisticas.defesa = bonus_defesa
+	estatisticas.bonus_critico += float(novo["critico"]) - float(antigo.get("critico", 0.0))
+	estatisticas.bonus_dano_critico += float(novo["dano_critico"]) - float(antigo.get("dano_critico", 0.0))
+	estatisticas.roubo_vida += int(novo["roubo_vida"]) - int(antigo.get("roubo_vida", 0))
+	estatisticas.bonus_velocidade_item += float(novo["velocidade"]) - float(antigo.get("velocidade", 0.0))
+	_pacote_aplicado[slot] = novo
+	estatisticas.calcular_estatisticas_derivadas(usando_espada or usando_lanca)
+	# Mais vida máxima enche a vida na mesma medida (como ao vestir o escudo antes); menos só limita
+	hp_atual = mini(hp_atual + maxi(estatisticas.hp_maximo - hp_maximo_anterior, 0), estatisticas.hp_maximo)
+	atualizar_barra_hp()
 
 # ---------------------------
 # COMPRAS
@@ -1341,7 +1481,7 @@ func aplicar_efeitos_item(dados_item: Dictionary) -> void:
 func acao_fazenda(acao: String) -> bool:
 	if not FazendaJogador.ACOES.has(acao):
 		return false
-	if estaMorto or esta_forjando or esta_em_dash or _esta_atacando or esta_em_acao_fazenda or not movimento_habilitado:
+	if estaMorto or esta_forjando or esta_sentado or esta_em_dash or _esta_atacando or esta_em_acao_fazenda or not movimento_habilitado:
 		return false
 	if usando_arco and no_arco.esta_disparando():
 		return false
@@ -1376,6 +1516,15 @@ func _ao_fim_acao_fazenda(acao: String) -> void:
 func receber_dano(dano: int, forca_knockback: Vector2 = Vector2.ZERO) -> void:
 	if invulneravel or estaMorto:
 		return
+	# Guarda levantada: aparo perfeito anula o golpe e bloqueio deixa passar só uma fração (defesa_jogador.gd)
+	var guarda := defesa.resolver(dano, forca_knockback)
+	var tipo_guarda: String = guarda.get("tipo", "")
+	if tipo_guarda == "perfeito":
+		return
+	var bloqueado := tipo_guarda == "bloqueio"
+	if bloqueado:
+		dano = guarda["dano"]
+		forca_knockback = guarda["knockback"]
 	# Levar dano interrompe a ação de fazenda
 	cancelar_acao_fazenda()
 	# Poção de pedra soma na redução da defesa
@@ -1392,14 +1541,21 @@ func receber_dano(dano: int, forca_knockback: Vector2 = Vector2.ZERO) -> void:
 		aplicar_knockback(forca_knockback)
 	if hp_atual <= 0:
 		morrer()
-	else:
+	elif not bloqueado:
 		Sons.tocar("jogador_dano")
 		_tocar_pose("ferido", 0.3)
 
 func atualizar_barra_hp() -> void:
 	get_tree().call_group("hud", "atualizar_vida", hp_atual, estatisticas.hp_maximo)
 
-func morrer() -> void:
+func receber_hitkill_dragao() -> void:
+	if estaMorto:
+		return
+	hp_atual = 0
+	atualizar_barra_hp()
+	morrer(true)
+
+func morrer(ignorar_reviver: bool = false) -> void:
 	if estaMorto:
 		return
 	# Fora da arena (fazenda e casa) não há partida para perder: a vida só encosta no mínimo
@@ -1408,10 +1564,11 @@ func morrer() -> void:
 		atualizar_barra_hp()
 		return
 	# Curandeira: um reviver por partida, com metade da vida e uns segundos de invulnerabilidade
-	if Progresso.usar_reviver():
+	if not ignorar_reviver and Progresso.usar_reviver():
 		_reviver_com_curandeira()
 		return
 	estaMorto = true
+	defesa.cancelar()
 	efeitos_pocao.limpar()
 	Sons.tocar("jogador_morre", 0.0)
 	Controle.vibrar(0.6, 1.0, 0.6)
@@ -1601,24 +1758,9 @@ func aplicar_dados_carregados(dados: Dictionary) -> void:
 	estatisticas.vitalidade = vitalidade_atual
 	estatisticas.defesa = bonus_defesa
 
-	if dados.has("cabelo_atual"):
-		cabelo_atual = dados["cabelo_atual"]
-		sprite_cabelo.texture = sprites_compostos.folha_sprite_cabelo[cabelo_atual]
-		if cabelo_atual < array_ataque_cabelo.size():
-			cabelo_ataque.texture = array_ataque_cabelo[cabelo_atual]
-			cabelo_ataque.modulate = cor_cabelo
-		if cabelo_atual < array_ataque_cabelo_lanca.size():
-			cabelo_lanca_ataque.texture = array_ataque_cabelo_lanca[cabelo_atual]
-			cabelo_lanca_ataque.modulate = cor_cabelo
-
-	if dados.has("roupa_atual"):
-		roupa_atual = dados["roupa_atual"]
-		sprite_roupa.texture = sprites_compostos.folha_sprite_roupa[roupa_atual]
-		if roupa_atual < array_ataque_roupa.size():
-			roupa_ataque.texture = array_ataque_roupa[roupa_atual]
-		if roupa_atual < array_ataque_roupa_lanca.size():
-			roupa_lanca_ataque.texture = array_ataque_roupa_lanca[roupa_atual]
-			roupa_lanca_ataque.modulate = Color(1,1,1)
+	# Os índices do save valem para sempre (peças novas só entram depois das antigas); um que não exista mais cai na primeira peça
+	if dados.has("cabelo_atual") or dados.has("roupa_atual"):
+		definir_aparencia(int(dados.get("cabelo_atual", cabelo_atual)), int(dados.get("roupa_atual", roupa_atual)))
 
 	if dados.has("apelido"):
 		apelido = dados["apelido"]
@@ -1626,39 +1768,89 @@ func aplicar_dados_carregados(dados: Dictionary) -> void:
 	if dados.has("cor_cabelo"):
 		var dict_cor = dados["cor_cabelo"]
 		var cor_cabelo_salva = Color(dict_cor["r"], dict_cor["g"], dict_cor["b"], dict_cor["a"])
-		cor_cabelo = cor_cabelo_salva
-		sprite_cabelo.modulate = cor_cabelo_salva
-		cabelo_ataque.modulate = cor_cabelo_salva
-		cabelo_lanca_ataque.modulate = cor_cabelo_salva
+		definir_cor_cabelo(cor_cabelo_salva)
 
 	atualizar_dano_arma()
 
-func carregar_texturas_forja() -> void:
-	if array_cabelo_forja.size() > 0:
-		return
-	for i in range(1, 3):
-		var caminho_cabelo = "res://CharacterSprites/body_smithing/Hair/hair (%d).png" % i
-		var textura_cabelo = load(caminho_cabelo)
-		if textura_cabelo:
-			array_cabelo_forja.append(textura_cabelo)
-
-	for i in range(1, 13):
-		var caminho_roupa = "res://CharacterSprites/body_smithing/Outfit/outfit (%d).png" % i
-		var textura_roupa = load(caminho_roupa)
-		if textura_roupa:
-			array_roupa_forja.append(textura_roupa)
-
 func aplicar_dados_forja() -> void:
-	if cabelo_atual < array_cabelo_forja.size():
-		sprite_cabelo_forja.texture = array_cabelo_forja[cabelo_atual]
-		sprite_cabelo_forja.modulate = cor_cabelo
+	if sprite_corpo_forja:
+		sprite_corpo_forja.texture = Aparencia.corpo("forja", roupa_atual, pecas_cavaleiro, raizes_armadura)
+	sprite_cabelo_forja.texture = Aparencia.cabelo(cabelo_atual, "forja", roupa_atual, pecas_cavaleiro, raizes_armadura)
+	sprite_cabelo_forja.modulate = cor_cabelo
+	sprite_roupa_forja.texture = Aparencia.roupa(roupa_atual, "forja", pecas_cavaleiro, raizes_armadura)
+	Aparencia.aplicar_cartola(sprite_cabelo_forja, sprite_roupa_forja, "forja", roupa_atual, pecas_cavaleiro, raizes_armadura)
 
-	if roupa_atual < array_roupa_forja.size():
-		sprite_roupa_forja.texture = array_roupa_forja[roupa_atual]
+## Senta o jogador na posição `posicao` olhando para `lado` (1 = direita, -1 = esquerda), desenhado no z `z`
+## (acima do encosto da cadeira). Quem pede é o cadeira.gd, que depois o tira com levantar()
+func sentar(posicao: Vector2, lado: int, z: int) -> void:
+	if esta_sentado or estaMorto:
+		return
+	cancelar_acao_fazenda()
+	esta_sentado = true
+	_lado_sentado = 1 if lado >= 0 else -1
+	_z_sentado = z
+	_tempo_sentado = 0.0
+	aplicar_dados_forja()
+	_aplicar_roupa_sentado()
+	_arm_forja_visivel = $CompositeSprites/Forja/Arm.visible
+	$CompositeSprites/Forja/Arm.visible = false   # a marreta da forja
+	# A árvore de animação reescreve o quadro da Forja (volta para a pose de martelar) a cada atualização: desligada
+	# enquanto sentado, o quadro fica o que definir_quadro_sentado pôs
+	if _arvore_animacao:
+		_arvore_animacao.active = false
+	velocity = Vector2.ZERO
+	global_position = posicao
+	z_index = z
+	movimento_habilitado = false
+	ataques_bloqueados = true
+	no_forja.visible = true
+	definir_quadro_sentado()
+	_atualizar_visual_arco()
 
-func iniciar_forja(tipo_item: String) -> void:
+# A roupa que ele está usando, na versão da página 4 (a da forja das roupas antigas é o avental de ferreiro)
+func _aplicar_roupa_sentado() -> void:
+	if sprite_corpo_forja:
+		sprite_corpo_forja.texture = Aparencia.corpo("sentado", roupa_atual, pecas_cavaleiro, raizes_armadura)
+	sprite_roupa_forja.texture = Aparencia.roupa(roupa_atual, "sentado", pecas_cavaleiro, raizes_armadura)
+	Aparencia.aplicar_cartola(sprite_cabelo_forja, sprite_roupa_forja, "sentado", roupa_atual, pecas_cavaleiro, raizes_armadura)
+
+## Põe o quadro de sentar (olhando para o lado da cadeira) nas camadas da forja
+func definir_quadro_sentado() -> void:
+	var quadro: int = QUADRO_SENTADO[_lado_sentado]
+	for camada in [sprite_corpo_forja, sprite_cabelo_forja, sprite_roupa_forja]:
+		camada.frame = quadro
+
+## Levanta e põe o jogador em `posicao` (de pé, solto)
+func levantar(posicao: Vector2) -> void:
+	if not esta_sentado:
+		return
+	esta_sentado = false
+	no_forja.visible = false
+	$CompositeSprites/Forja/Arm.visible = _arm_forja_visivel
+	if _arvore_animacao:
+		_arvore_animacao.active = true
+		if _maquina_estados:
+			_maquina_estados.travel("idle" if not (usando_espada or usando_lanca or usando_arco) else "idle")
+	global_position = posicao
+	_atualizar_visual_arco()
+	movimento_habilitado = true
+	ataques_bloqueados = false
+	_sem_acao_ate_ms = Time.get_ticks_msec() + JANELA_SEM_ACAO_APOS_TELA_MS
+
+# Sentado: parado, no z da cadeira; F/Y, B/Esc ou andar pedem para levantar (depois de um instante)
+func _atualizar_sentado(delta: float) -> void:
+	z_index = _z_sentado
+	velocity = Vector2.ZERO
+	_pedido_ataque = false
+	_tempo_sentado += delta
+	if _tempo_sentado < TEMPO_MINIMO_SENTADO or get_viewport().gui_get_focus_owner() != null:
+		return
+	var anda := Controle.vetor_movimento().length() > 0.6
+	if anda or Input.is_action_just_pressed("open_menu") or Input.is_action_just_pressed("ui_cancel"):
+		pediu_levantar.emit()
+
+func iniciar_forja(item: DadosItem) -> void:
 	esta_forjando = true
-	carregar_texturas_forja()
 	var dados_carregados = carregar_de_json()
 	if dados_carregados:
 		if dados_carregados.has("cabelo_atual"):
@@ -1680,10 +1872,10 @@ func iniciar_forja(tipo_item: String) -> void:
 	temporizador_forja.wait_time = 5.0
 	temporizador_forja.one_shot = true
 	add_child(temporizador_forja)
-	temporizador_forja.connect("timeout", Callable(self, "_on_forja_finalizada").bind(tipo_item))
+	temporizador_forja.connect("timeout", Callable(self, "_on_forja_finalizada").bind(item))
 	temporizador_forja.start()
 
-func _on_forja_finalizada(tipo_item: String) -> void:
+func _on_forja_finalizada(item: DadosItem) -> void:
 	esta_forjando = false
 	no_forja.visible = false
 	_atualizar_visual_arco()
@@ -1691,50 +1883,22 @@ func _on_forja_finalizada(tipo_item: String) -> void:
 		_maquina_estados.travel("idle")
 	movimento_habilitado = true
 
-	var instancia_bd_armas = preload("res://Codigos/DadosLocais/Equipamentos.gd").new()
-
-	match Equipamentos.familia_de(tipo_item):
-		"espada":
-			_subir_nivel_no_modelo(tipo_item)
-			atualizar_texturas_espada()
-			atualizar_dano_arma()
-
-		"escudo":
-			# Se estava usando o escudo, remove o bônus antigo primeiro
-			if usando_escudo:
-				var dados_escudo_antigo = instancia_bd_armas.obter_dados_nivel_arma(id_escudo_atual, nivel_escudo)
-				if dados_escudo_antigo.has("bonus_vitalidade"):
-					bonus_vitalidade -= dados_escudo_antigo["bonus_vitalidade"]
-				if dados_escudo_antigo.has("bonus_defesa"):
-					bonus_defesa -= dados_escudo_antigo["bonus_defesa"]
-
-			_subir_nivel_no_modelo(tipo_item)
-			atualizar_texturas_escudo()
-
-			# Aplica o novo bônus se estiver usando o escudo
-			var novos_dados_escudo = instancia_bd_armas.obter_dados_nivel_arma(id_escudo_atual, nivel_escudo)
-			if usando_escudo:
-				if novos_dados_escudo.has("bonus_vitalidade"):
-					bonus_vitalidade += novos_dados_escudo["bonus_vitalidade"]
-					vitalidade_atual = vitalidade_base + bonus_vitalidade
-					estatisticas.vitalidade = vitalidade_atual
-				if novos_dados_escudo.has("bonus_defesa"):
-					bonus_defesa += novos_dados_escudo["bonus_defesa"]
-					estatisticas.defesa = bonus_defesa
-
-			estatisticas.calcular_estatisticas_derivadas(usando_espada or usando_lanca)
-			hp_atual = min(hp_atual, estatisticas.hp_maximo)
-			atualizar_barra_hp()
-
-		"lanca":
-			_subir_nivel_no_modelo(tipo_item)
-			atualizar_texturas_lanca()
-			atualizar_dano_arma()
-
-		"arco":
-			_subir_nivel_no_modelo(tipo_item)
-			atualizar_texturas_arco()
-			atualizar_dano_arma()
+	# O nível sobe no item que foi para a bigorna (a instância), não no primeiro do mesmo tipo
+	_subir_nivel_no_modelo(item)
+	if item != null:
+		match Equipamentos.familia_de(item.tipo):
+			"espada":
+				atualizar_texturas_espada()
+			"escudo":
+				atualizar_texturas_escudo()
+				# Se é o escudo em uso, troca o pacote de vida e defesa pelo do nível novo
+				if usando_escudo and item == _escudo_aplicado:
+					_aplicar_bonus_item("escudo", item)
+			"lanca":
+				atualizar_texturas_lanca()
+			"arco":
+				atualizar_texturas_arco()
+	atualizar_dano_arma()
 
 	atualizar_aparencia_arma() # Garante atualização visual correta
 	emit_signal("forja_finalizada")
@@ -1951,6 +2115,11 @@ func definir_cor_cabelo(nova_cor: Color) -> void:
 	cabelo_lanca_ataque.modulate = nova_cor
 	if sprite_cabelo_forja:
 		sprite_cabelo_forja.modulate = nova_cor
+	Aparencia.aplicar_cartola(sprite_cabelo, sprite_roupa, "andar", roupa_atual, pecas_cavaleiro, raizes_armadura)
+	Aparencia.aplicar_cartola(cabelo_ataque, roupa_ataque, "espada", roupa_atual, pecas_cavaleiro, raizes_armadura)
+	Aparencia.aplicar_cartola(cabelo_lanca_ataque, roupa_lanca_ataque, "lanca", roupa_atual, pecas_cavaleiro, raizes_armadura)
+	if sprite_cabelo_forja and sprite_roupa_forja:
+		Aparencia.aplicar_cartola(sprite_cabelo_forja, sprite_roupa_forja, "sentado" if esta_sentado else "forja", roupa_atual, pecas_cavaleiro, raizes_armadura)
 
 func definir_apelido(novo_apelido: String) -> void:
 	apelido = novo_apelido

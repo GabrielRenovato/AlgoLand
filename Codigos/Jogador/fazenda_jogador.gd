@@ -16,8 +16,7 @@ const ArcoJogador := preload("res://Codigos/Jogador/arco_jogador.gd")
 
 const RAIZ := "res://CharacterSprites/Fazenda/"
 const QUADROS_POR_LINHA := 8
-const NUM_CABELOS := 2
-const NUM_ROUPAS := 12
+const Aparencia := preload("res://Codigos/DadosLocais/aparencia.gd")
 # Camadas relativas ao corpo (z = 3 em BaseSprites); a ferramenta (6tla) fica sempre por cima: o artista só
 # desenha os pixels dela que aparecem
 const Z_CORPO := 3
@@ -52,6 +51,8 @@ var _linha := 0
 var _impacto_emitido := false
 var _cabelo_aplicado := -1
 var _roupa_aplicada := -1
+var _pecas_aplicadas := -1
+var _raizes_aplicadas: Dictionary = {}
 
 var _corpo: Sprite2D
 var _roupa: Sprite2D
@@ -124,16 +125,23 @@ func _aplicar_quadro() -> void:
 		_impacto_emitido = true
 		impacto.emit(acao_atual)
 
-# Cabelo e roupa escolhidos na customização do jogador (mesma numeração de CharacterSprites/Outfit e Hair)
+# Cabelo e roupa escolhidos na criação do personagem (lista em Codigos/DadosLocais/aparencia.gd)
 func _sincronizar_aparencia() -> void:
 	if jogador == null:
 		return
-	var cabelo: int = clampi(jogador.cabelo_atual, 0, NUM_CABELOS - 1)
-	var roupa: int = clampi(jogador.roupa_atual, 0, NUM_ROUPAS - 1)
-	if cabelo != _cabelo_aplicado:
-		_cabelo.texture = load(RAIZ + "cabelo_%d.png" % (cabelo + 1))
+	var cabelo: int = Aparencia.indice_cabelo(jogador.cabelo_atual)
+	var roupa: int = Aparencia.indice_roupa(jogador.roupa_atual)
+	var pecas: int = jogador.pecas_cavaleiro
+	var raizes_lidas = jogador.get("raizes_armadura")
+	var raizes: Dictionary = raizes_lidas if raizes_lidas is Dictionary else {}
+	_corpo.texture = Aparencia.corpo("fazenda", roupa, pecas, raizes)
+	if cabelo != _cabelo_aplicado or roupa != _roupa_aplicada or pecas != _pecas_aplicadas or raizes != _raizes_aplicadas:
+		_cabelo.texture = Aparencia.cabelo(cabelo, "fazenda", roupa, pecas, raizes)
 		_cabelo_aplicado = cabelo
-	if roupa != _roupa_aplicada:
-		_roupa.texture = load(RAIZ + "roupa_%d.png" % (roupa + 1))
+	if roupa != _roupa_aplicada or pecas != _pecas_aplicadas or raizes != _raizes_aplicadas:
+		_roupa.texture = Aparencia.roupa(roupa, "fazenda", pecas, raizes)
 		_roupa_aplicada = roupa
+	_pecas_aplicadas = pecas
+	_raizes_aplicadas = raizes.duplicate()
 	_cabelo.modulate = jogador.cor_cabelo
+	Aparencia.aplicar_cartola(_cabelo, _roupa, "fazenda", roupa, pecas, raizes)

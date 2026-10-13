@@ -1,0 +1,125 @@
+{
+  "versao": 1,
+  "id": "cavaleiro_rubro",
+  "nome": "Cavaleiro Rubro",
+  "raridade": "incomum",
+  "arte": "res://CharacterSprites/Conjuntos/cavaleiro_rubro/conceito_elmo_v3.png",
+  "destino": "res://CharacterSprites/Conjuntos/cavaleiro_rubro/",
+  "onda_minima": 4,
+  "chances_drop": {
+    "normal": 0.35,
+    "mutante": 0.45,
+    "chefe": 0.45
+  },
+  "preco_base": 300,
+  "bonus": {
+    "tipo": "status",
+    "pecas": 4,
+    "chance": 0.0,
+    "recarga": 0.0,
+    "multiplicador_dano": 0.0,
+    "aviso": 0.0,
+    "defesa": 0.1,
+    "vitalidade": 0.1
+  },
+  "bases": {
+    "cabeca": {
+      "vitalidade": [
+        2,
+        3,
+        5,
+        7,
+        9
+      ],
+      "defesa": [
+        2,
+        4,
+        7,
+        10,
+        14
+      ]
+    },
+    "corpo": {
+      "vitalidade": [
+        3,
+        5,
+        8,
+        11,
+        15
+      ],
+      "defesa": [
+        3,
+        6,
+        10,
+        15,
+        20
+      ]
+    },
+    "luvas": {
+      "vitalidade": [
+        1,
+        2,
+        3,
+        4,
+        6
+      ],
+      "defesa": [
+        1,
+        2,
+        4,
+        6,
+        9
+      ]
+    },
+    "botas": {
+      "vitalidade": [
+        1,
+        2,
+        3,
+        4,
+        6
+      ],
+      "defesa": [
+        1,
+        2,
+        4,
+        6,
+        9
+      ]
+    }
+  },
+  "recortes": {
+    "fim_elmo": 0.38,
+    "fim_peitoral": 0.79,
+    "largura_elmo": 16,
+    "altura_elmo": 20,
+    "fracao_largura_elmo": 0.82,
+    "fracao_gola_elmo": 0.55,
+    "alinhar_calota": false,
+    "ajustar_calota_corpo": false,
+    "elmo_rigido": true,
+    "borda_calota": 1,
+    "deslocamento_vertical_elmo": [
+      2,
+      2,
+      1,
+      1
+    ]
+  },
+  "paleta": [
+    "111218",
+    "242830",
+    "414650",
+    "67727c",
+    "8f9ba5",
+    "b7c1c8",
+    "bba47d",
+    "e7e3d2",
+    "2c111b",
+    "571d29",
+    "922f38",
+    "cd624e"
+  ],
+  "arte_elmo": "res://CharacterSprites/Conjuntos/cavaleiro_rubro/elmos_face_completa_v6.png",
+  "substituir_cabeca": false
+}

@@ -1,6 +1,7 @@
 extends RefCounted
 
 const Equipamentos := preload("res://Codigos/DadosLocais/Equipamentos.gd")
+const Conjuntos := preload("res://Codigos/DadosLocais/conjuntos_armadura.gd")
 
 const COLUNAS_ARMAS := 8
 const LINHAS_ARMAS := 8
@@ -34,6 +35,10 @@ static func obter_jogador(arvore: SceneTree) -> Node:
 static func obter(item: DadosItem, arvore: SceneTree) -> Texture2D:
 	if item == null:
 		return null
+	var conjunto := Conjuntos.de_tipo(item.tipo)
+	if conjunto != null:
+		var peca: String = conjunto.TIPOS[item.tipo]["peca"]
+		return _recortar(load(conjunto.RAIZ_SPRITES + "%s/andar.png" % peca), Rect2i(0, 0, 64, 64))
 	if item.tipo == "aljava_basica":
 		# A folha tem 8x8 quadros de 64px: usa um só (o da aljava de lado) senão o ícone vira a folha inteira encolhida
 		return _recortar(load(ALJAVA), QUADRO_ALJAVA)

@@ -7,7 +7,7 @@ extends SceneTree
 const NOMES := ["golpe_espada", "golpe_lanca", "flecha", "acerto", "inimigo_morre", "jogador_dano", "jogador_morre",
 	"dash", "reviver", "moeda", "compra", "melhoria", "erro", "onda_inicio", "onda_fim", "chefe_aparece",
 	"chefe_morre", "estacao", "trovao", "menu_mover", "menu_confirmar", "enxada", "regar", "plantar", "colher", "caldeirao", "beber",
-	"pegar_semente"]
+	"pegar_semente", "aparo", "bloqueio", "escudada"]
 
 var _falhas: int = 0
 
@@ -104,7 +104,13 @@ func _rodar() -> void:
 		if j.stream == sons.STREAMS["flecha"] and j.playing:
 			jogador_pitch = j
 	_verificar("variacao 0 mantem o pitch 1.0 e aplica o volume", jogador_pitch != null
-		and is_equal_approx(jogador_pitch.pitch_scale, 1.0) and is_equal_approx(jogador_pitch.volume_db, -9.0))
+		and is_equal_approx(jogador_pitch.pitch_scale, 1.0) and is_equal_approx(jogador_pitch.volume_db, sons.VOLUME_BASE_DB - 9.0))
+
+	var tem_limitador := false
+	for i in AudioServer.get_bus_effect_count(0):
+		tem_limitador = tem_limitador or AudioServer.get_bus_effect(0, i) is AudioEffectHardLimiter
+	_verificar("o bus Master tem um limitador (sons juntos nao estouram)", tem_limitador)
+	_verificar("o volume base dos efeitos fica abaixo de 0 dB", sons.VOLUME_BASE_DB < -6.0)
 
 	# --- botões: foco e clique ligam sons; meta som_proprio tira só o "confirmar"
 	var raiz := Control.new()

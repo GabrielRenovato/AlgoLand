@@ -4,6 +4,10 @@ const COR_MOLDURA := Color(1.0, 0.82, 0.3, 0.9)
 const COR_MOLDURA_HOVER := Color(1.0, 0.9, 0.45, 1.0)
 const COR_PREENCHIMENTO_HOVER := Color(1.0, 0.85, 0.35, 0.25)
 const COR_ICONE_VAZIO := Color(1.0, 1.0, 1.0, 0.35)
+## Casa ainda bloqueada (linha extra da mochila): apagada; a última da linha leva o cadeado da folha de interface do inventário
+const COR_TRANCADO := Color(0.55, 0.55, 0.6, 0.7)
+const FOLHA_INTERFACE := preload("res://UI/craftpix-net-420010-pixel-game-user-interface-for-platformer/1 Interface/TileMap.png")
+const REGIAO_CADEADO := Rect2(152, 72, 16, 23)
 
 @export var tipo_slot: String = "mochila"
 @export var icone_vazio: Texture2D
@@ -11,6 +15,8 @@ const COR_ICONE_VAZIO := Color(1.0, 1.0, 1.0, 0.35)
 
 var indice: int = -1
 var item_atual: DadosItem
+var trancado: bool = false
+var _cadeado: TextureRect = null
 
 var _arrasto_valido: bool = false
 var _mouse_em_cima: bool = false
@@ -67,7 +73,35 @@ func _drop_data(_posicao: Vector2, dados: Variant) -> void:
 	else:
 		InventarioJogador.equipar(item)
 
+## Bloqueia (ou libera) a casa: apagada, sem receber item nem foco, com `dica` no mouse; `cadeado` desenha o cadeado nela
+func definir_trancado(ativo: bool, dica: String = "", cadeado: bool = false) -> void:
+	trancado = ativo
+	# só o quadrado apaga: o cadeado fica nítido por cima
+	_fundo.modulate = COR_TRANCADO if ativo else Color.WHITE
+	tooltip_text = dica if ativo else ""
+	focus_mode = Control.FOCUS_NONE if ativo else Control.FOCUS_ALL
+	if cadeado and _cadeado == null:
+		_cadeado = TextureRect.new()
+		_cadeado.name = "Cadeado"
+		var recorte := AtlasTexture.new()
+		recorte.atlas = FOLHA_INTERFACE
+		recorte.region = REGIAO_CADEADO
+		_cadeado.texture = recorte
+		_cadeado.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_cadeado.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		_cadeado.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		_cadeado.set_anchors_preset(Control.PRESET_FULL_RECT)
+		_cadeado.offset_left = 4
+		_cadeado.offset_top = 4
+		_cadeado.offset_right = -4
+		_cadeado.offset_bottom = -4
+		add_child(_cadeado)
+	if _cadeado != null:
+		_cadeado.visible = ativo and cadeado
+
 func _dados_validos(dados: Variant) -> bool:
+	if trancado:
+		return false
 	if not (dados is Dictionary) or dados.has("slot_origem") or not (dados.get("item") is DadosItem):
 		return false
 	if tipo_slot == "mochila":
@@ -85,9 +119,9 @@ func _ao_entrada(evento: InputEvent) -> void:
 		accept_event()
 
 # Com a bigorna/encantamento abertos o item vai para o slot do mercador; senão, mochila equipa e
-# equipamento volta para a mochila. Só armas e escudo, como no arrasto (ver item_ui._get_drag_data)
+# equipamento volta para a mochila. Armas, escudo e armaduras seguem a mesma regra do arrasto.
 func _usar_com_controle() -> void:
-	if item_atual == null:
+	if item_atual == null or trancado:
 		return
 	if _item_ui.em_uso:
 		var ferreiro := get_tree().get_first_node_in_group("tela_mercante")
@@ -97,7 +131,7 @@ func _usar_com_controle() -> void:
 	var mercante := get_tree().get_first_node_in_group("tela_mercante")
 	if mercante != null and mercante.is_visible_in_tree() and mercante.receber_item_do_controle(_item_ui):
 		return
-	if not item_atual.categoria in ["arma", "escudo"]:
+	if not item_atual.categoria in ["arma", "escudo", "cabeca", "corpo", "luvas", "botas"]:
 		return
 	if tipo_slot == "mochila":
 		InventarioJogador.equipar(item_atual)

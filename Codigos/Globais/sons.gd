@@ -6,6 +6,11 @@ extends Node
 ## Uso: Sons.tocar("moeda") ou Sons.tocar("acerto", 0.15, -3.0)
 
 const TAMANHO_POOL := 8
+## Volume de todos os efeitos (somado ao volume de cada chamada). Os .wav são gerados com o pico perto do máximo, de onda quadrada: a 0 dB
+## ficavam estourados, ainda mais vários juntos
+const VOLUME_BASE_DB := -9.0
+## Limitador no bus Master: vários sons ao mesmo tempo somam e passariam do máximo (estalo/distorção); acima disto ele segura
+const TETO_LIMITADOR_DB := -1.5
 ## Quantas vezes o mesmo som pode começar no mesmo quadro (muitas moedas/acertos juntos viram um só)
 const MAX_POR_QUADRO := 1
 ## Intervalo mínimo (s) entre duas repetições do mesmo som; o que não estiver aqui usa o padrão
@@ -18,6 +23,7 @@ const INTERVALOS := {
 	"golpe_espada": 0.05,
 	"golpe_lanca": 0.05,
 	"pegar_semente": 0.05,
+	"bloqueio": 0.05,
 }
 
 const STREAMS := {
@@ -49,6 +55,9 @@ const STREAMS := {
 	"caldeirao": preload("res://sons/caldeirao.wav"),
 	"beber": preload("res://sons/beber.wav"),
 	"pegar_semente": preload("res://sons/pegar_semente.wav"),
+	"aparo": preload("res://sons/aparo.wav"),
+	"bloqueio": preload("res://sons/bloqueio.wav"),
+	"escudada": preload("res://sons/escudada.wav"),
 }
 
 ## Botões marcados com esta meta têm som próprio (compra, melhoria...) e não tocam o "menu_confirmar" padrão
@@ -64,11 +73,21 @@ var _ultimo_uso: Dictionary = {}
 func _ready() -> void:
 	# Os sons dos menus continuam tocando com o jogo pausado
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	_ligar_limitador()
 	for i in TAMANHO_POOL:
 		var jogador := AudioStreamPlayer.new()
 		jogador.name = "Jogador%d" % i
 		add_child(jogador)
 		_jogadores.append(jogador)
+
+## Um limitador no fim do bus Master (uma vez só: a chuva do clima também passa por ele)
+func _ligar_limitador() -> void:
+	for i in AudioServer.get_bus_effect_count(0):
+		if AudioServer.get_bus_effect(0, i) is AudioEffectHardLimiter:
+			return
+	var limitador := AudioEffectHardLimiter.new()
+	limitador.ceiling_db = TETO_LIMITADOR_DB
+	AudioServer.add_bus_effect(0, limitador)
 
 func existe(nome: String) -> bool:
 	return STREAMS.has(nome)
@@ -85,7 +104,7 @@ func tocar(nome: String, variacao_pitch := 0.1, volume_db := 0.0) -> bool:
 	if jogador == null:
 		return false
 	jogador.stream = STREAMS[nome]
-	jogador.volume_db = volume_db
+	jogador.volume_db = VOLUME_BASE_DB + volume_db
 	jogador.pitch_scale = 1.0 + randf_range(-variacao_pitch, variacao_pitch) if variacao_pitch > 0.0 else 1.0
 	jogador.play()
 	return true

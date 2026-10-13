@@ -30,6 +30,8 @@ func _process(delta: float) -> void:
 		_jogador = cena.get_node_or_null("Jogador") if cena else null
 		if _jogador == null:
 			return
+	# Sentado (cadeira.gd) ele é desenhado de propósito entre a cadeira e a mesa: nada fica translúcido por causa dele
+	var sentado: bool = "esta_sentado" in _jogador and _jogador.esta_sentado
 	var pes := _jogador.global_position.y + Profundidade.PES_JOGADOR
 	# Pernas e meio do corpo: se algum deles fica escondido, o objeto da frente fica transparente
 	var pernas := Vector2(_jogador.global_position.x, pes - 6.0)
@@ -38,7 +40,7 @@ func _process(delta: float) -> void:
 	var alvos: Array[float] = []
 	for s in _filhos:
 		var atras := false
-		if pes < s.global_position.y and s.texture != null:
+		if not sentado and pes < s.global_position.y and s.texture != null:
 			var ret := _retangulo(s)
 			atras = ret.has_point(pernas) or ret.has_point(corpo)
 		algum_atras = algum_atras or atras

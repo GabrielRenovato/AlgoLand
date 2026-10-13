@@ -7,17 +7,32 @@ extends CanvasLayer
 ## só mexem no visual na hora (o calendário não muda); PASSAR DIA avança o calendário de verdade (como dormir).
 
 const TEMA := preload("res://recursos/ui/tema_menu.tres")
+const Raridades := preload("res://Codigos/DadosLocais/raridades.gd")
 const CAMADA := 90
 const ESTACOES := ["PRIMAVERA", "VERAO", "OUTONO", "INVERNO"]
 # Mesma ordem do enum Estado de Codigos/Design/clima.gd
 const CLIMAS := ["LIMPO", "NUBLADO", "CHUVA LEVE", "CHUVA FORTE", "TEMPESTADE", "NEVE LEVE", "NEVE FORTE"]
 const AVISO_RAIO_TESTE := 1.0
+const EquipamentoDropRoteiro := "res://Codigos/Logicas/equipamento_drop.gd"
+## Quanto à frente do jogador cada arma do teste cai (fora do ímã, para dar tempo de ver antes de pegar) e o espaço entre elas
+const DISTANCIA_DROP_TESTE := 70.0
+const ESPACO_DROP_TESTE := 34.0
 # [texto do botão, ação em fazenda_jogador.gd]
 const ACOES_FAZENDA := [["ENXADA", "enxada"], ["MACHADO", "machado"], ["PICARETA", "picareta"],
 	["PLANTAR", "plantar"], ["REGAR", "regar"], ["COLHER", "colher"]]
 
+## Folga em relação às bordas da tela.
+const MARGEM_BAIXO := 6.0
+
 var _painel: PanelContainer
 var _rotulo_estado: Label
+var _categoria: OptionButton
+var _acao: OptionButton
+var _opcoes: Dictionary = {}
+var _acoes_atuais: Array = []
+var _selecoes: Dictionary = {}
+var _roupa_antes_armadura := -1
+var _jogador_armadura: Node
 
 func _ready() -> void:
 	if not OS.is_debug_build():
@@ -27,6 +42,7 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	_montar()
 	_painel.visible = false
+	get_viewport().size_changed.connect(_ajustar_altura)
 
 # A estação troca com fade e a onda pode sortear outro clima: o rótulo acompanha enquanto o painel está aberto
 func _process(_delta: float) -> void:
@@ -36,6 +52,8 @@ func _process(_delta: float) -> void:
 func _unhandled_key_input(evento: InputEvent) -> void:
 	if evento is InputEventKey and evento.pressed and not evento.echo and evento.keycode == KEY_F3:
 		_painel.visible = not _painel.visible
+		if _painel.visible:
+			_ajustar_altura()
 		get_viewport().set_input_as_handled()
 
 func _montar() -> void:
@@ -50,46 +68,99 @@ func _montar() -> void:
 	geral.add_child(_rotulo("DEBUG  (F3 FECHA)"))
 	_rotulo_estado = _rotulo("")
 	_rotulo_estado.modulate = Color(1, 0.85, 0.4)
+	_rotulo_estado.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_rotulo_estado.custom_minimum_size.x = 180
 	geral.add_child(_rotulo_estado)
 
-	# Duas colunas para caber na altura da tela: estação e clima | raio e fazenda
-	var colunas := HBoxContainer.new()
-	colunas.add_theme_constant_override("separation", 8)
-	geral.add_child(colunas)
-	var esquerda := VBoxContainer.new()
-	esquerda.add_theme_constant_override("separation", 2)
-	colunas.add_child(esquerda)
-	var direita := VBoxContainer.new()
-	direita.add_theme_constant_override("separation", 2)
-	colunas.add_child(direita)
-
-	esquerda.add_child(_rotulo("ESTACAO"))
-	esquerda.add_child(_grade(ESTACOES.map(func(nome): return [nome, _ao_estacao.bind(ESTACOES.find(nome))])))
-	esquerda.add_child(_rotulo("CLIMA"))
-	var botoes_clima: Array = []
+	# Seleção em duas etapas mantém todas as ferramentas acessíveis sem rolar o painel.
+	_opcoes = {
+		"CONJUNTOS": [
+			["MORDOMO (EQUIPAR)", _equipar_conjunto.bind("cavalheiro")],
+			["CAVALEIRO RUBRO (EQUIPAR)", _equipar_conjunto.bind("cavaleiro_rubro")],
+			["CARRASCO (EQUIPAR)", _equipar_conjunto.bind("carrasco")],
+			["PEITORAL + BOTAS (TESTE)", _ao_armadura_teste],
+			["RESTAURAR ROUPA", _restaurar_roupa],
+		],
+		"ONDAS": [["AVANCAR 1", _ao_avancar_onda.bind(1)], ["AVANCAR 10", _ao_avancar_onda.bind(10)]],
+		"MINOTAURO": [["IR PARA ONDA DO MINOTAURO", _ao_onda_minotauro],
+			["INVESTIDA", _ao_ataque_minotauro.bind("investida")],
+			["PISAO", _ao_ataque_minotauro.bind("pisao")],
+			["VARRIDA DO MACHADO", _ao_ataque_minotauro.bind("machado")],
+			["ESPECIAL: FURIA", _ao_ataque_minotauro.bind("furia")]],
+		"DRAGAO": [["IR PARA ONDA DO DRAGAO", _ao_onda_dragao],
+			["SOPRO DE FOGO", _ao_ataque_dragao.bind("sopro")],
+			["VARRIDA DE CAUDA", _ao_ataque_dragao.bind("cauda")],
+			["BATIDA DE ASAS", _ao_ataque_dragao.bind("asas")],
+			["PATADA + SOPRO", _ao_ataque_dragao.bind("patada")],
+			["ESPECIAL: CHUVA DE FOGO", _ao_ataque_dragao.bind("chuva")]],
+		"CLIMA": [],
+		"ESTACAO": [],
+		"CALENDARIO": [["PASSAR DIA", _ao_passar_dia]],
+		"TEMPESTADE": [["RAIO AGORA", _ao_raio]],
+		"DROPS": [["CARRASCO (4 PECAS)", _ao_drop_carrasco], ["CAVALEIRO RUBRO (4 PECAS)", _ao_drop_conjunto.bind("cavaleiro_rubro")]],
+		"ANIMACOES": [],
+		"FAZENDA E ITENS": [["+100 OURO", _ao_ouro], ["SEMENTES", _ao_sementes],
+			["COLHEITA", _ao_colheita], ["POCOES", _ao_pocoes],
+			["CRESCER 1 DIA", _ao_crescer], ["REGAR TUDO", _ao_regar_tudo]],
+	}
 	for i in CLIMAS.size():
-		botoes_clima.append([CLIMAS[i], _ao_clima.bind(i)])
-	esquerda.add_child(_grade(botoes_clima))
+		_opcoes["CLIMA"].append([CLIMAS[i], _ao_clima.bind(i)])
+	for i in ESTACOES.size():
+		_opcoes["ESTACAO"].append([ESTACOES[i], _ao_estacao.bind(i)])
+	for raridade in Raridades.ORDEM:
+		_opcoes["DROPS"].append([Raridades.nome(raridade), _ao_dropar_raridade.bind([raridade])])
+	_opcoes["DROPS"].append(["TODAS AS RARIDADES", _ao_dropar_raridade.bind(Raridades.ORDEM)])
+	for par in ACOES_FAZENDA:
+		_opcoes["ANIMACOES"].append([par[0], _ao_acao_fazenda.bind(par[1])])
+	_categoria = _seletor()
+	for nome in _opcoes:
+		_categoria.add_item(nome)
+	_categoria.item_selected.connect(_selecionar_categoria)
+	geral.add_child(_categoria)
+	_acao = _seletor()
+	_acao.item_selected.connect(_selecionar_acao)
+	geral.add_child(_acao)
+	geral.add_child(_botao("EXECUTAR", _executar_selecao))
+	_selecionar_categoria(0)
+	_ajustar_altura.call_deferred()
 
-	direita.add_child(_rotulo("CALENDARIO"))
-	direita.add_child(_botao("PASSAR DIA", _ao_passar_dia))
-	direita.add_child(_rotulo("TEMPESTADE"))
-	direita.add_child(_botao("RAIO AGORA", _ao_raio))
-	# A ação sai virada para a última direção em que o jogador andou
-	direita.add_child(_rotulo("ANIMACOES"))
-	direita.add_child(_grade(ACOES_FAZENDA.map(func(par): return [par[0], _ao_acao_fazenda.bind(par[1])])))
-	direita.add_child(_rotulo("PLANTIO"))
-	direita.add_child(_grade([["+100 OURO", _ao_ouro], ["SEMENTES", _ao_sementes],
-		["COLHEITA", _ao_colheita], ["POCOES", _ao_pocoes],
-		["CRESCER 1 DIA", _ao_crescer], ["REGAR TUDO", _ao_regar_tudo]]))
+func _seletor() -> OptionButton:
+	var seletor := OptionButton.new()
+	seletor.focus_mode = Control.FOCUS_NONE
+	seletor.fit_to_longest_item = false
+	seletor.custom_minimum_size.x = 180
+	return seletor
 
-## Grade de 2 colunas com um botão por par [texto, Callable]
-func _grade(botoes: Array) -> GridContainer:
-	var grade := GridContainer.new()
-	grade.columns = 2
-	for par in botoes:
-		grade.add_child(_botao(par[0], par[1]))
-	return grade
+func _selecionar_categoria(indice: int) -> void:
+	var nome := _categoria.get_item_text(indice)
+	_acoes_atuais = _opcoes[nome]
+	_acao.clear()
+	for par in _acoes_atuais:
+		_acao.add_item(par[0])
+	_acao.select(int(_selecoes.get(nome, 0)))
+
+func _selecionar_acao(indice: int) -> void:
+	_selecoes[_categoria.get_item_text(_categoria.selected)] = indice
+
+func _executar_selecao() -> void:
+	if _acao.selected >= 0 and _acao.selected < _acoes_atuais.size():
+		var acao: Callable = _acoes_atuais[_acao.selected][1]
+		acao.call()
+		_atualizar_estado()
+
+## O painel compacto fica na tela sem ScrollContainer.
+func _ajustar_altura() -> void:
+	if _painel == null:
+		return
+	var tela := get_viewport().get_visible_rect().size
+	var minimo := _painel.get_combined_minimum_size()
+	_painel.position.y = clampf(70.0, MARGEM_BAIXO, maxf(MARGEM_BAIXO, tela.y - minimo.y - MARGEM_BAIXO))
+	_painel.size = Vector2.ZERO
+
+func _restaurar_roupa() -> void:
+	if is_instance_valid(_jogador_armadura) and _roupa_antes_armadura >= 0:
+		_jogador_armadura.definir_aparencia(_jogador_armadura.cabelo_atual, _roupa_antes_armadura)
+		_roupa_antes_armadura = -1
 
 func _rotulo(texto: String) -> Label:
 	var rotulo := Label.new()
@@ -133,9 +204,185 @@ func _ao_raio() -> void:
 func _ao_passar_dia() -> void:
 	Calendario.dormir()
 
+func _ao_avancar_onda(quantidade: int) -> void:
+	var gerenciador := get_tree().get_first_node_in_group("gerenciador_ondas")
+	if gerenciador != null:
+		gerenciador.avancar_onda_debug(quantidade)
+
+func _ao_onda_dragao() -> void:
+	var gerenciador := get_tree().get_first_node_in_group("gerenciador_ondas")
+	if gerenciador != null:
+		var intervalo: int = maxi(1, gerenciador.intervalo_chefe) * gerenciador.CHEFES.size()
+		var destino: int = (int(gerenciador.onda_atual / intervalo) + 1) * intervalo
+		gerenciador.avancar_onda_debug(destino - gerenciador.onda_atual)
+
+func _ao_onda_minotauro() -> void:
+	var gerenciador := get_tree().get_first_node_in_group("gerenciador_ondas")
+	if gerenciador != null:
+		var primeira: int = maxi(1, gerenciador.intervalo_chefe)
+		var periodo: int = primeira * gerenciador.CHEFES.size()
+		var destino: int = primeira if gerenciador.onda_atual < primeira else primeira + (int((gerenciador.onda_atual - primeira) / periodo) + 1) * periodo
+		gerenciador.avancar_onda_debug(destino - gerenciador.onda_atual)
+
+func _ao_ataque_minotauro(tipo: String) -> void:
+	var chefe := get_tree().get_first_node_in_group("boss_minotauro")
+	if chefe != null:
+		chefe.forcar_ataque_debug(tipo)
+
+func _ao_ataque_dragao(tipo: String) -> void:
+	var chefe := get_tree().get_first_node_in_group("boss_dragao")
+	if chefe != null:
+		chefe.forcar_ataque_debug(tipo)
+
+## Solta no chão, à frente do jogador, uma arma ou escudo sorteado de cada raridade pedida (para ver o brilho, a cor e o tooltip)
+func _ao_dropar_raridade(raridades: Array) -> void:
+	var cena := get_tree().current_scene
+	var jogador := cena.get_node_or_null("Jogador") as Node2D if cena != null else null
+	if jogador == null:
+		return
+	var roteiro := load(EquipamentoDropRoteiro) as GDScript
+	var gerenciador := get_tree().get_first_node_in_group("gerenciador_ondas")
+	var onda: int = maxi(int(gerenciador.get("onda_atual")) if gerenciador != null else 1, 1)
+	var rng := RandomNumberGenerator.new()
+	rng.randomize()
+	var primeiro := -(raridades.size() - 1) * ESPACO_DROP_TESTE * 0.5
+	for i in raridades.size():
+		var item = roteiro.criar_item(rng, onda, false, false, String(raridades[i]))
+		var onde: Vector2 = jogador.global_position + Vector2(primeiro + i * ESPACO_DROP_TESTE, DISTANCIA_DROP_TESTE)
+		roteiro.soltar_item(item, onde, cena, rng)
+
 func _ao_ouro() -> void:
 	DadosJogo.moedas += 100
 	DadosJogo.atualizar_ui_moedas()
+
+## Troca visual reversível para conferir as peças nas animações; não altera itens nem atributos.
+func _ao_armadura_teste() -> void:
+	_alternar_armadura("armadura_teste")
+
+func _ao_set_cavaleiro() -> void:
+	_alternar_armadura("armadura_cavaleiro")
+
+func _equipar_conjunto(id: String) -> void:
+	var cena := get_tree().current_scene
+	var jogador := cena.get_node_or_null("Jogador") if cena != null else null
+	if jogador == null:
+		return
+	var conjuntos := load("res://Codigos/DadosLocais/conjuntos_armadura.gd")
+	var conjunto: GDScript = null
+	for candidato in conjuntos.CONJUNTOS:
+		if candidato.ID == id:
+			conjunto = candidato
+			break
+	if conjunto == null:
+		return
+	var inventario := get_node("/root/InventarioJogador")
+	var drop := load(EquipamentoDropRoteiro)
+	var rng := RandomNumberGenerator.new()
+	rng.randomize()
+	var gerenciador := get_tree().get_first_node_in_group("gerenciador_ondas")
+	var onda: int = maxi(int(gerenciador.get("onda_atual")) if gerenciador != null else 1, 1)
+	var pecas := {}
+	for tipo in conjunto.TIPOS:
+		var item: DadosItem = inventario.buscar_por_tipo(tipo)
+		if item == null:
+			item = drop.criar_item(rng, onda, false, false, conjunto.RARIDADE, tipo)
+		pecas[item.categoria] = item
+	if not inventario.equipar_conjunto_armadura(pecas):
+		var hud := get_tree().get_first_node_in_group("hud")
+		if hud != null and hud.has_method("avisar_equipamento_cheio"):
+			hud.avisar_equipamento_cheio()
+		push_warning("MOCHILA CHEIA: libere espaço para guardar a armadura anterior.")
+		return
+	for item in pecas.values():
+		item.raridade = conjunto.RARIDADE
+	# Os slots reais determinam a aparência. Retira qualquer prévia cosmética
+	# que poderia continuar mascarando mudanças feitas depois no inventário.
+	var aparencia := load("res://Codigos/DadosLocais/aparencia.gd")
+	if not aparencia.raiz_armadura_visual(jogador.roupa_atual).is_empty():
+		var base := _roupa_antes_armadura if jogador == _jogador_armadura and _roupa_antes_armadura >= 0 else 2
+		jogador.definir_aparencia(jogador.cabelo_atual, base)
+		_roupa_antes_armadura = -1
+	if jogador.has_method("_aplicar_modelo"):
+		jogador._aplicar_modelo()
+	inventario.salvar()
+
+func _ao_drop_carrasco() -> void:
+	_ao_drop_conjunto("carrasco")
+
+func _ao_drop_conjunto(id: String) -> void:
+	var cena := get_tree().current_scene
+	var jogador := cena.get_node_or_null("Jogador") if cena != null else null
+	if jogador == null:
+		return
+	var drop := load(EquipamentoDropRoteiro)
+	var conjuntos := load("res://Codigos/DadosLocais/conjuntos_armadura.gd")
+	var conjunto: GDScript = null
+	for candidato in conjuntos.CONJUNTOS:
+		if candidato.ID == id:
+			conjunto = candidato
+			break
+	if conjunto == null:
+		return
+	var rng := RandomNumberGenerator.new()
+	rng.randomize()
+	var gerenciador := get_tree().get_first_node_in_group("gerenciador_ondas")
+	var onda: int = maxi(int(gerenciador.get("onda_atual")) if gerenciador != null else 1, 1)
+	var i := 0
+	for tipo in conjunto.TIPOS:
+		var item: DadosItem = drop.criar_item(rng, onda, false, false, conjunto.RARIDADE, tipo)
+		drop.soltar_item(item, jogador.global_position + Vector2((i - 1.5) * ESPACO_DROP_TESTE, DISTANCIA_DROP_TESTE), cena, rng)
+		i += 1
+
+func _ao_peca_rubra(peca: String) -> void:
+	_alternar_peca_visual(peca, "armadura_cavaleiro_rubro")
+
+func _ao_peca_cavaleiro(peca: String) -> void:
+	_alternar_peca_visual(peca, "armadura_cavaleiro")
+
+func _alternar_peca_visual(peca: String, id: String) -> void:
+	var cena := get_tree().current_scene
+	var jogador := cena.get_node_or_null("Jogador") if cena != null else null
+	if jogador == null:
+		return
+	var aparencia := load("res://Codigos/DadosLocais/aparencia.gd")
+	var indice := -1
+	for i in aparencia.roupas().size():
+		if aparencia.roupas()[i]["id"] == id:
+			indice = i
+			break
+	if indice < 0:
+		return
+	if jogador.roupa_atual != indice:
+		_roupa_antes_armadura = jogador.roupa_atual
+		_jogador_armadura = jogador
+		jogador.pecas_cavaleiro = 0
+		jogador.definir_aparencia(jogador.cabelo_atual, indice)
+	var bit: int = aparencia.PECAS_CAVALEIRO[peca]
+	jogador.definir_peca_cavaleiro(peca, (jogador.pecas_cavaleiro & bit) == 0)
+
+func _alternar_armadura(id: String) -> void:
+	var cena := get_tree().current_scene
+	var jogador := cena.get_node_or_null("Jogador") if cena != null else null
+	if jogador == null:
+		return
+	var aparencia := load("res://Codigos/DadosLocais/aparencia.gd")
+	var indice := -1
+	for i in aparencia.roupas().size():
+		if aparencia.roupas()[i]["id"] == id:
+			indice = i
+			break
+	if indice < 0:
+		return
+	if jogador.roupa_atual == indice and jogador == _jogador_armadura and _roupa_antes_armadura >= 0:
+		jogador.definir_aparencia(jogador.cabelo_atual, _roupa_antes_armadura)
+		_roupa_antes_armadura = -1
+	else:
+		if jogador != _jogador_armadura or _roupa_antes_armadura < 0:
+			_roupa_antes_armadura = jogador.roupa_atual
+		_jogador_armadura = jogador
+		if id in aparencia.ARMADURAS_VISUAIS:
+			jogador.pecas_cavaleiro = 15
+		jogador.definir_aparencia(jogador.cabelo_atual, indice)
 
 ## 5 sementes de cada planta da estação atual (no inverno não há nenhuma)
 func _ao_sementes() -> void:
@@ -172,3 +419,6 @@ func _atualizar_estado() -> void:
 	if clima != null:
 		texto_clima = CLIMAS[clampi(clima.clima_atual, 0, CLIMAS.size() - 1)]
 	_rotulo_estado.text = "%s / %s / %s" % [texto_estacao, texto_clima, Calendario.texto_data()]
+	var gerenciador := get_tree().get_first_node_in_group("gerenciador_ondas")
+	if gerenciador != null:
+		_rotulo_estado.text += " / ONDA %d" % gerenciador.onda_atual

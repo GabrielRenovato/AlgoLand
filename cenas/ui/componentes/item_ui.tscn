@@ -1,40 +1,37 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://Codigos/UI/item_ui.gd" id="1_itemui"]
+[ext_resource type="Texture2D" path="res://UI/craftpix-net-420010-pixel-game-user-interface-for-platformer/2 Buttons/17.png" id="9_sprite_slot"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_moldura"]
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.0306703, 0.228581, 0.263116, 1)
-border_blend = true
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_slot"]
+texture = ExtResource("9_sprite_slot")
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 4.0
+region_rect = Rect2(1, 1, 19, 17)
 
 [node name="ItemUi" type="Control"]
-custom_minimum_size = Vector2(16, 16)
+custom_minimum_size = Vector2(20, 20)
 layout_mode = 3
 anchors_preset = 0
-offset_right = 16.0
-offset_bottom = 16.0
+offset_right = 20.0
+offset_bottom = 20.0
 script = ExtResource("1_itemui")
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 0
-offset_right = 16.0
-offset_bottom = 16.0
+offset_right = 20.0
+offset_bottom = 20.0
 mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_moldura")
+theme_override_styles/panel = SubResource("StyleBoxTexture_slot")
 
 [node name="Icone" type="TextureRect" parent="."]
 layout_mode = 0
-offset_left = 1.0
-offset_top = 1.0
-offset_right = 15.0
-offset_bottom = 15.0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 16.0
+offset_bottom = 16.0
 mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5

@@ -31,22 +31,23 @@ signal evento_alterado(evento: Dictionary)
 @onready var comerciante = $"../../Merchant"
 ## A cada N ondas vem o chefe (10, 20, 30...); 0 desliga
 @export var intervalo_chefe: int = 10
-## Slimes que acompanham o chefe; poucos para a luta ser contra ele
-@export var escolta_chefe: int = 2
+## Sem escolta por padrão: as ondas de chefe também ficam com uma única espécie.
+@export var escolta_chefe: int = 0
 const CENA_CHEFE := preload("res://cenas/inimigos/golem.tscn")
 ## altura_coroa = altura do alto da cabeça em coordenadas locais (a coroa dourada fica ali)
-## Rodízio de chefes: onda 10 golem, 20 rei slime, 30 caranguejo, 40 cogumelo, 50 golem de novo...
+## Rodízio de chefes: onda 10 minotauro, 20 rei slime, 30 caranguejo, 40 cogumelo, 50 dragão.
 ## Sem "escala" é o golem, que tem o comportamento próprio; os demais usam Inimigo-base.tornar_chefe
 ## (a vida e o dano ainda sobem pelos multiplicadores por onda, então cada ciclo é mais difícil).
 ## mult_vida dimensionado para uma luta de uns 30 a 60 s com o equipamento esperado na onda (ver a tabela)
 const CHEFES: Array[Dictionary] = [
-	{"id": "golem", "nome": "GOLEM DE PEDRA", "cena": preload("res://cenas/inimigos/golem.tscn"), "mult_vida": 2.3},
+	{"id": "minotauro", "nome": "MINOTAURO", "cena": preload("res://cenas/inimigos/minotauro.tscn"), "mult_vida": 2.0},
 	{"id": "rei_slime", "nome": "REI SLIME", "cena": preload("res://cenas/inimigos/slime.tscn"),
 		"escala": 2.8, "mult_vida": 16.0, "mult_dano": 1.4, "habilidade": "rei_slime", "altura_coroa": 11.5},
 	{"id": "caranguejo", "nome": "CARANGUEJO COLOSSAL", "cena": preload("res://cenas/inimigos/caranguejo.tscn"),
 		"escala": 2.4, "mult_vida": 11.0, "mult_dano": 1.5, "habilidade": "caranguejo", "altura_coroa": 12.5},
 	{"id": "cogumelo", "nome": "COGUMELO ANCIAO", "cena": preload("res://cenas/inimigos/cogumelo.tscn"),
 		"escala": 2.4, "mult_vida": 12.5, "mult_dano": 1.4, "habilidade": "cogumelo", "altura_coroa": 10.0},
+	{"id": "dragao_vermelho", "nome": "DRAGAO VERMELHO", "cena": preload("res://cenas/inimigos/dragao_vermelho.tscn"), "mult_vida": 2.3},
 ]
 ## Eventos de onda: sorteados a partir da onda 4, nunca na onda do chefe nem no estágio bônus.
 ## Chaves de efeito (1.0 = sem mudança): velocidade, dano, vida, qtde (inimigos), mutante (chance), ouro.
@@ -103,6 +104,7 @@ var _bonus_na_onda_anterior: bool = false
 var evento_atual: Dictionary = {}
 var _id_evento_anterior: String = ""
 var _rng := RandomNumberGenerator.new()
+var _avanco_debug_em_andamento := false
 
 @onready var jogador = get_node("/root/cenario/Jogador")
 func _ready() -> void:
@@ -127,7 +129,7 @@ func _ready() -> void:
 		DadosJogo.moedas = Progresso.ouro_inicial()
 		DadosJogo.atualizar_ui_moedas()
 
-func iniciar_onda() -> void:
+func iniciar_onda(ignorar_checkpoint: bool = false) -> void:
 	ondas_paradas = false
 	if jogador.estaMorto:
 		onda_atual = 1
@@ -135,7 +137,7 @@ func iniciar_onda() -> void:
 	if ondas_paradas:
 		return
 	# Checkpoint da Mística: vale só até a primeira onda da partida começar
-	if not Progresso.onda_comecou and Progresso.onda_inicial > 1:
+	if not ignorar_checkpoint and not Progresso.onda_comecou and Progresso.onda_inicial > 1:
 		onda_atual = Progresso.onda_inicial
 	if onda_atual > max_ondas:
 		emit_signal("jogo_ganho")
@@ -174,7 +176,8 @@ func iniciar_onda() -> void:
 		# O golem não passa por tornar_chefe: o mult_vida dele entra junto com o multiplicador da onda
 		var mult_vida_chefe := multiplicador_vida_inimigo if dados_chefe.has("escala") else multiplicador_vida_inimigo * float(dados_chefe.get("mult_vida", 1.0))
 		gerador.spawnar_inimigos(1, mult_vida_chefe, multiplicador_dano_inimigo, dados_chefe["cena"], config)
-		gerador.spawnar_inimigos(escolta_chefe, multiplicador_vida_inimigo, multiplicador_dano_inimigo)
+		if escolta_chefe > 0:
+			gerador.spawnar_inimigos(escolta_chefe, multiplicador_vida_inimigo, multiplicador_dano_inimigo)
 	else:
 		gerador.spawnar_inimigos(inimigos_vivos, multiplicador_vida_inimigo, multiplicador_dano_inimigo)
 
@@ -291,6 +294,8 @@ func _descontar_inimigo() -> void:
 		Sons.tocar("onda_fim", 0.0)
 		# Saquinhos de semente que ficaram no chão voam até o jogador
 		get_tree().call_group("semente_drop", "atrair")
+		# Equipamento no chão também (mochila cheia: é vendido na hora)
+		get_tree().call_group("equipamento_drop", "atrair")
 		_encerrar_evento()
 		# O bônus é um estágio extra: a próxima onda é a mesma que ficou esperando
 		if not onda_bonus:
@@ -303,8 +308,24 @@ func definir_onda_inicial(onda: int) -> void:
 	onda_atual = onda
 	get_tree().call_group("hud", "atualizar_rotulo_onda", onda)
 
+## F3: troca de onda sem premiar os inimigos descartados nem concluir a onda pulada.
+func avancar_onda_debug(quantidade: int = 1) -> void:
+	if not OS.is_debug_build() or _avanco_debug_em_andamento or get_tree().paused or jogador.estaMorto or quantidade <= 0:
+		return
+	_avanco_debug_em_andamento = true
+	var destino := mini(onda_atual + quantidade, max_ondas)
+	parar_ondas()
+	# Deixa sair da árvore os inimigos antigos, inclusive chefes e seus ataques pendentes.
+	await get_tree().process_frame
+	if not jogador.estaMorto:
+		onda_atual = destino
+		iniciar_onda(true)
+	_avanco_debug_em_andamento = false
+
 func parar_ondas() -> void:
 	ondas_paradas = true
+	if is_instance_valid(gerador) and gerador.has_method("cancelar_spawns"):
+		gerador.cancelar_spawns()
 	emit_signal("sinal_ondas_paradas")
 	comerciante.visible = true
 	var lista_inimigos = get_tree().get_nodes_in_group("enemy")

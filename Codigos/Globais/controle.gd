@@ -9,6 +9,13 @@ extends Node
 # preload em vez de class_name: classe global nova pode não estar no cache fora do editor
 const Opcoes := preload("res://Codigos/Globais/opcoes_jogo.gd")
 
+## Controles na tela (celular): ver Codigos/UI/controles_toque.gd. Ligam sozinhos em Android/iOS; no PC, com `-- --toque` (o mouse
+## faz o papel do dedo)
+const ARGUMENTO_TOQUE := "--toque"
+## Como cada ação aparece escrita nos controles na tela (as dicas do jogo usam rotulo_acao)
+const ROTULOS_TOQUE := {"open_menu": "AGIR", "usar_pocao": "POÇÃO", "ferramenta_anterior": "<", "ferramenta_proxima": ">",
+		"attack": "ATACAR", "rolar": "ROLAR", "aparar": "DEFESA", "open_inventory": "MOCHILA"}
+
 ## Muda o modo (teclado/mouse x controle) ou o desenho dos botões: quem mostra nome de tecla deve reescrever o texto
 signal dicas_alteradas
 signal modo_alterado(usando_controle: bool)
@@ -50,6 +57,10 @@ const ROTULOS_DIRECIONAL := {JOY_BUTTON_DPAD_UP: "CIMA", JOY_BUTTON_DPAD_DOWN: "
 		JOY_BUTTON_DPAD_LEFT: "ESQ", JOY_BUTTON_DPAD_RIGHT: "DIR"}
 
 var usando_controle := false
+## Jogando com os controles na tela
+var usando_toque := false
+## Direção do joystick virtual (tamanho de 0 a 1); zero quando solto
+var vetor_toque := Vector2.ZERO
 ## "auto" decide pelo nome do controle; ou "xbox", "nintendo", "playstation" para fixar (OPÇÕES)
 var preferencia_layout := "auto"
 var vibracao_ligada := true
@@ -59,11 +70,48 @@ var layout := "xbox"
 var dispositivo := 0
 
 func _ready() -> void:
+	usando_toque = OS.has_feature("mobile") or ARGUMENTO_TOQUE in OS.get_cmdline_user_args() or ARGUMENTO_TOQUE in OS.get_cmdline_args()
+	if usando_toque:
+		_tirar_mouse_das_acoes()
 	var opcoes := Opcoes.carregar()
 	preferencia_layout = opcoes["layout_controle"]
 	vibracao_ligada = opcoes["vibracao"]
 	Input.joy_connection_changed.connect(_ao_conexao_alterada)
 	_atualizar_layout()
+
+# O toque vira clique do mouse (para os menus), e o clique é "attack"/"aparar": sem isso, tocar num botão de menu atacaria
+func _tirar_mouse_das_acoes() -> void:
+	for acao in ["attack", "aparar"]:
+		for evento in InputMap.action_get_events(acao):
+			if evento is InputEventMouseButton:
+				InputMap.action_erase_event(acao, evento)
+
+## Para onde o jogador quer andar: o joystick da tela, ou o teclado/analógico (vetor de até tamanho 1, não normalizado)
+func vetor_movimento() -> Vector2:
+	if vetor_toque != Vector2.ZERO:
+		return vetor_toque
+	return Vector2(Input.get_axis("move_left", "move_right"), Input.get_axis("move_up", "move_down"))
+
+## Margens (esquerda, cima, direita, baixo) em unidades da tela do jogo que o celular reserva para recortes da câmera, cantos
+## arredondados e barras do sistema. No PC é tudo zero. A interface empurra os textos das bordas para dentro dessa folga
+func margens_seguras() -> Vector4:
+	# No PC (modo --toque) a janela é menor que a tela: a "área segura" do monitor não diz nada sobre ela
+	if not (usando_toque and OS.has_feature("mobile")):
+		return Vector4.ZERO
+	var janela := Vector2(DisplayServer.window_get_size())
+	var visivel := get_viewport().get_visible_rect().size
+	if janela.x <= 0.0 or visivel.x <= 0.0:
+		return Vector4.ZERO
+	var escala := janela.x / visivel.x
+	var segura := DisplayServer.get_display_safe_area()
+	if segura.size == Vector2i.ZERO:
+		return Vector4.ZERO
+	var tela := Vector2(DisplayServer.screen_get_size())
+	var esquerda := maxf(float(segura.position.x), 0.0)
+	var cima := maxf(float(segura.position.y), 0.0)
+	var direita := maxf(tela.x - float(segura.end.x), 0.0)
+	var baixo := maxf(tela.y - float(segura.end.y), 0.0)
+	return Vector4(esquerda, cima, direita, baixo) / escala
 
 func _input(evento: InputEvent) -> void:
 	var do_controle: bool = evento is InputEventJoypadButton \
@@ -132,6 +180,8 @@ func rotulo_botao(botao: JoyButton) -> String:
 
 ## Como o jogador chama a ação agora: o botão do controle (se está no controle) ou a tecla do teclado
 func rotulo_acao(acao: String) -> String:
+	if usando_toque:
+		return ROTULOS_TOQUE.get(acao, "")
 	if not InputMap.has_action(acao):
 		return ""
 	var eventos := InputMap.action_get_events(acao)

@@ -1,13 +1,9 @@
 class_name DadosItem
 extends Resource
 
-const CORES_RARIDADE := {
-	"comum": Color(0.92, 0.92, 0.92),
-	"incomum": Color(0.35, 0.85, 0.35),
-	"raro": Color(0.3, 0.55, 1.0),
-	"epico": Color(0.7, 0.35, 1.0),
-	"lendario": Color(1.0, 0.6, 0.15),
-}
+const Raridades := preload("res://Codigos/DadosLocais/raridades.gd")
+const Conjuntos := preload("res://Codigos/DadosLocais/conjuntos_armadura.gd")
+
 # Sem acentos: as fontes pixel do projeto não os suportam
 const NOMES := {
 	"espada_basica": "ESPADA",
@@ -36,12 +32,27 @@ const NOMES := {
 ## Vazio = sem encantamento; ver Codigos/DadosLocais/encantamentos.gd
 @export var encantamento: String = ""
 @export var nivel_encantamento: int = 0
+## Bônus extras da raridade: {id do afixo: valor}, ver Raridades.AFIXOS (vazio nos itens comuns e nos saves antigos)
+@export var afixos: Dictionary = {}
 
 func nome() -> String:
+	var conjunto := Conjuntos.de_tipo(tipo)
+	if conjunto != null:
+		return conjunto.TIPOS[tipo]["nome"]
 	return NOMES.get(tipo, tipo.to_upper())
 
 func cor_raridade() -> Color:
-	return CORES_RARIDADE.get(raridade, CORES_RARIDADE["comum"])
+	return Raridades.cor(raridade)
+
+func nome_raridade() -> String:
+	return Raridades.nome(raridade)
+
+func multiplicador_raridade() -> float:
+	return Raridades.multiplicador(raridade)
+
+## Valor de um afixo deste item (0 se não tiver)
+func afixo(id: String) -> float:
+	return float(afixos.get(id, 0.0))
 
 # O ícone não entra no dicionário: ele é recuperado a partir do tipo
 func para_dict() -> Dictionary:
@@ -54,6 +65,7 @@ func para_dict() -> Dictionary:
 		"duas_maos": duas_maos,
 		"encantamento": encantamento,
 		"nivel_encantamento": nivel_encantamento,
+		"afixos": afixos.duplicate(),
 	}
 
 static func de_dict(d: Dictionary) -> DadosItem:
@@ -66,4 +78,15 @@ static func de_dict(d: Dictionary) -> DadosItem:
 	item.duas_maos = bool(d.get("duas_maos", false))
 	item.encantamento = str(d.get("encantamento", ""))
 	item.nivel_encantamento = int(d.get("nivel_encantamento", 0))
+	# Raridade desconhecida (save de outra versão) cai em comum; afixos só valem como dicionário de números
+	if not Raridades.valida(item.raridade):
+		item.raridade = "comum"
+	# O traje de teste do Mordomo era comum; mantém ids e melhorias do save.
+	if item.tipo.ends_with("_cavalheiro") and Conjuntos.de_tipo(item.tipo) != null:
+		item.raridade = Conjuntos.de_tipo(item.tipo).RARIDADE
+	var guardados = d.get("afixos", {})
+	if guardados is Dictionary:
+		for chave in guardados:
+			if Raridades.AFIXOS.has(str(chave)):
+				item.afixos[str(chave)] = float(guardados[chave])
 	return item

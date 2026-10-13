@@ -867,9 +867,8 @@ func _tem_rotulo(no: Node, texto: String) -> bool:
 func _casas_ativas(barra: Control) -> int:
 	var n := 0
 	for casa in barra._casas:
-		var painel := casa.get_child(0) as Panel
-		var estilo := painel.get_theme_stylebox("panel") as StyleBoxFlat
-		if estilo.border_color == barra.COR_ATIVA:
+		var marco := casa.get_node_or_null("Marco")
+		if marco != null and marco.visible:
 			n += 1
 	return n
 
