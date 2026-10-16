@@ -5,7 +5,9 @@ extends SceneTree
 # ferramenta certa, impacto uma vez por ação, jogador travado durante a ação e camadas de volta no fim.
 # Não grava inventário; o Progresso usa um arquivo de teste, apagado no final.
 
-const FazendaJogador := preload("res://Codigos/Jogador/fazenda_jogador.gd")
+const Objetos := preload("res://codigo/dados/objetos_refinados.gd")
+const Aparencia := preload("res://codigo/dados/aparencia.gd")
+const FazendaJogador := preload("res://codigo/jogador/fazenda_jogador.gd")
 const CAMINHO_PROGRESSO := "user://teste_fazenda_progresso.json"
 const DIRECOES := [Vector2.DOWN, Vector2.UP, Vector2.RIGHT, Vector2.LEFT]
 
@@ -37,6 +39,10 @@ func _duracao(acao: String) -> float:
 	return total
 
 func _rodar() -> void:
+	if ProjectSettings.get_setting("application/config/name") != "AlgoLand testes Carrasco":
+		push_error("Execute com saves isolados.")
+		quit(1)
+		return
 	await process_frame
 	var progresso = root.get_node("Progresso")
 	progresso.caminho_save = CAMINHO_PROGRESSO
@@ -74,7 +80,7 @@ func _rodar() -> void:
 		var quadro_inicial: int = linha_esperada * 8 + int(dados["quadros"][0][0])
 		_verificar("%s: comeca" % acao, comecou and _fazenda.visible and _jogador.esta_em_acao_fazenda, "")
 		_verificar("%s: primeiro quadro (linha %d)" % [acao, linha_esperada], _fazenda._corpo.frame == quadro_inicial and _fazenda._ferramenta.frame == quadro_inicial, "frame=%d" % _fazenda._corpo.frame)
-		_verificar("%s: ferramenta %s" % [acao, dados["ferramenta"]], _fazenda._ferramenta.texture.resource_path.ends_with("ferramenta_%s.png" % dados["ferramenta"]), _fazenda._ferramenta.texture.resource_path)
+		_verificar("%s: ferramenta %s" % [acao, dados["ferramenta"]], _fazenda._ferramenta.texture == Objetos.textura(load("res://assets/personagens/Fazenda/ferramenta_%s.png" % dados["ferramenta"])), _fazenda._ferramenta.texture.resource_path)
 		_verificar("%s: esconde o boneco normal" % acao, not base.visible and not armaduras.visible, "")
 		_verificar("%s: nao comeca outra por cima" % acao, not _jogador.acao_fazenda("enxada"), "")
 		await create_timer(_duracao(acao) + 0.15).timeout
@@ -131,8 +137,8 @@ func _rodar() -> void:
 	_jogador.cor_cabelo = Color(0.8, 0.3, 0.2)
 	_jogador.acao_fazenda("plantar")
 	await _quadros(2)
-	_verificar("roupa da customizacao (roupa_6)", _fazenda._roupa.texture.resource_path.ends_with("roupa_6.png"), _fazenda._roupa.texture.resource_path)
-	_verificar("cabelo da customizacao (cabelo_2) com a cor", _fazenda._cabelo.texture.resource_path.ends_with("cabelo_2.png") and _fazenda._cabelo.modulate == Color(0.8, 0.3, 0.2), "")
+	_verificar("roupa da customizacao (roupa_6)", _fazenda._roupa.texture == Aparencia.roupa_refinada(5,"fazenda",_jogador.pecas_cavaleiro,_jogador.raizes_armadura), _fazenda._roupa.texture.resource_path)
+	_verificar("cabelo da customizacao (cabelo_2) com a cor", _fazenda._cabelo.texture == Aparencia.cabelo_refinado(1,"fazenda",5,_jogador.pecas_cavaleiro,_jogador.raizes_armadura) and _fazenda._cabelo.modulate == Color(0.8, 0.3, 0.2), "")
 	_jogador.cancelar_acao_fazenda()
 
 	if FileAccess.file_exists(CAMINHO_PROGRESSO):

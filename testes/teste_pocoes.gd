@@ -49,7 +49,7 @@ func _fisica(n: int) -> void:
 func _rodar() -> void:
 	await process_frame
 	_f = root.get_node("Fazenda")
-	SementeDrop = load("res://Codigos/Logicas/semente_drop.gd")
+	SementeDrop = load("res://codigo/logica/semente_drop.gd")
 	_cal = root.get_node("Calendario")
 	_progresso = root.get_node("Progresso")
 	_f.caminho_save = CAMINHO_FAZENDA
@@ -97,7 +97,7 @@ func _testar_sorteio() -> void:
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 12345
 	# raridades: as plantas das melhores pocoes (forca e vampirica) sao raras/epicas; as das outras, comuns/incomuns
-	var pocoes: GDScript = load("res://Codigos/DadosLocais/pocoes.gd")
+	var pocoes: GDScript = load("res://codigo/dados/pocoes.gd")
 	var ordem_rar := {"comum": 0, "incomum": 1, "raro": 2, "epico": 3}
 	var melhor_das_boas := 0
 	var pior_das_melhores := 3
@@ -146,10 +146,14 @@ func _testar_sorteio() -> void:
 			and int(total_chefe.get("berinjela", 0)) > 0, str(total_chefe))
 	var estacoes_ok := true
 	for i in 200:
-		# inverno não tem plantio: cai semente de primavera para guardar
-		estacoes_ok = estacoes_ok and int(_f.PLANTAS[SementeDrop.sortear_planta(3, rng)]["estacao"]) == 0
-		estacoes_ok = estacoes_ok and int(_f.PLANTAS[SementeDrop.sortear_planta(2, rng)]["estacao"]) == 2
-	_verificar("inverno da semente de primavera; outono, do outono", estacoes_ok, "")
+		for estacao in 3:
+			estacoes_ok = estacoes_ok and int(_f.PLANTAS[SementeDrop.sortear_planta(estacao, rng)]["estacao"]) == estacao
+	_verificar("cada estação só solta semente que cresce nela", estacoes_ok, "")
+	var inverno_vazio: bool = SementeDrop.sortear_planta(3, rng) == ""
+	for i in 500:
+		inverno_vazio = inverno_vazio and SementeDrop.sortear(3, i % 2 == 0, i % 3 == 0, rng).is_empty()
+	_verificar("inverno (nada cresce): nenhuma semente cai, nem a garantida do chefe", inverno_vazio, "")
+	_verificar("texto do tempo de crescimento", _f.texto_crescimento("cenoura") == "3 DIAS" and _f.texto_crescimento("melancia") == "6 DIAS", _f.texto_crescimento("cenoura"))
 	# quem conta como chefe: o slime comum NAO (o bug antigo fazia todo inimigo soltar 3); o golem e o tornar_chefe SIM
 	var slime: Node = load("res://cenas/inimigos/slime.tscn").instantiate()
 	var golem: Node = load("res://cenas/inimigos/golem.tscn").instantiate()
@@ -175,7 +179,7 @@ func _testar_cinto() -> void:
 	_verificar("tecla de beber no teclado: R", cinto._tecla_beber.text == "R BEBER" and cinto._tecla_anterior.text == "Q", cinto._tecla_beber.text)
 	var controle := root.get_node("Controle")
 	controle._definir(true)
-	_verificar("no controle: X bebe, LB/RB trocam", cinto._tecla_beber.text == "X BEBER" and cinto._tecla_anterior.text == "LB" and cinto._tecla_proxima.text == "RB", "")
+	_verificar("no controle: Y bebe, LB/RB trocam", cinto._tecla_beber.text == "Y BEBER" and cinto._tecla_anterior.text == "LB" and cinto._tecla_proxima.text == "RB", "")
 	controle._definir(false)
 	# troca pelas ações de verdade (E/Q), passando pelo _unhandled_input do jogador
 	_verificar("na arena o cinto esta ativo (fora do modo fazenda)", _jogador._cinto_de_pocoes_ativo(), "")
@@ -312,8 +316,22 @@ func _velocidade_andando() -> float:
 
 # --- Saquinhos de semente --------------------------------------------------------------------------------------
 
+## Sementes agora são itens da mochila: total de todas as pilhas
+func _total_sementes() -> int:
+	var total := 0
+	for id in _f.PLANTAS:
+		total += _f.quantidade_sementes(id)
+	return total
+
+func _tirar_sementes() -> void:
+	var inv := root.get_node("InventarioJogador")
+	for i in inv.mochila.size():
+		if inv.mochila[i] != null and inv.mochila[i].categoria == "semente":
+			inv.mochila[i] = null
+	inv.mochila_alterada.emit()
+
 func _testar_saquinhos() -> void:
-	_f.sementes = {}
+	_tirar_sementes()
 	_cal.dia = 1
 	# um "chefe" de mentira: eh_chefe vem por propriedade
 	var falso := NoComChefe.new()
@@ -330,14 +348,12 @@ func _testar_saquinhos() -> void:
 	for d in criados:
 		espalhados = espalhados and is_instance_valid(d) and (d as Node2D).global_position.distance_to(falso.global_position) >= 9.0
 	_verificar("os saquinhos pulam e se espalham em volta", espalhados, "")
-	_verificar("longe do jogador: ficam no chao", _f.sementes.is_empty() and get_nodes_in_group("semente_drop").size() == qtd, str(_f.sementes))
+	_verificar("longe do jogador: ficam no chao", _total_sementes() == 0 and get_nodes_in_group("semente_drop").size() == qtd, str(_total_sementes()))
 	# o jogador chega perto: o ímã puxa e recolhe
 	_jogador.global_position = falso.global_position - Vector2(0, 11)
 	await create_timer(0.8).timeout
-	var total := 0
-	for id in _f.sementes:
-		total += int(_f.sementes[id])
-	_verificar("perto: o ima puxa e todas as sementes vao para a fazenda", total == qtd and get_nodes_in_group("semente_drop").is_empty(), str(_f.sementes))
+	var total := _total_sementes()
+	_verificar("perto: o ima puxa e todas as sementes vao para a mochila (empilhadas por planta)", total == qtd and get_nodes_in_group("semente_drop").is_empty(), str(total))
 	_verificar("o cinto avisa a semente recolhida", _hud.cinto_pocoes._aviso_semente.text.begins_with("+") and "SEMENTE:" in _hud.cinto_pocoes._aviso_semente.text, _hud.cinto_pocoes._aviso_semente.text)
 	# fim da onda: os que ficaram voam até o jogador, de qualquer distância
 	var longe: Node2D = SementeDrop.new()
@@ -348,7 +364,7 @@ func _testar_saquinhos() -> void:
 	_verificar("saquinho longe nao se mexe sozinho", is_instance_valid(longe) and not longe._atraido, "")
 	call_group("semente_drop", "atrair")
 	await create_timer(2.0).timeout
-	_verificar("atrair (fim da onda): voa ate o jogador e e recolhido", not is_instance_valid(longe) and _f.quantidade_sementes("batata") >= 1, str(_f.sementes))
+	_verificar("atrair (fim da onda): voa ate o jogador e e recolhido", not is_instance_valid(longe) and _f.quantidade_sementes("batata") >= 1, str(_total_sementes()))
 	# raridade: o saquinho raro/epico brilha na cor da raridade; o aviso diz a raridade
 	var epico: Node2D = SementeDrop.new()
 	epico.semente = "melancia"
@@ -365,7 +381,7 @@ func _testar_saquinhos() -> void:
 	comum.queue_free()
 	_hud.avisar_semente("tomate")
 	var aviso: Label = _hud.cinto_pocoes._aviso_semente
-	_verificar("aviso de semente rara: '(RARA)' na cor azul", aviso.text == "+1 SEMENTE: TOMATE (RARA)" and aviso.get_theme_color("font_color") == _f.COR_RARIDADE["raro"], aviso.text)
+	_verificar("aviso de semente rara: dias e 'RARA' na cor azul", aviso.text == "+1 SEMENTE: TOMATE (4 DIAS, RARA)" and aviso.get_theme_color("font_color") == _f.COR_RARIDADE["raro"], aviso.text)
 	falso.queue_free()
 
 class NoComChefe extends Node2D:
@@ -407,7 +423,8 @@ func _testar_ligacao_no_spawner() -> void:
 func _testar_morte() -> void:
 	var efeitos: Node = _jogador.efeitos_pocao
 	_f.pocoes = {"forca": 2, "cura": 1}
-	_f.sementes = {"tomate": 4}
+	_tirar_sementes()
+	_f.dar_sementes("tomate", 4)
 	_f.colheita = {"uva": 3}
 	_f.bolsas_alteradas.emit()
 	await create_timer(efeitos.ESPERA_ENTRE_GOLES + 0.05).timeout
@@ -423,5 +440,5 @@ func _testar_morte() -> void:
 	_jogador.reiniciar_para_nova_partida()
 	root.get_node("EventosJogo").fechar_tela.emit("fim_partida")
 	await _quadros(3)
-	_verificar("reset roguelite: pocoes, sementes e colheita da fazenda ficam", _f.pocoes == {"forca": 1, "cura": 1} and _f.sementes == {"tomate": 4} and _f.colheita == {"uva": 3},
-			"%s %s %s" % [_f.pocoes, _f.sementes, _f.colheita])
+	_verificar("reset roguelite: pocoes, sementes (na mochila) e colheita da fazenda ficam", _f.pocoes == {"forca": 1, "cura": 1} and _f.quantidade_sementes("tomate") == 4 and _total_sementes() == 4 and _f.colheita == {"uva": 3},
+			"%s %d %s" % [_f.pocoes, _total_sementes(), _f.colheita])

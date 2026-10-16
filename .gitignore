@@ -3,7 +3,16 @@
 /android/
 
 # Zips originais dos pacotes de sprites pagos (nao redistribuir em repo publico)
-SPRITES GERAL/_zips_originais/
+arte/pacotes/_zips_originais/
 
 # Python (ferramentas/)
 __pycache__/
+
+# Builds e arquivos temporários locais
+builds/
+*.tmp
+*.TMP
+
+# Quadros intermediários regeneráveis; manter GIFs e imagens finais
+arte/previas/**/quadro_*.png
+arte/previas/**/quadro_*.png.import

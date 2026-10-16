@@ -14,12 +14,12 @@ const PALETAS := {
 
 func _initialize() -> void:
 	for tipo in TIPOS:
-		var fonte := Image.load_from_file("res://inimigos/esqueletos/fontes/%s_v1.png" % tipo)
+		var fonte := Image.load_from_file("res://arte/fontes/inimigos/esqueletos/%s_v1.png" % tipo)
 		if fonte == null or fonte.is_empty():
 			push_error("Folha não encontrada: " + tipo)
 			quit(1)
 			return
-		var caminhada := Image.load_from_file("res://inimigos/esqueletos/fontes/%s_caminhada_v2.png" % tipo)
+		var caminhada := Image.load_from_file("res://arte/fontes/inimigos/esqueletos/%s_caminhada_v2.png" % tipo)
 		if caminhada == null or caminhada.is_empty():
 			push_error("Caminhada revisada não encontrada: " + tipo)
 			quit(1)
@@ -50,7 +50,7 @@ func _initialize() -> void:
 					# Apoio fixo dos pés e centro do crânio: evita saltos laterais do corpo entre os passos.
 					posicao = Vector2i(32 - _centro_cranio(quadro), 16)
 				folha.blit_rect(quadro, Rect2i(Vector2i.ZERO, quadro.get_size()), Vector2i(coluna * CELULA, linha * CELULA) + posicao)
-		var erro := folha.save_png("res://inimigos/esqueletos/%s.png" % tipo)
+		var erro := folha.save_png("res://assets/inimigos/esqueletos/%s.png" % tipo)
 		if erro != OK:
 			push_error("Não foi possível preparar " + tipo)
 			quit(1)

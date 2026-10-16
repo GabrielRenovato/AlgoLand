@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=3 uid="uid://d0d8gckr1co47"]
 
-[ext_resource type="Script" uid="uid://dw05bs867jnpg" path="res://Codigos/Logicas/item.gd" id="1_x6e3p"]
-[ext_resource type="FontFile" uid="uid://b13xmp6wu4ea" path="res://UI/craftpix-net-775352-game-user-interface-pixel-art/6 Font/CraftPixNet Survival Kit.otf" id="2_irft0"]
-[ext_resource type="Texture2D" uid="uid://o67wn2b4tdtx" path="res://UI/craftpix-net-629015-100-skill-icons-pack-for-rpg/PNG/skill icon 1.png" id="2_ubutv"]
+[ext_resource type="Script" uid="uid://dw05bs867jnpg" path="res://codigo/logica/item.gd" id="1_x6e3p"]
+[ext_resource type="FontFile" uid="uid://b13xmp6wu4ea" path="res://assets/ui/craftpix-net-775352-game-user-interface-pixel-art/6 Font/CraftPixNet Survival Kit.otf" id="2_irft0"]
+[ext_resource type="Texture2D" uid="uid://o67wn2b4tdtx" path="res://assets/ui/craftpix-net-629015-100-skill-icons-pack-for-rpg/PNG/skill icon 1.png" id="2_ubutv"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_w731v"]
 line_spacing = 5.0

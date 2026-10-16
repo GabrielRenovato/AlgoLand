@@ -78,7 +78,7 @@ func _rodar() -> void:
 			await physics_frame
 			await physics_frame
 		var vida_antes_flecha: int = chefe.vida
-		var flecha = load("res://Codigos/Jogador/flecha.gd").new()
+		var flecha = load("res://codigo/jogador/flecha.gd").new()
 		arena.add_child(flecha)
 		flecha.iniciar(jogador, Vector2.RIGHT)
 		flecha.global_position = ponto - Vector2(30, 0)

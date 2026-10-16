@@ -26,6 +26,7 @@ var _progresso: Node
 var _plantio_gd: GDScript
 var _clima_gd: GDScript   # carregado depois do 1o quadro: clima.gd usa autoloads (Sons) que ainda nao existem ao compilar o teste
 var _barra_gd: GDScript
+var _inv: Node          # InventarioJogador: ferramentas e sementes moram na mochila
 
 func _initialize() -> void:
 	_rodar()
@@ -51,9 +52,10 @@ func _rodar() -> void:
 	_cal = root.get_node("Calendario")
 	_dados = root.get_node("DadosJogo")
 	_progresso = root.get_node("Progresso")
-	_clima_gd = load("res://Codigos/Design/clima.gd")
-	_plantio_gd = load("res://Codigos/Logicas/plantio.gd")
-	_barra_gd = load("res://Codigos/UI/barra_ferramentas.gd")
+	_clima_gd = load("res://codigo/cenario/clima.gd")
+	_plantio_gd = load("res://codigo/logica/plantio.gd")
+	_barra_gd = load("res://codigo/ui/barra_armas.gd")
+	_inv = root.get_node("InventarioJogador")
 	var caminho_fazenda: String = _f.caminho_save
 	var caminho_calendario: String = _cal.caminho_save
 	var caminho_progresso: String = _progresso.caminho_save
@@ -95,25 +97,45 @@ func _rodar() -> void:
 	print("FALHAS: ", _falhas)
 	quit(_falhas)
 
-# Fazenda vazia, calendario no dia `dia` (sem sinais), sem ouro
+# Fazenda vazia, calendario no dia `dia` (sem sinais), sem ouro; mochila no kit inicial (com enxada, regador e mao, sem sementes)
 func _zerar(dia := 1) -> void:
 	_f.apagar()
 	_cal.apagar()
 	_cal.dia = dia
 	_dados.moedas = 0
+	_inv.limpar()
+	_inv.criar_itens_iniciais()
+
+## Deixa exatamente `quantos` sementes da planta na mochila
+func _definir_sementes(id: String, quantos: int) -> void:
+	for i in _inv.mochila.size():
+		var item = _inv.mochila[i]
+		if item != null and item.categoria == "semente" and item.planta() == id:
+			_inv.mochila[i] = null
+	_inv.mochila_alterada.emit()
+	if quantos > 0:
+		_f.dar_sementes(id, quantos)
+
+## {planta: quantidade} das pilhas de semente da mochila
+func _sementes_na_mochila() -> Dictionary:
+	var tabela := {}
+	for item in _inv.mochila:
+		if item != null and item.categoria == "semente":
+			tabela[item.planta()] = item.quantidade
+	return tabela
 
 # Araa a celula e, se pedido, planta (semente da estacao atual; ganha uma de graca)
 func _arar(celula: Vector2i) -> String:
 	return _f.aplicar("enxada", celula)
 
 func _plantar(celula: Vector2i, id: String) -> String:
-	_f.sementes[id] = _f.quantidade_sementes(id) + 1
+	_f.dar_sementes(id)
 	return _f.aplicar("plantar", celula, id)
 
 # --- Dados -------------------------------------------------------------------------------------------------
 
 func _testar_dados_das_plantas() -> void:
-	_verificar("area de plantio 17,22 15x9", _f.AREA_PLANTIO == Rect2i(17, 22, 15, 9), str(_f.AREA_PLANTIO))
+	_verificar("area de plantio 6,21 32x16", _f.AREA_PLANTIO == Rect2i(6, 21, 32, 16), str(_f.AREA_PLANTIO))
 	_verificar("12 plantas, 4 por estacao (inverno sem plantio)",
 			_f.PLANTAS.size() == 12 and _f.ORDEM_PLANTAS.size() == 12 and _f.plantas_da_estacao(0).size() == 4
 			and _f.plantas_da_estacao(1).size() == 4 and _f.plantas_da_estacao(2).size() == 4 and _f.plantas_da_estacao(3).is_empty(), "")
@@ -163,11 +185,11 @@ func _testar_dados_das_plantas() -> void:
 func _testar_arar_so_na_area() -> void:
 	_zerar()
 	_verificar("dentro_da_area: cantos da area sim, vizinhas nao",
-			_f.dentro_da_area(Vector2i(17, 22)) and _f.dentro_da_area(Vector2i(31, 30)) and not _f.dentro_da_area(Vector2i(16, 22))
-			and not _f.dentro_da_area(Vector2i(32, 30)) and not _f.dentro_da_area(Vector2i(17, 21)) and not _f.dentro_da_area(Vector2i(17, 31)), "")
+			_f.dentro_da_area(Vector2i(6, 21)) and _f.dentro_da_area(Vector2i(37, 36)) and not _f.dentro_da_area(Vector2i(5, 21))
+			and not _f.dentro_da_area(Vector2i(38, 36)) and not _f.dentro_da_area(Vector2i(6, 20)) and not _f.dentro_da_area(Vector2i(6, 37)), "")
 	_verificar("celula_do_ponto converte px em tile", _f.celula_do_ponto(Vector2(328, 386)) == A and _f.celula_do_ponto(Vector2(-1, -1)) == Vector2i(-1, -1), "")
 	_verificar("enxada fora da area: recusa", _f.aplicar("enxada", FORA) == _f.MSG_FORA and not _f.esta_arado(FORA), "")
-	_verificar("enxada na borda de fora da area: recusa", _f.aplicar("enxada", Vector2i(32, 24)) == _f.MSG_FORA, "")
+	_verificar("enxada na borda de fora da area: recusa", _f.aplicar("enxada", Vector2i(38, 24)) == _f.MSG_FORA, "")
 	var emitidos: Array = []
 	_f.solo_alterado.connect(func(c): emitidos.append(c))
 	_verificar("enxada dentro da area: ara", _f.aplicar("enxada", A) == "" and _f.esta_arado(A) and not _f.esta_molhado(A), "")
@@ -190,24 +212,24 @@ func _testar_regar() -> void:
 
 func _testar_plantar_so_no_arado() -> void:
 	_zerar()
-	_f.sementes["cenoura"] = 2
+	_definir_sementes("cenoura", 2)
 	_verificar("plantar sem arar: recusa", _f.aplicar("plantar", A, "cenoura") == _f.MSG_ARAR_ANTES and _f.planta_em(A) == "", "")
 	_arar(A)
 	_verificar("plantar sem semente (id vazio): recusa", _f.aplicar("plantar", A, "") == _f.MSG_SEM_SEMENTE, "")
 	_verificar("plantar semente que nao tem: recusa", _f.aplicar("plantar", A, "batata") == _f.MSG_SEM_SEMENTE, "")
-	_f.sementes["tomate"] = 1
+	_definir_sementes("tomate", 1)
 	_verificar("semente de verao na primavera: recusa", _f.aplicar("plantar", A, "tomate") == _f.MSG_FORA_ESTACAO and _f.quantidade_sementes("tomate") == 1, "")
 	_verificar("plantar fora da area: recusa", _f.aplicar("plantar", FORA, "cenoura") == _f.MSG_FORA, "")
 	_verificar("plantar no arado: planta e gasta 1 semente", _f.aplicar("plantar", A, "cenoura") == "" and _f.planta_em(A) == "cenoura" and _f.quantidade_sementes("cenoura") == 1, "")
 	_verificar("planta recem plantada: 0 dias, viva, nao madura", _f.dias_crescidos(A) == 0 and not _f.esta_murcha(A) and not _f.esta_madura(A), "")
 	_arar(B)
 	_verificar("segunda semente em outro arado", _f.aplicar("plantar", B, "cenoura") == "" and _f.quantidade_sementes("cenoura") == 0, "")
-	_verificar("a semente zerada some do saco", not _f.sementes.has("cenoura"), str(_f.sementes))
+	_verificar("a semente zerada some da mochila (a casa esvazia)", not _sementes_na_mochila().has("cenoura"), str(_sementes_na_mochila()))
 	_verificar("plantar onde ja tem planta: recusa", _plantar(A, "cenoura") == _f.MSG_TEM_PLANTA, "")
 	_verificar("enxada em cima da planta viva: recusa", _f.aplicar("enxada", A) == _f.MSG_TEM_PLANTA and _f.planta_em(A) == "cenoura", "")
 	_cal.dia = 22
 	_arar_forcado(C)
-	_f.sementes["morango"] = 1
+	_definir_sementes("morango", 1)
 	_verificar("inverno: nenhuma semente planta", _f.aplicar("plantar", C, "morango") == _f.MSG_FORA_ESTACAO, "")
 	_cal.dia = 1
 
@@ -400,16 +422,26 @@ func _testar_dar_sementes() -> void:
 	_f.bolsas_alteradas.connect(contar)
 	_f.dar_sementes("tomate")
 	_f.dar_sementes("tomate", 2)
-	_verificar("dar_sementes soma (qualquer estacao: a semente fica guardada) e avisa a bolsa", _f.quantidade_sementes("tomate") == 3 and sinais["n"] == 2, "tem=%d sinais=%d" % [_f.quantidade_sementes("tomate"), sinais["n"]])
+	_verificar("dar_sementes empilha na mochila (qualquer estacao: a semente fica guardada) e avisa a bolsa", _f.quantidade_sementes("tomate") == 3 and sinais["n"] == 2, "tem=%d sinais=%d" % [_f.quantidade_sementes("tomate"), sinais["n"]])
 	_f.dar_sementes("nao_existe")
 	_f.dar_sementes("cenoura", 0)
-	_verificar("semente invalida ou quantidade 0: nada muda", _f.sementes == {"tomate": 3} and sinais["n"] == 2, str(_f.sementes))
+	_verificar("semente invalida ou quantidade 0: nada muda", _sementes_na_mochila() == {"tomate": 3} and sinais["n"] == 2, str(_sementes_na_mochila()))
 	_f.bolsas_alteradas.disconnect(contar)
+	var pilhas := 0
+	for item in _inv.mochila:
+		if item != null and item.tipo == "semente:tomate":
+			pilhas += 1
+	_verificar("uma casa so por planta (pilha com a quantidade)", pilhas == 1, str(pilhas))
+	# mochila cheia: a semente nova nao cabe, mas a da pilha que ja existe sim
+	while _inv.tem_espaco():
+		_inv.adicionar(_inv._criar_item({"tipo": "maca", "categoria": "arma", "duas_maos": false}))
+	_verificar("mochila cheia: semente sem pilha nao entra", not _f.dar_sementes("cenoura") and _f.quantidade_sementes("cenoura") == 0, "")
+	_verificar("mochila cheia: a pilha que ja existe aumenta", _f.dar_sementes("tomate") and _f.quantidade_sementes("tomate") == 4, "")
 	_verificar("a fazenda nao vende nem compra mais (sem funcoes de ouro)", not _f.has_method("comprar_semente") and not _f.has_method("vender_tudo") and not _f.has_method("vender"), "")
 
 func _testar_caldeirao() -> void:
 	_zerar()
-	var pocoes: GDScript = load("res://Codigos/DadosLocais/pocoes.gd")
+	var pocoes: GDScript = load("res://codigo/dados/pocoes.gd")
 	# receitas: 6 pocoes, 2 por estacao de plantio, so plantas da mesma estacao, icones dentro da folha
 	var problemas: Array = []
 	var por_estacao := {}
@@ -468,26 +500,24 @@ func _testar_salvar_carregar() -> void:
 	_plantar(B, "batata")
 	_f.aplicar("regar", A)
 	_f.avancar_dia(_clima_gd.Estado.CHUVA_FORTE)   # A cresce 1 dia; tudo amanhece molhado; clima guardado
-	_f.sementes = {"morango": 4, "couve_flor": 1}
 	_f.colheita = {"tomate": 2}
 	_f.pocoes = {"forca": 3, "cura": 1}
 	_f.solo[B]["murcha"] = true
 	_verificar("salvar grava o arquivo", _f.salvar() and FileAccess.file_exists(CAMINHO_FAZENDA), "")
-	var copia := {"solo": _f.solo.duplicate(true), "sementes": _f.sementes.duplicate(), "colheita": _f.colheita.duplicate(),
+	var copia := {"solo": _f.solo.duplicate(true), "colheita": _f.colheita.duplicate(),
 			"pocoes": _f.pocoes.duplicate(), "clima": _f.clima_hoje}
 	_f.solo = {}
-	_f.sementes = {}
 	_f.colheita = {}
 	_f.pocoes = {}
 	_f.clima_hoje = -1
 	_verificar("carregar devolve true", _f.carregar(), "")
 	_verificar("carregar: solo igual (arado, molhado, planta, dias, murcha)", _f.solo == copia["solo"], "%s != %s" % [_f.solo, copia["solo"]])
-	_verificar("carregar: sementes, colheita, pocoes e clima do dia", _f.sementes == copia["sementes"] and _f.colheita == copia["colheita"]
+	_verificar("carregar: colheita, pocoes e clima do dia", _f.colheita == copia["colheita"]
 			and _f.pocoes == copia["pocoes"] and _f.clima_hoje == copia["clima"], "%s" % _f.pocoes)
 	_verificar("carregar: planta de A com 1 dia e B murcha", _f.planta_em(A) == "cenoura" and _f.dias_crescidos(A) == 1 and _f.esta_murcha(B) and _f.esta_molhado(C), "")
 	# apagar
 	_f.apagar()
-	_verificar("apagar: esvazia a memoria e remove o arquivo", _f.solo.is_empty() and _f.sementes.is_empty() and _f.colheita.is_empty() and _f.pocoes.is_empty() and _f.clima_hoje == -1 and not FileAccess.file_exists(CAMINHO_FAZENDA), "")
+	_verificar("apagar: esvazia a memoria e remove o arquivo", _f.solo.is_empty() and _f.colheita.is_empty() and _f.pocoes.is_empty() and _f.clima_hoje == -1 and not FileAccess.file_exists(CAMINHO_FAZENDA), "")
 	_verificar("carregar sem arquivo: false e fazenda vazia", not _f.carregar() and _f.solo.is_empty(), "")
 	# salvamento agendado: varias mudancas no mesmo quadro viram uma gravacao
 	_arar(A)
@@ -514,7 +544,12 @@ func _testar_arquivos_invalidos() -> void:
 	_verificar("celula fora da area e chaves invalidas sao descartadas", not _f.esta_arado(FORA) and _f.solo.size() == 2, "celulas=%s" % str(_f.solo.keys()))
 	_verificar("dias acima do limite voltam ao limite da planta", _f.dias_crescidos(A) == int(_f.PLANTAS["cenoura"]["dias"]), "dias=%d" % _f.dias_crescidos(A))
 	_verificar("planta desconhecida some (solo fica arado) e murcha sem planta e falsa", _f.esta_arado(B) and _f.planta_em(B) == "" and not _f.esta_murcha(B), "")
-	_verificar("sementes e colheita: so ids validos e quantidades positivas", _f.sementes == {"morango": 3} and _f.colheita == {"milho": 2}, "%s %s" % [_f.sementes, _f.colheita])
+	_verificar("sementes antigas e colheita: so ids validos e quantidades positivas", _f._sementes_antigas == {"morango": 3} and _f.colheita == {"milho": 2}, "%s %s" % [_f._sementes_antigas, _f.colheita])
+	# save antigo: as sementes guardadas na fazenda passam para a mochila (uma vez)
+	_inv.limpar()
+	_inv.criar_itens_iniciais()
+	_f.migrar_sementes_antigas()
+	_verificar("migracao: as sementes do save antigo vao para a mochila e saem da fazenda", _f.quantidade_sementes("morango") == 3 and _f._sementes_antigas.is_empty(), str(_sementes_na_mochila()))
 	_verificar("pocoes: so ids de pocao (planta nao conta) e quantidades positivas", _f.pocoes == {"forca": 2}, str(_f.pocoes))
 	_verificar("clima_hoje fora da faixa vira o limite", _f.clima_hoje == _clima_gd.Estado.NEVE_FORTE, "clima=%d" % _f.clima_hoje)
 
@@ -522,22 +557,26 @@ func _testar_arquivos_invalidos() -> void:
 
 func _testar_troca_de_ferramenta() -> void:
 	_zerar()
-	_verificar("ferramentas basicas: enxada, regador e mao (sem semente nao ha entrada de semente)", _f.ferramentas() == ["enxada", "regador", "mao"], str(_f.ferramentas()))
+	_verificar("ferramentas basicas: enxada, regador e mao da mochila (sem semente nao ha entrada de semente)", _f.ferramentas() == ["enxada", "regador", "machadinha", "picareta"], str(_f.ferramentas()))
 	_verificar("comeca na enxada", _f.ferramenta == "enxada" and _f.acao_da_ferramenta() == "enxada", "")
 	var avisos: Array = []
 	_f.ferramenta_alterada.connect(func(nome): avisos.append(nome))
 	_f.trocar_ferramenta(1)
 	_verificar("proxima: regador (acao regar)", _f.ferramenta == "regador" and _f.acao_da_ferramenta() == "regar" and avisos == ["regador"], str(avisos))
 	_f.trocar_ferramenta(1)
-	_verificar("proxima: mao (acao colher)", _f.ferramenta == "mao" and _f.acao_da_ferramenta() == "colher", "")
+	_verificar("próxima: machadinha (cortar)", _f.ferramenta == "machadinha" and _f.acao_da_ferramenta() == "machado", "")
+	_f.trocar_ferramenta(1)
+	_verificar("próxima: picareta (minerar)", _f.ferramenta == "picareta" and _f.acao_da_ferramenta() == "picareta", "")
 	_f.trocar_ferramenta(1)
 	_verificar("proxima da a volta: enxada", _f.ferramenta == "enxada", "")
 	_f.trocar_ferramenta(-1)
-	_verificar("anterior da a volta: mao", _f.ferramenta == "mao", "")
-	_f.sementes = {"morango": 2, "cenoura": 1, "tomate": 5}
-	_verificar("sementes da estacao entram na lista (so as da primavera, na ordem da loja)", _f.ferramentas() == ["enxada", "regador", "mao", "semente:cenoura", "semente:morango"], str(_f.ferramentas()))
+	_verificar("anterior dá a volta: picareta", _f.ferramenta == "picareta", "")
+	_f.dar_sementes("cenoura", 1)
+	_f.dar_sementes("morango", 2)
+	_f.dar_sementes("tomate", 5)
+	_verificar("sementes da estacao entram na lista (so as da primavera, na ordem das casas da mochila)", _f.ferramentas() == ["enxada", "regador", "machadinha", "picareta", "semente:cenoura", "semente:morango"], str(_f.ferramentas()))
 	_f.trocar_ferramenta(1)
-	_verificar("depois da mao vem a primeira semente", _f.ferramenta == "semente:cenoura" and _f.semente_da_ferramenta() == "cenoura" and _f.acao_da_ferramenta() == "plantar", _f.ferramenta)
+	_verificar("depois da picareta vem a primeira semente", _f.ferramenta == "semente:cenoura" and _f.semente_da_ferramenta() == "cenoura" and _f.acao_da_ferramenta() == "plantar", _f.ferramenta)
 	_f.trocar_ferramenta(1)
 	_verificar("proxima semente: morango", _f.ferramenta == "semente:morango", "")
 	_f.trocar_ferramenta(1)
@@ -556,8 +595,15 @@ func _testar_troca_de_ferramenta() -> void:
 	_cal.dia = 7
 	_cal.dormir()
 	_verificar("a estacao virou: as sementes da primavera saem da barra e a ferramenta cai no regador",
-			_f.ferramenta == "regador" and _f.ferramentas() == ["enxada", "regador", "mao", "semente:tomate"], "%s %s" % [_f.ferramenta, _f.ferramentas()])
-	_verificar("as sementes antigas continuam guardadas para a proxima primavera", _f.quantidade_sementes("morango") == 2, "")
+			_f.ferramenta == "regador" and _f.ferramentas() == ["enxada", "regador", "machadinha", "picareta", "semente:tomate"], "%s %s" % [_f.ferramenta, _f.ferramentas()])
+	_verificar("as sementes da estacao passada continuam guardadas na mochila", _f.quantidade_sementes("morango") == 2, "")
+	# a ferramenta que sai da mochila sai da lista; sem nenhuma, nao ha acao
+	_cal.dia = 1
+	_inv.limpar()
+	_inv.mochila_alterada.emit()
+	_verificar("sem ferramentas na mochila: lista vazia e sem acao", _f.ferramentas().is_empty() and _f.acao_da_ferramenta() == "", "%s %s" % [_f.ferramentas(), _f.ferramenta])
+	_inv.criar_itens_iniciais()
+	_verificar("ferramentas de volta: comeca na primeira da barra (enxada)", _f.ferramenta == "enxada", _f.ferramenta)
 
 func _testar_mapa_de_teclas() -> void:
 	for nome in ["ferramenta_anterior", "ferramenta_proxima"]:
@@ -583,7 +629,7 @@ func _testar_mapa_de_teclas() -> void:
 			if evento is InputEventKey and (evento.physical_keycode == KEY_Q or evento.physical_keycode == KEY_E or evento.keycode == KEY_Q or evento.keycode == KEY_E):
 				conflito.append(nome)
 	_verificar("LB/RB e Q/E nao estavam em uso por outras acoes", conflito.is_empty(), str(conflito))
-	_verificar("ataque continua em espaco, mouse, A e gatilho direito", _acao_tem("attack", KEY_SPACE) and _acao_tem_botao("attack", JOY_BUTTON_A), "")
+	_verificar("ataque continua em espaco, mouse, X e gatilho direito", _acao_tem("attack", KEY_SPACE) and _acao_tem_botao("attack", JOY_BUTTON_X), "")
 	_verificar("rolar (dash) continua no shift e no B", _acao_tem_botao("rolar", JOY_BUTTON_B), "")
 
 func _acao_tem(acao: String, tecla: int) -> bool:
@@ -602,7 +648,7 @@ func _acao_tem_botao(acao: String, botao: int) -> bool:
 
 func _duracao(acao: String) -> float:
 	var total := 0.0
-	for q in load("res://Codigos/Jogador/fazenda_jogador.gd").ACOES[acao]["quadros"]:
+	for q in load("res://codigo/jogador/fazenda_jogador.gd").ACOES[acao]["quadros"]:
 		total += float(q[1])
 	return total
 
@@ -613,7 +659,10 @@ func _pos_jogador(jogador: Node, celula: Vector2i) -> void:
 	jogador.velocity = Vector2.ZERO
 
 func _usar_ferramenta(jogador: Node, acao: String) -> void:
-	jogador.ferramenta_pedida.emit()
+	if acao == "colher":
+		current_scene.get_node("Terrains/Plantio").pedir_coleta()
+	else:
+		jogador.ferramenta_pedida.emit()
 	await create_timer(_duracao(acao) + 0.2).timeout
 
 func _testar_cena_da_fazenda() -> void:
@@ -627,14 +676,10 @@ func _testar_cena_da_fazenda() -> void:
 	var plantio: Node = fazenda.get_node("Terrains/Plantio")
 	var hud: Node = get_nodes_in_group("hud")[0]
 	_verificar("fazenda: no Plantio existe e liga o modo fazenda do jogador", plantio != null and plantio.get_script() == _plantio_gd and jogador.modo_fazenda, "")
-	_verificar("fazenda: o HUD cria a barra de ferramentas", hud.barra_ferramentas != null and hud.barra_ferramentas.get_script() == _barra_gd, "")
+	_verificar("fazenda: o HUD cria a barra de baixo (a mesma da arena) no modo fazenda", hud.barra_armas != null and hud.barra_armas.get_script() == _barra_gd and hud.barra_armas.modo_fazenda, "")
 	_verificar("fazenda: sem cinto de pocoes (Q/E sao das ferramentas; so se bebe na arena)", hud.cinto_pocoes == null and not jogador._cinto_de_pocoes_ativo(), "")
 	_verificar("fazenda: a area de plantio e toda de terra no mapa (camada Terra)", _area_toda_em_terra(fazenda), "")
-	_verificar("fazenda: o caldeirao existe (com zona de interacao); a barraca e a caixa de entrega sairam",
-			fazenda.get_node_or_null("Terrains/Objetos3D/Caldeirao") != null and fazenda.get_node("Terrains/InteracaoCaldeirao").nome_tela == "caldeirao"
-			and fazenda.get_node_or_null("Terrains/Objetos3D/BarracaSementes") == null and fazenda.get_node_or_null("Terrains/Objetos3D/CaixaEntrega") == null
-			and fazenda.get_node_or_null("Terrains/InteracaoBarraca") == null and fazenda.get_node_or_null("Terrains/InteracaoCaixa") == null, "")
-	_verificar("zona do caldeirao nao exige onda parada (a fazenda nao tem ondas)", not fazenda.get_node("Terrains/InteracaoCaldeirao").so_entre_ondas, "")
+	_verificar("poções são serviço da Rosa; sem zona antiga na fazenda", fazenda.get_node_or_null("Terrains/InteracaoCaldeirao") == null, "")
 
 	# --- ataque desviado para a ferramenta (com arma equipada); o dash continua
 	if not jogador.usando_espada:   # (o inventario real pode ja ter a espada equipada: equipar de novo desequipa)
@@ -665,13 +710,13 @@ func _testar_cena_da_fazenda() -> void:
 	_verificar("a animacao terminou e o jogador esta livre", not jogador.esta_em_acao_fazenda, "")
 
 	# --- fora da area: sem animacao, com aviso
-	_pos_jogador(jogador, Vector2i(10, 24))
+	_pos_jogador(jogador, FORA)
 	await _fisica(2)
 	_f.definir_ferramenta("enxada")
 	jogador.ferramenta_pedida.emit()
 	await _quadros(2)
-	_verificar("enxada fora da area: nao toca a animacao e nao ara", not jogador.esta_em_acao_fazenda and not _f.esta_arado(Vector2i(10, 24)), "")
-	_verificar("enxada fora da area: aviso na barra", hud.barra_ferramentas._aviso.text == _f.MSG_FORA and hud.barra_ferramentas._aviso.modulate.a > 0.5, hud.barra_ferramentas._aviso.text)
+	_verificar("enxada fora da area: nao toca a animacao e nao ara", not jogador.esta_em_acao_fazenda and not _f.esta_arado(FORA), "")
+	_verificar("enxada fora da area: aviso na barra", hud.barra_armas._nome.text == _f.MSG_FORA and hud.barra_armas._nome.modulate.a > 0.5, hud.barra_armas._nome.text)
 
 	# --- regar, plantar, crescer, colher (a cena inteira, com animacao e efeitos)
 	_pos_jogador(jogador, A)
@@ -679,7 +724,7 @@ func _testar_cena_da_fazenda() -> void:
 	_f.definir_ferramenta("regador")
 	await _usar_ferramenta(jogador, "regar")
 	_verificar("regador: o tile fica molhado", _f.esta_molhado(A), "")
-	_f.sementes["cenoura"] = 3
+	_definir_sementes("cenoura", 3)
 	_f.definir_ferramenta("semente:cenoura")
 	await _usar_ferramenta(jogador, "plantar")
 	_verificar("semente: planta no tile arado e gasta uma", _f.planta_em(A) == "cenoura" and _f.quantidade_sementes("cenoura") == 2, "")
@@ -687,10 +732,10 @@ func _testar_cena_da_fazenda() -> void:
 	_verificar("a planta aparece no mapa (sprite com a tira da cenoura, quadro da semente)", sprite != null and sprite.frame == 0 and sprite.texture.resource_path.ends_with("Spring/Carrot.png"), "")
 	_verificar("a planta fica na base do tile e na profundidade dele", sprite != null and sprite.global_position == Vector2(A.x * 16, (A.y + 1) * 16) and sprite.z_index == _z_da_planta(A), "")
 	# o jogador colhe so quando pronta; sem pronta: aviso e sem animacao
-	_f.definir_ferramenta("mao")
-	jogador.ferramenta_pedida.emit()
+	_f.definir_ferramenta("regador")
+	plantio.pedir_coleta()
 	await _quadros(2)
-	_verificar("mao na planta verde: recusa com aviso e sem animacao", not jogador.esta_em_acao_fazenda and hud.barra_ferramentas._aviso.text == _f.MSG_NAO_PRONTA, hud.barra_ferramentas._aviso.text)
+	_verificar("mao na planta verde: recusa com aviso e sem animacao", not jogador.esta_em_acao_fazenda and hud.barra_armas._nome.text == _f.MSG_NAO_PRONTA, hud.barra_armas._nome.text)
 	for i in 3:
 		_f.aplicar("regar", A)
 		_f.avancar_dia(_clima_gd.Estado.LIMPO)
@@ -708,8 +753,8 @@ func _testar_cena_da_fazenda() -> void:
 	var distintas := {}
 	for estacao in 4:
 		distintas[_plantio_gd.textura_do_solo(estacao, false, A)] = true
-	_verificar("o solo usa a terra de cada estacao (4 texturas diferentes)", distintas.size() == 4, "")
-	_verificar("o solo tem sulcos (linhas com brilhos diferentes)", _linhas_diferentes(seco), "")
+	_verificar("o solo acompanha o tom de cada estacao (4 texturas diferentes)", distintas.size() == 4, "")
+	_verificar("solo isolado tem cantos transparentes e centro preenchido", seco.get_image().get_pixel(0, 0).a == 0.0 and seco.get_image().get_pixel(8, 8).a == 1.0, "")
 
 	# --- chuva do dia na cena
 	var meteoro: Node = fazenda.get_node("Terrains/Estacoes").meteorologia
@@ -750,15 +795,18 @@ func _testar_cena_da_fazenda() -> void:
 	var s_morango: Sprite2D = plantio._sprites.get(C)
 	var s_milho: Sprite2D = plantio._sprites.get(Vector2i(23, 24))
 	_verificar("planta no meio do crescimento: quadro certo da tira", s_morango != null and s_morango.frame == _f.quadro_da_planta("morango", 3), "")
-	_verificar("planta alta (16x32): sprite com 32 px e origem na base", s_milho != null and s_milho.texture.get_height() == 32 and s_milho.offset == Vector2(0, -32), "")
+	_verificar("planta alta (16x32): sprite com 32 px e alinhamento do quadro atual", s_milho != null and s_milho.texture.get_height() == 32 and s_milho.offset == _plantio_gd.deslocamento_da_planta("milho", s_milho.frame), "")
 	_verificar("planta murcha: aparencia seca (shader e tom); a viva nao tem", s_milho != null and s_milho.material is ShaderMaterial and s_milho.modulate != Color.WHITE
-			and s_morango.material == null and s_morango.modulate == Color.WHITE, "")
+			and s_morango.material != s_milho.material and s_morango.modulate == Color.WHITE
+			and s_milho.material.shader.code == _plantio_gd.CODIGO_SECO, "")
 	_f.solo.erase(C)
 	_f.solo.erase(Vector2i(23, 24))
 	_f.solo_recarregado.emit()
 
+	_testar_centralizacao_das_plantas(plantio)
+
 	# --- troca de ferramenta pelas teclas (Q/E) na cena
-	_f.sementes = {"cenoura": 2}
+	_definir_sementes("cenoura", 2)
 	_f.definir_ferramenta("enxada")
 	await _enviar_acao("ferramenta_proxima")
 	_verificar("tecla E: proxima ferramenta (regador)", _f.ferramenta == "regador", _f.ferramenta)
@@ -784,21 +832,26 @@ func _testar_cena_da_fazenda() -> void:
 	await create_timer(_duracao("enxada") + 0.2).timeout
 	_verificar("a animacao acabou arando o tile (com a ferramenta que a comecou)", _f.esta_arado(Vector2i(25, 27)) and not jogador.esta_em_acao_fazenda, "")
 
-	# --- barra de ferramentas do HUD
-	var barra: Control = hud.barra_ferramentas
+	# --- barra de baixo do HUD: a primeira linha da mochila (espada, escudo, enxada, regador, mao)
+	var barra: Control = hud.barra_armas
 	await _quadros(2)
-	_verificar("barra: uma casa por ferramenta (enxada, regador, mao, semente)", barra._casas.size() == _f.ferramentas().size() and barra._casas.size() == 4, "casas=%d" % barra._casas.size())
-	_verificar("barra: mostra o nome da ferramenta ativa", barra._nome.text == "ENXADA", barra._nome.text)
-	_f.trocar_ferramenta(-1)
+	_verificar("barra: 8 casas da primeira linha da mochila", barra._casas.size() == 8 and barra._casas[2].get_node("Conteudo/Slot").item_atual.tipo == "enxada", "casas=%d" % barra._casas.size())
+	_verificar("barra: mostra o nome da ferramenta ativa (fixo na fazenda)", barra._nome.text == "ENXADA" and barra._nome.modulate.a > 0.9, barra._nome.text)
+	_verificar("barra: so a casa da ferramenta ativa em destaque", _casas_ativas(barra) == 1 and barra._casas[2].get_node("Conteudo/Marco").visible, "")
+	_verificar("barra: escolher a casa 4 (tecla 4) ativa o regador", barra.escolher(3) and _f.ferramenta == "regador" and barra._casas[3].get_node("Conteudo/Marco").visible, _f.ferramenta)
+	_verificar("barra: arma na fazenda nao faz nada (a espada continua sem virar ferramenta)", not barra.escolher(0) and _f.ferramenta == "regador", _f.ferramenta)
+	# a semente vai para a primeira linha (casa 5 no lugar da mao) e mostra a quantidade e o tempo de crescimento
+	var mao_item = _inv.mochila[4]
+	var casa_semente: int = _inv.indice_de(_inv._pilha_de_semente("cenoura"))
+	_inv.mochila[4] = _inv.mochila[casa_semente]
+	_inv.mochila[casa_semente] = mao_item
+	_inv.mochila_alterada.emit()
 	await _quadros(2)
-	_verificar("barra: nome da semente ativa e a casa dela mostra a quantidade", barra._nome.text == "SEMENTE: CENOURA" and _tem_rotulo(barra._casas[3], "2"), barra._nome.text)
-	_verificar("barra: so uma casa em destaque (borda dourada)", _casas_ativas(barra) == 1, "")
-	_verificar("barra: dicas Q/E no teclado", barra._tecla_anterior.text == "Q" and barra._tecla_proxima.text == "E", "")
-	root.get_node("Controle")._definir(true)
-	_verificar("barra: dicas LB/RB no controle", barra._tecla_anterior.text == "LB" and barra._tecla_proxima.text == "RB", "")
-	root.get_node("Controle")._definir(false)
+	_verificar("barra: escolher a semente mostra o nome com o tempo de crescimento", barra.escolher(4) and _f.ferramenta == "semente:cenoura" and barra._nome.text == "SEMENTE: CENOURA - CRESCE EM 3 DIAS", barra._nome.text)
+	var quantidade: Label = barra._casas[4].get_node("Conteudo/Slot/ItemUi").get_node_or_null("Quantidade")
+	_verificar("barra: a casa da semente mostra a quantidade", quantidade != null and quantidade.visible and quantidade.text == "2", "")
 	hud.avisar_ferramenta("TESTE")
-	_verificar("HUD.avisar_ferramenta mostra o aviso", barra._aviso.text == "TESTE" and barra._aviso.modulate.a > 0.9, "")
+	_verificar("HUD.avisar_ferramenta mostra o aviso", barra._nome.text == "TESTE" and barra._nome.modulate.a > 0.9, "")
 	_verificar("barra: dentro da tela (576x324)", _dentro_da_tela(barra._coluna), str(barra._coluna.get_global_rect()))
 	_f.definir_ferramenta("enxada")
 
@@ -813,7 +866,28 @@ func _testar_cena_da_fazenda() -> void:
 	await _quadros(3)
 
 func _z_da_planta(celula: Vector2i) -> int:
-	return load("res://Codigos/Globais/profundidade.gd").z_de(celula.y * 16 + 10.0)
+	return load("res://codigo/globais/profundidade.gd").z_de(celula.y * 16 + 10.0)
+
+func _testar_centralizacao_das_plantas(plantio: Node) -> void:
+	for id in _f.PLANTAS:
+		var dados: Dictionary = _f.PLANTAS[id]
+		var imagem: Image = load("res://codigo/ui/icones_fazenda.gd").tira(id).get_image()
+		for dias in range(int(dados["dias"]) + 1):
+			_f.solo[C] = {"molhado": false, "planta": id, "dias": dias, "murcha": false}
+			plantio._atualizar_planta(C)
+			var sprite: Sprite2D = plantio._sprites[C]
+			var area := imagem.get_region(Rect2i(sprite.frame * 16, 0, 16, imagem.get_height())).get_used_rect()
+			var origem := sprite.position - Vector2(C) * 16 + sprite.offset + Vector2(area.position)
+			var centro := origem + Vector2(area.size) * 0.5
+			var alinhada := absf(centro.x - 8.0) <= 0.5
+			if area.size.y <= 16:
+				alinhada = alinhada and absf(centro.y - 8.0) <= 0.5 and origem.y >= 0 and origem.y + area.size.y <= 16
+			else:
+				alinhada = alinhada and absf(origem.y + area.size.y - 16.0) <= 0.5
+			_verificar("arte centralizada: %s, dia %d" % [id, dias], alinhada, "centro=%s origem=%s" % [centro, origem])
+			# A próxima espécie deve criar a própria tira; os dias da mesma planta reutilizam o sprite.
+		_f.solo.erase(C)
+		plantio._atualizar_planta(C)
 
 func _brilho(textura: Texture2D) -> float:
 	var img := textura.get_image()
@@ -823,20 +897,6 @@ func _brilho(textura: Texture2D) -> float:
 			var c := img.get_pixel(x, y)
 			soma += (c.r + c.g + c.b) / 3.0
 	return soma / 256.0
-
-# Sulcos: o brilho medio muda de linha para linha
-func _linhas_diferentes(textura: Texture2D) -> bool:
-	var img := textura.get_image()
-	var medias: Array = []
-	for y in 8:
-		var soma := 0.0
-		for x in 16:
-			var c := img.get_pixel(x, y)
-			soma += (c.r + c.g + c.b) / 3.0
-		medias.append(soma / 16.0)
-	var minimo: float = medias.min()
-	var maximo: float = medias.max()
-	return maximo > minimo * 1.25
 
 func _area_toda_em_terra(fazenda: Node) -> bool:
 	var terra: TileMapLayer = fazenda.get_node("Terrains/Terra")
@@ -867,7 +927,7 @@ func _tem_rotulo(no: Node, texto: String) -> bool:
 func _casas_ativas(barra: Control) -> int:
 	var n := 0
 	for casa in barra._casas:
-		var marco := casa.get_node_or_null("Marco")
+		var marco: Node = casa.get_node_or_null("Conteudo/Marco")
 		if marco != null and marco.visible:
 			n += 1
 	return n
@@ -889,18 +949,9 @@ func _testar_tela_do_caldeirao(fazenda: Node, jogador: Node) -> void:
 	_cal.dia = 1
 	_dados.moedas = 77
 	_f.colheita = {"cenoura": 4, "morango": 1, "tomate": 2}
-	var caldeirao: Sprite2D = fazenda.get_node("Terrains/Objetos3D/Caldeirao")
-	var regiao_antes: Rect2 = (caldeirao.texture as AtlasTexture).region
-	await _quadros(12)
-	_verificar("o caldeirao fica aceso: anima os quadros 1-4 de 32x32", (caldeirao.texture as AtlasTexture).region.size == Vector2(32, 32)
-			and (caldeirao.texture as AtlasTexture).region.position.x >= 32.0 and (caldeirao.texture as AtlasTexture).region != regiao_antes, str((caldeirao.texture as AtlasTexture).region))
-	var zona: Node = fazenda.get_node("Terrains/InteracaoCaldeirao")
-	jogador.global_position = zona.global_position + Vector2(0, 16)
-	await _fisica(5)
-	_verificar("caldeirao: jogador perto ativa a zona", zona.jogador_perto and zona.disponivel_para_interacao(), "")
-	zona.abrir_tela()
+	root.get_node("EventosJogo").abrir_tela_de(jogador, "caldeirao")
 	await _quadros(3)
-	_verificar("interagir com o caldeirao abre a tela", tela.visible, "")
+	_verificar("serviço de poções abre pela interface do jogador", tela.visible, "")
 	_verificar("tela aberta trava as acoes do jogador", not jogador.movimento_habilitado, "")
 	_verificar("grade com um frasco por pocao (6), na ordem", tela.casas.keys() == ["cura", "folego", "forca", "velocidade", "pedra", "vampiro"], str(tela.casas.keys()))
 	_verificar("frasco apagado quando falta ingrediente (forca: falta melancia), aceso quando da (cura)",
@@ -928,7 +979,7 @@ func _testar_tela_do_caldeirao(fazenda: Node, jogador: Node) -> void:
 	await _quadros(3)
 	_verificar("fazer pelo frasco: gasta a colheita, soma a pocao e avisa", _f.quantidade_pocoes("cura") == 1 and _f.quantidade_colhida("cenoura") == 2
 			and _f.quantidade_colhida("morango") == 0 and tela.aviso.text == "+1 POCAO DE CURA" and tela.selecionada == "cura", tela.aviso.text)
-	_verificar("o caldeirao ferve (tween de esticar rodando)", caldeirao._tween != null and caldeirao._tween.is_valid(), str(caldeirao.scale))
+
 	_verificar("o frasco mostra quantas tem e apaga (acabou o morango); o quadro mostra TEM 1 e o efeito NA HORA",
 			(tela.casas["cura"].get_node("Quantidade") as Label).text == "1" and (tela.casas["cura"].get_node("Icone") as TextureRect).modulate != Color.WHITE
 			and tela._info.text == "TEM 1" and tela._efeito.text == "CURA 40% DA VIDA NA HORA", tela._info.text)
@@ -956,13 +1007,6 @@ func _testar_tela_do_caldeirao(fazenda: Node, jogador: Node) -> void:
 	tela.botao_fechar.pressed.emit()
 	await _quadros(3)
 	_verificar("o X devolve o controle ao jogador", not tela.visible and jogador.movimento_habilitado, "")
-	# afastar-se fecha (padrao das zonas)
-	zona.abrir_tela()
-	await _quadros(2)
-	jogador.global_position = zona.global_position + Vector2(0, 140)
-	await _fisica(5)
-	await _quadros(2)
-	_verificar("sair de perto do caldeirao fecha a tela", not tela.visible and jogador.movimento_habilitado, "")
 	jogador.global_position = Vector2(300, 300)
 
 func _todos_focaveis(tela: Control) -> bool:
@@ -981,7 +1025,7 @@ func _testar_painel_debug() -> void:
 	painel._ao_ouro()
 	_verificar("debug: +100 OURO", _dados.moedas == 100, "")
 	painel._ao_sementes()
-	_verificar("debug: SEMENTES da a estacao atual (5 de cada, 4 plantas na primavera)", _f.sementes.size() == 4 and _f.quantidade_sementes("cenoura") == 5 and _f.quantidade_sementes("tomate") == 0, str(_f.sementes))
+	_verificar("debug: SEMENTES da a estacao atual na mochila (5 de cada, 4 plantas na primavera)", _sementes_na_mochila().size() == 4 and _f.quantidade_sementes("cenoura") == 5 and _f.quantidade_sementes("tomate") == 0, str(_sementes_na_mochila()))
 	painel._ao_colheita()
 	_verificar("debug: COLHEITA da 5 de cada planta (todas as estacoes)", _f.colheita.size() == 12 and _f.quantidade_colhida("uva") == 5, str(_f.colheita.size()))
 	painel._ao_pocoes()
@@ -1005,7 +1049,7 @@ func _testar_arena_sem_barra() -> void:
 	await _quadros(10)
 	var hud: Node = get_nodes_in_group("hud")[0]
 	var jogador: Node = arena.get_node("Jogador")
-	_verificar("arena: sem barra de ferramentas no HUD", hud.barra_ferramentas == null and hud.get_node_or_null("BarraFerramentas") == null, "")
+	_verificar("arena: a barra de baixo nao esta no modo fazenda", hud.barra_armas != null and not hud.barra_armas.modo_fazenda, "")
 	_verificar("arena: o jogador nao esta em modo fazenda (ataque e ataque)", not jogador.modo_fazenda, "")
 	arena.queue_free()
 	await _quadros(3)

@@ -1,7 +1,7 @@
 extends SceneTree
 
 # Rodar: godot --headless --path . --script res://testes/teste_pausa.gd
-# Tela de pausa (Codigos/UI/tela_pausa.gd): Esc abre e para o jogo, Esc fecha, CONTINUAR, OPCOES (valor muda e salva), confirmações de VOLTAR AO MENU
+# Tela de pausa (codigo/ui/tela_pausa.gd): Esc abre e para o jogo, Esc fecha, CONTINUAR, OPCOES (valor muda e salva), confirmações de VOLTAR AO MENU
 # e SAIR, e que Esc dentro das opções só volta ao menu da pausa.
 # ATENCAO: carrega a cena de jogo; o teste grava user://opcoes.cfg (volume) e o devolve no fim; faça backup do user:// antes.
 
@@ -37,14 +37,14 @@ func _rodar() -> void:
 	root.get_node("Fazenda").caminho_save = "user://teste_pausa_fazenda.json"
 	root.get_node("Progresso").apagar()
 	root.get_node("Fazenda").apagar()
-	var Opcoes := load("res://Codigos/Globais/opcoes_jogo.gd")
+	var Opcoes := load("res://codigo/globais/opcoes_jogo.gd")
 	var opcoes_antes: Dictionary = Opcoes.carregar()
 	_cena = load("res://cenas/cenario.tscn").instantiate()
 	root.add_child(_cena)
 	current_scene = _cena
 	await _quadros(10)
 	_cena.get_node("enemySpawner/GerenciadorOndas").parar_ondas()
-	var tela: Control = _cena.get_node("UI/TelaPausa") if _cena.has_node("UI/TelaPausa") else _cena.get_node("Interface/TelaPausa")
+	var tela: Control = _cena.get_node("assets/ui/TelaPausa") if _cena.has_node("assets/ui/TelaPausa") else _cena.get_node("Interface/TelaPausa")
 	_verificar("a tela de pausa existe na Interface e comeca fechada", tela != null and not tela.visible and not paused, "")
 
 	await _esc()

@@ -1,7 +1,7 @@
 [gd_resource type="Theme" load_steps=4 format=3]
 
-[ext_resource type="FontFile" uid="uid://dwub7qum41gaq" path="res://UI/Planes_ValMore.ttf" id="1_fonte"]
-[ext_resource type="Texture2D" path="res://UI/craftpix-net-420010-pixel-game-user-interface-for-platformer/2 Buttons/17.png" id="2_moldura"]
+[ext_resource type="FontFile" uid="uid://dwub7qum41gaq" path="res://assets/ui/Planes_ValMore.ttf" id="1_fonte"]
+[ext_resource type="Texture2D" path="res://assets/ui/craftpix-net-420010-pixel-game-user-interface-for-platformer/2 Buttons/17.png" id="2_moldura"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_dica"]
 content_margin_left = 7.0

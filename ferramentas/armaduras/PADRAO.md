@@ -28,7 +28,7 @@ Ids em minúsculas sem acentos. Nunca reaproveitar ids ou mudar índices existen
 As 11 páginas obrigatórias são andar, fazenda, forja, sentado, espada, lanca, reacao_um_mao, reacao_lanca, reacao_arco, arco_p2 e arco_p3. São 44 folhas de peças, 11 completas e uma camada transparente de cabelo.
 
 ~~~text
-CharacterSprites/Conjuntos/<id>/
+assets/personagens/conjuntos/<id>/
   definicao.gd
   cabelo_oculto.png
   andar.png ... arco_p3.png
@@ -38,7 +38,7 @@ CharacterSprites/Conjuntos/<id>/
   botas/andar.png ... arco_p3.png
 ~~~
 
-O Carrasco mantém a pasta histórica CharacterSprites/ArmaduraCavaleiro para preservar as referências.
+O Carrasco mantém a pasta histórica assets/personagens/ArmaduraCavaleiro para preservar as referências.
 
 ## Criar o modelo
 
@@ -47,7 +47,7 @@ Na raiz do projeto:
 ~~~bash
 python3 ferramentas/armaduras/criar_modelo.py \
   --id guardiao --nome "Guardião" --raridade epico \
-  --arte res://CharacterSprites/Conjuntos/guardiao/conceito.png
+  --arte res://assets/personagens/conjuntos/guardiao/conceito.png
 ~~~
 
 Cria manifesto.json, prompt_conceito.txt e LEIAME.md em ferramentas/armaduras/em_preparacao/guardiao. Não registra drops, não copia a arte do Carrasco e não concede itens. A pasta deve ser nova.
@@ -72,7 +72,7 @@ Uma etapa apenas visual pode registrar o traje em Aparencia.ARMADURAS_VISUAIS e 
 
 O F3 usa dropdowns de categoria e ação, com EXECUTAR. CONJUNTOS veste o traje completo, sem controles por peça. As folhas das peças permanecem separadas para a futura integração com itens.
 
-As três entradas completas de CONJUNTOS agora usam EQUIPAR e colocam itens reais nos quatro slots. O F3 reutiliza itens existentes, preserva melhorias e guarda a armadura anterior na mochila; a troca é atômica, sem perda se faltar espaço. A ação retira prévias cosméticas para que os slots governem o visual e salva o inventário. Métodos de prévia continuam separados para testes. Mordomo (id cavalheiro) é lendário e está disponível pelo F3, sem drop natural ou status base. Com quatro peças reais, cada acerto tem 10% de chance de congelar o alvo por 2 segundos, com recarga compartilhada de 2 segundos. Carrasco e Rubro mantêm seus dados. Roteamento de cabelo e cartola recebe a raiz do elmo real nas 11 páginas, inclusive em combinações de sets.
+As três entradas completas de CONJUNTOS agora usam EQUIPAR e colocam itens reais nos quatro slots. O F3 reutiliza itens existentes, preserva melhorias e guarda a armadura anterior na mochila; a troca é atômica, sem perda se faltar espaço. A ação retira prévias cosméticas para que os slots governem o visual e salva o inventário. Métodos de prévia continuam separados para testes. Mordomo (id cavalheiro) é comum, cai como os demais e também está no F3. Com quatro peças reais no nível 1, cada acerto tem 10% de chance de congelar o alvo por 2 segundos, com recarga compartilhada de 2 segundos. Carrasco e Rubro mantêm seus dados. Roteamento de cabelo e cartola recebe a raiz do elmo real nas 11 páginas, inclusive em combinações de sets.
 
 ## Gerar e validar
 
@@ -89,6 +89,8 @@ flatpak run org.godotengine.Godot --headless --path . \
 
 flatpak run org.godotengine.Godot --headless --path . --editor --import --quit
 ~~~
+
+Depois de gerar ou alterar as folhas das peças, gravar a cobertura com `flatpak run org.godotengine.Godot --headless --path . --script ferramentas/armaduras/gerar_coberturas.gd -- res://assets/personagens/conjuntos/<id>/` (sem argumentos, processa todos os conjuntos) e reimportar. Ela cria cobertura/<pagina>.png; sem esses arquivos o jogo calcula a cobertura na hora e trava cerca de 200 ms por página ao equipar uma peça pela primeira vez.
 
 Gera as folhas e definicao.gd, com nomes, categorias, status, preços e parâmetros do bônus. Para atualizar só o balanceamento, acrescente --somente-dados após o manifesto. O comando antigo ferramentas/personagem/gerar_set_cavaleiro.gd continua válido; sem argumentos, usa modelos/carrasco.json.
 
@@ -114,8 +116,8 @@ Para misturar sets, usar Aparencia.compor_pecas_armadura(pagina, indice_roupa_ba
 
 ~~~gdscript
 var raizes_por_peca := {
-    "elmo": "res://CharacterSprites/Conjuntos/guardiao/",
-    "peitoral": "res://CharacterSprites/ArmaduraCavaleiro/",
+    "elmo": "res://assets/personagens/conjuntos/guardiao/",
+    "peitoral": "res://assets/personagens/conjuntos/carrasco/",
 }
 var textura := Aparencia.compor_pecas_armadura("andar", roupa_atual, raizes_por_peca)
 ~~~
@@ -124,14 +126,22 @@ O jogador deve passar as peças realmente equipadas a todas as páginas, incluin
 
 ## Registro no jogo
 
+### Acabamento de apresentação
+
+Os moldes, máscaras, cobertura e folhas independentes do contrato continuam em 512×512. A apresentação refinada usa folhas de 1024×1024, células de 128×128 e escala 0,5, preservando o tamanho no mundo. `gerar_conjunto.gd` também gera essas folhas em `assets/personagens/refinado/conjuntos/<id>/` com o manifesto compartilhado. Para atualizar somente esse acabamento, sem regenerar dados ou moldes, usar `--somente-acabamento`; para validar a apresentação junto do conjunto nativo, acrescentar `--acabamento` a `validar_conjunto.gd`.
+
+`codigo/dados/acabamento_refinado.gd` (fica em `codigo/` porque o jogo também o usa; `ferramentas/` não entra na exportação) refina a superfície completa e separa suas quatro peças pelas máscaras nativas. O validador exige recomposição exata, transparência binária, exclusividade e a mesma cobertura ampliada por nearest. As máscaras de corpo/cabelo e os arquivos de cobertura nativos permanecem válidos. As roupas comuns são compiladas por `ferramentas/personagem/preparar_roupas_refinadas.gd`, com um cadastro dos índices e fontes; repetir esse comando após atualizar os moldes de roupa.
+
+No jogo, `Aparencia.aplicar_roupa` aplica a folha e a escala corretas em todas as ações; `roupa_refinada` preserva o compositor nativo para limpar a roupa sob peças parciais e então desenha as superfícies refinadas. Misturas reutilizam as peças já compiladas. `roupa` continua fornecendo os moldes nativos para as ferramentas. A cartola refinada acompanha a escala e o quadro da roupa, sem herdar a cor do cabelo.
+
 A geração prepara os recursos; registrar o novo conjunto ainda é uma etapa explícita:
 
 | Integração | Responsabilidade |
 |---|---|
-| Equipamentos.gd | Consultar a definição para status e preço. |
+| equipamentos.gd | Consultar a definição para status e preço. |
 | dados_item.gd e icones_itens.gd | Nome e ícone da própria peça, recortado ao conteúdo. |
 | equipamento_drop.gd | Incluir no sorteio com onda mínima, raridade e categoria corretas. |
-| Jogador.gd e aparencia.gd | Slots, status sem acumulação e roteamento das peças nas 11 páginas. |
+| jogador.gd e aparencia.gd | Slots, status sem acumulação e roteamento das peças nas 11 páginas. |
 | item_ui.gd | Raridade, afixos, contador de peças e descrição do bônus. |
 | painel_debug.gd | Drop dos quatro itens reais e prévia visual identificada. |
 
@@ -139,11 +149,13 @@ Reutilizar definicao.gd e base_conjunto_armadura.gd. Não copiar a matemática d
 
 O manifesto descreve um bônus, mas não implementa uma habilidade nova. Raio, cura, fogo ou invocação precisam de ação de combate e testes próprios. Um set declarado como fogo não deve disparar o raio do Carrasco.
 
-conjuntos_armadura.gd centraliza os tipos reais, raízes por peça e intervalos de sorteio. Rubro está registrado como Incomum desde a onda 4, com bonus.tipo=status, defesa=0.1 e vitalidade=0.1. Esses valores são percentuais e exigem 4/4 do mesmo conjunto. Os multiplicadores ficam separados dos status sem conjunto, para manter troca, melhoria e bônus de loja sem acumulação. Não salvar o aumento novamente como status base.
+conjuntos_armadura.gd centraliza os tipos reais, raízes por peça e intervalos de sorteio. Os três conjuntos (Carrasco, Rubro e Mordomo) são Comuns, disponíveis desde a onda 1, sempre no nível 1. Só chefes soltam peças, por chance (nada garantido): o equipamento do chefe tem a chance do manifesto (10% por conjunto) de ser uma peça daquele conjunto; mobs e mutantes nunca soltam. O poder vem da bigorna (ouro, onda e 1 Moeda de Forja por nível, ver InventarioJogador.moedas_forja e Equipamentos.dados_melhoria_conjunto). A Moeda de Forja cai de qualquer chefe com 5% de chance. No nível 5 a bigorna faz a ascensão de raridade (Conjuntos.ascender): sobe um degrau até o lendário e soma um afixo aleatório novo (Raridades.sortear_afixo_extra), com custo em Equipamentos.CUSTOS_ASCENSAO e 1 moeda. A raridade é por instância e o save a preserva; não forçar a raridade do cadastro ao carregar.
+
+Bônus por quantidade (base_conjunto_armadura.gd): 2 ou 3 peças do mesmo conjunto dão metade do efeito, 4 dão o completo, e cada nível acima do 1 soma 25% (nível 5 = 2x, contado pela peça mais fraca). Vale para chance de raio/congelamento, dano do raio e percentuais de status. Rubro tem bonus.tipo=status, defesa=0.1 e vitalidade=0.1 em 4/4 no nível 1. Os multiplicadores ficam separados dos status sem conjunto, para manter troca, melhoria e bônus de loja sem acumulação. Não salvar o aumento novamente como status base. Novos conjuntos herdam essas regras: definir raridade, chances e bônus no manifesto, sem copiar a matemática de peças e nível.
 
 Efeitos por acerto usam o caminho comum de espada/lança/flecha, chance e recarga explícitas, itens reais equipados e proteção contra encadeamento infinito. Dano aliado não atinge o jogador. Retirar uma peça impede novas ativações; trocar de volta restaura os status.
 
-Chances do manifesto são condicionais ao drop de equipamento. Carrasco: 5% de 1,5% = 0,075% por morte normal; 10% de 6% = 0,6% por mutante; 20% de 100% = 20% por chefe. Com mais sets, definir seus pesos sem transformar cada candidato em um drop extra independente.
+Chances do manifesto são condicionais ao drop de equipamento. Cada conjunto: 5% de 1,5% = 0,075% por morte normal; 10% de 6% = 0,6% por mutante; 10% de 100% = 10% por chefe. Com mais sets, definir seus pesos sem transformar cada candidato em um drop extra independente.
 
 ## Conferência final
 
@@ -151,7 +163,7 @@ Chances do manifesto são condicionais ao drop de equipamento. Carrasco: 5% de 1
 2. Ver o personagem composto com roupa vermelha, roupa larga/capa e peças isoladas.
 3. Conferir direções, ações, peça ausente, mudança de cabelo e mistura com o Carrasco.
 4. Recolher drops reais, equipar/desequipar os slots e salvar/carregar.
-5. Verificar bônus com 4/4, ausência com 3/4 ou sets misturados, chance desfavorável, recarga, arma e flecha reais.
+5. Verificar bônus com 4/4, metade com 2/4 e 3/4, ausência com 1 peça de cada set misturado, chance desfavorável, recarga, arma e flecha reais.
 6. Trocar equipamentos várias vezes e conferir que vida, defesa e afixos voltam aos valores anteriores.
 7. Rodar testes de inventário e raridade após mudar o cadastro.
 

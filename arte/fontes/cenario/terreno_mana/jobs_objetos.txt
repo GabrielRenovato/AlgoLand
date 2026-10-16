@@ -1,0 +1,12 @@
+7f5a9bfe-95d1-4dda-b578-e19f351b66d4 arvore_verao
+8aa4bfdc-672d-495b-91e1-b44253c6e949 arvore_outono
+e2e9ef47-6abb-435f-b57c-b1c8dd409f72 arvore_inverno
+5fc59143-68c5-4a7c-8bfe-31185d6f769d arbusto_verao
+4e5ccbae-782d-4d02-88dd-756accd0d512 arbusto_outono
+7f1018fc-1b30-495d-a1e1-d721d96d367b arbusto_inverno
+808835c2-4e19-4b86-9e1b-f83c37e27c88 ponte
+c8356670-39cc-4b90-9b59-71c3b1614bf4 flores
+9e47ecf9-07d9-48a3-96fd-1a7df3353826 feira_a
+c8b886fe-6c22-4483-951d-0ed243ceb782 feira_b
+54ddbd41-66de-4cc3-8753-8dbc4ca3f30b banco
+9c40d121-4c55-4393-98e7-4bbae80fe9a9 coreto

@@ -1,6 +1,6 @@
 [gd_resource type="Theme" format=3 uid="uid://dopk8ho1d0tm2"]
 
-[ext_resource type="FontFile" uid="uid://b13xmp6wu4ea" path="res://UI/craftpix-net-775352-game-user-interface-pixel-art/6 Font/CraftPixNet Survival Kit.otf" id="1_fonte"]
+[ext_resource type="FontFile" uid="uid://b13xmp6wu4ea" path="res://assets/ui/craftpix-net-775352-game-user-interface-pixel-art/6 Font/CraftPixNet Survival Kit.otf" id="1_fonte"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_desabilitado"]
 content_margin_left = 6.0

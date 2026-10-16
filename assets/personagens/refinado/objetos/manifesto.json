@@ -1,0 +1,1910 @@
+{
+	"res://assets/personagens/Arco/aljava_p2.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/030e5c4ae2f88a51b26d30053f661ec6.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arco/aljava_p3.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/83d914893f60a5ecff87905c1fadf915.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arco/arcos/bo01_1_p2.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/12b0131bb6869daa9292367f2238acfc.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arco/arcos/bo01_1_p3.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/ddbddfb6e4a6f92835087e8d5a609d79.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arco/arcos/bo01_2_p2.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/47a790fa5297fe259f825dee08a934ed.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arco/arcos/bo01_2_p3.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/42d3f6776421cf07628716d46d784d14.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arco/arcos/bo01_3_p2.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/8f2aea09fb606676c41bcc694b463363.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arco/arcos/bo01_3_p3.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/963a60caccae0f9cd734586b8cf0e3f6.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arco/arcos/bo01_4_p2.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/71c30430fc5c1ca2eb16fdb10b9bdcc7.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arco/arcos/bo01_4_p3.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/ddf2d3380ead8bbeaedd69be70dd1695.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arco/arcos/bo01_5_p2.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/8050c744e0b09b57cc21224781a19744.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arco/arcos/bo01_5_p3.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/f5690abf9f55ee828358324073e4573a.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arco/arcos/bo02_1_p2.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/490dff88b87acf244281e590c634186e.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arco/arcos/bo02_1_p3.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/62e4aa016b6609e65ba57799ff113824.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arco/arcos/bo02_2_p2.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/229b2c4a246950128cc7c0e36a554fd2.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arco/arcos/bo02_2_p3.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/a33b99d7a05f6851bcb2d8eebdbb6107.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arco/arcos/bo02_3_p2.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/7363439012bc53aa514c5966ea1350e7.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arco/arcos/bo02_3_p3.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/209b324ac000874cce77572ba1cf193d.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arco/arcos/bo02_4_p2.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/a5e2dd56382e813d391009c6a3d4f505.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arco/arcos/bo02_4_p3.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/a9d73a836ce2c356efbb1c1cf83b414b.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arco/arcos/bo02_5_p2.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/40ef8d84586898135cc5c9749c2ba947.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arco/arcos/bo02_5_p3.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/fee90fab73d0a99dc7bb9d1a5297f667.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arco/arcos/bo03_1_p2.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/430f9bc089b1f7cca7e325de13225c80.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arco/arcos/bo03_1_p3.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/954525aa3a72df6147939a920e49fb69.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arco/arcos/bo03_2_p2.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/6817eee94a148856e0728916c22ece83.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arco/arcos/bo03_2_p3.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/f452e61919e9ed2546fdb05f9debd3a1.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arco/arcos/bo03_3_p2.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/e1c1fb8cd3794b1606543826457b6de0.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arco/arcos/bo03_3_p3.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/34b48afe9395cc2e1afc16b8f0432929.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arco/arcos/bo03_4_p2.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/29cde9fce04df11191b5cc2a0002eea6.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arco/arcos/bo03_4_p3.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/7e9a4e201d40096707cedb53f7be22f2.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arco/arcos/bo03_5_p2.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/c089b522d14df6e57d04114f56bc302e.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arco/arcos/bo03_5_p3.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/691cc706d1b563b2ba6cde5c20b0665e.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arco/carregando/aljava.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/ead0d0dde98a08b867d60ef248584e37.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arco/carregando/arco_bo01_1.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/2c00d5bfb8548779b88130cce523d741.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arco/carregando/arco_bo01_2.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/389db5c4d081dccd4eb983486aa1d77c.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arco/carregando/arco_bo01_3.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/75fbeee1c6bb7414e34aee288df68378.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arco/carregando/arco_bo01_4.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/6394ced3842afd9ed5abd34c0a7468e3.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arco/carregando/arco_bo01_5.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/f4e97e0a131e4dc2f2d834d7f97f504e.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arco/carregando/arco_bo02_1.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/e2d41f289ccb76fadd715a5e0c7dd163.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arco/carregando/arco_bo02_2.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/320d62b0fbd258e116e8902d5c08f925.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arco/carregando/arco_bo02_3.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/aff13286248550dcb1f00cbaf511238b.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arco/carregando/arco_bo02_4.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/25f23acc9b3a4b0c3b164a8dbc2fb08b.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arco/carregando/arco_bo02_5.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/e29a04d268e5f75324cf2253c1c417db.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arco/carregando/arco_bo03_1.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/a2ede5c814378abdafb820134c1d3762.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arco/carregando/arco_bo03_2.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/fedfa1d34e954d926cd402ead969b5c3.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arco/carregando/arco_bo03_3.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/dfec221b789b6301ca5cd609de5008e9.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arco/carregando/arco_bo03_4.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/1a268abd78cf51581fc240b342bd6442.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arco/carregando/arco_bo03_5.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/432dc011cebcac301f895b0cd5f20949.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arco/flecha.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/af947c4c30b62a1b3edb018b53aea69b.png",
+		"grade": [
+			1,
+			1
+		],
+		"tamanho_nativo": [
+			15,
+			7
+		]
+	},
+	"res://assets/personagens/Arms/espada_gemea/ataque_1.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/80c94d3353ed940d7e2c7cbcf35f765d.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arms/espada_gemea/ataque_2.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/0def4ecf2813737a845d3dfc7c01dd23.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arms/espada_gemea/ataque_3.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/dad8caf7c9d436cf7e97cde9af4d0beb.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arms/espada_gemea/ataque_4.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/13b266b63ce520bd9b1a17623b1d2404.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arms/espada_gemea/ataque_5.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/2d46c36dc7ebae5ba520e4ac94d40a0e.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arms/espada_gemea/base_1.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/b8f02407077140e7be511daf941574f2.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arms/espada_gemea/base_2.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/e3cf67bbb860cf3b8a0f649627949c9b.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arms/espada_gemea/base_3.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/a8fd3bc11bb5c087c6d25bb51dfee319.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arms/espada_gemea/base_4.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/94fb45f5695fa60d355a7e83d0886788.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arms/espada_gemea/base_5.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/053db05d2fe50f872a3ab78e2c8e02a8.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arms/maca/ataque_1.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/d6b1ae3a996fe554b29602aecc0a6c72.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arms/maca/ataque_2.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/ee53da07fea095bd51422f446752dbc4.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arms/maca/ataque_3.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/626239f9c3b27306b5a2e73b18381a03.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arms/maca/ataque_4.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/b0410b5f4d81c89df317d738477d595a.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arms/maca/ataque_5.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/dc9c2806b4eafbe8f84234872da1f3ee.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arms/maca/base_1.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/33896946f9a5e1cbe5ac118609ead4e1.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arms/maca/base_2.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/c1b8650656023675095168deb7ad2e6b.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arms/maca/base_3.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/bea1e2ffc12e31e8e9d2ccd4d2b7d229.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arms/maca/base_4.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/1d916fee387fcdf1fab97d9494362340.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arms/maca/base_5.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/0f2193dd8f448577e2c2a794dbf3a38e.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arms/machado/ataque_1.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/df8cc612e926b5ead51e9e0343cfc1d4.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arms/machado/ataque_2.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/50292224667bbf626b1d270ad91c135a.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arms/machado/ataque_3.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/8bb40ca928b83fcfaf52e3bfbd7201aa.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arms/machado/ataque_4.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/a0173fc59faac8d76fa4c9d863ecd8d5.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arms/machado/ataque_5.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/379698ba94fa43f09f9fb5f1e58aee6f.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arms/machado/base_1.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/3c4e9a9a7eca4a507a0feb1a4514bf5f.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arms/machado/base_2.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/92bbc4c6c87d8fe211f10072065d5671.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arms/machado/base_3.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/f6fd32550335177f5734d411dafcb0c3.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arms/machado/base_4.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/3cdee71280917705fcbaf5feb60afff5.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arms/machado/base_5.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/66e1817f7d1676b262837d3bb88e790f.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arms/shields/attack/shields_upgraded/slash_1/2/slash_1.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/35ea0ee7554138033ed56ac95319be5e.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arms/shields/attack/shields_upgraded/slash_1/3/slash_1.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/0fdb4a22da342a19f57102deb21b35a9.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arms/shields/attack/shields_upgraded/slash_1/4/slash_1.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/a0eac093eecdc24bdf18e126a34801be.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arms/shields/attack/shields_upgraded/slash_1/5/slash_1.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/daa49199b427f14326345631ee933480.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arms/shields/attack/slash_1.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/4b601ebab97b9d18909819c164f56de9.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arms/shields/shield_1.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/f19e92623a2b0af370dbf6a4776d6df5.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arms/shields/shields_upgraded/2/shield_1.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/e42a9efb19d4b4872b3e37f0dd40dae7.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arms/shields/shields_upgraded/3/shield_1.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/02fc7beb9f1585a56f0d9b76e8a65f6a.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arms/shields/shields_upgraded/4/shield_1.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/b4ae27e031cf6073ff17aa084293e06f.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arms/shields/shields_upgraded/5/shield_1.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/bdfae2051aa4a767541a4518011143e5.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arms/spears/Attack/slash_1.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/e329a66effbfb69b1bbcdb2174255099.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arms/spears/Attack/spears_upgraded/slash_1/2/slash_1.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/188db5fac4bca16e2ccad4e97cea9552.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arms/spears/Attack/spears_upgraded/slash_1/3/slash_1.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/3aac75cbc0426eea13ad4989b0d1f1eb.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arms/spears/Attack/spears_upgraded/slash_1/4/slash_1.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/403f898ef013fab94d42ca284915e83c.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arms/spears/Attack/spears_upgraded/slash_1/5/slash_1.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/e999e56fd86985ca1f1c2b5ce778746b.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arms/spears/spear_1.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/25dc21f02064c24c5416ae893ca42019.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arms/spears/spears_upgraded/2/spear_1.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/f394756015565d60770797b97fd451a1.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arms/spears/spears_upgraded/3/spear_1.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/4f7f9ce9fc0259bd55f924ccd58a5ce1.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arms/spears/spears_upgraded/4/spear_1.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/a63b4bc2cbfadc5793dcd99b717602af.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arms/spears/spears_upgraded/5/spear_1.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/aacdc9d22fd81440632057e6be39bc45.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arms/swords/Attack/slash_1.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/24e3b9637d8f5b1e6c6bfc08ac978068.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arms/swords/Attack/swords_upgraded/slash_1/2/slash_1.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/ba25c968a94d3d6f7c3f9156b53750b2.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arms/swords/Attack/swords_upgraded/slash_1/3/slash_1.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/81d95291e96945e1746d2650b960cff5.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arms/swords/Attack/swords_upgraded/slash_1/4/slash_1.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/15875d72a8a85814b8429bf8c82bdea9.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arms/swords/Attack/swords_upgraded/slash_1/5/slash_1.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/dd7432d3039c8d2446202c6503867073.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arms/swords/Sword_1.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/a535fcad548c2d3c6e0ae5b9f5e57c91.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arms/swords/swords_upgraded/2/Sword_1.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/cdc60d0c7b4a221379b52da486ca3b24.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arms/swords/swords_upgraded/3/Sword_1.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/362db2aaecc09b8ef9ba77b65b176d0d.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arms/swords/swords_upgraded/4/Sword_1.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/d1e92d35041f0cf32811ad576288c58a.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Arms/swords/swords_upgraded/5/Sword_1.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/1380a28072d5db756c407b3a08f64607.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Fazenda/ferramenta_fazenda.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/3070b64f080f10608f87a5081543d3c3.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Fazenda/ferramenta_machado.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/c093e5f4ca9b7cdf47ad0dccb9fad5fe.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Fazenda/ferramenta_picareta.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/fb56b4e7c83a0aed016453aa17cb4c6a.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Reacao/arco/aljava.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/2b06d38d1e6d913ad748131c98d369a0.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Reacao/arco/arma_bo01_1.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/a0ffcfe3225fb23c3430c9e03a9a1011.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Reacao/arco/arma_bo01_2.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/75816555fd674be7b344e89bfb11ea42.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Reacao/arco/arma_bo01_3.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/38fda55ebdc6dcf9f45b337a4891b353.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Reacao/arco/arma_bo01_4.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/d1470223112a6553b04fb286e2a4ed51.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Reacao/arco/arma_bo01_5.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/5b3971514996064ccbb7be89779be6df.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Reacao/arco/arma_bo02_1.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/7bdbcef37cccd23ca8a9a0c4cea54e3d.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Reacao/arco/arma_bo02_2.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/1e58b840213294de0448d608cb33ab51.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Reacao/arco/arma_bo02_3.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/adb2380007c6c4fc672bbf067e657779.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Reacao/arco/arma_bo02_4.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/ca6290aba7db93f22e7c3747d276e9cd.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Reacao/arco/arma_bo02_5.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/8931c4a3a536d0cf2d9dfcac67b9e4a8.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Reacao/arco/arma_bo03_1.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/cea2c34c81d3f23f0f465c2240a0610f.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Reacao/arco/arma_bo03_2.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/b0cdf5b640f76d33754a5195095a83d2.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Reacao/arco/arma_bo03_3.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/abf317d362509b066988508f887c0135.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Reacao/arco/arma_bo03_4.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/e65dfb2817ede55a438d4bfaf5fa1f8e.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Reacao/arco/arma_bo03_5.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/b0fa660980269d1b68fc40d8cce8de7d.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Reacao/lanca/arma_1.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/f0208eb188b6845e591e021ab426ab93.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Reacao/lanca/arma_2.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/5710982ec6edd39a933971e5435487ab.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Reacao/lanca/arma_3.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/873cdd1461ec40bd140101761f870fe7.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Reacao/lanca/arma_4.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/da4e9a3a4c222668ed81e3a7c955408e.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Reacao/lanca/arma_5.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/f1101627f768c4ff277d13e8bb4e8016.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Reacao/um_mao/arma_ax01_1.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/ef1a510518b72a01df46ac85d66fe57a.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Reacao/um_mao/arma_ax01_2.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/36ef38fe3909dec3c224f81efead2d42.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Reacao/um_mao/arma_ax01_3.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/481560887871353847a1b1abbabca6e0.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Reacao/um_mao/arma_ax01_4.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/4e53de1466fab23bf26fa30b1eee189c.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Reacao/um_mao/arma_ax01_5.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/95cc1d7a25f89353daec87cc0264ffb1.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Reacao/um_mao/arma_mc01_1.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/1fce29795bd46af25a756a6aff7c26d1.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Reacao/um_mao/arma_mc01_2.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/1b6fed5eb567ea3c09537ec8ab7d2de6.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Reacao/um_mao/arma_mc01_3.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/102939ddcb43692bc9fb0daa9347fec1.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Reacao/um_mao/arma_mc01_4.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/ffb03c1a0c6e3eb88cdeb2747fe0e641.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Reacao/um_mao/arma_mc01_5.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/8808ffdb8a8f3e4533f68b8859218d27.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Reacao/um_mao/arma_sw01_1.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/11c3dbe4cc1c5eaf0f2897e6b3029b4b.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Reacao/um_mao/arma_sw01_2.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/743e07e1b95b8a79e51bdbe923ff089b.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Reacao/um_mao/arma_sw01_3.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/d60a18549de59f5413df40051c581ac6.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Reacao/um_mao/arma_sw01_4.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/1c2d906620f089ceb18cb2da661817e9.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Reacao/um_mao/arma_sw01_5.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/2081cbc7490467c750ab25e5ba7654ac.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Reacao/um_mao/arma_sw02_1.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/60a4a90842f0e138d0d9ad4f8302af35.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Reacao/um_mao/arma_sw02_2.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/bd76f8af402f9722f2749497f74163d8.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Reacao/um_mao/arma_sw02_3.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/d6080b91c2eb7f5c1dece638cb501324.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Reacao/um_mao/arma_sw02_4.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/117113bb5d27940e0f3dce30e4b71525.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Reacao/um_mao/arma_sw02_5.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/c0d6b2d016529bfebfeac6db060b596e.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Reacao/um_mao/escudo_1.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/259d3c31c1a728eadc460b97e0643a7e.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Reacao/um_mao/escudo_2.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/3a7a60280d53c8854e1b30e62115ddc0.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Reacao/um_mao/escudo_3.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/2b7cadb9aa1d13e329d879e7e131742d.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Reacao/um_mao/escudo_4.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/aa2de49e3d7d1e31b6dcbf9c7d01d2ff.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/Reacao/um_mao/escudo_5.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/10a01d1ee635aed3b7190f075720d77c.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	},
+	"res://assets/personagens/body_smithing/hammer/char_a_p4_6tla_smth_v01.png": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/objetos/c5144fe0de20a353d0b861dc979fafbf.png",
+		"grade": [
+			8,
+			8
+		],
+		"tamanho_nativo": [
+			512,
+			512
+		]
+	}
+}

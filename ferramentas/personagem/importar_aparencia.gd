@@ -1,5 +1,5 @@
 extends SceneTree
-# Importa os cabelos e as roupas novas dos pacotes Mana Seed para CharacterSprites/Aparencia/.
+# Importa os cabelos e as roupas novas dos pacotes Mana Seed para assets/personagens/aparencia/.
 # Nas páginas de combate (golpes de espada, lança e arco, esquiva, ferido, aparar) os pacotes só trazem os cabelos bob1/dap1 e as roupas antigas:
 #  - CABELOS NOVOS: a folha de combate é SINTETIZADA aqui: em cada quadro, o cabelo de pé do estilo novo (mesma direção) é posto na cabeça,
 #    na posição que o cabelo bob1 tem naquele quadro de combate (alinhamento pelo centro do cabelo). Quadros em que a cabeça muda demais
@@ -10,27 +10,27 @@ extends SceneTree
 # Depois rode `godot --headless --path . --import` para o Godot importar os PNGs novos.
 #
 # O que sai:
-#   CharacterSprites/Aparencia/cabelos/<estilo>_p<1|2|4>.png     cabelos do Hairstyle Pack (versão v00; a cor vem do modulate, como nos antigos)
-#   CharacterSprites/Aparencia/roupas/<id>_p<1|2|4>.png          roupas (só a camada 1out; sem chapéus); as capas saem prontas por cima da cueca
-#   Codigos/DadosLocais/aparencia_combate.gd                     tabelas geradas: peça nova -> índice da peça antiga usada nas páginas de combate
+#   assets/personagens/aparencia/cabelos/<estilo>_p<1|2|4>.png     cabelos do Hairstyle Pack (versão v00; a cor vem do modulate, como nos antigos)
+#   assets/personagens/aparencia/roupas/<id>_p<1|2|4>.png          roupas (só a camada 1out; sem chapéus); as capas saem prontas por cima da cueca
+#   codigo/dados/aparencia_combate.gd                     tabelas geradas: peça nova -> índice da peça antiga usada nas páginas de combate
 #
 # Páginas: p1 = andar/correr, p2 = fazenda, p4 = ferreiro e sentado. As páginas de ataque/reação (espada, lança, arco) só existem para
 # as peças antigas (bob1/dap1, undi, boxr, pfpn, fstr): as novas usam a antiga mais parecida (silhueta e cor), calculada aqui.
 
-const RAIZ_PACOTES := "res://SPRITES GERAL/Jogador/"
-const DESTINO := "res://CharacterSprites/Aparencia/"
+const RAIZ_PACOTES := "res://arte/pacotes/Jogador/"
+const DESTINO := "res://assets/personagens/aparencia/"
 const PAGINAS := [1, 2, 4]
 
 const ESTILOS_CABELO := ["bob2", "flat", "fro1", "pon1", "spk2"]
 # Folhas de combate do cabelo bob1 (referência de onde a cabeça está em cada quadro) por página nossa de animação
 const COMBATE_BOB1 := {
-	"espada": "res://CharacterSprites/Hair/Attack/slash_1_sword/hair (1).png",
-	"lanca": "res://CharacterSprites/Hair/Attack/slash_1_spear/hair (1).png",
-	"reacao_um_mao": "res://CharacterSprites/Reacao/um_mao/cabelo_1.png",
-	"reacao_lanca": "res://CharacterSprites/Reacao/lanca/cabelo_1.png",
-	"reacao_arco": "res://CharacterSprites/Reacao/arco/cabelo_1.png",
-	"arco_p2": "res://CharacterSprites/Arco/cabelo_1_p2.png",
-	"arco_p3": "res://CharacterSprites/Arco/cabelo_1_p3.png",
+	"espada": "res://assets/personagens/Hair/Attack/slash_1_sword/hair (1).png",
+	"lanca": "res://assets/personagens/Hair/Attack/slash_1_spear/hair (1).png",
+	"reacao_um_mao": "res://assets/personagens/Reacao/um_mao/cabelo_1.png",
+	"reacao_lanca": "res://assets/personagens/Reacao/lanca/cabelo_1.png",
+	"reacao_arco": "res://assets/personagens/Reacao/arco/cabelo_1.png",
+	"arco_p2": "res://assets/personagens/Arco/cabelo_1_p2.png",
+	"arco_p3": "res://assets/personagens/Arco/cabelo_1_p3.png",
 }
 const QUADRO := 64
 ## Abaixo desta sobreposição (depois de alinhar) o quadro de combate é parecido demais com o de pé: mantém o cabelo bob1 original
@@ -53,9 +53,9 @@ const VARIANTES_CAPA := ["v01", "v03", "v05", "v07", "v09"]
 
 # Cueca (boxr) de cada página: base das capas (as roupas antigas, na ordem do jogo)
 const CUECA_POR_PAGINA := {
-	1: "res://CharacterSprites/Outfit/outfit (2).png",
-	2: "res://CharacterSprites/Fazenda/roupa_2.png",
-	4: "res://CharacterSprites/Sentado/roupa_2.png",
+	1: "res://assets/personagens/Outfit/outfit (2).png",
+	2: "res://assets/personagens/Fazenda/roupa_2.png",
+	4: "res://assets/personagens/Sentado/roupa_2.png",
 }
 
 # Roupas antigas que existem em todas as páginas de combate e servem de substituta (de roupa íntima não: ficaria pelado no golpe)
@@ -66,7 +66,7 @@ const SUBSTITUTAS_ROUPA := [2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
 
 # Páginas de combate (onde os pacotes não trazem as roupas novas): a roupa antiga que serve de molde é RECOLORIDA com as cores da nova
 const PAGINAS_COMBATE := ["espada", "lanca", "reacao_um_mao", "reacao_lanca", "reacao_arco", "arco_p2", "arco_p3"]
-const Aparencia := preload("res://Codigos/DadosLocais/aparencia.gd")
+const Aparencia := preload("res://codigo/dados/aparencia.gd")
 ## Cores da paleta da roupa nova por posição de luminosidade (a mais escura ao contorno, a mais clara ao brilho)
 const DEGRAUS_PALETA := 256
 
@@ -79,7 +79,7 @@ func _rodar() -> void:
 	var combate_roupas := {}
 
 	# --- cabelos: copia p1, p2 e p4 e sintetiza as páginas de combate
-	var referencia_andar := _imagem("res://CharacterSprites/Hair/hair (1).png")
+	var referencia_andar := _imagem("res://assets/personagens/Hair/hair (1).png")
 	var referencias_combate := {}
 	for pagina in COMBATE_BOB1:
 		referencias_combate[pagina] = _imagem(COMBATE_BOB1[pagina])
@@ -96,7 +96,7 @@ func _rodar() -> void:
 	# --- roupas
 	var legadas: Array = []
 	for i in range(1, 13):
-		legadas.append(_imagem("res://CharacterSprites/Outfit/outfit (%d).png" % i))
+		legadas.append(_imagem("res://assets/personagens/Outfit/outfit (%d).png" % i))
 	for id in PACOTES_ROUPA:
 		for variante in VARIANTES_ROUPA:
 			for p in PAGINAS:
@@ -305,13 +305,13 @@ func _paleta_por_luminosidade(nova: Image) -> Array:
 func _gravar_tabela(roupas: Dictionary) -> void:
 	var texto := "## GERADO por ferramentas/personagem/importar_aparencia.gd (não editar à mão): qual roupa antiga serve de molde (forma e pose) de cada roupa\n"
 	texto += "## nova nas páginas de combate (golpes de espada e lança, arco, esquiva, ferido e aparar), onde os pacotes só trazem as roupas antigas; as\n"
-	texto += "## folhas recoloridas ficam em CharacterSprites/Aparencia/roupas/<id>_<pagina>.png. Índices 0-based. (Os cabelos novos têm folhas de\n"
+	texto += "## folhas recoloridas ficam em assets/personagens/aparencia/roupas/<id>_<pagina>.png. Índices 0-based. (Os cabelos novos têm folhas de\n"
 	texto += "## combate próprias, sintetizadas pelo mesmo programa.)\n"
 	texto += "extends RefCounted\n\n"
 	texto += "const ROUPAS := {\n"
 	for chave in roupas:
 		texto += "\t\"%s\": %d,\n" % [chave, roupas[chave]]
 	texto += "}\n"
-	var arquivo := FileAccess.open("res://Codigos/DadosLocais/aparencia_combate.gd", FileAccess.WRITE)
+	var arquivo := FileAccess.open("res://codigo/dados/aparencia_combate.gd", FileAccess.WRITE)
 	arquivo.store_string(texto)
 	arquivo.close()

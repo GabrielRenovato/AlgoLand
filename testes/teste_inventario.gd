@@ -1,11 +1,20 @@
 extends SceneTree
 
-const ScriptItem := preload("res://Codigos/Modelos/dados_item.gd")
-const ScriptModelo := preload("res://Codigos/Modelos/modelo_inventario.gd")
+const ScriptItem := preload("res://codigo/modelos/dados_item.gd")
+var ScriptModelo: GDScript
 
 var _falhas: int = 0
 
 func _initialize() -> void:
+	_rodar()
+
+func _rodar() -> void:
+	if not ProjectSettings.get_setting("application/config/use_custom_user_dir", false) or not str(ProjectSettings.get_setting("application/config/custom_user_dir_name", "")).begins_with("AlgoLand testes"):
+		push_error("Use uma cópia com save isolado AlgoLand testes.")
+		quit(1)
+		return
+	await process_frame
+	ScriptModelo = load("res://codigo/modelos/modelo_inventario.gd")
 	_testar_adicionar()
 	_testar_mover_com_troca()
 	_testar_equipar_move_anterior()
@@ -89,21 +98,21 @@ func _testar_equipar_move_anterior() -> void:
 
 func _testar_linhas_extras() -> void:
 	var modelo = _modelo()
-	_verificar("mochila comeca com 15 casas e a proxima linha libera na onda 10", modelo.capacidade() == 15 and modelo.onda_da_proxima_linha() == 10, "%d %d" % [modelo.capacidade(), modelo.onda_da_proxima_linha()])
+	_verificar("mochila comeca com 24 casas e a proxima linha libera na onda 10", modelo.capacidade() == 24 and modelo.onda_da_proxima_linha() == 10, "%d %d" % [modelo.capacidade(), modelo.onda_da_proxima_linha()])
 	_verificar("linhas por onda vencida: 9->0, 10->1, 29->1, 30->2, 60->3, 100->4, 280->7, 999->7", modelo.linhas_para_onda(9) == 0 and modelo.linhas_para_onda(10) == 1 and modelo.linhas_para_onda(29) == 1
 			and modelo.linhas_para_onda(30) == 2 and modelo.linhas_para_onda(60) == 3 and modelo.linhas_para_onda(100) == 4 and modelo.linhas_para_onda(280) == 7 and modelo.linhas_para_onda(999) == 7, "")
 	_verificar("o tamanho maximo e a base mais todas as linhas extras", modelo.TAMANHO_MAXIMO == modelo.TAMANHO_MOCHILA + modelo.COLUNAS_MOCHILA * modelo.ONDAS_LINHA_EXTRA.size(), "")
 	for _i in modelo.TAMANHO_MOCHILA:
 		modelo.adicionar(_item("botas_basicas", "botas"))
-	_verificar("com 15 casas cheias nao cabe mais nada", not modelo.tem_espaco() and modelo.adicionar(_item("botas_basicas", "botas")) == -1, "")
-	_verificar("nao da para mover para uma casa ainda bloqueada", not modelo.mover_para_mochila(modelo.mochila[0], 17), "")
+	_verificar("com 24 casas cheias nao cabe mais nada", not modelo.tem_espaco() and modelo.adicionar(_item("botas_basicas", "botas")) == -1, "")
+	_verificar("nao da para mover para uma casa ainda bloqueada", not modelo.mover_para_mochila(modelo.mochila[0], 27), "")
 	var avisos := [0]
 	modelo.capacidade_alterada.connect(func(_c): avisos[0] += 1)
 	modelo.definir_linhas_extras(1)
-	_verificar("vencer a onda 10 libera mais 5 casas (20) e avisa", modelo.capacidade() == 20 and avisos[0] == 1 and modelo.onda_da_proxima_linha() == 30, "%d" % modelo.capacidade())
-	_verificar("o item novo vai para a linha liberada", modelo.adicionar(_item("botas_basicas", "botas")) == 15, "")
+	_verificar("vencer a onda 10 libera mais 8 casas (32) e avisa", modelo.capacidade() == 32 and avisos[0] == 1 and modelo.onda_da_proxima_linha() == 30, "%d" % modelo.capacidade())
+	_verificar("o item novo vai para a linha liberada", modelo.adicionar(_item("botas_basicas", "botas")) == 24, "")
 	modelo.definir_linhas_extras(modelo.ONDAS_LINHA_EXTRA.size())
-	_verificar("todas as linhas: 50 casas e nenhuma proxima", modelo.capacidade() == 50 and modelo.onda_da_proxima_linha() == -1, "")
+	_verificar("todas as linhas: 80 casas e nenhuma proxima", modelo.capacidade() == 80 and modelo.onda_da_proxima_linha() == -1, "")
 	modelo.salvar("user://teste_inventario_linhas.json")
 	var outro = _modelo()
 	outro.definir_linhas_extras(outro.ONDAS_LINHA_EXTRA.size())
@@ -243,13 +252,20 @@ func _testar_itens_iniciais() -> void:
 	for slot in modelo.SLOTS:
 		if modelo.equipados[slot] != null:
 			total += 1
-	_verificar("criar_itens_iniciais cria 8 itens", total == 8 and not modelo.esta_vazio(), "total=%d" % total)
-	var armas_na_mochila: bool = modelo.mochila[0].tipo == "espada_basica" and modelo.mochila[1].tipo == "lanca_basica" and modelo.mochila[2].tipo == "escudo_basico" and modelo.mochila[3] == null
-	_verificar("armas e escudo comecam na mochila", armas_na_mochila and modelo.equipados["arma"] == null and modelo.equipados["escudo"] == null, "mochila[0]=%s" % str(modelo.mochila[0]))
+	_verificar("criar_itens_iniciais cria 12 itens (com as quatro ferramentas e aljava)", total == 12 and not modelo.esta_vazio(), "total=%d" % total)
+	# Kit inicial: espada e escudo já na mão, cada um reservando a casa da barra de onde saiu; a primeira linha segue com
+	# enxada, regador e mão (a mesma barra serve à fazenda) e a lança fica na segunda linha
+	var tipos_mochila: Array = []
+	for i in 6:
+		tipos_mochila.append(modelo.mochila[i].tipo if modelo.mochila[i] != null else "")
+	var kit_na_mao: bool = modelo.equipados["arma"] != null and modelo.equipados["arma"].tipo == "espada_basica" and modelo.equipados["escudo"] != null \
+			and modelo.equipados["escudo"].tipo == "escudo_basico" and tipos_mochila == ["", "", "enxada", "regador", "lanca_basica", "machadinha"] \
+			and modelo.celulas_da_mao["arma"] == 0 and modelo.celulas_da_mao["escudo"] == 1 and modelo.mochila[2].categoria == "ferramenta"
+	_verificar("espada e escudo equipados, enxada, regador, lança e machadinha nas casas previstas", kit_na_mao, "mochila=%s mao=%s" % [str(tipos_mochila), str(modelo.celulas_da_mao)])
 	var armaduras_equipadas: bool = modelo.equipados["cabeca"].tipo == "cabeca_basica" and modelo.equipados["corpo"].tipo == "armadura_basica" and modelo.equipados["luvas"].tipo == "luvas_basicas" and modelo.equipados["botas"].tipo == "botas_basicas"
 	_verificar("armaduras comecam equipadas", armaduras_equipadas, "armaduras fora do lugar")
 	_verificar("aljava comeca equipada", modelo.equipados["secundaria"].tipo == "aljava_basica", "secundaria=%s" % str(modelo.equipados["secundaria"]))
-	_verificar("criar_itens_iniciais emite cada sinal uma vez", contagem["mochila"] == 1 and contagem["slots"] == 5 and contagem["itens"] == 0, str(contagem))
+	_verificar("criar_itens_iniciais emite cada sinal uma vez", contagem["mochila"] == 1 and contagem["slots"] == 7 and contagem["itens"] == 0, str(contagem))
 	var lanca = modelo.buscar_por_tipo("lanca_basica")
 	_verificar("buscar_por_tipo acha na mochila e equipado", lanca != null and lanca.nivel == 1 and modelo.buscar_por_tipo("botas_basicas") != null and modelo.buscar_por_tipo("inexistente") == null, "busca falhou")
 	modelo.subir_nivel(lanca)

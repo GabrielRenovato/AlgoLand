@@ -8,7 +8,7 @@ sys.path.insert(0, os.path.join(AQUI, "..", "arena"))
 import png_puro as P  # noqa: E402
 
 RAIZ = os.path.abspath(os.path.join(AQUI, "..", ".."))
-PASTA_STARTER = os.path.join(RAIZ, "Tiles", "Starter Pack")
+PASTA_STARTER = os.path.join(RAIZ, "assets/cenario", "Starter Pack")
 _cache = {}
 
 

@@ -1,0 +1,232 @@
+extends Control
+
+## Tela de pausa (Esc; no celular o botão II): o jogo para (get_tree().paused) enquanto ela está aberta. Abre sobre o menu principal com
+## CONTINUAR, OPCOES (as mesmas da tela inicial: volume, tela cheia, FPS, vibração e desenho dos botões), VOLTAR AO MENU e SAIR DO JOGO;
+## os dois últimos pedem confirmação. A Interface abre e fecha a tela (nome "pausa") e cuida de Esc/B para fechar.
+
+const Opcoes := preload("res://codigo/globais/opcoes_jogo.gd")
+const CENA_MENU := "res://cenas/inicio_do_jogo.tscn"
+const VALORES_FPS := [30, 60, 120, 0]
+const ROTULOS_FPS := ["30", "60", "120", "SEM LIMITE"]
+const COR_NOME_OPCAO := Color(0.75, 0.7, 0.62)
+const COR_AVISO := Color(1, 0.7, 0.55)
+
+enum Vista { MENU, OPCOES, CONFIRMAR }
+
+@onready var _titulo: Label = %Titulo
+@onready var _detalhe: Label = %Detalhe
+@onready var _menu: VBoxContainer = %Menu
+@onready var _vista_opcoes: VBoxContainer = %Opcoes
+@onready var _confirmar: HBoxContainer = %Confirmar
+@onready var _botao_continuar: Button = %BotaoContinuar
+@onready var _botao_opcoes: Button = %BotaoOpcoes
+@onready var _botao_menu: Button = %BotaoMenu
+@onready var _botao_sair: Button = %BotaoSair
+@onready var _botao_sim: Button = %BotaoSim
+@onready var _botao_nao: Button = %BotaoNao
+
+var _vista := Vista.MENU
+var _opcoes: Dictionary
+var _linhas: Array = []
+var _botao_voltar: Button
+## O que o SIM da confirmação faz: "menu" ou "sair"
+var _pedido := ""
+var _saindo := false
+
+func _ready() -> void:
+	_botao_continuar.pressed.connect(_continuar)
+	%BotaoFechar.pressed.connect(_continuar)
+	_botao_opcoes.pressed.connect(_mostrar.bind(Vista.OPCOES))
+	_botao_menu.pressed.connect(_pedir.bind("menu"))
+	_botao_sair.pressed.connect(_pedir.bind("sair"))
+	_botao_sim.pressed.connect(_ao_sim)
+	_botao_nao.pressed.connect(_mostrar.bind(Vista.MENU))
+	_montar_opcoes()
+	visibility_changed.connect(_ao_visibilidade_alterada)
+
+func _exit_tree() -> void:
+	# Nunca deixa o jogo parado ao sair da cena por esta tela
+	if get_tree() != null:
+		get_tree().paused = false
+
+func _ao_visibilidade_alterada() -> void:
+	get_tree().paused = visible
+	if visible:
+		_opcoes = Opcoes.carregar(_lado())
+		_atualizar_linhas()
+		_mostrar(Vista.MENU)
+
+## Chamado pela Interface ao abrir a tela: no teclado e no controle o foco começa em CONTINUAR
+func focar_inicio() -> void:
+	_botao_continuar.grab_focus()
+
+## Esc/B dentro de OPCOES ou da confirmação volta ao menu da pausa; no menu da pausa fecha a tela (quem decide é a Interface, que chama isto)
+## Devolve true se tratou o pedido (havia uma subtela aberta)
+func voltar_subtela() -> bool:
+	if _vista == Vista.MENU:
+		return false
+	_mostrar(Vista.MENU)
+	return true
+
+func _continuar() -> void:
+	EventosJogo.fechar_tela_de(self, "pausa")
+
+func _mostrar(vista: Vista) -> void:
+	_vista = vista
+	_menu.visible = vista == Vista.MENU
+	_vista_opcoes.visible = vista == Vista.OPCOES
+	_confirmar.visible = vista == Vista.CONFIRMAR
+	_detalhe.visible = vista != Vista.OPCOES and _detalhe.text != ""
+	match vista:
+		Vista.MENU:
+			_titulo.text = "PAUSADO"
+			_detalhe.text = _texto_estado()
+			_botao_continuar.grab_focus()
+		Vista.OPCOES:
+			_titulo.text = "OPCOES"
+			_linhas[0]["menos"].grab_focus()
+		Vista.CONFIRMAR:
+			_botao_nao.grab_focus()
+
+## Onde o jogador está e quanto tem a perder: na onda em andamento, voltar ao menu descarta o progresso dela
+func _texto_estado() -> String:
+	var gerenciador := get_tree().get_first_node_in_group("gerenciador_ondas")
+	if gerenciador != null and bool(gerenciador.get("onda_em_andamento")):
+		return "ONDA %d EM ANDAMENTO" % int(gerenciador.get("onda_atual"))
+	return ""
+
+func _pedir(que: String) -> void:
+	_pedido = que
+	_titulo.text = "VOLTAR AO MENU?" if que == "menu" else "SAIR DO JOGO?"
+	_detalhe.add_theme_color_override("font_color", COR_AVISO if _perde_onda() else COR_NOME_OPCAO)
+	_mostrar(Vista.CONFIRMAR)
+	# _mostrar põe o título do menu; a confirmação usa o dela
+	_titulo.text = "VOLTAR AO MENU?" if que == "menu" else "SAIR DO JOGO?"
+	_detalhe.text = "A ONDA ATUAL SE PERDE" if _perde_onda() else "SEU JOGO FICA SALVO"
+
+func _perde_onda() -> bool:
+	var gerenciador := get_tree().get_first_node_in_group("gerenciador_ondas")
+	return gerenciador != null and bool(gerenciador.get("onda_em_andamento"))
+
+func _ao_sim() -> void:
+	if _saindo:
+		return
+	_saindo = true
+	_salvar_tudo()
+	if _pedido == "sair":
+		get_tree().quit()
+		return
+	get_tree().paused = false
+	Transicao.limpar()
+	get_tree().change_scene_to_file(CENA_MENU)
+
+func _salvar_tudo() -> void:
+	InventarioJogador.salvar()
+	Progresso.salvar()
+	Calendario.salvar()
+	Fazenda.salvar()
+
+# --- Opcoes ----------------------------------------------------------------------------------------------------------
+
+## Cooperativo: a pausa do jogador 2 mexe só nas opções dele (vibração, zoom e botões); volume, tela e FPS são da janela
+func _lado() -> int:
+	return 2 if EventosJogo.eh_do_p2(self) else 1
+
+func _montar_opcoes() -> void:
+	if _lado() == 2:
+		_adicionar_linha("vibracao", "VIBRACAO", [false, true], ["NAO", "SIM"])
+		_adicionar_linha("zoom", "ZOOM", Opcoes.ZOOMS, Opcoes.ROTULOS_ZOOM)
+		_adicionar_linha("layout_controle", "BOTOES", Opcoes.LAYOUTS_CONTROLE, ["AUTO", "XBOX", "NINTENDO", "PS"])
+		_terminar_opcoes()
+		return
+	var volumes: Array = []
+	var rotulos_volume: Array = []
+	for i in 11:
+		volumes.append(i / 10.0)
+		rotulos_volume.append("%d%%" % (i * 10))
+	_adicionar_linha("volume", "VOLUME", volumes, rotulos_volume)
+	if not Controle.usando_toque:
+		_adicionar_linha("tela_cheia", "TELA CHEIA", [false, true], ["NAO", "SIM"])
+	_adicionar_linha("max_fps", "FPS MAXIMO", VALORES_FPS, ROTULOS_FPS)
+	_adicionar_linha("vibracao", "VIBRACAO", [false, true], ["NAO", "SIM"])
+	_adicionar_linha("zoom", "ZOOM", Opcoes.ZOOMS, Opcoes.ROTULOS_ZOOM)
+	if not Controle.usando_toque:
+		_adicionar_linha("layout_controle", "BOTOES", Opcoes.LAYOUTS_CONTROLE, ["AUTO", "XBOX", "NINTENDO", "PS"])
+	_terminar_opcoes()
+
+func _terminar_opcoes() -> void:
+	_botao_voltar = Button.new()
+	_botao_voltar.text = "VOLTAR"
+	_botao_voltar.custom_minimum_size = Vector2(0, 18)
+	_botao_voltar.pressed.connect(_mostrar.bind(Vista.MENU))
+	_vista_opcoes.add_child(_botao_voltar)
+	# Foco: cima e baixo andam pelas linhas (menos com menos, mais com mais) e o último desce para VOLTAR
+	for i in _linhas.size():
+		var linha: Dictionary = _linhas[i]
+		for lado in ["menos", "mais"]:
+			var botao: Button = linha[lado]
+			var acima: Button = _linhas[maxi(i - 1, 0)][lado]
+			var abaixo: Button = _linhas[i + 1][lado] if i + 1 < _linhas.size() else _botao_voltar
+			botao.focus_neighbor_top = acima.get_path()
+			botao.focus_neighbor_bottom = abaixo.get_path()
+	_botao_voltar.focus_neighbor_top = (_linhas[_linhas.size() - 1]["menos"] as Button).get_path()
+
+## Uma linha "NOME  <  valor  >": os botões mudam o valor um passo e as setas do teclado/controle também
+func _adicionar_linha(chave: String, nome: String, valores: Array, rotulos: Array) -> void:
+	var caixa := HBoxContainer.new()
+	caixa.add_theme_constant_override("separation", 4)
+	var rotulo_nome := Label.new()
+	rotulo_nome.text = nome
+	rotulo_nome.custom_minimum_size = Vector2(76, 0)
+	rotulo_nome.add_theme_color_override("font_color", COR_NOME_OPCAO)
+	caixa.add_child(rotulo_nome)
+	var menos := Button.new()
+	menos.text = "<"
+	menos.custom_minimum_size = Vector2(16, 16)
+	caixa.add_child(menos)
+	var rotulo_valor := Label.new()
+	rotulo_valor.custom_minimum_size = Vector2(52, 0)
+	rotulo_valor.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	caixa.add_child(rotulo_valor)
+	var mais := Button.new()
+	mais.text = ">"
+	mais.custom_minimum_size = Vector2(16, 16)
+	caixa.add_child(mais)
+	_vista_opcoes.add_child(caixa)
+	var numero := _linhas.size()
+	_linhas.append({"chave": chave, "valores": valores, "rotulos": rotulos, "indice": 0, "rotulo": rotulo_valor, "menos": menos, "mais": mais})
+	menos.pressed.connect(_mudar_linha.bind(numero, -1))
+	mais.pressed.connect(_mudar_linha.bind(numero, 1))
+	for botao in [menos, mais]:
+		botao.gui_input.connect(_ao_entrada_linha.bind(numero))
+
+func _ao_entrada_linha(evento: InputEvent, numero: int) -> void:
+	if evento.is_action_pressed("ui_left"):
+		_mudar_linha(numero, -1)
+		get_viewport().set_input_as_handled()
+	elif evento.is_action_pressed("ui_right"):
+		_mudar_linha(numero, 1)
+		get_viewport().set_input_as_handled()
+
+## Põe nas linhas os valores salvos (ao abrir a tela)
+func _atualizar_linhas() -> void:
+	for linha in _linhas:
+		var indice: int = (linha["valores"] as Array).find(_opcoes.get(linha["chave"]))
+		if linha["chave"] == "volume":
+			indice = roundi(float(_opcoes["volume"]) * 10.0)
+		linha["indice"] = maxi(indice, 0)
+		(linha["rotulo"] as Label).text = linha["rotulos"][linha["indice"]]
+
+func _mudar_linha(numero: int, passo: int) -> void:
+	var linha: Dictionary = _linhas[numero]
+	var indice := clampi(linha["indice"] + passo, 0, linha["valores"].size() - 1)
+	if indice == linha["indice"]:
+		return
+	linha["indice"] = indice
+	(linha["rotulo"] as Label).text = linha["rotulos"][indice]
+	_opcoes[linha["chave"]] = linha["valores"][indice]
+	Opcoes.aplicar(_opcoes, _lado())
+	Opcoes.salvar(_opcoes, _lado())
+	# Quem liga a vibração sente na hora que funciona
+	if linha["chave"] == "vibracao" and _opcoes["vibracao"]:
+		Controle.vibrar(0.6, 0.6, 0.2, self)

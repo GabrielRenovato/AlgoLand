@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://b6nyd4j3mlgs1"]
+
+[ext_resource type="Script" uid="uid://v27vwkpvy1x2" path="res://codigo/cenario/barra_de_vida.gd" id="1_njar3"]
+[ext_resource type="Script" path="res://codigo/ui/barra_pecas.gd" id="2_pecas"]
+
+[node name="HPBar" type="Node2D"]
+z_index = 1000
+script = ExtResource("1_njar3")
+
+[node name="Barra" type="Control" parent="."]
+texture_filter = 1
+offset_left = -8.0
+offset_top = -2.0
+offset_right = 24.0
+offset_bottom = 6.0
+scale = Vector2(0.5, 0.5)
+mouse_filter = 2
+script = ExtResource("2_pecas")

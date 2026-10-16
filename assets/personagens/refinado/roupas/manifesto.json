@@ -1,0 +1,2721 @@
+{
+	"escala": 0.5,
+	"fontes": {
+		"res://assets/personagens/Arco/roupa_10_p2.png": "res://assets/personagens/refinado/roupas/f85bc64250633e55659aa45264085537.png",
+		"res://assets/personagens/Arco/roupa_10_p3.png": "res://assets/personagens/refinado/roupas/5c6398a0e2e171ff2dae3c209d961d3e.png",
+		"res://assets/personagens/Arco/roupa_11_p2.png": "res://assets/personagens/refinado/roupas/b69bbee51ba31f302d07660c28f91477.png",
+		"res://assets/personagens/Arco/roupa_11_p3.png": "res://assets/personagens/refinado/roupas/1a886e674d8f6ad310f0c45f89516d90.png",
+		"res://assets/personagens/Arco/roupa_12_p2.png": "res://assets/personagens/refinado/roupas/99d5e3c0d31fae30c0c7544751c01c23.png",
+		"res://assets/personagens/Arco/roupa_12_p3.png": "res://assets/personagens/refinado/roupas/1be2bd4aeb7c955c24ee9dbb1c14139a.png",
+		"res://assets/personagens/Arco/roupa_1_p2.png": "res://assets/personagens/refinado/roupas/bc67901302d27ac71e7097b7fcedfddd.png",
+		"res://assets/personagens/Arco/roupa_1_p3.png": "res://assets/personagens/refinado/roupas/2cb23bc0db249c437d7504483a1c44c5.png",
+		"res://assets/personagens/Arco/roupa_2_p2.png": "res://assets/personagens/refinado/roupas/fce9f24d8a2061fb3ba06e7d5bab9606.png",
+		"res://assets/personagens/Arco/roupa_2_p3.png": "res://assets/personagens/refinado/roupas/6312bdbf0d0597d08bfd532b71458838.png",
+		"res://assets/personagens/Arco/roupa_3_p2.png": "res://assets/personagens/refinado/roupas/7119cee8efac95cbb0cfddd08f22d4d0.png",
+		"res://assets/personagens/Arco/roupa_3_p3.png": "res://assets/personagens/refinado/roupas/736ab9a0f1254db61fce8725c2435f65.png",
+		"res://assets/personagens/Arco/roupa_4_p2.png": "res://assets/personagens/refinado/roupas/68a76807702b6b1c54bd7432b75d8404.png",
+		"res://assets/personagens/Arco/roupa_4_p3.png": "res://assets/personagens/refinado/roupas/e66060647e817cd88098a04bc6a7b385.png",
+		"res://assets/personagens/Arco/roupa_5_p2.png": "res://assets/personagens/refinado/roupas/ae34921b2403e2eb28b1784fe2e2bec1.png",
+		"res://assets/personagens/Arco/roupa_5_p3.png": "res://assets/personagens/refinado/roupas/e13f439dbfe7d34d2576bf5d9660f083.png",
+		"res://assets/personagens/Arco/roupa_6_p2.png": "res://assets/personagens/refinado/roupas/956681fd3d2251bfc77a897932da9164.png",
+		"res://assets/personagens/Arco/roupa_6_p3.png": "res://assets/personagens/refinado/roupas/2e31afde404435d5f9ac26fc3c79e491.png",
+		"res://assets/personagens/Arco/roupa_7_p2.png": "res://assets/personagens/refinado/roupas/9d4ba1ce68822df2bfe60335f9acb75c.png",
+		"res://assets/personagens/Arco/roupa_7_p3.png": "res://assets/personagens/refinado/roupas/06a6b27e76600803c0f9716fda458446.png",
+		"res://assets/personagens/Arco/roupa_8_p2.png": "res://assets/personagens/refinado/roupas/42ae78f8ff872a075143136f0646d481.png",
+		"res://assets/personagens/Arco/roupa_8_p3.png": "res://assets/personagens/refinado/roupas/6eea3cc9cc276c3aa545f4bc6f0bcb2e.png",
+		"res://assets/personagens/Arco/roupa_9_p2.png": "res://assets/personagens/refinado/roupas/dab0eb2b9f390fd4a38d880e0a9710d5.png",
+		"res://assets/personagens/Arco/roupa_9_p3.png": "res://assets/personagens/refinado/roupas/fa60364b29a5e1055b17abf2561f335d.png",
+		"res://assets/personagens/Fazenda/roupa_1.png": "res://assets/personagens/refinado/roupas/857f3b5886dcc27ec4a88fa50bff40d0.png",
+		"res://assets/personagens/Fazenda/roupa_10.png": "res://assets/personagens/refinado/roupas/0829672a9840ddace4f6f4f4c4b8903b.png",
+		"res://assets/personagens/Fazenda/roupa_11.png": "res://assets/personagens/refinado/roupas/6cc91b4bfb325f11684e2fcab90271cc.png",
+		"res://assets/personagens/Fazenda/roupa_12.png": "res://assets/personagens/refinado/roupas/68fa465058fc40dcd47a8382c5cdd7f2.png",
+		"res://assets/personagens/Fazenda/roupa_2.png": "res://assets/personagens/refinado/roupas/2d145eb6651665f373d7f8d37fed980e.png",
+		"res://assets/personagens/Fazenda/roupa_3.png": "res://assets/personagens/refinado/roupas/75f8147fb053a7245614099be0318202.png",
+		"res://assets/personagens/Fazenda/roupa_4.png": "res://assets/personagens/refinado/roupas/9d722b93fbb33a7e28b176d65a90000a.png",
+		"res://assets/personagens/Fazenda/roupa_5.png": "res://assets/personagens/refinado/roupas/0c81562e9aa6e92329878837b6c7e4e7.png",
+		"res://assets/personagens/Fazenda/roupa_6.png": "res://assets/personagens/refinado/roupas/63b0e62ae76b6f3d7fb609a1cc4f6110.png",
+		"res://assets/personagens/Fazenda/roupa_7.png": "res://assets/personagens/refinado/roupas/becffcd4e6179f32d09c8cb53d7f7838.png",
+		"res://assets/personagens/Fazenda/roupa_8.png": "res://assets/personagens/refinado/roupas/405d4cba4f761d422b1c00bf50d69b98.png",
+		"res://assets/personagens/Fazenda/roupa_9.png": "res://assets/personagens/refinado/roupas/17bd12f925ad677dab80fa8deb7db67c.png",
+		"res://assets/personagens/Outfit/Attack/slash_1_spear/outfit (1).png": "res://assets/personagens/refinado/roupas/01860c5ac6efe9fd4555aa85e980f0cd.png",
+		"res://assets/personagens/Outfit/Attack/slash_1_spear/outfit (10).png": "res://assets/personagens/refinado/roupas/070fea0eda80e0d87c6d09c7711a9d76.png",
+		"res://assets/personagens/Outfit/Attack/slash_1_spear/outfit (11).png": "res://assets/personagens/refinado/roupas/f5535876c004d4c107a692641b8b9a73.png",
+		"res://assets/personagens/Outfit/Attack/slash_1_spear/outfit (12).png": "res://assets/personagens/refinado/roupas/f044609cfdc1f82fb46611819d209a74.png",
+		"res://assets/personagens/Outfit/Attack/slash_1_spear/outfit (2).png": "res://assets/personagens/refinado/roupas/2a95e40aef125cf9e6d00f476b900cf3.png",
+		"res://assets/personagens/Outfit/Attack/slash_1_spear/outfit (3).png": "res://assets/personagens/refinado/roupas/54d8d7f1f1f88f65b11d99612c73d77a.png",
+		"res://assets/personagens/Outfit/Attack/slash_1_spear/outfit (4).png": "res://assets/personagens/refinado/roupas/46886cd090eaa98d776b91d38abd9069.png",
+		"res://assets/personagens/Outfit/Attack/slash_1_spear/outfit (5).png": "res://assets/personagens/refinado/roupas/5035e9bb71349f266e7cdd47f0d4a5bc.png",
+		"res://assets/personagens/Outfit/Attack/slash_1_spear/outfit (6).png": "res://assets/personagens/refinado/roupas/a5a6696b3e0bd8b70ee1be5b0b76f8d2.png",
+		"res://assets/personagens/Outfit/Attack/slash_1_spear/outfit (7).png": "res://assets/personagens/refinado/roupas/570bd216d3e2f7315bb61bb33f4ba164.png",
+		"res://assets/personagens/Outfit/Attack/slash_1_spear/outfit (8).png": "res://assets/personagens/refinado/roupas/ffd07445c52f4433d7926425d11258b7.png",
+		"res://assets/personagens/Outfit/Attack/slash_1_spear/outfit (9).png": "res://assets/personagens/refinado/roupas/e0814ffd27c1a7111b5468fe8ed9260b.png",
+		"res://assets/personagens/Outfit/Attack/slash_1_sword/outfit(1).png": "res://assets/personagens/refinado/roupas/b47ac9e4c8ecf200bab62e95870c428d.png",
+		"res://assets/personagens/Outfit/Attack/slash_1_sword/outfit(10).png": "res://assets/personagens/refinado/roupas/49edf923ef8cc0176e4029463bd545d5.png",
+		"res://assets/personagens/Outfit/Attack/slash_1_sword/outfit(11).png": "res://assets/personagens/refinado/roupas/54143b535455232c7ef4c0dc30a43491.png",
+		"res://assets/personagens/Outfit/Attack/slash_1_sword/outfit(12).png": "res://assets/personagens/refinado/roupas/b013a4f0fcb6dff5ed1e783f3d521682.png",
+		"res://assets/personagens/Outfit/Attack/slash_1_sword/outfit(2).png": "res://assets/personagens/refinado/roupas/f101e8ce4bd355021b92599b008d968a.png",
+		"res://assets/personagens/Outfit/Attack/slash_1_sword/outfit(3).png": "res://assets/personagens/refinado/roupas/2d8f9d9ecf32d5db9ee4630c9756cecc.png",
+		"res://assets/personagens/Outfit/Attack/slash_1_sword/outfit(4).png": "res://assets/personagens/refinado/roupas/ec4687529d3b02495d7856f47f102379.png",
+		"res://assets/personagens/Outfit/Attack/slash_1_sword/outfit(5).png": "res://assets/personagens/refinado/roupas/44f4b0d922ff89db473046f462944766.png",
+		"res://assets/personagens/Outfit/Attack/slash_1_sword/outfit(6).png": "res://assets/personagens/refinado/roupas/70d4c35a1184e7cb90760924ecaa565b.png",
+		"res://assets/personagens/Outfit/Attack/slash_1_sword/outfit(7).png": "res://assets/personagens/refinado/roupas/4b81592e55e040938cf1b1e5f81f6a23.png",
+		"res://assets/personagens/Outfit/Attack/slash_1_sword/outfit(8).png": "res://assets/personagens/refinado/roupas/e88894e73a1defdff5f71961689f240b.png",
+		"res://assets/personagens/Outfit/Attack/slash_1_sword/outfit(9).png": "res://assets/personagens/refinado/roupas/513dea5a8c6848745fb3aed5ac3152bf.png",
+		"res://assets/personagens/Outfit/outfit (1).png": "res://assets/personagens/refinado/roupas/43c021989c439875f36d5f05c778cf09.png",
+		"res://assets/personagens/Outfit/outfit (10).png": "res://assets/personagens/refinado/roupas/a72152f4eaadb152fcae3a4363bde096.png",
+		"res://assets/personagens/Outfit/outfit (11).png": "res://assets/personagens/refinado/roupas/9781148df107819266cb006f719b240c.png",
+		"res://assets/personagens/Outfit/outfit (12).png": "res://assets/personagens/refinado/roupas/4e871460e99bc78da8792f6f2ccfd674.png",
+		"res://assets/personagens/Outfit/outfit (2).png": "res://assets/personagens/refinado/roupas/49c47fce85932eefe39cfdd34bba890c.png",
+		"res://assets/personagens/Outfit/outfit (3).png": "res://assets/personagens/refinado/roupas/3797d75fe88c125a11abaa48669cc3b3.png",
+		"res://assets/personagens/Outfit/outfit (4).png": "res://assets/personagens/refinado/roupas/52e945f2ac808f05582527362b4f0e9c.png",
+		"res://assets/personagens/Outfit/outfit (5).png": "res://assets/personagens/refinado/roupas/2a70a2f52de402dc05ced412d53ee1e6.png",
+		"res://assets/personagens/Outfit/outfit (6).png": "res://assets/personagens/refinado/roupas/16844b508000e04608baaa36eaa98c2a.png",
+		"res://assets/personagens/Outfit/outfit (7).png": "res://assets/personagens/refinado/roupas/d80f570bbb9e648eb4f0f9c5825aac70.png",
+		"res://assets/personagens/Outfit/outfit (8).png": "res://assets/personagens/refinado/roupas/cf1a33ea05d9dccb4ca3b077188ee279.png",
+		"res://assets/personagens/Outfit/outfit (9).png": "res://assets/personagens/refinado/roupas/65ff37cb4c0b7e3af9489bcbf4d635f2.png",
+		"res://assets/personagens/Reacao/arco/roupa_1.png": "res://assets/personagens/refinado/roupas/f55a424e4cc87ccb8baa78934a286ea9.png",
+		"res://assets/personagens/Reacao/arco/roupa_10.png": "res://assets/personagens/refinado/roupas/55b876eaa5298822760fffbea299836f.png",
+		"res://assets/personagens/Reacao/arco/roupa_11.png": "res://assets/personagens/refinado/roupas/2ceb771ecf18dd3ce861c0b1379dd7ee.png",
+		"res://assets/personagens/Reacao/arco/roupa_12.png": "res://assets/personagens/refinado/roupas/2f12db57f1a9a1d095347e09d55e43c4.png",
+		"res://assets/personagens/Reacao/arco/roupa_2.png": "res://assets/personagens/refinado/roupas/ca0daf89f7008829369fc0e6f796fd74.png",
+		"res://assets/personagens/Reacao/arco/roupa_3.png": "res://assets/personagens/refinado/roupas/506f0218fe7f88f420e84328c8142a24.png",
+		"res://assets/personagens/Reacao/arco/roupa_4.png": "res://assets/personagens/refinado/roupas/55fd3c90c0feb7350351dde53f7ba5c5.png",
+		"res://assets/personagens/Reacao/arco/roupa_5.png": "res://assets/personagens/refinado/roupas/0716977350290045dbd39029cb374005.png",
+		"res://assets/personagens/Reacao/arco/roupa_6.png": "res://assets/personagens/refinado/roupas/f1040ec5d34605e8a59aa06d4d60eab6.png",
+		"res://assets/personagens/Reacao/arco/roupa_7.png": "res://assets/personagens/refinado/roupas/7a706f53742fcfc611cf9d2ce416100e.png",
+		"res://assets/personagens/Reacao/arco/roupa_8.png": "res://assets/personagens/refinado/roupas/23d238983352002561d46b56a1987772.png",
+		"res://assets/personagens/Reacao/arco/roupa_9.png": "res://assets/personagens/refinado/roupas/0e146a4bc0956e9aafdafc6fe1f35071.png",
+		"res://assets/personagens/Reacao/lanca/roupa_1.png": "res://assets/personagens/refinado/roupas/382b0dc9b208cd20cf0ee95ce1af2eca.png",
+		"res://assets/personagens/Reacao/lanca/roupa_10.png": "res://assets/personagens/refinado/roupas/9f3052fb0b7bc560e8eaa8c9c3d21a6d.png",
+		"res://assets/personagens/Reacao/lanca/roupa_11.png": "res://assets/personagens/refinado/roupas/cb82c2cfce99eb1d654e1fbc7519951d.png",
+		"res://assets/personagens/Reacao/lanca/roupa_12.png": "res://assets/personagens/refinado/roupas/018d0a6f73490164dd0369493a1b504f.png",
+		"res://assets/personagens/Reacao/lanca/roupa_2.png": "res://assets/personagens/refinado/roupas/c482999a8fe0c02e10dd4f296071eb6c.png",
+		"res://assets/personagens/Reacao/lanca/roupa_3.png": "res://assets/personagens/refinado/roupas/d218f47487496226a2f6a934d1ee21f6.png",
+		"res://assets/personagens/Reacao/lanca/roupa_4.png": "res://assets/personagens/refinado/roupas/de36db5e9fba0a2be150d6ee9479c506.png",
+		"res://assets/personagens/Reacao/lanca/roupa_5.png": "res://assets/personagens/refinado/roupas/fbfdb212b8fd3396f889d3c9802fc8c4.png",
+		"res://assets/personagens/Reacao/lanca/roupa_6.png": "res://assets/personagens/refinado/roupas/2b08c58a24c0613d20fb77edb2f02503.png",
+		"res://assets/personagens/Reacao/lanca/roupa_7.png": "res://assets/personagens/refinado/roupas/7ed7f2ceb2a2aded1730abbd0533544d.png",
+		"res://assets/personagens/Reacao/lanca/roupa_8.png": "res://assets/personagens/refinado/roupas/504cabe5c336b8e49f37d4a86c219034.png",
+		"res://assets/personagens/Reacao/lanca/roupa_9.png": "res://assets/personagens/refinado/roupas/c7c26db6bdb40a119acc25d30cf4be62.png",
+		"res://assets/personagens/Reacao/um_mao/roupa_1.png": "res://assets/personagens/refinado/roupas/f9492fcf2e42d0661b891b6245ff8afd.png",
+		"res://assets/personagens/Reacao/um_mao/roupa_10.png": "res://assets/personagens/refinado/roupas/c792f66c58ee5e0a9d057b343dfa8594.png",
+		"res://assets/personagens/Reacao/um_mao/roupa_11.png": "res://assets/personagens/refinado/roupas/f0a9bb3ec9572de2549e2cff5490ae98.png",
+		"res://assets/personagens/Reacao/um_mao/roupa_12.png": "res://assets/personagens/refinado/roupas/60f2640c40962f3320febd7c8af8041f.png",
+		"res://assets/personagens/Reacao/um_mao/roupa_2.png": "res://assets/personagens/refinado/roupas/6467b6059f9b19dcdada783449f049fb.png",
+		"res://assets/personagens/Reacao/um_mao/roupa_3.png": "res://assets/personagens/refinado/roupas/c1f2bd892cddaa74aeac480eef97bb6c.png",
+		"res://assets/personagens/Reacao/um_mao/roupa_4.png": "res://assets/personagens/refinado/roupas/bb40617b5c00b22223a1985ccbc0256b.png",
+		"res://assets/personagens/Reacao/um_mao/roupa_5.png": "res://assets/personagens/refinado/roupas/734466c3b66596adae3a1cc2a1590bb5.png",
+		"res://assets/personagens/Reacao/um_mao/roupa_6.png": "res://assets/personagens/refinado/roupas/42ebd2c42b98833f01e043e5ba18c18a.png",
+		"res://assets/personagens/Reacao/um_mao/roupa_7.png": "res://assets/personagens/refinado/roupas/da7a6142d8a41ecc47864dd601a45fe0.png",
+		"res://assets/personagens/Reacao/um_mao/roupa_8.png": "res://assets/personagens/refinado/roupas/bc28ea0dcbe9f5eee53ae213c0988ae9.png",
+		"res://assets/personagens/Reacao/um_mao/roupa_9.png": "res://assets/personagens/refinado/roupas/2a55e541d6af7fa7a16dbd85ac8ebaf1.png",
+		"res://assets/personagens/Sentado/roupa_1.png": "res://assets/personagens/refinado/roupas/e389388e8e06ae1ed983c09c12ebc68a.png",
+		"res://assets/personagens/Sentado/roupa_10.png": "res://assets/personagens/refinado/roupas/c1f4a6f4110709d375c07b907b1d9f10.png",
+		"res://assets/personagens/Sentado/roupa_11.png": "res://assets/personagens/refinado/roupas/9a6ccc5b241628baeea021f96f7ddb3d.png",
+		"res://assets/personagens/Sentado/roupa_12.png": "res://assets/personagens/refinado/roupas/ead684d9efd03f2c08c7af36b4d68fcc.png",
+		"res://assets/personagens/Sentado/roupa_2.png": "res://assets/personagens/refinado/roupas/4b8576f3de5120307fa90c7b1364f3ae.png",
+		"res://assets/personagens/Sentado/roupa_3.png": "res://assets/personagens/refinado/roupas/f4e99cd9e15c31baa5ab90e444251f52.png",
+		"res://assets/personagens/Sentado/roupa_4.png": "res://assets/personagens/refinado/roupas/410c8e82b16f028ff5f0acff988484a3.png",
+		"res://assets/personagens/Sentado/roupa_5.png": "res://assets/personagens/refinado/roupas/093390bd6ac85155f296e5d6f2e30acb.png",
+		"res://assets/personagens/Sentado/roupa_6.png": "res://assets/personagens/refinado/roupas/dd4d3ee6a1a8ee02a14c7427bb0c71d7.png",
+		"res://assets/personagens/Sentado/roupa_7.png": "res://assets/personagens/refinado/roupas/17c65474af9d5cd5a853e0aef0bddc29.png",
+		"res://assets/personagens/Sentado/roupa_8.png": "res://assets/personagens/refinado/roupas/b89a24892ca828cc9bf59d5059d7cc6d.png",
+		"res://assets/personagens/Sentado/roupa_9.png": "res://assets/personagens/refinado/roupas/59b911a355e2980f55e6719468d51988.png",
+		"res://assets/personagens/body_smithing/Outfit/outfit (1).png": "res://assets/personagens/refinado/roupas/b6d0a9db51cb6fd6f177e64157b0d648.png",
+		"res://assets/personagens/body_smithing/Outfit/outfit (10).png": "res://assets/personagens/refinado/roupas/d61dc99195c922b470494b4cd1ea7c93.png",
+		"res://assets/personagens/body_smithing/Outfit/outfit (11).png": "res://assets/personagens/refinado/roupas/1eb71e62daf7b1b4f0a36f2d936985b1.png",
+		"res://assets/personagens/body_smithing/Outfit/outfit (12).png": "res://assets/personagens/refinado/roupas/eda067fd7dbcac0c9fedced45952bd48.png",
+		"res://assets/personagens/body_smithing/Outfit/outfit (2).png": "res://assets/personagens/refinado/roupas/ac4a5d64e3be95d258be235e6cd96df5.png",
+		"res://assets/personagens/body_smithing/Outfit/outfit (3).png": "res://assets/personagens/refinado/roupas/d799f47e4d0ce6ffbfa9140b7a28d5a2.png",
+		"res://assets/personagens/body_smithing/Outfit/outfit (4).png": "res://assets/personagens/refinado/roupas/126a98aff8821e456fbe5e63012958c6.png",
+		"res://assets/personagens/body_smithing/Outfit/outfit (5).png": "res://assets/personagens/refinado/roupas/c35d010f8d654853766ff4ed41f42633.png",
+		"res://assets/personagens/body_smithing/Outfit/outfit (6).png": "res://assets/personagens/refinado/roupas/a806d352bfaad4760b1ddd419f85feff.png",
+		"res://assets/personagens/body_smithing/Outfit/outfit (7).png": "res://assets/personagens/refinado/roupas/64e4321e08cc64bf74f370719bab4016.png",
+		"res://assets/personagens/body_smithing/Outfit/outfit (8).png": "res://assets/personagens/refinado/roupas/131fdb4761ad5431a136ee7ff189b754.png",
+		"res://assets/personagens/body_smithing/Outfit/outfit (9).png": "res://assets/personagens/refinado/roupas/341422dd7fae024fb777797943da6371.png",
+		"res://assets/personagens/conjuntos/carrasco/andar.png": "res://assets/personagens/refinado/roupas/8a2742b3a1a782f868d3e513f910cc6f.png",
+		"res://assets/personagens/conjuntos/carrasco/arco_p2.png": "res://assets/personagens/refinado/roupas/00ebf222b5c53821d31b6ceca0bba54d.png",
+		"res://assets/personagens/conjuntos/carrasco/arco_p3.png": "res://assets/personagens/refinado/roupas/6560866ee360f7ac62c7f1e0f32dc8d7.png",
+		"res://assets/personagens/conjuntos/carrasco/espada.png": "res://assets/personagens/refinado/roupas/c177dcffa55caf3dfb1846da423a2b05.png",
+		"res://assets/personagens/conjuntos/carrasco/fazenda.png": "res://assets/personagens/refinado/roupas/ed4b383c7b62216fa9cd841cb0c5845f.png",
+		"res://assets/personagens/conjuntos/carrasco/forja.png": "res://assets/personagens/refinado/roupas/b0209f06a48f6c488b0106517040172a.png",
+		"res://assets/personagens/conjuntos/carrasco/lanca.png": "res://assets/personagens/refinado/roupas/e36492f38cf5fc1e364a853764d6eed5.png",
+		"res://assets/personagens/conjuntos/carrasco/reacao_arco.png": "res://assets/personagens/refinado/roupas/6653156d41b8363259e40e417c0c7916.png",
+		"res://assets/personagens/conjuntos/carrasco/reacao_lanca.png": "res://assets/personagens/refinado/roupas/ef3c8784b34663e4414d61c44913a45f.png",
+		"res://assets/personagens/conjuntos/carrasco/reacao_um_mao.png": "res://assets/personagens/refinado/roupas/d444623d5a3d2a57915b8ddf2fed024f.png",
+		"res://assets/personagens/conjuntos/carrasco/sentado.png": "res://assets/personagens/refinado/roupas/f43acef2fdd11dac8c17dd9f2c0b585a.png",
+		"res://assets/personagens/conjuntos/cavaleiro_rubro/andar.png": "res://assets/personagens/refinado/roupas/ee71d63dfeb93bc0730aafc247952d91.png",
+		"res://assets/personagens/conjuntos/cavaleiro_rubro/arco_p2.png": "res://assets/personagens/refinado/roupas/05dacbef27eb64b77a3f01af90112946.png",
+		"res://assets/personagens/conjuntos/cavaleiro_rubro/arco_p3.png": "res://assets/personagens/refinado/roupas/b8c7fa92e83b14631f130d1988be8e7b.png",
+		"res://assets/personagens/conjuntos/cavaleiro_rubro/espada.png": "res://assets/personagens/refinado/roupas/c8c0ccd59f883f71aedfbc2490280018.png",
+		"res://assets/personagens/conjuntos/cavaleiro_rubro/fazenda.png": "res://assets/personagens/refinado/roupas/0262f6fb857ed33689bd960b7eb2d8f7.png",
+		"res://assets/personagens/conjuntos/cavaleiro_rubro/forja.png": "res://assets/personagens/refinado/roupas/1446242724771a76cd767b88e533aa34.png",
+		"res://assets/personagens/conjuntos/cavaleiro_rubro/lanca.png": "res://assets/personagens/refinado/roupas/e844044434c95146c569e13e0b2e9d6e.png",
+		"res://assets/personagens/conjuntos/cavaleiro_rubro/reacao_arco.png": "res://assets/personagens/refinado/roupas/77592072c1efd30a06b458364d33d9bf.png",
+		"res://assets/personagens/conjuntos/cavaleiro_rubro/reacao_lanca.png": "res://assets/personagens/refinado/roupas/3fc4e9d360371442737108356e5029db.png",
+		"res://assets/personagens/conjuntos/cavaleiro_rubro/reacao_um_mao.png": "res://assets/personagens/refinado/roupas/d836bde7cfec4f7549ea8c45feb7ca7c.png",
+		"res://assets/personagens/conjuntos/cavaleiro_rubro/sentado.png": "res://assets/personagens/refinado/roupas/d3c681304a59c174ed0750623145eda6.png",
+		"res://assets/personagens/conjuntos/cavalheiro/andar.png": "res://assets/personagens/refinado/roupas/fbf25a8edb2e774c30ea262dec0d81fe.png",
+		"res://assets/personagens/conjuntos/cavalheiro/arco_p2.png": "res://assets/personagens/refinado/roupas/dc179930406a79c30cdd222448ae9eb3.png",
+		"res://assets/personagens/conjuntos/cavalheiro/arco_p3.png": "res://assets/personagens/refinado/roupas/921971d40152b47b7f74678203a602ae.png",
+		"res://assets/personagens/conjuntos/cavalheiro/espada.png": "res://assets/personagens/refinado/roupas/fe52da89992a4032ddd67529445b2f1c.png",
+		"res://assets/personagens/conjuntos/cavalheiro/fazenda.png": "res://assets/personagens/refinado/roupas/09900edb059fdd5e4f97132968c48f91.png",
+		"res://assets/personagens/conjuntos/cavalheiro/forja.png": "res://assets/personagens/refinado/roupas/cd7184f6a2c57cc6973cbb9fd5718652.png",
+		"res://assets/personagens/conjuntos/cavalheiro/lanca.png": "res://assets/personagens/refinado/roupas/5ae6330d642dab75a63181761fac0ccd.png",
+		"res://assets/personagens/conjuntos/cavalheiro/reacao_arco.png": "res://assets/personagens/refinado/roupas/1154e77f17df363a73c261cb1e314c30.png",
+		"res://assets/personagens/conjuntos/cavalheiro/reacao_lanca.png": "res://assets/personagens/refinado/roupas/225b7c307bd77e51e40a8ea9dd2a5136.png",
+		"res://assets/personagens/conjuntos/cavalheiro/reacao_um_mao.png": "res://assets/personagens/refinado/roupas/0d01a5652b8f7fe278dc7bc666310f1d.png",
+		"res://assets/personagens/conjuntos/cavalheiro/sentado.png": "res://assets/personagens/refinado/roupas/dcea6e3915d301cc1d0af90d448100a5.png",
+		"res://assets/personagens/prototipos/armadura_teste/andar.png": "res://assets/personagens/refinado/roupas/c2931a21f5c3a508e2989146c6d7990d.png",
+		"res://assets/personagens/prototipos/armadura_teste/arco_p2.png": "res://assets/personagens/refinado/roupas/5e403568fa125aa03b9c113f31c95421.png",
+		"res://assets/personagens/prototipos/armadura_teste/arco_p3.png": "res://assets/personagens/refinado/roupas/b639104528cda459969e1676d0910321.png",
+		"res://assets/personagens/prototipos/armadura_teste/espada.png": "res://assets/personagens/refinado/roupas/1648f7fc036c7cbbbaf9e75bae658acb.png",
+		"res://assets/personagens/prototipos/armadura_teste/fazenda.png": "res://assets/personagens/refinado/roupas/eadb7eddfe895585eb995052104bdf80.png",
+		"res://assets/personagens/prototipos/armadura_teste/forja.png": "res://assets/personagens/refinado/roupas/caaa64a5396826ad1e9e52709fc928a5.png",
+		"res://assets/personagens/prototipos/armadura_teste/lanca.png": "res://assets/personagens/refinado/roupas/2a5ee1bcd5ffe342c126c751a112e567.png",
+		"res://assets/personagens/prototipos/armadura_teste/reacao_arco.png": "res://assets/personagens/refinado/roupas/294d8d2f3b2aafeb9137e76cf2e6cc6b.png",
+		"res://assets/personagens/prototipos/armadura_teste/reacao_lanca.png": "res://assets/personagens/refinado/roupas/a3ef6b6aee42395aa3af93c1e6ca127e.png",
+		"res://assets/personagens/prototipos/armadura_teste/reacao_um_mao.png": "res://assets/personagens/refinado/roupas/ae9bde0737e65b119ea41aced320f4d3.png",
+		"res://assets/personagens/prototipos/armadura_teste/sentado.png": "res://assets/personagens/refinado/roupas/57728ef3b39df957535e0b01530eccdd.png"
+	},
+	"grade": [
+		8,
+		8
+	],
+	"quadro": [
+		128,
+		128
+	],
+	"roupas": {
+		"alch_v01/andar": {
+			"folha": "res://assets/personagens/refinado/roupas/2a70a2f52de402dc05ced412d53ee1e6.png",
+			"indice": 27,
+			"molde": "res://assets/personagens/Outfit/outfit (5).png"
+		},
+		"alch_v01/arco_p2": {
+			"folha": "res://assets/personagens/refinado/roupas/ae34921b2403e2eb28b1784fe2e2bec1.png",
+			"indice": 27,
+			"molde": "res://assets/personagens/Arco/roupa_5_p2.png"
+		},
+		"alch_v01/arco_p3": {
+			"folha": "res://assets/personagens/refinado/roupas/e13f439dbfe7d34d2576bf5d9660f083.png",
+			"indice": 27,
+			"molde": "res://assets/personagens/Arco/roupa_5_p3.png"
+		},
+		"alch_v01/espada": {
+			"folha": "res://assets/personagens/refinado/roupas/44f4b0d922ff89db473046f462944766.png",
+			"indice": 27,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_sword/outfit(5).png"
+		},
+		"alch_v01/fazenda": {
+			"folha": "res://assets/personagens/refinado/roupas/0c81562e9aa6e92329878837b6c7e4e7.png",
+			"indice": 27,
+			"molde": "res://assets/personagens/Fazenda/roupa_5.png"
+		},
+		"alch_v01/forja": {
+			"folha": "res://assets/personagens/refinado/roupas/c35d010f8d654853766ff4ed41f42633.png",
+			"indice": 27,
+			"molde": "res://assets/personagens/body_smithing/Outfit/outfit (5).png"
+		},
+		"alch_v01/lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/5035e9bb71349f266e7cdd47f0d4a5bc.png",
+			"indice": 27,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_spear/outfit (5).png"
+		},
+		"alch_v01/reacao_arco": {
+			"folha": "res://assets/personagens/refinado/roupas/0716977350290045dbd39029cb374005.png",
+			"indice": 27,
+			"molde": "res://assets/personagens/Reacao/arco/roupa_5.png"
+		},
+		"alch_v01/reacao_lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/fbfdb212b8fd3396f889d3c9802fc8c4.png",
+			"indice": 27,
+			"molde": "res://assets/personagens/Reacao/lanca/roupa_5.png"
+		},
+		"alch_v01/reacao_um_mao": {
+			"folha": "res://assets/personagens/refinado/roupas/734466c3b66596adae3a1cc2a1590bb5.png",
+			"indice": 27,
+			"molde": "res://assets/personagens/Reacao/um_mao/roupa_5.png"
+		},
+		"alch_v01/sentado": {
+			"folha": "res://assets/personagens/refinado/roupas/093390bd6ac85155f296e5d6f2e30acb.png",
+			"indice": 27,
+			"molde": "res://assets/personagens/Sentado/roupa_5.png"
+		},
+		"alch_v02/andar": {
+			"folha": "res://assets/personagens/refinado/roupas/9781148df107819266cb006f719b240c.png",
+			"indice": 28,
+			"molde": "res://assets/personagens/Outfit/outfit (11).png"
+		},
+		"alch_v02/arco_p2": {
+			"folha": "res://assets/personagens/refinado/roupas/b69bbee51ba31f302d07660c28f91477.png",
+			"indice": 28,
+			"molde": "res://assets/personagens/Arco/roupa_11_p2.png"
+		},
+		"alch_v02/arco_p3": {
+			"folha": "res://assets/personagens/refinado/roupas/1a886e674d8f6ad310f0c45f89516d90.png",
+			"indice": 28,
+			"molde": "res://assets/personagens/Arco/roupa_11_p3.png"
+		},
+		"alch_v02/espada": {
+			"folha": "res://assets/personagens/refinado/roupas/54143b535455232c7ef4c0dc30a43491.png",
+			"indice": 28,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_sword/outfit(11).png"
+		},
+		"alch_v02/fazenda": {
+			"folha": "res://assets/personagens/refinado/roupas/6cc91b4bfb325f11684e2fcab90271cc.png",
+			"indice": 28,
+			"molde": "res://assets/personagens/Fazenda/roupa_11.png"
+		},
+		"alch_v02/forja": {
+			"folha": "res://assets/personagens/refinado/roupas/1eb71e62daf7b1b4f0a36f2d936985b1.png",
+			"indice": 28,
+			"molde": "res://assets/personagens/body_smithing/Outfit/outfit (11).png"
+		},
+		"alch_v02/lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/f5535876c004d4c107a692641b8b9a73.png",
+			"indice": 28,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_spear/outfit (11).png"
+		},
+		"alch_v02/reacao_arco": {
+			"folha": "res://assets/personagens/refinado/roupas/2ceb771ecf18dd3ce861c0b1379dd7ee.png",
+			"indice": 28,
+			"molde": "res://assets/personagens/Reacao/arco/roupa_11.png"
+		},
+		"alch_v02/reacao_lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/cb82c2cfce99eb1d654e1fbc7519951d.png",
+			"indice": 28,
+			"molde": "res://assets/personagens/Reacao/lanca/roupa_11.png"
+		},
+		"alch_v02/reacao_um_mao": {
+			"folha": "res://assets/personagens/refinado/roupas/f0a9bb3ec9572de2549e2cff5490ae98.png",
+			"indice": 28,
+			"molde": "res://assets/personagens/Reacao/um_mao/roupa_11.png"
+		},
+		"alch_v02/sentado": {
+			"folha": "res://assets/personagens/refinado/roupas/9a6ccc5b241628baeea021f96f7ddb3d.png",
+			"indice": 28,
+			"molde": "res://assets/personagens/Sentado/roupa_11.png"
+		},
+		"alch_v03/andar": {
+			"folha": "res://assets/personagens/refinado/roupas/3797d75fe88c125a11abaa48669cc3b3.png",
+			"indice": 29,
+			"molde": "res://assets/personagens/Outfit/outfit (3).png"
+		},
+		"alch_v03/arco_p2": {
+			"folha": "res://assets/personagens/refinado/roupas/7119cee8efac95cbb0cfddd08f22d4d0.png",
+			"indice": 29,
+			"molde": "res://assets/personagens/Arco/roupa_3_p2.png"
+		},
+		"alch_v03/arco_p3": {
+			"folha": "res://assets/personagens/refinado/roupas/736ab9a0f1254db61fce8725c2435f65.png",
+			"indice": 29,
+			"molde": "res://assets/personagens/Arco/roupa_3_p3.png"
+		},
+		"alch_v03/espada": {
+			"folha": "res://assets/personagens/refinado/roupas/2d8f9d9ecf32d5db9ee4630c9756cecc.png",
+			"indice": 29,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_sword/outfit(3).png"
+		},
+		"alch_v03/fazenda": {
+			"folha": "res://assets/personagens/refinado/roupas/75f8147fb053a7245614099be0318202.png",
+			"indice": 29,
+			"molde": "res://assets/personagens/Fazenda/roupa_3.png"
+		},
+		"alch_v03/forja": {
+			"folha": "res://assets/personagens/refinado/roupas/d799f47e4d0ce6ffbfa9140b7a28d5a2.png",
+			"indice": 29,
+			"molde": "res://assets/personagens/body_smithing/Outfit/outfit (3).png"
+		},
+		"alch_v03/lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/54d8d7f1f1f88f65b11d99612c73d77a.png",
+			"indice": 29,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_spear/outfit (3).png"
+		},
+		"alch_v03/reacao_arco": {
+			"folha": "res://assets/personagens/refinado/roupas/506f0218fe7f88f420e84328c8142a24.png",
+			"indice": 29,
+			"molde": "res://assets/personagens/Reacao/arco/roupa_3.png"
+		},
+		"alch_v03/reacao_lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/d218f47487496226a2f6a934d1ee21f6.png",
+			"indice": 29,
+			"molde": "res://assets/personagens/Reacao/lanca/roupa_3.png"
+		},
+		"alch_v03/reacao_um_mao": {
+			"folha": "res://assets/personagens/refinado/roupas/c1f2bd892cddaa74aeac480eef97bb6c.png",
+			"indice": 29,
+			"molde": "res://assets/personagens/Reacao/um_mao/roupa_3.png"
+		},
+		"alch_v03/sentado": {
+			"folha": "res://assets/personagens/refinado/roupas/f4e99cd9e15c31baa5ab90e444251f52.png",
+			"indice": 29,
+			"molde": "res://assets/personagens/Sentado/roupa_3.png"
+		},
+		"alch_v04/andar": {
+			"folha": "res://assets/personagens/refinado/roupas/3797d75fe88c125a11abaa48669cc3b3.png",
+			"indice": 30,
+			"molde": "res://assets/personagens/Outfit/outfit (3).png"
+		},
+		"alch_v04/arco_p2": {
+			"folha": "res://assets/personagens/refinado/roupas/7119cee8efac95cbb0cfddd08f22d4d0.png",
+			"indice": 30,
+			"molde": "res://assets/personagens/Arco/roupa_3_p2.png"
+		},
+		"alch_v04/arco_p3": {
+			"folha": "res://assets/personagens/refinado/roupas/736ab9a0f1254db61fce8725c2435f65.png",
+			"indice": 30,
+			"molde": "res://assets/personagens/Arco/roupa_3_p3.png"
+		},
+		"alch_v04/espada": {
+			"folha": "res://assets/personagens/refinado/roupas/2d8f9d9ecf32d5db9ee4630c9756cecc.png",
+			"indice": 30,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_sword/outfit(3).png"
+		},
+		"alch_v04/fazenda": {
+			"folha": "res://assets/personagens/refinado/roupas/75f8147fb053a7245614099be0318202.png",
+			"indice": 30,
+			"molde": "res://assets/personagens/Fazenda/roupa_3.png"
+		},
+		"alch_v04/forja": {
+			"folha": "res://assets/personagens/refinado/roupas/d799f47e4d0ce6ffbfa9140b7a28d5a2.png",
+			"indice": 30,
+			"molde": "res://assets/personagens/body_smithing/Outfit/outfit (3).png"
+		},
+		"alch_v04/lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/54d8d7f1f1f88f65b11d99612c73d77a.png",
+			"indice": 30,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_spear/outfit (3).png"
+		},
+		"alch_v04/reacao_arco": {
+			"folha": "res://assets/personagens/refinado/roupas/506f0218fe7f88f420e84328c8142a24.png",
+			"indice": 30,
+			"molde": "res://assets/personagens/Reacao/arco/roupa_3.png"
+		},
+		"alch_v04/reacao_lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/d218f47487496226a2f6a934d1ee21f6.png",
+			"indice": 30,
+			"molde": "res://assets/personagens/Reacao/lanca/roupa_3.png"
+		},
+		"alch_v04/reacao_um_mao": {
+			"folha": "res://assets/personagens/refinado/roupas/c1f2bd892cddaa74aeac480eef97bb6c.png",
+			"indice": 30,
+			"molde": "res://assets/personagens/Reacao/um_mao/roupa_3.png"
+		},
+		"alch_v04/sentado": {
+			"folha": "res://assets/personagens/refinado/roupas/f4e99cd9e15c31baa5ab90e444251f52.png",
+			"indice": 30,
+			"molde": "res://assets/personagens/Sentado/roupa_3.png"
+		},
+		"alch_v05/andar": {
+			"folha": "res://assets/personagens/refinado/roupas/d80f570bbb9e648eb4f0f9c5825aac70.png",
+			"indice": 31,
+			"molde": "res://assets/personagens/Outfit/outfit (7).png"
+		},
+		"alch_v05/arco_p2": {
+			"folha": "res://assets/personagens/refinado/roupas/9d4ba1ce68822df2bfe60335f9acb75c.png",
+			"indice": 31,
+			"molde": "res://assets/personagens/Arco/roupa_7_p2.png"
+		},
+		"alch_v05/arco_p3": {
+			"folha": "res://assets/personagens/refinado/roupas/06a6b27e76600803c0f9716fda458446.png",
+			"indice": 31,
+			"molde": "res://assets/personagens/Arco/roupa_7_p3.png"
+		},
+		"alch_v05/espada": {
+			"folha": "res://assets/personagens/refinado/roupas/4b81592e55e040938cf1b1e5f81f6a23.png",
+			"indice": 31,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_sword/outfit(7).png"
+		},
+		"alch_v05/fazenda": {
+			"folha": "res://assets/personagens/refinado/roupas/becffcd4e6179f32d09c8cb53d7f7838.png",
+			"indice": 31,
+			"molde": "res://assets/personagens/Fazenda/roupa_7.png"
+		},
+		"alch_v05/forja": {
+			"folha": "res://assets/personagens/refinado/roupas/64e4321e08cc64bf74f370719bab4016.png",
+			"indice": 31,
+			"molde": "res://assets/personagens/body_smithing/Outfit/outfit (7).png"
+		},
+		"alch_v05/lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/570bd216d3e2f7315bb61bb33f4ba164.png",
+			"indice": 31,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_spear/outfit (7).png"
+		},
+		"alch_v05/reacao_arco": {
+			"folha": "res://assets/personagens/refinado/roupas/7a706f53742fcfc611cf9d2ce416100e.png",
+			"indice": 31,
+			"molde": "res://assets/personagens/Reacao/arco/roupa_7.png"
+		},
+		"alch_v05/reacao_lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/7ed7f2ceb2a2aded1730abbd0533544d.png",
+			"indice": 31,
+			"molde": "res://assets/personagens/Reacao/lanca/roupa_7.png"
+		},
+		"alch_v05/reacao_um_mao": {
+			"folha": "res://assets/personagens/refinado/roupas/da7a6142d8a41ecc47864dd601a45fe0.png",
+			"indice": 31,
+			"molde": "res://assets/personagens/Reacao/um_mao/roupa_7.png"
+		},
+		"alch_v05/sentado": {
+			"folha": "res://assets/personagens/refinado/roupas/17c65474af9d5cd5a853e0aef0bddc29.png",
+			"indice": 31,
+			"molde": "res://assets/personagens/Sentado/roupa_7.png"
+		},
+		"angl_v01/andar": {
+			"folha": "res://assets/personagens/refinado/roupas/3797d75fe88c125a11abaa48669cc3b3.png",
+			"indice": 17,
+			"molde": "res://assets/personagens/Outfit/outfit (3).png"
+		},
+		"angl_v01/arco_p2": {
+			"folha": "res://assets/personagens/refinado/roupas/7119cee8efac95cbb0cfddd08f22d4d0.png",
+			"indice": 17,
+			"molde": "res://assets/personagens/Arco/roupa_3_p2.png"
+		},
+		"angl_v01/arco_p3": {
+			"folha": "res://assets/personagens/refinado/roupas/736ab9a0f1254db61fce8725c2435f65.png",
+			"indice": 17,
+			"molde": "res://assets/personagens/Arco/roupa_3_p3.png"
+		},
+		"angl_v01/espada": {
+			"folha": "res://assets/personagens/refinado/roupas/2d8f9d9ecf32d5db9ee4630c9756cecc.png",
+			"indice": 17,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_sword/outfit(3).png"
+		},
+		"angl_v01/fazenda": {
+			"folha": "res://assets/personagens/refinado/roupas/75f8147fb053a7245614099be0318202.png",
+			"indice": 17,
+			"molde": "res://assets/personagens/Fazenda/roupa_3.png"
+		},
+		"angl_v01/forja": {
+			"folha": "res://assets/personagens/refinado/roupas/d799f47e4d0ce6ffbfa9140b7a28d5a2.png",
+			"indice": 17,
+			"molde": "res://assets/personagens/body_smithing/Outfit/outfit (3).png"
+		},
+		"angl_v01/lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/54d8d7f1f1f88f65b11d99612c73d77a.png",
+			"indice": 17,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_spear/outfit (3).png"
+		},
+		"angl_v01/reacao_arco": {
+			"folha": "res://assets/personagens/refinado/roupas/506f0218fe7f88f420e84328c8142a24.png",
+			"indice": 17,
+			"molde": "res://assets/personagens/Reacao/arco/roupa_3.png"
+		},
+		"angl_v01/reacao_lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/d218f47487496226a2f6a934d1ee21f6.png",
+			"indice": 17,
+			"molde": "res://assets/personagens/Reacao/lanca/roupa_3.png"
+		},
+		"angl_v01/reacao_um_mao": {
+			"folha": "res://assets/personagens/refinado/roupas/c1f2bd892cddaa74aeac480eef97bb6c.png",
+			"indice": 17,
+			"molde": "res://assets/personagens/Reacao/um_mao/roupa_3.png"
+		},
+		"angl_v01/sentado": {
+			"folha": "res://assets/personagens/refinado/roupas/f4e99cd9e15c31baa5ab90e444251f52.png",
+			"indice": 17,
+			"molde": "res://assets/personagens/Sentado/roupa_3.png"
+		},
+		"angl_v02/andar": {
+			"folha": "res://assets/personagens/refinado/roupas/16844b508000e04608baaa36eaa98c2a.png",
+			"indice": 18,
+			"molde": "res://assets/personagens/Outfit/outfit (6).png"
+		},
+		"angl_v02/arco_p2": {
+			"folha": "res://assets/personagens/refinado/roupas/956681fd3d2251bfc77a897932da9164.png",
+			"indice": 18,
+			"molde": "res://assets/personagens/Arco/roupa_6_p2.png"
+		},
+		"angl_v02/arco_p3": {
+			"folha": "res://assets/personagens/refinado/roupas/2e31afde404435d5f9ac26fc3c79e491.png",
+			"indice": 18,
+			"molde": "res://assets/personagens/Arco/roupa_6_p3.png"
+		},
+		"angl_v02/espada": {
+			"folha": "res://assets/personagens/refinado/roupas/70d4c35a1184e7cb90760924ecaa565b.png",
+			"indice": 18,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_sword/outfit(6).png"
+		},
+		"angl_v02/fazenda": {
+			"folha": "res://assets/personagens/refinado/roupas/63b0e62ae76b6f3d7fb609a1cc4f6110.png",
+			"indice": 18,
+			"molde": "res://assets/personagens/Fazenda/roupa_6.png"
+		},
+		"angl_v02/forja": {
+			"folha": "res://assets/personagens/refinado/roupas/a806d352bfaad4760b1ddd419f85feff.png",
+			"indice": 18,
+			"molde": "res://assets/personagens/body_smithing/Outfit/outfit (6).png"
+		},
+		"angl_v02/lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/a5a6696b3e0bd8b70ee1be5b0b76f8d2.png",
+			"indice": 18,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_spear/outfit (6).png"
+		},
+		"angl_v02/reacao_arco": {
+			"folha": "res://assets/personagens/refinado/roupas/f1040ec5d34605e8a59aa06d4d60eab6.png",
+			"indice": 18,
+			"molde": "res://assets/personagens/Reacao/arco/roupa_6.png"
+		},
+		"angl_v02/reacao_lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/2b08c58a24c0613d20fb77edb2f02503.png",
+			"indice": 18,
+			"molde": "res://assets/personagens/Reacao/lanca/roupa_6.png"
+		},
+		"angl_v02/reacao_um_mao": {
+			"folha": "res://assets/personagens/refinado/roupas/42ebd2c42b98833f01e043e5ba18c18a.png",
+			"indice": 18,
+			"molde": "res://assets/personagens/Reacao/um_mao/roupa_6.png"
+		},
+		"angl_v02/sentado": {
+			"folha": "res://assets/personagens/refinado/roupas/dd4d3ee6a1a8ee02a14c7427bb0c71d7.png",
+			"indice": 18,
+			"molde": "res://assets/personagens/Sentado/roupa_6.png"
+		},
+		"angl_v03/andar": {
+			"folha": "res://assets/personagens/refinado/roupas/52e945f2ac808f05582527362b4f0e9c.png",
+			"indice": 19,
+			"molde": "res://assets/personagens/Outfit/outfit (4).png"
+		},
+		"angl_v03/arco_p2": {
+			"folha": "res://assets/personagens/refinado/roupas/68a76807702b6b1c54bd7432b75d8404.png",
+			"indice": 19,
+			"molde": "res://assets/personagens/Arco/roupa_4_p2.png"
+		},
+		"angl_v03/arco_p3": {
+			"folha": "res://assets/personagens/refinado/roupas/e66060647e817cd88098a04bc6a7b385.png",
+			"indice": 19,
+			"molde": "res://assets/personagens/Arco/roupa_4_p3.png"
+		},
+		"angl_v03/espada": {
+			"folha": "res://assets/personagens/refinado/roupas/ec4687529d3b02495d7856f47f102379.png",
+			"indice": 19,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_sword/outfit(4).png"
+		},
+		"angl_v03/fazenda": {
+			"folha": "res://assets/personagens/refinado/roupas/9d722b93fbb33a7e28b176d65a90000a.png",
+			"indice": 19,
+			"molde": "res://assets/personagens/Fazenda/roupa_4.png"
+		},
+		"angl_v03/forja": {
+			"folha": "res://assets/personagens/refinado/roupas/126a98aff8821e456fbe5e63012958c6.png",
+			"indice": 19,
+			"molde": "res://assets/personagens/body_smithing/Outfit/outfit (4).png"
+		},
+		"angl_v03/lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/46886cd090eaa98d776b91d38abd9069.png",
+			"indice": 19,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_spear/outfit (4).png"
+		},
+		"angl_v03/reacao_arco": {
+			"folha": "res://assets/personagens/refinado/roupas/55fd3c90c0feb7350351dde53f7ba5c5.png",
+			"indice": 19,
+			"molde": "res://assets/personagens/Reacao/arco/roupa_4.png"
+		},
+		"angl_v03/reacao_lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/de36db5e9fba0a2be150d6ee9479c506.png",
+			"indice": 19,
+			"molde": "res://assets/personagens/Reacao/lanca/roupa_4.png"
+		},
+		"angl_v03/reacao_um_mao": {
+			"folha": "res://assets/personagens/refinado/roupas/bb40617b5c00b22223a1985ccbc0256b.png",
+			"indice": 19,
+			"molde": "res://assets/personagens/Reacao/um_mao/roupa_4.png"
+		},
+		"angl_v03/sentado": {
+			"folha": "res://assets/personagens/refinado/roupas/410c8e82b16f028ff5f0acff988484a3.png",
+			"indice": 19,
+			"molde": "res://assets/personagens/Sentado/roupa_4.png"
+		},
+		"angl_v04/andar": {
+			"folha": "res://assets/personagens/refinado/roupas/d80f570bbb9e648eb4f0f9c5825aac70.png",
+			"indice": 20,
+			"molde": "res://assets/personagens/Outfit/outfit (7).png"
+		},
+		"angl_v04/arco_p2": {
+			"folha": "res://assets/personagens/refinado/roupas/9d4ba1ce68822df2bfe60335f9acb75c.png",
+			"indice": 20,
+			"molde": "res://assets/personagens/Arco/roupa_7_p2.png"
+		},
+		"angl_v04/arco_p3": {
+			"folha": "res://assets/personagens/refinado/roupas/06a6b27e76600803c0f9716fda458446.png",
+			"indice": 20,
+			"molde": "res://assets/personagens/Arco/roupa_7_p3.png"
+		},
+		"angl_v04/espada": {
+			"folha": "res://assets/personagens/refinado/roupas/4b81592e55e040938cf1b1e5f81f6a23.png",
+			"indice": 20,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_sword/outfit(7).png"
+		},
+		"angl_v04/fazenda": {
+			"folha": "res://assets/personagens/refinado/roupas/becffcd4e6179f32d09c8cb53d7f7838.png",
+			"indice": 20,
+			"molde": "res://assets/personagens/Fazenda/roupa_7.png"
+		},
+		"angl_v04/forja": {
+			"folha": "res://assets/personagens/refinado/roupas/64e4321e08cc64bf74f370719bab4016.png",
+			"indice": 20,
+			"molde": "res://assets/personagens/body_smithing/Outfit/outfit (7).png"
+		},
+		"angl_v04/lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/570bd216d3e2f7315bb61bb33f4ba164.png",
+			"indice": 20,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_spear/outfit (7).png"
+		},
+		"angl_v04/reacao_arco": {
+			"folha": "res://assets/personagens/refinado/roupas/7a706f53742fcfc611cf9d2ce416100e.png",
+			"indice": 20,
+			"molde": "res://assets/personagens/Reacao/arco/roupa_7.png"
+		},
+		"angl_v04/reacao_lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/7ed7f2ceb2a2aded1730abbd0533544d.png",
+			"indice": 20,
+			"molde": "res://assets/personagens/Reacao/lanca/roupa_7.png"
+		},
+		"angl_v04/reacao_um_mao": {
+			"folha": "res://assets/personagens/refinado/roupas/da7a6142d8a41ecc47864dd601a45fe0.png",
+			"indice": 20,
+			"molde": "res://assets/personagens/Reacao/um_mao/roupa_7.png"
+		},
+		"angl_v04/sentado": {
+			"folha": "res://assets/personagens/refinado/roupas/17c65474af9d5cd5a853e0aef0bddc29.png",
+			"indice": 20,
+			"molde": "res://assets/personagens/Sentado/roupa_7.png"
+		},
+		"angl_v05/andar": {
+			"folha": "res://assets/personagens/refinado/roupas/2a70a2f52de402dc05ced412d53ee1e6.png",
+			"indice": 21,
+			"molde": "res://assets/personagens/Outfit/outfit (5).png"
+		},
+		"angl_v05/arco_p2": {
+			"folha": "res://assets/personagens/refinado/roupas/ae34921b2403e2eb28b1784fe2e2bec1.png",
+			"indice": 21,
+			"molde": "res://assets/personagens/Arco/roupa_5_p2.png"
+		},
+		"angl_v05/arco_p3": {
+			"folha": "res://assets/personagens/refinado/roupas/e13f439dbfe7d34d2576bf5d9660f083.png",
+			"indice": 21,
+			"molde": "res://assets/personagens/Arco/roupa_5_p3.png"
+		},
+		"angl_v05/espada": {
+			"folha": "res://assets/personagens/refinado/roupas/44f4b0d922ff89db473046f462944766.png",
+			"indice": 21,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_sword/outfit(5).png"
+		},
+		"angl_v05/fazenda": {
+			"folha": "res://assets/personagens/refinado/roupas/0c81562e9aa6e92329878837b6c7e4e7.png",
+			"indice": 21,
+			"molde": "res://assets/personagens/Fazenda/roupa_5.png"
+		},
+		"angl_v05/forja": {
+			"folha": "res://assets/personagens/refinado/roupas/c35d010f8d654853766ff4ed41f42633.png",
+			"indice": 21,
+			"molde": "res://assets/personagens/body_smithing/Outfit/outfit (5).png"
+		},
+		"angl_v05/lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/5035e9bb71349f266e7cdd47f0d4a5bc.png",
+			"indice": 21,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_spear/outfit (5).png"
+		},
+		"angl_v05/reacao_arco": {
+			"folha": "res://assets/personagens/refinado/roupas/0716977350290045dbd39029cb374005.png",
+			"indice": 21,
+			"molde": "res://assets/personagens/Reacao/arco/roupa_5.png"
+		},
+		"angl_v05/reacao_lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/fbfdb212b8fd3396f889d3c9802fc8c4.png",
+			"indice": 21,
+			"molde": "res://assets/personagens/Reacao/lanca/roupa_5.png"
+		},
+		"angl_v05/reacao_um_mao": {
+			"folha": "res://assets/personagens/refinado/roupas/734466c3b66596adae3a1cc2a1590bb5.png",
+			"indice": 21,
+			"molde": "res://assets/personagens/Reacao/um_mao/roupa_5.png"
+		},
+		"angl_v05/sentado": {
+			"folha": "res://assets/personagens/refinado/roupas/093390bd6ac85155f296e5d6f2e30acb.png",
+			"indice": 21,
+			"molde": "res://assets/personagens/Sentado/roupa_5.png"
+		},
+		"armadura_cavaleiro/andar": {
+			"folha": "res://assets/personagens/refinado/roupas/8a2742b3a1a782f868d3e513f910cc6f.png",
+			"indice": 43,
+			"molde": "res://assets/personagens/conjuntos/carrasco/andar.png"
+		},
+		"armadura_cavaleiro/arco_p2": {
+			"folha": "res://assets/personagens/refinado/roupas/00ebf222b5c53821d31b6ceca0bba54d.png",
+			"indice": 43,
+			"molde": "res://assets/personagens/conjuntos/carrasco/arco_p2.png"
+		},
+		"armadura_cavaleiro/arco_p3": {
+			"folha": "res://assets/personagens/refinado/roupas/6560866ee360f7ac62c7f1e0f32dc8d7.png",
+			"indice": 43,
+			"molde": "res://assets/personagens/conjuntos/carrasco/arco_p3.png"
+		},
+		"armadura_cavaleiro/espada": {
+			"folha": "res://assets/personagens/refinado/roupas/c177dcffa55caf3dfb1846da423a2b05.png",
+			"indice": 43,
+			"molde": "res://assets/personagens/conjuntos/carrasco/espada.png"
+		},
+		"armadura_cavaleiro/fazenda": {
+			"folha": "res://assets/personagens/refinado/roupas/ed4b383c7b62216fa9cd841cb0c5845f.png",
+			"indice": 43,
+			"molde": "res://assets/personagens/conjuntos/carrasco/fazenda.png"
+		},
+		"armadura_cavaleiro/forja": {
+			"folha": "res://assets/personagens/refinado/roupas/b0209f06a48f6c488b0106517040172a.png",
+			"indice": 43,
+			"molde": "res://assets/personagens/conjuntos/carrasco/forja.png"
+		},
+		"armadura_cavaleiro/lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/e36492f38cf5fc1e364a853764d6eed5.png",
+			"indice": 43,
+			"molde": "res://assets/personagens/conjuntos/carrasco/lanca.png"
+		},
+		"armadura_cavaleiro/reacao_arco": {
+			"folha": "res://assets/personagens/refinado/roupas/6653156d41b8363259e40e417c0c7916.png",
+			"indice": 43,
+			"molde": "res://assets/personagens/conjuntos/carrasco/reacao_arco.png"
+		},
+		"armadura_cavaleiro/reacao_lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/ef3c8784b34663e4414d61c44913a45f.png",
+			"indice": 43,
+			"molde": "res://assets/personagens/conjuntos/carrasco/reacao_lanca.png"
+		},
+		"armadura_cavaleiro/reacao_um_mao": {
+			"folha": "res://assets/personagens/refinado/roupas/d444623d5a3d2a57915b8ddf2fed024f.png",
+			"indice": 43,
+			"molde": "res://assets/personagens/conjuntos/carrasco/reacao_um_mao.png"
+		},
+		"armadura_cavaleiro/sentado": {
+			"folha": "res://assets/personagens/refinado/roupas/f43acef2fdd11dac8c17dd9f2c0b585a.png",
+			"indice": 43,
+			"molde": "res://assets/personagens/conjuntos/carrasco/sentado.png"
+		},
+		"armadura_cavaleiro_rubro/andar": {
+			"folha": "res://assets/personagens/refinado/roupas/ee71d63dfeb93bc0730aafc247952d91.png",
+			"indice": 44,
+			"molde": "res://assets/personagens/conjuntos/cavaleiro_rubro/andar.png"
+		},
+		"armadura_cavaleiro_rubro/arco_p2": {
+			"folha": "res://assets/personagens/refinado/roupas/05dacbef27eb64b77a3f01af90112946.png",
+			"indice": 44,
+			"molde": "res://assets/personagens/conjuntos/cavaleiro_rubro/arco_p2.png"
+		},
+		"armadura_cavaleiro_rubro/arco_p3": {
+			"folha": "res://assets/personagens/refinado/roupas/b8c7fa92e83b14631f130d1988be8e7b.png",
+			"indice": 44,
+			"molde": "res://assets/personagens/conjuntos/cavaleiro_rubro/arco_p3.png"
+		},
+		"armadura_cavaleiro_rubro/espada": {
+			"folha": "res://assets/personagens/refinado/roupas/c8c0ccd59f883f71aedfbc2490280018.png",
+			"indice": 44,
+			"molde": "res://assets/personagens/conjuntos/cavaleiro_rubro/espada.png"
+		},
+		"armadura_cavaleiro_rubro/fazenda": {
+			"folha": "res://assets/personagens/refinado/roupas/0262f6fb857ed33689bd960b7eb2d8f7.png",
+			"indice": 44,
+			"molde": "res://assets/personagens/conjuntos/cavaleiro_rubro/fazenda.png"
+		},
+		"armadura_cavaleiro_rubro/forja": {
+			"folha": "res://assets/personagens/refinado/roupas/1446242724771a76cd767b88e533aa34.png",
+			"indice": 44,
+			"molde": "res://assets/personagens/conjuntos/cavaleiro_rubro/forja.png"
+		},
+		"armadura_cavaleiro_rubro/lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/e844044434c95146c569e13e0b2e9d6e.png",
+			"indice": 44,
+			"molde": "res://assets/personagens/conjuntos/cavaleiro_rubro/lanca.png"
+		},
+		"armadura_cavaleiro_rubro/reacao_arco": {
+			"folha": "res://assets/personagens/refinado/roupas/77592072c1efd30a06b458364d33d9bf.png",
+			"indice": 44,
+			"molde": "res://assets/personagens/conjuntos/cavaleiro_rubro/reacao_arco.png"
+		},
+		"armadura_cavaleiro_rubro/reacao_lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/3fc4e9d360371442737108356e5029db.png",
+			"indice": 44,
+			"molde": "res://assets/personagens/conjuntos/cavaleiro_rubro/reacao_lanca.png"
+		},
+		"armadura_cavaleiro_rubro/reacao_um_mao": {
+			"folha": "res://assets/personagens/refinado/roupas/d836bde7cfec4f7549ea8c45feb7ca7c.png",
+			"indice": 44,
+			"molde": "res://assets/personagens/conjuntos/cavaleiro_rubro/reacao_um_mao.png"
+		},
+		"armadura_cavaleiro_rubro/sentado": {
+			"folha": "res://assets/personagens/refinado/roupas/d3c681304a59c174ed0750623145eda6.png",
+			"indice": 44,
+			"molde": "res://assets/personagens/conjuntos/cavaleiro_rubro/sentado.png"
+		},
+		"armadura_teste/andar": {
+			"folha": "res://assets/personagens/refinado/roupas/c2931a21f5c3a508e2989146c6d7990d.png",
+			"indice": 42,
+			"molde": "res://assets/personagens/prototipos/armadura_teste/andar.png"
+		},
+		"armadura_teste/arco_p2": {
+			"folha": "res://assets/personagens/refinado/roupas/5e403568fa125aa03b9c113f31c95421.png",
+			"indice": 42,
+			"molde": "res://assets/personagens/prototipos/armadura_teste/arco_p2.png"
+		},
+		"armadura_teste/arco_p3": {
+			"folha": "res://assets/personagens/refinado/roupas/b639104528cda459969e1676d0910321.png",
+			"indice": 42,
+			"molde": "res://assets/personagens/prototipos/armadura_teste/arco_p3.png"
+		},
+		"armadura_teste/espada": {
+			"folha": "res://assets/personagens/refinado/roupas/1648f7fc036c7cbbbaf9e75bae658acb.png",
+			"indice": 42,
+			"molde": "res://assets/personagens/prototipos/armadura_teste/espada.png"
+		},
+		"armadura_teste/fazenda": {
+			"folha": "res://assets/personagens/refinado/roupas/eadb7eddfe895585eb995052104bdf80.png",
+			"indice": 42,
+			"molde": "res://assets/personagens/prototipos/armadura_teste/fazenda.png"
+		},
+		"armadura_teste/forja": {
+			"folha": "res://assets/personagens/refinado/roupas/caaa64a5396826ad1e9e52709fc928a5.png",
+			"indice": 42,
+			"molde": "res://assets/personagens/prototipos/armadura_teste/forja.png"
+		},
+		"armadura_teste/lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/2a5ee1bcd5ffe342c126c751a112e567.png",
+			"indice": 42,
+			"molde": "res://assets/personagens/prototipos/armadura_teste/lanca.png"
+		},
+		"armadura_teste/reacao_arco": {
+			"folha": "res://assets/personagens/refinado/roupas/294d8d2f3b2aafeb9137e76cf2e6cc6b.png",
+			"indice": 42,
+			"molde": "res://assets/personagens/prototipos/armadura_teste/reacao_arco.png"
+		},
+		"armadura_teste/reacao_lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/a3ef6b6aee42395aa3af93c1e6ca127e.png",
+			"indice": 42,
+			"molde": "res://assets/personagens/prototipos/armadura_teste/reacao_lanca.png"
+		},
+		"armadura_teste/reacao_um_mao": {
+			"folha": "res://assets/personagens/refinado/roupas/ae9bde0737e65b119ea41aced320f4d3.png",
+			"indice": 42,
+			"molde": "res://assets/personagens/prototipos/armadura_teste/reacao_um_mao.png"
+		},
+		"armadura_teste/sentado": {
+			"folha": "res://assets/personagens/refinado/roupas/57728ef3b39df957535e0b01530eccdd.png",
+			"indice": 42,
+			"molde": "res://assets/personagens/prototipos/armadura_teste/sentado.png"
+		},
+		"bksm_v01/andar": {
+			"folha": "res://assets/personagens/refinado/roupas/cf1a33ea05d9dccb4ca3b077188ee279.png",
+			"indice": 22,
+			"molde": "res://assets/personagens/Outfit/outfit (8).png"
+		},
+		"bksm_v01/arco_p2": {
+			"folha": "res://assets/personagens/refinado/roupas/42ae78f8ff872a075143136f0646d481.png",
+			"indice": 22,
+			"molde": "res://assets/personagens/Arco/roupa_8_p2.png"
+		},
+		"bksm_v01/arco_p3": {
+			"folha": "res://assets/personagens/refinado/roupas/6eea3cc9cc276c3aa545f4bc6f0bcb2e.png",
+			"indice": 22,
+			"molde": "res://assets/personagens/Arco/roupa_8_p3.png"
+		},
+		"bksm_v01/espada": {
+			"folha": "res://assets/personagens/refinado/roupas/e88894e73a1defdff5f71961689f240b.png",
+			"indice": 22,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_sword/outfit(8).png"
+		},
+		"bksm_v01/fazenda": {
+			"folha": "res://assets/personagens/refinado/roupas/405d4cba4f761d422b1c00bf50d69b98.png",
+			"indice": 22,
+			"molde": "res://assets/personagens/Fazenda/roupa_8.png"
+		},
+		"bksm_v01/forja": {
+			"folha": "res://assets/personagens/refinado/roupas/131fdb4761ad5431a136ee7ff189b754.png",
+			"indice": 22,
+			"molde": "res://assets/personagens/body_smithing/Outfit/outfit (8).png"
+		},
+		"bksm_v01/lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/ffd07445c52f4433d7926425d11258b7.png",
+			"indice": 22,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_spear/outfit (8).png"
+		},
+		"bksm_v01/reacao_arco": {
+			"folha": "res://assets/personagens/refinado/roupas/23d238983352002561d46b56a1987772.png",
+			"indice": 22,
+			"molde": "res://assets/personagens/Reacao/arco/roupa_8.png"
+		},
+		"bksm_v01/reacao_lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/504cabe5c336b8e49f37d4a86c219034.png",
+			"indice": 22,
+			"molde": "res://assets/personagens/Reacao/lanca/roupa_8.png"
+		},
+		"bksm_v01/reacao_um_mao": {
+			"folha": "res://assets/personagens/refinado/roupas/bc28ea0dcbe9f5eee53ae213c0988ae9.png",
+			"indice": 22,
+			"molde": "res://assets/personagens/Reacao/um_mao/roupa_8.png"
+		},
+		"bksm_v01/sentado": {
+			"folha": "res://assets/personagens/refinado/roupas/b89a24892ca828cc9bf59d5059d7cc6d.png",
+			"indice": 22,
+			"molde": "res://assets/personagens/Sentado/roupa_8.png"
+		},
+		"bksm_v02/andar": {
+			"folha": "res://assets/personagens/refinado/roupas/d80f570bbb9e648eb4f0f9c5825aac70.png",
+			"indice": 23,
+			"molde": "res://assets/personagens/Outfit/outfit (7).png"
+		},
+		"bksm_v02/arco_p2": {
+			"folha": "res://assets/personagens/refinado/roupas/9d4ba1ce68822df2bfe60335f9acb75c.png",
+			"indice": 23,
+			"molde": "res://assets/personagens/Arco/roupa_7_p2.png"
+		},
+		"bksm_v02/arco_p3": {
+			"folha": "res://assets/personagens/refinado/roupas/06a6b27e76600803c0f9716fda458446.png",
+			"indice": 23,
+			"molde": "res://assets/personagens/Arco/roupa_7_p3.png"
+		},
+		"bksm_v02/espada": {
+			"folha": "res://assets/personagens/refinado/roupas/4b81592e55e040938cf1b1e5f81f6a23.png",
+			"indice": 23,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_sword/outfit(7).png"
+		},
+		"bksm_v02/fazenda": {
+			"folha": "res://assets/personagens/refinado/roupas/becffcd4e6179f32d09c8cb53d7f7838.png",
+			"indice": 23,
+			"molde": "res://assets/personagens/Fazenda/roupa_7.png"
+		},
+		"bksm_v02/forja": {
+			"folha": "res://assets/personagens/refinado/roupas/64e4321e08cc64bf74f370719bab4016.png",
+			"indice": 23,
+			"molde": "res://assets/personagens/body_smithing/Outfit/outfit (7).png"
+		},
+		"bksm_v02/lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/570bd216d3e2f7315bb61bb33f4ba164.png",
+			"indice": 23,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_spear/outfit (7).png"
+		},
+		"bksm_v02/reacao_arco": {
+			"folha": "res://assets/personagens/refinado/roupas/7a706f53742fcfc611cf9d2ce416100e.png",
+			"indice": 23,
+			"molde": "res://assets/personagens/Reacao/arco/roupa_7.png"
+		},
+		"bksm_v02/reacao_lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/7ed7f2ceb2a2aded1730abbd0533544d.png",
+			"indice": 23,
+			"molde": "res://assets/personagens/Reacao/lanca/roupa_7.png"
+		},
+		"bksm_v02/reacao_um_mao": {
+			"folha": "res://assets/personagens/refinado/roupas/da7a6142d8a41ecc47864dd601a45fe0.png",
+			"indice": 23,
+			"molde": "res://assets/personagens/Reacao/um_mao/roupa_7.png"
+		},
+		"bksm_v02/sentado": {
+			"folha": "res://assets/personagens/refinado/roupas/17c65474af9d5cd5a853e0aef0bddc29.png",
+			"indice": 23,
+			"molde": "res://assets/personagens/Sentado/roupa_7.png"
+		},
+		"bksm_v03/andar": {
+			"folha": "res://assets/personagens/refinado/roupas/cf1a33ea05d9dccb4ca3b077188ee279.png",
+			"indice": 24,
+			"molde": "res://assets/personagens/Outfit/outfit (8).png"
+		},
+		"bksm_v03/arco_p2": {
+			"folha": "res://assets/personagens/refinado/roupas/42ae78f8ff872a075143136f0646d481.png",
+			"indice": 24,
+			"molde": "res://assets/personagens/Arco/roupa_8_p2.png"
+		},
+		"bksm_v03/arco_p3": {
+			"folha": "res://assets/personagens/refinado/roupas/6eea3cc9cc276c3aa545f4bc6f0bcb2e.png",
+			"indice": 24,
+			"molde": "res://assets/personagens/Arco/roupa_8_p3.png"
+		},
+		"bksm_v03/espada": {
+			"folha": "res://assets/personagens/refinado/roupas/e88894e73a1defdff5f71961689f240b.png",
+			"indice": 24,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_sword/outfit(8).png"
+		},
+		"bksm_v03/fazenda": {
+			"folha": "res://assets/personagens/refinado/roupas/405d4cba4f761d422b1c00bf50d69b98.png",
+			"indice": 24,
+			"molde": "res://assets/personagens/Fazenda/roupa_8.png"
+		},
+		"bksm_v03/forja": {
+			"folha": "res://assets/personagens/refinado/roupas/131fdb4761ad5431a136ee7ff189b754.png",
+			"indice": 24,
+			"molde": "res://assets/personagens/body_smithing/Outfit/outfit (8).png"
+		},
+		"bksm_v03/lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/ffd07445c52f4433d7926425d11258b7.png",
+			"indice": 24,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_spear/outfit (8).png"
+		},
+		"bksm_v03/reacao_arco": {
+			"folha": "res://assets/personagens/refinado/roupas/23d238983352002561d46b56a1987772.png",
+			"indice": 24,
+			"molde": "res://assets/personagens/Reacao/arco/roupa_8.png"
+		},
+		"bksm_v03/reacao_lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/504cabe5c336b8e49f37d4a86c219034.png",
+			"indice": 24,
+			"molde": "res://assets/personagens/Reacao/lanca/roupa_8.png"
+		},
+		"bksm_v03/reacao_um_mao": {
+			"folha": "res://assets/personagens/refinado/roupas/bc28ea0dcbe9f5eee53ae213c0988ae9.png",
+			"indice": 24,
+			"molde": "res://assets/personagens/Reacao/um_mao/roupa_8.png"
+		},
+		"bksm_v03/sentado": {
+			"folha": "res://assets/personagens/refinado/roupas/b89a24892ca828cc9bf59d5059d7cc6d.png",
+			"indice": 24,
+			"molde": "res://assets/personagens/Sentado/roupa_8.png"
+		},
+		"bksm_v04/andar": {
+			"folha": "res://assets/personagens/refinado/roupas/cf1a33ea05d9dccb4ca3b077188ee279.png",
+			"indice": 25,
+			"molde": "res://assets/personagens/Outfit/outfit (8).png"
+		},
+		"bksm_v04/arco_p2": {
+			"folha": "res://assets/personagens/refinado/roupas/42ae78f8ff872a075143136f0646d481.png",
+			"indice": 25,
+			"molde": "res://assets/personagens/Arco/roupa_8_p2.png"
+		},
+		"bksm_v04/arco_p3": {
+			"folha": "res://assets/personagens/refinado/roupas/6eea3cc9cc276c3aa545f4bc6f0bcb2e.png",
+			"indice": 25,
+			"molde": "res://assets/personagens/Arco/roupa_8_p3.png"
+		},
+		"bksm_v04/espada": {
+			"folha": "res://assets/personagens/refinado/roupas/e88894e73a1defdff5f71961689f240b.png",
+			"indice": 25,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_sword/outfit(8).png"
+		},
+		"bksm_v04/fazenda": {
+			"folha": "res://assets/personagens/refinado/roupas/405d4cba4f761d422b1c00bf50d69b98.png",
+			"indice": 25,
+			"molde": "res://assets/personagens/Fazenda/roupa_8.png"
+		},
+		"bksm_v04/forja": {
+			"folha": "res://assets/personagens/refinado/roupas/131fdb4761ad5431a136ee7ff189b754.png",
+			"indice": 25,
+			"molde": "res://assets/personagens/body_smithing/Outfit/outfit (8).png"
+		},
+		"bksm_v04/lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/ffd07445c52f4433d7926425d11258b7.png",
+			"indice": 25,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_spear/outfit (8).png"
+		},
+		"bksm_v04/reacao_arco": {
+			"folha": "res://assets/personagens/refinado/roupas/23d238983352002561d46b56a1987772.png",
+			"indice": 25,
+			"molde": "res://assets/personagens/Reacao/arco/roupa_8.png"
+		},
+		"bksm_v04/reacao_lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/504cabe5c336b8e49f37d4a86c219034.png",
+			"indice": 25,
+			"molde": "res://assets/personagens/Reacao/lanca/roupa_8.png"
+		},
+		"bksm_v04/reacao_um_mao": {
+			"folha": "res://assets/personagens/refinado/roupas/bc28ea0dcbe9f5eee53ae213c0988ae9.png",
+			"indice": 25,
+			"molde": "res://assets/personagens/Reacao/um_mao/roupa_8.png"
+		},
+		"bksm_v04/sentado": {
+			"folha": "res://assets/personagens/refinado/roupas/b89a24892ca828cc9bf59d5059d7cc6d.png",
+			"indice": 25,
+			"molde": "res://assets/personagens/Sentado/roupa_8.png"
+		},
+		"bksm_v05/andar": {
+			"folha": "res://assets/personagens/refinado/roupas/cf1a33ea05d9dccb4ca3b077188ee279.png",
+			"indice": 26,
+			"molde": "res://assets/personagens/Outfit/outfit (8).png"
+		},
+		"bksm_v05/arco_p2": {
+			"folha": "res://assets/personagens/refinado/roupas/42ae78f8ff872a075143136f0646d481.png",
+			"indice": 26,
+			"molde": "res://assets/personagens/Arco/roupa_8_p2.png"
+		},
+		"bksm_v05/arco_p3": {
+			"folha": "res://assets/personagens/refinado/roupas/6eea3cc9cc276c3aa545f4bc6f0bcb2e.png",
+			"indice": 26,
+			"molde": "res://assets/personagens/Arco/roupa_8_p3.png"
+		},
+		"bksm_v05/espada": {
+			"folha": "res://assets/personagens/refinado/roupas/e88894e73a1defdff5f71961689f240b.png",
+			"indice": 26,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_sword/outfit(8).png"
+		},
+		"bksm_v05/fazenda": {
+			"folha": "res://assets/personagens/refinado/roupas/405d4cba4f761d422b1c00bf50d69b98.png",
+			"indice": 26,
+			"molde": "res://assets/personagens/Fazenda/roupa_8.png"
+		},
+		"bksm_v05/forja": {
+			"folha": "res://assets/personagens/refinado/roupas/131fdb4761ad5431a136ee7ff189b754.png",
+			"indice": 26,
+			"molde": "res://assets/personagens/body_smithing/Outfit/outfit (8).png"
+		},
+		"bksm_v05/lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/ffd07445c52f4433d7926425d11258b7.png",
+			"indice": 26,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_spear/outfit (8).png"
+		},
+		"bksm_v05/reacao_arco": {
+			"folha": "res://assets/personagens/refinado/roupas/23d238983352002561d46b56a1987772.png",
+			"indice": 26,
+			"molde": "res://assets/personagens/Reacao/arco/roupa_8.png"
+		},
+		"bksm_v05/reacao_lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/504cabe5c336b8e49f37d4a86c219034.png",
+			"indice": 26,
+			"molde": "res://assets/personagens/Reacao/lanca/roupa_8.png"
+		},
+		"bksm_v05/reacao_um_mao": {
+			"folha": "res://assets/personagens/refinado/roupas/bc28ea0dcbe9f5eee53ae213c0988ae9.png",
+			"indice": 26,
+			"molde": "res://assets/personagens/Reacao/um_mao/roupa_8.png"
+		},
+		"bksm_v05/sentado": {
+			"folha": "res://assets/personagens/refinado/roupas/b89a24892ca828cc9bf59d5059d7cc6d.png",
+			"indice": 26,
+			"molde": "res://assets/personagens/Sentado/roupa_8.png"
+		},
+		"boxr/andar": {
+			"folha": "res://assets/personagens/refinado/roupas/49c47fce85932eefe39cfdd34bba890c.png",
+			"indice": 1,
+			"molde": "res://assets/personagens/Outfit/outfit (2).png"
+		},
+		"boxr/arco_p2": {
+			"folha": "res://assets/personagens/refinado/roupas/fce9f24d8a2061fb3ba06e7d5bab9606.png",
+			"indice": 1,
+			"molde": "res://assets/personagens/Arco/roupa_2_p2.png"
+		},
+		"boxr/arco_p3": {
+			"folha": "res://assets/personagens/refinado/roupas/6312bdbf0d0597d08bfd532b71458838.png",
+			"indice": 1,
+			"molde": "res://assets/personagens/Arco/roupa_2_p3.png"
+		},
+		"boxr/espada": {
+			"folha": "res://assets/personagens/refinado/roupas/b47ac9e4c8ecf200bab62e95870c428d.png",
+			"indice": 1,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_sword/outfit(1).png"
+		},
+		"boxr/fazenda": {
+			"folha": "res://assets/personagens/refinado/roupas/2d145eb6651665f373d7f8d37fed980e.png",
+			"indice": 1,
+			"molde": "res://assets/personagens/Fazenda/roupa_2.png"
+		},
+		"boxr/forja": {
+			"folha": "res://assets/personagens/refinado/roupas/b6d0a9db51cb6fd6f177e64157b0d648.png",
+			"indice": 1,
+			"molde": "res://assets/personagens/body_smithing/Outfit/outfit (1).png"
+		},
+		"boxr/lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/01860c5ac6efe9fd4555aa85e980f0cd.png",
+			"indice": 1,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_spear/outfit (1).png"
+		},
+		"boxr/reacao_arco": {
+			"folha": "res://assets/personagens/refinado/roupas/ca0daf89f7008829369fc0e6f796fd74.png",
+			"indice": 1,
+			"molde": "res://assets/personagens/Reacao/arco/roupa_2.png"
+		},
+		"boxr/reacao_lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/c482999a8fe0c02e10dd4f296071eb6c.png",
+			"indice": 1,
+			"molde": "res://assets/personagens/Reacao/lanca/roupa_2.png"
+		},
+		"boxr/reacao_um_mao": {
+			"folha": "res://assets/personagens/refinado/roupas/6467b6059f9b19dcdada783449f049fb.png",
+			"indice": 1,
+			"molde": "res://assets/personagens/Reacao/um_mao/roupa_2.png"
+		},
+		"boxr/sentado": {
+			"folha": "res://assets/personagens/refinado/roupas/4b8576f3de5120307fa90c7b1364f3ae.png",
+			"indice": 1,
+			"molde": "res://assets/personagens/Sentado/roupa_2.png"
+		},
+		"capal_v01/andar": {
+			"folha": "res://assets/personagens/refinado/roupas/3797d75fe88c125a11abaa48669cc3b3.png",
+			"indice": 32,
+			"molde": "res://assets/personagens/Outfit/outfit (3).png"
+		},
+		"capal_v01/arco_p2": {
+			"folha": "res://assets/personagens/refinado/roupas/7119cee8efac95cbb0cfddd08f22d4d0.png",
+			"indice": 32,
+			"molde": "res://assets/personagens/Arco/roupa_3_p2.png"
+		},
+		"capal_v01/arco_p3": {
+			"folha": "res://assets/personagens/refinado/roupas/736ab9a0f1254db61fce8725c2435f65.png",
+			"indice": 32,
+			"molde": "res://assets/personagens/Arco/roupa_3_p3.png"
+		},
+		"capal_v01/espada": {
+			"folha": "res://assets/personagens/refinado/roupas/2d8f9d9ecf32d5db9ee4630c9756cecc.png",
+			"indice": 32,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_sword/outfit(3).png"
+		},
+		"capal_v01/fazenda": {
+			"folha": "res://assets/personagens/refinado/roupas/75f8147fb053a7245614099be0318202.png",
+			"indice": 32,
+			"molde": "res://assets/personagens/Fazenda/roupa_3.png"
+		},
+		"capal_v01/forja": {
+			"folha": "res://assets/personagens/refinado/roupas/d799f47e4d0ce6ffbfa9140b7a28d5a2.png",
+			"indice": 32,
+			"molde": "res://assets/personagens/body_smithing/Outfit/outfit (3).png"
+		},
+		"capal_v01/lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/54d8d7f1f1f88f65b11d99612c73d77a.png",
+			"indice": 32,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_spear/outfit (3).png"
+		},
+		"capal_v01/reacao_arco": {
+			"folha": "res://assets/personagens/refinado/roupas/506f0218fe7f88f420e84328c8142a24.png",
+			"indice": 32,
+			"molde": "res://assets/personagens/Reacao/arco/roupa_3.png"
+		},
+		"capal_v01/reacao_lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/d218f47487496226a2f6a934d1ee21f6.png",
+			"indice": 32,
+			"molde": "res://assets/personagens/Reacao/lanca/roupa_3.png"
+		},
+		"capal_v01/reacao_um_mao": {
+			"folha": "res://assets/personagens/refinado/roupas/c1f2bd892cddaa74aeac480eef97bb6c.png",
+			"indice": 32,
+			"molde": "res://assets/personagens/Reacao/um_mao/roupa_3.png"
+		},
+		"capal_v01/sentado": {
+			"folha": "res://assets/personagens/refinado/roupas/f4e99cd9e15c31baa5ab90e444251f52.png",
+			"indice": 32,
+			"molde": "res://assets/personagens/Sentado/roupa_3.png"
+		},
+		"capal_v03/andar": {
+			"folha": "res://assets/personagens/refinado/roupas/2a70a2f52de402dc05ced412d53ee1e6.png",
+			"indice": 33,
+			"molde": "res://assets/personagens/Outfit/outfit (5).png"
+		},
+		"capal_v03/arco_p2": {
+			"folha": "res://assets/personagens/refinado/roupas/ae34921b2403e2eb28b1784fe2e2bec1.png",
+			"indice": 33,
+			"molde": "res://assets/personagens/Arco/roupa_5_p2.png"
+		},
+		"capal_v03/arco_p3": {
+			"folha": "res://assets/personagens/refinado/roupas/e13f439dbfe7d34d2576bf5d9660f083.png",
+			"indice": 33,
+			"molde": "res://assets/personagens/Arco/roupa_5_p3.png"
+		},
+		"capal_v03/espada": {
+			"folha": "res://assets/personagens/refinado/roupas/44f4b0d922ff89db473046f462944766.png",
+			"indice": 33,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_sword/outfit(5).png"
+		},
+		"capal_v03/fazenda": {
+			"folha": "res://assets/personagens/refinado/roupas/0c81562e9aa6e92329878837b6c7e4e7.png",
+			"indice": 33,
+			"molde": "res://assets/personagens/Fazenda/roupa_5.png"
+		},
+		"capal_v03/forja": {
+			"folha": "res://assets/personagens/refinado/roupas/c35d010f8d654853766ff4ed41f42633.png",
+			"indice": 33,
+			"molde": "res://assets/personagens/body_smithing/Outfit/outfit (5).png"
+		},
+		"capal_v03/lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/5035e9bb71349f266e7cdd47f0d4a5bc.png",
+			"indice": 33,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_spear/outfit (5).png"
+		},
+		"capal_v03/reacao_arco": {
+			"folha": "res://assets/personagens/refinado/roupas/0716977350290045dbd39029cb374005.png",
+			"indice": 33,
+			"molde": "res://assets/personagens/Reacao/arco/roupa_5.png"
+		},
+		"capal_v03/reacao_lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/fbfdb212b8fd3396f889d3c9802fc8c4.png",
+			"indice": 33,
+			"molde": "res://assets/personagens/Reacao/lanca/roupa_5.png"
+		},
+		"capal_v03/reacao_um_mao": {
+			"folha": "res://assets/personagens/refinado/roupas/734466c3b66596adae3a1cc2a1590bb5.png",
+			"indice": 33,
+			"molde": "res://assets/personagens/Reacao/um_mao/roupa_5.png"
+		},
+		"capal_v03/sentado": {
+			"folha": "res://assets/personagens/refinado/roupas/093390bd6ac85155f296e5d6f2e30acb.png",
+			"indice": 33,
+			"molde": "res://assets/personagens/Sentado/roupa_5.png"
+		},
+		"capal_v05/andar": {
+			"folha": "res://assets/personagens/refinado/roupas/3797d75fe88c125a11abaa48669cc3b3.png",
+			"indice": 34,
+			"molde": "res://assets/personagens/Outfit/outfit (3).png"
+		},
+		"capal_v05/arco_p2": {
+			"folha": "res://assets/personagens/refinado/roupas/7119cee8efac95cbb0cfddd08f22d4d0.png",
+			"indice": 34,
+			"molde": "res://assets/personagens/Arco/roupa_3_p2.png"
+		},
+		"capal_v05/arco_p3": {
+			"folha": "res://assets/personagens/refinado/roupas/736ab9a0f1254db61fce8725c2435f65.png",
+			"indice": 34,
+			"molde": "res://assets/personagens/Arco/roupa_3_p3.png"
+		},
+		"capal_v05/espada": {
+			"folha": "res://assets/personagens/refinado/roupas/2d8f9d9ecf32d5db9ee4630c9756cecc.png",
+			"indice": 34,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_sword/outfit(3).png"
+		},
+		"capal_v05/fazenda": {
+			"folha": "res://assets/personagens/refinado/roupas/75f8147fb053a7245614099be0318202.png",
+			"indice": 34,
+			"molde": "res://assets/personagens/Fazenda/roupa_3.png"
+		},
+		"capal_v05/forja": {
+			"folha": "res://assets/personagens/refinado/roupas/d799f47e4d0ce6ffbfa9140b7a28d5a2.png",
+			"indice": 34,
+			"molde": "res://assets/personagens/body_smithing/Outfit/outfit (3).png"
+		},
+		"capal_v05/lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/54d8d7f1f1f88f65b11d99612c73d77a.png",
+			"indice": 34,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_spear/outfit (3).png"
+		},
+		"capal_v05/reacao_arco": {
+			"folha": "res://assets/personagens/refinado/roupas/506f0218fe7f88f420e84328c8142a24.png",
+			"indice": 34,
+			"molde": "res://assets/personagens/Reacao/arco/roupa_3.png"
+		},
+		"capal_v05/reacao_lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/d218f47487496226a2f6a934d1ee21f6.png",
+			"indice": 34,
+			"molde": "res://assets/personagens/Reacao/lanca/roupa_3.png"
+		},
+		"capal_v05/reacao_um_mao": {
+			"folha": "res://assets/personagens/refinado/roupas/c1f2bd892cddaa74aeac480eef97bb6c.png",
+			"indice": 34,
+			"molde": "res://assets/personagens/Reacao/um_mao/roupa_3.png"
+		},
+		"capal_v05/sentado": {
+			"folha": "res://assets/personagens/refinado/roupas/f4e99cd9e15c31baa5ab90e444251f52.png",
+			"indice": 34,
+			"molde": "res://assets/personagens/Sentado/roupa_3.png"
+		},
+		"capal_v07/andar": {
+			"folha": "res://assets/personagens/refinado/roupas/9781148df107819266cb006f719b240c.png",
+			"indice": 35,
+			"molde": "res://assets/personagens/Outfit/outfit (11).png"
+		},
+		"capal_v07/arco_p2": {
+			"folha": "res://assets/personagens/refinado/roupas/b69bbee51ba31f302d07660c28f91477.png",
+			"indice": 35,
+			"molde": "res://assets/personagens/Arco/roupa_11_p2.png"
+		},
+		"capal_v07/arco_p3": {
+			"folha": "res://assets/personagens/refinado/roupas/1a886e674d8f6ad310f0c45f89516d90.png",
+			"indice": 35,
+			"molde": "res://assets/personagens/Arco/roupa_11_p3.png"
+		},
+		"capal_v07/espada": {
+			"folha": "res://assets/personagens/refinado/roupas/54143b535455232c7ef4c0dc30a43491.png",
+			"indice": 35,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_sword/outfit(11).png"
+		},
+		"capal_v07/fazenda": {
+			"folha": "res://assets/personagens/refinado/roupas/6cc91b4bfb325f11684e2fcab90271cc.png",
+			"indice": 35,
+			"molde": "res://assets/personagens/Fazenda/roupa_11.png"
+		},
+		"capal_v07/forja": {
+			"folha": "res://assets/personagens/refinado/roupas/1eb71e62daf7b1b4f0a36f2d936985b1.png",
+			"indice": 35,
+			"molde": "res://assets/personagens/body_smithing/Outfit/outfit (11).png"
+		},
+		"capal_v07/lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/f5535876c004d4c107a692641b8b9a73.png",
+			"indice": 35,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_spear/outfit (11).png"
+		},
+		"capal_v07/reacao_arco": {
+			"folha": "res://assets/personagens/refinado/roupas/2ceb771ecf18dd3ce861c0b1379dd7ee.png",
+			"indice": 35,
+			"molde": "res://assets/personagens/Reacao/arco/roupa_11.png"
+		},
+		"capal_v07/reacao_lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/cb82c2cfce99eb1d654e1fbc7519951d.png",
+			"indice": 35,
+			"molde": "res://assets/personagens/Reacao/lanca/roupa_11.png"
+		},
+		"capal_v07/reacao_um_mao": {
+			"folha": "res://assets/personagens/refinado/roupas/f0a9bb3ec9572de2549e2cff5490ae98.png",
+			"indice": 35,
+			"molde": "res://assets/personagens/Reacao/um_mao/roupa_11.png"
+		},
+		"capal_v07/sentado": {
+			"folha": "res://assets/personagens/refinado/roupas/9a6ccc5b241628baeea021f96f7ddb3d.png",
+			"indice": 35,
+			"molde": "res://assets/personagens/Sentado/roupa_11.png"
+		},
+		"capal_v09/andar": {
+			"folha": "res://assets/personagens/refinado/roupas/3797d75fe88c125a11abaa48669cc3b3.png",
+			"indice": 36,
+			"molde": "res://assets/personagens/Outfit/outfit (3).png"
+		},
+		"capal_v09/arco_p2": {
+			"folha": "res://assets/personagens/refinado/roupas/7119cee8efac95cbb0cfddd08f22d4d0.png",
+			"indice": 36,
+			"molde": "res://assets/personagens/Arco/roupa_3_p2.png"
+		},
+		"capal_v09/arco_p3": {
+			"folha": "res://assets/personagens/refinado/roupas/736ab9a0f1254db61fce8725c2435f65.png",
+			"indice": 36,
+			"molde": "res://assets/personagens/Arco/roupa_3_p3.png"
+		},
+		"capal_v09/espada": {
+			"folha": "res://assets/personagens/refinado/roupas/2d8f9d9ecf32d5db9ee4630c9756cecc.png",
+			"indice": 36,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_sword/outfit(3).png"
+		},
+		"capal_v09/fazenda": {
+			"folha": "res://assets/personagens/refinado/roupas/75f8147fb053a7245614099be0318202.png",
+			"indice": 36,
+			"molde": "res://assets/personagens/Fazenda/roupa_3.png"
+		},
+		"capal_v09/forja": {
+			"folha": "res://assets/personagens/refinado/roupas/d799f47e4d0ce6ffbfa9140b7a28d5a2.png",
+			"indice": 36,
+			"molde": "res://assets/personagens/body_smithing/Outfit/outfit (3).png"
+		},
+		"capal_v09/lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/54d8d7f1f1f88f65b11d99612c73d77a.png",
+			"indice": 36,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_spear/outfit (3).png"
+		},
+		"capal_v09/reacao_arco": {
+			"folha": "res://assets/personagens/refinado/roupas/506f0218fe7f88f420e84328c8142a24.png",
+			"indice": 36,
+			"molde": "res://assets/personagens/Reacao/arco/roupa_3.png"
+		},
+		"capal_v09/reacao_lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/d218f47487496226a2f6a934d1ee21f6.png",
+			"indice": 36,
+			"molde": "res://assets/personagens/Reacao/lanca/roupa_3.png"
+		},
+		"capal_v09/reacao_um_mao": {
+			"folha": "res://assets/personagens/refinado/roupas/c1f2bd892cddaa74aeac480eef97bb6c.png",
+			"indice": 36,
+			"molde": "res://assets/personagens/Reacao/um_mao/roupa_3.png"
+		},
+		"capal_v09/sentado": {
+			"folha": "res://assets/personagens/refinado/roupas/f4e99cd9e15c31baa5ab90e444251f52.png",
+			"indice": 36,
+			"molde": "res://assets/personagens/Sentado/roupa_3.png"
+		},
+		"capam_v01/andar": {
+			"folha": "res://assets/personagens/refinado/roupas/3797d75fe88c125a11abaa48669cc3b3.png",
+			"indice": 37,
+			"molde": "res://assets/personagens/Outfit/outfit (3).png"
+		},
+		"capam_v01/arco_p2": {
+			"folha": "res://assets/personagens/refinado/roupas/7119cee8efac95cbb0cfddd08f22d4d0.png",
+			"indice": 37,
+			"molde": "res://assets/personagens/Arco/roupa_3_p2.png"
+		},
+		"capam_v01/arco_p3": {
+			"folha": "res://assets/personagens/refinado/roupas/736ab9a0f1254db61fce8725c2435f65.png",
+			"indice": 37,
+			"molde": "res://assets/personagens/Arco/roupa_3_p3.png"
+		},
+		"capam_v01/espada": {
+			"folha": "res://assets/personagens/refinado/roupas/2d8f9d9ecf32d5db9ee4630c9756cecc.png",
+			"indice": 37,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_sword/outfit(3).png"
+		},
+		"capam_v01/fazenda": {
+			"folha": "res://assets/personagens/refinado/roupas/75f8147fb053a7245614099be0318202.png",
+			"indice": 37,
+			"molde": "res://assets/personagens/Fazenda/roupa_3.png"
+		},
+		"capam_v01/forja": {
+			"folha": "res://assets/personagens/refinado/roupas/d799f47e4d0ce6ffbfa9140b7a28d5a2.png",
+			"indice": 37,
+			"molde": "res://assets/personagens/body_smithing/Outfit/outfit (3).png"
+		},
+		"capam_v01/lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/54d8d7f1f1f88f65b11d99612c73d77a.png",
+			"indice": 37,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_spear/outfit (3).png"
+		},
+		"capam_v01/reacao_arco": {
+			"folha": "res://assets/personagens/refinado/roupas/506f0218fe7f88f420e84328c8142a24.png",
+			"indice": 37,
+			"molde": "res://assets/personagens/Reacao/arco/roupa_3.png"
+		},
+		"capam_v01/reacao_lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/d218f47487496226a2f6a934d1ee21f6.png",
+			"indice": 37,
+			"molde": "res://assets/personagens/Reacao/lanca/roupa_3.png"
+		},
+		"capam_v01/reacao_um_mao": {
+			"folha": "res://assets/personagens/refinado/roupas/c1f2bd892cddaa74aeac480eef97bb6c.png",
+			"indice": 37,
+			"molde": "res://assets/personagens/Reacao/um_mao/roupa_3.png"
+		},
+		"capam_v01/sentado": {
+			"folha": "res://assets/personagens/refinado/roupas/f4e99cd9e15c31baa5ab90e444251f52.png",
+			"indice": 37,
+			"molde": "res://assets/personagens/Sentado/roupa_3.png"
+		},
+		"capam_v03/andar": {
+			"folha": "res://assets/personagens/refinado/roupas/2a70a2f52de402dc05ced412d53ee1e6.png",
+			"indice": 38,
+			"molde": "res://assets/personagens/Outfit/outfit (5).png"
+		},
+		"capam_v03/arco_p2": {
+			"folha": "res://assets/personagens/refinado/roupas/ae34921b2403e2eb28b1784fe2e2bec1.png",
+			"indice": 38,
+			"molde": "res://assets/personagens/Arco/roupa_5_p2.png"
+		},
+		"capam_v03/arco_p3": {
+			"folha": "res://assets/personagens/refinado/roupas/e13f439dbfe7d34d2576bf5d9660f083.png",
+			"indice": 38,
+			"molde": "res://assets/personagens/Arco/roupa_5_p3.png"
+		},
+		"capam_v03/espada": {
+			"folha": "res://assets/personagens/refinado/roupas/44f4b0d922ff89db473046f462944766.png",
+			"indice": 38,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_sword/outfit(5).png"
+		},
+		"capam_v03/fazenda": {
+			"folha": "res://assets/personagens/refinado/roupas/0c81562e9aa6e92329878837b6c7e4e7.png",
+			"indice": 38,
+			"molde": "res://assets/personagens/Fazenda/roupa_5.png"
+		},
+		"capam_v03/forja": {
+			"folha": "res://assets/personagens/refinado/roupas/c35d010f8d654853766ff4ed41f42633.png",
+			"indice": 38,
+			"molde": "res://assets/personagens/body_smithing/Outfit/outfit (5).png"
+		},
+		"capam_v03/lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/5035e9bb71349f266e7cdd47f0d4a5bc.png",
+			"indice": 38,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_spear/outfit (5).png"
+		},
+		"capam_v03/reacao_arco": {
+			"folha": "res://assets/personagens/refinado/roupas/0716977350290045dbd39029cb374005.png",
+			"indice": 38,
+			"molde": "res://assets/personagens/Reacao/arco/roupa_5.png"
+		},
+		"capam_v03/reacao_lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/fbfdb212b8fd3396f889d3c9802fc8c4.png",
+			"indice": 38,
+			"molde": "res://assets/personagens/Reacao/lanca/roupa_5.png"
+		},
+		"capam_v03/reacao_um_mao": {
+			"folha": "res://assets/personagens/refinado/roupas/734466c3b66596adae3a1cc2a1590bb5.png",
+			"indice": 38,
+			"molde": "res://assets/personagens/Reacao/um_mao/roupa_5.png"
+		},
+		"capam_v03/sentado": {
+			"folha": "res://assets/personagens/refinado/roupas/093390bd6ac85155f296e5d6f2e30acb.png",
+			"indice": 38,
+			"molde": "res://assets/personagens/Sentado/roupa_5.png"
+		},
+		"capam_v05/andar": {
+			"folha": "res://assets/personagens/refinado/roupas/3797d75fe88c125a11abaa48669cc3b3.png",
+			"indice": 39,
+			"molde": "res://assets/personagens/Outfit/outfit (3).png"
+		},
+		"capam_v05/arco_p2": {
+			"folha": "res://assets/personagens/refinado/roupas/7119cee8efac95cbb0cfddd08f22d4d0.png",
+			"indice": 39,
+			"molde": "res://assets/personagens/Arco/roupa_3_p2.png"
+		},
+		"capam_v05/arco_p3": {
+			"folha": "res://assets/personagens/refinado/roupas/736ab9a0f1254db61fce8725c2435f65.png",
+			"indice": 39,
+			"molde": "res://assets/personagens/Arco/roupa_3_p3.png"
+		},
+		"capam_v05/espada": {
+			"folha": "res://assets/personagens/refinado/roupas/2d8f9d9ecf32d5db9ee4630c9756cecc.png",
+			"indice": 39,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_sword/outfit(3).png"
+		},
+		"capam_v05/fazenda": {
+			"folha": "res://assets/personagens/refinado/roupas/75f8147fb053a7245614099be0318202.png",
+			"indice": 39,
+			"molde": "res://assets/personagens/Fazenda/roupa_3.png"
+		},
+		"capam_v05/forja": {
+			"folha": "res://assets/personagens/refinado/roupas/d799f47e4d0ce6ffbfa9140b7a28d5a2.png",
+			"indice": 39,
+			"molde": "res://assets/personagens/body_smithing/Outfit/outfit (3).png"
+		},
+		"capam_v05/lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/54d8d7f1f1f88f65b11d99612c73d77a.png",
+			"indice": 39,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_spear/outfit (3).png"
+		},
+		"capam_v05/reacao_arco": {
+			"folha": "res://assets/personagens/refinado/roupas/506f0218fe7f88f420e84328c8142a24.png",
+			"indice": 39,
+			"molde": "res://assets/personagens/Reacao/arco/roupa_3.png"
+		},
+		"capam_v05/reacao_lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/d218f47487496226a2f6a934d1ee21f6.png",
+			"indice": 39,
+			"molde": "res://assets/personagens/Reacao/lanca/roupa_3.png"
+		},
+		"capam_v05/reacao_um_mao": {
+			"folha": "res://assets/personagens/refinado/roupas/c1f2bd892cddaa74aeac480eef97bb6c.png",
+			"indice": 39,
+			"molde": "res://assets/personagens/Reacao/um_mao/roupa_3.png"
+		},
+		"capam_v05/sentado": {
+			"folha": "res://assets/personagens/refinado/roupas/f4e99cd9e15c31baa5ab90e444251f52.png",
+			"indice": 39,
+			"molde": "res://assets/personagens/Sentado/roupa_3.png"
+		},
+		"capam_v07/andar": {
+			"folha": "res://assets/personagens/refinado/roupas/3797d75fe88c125a11abaa48669cc3b3.png",
+			"indice": 40,
+			"molde": "res://assets/personagens/Outfit/outfit (3).png"
+		},
+		"capam_v07/arco_p2": {
+			"folha": "res://assets/personagens/refinado/roupas/7119cee8efac95cbb0cfddd08f22d4d0.png",
+			"indice": 40,
+			"molde": "res://assets/personagens/Arco/roupa_3_p2.png"
+		},
+		"capam_v07/arco_p3": {
+			"folha": "res://assets/personagens/refinado/roupas/736ab9a0f1254db61fce8725c2435f65.png",
+			"indice": 40,
+			"molde": "res://assets/personagens/Arco/roupa_3_p3.png"
+		},
+		"capam_v07/espada": {
+			"folha": "res://assets/personagens/refinado/roupas/2d8f9d9ecf32d5db9ee4630c9756cecc.png",
+			"indice": 40,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_sword/outfit(3).png"
+		},
+		"capam_v07/fazenda": {
+			"folha": "res://assets/personagens/refinado/roupas/75f8147fb053a7245614099be0318202.png",
+			"indice": 40,
+			"molde": "res://assets/personagens/Fazenda/roupa_3.png"
+		},
+		"capam_v07/forja": {
+			"folha": "res://assets/personagens/refinado/roupas/d799f47e4d0ce6ffbfa9140b7a28d5a2.png",
+			"indice": 40,
+			"molde": "res://assets/personagens/body_smithing/Outfit/outfit (3).png"
+		},
+		"capam_v07/lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/54d8d7f1f1f88f65b11d99612c73d77a.png",
+			"indice": 40,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_spear/outfit (3).png"
+		},
+		"capam_v07/reacao_arco": {
+			"folha": "res://assets/personagens/refinado/roupas/506f0218fe7f88f420e84328c8142a24.png",
+			"indice": 40,
+			"molde": "res://assets/personagens/Reacao/arco/roupa_3.png"
+		},
+		"capam_v07/reacao_lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/d218f47487496226a2f6a934d1ee21f6.png",
+			"indice": 40,
+			"molde": "res://assets/personagens/Reacao/lanca/roupa_3.png"
+		},
+		"capam_v07/reacao_um_mao": {
+			"folha": "res://assets/personagens/refinado/roupas/c1f2bd892cddaa74aeac480eef97bb6c.png",
+			"indice": 40,
+			"molde": "res://assets/personagens/Reacao/um_mao/roupa_3.png"
+		},
+		"capam_v07/sentado": {
+			"folha": "res://assets/personagens/refinado/roupas/f4e99cd9e15c31baa5ab90e444251f52.png",
+			"indice": 40,
+			"molde": "res://assets/personagens/Sentado/roupa_3.png"
+		},
+		"capam_v09/andar": {
+			"folha": "res://assets/personagens/refinado/roupas/3797d75fe88c125a11abaa48669cc3b3.png",
+			"indice": 41,
+			"molde": "res://assets/personagens/Outfit/outfit (3).png"
+		},
+		"capam_v09/arco_p2": {
+			"folha": "res://assets/personagens/refinado/roupas/7119cee8efac95cbb0cfddd08f22d4d0.png",
+			"indice": 41,
+			"molde": "res://assets/personagens/Arco/roupa_3_p2.png"
+		},
+		"capam_v09/arco_p3": {
+			"folha": "res://assets/personagens/refinado/roupas/736ab9a0f1254db61fce8725c2435f65.png",
+			"indice": 41,
+			"molde": "res://assets/personagens/Arco/roupa_3_p3.png"
+		},
+		"capam_v09/espada": {
+			"folha": "res://assets/personagens/refinado/roupas/2d8f9d9ecf32d5db9ee4630c9756cecc.png",
+			"indice": 41,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_sword/outfit(3).png"
+		},
+		"capam_v09/fazenda": {
+			"folha": "res://assets/personagens/refinado/roupas/75f8147fb053a7245614099be0318202.png",
+			"indice": 41,
+			"molde": "res://assets/personagens/Fazenda/roupa_3.png"
+		},
+		"capam_v09/forja": {
+			"folha": "res://assets/personagens/refinado/roupas/d799f47e4d0ce6ffbfa9140b7a28d5a2.png",
+			"indice": 41,
+			"molde": "res://assets/personagens/body_smithing/Outfit/outfit (3).png"
+		},
+		"capam_v09/lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/54d8d7f1f1f88f65b11d99612c73d77a.png",
+			"indice": 41,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_spear/outfit (3).png"
+		},
+		"capam_v09/reacao_arco": {
+			"folha": "res://assets/personagens/refinado/roupas/506f0218fe7f88f420e84328c8142a24.png",
+			"indice": 41,
+			"molde": "res://assets/personagens/Reacao/arco/roupa_3.png"
+		},
+		"capam_v09/reacao_lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/d218f47487496226a2f6a934d1ee21f6.png",
+			"indice": 41,
+			"molde": "res://assets/personagens/Reacao/lanca/roupa_3.png"
+		},
+		"capam_v09/reacao_um_mao": {
+			"folha": "res://assets/personagens/refinado/roupas/c1f2bd892cddaa74aeac480eef97bb6c.png",
+			"indice": 41,
+			"molde": "res://assets/personagens/Reacao/um_mao/roupa_3.png"
+		},
+		"capam_v09/sentado": {
+			"folha": "res://assets/personagens/refinado/roupas/f4e99cd9e15c31baa5ab90e444251f52.png",
+			"indice": 41,
+			"molde": "res://assets/personagens/Sentado/roupa_3.png"
+		},
+		"fstr_v01/andar": {
+			"folha": "res://assets/personagens/refinado/roupas/cf1a33ea05d9dccb4ca3b077188ee279.png",
+			"indice": 7,
+			"molde": "res://assets/personagens/Outfit/outfit (8).png"
+		},
+		"fstr_v01/arco_p2": {
+			"folha": "res://assets/personagens/refinado/roupas/42ae78f8ff872a075143136f0646d481.png",
+			"indice": 7,
+			"molde": "res://assets/personagens/Arco/roupa_8_p2.png"
+		},
+		"fstr_v01/arco_p3": {
+			"folha": "res://assets/personagens/refinado/roupas/6eea3cc9cc276c3aa545f4bc6f0bcb2e.png",
+			"indice": 7,
+			"molde": "res://assets/personagens/Arco/roupa_8_p3.png"
+		},
+		"fstr_v01/espada": {
+			"folha": "res://assets/personagens/refinado/roupas/e88894e73a1defdff5f71961689f240b.png",
+			"indice": 7,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_sword/outfit(8).png"
+		},
+		"fstr_v01/fazenda": {
+			"folha": "res://assets/personagens/refinado/roupas/405d4cba4f761d422b1c00bf50d69b98.png",
+			"indice": 7,
+			"molde": "res://assets/personagens/Fazenda/roupa_8.png"
+		},
+		"fstr_v01/forja": {
+			"folha": "res://assets/personagens/refinado/roupas/131fdb4761ad5431a136ee7ff189b754.png",
+			"indice": 7,
+			"molde": "res://assets/personagens/body_smithing/Outfit/outfit (8).png"
+		},
+		"fstr_v01/lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/ffd07445c52f4433d7926425d11258b7.png",
+			"indice": 7,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_spear/outfit (8).png"
+		},
+		"fstr_v01/reacao_arco": {
+			"folha": "res://assets/personagens/refinado/roupas/23d238983352002561d46b56a1987772.png",
+			"indice": 7,
+			"molde": "res://assets/personagens/Reacao/arco/roupa_8.png"
+		},
+		"fstr_v01/reacao_lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/504cabe5c336b8e49f37d4a86c219034.png",
+			"indice": 7,
+			"molde": "res://assets/personagens/Reacao/lanca/roupa_8.png"
+		},
+		"fstr_v01/reacao_um_mao": {
+			"folha": "res://assets/personagens/refinado/roupas/bc28ea0dcbe9f5eee53ae213c0988ae9.png",
+			"indice": 7,
+			"molde": "res://assets/personagens/Reacao/um_mao/roupa_8.png"
+		},
+		"fstr_v01/sentado": {
+			"folha": "res://assets/personagens/refinado/roupas/b89a24892ca828cc9bf59d5059d7cc6d.png",
+			"indice": 7,
+			"molde": "res://assets/personagens/Sentado/roupa_8.png"
+		},
+		"fstr_v02/andar": {
+			"folha": "res://assets/personagens/refinado/roupas/65ff37cb4c0b7e3af9489bcbf4d635f2.png",
+			"indice": 8,
+			"molde": "res://assets/personagens/Outfit/outfit (9).png"
+		},
+		"fstr_v02/arco_p2": {
+			"folha": "res://assets/personagens/refinado/roupas/dab0eb2b9f390fd4a38d880e0a9710d5.png",
+			"indice": 8,
+			"molde": "res://assets/personagens/Arco/roupa_9_p2.png"
+		},
+		"fstr_v02/arco_p3": {
+			"folha": "res://assets/personagens/refinado/roupas/fa60364b29a5e1055b17abf2561f335d.png",
+			"indice": 8,
+			"molde": "res://assets/personagens/Arco/roupa_9_p3.png"
+		},
+		"fstr_v02/espada": {
+			"folha": "res://assets/personagens/refinado/roupas/513dea5a8c6848745fb3aed5ac3152bf.png",
+			"indice": 8,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_sword/outfit(9).png"
+		},
+		"fstr_v02/fazenda": {
+			"folha": "res://assets/personagens/refinado/roupas/17bd12f925ad677dab80fa8deb7db67c.png",
+			"indice": 8,
+			"molde": "res://assets/personagens/Fazenda/roupa_9.png"
+		},
+		"fstr_v02/forja": {
+			"folha": "res://assets/personagens/refinado/roupas/341422dd7fae024fb777797943da6371.png",
+			"indice": 8,
+			"molde": "res://assets/personagens/body_smithing/Outfit/outfit (9).png"
+		},
+		"fstr_v02/lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/e0814ffd27c1a7111b5468fe8ed9260b.png",
+			"indice": 8,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_spear/outfit (9).png"
+		},
+		"fstr_v02/reacao_arco": {
+			"folha": "res://assets/personagens/refinado/roupas/0e146a4bc0956e9aafdafc6fe1f35071.png",
+			"indice": 8,
+			"molde": "res://assets/personagens/Reacao/arco/roupa_9.png"
+		},
+		"fstr_v02/reacao_lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/c7c26db6bdb40a119acc25d30cf4be62.png",
+			"indice": 8,
+			"molde": "res://assets/personagens/Reacao/lanca/roupa_9.png"
+		},
+		"fstr_v02/reacao_um_mao": {
+			"folha": "res://assets/personagens/refinado/roupas/2a55e541d6af7fa7a16dbd85ac8ebaf1.png",
+			"indice": 8,
+			"molde": "res://assets/personagens/Reacao/um_mao/roupa_9.png"
+		},
+		"fstr_v02/sentado": {
+			"folha": "res://assets/personagens/refinado/roupas/59b911a355e2980f55e6719468d51988.png",
+			"indice": 8,
+			"molde": "res://assets/personagens/Sentado/roupa_9.png"
+		},
+		"fstr_v03/andar": {
+			"folha": "res://assets/personagens/refinado/roupas/a72152f4eaadb152fcae3a4363bde096.png",
+			"indice": 9,
+			"molde": "res://assets/personagens/Outfit/outfit (10).png"
+		},
+		"fstr_v03/arco_p2": {
+			"folha": "res://assets/personagens/refinado/roupas/f85bc64250633e55659aa45264085537.png",
+			"indice": 9,
+			"molde": "res://assets/personagens/Arco/roupa_10_p2.png"
+		},
+		"fstr_v03/arco_p3": {
+			"folha": "res://assets/personagens/refinado/roupas/5c6398a0e2e171ff2dae3c209d961d3e.png",
+			"indice": 9,
+			"molde": "res://assets/personagens/Arco/roupa_10_p3.png"
+		},
+		"fstr_v03/espada": {
+			"folha": "res://assets/personagens/refinado/roupas/49edf923ef8cc0176e4029463bd545d5.png",
+			"indice": 9,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_sword/outfit(10).png"
+		},
+		"fstr_v03/fazenda": {
+			"folha": "res://assets/personagens/refinado/roupas/0829672a9840ddace4f6f4f4c4b8903b.png",
+			"indice": 9,
+			"molde": "res://assets/personagens/Fazenda/roupa_10.png"
+		},
+		"fstr_v03/forja": {
+			"folha": "res://assets/personagens/refinado/roupas/d61dc99195c922b470494b4cd1ea7c93.png",
+			"indice": 9,
+			"molde": "res://assets/personagens/body_smithing/Outfit/outfit (10).png"
+		},
+		"fstr_v03/lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/070fea0eda80e0d87c6d09c7711a9d76.png",
+			"indice": 9,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_spear/outfit (10).png"
+		},
+		"fstr_v03/reacao_arco": {
+			"folha": "res://assets/personagens/refinado/roupas/55b876eaa5298822760fffbea299836f.png",
+			"indice": 9,
+			"molde": "res://assets/personagens/Reacao/arco/roupa_10.png"
+		},
+		"fstr_v03/reacao_lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/9f3052fb0b7bc560e8eaa8c9c3d21a6d.png",
+			"indice": 9,
+			"molde": "res://assets/personagens/Reacao/lanca/roupa_10.png"
+		},
+		"fstr_v03/reacao_um_mao": {
+			"folha": "res://assets/personagens/refinado/roupas/c792f66c58ee5e0a9d057b343dfa8594.png",
+			"indice": 9,
+			"molde": "res://assets/personagens/Reacao/um_mao/roupa_10.png"
+		},
+		"fstr_v03/sentado": {
+			"folha": "res://assets/personagens/refinado/roupas/c1f4a6f4110709d375c07b907b1d9f10.png",
+			"indice": 9,
+			"molde": "res://assets/personagens/Sentado/roupa_10.png"
+		},
+		"fstr_v04/andar": {
+			"folha": "res://assets/personagens/refinado/roupas/9781148df107819266cb006f719b240c.png",
+			"indice": 10,
+			"molde": "res://assets/personagens/Outfit/outfit (11).png"
+		},
+		"fstr_v04/arco_p2": {
+			"folha": "res://assets/personagens/refinado/roupas/b69bbee51ba31f302d07660c28f91477.png",
+			"indice": 10,
+			"molde": "res://assets/personagens/Arco/roupa_11_p2.png"
+		},
+		"fstr_v04/arco_p3": {
+			"folha": "res://assets/personagens/refinado/roupas/1a886e674d8f6ad310f0c45f89516d90.png",
+			"indice": 10,
+			"molde": "res://assets/personagens/Arco/roupa_11_p3.png"
+		},
+		"fstr_v04/espada": {
+			"folha": "res://assets/personagens/refinado/roupas/54143b535455232c7ef4c0dc30a43491.png",
+			"indice": 10,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_sword/outfit(11).png"
+		},
+		"fstr_v04/fazenda": {
+			"folha": "res://assets/personagens/refinado/roupas/6cc91b4bfb325f11684e2fcab90271cc.png",
+			"indice": 10,
+			"molde": "res://assets/personagens/Fazenda/roupa_11.png"
+		},
+		"fstr_v04/forja": {
+			"folha": "res://assets/personagens/refinado/roupas/1eb71e62daf7b1b4f0a36f2d936985b1.png",
+			"indice": 10,
+			"molde": "res://assets/personagens/body_smithing/Outfit/outfit (11).png"
+		},
+		"fstr_v04/lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/f5535876c004d4c107a692641b8b9a73.png",
+			"indice": 10,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_spear/outfit (11).png"
+		},
+		"fstr_v04/reacao_arco": {
+			"folha": "res://assets/personagens/refinado/roupas/2ceb771ecf18dd3ce861c0b1379dd7ee.png",
+			"indice": 10,
+			"molde": "res://assets/personagens/Reacao/arco/roupa_11.png"
+		},
+		"fstr_v04/reacao_lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/cb82c2cfce99eb1d654e1fbc7519951d.png",
+			"indice": 10,
+			"molde": "res://assets/personagens/Reacao/lanca/roupa_11.png"
+		},
+		"fstr_v04/reacao_um_mao": {
+			"folha": "res://assets/personagens/refinado/roupas/f0a9bb3ec9572de2549e2cff5490ae98.png",
+			"indice": 10,
+			"molde": "res://assets/personagens/Reacao/um_mao/roupa_11.png"
+		},
+		"fstr_v04/sentado": {
+			"folha": "res://assets/personagens/refinado/roupas/9a6ccc5b241628baeea021f96f7ddb3d.png",
+			"indice": 10,
+			"molde": "res://assets/personagens/Sentado/roupa_11.png"
+		},
+		"fstr_v05/andar": {
+			"folha": "res://assets/personagens/refinado/roupas/4e871460e99bc78da8792f6f2ccfd674.png",
+			"indice": 11,
+			"molde": "res://assets/personagens/Outfit/outfit (12).png"
+		},
+		"fstr_v05/arco_p2": {
+			"folha": "res://assets/personagens/refinado/roupas/99d5e3c0d31fae30c0c7544751c01c23.png",
+			"indice": 11,
+			"molde": "res://assets/personagens/Arco/roupa_12_p2.png"
+		},
+		"fstr_v05/arco_p3": {
+			"folha": "res://assets/personagens/refinado/roupas/1be2bd4aeb7c955c24ee9dbb1c14139a.png",
+			"indice": 11,
+			"molde": "res://assets/personagens/Arco/roupa_12_p3.png"
+		},
+		"fstr_v05/espada": {
+			"folha": "res://assets/personagens/refinado/roupas/b013a4f0fcb6dff5ed1e783f3d521682.png",
+			"indice": 11,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_sword/outfit(12).png"
+		},
+		"fstr_v05/fazenda": {
+			"folha": "res://assets/personagens/refinado/roupas/68fa465058fc40dcd47a8382c5cdd7f2.png",
+			"indice": 11,
+			"molde": "res://assets/personagens/Fazenda/roupa_12.png"
+		},
+		"fstr_v05/forja": {
+			"folha": "res://assets/personagens/refinado/roupas/eda067fd7dbcac0c9fedced45952bd48.png",
+			"indice": 11,
+			"molde": "res://assets/personagens/body_smithing/Outfit/outfit (12).png"
+		},
+		"fstr_v05/lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/f044609cfdc1f82fb46611819d209a74.png",
+			"indice": 11,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_spear/outfit (12).png"
+		},
+		"fstr_v05/reacao_arco": {
+			"folha": "res://assets/personagens/refinado/roupas/2f12db57f1a9a1d095347e09d55e43c4.png",
+			"indice": 11,
+			"molde": "res://assets/personagens/Reacao/arco/roupa_12.png"
+		},
+		"fstr_v05/reacao_lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/018d0a6f73490164dd0369493a1b504f.png",
+			"indice": 11,
+			"molde": "res://assets/personagens/Reacao/lanca/roupa_12.png"
+		},
+		"fstr_v05/reacao_um_mao": {
+			"folha": "res://assets/personagens/refinado/roupas/60f2640c40962f3320febd7c8af8041f.png",
+			"indice": 11,
+			"molde": "res://assets/personagens/Reacao/um_mao/roupa_12.png"
+		},
+		"fstr_v05/sentado": {
+			"folha": "res://assets/personagens/refinado/roupas/ead684d9efd03f2c08c7af36b4d68fcc.png",
+			"indice": 11,
+			"molde": "res://assets/personagens/Sentado/roupa_12.png"
+		},
+		"pfdr_v01/andar": {
+			"folha": "res://assets/personagens/refinado/roupas/3797d75fe88c125a11abaa48669cc3b3.png",
+			"indice": 12,
+			"molde": "res://assets/personagens/Outfit/outfit (3).png"
+		},
+		"pfdr_v01/arco_p2": {
+			"folha": "res://assets/personagens/refinado/roupas/7119cee8efac95cbb0cfddd08f22d4d0.png",
+			"indice": 12,
+			"molde": "res://assets/personagens/Arco/roupa_3_p2.png"
+		},
+		"pfdr_v01/arco_p3": {
+			"folha": "res://assets/personagens/refinado/roupas/736ab9a0f1254db61fce8725c2435f65.png",
+			"indice": 12,
+			"molde": "res://assets/personagens/Arco/roupa_3_p3.png"
+		},
+		"pfdr_v01/espada": {
+			"folha": "res://assets/personagens/refinado/roupas/2d8f9d9ecf32d5db9ee4630c9756cecc.png",
+			"indice": 12,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_sword/outfit(3).png"
+		},
+		"pfdr_v01/fazenda": {
+			"folha": "res://assets/personagens/refinado/roupas/75f8147fb053a7245614099be0318202.png",
+			"indice": 12,
+			"molde": "res://assets/personagens/Fazenda/roupa_3.png"
+		},
+		"pfdr_v01/forja": {
+			"folha": "res://assets/personagens/refinado/roupas/d799f47e4d0ce6ffbfa9140b7a28d5a2.png",
+			"indice": 12,
+			"molde": "res://assets/personagens/body_smithing/Outfit/outfit (3).png"
+		},
+		"pfdr_v01/lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/54d8d7f1f1f88f65b11d99612c73d77a.png",
+			"indice": 12,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_spear/outfit (3).png"
+		},
+		"pfdr_v01/reacao_arco": {
+			"folha": "res://assets/personagens/refinado/roupas/506f0218fe7f88f420e84328c8142a24.png",
+			"indice": 12,
+			"molde": "res://assets/personagens/Reacao/arco/roupa_3.png"
+		},
+		"pfdr_v01/reacao_lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/d218f47487496226a2f6a934d1ee21f6.png",
+			"indice": 12,
+			"molde": "res://assets/personagens/Reacao/lanca/roupa_3.png"
+		},
+		"pfdr_v01/reacao_um_mao": {
+			"folha": "res://assets/personagens/refinado/roupas/c1f2bd892cddaa74aeac480eef97bb6c.png",
+			"indice": 12,
+			"molde": "res://assets/personagens/Reacao/um_mao/roupa_3.png"
+		},
+		"pfdr_v01/sentado": {
+			"folha": "res://assets/personagens/refinado/roupas/f4e99cd9e15c31baa5ab90e444251f52.png",
+			"indice": 12,
+			"molde": "res://assets/personagens/Sentado/roupa_3.png"
+		},
+		"pfdr_v02/andar": {
+			"folha": "res://assets/personagens/refinado/roupas/16844b508000e04608baaa36eaa98c2a.png",
+			"indice": 13,
+			"molde": "res://assets/personagens/Outfit/outfit (6).png"
+		},
+		"pfdr_v02/arco_p2": {
+			"folha": "res://assets/personagens/refinado/roupas/956681fd3d2251bfc77a897932da9164.png",
+			"indice": 13,
+			"molde": "res://assets/personagens/Arco/roupa_6_p2.png"
+		},
+		"pfdr_v02/arco_p3": {
+			"folha": "res://assets/personagens/refinado/roupas/2e31afde404435d5f9ac26fc3c79e491.png",
+			"indice": 13,
+			"molde": "res://assets/personagens/Arco/roupa_6_p3.png"
+		},
+		"pfdr_v02/espada": {
+			"folha": "res://assets/personagens/refinado/roupas/70d4c35a1184e7cb90760924ecaa565b.png",
+			"indice": 13,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_sword/outfit(6).png"
+		},
+		"pfdr_v02/fazenda": {
+			"folha": "res://assets/personagens/refinado/roupas/63b0e62ae76b6f3d7fb609a1cc4f6110.png",
+			"indice": 13,
+			"molde": "res://assets/personagens/Fazenda/roupa_6.png"
+		},
+		"pfdr_v02/forja": {
+			"folha": "res://assets/personagens/refinado/roupas/a806d352bfaad4760b1ddd419f85feff.png",
+			"indice": 13,
+			"molde": "res://assets/personagens/body_smithing/Outfit/outfit (6).png"
+		},
+		"pfdr_v02/lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/a5a6696b3e0bd8b70ee1be5b0b76f8d2.png",
+			"indice": 13,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_spear/outfit (6).png"
+		},
+		"pfdr_v02/reacao_arco": {
+			"folha": "res://assets/personagens/refinado/roupas/f1040ec5d34605e8a59aa06d4d60eab6.png",
+			"indice": 13,
+			"molde": "res://assets/personagens/Reacao/arco/roupa_6.png"
+		},
+		"pfdr_v02/reacao_lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/2b08c58a24c0613d20fb77edb2f02503.png",
+			"indice": 13,
+			"molde": "res://assets/personagens/Reacao/lanca/roupa_6.png"
+		},
+		"pfdr_v02/reacao_um_mao": {
+			"folha": "res://assets/personagens/refinado/roupas/42ebd2c42b98833f01e043e5ba18c18a.png",
+			"indice": 13,
+			"molde": "res://assets/personagens/Reacao/um_mao/roupa_6.png"
+		},
+		"pfdr_v02/sentado": {
+			"folha": "res://assets/personagens/refinado/roupas/dd4d3ee6a1a8ee02a14c7427bb0c71d7.png",
+			"indice": 13,
+			"molde": "res://assets/personagens/Sentado/roupa_6.png"
+		},
+		"pfdr_v03/andar": {
+			"folha": "res://assets/personagens/refinado/roupas/16844b508000e04608baaa36eaa98c2a.png",
+			"indice": 14,
+			"molde": "res://assets/personagens/Outfit/outfit (6).png"
+		},
+		"pfdr_v03/arco_p2": {
+			"folha": "res://assets/personagens/refinado/roupas/956681fd3d2251bfc77a897932da9164.png",
+			"indice": 14,
+			"molde": "res://assets/personagens/Arco/roupa_6_p2.png"
+		},
+		"pfdr_v03/arco_p3": {
+			"folha": "res://assets/personagens/refinado/roupas/2e31afde404435d5f9ac26fc3c79e491.png",
+			"indice": 14,
+			"molde": "res://assets/personagens/Arco/roupa_6_p3.png"
+		},
+		"pfdr_v03/espada": {
+			"folha": "res://assets/personagens/refinado/roupas/70d4c35a1184e7cb90760924ecaa565b.png",
+			"indice": 14,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_sword/outfit(6).png"
+		},
+		"pfdr_v03/fazenda": {
+			"folha": "res://assets/personagens/refinado/roupas/63b0e62ae76b6f3d7fb609a1cc4f6110.png",
+			"indice": 14,
+			"molde": "res://assets/personagens/Fazenda/roupa_6.png"
+		},
+		"pfdr_v03/forja": {
+			"folha": "res://assets/personagens/refinado/roupas/a806d352bfaad4760b1ddd419f85feff.png",
+			"indice": 14,
+			"molde": "res://assets/personagens/body_smithing/Outfit/outfit (6).png"
+		},
+		"pfdr_v03/lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/a5a6696b3e0bd8b70ee1be5b0b76f8d2.png",
+			"indice": 14,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_spear/outfit (6).png"
+		},
+		"pfdr_v03/reacao_arco": {
+			"folha": "res://assets/personagens/refinado/roupas/f1040ec5d34605e8a59aa06d4d60eab6.png",
+			"indice": 14,
+			"molde": "res://assets/personagens/Reacao/arco/roupa_6.png"
+		},
+		"pfdr_v03/reacao_lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/2b08c58a24c0613d20fb77edb2f02503.png",
+			"indice": 14,
+			"molde": "res://assets/personagens/Reacao/lanca/roupa_6.png"
+		},
+		"pfdr_v03/reacao_um_mao": {
+			"folha": "res://assets/personagens/refinado/roupas/42ebd2c42b98833f01e043e5ba18c18a.png",
+			"indice": 14,
+			"molde": "res://assets/personagens/Reacao/um_mao/roupa_6.png"
+		},
+		"pfdr_v03/sentado": {
+			"folha": "res://assets/personagens/refinado/roupas/dd4d3ee6a1a8ee02a14c7427bb0c71d7.png",
+			"indice": 14,
+			"molde": "res://assets/personagens/Sentado/roupa_6.png"
+		},
+		"pfdr_v04/andar": {
+			"folha": "res://assets/personagens/refinado/roupas/3797d75fe88c125a11abaa48669cc3b3.png",
+			"indice": 15,
+			"molde": "res://assets/personagens/Outfit/outfit (3).png"
+		},
+		"pfdr_v04/arco_p2": {
+			"folha": "res://assets/personagens/refinado/roupas/7119cee8efac95cbb0cfddd08f22d4d0.png",
+			"indice": 15,
+			"molde": "res://assets/personagens/Arco/roupa_3_p2.png"
+		},
+		"pfdr_v04/arco_p3": {
+			"folha": "res://assets/personagens/refinado/roupas/736ab9a0f1254db61fce8725c2435f65.png",
+			"indice": 15,
+			"molde": "res://assets/personagens/Arco/roupa_3_p3.png"
+		},
+		"pfdr_v04/espada": {
+			"folha": "res://assets/personagens/refinado/roupas/2d8f9d9ecf32d5db9ee4630c9756cecc.png",
+			"indice": 15,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_sword/outfit(3).png"
+		},
+		"pfdr_v04/fazenda": {
+			"folha": "res://assets/personagens/refinado/roupas/75f8147fb053a7245614099be0318202.png",
+			"indice": 15,
+			"molde": "res://assets/personagens/Fazenda/roupa_3.png"
+		},
+		"pfdr_v04/forja": {
+			"folha": "res://assets/personagens/refinado/roupas/d799f47e4d0ce6ffbfa9140b7a28d5a2.png",
+			"indice": 15,
+			"molde": "res://assets/personagens/body_smithing/Outfit/outfit (3).png"
+		},
+		"pfdr_v04/lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/54d8d7f1f1f88f65b11d99612c73d77a.png",
+			"indice": 15,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_spear/outfit (3).png"
+		},
+		"pfdr_v04/reacao_arco": {
+			"folha": "res://assets/personagens/refinado/roupas/506f0218fe7f88f420e84328c8142a24.png",
+			"indice": 15,
+			"molde": "res://assets/personagens/Reacao/arco/roupa_3.png"
+		},
+		"pfdr_v04/reacao_lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/d218f47487496226a2f6a934d1ee21f6.png",
+			"indice": 15,
+			"molde": "res://assets/personagens/Reacao/lanca/roupa_3.png"
+		},
+		"pfdr_v04/reacao_um_mao": {
+			"folha": "res://assets/personagens/refinado/roupas/c1f2bd892cddaa74aeac480eef97bb6c.png",
+			"indice": 15,
+			"molde": "res://assets/personagens/Reacao/um_mao/roupa_3.png"
+		},
+		"pfdr_v04/sentado": {
+			"folha": "res://assets/personagens/refinado/roupas/f4e99cd9e15c31baa5ab90e444251f52.png",
+			"indice": 15,
+			"molde": "res://assets/personagens/Sentado/roupa_3.png"
+		},
+		"pfdr_v05/andar": {
+			"folha": "res://assets/personagens/refinado/roupas/3797d75fe88c125a11abaa48669cc3b3.png",
+			"indice": 16,
+			"molde": "res://assets/personagens/Outfit/outfit (3).png"
+		},
+		"pfdr_v05/arco_p2": {
+			"folha": "res://assets/personagens/refinado/roupas/7119cee8efac95cbb0cfddd08f22d4d0.png",
+			"indice": 16,
+			"molde": "res://assets/personagens/Arco/roupa_3_p2.png"
+		},
+		"pfdr_v05/arco_p3": {
+			"folha": "res://assets/personagens/refinado/roupas/736ab9a0f1254db61fce8725c2435f65.png",
+			"indice": 16,
+			"molde": "res://assets/personagens/Arco/roupa_3_p3.png"
+		},
+		"pfdr_v05/espada": {
+			"folha": "res://assets/personagens/refinado/roupas/2d8f9d9ecf32d5db9ee4630c9756cecc.png",
+			"indice": 16,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_sword/outfit(3).png"
+		},
+		"pfdr_v05/fazenda": {
+			"folha": "res://assets/personagens/refinado/roupas/75f8147fb053a7245614099be0318202.png",
+			"indice": 16,
+			"molde": "res://assets/personagens/Fazenda/roupa_3.png"
+		},
+		"pfdr_v05/forja": {
+			"folha": "res://assets/personagens/refinado/roupas/d799f47e4d0ce6ffbfa9140b7a28d5a2.png",
+			"indice": 16,
+			"molde": "res://assets/personagens/body_smithing/Outfit/outfit (3).png"
+		},
+		"pfdr_v05/lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/54d8d7f1f1f88f65b11d99612c73d77a.png",
+			"indice": 16,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_spear/outfit (3).png"
+		},
+		"pfdr_v05/reacao_arco": {
+			"folha": "res://assets/personagens/refinado/roupas/506f0218fe7f88f420e84328c8142a24.png",
+			"indice": 16,
+			"molde": "res://assets/personagens/Reacao/arco/roupa_3.png"
+		},
+		"pfdr_v05/reacao_lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/d218f47487496226a2f6a934d1ee21f6.png",
+			"indice": 16,
+			"molde": "res://assets/personagens/Reacao/lanca/roupa_3.png"
+		},
+		"pfdr_v05/reacao_um_mao": {
+			"folha": "res://assets/personagens/refinado/roupas/c1f2bd892cddaa74aeac480eef97bb6c.png",
+			"indice": 16,
+			"molde": "res://assets/personagens/Reacao/um_mao/roupa_3.png"
+		},
+		"pfdr_v05/sentado": {
+			"folha": "res://assets/personagens/refinado/roupas/f4e99cd9e15c31baa5ab90e444251f52.png",
+			"indice": 16,
+			"molde": "res://assets/personagens/Sentado/roupa_3.png"
+		},
+		"pfpn_v01/andar": {
+			"folha": "res://assets/personagens/refinado/roupas/d80f570bbb9e648eb4f0f9c5825aac70.png",
+			"indice": 6,
+			"molde": "res://assets/personagens/Outfit/outfit (7).png"
+		},
+		"pfpn_v01/arco_p2": {
+			"folha": "res://assets/personagens/refinado/roupas/9d4ba1ce68822df2bfe60335f9acb75c.png",
+			"indice": 6,
+			"molde": "res://assets/personagens/Arco/roupa_7_p2.png"
+		},
+		"pfpn_v01/arco_p3": {
+			"folha": "res://assets/personagens/refinado/roupas/06a6b27e76600803c0f9716fda458446.png",
+			"indice": 6,
+			"molde": "res://assets/personagens/Arco/roupa_7_p3.png"
+		},
+		"pfpn_v01/espada": {
+			"folha": "res://assets/personagens/refinado/roupas/4b81592e55e040938cf1b1e5f81f6a23.png",
+			"indice": 6,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_sword/outfit(7).png"
+		},
+		"pfpn_v01/fazenda": {
+			"folha": "res://assets/personagens/refinado/roupas/becffcd4e6179f32d09c8cb53d7f7838.png",
+			"indice": 6,
+			"molde": "res://assets/personagens/Fazenda/roupa_7.png"
+		},
+		"pfpn_v01/forja": {
+			"folha": "res://assets/personagens/refinado/roupas/64e4321e08cc64bf74f370719bab4016.png",
+			"indice": 6,
+			"molde": "res://assets/personagens/body_smithing/Outfit/outfit (7).png"
+		},
+		"pfpn_v01/lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/570bd216d3e2f7315bb61bb33f4ba164.png",
+			"indice": 6,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_spear/outfit (7).png"
+		},
+		"pfpn_v01/reacao_arco": {
+			"folha": "res://assets/personagens/refinado/roupas/7a706f53742fcfc611cf9d2ce416100e.png",
+			"indice": 6,
+			"molde": "res://assets/personagens/Reacao/arco/roupa_7.png"
+		},
+		"pfpn_v01/reacao_lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/7ed7f2ceb2a2aded1730abbd0533544d.png",
+			"indice": 6,
+			"molde": "res://assets/personagens/Reacao/lanca/roupa_7.png"
+		},
+		"pfpn_v01/reacao_um_mao": {
+			"folha": "res://assets/personagens/refinado/roupas/da7a6142d8a41ecc47864dd601a45fe0.png",
+			"indice": 6,
+			"molde": "res://assets/personagens/Reacao/um_mao/roupa_7.png"
+		},
+		"pfpn_v01/sentado": {
+			"folha": "res://assets/personagens/refinado/roupas/17c65474af9d5cd5a853e0aef0bddc29.png",
+			"indice": 6,
+			"molde": "res://assets/personagens/Sentado/roupa_7.png"
+		},
+		"pfpn_v02/andar": {
+			"folha": "res://assets/personagens/refinado/roupas/16844b508000e04608baaa36eaa98c2a.png",
+			"indice": 5,
+			"molde": "res://assets/personagens/Outfit/outfit (6).png"
+		},
+		"pfpn_v02/arco_p2": {
+			"folha": "res://assets/personagens/refinado/roupas/956681fd3d2251bfc77a897932da9164.png",
+			"indice": 5,
+			"molde": "res://assets/personagens/Arco/roupa_6_p2.png"
+		},
+		"pfpn_v02/arco_p3": {
+			"folha": "res://assets/personagens/refinado/roupas/2e31afde404435d5f9ac26fc3c79e491.png",
+			"indice": 5,
+			"molde": "res://assets/personagens/Arco/roupa_6_p3.png"
+		},
+		"pfpn_v02/espada": {
+			"folha": "res://assets/personagens/refinado/roupas/70d4c35a1184e7cb90760924ecaa565b.png",
+			"indice": 5,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_sword/outfit(6).png"
+		},
+		"pfpn_v02/fazenda": {
+			"folha": "res://assets/personagens/refinado/roupas/63b0e62ae76b6f3d7fb609a1cc4f6110.png",
+			"indice": 5,
+			"molde": "res://assets/personagens/Fazenda/roupa_6.png"
+		},
+		"pfpn_v02/forja": {
+			"folha": "res://assets/personagens/refinado/roupas/a806d352bfaad4760b1ddd419f85feff.png",
+			"indice": 5,
+			"molde": "res://assets/personagens/body_smithing/Outfit/outfit (6).png"
+		},
+		"pfpn_v02/lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/a5a6696b3e0bd8b70ee1be5b0b76f8d2.png",
+			"indice": 5,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_spear/outfit (6).png"
+		},
+		"pfpn_v02/reacao_arco": {
+			"folha": "res://assets/personagens/refinado/roupas/f1040ec5d34605e8a59aa06d4d60eab6.png",
+			"indice": 5,
+			"molde": "res://assets/personagens/Reacao/arco/roupa_6.png"
+		},
+		"pfpn_v02/reacao_lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/2b08c58a24c0613d20fb77edb2f02503.png",
+			"indice": 5,
+			"molde": "res://assets/personagens/Reacao/lanca/roupa_6.png"
+		},
+		"pfpn_v02/reacao_um_mao": {
+			"folha": "res://assets/personagens/refinado/roupas/42ebd2c42b98833f01e043e5ba18c18a.png",
+			"indice": 5,
+			"molde": "res://assets/personagens/Reacao/um_mao/roupa_6.png"
+		},
+		"pfpn_v02/sentado": {
+			"folha": "res://assets/personagens/refinado/roupas/dd4d3ee6a1a8ee02a14c7427bb0c71d7.png",
+			"indice": 5,
+			"molde": "res://assets/personagens/Sentado/roupa_6.png"
+		},
+		"pfpn_v03/andar": {
+			"folha": "res://assets/personagens/refinado/roupas/2a70a2f52de402dc05ced412d53ee1e6.png",
+			"indice": 4,
+			"molde": "res://assets/personagens/Outfit/outfit (5).png"
+		},
+		"pfpn_v03/arco_p2": {
+			"folha": "res://assets/personagens/refinado/roupas/ae34921b2403e2eb28b1784fe2e2bec1.png",
+			"indice": 4,
+			"molde": "res://assets/personagens/Arco/roupa_5_p2.png"
+		},
+		"pfpn_v03/arco_p3": {
+			"folha": "res://assets/personagens/refinado/roupas/e13f439dbfe7d34d2576bf5d9660f083.png",
+			"indice": 4,
+			"molde": "res://assets/personagens/Arco/roupa_5_p3.png"
+		},
+		"pfpn_v03/espada": {
+			"folha": "res://assets/personagens/refinado/roupas/44f4b0d922ff89db473046f462944766.png",
+			"indice": 4,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_sword/outfit(5).png"
+		},
+		"pfpn_v03/fazenda": {
+			"folha": "res://assets/personagens/refinado/roupas/0c81562e9aa6e92329878837b6c7e4e7.png",
+			"indice": 4,
+			"molde": "res://assets/personagens/Fazenda/roupa_5.png"
+		},
+		"pfpn_v03/forja": {
+			"folha": "res://assets/personagens/refinado/roupas/c35d010f8d654853766ff4ed41f42633.png",
+			"indice": 4,
+			"molde": "res://assets/personagens/body_smithing/Outfit/outfit (5).png"
+		},
+		"pfpn_v03/lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/5035e9bb71349f266e7cdd47f0d4a5bc.png",
+			"indice": 4,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_spear/outfit (5).png"
+		},
+		"pfpn_v03/reacao_arco": {
+			"folha": "res://assets/personagens/refinado/roupas/0716977350290045dbd39029cb374005.png",
+			"indice": 4,
+			"molde": "res://assets/personagens/Reacao/arco/roupa_5.png"
+		},
+		"pfpn_v03/reacao_lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/fbfdb212b8fd3396f889d3c9802fc8c4.png",
+			"indice": 4,
+			"molde": "res://assets/personagens/Reacao/lanca/roupa_5.png"
+		},
+		"pfpn_v03/reacao_um_mao": {
+			"folha": "res://assets/personagens/refinado/roupas/734466c3b66596adae3a1cc2a1590bb5.png",
+			"indice": 4,
+			"molde": "res://assets/personagens/Reacao/um_mao/roupa_5.png"
+		},
+		"pfpn_v03/sentado": {
+			"folha": "res://assets/personagens/refinado/roupas/093390bd6ac85155f296e5d6f2e30acb.png",
+			"indice": 4,
+			"molde": "res://assets/personagens/Sentado/roupa_5.png"
+		},
+		"pfpn_v04/andar": {
+			"folha": "res://assets/personagens/refinado/roupas/52e945f2ac808f05582527362b4f0e9c.png",
+			"indice": 3,
+			"molde": "res://assets/personagens/Outfit/outfit (4).png"
+		},
+		"pfpn_v04/arco_p2": {
+			"folha": "res://assets/personagens/refinado/roupas/68a76807702b6b1c54bd7432b75d8404.png",
+			"indice": 3,
+			"molde": "res://assets/personagens/Arco/roupa_4_p2.png"
+		},
+		"pfpn_v04/arco_p3": {
+			"folha": "res://assets/personagens/refinado/roupas/e66060647e817cd88098a04bc6a7b385.png",
+			"indice": 3,
+			"molde": "res://assets/personagens/Arco/roupa_4_p3.png"
+		},
+		"pfpn_v04/espada": {
+			"folha": "res://assets/personagens/refinado/roupas/ec4687529d3b02495d7856f47f102379.png",
+			"indice": 3,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_sword/outfit(4).png"
+		},
+		"pfpn_v04/fazenda": {
+			"folha": "res://assets/personagens/refinado/roupas/9d722b93fbb33a7e28b176d65a90000a.png",
+			"indice": 3,
+			"molde": "res://assets/personagens/Fazenda/roupa_4.png"
+		},
+		"pfpn_v04/forja": {
+			"folha": "res://assets/personagens/refinado/roupas/126a98aff8821e456fbe5e63012958c6.png",
+			"indice": 3,
+			"molde": "res://assets/personagens/body_smithing/Outfit/outfit (4).png"
+		},
+		"pfpn_v04/lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/46886cd090eaa98d776b91d38abd9069.png",
+			"indice": 3,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_spear/outfit (4).png"
+		},
+		"pfpn_v04/reacao_arco": {
+			"folha": "res://assets/personagens/refinado/roupas/55fd3c90c0feb7350351dde53f7ba5c5.png",
+			"indice": 3,
+			"molde": "res://assets/personagens/Reacao/arco/roupa_4.png"
+		},
+		"pfpn_v04/reacao_lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/de36db5e9fba0a2be150d6ee9479c506.png",
+			"indice": 3,
+			"molde": "res://assets/personagens/Reacao/lanca/roupa_4.png"
+		},
+		"pfpn_v04/reacao_um_mao": {
+			"folha": "res://assets/personagens/refinado/roupas/bb40617b5c00b22223a1985ccbc0256b.png",
+			"indice": 3,
+			"molde": "res://assets/personagens/Reacao/um_mao/roupa_4.png"
+		},
+		"pfpn_v04/sentado": {
+			"folha": "res://assets/personagens/refinado/roupas/410c8e82b16f028ff5f0acff988484a3.png",
+			"indice": 3,
+			"molde": "res://assets/personagens/Sentado/roupa_4.png"
+		},
+		"pfpn_v05/andar": {
+			"folha": "res://assets/personagens/refinado/roupas/3797d75fe88c125a11abaa48669cc3b3.png",
+			"indice": 2,
+			"molde": "res://assets/personagens/Outfit/outfit (3).png"
+		},
+		"pfpn_v05/arco_p2": {
+			"folha": "res://assets/personagens/refinado/roupas/7119cee8efac95cbb0cfddd08f22d4d0.png",
+			"indice": 2,
+			"molde": "res://assets/personagens/Arco/roupa_3_p2.png"
+		},
+		"pfpn_v05/arco_p3": {
+			"folha": "res://assets/personagens/refinado/roupas/736ab9a0f1254db61fce8725c2435f65.png",
+			"indice": 2,
+			"molde": "res://assets/personagens/Arco/roupa_3_p3.png"
+		},
+		"pfpn_v05/espada": {
+			"folha": "res://assets/personagens/refinado/roupas/2d8f9d9ecf32d5db9ee4630c9756cecc.png",
+			"indice": 2,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_sword/outfit(3).png"
+		},
+		"pfpn_v05/fazenda": {
+			"folha": "res://assets/personagens/refinado/roupas/75f8147fb053a7245614099be0318202.png",
+			"indice": 2,
+			"molde": "res://assets/personagens/Fazenda/roupa_3.png"
+		},
+		"pfpn_v05/forja": {
+			"folha": "res://assets/personagens/refinado/roupas/d799f47e4d0ce6ffbfa9140b7a28d5a2.png",
+			"indice": 2,
+			"molde": "res://assets/personagens/body_smithing/Outfit/outfit (3).png"
+		},
+		"pfpn_v05/lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/54d8d7f1f1f88f65b11d99612c73d77a.png",
+			"indice": 2,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_spear/outfit (3).png"
+		},
+		"pfpn_v05/reacao_arco": {
+			"folha": "res://assets/personagens/refinado/roupas/506f0218fe7f88f420e84328c8142a24.png",
+			"indice": 2,
+			"molde": "res://assets/personagens/Reacao/arco/roupa_3.png"
+		},
+		"pfpn_v05/reacao_lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/d218f47487496226a2f6a934d1ee21f6.png",
+			"indice": 2,
+			"molde": "res://assets/personagens/Reacao/lanca/roupa_3.png"
+		},
+		"pfpn_v05/reacao_um_mao": {
+			"folha": "res://assets/personagens/refinado/roupas/c1f2bd892cddaa74aeac480eef97bb6c.png",
+			"indice": 2,
+			"molde": "res://assets/personagens/Reacao/um_mao/roupa_3.png"
+		},
+		"pfpn_v05/sentado": {
+			"folha": "res://assets/personagens/refinado/roupas/f4e99cd9e15c31baa5ab90e444251f52.png",
+			"indice": 2,
+			"molde": "res://assets/personagens/Sentado/roupa_3.png"
+		},
+		"traje_cavalheiro/andar": {
+			"folha": "res://assets/personagens/refinado/roupas/fbf25a8edb2e774c30ea262dec0d81fe.png",
+			"indice": 45,
+			"molde": "res://assets/personagens/conjuntos/cavalheiro/andar.png"
+		},
+		"traje_cavalheiro/arco_p2": {
+			"folha": "res://assets/personagens/refinado/roupas/dc179930406a79c30cdd222448ae9eb3.png",
+			"indice": 45,
+			"molde": "res://assets/personagens/conjuntos/cavalheiro/arco_p2.png"
+		},
+		"traje_cavalheiro/arco_p3": {
+			"folha": "res://assets/personagens/refinado/roupas/921971d40152b47b7f74678203a602ae.png",
+			"indice": 45,
+			"molde": "res://assets/personagens/conjuntos/cavalheiro/arco_p3.png"
+		},
+		"traje_cavalheiro/espada": {
+			"folha": "res://assets/personagens/refinado/roupas/fe52da89992a4032ddd67529445b2f1c.png",
+			"indice": 45,
+			"molde": "res://assets/personagens/conjuntos/cavalheiro/espada.png"
+		},
+		"traje_cavalheiro/fazenda": {
+			"folha": "res://assets/personagens/refinado/roupas/09900edb059fdd5e4f97132968c48f91.png",
+			"indice": 45,
+			"molde": "res://assets/personagens/conjuntos/cavalheiro/fazenda.png"
+		},
+		"traje_cavalheiro/forja": {
+			"folha": "res://assets/personagens/refinado/roupas/cd7184f6a2c57cc6973cbb9fd5718652.png",
+			"indice": 45,
+			"molde": "res://assets/personagens/conjuntos/cavalheiro/forja.png"
+		},
+		"traje_cavalheiro/lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/5ae6330d642dab75a63181761fac0ccd.png",
+			"indice": 45,
+			"molde": "res://assets/personagens/conjuntos/cavalheiro/lanca.png"
+		},
+		"traje_cavalheiro/reacao_arco": {
+			"folha": "res://assets/personagens/refinado/roupas/1154e77f17df363a73c261cb1e314c30.png",
+			"indice": 45,
+			"molde": "res://assets/personagens/conjuntos/cavalheiro/reacao_arco.png"
+		},
+		"traje_cavalheiro/reacao_lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/225b7c307bd77e51e40a8ea9dd2a5136.png",
+			"indice": 45,
+			"molde": "res://assets/personagens/conjuntos/cavalheiro/reacao_lanca.png"
+		},
+		"traje_cavalheiro/reacao_um_mao": {
+			"folha": "res://assets/personagens/refinado/roupas/0d01a5652b8f7fe278dc7bc666310f1d.png",
+			"indice": 45,
+			"molde": "res://assets/personagens/conjuntos/cavalheiro/reacao_um_mao.png"
+		},
+		"traje_cavalheiro/sentado": {
+			"folha": "res://assets/personagens/refinado/roupas/dcea6e3915d301cc1d0af90d448100a5.png",
+			"indice": 45,
+			"molde": "res://assets/personagens/conjuntos/cavalheiro/sentado.png"
+		},
+		"undi/andar": {
+			"folha": "res://assets/personagens/refinado/roupas/43c021989c439875f36d5f05c778cf09.png",
+			"indice": 0,
+			"molde": "res://assets/personagens/Outfit/outfit (1).png"
+		},
+		"undi/arco_p2": {
+			"folha": "res://assets/personagens/refinado/roupas/bc67901302d27ac71e7097b7fcedfddd.png",
+			"indice": 0,
+			"molde": "res://assets/personagens/Arco/roupa_1_p2.png"
+		},
+		"undi/arco_p3": {
+			"folha": "res://assets/personagens/refinado/roupas/2cb23bc0db249c437d7504483a1c44c5.png",
+			"indice": 0,
+			"molde": "res://assets/personagens/Arco/roupa_1_p3.png"
+		},
+		"undi/espada": {
+			"folha": "res://assets/personagens/refinado/roupas/f101e8ce4bd355021b92599b008d968a.png",
+			"indice": 0,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_sword/outfit(2).png"
+		},
+		"undi/fazenda": {
+			"folha": "res://assets/personagens/refinado/roupas/857f3b5886dcc27ec4a88fa50bff40d0.png",
+			"indice": 0,
+			"molde": "res://assets/personagens/Fazenda/roupa_1.png"
+		},
+		"undi/forja": {
+			"folha": "res://assets/personagens/refinado/roupas/ac4a5d64e3be95d258be235e6cd96df5.png",
+			"indice": 0,
+			"molde": "res://assets/personagens/body_smithing/Outfit/outfit (2).png"
+		},
+		"undi/lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/2a95e40aef125cf9e6d00f476b900cf3.png",
+			"indice": 0,
+			"molde": "res://assets/personagens/Outfit/Attack/slash_1_spear/outfit (2).png"
+		},
+		"undi/reacao_arco": {
+			"folha": "res://assets/personagens/refinado/roupas/f55a424e4cc87ccb8baa78934a286ea9.png",
+			"indice": 0,
+			"molde": "res://assets/personagens/Reacao/arco/roupa_1.png"
+		},
+		"undi/reacao_lanca": {
+			"folha": "res://assets/personagens/refinado/roupas/382b0dc9b208cd20cf0ee95ce1af2eca.png",
+			"indice": 0,
+			"molde": "res://assets/personagens/Reacao/lanca/roupa_1.png"
+		},
+		"undi/reacao_um_mao": {
+			"folha": "res://assets/personagens/refinado/roupas/f9492fcf2e42d0661b891b6245ff8afd.png",
+			"indice": 0,
+			"molde": "res://assets/personagens/Reacao/um_mao/roupa_1.png"
+		},
+		"undi/sentado": {
+			"folha": "res://assets/personagens/refinado/roupas/e389388e8e06ae1ed983c09c12ebc68a.png",
+			"indice": 0,
+			"molde": "res://assets/personagens/Sentado/roupa_1.png"
+		}
+	}
+}

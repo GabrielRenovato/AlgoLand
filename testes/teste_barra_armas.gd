@@ -1,7 +1,7 @@
 extends SceneTree
 
 # Rodar: godot --headless --path . --script res://testes/teste_barra_armas.gd
-# Barra de baixo do HUD (Codigos/UI/barra_armas.gd): é a primeira linha da mochila (como a do Stardew), nos slots do inventário. Troca por 1-5,
+# Barra de baixo do HUD (codigo/ui/barra_armas.gd): é a primeira linha da mochila (como a do Stardew), nos slots do inventário. Troca por 1-5,
 # roda do mouse, Z, toque na casa; a arma em uso continua na casa dela; escudo que some com arma de duas mãos e volta; não troca no meio do golpe.
 # ATENCAO: carrega a cena de jogo e equipa itens (grava user://inventario.json); faça backup do user:// antes.
 
@@ -57,6 +57,18 @@ func _tipo_da_casa(i: int) -> String:
 	var item = _item_da_casa(i)
 	return item.tipo if item != null else ""
 
+## O kit inicial agora vem com espada e escudo na mão e as ferramentas da fazenda na primeira linha. Estes cenários partem da
+## barra só de armas, de mãos vazias: espada, lança e escudo nas casas 1 a 3 e as ferramentas na terceira linha
+func _arranjo_so_de_armas() -> void:
+	_inv.desequipar("arma")
+	_inv.desequipar("escudo")
+	_inv.mover_para_mochila(_inv.buscar_por_tipo("lanca_basica"), 1)
+	_inv.mover_para_mochila(_inv.buscar_por_tipo("escudo_basico"), 2)
+	_inv.mover_para_mochila(_inv.buscar_por_tipo("enxada"), 10)
+	_inv.mover_para_mochila(_inv.buscar_por_tipo("regador"), 11)
+	_inv.mover_para_mochila(_inv.buscar_por_tipo("machadinha"), 12)
+	_inv.mover_para_mochila(_inv.buscar_por_tipo("picareta"), 13)
+
 func _rodar() -> void:
 	await process_frame
 	root.get_node("Progresso").caminho_save = "user://teste_barra_progresso.json"
@@ -66,6 +78,7 @@ func _rodar() -> void:
 	_inv = root.get_node("InventarioJogador")
 	_inv.limpar()
 	_inv.criar_itens_iniciais()
+	_arranjo_so_de_armas()
 	_cena = load("res://cenas/cenario.tscn").instantiate()
 	root.add_child(_cena)
 	current_scene = _cena
@@ -73,12 +86,13 @@ func _rodar() -> void:
 	await _ms(200)
 	_jogador = _cena.get_node("Jogador")
 	_cena.get_node("enemySpawner/GerenciadorOndas").parar_ondas()
-	_barra = _cena.get_node("UI/BarraArmas")
+	# O nó do HUD se chama "assets/ui" (com barra no nome): get_node com esse caminho não o acha
+	_barra = get_nodes_in_group("hud")[0].barra_armas
 	_verificar("a barra de baixo existe no HUD da arena", _barra != null, "")
-	_verificar("a barra tem uma casa por coluna da mochila (5)", _barra._casas.size() == _inv.COLUNAS_MOCHILA and _inv.COLUNAS_MOCHILA == 5, str(_barra._casas.size()))
+	_verificar("a barra tem uma casa por coluna da mochila (8)", _barra._casas.size() == _inv.COLUNAS_MOCHILA and _inv.COLUNAS_MOCHILA == 8, str(_barra._casas.size()))
 	var grade: GridContainer = _cena.get_node("Interface/TelaInventario")._grade
 	_verificar("a grade da mochila tem as mesmas colunas da barra", grade.columns == _inv.COLUNAS_MOCHILA, str(grade.columns))
-	_verificar("as casas usam o slot do inventario (slot_ui)", _barra._casas[0].get_node("Conteudo/Slot").get_script() == load("res://Codigos/UI/slot_ui.gd"), "")
+	_verificar("as casas usam o slot do inventario (slot_ui)", _barra._casas[0].get_node("Conteudo/Slot").get_script() == load("res://codigo/ui/slot_ui.gd"), "")
 	_verificar("kit inicial na primeira linha: espada, lanca e escudo", _tipo_da_casa(0) == "espada_basica" and _tipo_da_casa(1) == "lanca_basica" and _tipo_da_casa(2) == "escudo_basico" and _item_da_casa(3) == null, "%s %s %s" % [_tipo_da_casa(0), _tipo_da_casa(1), _tipo_da_casa(2)])
 	_verificar("a casa mostra o item (icone do slot)", _barra._casas[0].get_node("Conteudo/Slot").item_atual == _item_da_casa(0), "")
 	_verificar("sem arma na mao no inicio, nenhuma casa em destaque", _tipo_equipado() == "" and not _barra._casas[0].get_node("Conteudo/Marco").visible, "")
@@ -86,10 +100,13 @@ func _rodar() -> void:
 	# armas novas entram nas casas livres da primeira linha; as que passam da linha ficam so na mochila
 	_inv.adicionar_arma_nova("arco_longo")
 	_inv.adicionar_arma_nova("arco_curto")
+	_inv.adicionar_arma_nova("maca")
+	_inv.adicionar_arma_nova("espada_gemea")
 	_inv.adicionar_arma_nova("machado")
+	_inv.mover_para_mochila(_inv.buscar_por_tipo("machado"), 8)
 	await _quadros(2)
 	_verificar("arcos entram nas casas 4 e 5", _tipo_da_casa(3) == "arco_longo" and _tipo_da_casa(4) == "arco_curto", "%s %s" % [_tipo_da_casa(3), _tipo_da_casa(4)])
-	_verificar("a arma que passou da primeira linha (machado) nao aparece na barra", _inv.mochila[5] != null and _inv.mochila[5].tipo == "machado" and _barra._casas.size() == 5, "")
+	_verificar("a arma que passou da primeira linha (machado) nao aparece na barra", _inv.mochila[8] != null and _inv.mochila[8].tipo == "machado" and _barra._casas.size() == 8, "")
 
 	# tecla 1: espada (fica na casa 1, em destaque)
 	_tecla(KEY_1)
@@ -151,11 +168,19 @@ func _rodar() -> void:
 	await _ms(500)
 	_roda(false)
 	await _quadros(3)
+	_verificar("roda inclui a maça da sexta casa", _tipo_equipado() == "maca", _tipo_equipado())
+	await _ms(500)
+	_roda(false)
+	await _quadros(3)
+	_verificar("roda inclui a espada gêmea da sétima casa", _tipo_equipado() == "espada_gemea", _tipo_equipado())
+	await _ms(500)
+	_roda(false)
+	await _quadros(3)
 	_verificar("e da a volta no fim da barra (espada)", _tipo_equipado() == "espada_basica", _tipo_equipado())
 	await _ms(500)
 	_roda(true)
 	await _quadros(3)
-	_verificar("roda para cima volta uma arma (arco curto, dando a volta)", _tipo_equipado() == "arco_curto", _tipo_equipado())
+	_verificar("roda para cima volta à última arma da linha", _tipo_equipado() == "espada_gemea", _tipo_equipado())
 	# Z / R3
 	await _ms(500)
 	_tecla(KEY_Z)
@@ -191,7 +216,7 @@ func _rodar() -> void:
 	_verificar("o numero da casa aparece (no PC)", _barra._casas[2].get_node_or_null("Conteudo/Numero") != null and _barra._casas[2].get_node("Conteudo/Numero").text == "3", "")
 
 	# stardew: mover o machado para a primeira linha pelo inventario o poe na barra, e a casa dele vira a tecla
-	var machado = _inv.mochila[5]
+	var machado = _inv.buscar_por_tipo("machado")
 	_inv.mover_para_mochila(machado, 3)
 	await _quadros(3)
 	_verificar("mover uma arma para a primeira linha a poe na barra (casa 4)", _tipo_da_casa(3) == "machado", _tipo_da_casa(3))

@@ -19,7 +19,7 @@ func _verificar(nome: String, condicao: bool) -> void:
 
 func _rodar() -> void:
 	await process_frame
-	var aparencia = load("res://Codigos/DadosLocais/aparencia.gd")
+	var aparencia = load("res://codigo/dados/aparencia.gd")
 	var indice: int = -1
 	for i in aparencia.total_roupas():
 		if aparencia.roupas()[i]["id"] == "armadura_teste":

@@ -1,8 +1,8 @@
 extends SceneTree
 
 # Usa o encaixe das poses nativas, mas redesenha o tórax como placas rígidas, sem suspensórios.
-const Aparencia := preload("res://Codigos/DadosLocais/aparencia.gd")
-const DESTINO := "res://CharacterSprites/ArmaduraTeste/"
+const Aparencia := preload("res://codigo/dados/aparencia.gd")
+const DESTINO := "res://assets/personagens/prototipos/armadura_teste/"
 const ACO := {"425865": "3c485c", "8aafac": "8497b0", "c7e5dc": "d4dfec", "383050": "3c485c", "5068a0": "8497b0", "88b0e8": "d4dfec", "364a3f": "3c485c", "5b7f6a": "8497b0", "a8c898": "d4dfec"}
 const COURO := {"7f4935": "372c27", "b47f54": "67472f", "dab988": "9b6c41", "815c21": "372c27", "b29149": "67472f", "e0d28e": "9b6c41"}
 var _placas: Array[Image] = []

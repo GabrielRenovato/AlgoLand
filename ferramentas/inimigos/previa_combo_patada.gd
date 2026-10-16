@@ -34,7 +34,7 @@ func _rodar() -> void:
 	jogo.add_child(jogador)
 	var avatar := Node2D.new()
 	palco.add_child(avatar)
-	var modelo = load("res://cenas/Jogador.tscn").instantiate()
+	var modelo = load("res://cenas/jogador.tscn").instantiate()
 	for parte in ["Corpo", "Roupa", "Cabelo"]:
 		var original: Sprite2D = modelo.get_node("CompositeSprites/BaseSprites/" + parte)
 		var sprite := Sprite2D.new()
@@ -56,11 +56,11 @@ func _rodar() -> void:
 	texto.position = Vector2(20, 20)
 	texto.add_theme_font_size_override("font_size", 20)
 	camada.add_child(texto)
-	var saida := "res://inimigos/dragao_vermelho/previas/patada/"
+	var saida := "res://arte/previas/inimigos/dragao_vermelho/patada/"
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(saida))
 	for i in 70:
 		jogador.atualizar(0.05)
-		jogador.z_index = preload("res://Codigos/Globais/profundidade.gd").z_de(jogador.position.y + 11)
+		jogador.z_index = preload("res://codigo/globais/profundidade.gd").z_de(jogador.position.y + 11)
 		chefe._physics_process(0.05)
 		avatar.position = jogador.position
 		avatar.z_index = jogador.z_index

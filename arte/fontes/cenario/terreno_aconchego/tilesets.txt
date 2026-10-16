@@ -1,0 +1,4 @@
+5d53c5bc-3eff-423b-b427-5daa0161e177 grama_terra
+fe0a8266-3f2d-45b1-95c9-e4658512c519 grama_pedra
+e76c2d3f-bd7e-4fdd-a3be-cd8b2928ac29 terra_pedra
+a48b316a-56bd-4f05-8d16-829ab40d6352 grama_agua

@@ -2,9 +2,10 @@ extends SceneTree
 
 ## Compila o conceito nas poses nativas: o corpo determina a silhueta e o movimento,
 ## o cabelo nativo localiza a cabeça, e as placas fornecem a superfície da armadura.
-const Aparencia := preload("res://Codigos/DadosLocais/aparencia.gd")
-const Padrao := preload("res://Codigos/DadosLocais/padrao_armadura.gd")
+const Aparencia := preload("res://codigo/dados/aparencia.gd")
+const Padrao := preload("res://codigo/dados/padrao_armadura.gd")
 const CORPOS := Padrao.CORPOS
+const Acabamento := preload("res://codigo/dados/acabamento_refinado.gd")
 var _config: Dictionary = {}
 var _destino := ""
 var _paleta: Array = []
@@ -30,6 +31,9 @@ func _initialize() -> void:
 		return
 	_destino = String(_config["destino"])
 	_paleta = _config["paleta"]
+	if "--somente-acabamento" in args:
+		quit(0 if Acabamento.compilar_conjunto(_config) else 1)
+		return
 	if "--somente-dados" in args:
 		DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(_destino))
 		quit(0 if _gravar_definicao() else 1)
@@ -44,7 +48,7 @@ func _initialize() -> void:
 		return
 	Image.create(512, 512, false, Image.FORMAT_RGBA8).save_png(_destino + "cabelo_oculto.png")
 	for pagina in CORPOS:
-		var corpo: Image = load("res://CharacterSprites/" + CORPOS[pagina]).get_image()
+		var corpo: Image = load("res://assets/personagens/" + CORPOS[pagina]).get_image()
 		var corpo_visivel := corpo.duplicate()
 		var cabelo: Image = Aparencia.cabelo(0, pagina).get_image()
 		var roupa: Image = Aparencia.roupa(2, pagina).get_image()
@@ -81,7 +85,7 @@ func _initialize() -> void:
 			DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(_destino + peca))
 			folhas_pecas[peca].save_png(_destino + peca + "/" + pagina + ".png")
 		print("Conjunto ", _config["id"], ": ", pagina, ", poses: ", poses)
-	quit(0 if _gravar_definicao() else 1)
+	quit(0 if _gravar_definicao() and Acabamento.compilar_conjunto(_config) else 1)
 
 func _gravar_definicao() -> bool:
 	var cadastro := FileAccess.open(_destino + "definicao.gd", FileAccess.WRITE)
@@ -157,7 +161,7 @@ func _preparar_pecas() -> bool:
 		_ancoras_elmo.append(chapa.get_center().x)
 		var regiao_idle := Rect2i(0, i * 64, 64, 64)
 		var cabelo_idle := Aparencia.cabelo(0, "andar").get_image().get_region(regiao_idle).get_used_rect()
-		var corpo_idle: Image = load("res://CharacterSprites/" + CORPOS["andar"]).get_image().get_region(regiao_idle)
+		var corpo_idle: Image = load("res://assets/personagens/" + CORPOS["andar"]).get_image().get_region(regiao_idle)
 		var face_idle := corpo_idle.get_region(Rect2i(cabelo_idle.position, Vector2i(cabelo_idle.size.x, 13))).get_used_rect()
 		_deslocamentos_cabeca.append(face_idle.get_center().x - cabelo_idle.size.x / 2)
 		# Chapéus se apoiam no crânio. Nariz e queixo não deslocam a copa nos perfis.

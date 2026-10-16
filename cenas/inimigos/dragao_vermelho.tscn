@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3]
 
-[ext_resource type="Script" path="res://Codigos/Inimigos/dragao_vermelho.gd" id="1"]
-[ext_resource type="Texture2D" path="res://inimigos/dragao_vermelho/movimento.png" id="2"]
+[ext_resource type="Script" path="res://codigo/inimigos/dragao_vermelho.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/inimigos/dragao_vermelho/movimento.png" id="2"]
 
 [sub_resource type="RectangleShape2D" id="corpo"]
 size = Vector2(38, 20)

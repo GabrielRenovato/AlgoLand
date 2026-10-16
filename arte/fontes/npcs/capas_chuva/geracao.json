@@ -1,0 +1,77 @@
+{
+  "ferramenta": "image_gen integrada",
+  "grade": [
+    7,
+    4
+  ],
+  "celula_no_jogo": [
+    64,
+    64
+  ],
+  "preparo": "python3 ferramentas/cidade/preparar_npcs_chuva.py",
+  "folhas": "assets/npcs/cidade/capas_chuva/",
+  "prompts": [
+    {
+      "nome": "tomas",
+      "fonte": "arte/fontes/npcs/capas_chuva/tomas.png",
+      "referencias": [
+        "assets/npcs/cidade/tomas.png"
+      ],
+      "prompt": "Edit the supplied native pixel-art NPC spritesheet. Produce a COMPLETE REPLACEMENT SPRITESHEET with EXACTLY SEVEN COLUMNS and FOUR ROWS, 28 separate equally sized square cells, same layout, same character scale relative to each cell, same spacing and same foot pivots as the input. Row 1 front/south, row 2 right/east, row 3 back/north, row 4 left/west. Column 1 is idle, columns 2 through 7 are the SIX consecutive walking frames copied in pose from the corresponding input cell. Change ONLY the character's outer clothing: give every frame a simple waterproof hooded RAINCOAT in warm ochre yellow, with a believable fitted hood, dark opening around the SAME original face, small fastening/buttons down the front, long sleeves following the ORIGINAL moving arms and hands, modest thigh-length hem following the body's movement, and dark boots. brown-haired friendly male merchant, simple clothes, short dark mustache if present. Keep their face, age, proportions, expression, small stature and native Mana Seed cozy RPG pixel-art look. The hood replaces any hat/hair silhouette over the head but preserves the visible original face inside the opening; from behind the hood covers the hair. Preserve original walking leg positions, foot placements and arm swing separately in EACH FRAME: no static outfit pasted over moving arms. Delicate material shading, readable 3-shade cloth folds, dark outline, upper-left light. Crisp native pixels, no blur or painterly resampling. Absolutely NO umbrella, NO carried objects, NO text, NO labels, NO frame borders, NO scenery, NO shadows on ground. True transparent background around all 28 sprites. Match the input grid exactly; do not add, omit, reorder or merge cells."
+    },
+    {
+      "nome": "rosa",
+      "fonte": "arte/fontes/npcs/capas_chuva/rosa.png",
+      "referencias": [
+        "assets/npcs/cidade/rosa.png"
+      ],
+      "prompt": "Edit the supplied native pixel-art NPC spritesheet. Produce a COMPLETE REPLACEMENT SPRITESHEET with EXACTLY SEVEN COLUMNS and FOUR ROWS, 28 separate equally sized square cells, same layout, same character scale relative to each cell, same spacing and same foot pivots as the input. Row 1 front/south, row 2 right/east, row 3 back/north, row 4 left/west. Column 1 is idle, columns 2 through 7 are the SIX consecutive walking frames copied in pose from the corresponding input cell. Change ONLY the character's outer clothing: give every frame a simple waterproof hooded RAINCOAT in sage green, with a believable fitted hood, dark opening around the SAME original face, small fastening/buttons down the front, long sleeves following the ORIGINAL moving arms and hands, modest thigh-length hem following the body's movement, and dark boots. elderly woman with silver hair bun and warm face. Keep their face, age, proportions, expression, small stature and native Mana Seed cozy RPG pixel-art look. The hood replaces any hat/hair silhouette over the head but preserves the visible original face inside the opening; from behind the hood covers the hair. Preserve original walking leg positions, foot placements and arm swing separately in EACH FRAME: no static outfit pasted over moving arms. Delicate material shading, readable 3-shade cloth folds, dark outline, upper-left light. Crisp native pixels, no blur or painterly resampling. Absolutely NO umbrella, NO carried objects, NO text, NO labels, NO frame borders, NO scenery, NO shadows on ground. True transparent background around all 28 sprites. Match the input grid exactly; do not add, omit, reorder or merge cells."
+    },
+    {
+      "nome": "caio",
+      "fonte": "arte/fontes/npcs/capas_chuva/caio.png",
+      "referencias": [
+        "assets/npcs/cidade/caio.png",
+        "arte/fontes/npcs/capas_chuva/tomas.png"
+      ],
+      "prompt": "Edit the supplied native pixel-art NPC spritesheet. Produce a COMPLETE REPLACEMENT SPRITESHEET with EXACTLY SEVEN COLUMNS and FOUR ROWS, 28 separate equally sized square cells, same layout, same character scale relative to each cell, same spacing and same foot pivots as the input. Row 1 front/south, row 2 right/east, row 3 back/north, row 4 left/west. Column 1 is idle, columns 2 through 7 are the SIX consecutive walking frames copied in pose from the corresponding input cell. Change ONLY the character's outer clothing: give every frame a simple waterproof hooded RAINCOAT in muted deep blue, with a believable fitted hood, dark opening around the SAME original face, small fastening/buttons down the front, long sleeves following the ORIGINAL moving arms and hands, modest thigh-length hem following the body's movement, and dark boots. young red-haired male bard. Keep their face, age, proportions, expression, small stature and native Mana Seed cozy RPG pixel-art look. The hood replaces any hat/hair silhouette over the head but preserves the visible original face inside the opening; from behind the hood covers the hair. Preserve original walking leg positions, foot placements and arm swing separately in EACH FRAME: no static outfit pasted over moving arms. Delicate material shading, readable 3-shade cloth folds, dark outline, upper-left light. Crisp native pixels, no blur or painterly resampling. Absolutely NO umbrella, NO carried objects, NO text, NO labels, NO frame borders, NO scenery, NO shadows on ground. True transparent background around all 28 sprites. Match the input grid exactly; do not add, omit, reorder or merge cells. The FIRST reference is the original NPC and its exact 7-column 4-row pose layout. The SECOND reference is the approved yellow raincoat spritesheet: match its coat construction and detail, while preserving the FIRST character's unique identity."
+    },
+    {
+      "nome": "estela",
+      "fonte": "arte/fontes/npcs/capas_chuva/estela.png",
+      "referencias": [
+        "assets/npcs/cidade/estela.png",
+        "arte/fontes/npcs/capas_chuva/tomas.png"
+      ],
+      "prompt": "Edit the supplied native pixel-art NPC spritesheet. Produce a COMPLETE REPLACEMENT SPRITESHEET with EXACTLY SEVEN COLUMNS and FOUR ROWS, 28 separate equally sized square cells, same layout, same character scale relative to each cell, same spacing and same foot pivots as the input. Row 1 front/south, row 2 right/east, row 3 back/north, row 4 left/west. Column 1 is idle, columns 2 through 7 are the SIX consecutive walking frames copied in pose from the corresponding input cell. Change ONLY the character's outer clothing: give every frame a simple waterproof hooded RAINCOAT in muted violet purple, with a believable fitted hood, dark opening around the SAME original face, small fastening/buttons down the front, long sleeves following the ORIGINAL moving arms and hands, modest thigh-length hem following the body's movement, and dark boots. dark-skinned woman, dark hair and calm expression. Keep their face, age, proportions, expression, small stature and native Mana Seed cozy RPG pixel-art look. The hood replaces any hat/hair silhouette over the head but preserves the visible original face inside the opening; from behind the hood covers the hair. Preserve original walking leg positions, foot placements and arm swing separately in EACH FRAME: no static outfit pasted over moving arms. Delicate material shading, readable 3-shade cloth folds, dark outline, upper-left light. Crisp native pixels, no blur or painterly resampling. Absolutely NO umbrella, NO carried objects, NO text, NO labels, NO frame borders, NO scenery, NO shadows on ground. True transparent background around all 28 sprites. Match the input grid exactly; do not add, omit, reorder or merge cells. The FIRST reference is the original NPC and its exact 7-column 4-row pose layout. The SECOND reference is the approved yellow raincoat spritesheet: match its coat construction and detail, while preserving the FIRST character's unique identity."
+    },
+    {
+      "nome": "lia",
+      "fonte": "arte/fontes/npcs/capas_chuva/lia.png",
+      "referencias": [
+        "assets/npcs/cidade/lia.png",
+        "arte/fontes/npcs/capas_chuva/tomas.png"
+      ],
+      "prompt": "Edit the supplied native pixel-art NPC spritesheet. Produce a COMPLETE REPLACEMENT SPRITESHEET with EXACTLY SEVEN COLUMNS and FOUR ROWS, 28 separate equally sized square cells, same layout, same character scale relative to each cell, same spacing and same foot pivots as the input. Row 1 front/south, row 2 right/east, row 3 back/north, row 4 left/west. Column 1 is idle, columns 2 through 7 are the SIX consecutive walking frames copied in pose from the corresponding input cell. Change ONLY the character's outer clothing: give every frame a simple waterproof hooded RAINCOAT in muted dusty rose red, with a believable fitted hood, dark opening around the SAME original face, small fastening/buttons down the front, long sleeves following the ORIGINAL moving arms and hands, modest thigh-length hem following the body's movement, and dark boots. adult red-brown-haired woman, gentle face. Keep their face, age, proportions, expression, small stature and native Mana Seed cozy RPG pixel-art look. The hood replaces any hat/hair silhouette over the head but preserves the visible original face inside the opening; from behind the hood covers the hair. Preserve original walking leg positions, foot placements and arm swing separately in EACH FRAME: no static outfit pasted over moving arms. Delicate material shading, readable 3-shade cloth folds, dark outline, upper-left light. Crisp native pixels, no blur or painterly resampling. Absolutely NO umbrella, NO carried objects, NO text, NO labels, NO frame borders, NO scenery, NO shadows on ground. True transparent background around all 28 sprites. Match the input grid exactly; do not add, omit, reorder or merge cells. The FIRST reference is the original NPC and its exact 7-column 4-row pose layout. The SECOND reference is the approved yellow raincoat spritesheet: match its coat construction and detail, while preserving the FIRST character's unique identity."
+    },
+    {
+      "nome": "bento",
+      "fonte": "arte/fontes/npcs/capas_chuva/bento.png",
+      "referencias": [
+        "assets/npcs/cidade/bento.png",
+        "arte/fontes/npcs/capas_chuva/tomas.png"
+      ],
+      "prompt": "Edit the supplied native pixel-art NPC spritesheet. Produce a COMPLETE REPLACEMENT SPRITESHEET with EXACTLY SEVEN COLUMNS and FOUR ROWS, 28 separate equally sized square cells, same layout, same character scale relative to each cell, same spacing and same foot pivots as the input. Row 1 front/south, row 2 right/east, row 3 back/north, row 4 left/west. Column 1 is idle, columns 2 through 7 are the SIX consecutive walking frames copied in pose from the corresponding input cell. Change ONLY the character's outer clothing: give every frame a simple waterproof hooded RAINCOAT in muted moss olive yellow, with a believable fitted hood, dark opening around the SAME original face, small fastening/buttons down the front, long sleeves following the ORIGINAL moving arms and hands, modest thigh-length hem following the body's movement, and dark boots. elderly farmer with grey white beard, remove the straw hat and replace it with the hood. Keep their face, age, proportions, expression, small stature and native Mana Seed cozy RPG pixel-art look. The hood replaces any hat/hair silhouette over the head but preserves the visible original face inside the opening; from behind the hood covers the hair. Preserve original walking leg positions, foot placements and arm swing separately in EACH FRAME: no static outfit pasted over moving arms. Delicate material shading, readable 3-shade cloth folds, dark outline, upper-left light. Crisp native pixels, no blur or painterly resampling. Absolutely NO umbrella, NO carried objects, NO text, NO labels, NO frame borders, NO scenery, NO shadows on ground. True transparent background around all 28 sprites. Match the input grid exactly; do not add, omit, reorder or merge cells. The FIRST reference is the original NPC and its exact 7-column 4-row pose layout. The SECOND reference is the approved yellow raincoat spritesheet: match its coat construction and detail, while preserving the FIRST character's unique identity."
+    }
+  ],
+  "correcoes": [
+    {
+      "nome": "estela",
+      "prompt": "Edit target: first image, the 7-column 4-row raincoat sprite sheet. CRITICAL IDENTITY CORRECTION: this character is a dark-skinned adult WOMAN with black hair, matching the SECOND reference original NPC. The first raincoat sheet mistakenly has a man's dark beard and moustache in the side-view faces. REMOVE ALL BEARD AND MOUSTACHE, especially rows 2 and 4: smooth clean-shaven FEMALE cheeks and chin, subtle tiny feminine mouth, keep the original woman's face shape and hair colour. Keep every other pixel as close as possible: same raincoat colour, hood, arm and leg walking poses, 7 columns x 4 rows, same sprite sizes, positions, spacing and baseline. Do not redraw her as a man. Do not mistake the beard for the hood lining: keep a thin dark hood edge OUTSIDE the face, but the cheeks, chin and upper lip are smooth skin with NO facial hair. Same crisp small RPG pixel art, actual transparent background. No text or grid lines."
+    },
+    {
+      "nome": "lia",
+      "prompt": "Edit target: first image, the 7-column 4-row raincoat sprite sheet. CRITICAL IDENTITY CORRECTION: this character is a fair-skinned adult WOMAN with auburn hair, matching the SECOND reference original NPC. The first raincoat sheet mistakenly has a man's dark beard and moustache in the side-view faces. REMOVE ALL BEARD AND MOUSTACHE, especially rows 2 and 4: smooth clean-shaven FEMALE cheeks and chin, subtle tiny feminine mouth, keep the original woman's face shape and hair colour. Keep every other pixel as close as possible: same raincoat colour, hood, arm and leg walking poses, 7 columns x 4 rows, same sprite sizes, positions, spacing and baseline. Do not redraw her as a man. Do not mistake the beard for the hood lining: keep a thin dark hood edge OUTSIDE the face, but the cheeks, chin and upper lip are smooth skin with NO facial hair. Same crisp small RPG pixel art, actual transparent background. No text or grid lines."
+    }
+  ]
+}

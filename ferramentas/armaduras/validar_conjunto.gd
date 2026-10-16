@@ -1,8 +1,9 @@
 extends SceneTree
 
 ## --script ferramentas/armaduras/validar_conjunto.gd -- res://caminho/manifesto.json
-const Padrao := preload("res://Codigos/DadosLocais/padrao_armadura.gd")
-const Aparencia := preload("res://Codigos/DadosLocais/aparencia.gd")
+const Padrao := preload("res://codigo/dados/padrao_armadura.gd")
+const Aparencia := preload("res://codigo/dados/aparencia.gd")
+const Acabamento := preload("res://codigo/dados/acabamento_refinado.gd")
 var _falhas := 0
 
 func _verificar(nome: String, condicao: bool) -> void:
@@ -31,7 +32,7 @@ func _initialize() -> void:
 			imagens.append(_ler(raiz + peca + "/" + pagina + ".png"))
 		if completa == null or imagens.has(null):
 			continue
-		var corpo: Image = load("res://CharacterSprites/" + Padrao.CORPOS[pagina]).get_image()
+		var corpo: Image = load("res://assets/personagens/" + Padrao.CORPOS[pagina]).get_image()
 		var corpo_original := corpo
 		var cobertura_exigida := corpo.duplicate()
 		if config.get("modo_visual", "armadura") == "tecido":
@@ -117,6 +118,11 @@ func _initialize() -> void:
 		if definicao is GDScript and definicao.can_instantiate():
 			_verificar("cadastro contém as quatro peças", definicao.TIPOS.size() == 4)
 			_verificar("cadastro corresponde ao manifesto", definicao.ID == config["id"] and definicao.RARIDADE == config["raridade"] and definicao.ONDA_MINIMA == int(config["onda_minima"]))
+	if "--acabamento" in args:
+		var erros_acabamento := Acabamento.validar_conjunto(config)
+		for erro in erros_acabamento:
+			_verificar(erro,false)
+		_verificar("11 páginas refinadas: cobertura, peças independentes e recomposição exata",erros_acabamento.is_empty())
 	print("Falhas: ", _falhas)
 	quit(_falhas)
 

@@ -1,0 +1,24 @@
+{
+  "ferramenta": "image_gen integrada",
+  "referencias": [
+    "arte/fontes/npcs/pixellab/tomas/Idle/rotations/south.png",
+    "assets/cenario/cidade/casas/exterior/casa_bento.png"
+  ],
+  "prompt": "Use case: stylized-concept. Production pixel-art accessory sprite sheet for AlgoLand NPC rain animations. References: first image is the native tiny NPC to match pixel density and scale; second is the game's Mana Seed architectural rendering style and warm material richness. Draw FOUR VIEWS of the SAME beautifully crafted cloth umbrella, in FOUR EQUAL square cells arranged in ONE HORIZONTAL ROW: FRONT (south), RIGHT side (east), BACK (north), LEFT side (west). Each umbrella centered in its own cell, identical scale and baseline, ample equal transparent padding. ONLY UMBRELLAS, no people or hands, no text or labels. Real transparent alpha. Each umbrella includes the rounded eight-panel cloth canopy, a thin wooden shaft and small curved wooden handle ending at same baseline. The open canopy must feel VOLUMETRIC like a real umbrella, gently domed with radial sewn ribs from the top knob, alternating shaded fabric panels, small scalloped points around the rim, small stitches and subtle warm reflections. Primary fabric muted dusty teal blue, rich 12-16 color ramp, dark warm navy outlines, golden-brown polished wooden shaft and curved grip, highlights from upper left. 3/4 elevated topdown cozy farming RPG perspective, NOT isometric. In the back view show more of the upper canopy, in front view show its layered lower rim; side views have convincing angled foreshortening and must face opposite directions. Designed for approximately 34px canopy width and 32px TOTAL height including shaft at native game scale, crisp readable square pixel clusters. No smoothing, no gradients, no painterly blending, no glossy plastic, no icons, no ground/shadow. Keep the handle exposed below canopy for matching a character's raised hand. One row of four equally sized cells, no grid drawn.",
+  "correcao": "As vistas laterais inclinadas foram rejeitadas. A copa nivelada da vista frontal é compartilhada nas quatro direções, sem rotação ou deformação; só muda a posição junto ao braço.",
+  "compositor": "python3 ferramentas/cidade/preparar_npcs_chuva.py",
+  "folhas": "assets/npcs/cidade/chuva/",
+  "grade": [
+    7,
+    4
+  ],
+  "celula": [
+    96,
+    96
+  ],
+  "margem_corpo": [
+    16,
+    16
+  ],
+  "ancoragem": "Cada quadro usa a posição da mão conferida em ancoras_maos.json; a palma original passa à frente do cabo. Todo o guarda-chuva se move como peça rígida, sem deformar a copa."
+}

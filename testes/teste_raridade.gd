@@ -1,14 +1,14 @@
 extends SceneTree
 
 # Rodar: godot --headless --path . --script res://testes/teste_raridade.gd
-# Raridade dos equipamentos (Codigos/DadosLocais/raridades.gd): sorteio, multiplicador, afixos, salvamento, bônus simétricos ao trocar de item
+# Raridade dos equipamentos (codigo/dados/raridades.gd): sorteio, multiplicador, afixos, salvamento, bônus simétricos ao trocar de item
 # (duas espadas do MESMO tipo com raridades diferentes), forja por instância, hotbar, drop no chão, mochila cheia e venda.
 # ATENCAO: carrega a cena de jogo e mexe no inventário (grava user://inventario.json); faça backup do user:// antes.
 
-const Raridades := preload("res://Codigos/DadosLocais/raridades.gd")
-const Equipamentos := preload("res://Codigos/DadosLocais/Equipamentos.gd")
-const DadosItemScript := preload("res://Codigos/Modelos/dados_item.gd")
-const Conjuntos := preload("res://Codigos/DadosLocais/conjuntos_armadura.gd")
+const Raridades := preload("res://codigo/dados/raridades.gd")
+const Equipamentos := preload("res://codigo/dados/equipamentos.gd")
+const DadosItemScript := preload("res://codigo/modelos/dados_item.gd")
+const Conjuntos := preload("res://codigo/dados/conjuntos_armadura.gd")
 
 # Carregado em _rodar (usa o autoload InventarioJogador, que ainda não existe quando o script é compilado)
 var EquipamentoDrop: GDScript
@@ -26,6 +26,17 @@ func _verificar(nome: String, condicao: bool, detalhe: String = "") -> void:
 	else:
 		_falhas += 1
 		print("FALHA ", nome, ": ", detalhe)
+
+## O kit inicial já vem com espada e escudo equipados e as ferramentas da fazenda na primeira linha; estes cenários partem das
+## mãos vazias e da barra só de armas (espada, lança e escudo nas casas 1 a 3; ferramentas na terceira linha)
+func _kit_sem_maos() -> void:
+	_inv.criar_itens_iniciais()
+	_inv.desequipar("arma")
+	_inv.desequipar("escudo")
+	_inv.mover_para_mochila(_inv.buscar_por_tipo("lanca_basica"), 1)
+	_inv.mover_para_mochila(_inv.buscar_por_tipo("escudo_basico"), 2)
+	for i in 3:
+		_inv.mover_para_mochila(_inv.buscar_por_tipo(["enxada", "regador", "mao"][i]), 10 + i)
 
 func _quadros(n: int) -> void:
 	for i in n:
@@ -175,7 +186,7 @@ func _testar_dados() -> void:
 
 func _testar_jogador() -> void:
 	_inv.limpar()
-	_inv.criar_itens_iniciais()
+	_kit_sem_maos()
 	await _quadros(3)
 	var base := _foto()
 
@@ -254,9 +265,10 @@ func _testar_jogador() -> void:
 
 func _testar_hotbar() -> void:
 	_inv.limpar()
-	_inv.criar_itens_iniciais()
+	_kit_sem_maos()
 	await _quadros(2)
-	var barra: Control = _cena.get_node("UI/BarraArmas")
+	# O nó do HUD se chama "assets/ui" (com barra no nome): get_node com esse caminho não o acha
+	var barra: Control = get_nodes_in_group("hud")[0].barra_armas
 	# a barra e a primeira linha da mochila: a lenda (casa 4) e a rara (casa 5) entram nas casas livres, como a espada comum (casa 1)
 	var rara = _novo("espada_basica", "arma", "raro")
 	var lend = _novo("espada_basica", "arma", "lendario")
@@ -288,7 +300,7 @@ func _testar_hotbar() -> void:
 
 func _testar_drop() -> void:
 	_inv.limpar()
-	_inv.criar_itens_iniciais()
+	_kit_sem_maos()
 	await _quadros(2)
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 7
@@ -318,7 +330,7 @@ func _testar_drop() -> void:
 	_verificar("o drop vendido some do chao", get_nodes_in_group("equipamento_drop").is_empty(), str(get_nodes_in_group("equipamento_drop").size()))
 
 	# venda no mercador
-	var mercante: Control = _cena.get_node_or_null("UI/TelaMercante")
+	var mercante: Control = _cena.get_node_or_null("assets/ui/TelaMercante")
 	if mercante == null:
 		mercante = get_first_node_in_group("tela_mercante")
 	_verificar("a tela do mercador tem a aba de venda", mercante != null and mercante.get("_slot_venda") != null, "")
@@ -361,7 +373,7 @@ func _contar_mochila() -> int:
 
 func _rodar() -> void:
 	await process_frame
-	EquipamentoDrop = load("res://Codigos/Logicas/equipamento_drop.gd")
+	EquipamentoDrop = load("res://codigo/logica/equipamento_drop.gd")
 	root.get_node("Progresso").caminho_save = "user://teste_raridade_progresso.json"
 	root.get_node("Fazenda").caminho_save = "user://teste_raridade_fazenda.json"
 	root.get_node("Progresso").apagar()
@@ -369,7 +381,7 @@ func _rodar() -> void:
 	_inv = root.get_node("InventarioJogador")
 	_testar_dados()
 	_inv.limpar()
-	_inv.criar_itens_iniciais()
+	_kit_sem_maos()
 	_cena = load("res://cenas/cenario.tscn").instantiate()
 	root.add_child(_cena)
 	current_scene = _cena

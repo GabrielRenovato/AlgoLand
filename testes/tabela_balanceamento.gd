@@ -12,10 +12,10 @@ extends SceneTree
 # ouro que sobra além do próximo upgrade de arma. Eventos, estágio bônus e o "saque" não entram na conta.
 
 # Os scripts do jogo usam os autoloads (Progresso, Sons...): só compilam depois do primeiro quadro, por isso load() e não preload()
-const CAMINHO_GERENCIADOR := "res://Codigos/Logicas/Gerenciador-de-ondas.gd"
-const CAMINHO_SPAWNER := "res://Codigos/Logicas/slime_spawner.gd"
-const CAMINHO_EQUIPAMENTOS := "res://Codigos/DadosLocais/Equipamentos.gd"
-const CAMINHO_ESTATISTICAS := "res://Codigos/Jogador/Status-do-jogador.gd"
+const CAMINHO_GERENCIADOR := "res://codigo/logica/gerenciador_de_ondas.gd"
+const CAMINHO_SPAWNER := "res://codigo/logica/slime_spawner.gd"
+const CAMINHO_EQUIPAMENTOS := "res://codigo/dados/equipamentos.gd"
+const CAMINHO_ESTATISTICAS := "res://codigo/jogador/status_do_jogador.gd"
 
 const ONDA_MAX := 40
 const ONDAS_CHAVE := [1, 3, 5, 10, 15, 20, 30, 40]

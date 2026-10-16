@@ -1,20 +1,14 @@
-[gd_scene load_steps=16 format=3 uid="uid://b1h1u10dvlyy2"]
+[gd_scene load_steps=11 format=3 uid="uid://b1h1u10dvlyy2"]
 
-[ext_resource type="Script" uid="uid://db3x0y14736pc" path="res://Codigos/Logicas/cenario.gd" id="1_xi8ta"]
+[ext_resource type="Script" uid="uid://db3x0y14736pc" path="res://codigo/logica/cenario.gd" id="1_xi8ta"]
 [ext_resource type="PackedScene" uid="uid://dtphjwfloo87l" path="res://cenas/terreno.tscn" id="2_rmsv3"]
-[ext_resource type="PackedScene" uid="uid://y6c4hi6s1u75" path="res://cenas/Jogador.tscn" id="5_4qs78"]
-[ext_resource type="PackedScene" uid="uid://cwd16obq4ib3" path="res://cenas/gerar-slime.tscn" id="5_jwhcr"]
-[ext_resource type="PackedScene" uid="uid://wpn7r3e65ebu" path="res://cenas/gerenciador-de-ondas.tscn" id="6_j85rw"]
-[ext_resource type="PackedScene" uid="uid://5kwygxonpkpt" path="res://cenas/mercante.tscn" id="6_vktsx"]
+[ext_resource type="PackedScene" uid="uid://y6c4hi6s1u75" path="res://cenas/jogador.tscn" id="5_4qs78"]
+[ext_resource type="PackedScene" uid="uid://cwd16obq4ib3" path="res://cenas/gerar_slime.tscn" id="5_jwhcr"]
+[ext_resource type="PackedScene" uid="uid://wpn7r3e65ebu" path="res://cenas/gerenciador_de_ondas.tscn" id="6_j85rw"]
 [ext_resource type="PackedScene" uid="uid://idfadyrk0auf" path="res://cenas/ui.tscn" id="8_js8mk"]
 [ext_resource type="PackedScene" path="res://cenas/ui/interface.tscn" id="9_interface"]
 [ext_resource type="PackedScene" path="res://cenas/efeitos/vinheta.tscn" id="10_vinheta"]
-[ext_resource type="Script" path="res://Codigos/Efeitos/iluminacao.gd" id="11_iluminacao"]
-[ext_resource type="Script" path="res://Codigos/Design/profundidade_estatica.gd" id="12_profundidade"]
-[ext_resource type="PackedScene" path="res://cenas/morador.tscn" id="13_morador"]
-[ext_resource type="Texture2D" path="res://NPC/npc old woman A v01.png" id="14_curandeira"]
-[ext_resource type="Texture2D" path="res://NPC/npc bard A v01.png" id="15_bardo"]
-[ext_resource type="Texture2D" path="res://NPC/npc mystic A v01.png" id="16_mistica"]
+[ext_resource type="Script" path="res://codigo/efeitos/iluminacao.gd" id="11_iluminacao"]
 
 [node name="cenario" type="Node2D"]
 position = Vector2(6, 0)
@@ -33,34 +27,6 @@ z_index = 1
 position = Vector2(557, 232)
 collision_mask = 96
 
-[node name="Merchant" parent="." instance=ExtResource("6_vktsx")]
-z_index = 1
-position = Vector2(569, 176)
-collision_layer = 32
-
-[node name="Profundidade" type="Node" parent="Merchant"]
-script = ExtResource("12_profundidade")
-y_base_local = 14.0
-
-[node name="Curandeira" parent="." instance=ExtResource("13_morador")]
-position = Vector2(525, 205)
-id_morador = "curandeira"
-textura = ExtResource("14_curandeira")
-quadro = 0
-
-[node name="Bardo" parent="." instance=ExtResource("13_morador")]
-position = Vector2(590, 205)
-id_morador = "bardo"
-textura = ExtResource("15_bardo")
-quadro = 0
-
-[node name="Mistica" parent="." instance=ExtResource("13_morador")]
-position = Vector2(495, 228)
-id_morador = "mistica"
-textura = ExtResource("16_mistica")
-quadro = 20
-nome_tela = "mistica"
-
 [node name="Vinheta" parent="." instance=ExtResource("10_vinheta")]
 layer = 1
 
@@ -70,6 +36,6 @@ script = ExtResource("11_iluminacao")
 [node name="CanvasModulate" type="CanvasModulate" parent="Iluminacao"]
 color = Color(0.86, 0.88, 1, 1)
 
-[node name="UI" parent="." instance=ExtResource("8_js8mk")]
+[node name="assets/ui" parent="." instance=ExtResource("8_js8mk")]
 
 [node name="Interface" parent="." instance=ExtResource("9_interface")]

@@ -1,0 +1,71 @@
+extends RefCounted
+
+const Cadeira := preload("res://codigo/logica/cadeira.gd")
+const Profundidade := preload("res://codigo/globais/profundidade.gd")
+const MOVEIS_PESCA := {
+	"caixas_peixes": Vector2(56, 12),
+	"equipamento_pesca": Vector2(36, 10),
+}
+const TEXTURAS_PESCA := {
+	"caixas_peixes": "res://assets/cenario/praia/mobiliario/bancada_pesca_v2.png",
+	"equipamento_pesca": "res://assets/cenario/praia/mobiliario/suporte_varas_v2.png",
+}
+
+static func montar(praia: Node2D, itens: Array) -> void:
+	var grupo := Node2D.new()
+	grupo.name = "MobiliarioCais"
+	grupo.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	praia.add_child(grupo)
+	for item: Array in itens:
+		var tipo: String = item[0]
+		var objeto := _montar_movel(tipo)
+		objeto.name = "%s_%d_%d" % [tipo, item[1], item[2]]
+		objeto.position = Vector2(item[1], item[2])
+		objeto.z_index = Profundidade.z_de(item[2])
+		grupo.add_child(objeto)
+		var corpo := StaticBody2D.new()
+		corpo.collision_layer = 64
+		corpo.collision_mask = 0
+		grupo.add_child(corpo)
+		var forma := CollisionShape2D.new()
+		var caixa := RectangleShape2D.new()
+		caixa.size = Vector2(12, 6) if tipo == "vasos" else (Vector2(38, 8) if tipo == "banco" else Vector2(14, 8))
+		if MOVEIS_PESCA.has(tipo):
+			caixa.size = MOVEIS_PESCA[tipo]
+		forma.shape = caixa
+		forma.position = objeto.position - Vector2(0, caixa.size.y / 2)
+		corpo.add_child(forma)
+		if tipo == "banco":
+			_montar_assento(objeto)
+
+static func _montar_movel(tipo: String) -> Sprite2D:
+	var sprite := Sprite2D.new()
+	var caminho := "res://assets/cenario/cidade/decoracao/mobiliario/" + tipo + ".png"
+	if tipo == "banco":
+		caminho = "res://assets/cenario/cidade/decoracao/mobiliario/topdown/banco.png"
+	elif TEXTURAS_PESCA.has(tipo):
+		caminho = TEXTURAS_PESCA[tipo]
+	sprite.texture = load(caminho)
+	sprite.centered = false
+	sprite.offset = Vector2(-sprite.texture.get_width() / 2.0, -sprite.texture.get_height())
+	if TEXTURAS_PESCA.has(tipo):
+		sprite.offset = sprite.offset.floor()
+	if tipo == "vasos":
+		sprite.scale = Vector2.ONE * 0.5
+	return sprite
+
+## Mesmo contrato dos bancos da praça: F/Y senta de frente e levanta em área livre.
+static func _montar_assento(banco: Sprite2D) -> void:
+	var cadeira := Cadeira.new()
+	cadeira.name = "Assento"
+	cadeira.so_entre_ondas = false
+	cadeira.position = Vector2(0, -5)
+	cadeira.assento = Vector2(0, -8)
+	cadeira.saida = Vector2(-24, 12)
+	cadeira.frente = 1
+	var forma := CollisionShape2D.new()
+	var alcance := CircleShape2D.new()
+	alcance.radius = 20.0
+	forma.shape = alcance
+	cadeira.add_child(forma)
+	banco.add_child(cadeira)

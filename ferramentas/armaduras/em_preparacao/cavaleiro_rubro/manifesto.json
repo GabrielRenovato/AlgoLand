@@ -2,14 +2,14 @@
   "versao": 1,
   "id": "cavaleiro_rubro",
   "nome": "Cavaleiro Rubro",
-  "raridade": "incomum",
-  "arte": "res://CharacterSprites/Conjuntos/cavaleiro_rubro/conceito_elmo_v3.png",
-  "destino": "res://CharacterSprites/Conjuntos/cavaleiro_rubro/",
-  "onda_minima": 4,
+  "raridade": "comum",
+  "arte": "res://arte/fontes/armaduras/cavaleiro_rubro/conceito_elmo_v3.png",
+  "destino": "res://assets/personagens/conjuntos/cavaleiro_rubro/",
+  "onda_minima": 1,
   "chances_drop": {
-    "normal": 0.35,
-    "mutante": 0.45,
-    "chefe": 0.45
+    "normal": 0.05,
+    "mutante": 0.1,
+    "chefe": 0.1
   },
   "preco_base": 300,
   "bonus": {
@@ -120,6 +120,6 @@
     "922f38",
     "cd624e"
   ],
-  "arte_elmo": "res://CharacterSprites/Conjuntos/cavaleiro_rubro/elmos_face_completa_v6.png",
+  "arte_elmo": "res://arte/fontes/armaduras/cavaleiro_rubro/elmos_face_completa_v6.png",
   "substituir_cabeca": false
 }

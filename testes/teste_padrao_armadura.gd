@@ -1,10 +1,10 @@
 extends SceneTree
 
-const Padrao := preload("res://Codigos/DadosLocais/padrao_armadura.gd")
-const Base := preload("res://Codigos/DadosLocais/base_conjunto_armadura.gd")
-const Carrasco := preload("res://Codigos/DadosLocais/conjunto_carrasco.gd")
-const Aparencia := preload("res://Codigos/DadosLocais/aparencia.gd")
-const Dados := preload("res://Codigos/Modelos/dados_item.gd")
+const Padrao := preload("res://codigo/dados/padrao_armadura.gd")
+const Base := preload("res://codigo/dados/base_conjunto_armadura.gd")
+const Carrasco := preload("res://codigo/dados/conjunto_carrasco.gd")
+const Aparencia := preload("res://codigo/dados/aparencia.gd")
+const Dados := preload("res://codigo/modelos/dados_item.gd")
 var _falhas := 0
 
 func _initialize() -> void:
@@ -23,7 +23,7 @@ func _rodar() -> void:
 	invalido["bonus"]["recarga"] = "ontem"
 	_verificar("recarga com tipo inválido é recusada", not Padrao.validar(invalido).is_empty())
 	invalido = config.duplicate(true)
-	invalido["destino"] = "res://CharacterSprites/../fora/"
+	invalido["destino"] = "res://assets/personagens/../fora/"
 	_verificar("destino fora da pasta é recusado", not Padrao.validar(invalido).is_empty())
 	invalido = config.duplicate(true)
 	invalido["bases"]["cabeca"]["defesa"] = [1, 2]

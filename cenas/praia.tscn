@@ -1,0 +1,2446 @@
+[gd_scene load_steps=255 format=3]
+
+[ext_resource type="Script" path="res://codigo/pesca/praia.gd" id="cidade_script"]
+[ext_resource type="PackedScene" path="res://cenas/jogador.tscn" id="jogador"]
+[ext_resource type="PackedScene" path="res://cenas/ui.tscn" id="ui"]
+[ext_resource type="PackedScene" path="res://cenas/ui/interface.tscn" id="interface"]
+[ext_resource type="Script" path="res://codigo/efeitos/iluminacao.gd" id="luz"]
+[ext_resource type="PackedScene" path="res://cenas/efeitos/vinheta.tscn" id="vinheta"]
+[ext_resource type="TileSet" path="res://recursos/praia/tileset_praia.tres" id="terreno"]
+[ext_resource type="TileSet" path="res://recursos/cidade/tileset_terreno.tres" id="pedra_orla"]
+[ext_resource type="TileSet" path="res://recursos/praia/tileset_cais.tres" id="cais"]
+[ext_resource type="Script" path="res://codigo/cidade/passagem_cidade.gd" id="passagem"]
+[ext_resource type="Texture2D" path="res://assets/cenario/praia/palafita/exterior.png" id="palafita"]
+[ext_resource type="Texture2D" path="res://assets/cenario/fazenda/cerca/primavera/horizontal.png" id="cerca_horizontal"]
+[ext_resource type="Texture2D" path="res://assets/cenario/fazenda/cerca/primavera/poste.png" id="poste_cais"]
+[ext_resource type="Texture2D" path="res://assets/cenario/fazenda/cerca/primavera/vertical.png" id="cerca_vertical"]
+[ext_resource type="Script" path="res://codigo/pesca/pescador.gd" id="pescador"]
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_0"]
+size = Vector2(8, 314.3386)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_1"]
+size = Vector2(8, 311.6048)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_2"]
+size = Vector2(8, 308.6528)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_3"]
+size = Vector2(8, 305.5661)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_4"]
+size = Vector2(8, 302.4339)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_5"]
+size = Vector2(8, 299.3472)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_6"]
+size = Vector2(8, 296.3952)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_7"]
+size = Vector2(8, 293.6614)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_8"]
+size = Vector2(8, 291.2202)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_9"]
+size = Vector2(8, 289.1338)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_10"]
+size = Vector2(8, 287.45)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_11"]
+size = Vector2(8, 286.1998)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_12"]
+size = Vector2(8, 285.3969)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_13"]
+size = Vector2(8, 285.037)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_14"]
+size = Vector2(8, 285.0986)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_15"]
+size = Vector2(8, 285.544)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_16"]
+size = Vector2(8, 286.3216)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_17"]
+size = Vector2(8, 287.3685)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_18"]
+size = Vector2(8, 96)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_19"]
+size = Vector2(8, 96)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_20"]
+size = Vector2(8, 96)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_21"]
+size = Vector2(8, 96)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_22"]
+size = Vector2(8, 96)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_23"]
+size = Vector2(8, 96)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_24"]
+size = Vector2(8, 24.1118)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_25"]
+size = Vector2(8, 112)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_26"]
+size = Vector2(8, 96)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_27"]
+size = Vector2(8, 24.7996)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_28"]
+size = Vector2(8, 112)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_29"]
+size = Vector2(8, 96)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_30"]
+size = Vector2(8, 25.234)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_31"]
+size = Vector2(8, 112)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_32"]
+size = Vector2(8, 96)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_33"]
+size = Vector2(8, 25.4142)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_34"]
+size = Vector2(8, 112)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_35"]
+size = Vector2(8, 96)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_36"]
+size = Vector2(8, 25.3558)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_37"]
+size = Vector2(8, 112)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_38"]
+size = Vector2(8, 96)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_39"]
+size = Vector2(8, 25.0895)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_40"]
+size = Vector2(8, 112)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_41"]
+size = Vector2(8, 96)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_42"]
+size = Vector2(8, 24.6599)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_43"]
+size = Vector2(8, 112)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_44"]
+size = Vector2(8, 96)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_45"]
+size = Vector2(8, 24.1226)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_46"]
+size = Vector2(8, 112)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_47"]
+size = Vector2(8, 96)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_48"]
+size = Vector2(8, 23.542)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_49"]
+size = Vector2(8, 112)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_50"]
+size = Vector2(8, 96)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_51"]
+size = Vector2(8, 22.9876)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_52"]
+size = Vector2(8, 112)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_53"]
+size = Vector2(8, 96)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_54"]
+size = Vector2(8, 22.5304)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_55"]
+size = Vector2(8, 112)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_56"]
+size = Vector2(8, 96)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_57"]
+size = Vector2(8, 22.2395)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_58"]
+size = Vector2(8, 112)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_59"]
+size = Vector2(8, 96)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_60"]
+size = Vector2(8, 22.1784)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_61"]
+size = Vector2(8, 112)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_62"]
+size = Vector2(8, 96)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_63"]
+size = Vector2(8, 22.4014)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_64"]
+size = Vector2(8, 112)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_65"]
+size = Vector2(8, 96)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_66"]
+size = Vector2(8, 22.9514)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_67"]
+size = Vector2(8, 112)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_68"]
+size = Vector2(8, 96)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_69"]
+size = Vector2(8, 23.8565)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_70"]
+size = Vector2(8, 112)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_71"]
+size = Vector2(8, 96)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_72"]
+size = Vector2(8, 25.1292)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_73"]
+size = Vector2(8, 112)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_74"]
+size = Vector2(8, 96)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_75"]
+size = Vector2(8, 26.7648)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_76"]
+size = Vector2(8, 112)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_77"]
+size = Vector2(8, 96)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_78"]
+size = Vector2(8, 28.7415)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_79"]
+size = Vector2(8, 112)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_80"]
+size = Vector2(8, 96)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_81"]
+size = Vector2(8, 31.0208)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_82"]
+size = Vector2(8, 112)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_83"]
+size = Vector2(8, 96)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_84"]
+size = Vector2(8, 96)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_85"]
+size = Vector2(8, 96)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_86"]
+size = Vector2(8, 96)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_87"]
+size = Vector2(8, 96)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_88"]
+size = Vector2(8, 96)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_89"]
+size = Vector2(8, 96)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_90"]
+size = Vector2(8, 96)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_91"]
+size = Vector2(8, 96)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_92"]
+size = Vector2(8, 53.3902)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_93"]
+size = Vector2(8, 240)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_94"]
+size = Vector2(8, 54.6288)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_95"]
+size = Vector2(8, 240)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_96"]
+size = Vector2(8, 55.3965)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_97"]
+size = Vector2(8, 240)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_98"]
+size = Vector2(8, 55.6745)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_99"]
+size = Vector2(8, 240)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_100"]
+size = Vector2(8, 55.4619)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_101"]
+size = Vector2(8, 240)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_102"]
+size = Vector2(8, 54.7761)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_103"]
+size = Vector2(8, 240)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_104"]
+size = Vector2(8, 53.6515)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_105"]
+size = Vector2(8, 240)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_106"]
+size = Vector2(8, 52.1383)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_107"]
+size = Vector2(8, 240)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_108"]
+size = Vector2(8, 18.2998)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_109"]
+size = Vector2(8, 160)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_110"]
+size = Vector2(8, 16.2098)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_111"]
+size = Vector2(8, 160)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_112"]
+size = Vector2(8, 13.9492)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_113"]
+size = Vector2(8, 160)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_114"]
+size = Vector2(8, 11.6022)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_115"]
+size = Vector2(8, 160)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_116"]
+size = Vector2(8, 9.2527)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_117"]
+size = Vector2(8, 160)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_118"]
+size = Vector2(8, 6.9807)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_119"]
+size = Vector2(8, 160)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_120"]
+size = Vector2(8, 4.8584)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_121"]
+size = Vector2(8, 160)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_122"]
+size = Vector2(8, 2.9475)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_123"]
+size = Vector2(8, 160)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_124"]
+size = Vector2(8, 1.2967)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_125"]
+size = Vector2(8, 160)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_126"]
+size = Vector2(8, 160)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_127"]
+size = Vector2(8, 160)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_128"]
+size = Vector2(8, 160)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_129"]
+size = Vector2(8, 160)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_130"]
+size = Vector2(8, 160)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_131"]
+size = Vector2(8, 160)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_132"]
+size = Vector2(8, 160)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_133"]
+size = Vector2(8, 160)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_134"]
+size = Vector2(8, 160)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_135"]
+size = Vector2(8, 160)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_136"]
+size = Vector2(8, 160)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_137"]
+size = Vector2(8, 160)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_138"]
+size = Vector2(8, 160)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_139"]
+size = Vector2(8, 160)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_140"]
+size = Vector2(8, 160)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_141"]
+size = Vector2(8, 300.4655)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_142"]
+size = Vector2(8, 299.1594)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_143"]
+size = Vector2(8, 297.5971)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_144"]
+size = Vector2(8, 295.8187)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_145"]
+size = Vector2(8, 293.8784)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_146"]
+size = Vector2(8, 291.8421)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_147"]
+size = Vector2(8, 289.7846)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_148"]
+size = Vector2(8, 287.7859)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_149"]
+size = Vector2(8, 285.9284)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_150"]
+size = Vector2(8, 284.2923)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_151"]
+size = Vector2(8, 282.9525)
+
+[sub_resource type="RectangleShape2D" id="Forma_Mar_152"]
+size = Vector2(8, 281.9749)
+
+[sub_resource type="RectangleShape2D" id="Forma_Oeste"]
+size = Vector2(40, 640)
+
+[sub_resource type="RectangleShape2D" id="Forma_Leste"]
+size = Vector2(40, 640)
+
+[sub_resource type="RectangleShape2D" id="Forma_NorteOeste"]
+size = Vector2(308, 40)
+
+[sub_resource type="RectangleShape2D" id="Forma_NorteLeste"]
+size = Vector2(340, 40)
+
+[sub_resource type="RectangleShape2D" id="Forma_porta"]
+size = Vector2(48, 28)
+
+[sub_resource type="RectangleShape2D" id="Forma_ParedesPalafita"]
+size = Vector2(128, 50)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao10"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao12"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao20"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao21"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao22"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao23"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao24"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao25"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao26"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao27"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao28"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao29"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao30"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao31"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao32"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao33"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao34"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao35"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao36"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao37"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao38"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao39"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao40"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao41"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao42"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao43"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao44"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao45"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao46"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao47"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao48"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao49"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao50"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao51"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao52"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao53"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao54"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao55"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao56"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao57"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao58"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao59"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao60"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao69"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao70"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao71"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao78"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao80"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao81"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao82"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao83"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao84"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao85"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao86"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao87"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao88"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao95"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao97"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao98"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao99"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao100"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao101"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao102"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao103"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao104"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao105"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao106"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao107"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao108"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_Corrimao116"]
+size = Vector2(16, 4)
+
+[sub_resource type="RectangleShape2D" id="Forma_CorrimaoLateral118"]
+size = Vector2(8, 176)
+
+[sub_resource type="RectangleShape2D" id="Forma_CorrimaoLateral125"]
+size = Vector2(8, 112)
+
+[sub_resource type="RectangleShape2D" id="Forma_CorrimaoLateral130"]
+size = Vector2(8, 16)
+
+[sub_resource type="RectangleShape2D" id="Forma_CorrimaoLateral132"]
+size = Vector2(8, 112)
+
+[sub_resource type="RectangleShape2D" id="Forma_CorrimaoLateral137"]
+size = Vector2(8, 32)
+
+[sub_resource type="RectangleShape2D" id="Forma_CorrimaoLateral139"]
+size = Vector2(8, 16)
+
+[sub_resource type="RectangleShape2D" id="Forma_CorrimaoLateral141"]
+size = Vector2(8, 64)
+
+[sub_resource type="RectangleShape2D" id="Forma_CorrimaoLateral144"]
+size = Vector2(8, 32)
+
+[sub_resource type="RectangleShape2D" id="Forma_CorrimaoLateral146"]
+size = Vector2(8, 80)
+
+[sub_resource type="RectangleShape2D" id="Forma_CorrimaoLateral150"]
+size = Vector2(8, 128)
+
+[node name="praia" type="Node2D"]
+script = ExtResource("cidade_script")
+local = "praia"
+limites = Rect2(0, 0, 704, 576)
+metadata/titulo_hud = "PRAIA DA VILA"
+
+[node name="Terrains" type="Node2D" parent="."]
+texture_filter = 1
+
+[node name="Obstaculos" type="StaticBody2D" parent="."]
+collision_layer = 64
+collision_mask = 0
+
+[node name="AreiaMar" type="TileMapLayer" parent="Terrains"]
+position = Vector2(0, 0)
+texture_filter = 1
+z_index = -1000
+tile_map_data = PackedByteArray("AAD+//7/AAAAAAAAAAD///7/AAABAAAAAAAAAP7/AAAAAAAAAAABAP7/AAABAAAAAAACAP7/AAAAAAAAAAADAP7/AAABAAAAAAAEAP7/AAAAAAAAAAAFAP7/AAABAAAAAAAGAP7/AAAAAAAAAAAHAP7/AAABAAAAAAAIAP7/AAAAAAAAAAAJAP7/AAABAAAAAAAKAP7/AAAAAAAAAAALAP7/AAABAAAAAAAMAP7/AAAAAAAAAAANAP7/AAABAAAAAAAOAP7/AAAAAAAAAAAPAP7/AAABAAAAAAAQAP7/AAAAAAAAAAARAP7/AAABAAAAAAASAP7/AAAAAAAAAAATAP7/AAABAAAAAAAUAP7/AAAAAAAAAAAVAP7/AAABAAAAAAAWAP7/AAAAAAAAAAAXAP7/AAABAAAAAAAYAP7/AAAAAAAAAAAZAP7/AAABAAAAAAAaAP7/AAAAAAAAAAAbAP7/AAABAAAAAAAcAP7/AAAAAAAAAAAdAP7/AAABAAAAAAAeAP7/AAAAAAAAAAAfAP7/AAABAAAAAAAgAP7/AAAAAAAAAAAhAP7/AAABAAAAAAAiAP7/AAAAAAAAAAAjAP7/AAABAAAAAAAkAP7/AAAAAAAAAAAlAP7/AAABAAAAAAAmAP7/AAAAAAAAAAAnAP7/AAABAAAAAAAoAP7/AAAAAAAAAAApAP7/AAABAAAAAAAqAP7/AAAAAAAAAAArAP7/AAABAAAAAAAsAP7/AAAAAAAAAAAtAP7/AAABAAAAAAD+////AAAAAAEAAAD/////AAABAAEAAAAAAP//AAAAAAEAAAABAP//AAABAAEAAAACAP//AAAAAAEAAAADAP//AAABAAEAAAAEAP//AAAAAAEAAAAFAP//AAABAAEAAAAGAP//AAAAAAEAAAAHAP//AAABAAEAAAAIAP//AAAAAAEAAAAJAP//AAABAAEAAAAKAP//AAAAAAEAAAALAP//AAABAAEAAAAMAP//AAAAAAEAAAANAP//AAABAAEAAAAOAP//AAAAAAEAAAAPAP//AAABAAEAAAAQAP//AAAAAAEAAAARAP//AAABAAEAAAASAP//AAAAAAEAAAATAP//AAABAAEAAAAUAP//AAAAAAEAAAAVAP//AAABAAEAAAAWAP//AAAAAAEAAAAXAP//AAABAAEAAAAYAP//AAAAAAEAAAAZAP//AAABAAEAAAAaAP//AAAAAAEAAAAbAP//AAABAAEAAAAcAP//AAAAAAEAAAAdAP//AAABAAEAAAAeAP//AAAAAAEAAAAfAP//AAABAAEAAAAgAP//AAAAAAEAAAAhAP//AAABAAEAAAAiAP//AAAAAAEAAAAjAP//AAABAAEAAAAkAP//AAAAAAEAAAAlAP//AAABAAEAAAAmAP//AAAAAAEAAAAnAP//AAABAAEAAAAoAP//AAAAAAEAAAApAP//AAABAAEAAAAqAP//AAAAAAEAAAArAP//AAABAAEAAAAsAP//AAAAAAEAAAAtAP//AAABAAEAAAD+/wAAAAAAAAAAAAD//wAAAAABAAAAAAAAAAAAAAAAAAAAAAABAAAAAAABAAAAAAACAAAAAAAAAAAAAAADAAAAAAABAAAAAAAEAAAAAAAAAAAAAAAFAAAAAAABAAAAAAAGAAAAAAAAAAAAAAAHAAAAAAABAAAAAAAIAAAAAAAAAAAAAAAJAAAAAAABAAAAAAAKAAAAAAAAAAAAAAALAAAAAAABAAAAAAAMAAAAAAAAAAAAAAANAAAAAAABAAAAAAAOAAAAAAAAAAAAAAAPAAAAAAABAAAAAAAQAAAAAAAAAAAAAAARAAAAAAABAAAAAAASAAAAAAAAAAAAAAATAAAAAAABAAAAAAAUAAAAAAAAAAAAAAAVAAAAAAABAAAAAAAWAAAAAAAAAAAAAAAXAAAAAAABAAAAAAAYAAAAAAAAAAAAAAAZAAAAAAABAAAAAAAaAAAAAAAAAAAAAAAbAAAAAAABAAAAAAAcAAAAAAAAAAAAAAAdAAAAAAABAAAAAAAeAAAAAAAAAAAAAAAfAAAAAAABAAAAAAAgAAAAAAAAAAAAAAAhAAAAAAABAAAAAAAiAAAAAAAAAAAAAAAjAAAAAAABAAAAAAAkAAAAAAAAAAAAAAAlAAAAAAABAAAAAAAmAAAAAAAAAAAAAAAnAAAAAAABAAAAAAAoAAAAAAAAAAAAAAApAAAAAAABAAAAAAAqAAAAAAAAAAAAAAArAAAAAAABAAAAAAAsAAAAAAAAAAAAAAAtAAAAAAABAAAAAAD+/wEAAAAAAAEAAAD//wEAAAABAAEAAAAAAAEAAAAAAAEAAAABAAEAAAABAAEAAAACAAEAAAAAAAEAAAADAAEAAAABAAEAAAAEAAEAAAAAAAEAAAAFAAEAAAABAAEAAAAGAAEAAAAAAAEAAAAHAAEAAAABAAEAAAAIAAEAAAAAAAEAAAAJAAEAAAABAAEAAAAKAAEAAAAAAAEAAAALAAEAAAABAAEAAAAMAAEAAAAAAAEAAAANAAEAAAABAAEAAAAOAAEAAAAAAAEAAAAPAAEAAAABAAEAAAAQAAEAAAAAAAEAAAARAAEAAAABAAEAAAASAAEAAAAAAAEAAAATAAEAAAABAAEAAAAUAAEAAAAAAAEAAAAVAAEAAAABAAEAAAAWAAEAAAAAAAEAAAAXAAEAAAABAAEAAAAYAAEAAAAAAAEAAAAZAAEAAAABAAEAAAAaAAEAAAAAAAEAAAAbAAEAAAABAAEAAAAcAAEAAAAAAAEAAAAdAAEAAAABAAEAAAAeAAEAAAAAAAEAAAAfAAEAAAABAAEAAAAgAAEAAAAAAAEAAAAhAAEAAAABAAEAAAAiAAEAAAAAAAEAAAAjAAEAAAABAAEAAAAkAAEAAAAAAAEAAAAlAAEAAAABAAEAAAAmAAEAAAAAAAEAAAAnAAEAAAABAAEAAAAoAAEAAAAAAAEAAAApAAEAAAABAAEAAAAqAAEAAAAAAAEAAAArAAEAAAABAAEAAAAsAAEAAAAAAAEAAAAtAAEAAAABAAEAAAD+/wIAAAAAAAAAAAD//wIAAAABAAAAAAAAAAIAAAAAAAAAAAABAAIAAAABAAAAAAACAAIAAAAAAAAAAAADAAIAAAABAAAAAAAEAAIAAAAAAAAAAAAFAAIAAAABAAAAAAAGAAIAAAAAAAAAAAAHAAIAAAABAAAAAAAIAAIAAAAAAAAAAAAJAAIAAAABAAAAAAAKAAIAAAAAAAAAAAALAAIAAAABAAAAAAAMAAIAAAAAAAAAAAANAAIAAAABAAAAAAAOAAIAAAAAAAAAAAAPAAIAAAABAAAAAAAQAAIAAAAAAAAAAAARAAIAAAABAAAAAAASAAIAAAAAAAAAAAATAAIAAAABAAAAAAAUAAIAAAAAAAAAAAAVAAIAAAABAAAAAAAWAAIAAAAAAAAAAAAXAAIAAAABAAAAAAAYAAIAAAAAAAAAAAAZAAIAAAABAAAAAAAaAAIAAAAAAAAAAAAbAAIAAAABAAAAAAAcAAIAAAAAAAAAAAAdAAIAAAABAAAAAAAeAAIAAAAAAAAAAAAfAAIAAAABAAAAAAAgAAIAAAAAAAAAAAAhAAIAAAABAAAAAAAiAAIAAAAAAAAAAAAjAAIAAAABAAAAAAAkAAIAAAAAAAAAAAAlAAIAAAABAAAAAAAmAAIAAAAAAAAAAAAnAAIAAAABAAAAAAAoAAIAAAAAAAAAAAApAAIAAAABAAAAAAAqAAIAAAAAAAAAAAArAAIAAAABAAAAAAAsAAIAAAAAAAAAAAAtAAIAAAABAAAAAAD+/wMAAAAAAAEAAAD//wMAAAABAAEAAAAAAAMAAAAAAAEAAAABAAMAAAABAAEAAAACAAMAAAAAAAEAAAADAAMAAAABAAEAAAAEAAMAAAAAAAEAAAAFAAMAAAABAAEAAAAGAAMAAAAAAAEAAAAHAAMAAAABAAEAAAAIAAMAAAAAAAEAAAAJAAMAAAABAAEAAAAKAAMAAAAAAAEAAAALAAMAAAABAAEAAAAMAAMAAAAAAAEAAAANAAMAAAABAAEAAAAOAAMAAAAAAAEAAAAPAAMAAAABAAEAAAAQAAMAAAAAAAEAAAARAAMAAAABAAEAAAASAAMAAAAAAAEAAAATAAMAAAABAAEAAAAUAAMAAAAAAAEAAAAVAAMAAAABAAEAAAAWAAMAAAAAAAEAAAAXAAMAAAABAAEAAAAYAAMAAAAAAAEAAAAZAAMAAAABAAEAAAAaAAMAAAAAAAEAAAAbAAMAAAABAAEAAAAcAAMAAAAAAAEAAAAdAAMAAAABAAEAAAAeAAMAAAAAAAEAAAAfAAMAAAABAAEAAAAgAAMAAAAAAAEAAAAhAAMAAAABAAEAAAAiAAMAAAAAAAEAAAAjAAMAAAABAAEAAAAkAAMAAAAAAAEAAAAlAAMAAAABAAEAAAAmAAMAAAAAAAEAAAAnAAMAAAABAAEAAAAoAAMAAAAAAAEAAAApAAMAAAABAAEAAAAqAAMAAAAAAAEAAAArAAMAAAABAAEAAAAsAAMAAAAAAAEAAAAtAAMAAAABAAEAAAD+/wQAAAAAAAAAAAD//wQAAAABAAAAAAAAAAQAAAAAAAAAAAABAAQAAAABAAAAAAACAAQAAAAAAAAAAAADAAQAAAABAAAAAAAEAAQAAAAAAAAAAAAFAAQAAAABAAAAAAAGAAQAAAAAAAAAAAAHAAQAAAABAAAAAAAIAAQAAAAAAAAAAAAJAAQAAAABAAAAAAAKAAQAAAAAAAAAAAALAAQAAAABAAAAAAAMAAQAAAAAAAAAAAANAAQAAAABAAAAAAAOAAQAAAAAAAAAAAAPAAQAAAABAAAAAAAQAAQAAAAAAAAAAAARAAQAAAABAAAAAAASAAQAAAAAAAAAAAATAAQAAAABAAAAAAAUAAQAAAAAAAAAAAAVAAQAAAABAAAAAAAWAAQAAAAAAAAAAAAXAAQAAAABAAAAAAAYAAQAAAAAAAAAAAAZAAQAAAABAAAAAAAaAAQAAAAAAAAAAAAbAAQAAAABAAAAAAAcAAQAAAAAAAAAAAAdAAQAAAABAAAAAAAeAAQAAAAAAAAAAAAfAAQAAAABAAAAAAAgAAQAAAAAAAAAAAAhAAQAAAABAAAAAAAiAAQAAAAAAAAAAAAjAAQAAAABAAAAAAAkAAQAAAAAAAAAAAAlAAQAAAABAAAAAAAmAAQAAAAAAAAAAAAnAAQAAAABAAAAAAAoAAQAAAAAAAAAAAApAAQAAAABAAAAAAAqAAQAAAAAAAAAAAArAAQAAAABAAAAAAAsAAQAAAAAAAAAAAAtAAQAAAABAAAAAAD+/wUAAAAAAAEAAAD//wUAAAABAAEAAAAAAAUAAAAAAAEAAAABAAUAAAABAAEAAAACAAUAAAAAAAEAAAADAAUAAAABAAEAAAAEAAUAAAAAAAEAAAAFAAUAAAABAAEAAAAGAAUAAAAAAAEAAAAHAAUAAAABAAEAAAAIAAUAAAAAAAEAAAAJAAUAAAABAAEAAAAKAAUAAAAAAAEAAAALAAUAAAABAAEAAAAMAAUAAAAAAAEAAAANAAUAAAABAAEAAAAOAAUAAAAAAAEAAAAPAAUAAAABAAEAAAAQAAUAAAAAAAEAAAARAAUAAAABAAEAAAASAAUAAAAAAAEAAAATAAUAAAABAAEAAAAUAAUAAAAAAAEAAAAVAAUAAAABAAEAAAAWAAUAAAAAAAEAAAAXAAUAAAABAAEAAAAYAAUAAAAAAAEAAAAZAAUAAAABAAEAAAAaAAUAAAAAAAEAAAAbAAUAAAABAAEAAAAcAAUAAAAAAAEAAAAdAAUAAAABAAEAAAAeAAUAAAAAAAEAAAAfAAUAAAABAAEAAAAgAAUAAAAAAAEAAAAhAAUAAAABAAEAAAAiAAUAAAAAAAEAAAAjAAUAAAABAAEAAAAkAAUAAAAAAAEAAAAlAAUAAAABAAEAAAAmAAUAAAAAAAEAAAAnAAUAAAABAAEAAAAoAAUAAAAAAAEAAAApAAUAAAABAAEAAAAqAAUAAAAAAAEAAAArAAUAAAABAAEAAAAsAAUAAAAAAAEAAAAtAAUAAAABAAEAAAD+/wYAAAAAAAAAAAD//wYAAAABAAAAAAAAAAYAAAAAAAAAAAABAAYAAAABAAAAAAACAAYAAAAAAAAAAAADAAYAAAABAAAAAAAEAAYAAAAAAAAAAAAFAAYAAAABAAAAAAAGAAYAAAAAAAAAAAAHAAYAAAABAAAAAAAIAAYAAAAAAAAAAAAJAAYAAAABAAAAAAAKAAYAAAAAAAAAAAALAAYAAAABAAAAAAAMAAYAAAAAAAAAAAANAAYAAAABAAAAAAAOAAYAAAAAAAAAAAAPAAYAAAABAAAAAAAQAAYAAAAAAAAAAAARAAYAAAABAAAAAAASAAYAAAAAAAAAAAATAAYAAAABAAAAAAAUAAYAAAAAAAAAAAAVAAYAAAABAAAAAAAWAAYAAAAAAAAAAAAXAAYAAAABAAAAAAAYAAYAAAAAAAAAAAAZAAYAAAABAAAAAAAaAAYAAAAAAAAAAAAbAAYAAAABAAAAAAAcAAYAAAAAAAAAAAAdAAYAAAABAAAAAAAeAAYAAAAAAAAAAAAfAAYAAAABAAAAAAAgAAYAAAAAAAAAAAAhAAYAAAABAAAAAAAiAAYAAAAAAAAAAAAjAAYAAAABAAAAAAAkAAYAAAAAAAAAAAAlAAYAAAABAAAAAAAmAAYAAAAAAAAAAAAnAAYAAAABAAAAAAAoAAYAAAAAAAAAAAApAAYAAAABAAAAAAAqAAYAAAAAAAAAAAArAAYAAAABAAAAAAAsAAYAAAAAAAAAAAAtAAYAAAABAAAAAAD+/wcAAAAAAAEAAAD//wcAAAABAAEAAAAAAAcAAAAAAAEAAAABAAcAAAABAAEAAAACAAcAAAAAAAEAAAADAAcAAAABAAEAAAAEAAcAAAAAAAEAAAAFAAcAAAABAAEAAAAGAAcAAAAAAAEAAAAHAAcAAAABAAEAAAAIAAcAAAAAAAEAAAAJAAcAAAABAAEAAAAKAAcAAAAAAAEAAAALAAcAAAABAAEAAAAMAAcAAAAAAAEAAAANAAcAAAABAAEAAAAOAAcAAAAAAAEAAAAPAAcAAAABAAEAAAAQAAcAAAAAAAEAAAARAAcAAAABAAEAAAASAAcAAAAAAAEAAAATAAcAAAABAAEAAAAUAAcAAAAAAAEAAAAVAAcAAAABAAEAAAAWAAcAAAAAAAEAAAAXAAcAAAABAAEAAAAYAAcAAAAAAAEAAAAZAAcAAAABAAEAAAAaAAcAAAAAAAEAAAAbAAcAAAABAAEAAAAcAAcAAAAAAAEAAAAdAAcAAAABAAEAAAAeAAcAAAAAAAEAAAAfAAcAAAABAAEAAAAgAAcAAAAAAAEAAAAhAAcAAAABAAEAAAAiAAcAAAAAAAEAAAAjAAcAAAABAAEAAAAkAAcAAAAAAAEAAAAlAAcAAAABAAEAAAAmAAcAAAAAAAEAAAAnAAcAAAABAAEAAAAoAAcAAAAAAAEAAAApAAcAAAABAAEAAAAqAAcAAAAAAAEAAAArAAcAAAABAAEAAAAsAAcAAAAAAAEAAAAtAAcAAAABAAEAAAD+/wgAAAAAAAAAAAD//wgAAAABAAAAAAAAAAgAAAAAAAAAAAABAAgAAAABAAAAAAACAAgAAAAAAAAAAAADAAgAAAABAAAAAAAEAAgAAAAAAAAAAAAFAAgAAAABAAAAAAAGAAgAAAAAAAAAAAAHAAgAAAABAAAAAAAIAAgAAAAAAAAAAAAJAAgAAAABAAAAAAAKAAgAAAAAAAAAAAALAAgAAAABAAAAAAAMAAgAAAAGAAIAAAANAAgAAAAHAAIAAAAOAAgAAAAAAAAAAAAPAAgAAAABAAAAAAAQAAgAAAAAAAAAAAARAAgAAAABAAAAAAASAAgAAAAAAAAAAAATAAgAAAABAAAAAAAUAAgAAAAAAAAAAAAVAAgAAAABAAAAAAAWAAgAAAAAAAAAAAAXAAgAAAABAAAAAAAYAAgAAAAAAAAAAAAZAAgAAAABAAAAAAAaAAgAAAAAAAAAAAAbAAgAAAABAAAAAAAcAAgAAAAAAAAAAAAdAAgAAAABAAAAAAAeAAgAAAAAAAAAAAAfAAgAAAABAAAAAAAgAAgAAAAAAAAAAAAhAAgAAAABAAAAAAAiAAgAAAAAAAAAAAAjAAgAAAABAAAAAAAkAAgAAAAAAAAAAAAlAAgAAAABAAAAAAAmAAgAAAAAAAAAAAAnAAgAAAABAAAAAAAoAAgAAAAAAAAAAAApAAgAAAABAAAAAAAqAAgAAAAAAAAAAAArAAgAAAABAAAAAAAsAAgAAAAAAAAAAAAtAAgAAAABAAAAAAD+/wkAAAAAAAEAAAD//wkAAAABAAEAAAAAAAkAAAAAAAEAAAABAAkAAAABAAEAAAACAAkAAAAAAAEAAAADAAkAAAABAAEAAAAEAAkAAAAAAAEAAAAFAAkAAAABAAEAAAAGAAkAAAAAAAEAAAAHAAkAAAABAAEAAAAIAAkAAAAAAAEAAAAJAAkAAAABAAEAAAAKAAkAAAAAAAEAAAALAAkAAAABAAEAAAAMAAkAAAAGAAMAAAANAAkAAAAHAAMAAAAOAAkAAAAAAAEAAAAPAAkAAAABAAEAAAAQAAkAAAAAAAEAAAARAAkAAAABAAEAAAASAAkAAAAAAAEAAAATAAkAAAABAAEAAAAUAAkAAAAAAAEAAAAVAAkAAAABAAEAAAAWAAkAAAAAAAEAAAAXAAkAAAABAAEAAAAYAAkAAAAAAAEAAAAZAAkAAAABAAEAAAAaAAkAAAAAAAEAAAAbAAkAAAABAAEAAAAcAAkAAAAAAAEAAAAdAAkAAAABAAEAAAAeAAkAAAAAAAEAAAAfAAkAAAABAAEAAAAgAAkAAAAAAAEAAAAhAAkAAAABAAEAAAAiAAkAAAAAAAEAAAAjAAkAAAABAAEAAAAkAAkAAAAAAAEAAAAlAAkAAAABAAEAAAAmAAkAAAAAAAEAAAAnAAkAAAABAAEAAAAoAAkAAAAAAAEAAAApAAkAAAABAAEAAAAqAAkAAAAAAAEAAAArAAkAAAABAAEAAAAsAAkAAAAAAAEAAAAtAAkAAAABAAEAAAD+/woAAAAAAAAAAAD//woAAAABAAAAAAAAAAoAAAAAAAAAAAABAAoAAAABAAAAAAACAAoAAAAAAAAAAAADAAoAAAABAAAAAAAEAAoAAAAAAAAAAAAFAAoAAAABAAAAAAAGAAoAAAAAAAAAAAAHAAoAAAABAAAAAAAIAAoAAAAAAAAAAAAJAAoAAAABAAAAAAAKAAoAAAAAAAAAAAALAAoAAAABAAAAAAAMAAoAAAAAAAAAAAANAAoAAAABAAAAAAAOAAoAAAAAAAAAAAAPAAoAAAABAAAAAAAQAAoAAAAAAAAAAAARAAoAAAABAAAAAAASAAoAAAAAAAAAAAATAAoAAAABAAAAAAAUAAoAAAAAAAAAAAAVAAoAAAABAAAAAAAWAAoAAAAAAAAAAAAXAAoAAAABAAAAAAAYAAoAAAAAAAAAAAAZAAoAAAABAAAAAAAaAAoAAAAAAAAAAAAbAAoAAAABAAAAAAAcAAoAAAAAAAAAAAAdAAoAAAABAAAAAAAeAAoAAAAAAAAAAAAfAAoAAAABAAAAAAAgAAoAAAAAAAAAAAAhAAoAAAABAAAAAAAiAAoAAAAAAAAAAAAjAAoAAAABAAAAAAAkAAoAAAAAAAAAAAAlAAoAAAABAAAAAAAmAAoAAAAAAAAAAAAnAAoAAAABAAAAAAAoAAoAAAAAAAAAAAApAAoAAAABAAAAAAAqAAoAAAAAAAAAAAArAAoAAAABAAAAAAAsAAoAAAAAAAAAAAAtAAoAAAABAAAAAAD+/wsAAAAAAAEAAAD//wsAAAABAAEAAAAAAAsAAAAAAAEAAAABAAsAAAABAAEAAAACAAsAAAAAAAEAAAADAAsAAAABAAEAAAAEAAsAAAAAAAEAAAAFAAsAAAABAAEAAAAGAAsAAAAAAAEAAAAHAAsAAAABAAEAAAAIAAsAAAAAAAEAAAAJAAsAAAABAAEAAAAKAAsAAAAAAAEAAAALAAsAAAABAAEAAAAMAAsAAAAAAAEAAAANAAsAAAABAAEAAAAOAAsAAAAAAAEAAAAPAAsAAAABAAEAAAAQAAsAAAAAAAEAAAARAAsAAAABAAEAAAASAAsAAAAAAAEAAAATAAsAAAABAAEAAAAUAAsAAAAAAAEAAAAVAAsAAAABAAEAAAAWAAsAAAAAAAEAAAAXAAsAAAABAAEAAAAYAAsAAAAAAAEAAAAZAAsAAAABAAEAAAAaAAsAAAAAAAEAAAAbAAsAAAABAAEAAAAcAAsAAAAAAAEAAAAdAAsAAAABAAEAAAAeAAsAAAAAAAEAAAAfAAsAAAABAAEAAAAgAAsAAAAAAAEAAAAhAAsAAAABAAEAAAAiAAsAAAAAAAEAAAAjAAsAAAABAAEAAAAkAAsAAAAAAAEAAAAlAAsAAAABAAEAAAAmAAsAAAAAAAEAAAAnAAsAAAABAAEAAAAoAAsAAAAAAAEAAAApAAsAAAABAAEAAAAqAAsAAAAAAAEAAAArAAsAAAABAAEAAAAsAAsAAAAAAAEAAAAtAAsAAAABAAEAAAD+/wwAAAAAAAAAAAD//wwAAAABAAAAAAAAAAwAAAAAAAAA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AAAiABAAAAAAAAAAAAAjABAAAAABAAAAAAAkABAAAAAAAAAAAAAlABAAAAABAAAAAAAmABAAAAAAAAAAAAAnABAAAAABAAAAAAAoABAAAAAAAAAAAAApABAAAAABAAAAAAAqABAAAAAAAAAAAAArABAAAAABAAAAAAAsABAAAAAAAAAAAAAtABAAAAABAAAAAAD+/xEAAAAAAAEAAAD//xEAAAABAAEAAAAAABEAAAAAAAEAAAABABEAAAABAAEAAAACABEAAAAAAAEAAAADABEAAAABAAEAAAAEABEAAAAAAAEAAAAFABEAAAABAAEAAAAGABEAAAAAAAEAAAAHABEAAAABAAEAAAAIABEAAAAAAAEAAAAJABEAAAABAAEAAAAKABEAAAAAAAEAAAALABEAAAABAAEAAAAMABEAAAAAAAEAAAANABEAAAABAAEAAAAOABEAAAAAAAEAAAAPABEAAAABAAEAAAAQABEAAAAAAAEAAAARABEAAAABAAEAAAASABEAAAAAAAEAAAATABEAAAABAAEAAAAUABEAAAAAAAEAAAAVABEAAAABAAEAAAAWABEAAAAAAAEAAAAXABEAAAABAAEAAAAYABEAAAAGAAMAAAAZABEAAAAHAAMAAAAaABEAAAAAAAEAAAAbABEAAAABAAEAAAAcABEAAAAAAAEAAAAdABEAAAABAAEAAAAeABEAAAAAAAEAAAAfABEAAAABAAEAAAAgABEAAAAAAAEAAAAhABEAAAABAAEAAAAiABEAAAAAAAEAAAAjABEAAAABAAEAAAAkABEAAAAAAAEAAAAlABEAAAABAAEAAAAmABEAAAAAAAEAAAAnABEAAAABAAEAAAAoABEAAAAAAAEAAAApABEAAAABAAEAAAAqABEAAAAAAAEAAAArABEAAAABAAEAAAAsABEAAAAAAAEAAAAtABEAAAABAAEAAAD+/xIAAAACAAIAAAD//xIAAAADAAIAAAAAABIAAAACAAIAAAABABIAAAADAAIAAAACABIAAAACAAIAAAADABIAAAADAAIAAAAEABIAAAACAAIAAAAFABIAAAADAAIAAAAGABIAAAACAAIAAAAHABIAAAADAAIAAAAIABIAAAACAAIAAAAJABIAAAADAAIAAAAKABIAAAACAAIAAAALABIAAAADAAIAAAAMABIAAAACAAIAAAANABIAAAADAAIAAAAOABIAAAACAAIAAAAPABIAAAADAAIAAAAQABIAAAACAAIAAAARABIAAAADAAIAAAASABIAAAACAAIAAAATABIAAAADAAIAAAAUABIAAAACAAIAAAAVABIAAAADAAIAAAAWABIAAAACAAIAAAAXABIAAAADAAIAAAAYABIAAAACAAIAAAAZABIAAAADAAIAAAAaABIAAAACAAIAAAAbABIAAAADAAIAAAAcABIAAAACAAIAAAAdABIAAAADAAIAAAAeABIAAAACAAIAAAAfABIAAAADAAIAAAAgABIAAAACAAIAAAAhABIAAAADAAIAAAAiABIAAAACAAIAAAAjABIAAAADAAIAAAAkABIAAAACAAIAAAAlABIAAAADAAIAAAAmABIAAAACAAIAAAAnABIAAAADAAIAAAAoABIAAAACAAIAAAApABIAAAADAAIAAAAqABIAAAACAAIAAAArABIAAAADAAIAAAAsABIAAAACAAIAAAAtABIAAAADAAIAAAD+/xMAAAACAAMAAAD//xMAAAADAAMAAAAAABMAAAACAAMAAAABABMAAAADAAMAAAACABMAAAACAAMAAAADABMAAAADAAMAAAAEABMAAAACAAMAAAAFABMAAAADAAMAAAAGABMAAAACAAMAAAAHABMAAAADAAMAAAAIABMAAAACAAMAAAAJABMAAAADAAMAAAAKABMAAAACAAMAAAALABMAAAADAAMAAAAMABMAAAACAAMAAAANABMAAAADAAMAAAAOABMAAAACAAMAAAAPABMAAAADAAMAAAAQABMAAAACAAMAAAARABMAAAADAAMAAAASABMAAAACAAMAAAATABMAAAADAAMAAAAUABMAAAACAAMAAAAVABMAAAADAAMAAAAWABMAAAACAAMAAAAXABMAAAADAAMAAAAYABMAAAACAAMAAAAZABMAAAADAAMAAAAaABMAAAACAAMAAAAbABMAAAADAAMAAAAcABMAAAACAAMAAAAdABMAAAADAAMAAAAeABMAAAACAAMAAAAfABMAAAADAAMAAAAgABMAAAACAAMAAAAhABMAAAADAAMAAAAiABMAAAACAAMAAAAjABMAAAADAAMAAAAkABMAAAACAAMAAAAlABMAAAADAAMAAAAmABMAAAACAAMAAAAnABMAAAADAAMAAAAoABMAAAACAAMAAAApABMAAAADAAMAAAAqABMAAAACAAMAAAArABMAAAADAAMAAAAsABMAAAACAAMAAAAtABMAAAADAAMAAAD+/xQAAAAEAAAAAAD//xQAAAAFAAAAAAAAABQAAAAEAAAAAAABABQAAAAFAAAAAAACABQAAAAEAAAAAAADABQAAAAFAAAAAAAEABQAAAAEAAAAAAAFABQAAAAFAAAAAAAGABQAAAAEAAAAAAAHABQAAAAFAAAAAAAIABQAAAAEAAAAAAAJABQAAAAFAAAAAAAKABQAAAAEAAAAAAALABQAAAAFAAAAAAAMABQAAAAEAAAAAAANABQAAAAFAAAAAAAOABQAAAAEAAAAAAAPABQAAAAFAAAAAAAQABQAAAAEAAAAAAARABQAAAAFAAAAAAASABQAAAAEAAAAAAATABQAAAAFAAAAAAAUABQAAAAEAAAAAAAVABQAAAAFAAAAAAAWABQAAAAEAAAAAAAXABQAAAAFAAAAAAAYABQAAAAEAAAAAAAZABQAAAAFAAAAAAAaABQAAAAEAAAAAAAbABQAAAAFAAAAAAAcABQAAAAEAAAAAAAdABQAAAAFAAAAAAAeABQAAAAEAAAAAAAfABQAAAAFAAAAAAAgABQAAAAEAAAAAAAhABQAAAAFAAAAAAAiABQAAAAEAAAAAAAjABQAAAAFAAAAAAAkABQAAAAEAAAAAAAlABQAAAAFAAAAAAAmABQAAAAEAAAAAAAnABQAAAAFAAAAAAAoABQAAAAEAAAAAAApABQAAAAFAAAAAAAqABQAAAAEAAAAAAArABQAAAAFAAAAAAAsABQAAAAEAAAAAAAtABQAAAAFAAAAAAD+/xUAAAAEAAEAAAD//xUAAAAFAAEAAAAAABUAAAAEAAEAAAABABUAAAAFAAEAAAACABUAAAAEAAEAAAADABUAAAAFAAEAAAAEABUAAAAEAAEAAAAFABUAAAAFAAEAAAAGABUAAAAEAAEAAAAHABUAAAAFAAEAAAAIABUAAAAEAAEAAAAJABUAAAAFAAEAAAAKABUAAAAEAAEAAAALABUAAAAFAAEAAAAMABUAAAAEAAEAAAANABUAAAAFAAEAAAAOABUAAAAEAAEAAAAPABUAAAAFAAEAAAAQABUAAAAEAAEAAAARABUAAAAFAAEAAAASABUAAAAEAAEAAAATABUAAAAFAAEAAAAUABUAAAAEAAEAAAAVABUAAAAFAAEAAAAWABUAAAAEAAEAAAAXABUAAAAFAAEAAAAYABUAAAAEAAEAAAAZABUAAAAFAAEAAAAaABUAAAAEAAEAAAAbABUAAAAFAAEAAAAcABUAAAAEAAEAAAAdABUAAAAFAAEAAAAeABUAAAAEAAEAAAAfABUAAAAFAAEAAAAgABUAAAAEAAEAAAAhABUAAAAFAAEAAAAiABUAAAAEAAEAAAAjABUAAAAFAAEAAAAkABUAAAAEAAEAAAAlABUAAAAFAAEAAAAmABUAAAAEAAEAAAAnABUAAAAFAAEAAAAoABUAAAAEAAEAAAApABUAAAAFAAEAAAAqABUAAAAEAAEAAAArABUAAAAFAAEAAAAsABUAAAAEAAEAAAAtABUAAAAFAAEAAAD+/xYAAAAEAAAAAAD//xYAAAAFAAAAAAAAABYAAAAEAAAAAAABABYAAAAFAAAAAAACABYAAAAEAAAAAAADABYAAAAFAAAAAAAEABYAAAAEAAAAAAAFABYAAAAFAAAAAAAGABYAAAAEAAAAAAAHABYAAAAFAAAAAAAIABYAAAAEAAAAAAAJABYAAAAFAAAAAAAKABYAAAAEAAAAAAALABYAAAAFAAAAAAAMABYAAAAEAAAAAAANABYAAAAFAAAAAAAOABYAAAAEAAAAAAAPABYAAAAFAAAAAAAQABYAAAAEAAAAAAARABYAAAAFAAAAAAASABYAAAAEAAAAAAATABYAAAAFAAAAAAAUABYAAAAEAAAAAAAVABYAAAAFAAAAAAAWABYAAAAEAAAAAAAXABYAAAAFAAAAAAAYABYAAAAEAAAAAAAZABYAAAAFAAAAAAAaABYAAAAEAAAAAAAbABYAAAAFAAAAAAAcABYAAAAEAAAAAAAdABYAAAAFAAAAAAAeABYAAAAEAAAAAAAfABYAAAAFAAAAAAAgABYAAAAEAAAAAAAhABYAAAAFAAAAAAAiABYAAAAEAAAAAAAjABYAAAAFAAAAAAAkABYAAAAEAAAAAAAlABYAAAAFAAAAAAAmABYAAAAEAAAAAAAnABYAAAAFAAAAAAAoABYAAAAEAAAAAAApABYAAAAFAAAAAAAqABYAAAAEAAAAAAArABYAAAAFAAAAAAAsABYAAAAEAAAAAAAtABYAAAAFAAAAAAD+/xcAAAAEAAEAAAD//xcAAAAFAAEAAAAAABcAAAAEAAEAAAABABcAAAAFAAEAAAACABcAAAAEAAEAAAADABcAAAAFAAEAAAAEABcAAAAEAAEAAAAFABcAAAAFAAEAAAAGABcAAAAEAAEAAAAHABcAAAAFAAEAAAAIABcAAAAEAAEAAAAJABcAAAAFAAEAAAAKABcAAAAEAAEAAAALABcAAAAFAAEAAAAMABcAAAAEAAEAAAANABcAAAAFAAEAAAAOABcAAAAEAAEAAAAPABcAAAAFAAEAAAAQABcAAAAEAAEAAAARABcAAAAFAAEAAAASABcAAAAEAAEAAAATABcAAAAFAAEAAAAUABcAAAAEAAEAAAAVABcAAAAFAAEAAAAWABcAAAAEAAEAAAAXABcAAAAFAAEAAAAYABcAAAAEAAEAAAAZABcAAAAFAAEAAAAaABcAAAAEAAEAAAAbABcAAAAFAAEAAAAcABcAAAAEAAEAAAAdABcAAAAFAAEAAAAeABcAAAAEAAEAAAAfABcAAAAFAAEAAAAgABcAAAAEAAEAAAAhABcAAAAFAAEAAAAiABcAAAAEAAEAAAAjABcAAAAFAAEAAAAkABcAAAAEAAEAAAAlABcAAAAFAAEAAAAmABcAAAAEAAEAAAAnABcAAAAFAAEAAAAoABcAAAAEAAEAAAApABcAAAAFAAEAAAAqABcAAAAEAAEAAAArABcAAAAFAAEAAAAsABcAAAAEAAEAAAAtABcAAAAFAAEAAAD+/xgAAAAAAAQAAAD//xgAAAABAAQAAAAAABgAAAAAAAQAAAABABgAAAABAAQAAAACABgAAAAAAAQAAAADABgAAAABAAQAAAAEABgAAAAAAAQAAAAFABgAAAABAAQAAAAGABgAAAAAAAQAAAAHABgAAAABAAQAAAAIABgAAAAAAAQAAAAJABgAAAABAAQAAAAKABgAAAAAAAQAAAALABgAAAABAAQAAAAMABgAAAAAAAQAAAANABgAAAABAAQAAAAOABgAAAAAAAQAAAAPABgAAAABAAQAAAAQABgAAAAAAAQAAAARABgAAAABAAQAAAASABgAAAAAAAQAAAATABgAAAABAAQAAAAUABgAAAAAAAQAAAAVABgAAAABAAQAAAAWABgAAAAAAAQAAAAXABgAAAABAAQAAAAYABgAAAAAAAQAAAAZABgAAAABAAQAAAAaABgAAAAAAAQAAAAbABgAAAABAAQAAAAcABgAAAAAAAQAAAAdABgAAAABAAQAAAAeABgAAAAAAAQAAAAfABgAAAABAAQAAAAgABgAAAAAAAQAAAAhABgAAAABAAQAAAAiABgAAAAAAAQAAAAjABgAAAABAAQAAAAkABgAAAAAAAQAAAAlABgAAAABAAQAAAAmABgAAAAAAAQAAAAnABgAAAABAAQAAAAoABgAAAAAAAQAAAApABgAAAABAAQAAAAqABgAAAAAAAQAAAArABgAAAABAAQAAAAsABgAAAAAAAQAAAAtABgAAAABAAQAAAD+/xkAAAAAAAUAAAD//xkAAAABAAUAAAAAABkAAAAAAAUAAAABABkAAAABAAUAAAACABkAAAAAAAUAAAADABkAAAABAAUAAAAEABkAAAAAAAUAAAAFABkAAAABAAUAAAAGABkAAAAAAAUAAAAHABkAAAABAAUAAAAIABkAAAAAAAUAAAAJABkAAAABAAUAAAAKABkAAAAAAAUAAAALABkAAAABAAUAAAAMABkAAAAAAAUAAAANABkAAAABAAUAAAAOABkAAAAAAAUAAAAPABkAAAABAAUAAAAQABkAAAAAAAUAAAARABkAAAABAAUAAAASABkAAAAAAAUAAAATABkAAAABAAUAAAAUABkAAAAAAAUAAAAVABkAAAABAAUAAAAWABkAAAAAAAUAAAAXABkAAAABAAUAAAAYABkAAAAAAAUAAAAZABkAAAABAAUAAAAaABkAAAAAAAUAAAAbABkAAAABAAUAAAAcABkAAAAAAAUAAAAdABkAAAABAAUAAAAeABkAAAAAAAUAAAAfABkAAAABAAUAAAAgABkAAAAAAAUAAAAhABkAAAABAAUAAAAiABkAAAAAAAUAAAAjABkAAAABAAUAAAAkABkAAAAAAAUAAAAlABkAAAABAAUAAAAmABkAAAAAAAUAAAAnABkAAAABAAUAAAAoABkAAAAAAAUAAAApABkAAAABAAUAAAAqABkAAAAAAAUAAAArABkAAAABAAUAAAAsABkAAAAAAAUAAAAtABkAAAABAAUAAAD+/xoAAAAGAAAAAAD//xoAAAAHAAAAAAAAABoAAAAGAAAAAAABABoAAAAHAAAAAAACABoAAAAGAAAAAAADABoAAAAHAAAAAAAEABoAAAAGAAAAAAAFABoAAAAHAAAAAAAGABoAAAAGAAAAAAAHABoAAAAHAAAAAAAIABoAAAAGAAAAAAAJABoAAAAHAAAAAAAKABoAAAAGAAAAAAALABoAAAAHAAAAAAAMABoAAAAGAAAAAAANABoAAAAHAAAAAAAOABoAAAAGAAAAAAAPABoAAAAHAAAAAAAQABoAAAAGAAAAAAARABoAAAAHAAAAAAASABoAAAAGAAAAAAATABoAAAAHAAAAAAAUABoAAAAGAAAAAAAVABoAAAAHAAAAAAAWABoAAAAGAAAAAAAXABoAAAAHAAAAAAAYABoAAAAGAAAAAAAZABoAAAAHAAAAAAAaABoAAAAGAAAAAAAbABoAAAAHAAAAAAAcABoAAAAGAAAAAAAdABoAAAAHAAAAAAAeABoAAAAGAAAAAAAfABoAAAAHAAAAAAAgABoAAAAGAAAAAAAhABoAAAAHAAAAAAAiABoAAAAGAAAAAAAjABoAAAAHAAAAAAAkABoAAAAGAAAAAAAlABoAAAAHAAAAAAAmABoAAAAGAAAAAAAnABoAAAAHAAAAAAAoABoAAAAGAAAAAAApABoAAAAHAAAAAAAqABoAAAAGAAAAAAArABoAAAAHAAAAAAAsABoAAAAGAAAAAAAtABoAAAAHAAAAAAD+/xsAAAAGAAEAAAD//xsAAAAHAAEAAAAAABsAAAAGAAEAAAABABsAAAAHAAEAAAACABsAAAAGAAEAAAADABsAAAAHAAEAAAAEABsAAAAGAAEAAAAFABsAAAAHAAEAAAAGABsAAAAGAAEAAAAHABsAAAAHAAEAAAAIABsAAAAGAAEAAAAJABsAAAAHAAEAAAAKABsAAAAGAAEAAAALABsAAAAHAAEAAAAMABsAAAAGAAEAAAANABsAAAAHAAEAAAAOABsAAAAGAAEAAAAPABsAAAAHAAEAAAAQABsAAAAGAAEAAAARABsAAAAHAAEAAAASABsAAAAGAAEAAAATABsAAAAHAAEAAAAUABsAAAAGAAEAAAAVABsAAAAHAAEAAAAWABsAAAAGAAEAAAAXABsAAAAHAAEAAAAYABsAAAAGAAEAAAAZABsAAAAHAAEAAAAaABsAAAAGAAEAAAAbABsAAAAHAAEAAAAcABsAAAAGAAEAAAAdABsAAAAHAAEAAAAeABsAAAAGAAEA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AAAQACAAAAAGAAAAAAARACAAAAAHAAAAAAASACAAAAAGAAAAAAATACAAAAAHAAAAAAAUACAAAAAGAAAAAAAVACAAAAAHAAAAAAAWACAAAAAGAAAAAAAXACAAAAAHAAAAAAAYACAAAAAGAAAAAAAZACAAAAAHAAAAAAAaACAAAAAGAAAAAAAbACAAAAAHAAAAAAAcACAAAAAGAAAAAAAdACAAAAAHAAAAAAAeACAAAAAGAAAAAAAfACAAAAAHAAAAAAAgACAAAAAGAAAAAAAhACAAAAAHAAAAAAAiACAAAAAGAAAAAAAjACAAAAAHAAAAAAAkACAAAAAGAAAAAAAlACAAAAAHAAAAAAAmACAAAAAGAAAAAAAnACAAAAAHAAAAAAAoACAAAAAGAAAAAAApACAAAAAHAAAAAAAqACAAAAAGAAAAAAArACAAAAAHAAAAAAAsACAAAAAGAAAAAAAtACAAAAAHAAAAAAD+/yEAAAAGAAEAAAD//yEAAAAHAAEAAAAAACEAAAAGAAEAAAABACEAAAAHAAEAAAACACEAAAAGAAEAAAADACEAAAAHAAEAAAAEACEAAAAGAAEAAAAFACEAAAAHAAEAAAAGACEAAAAGAAEAAAAHACEAAAAHAAEAAAAIACEAAAAGAAEAAAAJACEAAAAHAAEAAAAKACEAAAAGAAEAAAALACEAAAAHAAEAAAAMACEAAAAGAAEAAAANACEAAAAHAAEAAAAOACEAAAAGAAEAAAAPACEAAAAHAAEAAAAQACEAAAAGAAEAAAARACEAAAAHAAEAAAASACEAAAAGAAEAAAATACEAAAAHAAEAAAAUACEAAAAGAAEAAAAVACEAAAAHAAEAAAAWACEAAAAGAAEAAAAXACEAAAAHAAEAAAAYACEAAAAGAAEAAAAZACEAAAAHAAEAAAAaACEAAAAGAAEAAAAbACEAAAAHAAEAAAAcACEAAAAGAAEAAAAdACEAAAAHAAEAAAAeACEAAAAGAAEAAAAfACEAAAAHAAEAAAAgACEAAAAGAAEAAAAhACEAAAAHAAEAAAAiACEAAAAGAAEAAAAjACEAAAAHAAEAAAAkACEAAAAGAAEAAAAlACEAAAAHAAEAAAAmACEAAAAGAAEAAAAnACEAAAAHAAEAAAAoACEAAAAGAAEAAAApACEAAAAHAAEAAAAqACEAAAAGAAEAAAArACEAAAAHAAEAAAAsACEAAAAGAAEAAAAtACEAAAAHAAEAAAD+/yIAAAAGAAAAAAD//yIAAAAHAAAAAAAAACIAAAAGAAAAAAABACIAAAAHAAAAAAACACIAAAAGAAAAAAADACIAAAAHAAAAAAAEACIAAAAGAAAAAAAFACIAAAAHAAAAAAAGACIAAAAGAAAAAAAHACIAAAAHAAAAAAAIACIAAAAGAAAAAAAJACIAAAAHAAAAAAAKACIAAAAGAAAAAAALACIAAAAHAAAAAAAMACIAAAAGAAAAAAANACIAAAAHAAAAAAAOACIAAAAGAAAAAAAPACIAAAAHAAAAAAAQACIAAAAGAAAAAAARACIAAAAHAAAAAAASACIAAAAGAAAAAAATACIAAAAHAAAAAAAUACIAAAAGAAAAAAAVACIAAAAHAAAAAAAWACIAAAAGAAAAAAAXACIAAAAHAAAAAAAYACIAAAAGAAAAAAAZACIAAAAHAAAAAAAaACIAAAAGAAAAAAAbACIAAAAHAAAAAAAcACIAAAAGAAAAAAAdACIAAAAHAAAAAAAeACIAAAAGAAAAAAAfACIAAAAHAAAAAAAgACIAAAAGAAAAAAAhACIAAAAHAAAAAAAiACIAAAAGAAAAAAAjACIAAAAHAAAAAAAkACIAAAAGAAAAAAAlACIAAAAHAAAAAAAmACIAAAAGAAAAAAAnACIAAAAHAAAAAAAoACIAAAAGAAAAAAApACIAAAAHAAAAAAAqACIAAAAGAAAAAAArACIAAAAHAAAAAAAsACIAAAAGAAAAAAAtACIAAAAHAAAAAAD+/yMAAAAGAAEAAAD//yMAAAAHAAEAAAAAACMAAAAGAAEAAAABACMAAAAHAAEAAAACACMAAAAGAAEAAAADACMAAAAHAAEAAAAEACMAAAAGAAEAAAAFACMAAAAHAAEAAAAGACMAAAAGAAEAAAAHACMAAAAHAAEAAAAIACMAAAAGAAEAAAAJACMAAAAHAAEAAAAKACMAAAAGAAEAAAALACMAAAAHAAEAAAAMACMAAAAGAAEAAAANACMAAAAHAAEAAAAOACMAAAAGAAEAAAAPACMAAAAHAAEAAAAQACMAAAAGAAEAAAARACMAAAAHAAEAAAASACMAAAAGAAEAAAATACMAAAAHAAEAAAAUACMAAAAGAAEAAAAVACMAAAAHAAEAAAAWACMAAAAGAAEAAAAXACMAAAAHAAEAAAAYACMAAAAGAAEAAAAZACMAAAAHAAEAAAAaACMAAAAGAAEAAAAbACMAAAAHAAEAAAAcACMAAAAGAAEAAAAdACMAAAAHAAEAAAAeACMAAAAGAAEAAAAfACMAAAAHAAEAAAAgACMAAAAGAAEAAAAhACMAAAAHAAEAAAAiACMAAAAGAAEAAAAjACMAAAAHAAEAAAAkACMAAAAGAAEAAAAlACMAAAAHAAEAAAAmACMAAAAGAAEAAAAnACMAAAAHAAEAAAAoACMAAAAGAAEAAAApACMAAAAHAAEAAAAqACMAAAAGAAEAAAArACMAAAAHAAEAAAAsACMAAAAGAAEAAAAtACMAAAAHAAEAAAD+/yQAAAAGAAAAAAD//yQAAAAHAAAAAAAAACQAAAAGAAAAAAABACQAAAAHAAAAAAACACQAAAAGAAAAAAADACQAAAAHAAAAAAAEACQAAAAGAAAAAAAFACQAAAAHAAAAAAAGACQAAAAGAAAAAAAHACQAAAAHAAAAAAAIACQAAAAGAAAAAAAJACQAAAAHAAAAAAAKACQAAAAGAAAAAAALACQAAAAHAAAAAAAMACQAAAAGAAAAAAANACQAAAAHAAAAAAAOACQAAAAGAAAAAAAPACQAAAAHAAAAAAAQACQAAAAGAAAAAAARACQAAAAHAAAAAAASACQAAAAGAAAAAAATACQAAAAHAAAAAAAUACQAAAAGAAAAAAAVACQAAAAHAAAAAAAWACQAAAAGAAAAAAAXACQAAAAHAAAAAAAYACQAAAAGAAAAAAAZACQAAAAHAAAAAAAaACQAAAAGAAAAAAAbACQAAAAHAAAAAAAcACQAAAAGAAAAAAAdACQAAAAHAAAAAAAeACQAAAAGAAAAAAAfACQAAAAHAAAAAAAgACQAAAAGAAAAAAAhACQAAAAHAAAAAAAiACQAAAAGAAAAAAAjACQAAAAHAAAAAAAkACQAAAAGAAAAAAAlACQAAAAHAAAAAAAmACQAAAAGAAAAAAAnACQAAAAHAAAAAAAoACQAAAAGAAAAAAApACQAAAAHAAAAAAAqACQAAAAGAAAAAAArACQAAAAHAAAAAAAsACQAAAAGAAAAAAAtACQAAAAHAAAAAAD+/yUAAAAGAAEAAAD//yUAAAAHAAEAAAAAACUAAAAGAAEAAAABACUAAAAHAAEAAAACACUAAAAGAAEAAAADACUAAAAHAAEAAAAEACUAAAAGAAEAAAAFACUAAAAHAAEAAAAGACUAAAAGAAEAAAAHACUAAAAHAAEAAAAIACUAAAAGAAEAAAAJACUAAAAHAAEAAAAKACUAAAAGAAEAAAALACUAAAAHAAEAAAAMACUAAAAGAAEAAAANACUAAAAHAAEAAAAOACUAAAAGAAEAAAAPACUAAAAHAAEAAAAQACUAAAAGAAEAAAARACUAAAAHAAEAAAASACUAAAAGAAEAAAATACUAAAAHAAEAAAAUACUAAAAGAAEAAAAVACUAAAAHAAEAAAAWACUAAAAGAAEAAAAXACUAAAAHAAEAAAAYACUAAAAGAAEAAAAZACUAAAAHAAEAAAAaACUAAAAGAAEAAAAbACUAAAAHAAEAAAAcACUAAAAGAAEAAAAdACUAAAAHAAEAAAAeACUAAAAGAAEAAAAfACUAAAAHAAEAAAAgACUAAAAGAAEAAAAhACUAAAAHAAEAAAAiACUAAAAGAAEAAAAjACUAAAAHAAEAAAAkACUAAAAGAAEAAAAlACUAAAAHAAEAAAAmACUAAAAGAAEAAAAnACUAAAAHAAEAAAAoACUAAAAGAAEAAAApACUAAAAHAAEAAAAqACUAAAAGAAEAAAArACUAAAAHAAEAAAAsACUAAAAGAAEAAAAtACUAAAAHAAEAAAA=")
+tile_set = ExtResource("terreno")
+
+[node name="CalcadaOrla" type="TileMapLayer" parent="Terrains"]
+position = Vector2(0, 0)
+texture_filter = 1
+z_index = -999
+tile_map_data = PackedByteArray("AAATAAAAAQAAAAUAAAAUAAAAAQAAAAUAAAAVAAAAAQAAAAUAAAAWAAAAAQAAAAUAAAATAAEAAQAAAAUAAAAUAAEAAQAAAAUAAAAVAAEAAQAAAAUAAAAWAAEAAQAAAAUAAAATAAIAAQAAAAUAAAAUAAIAAQAAAAUAAAAVAAIAAQAAAAUAAAAWAAIAAQAAAAUAAAATAAMAAQAAAAUAAAAUAAMAAQAAAAUAAAAVAAMAAQAAAAUAAAAWAAMAAQAAAAUAAAATAAQAAQAAAAUAAAAUAAQAAQAAAAUAAAAVAAQAAQAAAAUAAAAWAAQAAQAAAAUAAAATAAUAAQAAAAUAAAAUAAUAAQAAAAUAAAAVAAUAAQAAAAUAAAAWAAUAAQAAAAUAAAATAAYAAQAAAAUAAAAUAAYAAQAAAAUAAAAVAAYAAQAAAAUAAAAWAAYAAQAAAAUAAAAEAAcAAQAAAAUAAAAFAAcAAQAAAAUAAAAGAAcAAQAAAAUAAAAHAAcAAQAAAAUAAAAIAAcAAQAAAAUAAAAJAAcAAQAAAAUAAAAKAAcAAQAAAAUAAAALAAcAAQAAAAUAAAAMAAcAAQAAAAUAAAANAAcAAQAAAAUAAAAOAAcAAQAAAAUAAAAPAAcAAQAAAAUAAAAQAAcAAQAAAAUAAAARAAcAAQAAAAUAAAASAAcAAQAAAAUAAAATAAcAAQAAAAUAAAAUAAcAAQAAAAUAAAAVAAcAAQAAAAUAAAAWAAcAAQAAAAUAAAAXAAcAAQAAAAUAAAAYAAcAAQAAAAUAAAAZAAcAAQAAAAUAAAAaAAcAAQAAAAUAAAAbAAcAAQAAAAUAAAAcAAcAAQAAAAUAAAAdAAcAAQAAAAUAAAAeAAcAAQAAAAUAAAAfAAcAAQAAAAUAAAAgAAcAAQAAAAUAAAAhAAcAAQAAAAUAAAAiAAcAAQAAAAUAAAAjAAcAAQAAAAUAAAAkAAcAAQAAAAUAAAAlAAcAAQAAAAUAAAAmAAcAAQAAAAUAAAAnAAcAAQAAAAUAAAAEAAgAAQAAAAUAAAAFAAgAAQAAAAUAAAAGAAgAAQAAAAUAAAAHAAgAAQAAAAUAAAAIAAgAAQAAAAUAAAAJAAgAAQAAAAUAAAAKAAgAAQAAAAUAAAALAAgAAQAAAAUAAAAMAAgAAQAAAAUAAAANAAgAAQAAAAUAAAAOAAgAAQAAAAUAAAAPAAgAAQAAAAUAAAAQAAgAAQAAAAUAAAARAAgAAQAAAAUAAAASAAgAAQAAAAUAAAATAAgAAQAAAAUAAAAUAAgAAQAAAAUAAAAVAAgAAQAAAAUAAAAWAAgAAQAAAAUAAAAXAAgAAQAAAAUAAAAYAAgAAQAAAAUAAAAZAAgAAQAAAAUAAAAaAAgAAQAAAAUAAAAbAAgAAQAAAAUAAAAcAAgAAQAAAAUAAAAdAAgAAQAAAAUAAAAeAAgAAQAAAAUAAAAfAAgAAQAAAAUAAAAgAAgAAQAAAAUAAAAhAAgAAQAAAAUAAAAiAAgAAQAAAAUAAAAjAAgAAQAAAAUAAAAkAAgAAQAAAAUAAAAlAAgAAQAAAAUAAAAmAAgAAQAAAAUAAAAnAAgAAQAAAAUAAAA=")
+tile_set = ExtResource("pedra_orla")
+
+[node name="Pier" type="TileMapLayer" parent="Terrains"]
+position = Vector2(0, 0)
+texture_filter = 1
+z_index = -999
+tile_map_data = PackedByteArray("AAAUABAAAAADAAkAAAAVABAAAAAAAAoAAAAWABAAAAACAAkAAAAXABAAAAAEAAoAAAAHABEAAAAAAAkAAAAIABEAAAACAAoAAAAJABEAAAAEAAkAAAAUABEAAAABAAoAAAAVABEAAAADAAkAAAAWABEAAAAAAAoAAAAXABEAAAACAAkAAAAHABIAAAADAAoAAAAIABIAAAAAAAkAAAAJABIAAAACAAoAAAAUABIAAAAEAAkAAAAVABIAAAABAAoAAAAWABIAAAADAAkAAAAXABIAAAAAAAoAAAAHABMAAAABAAkAAAAIABMAAAADAAoAAAAJABMAAAAAAAkAAAAUABMAAAACAAoAAAAVABMAAAAEAAkAAAAWABMAAAABAAoAAAAXABMAAAADAAkAAAAcABMAAAADAAoAAAAdABMAAAAAAAkAAAAeABMAAAACAAoAAAAfABMAAAAEAAkAAAAgABMAAAABAAoAAAAhABMAAAADAAkAAAAiABMAAAAAAAoAAAAjABMAAAACAAkAAAAkABMAAAAEAAoAAAAlABMAAAABAAkAAAAmABMAAAADAAoAAAAnABMAAAAAAAkAAAAHABQAAAAEAAoAAAAIABQAAAABAAkAAAAJABQAAAADAAoAAAAUABQAAAAAAAkAAAAVABQAAAACAAoAAAAWABQAAAAEAAkAAAAXABQAAAABAAoAAAAcABQAAAABAAkAAAAdABQAAAADAAoAAAAeABQAAAAAAAkAAAAfABQAAAACAAoAAAAgABQAAAAEAAkAAAAhABQAAAABAAoAAAAiABQAAAADAAkAAAAjABQAAAAAAAoAAAAkABQAAAACAAkAAAAlABQAAAAEAAoAAAAmABQAAAABAAkAAAAnABQAAAADAAoAAAAHABUAAAACAAkAAAAIABUAAAAEAAoAAAAJABUAAAABAAkAAAAKABUAAAADAAoAAAALABUAAAAAAAkAAAAMABUAAAACAAoAAAANABUAAAAEAAkAAAAOABUAAAABAAoAAAAPABUAAAADAAkAAAAQABUAAAAAAAoAAAARABUAAAACAAkAAAASABUAAAAEAAoAAAATABUAAAABAAkAAAAUABUAAAADAAoAAAAVABUAAAAAAAkAAAAWABUAAAACAAoAAAAXABUAAAAEAAkAAAAYABUAAAABAAoAAAAZABUAAAADAAkAAAAaABUAAAAAAAoAAAAbABUAAAACAAkAAAAcABUAAAAEAAoAAAAdABUAAAABAAkAAAAeABUAAAADAAoAAAAfABUAAAAAAAkAAAAgABUAAAACAAoAAAAhABUAAAAEAAkAAAAiABUAAAABAAoAAAAjABUAAAADAAkAAAAkABUAAAAAAAoAAAAlABUAAAACAAkAAAAmABUAAAAEAAoAAAAnABUAAAABAAkAAAAHABYAAAAAAAoAAAAIABYAAAACAAkAAAAJABYAAAAEAAoAAAAKABYAAAABAAkAAAALABYAAAADAAoAAAAMABYAAAAAAAkAAAANABYAAAACAAoAAAAOABYAAAAEAAkAAAAPABYAAAABAAoAAAAQABYAAAADAAkAAAARABYAAAAAAAoAAAASABYAAAACAAkAAAATABYAAAAEAAoAAAAUABYAAAABAAkAAAAVABYAAAADAAoAAAAWABYAAAAAAAkAAAAXABYAAAACAAoAAAAYABYAAAAEAAkAAAAZABYAAAABAAoAAAAaABYAAAADAAkAAAAbABYAAAAAAAoAAAAcABYAAAACAAkAAAAdABYAAAAEAAoAAAAeABYAAAABAAkAAAAfABYAAAADAAoAAAAgABYAAAAAAAkAAAAhABYAAAACAAoAAAAiABYAAAAEAAkAAAAjABYAAAABAAoAAAAkABYAAAADAAkAAAAlABYAAAAAAAoAAAAmABYAAAACAAkAAAAnABYAAAAEAAoAAAAHABcAAAADAAkAAAAIABcAAAAAAAoAAAAJABcAAAACAAkAAAAUABcAAAAEAAoAAAAVABcAAAABAAkAAAAWABcAAAADAAoAAAAXABcAAAAAAAkAAAAcABcAAAAAAAoAAAAdABcAAAACAAkAAAAeABcAAAAEAAoAAAAfABcAAAABAAkAAAAgABcAAAADAAoAAAAhABcAAAAAAAkAAAAiABcAAAACAAoAAAAjABcAAAAEAAkAAAAkABcAAAABAAoAAAAlABcAAAADAAkAAAAmABcAAAAAAAoAAAAnABcAAAACAAkAAAAHABgAAAABAAoAAAAIABgAAAADAAkAAAAJABgAAAAAAAoAAAAUABgAAAACAAkAAAAVABgAAAAEAAoAAAAWABgAAAABAAkAAAAXABgAAAADAAoAAAAcABgAAAADAAkAAAAdABgAAAAAAAoAAAAeABgAAAACAAkAAAAfABgAAAAEAAoAAAAgABgAAAABAAkAAAAhABgAAAADAAoAAAAiABgAAAAAAAkAAAAjABgAAAACAAoAAAAkABgAAAAEAAkAAAAlABgAAAABAAoAAAAmABgAAAADAAkAAAAnABgAAAAAAAoAAAAHABkAAAAEAAkAAAAIABkAAAABAAoAAAAJABkAAAADAAkAAAAUABkAAAAAAAoAAAAVABkAAAACAAkAAAAWABkAAAAEAAoAAAAXABkAAAABAAkAAAAcABkAAAABAAoAAAAdABkAAAADAAkAAAAeABkAAAAAAAoAAAAfABkAAAACAAkAAAAgABkAAAAEAAoAAAAhABkAAAABAAkAAAAiABkAAAADAAoAAAAjABkAAAAAAAkAAAAkABkAAAACAAoAAAAlABkAAAAEAAkAAAAmABkAAAABAAoAAAAnABkAAAADAAkAAAAHABoAAAACAAoAAAAIABoAAAAEAAkAAAAJABoAAAABAAoAAAAUABoAAAADAAkAAAAVABoAAAAAAAoAAAAWABoAAAACAAkAAAAXABoAAAAEAAoAAAAcABoAAAAEAAkAAAAdABoAAAABAAoAAAAeABoAAAADAAkAAAAfABoAAAAAAAoAAAAgABoAAAACAAkAAAAhABoAAAAEAAoAAAAiABoAAAABAAkAAAAjABoAAAADAAoAAAAkABoAAAAAAAkAAAAlABoAAAACAAoAAAAmABoAAAAEAAkAAAAnABoAAAABAAoAAAAHABsAAAAAAAkAAAAIABsAAAACAAoAAAAJABsAAAAEAAkAAAAUABsAAAABAAoAAAAVABsAAAADAAkAAAAWABsAAAAAAAoAAAAXABsAAAACAAkAAAAcABsAAAACAAoAAAAdABsAAAAEAAkAAAAeABsAAAABAAoAAAAfABsAAAADAAkAAAAgABsAAAAAAAoAAAAhABsAAAACAAkAAAAiABsAAAAEAAoAAAAjABsAAAABAAkAAAAkABsAAAADAAoAAAAlABsAAAAAAAkAAAAmABsAAAACAAoAAAAnABsAAAAEAAkAAAAHABwAAAADAAoAAAAIABwAAAAAAAkAAAAJABwAAAACAAoAAAAUABwAAAAEAAkAAAAVABwAAAABAAoAAAAWABwAAAADAAkAAAAXABwAAAAAAAoAAAAHAB0AAAABAAkAAAAIAB0AAAADAAoAAAAJAB0AAAAAAAkAAAAUAB0AAAACAAoAAAAVAB0AAAAEAAkAAAAWAB0AAAABAAoAAAAXAB0AAAADAAkAAAAHAB4AAAAEAAoAAAAIAB4AAAABAAkAAAAJAB4AAAADAAoAAAAKAB4AAAAAAAkAAAALAB4AAAACAAoAAAAMAB4AAAAEAAkAAAANAB4AAAABAAoAAAAOAB4AAAADAAkAAAAPAB4AAAAAAAoAAAAQAB4AAAACAAkAAAARAB4AAAAEAAoAAAASAB4AAAABAAkAAAATAB4AAAADAAoAAAAUAB4AAAAAAAkAAAAVAB4AAAACAAoAAAAWAB4AAAAEAAkAAAAXAB4AAAABAAoAAAAHAB8AAAACAAkAAAAIAB8AAAAEAAoAAAAJAB8AAAABAAkAAAAKAB8AAAADAAoAAAALAB8AAAAAAAkAAAAMAB8AAAACAAoAAAANAB8AAAAEAAkAAAAOAB8AAAABAAoAAAAPAB8AAAADAAkAAAAQAB8AAAAAAAoAAAARAB8AAAACAAkAAAASAB8AAAAEAAoAAAATAB8AAAABAAkAAAAUAB8AAAADAAoAAAAVAB8AAAAAAAkAAAAWAB8AAAACAAoAAAAXAB8AAAAEAAkAAAA=")
+tile_set = ExtResource("cais")
+
+[node name="Mar_0" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(-28, 450.8307)
+shape = SubResource("Forma_Mar_0")
+
+[node name="Mar_1" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(-20, 452.1976)
+shape = SubResource("Forma_Mar_1")
+
+[node name="Mar_2" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(-12, 453.6736)
+shape = SubResource("Forma_Mar_2")
+
+[node name="Mar_3" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(-4, 455.217)
+shape = SubResource("Forma_Mar_3")
+
+[node name="Mar_4" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(4, 456.783)
+shape = SubResource("Forma_Mar_4")
+
+[node name="Mar_5" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(12, 458.3264)
+shape = SubResource("Forma_Mar_5")
+
+[node name="Mar_6" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(20, 459.8024)
+shape = SubResource("Forma_Mar_6")
+
+[node name="Mar_7" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(28, 461.1693)
+shape = SubResource("Forma_Mar_7")
+
+[node name="Mar_8" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(36, 462.3899)
+shape = SubResource("Forma_Mar_8")
+
+[node name="Mar_9" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(44, 463.4331)
+shape = SubResource("Forma_Mar_9")
+
+[node name="Mar_10" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(52, 464.275)
+shape = SubResource("Forma_Mar_10")
+
+[node name="Mar_11" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(60, 464.9001)
+shape = SubResource("Forma_Mar_11")
+
+[node name="Mar_12" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(68, 465.3015)
+shape = SubResource("Forma_Mar_12")
+
+[node name="Mar_13" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(76, 465.4815)
+shape = SubResource("Forma_Mar_13")
+
+[node name="Mar_14" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(84, 465.4507)
+shape = SubResource("Forma_Mar_14")
+
+[node name="Mar_15" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(92, 465.228)
+shape = SubResource("Forma_Mar_15")
+
+[node name="Mar_16" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(100, 464.8392)
+shape = SubResource("Forma_Mar_16")
+
+[node name="Mar_17" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(108, 464.3157)
+shape = SubResource("Forma_Mar_17")
+
+[node name="Mar_18" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(116, 560)
+shape = SubResource("Forma_Mar_18")
+
+[node name="Mar_19" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(124, 560)
+shape = SubResource("Forma_Mar_19")
+
+[node name="Mar_20" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(132, 560)
+shape = SubResource("Forma_Mar_20")
+
+[node name="Mar_21" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(140, 560)
+shape = SubResource("Forma_Mar_21")
+
+[node name="Mar_22" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(148, 560)
+shape = SubResource("Forma_Mar_22")
+
+[node name="Mar_23" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(156, 560)
+shape = SubResource("Forma_Mar_23")
+
+[node name="Mar_24" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(164, 323.9441)
+shape = SubResource("Forma_Mar_24")
+
+[node name="Mar_25" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(164, 424)
+shape = SubResource("Forma_Mar_25")
+
+[node name="Mar_26" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(164, 560)
+shape = SubResource("Forma_Mar_26")
+
+[node name="Mar_27" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(172, 323.6002)
+shape = SubResource("Forma_Mar_27")
+
+[node name="Mar_28" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(172, 424)
+shape = SubResource("Forma_Mar_28")
+
+[node name="Mar_29" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(172, 560)
+shape = SubResource("Forma_Mar_29")
+
+[node name="Mar_30" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(180, 323.383)
+shape = SubResource("Forma_Mar_30")
+
+[node name="Mar_31" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(180, 424)
+shape = SubResource("Forma_Mar_31")
+
+[node name="Mar_32" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(180, 560)
+shape = SubResource("Forma_Mar_32")
+
+[node name="Mar_33" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(188, 323.2929)
+shape = SubResource("Forma_Mar_33")
+
+[node name="Mar_34" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(188, 424)
+shape = SubResource("Forma_Mar_34")
+
+[node name="Mar_35" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(188, 560)
+shape = SubResource("Forma_Mar_35")
+
+[node name="Mar_36" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(196, 323.3221)
+shape = SubResource("Forma_Mar_36")
+
+[node name="Mar_37" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(196, 424)
+shape = SubResource("Forma_Mar_37")
+
+[node name="Mar_38" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(196, 560)
+shape = SubResource("Forma_Mar_38")
+
+[node name="Mar_39" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(204, 323.4552)
+shape = SubResource("Forma_Mar_39")
+
+[node name="Mar_40" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(204, 424)
+shape = SubResource("Forma_Mar_40")
+
+[node name="Mar_41" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(204, 560)
+shape = SubResource("Forma_Mar_41")
+
+[node name="Mar_42" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(212, 323.6701)
+shape = SubResource("Forma_Mar_42")
+
+[node name="Mar_43" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(212, 424)
+shape = SubResource("Forma_Mar_43")
+
+[node name="Mar_44" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(212, 560)
+shape = SubResource("Forma_Mar_44")
+
+[node name="Mar_45" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(220, 323.9387)
+shape = SubResource("Forma_Mar_45")
+
+[node name="Mar_46" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(220, 424)
+shape = SubResource("Forma_Mar_46")
+
+[node name="Mar_47" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(220, 560)
+shape = SubResource("Forma_Mar_47")
+
+[node name="Mar_48" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(228, 324.229)
+shape = SubResource("Forma_Mar_48")
+
+[node name="Mar_49" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(228, 424)
+shape = SubResource("Forma_Mar_49")
+
+[node name="Mar_50" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(228, 560)
+shape = SubResource("Forma_Mar_50")
+
+[node name="Mar_51" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(236, 324.5062)
+shape = SubResource("Forma_Mar_51")
+
+[node name="Mar_52" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(236, 424)
+shape = SubResource("Forma_Mar_52")
+
+[node name="Mar_53" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(236, 560)
+shape = SubResource("Forma_Mar_53")
+
+[node name="Mar_54" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(244, 324.7348)
+shape = SubResource("Forma_Mar_54")
+
+[node name="Mar_55" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(244, 424)
+shape = SubResource("Forma_Mar_55")
+
+[node name="Mar_56" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(244, 560)
+shape = SubResource("Forma_Mar_56")
+
+[node name="Mar_57" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(252, 324.8802)
+shape = SubResource("Forma_Mar_57")
+
+[node name="Mar_58" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(252, 424)
+shape = SubResource("Forma_Mar_58")
+
+[node name="Mar_59" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(252, 560)
+shape = SubResource("Forma_Mar_59")
+
+[node name="Mar_60" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(260, 324.9108)
+shape = SubResource("Forma_Mar_60")
+
+[node name="Mar_61" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(260, 424)
+shape = SubResource("Forma_Mar_61")
+
+[node name="Mar_62" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(260, 560)
+shape = SubResource("Forma_Mar_62")
+
+[node name="Mar_63" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(268, 324.7993)
+shape = SubResource("Forma_Mar_63")
+
+[node name="Mar_64" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(268, 424)
+shape = SubResource("Forma_Mar_64")
+
+[node name="Mar_65" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(268, 560)
+shape = SubResource("Forma_Mar_65")
+
+[node name="Mar_66" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(276, 324.5243)
+shape = SubResource("Forma_Mar_66")
+
+[node name="Mar_67" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(276, 424)
+shape = SubResource("Forma_Mar_67")
+
+[node name="Mar_68" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(276, 560)
+shape = SubResource("Forma_Mar_68")
+
+[node name="Mar_69" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(284, 324.0718)
+shape = SubResource("Forma_Mar_69")
+
+[node name="Mar_70" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(284, 424)
+shape = SubResource("Forma_Mar_70")
+
+[node name="Mar_71" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(284, 560)
+shape = SubResource("Forma_Mar_71")
+
+[node name="Mar_72" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(292, 323.4354)
+shape = SubResource("Forma_Mar_72")
+
+[node name="Mar_73" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(292, 424)
+shape = SubResource("Forma_Mar_73")
+
+[node name="Mar_74" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(292, 560)
+shape = SubResource("Forma_Mar_74")
+
+[node name="Mar_75" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(300, 322.6176)
+shape = SubResource("Forma_Mar_75")
+
+[node name="Mar_76" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(300, 424)
+shape = SubResource("Forma_Mar_76")
+
+[node name="Mar_77" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(300, 560)
+shape = SubResource("Forma_Mar_77")
+
+[node name="Mar_78" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(308, 321.6292)
+shape = SubResource("Forma_Mar_78")
+
+[node name="Mar_79" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(308, 424)
+shape = SubResource("Forma_Mar_79")
+
+[node name="Mar_80" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(308, 560)
+shape = SubResource("Forma_Mar_80")
+
+[node name="Mar_81" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(316, 320.4896)
+shape = SubResource("Forma_Mar_81")
+
+[node name="Mar_82" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(316, 424)
+shape = SubResource("Forma_Mar_82")
+
+[node name="Mar_83" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(316, 560)
+shape = SubResource("Forma_Mar_83")
+
+[node name="Mar_84" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(324, 560)
+shape = SubResource("Forma_Mar_84")
+
+[node name="Mar_85" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(332, 560)
+shape = SubResource("Forma_Mar_85")
+
+[node name="Mar_86" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(340, 560)
+shape = SubResource("Forma_Mar_86")
+
+[node name="Mar_87" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(348, 560)
+shape = SubResource("Forma_Mar_87")
+
+[node name="Mar_88" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(356, 560)
+shape = SubResource("Forma_Mar_88")
+
+[node name="Mar_89" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(364, 560)
+shape = SubResource("Forma_Mar_89")
+
+[node name="Mar_90" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(372, 560)
+shape = SubResource("Forma_Mar_90")
+
+[node name="Mar_91" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(380, 560)
+shape = SubResource("Forma_Mar_91")
+
+[node name="Mar_92" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(388, 309.3049)
+shape = SubResource("Forma_Mar_92")
+
+[node name="Mar_93" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(388, 488)
+shape = SubResource("Forma_Mar_93")
+
+[node name="Mar_94" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(396, 308.6856)
+shape = SubResource("Forma_Mar_94")
+
+[node name="Mar_95" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(396, 488)
+shape = SubResource("Forma_Mar_95")
+
+[node name="Mar_96" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(404, 308.3017)
+shape = SubResource("Forma_Mar_96")
+
+[node name="Mar_97" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(404, 488)
+shape = SubResource("Forma_Mar_97")
+
+[node name="Mar_98" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(412, 308.1627)
+shape = SubResource("Forma_Mar_98")
+
+[node name="Mar_99" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(412, 488)
+shape = SubResource("Forma_Mar_99")
+
+[node name="Mar_100" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(420, 308.269)
+shape = SubResource("Forma_Mar_100")
+
+[node name="Mar_101" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(420, 488)
+shape = SubResource("Forma_Mar_101")
+
+[node name="Mar_102" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(428, 308.612)
+shape = SubResource("Forma_Mar_102")
+
+[node name="Mar_103" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(428, 488)
+shape = SubResource("Forma_Mar_103")
+
+[node name="Mar_104" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(436, 309.1743)
+shape = SubResource("Forma_Mar_104")
+
+[node name="Mar_105" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(436, 488)
+shape = SubResource("Forma_Mar_105")
+
+[node name="Mar_106" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(444, 309.9309)
+shape = SubResource("Forma_Mar_106")
+
+[node name="Mar_107" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(444, 488)
+shape = SubResource("Forma_Mar_107")
+
+[node name="Mar_108" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(452, 294.8501)
+shape = SubResource("Forma_Mar_108")
+
+[node name="Mar_109" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(452, 528)
+shape = SubResource("Forma_Mar_109")
+
+[node name="Mar_110" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(460, 295.8951)
+shape = SubResource("Forma_Mar_110")
+
+[node name="Mar_111" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(460, 528)
+shape = SubResource("Forma_Mar_111")
+
+[node name="Mar_112" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(468, 297.0254)
+shape = SubResource("Forma_Mar_112")
+
+[node name="Mar_113" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(468, 528)
+shape = SubResource("Forma_Mar_113")
+
+[node name="Mar_114" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(476, 298.1989)
+shape = SubResource("Forma_Mar_114")
+
+[node name="Mar_115" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(476, 528)
+shape = SubResource("Forma_Mar_115")
+
+[node name="Mar_116" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(484, 299.3736)
+shape = SubResource("Forma_Mar_116")
+
+[node name="Mar_117" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(484, 528)
+shape = SubResource("Forma_Mar_117")
+
+[node name="Mar_118" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(492, 300.5097)
+shape = SubResource("Forma_Mar_118")
+
+[node name="Mar_119" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(492, 528)
+shape = SubResource("Forma_Mar_119")
+
+[node name="Mar_120" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(500, 301.5708)
+shape = SubResource("Forma_Mar_120")
+
+[node name="Mar_121" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(500, 528)
+shape = SubResource("Forma_Mar_121")
+
+[node name="Mar_122" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(508, 302.5262)
+shape = SubResource("Forma_Mar_122")
+
+[node name="Mar_123" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(508, 528)
+shape = SubResource("Forma_Mar_123")
+
+[node name="Mar_124" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(516, 303.3516)
+shape = SubResource("Forma_Mar_124")
+
+[node name="Mar_125" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(516, 528)
+shape = SubResource("Forma_Mar_125")
+
+[node name="Mar_126" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(524, 528)
+shape = SubResource("Forma_Mar_126")
+
+[node name="Mar_127" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(532, 528)
+shape = SubResource("Forma_Mar_127")
+
+[node name="Mar_128" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(540, 528)
+shape = SubResource("Forma_Mar_128")
+
+[node name="Mar_129" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(548, 528)
+shape = SubResource("Forma_Mar_129")
+
+[node name="Mar_130" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(556, 528)
+shape = SubResource("Forma_Mar_130")
+
+[node name="Mar_131" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(564, 528)
+shape = SubResource("Forma_Mar_131")
+
+[node name="Mar_132" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(572, 528)
+shape = SubResource("Forma_Mar_132")
+
+[node name="Mar_133" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(580, 528)
+shape = SubResource("Forma_Mar_133")
+
+[node name="Mar_134" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(588, 528)
+shape = SubResource("Forma_Mar_134")
+
+[node name="Mar_135" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(596, 528)
+shape = SubResource("Forma_Mar_135")
+
+[node name="Mar_136" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(604, 528)
+shape = SubResource("Forma_Mar_136")
+
+[node name="Mar_137" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(612, 528)
+shape = SubResource("Forma_Mar_137")
+
+[node name="Mar_138" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(620, 528)
+shape = SubResource("Forma_Mar_138")
+
+[node name="Mar_139" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(628, 528)
+shape = SubResource("Forma_Mar_139")
+
+[node name="Mar_140" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(636, 528)
+shape = SubResource("Forma_Mar_140")
+
+[node name="Mar_141" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(644, 457.7672)
+shape = SubResource("Forma_Mar_141")
+
+[node name="Mar_142" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(652, 458.4203)
+shape = SubResource("Forma_Mar_142")
+
+[node name="Mar_143" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(660, 459.2015)
+shape = SubResource("Forma_Mar_143")
+
+[node name="Mar_144" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(668, 460.0907)
+shape = SubResource("Forma_Mar_144")
+
+[node name="Mar_145" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(676, 461.0608)
+shape = SubResource("Forma_Mar_145")
+
+[node name="Mar_146" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(684, 462.0789)
+shape = SubResource("Forma_Mar_146")
+
+[node name="Mar_147" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(692, 463.1077)
+shape = SubResource("Forma_Mar_147")
+
+[node name="Mar_148" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(700, 464.107)
+shape = SubResource("Forma_Mar_148")
+
+[node name="Mar_149" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(708, 465.0358)
+shape = SubResource("Forma_Mar_149")
+
+[node name="Mar_150" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(716, 465.8538)
+shape = SubResource("Forma_Mar_150")
+
+[node name="Mar_151" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(724, 466.5237)
+shape = SubResource("Forma_Mar_151")
+
+[node name="Mar_152" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(732, 467.0126)
+shape = SubResource("Forma_Mar_152")
+
+[node name="Oeste" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(-12, 288)
+shape = SubResource("Forma_Oeste")
+
+[node name="Leste" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(716, 288)
+shape = SubResource("Forma_Leste")
+
+[node name="NorteOeste" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(154, -12)
+shape = SubResource("Forma_NorteOeste")
+
+[node name="NorteLeste" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(534, -12)
+shape = SubResource("Forma_NorteLeste")
+
+[node name="VoltaCidade" type="Area2D" parent="."]
+position = Vector2(336, 20)
+script = ExtResource("passagem")
+cena_destino = "res://cenas/cidade.tscn"
+ponto_chegada = "praia"
+so_entre_ondas = false
+
+[node name="Forma" type="CollisionShape2D" parent="VoltaCidade"]
+shape = SubResource("Forma_porta")
+
+[node name="Chegada_cidade" type="Marker2D" parent="." groups=["chegada"]]
+position = Vector2(336, 64)
+
+[node name="PlacaCidade" type="Label" parent="Terrains"]
+offset_left = 256.0
+offset_top = 35.0
+offset_right = 416.0
+offset_bottom = 55.0
+mouse_filter = 2
+theme_override_font_sizes/font_size = 7
+theme_override_colors/font_color = Color(1, 0.91, 0.7, 1)
+theme_override_colors/font_shadow_color = Color(0.16, 0.11, 0.1, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+text = "^ VILA"
+horizontal_alignment = 1
+
+[node name="PlacaPier" type="Label" parent="Terrains"]
+offset_left = 272.0
+offset_top = 230.0
+offset_right = 432.0
+offset_bottom = 250.0
+mouse_filter = 2
+theme_override_font_sizes/font_size = 7
+theme_override_colors/font_color = Color(1, 0.91, 0.7, 1)
+theme_override_colors/font_shadow_color = Color(0.16, 0.11, 0.1, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+text = "PIER DO NILO"
+horizontal_alignment = 1
+
+[node name="Palafita" type="Sprite2D" parent="."]
+position = Vector2(464, 224)
+centered = false
+texture_filter = 1
+z_index = 352
+texture = ExtResource("palafita")
+
+[node name="ParedesPalafita" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(544, 327)
+shape = SubResource("Forma_ParedesPalafita")
+
+[node name="PortaPalafita" type="Area2D" parent="."]
+position = Vector2(544, 356)
+script = ExtResource("passagem")
+cena_destino = "res://cenas/palafita.tscn"
+ponto_chegada = "entrada"
+so_entre_ondas = false
+
+[node name="Forma" type="CollisionShape2D" parent="PortaPalafita"]
+shape = SubResource("Forma_porta")
+
+[node name="Chegada_palafita" type="Marker2D" parent="." groups=["chegada"]]
+position = Vector2(544, 384)
+
+[node name="Corrimaos" type="Node2D" parent="."]
+texture_filter = 1
+
+[node name="Travessa10" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(112, 489)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 512
+
+[node name="Corrimao10" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(120, 512)
+shape = SubResource("Forma_Corrimao10")
+
+[node name="Travessa12" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(128, 489)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 512
+
+[node name="Corrimao12" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(136, 512)
+shape = SubResource("Forma_Corrimao12")
+
+[node name="Travessa20" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(144, 489)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 512
+
+[node name="Corrimao20" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(152, 512)
+shape = SubResource("Forma_Corrimao20")
+
+[node name="Travessa21" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(160, 313)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 336
+
+[node name="Corrimao21" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(168, 336)
+shape = SubResource("Forma_Corrimao21")
+
+[node name="Travessa22" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(160, 345)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 368
+
+[node name="Corrimao22" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(168, 368)
+shape = SubResource("Forma_Corrimao22")
+
+[node name="Travessa23" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(160, 457)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 480
+
+[node name="Corrimao23" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(168, 480)
+shape = SubResource("Forma_Corrimao23")
+
+[node name="Travessa24" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(160, 489)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 512
+
+[node name="Corrimao24" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(168, 512)
+shape = SubResource("Forma_Corrimao24")
+
+[node name="Travessa25" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(176, 313)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 336
+
+[node name="Corrimao25" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(184, 336)
+shape = SubResource("Forma_Corrimao25")
+
+[node name="Travessa26" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(176, 345)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 368
+
+[node name="Corrimao26" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(184, 368)
+shape = SubResource("Forma_Corrimao26")
+
+[node name="Travessa27" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(176, 457)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 480
+
+[node name="Corrimao27" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(184, 480)
+shape = SubResource("Forma_Corrimao27")
+
+[node name="Travessa28" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(176, 489)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 512
+
+[node name="Corrimao28" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(184, 512)
+shape = SubResource("Forma_Corrimao28")
+
+[node name="Travessa29" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(192, 313)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 336
+
+[node name="Corrimao29" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(200, 336)
+shape = SubResource("Forma_Corrimao29")
+
+[node name="Travessa30" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(192, 345)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 368
+
+[node name="Corrimao30" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(200, 368)
+shape = SubResource("Forma_Corrimao30")
+
+[node name="Travessa31" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(192, 457)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 480
+
+[node name="Corrimao31" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(200, 480)
+shape = SubResource("Forma_Corrimao31")
+
+[node name="Travessa32" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(192, 489)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 512
+
+[node name="Corrimao32" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(200, 512)
+shape = SubResource("Forma_Corrimao32")
+
+[node name="Travessa33" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(208, 313)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 336
+
+[node name="Corrimao33" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(216, 336)
+shape = SubResource("Forma_Corrimao33")
+
+[node name="Travessa34" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(208, 345)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 368
+
+[node name="Corrimao34" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(216, 368)
+shape = SubResource("Forma_Corrimao34")
+
+[node name="Travessa35" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(208, 457)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 480
+
+[node name="Corrimao35" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(216, 480)
+shape = SubResource("Forma_Corrimao35")
+
+[node name="Travessa36" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(208, 489)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 512
+
+[node name="Corrimao36" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(216, 512)
+shape = SubResource("Forma_Corrimao36")
+
+[node name="Travessa37" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(224, 313)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 336
+
+[node name="Corrimao37" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(232, 336)
+shape = SubResource("Forma_Corrimao37")
+
+[node name="Travessa38" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(224, 345)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 368
+
+[node name="Corrimao38" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(232, 368)
+shape = SubResource("Forma_Corrimao38")
+
+[node name="Travessa39" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(224, 457)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 480
+
+[node name="Corrimao39" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(232, 480)
+shape = SubResource("Forma_Corrimao39")
+
+[node name="Travessa40" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(224, 489)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 512
+
+[node name="Corrimao40" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(232, 512)
+shape = SubResource("Forma_Corrimao40")
+
+[node name="Travessa41" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(240, 313)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 336
+
+[node name="Corrimao41" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(248, 336)
+shape = SubResource("Forma_Corrimao41")
+
+[node name="Travessa42" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(240, 345)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 368
+
+[node name="Corrimao42" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(248, 368)
+shape = SubResource("Forma_Corrimao42")
+
+[node name="Travessa43" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(240, 457)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 480
+
+[node name="Corrimao43" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(248, 480)
+shape = SubResource("Forma_Corrimao43")
+
+[node name="Travessa44" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(240, 489)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 512
+
+[node name="Corrimao44" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(248, 512)
+shape = SubResource("Forma_Corrimao44")
+
+[node name="Travessa45" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(256, 313)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 336
+
+[node name="Corrimao45" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(264, 336)
+shape = SubResource("Forma_Corrimao45")
+
+[node name="Travessa46" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(256, 345)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 368
+
+[node name="Corrimao46" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(264, 368)
+shape = SubResource("Forma_Corrimao46")
+
+[node name="Travessa47" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(256, 457)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 480
+
+[node name="Corrimao47" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(264, 480)
+shape = SubResource("Forma_Corrimao47")
+
+[node name="Travessa48" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(256, 489)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 512
+
+[node name="Corrimao48" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(264, 512)
+shape = SubResource("Forma_Corrimao48")
+
+[node name="Travessa49" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(272, 313)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 336
+
+[node name="Corrimao49" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(280, 336)
+shape = SubResource("Forma_Corrimao49")
+
+[node name="Travessa50" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(272, 345)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 368
+
+[node name="Corrimao50" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(280, 368)
+shape = SubResource("Forma_Corrimao50")
+
+[node name="Travessa51" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(272, 457)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 480
+
+[node name="Corrimao51" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(280, 480)
+shape = SubResource("Forma_Corrimao51")
+
+[node name="Travessa52" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(272, 489)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 512
+
+[node name="Corrimao52" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(280, 512)
+shape = SubResource("Forma_Corrimao52")
+
+[node name="Travessa53" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(288, 313)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 336
+
+[node name="Corrimao53" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(296, 336)
+shape = SubResource("Forma_Corrimao53")
+
+[node name="Travessa54" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(288, 345)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 368
+
+[node name="Corrimao54" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(296, 368)
+shape = SubResource("Forma_Corrimao54")
+
+[node name="Travessa55" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(288, 457)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 480
+
+[node name="Corrimao55" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(296, 480)
+shape = SubResource("Forma_Corrimao55")
+
+[node name="Travessa56" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(288, 489)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 512
+
+[node name="Corrimao56" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(296, 512)
+shape = SubResource("Forma_Corrimao56")
+
+[node name="Travessa57" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(304, 313)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 336
+
+[node name="Corrimao57" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(312, 336)
+shape = SubResource("Forma_Corrimao57")
+
+[node name="Travessa58" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(304, 345)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 368
+
+[node name="Corrimao58" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(312, 368)
+shape = SubResource("Forma_Corrimao58")
+
+[node name="Travessa59" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(304, 457)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 480
+
+[node name="Corrimao59" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(312, 480)
+shape = SubResource("Forma_Corrimao59")
+
+[node name="Travessa60" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(304, 489)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 512
+
+[node name="Corrimao60" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(312, 512)
+shape = SubResource("Forma_Corrimao60")
+
+[node name="Travessa69" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(320, 489)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 512
+
+[node name="Corrimao69" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(328, 512)
+shape = SubResource("Forma_Corrimao69")
+
+[node name="Travessa70" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(336, 489)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 512
+
+[node name="Corrimao70" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(344, 512)
+shape = SubResource("Forma_Corrimao70")
+
+[node name="Travessa71" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(352, 489)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 512
+
+[node name="Corrimao71" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(360, 512)
+shape = SubResource("Forma_Corrimao71")
+
+[node name="Travessa78" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(368, 489)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 512
+
+[node name="Corrimao78" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(376, 512)
+shape = SubResource("Forma_Corrimao78")
+
+[node name="Travessa80" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(384, 313)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 336
+
+[node name="Corrimao80" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(392, 336)
+shape = SubResource("Forma_Corrimao80")
+
+[node name="Travessa81" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(384, 345)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 368
+
+[node name="Corrimao81" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(392, 368)
+shape = SubResource("Forma_Corrimao81")
+
+[node name="Travessa82" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(400, 313)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 336
+
+[node name="Corrimao82" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(408, 336)
+shape = SubResource("Forma_Corrimao82")
+
+[node name="Travessa83" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(400, 345)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 368
+
+[node name="Corrimao83" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(408, 368)
+shape = SubResource("Forma_Corrimao83")
+
+[node name="Travessa84" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(416, 313)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 336
+
+[node name="Corrimao84" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(424, 336)
+shape = SubResource("Forma_Corrimao84")
+
+[node name="Travessa85" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(416, 345)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 368
+
+[node name="Corrimao85" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(424, 368)
+shape = SubResource("Forma_Corrimao85")
+
+[node name="Travessa86" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(432, 313)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 336
+
+[node name="Corrimao86" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(440, 336)
+shape = SubResource("Forma_Corrimao86")
+
+[node name="Travessa87" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(432, 345)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 368
+
+[node name="Corrimao87" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(440, 368)
+shape = SubResource("Forma_Corrimao87")
+
+[node name="Travessa88" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(448, 281)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 304
+
+[node name="Corrimao88" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(456, 304)
+shape = SubResource("Forma_Corrimao88")
+
+[node name="Travessa95" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(448, 425)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 448
+
+[node name="Corrimao95" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(456, 448)
+shape = SubResource("Forma_Corrimao95")
+
+[node name="Travessa97" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(464, 281)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 304
+
+[node name="Corrimao97" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(472, 304)
+shape = SubResource("Forma_Corrimao97")
+
+[node name="Travessa98" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(464, 425)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 448
+
+[node name="Corrimao98" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(472, 448)
+shape = SubResource("Forma_Corrimao98")
+
+[node name="Travessa99" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(480, 281)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 304
+
+[node name="Corrimao99" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(488, 304)
+shape = SubResource("Forma_Corrimao99")
+
+[node name="Travessa100" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(480, 425)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 448
+
+[node name="Corrimao100" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(488, 448)
+shape = SubResource("Forma_Corrimao100")
+
+[node name="Travessa101" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(496, 425)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 448
+
+[node name="Corrimao101" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(504, 448)
+shape = SubResource("Forma_Corrimao101")
+
+[node name="Travessa102" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(512, 425)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 448
+
+[node name="Corrimao102" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(520, 448)
+shape = SubResource("Forma_Corrimao102")
+
+[node name="Travessa103" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(528, 425)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 448
+
+[node name="Corrimao103" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(536, 448)
+shape = SubResource("Forma_Corrimao103")
+
+[node name="Travessa104" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(544, 425)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 448
+
+[node name="Corrimao104" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(552, 448)
+shape = SubResource("Forma_Corrimao104")
+
+[node name="Travessa105" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(560, 425)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 448
+
+[node name="Corrimao105" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(568, 448)
+shape = SubResource("Forma_Corrimao105")
+
+[node name="Travessa106" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(576, 425)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 448
+
+[node name="Corrimao106" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(584, 448)
+shape = SubResource("Forma_Corrimao106")
+
+[node name="Travessa107" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(592, 425)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 448
+
+[node name="Corrimao107" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(600, 448)
+shape = SubResource("Forma_Corrimao107")
+
+[node name="Travessa108" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(608, 425)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 448
+
+[node name="Corrimao108" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(616, 448)
+shape = SubResource("Forma_Corrimao108")
+
+[node name="Travessa116" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(624, 425)
+centered = false
+texture = ExtResource("cerca_horizontal")
+z_index = 448
+
+[node name="Corrimao116" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(632, 448)
+shape = SubResource("Forma_Corrimao116")
+
+[node name="CorrimaoLateral118" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(116, 424)
+shape = SubResource("Forma_CorrimaoLateral118")
+
+[node name="Lateral118" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(112, 313)
+centered = false
+texture = ExtResource("poste_cais")
+z_index = 336
+
+[node name="Lateral119" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(112, 321)
+centered = false
+texture = ExtResource("cerca_vertical")
+z_index = 368
+
+[node name="Lateral120" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(112, 353)
+centered = false
+texture = ExtResource("cerca_vertical")
+z_index = 400
+
+[node name="Lateral121" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(112, 385)
+centered = false
+texture = ExtResource("cerca_vertical")
+z_index = 432
+
+[node name="Lateral122" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(112, 417)
+centered = false
+texture = ExtResource("cerca_vertical")
+z_index = 464
+
+[node name="Lateral123" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(112, 449)
+centered = false
+texture = ExtResource("cerca_vertical")
+z_index = 496
+
+[node name="Lateral124" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(112, 465)
+centered = false
+texture = ExtResource("cerca_vertical")
+z_index = 512
+
+[node name="CorrimaoLateral125" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(156, 424)
+shape = SubResource("Forma_CorrimaoLateral125")
+
+[node name="Lateral125" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(152, 345)
+centered = false
+texture = ExtResource("poste_cais")
+z_index = 368
+
+[node name="Lateral126" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(152, 353)
+centered = false
+texture = ExtResource("cerca_vertical")
+z_index = 400
+
+[node name="Lateral127" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(152, 385)
+centered = false
+texture = ExtResource("cerca_vertical")
+z_index = 432
+
+[node name="Lateral128" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(152, 417)
+centered = false
+texture = ExtResource("cerca_vertical")
+z_index = 464
+
+[node name="Lateral129" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(152, 433)
+centered = false
+texture = ExtResource("cerca_vertical")
+z_index = 480
+
+[node name="CorrimaoLateral130" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(324, 328)
+shape = SubResource("Forma_CorrimaoLateral130")
+
+[node name="Lateral130" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(320, 297)
+centered = false
+texture = ExtResource("poste_cais")
+z_index = 320
+
+[node name="Lateral131" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(320, 289)
+centered = false
+texture = ExtResource("cerca_vertical")
+z_index = 336
+
+[node name="CorrimaoLateral132" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(324, 424)
+shape = SubResource("Forma_CorrimaoLateral132")
+
+[node name="Lateral132" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(320, 345)
+centered = false
+texture = ExtResource("poste_cais")
+z_index = 368
+
+[node name="Lateral133" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(320, 353)
+centered = false
+texture = ExtResource("cerca_vertical")
+z_index = 400
+
+[node name="Lateral134" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(320, 385)
+centered = false
+texture = ExtResource("cerca_vertical")
+z_index = 432
+
+[node name="Lateral135" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(320, 417)
+centered = false
+texture = ExtResource("cerca_vertical")
+z_index = 464
+
+[node name="Lateral136" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(320, 433)
+centered = false
+texture = ExtResource("cerca_vertical")
+z_index = 480
+
+[node name="CorrimaoLateral137" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(380, 320)
+shape = SubResource("Forma_CorrimaoLateral137")
+
+[node name="Lateral137" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(376, 281)
+centered = false
+texture = ExtResource("poste_cais")
+z_index = 304
+
+[node name="Lateral138" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(376, 289)
+centered = false
+texture = ExtResource("cerca_vertical")
+z_index = 336
+
+[node name="CorrimaoLateral139" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(380, 376)
+shape = SubResource("Forma_CorrimaoLateral139")
+
+[node name="Lateral139" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(376, 345)
+centered = false
+texture = ExtResource("poste_cais")
+z_index = 368
+
+[node name="Lateral140" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(376, 337)
+centered = false
+texture = ExtResource("cerca_vertical")
+z_index = 384
+
+[node name="CorrimaoLateral141" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(380, 480)
+shape = SubResource("Forma_CorrimaoLateral141")
+
+[node name="Lateral141" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(376, 425)
+centered = false
+texture = ExtResource("poste_cais")
+z_index = 448
+
+[node name="Lateral142" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(376, 433)
+centered = false
+texture = ExtResource("cerca_vertical")
+z_index = 480
+
+[node name="Lateral143" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(376, 465)
+centered = false
+texture = ExtResource("cerca_vertical")
+z_index = 512
+
+[node name="CorrimaoLateral144" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(452, 320)
+shape = SubResource("Forma_CorrimaoLateral144")
+
+[node name="Lateral144" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(448, 281)
+centered = false
+texture = ExtResource("poste_cais")
+z_index = 304
+
+[node name="Lateral145" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(448, 289)
+centered = false
+texture = ExtResource("cerca_vertical")
+z_index = 336
+
+[node name="CorrimaoLateral146" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(452, 408)
+shape = SubResource("Forma_CorrimaoLateral146")
+
+[node name="Lateral146" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(448, 345)
+centered = false
+texture = ExtResource("poste_cais")
+z_index = 368
+
+[node name="Lateral147" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(448, 353)
+centered = false
+texture = ExtResource("cerca_vertical")
+z_index = 400
+
+[node name="Lateral148" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(448, 385)
+centered = false
+texture = ExtResource("cerca_vertical")
+z_index = 432
+
+[node name="Lateral149" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(448, 401)
+centered = false
+texture = ExtResource("cerca_vertical")
+z_index = 448
+
+[node name="CorrimaoLateral150" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(636, 384)
+shape = SubResource("Forma_CorrimaoLateral150")
+
+[node name="Lateral150" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(632, 297)
+centered = false
+texture = ExtResource("poste_cais")
+z_index = 320
+
+[node name="Lateral151" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(632, 305)
+centered = false
+texture = ExtResource("cerca_vertical")
+z_index = 352
+
+[node name="Lateral152" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(632, 337)
+centered = false
+texture = ExtResource("cerca_vertical")
+z_index = 384
+
+[node name="Lateral153" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(632, 369)
+centered = false
+texture = ExtResource("cerca_vertical")
+z_index = 416
+
+[node name="Lateral154" type="Sprite2D" parent="Corrimaos"]
+position = Vector2(632, 401)
+centered = false
+texture = ExtResource("cerca_vertical")
+z_index = 448
+
+[node name="Nilo" type="CharacterBody2D" parent="."]
+position = Vector2(342, 404)
+script = ExtResource("pescador")
+
+[node name="Jogador" parent="." instance=ExtResource("jogador")]
+position = Vector2(336, 64)
+collision_mask = 96
+
+[node name="Iluminacao" type="Node" parent="."]
+script = ExtResource("luz")
+
+[node name="CanvasModulate" type="CanvasModulate" parent="Iluminacao"]
+
+[node name="Vinheta" parent="." instance=ExtResource("vinheta")]
+layer = 1
+
+[node name="assets/ui" parent="." instance=ExtResource("ui")]
+
+[node name="Interface" parent="." instance=ExtResource("interface")]

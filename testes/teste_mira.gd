@@ -158,10 +158,10 @@ func _rodar() -> void:
 	await _limpar()
 
 	# --- os arcos
-	var Equip := preload("res://Codigos/DadosLocais/Equipamentos.gd")
-	var curto: Dictionary = Equip.ARMAS_LOJA["arco_curto"]
-	var curvo: Dictionary = Equip.ARMAS_LOJA["arco_curvo"]
-	var longo: Dictionary = Equip.ARMAS_LOJA["arco_longo"]
+	var Equip := preload("res://codigo/dados/equipamentos.gd")
+	var curto: Dictionary = Equip.ARMAS_ADICIONAIS["arco_curto"]
+	var curvo: Dictionary = Equip.ARMAS_ADICIONAIS["arco_curvo"]
+	var longo: Dictionary = Equip.ARMAS_ADICIONAIS["arco_longo"]
 	var forca := 5.0
 	var dps_curto: float = (float(curto["dano"][0]) + forca) / float(curto["tempo_disparo"])
 	var dps_curvo: float = (float(curvo["dano"][0]) + forca) / float(curvo["tempo_disparo"])

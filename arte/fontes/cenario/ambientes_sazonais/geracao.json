@@ -1,0 +1,6 @@
+{
+  "status": "estudo arquivado, fora do jogo",
+  "motivo": "Usuário solicitou preservar a resolução e os sprites originais; folha gerada não é usada pelo preparador nem pelo runtime.",
+  "ativos": "assets/cenario/cidade/ambientes/manifesto.json",
+  "regra": "Sem resize, quantização, escala fracionária ou reamostragem dos sprites originais."
+}

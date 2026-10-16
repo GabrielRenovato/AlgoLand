@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://d3wt5o4wttap2"]
+
+[ext_resource type="Script" uid="uid://xbuefekviv2t" path="res://codigo/efeitos/dano_flutuante.gd" id="1_i5eyu"]
+[ext_resource type="FontFile" uid="uid://dwub7qum41gaq" path="res://assets/ui/Planes_ValMore.ttf" id="2_ogeap"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_xobbq"]
+font = ExtResource("2_ogeap")
+font_color = Color(1, 1, 0, 1)
+shadow_color = Color(0, 0, 0, 1)
+
+[node name="FloatingDamageLabel" type="Node2D"]
+z_index = 1000
+script = ExtResource("1_i5eyu")
+
+[node name="Rotulo" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0
+label_settings = SubResource("LabelSettings_xobbq")

@@ -4,8 +4,8 @@ extends SceneTree
 #   godot --path . --resolution 1440x648 --script res://ferramentas/itens/render_raridade.gd -- <pasta_saida>
 # Grava user://inventario.json (faça backup do user:// antes).
 
-const Raridades := preload("res://Codigos/DadosLocais/raridades.gd")
-const DadosItemScript := preload("res://Codigos/Modelos/dados_item.gd")
+const Raridades := preload("res://codigo/dados/raridades.gd")
+const DadosItemScript := preload("res://codigo/modelos/dados_item.gd")
 var EquipamentoDrop: GDScript
 
 func _initialize() -> void:
@@ -33,7 +33,7 @@ func _rodar() -> void:
 	var pasta: String = OS.get_cmdline_user_args()[0]
 	DirAccess.make_dir_recursive_absolute(pasta)
 	await process_frame
-	EquipamentoDrop = load("res://Codigos/Logicas/equipamento_drop.gd")
+	EquipamentoDrop = load("res://codigo/logica/equipamento_drop.gd")
 	root.get_node("Progresso").caminho_save = "user://render_raridade_progresso.json"
 	root.get_node("Fazenda").caminho_save = "user://render_raridade_fazenda.json"
 	root.get_node("Progresso").apagar()
@@ -59,7 +59,7 @@ func _rodar() -> void:
 	inv.adicionar(_novo("escudo_basico", "escudo", "epico", 2, {"defesa": 3.0}))
 	for i in 20:
 		await process_frame
-	var barra: Control = arena.get_node("UI/BarraArmas")
+	var barra: Control = arena.get_node("assets/ui/BarraArmas")
 	barra.escolher(3)
 	await create_timer(0.6).timeout
 	# a captura tem o tamanho da janela (1440x648), não o da tela do jogo (576x324)

@@ -60,17 +60,21 @@ func _rodar() -> void:
 	var defesa_inicial: int = _jogador.bonus_defesa
 	var forca_inicial: int = _jogador.estatisticas.forca
 	var sorte_inicial: int = _jogador.estatisticas.sorte
-	_verificar("kit inicial: sem arma na mao", not _jogador.usando_espada and not _jogador.usando_lanca and not _jogador.usando_escudo, "")
+	_verificar("kit inicial: espada e escudo na mao", _jogador.usando_espada and _jogador.usando_escudo and not _jogador.usando_lanca, "")
 	_verificar("kit inicial: armadura equipada", _jogador.usando_cabeca and _jogador.usando_corpo and _jogador.usando_luvas and _jogador.usando_botas, "")
 
 	# --- equipa arma e escudo, compra um totem e junta ouro
 	var espada = inventario.buscar_por_tipo("espada_basica")
 	var escudo = inventario.buscar_por_tipo("escudo_basico")
+	inventario.desequipar("arma")
+	inventario.desequipar("escudo")
+	await _quadros(5)
+	var defesa_sem_escudo: int = _jogador.bonus_defesa
 	inventario.equipar(espada)
 	inventario.equipar(escudo)
 	await _quadros(5)
 	_verificar("espada e escudo equipados pelo modelo", _jogador.usando_espada and _jogador.usando_escudo, "espada=%s escudo=%s" % [_jogador.usando_espada, _jogador.usando_escudo])
-	_verificar("escudo mudou a defesa/vida", _jogador.bonus_defesa > defesa_inicial, "defesa=%d" % _jogador.bonus_defesa)
+	_verificar("escudo mudou a defesa/vida", _jogador.bonus_defesa > defesa_sem_escudo, "defesa=%d" % _jogador.bonus_defesa)
 	var totem: Dictionary = root.get_node("DadosDosItems").obter_dados_item("item_1").duplicate()
 	_jogador.aplicar_efeitos_item(totem)
 	_jogador.itens_comprados.append(totem)
@@ -99,18 +103,19 @@ func _rodar() -> void:
 	_verificar("jogador nao toma dano morto", _jogador.estaMorto, "")
 
 	# --- confirmar: volta ao acampamento com o kit inicial
-	botao_voltar.pressed.emit()
+	_jogador.reiniciar_para_nova_partida()
+	interface._fechar_tela("fim_partida")
 	await _quadros(5)
 	_verificar("tela de fim fechada", not tela_fim.visible and not interface._telas_abertas.has("fim_partida"), "")
 	_verificar("jogador vivo e livre", not _jogador.estaMorto and _jogador.movimento_habilitado, "")
 	_verificar("volta para perto da fogueira", _jogador.global_position.distance_to(posicao_inicial) < 1.0, str(_jogador.global_position))
 	_verificar("vida e estamina cheias", _jogador.hp_atual == _jogador.estatisticas.hp_maximo and is_equal_approx(_jogador.stamina, _jogador.stamina_maxima), "hp=%d" % _jogador.hp_atual)
-	_verificar("sem arma na mao", not _jogador.usando_espada and not _jogador.usando_lanca and not _jogador.usando_arco and not _jogador.usando_escudo, "")
+	_verificar("de volta ao kit: espada e escudo na mao", _jogador.usando_espada and _jogador.usando_escudo and not _jogador.usando_lanca and not _jogador.usando_arco, "")
 	_verificar("armadura continua equipada", _jogador.usando_cabeca and _jogador.usando_corpo and _jogador.usando_luvas and _jogador.usando_botas, "")
-	_verificar("modelo: armadura equipada e armas na mochila",
-			inventario.equipados["arma"] == null and inventario.equipados["escudo"] == null and inventario.equipados["corpo"] != null
-			and inventario.indice_de(inventario.buscar_por_tipo("espada_basica")) != -1 and inventario.indice_de(inventario.buscar_por_tipo("escudo_basico")) != -1
-			and inventario.buscar_por_tipo("machado") == null, str(inventario.equipados))
+	_verificar("modelo: armadura, espada e escudo equipados; lanca e ferramentas na mochila",
+			inventario.equipados["arma"] != null and inventario.equipados["arma"].tipo == "espada_basica" and inventario.equipados["escudo"] != null
+			and inventario.equipados["corpo"] != null and inventario.indice_de(inventario.buscar_por_tipo("lanca_basica")) != -1
+			and inventario.indice_de(inventario.buscar_por_tipo("enxada")) != -1 and inventario.buscar_por_tipo("machado") == null, str(inventario.equipados))
 	_verificar("estatisticas voltaram ao inicio (vida, defesa, forca, sorte)",
 			_jogador.estatisticas.hp_maximo == hp_inicial and _jogador.bonus_defesa == defesa_inicial
 			and _jogador.estatisticas.forca == forca_inicial and _jogador.estatisticas.sorte == sorte_inicial and _jogador.itens_comprados.is_empty(),
@@ -119,7 +124,7 @@ func _rodar() -> void:
 	_verificar("nova partida em andamento com brasas guardadas", _progresso.partida_ativa and _progresso.abates == 0 and _progresso.brasas == 2, "")
 	_verificar("gerenciador voltou para a onda 1", _gerenciador.onda_atual == 1 and not _gerenciador.onda_em_andamento, "onda=%d" % _gerenciador.onda_atual)
 	var salvo = JSON.parse_string(FileAccess.get_file_as_string("user://inventario.json"))
-	_verificar("inventario.json salvo com o kit inicial", salvo is Dictionary and salvo["equipados"]["arma"] == null and salvo["equipados"]["corpo"] != null, "")
+	_verificar("inventario.json salvo com o kit inicial", salvo is Dictionary and salvo["equipados"]["arma"] != null and salvo["equipados"]["corpo"] != null, "")
 
 	# --- equipar de novo depois do reset (a sincronia modelo <-> jogador continua valendo)
 	inventario.equipar(inventario.buscar_por_tipo("espada_basica"))
@@ -163,7 +168,8 @@ func _rodar() -> void:
 	_jogador.receber_dano(999)
 	await _quadros(5)
 	_verificar("segunda queda na mesma partida vai para a tela de fim", _jogador.estaMorto and tela_fim.visible, "")
-	botao_voltar.pressed.emit()
+	_jogador.reiniciar_para_nova_partida()
+	interface._fechar_tela("fim_partida")
 	await _quadros(3)
 	_verificar("bolsa nivel 1 da 40 de ouro inicial", dados_jogo.moedas == 40, "moedas=%d" % dados_jogo.moedas)
 	_verificar("nova partida libera outro reviver", _progresso.partida_ativa and not _progresso.reviveu_na_partida, "")
@@ -184,11 +190,43 @@ func _rodar() -> void:
 	_verificar("com onda em andamento a mistica nao aceita mais", not _progresso.pode_escolher_checkpoint(), "")
 
 	# --- Interagivel so entre ondas
-	var interacao = _cena.get_node("Terrains/Fogueira/Interacao")
+	var interacao = _cena.get_node("PortalDaArena/InteracaoPortal")
 	interacao.jogador_perto = true
-	_verificar("fogueira nao interage com onda em andamento", not interacao.pode_interagir(), "")
+	_verificar("passagem nao interage com onda em andamento", not interacao.pode_interagir(), "")
 	_gerenciador.parar_ondas()
-	_verificar("fogueira interage entre as ondas", interacao.pode_interagir(), "")
+	_verificar("passagem interage entre as ondas", interacao.pode_interagir(), "")
+
+	# O botão real agora leva à enfermaria, preservando o kit reiniciado.
+	_jogador.receber_hitkill_chefe()
+	await _quadros(4)
+	_verificar("queda fatal abre confirmação", tela_fim.visible and _jogador.estaMorto, "")
+	botao_voltar.pressed.emit()
+	var transicao: Node = root.get_node("Transicao")
+	for i in 600:
+		await process_frame
+		if not transicao.ocupada and current_scene.scene_file_path == "res://cenas/cidade/enfermaria.tscn":
+			break
+	_verificar("confirmar morte leva à enfermaria", current_scene.scene_file_path == "res://cenas/cidade/enfermaria.tscn" and not transicao.ocupada, "")
+	var recuperado: Node = current_scene.get_node("Jogador")
+	_verificar("recuperação cria jogador vivo e com vida", not recuperado.estaMorto and recuperado.hp_atual > 0, "")
+	var atendimento: Node = root.get_node("EventosJogo").interface_p1()._telas["introducao"]
+	for i in 120:
+		await process_frame
+		if atendimento.visible:
+			break
+	_verificar("Rosa inicia atendimento depois da chegada", atendimento.visible, "")
+	while atendimento.visible:
+		atendimento._espera = 0
+		atendimento.avancar()
+		await process_frame
+	for i in 120:
+		await process_frame
+		if recuperado.movimento_habilitado:
+			break
+	_verificar("terminar atendimento devolve movimento", recuperado.movimento_habilitado and recuperado.visible, "")
+	current_scene.queue_free()
+	current_scene = null
+	await _quadros(5)
 
 	# limpeza
 	if FileAccess.file_exists(CAMINHO_PROGRESSO):

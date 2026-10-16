@@ -1,7 +1,7 @@
 extends SceneTree
 
 # Rodar: godot --headless --path . --script res://testes/teste_toque.gd
-# Controles na tela do celular (Codigos/UI/controles_toque.gd): joystick flutuante, botões que mandam as ações do jogo, multitoque,
+# Controles na tela do celular (codigo/ui/controles_toque.gd): joystick flutuante, botões que mandam as ações do jogo, multitoque,
 # sumir com uma tela aberta, o toque (clique emulado do mouse) não ataca, e os rótulos das dicas.
 # ATENCAO: carrega a cena de jogo e equipa itens (grava user://inventario.json); faça backup do user:// antes.
 
@@ -98,7 +98,7 @@ func _rodar() -> void:
 		var r: float = lista[i]["raio"]
 		dentro = dentro and c.x - r >= 0.0 and c.y - r >= 0.0 and c.x + r <= tam.x and c.y + r <= tam.y
 		for j in range(i + 1, lista.size()):
-			if c.distance_to(lista[j]["centro"]) < r + float(lista[j]["raio"]):
+			if lista[i]["visivel"] and lista[j]["visivel"] and c.distance_to(lista[j]["centro"]) < r + float(lista[j]["raio"]):
 				sobrepoe = true
 				print("  sobreposto: ", lista[i]["acao"], " x ", lista[j]["acao"])
 	_verificar("todos os botões cabem na tela", dentro, "tela=%s" % tam)
@@ -237,7 +237,7 @@ func _rodar() -> void:
 	_toque(0, Vector2(110, 260), false)
 	_toque(1, ataque["centro"], false)
 
-	# --- fazenda: tocar nas casas da barra de ferramentas escolhe a ferramenta (sem Q/E) e o toque nela não vira joystick
+	# --- fazenda: tocar nas casas da barra de baixo (a mochila) escolhe a ferramenta (sem Q/E) e o toque nela não vira joystick
 	_cena.queue_free()
 	await _quadros(3)
 	var fazenda_dados = root.get_node("Fazenda")
@@ -253,13 +253,15 @@ func _rodar() -> void:
 			_controles = filho
 	var casas := get_nodes_in_group("toque_hud")
 	_verificar("a barra de ferramentas tem casas tocáveis (enxada, regador, mão)", casas.size() >= 3, "casas=%d" % casas.size())
+	# A barra de baixo é a primeira linha da mochila (a mesma da arena): o regador do kit fica numa das casas
 	var regador: Control = null
 	for casa in casas:
-		if String(casa.name) == "Casa_regador":
+		var slot: Node = casa.get_node_or_null("Conteudo/Slot")
+		if slot != null and slot.item_atual != null and slot.item_atual.tipo == "regador":
 			regador = casa
 	_verificar("existe a casa do regador", regador != null, "")
 	if regador != null:
-		_verificar("as casas crescem no toque (30 de lado)", regador.custom_minimum_size.x == 30.0, str(regador.custom_minimum_size))
+		_verificar("as casas crescem no toque (maiores que as 20 do PC)", regador.custom_minimum_size.x >= 30.0, str(regador.custom_minimum_size))
 		var centro := regador.get_global_rect().get_center()
 		var clique_casa := InputEventMouseButton.new()
 		clique_casa.button_index = MOUSE_BUTTON_LEFT

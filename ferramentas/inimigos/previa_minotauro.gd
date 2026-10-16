@@ -31,7 +31,7 @@ func _rodar() -> void:
 	texto.position = Vector2(20, 20)
 	texto.add_theme_font_size_override("font_size", 20)
 	palco.add_child(texto)
-	var saida := "res://inimigos/minotauro/previas/"
+	var saida := "res://arte/previas/inimigos/minotauro/"
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(saida))
 	var indice := 0
 	for tipo in ["investida", "pisao", "machado", "furia"]:

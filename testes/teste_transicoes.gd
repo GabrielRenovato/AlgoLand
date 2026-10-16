@@ -1,11 +1,11 @@
 extends SceneTree
 
 # Rodar: godot --headless --path . --script res://testes/teste_transicoes.gd
-# Percorre arena -> fazenda -> casa -> dormir -> casa -> fazenda -> arena com a cena de jogo de verdade (Transicao) e confere
+# Percorre arena -> cidade -> fazenda -> casa -> dormir -> casa -> fazenda -> cidade -> arena com a cena de jogo de verdade (Transicao) e confere
 # que ouro, inventario, vida, estamina, totens e a partida (Progresso, onda atual, checkpoint) atravessam as trocas sem
 # virar morte nem reiniciar a partida; as zonas de passagem (caverna, porta, saida, cama), a caverna fechada durante a
 # onda, o fade, a data e o sono (dia seguinte, cura, salvamento, acordar ao lado da cama).
-# ATENCAO: grava user://inventario.json (dormir salva o inventario); faca backup do user:// antes.
+# Execute apenas na cópia de testes com saves isolados.
 
 const CAMINHO_PROGRESSO := "user://teste_transicoes_progresso.json"
 const CAMINHO_CALENDARIO := "user://teste_transicoes_calendario.json"
@@ -56,6 +56,10 @@ func _ir_para_zona(zona: Node) -> void:
 	await _fisica(4)
 
 func _rodar() -> void:
+	if ProjectSettings.get_setting("application/config/name") != "AlgoLand testes Carrasco":
+		push_error("Execute em copia de testes com saves isolados.")
+		quit(1)
+		return
 	await process_frame
 	_progresso = root.get_node("Progresso")
 	_calendario = root.get_node("Calendario")
@@ -103,36 +107,33 @@ func _rodar() -> void:
 	jogador.stamina = 20.0
 	var mochila_antes: int = _inventario.mochila.size()
 	var equipados_antes: Array = _equipados()
-	var passagem: Node = arena.get_node("Terrains/PassagemCaverna")
 	_verificar("arena: partida ativa com a onda 3 e 2 abates", _progresso.partida_ativa and _progresso.abates == 2 and gerenciador.onda_atual == 3, "")
 	_verificar("totem somou forca (+3)", jogador.estatisticas.forca == forca_antes + 3, "")
 
-	# ---- caverna: zona na boca, aviso so entre ondas
-	await _ir_para_zona(passagem)
-	_verificar("caverna: jogador na boca ativa a zona", passagem.jogador_perto, "")
-	_verificar("caverna entre ondas: disponivel (aviso F/Y)", passagem.disponivel_para_interacao(), "")
-	gerenciador.onda_em_andamento = true
-	_verificar("caverna no meio da onda: fechada", not passagem.pode_interagir() and not passagem.disponivel_para_interacao(), "")
-	passagem.abrir_tela()
-	await _quadros(5)
-	_verificar("pedido com a onda em andamento nao troca de cena", current_scene == arena and not _transicao.ocupada, "")
-	gerenciador.onda_em_andamento = false
-	var longe: Vector2 = passagem.get_node("../Chegada_caverna").global_position
-	jogador.global_position = longe
-	await _fisica(4)
-	_verificar("ponto de chegada da caverna fica fora da zona (nao reabre sozinho)", not passagem.jogador_perto, "")
-	await _ir_para_zona(passagem)
+	# O portal atual abre o menu da arena; a volta pede confirmação.
+	var interface_arena: Node = root.get_node("EventosJogo").interface_p1()
+	interface_arena._abrir_tela("mercante")
+	await _quadros(4)
+	var loja_arena: Node = interface_arena._telas["mercante"]
+	_verificar("portal oferece menu da arena", loja_arena._modo_arena and loja_arena._botao_cidade.visible, "")
+	loja_arena._ao_voltar_para_cidade()
+	_verificar("voltar à cidade pede confirmação", loja_arena._confirmacao.visible and not _transicao.ocupada, "")
+	interface_arena._fechar_tela("mercante")
+	# Exercita também a viagem que preserva o estado (usada pelo fluxo de introdução).
+	_transicao.sair_da_arena()
 
-	# ---- arena -> fazenda
-	passagem.abrir_tela()
 	_verificar("ao abrir, a Transicao fica ocupada e o jogador travado", _transicao.ocupada, "")
 	_verificar("fade para preto", await _esperar_escuro(), "")
+	_verificar("cidade carregada ao sair da arena", await _esperar(_transicao.troca_concluida) and current_scene.name == "cidade")
+	await _quadros(4)
+	current_scene.get_node("TrilhaFazenda").abrir_tela()
 	_verificar("fazenda carregada", await _esperar(_transicao.troca_concluida) and current_scene.name == "fazenda", "cena=%s" % current_scene.name)
 	await _quadros(4)
 	var fazenda: Node = current_scene
 	jogador = _jogador()
 	jogador.jogador_morreu.connect(func(): _mortes += 1)
-	_verificar("fazenda: jogador na frente da caverna", jogador.global_position.distance_to(fazenda.get_node("Terrains/Chegada_caverna").global_position) < 2.0, str(jogador.global_position))
+	_verificar("fazenda: chega pela trilha a leste", jogador.global_position.distance_to(fazenda.get_node("Terrains/Chegada_cidade").global_position) < 2.0, str(jogador.global_position))
+	_verificar("fazenda: chegada fora da zona de retorno", not fazenda.get_node("Terrains/PassagemCidade").jogador_perto)
 	_conferir_estado("fazenda", jogador, forca_antes + 3, mochila_antes, equipados_antes, true)
 	_verificar("fazenda: partida do Progresso segue ativa, com os abates e o checkpoint", _progresso.partida_ativa and _progresso.abates == 2 and _progresso.checkpoint_max == 10 and _progresso.brasas == 7, "")
 	_verificar("fazenda: sem gerenciador de ondas e sem inimigos", get_nodes_in_group("gerenciador_ondas").is_empty() and get_nodes_in_group("enemy").is_empty(), "")
@@ -140,8 +141,8 @@ func _rodar() -> void:
 	_verificar("fazenda: estacao do calendario (primavera)", fazenda.get_node("Terrains/Estacoes").estacao_atual == 0, "")
 	var hud: Node = get_nodes_in_group("hud")[0]
 	await _quadros(3)
-	_verificar("fazenda: HUD com a data e o titulo", hud.rotulo_data.text == "PRIMAVERA - DIA 1" and hud.rotulo_onda.text == "FAZENDA", "%s / %s" % [hud.rotulo_data.text, hud.rotulo_onda.text])
-	_verificar("fazenda: camera presa ao mapa", jogador.camera.limit_right == 960 and jogador.camera.limit_bottom == 672 and jogador.camera.limit_left == 0, "")
+	_verificar("fazenda: HUD com a data e o titulo", hud.rotulo_data.text == "SEG  PRIMAVERA - DIA 1" and hud.rotulo_onda.text == "FAZENDA", "%s / %s" % [hud.rotulo_data.text, hud.rotulo_onda.text])
+	_verificar("fazenda: camera presa ao mapa", jogador.camera.limit_right == 1152 and jogador.camera.limit_bottom == 768 and jogador.camera.limit_left == 0, "")
 	# jogador nao morre fora da arena
 	jogador.invulneravel = false
 	jogador.receber_dano(99999)
@@ -166,7 +167,7 @@ func _rodar() -> void:
 	_conferir_estado("casa", jogador, forca_antes + 3, mochila_antes, equipados_antes)
 	await _quadros(3)
 	hud = get_nodes_in_group("hud")[0]
-	_verificar("casa: HUD com a data e o titulo CASA", hud.rotulo_data.text == "PRIMAVERA - DIA 1" and hud.rotulo_onda.text == "CASA", hud.rotulo_onda.text)
+	_verificar("casa: HUD com a data e o titulo CASA", hud.rotulo_data.text == "SEG  PRIMAVERA - DIA 1" and hud.rotulo_onda.text == "CASA", hud.rotulo_onda.text)
 	await _testar_colisoes_casa(casa, jogador)
 
 	# ---- cama: confirmacao, NAO fecha sem dormir
@@ -249,7 +250,7 @@ func _rodar() -> void:
 	_verificar("dormir: jogador liberado e Transicao livre", jogador.movimento_habilitado and not _transicao.ocupada and not _transicao.esta_escuro(), "")
 	_verificar("dormir: nao e morte (partida, abates e onda intactos)", _progresso.partida_ativa and _progresso.abates == 2 and _mortes == 0 and _progresso.ultimo_resultado.is_empty(), "")
 	_verificar("dormir: ouro, forca e inventario intactos", _dados_jogo.moedas == 123 and jogador.estatisticas.forca == forca_antes + 3 and _inventario.mochila.size() == mochila_antes, "")
-	_verificar("dormir: HUD com a nova data (VERAO - DIA 1)", hud.rotulo_data.text == "VERAO - DIA 1", hud.rotulo_data.text)
+	_verificar("dormir: HUD com a nova data (VERAO - DIA 1)", hud.rotulo_data.text == "SEG  VERAO - DIA 1", hud.rotulo_data.text)
 	_verificar("dormir: manha seguinte", is_equal_approx(_transicao.hora_salva, 6.0), "hora=%.2f" % _transicao.hora_salva)
 	hud.faixa_banner.hide()
 
@@ -266,22 +267,25 @@ func _rodar() -> void:
 	_verificar("sair da casa: jogador na frente da porta", jogador.global_position.distance_to(fazenda.get_node("Terrains/Chegada_porta").global_position) < 2.0, "")
 	_verificar("fazenda no dia 8: verao", fazenda.get_node("Terrains/Estacoes").estacao_atual == 1, "")
 	_verificar("fazenda: vida atravessou a porta (61)", jogador.hp_atual == 61, "hp=%d" % jogador.hp_atual)
-	_verificar("fazenda: o mesmo horario (manha) e a data nova no HUD", get_nodes_in_group("hud")[0].rotulo_data.text == "VERAO - DIA 1", "")
+	_verificar("fazenda: o mesmo horario (manha) e a data nova no HUD", get_nodes_in_group("hud")[0].rotulo_data.text == "SEG  VERAO - DIA 1", "")
 	var luz: Node = get_nodes_in_group("iluminacao")[0]
 	_verificar("fazenda: hora do dia segue de onde estava (6h)", absf(luz.hora - 6.0) < 0.2, "hora=%.2f" % luz.hora)
 
-	# ---- fazenda -> arena pela caverna
-	var caverna_fazenda: Node = fazenda.get_node("Terrains/PassagemCaverna")
+	# ---- fazenda -> cidade pela trilha a leste -> arena
+	var caverna_fazenda: Node = fazenda.get_node("Terrains/PassagemCidade")
 	await _ir_para_zona(caverna_fazenda)
-	_verificar("caverna da fazenda: zona ativa", caverna_fazenda.jogador_perto and caverna_fazenda.disponivel_para_interacao(), "")
+	_verificar("trilha da cidade: zona ativa", caverna_fazenda.jogador_perto and caverna_fazenda.disponivel_para_interacao(), "")
 	caverna_fazenda.abrir_tela()
+	_verificar("cidade carregada ao sair da fazenda", await _esperar(_transicao.troca_concluida) and current_scene.name == "cidade")
+	await _quadros(4)
+	_transicao.entrar_na_arena()
 	_verificar("de volta a arena", await _esperar(_transicao.troca_concluida) and current_scene.name == "cenario", "cena=%s" % current_scene.name)
 	await _quadros(4)
 	await create_timer(0.3).timeout
 	arena = current_scene
 	jogador = _jogador()
 	gerenciador = arena.get_node("enemySpawner/GerenciadorOndas")
-	_verificar("arena: jogador na frente da caverna", jogador.global_position.distance_to(arena.get_node("Terrains/Chegada_caverna").global_position) < 2.0, str(jogador.global_position))
+	_verificar("arena: jogador na frente da caverna", jogador.global_position.distance_to(arena.get_node("Terrains/Chegada_portal").global_position) < 2.0, str(jogador.global_position))
 	_verificar("arena: a partida continua (onda 3, nao reiniciou)", gerenciador.onda_atual == 3 and _progresso.partida_ativa, "onda=%d" % gerenciador.onda_atual)
 	_verificar("arena: abates, onda maxima e ondas concluidas da partida intactos", _progresso.abates == 2 and _progresso.onda_maxima == 3 and _progresso.ondas_concluidas == 1, "abates=%d onda_max=%d" % [_progresso.abates, _progresso.onda_maxima])
 	_verificar("arena: checkpoint e brasas intactos", _progresso.checkpoint_max == 10 and _progresso.brasas == 7, "")
@@ -289,13 +293,13 @@ func _rodar() -> void:
 	_verificar("arena: vida (61), totem, mochila e equipamento intactos", jogador.hp_atual == 61 and jogador.estatisticas.forca == forca_antes + 3 and _inventario.mochila.size() == mochila_antes and _equipados() == equipados_antes, "hp=%d" % jogador.hp_atual)
 	_verificar("arena: sem morte, sem fim de partida", _mortes == 0 and _progresso.ultimo_resultado.is_empty() and not jogador.estaMorto, "")
 	_verificar("arena: estacao do calendario (verao, dia 8)", arena.get_node("Terrains/Estacoes").estacao_atual == 1, "")
-	_verificar("arena: HUD mostra ONDA 3 e a data", get_nodes_in_group("hud")[0].rotulo_onda.text == "ONDA 3" and get_nodes_in_group("hud")[0].rotulo_data.text == "VERAO - DIA 1", get_nodes_in_group("hud")[0].rotulo_onda.text)
+	_verificar("arena: HUD mostra ONDA 3 e a data", get_nodes_in_group("hud")[0].rotulo_onda.text == "ONDA 3" and get_nodes_in_group("hud")[0].rotulo_data.text == "SEG  VERAO - DIA 1", get_nodes_in_group("hud")[0].rotulo_onda.text)
 	_verificar("arena: Transicao livre (sem fade preso)", not _transicao.ocupada and not _transicao.esta_escuro() and not _transicao.retornando, "")
 	# A onda 3 ainda comeca normalmente e o evento nao quebra
 	gerenciador.iniciar_onda()
 	await _quadros(5)
 	_verificar("arena: iniciar a onda 3 funciona e continua a partida", gerenciador.onda_em_andamento and gerenciador.onda_atual == 3 and _progresso.onda_comecou, "")
-	var caverna_arena: Node = arena.get_node("Terrains/PassagemCaverna")
+	var caverna_arena: Node = arena.get_node("PortalDaArena/InteracaoPortal")
 	await _ir_para_zona(caverna_arena)
 	_verificar("arena: caverna fechada durante a onda", not caverna_arena.disponivel_para_interacao(), "")
 
@@ -364,23 +368,23 @@ func _testar_colisoes_fazenda(fazenda: Node, jogador: Node) -> void:
 	jogador.global_position = base + Vector2(0, 40)
 	await _quadros(40)
 	_verificar("jogador na frente da casa: opaca (alfa %.2f)" % casa.modulate.a, casa.modulate.a > 0.95, "")
-	_verificar("casa tem z pela base (profundidade_grupo)", casa.z_index == preload("res://Codigos/Globais/profundidade.gd").z_de(base.y), "")
+	_verificar("casa tem z pela base (profundidade_grupo)", casa.z_index == preload("res://codigo/globais/profundidade.gd").z_de(base.y), "")
 	_verificar("borda do mapa e a caverna da fazenda bloqueiam", _ponto_bloqueado(espaco, Vector2(4, 300)) and _ponto_bloqueado(espaco, Vector2(500, 668)), "")
 
 func _testar_colisoes_casa(casa: Node, _jogador_no: Node) -> void:
 	var espaco: PhysicsDirectSpaceState2D = root.get_world_2d().direct_space_state
 	var ok_paredes: bool = _ponto_bloqueado(espaco, Vector2(96, -20)) and _ponto_bloqueado(espaco, Vector2(-20, 50)) and _ponto_bloqueado(espaco, Vector2(210, 50)) and _ponto_bloqueado(espaco, Vector2(20, 120))
 	_verificar("casa: paredes (norte, lados, sul) bloqueiam", ok_paredes, "")
-	_verificar("casa: o vao da porta e o centro do piso estao livres", not _ponto_bloqueado(espaco, Vector2(96, 120)) and not _ponto_bloqueado(espaco, Vector2(96, 50)), "")
-	_verificar("casa: cama, bau, estante e mesa bloqueiam", _ponto_bloqueado(espaco, Vector2(40, 40)) and _ponto_bloqueado(espaco, Vector2(96, 13)) and _ponto_bloqueado(espaco, Vector2(152, 20)) and _ponto_bloqueado(espaco, Vector2(136, 96)), "")
+	_verificar("casa: o vao da porta e o centro do piso estao livres", not _ponto_bloqueado(espaco, Vector2(128, 198)) and not _ponto_bloqueado(espaco, Vector2(160, 150)), "")
+	_verificar("casa: cama, bau, estante e mesa bloqueiam", _ponto_bloqueado(espaco, Vector2(216, 95)) and _ponto_bloqueado(espaco, Vector2(40, 73)) and _ponto_bloqueado(espaco, Vector2(104, 60)) and _ponto_bloqueado(espaco, Vector2(88, 133)), "")
 	_verificar("casa: a chegada ao acordar (Chegada_cama) esta livre", not _ponto_bloqueado(espaco, casa.get_node("Chegada_cama").global_position + Vector2(0, 9)), "")
-	# A colisao da cama tem a largura exata do desenho (24..56): o jogador encosta de lado, sem folga artificial
-	# (so o circulo de 5 px de raio dos pes: um ponto a 5 px da borda ainda toca, a 6 px ja esta livre)
-	_verificar("casa: a colisao da cama e exata (encosta de lado, sem alargar)", _ponto_bloqueado(espaco, Vector2(60, 40)) and not _ponto_bloqueado(espaco, Vector2(62, 40))
-			and _ponto_bloqueado(espaco, Vector2(20, 40)) and not _ponto_bloqueado(espaco, Vector2(18, 40)), "")
+	# A colisao da cama tem a largura exata do desenho (200..232): o jogador encosta de lado, sem folga artificial
+	# (so o circulo de 5 px de raio dos pes: um ponto a 5 px da borda ainda toca, a 6 px ja esta livre).
+	# A cama fica encostada na parede leste, entao so o lado oeste e acessivel.
+	_verificar("casa: a colisao da cama e exata (encosta de lado, sem alargar)", _ponto_bloqueado(espaco, Vector2(196, 95)) and not _ponto_bloqueado(espaco, Vector2(194, 95)), "")
 	# A cama e fatiada em faixas de profundidade (alinhadas a grade de 8 px): o jogador do lado fica NA FRENTE das faixas da
 	# altura dele e atras so das que estao abaixo dos pes dele (uma cama inteira com z pela base cortava o jogador encostado)
-	var Prof := preload("res://Codigos/Globais/profundidade.gd")
+	var Prof := preload("res://codigo/globais/profundidade.gd")
 	var faixas: Array = []
 	for filho in casa.get_node("Objetos3D").get_children():
 		if filho.name.begins_with("Cama_f"):
@@ -396,7 +400,7 @@ func _testar_colisoes_casa(casa: Node, _jogador_no: Node) -> void:
 		contiguas = contiguas and (anterior_base < 0.0 or absf(topo - anterior_base) < 0.01)
 		anterior_base = topo + h
 	_verificar("casa: as faixas somam os 58 px da cama, sem buracos nem sobreposicao", is_equal_approx(soma_alturas, 58.0) and contiguas, "soma=%.1f" % soma_alturas)
-	var z_do_jogador_ao_lado: int = Prof.z_de(36.0)   # pes do jogador no meio da cama
+	var z_do_jogador_ao_lado: int = Prof.z_de(94.0)   # pes do jogador no meio da cama
 	var atras_do_jogador := 0
 	var na_frente := 0
 	for f in faixas:
@@ -405,7 +409,7 @@ func _testar_colisoes_casa(casa: Node, _jogador_no: Node) -> void:
 		else:
 			na_frente += 1
 	_verificar("casa: jogador ao lado (pes y=36): as faixas da altura dele ficam atras e so as de baixo na frente", atras_do_jogador >= 3 and na_frente >= 3, "atras=%d frente=%d" % [atras_do_jogador, na_frente])
-	var z_pes_abaixo: int = Prof.z_de(66.0)
+	var z_pes_abaixo: int = Prof.z_de(124.0)
 	_verificar("casa: jogador no pe da cama (y>=60): na frente de todas as faixas", faixas.all(func(f): return f.z_index <= z_pes_abaixo), "")
 
 # Ponto do chao (onde fica o circulo de colisao dos pes do jogador: raio 5) toca algum corpo da camada "mundo" (64)?

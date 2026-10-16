@@ -1,0 +1,80 @@
+{
+	"casa_bento": {
+		"escala": 0.0945945945945946,
+		"regiao": [
+			43,
+			111,
+			1184,
+			992
+		],
+		"resolucao_original": [
+			1254,
+			1254
+		]
+	},
+	"enfermaria": {
+		"escala": 0.0973913043478261,
+		"regiao": [
+			60,
+			109,
+			1150,
+			1006
+		],
+		"resolucao_original": [
+			1254,
+			1254
+		]
+	},
+	"mistica": {
+		"escala": 0.0946745562130177,
+		"regiao": [
+			132,
+			14,
+			1051,
+			1183
+		],
+		"resolucao_original": [
+			1254,
+			1254
+		]
+	},
+	"pousada": {
+		"escala": 0.0934891485809683,
+		"regiao": [
+			37,
+			36,
+			1198,
+			1145
+		],
+		"resolucao_original": [
+			1254,
+			1254
+		]
+	},
+	"sede": {
+		"escala": 0.0951571792693288,
+		"regiao": [
+			39,
+			106,
+			1177,
+			986
+		],
+		"resolucao_original": [
+			1254,
+			1254
+		]
+	},
+	"venda": {
+		"escala": 0.0987654320987654,
+		"regiao": [
+			61,
+			96,
+			1134,
+			1015
+		],
+		"resolucao_original": [
+			1254,
+			1254
+		]
+	}
+}

@@ -3,10 +3,11 @@ from pathlib import Path
 from PIL import Image, ImageDraw
 
 RAIZ = Path(__file__).resolve().parents[2]
-PASTA = RAIZ / 'inimigos/esqueletos'
+PASTA = RAIZ / 'assets/inimigos/esqueletos'
 TIPOS = ['guerreiro', 'arqueiro', 'mago']
 folhas = {tipo: Image.open(PASTA / f'{tipo}.png').convert('RGBA') for tipo in TIPOS}
-(PASTA / 'previas').mkdir(exist_ok=True)
+PREVIAS = RAIZ / 'arte/previas/inimigos/esqueletos'
+PREVIAS.mkdir(parents=True, exist_ok=True)
 for nome, linhas in [('caminhada', [0, 1, 2]), ('ataque', [3, 4, 5]), ('morte', [6]), ('completa', [0, 3, 6])]:
     quadros = []
     for quadro in range(6 if nome in ["caminhada", "completa"] else 4):
@@ -21,4 +22,4 @@ for nome, linhas in [('caminhada', [0, 1, 2]), ('ataque', [3, 4, 5]), ('morte', 
                 imagem.paste(sprite, (coluna * 192, linha_previa * 192 + 28), sprite)
         quadros.append(imagem)
     duracao = 130 if nome == 'caminhada' else (167 if nome == 'ataque' else 200)
-    quadros[0].save(PASTA / 'previas' / f'{nome}.gif', save_all=True, append_images=quadros[1:], duration=duracao, loop=0)
+    quadros[0].save(PREVIAS / f'{nome}.gif', save_all=True, append_images=quadros[1:], duration=duracao, loop=0)

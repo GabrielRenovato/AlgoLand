@@ -2,14 +2,14 @@
   "versao": 1,
   "id": "cavalheiro",
   "nome": "Mordomo",
-  "raridade": "lendario",
-  "arte": "res://CharacterSprites/Conjuntos/cavalheiro/conceito_v1.png",
-  "destino": "res://CharacterSprites/Conjuntos/cavalheiro/",
+  "raridade": "comum",
+  "arte": "res://arte/fontes/armaduras/cavalheiro/conceito_v1.png",
+  "destino": "res://assets/personagens/conjuntos/cavalheiro/",
   "onda_minima": 1,
   "chances_drop": {
-    "normal": 0.0,
-    "mutante": 0.0,
-    "chefe": 0.0
+    "normal": 0.05,
+    "mutante": 0.1,
+    "chefe": 0.1
   },
   "preco_base": 0,
   "bonus": {
@@ -111,5 +111,5 @@
   ],
   "modo_visual": "tecido",
   "substituir_cabeca": false,
-  "arte_elmo": "res://CharacterSprites/Conjuntos/cavalheiro/cartolas_completas_v2.png"
+  "arte_elmo": "res://arte/fontes/armaduras/cavalheiro/cartolas_completas_v2.png"
 }

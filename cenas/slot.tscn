@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://delx88t4jwfoh"]
 
-[ext_resource type="Script" path="res://Codigos/Logicas/slot.gd" id="1_slot"]
-[ext_resource type="Texture2D" path="res://UI/craftpix-net-420010-pixel-game-user-interface-for-platformer/2 Buttons/17.png" id="9_sprite_slot"]
+[ext_resource type="Script" path="res://codigo/logica/slot.gd" id="1_slot"]
+[ext_resource type="Texture2D" path="res://assets/ui/craftpix-net-420010-pixel-game-user-interface-for-platformer/2 Buttons/17.png" id="9_sprite_slot"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_slot"]
 texture = ExtResource("9_sprite_slot")

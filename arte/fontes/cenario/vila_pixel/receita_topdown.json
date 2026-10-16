@@ -1,0 +1,1152 @@
+{
+  "job": {
+    "canvas": [
+      240,
+      96
+    ],
+    "frame_count": 1,
+    "views": [
+      {
+        "id": "sul",
+        "offset": [
+          0,
+          0
+        ]
+      }
+    ],
+    "source_bookends_exact": false,
+    "body_palette_exact": false
+  },
+  "scene": {
+    "palette": {
+      "borda": "#473727",
+      "escuro": "#1c1616",
+      "meio": "#876737",
+      "claro": "#a77f47",
+      "luz": "#c7a75f",
+      "papel": "#d7cfa7",
+      "tinta": "#876737",
+      "barro": "#b78351"
+    },
+    "layers": [
+      {
+        "id": "madeira",
+        "name": "Body - madeira"
+      }
+    ],
+    "views": {
+      "sul": {
+        "parts": {
+          "tampo": {
+            "include": [
+              [
+                [
+                  96,
+                  53
+                ],
+                [
+                  128,
+                  53
+                ],
+                [
+                  128,
+                  66
+                ],
+                [
+                  96,
+                  66
+                ]
+              ]
+            ]
+          },
+          "cadeira": {
+            "include": [
+              [
+                [
+                  16,
+                  0
+                ],
+                [
+                  32,
+                  0
+                ],
+                [
+                  32,
+                  32
+                ],
+                [
+                  16,
+                  32
+                ]
+              ]
+            ]
+          }
+        },
+        "nodes": {
+          "parte_0": {
+            "layer": "madeira",
+            "at": [
+              0,
+              0
+            ],
+            "draw": [
+              {
+                "op": "rect",
+                "box": [
+                  3,
+                  32,
+                  60,
+                  33
+                ],
+                "color": "escuro"
+              },
+              {
+                "op": "rect",
+                "box": [
+                  3,
+                  33,
+                  6,
+                  36
+                ],
+                "color": "borda"
+              },
+              {
+                "op": "rect",
+                "box": [
+                  57,
+                  33,
+                  60,
+                  36
+                ],
+                "color": "borda"
+              },
+              {
+                "op": "rect",
+                "box": [
+                  4,
+                  33,
+                  5,
+                  35
+                ],
+                "color": "meio"
+              },
+              {
+                "op": "rect",
+                "box": [
+                  58,
+                  33,
+                  59,
+                  35
+                ],
+                "color": "meio"
+              }
+            ]
+          },
+          "parte_1": {
+            "layer": "madeira",
+            "at": [
+              -96,
+              -53
+            ],
+            "draw": [
+              {
+                "op": "copy",
+                "part": "tampo",
+                "region": [
+                  96,
+                  53,
+                  127,
+                  64
+                ]
+              }
+            ]
+          },
+          "parte_2": {
+            "layer": "madeira",
+            "at": [
+              -64,
+              -53
+            ],
+            "draw": [
+              {
+                "op": "copy",
+                "part": "tampo",
+                "region": [
+                  96,
+                  53,
+                  127,
+                  64
+                ]
+              }
+            ]
+          },
+          "parte_3": {
+            "layer": "madeira",
+            "at": [
+              -96,
+              -41
+            ],
+            "draw": [
+              {
+                "op": "copy",
+                "part": "tampo",
+                "region": [
+                  96,
+                  53,
+                  127,
+                  64
+                ]
+              }
+            ]
+          },
+          "parte_4": {
+            "layer": "madeira",
+            "at": [
+              -64,
+              -41
+            ],
+            "draw": [
+              {
+                "op": "copy",
+                "part": "tampo",
+                "region": [
+                  96,
+                  53,
+                  127,
+                  64
+                ]
+              }
+            ]
+          },
+          "parte_5": {
+            "layer": "madeira",
+            "at": [
+              -96,
+              -29
+            ],
+            "draw": [
+              {
+                "op": "copy",
+                "part": "tampo",
+                "region": [
+                  96,
+                  53,
+                  127,
+                  60
+                ]
+              }
+            ]
+          },
+          "parte_6": {
+            "layer": "madeira",
+            "at": [
+              -64,
+              -29
+            ],
+            "draw": [
+              {
+                "op": "copy",
+                "part": "tampo",
+                "region": [
+                  96,
+                  53,
+                  127,
+                  60
+                ]
+              }
+            ]
+          },
+          "parte_7": {
+            "layer": "madeira",
+            "at": [
+              0,
+              0
+            ],
+            "draw": [
+              {
+                "op": "rect",
+                "box": [
+                  0,
+                  0,
+                  63,
+                  31
+                ],
+                "color": "borda",
+                "fill": false
+              },
+              {
+                "op": "rect",
+                "box": [
+                  1,
+                  1,
+                  62,
+                  30
+                ],
+                "color": "luz",
+                "fill": false
+              },
+              {
+                "op": "rect",
+                "box": [
+                  2,
+                  30,
+                  61,
+                  30
+                ],
+                "color": "claro"
+              }
+            ]
+          },
+          "parte_8": {
+            "layer": "madeira",
+            "at": [
+              0,
+              0
+            ],
+            "draw": [
+              {
+                "op": "rect",
+                "box": [
+                  10,
+                  8,
+                  17,
+                  17
+                ],
+                "color": "escuro"
+              },
+              {
+                "op": "rect",
+                "box": [
+                  9,
+                  7,
+                  16,
+                  16
+                ],
+                "color": "papel"
+              },
+              {
+                "op": "rect",
+                "box": [
+                  10,
+                  9,
+                  14,
+                  9
+                ],
+                "color": "tinta"
+              },
+              {
+                "op": "rect",
+                "box": [
+                  10,
+                  11,
+                  13,
+                  11
+                ],
+                "color": "tinta"
+              },
+              {
+                "op": "rect",
+                "box": [
+                  10,
+                  13,
+                  14,
+                  13
+                ],
+                "color": "tinta"
+              },
+              {
+                "op": "ellipse",
+                "box": [
+                  47,
+                  18,
+                  54,
+                  23
+                ],
+                "color": "borda"
+              },
+              {
+                "op": "ellipse",
+                "box": [
+                  48,
+                  18,
+                  53,
+                  21
+                ],
+                "color": "barro"
+              },
+              {
+                "op": "ellipse",
+                "box": [
+                  49,
+                  18,
+                  52,
+                  20
+                ],
+                "color": "escuro"
+              }
+            ]
+          },
+          "parte_9": {
+            "layer": "madeira",
+            "at": [
+              72,
+              0
+            ],
+            "draw": [
+              {
+                "op": "rect",
+                "box": [
+                  3,
+                  24,
+                  44,
+                  25
+                ],
+                "color": "escuro"
+              },
+              {
+                "op": "rect",
+                "box": [
+                  3,
+                  25,
+                  6,
+                  28
+                ],
+                "color": "borda"
+              },
+              {
+                "op": "rect",
+                "box": [
+                  41,
+                  25,
+                  44,
+                  28
+                ],
+                "color": "borda"
+              },
+              {
+                "op": "rect",
+                "box": [
+                  4,
+                  25,
+                  5,
+                  27
+                ],
+                "color": "meio"
+              },
+              {
+                "op": "rect",
+                "box": [
+                  42,
+                  25,
+                  43,
+                  27
+                ],
+                "color": "meio"
+              }
+            ]
+          },
+          "parte_10": {
+            "layer": "madeira",
+            "at": [
+              -24,
+              -53
+            ],
+            "draw": [
+              {
+                "op": "copy",
+                "part": "tampo",
+                "region": [
+                  96,
+                  53,
+                  127,
+                  64
+                ]
+              }
+            ]
+          },
+          "parte_11": {
+            "layer": "madeira",
+            "at": [
+              8,
+              -53
+            ],
+            "draw": [
+              {
+                "op": "copy",
+                "part": "tampo",
+                "region": [
+                  96,
+                  53,
+                  111,
+                  64
+                ]
+              }
+            ]
+          },
+          "parte_12": {
+            "layer": "madeira",
+            "at": [
+              -24,
+              -41
+            ],
+            "draw": [
+              {
+                "op": "copy",
+                "part": "tampo",
+                "region": [
+                  96,
+                  53,
+                  127,
+                  64
+                ]
+              }
+            ]
+          },
+          "parte_13": {
+            "layer": "madeira",
+            "at": [
+              8,
+              -41
+            ],
+            "draw": [
+              {
+                "op": "copy",
+                "part": "tampo",
+                "region": [
+                  96,
+                  53,
+                  111,
+                  64
+                ]
+              }
+            ]
+          },
+          "parte_14": {
+            "layer": "madeira",
+            "at": [
+              72,
+              0
+            ],
+            "draw": [
+              {
+                "op": "rect",
+                "box": [
+                  0,
+                  0,
+                  47,
+                  23
+                ],
+                "color": "borda",
+                "fill": false
+              },
+              {
+                "op": "rect",
+                "box": [
+                  1,
+                  1,
+                  46,
+                  22
+                ],
+                "color": "luz",
+                "fill": false
+              },
+              {
+                "op": "rect",
+                "box": [
+                  2,
+                  22,
+                  45,
+                  22
+                ],
+                "color": "claro"
+              }
+            ]
+          },
+          "parte_15": {
+            "layer": "madeira",
+            "at": [
+              128,
+              0
+            ],
+            "draw": [
+              {
+                "op": "rect",
+                "box": [
+                  3,
+                  20,
+                  28,
+                  21
+                ],
+                "color": "escuro"
+              },
+              {
+                "op": "rect",
+                "box": [
+                  3,
+                  21,
+                  6,
+                  24
+                ],
+                "color": "borda"
+              },
+              {
+                "op": "rect",
+                "box": [
+                  25,
+                  21,
+                  28,
+                  24
+                ],
+                "color": "borda"
+              },
+              {
+                "op": "rect",
+                "box": [
+                  4,
+                  21,
+                  5,
+                  23
+                ],
+                "color": "meio"
+              },
+              {
+                "op": "rect",
+                "box": [
+                  26,
+                  21,
+                  27,
+                  23
+                ],
+                "color": "meio"
+              }
+            ]
+          },
+          "parte_16": {
+            "layer": "madeira",
+            "at": [
+              32,
+              -53
+            ],
+            "draw": [
+              {
+                "op": "copy",
+                "part": "tampo",
+                "region": [
+                  96,
+                  53,
+                  127,
+                  64
+                ]
+              }
+            ]
+          },
+          "parte_17": {
+            "layer": "madeira",
+            "at": [
+              32,
+              -41
+            ],
+            "draw": [
+              {
+                "op": "copy",
+                "part": "tampo",
+                "region": [
+                  96,
+                  53,
+                  127,
+                  60
+                ]
+              }
+            ]
+          },
+          "parte_18": {
+            "layer": "madeira",
+            "at": [
+              128,
+              0
+            ],
+            "draw": [
+              {
+                "op": "rect",
+                "box": [
+                  0,
+                  0,
+                  31,
+                  19
+                ],
+                "color": "borda",
+                "fill": false
+              },
+              {
+                "op": "rect",
+                "box": [
+                  1,
+                  1,
+                  30,
+                  18
+                ],
+                "color": "luz",
+                "fill": false
+              },
+              {
+                "op": "rect",
+                "box": [
+                  2,
+                  18,
+                  29,
+                  18
+                ],
+                "color": "claro"
+              }
+            ]
+          },
+          "parte_19": {
+            "layer": "madeira",
+            "at": [
+              56,
+              48
+            ],
+            "draw": [
+              {
+                "op": "rect",
+                "box": [
+                  3,
+                  10,
+                  28,
+                  11
+                ],
+                "color": "escuro"
+              },
+              {
+                "op": "rect",
+                "box": [
+                  3,
+                  11,
+                  6,
+                  14
+                ],
+                "color": "borda"
+              },
+              {
+                "op": "rect",
+                "box": [
+                  25,
+                  11,
+                  28,
+                  14
+                ],
+                "color": "borda"
+              },
+              {
+                "op": "rect",
+                "box": [
+                  4,
+                  11,
+                  5,
+                  13
+                ],
+                "color": "meio"
+              },
+              {
+                "op": "rect",
+                "box": [
+                  26,
+                  11,
+                  27,
+                  13
+                ],
+                "color": "meio"
+              }
+            ]
+          },
+          "parte_20": {
+            "layer": "madeira",
+            "at": [
+              -40,
+              -5
+            ],
+            "draw": [
+              {
+                "op": "copy",
+                "part": "tampo",
+                "region": [
+                  96,
+                  53,
+                  127,
+                  62
+                ]
+              }
+            ]
+          },
+          "parte_21": {
+            "layer": "madeira",
+            "at": [
+              56,
+              48
+            ],
+            "draw": [
+              {
+                "op": "rect",
+                "box": [
+                  0,
+                  0,
+                  31,
+                  9
+                ],
+                "color": "borda",
+                "fill": false
+              },
+              {
+                "op": "rect",
+                "box": [
+                  1,
+                  1,
+                  30,
+                  8
+                ],
+                "color": "luz",
+                "fill": false
+              },
+              {
+                "op": "rect",
+                "box": [
+                  2,
+                  8,
+                  29,
+                  8
+                ],
+                "color": "claro"
+              }
+            ]
+          },
+          "parte_22": {
+            "layer": "madeira",
+            "at": [
+              96,
+              48
+            ],
+            "draw": [
+              {
+                "op": "rect",
+                "box": [
+                  3,
+                  10,
+                  12,
+                  11
+                ],
+                "color": "escuro"
+              },
+              {
+                "op": "rect",
+                "box": [
+                  3,
+                  11,
+                  6,
+                  14
+                ],
+                "color": "borda"
+              },
+              {
+                "op": "rect",
+                "box": [
+                  9,
+                  11,
+                  12,
+                  14
+                ],
+                "color": "borda"
+              },
+              {
+                "op": "rect",
+                "box": [
+                  4,
+                  11,
+                  5,
+                  13
+                ],
+                "color": "meio"
+              },
+              {
+                "op": "rect",
+                "box": [
+                  10,
+                  11,
+                  11,
+                  13
+                ],
+                "color": "meio"
+              }
+            ]
+          },
+          "parte_23": {
+            "layer": "madeira",
+            "at": [
+              0,
+              -5
+            ],
+            "draw": [
+              {
+                "op": "copy",
+                "part": "tampo",
+                "region": [
+                  96,
+                  53,
+                  111,
+                  62
+                ]
+              }
+            ]
+          },
+          "parte_24": {
+            "layer": "madeira",
+            "at": [
+              96,
+              48
+            ],
+            "draw": [
+              {
+                "op": "rect",
+                "box": [
+                  0,
+                  0,
+                  15,
+                  9
+                ],
+                "color": "borda",
+                "fill": false
+              },
+              {
+                "op": "rect",
+                "box": [
+                  1,
+                  1,
+                  14,
+                  8
+                ],
+                "color": "luz",
+                "fill": false
+              },
+              {
+                "op": "rect",
+                "box": [
+                  2,
+                  8,
+                  13,
+                  8
+                ],
+                "color": "claro"
+              }
+            ]
+          },
+          "parte_25": {
+            "layer": "madeira",
+            "at": [
+              0,
+              48
+            ],
+            "draw": [
+              {
+                "op": "rect",
+                "box": [
+                  3,
+                  21,
+                  6,
+                  27
+                ],
+                "color": "borda"
+              },
+              {
+                "op": "rect",
+                "box": [
+                  41,
+                  21,
+                  44,
+                  27
+                ],
+                "color": "borda"
+              },
+              {
+                "op": "rect",
+                "box": [
+                  3,
+                  0,
+                  44,
+                  8
+                ],
+                "color": "borda"
+              },
+              {
+                "op": "rect",
+                "box": [
+                  4,
+                  1,
+                  43,
+                  2
+                ],
+                "color": "luz"
+              },
+              {
+                "op": "rect",
+                "box": [
+                  4,
+                  3,
+                  43,
+                  6
+                ],
+                "color": "meio"
+              },
+              {
+                "op": "rect",
+                "box": [
+                  4,
+                  7,
+                  43,
+                  7
+                ],
+                "color": "escuro"
+              },
+              {
+                "op": "rect",
+                "box": [
+                  2,
+                  0,
+                  4,
+                  22
+                ],
+                "color": "borda"
+              },
+              {
+                "op": "rect",
+                "box": [
+                  43,
+                  0,
+                  45,
+                  22
+                ],
+                "color": "borda"
+              }
+            ]
+          },
+          "parte_26": {
+            "layer": "madeira",
+            "at": [
+              -96,
+              5
+            ],
+            "draw": [
+              {
+                "op": "copy",
+                "part": "tampo",
+                "region": [
+                  96,
+                  53,
+                  119,
+                  64
+                ]
+              }
+            ]
+          },
+          "parte_27": {
+            "layer": "madeira",
+            "at": [
+              -72,
+              5
+            ],
+            "draw": [
+              {
+                "op": "copy",
+                "part": "tampo",
+                "region": [
+                  96,
+                  53,
+                  119,
+                  64
+                ]
+              }
+            ]
+          },
+          "parte_28": {
+            "layer": "madeira",
+            "at": [
+              0,
+              48
+            ],
+            "draw": [
+              {
+                "op": "rect",
+                "box": [
+                  0,
+                  10,
+                  47,
+                  23
+                ],
+                "color": "borda",
+                "fill": false
+              },
+              {
+                "op": "rect",
+                "box": [
+                  1,
+                  11,
+                  46,
+                  22
+                ],
+                "color": "luz",
+                "fill": false
+              },
+              {
+                "op": "rect",
+                "box": [
+                  1,
+                  24,
+                  46,
+                  24
+                ],
+                "color": "escuro"
+              },
+              {
+                "op": "rect",
+                "box": [
+                  4,
+                  25,
+                  5,
+                  26
+                ],
+                "color": "meio"
+              },
+              {
+                "op": "rect",
+                "box": [
+                  42,
+                  25,
+                  43,
+                  26
+                ],
+                "color": "meio"
+              }
+            ]
+          },
+          "parte_29": {
+            "layer": "madeira",
+            "at": [
+              104,
+              48
+            ],
+            "draw": [
+              {
+                "op": "copy",
+                "part": "cadeira",
+                "region": [
+                  16,
+                  0,
+                  31,
+                  31
+                ]
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

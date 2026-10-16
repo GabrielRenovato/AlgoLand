@@ -1,0 +1,59 @@
+{
+  "group_id": "2eab6e2b-79ca-4711-ac00-3472360370cc",
+  "states": [
+    {
+      "character": {
+        "id": "fb5f9b95-ab76-4888-b7a5-0968860c779d",
+        "name": "Idle",
+        "prompt": "elderly healer woman with gray bun, olive green shawl and maroon dress, Mana Seed style small proportions",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "mannequin",
+        "directions": 4,
+        "view": "low top-down",
+        "created_at": "2026-10-15T03:39:34.727190+00:00"
+      },
+      "folder": "Idle",
+      "frames": {
+        "rotations": {
+          "south": "Idle/rotations/south.png",
+          "west": "Idle/rotations/west.png",
+          "east": "Idle/rotations/east.png",
+          "north": "Idle/rotations/north.png"
+        },
+        "animations": {
+          "andar": {
+            "east": [
+              "Idle/animations/andar/east/frame_000.png",
+              "Idle/animations/andar/east/frame_001.png",
+              "Idle/animations/andar/east/frame_002.png",
+              "Idle/animations/andar/east/frame_003.png",
+              "Idle/animations/andar/east/frame_004.png",
+              "Idle/animations/andar/east/frame_005.png"
+            ],
+            "south": [
+              "Idle/animations/andar/south/frame_000.png",
+              "Idle/animations/andar/south/frame_001.png",
+              "Idle/animations/andar/south/frame_002.png",
+              "Idle/animations/andar/south/frame_003.png",
+              "Idle/animations/andar/south/frame_004.png",
+              "Idle/animations/andar/south/frame_005.png"
+            ],
+            "north": [
+              "Idle/animations/andar/north/frame_000.png",
+              "Idle/animations/andar/north/frame_001.png",
+              "Idle/animations/andar/north/frame_002.png",
+              "Idle/animations/andar/north/frame_003.png",
+              "Idle/animations/andar/north/frame_004.png",
+              "Idle/animations/andar/north/frame_005.png"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-10-15T03:55:19.356425"
+}

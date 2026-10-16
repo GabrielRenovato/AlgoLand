@@ -5,7 +5,7 @@ extends SceneTree
 # troca de texturas, a estação seguindo o calendário de dias (não as ondas) e a tela de título fixa no inverno.
 # ATENCAO: carrega a cena de jogo de verdade (pode regravar user://inventario.json); faça backup do user:// antes.
 
-const Profundidade := preload("res://Codigos/Globais/profundidade.gd")
+const Profundidade := preload("res://codigo/globais/profundidade.gd")
 const CAMINHO_FAZENDA := "user://teste_arena_fazenda.json"
 const CAMINHO_CALENDARIO := "user://teste_arena_calendario.json"
 
@@ -34,7 +34,7 @@ func _quadros(n: int) -> void:
 
 func _rodar() -> void:
 	await process_frame
-	Estacoes = load("res://Codigos/Design/estacoes.gd")
+	Estacoes = load("res://codigo/cenario/estacoes.gd")
 	# O calendário usa um arquivo de teste (dormir salva) e começa no dia 1
 	var calendario = root.get_node("Calendario")
 	calendario.caminho_save = CAMINHO_CALENDARIO
@@ -76,12 +76,13 @@ func _testar_mapa_de_dias_para_estacoes() -> void:
 				"obteve %d" % calendario.estacao(dia))
 
 func _testar_estrutura() -> void:
-	for caminho in ["BarracaAberta", "BarracaAberta/Colisao/Forma", "BarraFechada", "BarraFechada/1", "Fogueira",
-			"Fogueira/Interacao", "LimiteArena/Contorno", "Obstaculos", "Navegacao", "Objetos3D", "Estacoes",
+	for caminho in ["LimiteArena/Contorno", "Obstaculos", "Navegacao", "Objetos3D", "Estacoes",
 			"Chao", "Terra", "Agua", "Brilho", "Penhasco", "Detalhes"]:
 		_verificar("no %s existe" % caminho, _terreno.get_node_or_null(caminho) != null, "")
-	var barra := _terreno.get_node("BarraFechada/1") as TileMapLayer
-	_verificar("BarraFechada/1 tem colisao de tiles", barra.tile_set.get_physics_layers_count() > 0, "")
+	# A barraca, a fogueira e a mochila saíram da arena; quem reabre a janela entre as ondas é o portal (cenario.gd)
+	_verificar("a barraca nao existe mais", _terreno.get_node_or_null("BarracaAberta") == null and _terreno.get_node_or_null("BarraFechada") == null, "")
+	_verificar("a fogueira e a mochila nao existem mais", _terreno.get_node_or_null("Fogueira") == null
+			and _terreno.get_node_or_null("Objetos3D/ItemAcampamento1") == null, "")
 	var contorno := _terreno.get_node("LimiteArena/Contorno") as CollisionPolygon2D
 	_verificar("poligono da arena preservado (%d pontos)" % contorno.polygon.size(), contorno.polygon.size() == 37
 			and contorno.polygon[0] == Vector2(-112, 112), "")
@@ -97,7 +98,7 @@ func _testar_estrutura() -> void:
 
 func _todos_obstaculos() -> Array:
 	var polis: Array = []
-	for caminho in ["Obstaculos", "BarracaAberta/Colisao", "Fogueira"]:
+	for caminho in ["Obstaculos"]:
 		var raiz := _terreno.get_node(caminho)
 		var pilha: Array = [raiz]
 		while not pilha.is_empty():
@@ -270,7 +271,7 @@ func _testar_ciclo_por_calendario() -> void:
 	_estacoes.definir_estacao(0, true)
 
 func _testar_tela_de_titulo() -> void:
-	var titulo: Node = load("res://cenas/inicio-do-jogo.tscn").instantiate()
+	var titulo: Node = load("res://cenas/inicio_do_jogo.tscn").instantiate()
 	root.add_child(titulo)
 	current_scene = titulo
 	await _quadros(8)

@@ -29,7 +29,7 @@ func _rodar() -> void:
 	var todos_carregam := true
 	var duracoes_ok := true
 	for nome in NOMES:
-		var stream = load("res://sons/%s.wav" % nome)
+		var stream = load("res://assets/audio/%s.wav" % nome)
 		if not (stream is AudioStreamWAV):
 			todos_carregam = false
 			print("  nao carregou: ", nome)

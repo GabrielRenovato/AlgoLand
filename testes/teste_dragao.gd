@@ -1,7 +1,7 @@
 extends SceneTree
 
-const AreaGolpe := preload("res://Codigos/Efeitos/area_ataque_dragao.gd")
-const Profundidade := preload("res://Codigos/Globais/profundidade.gd")
+const AreaGolpe := preload("res://codigo/efeitos/area_ataque_dragao.gd")
+const Profundidade := preload("res://codigo/globais/profundidade.gd")
 var falhas := 0
 
 class JogadorTeste extends Node2D:
@@ -132,12 +132,12 @@ func _rodar() -> void:
 	await create_timer(1.0).timeout
 	verificar("morte remove chefe após animação", not is_instance_valid(chefe))
 	await process_frame
-	var gerenciador = load("res://Codigos/Logicas/Gerenciador-de-ondas.gd").new()
+	var gerenciador = load("res://codigo/logica/gerenciador_de_ondas.gd").new()
 	verificar("dragão entra na onda 50 e minotauro na onda 10", gerenciador.chefe_da_onda(50).id == "dragao_vermelho" and gerenciador.chefe_da_onda(10).id == "minotauro")
 	verificar("rodízio repete dragão na onda 100", gerenciador.chefe_da_onda(100).id == "dragao_vermelho")
 	gerenciador.free()
 	for pagina in ["movimento", "sopro", "cauda", "asas", "voo", "patada"]:
-		var imagem := Image.load_from_file("res://inimigos/dragao_vermelho/" + pagina + ".png")
+		var imagem := Image.load_from_file("res://assets/inimigos/dragao_vermelho/" + pagina + ".png")
 		verificar(pagina + " tem 24 células nativas", imagem.get_size() == Vector2i(768, 512))
 		if pagina == "movimento":
 			# Regressão do fragmento de asa que aparecia abaixo das patas na caminhada.

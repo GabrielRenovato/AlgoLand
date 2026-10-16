@@ -3,7 +3,7 @@ extends SceneTree
 # Rodar: godot --headless --path . --script res://testes/teste_inimigos_presos.gd [-- completo] [-- diag]
 # Sem argumento roda o caso rápido (os tipos mais difíceis, com o jogador no acampamento); "completo" roda todos os tipos, normais e mutantes,
 # com o jogador em três lugares (uns 12 minutos).
-# Inimigos de chão presos em obstáculos (árvores, lago, pedras, barraca, fogueira...): para cada tipo (normal e mutante) solta uma
+# Inimigos de chão presos em obstáculos (árvores, lago, pedras, fogueira...): para cada tipo (normal e mutante) solta uma
 # leva de inimigos em pontos espalhados da arena, com o jogador parado em lugares diferentes, deixa perseguirem e confere que todos
 # chegam perto dele. Com "diag" imprime onde ficou preso quem não chegou.
 # ATENCAO: carrega a cena de jogo (pode regravar user://inventario.json); faça backup do user:// antes.

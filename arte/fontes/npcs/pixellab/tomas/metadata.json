@@ -1,0 +1,59 @@
+{
+  "group_id": "d8b94982-2e2c-49d8-9984-821d17bf92aa",
+  "states": [
+    {
+      "character": {
+        "id": "b068b1df-8c93-4a46-a01e-7990ac065b57",
+        "name": "Idle",
+        "prompt": "village merchant man with brown beard, white shirt and brown leather apron, Mana Seed style small proportions",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "mannequin",
+        "directions": 4,
+        "view": "low top-down",
+        "created_at": "2026-10-15T03:39:31.895682+00:00"
+      },
+      "folder": "Idle",
+      "frames": {
+        "rotations": {
+          "south": "Idle/rotations/south.png",
+          "west": "Idle/rotations/west.png",
+          "east": "Idle/rotations/east.png",
+          "north": "Idle/rotations/north.png"
+        },
+        "animations": {
+          "andar": {
+            "south": [
+              "Idle/animations/andar/south/frame_000.png",
+              "Idle/animations/andar/south/frame_001.png",
+              "Idle/animations/andar/south/frame_002.png",
+              "Idle/animations/andar/south/frame_003.png",
+              "Idle/animations/andar/south/frame_004.png",
+              "Idle/animations/andar/south/frame_005.png"
+            ],
+            "east": [
+              "Idle/animations/andar/east/frame_000.png",
+              "Idle/animations/andar/east/frame_001.png",
+              "Idle/animations/andar/east/frame_002.png",
+              "Idle/animations/andar/east/frame_003.png",
+              "Idle/animations/andar/east/frame_004.png",
+              "Idle/animations/andar/east/frame_005.png"
+            ],
+            "north": [
+              "Idle/animations/andar/north/frame_000.png",
+              "Idle/animations/andar/north/frame_001.png",
+              "Idle/animations/andar/north/frame_002.png",
+              "Idle/animations/andar/north/frame_003.png",
+              "Idle/animations/andar/north/frame_004.png",
+              "Idle/animations/andar/north/frame_005.png"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-10-15T03:56:29.600471"
+}

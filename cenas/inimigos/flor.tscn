@@ -1,14 +1,14 @@
 [gd_scene load_steps=12 format=3]
 
-[ext_resource type="Script" path="res://Codigos/Inimigos/Inimigo-generico.gd" id="1_script"]
-[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.08a - Fiendish Flower 2.0/fiendish flower v01.png" id="2_v01"]
-[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.08a - Fiendish Flower 2.0/fiendish flower v02.png" id="2_v02"]
-[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.08a - Fiendish Flower 2.0/fiendish flower v03.png" id="2_v03"]
-[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.08a - Fiendish Flower 2.0/fiendish flower v04.png" id="2_v04"]
-[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.08a - Fiendish Flower 2.0/fiendish flower v05.png" id="2_v05"]
-[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.08a - Fiendish Flower 2.0/fiendish flower v06.png" id="2_v06"]
-[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.08a - Fiendish Flower 2.0/fiendish flower v07.png" id="2_v07"]
-[ext_resource type="Texture2D" path="res://SPRITES GERAL/Inimigos/22.08a - Fiendish Flower 2.0/fiendish flower v08.png" id="2_v08"]
+[ext_resource type="Script" path="res://codigo/inimigos/inimigo_generico.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/inimigos/mana_seed/22.08a - Fiendish Flower 2.0/fiendish flower v01.png" id="2_v01"]
+[ext_resource type="Texture2D" path="res://assets/inimigos/mana_seed/22.08a - Fiendish Flower 2.0/fiendish flower v02.png" id="2_v02"]
+[ext_resource type="Texture2D" path="res://assets/inimigos/mana_seed/22.08a - Fiendish Flower 2.0/fiendish flower v03.png" id="2_v03"]
+[ext_resource type="Texture2D" path="res://assets/inimigos/mana_seed/22.08a - Fiendish Flower 2.0/fiendish flower v04.png" id="2_v04"]
+[ext_resource type="Texture2D" path="res://assets/inimigos/mana_seed/22.08a - Fiendish Flower 2.0/fiendish flower v05.png" id="2_v05"]
+[ext_resource type="Texture2D" path="res://assets/inimigos/mana_seed/22.08a - Fiendish Flower 2.0/fiendish flower v06.png" id="2_v06"]
+[ext_resource type="Texture2D" path="res://assets/inimigos/mana_seed/22.08a - Fiendish Flower 2.0/fiendish flower v07.png" id="2_v07"]
+[ext_resource type="Texture2D" path="res://assets/inimigos/mana_seed/22.08a - Fiendish Flower 2.0/fiendish flower v08.png" id="2_v08"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_corpo"]
 size = Vector2(16, 24)

@@ -25,7 +25,7 @@ func _rodar() -> void:
 		chefe.position = Vector2(80 + linha * 160, 210)
 		chefe._linha = linha
 		chefes.append(chefe)
-		for arquivo in ["res://CharacterSprites/Body/body_1.png", "res://CharacterSprites/Outfit/outfit (5).png"]:
+		for arquivo in ["res://assets/personagens/Body/body_1.png", "res://assets/personagens/Outfit/outfit (5).png"]:
 			var referencia := Sprite2D.new()
 			referencia.texture = load(arquivo)
 			referencia.hframes = 8
@@ -38,7 +38,7 @@ func _rodar() -> void:
 		texto.position = Vector2(30 + linha * 160, 30)
 		texto.text = nomes[linha]
 		palco.add_child(texto)
-	var saida := "res://inimigos/minotauro/previas/caminhada/"
+	var saida := "res://arte/previas/inimigos/minotauro/caminhada/"
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(saida))
 	for i in 80:
 		for chefe in chefes:

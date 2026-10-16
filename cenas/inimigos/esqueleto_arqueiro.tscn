@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3]
 
-[ext_resource type="Script" path="res://Codigos/Inimigos/esqueleto.gd" id="1_script"]
-[ext_resource type="Texture2D" path="res://inimigos/esqueletos/arqueiro.png" id="2_folha"]
+[ext_resource type="Script" path="res://codigo/inimigos/esqueleto.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/inimigos/esqueletos/arqueiro.png" id="2_folha"]
 
 [sub_resource type="CircleShape2D" id="Corpo"]
 radius = 6.0

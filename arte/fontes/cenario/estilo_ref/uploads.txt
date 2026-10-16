@@ -1,0 +1,6 @@
+ref_trilha upload:e3e5211a-5d3d-4f11-b32e-0b72ea1efd07
+ref_arvore upload:e072d9b5-1b53-4f01-b8ed-34d8451e05ea
+ref_casa upload:ceaecdd7-9d3c-4985-aa11-d8cf5428dd5c
+ref48_pedras upload:cdab92fa-6309-4ca3-a94f-903a914a514e
+ref48_vaso upload:1baf2b4a-9389-455a-871e-cdd6d2ed585c
+ref32_grama upload:6d685d72-a839-4fbe-873d-ec2f50e5e451

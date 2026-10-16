@@ -1,7 +1,7 @@
 extends SceneTree
 
 # Rodar: godot --headless --path . --script res://testes/teste_npcs.gd
-# NPCs com vida (Codigos/Logicas/npc_vivo.gd): passeiam com o ciclo de andar (4 quadros por direcao) perto do lugar deles,
+# NPCs com vida (codigo/logica/npc_vivo.gd): passeiam com o ciclo de andar (4 quadros por direcao) perto do lugar deles,
 # param e olham para o jogador quando ele chega perto, o mercador (sentado) cumprimenta com um pulinho, e o bardo e a
 # mistica alternam a pose especial com as pausas em que passeiam.
 # Usa arquivos de teste para Progresso e Fazenda (nao toca nos saves reais).
@@ -47,6 +47,17 @@ func _rodar() -> void:
 		progresso.moradores[id] = true
 
 	var cena: Node = load("res://cenas/cenario.tscn").instantiate()
+	var mercante: Node = load("res://cenas/mercante.tscn").instantiate()
+	mercante.name = "Merchant"
+	mercante.position = Vector2(569, 176)
+	cena.add_child(mercante)
+	for entrada in [["Curandeira", "curandeira", "old woman", Vector2(525, 205)], ["Bardo", "bardo", "bard", Vector2(590, 205)], ["Mistica", "mistica", "mystic", Vector2(495, 228)]]:
+		var morador: Node = load("res://cenas/morador.tscn").instantiate()
+		morador.name = entrada[0]
+		morador.id_morador = entrada[1]
+		morador.textura = load("res://assets/npcs/npc %s A v01.png" % entrada[2])
+		morador.position = entrada[3]
+		cena.add_child(morador)
 	root.add_child(cena)
 	current_scene = cena
 	await _quadros(10)

@@ -11,7 +11,7 @@ func _initialize() -> void:
 	for pagina in PAGINAS:
 		var colunas := 6
 		var sufixo := "_v2.png" if pagina == "caminhada" else ("_arma_v3.png" if pagina == "machado" else "_arma_v2.png")
-		var fonte := Image.load_from_file("res://inimigos/minotauro/fontes/" + pagina + sufixo)
+		var fonte := Image.load_from_file("res://arte/fontes/inimigos/minotauro/" + pagina + sufixo)
 		if fonte == null or fonte.is_empty():
 			if pagina != "movimento":
 				continue
@@ -46,6 +46,6 @@ func _initialize() -> void:
 						quadro.set_pixel(x, y, melhor)
 				quadro = Recorte.extrair_silhueta(quadro)
 				folha.blit_rect(quadro, Rect2i(0, 0, CONTEUDO, CONTEUDO), Vector2i(coluna * LADO + MARGEM, linha * LADO + MARGEM))
-		folha.save_png("res://inimigos/minotauro/" + pagina + ".png")
+		folha.save_png("res://assets/inimigos/minotauro/" + pagina + ".png")
 		print("Minotauro: ", pagina, " ", folha.get_size())
 	quit()

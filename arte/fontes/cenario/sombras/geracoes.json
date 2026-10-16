@@ -1,0 +1,24 @@
+{
+  "ferramenta": "PixelLab create_image_pro + pixelart_workbench",
+  "casas": {
+    "job_id": "f5574f7c-05e8-4729-b97b-6cfd87d1cec3",
+    "asset_id": "a0842ca3-d05b-5709-81ad-562eb9f7dc66",
+    "fonte": "casas_pixellab.png",
+    "grade": [
+      3,
+      2,
+      128
+    ]
+  },
+  "objetos": {
+    "job_id": "829fc9cc-e78b-4cc7-b0c3-2cfeb140760a",
+    "asset_id": "fa0987a9-4f97-57c1-9158-fa63f930a2ee",
+    "edicao_pixellab": "443ebd95-835b-4c33-adc1-c120ec496e09",
+    "fonte": "objetos_pixellab_limpos.png",
+    "grade": [
+      3,
+      4,
+      96
+    ]
+  }
+}

@@ -22,7 +22,7 @@ def criar_modelo(identificador: str, nome: str, arte: str, pasta: Path, raridade
         nome=nome,
         arte=arte,
         raridade=raridade,
-        destino=f"res://CharacterSprites/Conjuntos/{identificador}/",
+        destino=f"res://assets/personagens/conjuntos/{identificador}/",
     )
     # O efeito do próximo set é uma decisão de design; o raio do Carrasco não é herdado por acidente.
     dados["bonus"] = {

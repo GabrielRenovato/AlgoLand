@@ -2,14 +2,14 @@
   "versao": 1,
   "id": "carrasco",
   "nome": "Carrasco",
-  "raridade": "lendario",
-  "arte": "res://CharacterSprites/ArmaduraTeste/conceitos/set_cavaleiro_v1.png",
-  "destino": "res://CharacterSprites/ArmaduraCavaleiro/",
-  "onda_minima": 14,
+  "raridade": "comum",
+  "arte": "res://arte/fontes/armaduras/carrasco/set_cavaleiro_v1.png",
+  "destino": "res://assets/personagens/conjuntos/carrasco/",
+  "onda_minima": 1,
   "chances_drop": {
     "normal": 0.05,
     "mutante": 0.1,
-    "chefe": 0.2
+    "chefe": 0.1
   },
   "preco_base": 900,
   "bonus": {

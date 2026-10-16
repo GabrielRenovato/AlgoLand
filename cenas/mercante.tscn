@@ -1,11 +1,11 @@
 [gd_scene load_steps=8 format=3 uid="uid://5kwygxonpkpt"]
 
-[ext_resource type="Texture2D" path="res://NPC/npc merchant A v01.png" id="1_5nqid"]
-[ext_resource type="Texture2D" uid="uid://dckgvjj6um2eq" path="res://UI/craftpix-net-775352-game-user-interface-pixel-art/1 Frames/Frame2.png" id="2_3fri6"]
-[ext_resource type="Script" uid="uid://cr2qyggnekl04" path="res://Codigos/Logicas/merchant.gd" id="3_8n8mb"]
-[ext_resource type="FontFile" uid="uid://b13xmp6wu4ea" path="res://UI/craftpix-net-775352-game-user-interface-pixel-art/6 Font/CraftPixNet Survival Kit.otf" id="4_dv8ra"]
+[ext_resource type="Texture2D" path="res://assets/npcs/npc merchant A v01.png" id="1_5nqid"]
+[ext_resource type="Texture2D" uid="uid://dckgvjj6um2eq" path="res://assets/ui/craftpix-net-775352-game-user-interface-pixel-art/1 Frames/Frame2.png" id="2_3fri6"]
+[ext_resource type="Script" uid="uid://cr2qyggnekl04" path="res://codigo/logica/merchant.gd" id="3_8n8mb"]
+[ext_resource type="FontFile" uid="uid://b13xmp6wu4ea" path="res://assets/ui/craftpix-net-775352-game-user-interface-pixel-art/6 Font/CraftPixNet Survival Kit.otf" id="4_dv8ra"]
 
-[ext_resource type="Script" path="res://Codigos/Logicas/npc_vivo.gd" id="npc_vivo"]
+[ext_resource type="Script" path="res://codigo/logica/npc_vivo.gd" id="npc_vivo"]
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_nn5dv"]
 radius = 11.0
 height = 32.0

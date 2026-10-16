@@ -5,7 +5,7 @@
 - **Ataque disparando junto com clique na UI.** O ataque usa `Input.is_action_just_pressed("attack")` (Espaço + botão esquerdo), que dispara mesmo quando o clique foi em painel. O inventário (tecla I) também não bloqueia as ações do jogador.
 - **Esc tratado duas vezes.** Tanto `merchant.gd` quanto `menu_merchant.gd` fecham o menu no Esc. `merchant.gd` também chama métodos que não existem (`reset_menu`, `connect_menu_closed`, `connect_start_wave`).
 - **Ataque bloqueado até abrir o mercante.** `menu_merchant._ready` chama `bloquear_ataques(true)` ao carregar, e o ataque só volta depois do primeiro fechamento do menu. É uma regra implícita a decidir.
-- **Molduras e fontes.** Há texturas próprias para moldura em `UI/craftpix-net-775352-…/1 Frames/`:
+- **Molduras e fontes.** Há texturas próprias para moldura em `assets/ui/craftpix-net-775352-…/1 Frames/`:
   - `Back1/Back2` (93×96) para o painel;
   - `Back3` para a barra de título;
   - `Back4–6` para os botões;
@@ -41,9 +41,9 @@ Tema: recursos/ui/tema_principal.tres
 
 ### Fase 0 — Modelo de dados, sem mudança visual (P)
 - **Criar:**
-  - `Codigos/Modelos/dados_item.gd`
-  - `Codigos/Modelos/modelo_inventario.gd`
-  - `Codigos/Globais/eventos_jogo.gd`
+  - `codigo/modelos/dados_item.gd`
+  - `codigo/modelos/modelo_inventario.gd`
+  - `codigo/globais/eventos_jogo.gd`
   - os autoloads no `project.godot`
   - os `.tres` dos itens
 - **Jogador:** no fim do `_ready`, sincroniza o modelo a partir de `usando_*`/`nivel_*`, e volta a sincronizar a cada `equipamento_alterado`/`forja_finalizada`.
@@ -113,7 +113,7 @@ Tema: recursos/ui/tema_principal.tres
   - fonte padrão em tamanho nativo;
   - StyleBoxTexture para painel, botões (normal, hover, pressionado, desabilitado), slot e tooltip;
   - sai o `theme_override` espalhado pelas cenas.
-- **Textos em PT** centralizados em `Codigos/UI/textos.gd`:
+- **Textos em PT** centralizados em `codigo/ui/textos.gd`:
   - "START WAVE" → INICIAR ONDA
   - "WEAPONS" → ARMAS
   - "BUILD" → CONSTRUIR

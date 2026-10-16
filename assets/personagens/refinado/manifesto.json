@@ -1,0 +1,156 @@
+{
+	"andar": {
+		"acabamento": "paleta_nativa_v2",
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/paginas/andar.png",
+		"grade": [
+			8,
+			8
+		],
+		"molde": "res://assets/personagens/Body/body_1.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"arco_p2": {
+		"acabamento": "paleta_nativa_v2",
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/paginas/arco_p2.png",
+		"grade": [
+			8,
+			8
+		],
+		"molde": "res://assets/personagens/Arco/corpo_p2.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"arco_p3": {
+		"acabamento": "paleta_nativa_v2",
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/paginas/arco_p3.png",
+		"grade": [
+			8,
+			8
+		],
+		"molde": "res://assets/personagens/Arco/corpo_p3.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"espada": {
+		"acabamento": "paleta_nativa_v2",
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/paginas/espada.png",
+		"grade": [
+			8,
+			8
+		],
+		"molde": "res://assets/personagens/Body_sword_chield/body_attack_sword.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"fazenda": {
+		"acabamento": "paleta_nativa_v2",
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/paginas/fazenda.png",
+		"grade": [
+			8,
+			8
+		],
+		"molde": "res://assets/personagens/Fazenda/corpo.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"forja": {
+		"acabamento": "paleta_nativa_v2",
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/paginas/forja.png",
+		"grade": [
+			8,
+			8
+		],
+		"molde": "res://assets/personagens/body_smithing/char_a_p4_0bas_humn_v00.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"lanca": {
+		"acabamento": "paleta_nativa_v2",
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/paginas/lanca.png",
+		"grade": [
+			8,
+			8
+		],
+		"molde": "res://assets/personagens/Body_spear_combat/body_spear_combat.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"reacao_arco": {
+		"acabamento": "paleta_nativa_v2",
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/paginas/reacao_arco.png",
+		"grade": [
+			8,
+			8
+		],
+		"molde": "res://assets/personagens/Reacao/arco/corpo.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"reacao_lanca": {
+		"acabamento": "paleta_nativa_v2",
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/paginas/reacao_lanca.png",
+		"grade": [
+			8,
+			8
+		],
+		"molde": "res://assets/personagens/Reacao/lanca/corpo.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"reacao_um_mao": {
+		"acabamento": "paleta_nativa_v2",
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/paginas/reacao_um_mao.png",
+		"grade": [
+			8,
+			8
+		],
+		"molde": "res://assets/personagens/Reacao/um_mao/corpo.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"sentado": {
+		"acabamento": "paleta_nativa_v2",
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/paginas/sentado.png",
+		"grade": [
+			8,
+			8
+		],
+		"molde": "res://assets/personagens/body_smithing/char_a_p4_0bas_humn_v00.png",
+		"quadro": [
+			128,
+			128
+		]
+	}
+}

@@ -53,7 +53,14 @@ func _restaurar_opcoes() -> void:
 		DirAccess.remove_absolute(ProjectSettings.globalize_path("user://opcoes.cfg"))
 
 func _rodar() -> void:
+	if ProjectSettings.get_setting("application/config/name") != "AlgoLand testes Carrasco":
+		push_error("Execute na copia de testes com saves isolados.")
+		quit(1)
+		return
 	await process_frame
+	var modelo_inicial := root.get_node("InventarioJogador")
+	modelo_inicial.limpar()
+	modelo_inicial.criar_itens_iniciais()
 	_guardar_opcoes()
 	var ctl: Node = root.get_node("Controle")
 	var cenario: Node = load("res://cenas/cenario.tscn").instantiate()
@@ -68,17 +75,17 @@ func _rodar() -> void:
 			and ctl.rotulo_acao("ferramenta_anterior") == "Q" and ctl.rotulo_acao("ferramenta_proxima") == "E",
 			"%s %s %s %s" % [ctl.rotulo_acao("open_menu"), ctl.rotulo_acao("usar_pocao"), ctl.rotulo_acao("ferramenta_anterior"), ctl.rotulo_acao("ferramenta_proxima")])
 	ctl._definir(true)
-	_verificar("xbox: Y interage, X bebe, LB/RB trocam, A confirma, B volta",
-			ctl.rotulo_acao("open_menu") == "Y" and ctl.rotulo_acao("usar_pocao") == "X" and ctl.rotulo_acao("ferramenta_anterior") == "LB"
+	_verificar("xbox: A interage, Y bebe, LB/RB trocam, A confirma, B volta",
+			ctl.rotulo_acao("open_menu") == "A" and ctl.rotulo_acao("usar_pocao") == "Y" and ctl.rotulo_acao("ferramenta_anterior") == "LB"
 			and ctl.rotulo_acao("ferramenta_proxima") == "RB" and ctl.rotulo_acao("ui_accept") == "A" and ctl.rotulo_acao("close_menu") == "B", "")
 	ctl.definir_preferencia_layout("nintendo")
-	_verificar("nintendo: X interage (botao de cima), Y bebe, L/R trocam, B confirma (embaixo), A volta, + abre o inventario",
-			ctl.rotulo_acao("open_menu") == "X" and ctl.rotulo_acao("usar_pocao") == "Y" and ctl.rotulo_acao("ferramenta_anterior") == "L"
+	_verificar("nintendo: B interage (botao de baixo), X bebe, L/R trocam, B confirma (embaixo), A volta, - abre o inventario",
+			ctl.rotulo_acao("open_menu") == "B" and ctl.rotulo_acao("usar_pocao") == "X" and ctl.rotulo_acao("ferramenta_anterior") == "L"
 			and ctl.rotulo_acao("ferramenta_proxima") == "R" and ctl.rotulo_acao("ui_accept") == "B" and ctl.rotulo_acao("close_menu") == "A"
-			and ctl.rotulo_acao("open_inventory") == "+", "")
+			and ctl.rotulo_acao("open_inventory") == "-", "")
 	ctl.definir_preferencia_layout("playstation")
-	_verificar("playstation: TRI interage, QUAD bebe, L1/R1 trocam, X confirma, O volta",
-			ctl.rotulo_acao("open_menu") == "TRI" and ctl.rotulo_acao("usar_pocao") == "QUAD" and ctl.rotulo_acao("ferramenta_anterior") == "L1"
+	_verificar("playstation: X interage, TRI bebe, L1/R1 trocam, X confirma, O volta",
+			ctl.rotulo_acao("open_menu") == "X" and ctl.rotulo_acao("usar_pocao") == "TRI" and ctl.rotulo_acao("ferramenta_anterior") == "L1"
 			and ctl.rotulo_acao("ferramenta_proxima") == "R1" and ctl.rotulo_acao("ui_accept") == "X" and ctl.rotulo_acao("close_menu") == "O", "")
 	_verificar("gatilho do ataque: RT/ZR/R2 conforme o desenho (acao attack tem botao A primeiro, entao o gatilho vem do mapa)",
 			ctl.ROTULOS_GATILHO["xbox"][JOY_AXIS_TRIGGER_RIGHT] == "RT" and ctl.ROTULOS_GATILHO["nintendo"][JOY_AXIS_TRIGGER_RIGHT] == "ZR"
@@ -99,14 +106,17 @@ func _rodar() -> void:
 			foco_botao is StyleBoxFlat and not foco_botao.draw_center and foco_botao.border_width_left > 0
 			and foco_slot is StyleBoxFlat and not foco_slot.draw_center and foco_slot.border_width_left > 0, "")
 	# --- dicas vivas
-	var mercador: Node = cenario.get_node("Merchant")
+	# Componente legado montado apenas para testar seus avisos; nao faz parte da arena.
+	var mercador: Node = load("res://cenas/mercante.tscn").instantiate()
+	mercador.position = Vector2(-400, -400)
+	cenario.add_child(mercador)
 	var aviso: Button = mercador.get_node("button/openMenu")
 	ctl.definir_preferencia_layout("nintendo")
 	await _quadros(2)
-	_verificar("aviso do mercador: X no controle Nintendo", aviso.text == "X", aviso.text)
+	_verificar("aviso do mercador: B no controle Nintendo", aviso.text == "B", aviso.text)
 	ctl.definir_preferencia_layout("xbox")
 	await _quadros(2)
-	_verificar("aviso do mercador: Y no controle Xbox", aviso.text == "Y", aviso.text)
+	_verificar("aviso do mercador: A no controle Xbox", aviso.text == "A", aviso.text)
 	ctl._definir(false)
 	await _quadros(2)
 	_verificar("aviso do mercador: F no teclado", aviso.text == "F", aviso.text)
@@ -117,8 +127,8 @@ func _rodar() -> void:
 	ctl._definir(true)
 	ctl.definir_preferencia_layout("nintendo")
 	await _quadros(2)
-	_verificar("cinto de pocoes: L, R e Y BEBER no controle Nintendo", cinto != null and cinto._tecla_anterior.text == "L" and cinto._tecla_proxima.text == "R"
-			and cinto._tecla_beber.text == "Y BEBER", "" if cinto == null else cinto._tecla_beber.text)
+	_verificar("cinto de pocoes: L, R e X BEBER no controle Nintendo", cinto != null and cinto._tecla_anterior.text == "L" and cinto._tecla_proxima.text == "R"
+			and cinto._tecla_beber.text == "X BEBER", "" if cinto == null else cinto._tecla_beber.text)
 
 	# --- ferreiro
 	root.get_node("DadosJogo").moedas = 5000
@@ -130,18 +140,20 @@ func _rodar() -> void:
 			"ARRASTE" not in ferreiro._rotulo_arraste_encantar.text and " B " in ferreiro._rotulo_arraste_encantar.text and "ARRASTE" not in ferreiro._rotulo_arraste.text,
 			ferreiro._rotulo_arraste_encantar.text)
 	_verificar("ferreiro: dica das abas mostra L / R", ferreiro._dica_abas.visible and ferreiro._dica_abas.text.begins_with("L / R"), ferreiro._dica_abas.text)
-	_verificar("ferreiro: abre na aba ENCANTAR", ferreiro.get_node("%AbaEncantar").button_pressed, "")
+	_verificar("arena: abre na aba MELHORIAS", ferreiro.get_node("%AbaLoja").button_pressed, "")
 	await _botao(JOY_BUTTON_RIGHT_SHOULDER)
 	await _quadros(2)
-	_verificar("ferreiro: botao direito do ombro vai para a aba LOJA e o foco acompanha", ferreiro.get_node("%AbaLoja").button_pressed and ferreiro._painel_loja.visible
-			and root.get_viewport().gui_get_focus_owner() == ferreiro.get_node("%AbaLoja"), "")
+	_verificar("RB vai à BIGORNA e acompanha o foco", ferreiro.get_node("%AbaBigorna").button_pressed and ferreiro._painel_bigorna.visible
+			and root.get_viewport().gui_get_focus_owner() == ferreiro.get_node("%AbaBigorna"), "")
 	await _botao(JOY_BUTTON_LEFT_SHOULDER)
 	await _quadros(2)
-	_verificar("ferreiro: botao esquerdo do ombro volta para ENCANTAR", ferreiro.get_node("%AbaEncantar").button_pressed, "")
+	_verificar("LB volta para MELHORIAS", ferreiro.get_node("%AbaLoja").button_pressed, "")
 	await _botao(JOY_BUTTON_LEFT_SHOULDER)
 	await _quadros(2)
-	_verificar("ferreiro: no primeiro item o ombro esquerdo nao passa da borda", ferreiro.get_node("%AbaEncantar").button_pressed, "")
+	_verificar("LB não ultrapassa a primeira aba", ferreiro.get_node("%AbaLoja").button_pressed, "")
 	await _botao(JOY_BUTTON_RIGHT_SHOULDER)
+	await _quadros(2)
+	await _botao(JOY_BUTTON_LEFT_SHOULDER)
 	await _quadros(2)
 	var item_loja: Button = null
 	for botao in ferreiro._grade_itens.get_children():
@@ -321,7 +333,7 @@ func _rodar() -> void:
 	# --- opcoes: VIBRACAO e BOTOES
 	cenario.queue_free()
 	await _quadros(3)
-	var titulo: Node = load("res://cenas/inicio-do-jogo.tscn").instantiate()
+	var titulo: Node = load("res://cenas/inicio_do_jogo.tscn").instantiate()
 	root.add_child(titulo)
 	current_scene = titulo
 	await _quadros(8)
@@ -343,7 +355,7 @@ func _rodar() -> void:
 	var cfg := ConfigFile.new()
 	cfg.load("user://opcoes.cfg")
 	_verificar("opcoes: vibracao e botoes foram salvos", cfg.get_value("opcoes", "vibracao", true) == false and cfg.get_value("opcoes", "layout_controle", "") == "nintendo", "")
-	var Opcoes = load("res://Codigos/Globais/opcoes_jogo.gd")
+	var Opcoes = load("res://codigo/globais/opcoes_jogo.gd")
 	var lidas: Dictionary = Opcoes.carregar()
 	_verificar("opcoes: carregar devolve o que foi salvo", lidas["layout_controle"] == "nintendo" and lidas["vibracao"] == false, str(lidas))
 	cfg.set_value("opcoes", "layout_controle", "invalido")

@@ -1,7 +1,7 @@
 extends SceneTree
 
-const Area := preload("res://Codigos/Efeitos/area_ataque_dragao.gd")
-const Geometria := preload("res://Codigos/Efeitos/geometria_ataque_dragao.gd")
+const Area := preload("res://codigo/efeitos/area_ataque_dragao.gd")
+const Geometria := preload("res://codigo/efeitos/geometria_ataque_dragao.gd")
 var falhas := 0
 
 func _initialize() -> void:

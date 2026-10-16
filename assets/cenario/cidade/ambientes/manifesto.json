@@ -1,0 +1,1405 @@
+{
+ "externo/galinha": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/galinha/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/galinha/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/galinha/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/galinha/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 2,
+  "usado": [
+   0,
+   0,
+   16,
+   15
+  ],
+  "escala_origem": 1.0
+ },
+ "externo/banco": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/banco/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/banco/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/banco/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/banco/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "usado": [
+   0,
+   0,
+   48,
+   28
+  ],
+  "escala_origem": 1.0,
+  "fonte": "res://assets/cenario/cidade/decoracao/mobiliario/topdown/banco.png"
+ },
+ "externo/cerca": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/cerca/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/cerca/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/cerca/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/cerca/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "usado": [
+   0,
+   0,
+   54,
+   35
+  ],
+  "escala_origem": 1.0,
+  "fonte": "res://assets/cenario/cidade/decoracao/mobiliario/cerca.png"
+ },
+ "externo/galinheiro": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/galinheiro/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/galinheiro/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/galinheiro/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/galinheiro/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "usado": [
+   0,
+   0,
+   38,
+   40
+  ],
+  "escala_origem": 1.0,
+  "fonte": "res://assets/cenario/cidade/decoracao/mobiliario/revisados/galinheiro.png"
+ },
+ "externo/feno": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/feno/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/feno/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/feno/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/feno/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "usado": [
+   0,
+   0,
+   53,
+   45
+  ],
+  "escala_origem": 1.0,
+  "fonte": "res://assets/cenario/cidade/decoracao/mobiliario/feno.png"
+ },
+ "externo/lenha": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/lenha/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/lenha/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/lenha/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/lenha/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "usado": [
+   0,
+   0,
+   59,
+   47
+  ],
+  "escala_origem": 1.0,
+  "fonte": "res://assets/cenario/cidade/decoracao/mobiliario/lenha.png"
+ },
+ "externo/mural": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/mural/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/mural/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/mural/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/mural/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "usado": [
+   0,
+   0,
+   56,
+   57
+  ],
+  "escala_origem": 1.0,
+  "fonte": "res://assets/cenario/cidade/decoracao/mobiliario/mural.png"
+ },
+ "externo/poste_luz": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/poste_luz/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/poste_luz/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/poste_luz/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/poste_luz/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "usado": [
+   0,
+   0,
+   29,
+   60
+  ],
+  "escala_origem": 1.0,
+  "fonte": "res://assets/cenario/cidade/decoracao/mobiliario/poste_luz.png"
+ },
+ "externo/placa_encruzilhada": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/placa_encruzilhada/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/placa_encruzilhada/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/placa_encruzilhada/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/placa_encruzilhada/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "usado": [
+   0,
+   0,
+   48,
+   61
+  ],
+  "escala_origem": 1.0,
+  "fonte": "res://assets/cenario/cidade/decoracao/mobiliario/placa_encruzilhada.png"
+ },
+ "externo/correio": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/correio/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/correio/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/correio/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/correio/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "usado": [
+   0,
+   0,
+   24,
+   38
+  ],
+  "escala_origem": 1.0,
+  "fonte": "res://assets/cenario/cidade/decoracao/mobiliario/correio.png"
+ },
+ "externo/coreto": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/coreto/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/coreto/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/coreto/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/coreto/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "usado": [
+   0,
+   0,
+   88,
+   109
+  ],
+  "escala_origem": 1.0,
+  "fonte": "res://assets/cenario/cidade/decoracao/construcoes/coreto.png"
+ },
+ "externo/ponte": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/ponte/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/ponte/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/ponte/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/ponte/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "usado": [
+   0,
+   0,
+   80,
+   44
+  ],
+  "escala_origem": 1.0,
+  "fonte": "res://assets/cenario/cidade/decoracao/construcoes/ponte.png"
+ },
+ "externo/mesa_piquenique": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/mesa_piquenique/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/mesa_piquenique/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/mesa_piquenique/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/mesa_piquenique/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "usado": [
+   0,
+   0,
+   48,
+   29
+  ],
+  "escala_origem": 1.0,
+  "fonte": "res://assets/cenario/cidade/decoracao/mobiliario/topdown/mesa_media.png"
+ },
+ "externo/banco_piquenique_esquerdo": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/banco_piquenique_esquerdo/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/banco_piquenique_esquerdo/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/banco_piquenique_esquerdo/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/banco_piquenique_esquerdo/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "usado": [
+   0,
+   0,
+   16,
+   15
+  ],
+  "escala_origem": 1.0,
+  "fonte": "res://assets/cenario/cidade/decoracao/mobiliario/topdown/banqueta.png"
+ },
+ "externo/banco_piquenique_direito": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/banco_piquenique_direito/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/banco_piquenique_direito/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/banco_piquenique_direito/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/banco_piquenique_direito/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "usado": [
+   0,
+   0,
+   16,
+   15
+  ],
+  "escala_origem": 1.0,
+  "fonte": "res://assets/cenario/cidade/decoracao/mobiliario/topdown/banqueta.png"
+ },
+ "externo/arvore": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/arvore/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/arvore/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/arvore/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/arvore/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 2,
+  "usado": [
+   0,
+   0,
+   113,
+   109
+  ],
+  "escala_origem": 1.0
+ },
+ "externo/arbusto": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/arbusto/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/arbusto/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/arbusto/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/arbusto/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 2,
+  "usado": [
+   0,
+   0,
+   42,
+   40
+  ],
+  "escala_origem": 1.0
+ },
+ "externo/flores": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/flores/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/flores/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/flores/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/flores/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 2,
+  "usado": [
+   0,
+   0,
+   44,
+   43
+  ],
+  "escala_origem": 1.0
+ },
+ "externo/horta": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/horta/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/horta/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/horta/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/horta/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 2,
+  "usado": [
+   0,
+   0,
+   57,
+   45
+  ],
+  "escala_origem": 1.0
+ },
+ "externo/canteiro": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/canteiro/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/canteiro/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/canteiro/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/canteiro/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 2,
+  "usado": [
+   0,
+   0,
+   58,
+   47
+  ],
+  "escala_origem": 1.0
+ },
+ "interior/casa_bento/balanco": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/interior/casa_bento/balanco/primavera.png",
+   "res://assets/cenario/cidade/ambientes/interior/casa_bento/balanco/verao.png",
+   "res://assets/cenario/cidade/ambientes/interior/casa_bento/balanco/outono.png",
+   "res://assets/cenario/cidade/ambientes/interior/casa_bento/balanco/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "usado": [
+   0,
+   0,
+   42,
+   46
+  ],
+  "escala_origem": 1.0,
+  "calor_sazonal": false,
+  "fonte": "res://assets/cenario/cidade/interiores/casa_bento/props/balanco.png"
+ },
+ "interior/casa_bento/bancada": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/interior/casa_bento/bancada/primavera.png",
+   "res://assets/cenario/cidade/ambientes/interior/casa_bento/bancada/verao.png",
+   "res://assets/cenario/cidade/ambientes/interior/casa_bento/bancada/outono.png",
+   "res://assets/cenario/cidade/ambientes/interior/casa_bento/bancada/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "usado": [
+   0,
+   0,
+   73,
+   50
+  ],
+  "escala_origem": 1.0,
+  "calor_sazonal": false,
+  "fonte": "res://assets/cenario/cidade/interiores/casa_bento/props/bancada.png"
+ },
+ "interior/casa_bento/cama": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/interior/casa_bento/cama/primavera.png",
+   "res://assets/cenario/cidade/ambientes/interior/casa_bento/cama/verao.png",
+   "res://assets/cenario/cidade/ambientes/interior/casa_bento/cama/outono.png",
+   "res://assets/cenario/cidade/ambientes/interior/casa_bento/cama/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "usado": [
+   0,
+   0,
+   32,
+   58
+  ],
+  "escala_origem": 1.0,
+  "calor_sazonal": false,
+  "fonte": "res://assets/cenario/cidade/decoracao/mobiliario/topdown/cama.png"
+ },
+ "interior/casa_bento/ferramentas": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/interior/casa_bento/ferramentas/primavera.png",
+   "res://assets/cenario/cidade/ambientes/interior/casa_bento/ferramentas/verao.png",
+   "res://assets/cenario/cidade/ambientes/interior/casa_bento/ferramentas/outono.png",
+   "res://assets/cenario/cidade/ambientes/interior/casa_bento/ferramentas/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "usado": [
+   0,
+   0,
+   64,
+   45
+  ],
+  "escala_origem": 1.0,
+  "calor_sazonal": false,
+  "fonte": "res://assets/cenario/cidade/interiores/casa_bento/props/ferramentas.png"
+ },
+ "interior/casa_bento/lareira": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/interior/casa_bento/lareira/primavera.png",
+   "res://assets/cenario/cidade/ambientes/interior/casa_bento/lareira/verao.png",
+   "res://assets/cenario/cidade/ambientes/interior/casa_bento/lareira/outono.png",
+   "res://assets/cenario/cidade/ambientes/interior/casa_bento/lareira/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 4,
+  "usado": [
+   0,
+   0,
+   52,
+   56
+  ],
+  "escala_origem": 1.0,
+  "calor_sazonal": false,
+  "fonte": "res://assets/cenario/cidade/interiores/casa_bento/props/lareira.png"
+ },
+ "interior/casa_bento/mesa": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/interior/casa_bento/mesa/primavera.png",
+   "res://assets/cenario/cidade/ambientes/interior/casa_bento/mesa/verao.png",
+   "res://assets/cenario/cidade/ambientes/interior/casa_bento/mesa/outono.png",
+   "res://assets/cenario/cidade/ambientes/interior/casa_bento/mesa/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 2,
+  "usado": [
+   0,
+   0,
+   48,
+   29
+  ],
+  "escala_origem": 1.0,
+  "calor_sazonal": false,
+  "fonte": "res://assets/cenario/cidade/decoracao/mobiliario/topdown/mesa_media.png"
+ },
+ "interior/casa_bento/sacos": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/interior/casa_bento/sacos/primavera.png",
+   "res://assets/cenario/cidade/ambientes/interior/casa_bento/sacos/verao.png",
+   "res://assets/cenario/cidade/ambientes/interior/casa_bento/sacos/outono.png",
+   "res://assets/cenario/cidade/ambientes/interior/casa_bento/sacos/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "usado": [
+   0,
+   0,
+   61,
+   33
+  ],
+  "escala_origem": 1.0,
+  "calor_sazonal": false,
+  "fonte": "res://assets/cenario/cidade/interiores/casa_bento/props/sacos.png"
+ },
+ "interior/casa_bento/tapete": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/interior/casa_bento/tapete/primavera.png",
+   "res://assets/cenario/cidade/ambientes/interior/casa_bento/tapete/verao.png",
+   "res://assets/cenario/cidade/ambientes/interior/casa_bento/tapete/outono.png",
+   "res://assets/cenario/cidade/ambientes/interior/casa_bento/tapete/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "usado": [
+   0,
+   0,
+   53,
+   36
+  ],
+  "escala_origem": 1.0,
+  "calor_sazonal": false,
+  "fonte": "res://assets/cenario/cidade/interiores/casa_bento/props/tapete.png"
+ },
+ "interior/enfermaria/armario": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/interior/enfermaria/armario/primavera.png",
+   "res://assets/cenario/cidade/ambientes/interior/enfermaria/armario/verao.png",
+   "res://assets/cenario/cidade/ambientes/interior/enfermaria/armario/outono.png",
+   "res://assets/cenario/cidade/ambientes/interior/enfermaria/armario/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "usado": [
+   0,
+   0,
+   42,
+   46
+  ],
+  "escala_origem": 1.0,
+  "calor_sazonal": false,
+  "fonte": "res://assets/cenario/cidade/interiores/enfermaria/props/armario.png"
+ },
+ "interior/enfermaria/biombo": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/interior/enfermaria/biombo/primavera.png",
+   "res://assets/cenario/cidade/ambientes/interior/enfermaria/biombo/verao.png",
+   "res://assets/cenario/cidade/ambientes/interior/enfermaria/biombo/outono.png",
+   "res://assets/cenario/cidade/ambientes/interior/enfermaria/biombo/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "usado": [
+   0,
+   0,
+   42,
+   38
+  ],
+  "escala_origem": 1.0,
+  "calor_sazonal": false,
+  "fonte": "res://assets/cenario/cidade/interiores/enfermaria/props/biombo.png"
+ },
+ "interior/enfermaria/cama": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/interior/enfermaria/cama/primavera.png",
+   "res://assets/cenario/cidade/ambientes/interior/enfermaria/cama/verao.png",
+   "res://assets/cenario/cidade/ambientes/interior/enfermaria/cama/outono.png",
+   "res://assets/cenario/cidade/ambientes/interior/enfermaria/cama/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "usado": [
+   0,
+   0,
+   26,
+   42
+  ],
+  "escala_origem": 1.0,
+  "calor_sazonal": false,
+  "fonte": "res://assets/cenario/cidade/interiores/enfermaria/props/cama.png"
+ },
+ "interior/enfermaria/ervas": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/interior/enfermaria/ervas/primavera.png",
+   "res://assets/cenario/cidade/ambientes/interior/enfermaria/ervas/verao.png",
+   "res://assets/cenario/cidade/ambientes/interior/enfermaria/ervas/outono.png",
+   "res://assets/cenario/cidade/ambientes/interior/enfermaria/ervas/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 2,
+  "usado": [
+   0,
+   0,
+   48,
+   49
+  ],
+  "escala_origem": 1.0,
+  "calor_sazonal": false,
+  "fonte": "res://assets/cenario/cidade/interiores/enfermaria/props/ervas.png"
+ },
+ "interior/enfermaria/lavatorio": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/interior/enfermaria/lavatorio/primavera.png",
+   "res://assets/cenario/cidade/ambientes/interior/enfermaria/lavatorio/verao.png",
+   "res://assets/cenario/cidade/ambientes/interior/enfermaria/lavatorio/outono.png",
+   "res://assets/cenario/cidade/ambientes/interior/enfermaria/lavatorio/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "usado": [
+   0,
+   0,
+   28,
+   39
+  ],
+  "escala_origem": 1.0,
+  "calor_sazonal": false,
+  "fonte": "res://assets/cenario/cidade/interiores/enfermaria/props/lavatorio.png"
+ },
+ "interior/enfermaria/mesa": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/interior/enfermaria/mesa/primavera.png",
+   "res://assets/cenario/cidade/ambientes/interior/enfermaria/mesa/verao.png",
+   "res://assets/cenario/cidade/ambientes/interior/enfermaria/mesa/outono.png",
+   "res://assets/cenario/cidade/ambientes/interior/enfermaria/mesa/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "usado": [
+   0,
+   0,
+   32,
+   25
+  ],
+  "escala_origem": 1.0,
+  "calor_sazonal": false,
+  "fonte": "res://assets/cenario/cidade/decoracao/mobiliario/topdown/mesa_pequena.png"
+ },
+ "interior/mistica/caldeirao": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/interior/mistica/caldeirao/primavera.png",
+   "res://assets/cenario/cidade/ambientes/interior/mistica/caldeirao/verao.png",
+   "res://assets/cenario/cidade/ambientes/interior/mistica/caldeirao/outono.png",
+   "res://assets/cenario/cidade/ambientes/interior/mistica/caldeirao/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 2,
+  "usado": [
+   0,
+   0,
+   26,
+   42
+  ],
+  "escala_origem": 1.0,
+  "calor_sazonal": false,
+  "fonte": "res://assets/cenario/cidade/interiores/mistica/props/caldeirao.png"
+ },
+ "interior/mistica/espelho": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/interior/mistica/espelho/primavera.png",
+   "res://assets/cenario/cidade/ambientes/interior/mistica/espelho/verao.png",
+   "res://assets/cenario/cidade/ambientes/interior/mistica/espelho/outono.png",
+   "res://assets/cenario/cidade/ambientes/interior/mistica/espelho/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 2,
+  "usado": [
+   0,
+   0,
+   29,
+   54
+  ],
+  "escala_origem": 1.0,
+  "calor_sazonal": false,
+  "fonte": "res://assets/cenario/cidade/interiores/mistica/props/espelho.png"
+ },
+ "interior/mistica/estante": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/interior/mistica/estante/primavera.png",
+   "res://assets/cenario/cidade/ambientes/interior/mistica/estante/verao.png",
+   "res://assets/cenario/cidade/ambientes/interior/mistica/estante/outono.png",
+   "res://assets/cenario/cidade/ambientes/interior/mistica/estante/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "usado": [
+   0,
+   0,
+   36,
+   61
+  ],
+  "escala_origem": 1.0,
+  "calor_sazonal": false,
+  "fonte": "res://assets/cenario/cidade/interiores/mistica/props/estante.png"
+ },
+ "interior/mistica/mesa_cristal": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/interior/mistica/mesa_cristal/primavera.png",
+   "res://assets/cenario/cidade/ambientes/interior/mistica/mesa_cristal/verao.png",
+   "res://assets/cenario/cidade/ambientes/interior/mistica/mesa_cristal/outono.png",
+   "res://assets/cenario/cidade/ambientes/interior/mistica/mesa_cristal/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 2,
+  "usado": [
+   0,
+   0,
+   42,
+   46
+  ],
+  "escala_origem": 1.0,
+  "calor_sazonal": false,
+  "fonte": "res://assets/cenario/cidade/interiores/mistica/props/mesa_cristal.png"
+ },
+ "interior/mistica/pocoes": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/interior/mistica/pocoes/primavera.png",
+   "res://assets/cenario/cidade/ambientes/interior/mistica/pocoes/verao.png",
+   "res://assets/cenario/cidade/ambientes/interior/mistica/pocoes/outono.png",
+   "res://assets/cenario/cidade/ambientes/interior/mistica/pocoes/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 2,
+  "usado": [
+   0,
+   0,
+   48,
+   48
+  ],
+  "escala_origem": 1.0,
+  "calor_sazonal": false,
+  "fonte": "res://assets/cenario/cidade/interiores/mistica/props/pocoes.png"
+ },
+ "interior/mistica/poltrona": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/interior/mistica/poltrona/primavera.png",
+   "res://assets/cenario/cidade/ambientes/interior/mistica/poltrona/verao.png",
+   "res://assets/cenario/cidade/ambientes/interior/mistica/poltrona/outono.png",
+   "res://assets/cenario/cidade/ambientes/interior/mistica/poltrona/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "usado": [
+   0,
+   0,
+   14,
+   24
+  ],
+  "escala_origem": 1.0,
+  "calor_sazonal": false,
+  "fonte": "res://assets/cenario/cidade/decoracao/mobiliario/topdown/cadeira.png"
+ },
+ "interior/mistica/tapete": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/interior/mistica/tapete/primavera.png",
+   "res://assets/cenario/cidade/ambientes/interior/mistica/tapete/verao.png",
+   "res://assets/cenario/cidade/ambientes/interior/mistica/tapete/outono.png",
+   "res://assets/cenario/cidade/ambientes/interior/mistica/tapete/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "usado": [
+   0,
+   0,
+   53,
+   54
+  ],
+  "escala_origem": 1.0,
+  "calor_sazonal": false,
+  "fonte": "res://assets/cenario/cidade/interiores/mistica/props/tapete.png"
+ },
+ "interior/mistica/telescopio": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/interior/mistica/telescopio/primavera.png",
+   "res://assets/cenario/cidade/ambientes/interior/mistica/telescopio/verao.png",
+   "res://assets/cenario/cidade/ambientes/interior/mistica/telescopio/outono.png",
+   "res://assets/cenario/cidade/ambientes/interior/mistica/telescopio/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "usado": [
+   0,
+   0,
+   44,
+   45
+  ],
+  "escala_origem": 1.0,
+  "calor_sazonal": false,
+  "fonte": "res://assets/cenario/cidade/interiores/mistica/props/telescopio.png"
+ },
+ "interior/pousada/balcao": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/interior/pousada/balcao/primavera.png",
+   "res://assets/cenario/cidade/ambientes/interior/pousada/balcao/verao.png",
+   "res://assets/cenario/cidade/ambientes/interior/pousada/balcao/outono.png",
+   "res://assets/cenario/cidade/ambientes/interior/pousada/balcao/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "usado": [
+   0,
+   0,
+   102,
+   43
+  ],
+  "escala_origem": 1.0,
+  "calor_sazonal": false,
+  "fonte": "res://assets/cenario/cidade/interiores/pousada/props/balcao.png"
+ },
+ "interior/pousada/barris": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/interior/pousada/barris/primavera.png",
+   "res://assets/cenario/cidade/ambientes/interior/pousada/barris/verao.png",
+   "res://assets/cenario/cidade/ambientes/interior/pousada/barris/outono.png",
+   "res://assets/cenario/cidade/ambientes/interior/pousada/barris/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "usado": [
+   0,
+   0,
+   58,
+   33
+  ],
+  "escala_origem": 1.0,
+  "calor_sazonal": false,
+  "fonte": "res://assets/cenario/cidade/interiores/pousada/props/barris.png"
+ },
+ "interior/pousada/cama": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/interior/pousada/cama/primavera.png",
+   "res://assets/cenario/cidade/ambientes/interior/pousada/cama/verao.png",
+   "res://assets/cenario/cidade/ambientes/interior/pousada/cama/outono.png",
+   "res://assets/cenario/cidade/ambientes/interior/pousada/cama/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "usado": [
+   0,
+   0,
+   32,
+   58
+  ],
+  "escala_origem": 1.0,
+  "calor_sazonal": false,
+  "fonte": "res://assets/cenario/cidade/decoracao/mobiliario/topdown/cama.png"
+ },
+ "interior/pousada/cardapio": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/interior/pousada/cardapio/primavera.png",
+   "res://assets/cenario/cidade/ambientes/interior/pousada/cardapio/verao.png",
+   "res://assets/cenario/cidade/ambientes/interior/pousada/cardapio/outono.png",
+   "res://assets/cenario/cidade/ambientes/interior/pousada/cardapio/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "usado": [
+   0,
+   0,
+   41,
+   52
+  ],
+  "escala_origem": 1.0,
+  "calor_sazonal": false,
+  "fonte": "res://assets/cenario/cidade/interiores/pousada/props/cardapio.png"
+ },
+ "interior/pousada/lareira": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/interior/pousada/lareira/primavera.png",
+   "res://assets/cenario/cidade/ambientes/interior/pousada/lareira/verao.png",
+   "res://assets/cenario/cidade/ambientes/interior/pousada/lareira/outono.png",
+   "res://assets/cenario/cidade/ambientes/interior/pousada/lareira/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 4,
+  "usado": [
+   0,
+   0,
+   62,
+   60
+  ],
+  "escala_origem": 1.0,
+  "calor_sazonal": true,
+  "fonte": "res://assets/cenario/cidade/interiores/pousada/props/lareira.png"
+ },
+ "interior/pousada/mesa": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/interior/pousada/mesa/primavera.png",
+   "res://assets/cenario/cidade/ambientes/interior/pousada/mesa/verao.png",
+   "res://assets/cenario/cidade/ambientes/interior/pousada/mesa/outono.png",
+   "res://assets/cenario/cidade/ambientes/interior/pousada/mesa/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 2,
+  "usado": [
+   0,
+   0,
+   48,
+   29
+  ],
+  "escala_origem": 1.0,
+  "calor_sazonal": false,
+  "fonte": "res://assets/cenario/cidade/decoracao/mobiliario/topdown/mesa_media.png"
+ },
+ "interior/pousada/prateleira": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/interior/pousada/prateleira/primavera.png",
+   "res://assets/cenario/cidade/ambientes/interior/pousada/prateleira/verao.png",
+   "res://assets/cenario/cidade/ambientes/interior/pousada/prateleira/outono.png",
+   "res://assets/cenario/cidade/ambientes/interior/pousada/prateleira/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "usado": [
+   0,
+   0,
+   46,
+   51
+  ],
+  "escala_origem": 1.0,
+  "calor_sazonal": false,
+  "fonte": "res://assets/cenario/cidade/interiores/pousada/props/prateleira.png"
+ },
+ "interior/pousada/tapete": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/interior/pousada/tapete/primavera.png",
+   "res://assets/cenario/cidade/ambientes/interior/pousada/tapete/verao.png",
+   "res://assets/cenario/cidade/ambientes/interior/pousada/tapete/outono.png",
+   "res://assets/cenario/cidade/ambientes/interior/pousada/tapete/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "usado": [
+   0,
+   0,
+   39,
+   39
+  ],
+  "escala_origem": 1.0,
+  "calor_sazonal": false,
+  "fonte": "res://assets/cenario/cidade/interiores/pousada/props/tapete.png"
+ },
+ "interior/sede/cadeira": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/interior/sede/cadeira/primavera.png",
+   "res://assets/cenario/cidade/ambientes/interior/sede/cadeira/verao.png",
+   "res://assets/cenario/cidade/ambientes/interior/sede/cadeira/outono.png",
+   "res://assets/cenario/cidade/ambientes/interior/sede/cadeira/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "usado": [
+   0,
+   0,
+   14,
+   24
+  ],
+  "escala_origem": 1.0,
+  "calor_sazonal": false,
+  "fonte": "res://assets/cenario/cidade/decoracao/mobiliario/topdown/cadeira.png"
+ },
+ "interior/sede/estandarte": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/interior/sede/estandarte/primavera.png",
+   "res://assets/cenario/cidade/ambientes/interior/sede/estandarte/verao.png",
+   "res://assets/cenario/cidade/ambientes/interior/sede/estandarte/outono.png",
+   "res://assets/cenario/cidade/ambientes/interior/sede/estandarte/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "usado": [
+   0,
+   0,
+   37,
+   60
+  ],
+  "escala_origem": 1.0,
+  "calor_sazonal": false,
+  "fonte": "res://assets/cenario/cidade/interiores/sede/props/estandarte.png"
+ },
+ "interior/sede/estante": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/interior/sede/estante/primavera.png",
+   "res://assets/cenario/cidade/ambientes/interior/sede/estante/verao.png",
+   "res://assets/cenario/cidade/ambientes/interior/sede/estante/outono.png",
+   "res://assets/cenario/cidade/ambientes/interior/sede/estante/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "usado": [
+   0,
+   0,
+   36,
+   56
+  ],
+  "escala_origem": 1.0,
+  "calor_sazonal": false,
+  "fonte": "res://assets/cenario/cidade/interiores/sede/props/estante.png"
+ },
+ "interior/sede/lareira": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/interior/sede/lareira/primavera.png",
+   "res://assets/cenario/cidade/ambientes/interior/sede/lareira/verao.png",
+   "res://assets/cenario/cidade/ambientes/interior/sede/lareira/outono.png",
+   "res://assets/cenario/cidade/ambientes/interior/sede/lareira/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 4,
+  "usado": [
+   0,
+   0,
+   41,
+   53
+  ],
+  "escala_origem": 1.0,
+  "calor_sazonal": true,
+  "fonte": "res://assets/cenario/cidade/interiores/sede/props/lareira.png"
+ },
+ "interior/sede/mesa_reuniao": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/interior/sede/mesa_reuniao/primavera.png",
+   "res://assets/cenario/cidade/ambientes/interior/sede/mesa_reuniao/verao.png",
+   "res://assets/cenario/cidade/ambientes/interior/sede/mesa_reuniao/outono.png",
+   "res://assets/cenario/cidade/ambientes/interior/sede/mesa_reuniao/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 2,
+  "usado": [
+   0,
+   0,
+   64,
+   37
+  ],
+  "escala_origem": 1.0,
+  "calor_sazonal": false,
+  "fonte": "res://assets/cenario/cidade/decoracao/mobiliario/topdown/mesa_grande.png"
+ },
+ "interior/sede/quadro_avisos": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/interior/sede/quadro_avisos/primavera.png",
+   "res://assets/cenario/cidade/ambientes/interior/sede/quadro_avisos/verao.png",
+   "res://assets/cenario/cidade/ambientes/interior/sede/quadro_avisos/outono.png",
+   "res://assets/cenario/cidade/ambientes/interior/sede/quadro_avisos/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "usado": [
+   0,
+   0,
+   50,
+   49
+  ],
+  "escala_origem": 1.0,
+  "calor_sazonal": false,
+  "fonte": "res://assets/cenario/cidade/interiores/sede/props/quadro_avisos.png"
+ },
+ "interior/sede/tapete_corredor": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/interior/sede/tapete_corredor/primavera.png",
+   "res://assets/cenario/cidade/ambientes/interior/sede/tapete_corredor/verao.png",
+   "res://assets/cenario/cidade/ambientes/interior/sede/tapete_corredor/outono.png",
+   "res://assets/cenario/cidade/ambientes/interior/sede/tapete_corredor/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "usado": [
+   0,
+   0,
+   20,
+   84
+  ],
+  "escala_origem": 1.0,
+  "calor_sazonal": false,
+  "fonte": "res://assets/cenario/cidade/interiores/sede/props/tapete_corredor.png"
+ },
+ "interior/sede/banco_reuniao": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/interior/sede/banco_reuniao/primavera.png",
+   "res://assets/cenario/cidade/ambientes/interior/sede/banco_reuniao/verao.png",
+   "res://assets/cenario/cidade/ambientes/interior/sede/banco_reuniao/outono.png",
+   "res://assets/cenario/cidade/ambientes/interior/sede/banco_reuniao/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "usado": [
+   0,
+   0,
+   32,
+   15
+  ],
+  "escala_origem": 1.0,
+  "fonte": "res://assets/cenario/cidade/decoracao/mobiliario/topdown/banco_horizontal.png"
+ },
+ "interior/venda/balcao": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/interior/venda/balcao/primavera.png",
+   "res://assets/cenario/cidade/ambientes/interior/venda/balcao/verao.png",
+   "res://assets/cenario/cidade/ambientes/interior/venda/balcao/outono.png",
+   "res://assets/cenario/cidade/ambientes/interior/venda/balcao/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "usado": [
+   0,
+   0,
+   66,
+   41
+  ],
+  "escala_origem": 1.0,
+  "calor_sazonal": false,
+  "fonte": "res://assets/cenario/cidade/interiores/venda/props/balcao.png"
+ },
+ "interior/venda/barris_caixas": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/interior/venda/barris_caixas/primavera.png",
+   "res://assets/cenario/cidade/ambientes/interior/venda/barris_caixas/verao.png",
+   "res://assets/cenario/cidade/ambientes/interior/venda/barris_caixas/outono.png",
+   "res://assets/cenario/cidade/ambientes/interior/venda/barris_caixas/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "usado": [
+   0,
+   0,
+   53,
+   45
+  ],
+  "escala_origem": 1.0,
+  "calor_sazonal": false,
+  "fonte": "res://assets/cenario/cidade/interiores/venda/props/barris_caixas.png"
+ },
+ "interior/venda/bau": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/interior/venda/bau/primavera.png",
+   "res://assets/cenario/cidade/ambientes/interior/venda/bau/verao.png",
+   "res://assets/cenario/cidade/ambientes/interior/venda/bau/outono.png",
+   "res://assets/cenario/cidade/ambientes/interior/venda/bau/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "usado": [
+   0,
+   0,
+   32,
+   26
+  ],
+  "escala_origem": 1.0,
+  "calor_sazonal": false,
+  "fonte": "res://assets/cenario/cidade/interiores/venda/props/bau.png"
+ },
+ "interior/venda/cestos": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/interior/venda/cestos/primavera.png",
+   "res://assets/cenario/cidade/ambientes/interior/venda/cestos/verao.png",
+   "res://assets/cenario/cidade/ambientes/interior/venda/cestos/outono.png",
+   "res://assets/cenario/cidade/ambientes/interior/venda/cestos/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "usado": [
+   0,
+   0,
+   43,
+   35
+  ],
+  "escala_origem": 1.0,
+  "calor_sazonal": false,
+  "fonte": "res://assets/cenario/cidade/interiores/venda/props/cestos.png"
+ },
+ "interior/venda/mesa_frutas": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/interior/venda/mesa_frutas/primavera.png",
+   "res://assets/cenario/cidade/ambientes/interior/venda/mesa_frutas/verao.png",
+   "res://assets/cenario/cidade/ambientes/interior/venda/mesa_frutas/outono.png",
+   "res://assets/cenario/cidade/ambientes/interior/venda/mesa_frutas/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "usado": [
+   0,
+   0,
+   32,
+   38
+  ],
+  "escala_origem": 1.0,
+  "calor_sazonal": false,
+  "fonte": "res://assets/cenario/cidade/interiores/venda/props/mesa_frutas.png"
+ },
+ "interior/venda/planta": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/interior/venda/planta/primavera.png",
+   "res://assets/cenario/cidade/ambientes/interior/venda/planta/verao.png",
+   "res://assets/cenario/cidade/ambientes/interior/venda/planta/outono.png",
+   "res://assets/cenario/cidade/ambientes/interior/venda/planta/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 2,
+  "usado": [
+   0,
+   0,
+   28,
+   38
+  ],
+  "escala_origem": 1.0,
+  "calor_sazonal": false,
+  "fonte": "res://assets/cenario/cidade/interiores/venda/props/planta.png"
+ },
+ "interior/venda/prateleira": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/interior/venda/prateleira/primavera.png",
+   "res://assets/cenario/cidade/ambientes/interior/venda/prateleira/verao.png",
+   "res://assets/cenario/cidade/ambientes/interior/venda/prateleira/outono.png",
+   "res://assets/cenario/cidade/ambientes/interior/venda/prateleira/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "usado": [
+   0,
+   0,
+   32,
+   46
+  ],
+  "escala_origem": 1.0,
+  "calor_sazonal": false,
+  "fonte": "res://assets/cenario/cidade/interiores/venda/props/prateleira.png"
+ },
+ "interior/venda/prateleira_b": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/interior/venda/prateleira_b/primavera.png",
+   "res://assets/cenario/cidade/ambientes/interior/venda/prateleira_b/verao.png",
+   "res://assets/cenario/cidade/ambientes/interior/venda/prateleira_b/outono.png",
+   "res://assets/cenario/cidade/ambientes/interior/venda/prateleira_b/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "usado": [
+   0,
+   0,
+   44,
+   45
+  ],
+  "escala_origem": 1.0,
+  "calor_sazonal": false,
+  "fonte": "res://assets/cenario/cidade/interiores/venda/props/prateleira_b.png"
+ },
+ "interior/venda/sacos": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/interior/venda/sacos/primavera.png",
+   "res://assets/cenario/cidade/ambientes/interior/venda/sacos/verao.png",
+   "res://assets/cenario/cidade/ambientes/interior/venda/sacos/outono.png",
+   "res://assets/cenario/cidade/ambientes/interior/venda/sacos/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "usado": [
+   0,
+   0,
+   57,
+   44
+  ],
+  "escala_origem": 1.0,
+  "calor_sazonal": false,
+  "fonte": "res://assets/cenario/cidade/interiores/venda/props/sacos.png"
+ },
+ "interior/venda/tapete": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/interior/venda/tapete/primavera.png",
+   "res://assets/cenario/cidade/ambientes/interior/venda/tapete/verao.png",
+   "res://assets/cenario/cidade/ambientes/interior/venda/tapete/outono.png",
+   "res://assets/cenario/cidade/ambientes/interior/venda/tapete/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "usado": [
+   0,
+   0,
+   59,
+   31
+  ],
+  "escala_origem": 1.0,
+  "calor_sazonal": false,
+  "fonte": "res://assets/cenario/cidade/interiores/venda/props/tapete.png"
+ },
+ "fachada/casa_bento": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/fachada/casa_bento/primavera.png",
+   "res://assets/cenario/cidade/ambientes/fachada/casa_bento/verao.png",
+   "res://assets/cenario/cidade/ambientes/fachada/casa_bento/outono.png",
+   "res://assets/cenario/cidade/ambientes/fachada/casa_bento/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "usado": [
+   0,
+   0,
+   160,
+   112
+  ],
+  "escala_origem": 1.0
+ },
+ "fachada/enfermaria": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/fachada/enfermaria/primavera.png",
+   "res://assets/cenario/cidade/ambientes/fachada/enfermaria/verao.png",
+   "res://assets/cenario/cidade/ambientes/fachada/enfermaria/outono.png",
+   "res://assets/cenario/cidade/ambientes/fachada/enfermaria/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "usado": [
+   0,
+   0,
+   128,
+   112
+  ],
+  "escala_origem": 1.0
+ },
+ "fachada/mistica": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/fachada/mistica/primavera.png",
+   "res://assets/cenario/cidade/ambientes/fachada/mistica/verao.png",
+   "res://assets/cenario/cidade/ambientes/fachada/mistica/outono.png",
+   "res://assets/cenario/cidade/ambientes/fachada/mistica/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "usado": [
+   0,
+   0,
+   144,
+   128
+  ],
+  "escala_origem": 1.0
+ },
+ "fachada/pousada": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/fachada/pousada/primavera.png",
+   "res://assets/cenario/cidade/ambientes/fachada/pousada/verao.png",
+   "res://assets/cenario/cidade/ambientes/fachada/pousada/outono.png",
+   "res://assets/cenario/cidade/ambientes/fachada/pousada/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "usado": [
+   0,
+   0,
+   160,
+   144
+  ],
+  "escala_origem": 1.0
+ },
+ "fachada/sede": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/fachada/sede/primavera.png",
+   "res://assets/cenario/cidade/ambientes/fachada/sede/verao.png",
+   "res://assets/cenario/cidade/ambientes/fachada/sede/outono.png",
+   "res://assets/cenario/cidade/ambientes/fachada/sede/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "usado": [
+   0,
+   0,
+   192,
+   128
+  ],
+  "escala_origem": 1.0
+ },
+ "fachada/venda": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/fachada/venda/primavera.png",
+   "res://assets/cenario/cidade/ambientes/fachada/venda/verao.png",
+   "res://assets/cenario/cidade/ambientes/fachada/venda/outono.png",
+   "res://assets/cenario/cidade/ambientes/fachada/venda/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "usado": [
+   0,
+   0,
+   128,
+   112
+  ],
+  "escala_origem": 1.0
+ },
+ "interior/pousada/banqueta": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/interior/pousada/banqueta/primavera.png",
+   "res://assets/cenario/cidade/ambientes/interior/pousada/banqueta/verao.png",
+   "res://assets/cenario/cidade/ambientes/interior/pousada/banqueta/outono.png",
+   "res://assets/cenario/cidade/ambientes/interior/pousada/banqueta/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "usado": [
+   0,
+   0,
+   16,
+   15
+  ],
+  "escala_origem": 1.0,
+  "calor_sazonal": false,
+  "fonte": "res://assets/cenario/cidade/interiores/pousada/props/banqueta.png"
+ },
+ "fachada/casa_jogador": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/fachada/casa_jogador/primavera.png",
+   "res://assets/cenario/cidade/ambientes/fachada/casa_jogador/verao.png",
+   "res://assets/cenario/cidade/ambientes/fachada/casa_jogador/outono.png",
+   "res://assets/cenario/cidade/ambientes/fachada/casa_jogador/inverno.png"
+  ],
+  "quadros": 1,
+  "fps": 0,
+  "usado": [
+   0,
+   0,
+   112,
+   90
+  ],
+  "escala_origem": 1
+ }
+}

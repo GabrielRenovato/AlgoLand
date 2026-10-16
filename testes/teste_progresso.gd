@@ -3,8 +3,8 @@ extends SceneTree
 # Rodar: godot --headless --path . --script res://testes/teste_progresso.gd
 # Usa instâncias isoladas do Progresso e do modelo de inventário (sem tocar nos saves reais)
 
-const ScriptProgresso := preload("res://Codigos/Globais/progresso.gd")
-const ScriptModelo := preload("res://Codigos/Modelos/modelo_inventario.gd")
+const ScriptProgresso := preload("res://codigo/globais/progresso.gd")
+const ScriptModelo := preload("res://codigo/modelos/modelo_inventario.gd")
 
 const CAMINHO_TESTE := "user://teste_progresso.json"
 
@@ -226,19 +226,19 @@ func _testar_reset_do_inventario() -> void:
 	_verificar("antes do reset ha arma e escudo equipados", modelo.equipados["arma"] == espada and modelo.equipados["escudo"] == escudo, "")
 	modelo.limpar()
 	modelo.criar_itens_iniciais()
-	var kit_ok: bool = modelo.equipados["arma"] == null and modelo.equipados["escudo"] == null \
+	var kit_ok: bool = modelo.equipados["arma"] != null and modelo.equipados["arma"].tipo == "espada_basica" and modelo.equipados["escudo"] != null \
 			and modelo.equipados["cabeca"] != null and modelo.equipados["corpo"] != null \
 			and modelo.equipados["luvas"] != null and modelo.equipados["botas"] != null and modelo.equipados["secundaria"] != null
-	_verificar("reset: armadura equipada e nenhuma arma na mao", kit_ok, str(modelo.equipados))
-	var na_mochila: bool = modelo.buscar_por_tipo("espada_basica") != null and modelo.indice_de(modelo.buscar_por_tipo("espada_basica")) != -1 \
-			and modelo.indice_de(modelo.buscar_por_tipo("lanca_basica")) != -1 and modelo.indice_de(modelo.buscar_por_tipo("escudo_basico")) != -1
-	_verificar("reset: espada, lanca e escudo na mochila", na_mochila, "")
+	_verificar("reset: armadura, espada e escudo equipados", kit_ok, str(modelo.equipados))
+	var na_mochila: bool = modelo.indice_de(modelo.buscar_por_tipo("lanca_basica")) != -1 and modelo.indice_de(modelo.buscar_por_tipo("enxada")) != -1 \
+			and modelo.indice_de(modelo.buscar_por_tipo("regador")) != -1 and modelo.indice_de(modelo.buscar_por_tipo("mao")) != -1
+	_verificar("reset: lanca e ferramentas da fazenda na mochila", na_mochila, "")
 	_verificar("reset: itens voltam ao nivel 1 e sem extras", modelo.buscar_por_tipo("espada_basica").nivel == 1 and modelo.buscar_por_tipo("machado") == null, "")
 	var contagem := 0
 	for item in modelo.mochila:
 		if item != null:
 			contagem += 1
-	_verificar("reset: mochila so com as 3 armas/escudo iniciais", contagem == 3, "itens=%d" % contagem)
+	_verificar("reset: mochila so com a lanca e as 3 ferramentas iniciais", contagem == 4, "itens=%d" % contagem)
 	modelo.free()
 
 func _testar_reviver_da_curandeira() -> void:

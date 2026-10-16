@@ -1,0 +1,58 @@
+{
+  "ferramenta": "image_gen.imagegen (ferramenta integrada)",
+  "referencia_visual": "Mana Seed: terreno 16 px e moradores com aproximadamente 31 px de altura",
+  "atlas": {
+    "original": "arte/fontes/praia/atlas_original.png",
+    "destino": "assets/cenario/praia/atlas.png",
+    "prompt": "Create a production game pixel-art beach TILE ATLAS inspired by Mana Seed cozy farming RPG terrain. This is a technical texture sheet, NOT a scene or mockup. Exactly 4 columns by 2 rows of equal square cells, with no gaps, no grid lines, no labels. Entire canvas 2:1 landscape. Pixel art at native resolution 128x64 (each tile 32x32), enlarged crisp nearest neighbor. All tiles occupy their ENTIRE square edge to edge, orthographic top-down. Muted organic 16bit pixel clusters, subtle restrained texture, no thick outlines. Row 1 left to right: (1) seamless pale golden dry sand, few tiny ochre flecks; (2) seamless muted wet sand; (3) seamless clear pale turquoise shallow seawater with tiny short light horizontal ripples; (4) seamless rich blue teal ocean with tiny short light horizontal ripples. Row 2 left to right: (1) seamless weathered warm brown wooden pier decking, horizontal wooden planks with dark seams, two nails, flat top view; (2) a shore tile, upper half pale sand, lower half shallow turquoise water, irregular thin ivory foam shoreline horizontally across center, joins its own left and right edges; (3) another horizontal shoreline tile same sand water transition but foam slightly advanced onto sand for animation; (4) sandy beach scattered with two small pale shells and tiny pebble, full sand background. Keep exact consistent sand and water colors between tiles. No text no perspective no shadows outside tiles. Save output locally for use in the project.",
+    "preparo": "Recorte em células de 32 px subdivididas em tiles de 16 px; redução por área, 12 cores por célula e faixa gradual de água rasa para funda. Fonte nova inspirada no padrão visual, não um recurso oficial Mana Seed."
+  },
+  "nilo": {
+    "original": "arte/fontes/npcs/nilo/rotacoes_original.png",
+    "destino": "assets/npcs/cidade/nilo.png",
+    "prompt": "Production pixel art NPC sprite sheet for a cozy top-down farming RPG matching Mana Seed. Create a NEW friendly mature fisherman named Nilo, tan skin, short gray beard, wide straw hat with teal band, cream rolled sleeve linen shirt, teal vest, brown cropped trousers and leather boots. Empty hands. Exactly FOUR separate standing idle full-body sprites in one horizontal row equally spaced with ample transparent margin, each in a 64x64 native pixel cell; entire sheet has 4:1 aspect ratio, pixel art at native 256x64 enlarged nearest neighbor. Order LEFT TO RIGHT: facing south (front), facing east (right profile), facing north (back), facing west (left profile). Identical character clothing proportions and height in each view. Character is 31 pixels high native, 2.5 heads tall, matching Mana Seed villagers. Feet on identical baseline at native cell y=46. Crisp intentional one-pixel clusters, natural muted colors, warm selective dark outline, three tone shading, no blur, no antialiasing. No text, no labels, no scenery, no shadows, no rod, transparent background. A technical sprite rotation sheet, not an illustration. Save file locally for project.",
+    "preparo": "Quatro quadros de 64x64; desenho com 31 px de altura e pés alinhados; rotações estáticas, sem animação de caminhada.",
+    "caminhada": {
+      "original": "arte/fontes/npcs/nilo/andar_original.png",
+      "destino": "assets/npcs/cidade/nilo_andar.png",
+      "prompt": "Use original four-direction Nilo as exact reference. Six columns and four rows of 64px cells: six distinct walking poses south, east, north and west. Preserve straw hat, gray beard, cream shirt, teal vest and brown trousers, 31px character height, baseline 46, transparent background, natural alternating footsteps and arm swing, no text.",
+      "preparo": "24 quadros recortados e normalizados à altura de 31 px e ao mesmo pivô do repouso."
+    }
+  },
+  "itens": "Peixes, vara e isca recortados do Tiny RPG original; procedência e regiões em assets/pesca/catalogo.json. Nenhum peixe gerado por IA.",
+  "adornos": {
+    "ferramenta": "image_gen.imagegen (ferramenta integrada)",
+    "original": "arte/fontes/praia/adornos_original.png",
+    "destino": "assets/cenario/praia/adornos/",
+    "prompt": "Production pixel-art PROP SHEET for a detailed tropical beach in a cozy Mana Seed style top-down farming RPG. Six isolated props on a transparent background, three columns and two rows: two distinct coconut palms leaning in opposite directions with lush green fronds and coconuts; pale coastal rocks; pink scallop, ivory conch and cream clam shells; sun-bleached driftwood; sparse dune grass. Native 288x192, each cell 96x96, crisp pixel clusters, muted greens and brown wood, light from upper left, no text or ground plane.",
+    "preparo": "Recortes preservam raízes abaixo da metade; coqueiros com 88/84 px de altura, pedras 24 px, conchas 13 px, madeira 15 px e capim 20 px. Redução por vizinho mais próximo e transparência original preservada."
+  },
+  "palafita": {
+    "ferramenta": "image_gen.imagegen (integrada)",
+    "exterior_original": "arte/fontes/praia/palafita_exterior_original.png",
+    "interior_original": "arte/fontes/praia/palafita_interior_original.png",
+    "destino": "assets/cenario/praia/palafita/",
+    "prompt_exterior": "Small fisherman stilt house for a Mana Seed style cozy top-down farming RPG. Isolated transparent building, native 160x160, timber cabin on tall wooden stilts, patched teal roof, nets, rope, life ring, barrel, warm window, accessible central front door, front porch and steps. Orthographic three-quarter top-down, no ground plane, muted coastal palette, crisp pixels.",
+    "prompt_interior": "Single room fisherman home, native 320x224, top-down wooden floor and walls, empty walkable center and bottom central exit, bed with teal blanket upper right, table and stool lower right, stove upper left, food shelf and water jug on left, rods and net on upper wall, warm lantern, no characters or labels."
+  },
+  "refinamento_cais": {
+    "ferramenta": "image_gen.imagegen (integrada)",
+    "referencia_usuario": "arte/fontes/praia/referencia_usuario.png",
+    "casa": {
+      "original": "arte/fontes/praia/casa_cais_original.png",
+      "destino": "assets/cenario/praia/palafita/exterior.png",
+      "prompt": "Small waterfront cottage inspired by the user screenshot, with the detailed sprite craftsmanship of assets/cenario/cidade/casas/casa_bento.png. Overhead farming RPG camera, large orange red shingle gabled roof, short cream plaster and timber facade, arched attic window, turquoise shutters, central front door, fishing net, window boxes and low timber foundation. No tall stilts or pier; the game builds the dock. Transparent native 144x128 pixel sprite, deliberate clusters, restrained palette, no text."
+    },
+    "nilo": {
+      "original": "arte/fontes/npcs/nilo/folha_refinada_original.png",
+      "destino": [
+        "assets/npcs/cidade/nilo.png",
+        "assets/npcs/cidade/nilo_andar.png"
+      ],
+      "referencia": "assets/npcs/cidade/bento.png",
+      "prompt": "Edit the supplied Bento spritesheet into Nilo, preserving seven columns and four rows, all poses, slim body proportions, 31px height and original pixel density. Short silver beard, gray hair under weathered straw hat with navy band, navy work shirt, off-white undershirt, brown trousers and dark boots. South, east, north and west rows. Standing first column and six walking frames. Transparent background, no text, no enlarged head or chibi style."
+    },
+    "interior": "Piso e paredes de sala_topdown.gd; móveis das mesmas folhas nativas usadas na casa do Bento. O fundo antigo gerado deixou de ser usado.",
+    "cais": "Geometria modular no layout_praia.json. Piso e cercas Mana Seed originais, vasos, bancos, canteiros e objetos da vila. Colisões e navegação acompanham a composição. Acabamento de madeira clara por madeira_cais.gdshader; texturas nativas preservadas. Orla com calçamento e canteiros da vila."
+  }
+}

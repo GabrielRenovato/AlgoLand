@@ -1,0 +1,60 @@
+{
+	"escala": 0.5,
+	"grade": [
+		8,
+		8
+	],
+	"id": "cavalheiro",
+	"modo_visual": "tecido",
+	"origem": "res://assets/personagens/conjuntos/cavalheiro/",
+	"paginas": {
+		"andar": {
+			"folha": "res://assets/personagens/refinado/conjuntos/cavalheiro/andar.png",
+			"molde": "res://assets/personagens/conjuntos/cavalheiro/andar.png"
+		},
+		"arco_p2": {
+			"folha": "res://assets/personagens/refinado/conjuntos/cavalheiro/arco_p2.png",
+			"molde": "res://assets/personagens/conjuntos/cavalheiro/arco_p2.png"
+		},
+		"arco_p3": {
+			"folha": "res://assets/personagens/refinado/conjuntos/cavalheiro/arco_p3.png",
+			"molde": "res://assets/personagens/conjuntos/cavalheiro/arco_p3.png"
+		},
+		"espada": {
+			"folha": "res://assets/personagens/refinado/conjuntos/cavalheiro/espada.png",
+			"molde": "res://assets/personagens/conjuntos/cavalheiro/espada.png"
+		},
+		"fazenda": {
+			"folha": "res://assets/personagens/refinado/conjuntos/cavalheiro/fazenda.png",
+			"molde": "res://assets/personagens/conjuntos/cavalheiro/fazenda.png"
+		},
+		"forja": {
+			"folha": "res://assets/personagens/refinado/conjuntos/cavalheiro/forja.png",
+			"molde": "res://assets/personagens/conjuntos/cavalheiro/forja.png"
+		},
+		"lanca": {
+			"folha": "res://assets/personagens/refinado/conjuntos/cavalheiro/lanca.png",
+			"molde": "res://assets/personagens/conjuntos/cavalheiro/lanca.png"
+		},
+		"reacao_arco": {
+			"folha": "res://assets/personagens/refinado/conjuntos/cavalheiro/reacao_arco.png",
+			"molde": "res://assets/personagens/conjuntos/cavalheiro/reacao_arco.png"
+		},
+		"reacao_lanca": {
+			"folha": "res://assets/personagens/refinado/conjuntos/cavalheiro/reacao_lanca.png",
+			"molde": "res://assets/personagens/conjuntos/cavalheiro/reacao_lanca.png"
+		},
+		"reacao_um_mao": {
+			"folha": "res://assets/personagens/refinado/conjuntos/cavalheiro/reacao_um_mao.png",
+			"molde": "res://assets/personagens/conjuntos/cavalheiro/reacao_um_mao.png"
+		},
+		"sentado": {
+			"folha": "res://assets/personagens/refinado/conjuntos/cavalheiro/sentado.png",
+			"molde": "res://assets/personagens/conjuntos/cavalheiro/sentado.png"
+		}
+	},
+	"quadro": [
+		128,
+		128
+	]
+}

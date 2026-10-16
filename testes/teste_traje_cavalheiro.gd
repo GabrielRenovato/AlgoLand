@@ -1,9 +1,9 @@
 extends SceneTree
 
 ## Validação visual e do F3 sem carregar a arena ou gravar inventário.
-const Aparencia := preload("res://Codigos/DadosLocais/aparencia.gd")
-const Padrao := preload("res://Codigos/DadosLocais/padrao_armadura.gd")
-const Conjuntos := preload("res://Codigos/DadosLocais/conjuntos_armadura.gd")
+const Aparencia := preload("res://codigo/dados/aparencia.gd")
+const Padrao := preload("res://codigo/dados/padrao_armadura.gd")
+const Conjuntos := preload("res://codigo/dados/conjuntos_armadura.gd")
 var _falhas := 0
 
 class JogadorTeste extends Node2D:
@@ -24,18 +24,19 @@ func _verificar(nome: String, condicao: bool) -> void:
 		_falhas += 1
 
 func _rodar() -> void:
+	# Estes testes validam os moldes legados; a base nova tem teste de integração próprio.
 	await process_frame
 	var indice := -1
 	for i in Aparencia.total_roupas():
 		if Aparencia.roupas()[i]["id"] == "traje_cavalheiro":
 			indice = i
 	_verificar("novo traje registrado depois dos índices anteriores", indice > 0 and Aparencia.roupas()[indice - 1]["id"] == "armadura_cavaleiro_rubro")
-	var raiz := "res://CharacterSprites/Conjuntos/cavalheiro/"
+	var raiz := "res://assets/personagens/conjuntos/cavalheiro/"
 	var config := Padrao.carregar("res://ferramentas/armaduras/em_preparacao/cavalheiro/manifesto.json")
-	_verificar("Mordomo lendário com congelamento, sem drop natural", config["modo_visual"] == "tecido" and config["raridade"] == "lendario" and config["bonus"]["tipo"] == "congelamento" and config["chances_drop"] == {"normal": 0.0, "mutante": 0.0, "chefe": 0.0})
+	_verificar("Mordomo comum com congelamento", config["modo_visual"] == "tecido" and config["raridade"] == "comum" and config["bonus"]["tipo"] == "congelamento" and config["chances_drop"] == {"normal": 0.05, "mutante": 0.1, "chefe": 0.1})
 	_verificar("peças reais do Cavalheiro disponíveis para equipar pelo F3", Conjuntos.de_tipo("elmo_cavalheiro") != null)
 	for pagina in Padrao.CORPOS:
-		var corpo: Texture2D = load("res://CharacterSprites/" + Padrao.CORPOS[pagina])
+		var corpo: Texture2D = load("res://assets/personagens/" + Padrao.CORPOS[pagina])
 		_verificar(pagina + ": cabeça original preservada", Aparencia.corpo(pagina, indice, 15) == corpo)
 		var traje := Aparencia.roupa(indice, pagina)
 		_verificar(pagina + ": própria folha nas poses do jogador", traje.resource_path == raiz + pagina + ".png")
@@ -100,7 +101,7 @@ func _rodar() -> void:
 	painel._alternar_armadura("traje_cavalheiro")
 	_verificar("F3 restaura roupa original após alternar conjuntos", jogador.roupa_atual == 2)
 	# Jogador real fora da árvore: não executa _ready nem lê/grava a partida.
-	var real = load("res://cenas/Jogador.tscn").instantiate()
+	var real = load("res://cenas/jogador.tscn").instantiate()
 	var camadas := {
 		"sprite_corpo": "BaseSprites/Corpo", "sprite_cabelo": "BaseSprites/Cabelo", "sprite_roupa": "BaseSprites/Roupa",
 		"corpo_espada_escudo_ataque": "AttackSwordAnimation/CorpoEspadaEscudo", "cabelo_ataque": "AttackSwordAnimation/Cabelo", "roupa_ataque": "AttackSwordAnimation/Roupa",
@@ -111,7 +112,7 @@ func _rodar() -> void:
 		real.set(chave, real.get_node("CompositeSprites/" + camadas[chave]))
 	real.cor_cabelo = Color.GREEN
 	real.definir_aparencia(1, indice)
-	_verificar("jogador real veste traje completo", real.pecas_cavaleiro == 15 and real.sprite_roupa.texture == Aparencia.roupa(indice, "andar"))
+	_verificar("jogador real veste traje completo", real.pecas_cavaleiro == 15 and real.sprite_roupa.texture == Aparencia.roupa_refinada(indice, "andar"))
 	_verificar("jogador real mantém cabelo colorido separado da cartola", real.sprite_cabelo.modulate == Color.GREEN and not real.sprite_cabelo.texture.get_image().is_invisible() and real.sprite_roupa.modulate == Color.WHITE)
 	_verificar("jogador real usa traje nos ataques", real.roupa_ataque.texture == Aparencia.roupa(indice, "espada") and real.roupa_lanca_ataque.texture == Aparencia.roupa(indice, "lanca"))
 	for par in [[real.sprite_cabelo, real.sprite_roupa], [real.cabelo_ataque, real.roupa_ataque], [real.cabelo_lanca_ataque, real.roupa_lanca_ataque]]:
@@ -134,14 +135,14 @@ func _rodar() -> void:
 	real._aplicar_roupa_sentado()
 	_verificar("jogador real usa traje sentado", real.sprite_roupa_forja.texture == Aparencia.roupa(indice, "sentado"))
 	real.definir_aparencia(1, 2)
-	_verificar("jogador real restaura roupa e cabelo", real.sprite_roupa.texture == Aparencia.roupa(2, "andar") and real.sprite_cabelo.texture == Aparencia.cabelo(1, "andar"))
+	_verificar("jogador real restaura roupa e cabelo", real.sprite_roupa.texture == Aparencia.roupa_refinada(2, "andar") and real.sprite_cabelo.texture == Aparencia.cabelo_refinado(1, "andar"))
 	_verificar("retirar traje oculta a camada extra da cartola", not real.sprite_roupa.get_parent().get_node("CartolaSobreCabelo").visible)
 	_verificar("retirar traje restaura o desenho do cabelo original", real.sprite_cabelo.self_modulate == Color.WHITE)
 	real.status_armas.free()
 	real.free()
 	jogador.roupa_atual = indice
 	for arquivo in ["fazenda_jogador", "arco_jogador", "reacao_jogador"]:
-		var componente = load("res://Codigos/Jogador/" + arquivo + ".gd").new()
+		var componente = load("res://codigo/jogador/" + arquivo + ".gd").new()
 		componente.jogador = jogador
 		cena.add_child(componente)
 		componente.set_process(false)
@@ -149,7 +150,7 @@ func _rodar() -> void:
 			componente._familia = "um_mao"
 		componente._sincronizar_aparencia()
 		var pagina := "fazenda" if arquivo == "fazenda_jogador" else ("arco_p2" if arquivo == "arco_jogador" else "reacao_um_mao")
-		_verificar(arquivo + ": traje e cabelo sob cartola nas ações reais", componente._roupa.texture == Aparencia.roupa(indice, pagina) and componente._cabelo.texture == Aparencia.cabelo(1, pagina, indice, 15))
+		_verificar(arquivo + ": traje e cabelo sob cartola nas ações reais", componente._roupa.texture == Aparencia.roupa_refinada(indice, pagina) and componente._cabelo.texture == Aparencia.cabelo_refinado(1, pagina, indice, 15))
 		var cartola = componente.get_node("CartolaSobreCabelo")
 		componente._cabelo.z_index = 5
 		componente._roupa.z_index = 4

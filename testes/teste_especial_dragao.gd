@@ -1,6 +1,6 @@
 extends SceneTree
 
-const Chuva := preload("res://Codigos/Efeitos/chuva_fogo_dragao.gd")
+const Chuva := preload("res://codigo/efeitos/chuva_fogo_dragao.gd")
 var falhas := 0
 
 class JogadorTeste extends Node2D:

@@ -33,11 +33,11 @@ func _rodar() -> void:
 	var mercador := Node2D.new()
 	mercador.name = "Merchant"
 	_arena.add_child(mercador)
-	var spawner: Node = load("res://Codigos/Logicas/slime_spawner.gd").new()
+	var spawner: Node = load("res://codigo/logica/slime_spawner.gd").new()
 	spawner.name = "enemySpawner"
 	spawner.atraso_spawn = 0.02
 	spawner.add_child(Marker2D.new())
-	var gerenciador: Node = load("res://Codigos/Logicas/Gerenciador-de-ondas.gd").new()
+	var gerenciador: Node = load("res://codigo/logica/gerenciador_de_ondas.gd").new()
 	gerenciador.name = "GerenciadorOndas"
 	gerenciador.chance_onda_bonus = 0.0
 	gerenciador.chance_evento = 0.0
@@ -91,7 +91,7 @@ func _testar_tiros() -> void:
 	colisao.shape = forma
 	area.add_child(colisao)
 	_jogador.add_child(area)
-	var roteiro = load("res://Codigos/Inimigos/projetil_esqueleto.gd")
+	var roteiro = load("res://codigo/inimigos/projetil_esqueleto.gd")
 	for tipo in ["arqueiro", "mago"]:
 		var inimigo: Node2D = load("res://cenas/inimigos/esqueleto_%s.tscn" % tipo).instantiate()
 		_arena.add_child(inimigo)
@@ -137,7 +137,7 @@ func _testar_tiros() -> void:
 		if tipo == "magia":
 			_verificar("esfera usa três quadros do efeito Mana Seed", tiro._sprite.hframes == 3 and tiro._sprite.texture is AtlasTexture)
 		else:
-			_verificar("flecha usa o mesmo asset do arco do jogador", tiro._sprite.texture.resource_path == "res://CharacterSprites/Arco/flecha.png")
+			_verificar("flecha usa o mesmo asset do arco do jogador", tiro._sprite.texture.resource_path == "res://assets/personagens/Arco/flecha.png")
 		await create_timer(0.8).timeout
 		_verificar(tipo + " para no obstáculo sem atingir o jogador", not is_instance_valid(tiro) and _jogador.dano_recebido == antes)
 	var arqueiro: Node2D = load("res://cenas/inimigos/esqueleto_arqueiro.tscn").instantiate()

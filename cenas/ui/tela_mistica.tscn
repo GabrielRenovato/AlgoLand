@@ -1,10 +1,10 @@
 [gd_scene load_steps=9 format=3]
 
-[ext_resource type="Script" path="res://Codigos/UI/tela_mistica.gd" id="1_tela"]
+[ext_resource type="Script" path="res://codigo/ui/tela_mistica.gd" id="1_tela"]
 [ext_resource type="Theme" path="res://recursos/ui/tema_sidebar.tres" id="2_tema"]
-[ext_resource type="Texture2D" path="res://UI/craftpix-net-420010-pixel-game-user-interface-for-platformer/1 Interface/TileMap.png" id="3_tilemap"]
-[ext_resource type="FontFile" path="res://UI/craftpix-net-775352-game-user-interface-pixel-art/6 Font/CraftPixNet Survival Kit.otf" id="4_fonte_titulo"]
-[ext_resource type="Texture2D" path="res://UI/sem org/3 Icons/Icons_37.png" id="5_icone_fechar"]
+[ext_resource type="Texture2D" path="res://assets/ui/craftpix-net-420010-pixel-game-user-interface-for-platformer/1 Interface/TileMap.png" id="3_tilemap"]
+[ext_resource type="FontFile" path="res://assets/ui/craftpix-net-775352-game-user-interface-pixel-art/6 Font/CraftPixNet Survival Kit.otf" id="4_fonte_titulo"]
+[ext_resource type="Texture2D" path="res://assets/ui/sem org/3 Icons/Icons_37.png" id="5_icone_fechar"]
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_checkpoints"]
 

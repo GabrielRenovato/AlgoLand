@@ -1,7 +1,7 @@
 extends SceneTree
 
 # Rodar: godot --headless --path . --script res://testes/teste_cadeira.gd
-# Cadeiras da casa (Codigos/Logicas/cadeira.gd): F senta o jogador (pose de sentar da pagina 4, com a roupa dele, olhando para a
+# Cadeiras da casa (codigo/logica/cadeira.gd): F senta o jogador (pose de sentar da pagina 4, com a roupa dele, olhando para a
 # mesa) e ele fica sentado; F/B/andar levanta de volta atras da cadeira. As xicaras de cafe so enfeitam a mesa.
 # Usa arquivos de teste para Progresso e Fazenda (nao toca nos saves reais).
 
@@ -56,7 +56,7 @@ func _rodar() -> void:
 	var zonas := {"E": casa.get_node("ZonaCadeiraE"), "D": casa.get_node("ZonaCadeiraD")}
 	_verificar("duas zonas de cadeira, uma olha para a direita e a outra para a esquerda (as duas para a mesa)",
 			zonas["E"].lado == 1 and zonas["D"].lado == -1 and zonas["E"].global_position.x < mesa.global_position.x and zonas["D"].global_position.x > mesa.global_position.x, "")
-	var Prof := preload("res://Codigos/Globais/profundidade.gd")
+	var Prof := preload("res://codigo/globais/profundidade.gd")
 	var cafe := {"E": mesa.get_node_or_null("Cafe_E"), "D": mesa.get_node_or_null("Cafe_D")}
 	_verificar("duas xicaras de cafe em cima da mesa (filhas da mesa, visiveis, com fumacinha)", cafe["E"] != null and cafe["D"] != null and cafe["E"].visible and cafe["D"].visible
 			and cafe["E"].get_node_or_null("Vapor") != null and cafe["E"].texture.region == Rect2(177, 68, 10, 8), "")
@@ -65,12 +65,12 @@ func _rodar() -> void:
 
 	var todas_existem := true
 	for i in range(1, 13):
-		todas_existem = todas_existem and ResourceLoader.exists("res://CharacterSprites/Sentado/roupa_%d.png" % i)
+		todas_existem = todas_existem and ResourceLoader.exists("res://assets/personagens/Sentado/roupa_%d.png" % i)
 	_verificar("as 12 roupas de sentar (pagina 4) existem, uma para cada roupa de andar", todas_existem, "")
 	jogador.roupa_atual = 6
 	# de pe na frente da mesa (pes abaixo da base dela) ele continua na frente dela; atras dela, fica escondido
 	_verificar("de pe na frente da mesa o jogador desenha por cima dela; de pe atras, por baixo",
-			Prof.z_de(130.0) >= mesa.z_index and Prof.z_de(70.0) < mesa.z_index, "mesa=%d frente=%d atras=%d" % [mesa.z_index, Prof.z_de(130.0), Prof.z_de(70.0)])
+			Prof.z_de(mesa.global_position.y + 16.0) >= mesa.z_index and Prof.z_de(mesa.global_position.y - 40.0) < mesa.z_index, "mesa=%d frente=%d atras=%d" % [mesa.z_index, Prof.z_de(mesa.global_position.y + 16.0), Prof.z_de(mesa.global_position.y - 40.0)])
 	for chave in ["E", "D"]:
 		var zona: Node = zonas[chave]
 		var lado: int = zona.lado
@@ -89,10 +89,10 @@ func _rodar() -> void:
 				jogador.global_position.is_equal_approx(zona.global_position + zona.assento) and jogador.sprite_corpo_forja.frame == (51 if lado > 0 else 59)
 				and jogador.sprite_cabelo_forja.frame == jogador.sprite_corpo_forja.frame and jogador.sprite_roupa_forja.frame == jogador.sprite_corpo_forja.frame, "frame=%d" % jogador.sprite_corpo_forja.frame)
 		_verificar("%s: veste a roupa dele (versao da pagina 4 da mesma roupa), nao o avental de ferreiro da forja" % chave,
-				jogador.sprite_roupa_forja.texture == preload("res://Codigos/DadosLocais/aparencia.gd").roupa(jogador.roupa_atual, "sentado")
-				and jogador.sprite_roupa_forja.texture.resource_path.begins_with("res://CharacterSprites/Sentado/roupa_")
+				jogador.sprite_roupa_forja.texture == preload("res://codigo/dados/aparencia.gd").roupa_refinada(jogador.roupa_atual, "sentado")
+				and jogador.sprite_roupa_forja.scale == Vector2(0.5, 0.5)
 				and not jogador.sprite_roupa_forja.texture.resource_path.contains("body_smithing"), str(jogador.sprite_roupa_forja.texture.resource_path))
-		_verificar("%s: desenhado na frente do encosto da cadeira (z acima do da cadeira)" % chave, jogador.z_index > preload("res://Codigos/Globais/profundidade.gd").z_de(zona.global_position.y + 8.0), "z=%d" % jogador.z_index)
+		_verificar("%s: desenhado na frente do encosto da cadeira (z acima do da cadeira)" % chave, jogador.z_index > preload("res://codigo/globais/profundidade.gd").z_de(zona.global_position.y + 8.0), "z=%d" % jogador.z_index)
 		_verificar("%s: as pernas passam por BAIXO da mesa: z da cadeira < z do jogador sentado < z da mesa" % chave,
 				zona.z_da_cadeira() < jogador.z_index and jogador.z_index + 6 < mesa.z_index, "cadeira=%d jogador=%d mesa=%d" % [zona.z_da_cadeira(), jogador.z_index, mesa.z_index])
 		_verificar("%s: a cadeira fica ocupada e a outra tambem nao deixa (ele ja esta sentado)" % chave, zona.ocupada and not zonas["E" if chave == "D" else "D"].pode_interagir(), "")

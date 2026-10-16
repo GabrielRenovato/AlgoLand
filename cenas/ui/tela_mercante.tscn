@@ -1,11 +1,11 @@
 [gd_scene load_steps=16 format=3]
 
-[ext_resource type="Script" path="res://Codigos/UI/tela_mercante.gd" id="1_script"]
+[ext_resource type="Script" path="res://codigo/ui/tela_mercante.gd" id="1_script"]
 [ext_resource type="Theme" path="res://recursos/ui/tema_sidebar.tres" id="2_tema"]
-[ext_resource type="Texture2D" path="res://UI/craftpix-net-420010-pixel-game-user-interface-for-platformer/1 Interface/TileMap.png" id="3_tilemap"]
-[ext_resource type="FontFile" path="res://UI/craftpix-net-775352-game-user-interface-pixel-art/6 Font/CraftPixNet Survival Kit.otf" id="4_fonte_titulo"]
-[ext_resource type="Texture2D" path="res://UI/sem org/3 Icons/Icons_37.png" id="5_icone_fechar"]
-[ext_resource type="Texture2D" uid="uid://cqxopks5b2xfq" path="res://UI/icons-coin/32x32/3.png" id="9_moeda"]
+[ext_resource type="Texture2D" path="res://assets/ui/craftpix-net-420010-pixel-game-user-interface-for-platformer/1 Interface/TileMap.png" id="3_tilemap"]
+[ext_resource type="FontFile" path="res://assets/ui/craftpix-net-775352-game-user-interface-pixel-art/6 Font/CraftPixNet Survival Kit.otf" id="4_fonte_titulo"]
+[ext_resource type="Texture2D" path="res://assets/ui/sem org/3 Icons/Icons_37.png" id="5_icone_fechar"]
+[ext_resource type="Texture2D" uid="uid://cqxopks5b2xfq" path="res://assets/ui/icons-coin/32x32/3.png" id="9_moeda"]
 [ext_resource type="PackedScene" path="res://cenas/slot.tscn" id="10_slot"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_moldura"]
@@ -87,9 +87,10 @@ texture_normal = ExtResource("5_icone_fechar")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="Abas" type="HBoxContainer" parent="Painel/Linhas"]
+[node name="Abas" type="HFlowContainer" parent="Painel/Linhas"]
 layout_mode = 2
-theme_override_constants/separation = 2
+theme_override_constants/h_separation = 2
+theme_override_constants/v_separation = 2
 
 [node name="AbaEncantar" type="Button" parent="Painel/Linhas/Abas"]
 unique_name_in_owner = true
@@ -302,16 +303,20 @@ theme_override_constants/separation = 3
 
 [node name="TituloUpgrade" type="Label" parent="Painel/Linhas/Conteudo/Bigorna/InfoUpgrade"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.85, 0.45, 1)
 text = "ESPADA NV 1 > 2"
 horizontal_alignment = 1
+autowrap_mode = 2
 
 [node name="AtributosUpgrade" type="Label" parent="Painel/Linhas/Conteudo/Bigorna/InfoUpgrade"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 text = "DANO 1 > 2"
 horizontal_alignment = 1
+autowrap_mode = 2
 
 [node name="RequisitosUpgrade" type="Label" parent="Painel/Linhas/Conteudo/Bigorna/InfoUpgrade"]
 unique_name_in_owner = true
@@ -428,4 +433,4 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 18)
 layout_mode = 2
 theme_type_variation = &"BotaoPrimario"
-text = "INICIAR ONDA"
+text = "IR PARA A ARENA"

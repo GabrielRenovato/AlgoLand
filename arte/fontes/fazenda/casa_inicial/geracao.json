@@ -1,0 +1,12 @@
+{
+  "ferramenta": "image_gen integrada",
+  "referencias": [
+    "assets/cenario/cidade/casas/exterior/casa_bento.png",
+    "assets/cenario/cidade/casas/exterior/venda.png"
+  ],
+  "prompt": "Use case: stylized-concept. Create ONE production game sprite: a modest level-1 starter farmhouse exterior for AlgoLand, matching the supplied city building sprites' Mana Seed cozy farming RPG pixel art, camera, scale of architectural details and warm palette. References are style references only. A SMALL SINGLE-STORY rectangular cottage, simple orange terracotta gable roof, weathered warm timber framing with cream plaster walls, stone foundation, one wooden front door EXACTLY CENTERED, two small windows one on either side, small stone chimney on the right. Front-facing elevated topdown RPG view like references, front gable visible, no isometric angled footprint. Humble inexpensive starter home, no upstairs window, no dormer, no extensions, no porch wings, no lavish decorations, no sign, no letters, no text, no tools or people. Keep footprint compact, easy to expand later. Draw only the building and a narrow doorstep, absolutely NO ground patch, grass, flowers, garden or cast shadow. Transparent background actual alpha. Crisp square pixel-art clusters designed for native 112 pixels wide by about 100 pixels tall, limited warm palette, no blur or painterly texture. Center whole house with generous transparent margin. One house only.",
+  "preparo": "python3 ferramentas/fazenda/preparar_casa_inicial.py",
+  "interior": "Pisos e paredes Mana Seed originais; móveis interativos preservados; planta em ferramentas/cidade/layout_interiores.py.",
+  "nivel_casa": 1,
+  "prompt_inverno": "Edit target: supplied farmhouse game sprite. Create the exact same house in WINTER, perfectly preserving position, silhouette, front centered door, two windows, chimney, wooden walls, proportions and camera. Add a convincing thick blanket of blue-white pixel-art SNOW on the orange roof slopes, ridge, front gable edges, chimney cap and narrow window ledges, with a few small icicles. Orange tiles remain visible near lower roof edges. Keep door fully accessible, windows unchanged blue glass, no lights painted on. NO ground, NO scenery, NO falling snow, NO new objects or extensions, no text. Transparent background actual alpha. Keep the whole building framed with margin just like reference. Maintain exact same cozy Mana Seed style, crisp pixel clusters."
+}

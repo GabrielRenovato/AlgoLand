@@ -1,0 +1,149 @@
+{
+  "fonte": "Farm RPG - Tiny Asset Pack - (All in One)",
+  "peixes": {
+    "sardinha": {
+      "nome": "SARDINHA",
+      "icone": "res://assets/pesca/peixes/sardinha.png",
+      "ambiente": "mar",
+      "original": "Icons/Fish/Sea/Sardine.png",
+      "recorte": [
+        0,
+        0,
+        16,
+        16
+      ]
+    },
+    "anchova": {
+      "nome": "ANCHOVA",
+      "icone": "res://assets/pesca/peixes/anchova.png",
+      "ambiente": "mar",
+      "original": "Icons/Fish/Sea/Anchovy.png",
+      "recorte": [
+        0,
+        0,
+        16,
+        16
+      ]
+    },
+    "atum": {
+      "nome": "ATUM",
+      "icone": "res://assets/pesca/peixes/atum.png",
+      "ambiente": "mar",
+      "original": "Icons/Fish/Sea/Tuna.png",
+      "recorte": [
+        0,
+        0,
+        16,
+        16
+      ]
+    },
+    "salmao": {
+      "nome": "SALMAO",
+      "icone": "res://assets/pesca/peixes/salmao.png",
+      "ambiente": "mar",
+      "original": "Icons/Fish/Sea/Salmon.png",
+      "recorte": [
+        0,
+        0,
+        16,
+        16
+      ]
+    },
+    "linguado": {
+      "nome": "LINGUADO",
+      "icone": "res://assets/pesca/peixes/linguado.png",
+      "ambiente": "mar",
+      "original": "Icons/Fish/Sea/Flounder.png",
+      "recorte": [
+        0,
+        0,
+        16,
+        16
+      ]
+    },
+    "baiacu": {
+      "nome": "BAIACU",
+      "icone": "res://assets/pesca/peixes/baiacu.png",
+      "ambiente": "mar",
+      "original": "Icons/Fish/Sea/pufferfish.png",
+      "recorte": [
+        0,
+        0,
+        16,
+        16
+      ]
+    },
+    "carpa": {
+      "nome": "CARPA",
+      "icone": "res://assets/pesca/peixes/carpa.png",
+      "ambiente": "rio",
+      "original": "Icons/Fish/River/Carp.png",
+      "recorte": [
+        0,
+        0,
+        16,
+        16
+      ]
+    },
+    "bagre": {
+      "nome": "BAGRE",
+      "icone": "res://assets/pesca/peixes/bagre.png",
+      "ambiente": "rio",
+      "original": "Icons/Fish/River/Bullhead Catfish.png",
+      "recorte": [
+        0,
+        0,
+        16,
+        16
+      ]
+    },
+    "perca": {
+      "nome": "PERCA",
+      "icone": "res://assets/pesca/peixes/perca.png",
+      "ambiente": "rio",
+      "original": "Icons/Fish/River/Perch.png",
+      "recorte": [
+        0,
+        0,
+        16,
+        16
+      ]
+    },
+    "dourado": {
+      "nome": "DOURADO",
+      "icone": "res://assets/pesca/peixes/dourado.png",
+      "ambiente": "rio",
+      "original": "Icons/Fish/River/Dorado.png",
+      "recorte": [
+        0,
+        0,
+        16,
+        16
+      ]
+    },
+    "truta": {
+      "nome": "TRUTA TIGRE",
+      "icone": "res://assets/pesca/peixes/truta.png",
+      "ambiente": "rio",
+      "original": "Icons/Fish/River/Tiger Trout.png",
+      "recorte": [
+        0,
+        0,
+        16,
+        16
+      ]
+    },
+    "esturjao": {
+      "nome": "ESTURJAO",
+      "icone": "res://assets/pesca/peixes/esturjao.png",
+      "ambiente": "rio",
+      "original": "Icons/Fish/River/Sturgeon.png",
+      "recorte": [
+        0,
+        0,
+        16,
+        16
+      ]
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "ferramenta": "PixelLab create_topdown_tileset pro",
+  "referencia": "Referência de calçamento com guia anexada pelo usuário em 15/10/2026",
+  "resolucao_tile": [
+    16,
+    16
+  ],
+  "gerador": "ferramentas/cidade/preparar_terreno_witchbrook.py",
+  "observacao": "As pedras maiores existentes são compostas com uma guia de 4 pixels definida em quadrantes Wang. Grama e terra compartilham as mesmas pedras e guia. Tentativas e fontes anteriores preservadas.",
+  "tentativa_nao_utilizada": "c13eb086-545a-4438-8913-bec925576b93",
+  "tentativa_sem_creditos": "771777ed-bff4-45d1-a2cc-28f0c2aaaa80",
+  "guia": "PixelLab pixelart_workbench draw, geometria e paleta definidas pelo Codex",
+  "guia_id": "8dc242ec-8a7f-4d34-9a6c-d0a039f170f6",
+  "receita": "receita_guia.json",
+  "pedras": "../terreno_witchbrook/grama_pedra.png"
+}

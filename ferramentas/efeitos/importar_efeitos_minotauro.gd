@@ -5,7 +5,7 @@ const LADO := 128
 const PALETA := ["28242d", "4e3735", "705344", "987351", "c09766", "e3c28c", "fff0bd", "727681", "b7b9bd", "914133", "c76a3a", "efae57"]
 
 func _initialize() -> void:
-	var fonte := Image.load_from_file("res://Efeitos/minotauro/fontes/ataques_v1.png")
+	var fonte := Image.load_from_file("res://arte/fontes/efeitos/minotauro/ataques_v1.png")
 	if fonte == null or fonte.is_empty():
 		quit(1)
 		return
@@ -32,5 +32,5 @@ func _initialize() -> void:
 							melhor = cor
 					quadro.set_pixel(x, y, melhor)
 			folha.blit_rect(quadro, Rect2i(0, 0, LADO, LADO), Vector2i(coluna * LADO, 0))
-		folha.save_png("res://Efeitos/minotauro/" + NOMES[linha] + ".png")
+		folha.save_png("res://assets/efeitos/minotauro/" + NOMES[linha] + ".png")
 	quit()

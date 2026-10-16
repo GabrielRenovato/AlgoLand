@@ -11,7 +11,7 @@ func _initialize() -> void:
 		var versao := "_v3.png" if pagina == "cauda" else "_v2.png"
 		if pagina in ["voo", "patada"]:
 			versao = "_v1.png"
-		var imagem := Image.load_from_file("res://inimigos/dragao_vermelho/fontes/" + pagina + versao)
+		var imagem := Image.load_from_file("res://arte/fontes/inimigos/dragao_vermelho/" + pagina + versao)
 		if imagem == null or imagem.is_empty():
 			push_error("Fonte de animação ausente: " + pagina)
 			quit(1)
@@ -48,7 +48,7 @@ func _initialize() -> void:
 				quadro = extrair_silhueta(quadro)
 				var posicao := Vector2i((CELULA - quadro.get_width()) / 2, CELULA - quadro.get_height() - 4)
 				folha.blit_rect(quadro, Rect2i(Vector2i.ZERO, quadro.get_size()), Vector2i(coluna * CELULA, linha * CELULA) + posicao)
-		folha.save_png("res://inimigos/dragao_vermelho/" + pagina + ".png")
+		folha.save_png("res://assets/inimigos/dragao_vermelho/" + pagina + ".png")
 		print("Dragão: ", pagina, " ", folha.get_size())
 	quit()
 

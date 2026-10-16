@@ -1,0 +1,16 @@
+df8b150b-cd0b-4339-b1aa-99c66d4a4830 poste_luz
+e0750241-61a6-4aa4-9076-a16e42c355c8 canteiro
+9ce58107-222d-4947-ba5d-a0491fe2d359 cerca
+0d6e5155-b83c-4020-9621-667fc69aeeed lenha
+8239e88a-9dec-4490-96bb-0b70c37d967b feno
+450f62dc-eaa3-4dd5-86c5-aadaef965d50 carrinho
+b65ce315-931e-4ca0-97a7-56c1757320a4 placa_encruzilhada
+f1a89c62-7e57-41f2-ac89-cade3d672e5f varal
+ddeb2e94-c97c-496c-b824-6a152251aaa0 barril_agua
+4b234a6c-cc33-4c6e-a88f-5d9156d6c3f8 correio
+e4e42934-83de-457e-8b16-47113b9a38a4 horta
+63f451f7-eded-4078-80ab-abf6524fb62e galinheiro
+43ef7339-074c-4997-8182-fed12efdc00a pedras
+a4002fce-1318-4c62-a293-89b755239e16 fonte
+000d5cba-7a65-4843-832e-75ca3125a6f5 mesa_ar_livre
+1f1afc83-4752-4983-aead-98c4a6e5237e arbusto_frutas

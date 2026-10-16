@@ -1,13 +1,13 @@
 [gd_resource type="Theme" format=3 uid="uid://ut1e6wc3fypu"]
 
-[ext_resource type="FontFile" uid="uid://dwub7qum41gaq" path="res://UI/Planes_ValMore.ttf" id="1_planes"]
-[ext_resource type="Texture2D" uid="uid://csf6tmi2cnmna" path="res://UI/craftpix-net-420010-pixel-game-user-interface-for-platformer/2 Buttons/11.png" id="2_claro"]
-[ext_resource type="Texture2D" uid="uid://bejl34h5kd0yv" path="res://UI/craftpix-net-420010-pixel-game-user-interface-for-platformer/2 Buttons/12.png" id="3_claro_hover"]
-[ext_resource type="Texture2D" uid="uid://d2rnv8qr6w6yr" path="res://UI/craftpix-net-420010-pixel-game-user-interface-for-platformer/2 Buttons/13.png" id="4_claro_pressionado"]
-[ext_resource type="Texture2D" uid="uid://5uorq6svajm1" path="res://UI/craftpix-net-420010-pixel-game-user-interface-for-platformer/2 Buttons/1.png" id="5_vermelho"]
-[ext_resource type="Texture2D" uid="uid://c054j42ggkdrc" path="res://UI/craftpix-net-420010-pixel-game-user-interface-for-platformer/2 Buttons/2.png" id="6_vermelho_hover"]
-[ext_resource type="Texture2D" uid="uid://7el8tyfa4k1o" path="res://UI/craftpix-net-420010-pixel-game-user-interface-for-platformer/2 Buttons/3.png" id="7_vermelho_pressionado"]
-[ext_resource type="Texture2D" uid="uid://dn04w5ydju0be" path="res://UI/craftpix-net-420010-pixel-game-user-interface-for-platformer/2 Buttons/17.png" id="10_moldura_slot"]
+[ext_resource type="FontFile" uid="uid://dwub7qum41gaq" path="res://assets/ui/Planes_ValMore.ttf" id="1_planes"]
+[ext_resource type="Texture2D" uid="uid://csf6tmi2cnmna" path="res://assets/ui/craftpix-net-420010-pixel-game-user-interface-for-platformer/2 Buttons/11.png" id="2_claro"]
+[ext_resource type="Texture2D" uid="uid://bejl34h5kd0yv" path="res://assets/ui/craftpix-net-420010-pixel-game-user-interface-for-platformer/2 Buttons/12.png" id="3_claro_hover"]
+[ext_resource type="Texture2D" uid="uid://d2rnv8qr6w6yr" path="res://assets/ui/craftpix-net-420010-pixel-game-user-interface-for-platformer/2 Buttons/13.png" id="4_claro_pressionado"]
+[ext_resource type="Texture2D" uid="uid://5uorq6svajm1" path="res://assets/ui/craftpix-net-420010-pixel-game-user-interface-for-platformer/2 Buttons/1.png" id="5_vermelho"]
+[ext_resource type="Texture2D" uid="uid://c054j42ggkdrc" path="res://assets/ui/craftpix-net-420010-pixel-game-user-interface-for-platformer/2 Buttons/2.png" id="6_vermelho_hover"]
+[ext_resource type="Texture2D" uid="uid://7el8tyfa4k1o" path="res://assets/ui/craftpix-net-420010-pixel-game-user-interface-for-platformer/2 Buttons/3.png" id="7_vermelho_pressionado"]
+[ext_resource type="Texture2D" uid="uid://dn04w5ydju0be" path="res://assets/ui/craftpix-net-420010-pixel-game-user-interface-for-platformer/2 Buttons/17.png" id="10_moldura_slot"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_pedra_hover"]
 content_margin_left = 4.0

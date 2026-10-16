@@ -30,7 +30,7 @@ func _rodar() -> void:
 		chefe.scale = Vector2(1.5, 1.5)
 		chefe.iniciar_ataque(chefe.ATAQUES[i], chefe.global_position + Vector2(100, 0))
 		chefes.append(chefe)
-	var saida := "res://inimigos/dragao_vermelho/previas/"
+	var saida := "res://arte/previas/inimigos/dragao_vermelho/"
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(saida))
 	for quadro in 60:
 		for chefe in chefes:

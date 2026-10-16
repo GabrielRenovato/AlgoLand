@@ -32,7 +32,7 @@ func _quadros(n: int) -> void:
 
 ## Relógio do HUD: coluna da folha por hora (acompanha as cores do ciclo de iluminacao.gd) e texto da hora
 func _testar_relogio() -> void:
-	var hud_script = load("res://Codigos/UI/hud.gd")
+	var hud_script = load("res://codigo/ui/hud.gd")
 	var casos := [[0.0, 4], [3.0, 4], [5.0, 5], [8.0, 0], [12.0, 1], [17.0, 2], [20.0, 3], [22.5, 4], [23.99, 4]]
 	var ok := true
 	for caso in casos:
@@ -224,7 +224,7 @@ func _testar_novo_jogo() -> void:
 	_fazenda.colheita["batata"] = 3
 	_fazenda.salvar()
 	_verificar("fazenda salva antes do novo jogo", FileAccess.file_exists(CAMINHO_FAZENDA), "")
-	var titulo: Node = load("res://cenas/inicio-do-jogo.tscn").instantiate()
+	var titulo: Node = load("res://cenas/inicio_do_jogo.tscn").instantiate()
 	root.add_child(titulo)
 	current_scene = titulo
 	await _quadros(8)

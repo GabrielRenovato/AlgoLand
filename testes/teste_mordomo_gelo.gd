@@ -1,7 +1,7 @@
 extends SceneTree
 
-const Mordomo := preload("res://CharacterSprites/Conjuntos/cavalheiro/definicao.gd")
-const Dados := preload("res://Codigos/Modelos/dados_item.gd")
+const Mordomo := preload("res://assets/personagens/conjuntos/cavalheiro/definicao.gd")
+const Dados := preload("res://codigo/modelos/dados_item.gd")
 var _falhas := 0
 
 func _initialize() -> void:
@@ -90,7 +90,7 @@ func _rodar() -> void:
 	jogador.aplicar_golpe(esqueleto, Vector2.LEFT)
 	_verificar("arqueiro congelado também bloqueia ataques", esqueleto.esta_congelado() and esqueleto.esta_atordoado())
 	slime._atualizar_efeitos(2.1)
-	var flecha = load("res://Codigos/Jogador/flecha.gd").new()
+	var flecha = load("res://codigo/jogador/flecha.gd").new()
 	arena.add_child(flecha)
 	flecha.iniciar(jogador, Vector2.RIGHT)
 	_preparar_proc(jogador)

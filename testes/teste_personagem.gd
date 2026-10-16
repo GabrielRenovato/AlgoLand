@@ -1,14 +1,14 @@
 extends SceneTree
 
 # Rodar: godot --headless --path . --script res://testes/teste_personagem.gd
-# Cabelos e roupas do personagem (Codigos/DadosLocais/aparencia.gd) e a tela de criação de personagem (cenas/criacao_personagem.tscn):
+# Cabelos e roupas do personagem (codigo/dados/aparencia.gd) e a tela de criação de personagem (cenas/criacao_personagem.tscn):
 #  - a lista e as texturas de CADA peça em CADA página de animação (andar, fazenda, forja, sentado, golpes, reação, arco);
 #  - os índices antigos continuam apontando para as mesmas peças (os saves valem);
 #  - o jogador veste a peça nova em todas as animações e carrega o save sem quebrar;
 #  - a tela de criação: abas, escolha, cor, sorteio, confirmar grava o save, voltar, teclado/controle, e o layout cabe em 576x324, 720x324 e 4:3.
 # ATENCAO: carrega a cena de jogo (pode regravar user://inventario.json); faça backup do user:// antes.
 
-const Aparencia := preload("res://Codigos/DadosLocais/aparencia.gd")
+const Aparencia := preload("res://codigo/dados/aparencia.gd")
 const CAMINHO_SAVE_TESTE := "user://teste_personagem.json"
 
 var _falhas: int = 0
@@ -28,6 +28,10 @@ func _quadros(n: int) -> void:
 		await process_frame
 
 func _rodar() -> void:
+	if ProjectSettings.get_setting("application/config/name") != "AlgoLand testes Carrasco":
+		push_error("Execute com saves isolados.")
+		quit(1)
+		return
 	await process_frame
 	_testar_lista()
 	_testar_texturas()
@@ -123,17 +127,17 @@ func _testar_jogador() -> void:
 	await _quadros(12)
 	var jogador: Node = jogador_cena.get_node("Jogador")
 	jogador.definir_aparencia(5, 20)
-	_verificar("andar: o cabelo e a roupa novos", jogador.sprite_cabelo.texture == Aparencia.cabelo(5, "andar") and jogador.sprite_roupa.texture == Aparencia.roupa(20, "andar"), "")
-	_verificar("golpe de espada e de lança: o cabelo novo (sintetizado) e a roupa substituta", jogador.cabelo_ataque.texture == Aparencia.cabelo(5, "espada") and jogador.roupa_ataque.texture == Aparencia.roupa(20, "espada")
-			and jogador.cabelo_lanca_ataque.texture == Aparencia.cabelo(5, "lanca") and jogador.roupa_lanca_ataque.texture == Aparencia.roupa(20, "lanca"), "")
-	_verificar("forja: a página 4 do cabelo e da roupa novos", jogador.sprite_cabelo_forja.texture == Aparencia.cabelo(5, "forja") and jogador.sprite_roupa_forja.texture == Aparencia.roupa(20, "forja"), "")
+	_verificar("andar: o cabelo e a roupa novos", jogador.sprite_cabelo.texture == Aparencia.cabelo_refinado(5, "andar") and jogador.sprite_roupa.texture == Aparencia.roupa_refinada(20, "andar"), "")
+	_verificar("golpe de espada e de lança: o cabelo novo (sintetizado) e a roupa substituta", jogador.cabelo_ataque.texture == Aparencia.cabelo_refinado(5, "espada") and jogador.roupa_ataque.texture == Aparencia.roupa_refinada(20, "espada")
+			and jogador.cabelo_lanca_ataque.texture == Aparencia.cabelo_refinado(5, "lanca") and jogador.roupa_lanca_ataque.texture == Aparencia.roupa_refinada(20, "lanca"), "")
+	_verificar("forja: a página 4 do cabelo e da roupa novos", jogador.sprite_cabelo_forja.texture == Aparencia.cabelo_refinado(5, "forja") and jogador.sprite_roupa_forja.texture == Aparencia.roupa_refinada(20, "forja"), "")
 	jogador.no_fazenda._sincronizar_aparencia()
 	jogador.no_reacao._familia = "lanca"
 	jogador.no_reacao._sincronizar_aparencia()
 	jogador.no_arco._pagina = 3
 	jogador.no_arco._sincronizar_aparencia()
-	_verificar("fazenda, reação (lança) e arco (p3) leem o índice do jogador", jogador.no_fazenda._roupa.texture == Aparencia.roupa(20, "fazenda") and jogador.no_fazenda._cabelo.texture == Aparencia.cabelo(5, "fazenda")
-			and jogador.no_reacao._roupa.texture == Aparencia.roupa(20, "reacao_lanca") and jogador.no_arco._cabelo.texture == Aparencia.cabelo(5, "arco_p3"), "")
+	_verificar("fazenda, reação (lança) e arco (p3) leem o índice do jogador", jogador.no_fazenda._roupa.texture == Aparencia.roupa_refinada(20, "fazenda") and jogador.no_fazenda._cabelo.texture == Aparencia.cabelo_refinado(5, "fazenda")
+			and jogador.no_reacao._roupa.texture == Aparencia.roupa_refinada(20, "reacao_lanca") and jogador.no_arco._cabelo.texture == Aparencia.cabelo_refinado(5, "arco_p3"), "")
 	var molde_legado: Texture2D = Aparencia._carregar(Aparencia._caminho_legado_roupa(int(Aparencia.roupas()[20]["combate"]) + 1, "espada"))
 	_verificar("a roupa de combate e uma folha recolorida propria (nao o molde antigo) e sem tinta por cima", jogador.roupa_ataque.texture != null and jogador.roupa_ataque.texture != molde_legado
 			and jogador.roupa_ataque.modulate == Color.WHITE and jogador.sprite_roupa.modulate == Color.WHITE, str(jogador.roupa_ataque.texture))
@@ -146,13 +150,13 @@ func _testar_jogador() -> void:
 	_verificar("carregar um save antigo (cabelo 1, roupa 11) mantém as peças de sempre", jogador.cabelo_atual == 1 and jogador.roupa_atual == 11
 			and jogador.sprite_roupa.texture.resource_path.ends_with("outfit (12).png") and jogador.sprite_cabelo.modulate == Color(1, 0, 0, 1), "")
 	jogador.aplicar_dados_carregados({"cabelo_atual": 6, "roupa_atual": 41})
-	_verificar("carregar um save com as peças mais novas (cabelo 6, roupa 41)", jogador.cabelo_atual == 6 and jogador.roupa_atual == 41 and jogador.sprite_roupa.texture == Aparencia.roupa(41, "andar"), "")
+	_verificar("carregar um save com as peças mais novas (cabelo 6, roupa 41)", jogador.cabelo_atual == 6 and jogador.roupa_atual == 41 and jogador.sprite_roupa.texture == Aparencia.roupa_refinada(41, "andar"), "")
 	jogador.aplicar_dados_carregados({"cabelo_atual": 99, "roupa_atual": 999})
 	_verificar("um índice que não existe mais cai na primeira peça, sem quebrar", jogador.cabelo_atual == 0 and jogador.roupa_atual == 0 and jogador.sprite_roupa.texture != null, "")
 	# sentado
 	jogador.definir_aparencia(3, 25)
 	jogador.sentar(jogador.global_position, 1, 5)
-	_verificar("sentado: a roupa e o cabelo novos na página 4", jogador.sprite_roupa_forja.texture == Aparencia.roupa(25, "sentado") and jogador.sprite_cabelo_forja.texture == Aparencia.cabelo(3, "sentado"), "")
+	_verificar("sentado: a roupa e o cabelo novos na página 4", jogador.sprite_roupa_forja.texture == Aparencia.roupa_refinada(25, "sentado") and jogador.sprite_cabelo_forja.texture == Aparencia.cabelo_refinado(3, "sentado"), "")
 	jogador.levantar(jogador.global_position)
 	jogador_cena.queue_free()
 	await _quadros(3)
@@ -181,18 +185,18 @@ func _testar_tela() -> void:
 	_verificar("tela: uma casinha para cada cabelo e cada roupa", tela._casas_cabelo.size() == Aparencia.total_cabelos() and tela._casas_roupa.size() == Aparencia.total_roupas(), "")
 	_verificar("tela: abre na aba CABELO, com o primeiro cabelo, a roupa de camponês e o loiro", tela.aba == tela.Aba.CABELO and tela.cabelo == 0 and tela.roupa == 2
 			and tela.cor.is_equal_approx(tela.COR_INICIAL) and tela._paginas[0].visible and not tela._paginas[1].visible and not tela._paginas[2].visible, "")
-	_verificar("tela: a prévia mostra o cabelo, a roupa e a cor escolhidos", tela._previa_cabelo.texture == Aparencia.cabelo(0, "andar") and tela._previa_roupa.texture == Aparencia.roupa(2, "andar")
+	_verificar("tela: a prévia mostra o cabelo, a roupa e a cor escolhidos", tela._previa_cabelo.texture == Aparencia.cabelo_refinado(0, "andar") and tela._previa_roupa.texture == Aparencia.roupa_refinada(2, "andar")
 			and tela._previa_cabelo.modulate.is_equal_approx(tela.COR_INICIAL), "")
 	# escolher
 	tela._casas_cabelo[4]["botao"].pressed.emit()
 	tela._casas_roupa[20]["botao"].pressed.emit()
-	_verificar("tela: tocar numa casinha escolhe o cabelo e a roupa (a prévia muda)", tela.cabelo == 4 and tela.roupa == 20 and tela._previa_cabelo.texture == Aparencia.cabelo(4, "andar")
-			and tela._previa_roupa.texture == Aparencia.roupa(20, "andar"), "")
+	_verificar("tela: tocar numa casinha escolhe o cabelo e a roupa (a prévia muda)", tela.cabelo == 4 and tela.roupa == 20 and tela._previa_cabelo.texture == Aparencia.cabelo_refinado(4, "andar")
+			and tela._previa_roupa.texture == Aparencia.roupa_refinada(20, "andar"), "")
 	_verificar("tela: só a escolhida fica na moldura dourada",
 			tela._casas_cabelo[4]["botao"].get_theme_stylebox("normal") == tela._dourada and tela._casas_cabelo[3]["botao"].get_theme_stylebox("normal") == tela._normal
 			and tela._casas_roupa[20]["botao"].get_theme_stylebox("normal") == tela._dourada, "")
-	_verificar("tela: as miniaturas mostram a roupa e o cabelo escolhidos", tela._casas_cabelo[0]["roupa"].texture.atlas == Aparencia.roupa(20, "andar")
-			and tela._casas_roupa[0]["cabelo"].texture.atlas == Aparencia.cabelo(4, "andar"), "")
+	_verificar("tela: as miniaturas mostram a roupa e o cabelo escolhidos", tela._casas_cabelo[0]["roupa"].texture.atlas == Aparencia.roupa_refinada(20, "andar")
+			and tela._casas_roupa[0]["cabelo"].texture.atlas == Aparencia.cabelo_refinado(4, "andar"), "")
 	# abas
 	tela._botoes_aba[1].pressed.emit()
 	_verificar("tela: a aba ROUPA mostra a lista de roupas", tela.aba == tela.Aba.ROUPA and tela._paginas[1].visible and not tela._paginas[0].visible, "")
@@ -245,7 +249,7 @@ func _testar_tela() -> void:
 	await _quadros(10)
 	var jogador: Node = jogo.get_node("Jogador")
 	jogador.aplicar_dados_carregados(gravado)
-	_verificar("o jogador carrega o save da tela: peça, roupa e cor", jogador.cabelo_atual == 5 and jogador.roupa_atual == 30 and jogador.sprite_roupa.texture == Aparencia.roupa(30, "andar")
+	_verificar("o jogador carrega o save da tela: peça, roupa e cor", jogador.cabelo_atual == 5 and jogador.roupa_atual == 30 and jogador.sprite_roupa.texture == Aparencia.roupa_refinada(30, "andar")
 			and jogador.sprite_cabelo.modulate.is_equal_approx(tela.PALETA[2]), "")
 	jogo.queue_free()
 	await _quadros(2)

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Gera os efeitos sonoros 8-bit do AlgoLand em res://sons/*.wav.
+"""Gera os efeitos sonoros 8-bit do AlgoLand em res://assets/audio/*.wav.
 
 Python puro (wave + math + random), no estilo do sfxr: ondas quadrada, triangulo, serra e ruido,
 envelope ADSR, slide de frequencia, vibrato, arpejo e um filtro passa-baixa simples.
@@ -7,7 +7,7 @@ Cada som tem uma semente fixa e o arquivo WAV nao guarda data nem metadados, ent
 gera arquivos identicos (byte a byte).
 
 Uso (a partir da raiz do projeto):
-    python3 ferramentas/sons/gerar_sons.py            # grava em sons/
+    python3 ferramentas/sons/gerar_sons.py            # grava em assets/audio/
     python3 ferramentas/sons/gerar_sons.py --resumo   # alem de gravar, imprime pico/duracao de cada som
 """
 import math
@@ -20,7 +20,7 @@ import wave
 TAXA = 22050  # Hz, mono, 16 bits
 PICO_MAXIMO = 0.9  # nenhum som passa disso (sem clipping); cada som ainda tem o seu "nivel"
 
-PASTA_SAIDA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "sons")
+PASTA_SAIDA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "assets/audio")
 
 
 def nota(semitons):

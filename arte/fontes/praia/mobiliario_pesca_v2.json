@@ -1,0 +1,20 @@
+{
+  "ferramenta": "image_gen.imagegen (integrada)",
+  "preparo": "Sprites desenhados em grade ampliada de 64x48 e 48x48, recuperada por preparar_moveis.gd; uso em escala 1:1 e filtro nearest.",
+  "itens": [
+    {
+      "nome": "bancada_pesca_v2",
+      "referencia": "assets/cenario/cidade/decoracao/mobiliario/caixas_legumes.png",
+      "original": "arte/fontes/praia/bancada_pesca_v2_original.png",
+      "destino": "assets/cenario/praia/mobiliario/bancada_pesca_v2.png",
+      "prompt": "Edit the attached enlarged pixel sprite into a fisherman's dock workstation. CRITICAL: preserve the EXACT coarse pixel grid and block size of the input: this image represents a 64 by 48 pixel game sprite enlarged 16 times, every logical pixel is a solid 16x16 square. It must look equally coarse, not a detailed illustration. Keep the original warm muted wood palette, top-down RPG camera, compact grouping and chunky shadows. Replace the vegetable crates with ONE low rectangular wooden fish sorting bench/crate containing three small silver grey fish lying horizontally INSIDE the recessed top, their lower edges occluded by the front wooden rim. Behind it, one short covered wooden barrel with a folded dark tan fishing net draped over the side. A compact coil of rope at the foot. No vegetables, grain sacks, inventory icons, floating fish, weapons, labels, floor or backdrop. Use few clear forms with sturdy wood boards and readable silhouettes. Limit the whole drawing to 64x48 logical pixels; no thin details or small-texture noise, no extra resolution, no antialiasing or smooth shading. Transparent background."
+    },
+    {
+      "nome": "suporte_varas_v2",
+      "referencia": "assets/cenario/cidade/decoracao/mobiliario/barril_agua.png",
+      "original": "arte/fontes/praia/suporte_varas_v2_original.png",
+      "destino": "assets/cenario/praia/mobiliario/suporte_varas_v2.png",
+      "prompt": "Edit the attached enlarged pixel sprite into a grounded fishing gear stand for the same dock environment. CRITICAL: keep the EXACT coarse pixel grid and block size of reference: a 48 by 48 pixel game sprite enlarged 16 times, every logical pixel is a solid 16x16 square. Preserve its pixel density, muted brown wood and grey metal palette, upper-left light and overhead three-quarter RPG view. Replace the water barrel with a compact wooden rod holder with two recognizable brown fishing rods resting upright in real slots and touching the wooden base. The rods have thicker handles, a small grey reel and pale fishing line following the rod, all chunky pixels. Beside the base, one small metal bait pail and a tight coil of rope, with coherent contact and occlusion. No grass, water puddles, vegetation, loose inventory icons, fish floating over buckets, chest, weapons, letters, floor or backdrop. Very few solid readable forms. EXACT logical resolution48x48, no high resolution detail, no smoothing, no small texture noise. Transparent background."
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "fonte": "https://www.spriters-resource.com/pc_computer/stardewvalley/asset/224015/",
+  "arquivo": "farmer_base.png",
+  "recebido_do_usuario": true,
+  "uso": "Somente referência de poses e proporções; não integrado aos assets do jogo.",
+  "recorte_estudo": {
+    "tamanho_celula": [
+      16,
+      32
+    ],
+    "linha_y": 32,
+    "colunas": [
+      0,
+      1,
+      2
+    ],
+    "ordem_demonstrativa": [
+      0,
+      1,
+      0,
+      2
+    ],
+    "observacao": "Montagem de estudo apenas do corpo. A folha inclui braços separados; não representa a composição completa nem o timing verificado no jogo."
+  },
+  "observacoes": [
+    "A forma da cabeça é relativamente estável entre as três poses laterais de corpo.",
+    "A silhueta dos pés e pernas muda bastante entre passagem e extensão.",
+    "Braços aparecem como peças separadas na mesma folha.",
+    "Próximo teste deve usar uma direção e corpo compacto, com pontos de apoio desenhados a partir destas poses."
+  ]
+}

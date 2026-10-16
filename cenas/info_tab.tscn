@@ -1,8 +1,8 @@
 [gd_scene load_steps=9 format=4 uid="uid://dsd2y11vv3y3c"]
 
-[ext_resource type="Script" uid="uid://ciyax00h8t7vr" path="res://Codigos/Design/Informações-do-player-tab.gd" id="1_hbuxv"]
-[ext_resource type="Texture2D" uid="uid://d1iiqnaqd3rjw" path="res://UI/craftpix-net-420010-pixel-game-user-interface-for-platformer/1 Interface/TileMap.png" id="2_uq2o2"]
-[ext_resource type="FontFile" uid="uid://dwub7qum41gaq" path="res://UI/Planes_ValMore.ttf" id="2_wsgip"]
+[ext_resource type="Script" uid="uid://ciyax00h8t7vr" path="res://codigo/cenario/informacoes_do_player_tab.gd" id="1_hbuxv"]
+[ext_resource type="Texture2D" uid="uid://d1iiqnaqd3rjw" path="res://assets/ui/craftpix-net-420010-pixel-game-user-interface-for-platformer/1 Interface/TileMap.png" id="2_uq2o2"]
+[ext_resource type="FontFile" uid="uid://dwub7qum41gaq" path="res://assets/ui/Planes_ValMore.ttf" id="2_wsgip"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_p0vde"]
 texture = ExtResource("2_uq2o2")

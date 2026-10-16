@@ -1,0 +1,344 @@
+{
+  "casas/venda": {
+    "fonte": "casas_pixellab.png",
+    "celula": [
+      0,
+      0,
+      128,
+      128
+    ],
+    "recorte": [
+      3,
+      18,
+      99,
+      102
+    ],
+    "tamanho": [
+      96,
+      84
+    ]
+  },
+  "casas/sede": {
+    "fonte": "casas_pixellab.png",
+    "celula": [
+      128,
+      0,
+      128,
+      128
+    ],
+    "recorte": [
+      0,
+      14,
+      128,
+      98
+    ],
+    "tamanho": [
+      128,
+      84
+    ]
+  },
+  "casas/enfermaria": {
+    "fonte": "casas_pixellab.png",
+    "celula": [
+      256,
+      0,
+      128,
+      128
+    ],
+    "recorte": [
+      31,
+      23,
+      128,
+      98
+    ],
+    "tamanho": [
+      97,
+      75
+    ]
+  },
+  "casas/pousada": {
+    "fonte": "casas_pixellab.png",
+    "celula": [
+      0,
+      128,
+      128,
+      128
+    ],
+    "recorte": [
+      0,
+      16,
+      103,
+      118
+    ],
+    "tamanho": [
+      103,
+      102
+    ]
+  },
+  "casas/mistica": {
+    "fonte": "casas_pixellab.png",
+    "celula": [
+      128,
+      128,
+      128,
+      128
+    ],
+    "recorte": [
+      14,
+      16,
+      113,
+      119
+    ],
+    "tamanho": [
+      99,
+      103
+    ]
+  },
+  "casas/casa_bento": {
+    "fonte": "casas_pixellab.png",
+    "celula": [
+      256,
+      128,
+      128,
+      128
+    ],
+    "recorte": [
+      26,
+      28,
+      128,
+      114
+    ],
+    "tamanho": [
+      102,
+      86
+    ]
+  },
+  "objetos/coreto": {
+    "fonte": "objetos_pixellab_limpos.png",
+    "celula": [
+      0,
+      0,
+      96,
+      96
+    ],
+    "recorte": [
+      5,
+      1,
+      81,
+      86
+    ],
+    "tamanho": [
+      76,
+      85
+    ]
+  },
+  "objetos/fonte": {
+    "fonte": "objetos_pixellab_limpos.png",
+    "celula": [
+      96,
+      0,
+      96,
+      96
+    ],
+    "recorte": [
+      7,
+      6,
+      88,
+      83
+    ],
+    "tamanho": [
+      81,
+      77
+    ]
+  },
+  "objetos/feira": {
+    "fonte": "objetos_pixellab_limpos.png",
+    "celula": [
+      192,
+      0,
+      96,
+      96
+    ],
+    "recorte": [
+      22,
+      17,
+      80,
+      75
+    ],
+    "tamanho": [
+      58,
+      58
+    ]
+  },
+  "objetos/banco": {
+    "fonte": "objetos_pixellab_limpos.png",
+    "celula": [
+      0,
+      96,
+      96,
+      96
+    ],
+    "recorte": [
+      14,
+      45,
+      73,
+      67
+    ],
+    "tamanho": [
+      59,
+      22
+    ]
+  },
+  "objetos/poste": {
+    "fonte": "objetos_pixellab_limpos.png",
+    "celula": [
+      96,
+      96,
+      96,
+      96
+    ],
+    "recorte": [
+      41,
+      27,
+      75,
+      77
+    ],
+    "tamanho": [
+      34,
+      50
+    ]
+  },
+  "objetos/cerca": {
+    "fonte": "objetos_pixellab_limpos.png",
+    "celula": [
+      192,
+      96,
+      96,
+      96
+    ],
+    "recorte": [
+      23,
+      32,
+      80,
+      62
+    ],
+    "tamanho": [
+      57,
+      30
+    ]
+  },
+  "objetos/horta": {
+    "fonte": "objetos_pixellab_limpos.png",
+    "celula": [
+      0,
+      192,
+      96,
+      96
+    ],
+    "recorte": [
+      14,
+      23,
+      76,
+      73
+    ],
+    "tamanho": [
+      62,
+      50
+    ]
+  },
+  "objetos/galinheiro": {
+    "fonte": "objetos_pixellab_limpos.png",
+    "celula": [
+      96,
+      192,
+      96,
+      96
+    ],
+    "recorte": [
+      24,
+      17,
+      73,
+      70
+    ],
+    "tamanho": [
+      49,
+      53
+    ]
+  },
+  "objetos/arvore": {
+    "fonte": "objetos_pixellab_limpos.png",
+    "celula": [
+      192,
+      192,
+      96,
+      96
+    ],
+    "recorte": [
+      6,
+      4,
+      94,
+      84
+    ],
+    "tamanho": [
+      88,
+      80
+    ]
+  },
+  "objetos/arbusto": {
+    "fonte": "objetos_pixellab_limpos.png",
+    "celula": [
+      0,
+      288,
+      96,
+      96
+    ],
+    "recorte": [
+      20,
+      24,
+      68,
+      67
+    ],
+    "tamanho": [
+      48,
+      43
+    ]
+  },
+  "objetos/feno": {
+    "fonte": "objetos_pixellab_limpos.png",
+    "celula": [
+      96,
+      288,
+      96,
+      96
+    ],
+    "recorte": [
+      22,
+      20,
+      82,
+      71
+    ],
+    "tamanho": [
+      60,
+      51
+    ]
+  },
+  "objetos/mesa": {
+    "fonte": "objetos_pixellab_limpos.png",
+    "celula": [
+      192,
+      288,
+      96,
+      96
+    ],
+    "recorte": [
+      10,
+      23,
+      88,
+      69
+    ],
+    "tamanho": [
+      78,
+      46
+    ]
+  }
+}

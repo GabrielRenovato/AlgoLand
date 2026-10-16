@@ -1,0 +1,134 @@
+{
+	"bento": {
+		"altura_mapa": 34.0,
+		"altura_parado": 50,
+		"direcoes": [
+			"baixo",
+			"direita",
+			"cima",
+			"esquerda"
+		],
+		"escala_mapa": 0.68,
+		"folha": "res://assets/npcs/cidade/bento.png",
+		"fonte": "res://arte/fontes/npcs/cidade/bento.png",
+		"grade": [
+			4,
+			4
+		],
+		"pes_y": 60,
+		"quadro": [
+			64,
+			64
+		]
+	},
+	"caio": {
+		"altura_mapa": 34.0,
+		"altura_parado": 50,
+		"direcoes": [
+			"baixo",
+			"direita",
+			"cima",
+			"esquerda"
+		],
+		"escala_mapa": 0.68,
+		"folha": "res://assets/npcs/cidade/caio.png",
+		"fonte": "res://arte/fontes/npcs/cidade/caio.png",
+		"grade": [
+			4,
+			4
+		],
+		"pes_y": 60,
+		"quadro": [
+			64,
+			64
+		]
+	},
+	"estela": {
+		"altura_mapa": 34.0,
+		"altura_parado": 53,
+		"direcoes": [
+			"baixo",
+			"direita",
+			"cima",
+			"esquerda"
+		],
+		"escala_mapa": 0.641509433962264,
+		"folha": "res://assets/npcs/cidade/estela.png",
+		"fonte": "res://arte/fontes/npcs/cidade/estela.png",
+		"grade": [
+			4,
+			4
+		],
+		"pes_y": 60,
+		"quadro": [
+			64,
+			64
+		]
+	},
+	"lia": {
+		"altura_mapa": 34.0,
+		"altura_parado": 49,
+		"direcoes": [
+			"baixo",
+			"direita",
+			"cima",
+			"esquerda"
+		],
+		"escala_mapa": 0.693877551020408,
+		"folha": "res://assets/npcs/cidade/lia.png",
+		"fonte": "res://arte/fontes/npcs/cidade/lia_olhos_corrigidos.png",
+		"grade": [
+			4,
+			4
+		],
+		"pes_y": 60,
+		"quadro": [
+			64,
+			64
+		]
+	},
+	"rosa": {
+		"altura_mapa": 34.0,
+		"altura_parado": 56,
+		"direcoes": [
+			"baixo",
+			"direita",
+			"cima",
+			"esquerda"
+		],
+		"escala_mapa": 0.607142857142857,
+		"folha": "res://assets/npcs/cidade/rosa.png",
+		"fonte": "res://arte/fontes/npcs/cidade/rosa.png",
+		"grade": [
+			4,
+			4
+		],
+		"pes_y": 60,
+		"quadro": [
+			64,
+			64
+		]
+	},
+	"tomas": {
+		"altura_mapa": 34.0,
+		"altura_parado": 56,
+		"direcoes": [
+			"baixo",
+			"direita",
+			"cima",
+			"esquerda"
+		],
+		"escala_mapa": 0.607142857142857,
+		"folha": "res://assets/npcs/cidade/tomas.png",
+		"fonte": "res://arte/fontes/npcs/cidade/tomas.png",
+		"grade": [
+			4,
+			4
+		],
+		"pes_y": 60,
+		"quadro": [
+			64,
+			64
+		]
+	}
+}

@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://codigo/inimigos/goblin_maromba.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/inimigos/goblin_maromba/movimento.png" id="2"]
+
+[sub_resource type="CircleShape2D" id="corpo"]
+radius = 16.0
+
+[node name="GoblinMaromba" type="CharacterBody2D" groups=["enemy", "boss_goblin_maromba"]]
+collision_layer = 0
+collision_mask = 64
+script = ExtResource("1")
+velocidade = 100
+aceleracao = 450.0
+raio_parada = 48.0
+alcance_separacao = 35.0
+dano = 20.0
+vida = 450
+usar_barra_vida = false
+altura_pes = 2.0
+
+[node name="Texture" type="Sprite2D" parent="."]
+position = Vector2(0, -54)
+scale = Vector2(0.5, 0.5)
+texture_filter = 1
+texture = ExtResource("2")
+hframes = 6
+vframes = 4
+
+[node name="colision_body" type="CollisionShape2D" parent="."]
+shape = SubResource("corpo")

@@ -1,5 +1,5 @@
 extends SceneTree
-# Captura a cena de jogo de verdade (cenario.tscn ou inicio-do-jogo.tscn) como o jogador a ve: HUD, luz, clima, camera.
+# Captura a cena de jogo de verdade (cenario.tscn ou inicio_do_jogo.tscn) como o jogador a ve: HUD, luz, clima, camera.
 # Precisa de janela (nao headless). Uso:
 #   godot --path . --script res://ferramentas/arena/render_jogo.gd -- <cena.tscn> <tomadas.json> <pasta_saida>
 # Tomadas: {"nome":"x","estacao":0..3,"jogador":[x,y],"quadros":40,"hora":12.0}
@@ -9,7 +9,7 @@ extends SceneTree
 # Etapa 3 (so cenario.tscn): "chefe" (indice em GerenciadorOndas.CHEFES) com "onda", "dx"/"dy" (distancia do jogador),
 # "acoes" (metodos da habilidade a chamar: invocar_cogumelos, iniciar_esporos, iniciar_investida), "vida_pct" (0..1);
 # "evento" (id de GerenciadorOndas.EVENTOS) acende o evento da onda e o banner.
-# Clima (Codigos/Design/clima.gd): "clima" = nome do estado em minusculas (limpo, nublado, chuva_leve, chuva_forte,
+# Clima (codigo/cenario/clima.gd): "clima" = nome do estado em minusculas (limpo, nublado, chuva_leve, chuva_forte,
 # tempestade, neve_leve, neve_forte), aplicado sem fade; sem "clima" vale o padrao da estacao. "raio": {"dx","dy","aviso"}
 # cria um raio a (dx,dy) dos pes do jogador (aviso em s: 5 = so o indicador no chao; 0 = o raio ja cai).
 # Com "clima" as tomadas esperam o fade do tom; use "quadros" altos nas que dependem das animacoes.
@@ -73,7 +73,7 @@ func _process(_delta: float) -> bool:
 			_espera = -1
 	return false
 
-# So inicio-do-jogo.tscn: "abrir" = "creditos" | "opcoes" aperta o botao do menu; "rolar" = pixels de rolagem dos creditos;
+# So inicio_do_jogo.tscn: "abrir" = "creditos" | "opcoes" aperta o botao do menu; "rolar" = pixels de rolagem dos creditos;
 # "menu" = true fecha o painel aberto (volta ao menu)
 func _montar_painel_titulo(t: Dictionary) -> void:
 	if _cena.name != "InicioDoJogo":
@@ -107,7 +107,7 @@ func _montar_pocoes(t: Dictionary) -> void:
 	var chao = t.get("sementes_chao", 0)
 	var qtd_chao: int = chao.size() if chao is Array else int(chao)
 	if jogador != null and qtd_chao > 0:
-		var drop_gd: GDScript = load("res://Codigos/Logicas/semente_drop.gd")
+		var drop_gd: GDScript = load("res://codigo/logica/semente_drop.gd")
 		var rng := RandomNumberGenerator.new()
 		rng.seed = 3
 		for i in qtd_chao:

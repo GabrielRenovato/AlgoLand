@@ -32,7 +32,7 @@ func _rodar() -> void:
 			alvo.get_node("HPBar").hide()
 		alvo.aplicar_congelamento(2)
 		alvos.append(alvo)
-	var saida := "res://Efeitos/congelamento/previas/"
+	var saida := "res://arte/previas/efeitos/congelamento/"
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(saida))
 	for quadro in 6:
 		for alvo in alvos:

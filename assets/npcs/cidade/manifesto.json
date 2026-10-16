@@ -1,0 +1,200 @@
+{
+	"bento": {
+		"altura_mapa": 31,
+		"altura_parado": 31,
+		"direcoes": [
+			"baixo",
+			"direita",
+			"cima",
+			"esquerda"
+		],
+		"escala_mapa": 1.0,
+		"folha": "res://assets/npcs/cidade/bento.png",
+		"fonte": "res://arte/fontes/npcs/pixellab/bento",
+		"grade": [
+			7,
+			4
+		],
+		"pes_y": 45,
+		"quadro": [
+			64,
+			64
+		],
+		"quadros_andar": 6,
+		"folha_chuva": "res://assets/npcs/cidade/capas_chuva/bento.png",
+		"quadro_chuva": [
+			64,
+			64
+		],
+		"margem_chuva": [
+			0,
+			0
+		],
+		"traje_chuva": "capa"
+	},
+	"caio": {
+		"altura_mapa": 32,
+		"altura_parado": 32,
+		"direcoes": [
+			"baixo",
+			"direita",
+			"cima",
+			"esquerda"
+		],
+		"escala_mapa": 1.0,
+		"folha": "res://assets/npcs/cidade/caio.png",
+		"fonte": "res://arte/fontes/npcs/pixellab/caio",
+		"grade": [
+			7,
+			4
+		],
+		"pes_y": 44,
+		"quadro": [
+			64,
+			64
+		],
+		"quadros_andar": 6,
+		"folha_chuva": "res://assets/npcs/cidade/capas_chuva/caio.png",
+		"quadro_chuva": [
+			64,
+			64
+		],
+		"margem_chuva": [
+			0,
+			0
+		],
+		"traje_chuva": "capa"
+	},
+	"estela": {
+		"altura_mapa": 32,
+		"altura_parado": 32,
+		"direcoes": [
+			"baixo",
+			"direita",
+			"cima",
+			"esquerda"
+		],
+		"escala_mapa": 1.0,
+		"folha": "res://assets/npcs/cidade/estela.png",
+		"fonte": "res://arte/fontes/npcs/pixellab/estela",
+		"grade": [
+			7,
+			4
+		],
+		"pes_y": 45,
+		"quadro": [
+			64,
+			64
+		],
+		"quadros_andar": 6,
+		"folha_chuva": "res://assets/npcs/cidade/capas_chuva/estela.png",
+		"quadro_chuva": [
+			64,
+			64
+		],
+		"margem_chuva": [
+			0,
+			0
+		],
+		"traje_chuva": "capa"
+	},
+	"lia": {
+		"altura_mapa": 31,
+		"altura_parado": 31,
+		"direcoes": [
+			"baixo",
+			"direita",
+			"cima",
+			"esquerda"
+		],
+		"escala_mapa": 1.0,
+		"folha": "res://assets/npcs/cidade/lia.png",
+		"fonte": "res://arte/fontes/npcs/pixellab/lia",
+		"grade": [
+			7,
+			4
+		],
+		"pes_y": 45,
+		"quadro": [
+			64,
+			64
+		],
+		"quadros_andar": 6,
+		"folha_chuva": "res://assets/npcs/cidade/capas_chuva/lia.png",
+		"quadro_chuva": [
+			64,
+			64
+		],
+		"margem_chuva": [
+			0,
+			0
+		],
+		"traje_chuva": "capa"
+	},
+	"rosa": {
+		"altura_mapa": 31,
+		"altura_parado": 31,
+		"direcoes": [
+			"baixo",
+			"direita",
+			"cima",
+			"esquerda"
+		],
+		"escala_mapa": 1.0,
+		"folha": "res://assets/npcs/cidade/rosa.png",
+		"fonte": "res://arte/fontes/npcs/pixellab/rosa",
+		"grade": [
+			7,
+			4
+		],
+		"pes_y": 44,
+		"quadro": [
+			64,
+			64
+		],
+		"quadros_andar": 6,
+		"folha_chuva": "res://assets/npcs/cidade/capas_chuva/rosa.png",
+		"quadro_chuva": [
+			64,
+			64
+		],
+		"margem_chuva": [
+			0,
+			0
+		],
+		"traje_chuva": "capa"
+	},
+	"tomas": {
+		"altura_mapa": 31,
+		"altura_parado": 31,
+		"direcoes": [
+			"baixo",
+			"direita",
+			"cima",
+			"esquerda"
+		],
+		"escala_mapa": 1.0,
+		"folha": "res://assets/npcs/cidade/tomas.png",
+		"fonte": "res://arte/fontes/npcs/pixellab/tomas",
+		"grade": [
+			7,
+			4
+		],
+		"pes_y": 44,
+		"quadro": [
+			64,
+			64
+		],
+		"quadros_andar": 6,
+		"folha_chuva": "res://assets/npcs/cidade/capas_chuva/tomas.png",
+		"quadro_chuva": [
+			64,
+			64
+		],
+		"margem_chuva": [
+			0,
+			0
+		],
+		"traje_chuva": "capa"
+	}
+}

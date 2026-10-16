@@ -1,0 +1,10 @@
+{
+  "referencia_visual": "https://www.witchbrook.com/media/",
+  "ferramenta": "PixelLab create_topdown_tileset pro",
+  "grama_terra": "4a7955f6-37fb-42ac-a1f4-93ff70c333ff",
+  "grama_agua": "3d130d7a-d0ca-42c7-bf8a-063723020892",
+  "grama_pedra": "dc2c8e26-1a2b-49c2-9a5d-d4febbdbdfcc",
+  "terra_pedra": "0ed4bdac-7d2a-466f-b9a7-770724051749",
+  "fundo_pedras": "../terreno_referencia/agua_pixellab.png",
+  "gerador": "ferramentas/cidade/preparar_terreno_witchbrook.py"
+}

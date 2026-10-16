@@ -11,7 +11,7 @@ const PALETAS := {
 
 func _initialize() -> void:
 	for efeito in TAMANHOS:
-		var fonte := Image.load_from_file("res://Efeitos/dragao/fontes/" + efeito + "_v1.png")
+		var fonte := Image.load_from_file("res://arte/fontes/efeitos/dragao/" + efeito + "_v1.png")
 		if fonte == null or fonte.is_empty():
 			push_error("Fonte ausente: " + efeito)
 			quit(1)
@@ -41,6 +41,6 @@ func _initialize() -> void:
 							melhor = cor
 					quadro.set_pixel(x, y, melhor)
 			folha.blit_rect(quadro, Rect2i(0, 0, lado, lado), Vector2i(i * lado, 0))
-		folha.save_png("res://Efeitos/dragao/" + efeito + ".png")
+		folha.save_png("res://assets/efeitos/dragao/" + efeito + ".png")
 		print("Efeito dragão: ", efeito, " ", folha.get_size())
 	quit()

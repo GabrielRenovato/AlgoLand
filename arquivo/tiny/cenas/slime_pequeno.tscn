@@ -1,0 +1,58 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://arquivo/tiny/codigo/inimigo_tiny.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://arquivo/tiny/assets/slime_pequeno_1.png" id="2_v1"]
+[ext_resource type="Texture2D" path="res://arquivo/tiny/assets/slime_pequeno_2.png" id="2_v2"]
+[ext_resource type="Texture2D" path="res://arquivo/tiny/assets/slime_pequeno_3.png" id="2_v3"]
+[ext_resource type="Texture2D" path="res://arquivo/tiny/assets/slime_pequeno_4.png" id="2_v4"]
+[ext_resource type="Texture2D" path="res://arquivo/tiny/assets/slime_pequeno_5.png" id="2_v5"]
+[ext_resource type="Texture2D" path="res://arquivo/tiny/assets/slime_pequeno_6.png" id="2_v6"]
+
+[sub_resource type="CircleShape2D" id="Corpo"]
+radius = 4.0
+
+[sub_resource type="CircleShape2D" id="Toque"]
+radius = 7.0
+
+[node name="Slime_pequeno" type="CharacterBody2D" groups=["enemy"]]
+scale = Vector2(1.5, 1.5)
+collision_layer = 4
+collision_mask = 64
+script = ExtResource("1_script")
+texturas = [ExtResource("2_v1"), ExtResource("2_v2"), ExtResource("2_v3"), ExtResource("2_v4"), ExtResource("2_v5"), ExtResource("2_v6")]
+colunas = 8
+linhas = 12
+parado = false
+anims = {"andar_baixo": [0, 1, 2, 3], "andar_cima": [8, 9, 10, 11], "andar_lado": [16, 17, 18, 19], "ataque_baixo": [32, 33, 34, 35], "ataque_cima": [40, 41, 42, 43], "ataque_lado": [48, 49, 50, 51], "morte": [64, 65, 66, 67]}
+espelhar_sempre = false
+fps_andar = 8.0
+fps_ataque = 9.0
+fps_morte = 8.0
+tipo_disparo = "contato"
+velocidade = 62
+vida = 18
+dano = 6.0
+altura_pes = 4.5
+altura_barra_vida = 7.0
+alcance_separacao = 22.5
+raio_parada = 6.0
+alcance_ataque = 22.0
+tempo_recarga_ataque = 1.4
+
+[node name="Texture" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("2_v1")
+hframes = 8
+vframes = 12
+
+[node name="colision_body" type="CollisionShape2D" parent="."]
+position = Vector2(0, 3)
+shape = SubResource("Corpo")
+
+[node name="ataque" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="attack_colision_player" type="CollisionShape2D" parent="ataque"]
+position = Vector2(0, 3)
+shape = SubResource("Toque")

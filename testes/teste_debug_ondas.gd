@@ -30,12 +30,12 @@ func _rodar() -> void:
 	var mercador := Node2D.new()
 	mercador.name = "Merchant"
 	cena.add_child(mercador)
-	var spawner: Node = load("res://Codigos/Logicas/slime_spawner.gd").new()
+	var spawner: Node = load("res://codigo/logica/slime_spawner.gd").new()
 	spawner.name = "enemySpawner"
 	spawner.atraso_spawn = 1.0
 	var ponto := Marker2D.new()
 	spawner.add_child(ponto)
-	var gerenciador: Node = load("res://Codigos/Logicas/Gerenciador-de-ondas.gd").new()
+	var gerenciador: Node = load("res://codigo/logica/gerenciador_de_ondas.gd").new()
 	gerenciador.name = "GerenciadorOndas"
 	gerenciador.chance_onda_bonus = 0.0
 	gerenciador.chance_evento = 0.0

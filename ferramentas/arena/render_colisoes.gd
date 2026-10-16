@@ -1,5 +1,5 @@
 extends SceneTree
-# A arena com as colisões e a malha de navegação visíveis (conferir se barraca, árvores, pedras e lago têm a colisão onde o desenho está).
+# A arena com as colisões e a malha de navegação visíveis (conferir se fogueira, árvores, pedras e lago têm a colisão onde o desenho está).
 # Precisa de janela. Uso: godot --path . --script res://ferramentas/arena/render_colisoes.gd -- <saida.png> [x y]
 # (x y = posição do jogador em coordenadas do mundo; a câmera o segue)
 func _initialize() -> void:

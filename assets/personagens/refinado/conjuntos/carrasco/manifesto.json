@@ -1,0 +1,60 @@
+{
+	"escala": 0.5,
+	"grade": [
+		8,
+		8
+	],
+	"id": "carrasco",
+	"modo_visual": "armadura",
+	"origem": "res://assets/personagens/conjuntos/carrasco/",
+	"paginas": {
+		"andar": {
+			"folha": "res://assets/personagens/refinado/conjuntos/carrasco/andar.png",
+			"molde": "res://assets/personagens/conjuntos/carrasco/andar.png"
+		},
+		"arco_p2": {
+			"folha": "res://assets/personagens/refinado/conjuntos/carrasco/arco_p2.png",
+			"molde": "res://assets/personagens/conjuntos/carrasco/arco_p2.png"
+		},
+		"arco_p3": {
+			"folha": "res://assets/personagens/refinado/conjuntos/carrasco/arco_p3.png",
+			"molde": "res://assets/personagens/conjuntos/carrasco/arco_p3.png"
+		},
+		"espada": {
+			"folha": "res://assets/personagens/refinado/conjuntos/carrasco/espada.png",
+			"molde": "res://assets/personagens/conjuntos/carrasco/espada.png"
+		},
+		"fazenda": {
+			"folha": "res://assets/personagens/refinado/conjuntos/carrasco/fazenda.png",
+			"molde": "res://assets/personagens/conjuntos/carrasco/fazenda.png"
+		},
+		"forja": {
+			"folha": "res://assets/personagens/refinado/conjuntos/carrasco/forja.png",
+			"molde": "res://assets/personagens/conjuntos/carrasco/forja.png"
+		},
+		"lanca": {
+			"folha": "res://assets/personagens/refinado/conjuntos/carrasco/lanca.png",
+			"molde": "res://assets/personagens/conjuntos/carrasco/lanca.png"
+		},
+		"reacao_arco": {
+			"folha": "res://assets/personagens/refinado/conjuntos/carrasco/reacao_arco.png",
+			"molde": "res://assets/personagens/conjuntos/carrasco/reacao_arco.png"
+		},
+		"reacao_lanca": {
+			"folha": "res://assets/personagens/refinado/conjuntos/carrasco/reacao_lanca.png",
+			"molde": "res://assets/personagens/conjuntos/carrasco/reacao_lanca.png"
+		},
+		"reacao_um_mao": {
+			"folha": "res://assets/personagens/refinado/conjuntos/carrasco/reacao_um_mao.png",
+			"molde": "res://assets/personagens/conjuntos/carrasco/reacao_um_mao.png"
+		},
+		"sentado": {
+			"folha": "res://assets/personagens/refinado/conjuntos/carrasco/sentado.png",
+			"molde": "res://assets/personagens/conjuntos/carrasco/sentado.png"
+		}
+	},
+	"quadro": [
+		128,
+		128
+	]
+}

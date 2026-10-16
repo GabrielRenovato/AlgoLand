@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://wpn7r3e65ebu"]
+
+[ext_resource type="Script" uid="uid://dv76ulg3a6r5g" path="res://codigo/logica/gerenciador_de_ondas.gd" id="1_c46d7"]
+
+[node name="WaveManager" type="Node2D"]
+position = Vector2(284, 135)
+script = ExtResource("1_c46d7")

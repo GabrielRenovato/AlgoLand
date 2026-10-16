@@ -1,11 +1,11 @@
 extends SceneTree
 
 ## Arena e saves somente na cópia isolada.
-const Rubro := preload("res://CharacterSprites/Conjuntos/cavaleiro_rubro/definicao.gd")
-const Carrasco := preload("res://Codigos/DadosLocais/conjunto_carrasco.gd")
-const Conjuntos := preload("res://Codigos/DadosLocais/conjuntos_armadura.gd")
-const Dados := preload("res://Codigos/Modelos/dados_item.gd")
-const Icones := preload("res://Codigos/UI/icones_itens.gd")
+const Rubro := preload("res://assets/personagens/conjuntos/cavaleiro_rubro/definicao.gd")
+const Carrasco := preload("res://codigo/dados/conjunto_carrasco.gd")
+const Conjuntos := preload("res://codigo/dados/conjuntos_armadura.gd")
+const Dados := preload("res://codigo/modelos/dados_item.gd")
+const Icones := preload("res://codigo/ui/icones_itens.gd")
 var _falhas := 0
 
 func _initialize() -> void:
@@ -22,24 +22,24 @@ func _rodar() -> void:
 		push_error("Use a cópia isolada AlgoLand testes Carrasco.")
 		quit(1)
 		return
-	var drop: GDScript = load("res://Codigos/Logicas/equipamento_drop.gd")
+	var drop: GDScript = load("res://codigo/logica/equipamento_drop.gd")
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 6831
-	_verificar("Rubro incomum e bônus somente de status", Rubro.RARIDADE == "incomum" and Rubro.TIPO_BONUS == "status" and Rubro.BONUS_DEFESA == 0.1 and Rubro.BONUS_VITALIDADE == 0.1)
+	_verificar("Rubro comum e bônus somente de status", Rubro.RARIDADE == "comum" and Rubro.TIPO_BONUS == "status" and Rubro.BONUS_DEFESA == 0.1 and Rubro.BONUS_VITALIDADE == 0.1)
 	var precoce := false
 	for i in 500:
-		precoce = precoce or Rubro.TIPOS.has(drop.criar_item(rng, 3, true, true).tipo)
-	_verificar("Rubro não cai antes da onda 4", not precoce)
+		precoce = precoce or Rubro.TIPOS.has(drop.criar_item(rng, 0, true, true).tipo)
+	_verificar("Rubro não cai antes da onda 1", not precoce)
 	var total := 0
 	var variantes := {}
 	var corretos := true
 	for i in 10000:
-		var item: DadosItem = drop.criar_item(rng, 4, false, false)
+		var item: DadosItem = drop.criar_item(rng, 4, false, true)
 		if Rubro.TIPOS.has(item.tipo):
 			total += 1
 			variantes[item.tipo] = true
-			corretos = corretos and item.raridade == "incomum" and item.afixos.is_empty() and item.encantamento == "" and item.categoria == Rubro.TIPOS[item.tipo]["slot"] and item.nivel >= 1 and item.nivel <= 2
-	_verificar("sorteio da onda 4 traz as quatro peças incomuns", total > 3200 and total < 3800 and variantes.size() == 4 and corretos)
+			corretos = corretos and item.raridade == "comum" and item.afixos.is_empty() and item.encantamento == "" and item.categoria == Rubro.TIPOS[item.tipo]["slot"] and item.nivel == 1
+	_verificar("sorteio traz as quatro peças comuns no nível 1", total > 850 and total < 1150 and variantes.size() == 4 and corretos)
 	var inv := root.get_node("InventarioJogador")
 	inv.limpar()
 	inv.criar_itens_iniciais()
@@ -58,16 +58,18 @@ func _rodar() -> void:
 		item.nivel = 2
 		_verificar(tipo + ": nome e ícone próprios", item.nome().contains("CAVALEIRO RUBRO") and Icones.obter(item, self) != null)
 		var copia := Dados.de_dict(item.para_dict())
-		_verificar(tipo + ": serialização mantém categoria, nível e raridade", copia.tipo == tipo and copia.categoria == item.categoria and copia.nivel == 2 and copia.raridade == "incomum")
+		_verificar(tipo + ": serialização mantém categoria, nível e raridade", copia.tipo == tipo and copia.categoria == item.categoria and copia.nivel == 2 and copia.raridade == "comum")
 		pecas[item.categoria] = item
 		var no: Node2D = drop.soltar_item(item, jogador.global_position, arena, rng)
 		no._tentar_pegar()
 		inv.equipar(item)
 		if pecas.size() < 4:
-			_verificar("bônus ainda desligado com " + str(pecas.size()) + " peças", jogador.estatisticas.bonus_defesa_conjunto == 0.0 and jogador.estatisticas.bonus_vitalidade_conjunto == 0.0)
-	_verificar("quatro peças reais dão 10% de defesa e vitalidade", jogador.estatisticas.defesa == roundi(jogador.bonus_defesa * 1.1) and jogador.estatisticas.vitalidade == roundi((jogador.vitalidade_base + jogador.bonus_vitalidade) * 1.1) and jogador.estatisticas.bonus_defesa_conjunto == 0.1)
+			# Peças no nível 2: metade do efeito x 1,25 de escala (1 peça nada)
+			var esperado := 0.0 if pecas.size() < 2 else 0.0625
+			_verificar("bônus parcial com " + str(pecas.size()) + " peças", is_equal_approx(jogador.estatisticas.bonus_defesa_conjunto, esperado) and is_equal_approx(jogador.estatisticas.bonus_vitalidade_conjunto, esperado))
+	_verificar("quatro peças reais nível 2 dão 12,5% de defesa e vitalidade", jogador.estatisticas.defesa == roundi(jogador.bonus_defesa * 1.125) and jogador.estatisticas.vitalidade == roundi((jogador.vitalidade_base + jogador.bonus_vitalidade) * 1.125) and is_equal_approx(jogador.estatisticas.bonus_defesa_conjunto, 0.125))
 	_verificar("Rubro não ativa o raio do Carrasco", not Carrasco.pode_ativar(inv.equipados, 0.0, 0.0))
-	_verificar("visual real usa o Rubro e mantém a cabeça original", jogador.sprite_roupa.texture.resource_path == Rubro.RAIZ_SPRITES + "andar.png" and jogador.sprite_corpo.texture.resource_path == "res://CharacterSprites/Body/body_1.png")
+	_verificar("visual real usa o Rubro e mantém a cabeça original", jogador.sprite_roupa.texture.resource_path == Rubro.RAIZ_SPRITES + "andar.png" and jogador.sprite_corpo.texture.resource_path == "res://assets/personagens/Body/body_1.png")
 	var defesa: int = jogador.estatisticas.defesa
 	var vitalidade: int = jogador.estatisticas.vitalidade
 	for i in 5:
@@ -79,15 +81,15 @@ func _rodar() -> void:
 	inv.adicionar(outra)
 	inv.equipar(outra)
 	jogador.no_arco._sincronizar_aparencia()
-	_verificar("misturar conjuntos desliga os dois bônus", jogador.estatisticas.bonus_defesa_conjunto == 0.0 and jogador.estatisticas.bonus_vitalidade_conjunto == 0.0 and not Carrasco.pode_ativar(inv.equipados, 0.0, 0.0))
+	_verificar("misturar conjuntos mantém só o bônus parcial do Rubro (3/4) e não ativa o raio", is_equal_approx(jogador.estatisticas.bonus_defesa_conjunto, 0.0625) and is_equal_approx(jogador.estatisticas.bonus_vitalidade_conjunto, 0.0625) and not Carrasco.pode_ativar(inv.equipados, 0.0, 0.0))
 	_verificar("trocar o elmo com a mesma máscara atualiza o arco", jogador.pecas_cavaleiro == 15 and jogador.no_arco._roupa.texture != textura_anterior and jogador.raizes_armadura["elmo"] == Carrasco.RAIZ_SPRITES)
 	inv.equipar(pecas["cabeca"])
 	_verificar("restaurar a quarta peça retorna ao mesmo bônus", jogador.estatisticas.defesa == defesa and jogador.estatisticas.vitalidade == vitalidade)
 	pecas["corpo"].nivel = 3
 	jogador._aplicar_modelo()
-	_verificar("melhorar peça recalcula os 10% sem acumulação", jogador.estatisticas.defesa == roundi(jogador.bonus_defesa * 1.1) and jogador.estatisticas.vitalidade == roundi((jogador.vitalidade_base + jogador.bonus_vitalidade) * 1.1))
+	_verificar("melhorar uma peça não muda o nível do conjunto (vale a mais fraca) nem acumula", jogador.estatisticas.defesa == roundi(jogador.bonus_defesa * 1.125) and jogador.estatisticas.vitalidade == roundi((jogador.vitalidade_base + jogador.bonus_vitalidade) * 1.125))
 	inv.salvar("user://teste_rubro_equipado.json")
-	var modelo = load("res://Codigos/Modelos/modelo_inventario.gd").new()
+	var modelo = load("res://codigo/modelos/modelo_inventario.gd").new()
 	modelo.carregar("user://teste_rubro_equipado.json")
 	_verificar("save mantém quatro peças e nível melhorado", Rubro.mascara(modelo.equipados) == 15 and modelo.equipados["corpo"].nivel == 3)
 	modelo.free()
@@ -101,7 +103,7 @@ func _rodar() -> void:
 	var gerados := get_nodes_in_group("equipamento_drop")
 	var todos_rubros := gerados.size() == 4
 	for no in gerados:
-		todos_rubros = todos_rubros and Rubro.TIPOS.has(no.item.tipo) and no.item.raridade == "incomum"
+		todos_rubros = todos_rubros and Rubro.TIPOS.has(no.item.tipo) and no.item.raridade == "comum"
 	_verificar("F3 gera quatro drops reais do Rubro", todos_rubros)
 	print("Falhas: ", _falhas)
 	quit(_falhas)

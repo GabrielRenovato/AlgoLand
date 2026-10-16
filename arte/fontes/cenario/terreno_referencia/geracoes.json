@@ -1,0 +1,16 @@
+{
+  "ferramenta": "PixelLab create_image_pro_flash",
+  "referencia": "referencia_usuario.png",
+  "grama": {
+    "job_id": "f362b807-d485-4a6f-b3eb-97010cddd9fc",
+    "asset_id": "5e02e4ec-c4bf-5339-8303-39b672be6500"
+  },
+  "terra": {
+    "job_id": "98b5c955-438a-4cca-956b-4a05f65c8a0c",
+    "asset_id": "57b1e74a-9392-564d-af8c-e8ec47fcd3f7"
+  },
+  "agua": {
+    "job_id": "9cddaa5b-ed6a-495a-b4a3-f4351f351fc0",
+    "asset_id": "2d2ee9c7-4d47-5067-af48-ae0c333a0651"
+  }
+}

@@ -1,0 +1,126 @@
+{
+  "tamanho": [
+    704,
+    576
+  ],
+  "praca": [
+    336,
+    272
+  ],
+  "mural": [
+    280,
+    250
+  ],
+  "coreto": [
+    448,
+    404
+  ],
+  "poco": [
+    336,
+    272
+  ],
+  "entrada_fazenda": [
+    12,
+    272
+  ],
+  "entrada_arena": [
+    676,
+    272
+  ],
+  "ponte": [
+    676,
+    272
+  ],
+  "predios": {
+    "venda": {
+      "nome": "VENDA DO TOMAS",
+      "base": [
+        104,
+        224
+      ],
+      "largura": 112,
+      "porta_x": 0
+    },
+    "sede": {
+      "nome": "CASA DA COMUNIDADE",
+      "base": [
+        336,
+        168
+      ],
+      "largura": 128,
+      "porta_x": 0
+    },
+    "enfermaria": {
+      "nome": "ENFERMARIA",
+      "base": [
+        584,
+        244
+      ],
+      "largura": 96,
+      "porta_x": 0
+    },
+    "pousada": {
+      "nome": "POUSADA DO CORETO",
+      "base": [
+        240,
+        424
+      ],
+      "largura": 112,
+      "porta_x": 0
+    },
+    "mistica": {
+      "nome": "CASA DA MISTICA",
+      "base": [
+        560,
+        424
+      ],
+      "largura": 112,
+      "porta_x": 0
+    },
+    "casa_bento": {
+      "nome": "CASA DO BENTO",
+      "base": [
+        76,
+        424
+      ],
+      "largura": 128,
+      "porta_x": 0
+    }
+  },
+  "mercador_abertura": [
+    104,
+    248
+  ],
+  "mercador_praca": [
+    404,
+    304
+  ],
+  "rosa_jardim": [
+    628,
+    318
+  ],
+  "rosa_praca": [
+    372,
+    318
+  ],
+  "bardo_coreto": [
+    448,
+    420
+  ],
+  "estela_flores": [
+    604,
+    488
+  ],
+  "lia_praca": [
+    262,
+    300
+  ],
+  "bento_horta": [
+    64,
+    476
+  ],
+  "bento_praca": [
+    232,
+    262
+  ]
+}

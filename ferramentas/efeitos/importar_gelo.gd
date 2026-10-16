@@ -4,7 +4,7 @@ extends SceneTree
 const PALETA := ["123d50", "1c6278", "268ba7", "3cb6d0", "64d5e2", "a4eaf0", "d8f7fa", "ffffff"]
 
 func _initialize() -> void:
-	var fonte := Image.load_from_file("res://Efeitos/congelamento/conceito_v1.png")
+	var fonte := Image.load_from_file("res://assets/efeitos/congelamento/conceito_v1.png")
 	var vistas: Array[Image] = []
 	var recorte := Rect2i()
 	for i in 6:
@@ -44,6 +44,6 @@ func _initialize() -> void:
 					melhor.a = 0.3 if janela and melhor.r < 0.65 and melhor.g > 0.4 else 1.0
 					quadro.set_pixel(x, y, melhor)
 			folha.blit_rect(quadro, Rect2i(Vector2i.ZERO, quadro.get_size()), Vector2i(i * tamanho.x + 1, 1))
-		folha.save_png("res://Efeitos/congelamento/" + variante + ".png")
+		folha.save_png("res://assets/efeitos/congelamento/" + variante + ".png")
 		print("Gelo: ", variante, " ", folha.get_size())
 	quit()

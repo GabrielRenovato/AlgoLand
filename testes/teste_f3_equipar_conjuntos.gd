@@ -1,10 +1,10 @@
 extends SceneTree
 
 ## Arena e inventário somente na cópia isolada do projeto.
-const Conjuntos := preload("res://Codigos/DadosLocais/conjuntos_armadura.gd")
-const Dados := preload("res://Codigos/Modelos/dados_item.gd")
-const Aparencia := preload("res://Codigos/DadosLocais/aparencia.gd")
-const Icones := preload("res://Codigos/UI/icones_itens.gd")
+const Conjuntos := preload("res://codigo/dados/conjuntos_armadura.gd")
+const Dados := preload("res://codigo/modelos/dados_item.gd")
+const Aparencia := preload("res://codigo/dados/aparencia.gd")
+const Icones := preload("res://codigo/ui/icones_itens.gd")
 var _falhas := 0
 
 func _initialize() -> void:
@@ -24,6 +24,8 @@ func _rodar() -> void:
 	var inv := root.get_node("InventarioJogador")
 	inv.limpar()
 	inv.criar_itens_iniciais()
+	# Trocar os três conjuntos seguidos guarda 12 peças na mochila; o kit agora ocupa 3 casas com as ferramentas da fazenda
+	inv.definir_linhas_extras(1)
 	var arena: Node = load("res://cenas/cenario.tscn").instantiate()
 	root.add_child(arena)
 	current_scene = arena
@@ -50,7 +52,7 @@ func _rodar() -> void:
 		_verificar(id + ": visual vem dos slots sem prévia sobreposta", jogador.raizes_armadura.size() == 4 and Aparencia.raiz_armadura_visual(jogador.roupa_atual).is_empty())
 		if id == "cavalheiro":
 			_verificar("cartola equipada mantém o cabelo composto", jogador.sprite_cabelo.self_modulate.a == 0 and jogador.sprite_cabelo.get_parent().get_node("CartolaSobreCabelo").visible)
-			_verificar("Mordomo lendário congela sem multiplicador de status nem drop natural", jogador.estatisticas.bonus_defesa_conjunto == 0 and Conjuntos.de_tipo("elmo_cavalheiro").RARIDADE == "lendario" and Conjuntos.de_tipo("elmo_cavalheiro").TIPO_BONUS == "congelamento" and Conjuntos.de_tipo("elmo_cavalheiro").chance_drop(99, true, true) == 0)
+			_verificar("Mordomo comum congela sem multiplicador de status", jogador.estatisticas.bonus_defesa_conjunto == 0 and Conjuntos.de_tipo("elmo_cavalheiro").RARIDADE == "comum" and Conjuntos.de_tipo("elmo_cavalheiro").TIPO_BONUS == "congelamento" and Conjuntos.de_tipo("elmo_cavalheiro").chance_drop(99, true, true) == 0.1)
 		if id == "cavaleiro_rubro":
 			_verificar("Rubro ativa os 10% pelas quatro peças reais", jogador.estatisticas.bonus_defesa_conjunto == 0.1 and jogador.estatisticas.bonus_vitalidade_conjunto == 0.1)
 		var anteriores: Dictionary = inv.equipados.duplicate()
@@ -75,7 +77,7 @@ func _rodar() -> void:
 		componente._sincronizar_aparencia()
 		_verificar("ação real conserva cartola equipada pelos slots", componente.get_node("CartolaSobreCabelo").texture != null and componente._cabelo.self_modulate.a == 0)
 	inv.salvar("user://teste_f3_conjuntos.json")
-	var copia = load("res://Codigos/Modelos/modelo_inventario.gd").new()
+	var copia = load("res://codigo/modelos/modelo_inventario.gd").new()
 	copia.carregar("user://teste_f3_conjuntos.json")
 	_verificar("save mantém as quatro peças nos slots", Conjuntos.de_tipo("elmo_cavalheiro").mascara(copia.equipados) == 15 and copia.equipados["corpo"].nivel == 3)
 	copia.free()

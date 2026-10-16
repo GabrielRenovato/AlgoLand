@@ -1,0 +1,19 @@
+{
+  "uso_atual": "Registro das versões anteriores. Os sprites ativos e os prompts da revisão atual estão em arte/fontes/praia/mobiliario_pesca_v2.json, com montagem em codigo/pesca/mobiliario_cais.gd.",
+  "ferramenta": "image_gen.imagegen (integrada)",
+  "preparo": "ferramentas/pesca/preparar_moveis.gd: recorte da transparência mantendo a resolução original, sem redução de pixels. Importação sem limite de resolução, com mipmaps; escala visual e filtragem aplicadas pelo mobiliario_cais.gd.",
+  "itens": [
+    {
+      "original": "arte/fontes/praia/caixas_peixes_original.png",
+      "destino": "assets/cenario/praia/mobiliario/caixas_peixes.png",
+      "referencia": "assets/cenario/cidade/decoracao/mobiliario/caixas_legumes.png",
+      "prompt": "Use case: precise-object-edit. Production pixel-art sprite for a 16px tile top-down RPG, in the exact style of the attached existing environment sprite. Edit target: attached crates sprite. Replace ALL vegetables, farm produce and farm sacks with fishing equipment: two low wooden fish crates containing clearly readable silver-blue whole fish, one wooden bait bucket, a small coil of hemp rope and a folded tan fishing net. Keep the same compact roughly 60 pixels wide by 48 pixels high footprint and original warm brown wood palette, dense crisp pixel clusters, dark brown outlines, upper-left light, overhead three-quarter RPG perspective. Native pixel art, designed to be reduced to 60x48 at runtime without lost readability. The fish must be the focal point. Actual transparent background. Isolated complete grounded cluster, no floor or dock or background or text. Match reference craftsmanship, no soft painting, no cartoon thick outlines, no vegetables, no fruit, no flowers, no wheat."
+    },
+    {
+      "original": "arte/fontes/praia/equipamento_pesca_original.png",
+      "destino": "assets/cenario/praia/mobiliario/equipamento_pesca.png",
+      "referencia": "assets/cenario/cidade/decoracao/mobiliario/barril_agua.png",
+      "prompt": "Use case: precise-object-edit. Production pixel-art sprite for a 16px tile top-down RPG, exact style of attached environment sprite. Edit target: existing water barrel farming cluster. Convert it to a compact fishing gear cluster: open wooden barrel with two slender fishing rods leaning against it, a coiled tan hemp rope and small folded fishing net at its foot, a small galvanized bucket holding one visible silver-blue fish beside it. Remove ALL grass, spilled water, vegetable or gardening motifs. Keep roughly 44 pixels wide by 48 pixels high footprint, same detailed warm wooden staves, muted metal bands, dark brown pixel outlines, upper-left lighting, three-quarter overhead RPG perspective. Native crisp pixel clusters readable at 44x48 resolution. Actual transparent background, isolated complete cluster no dock, ground or background or text. Match the reference pixel-art craftsmanship, no antialias painting, no cartoon thick outlines."
+    }
+  ]
+}

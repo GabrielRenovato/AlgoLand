@@ -2,7 +2,7 @@ extends SceneTree
 
 ## Desenha as camadas e AnimationPlayer da cena real sem executar o jogador
 ## nem carregar a arena ou a partida do usuário.
-const Aparencia := preload("res://Codigos/DadosLocais/aparencia.gd")
+const Aparencia := preload("res://codigo/dados/aparencia.gd")
 
 func _initialize() -> void:
 	_rodar()
@@ -20,7 +20,7 @@ func _rodar() -> void:
 	var animacoes := ["idle_down", "idle_up", "running_right", "sword_slash_1_down"]
 	for linha in 3:
 		for coluna in 4:
-			var real = load("res://cenas/Jogador.tscn").instantiate()
+			var real = load("res://cenas/jogador.tscn").instantiate()
 			var refs := {
 				"sprite_corpo": "BaseSprites/Corpo", "sprite_cabelo": "BaseSprites/Cabelo", "sprite_roupa": "BaseSprites/Roupa",
 				"corpo_espada_escudo_ataque": "AttackSwordAnimation/CorpoEspadaEscudo", "cabelo_ataque": "AttackSwordAnimation/Cabelo", "roupa_ataque": "AttackSwordAnimation/Roupa",

@@ -7,13 +7,13 @@ Como usar (da raiz do projeto):
 
 O que faz:
   - copia de "Farm RPG - Tiny Asset Pack" (EmanuelleDev, emanuelledev.itch.io) SO o que o plantio usa, para
-    res://Tiles/Farm RPG/: as tiras das 12 plantas (Crops/<Estacao>/<Planta>.png: quadros de 16x16, ou 16x32 nas altas,
+    res://assets/cenario/Farm RPG/: as tiras das 12 plantas (Crops/<Estacao>/<Planta>.png: quadros de 16x16, ou 16x32 nas altas,
     com semente -> estagios -> item colhido), "All Crops.png" (sacos de semente e icones dos itens) e a licenca
     (Documentation.txt: o credito "EmanuelleDev" e obrigatorio);
-  - copia o caldeirao (Objects/Work Benches/Kitchen pot.png -> Tiles/Farm RPG/caldeirao.png: 5 quadros de 32x32, o
+  - copia o caldeirao (Objects/Work Benches/Kitchen pot.png -> assets/cenario/Farm RPG/caldeirao.png: 5 quadros de 32x32, o
     primeiro apagado e 4 com fogo e bolhas) e a folha de pocoes (Icons/RPG icons/Extras/Potions.png ->
-    UI/fazenda/pocoes.png: 5 colunas x 7 linhas de 16x16; colunas 1-4 = verde, vermelha, roxa e azul);
-  - desenha UI/fazenda/icones_ferramentas.png (enxada, regador e cesta, 16x16 cada, lado a lado).
+    assets/ui/fazenda/pocoes.png: 5 colunas x 7 linhas de 16x16; colunas 1-4 = verde, vermelha, roxa e azul);
+  - desenha assets/ui/fazenda/icones_ferramentas.png (enxada, regador e cesta, 16x16 cada, lado a lado).
 Nenhuma construcao nem personagem do pack entra no jogo (o estilo e diferente do Mana Seed).
 """
 import os
@@ -27,7 +27,7 @@ import png_puro as P  # noqa: E402
 
 PADRAO_ORIGEM = ("/tmp/claude-1000/-home-alfeim-AlgoLand/ccef2aa9-5145-4440-bb95-45d50b90211d/scratchpad/farm_rpg/"
                  "Farm RPG - Tiny Asset Pack - (All in One)")
-DESTINO = os.path.join(RAIZ, "Tiles", "Farm RPG")
+DESTINO = os.path.join(RAIZ, "assets/cenario", "Farm RPG")
 
 # tiras usadas (relativas a Crops/)
 TIRAS = ["Spring/Strawberry.png", "Spring/Carrot.png", "Spring/Potato.png", "Spring/Cauliflower.png",
@@ -64,7 +64,7 @@ def copiar_pack(origem):
 def copiar_alquimia(origem):
     """Caldeirao da fazenda (onde a colheita vira pocao) e os icones das pocoes."""
     shutil.copyfile(os.path.join(origem, "Objects", "Work Benches", "Kitchen pot.png"), os.path.join(DESTINO, "caldeirao.png"))
-    destino_ui = os.path.join(RAIZ, "UI", "fazenda")
+    destino_ui = os.path.join(RAIZ, "assets/ui", "fazenda")
     os.makedirs(destino_ui, exist_ok=True)
     shutil.copyfile(os.path.join(origem, "Icons", "RPG icons", "Extras", "Potions.png"), os.path.join(destino_ui, "pocoes.png"))
 
@@ -158,7 +158,7 @@ def montar_icones():
     saida = nova(48, 16)
     for k, mapa in enumerate((ENXADA, REGADOR, CESTA)):
         colar(saida, desenhar_icone(mapa), k * 16, 0)
-    destino = os.path.join(RAIZ, "UI", "fazenda")
+    destino = os.path.join(RAIZ, "assets/ui", "fazenda")
     os.makedirs(destino, exist_ok=True)
     P.salvar(saida, os.path.join(destino, "icones_ferramentas.png"))
 
@@ -173,7 +173,7 @@ def main():
     else:
         print("pasta do Farm RPG nao encontrada (%s): so os icones das ferramentas foram refeitos" % origem)
     montar_icones()
-    print("icones: UI/fazenda/icones_ferramentas.png")
+    print("icones: assets/ui/fazenda/icones_ferramentas.png")
 
 
 if __name__ == "__main__":

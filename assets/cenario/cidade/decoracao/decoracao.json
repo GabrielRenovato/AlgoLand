@@ -1,0 +1,1092 @@
+[
+ {
+  "p": "construcoes/fonte_anim",
+  "x": 336,
+  "y": 284,
+  "usado": [
+   5,
+   3,
+   85,
+   90
+  ],
+  "col": [
+   82,
+   30
+  ],
+  "animacao": {
+   "quadros": 9,
+   "fps": 7,
+   "largura": 96,
+   "altura": 96
+  }
+ },
+ {
+  "p": "mobiliario/mural",
+  "x": 280,
+  "y": 236,
+  "usado": [
+   0,
+   0,
+   56,
+   57
+  ],
+  "col": [
+   34,
+   8
+  ],
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/mural/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/mural/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/mural/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/mural/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "escala_origem": 1.0,
+  "fonte": "res://assets/cenario/cidade/decoracao/mobiliario/mural.png"
+ },
+ {
+  "p": "mobiliario/poste_luz",
+  "x": 252,
+  "y": 240,
+  "usado": [
+   0,
+   0,
+   29,
+   60
+  ],
+  "col": [
+   8,
+   6
+  ],
+  "luz": [
+   0,
+   -46,
+   "#ffcf7a",
+   1.1,
+   0.9
+  ],
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/poste_luz/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/poste_luz/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/poste_luz/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/poste_luz/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "escala_origem": 1.0,
+  "fonte": "res://assets/cenario/cidade/decoracao/mobiliario/poste_luz.png"
+ },
+ {
+  "p": "mobiliario/poste_luz",
+  "x": 420,
+  "y": 240,
+  "usado": [
+   0,
+   0,
+   29,
+   60
+  ],
+  "col": [
+   8,
+   6
+  ],
+  "luz": [
+   0,
+   -46,
+   "#ffcf7a",
+   1.1,
+   0.9
+  ],
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/poste_luz/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/poste_luz/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/poste_luz/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/poste_luz/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "escala_origem": 1.0,
+  "fonte": "res://assets/cenario/cidade/decoracao/mobiliario/poste_luz.png"
+ },
+ {
+  "p": "mobiliario/poste_luz",
+  "x": 252,
+  "y": 326,
+  "usado": [
+   0,
+   0,
+   29,
+   60
+  ],
+  "col": [
+   8,
+   6
+  ],
+  "luz": [
+   0,
+   -46,
+   "#ffcf7a",
+   1.1,
+   0.9
+  ],
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/poste_luz/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/poste_luz/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/poste_luz/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/poste_luz/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "escala_origem": 1.0,
+  "fonte": "res://assets/cenario/cidade/decoracao/mobiliario/poste_luz.png"
+ },
+ {
+  "p": "mobiliario/poste_luz",
+  "x": 420,
+  "y": 326,
+  "usado": [
+   0,
+   0,
+   29,
+   60
+  ],
+  "col": [
+   8,
+   6
+  ],
+  "luz": [
+   0,
+   -46,
+   "#ffcf7a",
+   1.1,
+   0.9
+  ],
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/poste_luz/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/poste_luz/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/poste_luz/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/poste_luz/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "escala_origem": 1.0,
+  "fonte": "res://assets/cenario/cidade/decoracao/mobiliario/poste_luz.png"
+ },
+ {
+  "p": "mobiliario/placa_encruzilhada",
+  "x": 448,
+  "y": 244,
+  "usado": [
+   0,
+   0,
+   48,
+   61
+  ],
+  "col": [
+   10,
+   6
+  ],
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/placa_encruzilhada/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/placa_encruzilhada/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/placa_encruzilhada/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/placa_encruzilhada/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "escala_origem": 1.0,
+  "fonte": "res://assets/cenario/cidade/decoracao/mobiliario/placa_encruzilhada.png"
+ },
+ {
+  "p": "construcoes/ponte",
+  "x": 676,
+  "y": 286,
+  "usado": [
+   0,
+   0,
+   80,
+   44
+  ],
+  "z_fixo": -995,
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/ponte/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/ponte/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/ponte/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/ponte/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "escala_origem": 1.0,
+  "fonte": "res://assets/cenario/cidade/decoracao/construcoes/ponte.png"
+ },
+ {
+  "p": "mobiliario/correio",
+  "x": 60,
+  "y": 304,
+  "usado": [
+   0,
+   0,
+   24,
+   38
+  ],
+  "col": [
+   10,
+   6
+  ],
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/correio/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/correio/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/correio/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/correio/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "escala_origem": 1.0,
+  "fonte": "res://assets/cenario/cidade/decoracao/mobiliario/correio.png"
+ },
+ {
+  "p": "construcoes/coreto",
+  "x": 448,
+  "y": 404,
+  "usado": [
+   0,
+   0,
+   88,
+   109
+  ],
+  "col": [
+   72,
+   16
+  ],
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/coreto/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/coreto/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/coreto/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/coreto/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "escala_origem": 1.0,
+  "fonte": "res://assets/cenario/cidade/decoracao/construcoes/coreto.png"
+ },
+ {
+  "p": "mobiliario/poste_luz",
+  "x": 180,
+  "y": 482,
+  "usado": [
+   0,
+   0,
+   29,
+   60
+  ],
+  "col": [
+   8,
+   6
+  ],
+  "luz": [
+   0,
+   -46,
+   "#ffcf7a",
+   1.1,
+   0.9
+  ],
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/poste_luz/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/poste_luz/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/poste_luz/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/poste_luz/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "escala_origem": 1.0,
+  "fonte": "res://assets/cenario/cidade/decoracao/mobiliario/poste_luz.png"
+ },
+ {
+  "p": "mobiliario/poste_luz",
+  "x": 500,
+  "y": 482,
+  "usado": [
+   0,
+   0,
+   29,
+   60
+  ],
+  "col": [
+   8,
+   6
+  ],
+  "luz": [
+   0,
+   -46,
+   "#ffcf7a",
+   1.1,
+   0.9
+  ],
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/poste_luz/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/poste_luz/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/poste_luz/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/poste_luz/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "escala_origem": 1.0,
+  "fonte": "res://assets/cenario/cidade/decoracao/mobiliario/poste_luz.png"
+ },
+ {
+  "p": "mobiliario/horta",
+  "x": 64,
+  "y": 522,
+  "usado": [
+   0,
+   0,
+   57,
+   45
+  ],
+  "col": [
+   48,
+   10
+  ],
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/horta/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/horta/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/horta/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/horta/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 2,
+  "escala_origem": 1.0
+ },
+ {
+  "p": "mobiliario/galinheiro",
+  "x": 132,
+  "y": 524,
+  "usado": [
+   0,
+   0,
+   38,
+   40
+  ],
+  "col": [
+   32,
+   10
+  ],
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/galinheiro/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/galinheiro/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/galinheiro/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/galinheiro/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "escala_origem": 1.0,
+  "fonte": "res://assets/cenario/cidade/decoracao/mobiliario/revisados/galinheiro.png"
+ },
+ {
+  "p": "mobiliario/galinha",
+  "x": 166,
+  "y": 536,
+  "usado": [
+   0,
+   0,
+   16,
+   15
+  ],
+  "estacoes": [
+   0,
+   1,
+   2
+  ],
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/galinha/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/galinha/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/galinha/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/galinha/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 2,
+  "escala_origem": 1.0
+ },
+ {
+  "p": "mobiliario/feno",
+  "x": 208,
+  "y": 538,
+  "usado": [
+   0,
+   0,
+   53,
+   45
+  ],
+  "col": [
+   36,
+   10
+  ],
+  "estacoes": [
+   2
+  ],
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/feno/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/feno/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/feno/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/feno/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "escala_origem": 1.0,
+  "fonte": "res://assets/cenario/cidade/decoracao/mobiliario/feno.png"
+ },
+ {
+  "p": "mobiliario/lenha",
+  "x": 272,
+  "y": 526,
+  "usado": [
+   0,
+   0,
+   59,
+   47
+  ],
+  "col": [
+   48,
+   10
+  ],
+  "estacoes": [
+   2,
+   3
+  ],
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/lenha/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/lenha/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/lenha/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/lenha/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "escala_origem": 1.0,
+  "fonte": "res://assets/cenario/cidade/decoracao/mobiliario/lenha.png"
+ },
+ {
+  "p": "mobiliario/cerca",
+  "x": 40,
+  "y": 562,
+  "usado": [
+   0,
+   0,
+   54,
+   35
+  ],
+  "col": [
+   48,
+   6
+  ],
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/cerca/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/cerca/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/cerca/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/cerca/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "escala_origem": 1.0,
+  "fonte": "res://assets/cenario/cidade/decoracao/mobiliario/cerca.png"
+ },
+ {
+  "p": "mobiliario/cerca",
+  "x": 100,
+  "y": 568,
+  "usado": [
+   0,
+   0,
+   54,
+   35
+  ],
+  "col": [
+   48,
+   6
+  ],
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/cerca/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/cerca/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/cerca/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/cerca/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "escala_origem": 1.0,
+  "fonte": "res://assets/cenario/cidade/decoracao/mobiliario/cerca.png"
+ },
+ {
+  "p": "mobiliario/mesa_piquenique",
+  "x": 576,
+  "y": 554,
+  "usado": [
+   0,
+   0,
+   48,
+   29
+  ],
+  "col": [
+   40,
+   12
+  ],
+  "estacoes": [
+   0,
+   1,
+   2
+  ],
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/mesa_piquenique/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/mesa_piquenique/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/mesa_piquenique/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/mesa_piquenique/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "escala_origem": 1.0,
+  "fonte": "res://assets/cenario/cidade/decoracao/mobiliario/topdown/mesa_media.png"
+ },
+ {
+  "p": "mobiliario/banco_piquenique_esquerdo",
+  "x": 538,
+  "y": 552,
+  "usado": [
+   0,
+   0,
+   16,
+   15
+  ],
+  "col": [
+   10,
+   8
+  ],
+  "estacoes": [
+   0,
+   1,
+   2
+  ],
+  "assento": true,
+  "lado_assento": 1,
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/banco_piquenique_esquerdo/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/banco_piquenique_esquerdo/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/banco_piquenique_esquerdo/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/banco_piquenique_esquerdo/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "escala_origem": 1.0,
+  "fonte": "res://assets/cenario/cidade/decoracao/mobiliario/topdown/banqueta.png"
+ },
+ {
+  "p": "mobiliario/banco_piquenique_direito",
+  "x": 614,
+  "y": 552,
+  "usado": [
+   0,
+   0,
+   16,
+   15
+  ],
+  "col": [
+   10,
+   8
+  ],
+  "estacoes": [
+   0,
+   1,
+   2
+  ],
+  "assento": true,
+  "lado_assento": -1,
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/banco_piquenique_direito/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/banco_piquenique_direito/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/banco_piquenique_direito/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/banco_piquenique_direito/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 0,
+  "escala_origem": 1.0,
+  "fonte": "res://assets/cenario/cidade/decoracao/mobiliario/topdown/banqueta.png"
+ },
+ {
+  "p": "mobiliario/canteiro",
+  "x": 600,
+  "y": 120,
+  "usado": [
+   0,
+   0,
+   58,
+   47
+  ],
+  "col": [
+   44,
+   8
+  ],
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/canteiro/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/canteiro/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/canteiro/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/canteiro/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 2,
+  "escala_origem": 1.0
+ },
+ {
+  "p": "vegetacao/arbusto",
+  "x": 218,
+  "y": 302,
+  "usado": [
+   0,
+   0,
+   42,
+   40
+  ],
+  "col": [
+   22,
+   8
+  ],
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/arbusto/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/arbusto/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/arbusto/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/arbusto/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 2,
+  "escala_origem": 1.0
+ },
+ {
+  "p": "vegetacao/arbusto",
+  "x": 536,
+  "y": 300,
+  "usado": [
+   0,
+   0,
+   42,
+   40
+  ],
+  "col": [
+   22,
+   8
+  ],
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/arbusto/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/arbusto/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/arbusto/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/arbusto/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 2,
+  "escala_origem": 1.0
+ },
+ {
+  "p": "vegetacao/arvore",
+  "x": 12,
+  "y": 20,
+  "usado": [
+   0,
+   0,
+   113,
+   109
+  ],
+  "col": [
+   16,
+   10
+  ],
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/arvore/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/arvore/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/arvore/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/arvore/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 2,
+  "escala_origem": 1.0
+ },
+ {
+  "p": "vegetacao/arvore",
+  "x": 34,
+  "y": 80,
+  "usado": [
+   0,
+   0,
+   113,
+   109
+  ],
+  "col": [
+   16,
+   10
+  ],
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/arvore/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/arvore/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/arvore/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/arvore/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 2,
+  "escala_origem": 1.0
+ },
+ {
+  "p": "vegetacao/arvore",
+  "x": 84,
+  "y": 24,
+  "usado": [
+   0,
+   0,
+   113,
+   109
+  ],
+  "col": [
+   16,
+   10
+  ],
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/arvore/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/arvore/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/arvore/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/arvore/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 2,
+  "escala_origem": 1.0
+ },
+ {
+  "p": "vegetacao/arbusto",
+  "x": 115,
+  "y": 71,
+  "usado": [
+   0,
+   0,
+   42,
+   40
+  ],
+  "col": [
+   22,
+   8
+  ],
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/arbusto/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/arbusto/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/arbusto/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/arbusto/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 2,
+  "escala_origem": 1.0
+ },
+ {
+  "p": "vegetacao/arvore",
+  "x": 135,
+  "y": 18,
+  "usado": [
+   0,
+   0,
+   113,
+   109
+  ],
+  "col": [
+   16,
+   10
+  ],
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/arvore/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/arvore/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/arvore/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/arvore/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 2,
+  "escala_origem": 1.0
+ },
+ {
+  "p": "vegetacao/arvore",
+  "x": 183,
+  "y": 78,
+  "usado": [
+   0,
+   0,
+   113,
+   109
+  ],
+  "col": [
+   16,
+   10
+  ],
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/arvore/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/arvore/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/arvore/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/arvore/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 2,
+  "escala_origem": 1.0
+ },
+ {
+  "p": "vegetacao/arbusto",
+  "x": 215,
+  "y": 20,
+  "usado": [
+   0,
+   0,
+   42,
+   40
+  ],
+  "col": [
+   22,
+   8
+  ],
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/arbusto/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/arbusto/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/arbusto/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/arbusto/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 2,
+  "escala_origem": 1.0
+ },
+ {
+  "p": "vegetacao/arvore",
+  "x": 268,
+  "y": 63,
+  "usado": [
+   0,
+   0,
+   113,
+   109
+  ],
+  "col": [
+   16,
+   10
+  ],
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/arvore/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/arvore/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/arvore/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/arvore/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 2,
+  "escala_origem": 1.0
+ },
+ {
+  "p": "vegetacao/arvore",
+  "x": 320,
+  "y": 65,
+  "usado": [
+   0,
+   0,
+   113,
+   109
+  ],
+  "col": [
+   16,
+   10
+  ],
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/arvore/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/arvore/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/arvore/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/arvore/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 2,
+  "escala_origem": 1.0
+ },
+ {
+  "p": "vegetacao/arvore",
+  "x": 336,
+  "y": 9,
+  "usado": [
+   0,
+   0,
+   113,
+   109
+  ],
+  "col": [
+   16,
+   10
+  ],
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/arvore/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/arvore/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/arvore/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/arvore/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 2,
+  "escala_origem": 1.0
+ },
+ {
+  "p": "vegetacao/arbusto",
+  "x": 356,
+  "y": 63,
+  "usado": [
+   0,
+   0,
+   42,
+   40
+  ],
+  "col": [
+   22,
+   8
+  ],
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/arbusto/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/arbusto/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/arbusto/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/arbusto/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 2,
+  "escala_origem": 1.0
+ },
+ {
+  "p": "vegetacao/arvore",
+  "x": 412,
+  "y": 25,
+  "usado": [
+   0,
+   0,
+   113,
+   109
+  ],
+  "col": [
+   16,
+   10
+  ],
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/arvore/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/arvore/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/arvore/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/arvore/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 2,
+  "escala_origem": 1.0
+ },
+ {
+  "p": "vegetacao/arvore",
+  "x": 467,
+  "y": 20,
+  "usado": [
+   0,
+   0,
+   113,
+   109
+  ],
+  "col": [
+   16,
+   10
+  ],
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/arvore/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/arvore/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/arvore/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/arvore/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 2,
+  "escala_origem": 1.0
+ },
+ {
+  "p": "vegetacao/arbusto",
+  "x": 536,
+  "y": 19,
+  "usado": [
+   0,
+   0,
+   42,
+   40
+  ],
+  "col": [
+   22,
+   8
+  ],
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/arbusto/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/arbusto/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/arbusto/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/arbusto/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 2,
+  "escala_origem": 1.0
+ },
+ {
+  "p": "vegetacao/arvore",
+  "x": 596,
+  "y": 68,
+  "usado": [
+   0,
+   0,
+   113,
+   109
+  ],
+  "col": [
+   16,
+   10
+  ],
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/arvore/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/arvore/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/arvore/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/arvore/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 2,
+  "escala_origem": 1.0
+ },
+ {
+  "p": "vegetacao/arvore",
+  "x": 602,
+  "y": 13,
+  "usado": [
+   0,
+   0,
+   113,
+   109
+  ],
+  "col": [
+   16,
+   10
+  ],
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/arvore/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/arvore/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/arvore/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/arvore/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 2,
+  "escala_origem": 1.0
+ },
+ {
+  "p": "vegetacao/arbusto",
+  "x": 13,
+  "y": 148,
+  "usado": [
+   0,
+   0,
+   42,
+   40
+  ],
+  "col": [
+   22,
+   8
+  ],
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/externo/arbusto/primavera.png",
+   "res://assets/cenario/cidade/ambientes/externo/arbusto/verao.png",
+   "res://assets/cenario/cidade/ambientes/externo/arbusto/outono.png",
+   "res://assets/cenario/cidade/ambientes/externo/arbusto/inverno.png"
+  ],
+  "quadros": 4,
+  "fps": 2,
+  "escala_origem": 1.0
+ }
+]

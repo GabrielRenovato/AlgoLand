@@ -1,7 +1,7 @@
 extends SceneTree
 
 # Rodar: godot --headless --path . --script res://testes/teste_clima.gd
-# Cobre o clima (Codigos/Design/clima.gd), o evento TEMPESTADE e os raios (Codigos/Efeitos/raio.gd): sorteio por estação,
+# Cobre o clima (codigo/cenario/clima.gd), o evento TEMPESTADE e os raios (codigo/efeitos/raio.gd): sorteio por estação,
 # camadas de chuva/neve/nuvens, tom da luz, respingos fora da água, raios com dano em área (inimigos e jogador),
 # limpeza em parar_ondas / fim do evento, som da chuva e a tela de título fixa em NEVE_LEVE.
 # ATENCAO: abre a cena de jogo; faça backup do user:// antes (o Progresso grava num arquivo de teste e é apagado ao final)
@@ -45,10 +45,10 @@ func _evento(id: String) -> Dictionary:
 
 func _rodar() -> void:
 	await process_frame
-	Clima = load("res://Codigos/Design/clima.gd")
-	Gerenciador = load("res://Codigos/Logicas/Gerenciador-de-ondas.gd")
-	Raio = load("res://Codigos/Efeitos/raio.gd")
-	IndicadorAtaqueScript = load("res://Codigos/Efeitos/indicador_ataque.gd")
+	Clima = load("res://codigo/cenario/clima.gd")
+	Gerenciador = load("res://codigo/logica/gerenciador_de_ondas.gd")
+	Raio = load("res://codigo/efeitos/raio.gd")
+	IndicadorAtaqueScript = load("res://codigo/efeitos/indicador_ataque.gd")
 	_progresso = root.get_node("Progresso")
 	_progresso.caminho_save = CAMINHO_PROGRESSO
 	# O clima do mundo fica no autoload Fazenda (as ondas o mudam): arquivo de teste, sem o save real
@@ -421,21 +421,21 @@ func _testar_impactos() -> void:
 			penhasco_aceito += 1
 	_verificar("nenhuma das %d celulas de agua aceita respingo" % celulas_agua.size(), celulas_agua.size() > 50 and agua_aceita == 0, "aceitas=%d" % agua_aceita)
 	_verificar("nenhuma das %d celulas de penhasco aceita respingo" % celulas_penhasco.size(), celulas_penhasco.size() > 20 and penhasco_aceito == 0, "aceitas=%d" % penhasco_aceito)
-	# sob copas de arvore/barraca: o centro de cada cobertura nao aceita
+	# sob copas de arvore: o centro de cada cobertura nao aceita
 	_meteoro._coberto(Vector2.ZERO)
 	var cobertas := 0
 	var aceitas_sob_copa := 0
 	var chao: TileMapLayer = _cena.get_node("Terrains/Chao")
 	for i in _meteoro._coberturas.size():
 		var r: Rect2 = _meteoro._coberturas[i]
-		# so as grandes (copas, caverna, barraca): o centro da celula cai dentro do retangulo; as visiveis
+		# so as grandes (copas, caverna): o centro da celula cai dentro do retangulo; as visiveis
 		if r.size.x < 32.0 or r.size.y < 32.0 or not _meteoro._cobertura_nos[i].is_visible_in_tree():
 			continue
 		var celula := chao.local_to_map(chao.to_local(r.get_center()))
 		cobertas += 1
 		if _meteoro.celula_aceita_impacto(celula, false):
 			aceitas_sob_copa += 1
-	_verificar("sob copas e barraca nao cai respingo (%d coberturas)" % cobertas, cobertas > 20 and aceitas_sob_copa == 0, "aceitas=%d" % aceitas_sob_copa)
+	_verificar("sob copas nao cai respingo (%d coberturas)" % cobertas, cobertas > 20 and aceitas_sob_copa == 0, "aceitas=%d" % aceitas_sob_copa)
 	var terra_aceita := 0
 	var celulas_terra := terra.get_used_cells()
 	for celula in celulas_terra:
@@ -795,7 +795,7 @@ func _testar_tempestade_em_onda_de_verdade() -> void:
 # Tela de título: neve leve fixa, sem partículas de neve
 # -----------------------------------------------------------------
 func _testar_tela_de_titulo() -> void:
-	var titulo: Node = load("res://cenas/inicio-do-jogo.tscn").instantiate()
+	var titulo: Node = load("res://cenas/inicio_do_jogo.tscn").instantiate()
 	root.add_child(titulo)
 	current_scene = titulo
 	await _quadros(10)

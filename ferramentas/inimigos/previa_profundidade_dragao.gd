@@ -26,7 +26,7 @@ func _rodar() -> void:
 	chefe._atualizar_ordem_desenho()
 	await process_frame
 	await RenderingServer.frame_post_draw
-	var caminho := "res://inimigos/dragao_vermelho/previas/profundidade_esquerda.png"
+	var caminho := "res://arte/previas/inimigos/dragao_vermelho/profundidade_esquerda.png"
 	root.get_viewport().get_texture().get_image().save_png(caminho)
 	print("Patas: ", chefe.global_position.y + chefe.altura_pes, " jogador: ", jogador.global_position.y + 11, " z: ", chefe.z_index, "/", jogador.z_index)
 	arena.queue_free()

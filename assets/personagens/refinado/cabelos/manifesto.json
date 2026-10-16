@@ -1,0 +1,772 @@
+{
+	"bob1/andar": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/bob1_andar.png",
+		"indice": 0,
+		"molde": "res://assets/personagens/Hair/hair (1).png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"bob1/arco_p2": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/bob1_arco_p2.png",
+		"indice": 0,
+		"molde": "res://assets/personagens/Arco/cabelo_1_p2.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"bob1/arco_p3": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/bob1_arco_p3.png",
+		"indice": 0,
+		"molde": "res://assets/personagens/Arco/cabelo_1_p3.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"bob1/espada": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/bob1_espada.png",
+		"indice": 0,
+		"molde": "res://assets/personagens/Hair/Attack/slash_1_sword/hair (1).png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"bob1/fazenda": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/bob1_fazenda.png",
+		"indice": 0,
+		"molde": "res://assets/personagens/Fazenda/cabelo_1.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"bob1/forja": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/bob1_forja.png",
+		"indice": 0,
+		"molde": "res://assets/personagens/body_smithing/Hair/hair (1).png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"bob1/lanca": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/bob1_lanca.png",
+		"indice": 0,
+		"molde": "res://assets/personagens/Hair/Attack/slash_1_spear/hair (1).png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"bob1/reacao_arco": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/bob1_reacao_arco.png",
+		"indice": 0,
+		"molde": "res://assets/personagens/Reacao/arco/cabelo_1.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"bob1/reacao_lanca": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/bob1_reacao_lanca.png",
+		"indice": 0,
+		"molde": "res://assets/personagens/Reacao/lanca/cabelo_1.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"bob1/reacao_um_mao": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/bob1_reacao_um_mao.png",
+		"indice": 0,
+		"molde": "res://assets/personagens/Reacao/um_mao/cabelo_1.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"bob1/sentado": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/bob1_sentado.png",
+		"indice": 0,
+		"molde": "res://assets/personagens/body_smithing/Hair/hair (1).png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"bob2/andar": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/bob2_andar.png",
+		"indice": 2,
+		"molde": "res://assets/personagens/aparencia/cabelos/bob2_p1.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"bob2/arco_p2": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/bob2_arco_p2.png",
+		"indice": 2,
+		"molde": "res://assets/personagens/aparencia/cabelos/bob2_arco_p2.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"bob2/arco_p3": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/bob2_arco_p3.png",
+		"indice": 2,
+		"molde": "res://assets/personagens/aparencia/cabelos/bob2_arco_p3.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"bob2/espada": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/bob2_espada.png",
+		"indice": 2,
+		"molde": "res://assets/personagens/aparencia/cabelos/bob2_espada.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"bob2/fazenda": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/bob2_fazenda.png",
+		"indice": 2,
+		"molde": "res://assets/personagens/aparencia/cabelos/bob2_p2.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"bob2/forja": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/bob2_forja.png",
+		"indice": 2,
+		"molde": "res://assets/personagens/aparencia/cabelos/bob2_p4.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"bob2/lanca": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/bob2_lanca.png",
+		"indice": 2,
+		"molde": "res://assets/personagens/aparencia/cabelos/bob2_lanca.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"bob2/reacao_arco": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/bob2_reacao_arco.png",
+		"indice": 2,
+		"molde": "res://assets/personagens/aparencia/cabelos/bob2_reacao_arco.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"bob2/reacao_lanca": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/bob2_reacao_lanca.png",
+		"indice": 2,
+		"molde": "res://assets/personagens/aparencia/cabelos/bob2_reacao_lanca.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"bob2/reacao_um_mao": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/bob2_reacao_um_mao.png",
+		"indice": 2,
+		"molde": "res://assets/personagens/aparencia/cabelos/bob2_reacao_um_mao.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"bob2/sentado": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/bob2_sentado.png",
+		"indice": 2,
+		"molde": "res://assets/personagens/aparencia/cabelos/bob2_p4.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"dap1/andar": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/dap1_andar.png",
+		"indice": 1,
+		"molde": "res://assets/personagens/Hair/hair (2).png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"dap1/arco_p2": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/dap1_arco_p2.png",
+		"indice": 1,
+		"molde": "res://assets/personagens/Arco/cabelo_2_p2.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"dap1/arco_p3": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/dap1_arco_p3.png",
+		"indice": 1,
+		"molde": "res://assets/personagens/Arco/cabelo_2_p3.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"dap1/espada": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/dap1_espada.png",
+		"indice": 1,
+		"molde": "res://assets/personagens/Hair/Attack/slash_1_sword/hair (2).png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"dap1/fazenda": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/dap1_fazenda.png",
+		"indice": 1,
+		"molde": "res://assets/personagens/Fazenda/cabelo_2.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"dap1/forja": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/dap1_forja.png",
+		"indice": 1,
+		"molde": "res://assets/personagens/body_smithing/Hair/hair (2).png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"dap1/lanca": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/dap1_lanca.png",
+		"indice": 1,
+		"molde": "res://assets/personagens/Hair/Attack/slash_1_spear/hair (2).png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"dap1/reacao_arco": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/dap1_reacao_arco.png",
+		"indice": 1,
+		"molde": "res://assets/personagens/Reacao/arco/cabelo_2.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"dap1/reacao_lanca": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/dap1_reacao_lanca.png",
+		"indice": 1,
+		"molde": "res://assets/personagens/Reacao/lanca/cabelo_2.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"dap1/reacao_um_mao": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/dap1_reacao_um_mao.png",
+		"indice": 1,
+		"molde": "res://assets/personagens/Reacao/um_mao/cabelo_2.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"dap1/sentado": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/dap1_sentado.png",
+		"indice": 1,
+		"molde": "res://assets/personagens/body_smithing/Hair/hair (2).png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"flat/andar": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/flat_andar.png",
+		"indice": 3,
+		"molde": "res://assets/personagens/aparencia/cabelos/flat_p1.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"flat/arco_p2": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/flat_arco_p2.png",
+		"indice": 3,
+		"molde": "res://assets/personagens/aparencia/cabelos/flat_arco_p2.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"flat/arco_p3": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/flat_arco_p3.png",
+		"indice": 3,
+		"molde": "res://assets/personagens/aparencia/cabelos/flat_arco_p3.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"flat/espada": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/flat_espada.png",
+		"indice": 3,
+		"molde": "res://assets/personagens/aparencia/cabelos/flat_espada.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"flat/fazenda": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/flat_fazenda.png",
+		"indice": 3,
+		"molde": "res://assets/personagens/aparencia/cabelos/flat_p2.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"flat/forja": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/flat_forja.png",
+		"indice": 3,
+		"molde": "res://assets/personagens/aparencia/cabelos/flat_p4.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"flat/lanca": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/flat_lanca.png",
+		"indice": 3,
+		"molde": "res://assets/personagens/aparencia/cabelos/flat_lanca.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"flat/reacao_arco": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/flat_reacao_arco.png",
+		"indice": 3,
+		"molde": "res://assets/personagens/aparencia/cabelos/flat_reacao_arco.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"flat/reacao_lanca": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/flat_reacao_lanca.png",
+		"indice": 3,
+		"molde": "res://assets/personagens/aparencia/cabelos/flat_reacao_lanca.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"flat/reacao_um_mao": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/flat_reacao_um_mao.png",
+		"indice": 3,
+		"molde": "res://assets/personagens/aparencia/cabelos/flat_reacao_um_mao.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"flat/sentado": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/flat_sentado.png",
+		"indice": 3,
+		"molde": "res://assets/personagens/aparencia/cabelos/flat_p4.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"fro1/andar": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/fro1_andar.png",
+		"indice": 4,
+		"molde": "res://assets/personagens/aparencia/cabelos/fro1_p1.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"fro1/arco_p2": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/fro1_arco_p2.png",
+		"indice": 4,
+		"molde": "res://assets/personagens/aparencia/cabelos/fro1_arco_p2.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"fro1/arco_p3": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/fro1_arco_p3.png",
+		"indice": 4,
+		"molde": "res://assets/personagens/aparencia/cabelos/fro1_arco_p3.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"fro1/espada": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/fro1_espada.png",
+		"indice": 4,
+		"molde": "res://assets/personagens/aparencia/cabelos/fro1_espada.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"fro1/fazenda": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/fro1_fazenda.png",
+		"indice": 4,
+		"molde": "res://assets/personagens/aparencia/cabelos/fro1_p2.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"fro1/forja": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/fro1_forja.png",
+		"indice": 4,
+		"molde": "res://assets/personagens/aparencia/cabelos/fro1_p4.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"fro1/lanca": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/fro1_lanca.png",
+		"indice": 4,
+		"molde": "res://assets/personagens/aparencia/cabelos/fro1_lanca.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"fro1/reacao_arco": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/fro1_reacao_arco.png",
+		"indice": 4,
+		"molde": "res://assets/personagens/aparencia/cabelos/fro1_reacao_arco.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"fro1/reacao_lanca": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/fro1_reacao_lanca.png",
+		"indice": 4,
+		"molde": "res://assets/personagens/aparencia/cabelos/fro1_reacao_lanca.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"fro1/reacao_um_mao": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/fro1_reacao_um_mao.png",
+		"indice": 4,
+		"molde": "res://assets/personagens/aparencia/cabelos/fro1_reacao_um_mao.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"fro1/sentado": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/fro1_sentado.png",
+		"indice": 4,
+		"molde": "res://assets/personagens/aparencia/cabelos/fro1_p4.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"pon1/andar": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/pon1_andar.png",
+		"indice": 5,
+		"molde": "res://assets/personagens/aparencia/cabelos/pon1_p1.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"pon1/arco_p2": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/pon1_arco_p2.png",
+		"indice": 5,
+		"molde": "res://assets/personagens/aparencia/cabelos/pon1_arco_p2.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"pon1/arco_p3": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/pon1_arco_p3.png",
+		"indice": 5,
+		"molde": "res://assets/personagens/aparencia/cabelos/pon1_arco_p3.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"pon1/espada": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/pon1_espada.png",
+		"indice": 5,
+		"molde": "res://assets/personagens/aparencia/cabelos/pon1_espada.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"pon1/fazenda": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/pon1_fazenda.png",
+		"indice": 5,
+		"molde": "res://assets/personagens/aparencia/cabelos/pon1_p2.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"pon1/forja": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/pon1_forja.png",
+		"indice": 5,
+		"molde": "res://assets/personagens/aparencia/cabelos/pon1_p4.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"pon1/lanca": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/pon1_lanca.png",
+		"indice": 5,
+		"molde": "res://assets/personagens/aparencia/cabelos/pon1_lanca.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"pon1/reacao_arco": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/pon1_reacao_arco.png",
+		"indice": 5,
+		"molde": "res://assets/personagens/aparencia/cabelos/pon1_reacao_arco.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"pon1/reacao_lanca": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/pon1_reacao_lanca.png",
+		"indice": 5,
+		"molde": "res://assets/personagens/aparencia/cabelos/pon1_reacao_lanca.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"pon1/reacao_um_mao": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/pon1_reacao_um_mao.png",
+		"indice": 5,
+		"molde": "res://assets/personagens/aparencia/cabelos/pon1_reacao_um_mao.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"pon1/sentado": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/pon1_sentado.png",
+		"indice": 5,
+		"molde": "res://assets/personagens/aparencia/cabelos/pon1_p4.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"spk2/andar": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/spk2_andar.png",
+		"indice": 6,
+		"molde": "res://assets/personagens/aparencia/cabelos/spk2_p1.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"spk2/arco_p2": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/spk2_arco_p2.png",
+		"indice": 6,
+		"molde": "res://assets/personagens/aparencia/cabelos/spk2_arco_p2.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"spk2/arco_p3": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/spk2_arco_p3.png",
+		"indice": 6,
+		"molde": "res://assets/personagens/aparencia/cabelos/spk2_arco_p3.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"spk2/espada": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/spk2_espada.png",
+		"indice": 6,
+		"molde": "res://assets/personagens/aparencia/cabelos/spk2_espada.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"spk2/fazenda": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/spk2_fazenda.png",
+		"indice": 6,
+		"molde": "res://assets/personagens/aparencia/cabelos/spk2_p2.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"spk2/forja": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/spk2_forja.png",
+		"indice": 6,
+		"molde": "res://assets/personagens/aparencia/cabelos/spk2_p4.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"spk2/lanca": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/spk2_lanca.png",
+		"indice": 6,
+		"molde": "res://assets/personagens/aparencia/cabelos/spk2_lanca.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"spk2/reacao_arco": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/spk2_reacao_arco.png",
+		"indice": 6,
+		"molde": "res://assets/personagens/aparencia/cabelos/spk2_reacao_arco.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"spk2/reacao_lanca": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/spk2_reacao_lanca.png",
+		"indice": 6,
+		"molde": "res://assets/personagens/aparencia/cabelos/spk2_reacao_lanca.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"spk2/reacao_um_mao": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/spk2_reacao_um_mao.png",
+		"indice": 6,
+		"molde": "res://assets/personagens/aparencia/cabelos/spk2_reacao_um_mao.png",
+		"quadro": [
+			128,
+			128
+		]
+	},
+	"spk2/sentado": {
+		"escala": 0.5,
+		"folha": "res://assets/personagens/refinado/cabelos/spk2_sentado.png",
+		"indice": 6,
+		"molde": "res://assets/personagens/aparencia/cabelos/spk2_p4.png",
+		"quadro": [
+			128,
+			128
+		]
+	}
+}

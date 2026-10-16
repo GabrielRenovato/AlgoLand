@@ -1,23 +1,23 @@
 extends SceneTree
-# Folha de contato das peças do registro (Codigos/DadosLocais/aparencia.gd) numa página de animação, para conferir se cada cabelo e cada
+# Folha de contato das peças do registro (codigo/dados/aparencia.gd) numa página de animação, para conferir se cada cabelo e cada
 # roupa existe, alinha com o corpo e fica certo naquela pose. Precisa de janela. Uso:
 #   godot --path . --script res://ferramentas/personagem/previa_paginas.gd -- <saida.png> <pagina> <quadro> <roupas|cabelos> [escala]
 # <pagina>: andar, fazenda, forja, sentado, espada, lanca, reacao_um_mao, reacao_lanca, reacao_arco, arco_p2, arco_p3.
 # roupas: todas as roupas com o cabelo 0; cabelos: todos os cabelos com a roupa de camponês (índice 2) e a cor amarela.
 
-const Aparencia := preload("res://Codigos/DadosLocais/aparencia.gd")
+const Aparencia := preload("res://codigo/dados/aparencia.gd")
 const CORPOS := {
-	"andar": "res://CharacterSprites/Body/body_1.png",
-	"fazenda": "res://CharacterSprites/Fazenda/corpo.png",
-	"forja": "res://CharacterSprites/body_smithing/char_a_p4_0bas_humn_v00.png",
-	"sentado": "res://CharacterSprites/body_smithing/char_a_p4_0bas_humn_v00.png",
-	"espada": "res://CharacterSprites/Body_sword_chield/body_attack_sword.png",
-	"lanca": "res://CharacterSprites/Body_spear_combat/body_spear_combat.png",
-	"reacao_um_mao": "res://CharacterSprites/Reacao/um_mao/corpo.png",
-	"reacao_lanca": "res://CharacterSprites/Reacao/lanca/corpo.png",
-	"reacao_arco": "res://CharacterSprites/Reacao/arco/corpo.png",
-	"arco_p2": "res://CharacterSprites/Arco/corpo_p2.png",
-	"arco_p3": "res://CharacterSprites/Arco/corpo_p3.png",
+	"andar": "res://assets/personagens/Body/body_1.png",
+	"fazenda": "res://assets/personagens/Fazenda/corpo.png",
+	"forja": "res://assets/personagens/body_smithing/char_a_p4_0bas_humn_v00.png",
+	"sentado": "res://assets/personagens/body_smithing/char_a_p4_0bas_humn_v00.png",
+	"espada": "res://assets/personagens/Body_sword_chield/body_attack_sword.png",
+	"lanca": "res://assets/personagens/Body_spear_combat/body_spear_combat.png",
+	"reacao_um_mao": "res://assets/personagens/Reacao/um_mao/corpo.png",
+	"reacao_lanca": "res://assets/personagens/Reacao/lanca/corpo.png",
+	"reacao_arco": "res://assets/personagens/Reacao/arco/corpo.png",
+	"arco_p2": "res://assets/personagens/Arco/corpo_p2.png",
+	"arco_p3": "res://assets/personagens/Arco/corpo_p3.png",
 }
 
 class Folha extends Node2D:

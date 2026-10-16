@@ -1,0 +1,59 @@
+{
+  "group_id": "a240cda5-5694-4ad2-b4db-22126e7b419d",
+  "states": [
+    {
+      "character": {
+        "id": "d2f52f01-f251-445b-90be-cbd73bce1af9",
+        "name": "Idle",
+        "prompt": "young mystic woman with long black ponytail and indigo purple robe with gold trim, Mana Seed style small proportions",
+        "size": {
+          "width": 64,
+          "height": 64
+        },
+        "template_id": "mannequin",
+        "directions": 4,
+        "view": "low top-down",
+        "created_at": "2026-10-15T03:40:12.683268+00:00"
+      },
+      "folder": "Idle",
+      "frames": {
+        "rotations": {
+          "south": "Idle/rotations/south.png",
+          "west": "Idle/rotations/west.png",
+          "east": "Idle/rotations/east.png",
+          "north": "Idle/rotations/north.png"
+        },
+        "animations": {
+          "andar": {
+            "east": [
+              "Idle/animations/andar/east/frame_000.png",
+              "Idle/animations/andar/east/frame_001.png",
+              "Idle/animations/andar/east/frame_002.png",
+              "Idle/animations/andar/east/frame_003.png",
+              "Idle/animations/andar/east/frame_004.png",
+              "Idle/animations/andar/east/frame_005.png"
+            ],
+            "south": [
+              "Idle/animations/andar/south/frame_000.png",
+              "Idle/animations/andar/south/frame_001.png",
+              "Idle/animations/andar/south/frame_002.png",
+              "Idle/animations/andar/south/frame_003.png",
+              "Idle/animations/andar/south/frame_004.png",
+              "Idle/animations/andar/south/frame_005.png"
+            ],
+            "north": [
+              "Idle/animations/andar/north/frame_000.png",
+              "Idle/animations/andar/north/frame_001.png",
+              "Idle/animations/andar/north/frame_002.png",
+              "Idle/animations/andar/north/frame_003.png",
+              "Idle/animations/andar/north/frame_004.png",
+              "Idle/animations/andar/north/frame_005.png"
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "export_version": "3.1",
+  "export_date": "2026-10-15T03:55:31.103284"
+}

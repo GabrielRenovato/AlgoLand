@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3]
 
-[ext_resource type="Script" path="res://Codigos/UI/tela_dormir.gd" id="1_tela"]
+[ext_resource type="Script" path="res://codigo/ui/tela_dormir.gd" id="1_tela"]
 [ext_resource type="Theme" uid="uid://dopk8ho1d0tm2" path="res://recursos/ui/tema_menu.tres" id="2_tema"]
 [ext_resource type="StyleBoxFlat" path="res://recursos/ui/estilo_painel_menu.tres" id="3_estilo"]
 

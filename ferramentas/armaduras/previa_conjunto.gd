@@ -1,21 +1,21 @@
 extends SceneTree
 
 ## Prévia das poses nativas compostas; não instancia a arena nem altera saves.
-const Padrao := preload("res://Codigos/DadosLocais/padrao_armadura.gd")
-const Aparencia := preload("res://Codigos/DadosLocais/aparencia.gd")
+const Padrao := preload("res://codigo/dados/padrao_armadura.gd")
+const Aparencia := preload("res://codigo/dados/aparencia.gd")
 
 func _initialize() -> void:
 	var args := OS.get_cmdline_user_args()
 	var config := Padrao.carregar(args[0])
 	var raiz: String = config["destino"]
-	var saida := raiz + "previas/"
+	var saida := "res://arte/previas/armaduras/" + str(config["id"]) + "/"
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(saida))
 	var paginas := Padrao.CORPOS.keys()
 	var contato := Image.create(768, paginas.size() * 192, false, Image.FORMAT_RGBA8)
 	contato.fill(Color.html("29312f"))
 	for i in paginas.size():
 		var pagina: String = paginas[i]
-		var corpo: Image = load("res://CharacterSprites/" + Padrao.CORPOS[pagina]).get_image()
+		var corpo: Image = load("res://assets/personagens/" + Padrao.CORPOS[pagina]).get_image()
 		if bool(config.get("substituir_cabeca", false)):
 			corpo = Image.load_from_file(raiz + "corpo_sem_cabeca/" + pagina + ".png")
 		var armadura := Image.load_from_file(raiz + pagina + ".png")

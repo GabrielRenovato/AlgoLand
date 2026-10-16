@@ -77,7 +77,7 @@ func _rodar() -> void:
 		chefe._physics_process(1.0)
 		chefe._physics_process(0.15)
 		verificar(tipo + " acerta no impacto", jogador.golpes == antes + 1)
-		verificar(tipo + " usa efeito próprio no impacto", chefe._impacto.visible and chefe._impacto.texture.resource_path == "res://Efeitos/minotauro/" + tipo + ".png")
+		verificar(tipo + " usa efeito próprio no impacto", chefe._impacto.visible and chefe._impacto.texture.resource_path == "res://assets/efeitos/minotauro/" + tipo + ".png")
 		if tipo == "machado":
 			for linha in 4:
 				chefe._linha = linha
@@ -115,7 +115,7 @@ func _rodar() -> void:
 	chefe._limpar_efeitos()
 	chefe._executar_furia()
 	verificar("especial tem três investidas e pisão maior", chefe.ataque_atual == "pisao_furia" and chefe.RAIOS["pisao_furia"] > chefe.RAIOS["pisao"] and chefe._fila_furia.is_empty())
-	verificar("especial usa onda de choque própria", chefe._impacto.texture.resource_path == "res://Efeitos/minotauro/furia.png")
+	verificar("especial usa onda de choque própria", chefe._impacto.texture.resource_path == "res://assets/efeitos/minotauro/furia.png")
 	chefe._limpar_efeitos()
 	chefe._executar_furia()
 	verificar("especial termina sem repetir a mesma marca", not chefe._furia_ativa and chefe._furia_usada)
@@ -127,7 +127,7 @@ func _rodar() -> void:
 				chefe._tocar(pagina, quadro)
 				valido = valido and chefe._area_dano._contorno.size() >= 3
 	verificar("área de acerto acompanha os 144 quadros", valido)
-	var gerenciador = load("res://Codigos/Logicas/Gerenciador-de-ondas.gd").new()
+	var gerenciador = load("res://codigo/logica/gerenciador_de_ondas.gd").new()
 	verificar("minotauro aparece nas ondas 10 e 60; dragão continua na 50", gerenciador.chefe_da_onda(10).id == "minotauro" and gerenciador.chefe_da_onda(60).id == "minotauro" and gerenciador.chefe_da_onda(50).id == "dragao_vermelho")
 	gerenciador.free()
 	var ouro: int = root.get_node("DadosJogo").moedas

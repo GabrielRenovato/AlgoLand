@@ -1,7 +1,7 @@
 extends SceneTree
 
 # Rodar: godot --headless --path . --script res://testes/teste_ciclo_dia.gd
-# Ciclo do dia estilo Stardew (Codigos/Efeitos/iluminacao.gd): o dia vai das 06:00 as 02:00 (20 h) a 24 s reais por hora,
+# Ciclo do dia estilo Stardew (codigo/efeitos/iluminacao.gd): o dia vai das 06:00 as 02:00 (20 h) a 24 s reais por hora,
 # passa da meia-noite, e as 02:00 o jogador apaga (Transicao.dormir: dia seguinte, 06:00). Em onda o relogio segura.
 # Usa arquivos de teste para Calendario, Progresso e Fazenda. ATENCAO: dormir grava user://inventario.json (faca backup).
 

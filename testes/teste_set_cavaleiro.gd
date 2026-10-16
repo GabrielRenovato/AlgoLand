@@ -1,6 +1,6 @@
 extends SceneTree
 
-const Aparencia := preload("res://Codigos/DadosLocais/aparencia.gd")
+const Aparencia := preload("res://codigo/dados/aparencia.gd")
 const Gerador := preload("res://ferramentas/personagem/gerar_set_cavaleiro.gd")
 var _falhas := 0
 
@@ -30,6 +30,7 @@ func _verificar(nome: String, condicao: bool) -> void:
 		_falhas += 1
 
 func _rodar() -> void:
+	# Estes testes validam os moldes legados; a base nova tem teste de integração próprio.
 	await process_frame
 	var indice := -1
 	for i in Aparencia.total_roupas():
@@ -37,7 +38,7 @@ func _rodar() -> void:
 			indice = i
 	_verificar("set acrescentado preservando os índices existentes", Aparencia.roupas()[indice]["id"] == "armadura_cavaleiro" and Aparencia.roupas()[2]["id"] == "pfpn_v05" and Aparencia.roupas()[indice - 1]["id"] == "armadura_teste")
 	for pagina in Gerador.CORPOS:
-		var corpo: Image = load("res://CharacterSprites/" + Gerador.CORPOS[pagina]).get_image()
+		var corpo: Image = load("res://assets/personagens/" + Gerador.CORPOS[pagina]).get_image()
 		var set: Image = Aparencia.roupa(indice, pagina).get_image()
 		_verificar(pagina + ": grade de 64 quadros preservada", set.get_size() == corpo.get_size())
 		var coberto := true
@@ -58,7 +59,7 @@ func _rodar() -> void:
 		var juntas := Image.create(512, 512, false, Image.FORMAT_RGBA8)
 		var camadas: Array[Image] = []
 		for peca in ["peitoral", "botas", "luvas", "elmo"]:
-			var camada: Image = load("res://CharacterSprites/ArmaduraCavaleiro/%s/%s.png" % [peca, pagina]).get_image()
+			var camada: Image = load("res://assets/personagens/conjuntos/carrasco/%s/%s.png" % [peca, pagina]).get_image()
 			_verificar(pagina + ": folha independente de " + peca, camada.get_size() == corpo.get_size() and not camada.is_invisible())
 			juntas.blend_rect(camada, Rect2i(0, 0, 512, 512), Vector2i.ZERO)
 			camadas.append(camada)
@@ -105,7 +106,7 @@ func _rodar() -> void:
 	_verificar("F3 restaura roupa depois de testar peças", jogador.roupa_atual == 2)
 	jogador.pecas_cavaleiro = 15
 	# Instancia o jogador real sem entrar na árvore: valida as camadas sem carregar/gravar saves.
-	var real = load("res://cenas/Jogador.tscn").instantiate()
+	var real = load("res://cenas/jogador.tscn").instantiate()
 	var camadas := {
 		"sprite_corpo": "BaseSprites/Corpo",
 		"corpo_espada_escudo_ataque": "AttackSwordAnimation/CorpoEspadaEscudo",
@@ -139,9 +140,9 @@ func _rodar() -> void:
 	_verificar("Rubro real: espada e lança preservam cabeça original", real.corpo_espada_escudo_ataque.texture == Aparencia.corpo("espada", rubro, 15) and real.corpo_lanca_escudo_ataque.texture == Aparencia.corpo("lanca", rubro, 15))
 	for pagina in Gerador.CORPOS:
 		var textura := Aparencia.roupa(rubro, pagina)
-		_verificar("Rubro " + pagina + ": usa a própria folha", textura.resource_path == "res://CharacterSprites/Conjuntos/cavaleiro_rubro/" + pagina + ".png")
-		_verificar("Rubro " + pagina + ": cabeça original preservada com elmo", Aparencia.corpo(pagina, rubro, 15).resource_path == "res://CharacterSprites/" + Gerador.CORPOS[pagina])
-		_verificar("Rubro " + pagina + ": retirar elmo restaura corpo original", Aparencia.corpo(pagina, rubro, 14).resource_path == "res://CharacterSprites/" + Gerador.CORPOS[pagina])
+		_verificar("Rubro " + pagina + ": usa a própria folha", textura.resource_path == "res://assets/personagens/conjuntos/cavaleiro_rubro/" + pagina + ".png")
+		_verificar("Rubro " + pagina + ": cabeça original preservada com elmo", Aparencia.corpo(pagina, rubro, 15).resource_path == "res://assets/personagens/" + Gerador.CORPOS[pagina])
+		_verificar("Rubro " + pagina + ": retirar elmo restaura corpo original", Aparencia.corpo(pagina, rubro, 14).resource_path == "res://assets/personagens/" + Gerador.CORPOS[pagina])
 	real.definir_peca_cavaleiro("elmo", false)
 	_verificar("Rubro real: retirar elmo restaura cabelo", real.pecas_cavaleiro == 14 and not real.sprite_cabelo.texture.get_image().is_invisible())
 	_verificar("Rubro real: retirar elmo restaura cabeça do corpo", real.sprite_corpo.texture == Aparencia.corpo("andar", rubro, 14))
@@ -157,7 +158,7 @@ func _rodar() -> void:
 	real.status_armas.free()
 	real.free()
 	for arquivo in ["fazenda_jogador", "arco_jogador", "reacao_jogador"]:
-		var componente = load("res://Codigos/Jogador/" + arquivo + ".gd").new()
+		var componente = load("res://codigo/jogador/" + arquivo + ".gd").new()
 		componente.jogador = jogador
 		cena.add_child(componente)
 		componente.set_process(false)

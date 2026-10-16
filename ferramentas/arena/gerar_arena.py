@@ -12,12 +12,12 @@ Entrada:
   - ferramentas/arena/base/terreno_base.tscn.txt: o terreno antigo (inverno). Dele sao reaproveitados, sem mexer, a barraca,
     a fogueira, o contorno da arena (LimiteArena), a navegacao e as arvores/props (mesmos nomes e posicoes).
     A extensao .txt evita o Godot ler essa copia como cena (o uid dela duplicaria o de cenas/terreno.tscn).
-  - Tiles/Seasonal Forest/seasonal sample (estacao).png: as 4 folhas 256x256 (mesmo layout nas 4 estacoes).
+  - assets/cenario/Seasonal Forest/seasonal sample (estacao).png: as 4 folhas 256x256 (mesmo layout nas 4 estacoes).
 Saida:
   - cenas/terreno.tscn
-  - Tiles/Seasonal Forest/arena/<estacao>.png: a folha da estacao + tiles de margem de lagoa gerados por codigo
+  - assets/cenario/Seasonal Forest/arena/<estacao>.png: a folha da estacao + tiles de margem de lagoa gerados por codigo
     (a folha de exemplo nao traz margem grama/agua). As coordenadas originais ficam iguais; os tiles novos entram
-    a partir da linha 16 do atlas. E essa folha que Codigos/Design/estacoes.gd coloca no TileSetAtlasSource.
+    a partir da linha 16 do atlas. E essa folha que codigo/cenario/estacoes.gd coloca no TileSetAtlasSource.
 
 Mapa de tiles da folha (coluna, linha em tiles de 16 px) - conferido visualmente nas 4 estacoes:
   grama base ............ (0,1) (0,2) (0,3) (0,4) (0,5)        flores/detalhes de grama: (0..3, 6..7)
@@ -53,7 +53,7 @@ import tscn as T  # noqa: E402
 RAIZ = os.path.abspath(os.path.join(AQUI, "..", ".."))
 BASE = os.path.join(AQUI, "base", "terreno_base.tscn.txt")
 SAIDA = os.path.join(RAIZ, "cenas", "terreno.tscn")
-PASTA_TILES = os.path.join(RAIZ, "Tiles", "Seasonal Forest")
+PASTA_TILES = os.path.join(RAIZ, "assets/cenario", "Seasonal Forest")
 PASTA_FOLHAS = os.path.join(PASTA_TILES, "arena")
 # indice 0..3 = primavera, verao, outono, inverno (o mesmo de estacoes.gd)
 ESTACOES = ["spring", "summer", "autumn", "winter"]
@@ -71,7 +71,7 @@ CHEGADA_CAVERNA = (CAV_OX * TILE + 40, (CAV_OY + 5) * TILE + 30)
 RNG = random.Random(20260711)
 
 # Pontos de spawn dos inimigos (Marker2D do enemySpawner) em coordenadas do terreno. O spawner tem escala
-# (0.441821, 0.927851) em gerar-slime.tscn: mundo = cenario(6,0) + enemySpawner(215,176) + escala*marcador;
+# (0.441821, 0.927851) em gerar_slime.tscn: mundo = cenario(6,0) + enemySpawner(215,176) + escala*marcador;
 # terreno = mundo - (cenario + Terrains(-10,14)) = mundo + (4, -14)
 SPAWNS = [(123.0, 163.0), (214.0, 89.0), (322.0, 156.0)]
 # Acampamento (barraca, fogueira, mercador, moradores, jogador): nao pode ter obstaculo novo aqui
@@ -745,9 +745,9 @@ def construir(base):
 
 
 # ---------------------------------------------------------------- pecas soltas (sprites e tiles de detalhe)
-EVERGREEN_VERAO = P.carregar(os.path.join(RAIZ, "Tiles", "23.05a - Arctic Woodland 1.1", "evergreen trees",
+EVERGREEN_VERAO = P.carregar(os.path.join(RAIZ, "assets/cenario", "23.05a - Arctic Woodland 1.1", "evergreen trees",
                                           "evergreen trees (summer) 80x112.png"))
-ARCTIC_V1 = P.carregar(os.path.join(RAIZ, "Tiles", "23.05a - Arctic Woodland 1.1", "arctic woodland v1.png"))
+ARCTIC_V1 = P.carregar(os.path.join(RAIZ, "assets/cenario", "23.05a - Arctic Woodland 1.1", "arctic woodland v1.png"))
 
 # regioes na folha sazonal (px): (x, y, larg, alt), deslocamento do sprite (origem na base) e retangulo de colisao
 # manual (relativo a regiao) para as pecas cujo corpo e verde como a grama
@@ -968,11 +968,11 @@ def escrever_cena(m):
             continue
         blocos_nos.append(n["bloco"])
         kept_nos.append(n["bloco"])
-    # passagem para a fazenda (boca da caverna): so entre ondas, aviso F/Y (Codigos/Logicas/passagem.gd), e o
+    # passagem para a fazenda (boca da caverna): so entre ondas, aviso F/Y (codigo/logica/passagem.gd), e o
     # ponto onde o jogador reaparece ao voltar da fazenda
     blocos_nos.append('[node name="PassagemCaverna" type="Area2D" parent="."]\nposition = Vector2(%s, %s)\n'
-                      'script = ExtResource("passagem_script")\ncena_destino = "res://cenas/fazenda.tscn"\n'
-                      'ponto_chegada = "caverna"\ndeslocamento_aviso = Vector2(0, -38)\n' % (
+                      'script = ExtResource("passagem_script")\ncena_destino = "res://cenas/cidade.tscn"\n'
+                      'ponto_chegada = "arena"\ndeslocamento_aviso = Vector2(0, -38)\n' % (
                           T.fmt(PASSAGEM_CAVERNA[0]), T.fmt(PASSAGEM_CAVERNA[1])))
     blocos_nos.append('[node name="Forma" type="CollisionShape2D" parent="PassagemCaverna"]\nshape = SubResource("Forma_passagem")\n')
     blocos_nos.append('[node name="Chegada_caverna" type="Marker2D" parent="." groups=["chegada"]]\nposition = Vector2(%s, %s)\n' % (
@@ -993,12 +993,12 @@ def escrever_cena(m):
                     precisa.add(q)
                     pendente.append(q)
     ext_out = [b for i, b in base.ext.items() if i in precisa]
-    ext_out.append('[ext_resource type="Texture2D" path="res://Tiles/Seasonal Forest/arena/%s.png" id="arena_folha"]'
+    ext_out.append('[ext_resource type="Texture2D" path="res://assets/cenario/Seasonal Forest/arena/%s.png" id="arena_folha"]'
                    % ESTACOES[ESTACAO_INICIAL])
-    ext_out.append('[ext_resource type="Texture2D" path="res://Tiles/Seasonal Forest/seasonal water animations/%s" id="brilho_folha"]'
+    ext_out.append('[ext_resource type="Texture2D" path="res://assets/cenario/Seasonal Forest/seasonal water animations/%s" id="brilho_folha"]'
                    % BRILHO_ARQUIVOS[ESTACAO_INICIAL])
-    ext_out.append('[ext_resource type="Script" path="res://Codigos/Design/estacoes.gd" id="estacoes_script"]')
-    ext_out.append('[ext_resource type="Script" path="res://Codigos/Logicas/passagem.gd" id="passagem_script"]')
+    ext_out.append('[ext_resource type="Script" path="res://codigo/cenario/estacoes.gd" id="estacoes_script"]')
+    ext_out.append('[ext_resource type="Script" path="res://codigo/logica/passagem.gd" id="passagem_script"]')
 
     sub_out = []
     for i, b in base.sub.items():

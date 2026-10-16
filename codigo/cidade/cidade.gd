@@ -1,0 +1,477 @@
+extends "res://codigo/logica/fazenda.gd"
+
+const ClimaCidade := preload("res://codigo/cenario/clima.gd")
+const DadosCidade := preload("res://codigo/cidade/dados_cidade.gd")
+const MoradorCidade := preload("res://codigo/cidade/morador_cidade.gd")
+const InteragivelCidade := preload("res://codigo/logica/interagivel.gd")
+const PortalArena := preload("res://codigo/cidade/portal_arena.gd")
+const InteriorCasa := preload("res://codigo/cidade/interior_casa.gd")
+const Profundidade := preload("res://codigo/globais/profundidade.gd")
+const CercasVila := preload("res://codigo/cidade/cercas_vila.gd")
+const DecoracaoVila := preload("res://codigo/cidade/decoracao_vila.gd")
+const SombraCidade := preload("res://codigo/cidade/sombra_cidade.gd")
+const BordasGrama := preload("res://codigo/cidade/bordas_grama.gd")
+const NUVENS_SUAVES := preload("res://codigo/cidade/nuvens_suaves.gdshader")
+## Base do arco do portal da arena (a chegada do jogador, "Chegada_portal", fica logo abaixo)
+const POSICAO_PORTAL := Vector2(488, 112)
+@export var local := "cidade"
+var moradores: Dictionary = {}
+var navegacao := AStarGrid2D.new()
+var _tempo_rotina := 0.0
+var _decoracao: Node2D
+var _estacao_visual := -1
+## Materiais do PixelLab por estação e máscaras de transição Wang (ids e colisões são preservados).
+const ESTACOES_TERRENO := ["primavera", "verao", "outono", "inverno"]
+const PARES_TERRENO := ["grama_terra", "grama_pedra", "terra_pedra"]
+const QUADROS_AGUA := 8
+const SEGUNDOS_POR_QUADRO_AGUA := 0.16
+const AGUA_SUPERFICIE := preload("res://codigo/cidade/agua_superficie.gdshader")
+var _material_agua: ShaderMaterial
+var _camada_agua: TileMapLayer
+var _bordas_grama: Node2D
+var _quadro_agua := 0
+var _tempo_agua := 0.0
+
+func _ready() -> void:
+	if local == "cidade":
+		super._ready()
+		var clima := get_tree().get_first_node_in_group("clima")
+		if clima != null:
+			var cobertura := clima.get_node_or_null("Mundo/Nuvens/Cobertura") as TextureRect
+			if cobertura != null:
+				var material_nuvens := ShaderMaterial.new()
+				material_nuvens.shader = NUVENS_SUAVES
+				cobertura.material = material_nuvens
+	else:
+		# Quando o interior inteiro cabe na tela (zoom 1, como o resto do jogo), a câmera fica fixa no centro da
+		# casa. Casa maior que a tela, ou o celular com o zoom maior: ela acompanha o jogador sem sair da casa.
+		var camera: Camera2D = $Jogador.camera
+		camera.position_smoothing_enabled = false
+		var tela := get_viewport().get_visible_rect().size / camera.zoom
+		if Controle.usando_toque or limites.size.x > tela.x or limites.size.y > tela.y:
+			# No eixo em que a casa cabe, os limites crescem até a tela, com a casa no meio
+			var area := limites
+			if not Controle.usando_toque:
+				area = area.grow_individual(maxf(0, tela.x - area.size.x) / 2, maxf(0, tela.y - area.size.y) / 2,
+					maxf(0, tela.x - area.size.x) / 2, maxf(0, tela.y - area.size.y) / 2)
+			camera.limit_left = int(area.position.x)
+			camera.limit_top = int(area.position.y)
+			camera.limit_right = int(area.end.x)
+			camera.limit_bottom = int(area.end.y)
+		else:
+			camera.set_as_top_level(true)
+			camera.global_position = limites.get_center()
+	if local == "cidade":
+		_montar_portal()
+		# A decoração entra antes da navegação, para os moradores contornarem barracas, bancos e árvores
+		_montar_decoracao()
+	_montar_navegacao()
+	Cidade.visitar(local)
+	if not Progresso.partida_ativa:
+		Progresso.iniciar_partida()
+		if DadosJogo.moedas == 0:
+			DadosJogo.definir_ouro_inicial()
+			DadosJogo.atualizar_ui_moedas()
+	for id in DadosCidade.MORADORES:
+		var npc := MoradorCidade.new()
+		npc.name = id.capitalize()
+		npc.id = id
+		npc.vila = self
+		add_child(npc)
+		moradores[id] = npc
+	if local == "pousada":
+		add_child(preload("res://codigo/cidade/rotina_taverna.gd").new())
+	var meteorologia := get_node_or_null("Terrains/Estacoes/Meteorologia")
+	if meteorologia != null:
+		meteorologia.clima_mudou.connect(_ao_clima_mudou)
+	Fazenda.clima_do_dia_mudou.connect(_ao_clima_mudou)
+	_montar_mural()
+	Calendario.estacao_mudou.connect(_ao_estacao)
+	var estacoes_cidade := get_node_or_null("Terrains/Estacoes")
+	if estacoes_cidade != null:
+		estacoes_cidade.estacao_mudou.connect(_ao_estacao)
+	_atualizar_ambiente()
+	if local == "enfermaria" and Transicao.acordou_ferido:
+		Transicao.acordou_ferido = false
+		_rosa_cuida_do_ferido()
+
+## Caiu na arena e acordou num leito: a Rosa conta que cuidou dele e pede cuidado (um jeito diferente a cada vez)
+const FALAS_ENFERMARIA := [
+	["Calma, nao levanta de uma vez! Te trouxeram da arena desacordado.", "Ja cuidei dos seus ferimentos. Voce esta novinho em folha.", "Mas toma mais cuidado la dentro, ouviu? Leve pocoes!"],
+	["Ai, meu bem, de novo por aqui? Os curativos ja estao no lugar.", "Voce esta curado. Agora coma alguma coisa antes de voltar para aquela arena."],
+	["Pronto, pronto. Febre baixou e os cortes fecharam.", "Voce esta curado, mas eu nao quero te ver neste leito tao cedo. Cuidado!"],
+]
+
+## Leito onde o jogador acorda (o segundo da enfermaria; o primeiro é a cama da Rosa) e quanto do topo é travesseiro
+const LEITO_FERIDO := Vector2(372, 96)
+const TRAVESSEIRO := 13
+
+func _rosa_cuida_do_ferido() -> void:
+	var jogador: Node2D = $Jogador
+	# A Transicao põe o jogador no marcador e só depois clareia: deita entre uma coisa e outra, ainda no escuro
+	while Transicao.retornando:
+		await get_tree().process_frame
+	var cobertor := _deitar_no_leito(jogador)
+	if Transicao.ocupada:
+		await Transicao.troca_concluida
+	await get_tree().create_timer(0.6).timeout
+	_rosa_ao_lado_do_leito(jogador)
+	var dialogo: Control = EventosJogo.interface_p1()._telas["introducao"]
+	var falas: Array[String] = []
+	falas.assign(FALAS_ENFERMARIA[randi() % FALAS_ENFERMARIA.size()])
+	dialogo.iniciar(falas, "DONA ROSA", "curandeira")
+	EventosJogo.abrir_tela.emit("introducao")
+	await dialogo.concluido
+	# Levanta sozinho, ao pé do leito
+	await get_tree().create_timer(0.3).timeout
+	if is_instance_valid(cobertor):
+		cobertor.queue_free()
+	if is_instance_valid(jogador):
+		jogador.levantar(LEITO_FERIDO + Vector2(0, 26))
+
+## A Rosa fica de pé ao lado do leito, olhando para o jogador (acordada, mesmo que a rotina dela fosse outra; depois
+## ela volta a andar pela própria agenda)
+func _rosa_ao_lado_do_leito(jogador: Node2D) -> void:
+	var rosa: Node2D = moradores.get("curandeira")
+	if rosa == null:
+		return
+	if rosa.dormindo:
+		rosa._acordar()
+	rosa.visible = true
+	rosa._saindo = false
+	rosa.caminho.clear()
+	rosa.position = LEITO_FERIDO + Vector2(26, 14)
+	rosa._atualizar_colisao()
+	rosa.olhar_para(jogador.position)
+
+## Deita o jogador no leito: a pose sentada de frente fica sob um cobertor (a parte de baixo do desenho da própria
+## cama, por cima dele), e só a cabeça aparece no travesseiro. Devolve o cobertor (ou null sem cama)
+func _deitar_no_leito(jogador: Node2D) -> Node2D:
+	var cama: Node2D = null
+	for no in $Interior.get_children():
+		if no is Node2D and no.position == LEITO_FERIDO and no.get_node_or_null("Imagem") != null:
+			cama = no
+	if cama == null:
+		return null
+	var imagem: Sprite2D = cama.get_node("Imagem")
+	# A imagem da cama é uma folha com quadros (estações/variações): recorta só o quadro em uso
+	var quadro := Vector2(imagem.texture.get_width() / imagem.hframes, imagem.texture.get_height() / imagem.vframes)
+	var canto := Vector2(imagem.frame % imagem.hframes, imagem.frame / imagem.hframes) * quadro
+	var altura: float = quadro.y
+	jogador.sentar(LEITO_FERIDO + Vector2(0, -altura + 15), 1, cama.z_index + 1, 1)
+	var cobertor: Sprite2D = imagem.duplicate()
+	cobertor.name = "Cobertor"
+	cobertor.hframes = 1
+	cobertor.vframes = 1
+	cobertor.frame = 0
+	cobertor.region_enabled = true
+	cobertor.region_rect = Rect2(canto + Vector2(0, TRAVESSEIRO), Vector2(quadro.x, altura - TRAVESSEIRO))
+	cobertor.offset.y += TRAVESSEIRO
+	# As partes do jogador usam z relativo de 0 a 6: o cobertor vai para a faixa de cima (Profundidade.NIVEIS)
+	cobertor.z_as_relative = false
+	cobertor.z_index = cama.z_index + 1 + Profundidade.NIVEIS
+	cama.add_child(cobertor)
+	return cobertor
+
+## Na rua usa o clima exibido (inclusive F3); dentro das casas usa o tempo compartilhado do mundo.
+func clima_atual() -> int:
+	var meteorologia := get_node_or_null("Terrains/Estacoes/Meteorologia")
+	if meteorologia != null:
+		return meteorologia.clima_atual
+	return ClimaCidade.clima_do_mundo(Calendario.estacao())
+
+func _ao_clima_mudou(_estado: int) -> void:
+	for npc in moradores.values():
+		npc.atualizar_rotina()
+
+func hora_atual() -> float:
+	return $Iluminacao.hora
+
+func _process(delta: float) -> void:
+	_animar_agua(delta)
+	_atualizar_papo(delta)
+	_tempo_rotina += delta
+	if _tempo_rotina >= 0.5:
+		_tempo_rotina = 0
+		for npc in moradores.values():
+			npc.atualizar_rotina()
+		_atualizar_ambiente()
+		_tentar_papo_entre_vizinhos()
+
+# --- Papo entre moradores ---------------------------------------------------------------------------------------
+
+const Papos := preload("res://codigo/cidade/papos_vizinhos.gd")
+const DISTANCIA_PAPO := 58.0
+const DISTANCIA_JOGADOR_PAPO := 220.0
+const INTERVALO_PAPO := 24.0
+var _proximo_papo := 8.0
+var _participantes: Array[Node2D] = []
+var _falas_papo: Array[Dictionary] = []
+var _indice_papo := 0
+var _tempo_fala := 0.0
+var _clima_papo := -1
+var fala_servico := false
+var _historico_papos: Dictionary = {}
+var _reencontro: Dictionary = {}
+
+func _tentar_papo_entre_vizinhos() -> void:
+	var agora := Time.get_ticks_msec() / 1000.0
+	if not _participantes.is_empty() or agora < _proximo_papo or randf() > 0.35:
+		return
+	var livres: Array = moradores.values().filter(func(npc):
+		var jogador := Cooperativo.jogador_no_ambiente(npc)
+		return npc.livre_para_papo() and jogador != null and npc.global_position.distance_to(jogador.global_position) < DISTANCIA_JOGADOR_PAPO
+	)
+	livres.shuffle()
+	for a in livres:
+		for b in livres:
+			if a == b or a.position.distance_to(b.position) > DISTANCIA_PAPO:
+				continue
+			var chave := _chave_papo(a.id, b.id)
+			if agora < float(_reencontro.get(chave, 0.0)):
+				continue
+			_papo(a, b)
+			return
+
+func _chave_papo(a: String, b: String) -> String:
+	return a + "|" + b if a < b else b + "|" + a
+
+func _papo(a: Node2D, b: Node2D) -> void:
+	if not _participantes.is_empty() or a == b:
+		return
+	var chave := _chave_papo(a.id, b.id)
+	var contexto := {"clima": clima_atual(), "estacao": Calendario.estacao(),
+		"vencida": Progresso.maior_onda_vencida, "chefe": Progresso.checkpoint_max,
+		"nome_chefe": Papos.Conversa.chefe_da_onda(Progresso.checkpoint_max)}
+	_falas_papo = Papos.montar(a.id, b.id, contexto, int(_historico_papos.get(chave, 0)))
+	if _falas_papo.is_empty():
+		return
+	_historico_papos[chave] = int(_historico_papos.get(chave, 0)) + 1
+	_participantes.assign([a, b])
+	_clima_papo = clima_atual()
+	_indice_papo = 0
+	_tempo_fala = 0.0
+	a.parceiro_papo = b
+	b.parceiro_papo = a
+	a.olhar_para(b.position)
+	b.olhar_para(a.position)
+	for npc in moradores.values():
+		npc.calar()
+	_atualizar_papo(0.0)
+
+func _atualizar_papo(delta: float) -> void:
+	if _participantes.is_empty():
+		return
+	for npc in _participantes:
+		if not is_instance_valid(npc) or not npc.pode_continuar_papo() or clima_atual() != _clima_papo:
+			_encerrar_papo()
+			return
+	if _participantes[0].position.distance_to(_participantes[1].position) > DISTANCIA_PAPO + 8.0:
+		_encerrar_papo()
+		return
+	if fala_servico:
+		return
+	_tempo_fala -= delta
+	if _tempo_fala > 0:
+		return
+	if _indice_papo >= _falas_papo.size():
+		_encerrar_papo()
+		return
+	for npc in _participantes:
+		npc.calar()
+	var fala: Dictionary = _falas_papo[_indice_papo]
+	var quem: Node2D = _participantes[0] if _participantes[0].id == fala["dono"] else _participantes[1]
+	_tempo_fala = Papos.duracao(fala["texto"]) + 0.35
+	quem.dizer(DadosCidade.MORADORES[quem.id]["nome"] + ":\n" + fala["texto"], _tempo_fala - 0.35)
+	_indice_papo += 1
+
+func _encerrar_papo() -> void:
+	if _participantes.size() == 2 and is_instance_valid(_participantes[0]) and is_instance_valid(_participantes[1]):
+		_reencontro[_chave_papo(_participantes[0].id, _participantes[1].id)] = Time.get_ticks_msec() / 1000.0 + 180.0
+	for npc in _participantes:
+		if is_instance_valid(npc):
+			npc.calar()
+			npc.parceiro_papo = null
+			npc._espera_balao = 15.0
+	_participantes.clear()
+	_falas_papo.clear()
+	_proximo_papo = Time.get_ticks_msec() / 1000.0 + INTERVALO_PAPO
+
+func _ao_estacao(_estacao: int) -> void:
+	for npc in moradores.values():
+		npc.atualizar_rotina()
+	_atualizar_ambiente()
+
+func porta_do_local(destino: String) -> Vector2:
+	if local == "praia":
+		return $Chegada_palafita.position if destino == "palafita" else $Chegada_cidade.position
+	if local != "cidade":
+		return $Chegada_entrada.position
+	if destino == "praia":
+		return $Chegada_praia.position
+	if DadosCidade.PREDIOS.has(destino):
+		return DadosCidade.PREDIOS[destino]["base"] + Vector2(DadosCidade.PREDIOS[destino]["porta_x"], 36)
+	return DadosCidade.ponto("praca")
+
+func _montar_navegacao() -> void:
+	navegacao.cell_size = Vector2(8, 8) if local != "cidade" else Vector2(16, 16)
+	navegacao.region = Rect2i(Vector2i.ZERO, Vector2i(limites.size / navegacao.cell_size))
+	navegacao.offset = navegacao.cell_size * 0.5
+	navegacao.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_NEVER
+	navegacao.update()
+	for cuerpo in find_children("*", "StaticBody2D", true, false):
+		for forma in cuerpo.get_children():
+			if forma is CollisionShape2D and forma.disabled:
+				continue
+			var area := Rect2()
+			var poligono := PackedVector2Array()
+			if forma is CollisionShape2D and forma.shape is RectangleShape2D:
+				area = Rect2(forma.global_position - forma.shape.size * 0.5, forma.shape.size)
+			elif forma is CollisionPolygon2D:
+				for p in forma.polygon:
+					poligono.append(forma.to_global(p))
+					if area.size == Vector2.ZERO:
+						area = Rect2(forma.to_global(p), Vector2(0.01, 0.01))
+					else:
+						area = area.expand(forma.to_global(p))
+			else:
+				continue
+			# A rota representa a posição do corpo; os pés ficam nove pixels abaixo.
+			area.position.y -= 9
+			area = area.grow(6)
+			for y in navegacao.region.size.y:
+				for x in navegacao.region.size.x:
+					var celula := Vector2i(x, y)
+					var ponto := navegacao.get_point_position(celula)
+					if not area.has_point(ponto):
+						continue
+					if poligono.is_empty():
+						navegacao.set_point_solid(celula)
+					else:
+						# Não bloquear terra seca dentro do retângulo que envolve o lago.
+						for margem in [Vector2.ZERO, Vector2(-6, 0), Vector2(6, 0), Vector2(0, -6), Vector2(0, 6)]:
+							if Geometry2D.is_point_in_polygon(ponto + Vector2(0, 9) + margem, poligono):
+								navegacao.set_point_solid(celula)
+								break
+
+func caminho_entre(inicio: Vector2, fim: Vector2) -> PackedVector2Array:
+	var de := _celula_livre(inicio)
+	var ate := _celula_livre(fim)
+	var pontos := navegacao.get_point_path(de, ate)
+	if not pontos.is_empty():
+		# Preservar o centro inicial evita cortar a quina do móvel ao sair da borda da célula.
+		if not pontos[0].is_equal_approx(inicio):
+			pontos.insert(0, inicio)
+		# Um destino dentro de um móvel ou parede precisa terminar na célula livre,
+		# sem acrescentar um último segmento que faça o morador colidir para sempre.
+		var celula_fim := Vector2i(fim / navegacao.cell_size)
+		if navegacao.is_in_boundsv(celula_fim) and not navegacao.is_point_solid(celula_fim):
+			pontos.append(fim)
+	return pontos
+
+func _celula_livre(ponto: Vector2) -> Vector2i:
+	var celula := Vector2i(ponto / navegacao.cell_size)
+	celula.x = clampi(celula.x, 0, navegacao.region.size.x - 1)
+	celula.y = clampi(celula.y, 0, navegacao.region.size.y - 1)
+	if not navegacao.is_point_solid(celula):
+		return celula
+	for raio in range(1, 12):
+		for dy in range(-raio, raio + 1):
+			for dx in range(-raio, raio + 1):
+				var candidata := celula + Vector2i(dx, dy)
+				if navegacao.is_in_boundsv(candidata) and not navegacao.is_point_solid(candidata):
+					return candidata
+	return celula
+
+func _montar_portal() -> void:
+	var portal := PortalArena.new()
+	portal.name = "PortalArena"
+	portal.position = POSICAO_PORTAL
+	add_child(portal)
+
+func _montar_mural() -> void:
+	if local not in ["cidade", "sede"]:
+		return
+	var mural := InteragivelCidade.new()
+	mural.name = "MuralPedidos"
+	mural.position = DadosCidade.ponto("mural") if local == "cidade" else InteriorCasa.mural()
+	mural.nome_tela = "mural_cidade"
+	mural.so_entre_ondas = false
+	var forma := CollisionShape2D.new()
+	var circulo := CircleShape2D.new()
+	circulo.radius = 25
+	forma.shape = circulo
+	mural.add_child(forma)
+	add_child(mural)
+
+func _montar_decoracao() -> void:
+	SombraCidade.contato($Jogador, 18.0, 3.0, Vector2(0, 11))
+	var decoracao := DecoracaoVila.new()
+	decoracao.name = "Decoracao"
+	add_child(decoracao)
+	add_child(CercasVila.new())
+
+## Grama original Mana Seed por estação; mantém os demais materiais, a guia e os índices Wang.
+func _aplicar_terreno(estacao: int) -> void:
+	var camada := get_node_or_null("Terrains/Terreno") as TileMapLayer
+	if camada == null:
+		return
+	var raiz := "res://assets/cenario/cidade/terreno/witchbrook/"
+	var pasta: String = raiz + ESTACOES_TERRENO[estacao] + "/"
+	var grama: String = "res://assets/cenario/cidade/terreno/mana_seed/" + ESTACOES_TERRENO[estacao] + "/"
+	for i in PARES_TERRENO.size():
+		(camada.tile_set.get_source(i) as TileSetAtlasSource).texture = load((pasta if i == 2 else grama) + PARES_TERRENO[i] + ".png")
+	(camada.tile_set.get_source(3) as TileSetAtlasSource).texture = load(grama + "grama_agua.png")
+	(camada.tile_set.get_source(3) as TileSetAtlasSource).use_texture_padding = false
+	if _camada_agua == null:
+		# A água usa o próprio material; reflexos não alteram grama, terra ou calçamento.
+		_camada_agua = TileMapLayer.new()
+		_camada_agua.name = "SuperficieAgua"
+		_camada_agua.tile_set = camada.tile_set
+		_camada_agua.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		_camada_agua.z_index = camada.z_index
+		_material_agua = ShaderMaterial.new()
+		_material_agua.shader = AGUA_SUPERFICIE
+		_material_agua.set_shader_parameter("mascara_agua", load(raiz + "mascara_agua.png"))
+		_camada_agua.material = _material_agua
+		camada.get_parent().add_child(_camada_agua)
+		for celula in camada.get_used_cells():
+			if camada.get_cell_source_id(celula) == 3:
+				_camada_agua.set_cell(celula, 3, camada.get_cell_atlas_coords(celula))
+				camada.erase_cell(celula)
+	_material_agua.set_shader_parameter("fase_agua", float(_quadro_agua))
+	_material_agua.set_shader_parameter("fundo_pedras", load(pasta + "fundo_agua.png"))
+	if _bordas_grama == null:
+		_bordas_grama = BordasGrama.new()
+		_bordas_grama.name = "BordasGrama"
+		camada.get_parent().add_child(_bordas_grama)
+	_bordas_grama.configurar(camada, _camada_agua, estacao)
+
+func _animar_agua(delta: float) -> void:
+	if _material_agua == null:
+		return
+	_tempo_agua += delta
+	if _tempo_agua >= SEGUNDOS_POR_QUADRO_AGUA:
+		_tempo_agua = fmod(_tempo_agua, SEGUNDOS_POR_QUADRO_AGUA)
+		_quadro_agua = (_quadro_agua + 1) % QUADROS_AGUA
+		_material_agua.set_shader_parameter("fase_agua", float(_quadro_agua))
+
+## Estação que está valendo na tela: a do nó Estacoes (que também obedece ao painel F3), senão a do calendário
+func estacao_visual() -> int:
+	var estacoes := get_node_or_null("Terrains/Estacoes")
+	if estacoes != null and "estacao_atual" in estacoes and int(estacoes.estacao_atual) >= 0:
+		return int(estacoes.estacao_atual)
+	return Calendario.estacao()
+
+func _atualizar_ambiente() -> void:
+	var estacao := estacao_visual()
+	if estacao != _estacao_visual:
+		_estacao_visual = estacao
+		_aplicar_terreno(estacao)
+	var noite := hora_atual() >= 18 or hora_atual() < 6
+	for filho in get_children():
+		if filho.has_meta("lampiao"):
+			filho.visible = noite
+	var enfeites := get_node_or_null("Terrains/EnfeitesFesta")
+	if enfeites != null:
+		enfeites.visible = Calendario.dia_na_estacao() == Calendario.DIAS_POR_ESTACAO

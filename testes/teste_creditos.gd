@@ -30,7 +30,7 @@ func _tecla(acao: String) -> InputEventAction:
 
 func _rodar() -> void:
 	await process_frame
-	var titulo: Node = load("res://cenas/inicio-do-jogo.tscn").instantiate()
+	var titulo: Node = load("res://cenas/inicio_do_jogo.tscn").instantiate()
 	root.add_child(titulo)
 	current_scene = titulo
 	await _quadros(8)

@@ -1,7 +1,7 @@
 extends SceneTree
 
 # Rodar: godot --headless --path . --script res://testes/teste_defesa.gd
-# Aparar e escudada do jogador (Codigos/Jogador/defesa_jogador.gd): segurar a guarda (pose da página 1 dos pacotes de combate),
+# Aparar e escudada do jogador (codigo/jogador/defesa_jogador.gd): segurar a guarda (pose da página 1 dos pacotes de combate),
 # aparo perfeito (sem dano, empurra e atordoa, devolve estamina), bloqueio (dano reduzido, custa estamina), guarda quebrada,
 # golpe pelas costas, contra-ataque de escudada com espada e escudo (quadros do shield bash, dano e atordoamento), e o
 # atordoamento dos inimigos (parados, sem dano de contato; chefes não atordoam).
@@ -79,6 +79,10 @@ func _guardar(dir: Vector2) -> void:
 	await _fisica(3)
 
 func _rodar() -> void:
+	if ProjectSettings.get_setting("application/config/name") != "AlgoLand testes Carrasco":
+		push_error("Execute com saves isolados.")
+		quit(1)
+		return
 	await process_frame
 	var progresso = root.get_node("Progresso")
 	progresso.caminho_save = CAMINHO_PROGRESSO
@@ -100,6 +104,13 @@ func _rodar() -> void:
 	await _limpar_inimigos()
 
 	# --- sem arma: não levanta a guarda
+	# O save de aparência do projeto de teste pode ter flags de uma arma anterior.
+	_jogador.troca_sem_pose = true
+	_jogador.desequipar_espada()
+	_jogador.desequipar_lanca()
+	_jogador.desequipar_arco()
+	_jogador.desequipar_escudo()
+	_jogador.troca_sem_pose = false
 	Input.action_press("aparar")
 	await _fisica(4)
 	_verificar("desarmado: aparar não faz nada", _defesa.estado == _defesa.Estado.LIVRE and not _jogador.no_reacao.visible, "estado=%d" % _defesa.estado)

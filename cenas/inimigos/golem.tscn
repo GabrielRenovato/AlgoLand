@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3]
 
-[ext_resource type="Script" path="res://Codigos/Inimigos/Golem.gd" id="1_golem"]
-[ext_resource type="Texture2D" path="res://inimigos/golem/run/Golem1_Run_full.png" id="2_corrida"]
+[ext_resource type="Script" path="res://codigo/inimigos/golem.gd" id="1_golem"]
+[ext_resource type="Texture2D" path="res://assets/inimigos/golem/run/Golem1_Run_full.png" id="2_corrida"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_corpo"]
 size = Vector2(34, 14)

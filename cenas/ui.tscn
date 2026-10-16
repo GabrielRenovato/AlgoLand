@@ -1,16 +1,16 @@
 [gd_scene load_steps=15 format=3 uid="uid://idfadyrk0auf"]
 
-[ext_resource type="Script" path="res://Codigos/UI/hud.gd" id="1_hud"]
-[ext_resource type="FontFile" uid="uid://dwub7qum41gaq" path="res://UI/Planes_ValMore.ttf" id="2_planes"]
-[ext_resource type="FontFile" uid="uid://b13xmp6wu4ea" path="res://UI/craftpix-net-775352-game-user-interface-pixel-art/6 Font/CraftPixNet Survival Kit.otf" id="3_craftpix"]
-[ext_resource type="Texture2D" path="res://UI/craftpix-net-420010-pixel-game-user-interface-for-platformer/4 Bars/13.png" id="4_coracao"]
-[ext_resource type="Texture2D" path="res://UI/craftpix-net-420010-pixel-game-user-interface-for-platformer/3 Icons/Icon_01.png" id="5_caveira"]
-[ext_resource type="Texture2D" path="res://UI/craftpix-net-420010-pixel-game-user-interface-for-platformer/3 Icons/Icon_49.png" id="10_raio"]
-[ext_resource type="Texture2D" uid="uid://d1iiqnaqd3rjw" path="res://UI/craftpix-net-420010-pixel-game-user-interface-for-platformer/1 Interface/TileMap.png" id="6_tilemap"]
-[ext_resource type="Script" path="res://Codigos/UI/barra_pecas.gd" id="7_barra"]
-[ext_resource type="Texture2D" uid="uid://cqxopks5b2xfq" path="res://UI/icons-coin/32x32/3.png" id="8_moeda"]
+[ext_resource type="Script" path="res://codigo/ui/hud.gd" id="1_hud"]
+[ext_resource type="FontFile" uid="uid://dwub7qum41gaq" path="res://assets/ui/Planes_ValMore.ttf" id="2_planes"]
+[ext_resource type="FontFile" uid="uid://b13xmp6wu4ea" path="res://assets/ui/craftpix-net-775352-game-user-interface-pixel-art/6 Font/CraftPixNet Survival Kit.otf" id="3_craftpix"]
+[ext_resource type="Texture2D" path="res://assets/ui/craftpix-net-420010-pixel-game-user-interface-for-platformer/4 Bars/13.png" id="4_coracao"]
+[ext_resource type="Texture2D" path="res://assets/ui/craftpix-net-420010-pixel-game-user-interface-for-platformer/3 Icons/Icon_01.png" id="5_caveira"]
+[ext_resource type="Texture2D" path="res://assets/ui/craftpix-net-420010-pixel-game-user-interface-for-platformer/3 Icons/Icon_49.png" id="10_raio"]
+[ext_resource type="Texture2D" uid="uid://d1iiqnaqd3rjw" path="res://assets/ui/craftpix-net-420010-pixel-game-user-interface-for-platformer/1 Interface/TileMap.png" id="6_tilemap"]
+[ext_resource type="Script" path="res://codigo/ui/barra_pecas.gd" id="7_barra"]
+[ext_resource type="Texture2D" uid="uid://cqxopks5b2xfq" path="res://assets/ui/icons-coin/32x32/3.png" id="8_moeda"]
 [ext_resource type="PackedScene" uid="uid://dsd2y11vv3y3c" path="res://cenas/info_tab.tscn" id="9_info_tab"]
-[ext_resource type="Texture2D" path="res://UI/icone_brasa.png" id="11_brasa"]
+[ext_resource type="Texture2D" path="res://assets/ui/icone_brasa.png" id="11_brasa"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_fita"]
 content_margin_left = 10.0
@@ -37,7 +37,7 @@ font_color = Color(1, 0.93, 0.8, 1)
 outline_size = 2
 outline_color = Color(0.13, 0.12, 0.18, 1)
 
-[node name="UI" type="CanvasLayer"]
+[node name="assets/ui" type="CanvasLayer"]
 script = ExtResource("1_hud")
 
 [node name="Status" type="VBoxContainer" parent="."]

@@ -94,7 +94,7 @@ func _rodar() -> void:
 	verificar("bloqueado mantém perseguição sem gastar ataque", minotauro.estado == minotauro.Estado.LIVRE and minotauro._recarga == 0)
 	var simples := ChefeSimples.new()
 	cena.add_child(simples)
-	var habilidade = load("res://Codigos/Inimigos/habilidade_chefe.gd").new()
+	var habilidade = load("res://codigo/inimigos/habilidade_chefe.gd").new()
 	habilidade.tipo = "cogumelo"
 	simples.add_child(habilidade)
 	habilidade.set_physics_process(false)
@@ -108,7 +108,7 @@ func _rodar() -> void:
 	verificar("cogumelo prepara esporos próximo", habilidade.estado == habilidade.Estado.AVISO)
 	habilidade.queue_free()
 	await process_frame
-	habilidade = load("res://Codigos/Inimigos/habilidade_chefe.gd").new()
+	habilidade = load("res://codigo/inimigos/habilidade_chefe.gd").new()
 	habilidade.tipo = "caranguejo"
 	simples.add_child(habilidade)
 	habilidade.set_physics_process(false)

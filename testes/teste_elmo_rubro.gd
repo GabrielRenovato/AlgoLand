@@ -2,13 +2,14 @@ extends SceneTree
 
 ## Regressão do visor que deformava/piscava: compara pixels visíveis, descontando
 ## somente o deslocamento da cabeça. A importação pode alterar RGB com alfa zero.
-const Aparencia := preload("res://Codigos/DadosLocais/aparencia.gd")
-const Padrao := preload("res://Codigos/DadosLocais/padrao_armadura.gd")
+const Aparencia := preload("res://codigo/dados/aparencia.gd")
+const Padrao := preload("res://codigo/dados/padrao_armadura.gd")
 var _falhas := 0
 
 func _initialize() -> void:
+	# Confere o molde legado; teste_corpo_original cobre a base nova no jogador.
 	var args := OS.get_cmdline_user_args()
-	var raiz := "res://CharacterSprites/Conjuntos/cavaleiro_rubro/"
+	var raiz := "res://assets/personagens/conjuntos/cavaleiro_rubro/"
 	for argumento in args:
 		if not argumento.begins_with("--"):
 			raiz = argumento
@@ -29,7 +30,7 @@ func _initialize() -> void:
 			print("FALHA ", pagina, ": folha do elmo ausente")
 			_falhas += 1
 			continue
-		var corpo: Image = load("res://CharacterSprites/" + Padrao.CORPOS[pagina]).get_image()
+		var corpo: Image = load("res://assets/personagens/" + Padrao.CORPOS[pagina]).get_image()
 		var cabelos := Aparencia.cabelo(0, pagina).get_image()
 		var corpo_usado := Aparencia.corpo(pagina, indice, 15).get_image()
 		if not _mesmos_pixels(corpo, corpo_usado):

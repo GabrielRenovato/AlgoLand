@@ -7,9 +7,9 @@ extends SceneTree
 
 const CAMINHO_PROGRESSO := "user://teste_eventos_chefes_progresso.json"
 const PONTO_ABERTO_INVESTIDA := Vector2(300, 170)
-const HabilidadeChefe := preload("res://Codigos/Inimigos/habilidade_chefe.gd")
-const CoroaMutante := preload("res://Codigos/Efeitos/coroa_mutante.gd")
-const IndicadorAtaqueScript := preload("res://Codigos/Efeitos/indicador_ataque.gd")
+const HabilidadeChefe := preload("res://codigo/inimigos/habilidade_chefe.gd")
+const CoroaMutante := preload("res://codigo/efeitos/coroa_mutante.gd")
+const IndicadorAtaqueScript := preload("res://codigo/efeitos/indicador_ataque.gd")
 
 # Carregado em _rodar: o script do gerenciador depende dos autoloads, que só existem depois do primeiro quadro
 var Gerenciador: GDScript
@@ -52,9 +52,13 @@ func _evento(id: String) -> Dictionary:
 	return {}
 
 func _rodar() -> void:
+	if not OS.get_user_data_dir().ends_with("AlgoLand testes Carrasco"):
+		push_error("Execute este teste com saves isolados.")
+		quit(1)
+		return
 	# O _ready dos autoloads (Progresso.carregar) roda no primeiro quadro; espera para não sobrescrever o que o teste define
 	await process_frame
-	Gerenciador = load("res://Codigos/Logicas/Gerenciador-de-ondas.gd")
+	Gerenciador = load("res://codigo/logica/gerenciador_de_ondas.gd")
 	_progresso = root.get_node("Progresso")
 	_progresso.caminho_save = CAMINHO_PROGRESSO
 	# O clima do mundo fica no autoload Fazenda (as ondas o mudam): arquivo de teste, sem o save real
@@ -307,7 +311,7 @@ func _testar_neblina_e_hud() -> void:
 # Rodízio de chefes
 # -----------------------------------------------------------------
 func _testar_rodizio() -> void:
-	var esperado := {10: "minotauro", 20: "rei_slime", 30: "caranguejo", 40: "cogumelo", 50: "dragao_vermelho", 60: "minotauro", 70: "rei_slime", 80: "caranguejo", 90: "cogumelo", 100: "dragao_vermelho"}
+	var esperado := {10: "minotauro", 20: "medusa", 30: "goblin_maromba", 40: "cogumelo", 50: "dragao_vermelho", 60: "minotauro", 70: "medusa", 80: "goblin_maromba", 90: "cogumelo", 100: "dragao_vermelho"}
 	var ok := true
 	var detalhe := ""
 	for onda in esperado:
@@ -315,9 +319,9 @@ func _testar_rodizio() -> void:
 		if id != esperado[onda]:
 			ok = false
 			detalhe += " onda %d=%s" % [onda, id]
-	_verificar("rodizio 10 minotauro, 20 rei slime, 30 caranguejo, 40 cogumelo, 50 dragao...", ok, detalhe)
+	_verificar("rodizio 10 minotauro, 20 medusa, 30 goblin, 40 cogumelo, 50 dragao...", ok, detalhe)
 	var nomes: Array = _gerenciador.CHEFES.map(func(c): return c["nome"])
-	_verificar("nomes dos chefes", nomes == ["MINOTAURO", "REI SLIME", "CARANGUEJO COLOSSAL", "COGUMELO ANCIAO", "DRAGAO VERMELHO"], str(nomes))
+	_verificar("nomes dos chefes", nomes == ["MINOTAURO", "MEDUSA", "GOBLIN MAROMBA", "COGUMELO ANCIAO", "DRAGAO VERMELHO"], str(nomes))
 	_verificar("chefe fica mais forte a cada ciclo (multiplicador por onda)", _gerenciador.mult_vida_onda(50) > _gerenciador.mult_vida_onda(10) and _gerenciador.mult_dano_onda(60) > _gerenciador.mult_dano_onda(20), "")
 
 # -----------------------------------------------------------------
@@ -448,7 +452,7 @@ func _testar_caranguejo() -> void:
 	_limpar_inimigos()
 	_curar()
 	_jogador.invulneravel = true
-	# Campo aberto no meio da arena: perto do acampamento a investida bate na fogueira/barraca, e a posição
+	# Campo aberto no meio da arena: perto do acampamento a investida bate na fogueira, e a posição
 	# em que o jogador termina os testes anteriores muda conforme os eventos sorteados
 	var posicao_original: Vector2 = _jogador.global_position
 	_jogador.global_position = PONTO_ABERTO_INVESTIDA
@@ -621,6 +625,11 @@ func _derrubar_ate_acabar(limite_s: float) -> int:
 
 func _testar_ondas_de_evento() -> void:
 	_limpar_inimigos()
+	# Este teste mede a recompensa da onda, sem somar vendas automáticas de drops.
+	for grupo in ["equipamento_drop", "semente_drop"]:
+		for drop in get_nodes_in_group(grupo):
+			drop.queue_free()
+	await _quadros(2)
 	_gerenciador.parar_ondas()
 	_gerenciador.ondas_paradas = false
 	_progresso.iniciar_partida()
@@ -632,6 +641,7 @@ func _testar_ondas_de_evento() -> void:
 	var ok_ouro := true
 	var detalhe := ""
 	for i in 3:
+		root.get_node("InventarioJogador").limpar()
 		_gerenciador.iniciar_onda()
 		var evento: Dictionary = _gerenciador.evento_atual
 		var onda: int = _gerenciador.onda_atual
@@ -669,7 +679,7 @@ func _testar_ondas_de_evento() -> void:
 
 func _testar_ondas_de_chefe() -> void:
 	_gerenciador.chance_evento = 0.0
-	var casos := [[10, "MINOTAURO", false], [20, "REI SLIME", true], [30, "CARANGUEJO COLOSSAL", true], [40, "COGUMELO ANCIAO", true]]
+	var casos := [[10, "MINOTAURO", false], [20, "MEDUSA", false], [30, "GOBLIN MAROMBA", false], [40, "COGUMELO ANCIAO", true]]
 	for caso in casos:
 		_limpar_inimigos()
 		_gerenciador.parar_ondas()
@@ -695,7 +705,7 @@ func _testar_ondas_de_chefe() -> void:
 				var mult_vida: float = _gerenciador.mult_vida_onda(onda)
 				_verificar("onda %d: vida do chefe com multiplicadores da onda" % onda, chefe.vida_maxima == chefe.vida and chefe.vida_maxima > 200 * 1 and chefe.vida_maxima >= roundi(mult_vida * 30), "vida=%d" % chefe.vida_maxima)
 			else:
-				_verificar("onda 10: minotauro com comportamento proprio e barra de chefe", _hud.painel_chefe.visible and _hud.nome_chefe.text == "MINOTAURO" and chefe.eh_chefe, "")
+				_verificar("onda %d: %s com comportamento próprio e barra de chefe" % [onda, caso[1]], _hud.painel_chefe.visible and _hud.nome_chefe.text == caso[1] and chefe.eh_chefe, "")
 			if caso[1] == "COGUMELO ANCIAO":
 				chefe.habilidade_chefe.invocar_cogumelos()
 				chefe.habilidade_chefe.iniciar_esporos()
