@@ -12,6 +12,10 @@ signal checkpoint_alterado(onda: int)
 signal onda_vencida_alterada(onda: int)
 signal armas_liberadas_alteradas
 const DesafiosArmas := preload("res://codigo/dados/desafios_armas.gd")
+const Refeicoes := preload("res://codigo/dados/refeicoes.gd")
+## Prato do Caio (codigo/dados/refeicoes.gd) para a partida atual ou a próxima; "" = nenhum. Acaba em encerrar_partida()
+var refeicao: String = ""
+signal refeicao_alterada(id: String)
 var armas_liberadas: Dictionary = {}
 var _carregando := false
 
@@ -95,6 +99,8 @@ func iniciar_partida() -> void:
 	ouro_compensacao = 0
 	onda_comecou = false
 	_ondas_de_chefe_contadas.clear()
+	if refeicao != "":
+		_anunciar_refeicao.call_deferred()
 
 func registrar_abate() -> void:
 	if partida_ativa:
@@ -145,6 +151,8 @@ func encerrar_partida() -> Dictionary:
 	if not partida_ativa:
 		return ultimo_resultado
 	partida_ativa = false
+	# O prato valia a partida inteira: acabou junto com ela
+	_acabar_refeicao()
 	var base := calcular_brasas_base()
 	var total := base
 	if tem_morador("bardo"):
@@ -200,7 +208,37 @@ func comprar_melhoria(id: String) -> bool:
 func bonus(id: String) -> float:
 	if not MELHORIAS.has(id):
 		return 0.0
+	return float(MELHORIAS[id]["por_nivel"]) * nivel(id) + Refeicoes.bonus(refeicao, id)
+
+## Só a parte das melhorias compradas (a tela da Lia mostra o nível sem contar o prato)
+func bonus_melhoria(id: String) -> float:
+	if not MELHORIAS.has(id):
+		return 0.0
 	return float(MELHORIAS[id]["por_nivel"]) * nivel(id)
+
+# --- Refeição ---
+
+## Come o prato (o Caio já gastou a colheita): vale até o fim da próxima partida. false se já tem um prato
+func comer(id: String) -> bool:
+	if refeicao != "" or Refeicoes.dados(id).is_empty():
+		return false
+	refeicao = id
+	salvar()
+	refeicao_alterada.emit(refeicao)
+	melhorias_alteradas.emit()
+	return true
+
+## Na entrada da arena: lembra qual prato está valendo nesta partida
+func _anunciar_refeicao() -> void:
+	if refeicao != "" and is_inside_tree():
+		get_tree().call_group("hud", "anunciar", String(Refeicoes.dados(refeicao)["nome"]), Refeicoes.texto_bonus(refeicao) + " NESTA PARTIDA", 3.0)
+
+func _acabar_refeicao() -> void:
+	if refeicao == "":
+		return
+	refeicao = ""
+	refeicao_alterada.emit(refeicao)
+	melhorias_alteradas.emit()
 
 func ouro_inicial() -> int:
 	return roundi(bonus("bolsa"))
@@ -276,6 +314,7 @@ func salvar() -> bool:
 		"moradores": moradores,
 		"checkpoint_max": checkpoint_max,
 		"armas_liberadas": armas_liberadas,
+		"refeicao": refeicao,
 	}
 	arquivo.store_string(JSON.stringify(dados, "\t"))
 	return true
@@ -292,6 +331,9 @@ func carregar() -> bool:
 	recorde_onda = maxi(int(dados.get("recorde_onda", 0)), 0)
 	maior_onda_vencida = maxi(int(dados.get("maior_onda_vencida", 0)), 0)
 	checkpoint_max = maxi(int(dados.get("checkpoint_max", 0)), 0)
+	refeicao = String(dados.get("refeicao", ""))
+	if Refeicoes.dados(refeicao).is_empty():
+		refeicao = ""
 	var dados_melhorias = dados.get("melhorias", {})
 	if dados_melhorias is Dictionary:
 		for id in dados_melhorias:
@@ -332,6 +374,7 @@ func _zerar_dados() -> void:
 	checkpoint_max = 0
 	melhorias = {}
 	moradores = {}
+	refeicao = ""
 
 ## Saves antigos também recebem os desbloqueios que o progresso existente já conquistou.
 func _atualizar_desafios_armas() -> void:

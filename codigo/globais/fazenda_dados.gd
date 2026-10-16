@@ -400,6 +400,59 @@ func gastar_pocao(id: String) -> bool:
 	_agendar_salvamento()
 	return true
 
+# --- Refeições do Caio e venda de colheita para a Lia (ligação fazenda -> arena, 2026-10-16) -------------------
+
+const Refeicoes := preload("res://codigo/dados/refeicoes.gd")
+## Brasas por unidade de colheita vendida à Lia: um pouco mais que o preço da semente (loja_sementes.gd), então
+## plantar sempre compensa e a horta ajuda nas melhorias permanentes mesmo de quem cai cedo na arena
+const BRASAS_POR_COLHEITA := {"comum": 3, "incomum": 5, "raro": 6, "epico": 9}
+
+func motivo_para_nao_cozinhar(id: String) -> String:
+	if Refeicoes.dados(id).is_empty():
+		return "PRATO INVALIDO"
+	if Progresso.refeicao != "":
+		return "VOCE JA COMEU: " + String(Refeicoes.dados(Progresso.refeicao)["nome"])
+	var receita: Dictionary = Refeicoes.dados(id)["receita"]
+	for planta in receita:
+		if quantidade_colhida(planta) < int(receita[planta]):
+			return MSG_FALTA_INGREDIENTE
+	return ""
+
+## O Caio cozinha: gasta a colheita e o prato vale a próxima partida (Progresso.comer). "" = comeu
+func cozinhar(id: String) -> String:
+	var motivo := motivo_para_nao_cozinhar(id)
+	if motivo != "":
+		return motivo
+	var receita: Dictionary = Refeicoes.dados(id)["receita"]
+	for planta in receita:
+		colheita[planta] = quantidade_colhida(planta) - int(receita[planta])
+		if colheita[planta] <= 0:
+			colheita.erase(planta)
+	Progresso.comer(id)
+	_ao_bolsa_alterada()
+	_agendar_salvamento()
+	return ""
+
+static func brasas_por_colheita(planta: String) -> int:
+	return int(BRASAS_POR_COLHEITA.get(String(Plantas.PLANTAS.get(planta, {}).get("raridade", "comum")), 3))
+
+## Vende `quantidade` (0 = tudo) da colheita `planta` para a Lia. Devolve as Brasas recebidas
+func vender_colheita(planta: String, quantidade := 0) -> int:
+	var tem := quantidade_colhida(planta)
+	var vende := tem if quantidade <= 0 else mini(quantidade, tem)
+	if vende <= 0:
+		return 0
+	colheita[planta] = tem - vende
+	if colheita[planta] <= 0:
+		colheita.erase(planta)
+	var ganho := vende * brasas_por_colheita(planta)
+	Progresso.brasas += ganho
+	Progresso.salvar()
+	Progresso.brasas_alteradas.emit(Progresso.brasas)
+	_ao_bolsa_alterada()
+	_agendar_salvamento()
+	return ganho
+
 func _ao_bolsa_alterada() -> void:
 	_validar_ferramenta()
 	bolsas_alteradas.emit()

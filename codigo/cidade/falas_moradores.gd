@@ -206,6 +206,10 @@ const FALAS := {
 			{"texto": "Rimar laranja e impossivel. Ja tentei por tres invernos. Granja. Quase."},
 		],
 		"dicas": [
+			{"chave": "cozinhar", "prioridade": 60, "se": ["pode_cozinhar"],
+				"texto": "Isso na sua bolsa e colheita de verdade! Me deixa cozinhar: um prato bem feito vale a proxima partida inteira na arena. Mais vida, mais dano, mais ouro. Escolha em COZINHAR."},
+			{"chave": "horta_arena", "prioridade": 35, "nao": ["comeu", "pode_cozinhar"],
+				"texto": "Quem vai para a arena de barriga vazia volta cedo. Plante, traga a colheita e eu preparo algo que faz voce aguentar as ondas altas."},
 			{"chave": "proximo_chefe", "prioridade": 60, "nao": ["todos_chefes"],
 				"texto": "A lenda conta que na onda {onda_chefe} vem o {proximo_chefe}! Os chefes chegam a cada 10 ondas, e cada um deixa cair sementes de verdade. Leve pocao de forca."},
 			{"chave": "eventos", "prioridade": 40,
@@ -365,6 +369,8 @@ const FALAS := {
 			{"texto": "O mural da praca e o coracao da vila. Pedido aceito la, voce entrega para quem pediu."},
 		],
 		"dicas": [
+			{"chave": "vender_colheita", "prioridade": 40, "se": ["tem_colheita"],
+				"texto": "Sobrou colheita? Eu troco por Brasas em VENDER COLHEITA. Uma planta vale mais que a semente, entao a horta paga as melhorias da vila mesmo nos dias ruins na arena."},
 			{"chave": "pode_melhorar", "prioridade": 80, "se": ["pode_melhorar"],
 				"texto": "Voce tem {brasas} Brasas! Ja da para comprar {melhoria} por {custo_melhoria} em MELHORIAS E APOIO. Melhoria e para sempre, nem a queda na arena tira."},
 			{"chave": "pode_contratar", "prioridade": 78, "se": ["pode_contratar"],

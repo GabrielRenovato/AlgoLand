@@ -1,0 +1,62 @@
+extends RefCounted
+
+## Refeições do Caio (pedido de 2026-10-16: ligar a fazenda à arena e deixar a horta quase obrigatória). O Caio cozinha
+## na pousada com a colheita (Fazenda.colheita); o prato vale a PRÓXIMA partida inteira e acaba quando ela termina
+## (Progresso.encerrar_partida: morte ou botão CIDADE). Um prato por vez; no cooperativo os dois comem o mesmo.
+##
+## bonus: somado às melhorias permanentes de mesmo nome em Progresso.bonus() (vigor = vida, forca = dano,
+## couraca = redução de dano, folego = estamina, saque = ouro por abate). Valores fortes de propósito: equivalem a
+## vários níveis de melhoria, para a horta pesar na arena. Uma refeição por estação de plantio usa só plantas dela;
+## o banquete mistura as três e é o mais forte. A fonte do jogo não tem acentos: os textos ficam sem eles.
+
+const IconesFazenda := preload("res://codigo/ui/icones_fazenda.gd")
+
+const REFEICOES := {
+	"sopa_raizes": {"nome": "SOPA DE RAIZES", "receita": {"cenoura": 2, "batata": 2},
+		"bonus": {"vigor": 0.30}, "icone": "batata",
+		"texto": "CENOURA E BATATA NO CALDO GROSSO: AGUENTA MUITO MAIS PANCADA."},
+	"torta_morango": {"nome": "TORTA DE MORANGO", "receita": {"morango": 2, "couve_flor": 1},
+		"bonus": {"forca": 0.20, "folego": 0.30}, "icone": "morango",
+		"texto": "DOCE E LEVE: GOLPES MAIS FORTES E FOLEGO DE SOBRA."},
+	"milho_assado": {"nome": "MILHO ASSADO NA BRASA", "receita": {"milho": 2, "girassol": 2},
+		"bonus": {"saque": 0.40, "folego": 0.20}, "icone": "milho",
+		"texto": "O CHEIRO DE MILHO ASSADO ATRAI SORTE: MUITO MAIS OURO POR ABATE."},
+	"salada_verao": {"nome": "SALADA DE VERAO", "receita": {"tomate": 2, "melancia": 1},
+		"bonus": {"forca": 0.35}, "icone": "tomate",
+		"texto": "TOMATE MADURO E MELANCIA GELADA: CADA GOLPE PESA O DOBRO."},
+	"ensopado_outono": {"nome": "ENSOPADO DE OUTONO", "receita": {"abobora": 2, "beterraba": 2},
+		"bonus": {"couraca": 0.15, "vigor": 0.15}, "icone": "abobora",
+		"texto": "ABOBORA E BETERRABA NO FOGO LENTO: A PELE FICA DURA COMO CASCA."},
+	"banquete": {"nome": "BANQUETE DA COLHEITA", "receita": {"uva": 1, "berinjela": 1, "milho": 1, "morango": 1},
+		"bonus": {"vigor": 0.25, "forca": 0.25, "saque": 0.25}, "icone": "uva",
+		"texto": "UM POUCO DE CADA ESTACAO NA MESMA MESA: TUDO MELHORA."},
+}
+const ORDEM: Array[String] = ["sopa_raizes", "torta_morango", "milho_assado", "salada_verao", "ensopado_outono", "banquete"]
+## Nome curto de cada bônus para os textos ("+30% VIDA")
+const NOMES_BONUS := {"vigor": "VIDA", "forca": "DANO", "couraca": "DEFESA", "folego": "FOLEGO", "saque": "OURO"}
+
+static func dados(id: String) -> Dictionary:
+	return REFEICOES.get(id, {})
+
+## Quanto a refeição soma na melhoria `chave` (0 sem refeição ou sem esse bônus)
+static func bonus(id: String, chave: String) -> float:
+	return float(dados(id).get("bonus", {}).get(chave, 0.0))
+
+## "+30% VIDA, +20% DANO"
+static func texto_bonus(id: String) -> String:
+	var partes: Array[String] = []
+	var bonus_prato: Dictionary = dados(id).get("bonus", {})
+	for chave in bonus_prato:
+		partes.append("+%d%% %s" % [roundi(float(bonus_prato[chave]) * 100.0), NOMES_BONUS.get(chave, chave.to_upper())])
+	return ", ".join(partes)
+
+## "2 CENOURA, 2 BATATA"
+static func texto_receita(id: String, plantas: Dictionary) -> String:
+	var partes: Array[String] = []
+	var receita: Dictionary = dados(id).get("receita", {})
+	for planta in receita:
+		partes.append("%d %s" % [int(receita[planta]), String(plantas.get(planta, {}).get("nome", planta.to_upper()))])
+	return ", ".join(partes)
+
+static func icone(id: String) -> Texture2D:
+	return IconesFazenda.item_colhido(String(dados(id).get("icone", "cenoura")))

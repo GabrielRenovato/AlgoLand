@@ -10,6 +10,9 @@ var _opcoes: HFlowContainer
 var _pedido := ""
 ## Mostrando o cardápio da taverna (na conversa com o Caio ou na mesa)
 var _cardapio := false
+## Submenu da horta: "cozinha" (o Caio cozinha com a colheita) ou "venda" (a Lia troca colheita por Brasas); "" = nenhum
+var _submenu := ""
+const Refeicoes := preload("res://codigo/dados/refeicoes.gd")
 ## Lendo a carta que o pombo-correio trouxe (Cidade.carta_aberta)
 var _carta := false
 const TEXTURA_CARTA_MISTERIOSA := preload("res://assets/npcs/pombo_correio/envelope_misterio.png")
@@ -104,6 +107,7 @@ func _ao_visibilidade() -> void:
 	if visible:
 		_pedido = ""
 		_aviso = ""
+		_submenu = ""
 		_cardapio = Cidade.mesa_aberta
 		_carta = Cidade.carta_aberta != ""
 		if _carta:
@@ -207,6 +211,10 @@ func _atualizar() -> void:
 	_retrato.modulate = morador["cor"]
 	if _cardapio:
 		_mostrar_cardapio()
+	elif _submenu == "cozinha":
+		_mostrar_cozinha()
+	elif _submenu == "venda":
+		_mostrar_venda_colheita()
 	elif _pedido != "":
 		_mostrar_pedido()
 	else:
@@ -223,6 +231,9 @@ func _atualizar() -> void:
 			_botao("PEDIDOS!" if pronto else "PEDIDOS", _abrir_pedido.bind(pedidos[0]))
 		if id == "bardo" and _rotina() != null and _rotina().atendendo():
 			_botao("CARDAPIO", _ver_cardapio.bind(true))
+		# O Caio cozinha com a colheita a qualquer hora: o prato vale a próxima partida na arena
+		if id == "bardo":
+			_botao("COZINHAR*" if Progresso.refeicao == "" and _algum_prato_possivel() else "COZINHAR", _abrir_submenu.bind("cozinha"))
 		if Cooperativo.cena_de(self).get("local") == "pousada":
 			_botao("DORMIR", _abrir_servico.bind("dormir"))
 	if _aviso != "":
@@ -245,7 +256,9 @@ func _servico_dialogo(id: String, morador: Dictionary) -> void:
 	var contratado := not id in Progresso.MORADORES or Progresso.tem_morador(id)
 	match morador["servico"]:
 		"mercante": _botao("SEMENTES", _abrir_servico.bind("mercante"))
-		"acampamento": _botao("MELHORIAS", _abrir_servico.bind("acampamento"))
+		"acampamento":
+			_botao("MELHORIAS", _abrir_servico.bind("acampamento"))
+			_botao("VENDER COLHEITA", _abrir_submenu.bind("venda"))
 		"mistica": _botao("CHECKPOINT", _abrir_servico.bind("mistica"), not contratado)
 		"cura":
 			_botao("RECUPERAR", _curar, not contratado)
@@ -313,6 +326,67 @@ func _mostrar_carta_misteriosa() -> void:
 
 func _rotina() -> Node:
 	return Cooperativo.cena_de(self).get_node_or_null("RotinaTaverna")
+
+# --- Horta: cozinha do Caio e venda de colheita para a Lia ----------------------------------------------------
+
+func _abrir_submenu(qual: String) -> void:
+	_submenu = qual
+	_aviso = ""
+	_atualizar()
+	focar_inicio()
+
+func _algum_prato_possivel() -> bool:
+	return Refeicoes.ORDEM.any(func(id): return Fazenda.motivo_para_nao_cozinhar(id) == "")
+
+## Os pratos com a receita; os que faltam ingrediente ficam apagados. Um prato por partida
+func _mostrar_cozinha() -> void:
+	if Progresso.refeicao != "":
+		var atual := Refeicoes.dados(Progresso.refeicao)
+		_fala.text = "Voce ja comeu %s (%s). Vale ate o fim da proxima partida na arena; depois eu cozinho outro." % [String(atual["nome"]).to_lower(), Refeicoes.texto_bonus(Progresso.refeicao)]
+	else:
+		_fala.text = "Traga a colheita que eu cozinho. O prato vale a proxima partida inteira na arena (um por vez)."
+		for id in Refeicoes.ORDEM:
+			var dados := Refeicoes.dados(id)
+			var botao := _botao("%s: %s" % [dados["nome"], Refeicoes.texto_bonus(id)], _cozinhar.bind(id), Fazenda.motivo_para_nao_cozinhar(id) != "")
+			botao.tooltip_text = "%s\nReceita: %s" % [dados["texto"], Refeicoes.texto_receita(id, Fazenda.PLANTAS)]
+	_botao("VOLTAR", _abrir_submenu.bind(""))
+
+func _cozinhar(id: String) -> void:
+	var motivo := Fazenda.cozinhar(id)
+	if motivo != "":
+		_aviso = motivo
+		Sons.tocar("erro", 0.0)
+		_atualizar()
+		return
+	Sons.tocar("caldeirao", 0.0)
+	var nome := String(Refeicoes.dados(id)["nome"])
+	get_tree().call_group("hud", "anunciar", nome, Refeicoes.texto_bonus(id) + " NA PROXIMA PARTIDA", 3.0)
+	_aviso = "Bom apetite! %s vale a proxima partida inteira: %s." % [nome.to_lower(), Refeicoes.texto_bonus(id)]
+	_atualizar()
+	focar_inicio()
+
+## A Lia troca a colheita por Brasas (melhorias permanentes): um botão por planta, vendendo tudo dela
+func _mostrar_venda_colheita() -> void:
+	var tem_algo := false
+	for planta in Fazenda.ORDEM_PLANTAS:
+		var quantidade := Fazenda.quantidade_colhida(planta)
+		if quantidade <= 0:
+			continue
+		tem_algo = true
+		var preco := Fazenda.brasas_por_colheita(planta)
+		var botao := _botao("%s x%d = %d BRASAS" % [Fazenda.PLANTAS[planta]["nome"], quantidade, quantidade * preco], _vender_colheita.bind(planta))
+		botao.tooltip_text = "%d Brasas cada." % preco
+	_fala.text = "Colheita vira Brasa para as melhorias da vila. Quanto mais rara a planta, mais vale." if tem_algo \
+		else "Voce nao tem colheita guardada. Plante na fazenda e volte aqui."
+	_botao("VOLTAR", _abrir_submenu.bind(""))
+
+func _vender_colheita(planta: String) -> void:
+	var ganho := Fazenda.vender_colheita(planta)
+	if ganho > 0:
+		Sons.tocar("moeda", 0.05)
+		_aviso = "+%d Brasas. Obrigada! A vila agradece." % ganho
+	_atualizar()
+	focar_inicio()
 
 func _ver_cardapio(ver: bool) -> void:
 	_cardapio = ver

@@ -23,6 +23,8 @@ static func chefe_da_onda(onda: int) -> String:
 	return CHEFES[(maxi(onda, INTERVALO_CHEFE) / INTERVALO_CHEFE - 1) % CHEFES.size()]
 
 ## Estado do jogo que as falas consultam: "marcas" (condições) e campos para os textos
+const Refeicoes := preload("res://codigo/dados/refeicoes.gd")
+
 static func contexto(id: String, arvore: SceneTree) -> Dictionary:
 	var cena := arvore.current_scene
 	var hora: float = cena.hora_atual() if cena != null and cena.has_method("hora_atual") else 12.0
@@ -88,6 +90,9 @@ static func contexto(id: String, arvore: SceneTree) -> Dictionary:
 	m["tem_maduras"] = maduras > 0
 	m["tem_murchas"] = murchas > 0
 	m["horta_vazia"] = plantadas.is_empty() and estacao != 3
+	# Refeições do Caio e venda de colheita para a Lia (ligação fazenda -> arena)
+	m["comeu"] = Progresso.refeicao != ""
+	m["pode_cozinhar"] = not m["comeu"] and Refeicoes.ORDEM.any(func(prato): return Fazenda.motivo_para_nao_cozinhar(prato) == "")
 	var fora := false
 	var da_estacao := false
 	for planta in Fazenda.ORDEM_PLANTAS:
