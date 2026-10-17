@@ -1,0 +1,96 @@
+{
+  "referencia": "Personagem lateral aprovado pelo usuário neste chat; mesma roupa, pele, proporções e acabamento.",
+  "ferramenta": "imagegen integrado",
+  "fontes": [
+    "correr_cima_fonte.png",
+    "correr_baixo_fonte.png"
+  ],
+  "prompts": [
+    "correr_cima_prompt.txt",
+    "correr_baixo_prompt.txt"
+  ],
+  "quadro_textura": [
+    1024,
+    1024
+  ],
+  "atlas": [
+    2,
+    5
+  ],
+  "quadros": 9,
+  "escala_no_jogo": 0.0625,
+  "altura_mediana_logica": 34,
+  "pivo_quadro_logico": [
+    32,
+    44
+  ],
+  "registro": "Crânio centralizado com oscilação curta; os pés avançam em profundidade. Remove resíduos desconectados da folha.",
+  "ordem_cima": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "ordem_baixo": [
+    0,
+    1,
+    7,
+    2,
+    3,
+    5,
+    6,
+    7,
+    8
+  ],
+  "correcao_bracos_baixo": "Exclui pose que invertia o balanço fora de hora e usa a passagem baixa em ambas as trocas. Nove quadros animados, oito poses de origem, passagem neutra reutilizada.",
+  "duracoes_cima_ms": [
+    80,
+    80,
+    80,
+    80,
+    80,
+    80,
+    40,
+    40,
+    80
+  ],
+  "duracoes_baixo_ms": [
+    80,
+    60,
+    60,
+    80,
+    80,
+    80,
+    60,
+    60,
+    80
+  ],
+  "ciclo_ms": 640,
+  "consumidor": "codigo/jogador/heroi_gerado.gd",
+  "preparador": "ferramentas/personagem/preparar_corrida_vertical.gd",
+  "previa": "arte/previas/personagens/exemplo_alta_qualidade/corrida_vertical/corrida_vertical.gif",
+  "preservados_por_sha256": [
+    "andar.png",
+    "correr.png"
+  ],
+  "logs": [
+    "/tmp/algoland-corrida-vertical-preparar.log",
+    "/tmp/algoland-corrida-vertical-import.log",
+    "/tmp/algoland-corrida-vertical-render.log",
+    "/tmp/algoland-corrida-vertical-teste.log"
+  ],
+  "validacao": {
+    "motor": "Godot 4.7.2, projeto com save isolado",
+    "teste": "testes/teste_heroi_gerado.gd",
+    "verificacoes": 53,
+    "falhas": 0,
+    "previa_quadros": 32,
+    "previa_duracao_ms": 640,
+    "observacao": "Persistem os avisos de recursos/texturas ao encerrar o Godot já documentados nos testes anteriores."
+  }
+}

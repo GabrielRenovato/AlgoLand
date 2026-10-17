@@ -29,6 +29,8 @@ func _ready() -> void:
 			# Não ocupar ruas, acessos, margens ou água, inclusive quando o mapa for regenerado.
 			if not _grama(terreno, base) or not _grama(terreno, base + Vector2(16, 0)):
 				continue
+			if not preload("res://codigo/cidade/limites_vila.gd").area_livre(get_parent(),Rect2(base+Vector2(-4,-23),Vector2(24,23))):
+				continue
 			_peca(base, "horizontal")
 			_peca(base + Vector2(16, 0), "poste")
 			var forma := CollisionShape2D.new()

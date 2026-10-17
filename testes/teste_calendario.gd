@@ -76,30 +76,30 @@ func _rodar() -> void:
 
 func _testar_constantes_e_mapa() -> void:
 	_verificar("dia inicial e 1", _cal.dia == 1, "dia=%d" % _cal.dia)
-	_verificar("7 dias por estacao", _cal.DIAS_POR_ESTACAO == 7, "")
-	var esperado := {1: 0, 7: 0, 8: 1, 14: 1, 15: 2, 21: 2, 22: 3, 28: 3, 29: 0, 35: 0, 36: 1, 56: 3, 57: 0}
+	_verificar("30 dias por estacao", _cal.DIAS_POR_ESTACAO == 30, "")
+	var esperado := {1: 0, 30: 0, 31: 1, 60: 1, 61: 2, 90: 2, 91: 3, 120: 3, 121: 0, 150: 0, 151: 1, 240: 3, 241: 0}
 	var ruins := []
 	for dia in esperado:
 		if _cal.estacao(dia) != esperado[dia]:
 			ruins.append("%d->%d" % [dia, _cal.estacao(dia)])
-	_verificar("estacao() por dia (primavera 1-7, verao 8-14, outono 15-21, inverno 22-28, depois repete)", ruins.is_empty(), str(ruins))
-	var anos := {1: 1, 28: 1, 29: 2, 56: 2, 57: 3}
+	_verificar("estacao() por dia (primavera 1-30, verao 31-60, outono 61-90, inverno 91-120, depois repete)", ruins.is_empty(), str(ruins))
+	var anos := {1: 1, 120: 1, 121: 2, 240: 2, 241: 3}
 	var anos_ruins := []
 	for dia in anos:
 		if _cal.ano(dia) != anos[dia]:
 			anos_ruins.append("%d->%d" % [dia, _cal.ano(dia)])
-	_verificar("ano() por dia (28 dias por ano)", anos_ruins.is_empty(), str(anos_ruins))
+	_verificar("ano() por dia (120 dias por ano)", anos_ruins.is_empty(), str(anos_ruins))
 
 func _testar_data() -> void:
 	_cal.dia = 3
 	_verificar("data do dia 3", _cal.texto_data() == "PRIMAVERA - DIA 3", _cal.texto_data())
-	_cal.dia = 8
-	_verificar("data do dia 8: primeiro dia do verao", _cal.texto_data() == "VERAO - DIA 1", _cal.texto_data())
-	_cal.dia = 28
-	_verificar("data do dia 28: ultimo dia do inverno", _cal.texto_data() == "INVERNO - DIA 7", _cal.texto_data())
-	_cal.dia = 29
-	_verificar("data do dia 29: volta a primavera (ano 2)", _cal.texto_data() == "PRIMAVERA - DIA 1" and _cal.ano() == 2, _cal.texto_data())
-	_verificar("dia_na_estacao do dia 15", _cal.estacao(15) == 2, "")
+	_cal.dia = 31
+	_verificar("data do dia 31: primeiro dia do verao", _cal.texto_data() == "VERAO - DIA 1", _cal.texto_data())
+	_cal.dia = 120
+	_verificar("data do dia 120: ultimo dia do inverno", _cal.texto_data() == "INVERNO - DIA 30", _cal.texto_data())
+	_cal.dia = 121
+	_verificar("data do dia 121: volta a primavera (ano 2)", _cal.texto_data() == "PRIMAVERA - DIA 1" and _cal.ano() == 2, _cal.texto_data())
+	_verificar("estacao do dia 61", _cal.estacao(61) == 2, "")
 	_cal.dia = 1
 
 func _testar_dormir() -> void:
@@ -112,7 +112,7 @@ func _testar_dormir() -> void:
 	_verificar("dormir no meio da estacao nao emite estacao_mudou", _sinais_estacao.is_empty(), str(_sinais_estacao))
 	_verificar("dormir salva o arquivo", FileAccess.file_exists(CAMINHO), "")
 	# virada de estacao: ultimo dia da primavera -> verao (estacao_mudou antes de dia_passou)
-	_cal.dia = 7
+	_cal.dia = 30
 	_sinais_dia.clear()
 	_sinais_estacao.clear()
 	var ordem: Array = []
@@ -123,21 +123,21 @@ func _testar_dormir() -> void:
 	_cal.dormir()
 	_cal.estacao_mudou.disconnect(a)
 	_cal.dia_passou.disconnect(b)
-	_verificar("dormir no dia 7: dia 8, verao", _cal.dia == 8 and _cal.estacao() == 1, "dia=%d" % _cal.dia)
-	_verificar("estacao_mudou(1) e dia_passou(8)", _sinais_estacao == [1] and _sinais_dia == [8], "%s %s" % [_sinais_estacao, _sinais_dia])
+	_verificar("dormir no dia 30: dia 31, verao", _cal.dia == 31 and _cal.estacao() == 1, "dia=%d" % _cal.dia)
+	_verificar("estacao_mudou(1) e dia_passou(31)", _sinais_estacao == [1] and _sinais_dia == [31], "%s %s" % [_sinais_estacao, _sinais_dia])
 	_verificar("estacao_mudou vem antes de dia_passou", ordem == ["estacao", "dia"], str(ordem))
-	# varias noites: estacao_mudou so nas viradas (8->14 nenhuma; 14 -> 15 uma)
+	# varias noites: estacao_mudou so nas viradas (31->60 nenhuma; 60 -> 61 uma)
 	_sinais_estacao.clear()
-	for i in 6:
+	for i in 29:
 		_cal.dormir()
-	_verificar("dias 9..14: nenhuma virada", _cal.dia == 14 and _sinais_estacao.is_empty(), "dia=%d %s" % [_cal.dia, _sinais_estacao])
+	_verificar("dias 32..60: nenhuma virada", _cal.dia == 60 and _sinais_estacao.is_empty(), "dia=%d %s" % [_cal.dia, _sinais_estacao])
 	_cal.dormir()
-	_verificar("dia 15: outono", _cal.estacao() == 2 and _sinais_estacao == [2], str(_sinais_estacao))
-	# ano novo: do dia 28 para o 29 volta a primavera
-	_cal.dia = 28
+	_verificar("dia 61: outono", _cal.estacao() == 2 and _sinais_estacao == [2], str(_sinais_estacao))
+	# ano novo: do dia 120 para o 121 volta a primavera
+	_cal.dia = 120
 	_sinais_estacao.clear()
 	_cal.dormir()
-	_verificar("dia 29: primavera do ano 2", _cal.estacao() == 0 and _cal.ano() == 2 and _sinais_estacao == [0], "%s" % _sinais_estacao)
+	_verificar("dia 121: primavera do ano 2", _cal.estacao() == 0 and _cal.ano() == 2 and _sinais_estacao == [0], "%s" % _sinais_estacao)
 
 func _testar_salvar_carregar() -> void:
 	_cal.dia = 12
@@ -186,20 +186,20 @@ func _testar_fazenda_segue_calendario() -> void:
 	progresso.caminho_save = CAMINHO_PROGRESSO
 	progresso.apagar()
 	_cal.apagar()
-	_cal.dia = 15  # outono
+	_cal.dia = 61  # outono
 	var cena: Node = load("res://cenas/fazenda.tscn").instantiate()
 	root.add_child(cena)
 	current_scene = cena
 	await _quadros(10)
 	var est: Node = cena.get_node("Terrains/Estacoes")
-	_verificar("fazenda abre no outono (dia 15)", est.estacao_atual == 2, "estacao=%d" % est.estacao_atual)
+	_verificar("fazenda abre no outono (dia 61)", est.estacao_atual == 2, "estacao=%d" % est.estacao_atual)
 	var hud: Node = get_nodes_in_group("hud")[0]
-	_verificar("HUD mostra a data (OUTONO - DIA 1)", hud.rotulo_data.text == "OUTONO - DIA 1", hud.rotulo_data.text)
-	_cal.dia = 21
+	_verificar("HUD mostra a data (SEX  OUTONO - DIA 1)", hud.rotulo_data.text == "SEX  OUTONO - DIA 1", hud.rotulo_data.text)
+	_cal.dia = 90
 	_cal.dormir()
 	await create_timer(est.DURACAO_FADE_SAIDA + est.ATRASO_AVISO + 0.5).timeout
-	_verificar("dormir no dia 21: inverno na fazenda", est.estacao_atual == 3, "estacao=%d" % est.estacao_atual)
-	_verificar("HUD atualiza a data (INVERNO - DIA 1)", hud.rotulo_data.text == "INVERNO - DIA 1", hud.rotulo_data.text)
+	_verificar("dormir no dia 90: inverno na fazenda", est.estacao_atual == 3, "estacao=%d" % est.estacao_atual)
+	_verificar("HUD atualiza a data (DOM  INVERNO - DIA 1)", hud.rotulo_data.text == "DOM  INVERNO - DIA 1", hud.rotulo_data.text)
 	_verificar("clima de inverno na fazenda: neve", est.meteorologia.eh_neve(est.meteorologia.clima_atual), "clima=%d" % est.meteorologia.clima_atual)
 	# sem gerenciador: o HUD esconde o quadro da onda (guarda o titulo da cena) e deixa so o relogio no canto
 	_verificar("HUD da fazenda: titulo FAZENDA, sem linha de inimigos nem espera",

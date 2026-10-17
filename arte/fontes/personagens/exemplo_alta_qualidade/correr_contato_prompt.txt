@@ -1,0 +1,6 @@
+Precise pose edit. Keep this EXACT adult base character, face, bald head, ivory shirt, dark shorts, right-facing view, upper torso, BOTH ARM POSITIONS and art style unchanged. We need the ground-contact pose immediately AFTER this airborne running pose.
+Change ONLY the legs to a right-foot contact phase of the same run:
+The FRONT leg on the RIGHT of the image (currently with its knee raised and its bare foot curled upward) must now EXTEND its shin DOWN and slightly FORWARD so its heel touches the imaginary ground under and ahead of the head, around local x=450,y=570 on this627x627 canvas. Keep a slight athletic knee bend. That is the far/right support leg.
+The REAR leg extending toward the LEFT of the image must now bend at the knee so its bare foot kicks UP toward the back of the shorts. This is the near/left trailing leg, with its thigh pointing BACK/LEFT, NOT forward.
+Preserve the near arm driving FORWARD across the chest, and the far arm driving BACK, exactly like input. Do NOT switch them. This is the opposite-side contact from the usual left-leg-forward pose.
+Same body scale, proportions, head position, lighting and crisp detailed PIXEL ART as input. Full body visible with adequate transparent padding, no cropping, no extra legs, no duplicates. True transparent alpha. No background, ground, shadow, labels or props. One character only.

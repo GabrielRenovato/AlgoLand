@@ -8,6 +8,7 @@ var _atualizacao_pendente := false
 func _ready() -> void:
 	name = "Missoes"
 	horizontal_scroll_mode = SCROLL_MODE_DISABLED
+	vertical_scroll_mode = SCROLL_MODE_SHOW_NEVER
 	follow_focus = true
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	offset_left = 8

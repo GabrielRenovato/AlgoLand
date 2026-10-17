@@ -1,0 +1,98 @@
+{
+  "estado": "Cavalo branco da segunda imagem em repouso; corrida com oito poses completas geradas preservando identidade e seguindo o movimento de referência.",
+  "referencia": "arte/fontes/comercio/cavalo_estudo_v2.png",
+  "gerador": "Imagegen integrado: repouso original preservado; folha cavalo_corrida_poses.png com oito poses completas de galope, sem rotação de recortes.",
+  "contrato": {
+    "tipo": "cavalo de tracao atrelado a carroca da fazenda",
+    "tela": [
+      2112,
+      1408
+    ],
+    "silhueta": "Identidade do cavalo branco escolhido: quatro pernas anatômicas, sela/arreios marrons, crina escura e fivelas de latão. Poses de extensão, apoio, recolhimento e suspensão.",
+    "grade_mapa": 16,
+    "pivo": [
+      0,
+      1210
+    ],
+    "offset_sprite": [
+      528,
+      -1210
+    ],
+    "perspectiva": "tres quartos elevada, olhando a direita",
+    "contato": "quatro cascos apoiados, varais ligados ao peitoral, corpo e pernas com oclusao propria",
+    "pelagens": [
+      "preto",
+      "marrom",
+      "branco"
+    ],
+    "estacoes": [
+      "primavera",
+      "verao",
+      "outono",
+      "inverno"
+    ],
+    "colisao": {
+      "centro": [
+        80,
+        -8
+      ],
+      "tamanho": [
+        52,
+        16
+      ]
+    },
+    "nitidez": "Repouso preservado integralmente. Corrida usa poses completas da fonte gerada, sem reduzir ou requantizar; somente ampliação uniforme nearest e alinhamento na tela compartilhada.",
+    "escala": "Cavalo ampliado em 30% ao redor da base (80,0); cascos preservam a linha do chão. Fonte e oito poses inalteradas.",
+    "tela_no_mundo": [
+      124.8,
+      83.2
+    ],
+    "escala_sprite": 0.05909090909090909,
+    "ampliacao_no_mundo": 1.3,
+    "posicao_sprite": [
+      -24,
+      0
+    ]
+  },
+  "preparador": "ferramentas/comercio/preparar_cavalo.gd",
+  "troca_pelagem": "codigo/comercio/pelagem_cavalo.gdshader; Comercio.pelagem persistido por mundo e selecionavel na tela da carroca",
+  "sazonal": "Tonalidades sazonais apenas nos marrons do couro; primavera preserva a imagem original integralmente.",
+  "revisao": "Aumento de 30% conferido no Godot: repouso nas 12 combinações de estação/pelagem e oito poses da corrida nas quatro estações; mesma arte e animação, cascos apoiados, encaixes dos varais e rédeas ajustados ao porte.",
+  "fonte_descartada": "arte/fontes/comercio/cavalo_referencia_novo.png",
+  "conceitos": [
+    "arte/fontes/comercio/cavalo_conceito_v2.png",
+    "arte/fontes/comercio/cavalo_estudo_v2.png"
+  ],
+  "prompt": "arte/fontes/comercio/cavalo_v2_prompt.txt",
+  "receita_caminhada": "ferramentas/comercio/preparar_animacoes.gd: extrair oito silhuetas, alinhar pelo mesmo ponto da sela e ampliar uniformemente em 2.8x para o atlas compartilhado; 80 ms/quadro.",
+  "previa_final": "arte/previas/comercio/cavalo_maior_no_jogo.png",
+  "previa_viagem": "arte/previas/comercio/cavalo_corrida_poses_no_jogo.gif",
+  "fonte_original": "arte/fontes/comercio/cavalo_estudo_v2.png",
+  "historico_rejeitado": [
+    "arte/fontes/comercio/cavalo_v2_nativo.json",
+    "arte/fontes/comercio/cavalo_v2_caminhada.json",
+    "arte/fontes/comercio/cavalo_nativo.png",
+    "arte/fontes/comercio/cavalo_caminhando.png",
+    "Montagem de pernas por rotação: implementação removida de ferramentas/comercio/preparar_animacoes.gd."
+  ],
+  "referencia_movimento": {
+    "pagina": "https://gandalfhardcore.itch.io/pixel-art-horse",
+    "autor": "GandalfHardcore",
+    "observacao": "Corrida pública de GandalfHardcore como estudo de movimento. Cada pose do cavalo branco foi gerada por inteiro para evitar a aparência de marionete da tentativa anterior."
+  },
+  "fonte_corrida": "arte/fontes/comercio/cavalo_corrida_poses.png",
+  "prompt_corrida": "arte/fontes/comercio/cavalo_corrida_prompt.txt",
+  "validacao": {
+    "animacao": {
+      "verificacoes": 281,
+      "falhas": 0,
+      "log": "/tmp/algoland-cavalo-maior-animacao.log"
+    },
+    "limites": "Godot continua reportando recursos/texturas pendentes ao encerrar o teste gráfico, como nas execuções anteriores. Testes funcionais não representam aprovação artística.",
+    "comercio": {
+      "verificacoes": 66,
+      "falhas": 0,
+      "log": "/tmp/algoland-cavalo-maior-comercio.log"
+    }
+  }
+}

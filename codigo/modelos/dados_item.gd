@@ -33,7 +33,7 @@ const NOMES := {
 
 @export var id: StringName = &""
 @export var tipo: String = "espada_basica"
-@export_enum("arma", "escudo", "secundaria", "cabeca", "corpo", "luvas", "botas", "ferramenta", "semente") var categoria: String = "arma"
+@export_enum("arma", "escudo", "secundaria", "cabeca", "corpo", "luvas", "botas", "ferramenta", "semente", "peixe", "vara") var categoria: String = "arma"
 @export var nivel: int = 1
 @export_enum("comum", "incomum", "raro", "epico", "lendario") var raridade: String = "comum"
 @export var icone: Texture2D
@@ -45,6 +45,7 @@ const NOMES := {
 @export var afixos: Dictionary = {}
 ## Itens que empilham (sementes): quantos há nesta casa da mochila. Os demais têm sempre 1
 @export var quantidade: int = 1
+@export_range(0,3) var qualidade: int = 0
 
 ## Ferramenta ou semente nova para a mochila. Semente: tipo "semente:<planta>", na raridade da planta (a cor da casa)
 static func de_fazenda(tipo_fazenda: String, quantos: int = 1) -> DadosItem:
@@ -70,7 +71,27 @@ func eh_ferramenta() -> bool:
 func planta() -> String:
 	return tipo.trim_prefix(Plantas.PREFIXO_SEMENTE) if eh_semente() else ""
 
+## Vara de pesca da mochila (2026-10-17): um item por jogador, sem pilha. O nível e a raridade (a cor da casa e do ícone)
+## acompanham o refinamento em Varas; quem cuida disso é ModeloInventario.sincronizar_vara.
+const TIPO_VARA := "vara_pesca"
+
+static func de_vara(nivel_vara: int = 1) -> DadosItem:
+	var item := DadosItem.new()
+	item.tipo = TIPO_VARA
+	item.id = StringName(TIPO_VARA)
+	item.categoria = "vara"
+	item.aplicar_nivel_vara(nivel_vara)
+	return item
+
+func aplicar_nivel_vara(nivel_vara: int) -> void:
+	nivel = clampi(nivel_vara, 1, Raridades.ORDEM.size())
+	raridade = Raridades.ORDEM[nivel - 1]
+
 func nome() -> String:
+	if categoria == "vara":
+		return "VARA DE PESCA"
+	if categoria == "peixe":
+		return preload("res://codigo/pesca/peixes.gd").nome(peixe())
 	if eh_semente():
 		return "SEMENTE: %s" % String(Plantas.PLANTAS.get(planta(), {}).get("nome", planta().to_upper()))
 	var conjunto := Conjuntos.de_tipo(tipo)
@@ -104,6 +125,7 @@ func para_dict() -> Dictionary:
 		"nivel_encantamento": nivel_encantamento,
 		"afixos": afixos.duplicate(),
 		"quantidade": quantidade,
+		"qualidade": qualidade,
 	}
 
 static func de_dict(d: Dictionary) -> DadosItem:
@@ -120,6 +142,7 @@ static func de_dict(d: Dictionary) -> DadosItem:
 		item.encantamento = "eletrico"
 	item.nivel_encantamento = int(d.get("nivel_encantamento", 0))
 	item.quantidade = maxi(int(d.get("quantidade", 1)), 1)
+	item.qualidade = clampi(int(d.get("qualidade",0)),0,3)
 	# Raridade desconhecida (save de outra versão) cai em comum; afixos só valem como dicionário de números
 	if not Raridades.valida(item.raridade):
 		item.raridade = "comum"
@@ -128,4 +151,17 @@ static func de_dict(d: Dictionary) -> DadosItem:
 		for chave in guardados:
 			if Raridades.AFIXOS.has(str(chave)):
 				item.afixos[str(chave)] = float(guardados[chave])
+	return item
+
+func peixe() -> String:
+	return tipo.trim_prefix("peixe:") if categoria == "peixe" else ""
+
+static func de_peixe(especie: String, qualidade_peixe := 0, quantos := 1) -> DadosItem:
+	var item := DadosItem.new()
+	item.tipo = "peixe:"+especie
+	item.id = StringName(item.tipo+":"+str(clampi(qualidade_peixe,0,3)))
+	item.categoria = "peixe"
+	item.qualidade = clampi(qualidade_peixe,0,3)
+	item.quantidade = maxi(1,quantos)
+	item.raridade = preload("res://codigo/pesca/peixes.gd").raridade(especie)
 	return item

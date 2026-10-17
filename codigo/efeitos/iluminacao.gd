@@ -99,7 +99,7 @@ func hora_do_mundo() -> float:
 
 func _process(delta: float) -> void:
 	# O prólogo não consome o primeiro dia enquanto o jogador aprende.
-	if Introducao.ativa() or em_arena:
+	if Introducao.ativa() or em_arena or Comercio.em_viagem:
 		_aplicar()
 		return
 	# O relógio nunca para. Passando das 02:00 o jogador apaga assim que der (se estiver numa onda, o relógio segue

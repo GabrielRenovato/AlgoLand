@@ -11,7 +11,7 @@ const FOLHA_ICONES := "res://assets/cenario/Farm RPG/Crops/All Crops.png"
 ## inimigos, em semente_drop.gd: as plantas das melhores poções são as mais raras), a tira do
 ## Farm RPG (quadros de 16x16, ou 16x32 se "alta"), os quadros da tira em ordem de crescimento (a semente na terra
 ## até a planta madura) e as células do "All Crops.png" (coluna, linha) do saco de semente e do item colhido.
-## Uma estação tem 7 dias: quem demora mais de 7 - (dia da estação em que foi plantada) dias murcha antes de amadurecer.
+## Uma estação tem Calendario.DIAS_POR_ESTACAO (30) dias: quem demora mais do que os dias que faltam na estação murcha antes de amadurecer.
 const PLANTAS := {
 	"cenoura": {"nome": "CENOURA", "estacao": 0, "dias": 3, "raridade": "comum",
 		"tira": "Spring/Carrot.png", "quadros": [0, 1, 2, 3, 4, 5], "alta": false, "saco": Vector2i(0, 6), "item": Vector2i(2, 6)},

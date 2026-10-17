@@ -129,6 +129,9 @@ func _dados_validos(dados: Variant) -> bool:
 	if tipo_slot == "mochila":
 		return true
 	var item: DadosItem = dados["item"]
+	# A vara de pesca fica sempre na mochila: no baú ela se perderia e o jogo criaria outra
+	if item.categoria == "vara" and tipo_slot != "mochila":
+		return false
 	# Baú: aceita o que está na mochila (não o que está na mão ou vestido) e trocas dentro dele
 	if tipo_slot == "bau":
 		return BauCasa.contem(item) or EventosJogo.inventario_de(self).indice_de(item) != -1
@@ -165,6 +168,8 @@ func _usar_com_controle() -> void:
 
 ## Com o baú aberto, confirmar (ou o botão direito) passa o item para o outro lado. false se o baú não está aberto
 func _trocar_com_bau() -> bool:
+	if item_atual != null and item_atual.categoria == "vara":
+		return false
 	# Saque da partida: confirmar no saque leva para a mochila
 	if tipo_slot == "saque" and item_atual != null:
 		if not Saque.retirar(item_atual, -1, EventosJogo.dono(self)):
@@ -197,7 +202,7 @@ func equipar_com_botao_direito() -> void:
 	_equipar_ou_desequipar()
 
 func _equipar_ou_desequipar() -> void:
-	if not item_atual.categoria in ["arma", "escudo", "cabeca", "corpo", "luvas", "botas"]:
+	if not item_atual.categoria in ["arma", "escudo", "secundaria", "cabeca", "corpo", "luvas", "botas"]:
 		return
 	if tipo_slot == "mochila":
 		if not EventosJogo.inventario_de(self).equipar(item_atual):

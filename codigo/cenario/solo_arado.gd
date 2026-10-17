@@ -36,11 +36,11 @@ static func vizinhos(solo: Dictionary, celula: Vector2i, apenas_molhados := fals
 			mascara |= 1 << i
 	return mascara
 
-static func textura(estacao: int, molhado: bool, celula: Vector2i, ligacoes := 0, regadas := 0, atlas := Vector2i(-1, -1)) -> Texture2D:
+static func textura(estacao: int, molhado: bool, celula: Vector2i, ligacoes := 0, regadas := 0, atlas := Vector2i(-1, -1), tiny := false) -> Texture2D:
 	var variante := posmod(celula.x * 7 + celula.y * 13, VARIANTES)
 	regadas = (regadas & ligacoes) if molhado else 0
 	var combinacao := ((((estacao * 2 + int(molhado)) * VARIANTES + variante) * 256 + ligacoes) * 256 + regadas)
-	var chave := Vector3i(combinacao, atlas.x, atlas.y)
+	var chave := Vector3i(combinacao * 2 + int(tiny), atlas.x, atlas.y)
 	if _texturas.has(chave):
 		return _texturas[chave]
 	if _seca == null:
@@ -51,6 +51,12 @@ static func textura(estacao: int, molhado: bool, celula: Vector2i, ligacoes := 0
 		if _molhada.is_compressed():
 			_molhada.decompress()
 	var imagem := Image.create(LADO, LADO, false, Image.FORMAT_RGBA8)
+	var seca := _seca
+	var molhada := _molhada
+	if tiny:
+		var pasta: String = "res://assets/cenario/fazenda/tiny/" + ["primavera", "verao", "outono", "inverno"][estacao] + "/"
+		seca = load(pasta + "arado_seco.png").get_image()
+		molhada = load(pasta + "arado_molhado.png").get_image()
 	for y in LADO:
 		for x in LADO:
 			if not _cobre_pixel(x, y, ligacoes):
@@ -58,10 +64,10 @@ static func textura(estacao: int, molhado: bool, celula: Vector2i, ligacoes := 0
 			if atlas.x >= 0 and not LimitePlantio.cobre_pixel(estacao, atlas, x, y):
 				continue
 			var origem_x := posmod(x + variante * 3, LADO)
-			var cor := _seca.get_pixel(origem_x, y)
+			var cor := seca.get_pixel(origem_x, y)
 			# A mancha molhada também arredonda onde encontra terra ainda seca.
 			if molhado and _cobre_pixel(x, y, regadas):
-				cor = _molhada.get_pixel(origem_x, y)
+				cor = molhada.get_pixel(origem_x, y)
 			# Relevo discreto só no contorno externo, nunca nas emendas do canteiro.
 			if not _cobre_pixel(x, y - 1, ligacoes):
 				cor = cor.darkened(0.18)

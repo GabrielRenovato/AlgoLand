@@ -6,8 +6,17 @@ extends Node2D
 
 ## Retângulo do mapa em coordenadas do terreno (o gerador escreve o valor certo)
 @export var limites: Rect2 = Rect2(0, 0, 960, 672)
+## A cidade também herda este roteiro para limitar a câmera; a comparação pertence só à fazenda.
+@export var comparar_visual_fazenda := false
 
 func _ready() -> void:
+	if comparar_visual_fazenda:
+		var comparacao := preload("res://codigo/cenario/fazenda_tiny.gd").new()
+		comparacao.name = "ComparacaoTiny"
+		add_child(comparacao)
+		_montar_pesca_lago()
+	if Comercio.liberado:
+		_montar_carroca()
 	var jogador := get_node_or_null("Jogador")
 	if jogador == null or jogador.get("camera") == null:
 		return
@@ -18,3 +27,45 @@ func _ready() -> void:
 	camera.limit_right = int(canto.x + limites.size.x)
 	camera.limit_bottom = int(canto.y + limites.size.y)
 	camera.reset_smoothing()
+
+## Carroça do comércio (escondida enquanto Comercio.liberado for false)
+func _montar_carroca() -> void:
+	var carroca := preload("res://codigo/comercio/carroca.gd").new()
+	carroca.name = "Carroca"
+	carroca.position = Vector2(528, 288)
+	add_child(carroca)
+	var chegada := Marker2D.new()
+	chegada.name = "Chegada_carroca"
+	chegada.add_to_group("chegada")
+	chegada.position = Vector2(520, 310)
+	add_child(chegada)
+	if Comercio.em_viagem:
+		_retomar_comercio.call_deferred()
+
+func _retomar_comercio() -> void:
+	# O cooperativo monta os viewports e as interfaces depois do ready da cena.
+	for i in 4:
+		await get_tree().process_frame
+	if not Comercio.em_viagem:
+		return
+	for jogador in [Cooperativo._jogador1(), Cooperativo.jogador2()]:
+		if jogador != null:
+			jogador.global_position = Vector2(520, 310)
+			EventosJogo.abrir_tela_para(jogador, "comercio")
+
+## O lago existente também fornece as espécies de água doce do catálogo do Nilo.
+func _montar_pesca_lago() -> void:
+	var lago := get_node_or_null("Terrains/Lago")
+	if lago == null:
+		return
+	var ponto := preload("res://codigo/pesca/ponto_pesca.gd").new()
+	ponto.name = "PescaLago"
+	ponto.position = to_local(lago.global_position)+Vector2(0,-46)
+	ponto.direcao = Vector2.DOWN
+	ponto.ambiente = "rio"
+	var forma := CollisionShape2D.new()
+	var retangulo := RectangleShape2D.new()
+	retangulo.size = Vector2(28,20)
+	forma.shape = retangulo
+	ponto.add_child(forma)
+	add_child(ponto)

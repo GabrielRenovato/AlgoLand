@@ -37,9 +37,23 @@ def gerar():
                 tx, ty = 6, 0
             celulas[(x, y)] = (0, tx + x % 2, ty + y % 2)
     K.camada(c, 'AreiaMar', celulas, tileset, 'Terrains', z=-1000)
-    orla = {(x, y): (1, 0, 5) for y in range(7, 9) for x in range(4, 40)}
-    orla.update({(x, y): (1, 0, 5) for y in range(0, 7) for x in range(19, 23)})
-    pedra = c.recurso('TileSet', 'res://recursos/cidade/tileset_terreno.tres', 'pedra_orla')
+    # A mesma composição por cantos da cidade: guia, cantos internos e externos sobre a areia.
+    import terreno_vila as TV
+    from preparar_orla import preparar
+    preparar()
+    def pavimentado(x, y):
+        return (64 <= x <= 640 and 112 <= y <= 144) or (304 <= x <= 368 and y <= 128)
+    orla = {}
+    for y in range(-2, 11):
+        for x in range(2, 42):
+            cantos = ['pedra' if pavimentado(vx*16, vy*16) else 'grama'
+                      for vx,vy in [(x,y),(x+1,y),(x,y+1),(x+1,y+1)]]
+            if 'pedra' in cantos:
+                _, tx, ty = TV.tile_da_celula(cantos, x, y)
+                orla[(x,y)] = (0, tx, ty)
+    K.recurso_tileset('recursos/praia/tileset_orla.tres',
+        [('res://assets/cenario/praia/orla/primavera.png',4,6,'PEDRA E GUIA DA CIDADE')], 'Orla')
+    pedra = c.recurso('TileSet', 'res://recursos/praia/tileset_orla.tres', 'pedra_orla')
     K.camada(c, 'CalcadaOrla', orla, pedra, 'Terrains', z=-999)
     piso_cais = 'res://assets/cenario/Starter Pack/home interiors, timber roof.png'
     K.recurso_tileset('recursos/praia/tileset_cais.tres', [(piso_cais, 31, 16, 'MADEIRA NATIVA MANA SEED')], 'Cais')
@@ -78,10 +92,9 @@ def gerar():
                         ('NorteLeste', (364, -32, 704, 8))]:
         C.colisao(c, nome, *caixa)
     c.sub_recurso('RectangleShape2D', 'Forma_porta', ['size = Vector2(48, 28)'])
-    C.passagem(c, 'VoltaCidade', (336, 20), 'cidade', 'praia')
+    C.passagem(c, 'VoltaCidade', (336, 20), 'cidade', 'praia', saida=(0,-1))
     c.no('Chegada_cidade', 'Marker2D', props=['position = Vector2(336, 64)'], grupos=['chegada'])
-    C.rotulo(c, 'PlacaCidade', (336, 35), '^ VILA')
-    C.rotulo(c, 'PlacaPier', (352, 230), 'PIER DO NILO')
+    C.placa(c, 'PlacaCidade', (310, 50), 'VILA')
     casa = c.recurso('Texture2D', 'res://assets/cenario/praia/palafita/exterior.png', 'palafita')
     palafita = layout['palafita']
     c.no('Palafita', 'Sprite2D', props=[f'position = {F.vec(*palafita["origem"])}', 'centered = false',
@@ -93,6 +106,13 @@ def gerar():
     montar_corrimaos(c, pier, costa)
     pescador = c.recurso('Script', 'res://codigo/pesca/pescador.gd', 'pescador')
     c.no('Nilo', 'CharacterBody2D', props=['position = Vector2(342, 404)', f'script = ExtResource("{pescador}")'])
+    # Pontos de pesca (codigo/pesca/ponto_pesca.gd): onde o jogador lança a linha. `direcao` aponta para a água
+    ponto = c.recurso('Script', 'res://codigo/pesca/ponto_pesca.gd', 'ponto_pesca')
+    c.sub_recurso('RectangleShape2D', 'Forma_ponto_pesca', ['size = Vector2(36, 24)'])
+    for nome, pos, direcao in [('PescaPierLeste', (372, 416), (1, 0)), ('PescaPonta', (352, 496), (0, 1)),
+                               ('PescaOeste', (128, 400), (-1, 0)), ('PescaPalafita', (544, 436), (0, 1))]:
+        c.no(nome, 'Area2D', props=[f'position = {F.vec(*pos)}', f'script = ExtResource("{ponto}")', f'direcao = {F.vec(*direcao)}'])
+        c.no('Forma', 'CollisionShape2D', nome, ['shape = SubResource("Forma_ponto_pesca")'])
     C.finalizar(c, recursos)
     texto = c.texto().replace('res://codigo/cidade/cidade.gd', 'res://codigo/pesca/praia.gd')
     (RAIZ / 'cenas/praia.tscn').write_text(texto)
@@ -102,7 +122,7 @@ def gerar():
 
 def gerar_palafita():
     c = F.Cena()
-    recursos = C.comuns(c, 'palafita', 'PALAFITA DO NILO', (160, 172), (320, 224))
+    recursos = C.comuns(c, 'palafita', 'PESCARIA DO NILO', (160, 172), (320, 224))
     c.no('Terrains', 'Node2D')
     fundo = c.recurso('Script', 'res://codigo/pesca/interior_palafita.gd', 'interior')
     c.no('Interior', 'Node2D', props=[f'script = ExtResource("{fundo}")'])
@@ -111,7 +131,7 @@ def gerar_palafita():
                         ('Leste', (294, 0, 320, 224)), ('SulOeste', (0, 190, 128, 240)),
                         ('SulLeste', (188, 190, 320, 240)), ('Fogao', (24, 40, 68, 74)),
                         ('Prateleira', (24, 105, 94, 145)), ('Cama', (250, 28, 294, 110)),
-                        ('Mesa', (256, 114, 294, 169))]:
+                        ('Mesa', (256, 114, 294, 169)), ('BalcaoLoja', (95,116,225,128))]:
         C.colisao(c, nome, *caixa)
     c.sub_recurso('RectangleShape2D', 'Forma_porta', ['size = Vector2(40, 16)'])
     C.passagem(c, 'Saida', (160, 204), 'praia', 'palafita', automatica=True)

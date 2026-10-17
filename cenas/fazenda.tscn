@@ -11,6 +11,7 @@
 [node name="fazenda" type="Node2D"]
 script = ExtResource("fazenda_gd")
 limites = Rect2(0, 0, 1152, 768)
+comparar_visual_fazenda = true
 metadata/titulo_hud = "FAZENDA"
 metadata/barra_ferramentas = true
 

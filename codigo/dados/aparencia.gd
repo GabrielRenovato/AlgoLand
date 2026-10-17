@@ -43,7 +43,11 @@ const ARMADURAS_VISUAIS := {
 const PAGINAS_ANDAR := ["andar", "fazenda", "forja", "sentado"]
 const PAGINAS_COMBATE := ["espada", "lanca", "reacao_um_mao", "reacao_lanca", "reacao_arco", "arco_p2", "arco_p3"]
 ## Página do pacote Mana Seed de cada página nossa, no nome dos arquivos novos (forja e sentado são quadros diferentes da mesma folha)
-const PAGINA_DO_ARQUIVO := {"andar": "p1", "fazenda": "p2", "forja": "p4", "sentado": "p4"}
+const PAGINA_DO_ARQUIVO := {"andar": "p1", "fazenda": "p2", "forja": "p4", "sentado": "p4", "pesca": "p3"}
+
+## Página adicional de ação; preserva as onze páginas obrigatórias dos conjuntos.
+static func caminho_corpo_nativo(pagina: String) -> String:
+	return RAIZ + ("Pesca/corpo.png" if pagina == "pesca" else String(PadraoArmadura.CORPOS[pagina]))
 
 static var _cabelos: Array[Dictionary] = []
 static var _roupas: Array[Dictionary] = []
@@ -149,7 +153,7 @@ static func corpo(pagina: String, indice_roupa_atual: int, pecas: int, raizes: D
 			mascara_ativa = bool(definicao.get_script_constant_map().get("SUBSTITUIR_CABECA", false))
 		if mascara_ativa and ResourceLoader.exists(caminho):
 			return _corpo_escolhido(pagina, caminho)
-	return _corpo_escolhido(pagina, RAIZ + PadraoArmadura.CORPOS[pagina])
+	return _corpo_escolhido(pagina, caminho_corpo_nativo(pagina))
 
 ## Cada base usa sua resolução nativa, mantendo células de 64 unidades no mundo.
 static func aplicar_corpo(sprite: Sprite2D, pagina: String, roupa_atual: int, pecas: int, raizes: Dictionary = {}) -> void:
@@ -164,7 +168,7 @@ static func material_corpo() -> Material:
 static func _corpo_escolhido(pagina: String, caminho_legado: String) -> Texture2D:
 	var raiz := RAIZ_CORPO_REFINADO
 	var nova := _carregar(raiz + pagina + ".png")
-	var base_legada: String = RAIZ + PadraoArmadura.CORPOS[pagina]
+	var base_legada: String = caminho_corpo_nativo(pagina)
 	if caminho_legado == base_legada:
 		return nova
 	# Elmos que substituem a cabeça também mascaram a base nova, sem restaurar o corpo antigo.
@@ -217,6 +221,8 @@ static func cabelo(indice: int, pagina: String, indice_vestimenta: int = -1, pec
 				return _cabelo_sob_cartola(indice, pagina, raiz)
 		return _carregar(Carrasco.RAIZ_SPRITES + "cabelo_oculto.png")
 	var item := cabelos()[indice_cabelo(indice)]
+	if pagina == "pesca":
+		return _carregar(RAIZ + "Pesca/cabelos/%s.png" % item["id"])
 	if int(item["legado"]) > 0:
 		return _carregar(_caminho_legado_cabelo(int(item["legado"]), pagina))
 	if pagina in PAGINA_DO_ARQUIVO:
@@ -349,6 +355,11 @@ static func roupa(indice: int, pagina: String, pecas: int = -1, raizes: Dictiona
 		return _compor_cavaleiro(pagina, pecas & 15, indice_roupa(indice))
 	if item["id"] == "armadura_teste":
 		return _carregar("res://assets/personagens/prototipos/armadura_teste/%s.png" % pagina)
+	if pagina == "pesca":
+		var id: String = item["id"]
+		if id in ["undi", "boxr"]:
+			id += "_v01"
+		return _carregar(RAIZ + "Pesca/roupas/%s.png" % id)
 	if int(item["legado"]) > 0:
 		return _carregar(_caminho_legado_roupa(int(item["legado"]), pagina))
 	if pagina in PAGINA_DO_ARQUIVO:

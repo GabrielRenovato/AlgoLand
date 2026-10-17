@@ -9,6 +9,9 @@ extends "res://codigo/logica/interagivel.gd"
 ## Cena de destino (res://...) e nome do ponto de chegada nela (Marker2D "Chegada_<ponto>" do grupo "chegada")
 @export_file("*.tscn") var cena_destino: String = ""
 @export var ponto_chegada: String = ""
+## Saída pela borda do mapa (trilha da cidade para a fazenda): com uma direção, não há aviso nem F/Y; o jogador que
+## entra na zona andando para essa direção atravessa na hora, com o fade da Transicao. Zero = passagem por interação.
+@export var direcao_saida := Vector2.ZERO
 
 func _ready() -> void:
 	# A base libera a interação por nome de tela; esta zona não abre tela, só precisa estar "ativa"
@@ -35,3 +38,30 @@ func fechar_tela() -> void:
 
 func abrir_tela_p2() -> void:
 	_atravessar(Cooperativo.jogador2())
+
+# --- Saída pela borda ---------------------------------------------------------------------------------------------------
+
+func _physics_process(_delta: float) -> void:
+	if direcao_saida == Vector2.ZERO:
+		return
+	for corpo in get_overlapping_bodies():
+		if corpo.is_in_group("jogadores") and corpo.velocity.dot(direcao_saida) > 1.0:
+			_atravessar.call_deferred(corpo)
+
+func _process(delta: float) -> void:
+	if direcao_saida != Vector2.ZERO:
+		_aviso.hide()
+	else:
+		super._process(delta)
+
+func disponivel_para_interacao() -> bool:
+	return direcao_saida == Vector2.ZERO and super.disponivel_para_interacao()
+
+func disponivel_para_p2() -> bool:
+	return direcao_saida == Vector2.ZERO and super.disponivel_para_p2()
+
+func disponivel_isolada() -> bool:
+	return direcao_saida == Vector2.ZERO and super.disponivel_isolada()
+
+func disponivel_isolada_p2() -> bool:
+	return direcao_saida == Vector2.ZERO and super.disponivel_isolada_p2()

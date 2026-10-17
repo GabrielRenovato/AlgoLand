@@ -96,6 +96,16 @@ var solo: Dictionary = {}
 var _sementes_antigas: Dictionary = {}
 ## id da planta -> quantidade
 var colheita: Dictionary = {}
+## Peixes pescados e ainda não vendidos ao Nilo {id: quantidade}, e quantos já foram pescados no total (catálogo do Nilo)
+var peixes: Dictionary = {}
+var peixes_pescados: Dictionary = {}
+var varas_pesca: Dictionary = {}
+var pedras_vara: Dictionary = {}
+var pesca_capturas_jogador: Dictionary = {}
+var pesca_ultima_pedra: Dictionary = {}
+var pesca_perfeitas := 0
+var pesca_recompensas: Dictionary = {}
+var pesca_pedidos_entregues: Dictionary = {}
 ## id da poção (Pocoes.POCOES) -> quantidade
 var pocoes: Dictionary = {}
 ## Entulho na área de plantio: Vector2i -> "mato", "pedra", "arbusto" ou "arvoreta"
@@ -403,11 +413,13 @@ func gastar_pocao(id: String) -> bool:
 # --- Refeições do Caio e venda de colheita para a Lia (ligação fazenda -> arena, 2026-10-16) -------------------
 
 const Refeicoes := preload("res://codigo/dados/refeicoes.gd")
+const Peixes := preload("res://codigo/pesca/peixes.gd")
+const DesafiosPesca := preload("res://codigo/pesca/desafios_pesca.gd")
 ## Brasas por unidade de colheita vendida à Lia: um pouco mais que o preço da semente (loja_sementes.gd), então
 ## plantar sempre compensa e a horta ajuda nas melhorias permanentes mesmo de quem cai cedo na arena
 const BRASAS_POR_COLHEITA := {"comum": 3, "incomum": 5, "raro": 6, "epico": 9}
 
-func motivo_para_nao_cozinhar(id: String) -> String:
+func motivo_para_nao_cozinhar(id: String, quem: Node = null) -> String:
 	if Refeicoes.dados(id).is_empty():
 		return "PRATO INVALIDO"
 	if Progresso.refeicao != "":
@@ -416,11 +428,14 @@ func motivo_para_nao_cozinhar(id: String) -> String:
 	for planta in receita:
 		if quantidade_colhida(planta) < int(receita[planta]):
 			return MSG_FALTA_INGREDIENTE
+	for peixe in Refeicoes.dados(id).get("peixes",{}):
+		if quantidade_peixes(peixe,quem) < int(Refeicoes.dados(id)["peixes"][peixe]):
+			return MSG_FALTA_INGREDIENTE
 	return ""
 
 ## O Caio cozinha: gasta a colheita e o prato vale a próxima partida (Progresso.comer). "" = comeu
-func cozinhar(id: String) -> String:
-	var motivo := motivo_para_nao_cozinhar(id)
+func cozinhar(id: String, quem: Node = null) -> String:
+	var motivo := motivo_para_nao_cozinhar(id,quem)
 	if motivo != "":
 		return motivo
 	var receita: Dictionary = Refeicoes.dados(id)["receita"]
@@ -428,6 +443,8 @@ func cozinhar(id: String) -> String:
 		colheita[planta] = quantidade_colhida(planta) - int(receita[planta])
 		if colheita[planta] <= 0:
 			colheita.erase(planta)
+	for peixe in Refeicoes.dados(id).get("peixes",{}):
+		gastar_peixes(peixe,int(Refeicoes.dados(id)["peixes"][peixe]),quem)
 	Progresso.comer(id)
 	_ao_bolsa_alterada()
 	_agendar_salvamento()
@@ -652,6 +669,110 @@ func _tabela_entulho() -> Dictionary:
 		tabela["%d,%d" % [celula.x, celula.y]] = entulho[celula]
 	return tabela
 
+# --- Pesca (minigame copiado do SeasonsFarm, 2026-10-17): o peixe vai para a bolsa e pode ser vendido ao Tomas ------
+
+func mochila_pesca(quem: Node = null) -> Node:
+	return InventarioJogador2 if quem != null and EventosJogo.eh_do_p2(quem) else InventarioJogador
+
+func quantidade_peixes(id: String, quem: Node = null) -> int:
+	migrar_peixes_antigos()
+	return mochila_pesca(quem).quantidade_peixes(id)
+
+func total_de_peixes(quem: Node = null) -> int:
+	migrar_peixes_antigos()
+	return mochila_pesca(quem).quantidade_peixes()
+
+func pescar(id: String, perfeita := false, quem: Node = null, qualidade := 0) -> bool:
+	if not Peixes.existe(id) or not mochila_pesca(quem).adicionar_peixe(id,qualidade):
+		return false
+	peixes_pescados[id] = int(peixes_pescados.get(id,0))+1
+	if perfeita: pesca_perfeitas += 1
+	mochila_pesca(quem).salvar()
+	_ao_bolsa_alterada()
+	_agendar_salvamento()
+	return true
+
+func gastar_peixes(id: String, quantidade: int, quem: Node = null) -> bool:
+	migrar_peixes_antigos()
+	if not mochila_pesca(quem).gastar_peixes(id,quantidade): return false
+	mochila_pesca(quem).salvar()
+	return true
+
+func valor_dos_peixes(id := "", quem: Node = null) -> int:
+	migrar_peixes_antigos()
+	var total := 0
+	var qualidade := preload("res://codigo/pesca/qualidade_peixe.gd")
+	for item in mochila_pesca(quem).mochila:
+		if item != null and item.categoria == "peixe" and (id=="" or item.peixe()==id):
+			total += item.quantidade*qualidade.valor(Peixes.brasas(item.peixe()),item.qualidade)
+	return total
+
+func vender_peixes(id := "", quem: Node = null) -> int:
+	var ganho := valor_dos_peixes(id,quem)
+	if ganho<=0: return 0
+	var inventario := mochila_pesca(quem)
+	for i in inventario.mochila.size():
+		var item = inventario.mochila[i]
+		if item != null and item.categoria == "peixe" and (id=="" or item.peixe()==id): inventario.mochila[i]=null
+	inventario._avisar_mochila()
+	inventario.salvar()
+	Progresso.brasas += ganho
+	Progresso.salvar()
+	Progresso.brasas_alteradas.emit(Progresso.brasas)
+	_ao_bolsa_alterada()
+	_agendar_salvamento()
+	return ganho
+
+var _migrando_peixes := false
+func migrar_peixes_antigos() -> void:
+	if peixes.is_empty() or _migrando_peixes: return
+	_migrando_peixes = true
+	var mudou := false
+	for id in peixes.keys():
+		if InventarioJogador.adicionar_peixe(id,0,int(peixes[id])):
+			peixes.erase(id)
+			mudou = true
+	if mudou:
+		InventarioJogador.salvar()
+		salvar()
+	_migrando_peixes = false
+
+func pedidos_pesca() -> Array[Dictionary]:
+	return DesafiosPesca.pedidos_do_dia(Calendario.dia,Calendario.estacao())
+
+func progresso_desafio_pesca(id: String) -> int:
+	return DesafiosPesca.progresso(id,peixes_pescados,pesca_perfeitas,pesca_pedidos_entregues.size())
+
+func resgatar_desafio_pesca(id: String) -> int:
+	var dados := DesafiosPesca.dados(id)
+	if dados.is_empty() or pesca_recompensas.has(id) or progresso_desafio_pesca(id) < int(dados["meta"]):
+		return 0
+	pesca_recompensas[id] = true
+	return _recompensar_pesca(int(dados["brasas"]))
+
+func entregar_pedido_pesca(id: String) -> int:
+	if pesca_pedidos_entregues.has(id):
+		return 0
+	for pedido in pedidos_pesca():
+		if pedido["id"] != id:
+			continue
+		var peixe: String = pedido["peixe"]
+		if quantidade_peixes(peixe) < int(pedido["quantidade"]):
+			return 0
+		gastar_peixes(peixe,int(pedido["quantidade"]))
+		pesca_pedidos_entregues[id] = true
+		return _recompensar_pesca(int(pedido["brasas"]))
+	return 0
+
+func _recompensar_pesca(brasas: int) -> int:
+	Progresso.brasas += brasas
+	# Marca a entrega/resgate antes de permitir outra interação.
+	salvar()
+	Progresso.salvar()
+	Progresso.brasas_alteradas.emit(Progresso.brasas)
+	_ao_bolsa_alterada()
+	return brasas
+
 func salvar() -> bool:
 	var tabela := {}
 	for celula in solo:
@@ -662,7 +783,8 @@ func salvar() -> bool:
 	if arquivo == null:
 		return false
 	# "sementes" só guarda o que ainda não migrou para a mochila (saves antigos)
-	arquivo.store_string(JSON.stringify({"versao": 3, "solo": tabela, "sementes": _sementes_antigas, "colheita": colheita,
+	arquivo.store_string(JSON.stringify({"versao": 3, "solo": tabela, "sementes": _sementes_antigas, "colheita": colheita, "peixes": peixes, "peixes_pescados": peixes_pescados,
+			"varas_pesca": varas_pesca, "pedras_vara": pedras_vara, "pesca_capturas_jogador":pesca_capturas_jogador, "pesca_ultima_pedra":pesca_ultima_pedra, "pesca_perfeitas": pesca_perfeitas, "pesca_recompensas": pesca_recompensas, "pesca_pedidos_entregues": pesca_pedidos_entregues,
 			"pocoes": pocoes, "clima_hoje": clima_hoje, "removidos": removidos,
 			"entulho": _tabela_entulho(), "entulho_iniciado": entulho_iniciado, "agua_regador": agua_regador}, "\t"))
 	return true
@@ -694,6 +816,33 @@ func carregar() -> bool:
 					"murcha": planta != "" and bool(item.get("murcha", false))}
 	_sementes_antigas = _ler_contagens(dados.get("sementes", {}), PLANTAS)
 	colheita = _ler_contagens(dados.get("colheita", {}), PLANTAS)
+	peixes = _ler_contagens(dados.get("peixes", {}), Peixes.DADOS)
+	peixes_pescados = _ler_contagens(dados.get("peixes_pescados", {}), Peixes.DADOS)
+	for campo in ["varas_pesca","pedras_vara"]:
+		var lido = dados.get(campo,{})
+		if lido is Dictionary:
+			for chave in ["p1","p2"]:
+				if campo == "varas_pesca":
+					varas_pesca[chave] = clampi(int(lido.get(chave,1)),1,5)
+				else:
+					pedras_vara[chave] = maxi(0,int(lido.get(chave,0)))
+	pesca_perfeitas = maxi(0,int(dados.get("pesca_perfeitas",0)))
+	for campo in ["pesca_capturas_jogador","pesca_ultima_pedra"]:
+		var lido = dados.get(campo,{})
+		if lido is Dictionary:
+			for chave in ["p1","p2"]:
+				get(campo)[chave] = maxi(-1 if campo == "pesca_ultima_pedra" else 0,int(lido.get(chave,-1 if campo == "pesca_ultima_pedra" else 0)))
+	var recompensas = dados.get("pesca_recompensas",{})
+	if recompensas is Dictionary:
+		for id in recompensas:
+			if recompensas[id] == true and not DesafiosPesca.dados(id).is_empty():
+				pesca_recompensas[id] = true
+	var pedidos_entregues = dados.get("pesca_pedidos_entregues",{})
+	if pedidos_entregues is Dictionary:
+		for id in pedidos_entregues:
+			var partes := String(id).split("_")
+			if pedidos_entregues[id] == true and partes.size() == 2 and partes[0].is_valid_int() and int(partes[0]) > 0 and partes[1] in ["mar","rio"]:
+				pesca_pedidos_entregues[id] = true
 	pocoes = _ler_contagens(dados.get("pocoes", {}), Pocoes.POCOES)
 	clima_hoje = clampi(int(dados.get("clima_hoje", -1)), -1, ClimaScript.Estado.NEVE_FORTE)
 	var tabela_entulho = dados.get("entulho", {})
@@ -712,6 +861,8 @@ func carregar() -> bool:
 			var item = bruto[chave]
 			if item is Dictionary and RECRESCER.has(String(item.get("tipo", ""))):
 				removidos[String(chave)] = {"dia": int(item.get("dia", 0)), "tipo": String(item["tipo"]), "toco": bool(item.get("toco", false))}
+	# A vara na mochila segue o nível que acabou de ser lido
+	preload("res://codigo/pesca/varas.gd").sincronizar_itens()
 	return true
 
 ## Contagens {id: n} do arquivo: só ids de `validos` e quantidades positivas
@@ -727,6 +878,15 @@ func _zerar() -> void:
 	solo = {}
 	_sementes_antigas = {}
 	colheita = {}
+	peixes = {}
+	peixes_pescados = {}
+	varas_pesca = {}
+	pedras_vara = {}
+	pesca_capturas_jogador = {}
+	pesca_ultima_pedra = {}
+	pesca_perfeitas = 0
+	pesca_recompensas = {}
+	pesca_pedidos_entregues = {}
 	pocoes = {}
 	removidos = {}
 	entulho = {}

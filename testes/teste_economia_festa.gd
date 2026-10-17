@@ -67,11 +67,11 @@ func _rodar() -> void:
 	modelo.caminho_save = "user://mochila_teste_cheia.json"
 	verificar("mochila cheia nao perde Brasas", Loja.comprar("cenoura", modelo, prog, 0) == "MOCHILA CHEIA" and prog.brasas == 30)
 	modelo.queue_free()
-	cal.dia = 8
+	cal.dia = 31
 	cal.estacao_mudou.emit(1)
 	await quadros()
 	verificar("estoque muda ao virar a estacao", loja._botoes_loja["sementes"].size() == 4 and loja._botoes_loja["sementes"][0].tooltip_text.contains("GIRASSOL"))
-	cal.dia = 22
+	cal.dia = 91
 	cal.estacao_mudou.emit(3)
 	await quadros()
 	verificar("inverno sem venda fora da estacao", loja._botoes_loja["sementes"].is_empty() and loja._nome_item.text == "INVERNO" and loja._botao_comprar.disabled)
@@ -103,8 +103,8 @@ func _rodar() -> void:
 	var inventario: Node = ui._telas["inventario"]
 	inventario.selecionar_pagina(2)
 	await quadros(12)
-	verificar("inventario tem tres abas com icones e sem texto", inventario._botoes_abas.size() == 3 and inventario._botoes_abas.all(func(botao): return botao.text == "" and botao.get_child_count() > 0 and botao.tooltip_text != ""))
-	verificar("aba de desafios mostra armas e progresso", inventario._desafios.is_visible_in_tree() and inventario._desafios._lista.get_child_count() == 8)
+	verificar("inventario tem quatro abas com icones e sem texto", inventario._botoes_abas.size() == 4 and inventario._botoes_abas.all(func(botao): return botao.text == "" and botao.get_child_count() > 0 and botao.tooltip_text != ""))
+	verificar("aba de desafios mostra armas e progresso", inventario._desafios.is_visible_in_tree() and inventario._desafios._grade_catalogo.get_child_count() == 6)
 	if "--capturar" in OS.get_cmdline_user_args():
 		await root.get_node("Transicao").clarear(0.0)
 		await quadros()

@@ -258,7 +258,7 @@ func _fechar_painel() -> void:
 
 func _ao_continuar() -> void:
 	if FileAccess.file_exists(caminho_save_personagem):
-		_trocar_cena(Introducao.cena_continuar())
+		_trocar_cena("res://cenas/fazenda.tscn" if Comercio.em_viagem else Introducao.cena_continuar())
 	else:
 		_trocar_cena(CENA_CUSTOMIZACAO)
 
@@ -272,6 +272,7 @@ func _ao_novo_jogo() -> void:
 		Fazenda.apagar()
 		Cidade.apagar()
 		BauCasa.apagar()
+		Comercio.apagar()
 		Transicao.limpar()
 		Introducao.iniciar()
 		_trocar_cena(CENA_CUSTOMIZACAO)
@@ -290,6 +291,7 @@ func _ao_confirmar_novo_jogo() -> void:
 	Fazenda.apagar()
 	Cidade.apagar()
 	BauCasa.apagar()
+	Comercio.apagar()
 	Transicao.limpar()
 	InventarioJogador.limpar()
 	DadosJogo.resetar_moedas()
@@ -351,7 +353,7 @@ func _ao_continuar_coop() -> void:
 	if _saindo:
 		return
 	Saves.trocar(Saves.COOP)
-	_trocar_cena(Introducao.cena_continuar())
+	_trocar_cena("res://cenas/fazenda.tscn" if Comercio.em_viagem else Introducao.cena_continuar())
 
 ## Novo mundo co-op: apaga o anterior (pedindo confirmação se ele existe), começa sem o prólogo, com o kit inicial e as
 ## sementes para os dois, e vai criar os dois personagens
@@ -373,6 +375,7 @@ func _ao_novo_coop() -> void:
 	Fazenda.apagar()
 	Cidade.apagar()
 	BauCasa.apagar()
+	Comercio.apagar()
 	Transicao.limpar()
 	DadosJogo.resetar_moedas()
 	Introducao.pular_prologo()

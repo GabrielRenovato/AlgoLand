@@ -478,7 +478,7 @@ def escrever_fazenda():
     s_raiz = c.recurso("Script", "res://codigo/logica/fazenda.gd", "fazenda_gd")
     c.no("fazenda", "Node2D", props=['script = ExtResource("%s")' % s_raiz, "limites = Rect2(%d, %d, %d, %d)" % (
         LIMITES[0], LIMITES[1], LIMITES[2] - LIMITES[0], LIMITES[3] - LIMITES[1]), 'metadata/titulo_hud = "FAZENDA"',
-                                  "metadata/barra_ferramentas = true"], raiz=True)
+                                  "metadata/barra_ferramentas = true", "comparar_visual_fazenda = true"], raiz=True)
     c.no("Terrains", "", ".", instancia=terreno)
     c.no("Jogador", "", ".", ["z_index = 1", "position = %s" % vec(*PORTA_CHEGADA), "collision_mask = 96"], instancia=jogador)
     c.no("Vinheta", "", ".", ["layer = 1"], instancia=vinheta)

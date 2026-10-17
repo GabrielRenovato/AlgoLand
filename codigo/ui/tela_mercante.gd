@@ -439,7 +439,7 @@ func _montar_confirmacao() -> void:
 	titulo.add_theme_color_override("font_color", Color("e7c884"))
 	coluna.add_child(titulo)
 	var aviso := Label.new()
-	aviso.text = "A PARTIDA VAI SE ENCERRAR:\nSUA LUTA VIRA BRASAS, OS TOTENS SOMEM, O SAQUE\nE VENDIDO E A PROXIMA ENTRADA COMECA NA ONDA 1.\nO EQUIPAMENTO DA MOCHILA FICA COM VOCE."
+	aviso.text = "A PARTIDA VAI SE ENCERRAR:\nSUA LUTA VIRA BRASAS, OS TOTENS SOMEM, O SAQUE\nE VENDIDO E A PROXIMA ENTRADA COMECA NA ONDA 1.\nO EQUIPAMENTO TEMPORARIO DA ARENA E DESCARTADO.\nCONJUNTOS E RECURSOS PERMANENTES FICAM COM VOCE."
 	aviso.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	aviso.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	aviso.add_theme_font_size_override("font_size", 8)
@@ -470,6 +470,9 @@ func _confirmar_volta_para_cidade() -> void:
 	Saque.encerrar(true)
 	Cooperativo.encerrar_partida_p2()
 	var resultado: Dictionary = Progresso.encerrar_partida()
+	InventarioJogador.reiniciar_equipamento_da_partida()
+	if Cooperativo.com_dois():
+		InventarioJogador2.reiniciar_equipamento_da_partida()
 	DadosDosItems.resetar_precos()
 	_fechar()
 	Transicao.sair_da_arena(true)

@@ -86,6 +86,9 @@ func _estacao() -> int:
 	return Calendario.estacao()
 
 func _textura(peca: String) -> Texture2D:
+	var tiny: String = preload("res://codigo/cenario/fazenda_tiny.gd").pasta_do_terreno(get_parent(), _estacao())
+	if not tiny.is_empty():
+		return load(tiny + ("arbusto_m" if peca == "arbusto" else peca) + ".png")
 	return load(PASTA_ENTULHO + NOMES_ESTACAO[_estacao()] + "/" + peca + ".png")
 
 ## A estação visual virou: cada entulho troca para o desenho da nova
@@ -97,6 +100,9 @@ func _trocar_estacao() -> void:
 		toco.texture = _textura_toco()
 
 func _textura_toco() -> Texture2D:
+	var tiny: String = preload("res://codigo/cenario/fazenda_tiny.gd").pasta_do_terreno(get_parent(), _estacao())
+	if not tiny.is_empty():
+		return load(tiny + "toco.png")
 	return load(PASTA_TOCO + NOMES_ESTACAO[_estacao()] + ".png")
 
 func _mostrar_toco(recurso: Dictionary) -> void:

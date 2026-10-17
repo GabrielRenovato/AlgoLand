@@ -461,7 +461,8 @@ func _draw() -> void:
 		var molhado := Fazenda.esta_molhado(celula)
 		var ligacoes := SoloArado.vizinhos(Fazenda.solo, celula)
 		var regadas := SoloArado.vizinhos(Fazenda.solo, celula, true) if molhado else 0
-		draw_texture(textura_do_solo(estacao, molhado, celula, ligacoes, regadas, atlas), origem)
+		var tiny := bool(get_parent().get_meta("visual_tiny", false))
+		draw_texture(SoloArado.textura(estacao, molhado, celula, ligacoes, regadas, atlas, tiny), origem)
 	if _cursor_visivel:
 		_desenhar_cursor(Vector2(_celula_cursor) * Fazenda.LADO)
 

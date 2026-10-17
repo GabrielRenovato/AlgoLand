@@ -196,7 +196,7 @@ func _testar_arar_so_na_area() -> void:
 	_verificar("arar emite solo_alterado da celula", emitidos == [A], str(emitidos))
 	_verificar("arar de novo: ja esta arado", _f.aplicar("enxada", A) == _f.MSG_JA_ARADO and emitidos.size() == 1, "")
 	_verificar("avaliar nao muda nada", _f.avaliar("enxada", B) == "" and not _f.esta_arado(B), "")
-	_cal.dia = 22   # inverno
+	_cal.dia = 91   # inverno
 	_verificar("inverno: solo congelado, nao ara", _f.aplicar("enxada", B) == _f.MSG_CONGELADO and not _f.esta_arado(B), "")
 	_cal.dia = 1
 	_verificar("acao desconhecida nao faz nada", _f.avaliar("martelar", A) != "", "")
@@ -227,7 +227,7 @@ func _testar_plantar_so_no_arado() -> void:
 	_verificar("a semente zerada some da mochila (a casa esvazia)", not _sementes_na_mochila().has("cenoura"), str(_sementes_na_mochila()))
 	_verificar("plantar onde ja tem planta: recusa", _plantar(A, "cenoura") == _f.MSG_TEM_PLANTA, "")
 	_verificar("enxada em cima da planta viva: recusa", _f.aplicar("enxada", A) == _f.MSG_TEM_PLANTA and _f.planta_em(A) == "cenoura", "")
-	_cal.dia = 22
+	_cal.dia = 91
 	_arar_forcado(C)
 	_definir_sementes("morango", 1)
 	_verificar("inverno: nenhuma semente planta", _f.aplicar("plantar", C, "morango") == _f.MSG_FORA_ESTACAO, "")
@@ -259,15 +259,15 @@ func _testar_crescer_so_regado() -> void:
 	_f.avancar_dia(_clima_gd.Estado.LIMPO)
 	_verificar("madura nao passa do limite de dias", _f.dias_crescidos(A) == 3, "")
 	# o fim do dia passa pelo Calendario de verdade (dormir = estacao_mudou + dia_passou)
-	_zerar(3)
+	_zerar(26)
 	_arar(A)
 	_plantar(A, "cenoura")
 	_f.aplicar("regar", A)
 	_cal.dormir()
-	_verificar("Calendario.dormir faz a planta regada crescer (sinal dia_passou)", _cal.dia == 4 and _f.dias_crescidos(A) == 1, "dia=%d dias=%d" % [_cal.dia, _f.dias_crescidos(A)])
+	_verificar("Calendario.dormir faz a planta regada crescer (sinal dia_passou)", _cal.dia == 27 and _f.dias_crescidos(A) == 1, "dia=%d dias=%d" % [_cal.dia, _f.dias_crescidos(A)])
 	_verificar("dormir grava user://fazenda.json (arquivo de teste)", FileAccess.file_exists(CAMINHO_FAZENDA), "")
-	var restante := 7 - 3
-	_verificar("da_tempo_de_crescer: cenoura (3) no dia 4 da estacao sim, morango (6) nao",
+	var restante: int = _cal.DIAS_POR_ESTACAO - _cal.dia_na_estacao()
+	_verificar("da_tempo_de_crescer: cenoura (3) no dia 27 da estacao sim, morango (6) nao",
 			_f.da_tempo_de_crescer("cenoura") and not _f.da_tempo_de_crescer("morango"), "restante=%d" % restante)
 
 func _testar_quadros_das_plantas() -> void:
@@ -319,7 +319,7 @@ func _testar_sorteio_do_clima() -> void:
 	_f.rng.seed = 20261011
 	var tabelas: Array = _clima_gd.SORTEIO_POR_ESTACAO
 	for estacao in 4:
-		_zerar(1 + estacao * 7)
+		_zerar(1 + estacao * _cal.DIAS_POR_ESTACAO)
 		_arar_forcado(A)
 		_arar_forcado(B)
 		var permitidos: Array = []
@@ -345,8 +345,8 @@ func _testar_sorteio_do_clima() -> void:
 			_verificar("inverno: sem chuva (so neve)", not tem_chuva, "")
 
 func _testar_murchar_na_troca_de_estacao() -> void:
-	# primavera dia 7 -> verao: a cenoura (primavera) murcha; o tomate plantado no verao nao
-	_zerar(7)
+	# primavera dia 30 -> verao: a cenoura (primavera) murcha; o tomate plantado no verao nao
+	_zerar(30)
 	_arar(A)
 	_arar(B)
 	_plantar(A, "cenoura")
@@ -354,7 +354,7 @@ func _testar_murchar_na_troca_de_estacao() -> void:
 	_f.aplicar("regar", A)
 	_f.aplicar("regar", B)
 	_cal.dormir()
-	_verificar("dormir no ultimo dia da primavera vira verao (calendario)", _cal.dia == 8 and _cal.estacao() == 1, "")
+	_verificar("dormir no ultimo dia da primavera vira verao (calendario)", _cal.dia == 31 and _cal.estacao() == 1, "")
 	_verificar("planta fora da estacao murcha", _f.esta_murcha(A) and _f.esta_murcha(B) and _f.planta_em(A) == "cenoura", "")
 	_verificar("planta que murchou nao cresce nessa noite (mesmo regada)", _f.dias_crescidos(A) == 0 and _f.dias_crescidos(B) == 0, "")
 	_verificar("murcha: nao amadurece e nao se colhe", not _f.esta_madura(A) and _f.avaliar("colher", A) == _f.MSG_MURCHA, "")
@@ -369,19 +369,19 @@ func _testar_murchar_na_troca_de_estacao() -> void:
 	_cal.dormir()
 	_verificar("planta da estacao em curso nao murcha e cresce", not _f.esta_murcha(A) and _f.dias_crescidos(A) == 1, "dias=%d" % _f.dias_crescidos(A))
 	# a ultima noite do verao: o tomate tambem murcha (estacao seguinte = outono)
-	_cal.dia = 14
+	_cal.dia = 60
 	_f.aplicar("regar", A)
 	_cal.dormir()
 	_verificar("verao -> outono: o tomate murcha", _f.esta_murcha(A) and _cal.estacao() == 2, "")
 	# inverno: tudo murcha
-	_zerar(21)
+	_zerar(90)
 	_arar(A)
 	_plantar(A, "abobora")
 	_cal.dormir()
 	_verificar("outono -> inverno: a abobora murcha", _f.esta_murcha(A) and _cal.estacao() == 3, "")
 	_verificar("inverno: o resto seco ainda sai com a enxada (o solo ja estava arado)", _f.avaliar("enxada", A) == "", _f.avaliar("enxada", A))
 	# o sinal de recarga avisa quem desenha
-	_zerar(7)
+	_zerar(30)
 	_arar(A)
 	_plantar(A, "cenoura")
 	var recargas: Array = []
@@ -592,7 +592,7 @@ func _testar_troca_de_ferramenta() -> void:
 	_verificar("acabou a semente ativa: a barra cai no regador", _f.ferramenta == "regador" and not _f.ferramentas().has("semente:cenoura"), _f.ferramenta)
 	# a estacao que vira tira as sementes da estacao anterior
 	_f.definir_ferramenta("semente:morango")
-	_cal.dia = 7
+	_cal.dia = 30
 	_cal.dormir()
 	_verificar("a estacao virou: as sementes da primavera saem da barra e a ferramenta cai no regador",
 			_f.ferramenta == "regador" and _f.ferramentas() == ["enxada", "regador", "machadinha", "picareta", "semente:tomate"], "%s %s" % [_f.ferramenta, _f.ferramentas()])
@@ -777,7 +777,7 @@ func _testar_cena_da_fazenda() -> void:
 	hud = get_nodes_in_group("hud")[0]
 	_verificar("fazenda recarregada: o solo arado e os dados continuam (vem do autoload)", _f.esta_arado(A) and _f.esta_arado(B), "")
 	# estacao do dia sem chuva possivel: o clima do dia que nao combina com a estacao e ignorado
-	_cal.dia = 22
+	_cal.dia = 91
 	fazenda.get_node("Terrains/Estacoes").definir_estacao(3, true)
 	await _quadros(4)
 	_verificar("chuva guardada nao vale no inverno (so neve): volta ao padrao da estacao", _clima_gd.eh_neve(meteoro.clima_atual), "clima=%d" % meteoro.clima_atual)

@@ -48,7 +48,7 @@ func hora_da_vila() -> float:
 	return float(luz.hora)
 
 func verificar() -> void:
-	if Introducao.ativa() or Transicao.ocupada:
+	if Introducao.ativa() or Transicao.ocupada or Comercio.em_viagem:
 		return
 	# A casa não tem relógio: entrar nela já conta para o pombo voltar na próxima saída
 	if esperando_sair:
@@ -89,14 +89,16 @@ func _anunciar(chave: String, texto: String, detalhe: String) -> void:
 # --- Pombo-correio ------------------------------------------------------------------------------------------------
 
 func verificar_pombo(_hora: float = -1.0) -> void:
-	if is_instance_valid(pombo) or not Cidade.carta_pendente or Cidade.carta_do_dia() == "":
+	var estrada: String = Comercio.carta_estrada if Comercio.liberado else ""
+	var carta := estrada if estrada != "" else Cidade.carta_do_dia()
+	if is_instance_valid(pombo) or (not Cidade.carta_pendente and estrada == "") or carta == "":
 		return
 	# Quem ignorou o pombo recebe a carta na próxima vez que sair de casa (precisa entrar em algum lugar antes)
 	if esperando_sair:
 		return
 	var jogador := destinatario()
 	if jogador != null:
-		enviar_pombo(jogador, Cidade.carta_do_dia())
+		enviar_pombo(jogador, carta)
 
 func _ao_ar_livre(jogador: Node2D) -> bool:
 	return jogador != null and Cooperativo.cena_de(jogador) != null and Cooperativo.cena_de(jogador).scene_file_path in CENAS_AO_AR_LIVRE

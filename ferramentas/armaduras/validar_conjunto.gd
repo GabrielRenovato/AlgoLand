@@ -25,14 +25,17 @@ func _initialize() -> void:
 	var cores := {}
 	for html in config["paleta"]:
 		cores[String(html).to_lower()] = true
-	for pagina in Padrao.CORPOS:
+	var paginas := Padrao.CORPOS.duplicate()
+	if "--pesca" in args:
+		paginas = {"pesca": "Pesca/corpo.png"}
+	for pagina in paginas:
 		var imagens: Array[Image] = []
 		var completa := _ler(raiz + pagina + ".png")
 		for peca in Padrao.PECAS:
 			imagens.append(_ler(raiz + peca + "/" + pagina + ".png"))
 		if completa == null or imagens.has(null):
 			continue
-		var corpo: Image = load("res://assets/personagens/" + Padrao.CORPOS[pagina]).get_image()
+		var corpo: Image = load("res://assets/personagens/" + paginas[pagina]).get_image()
 		var corpo_original := corpo
 		var cobertura_exigida := corpo.duplicate()
 		if config.get("modo_visual", "armadura") == "tecido":

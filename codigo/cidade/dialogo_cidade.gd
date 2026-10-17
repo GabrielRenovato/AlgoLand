@@ -5,11 +5,22 @@ extends "res://codigo/cidade/tela_cidade.gd"
 const Conversa := preload("res://codigo/cidade/conversa_moradores.gd")
 ## Letras por segundo do texto aparecendo
 const VELOCIDADE_TEXTO := 70.0
-var _retrato: TextureRect
-var _opcoes: HFlowContainer
+const RetratoFalante := preload("res://codigo/ui/retrato_falante.gd")
+var _retrato: RetratoFalante
+var _opcoes: GridContainer
+var _menu_assuntos: PanelContainer
+var _continuar: Button
+var _paginas: Array[String] = []
+var _pagina := 0
+var _texto_completo := ""
+var _indicador: Label
+var _linha_dialogo: HBoxContainer
+var _rosto: PanelContainer
 var _pedido := ""
 ## Mostrando o cardápio da taverna (na conversa com o Caio ou na mesa)
 var _cardapio := false
+var _mesa_aberta := false
+var _vizinhos_mesa: Array = []
 ## Submenu da horta: "cozinha" (o Caio cozinha com a colheita) ou "venda" (a Lia troca colheita por Brasas); "" = nenhum
 var _submenu := ""
 const Refeicoes := preload("res://codigo/dados/refeicoes.gd")
@@ -28,134 +39,294 @@ func _ready() -> void:
 	theme = TEMA
 	painel = PanelContainer.new()
 	painel.name = "Painel"
+	painel.grow_vertical = Control.GROW_DIRECTION_BEGIN
 	painel.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	painel.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
-	painel.anchor_left = 0.06
-	painel.anchor_right = 0.94
-	painel.offset_left = 0
-	painel.offset_right = 0
-	if get_viewport().has_meta("dono"):
-		painel.anchor_left = 0.0
-		painel.anchor_right = 1.0
-		painel.offset_left = 8
-		painel.offset_right = -8
-	painel.offset_top = -150
-	# Com muitos assuntos os botões quebram linha: a caixa cresce para cima, sem sair da tela
-	painel.grow_vertical = Control.GROW_DIRECTION_BEGIN
-	painel.offset_bottom = -8
-	var moldura := StyleBoxFlat.new()
-	moldura.bg_color = Color("26232b")
-	moldura.border_color = Color("a89267")
-	moldura.set_border_width_all(2)
-	moldura.content_margin_left = 12
-	moldura.content_margin_right = 12
-	moldura.content_margin_top = 9
-	moldura.content_margin_bottom = 9
-	moldura.shadow_color = Color(0, 0, 0, 0.35)
-	moldura.shadow_size = 3
-	painel.add_theme_stylebox_override("panel", moldura)
+	painel.add_theme_stylebox_override("panel", _estilo_conversa())
 	add_child(painel)
-	var linha := HBoxContainer.new()
-	linha.add_theme_constant_override("separation", 12)
-	painel.add_child(linha)
-	var rosto := PanelContainer.new()
-	rosto.custom_minimum_size = Vector2(64, 64)
-	rosto.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	var fundo := StyleBoxFlat.new()
-	fundo.bg_color = Color("35303a")
-	fundo.border_color = Color("665746")
-	fundo.set_border_width_all(1)
-	rosto.add_theme_stylebox_override("panel", fundo)
-	linha.add_child(rosto)
-	_retrato = TextureRect.new()
-	_retrato.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	_retrato.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	_retrato.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	rosto.add_child(_retrato)
+	_linha_dialogo = HBoxContainer.new()
+	_linha_dialogo.add_theme_constant_override("separation",12)
+	painel.add_child(_linha_dialogo)
 	var coluna := VBoxContainer.new()
 	coluna.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	coluna.add_theme_constant_override("separation", 4)
-	linha.add_child(coluna)
-	var cabecalho := HBoxContainer.new()
-	coluna.add_child(cabecalho)
+	coluna.add_theme_constant_override("separation",5)
+	_linha_dialogo.add_child(coluna)
 	_titulo = Label.new()
-	_titulo.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_titulo.add_theme_color_override("font_color", Color("e7c884"))
-	cabecalho.add_child(_titulo)
-	var fechar := Button.new()
-	fechar.text = "X"
-	fechar.tooltip_text = "Encerrar conversa (Esc / B)"
-	fechar.custom_minimum_size = Vector2(24, 20)
-	fechar.pressed.connect(_fechar)
-	cabecalho.add_child(fechar)
+	_titulo.add_theme_font_size_override("font_size",12)
+	_titulo.add_theme_color_override("font_color",Color("75452d"))
+	coluna.add_child(_titulo)
 	_fala = Label.new()
 	_fala.name = "Fala"
 	_fala.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_fala.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	_fala.add_theme_color_override("font_color", Color("eee6d5"))
+	_fala.add_theme_font_size_override("font_size",10)
+	_fala.add_theme_color_override("font_color",Color("493629"))
 	coluna.add_child(_fala)
-	_opcoes = HFlowContainer.new()
-	_opcoes.add_theme_constant_override("h_separation", 6)
-	_opcoes.add_theme_constant_override("v_separation", 4)
-	coluna.add_child(_opcoes)
+	var rodape := HBoxContainer.new()
+	coluna.add_child(rodape)
+	_indicador = Label.new()
+	_indicador.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_indicador.add_theme_font_size_override("font_size",8)
+	_indicador.add_theme_color_override("font_color",Color("947353"))
+	rodape.add_child(_indicador)
+	_continuar = Button.new()
+	_continuar.text = "CONTINUAR >"
+	_continuar.custom_minimum_size.y = 32 if _usa_toque() else 19
+	_estilizar_opcao(_continuar)
+	if _usa_toque():
+		_continuar.icon = preload("res://codigo/ui/icones_toque.gd").glifo(Vector2i(15,5))
+		_continuar.add_theme_constant_override("icon_max_width",14)
+	_continuar.pressed.connect(_avancar_fala)
+	rodape.add_child(_continuar)
+	_rosto = PanelContainer.new()
+	_rosto.custom_minimum_size = Vector2(66,70)
+	_rosto.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	var fundo := _estilo_conversa()
+	fundo.bg_color = Color("dfbd83")
+	fundo.set_border_width_all(1)
+	fundo.set_content_margin_all(3)
+	fundo.shadow_size = 0
+	_rosto.add_theme_stylebox_override("panel",fundo)
+	_linha_dialogo.add_child(_rosto)
+	_retrato = RetratoFalante.new()
+	_retrato.rotulo = _fala
+	_retrato.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_retrato.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	_retrato.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	_retrato.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_rosto.add_child(_retrato)
+	_menu_assuntos = PanelContainer.new()
+	_menu_assuntos.name = "Assuntos"
+	_menu_assuntos.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_menu_assuntos.add_theme_stylebox_override("panel",StyleBoxEmpty.new())
+	coluna.add_child(_menu_assuntos)
+	coluna.move_child(_menu_assuntos,2)
+	_rolagem = ScrollContainer.new()
+	_rolagem.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	_rolagem.follow_focus = true
+	_rolagem.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_SHOW_NEVER
+	_menu_assuntos.add_child(_rolagem)
+	_opcoes = GridContainer.new()
+	_opcoes.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_opcoes.add_theme_constant_override("h_separation",8)
+	_opcoes.add_theme_constant_override("v_separation",2)
+	_rolagem.add_child(_opcoes)
+	_menu_assuntos.hide()
 	visibility_changed.connect(_ao_visibilidade)
 	Cidade.alterado.connect(_ao_estado)
 	Cidade.conversa_pedida.connect(_ao_conversa)
+	resized.connect(_ajustar_conversa)
+	_ajustar_conversa()
 	visible = false
+
+func _estilo_conversa() -> StyleBoxFlat:
+	var estilo := StyleBoxFlat.new()
+	estilo.bg_color = Color("f3dfb1")
+	estilo.border_color = Color("9b633b")
+	estilo.set_border_width_all(2)
+	estilo.set_corner_radius_all(4)
+	estilo.set_content_margin_all(10)
+	estilo.shadow_color = Color(0.16,0.09,0.05,0.3)
+	estilo.shadow_size = 3
+	return estilo
+
+func _estilizar_opcao(botao: Button) -> void:
+	botao.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	botao.add_theme_font_size_override("font_size",9)
+	botao.add_theme_color_override("font_color",Color("62422c"))
+	botao.add_theme_color_override("font_hover_color",Color("372418"))
+	botao.add_theme_color_override("font_focus_color",Color("372418"))
+	botao.add_theme_color_override("font_disabled_color",Color("a49172"))
+	for estado in ["normal","hover","pressed","focus","disabled"]:
+		var estilo := StyleBoxFlat.new()
+		estilo.bg_color = Color("e6c58b") if estado in ["hover","focus","pressed"] else Color(0,0,0,0)
+		estilo.set_corner_radius_all(3)
+		estilo.set_content_margin_all(4)
+		botao.add_theme_stylebox_override(estado,estilo)
+
+func _ajustar_conversa() -> void:
+	if painel == null:
+		return
+	var estreito := size.x < 360
+	var margem := 8.0 if estreito else maxf(12.0,(size.x-440.0)/2.0)
+	painel.offset_left = margem
+	painel.offset_right = -margem
+	painel.offset_top = -(164 if estreito else 148) if _usa_toque() else (-144 if estreito else -132)
+	painel.offset_bottom = -8
+	_rosto.custom_minimum_size = Vector2(46,58) if estreito else Vector2(66,70)
+	_linha_dialogo.add_theme_constant_override("separation",6 if estreito else 12)
+	_opcoes.columns = 1 if estreito else 2
+
+## O clique/toque completa a página; a confirmação seguinte avança ou mostra as respostas.
+func _avancar_fala() -> void:
+	if _menu_assuntos.visible:
+		_menu_assuntos.hide()
+		_sincronizar_conteudo()
+		_atualizar_indicador()
+		_continuar.grab_focus()
+		return
+	if _fala.visible_ratio < 1.0:
+		if _digitando != null and _digitando.is_valid():
+			_digitando.kill()
+		_fala.visible_ratio = 1.0
+		_atualizar_indicador()
+		return
+	if _pagina+1 < _paginas.size():
+		_pagina += 1
+		_fala.text = _paginas[_pagina]
+		_digitar_pagina()
+		_atualizar_indicador()
+	else:
+		_menu_assuntos.visible = not _menu_assuntos.visible
+		_sincronizar_conteudo()
+		_topo_respostas.call_deferred()
+		_atualizar_indicador()
+		focar_inicio()
+
+func _preparar_leitura() -> void:
+	var texto := _fala.text
+	if texto != _texto_completo:
+		if _digitando != null and _digitando.is_valid():
+			_digitando.kill()
+		_texto_completo = texto
+		_paginas.clear()
+		_pagina = 0
+		var estreito := size.x < 360
+		var margem := 8.0 if estreito else maxf(12.0,(size.x-440.0)/2.0)
+		var largura_texto := maxf(70,size.x-margem*2-20-(46 if estreito else 66)-(6 if estreito else 12))
+		var fonte := _fala.get_theme_font("font")
+		var pagina := ""
+		for palavra in texto.replace("\n"," \n ").split(" ",false):
+			var candidato: String = palavra if pagina.is_empty() else pagina+" "+palavra
+			var altura := fonte.get_multiline_string_size(candidato,HORIZONTAL_ALIGNMENT_LEFT,largura_texto,10).y
+			if altura > 44 and not pagina.is_empty():
+				_paginas.append(pagina.strip_edges())
+				pagina = palavra
+			else:
+				pagina = candidato
+		_paginas.append(pagina.strip_edges())
+	_fala.text = _paginas[_pagina] if not _paginas.is_empty() else ""
+	_fala.visible_ratio = 1.0
+	_menu_assuntos.visible = _mesa_aberta or _submenu != "" or _cardapio
+	_sincronizar_conteudo()
+	_atualizar_indicador()
+	_ajustar_conversa.call_deferred()
+
+func _sincronizar_conteudo() -> void:
+	# Fala e respostas compartilham a mesma área, sem outro balão fora da tela.
+	_fala.visible = not _menu_assuntos.visible
+	_rolagem.scroll_vertical = 0
+
+func _topo_respostas() -> void:
+	await get_tree().process_frame
+	if is_instance_valid(_rolagem) and _menu_assuntos.visible:
+		_rolagem.scroll_vertical = 0
+
+func _atualizar_indicador() -> void:
+	_indicador.text = "%d / %d" % [_pagina+1,maxi(1,_paginas.size())] if _paginas.size() > 1 else ("" if size.x < 360 or _usa_toque() else (Controle.rotulo_botao(JOY_BUTTON_B,self)+": VOLTAR" if Controle.usando_controle_de(self) else "ESC: DESPEDIR-SE"))
+	_continuar.text = "LER A FALA" if _menu_assuntos.visible else ("CONTINUAR >" if _pagina+1 < _paginas.size() else "RESPONDER >")
+
+func _digitar_pagina() -> void:
+	if _digitando != null and _digitando.is_valid():
+		_digitando.kill()
+	_fala.visible_ratio = 0.0
+	_digitando = create_tween()
+	_continuar.text = "CONTINUAR >"
+	_digitando.tween_property(_fala,"visible_ratio",1.0,maxf(0.15,_fala.text.length()/VELOCIDADE_TEXTO))
+	_digitando.tween_callback(_atualizar_indicador)
+
+func focar_inicio() -> void:
+	if not _menu_assuntos.visible:
+		_continuar.grab_focus()
+		return
+	for botao in _botoes:
+		if not botao.disabled:
+			botao.grab_focus()
+			return
+	_continuar.grab_focus()
+
+func _usa_toque() -> bool:
+	return Controle.usando_toque and not EventosJogo.eh_do_p2(self)
+
+func _interlocutor_local() -> String:
+	var jogador := EventosJogo.dono(self)
+	return String(jogador.get_meta("interlocutor_dialogo",Cidade.interlocutor)) if jogador != null else Cidade.interlocutor
 
 func _ao_visibilidade() -> void:
 	if visible:
 		_pedido = ""
 		_aviso = ""
 		_submenu = ""
-		_cardapio = Cidade.mesa_aberta
-		_carta = Cidade.carta_aberta != ""
+		_mesa_aberta = Cidade.mesa_aberta
+		_vizinhos_mesa = Cidade.mesa_vizinhos.duplicate()
+		_cardapio = _mesa_aberta
+		var dono_dialogo := EventosJogo.dono(self)
+		var carta_local := String(dono_dialogo.get_meta("carta_dialogo",Cidade.carta_aberta)) if dono_dialogo != null else Cidade.carta_aberta
+		_carta = carta_local != ""
 		if _carta:
-			_pedido = Cidade.carta_aberta
+			_pedido = carta_local
 			_atualizar()
 			focar_inicio()
 			return
-		if Cidade.mesa_aberta:
+		if _mesa_aberta:
 			_atualizar()
 			focar_inicio()
 			return
 		_abrir_conversa()
 	else:
-		Cidade.mesa_aberta = false
+		if _digitando != null and _digitando.is_valid():
+			_digitando.kill()
+		_fala.visible_ratio = 1.0
+		_menu_assuntos.hide()
+		_mesa_aberta = false
 		_cardapio = false
 		if _carta:
 			_carta = false
-			Cidade.fechar_carta()
+			Cidade.fechar_carta(_pedido)
+			var dono_dialogo := EventosJogo.dono(self)
+			if dono_dialogo != null: dono_dialogo.set_meta("carta_dialogo","")
 
 ## Abertura: na primeira conversa dá as boas-vindas; depois reage ao que o jogador fez desde a última conversa, senão cumprimenta
 func _abrir_conversa() -> void:
-	var id := Cidade.interlocutor
+	var id := _interlocutor_local()
 	if not Dados.MORADORES.has(id):
 		return
 	_id_atual = id
 	var ctx := Conversa.contexto(id, get_tree())
 	var primeira := Conversa.boas_vindas(id, ctx)
 	var reacao := Conversa.reacao(id, ctx)
+	# Pedido pronto para entregar: a conversa já abre nele, sem passar pelo botão PEDIDOS
+	_pedido = _pedido_pronto(id)
 	if primeira != "":
 		_falar(primeira)
 	else:
 		_falar(reacao if reacao != "" else Conversa.saudacao(id, ctx))
 
+## Primeiro pedido aceito de `id` com a meta cumprida pelo jogador desta tela ("" se não houver)
+func _pedido_pronto(id: String) -> String:
+	for chave in Dados.MISSOES:
+		if Dados.MISSOES[chave]["dono"] != id or Cidade.missoes.get(chave, {}).get("estado", "") != "aceita":
+			continue
+		var progresso = Cidade.progresso_missao(chave, EventosJogo.dono(self))
+		if progresso.x >= progresso.y:
+			return chave
+	return ""
+
 ## Troca a fala em tela, com o texto aparecendo aos poucos
 func _falar(texto: String) -> void:
+	_texto_completo = ""
+	_pagina = 0
 	_fala_atual = texto
 	_aviso = ""
 	_atualizar()
-	if _digitando != null and _digitando.is_valid():
-		_digitando.kill()
-	_fala.visible_ratio = 0.0
-	_digitando = create_tween()
-	_digitando.tween_property(_fala, "visible_ratio", 1.0, maxf(0.15, texto.length() / VELOCIDADE_TEXTO))
+	_menu_assuntos.hide()
+	_sincronizar_conteudo()
+	_digitar_pagina()
 	focar_inicio()
 
 ## Assuntos da conversa
 func _assunto(qual: String) -> void:
-	var id := Cidade.interlocutor
+	var id := _interlocutor_local()
 	var ctx := Conversa.contexto(id, get_tree())
 	var texto := ""
 	match qual:
@@ -175,7 +346,10 @@ func _limpar() -> void:
 func _botao(texto: String, acao: Callable, desativado := false) -> Button:
 	var botao := Button.new()
 	botao.text = texto
-	botao.custom_minimum_size.y = 24
+	botao.custom_minimum_size.y = 32 if _usa_toque() else 19
+	botao.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	botao.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_estilizar_opcao(botao)
 	botao.disabled = desativado
 	botao.pressed.connect(acao)
 	_opcoes.add_child(botao)
@@ -186,13 +360,15 @@ func _atualizar() -> void:
 	_limpar()
 	if _carta:
 		_mostrar_carta()
+		_preparar_leitura()
 		Sons.ligar_botoes(self)
 		return
-	if Cidade.mesa_aberta:
+	if _mesa_aberta:
 		_mostrar_mesa()
+		_preparar_leitura()
 		Sons.ligar_botoes(self)
 		return
-	var id := Cidade.interlocutor
+	var id := _interlocutor_local()
 	if not Dados.MORADORES.has(id):
 		return
 	if id != _id_atual:
@@ -203,16 +379,15 @@ func _atualizar() -> void:
 	var morador: Dictionary = Dados.MORADORES[id]
 	_titulo.text = morador["nome"]
 	_titulo.tooltip_text = morador["oficio"]
-	var folha: Texture2D = load(Dados.caminho_sprite(id))
-	var retrato := AtlasTexture.new()
-	retrato.atlas = folha
-	retrato.region = Rect2(64, 0, 64, 64)
-	_retrato.texture = retrato
-	_retrato.modulate = morador["cor"]
+	_retrato.definir_personagem(morador["folha"])
 	if _cardapio:
 		_mostrar_cardapio()
 	elif _submenu == "cozinha":
 		_mostrar_cozinha()
+	elif _submenu == "vara":
+		_mostrar_vara()
+	elif _submenu == "peixes":
+		_mostrar_venda_peixes()
 	elif _submenu == "venda":
 		_mostrar_venda_colheita()
 	elif _pedido != "":
@@ -222,12 +397,13 @@ func _atualizar() -> void:
 		var ctx := Conversa.contexto(id, get_tree())
 		_botao("CONVERSAR", _assunto.bind("papo"))
 		_botao("DICA", _assunto.bind("dica"))
-		_botao("HISTORIA*" if Conversa.tem_historia_nova(id, ctx) else "HISTORIA", _assunto.bind("historia"))
-		_botao("VIZINHOS", _assunto.bind("vizinhos"))
+		if id != "nilo":
+			_botao("HISTORIA*" if Conversa.tem_historia_nova(id, ctx) else "HISTORIA", _assunto.bind("historia"))
+			_botao("VIZINHOS", _assunto.bind("vizinhos"))
 		_servico_dialogo(id, morador)
-		var pedidos: Array = Dados.MISSOES.keys().filter(func(chave): return Dados.MISSOES[chave]["dono"] == id)
+		var pedidos: Array = Dados.MISSOES.keys().filter(func(chave): return Dados.MISSOES[chave]["dono"] == id and (Cidade.missoes.has(chave) or Dados.missao_na_estacao(chave,Calendario.estacao())))
 		if not pedidos.is_empty():
-			var pronto := pedidos.any(func(chave): return Cidade.missoes.get(chave, {}).get("estado", "") == "aceita" and Cidade.progresso_missao(chave).x >= Cidade.progresso_missao(chave).y)
+			var pronto := pedidos.any(func(chave): return Cidade.missoes.get(chave, {}).get("estado", "") == "aceita" and Cidade.progresso_missao(chave,EventosJogo.dono(self)).x >= Cidade.progresso_missao(chave,EventosJogo.dono(self)).y)
 			_botao("PEDIDOS!" if pronto else "PEDIDOS", _abrir_pedido.bind(pedidos[0]))
 		if id == "bardo" and _rotina() != null and _rotina().atendendo():
 			_botao("CARDAPIO", _ver_cardapio.bind(true))
@@ -236,11 +412,21 @@ func _atualizar() -> void:
 			_botao("COZINHAR*" if Progresso.refeicao == "" and _algum_prato_possivel() else "COZINHAR", _abrir_submenu.bind("cozinha"))
 		if Cooperativo.cena_de(self).get("local") == "pousada":
 			_botao("DORMIR", _abrir_servico.bind("dormir"))
+	_botao("DESPEDIR-SE",_fechar)
 	if _aviso != "":
 		_fala.text = _aviso
+	_preparar_leitura()
 	Sons.ligar_botoes(self)
 
 func _servico_dialogo(id: String, morador: Dictionary) -> void:
+	if id == "nilo":
+		var cena := Cooperativo.cena_de(self)
+		var hora: float = cena.hora_atual()
+		if cena.local == "palafita" and hora >= 8 and hora < 17:
+			_botao("MELHORAR VARA",_ver_vara)
+		else:
+			_botao("OFICINA: 8H AS 17H",func(): _falar("Leve sua vara ate minha loja no cais, das 8h as 17h. Eu so preciso das pedras de refinamento que voce pescar."))
+		return
 	# Fora do horário comercial ou no dia de folga o serviço fica fechado (ver Dados.servico_fechado)
 	var luz := Cooperativo.cena_de(self).get_node_or_null("Iluminacao")
 	var hora: float = luz.hora if luz != null else 12.0
@@ -255,7 +441,9 @@ func _servico_dialogo(id: String, morador: Dictionary) -> void:
 		return
 	var contratado := not id in Progresso.MORADORES or Progresso.tem_morador(id)
 	match morador["servico"]:
-		"mercante": _botao("SEMENTES", _abrir_servico.bind("mercante"))
+		"mercante":
+			_botao("SEMENTES", _abrir_servico.bind("mercante"))
+			_botao("VENDER PEIXES",_abrir_submenu.bind("peixes"))
 		"acampamento":
 			_botao("MELHORIAS", _abrir_servico.bind("acampamento"))
 			_botao("VENDER COLHEITA", _abrir_submenu.bind("venda"))
@@ -274,12 +462,12 @@ func _mostrar_pedido() -> void:
 	if estado == "disponivel":
 		_botao("ACEITAR", _aceitar.bind(_pedido))
 	elif estado == "aceita":
-		var progresso := Cidade.progresso_missao(_pedido)
+		var progresso := Cidade.progresso_missao(_pedido,EventosJogo.dono(self))
 		_fala.text += " (%d/%d)" % [progresso.x, progresso.y]
 		_botao("ENTREGAR", _entregar.bind(_pedido), progresso.x < progresso.y)
 	else:
 		_fala.text = dados["nome"] + "\nPedido concluido. Obrigado pela ajuda!"
-	var pedidos: Array = Dados.MISSOES.keys().filter(func(chave): return Dados.MISSOES[chave]["dono"] == Cidade.interlocutor)
+	var pedidos: Array = Dados.MISSOES.keys().filter(func(chave): return Dados.MISSOES[chave]["dono"] == _interlocutor_local() and (Cidade.missoes.has(chave) or Dados.missao_na_estacao(chave,Calendario.estacao())))
 	if pedidos.size() > 1:
 		_botao("OUTRO PEDIDO", _abrir_pedido.bind(pedidos[(pedidos.find(_pedido) + 1) % pedidos.size()]))
 	_botao("VOLTAR", _abrir_pedido.bind(""))
@@ -294,11 +482,7 @@ func _mostrar_carta() -> void:
 	var morador: Dictionary = Dados.MORADORES[dono]
 	_titulo.text = "CARTA DE " + String(morador["nome"])
 	_titulo.tooltip_text = "Trazida pelo pombo-correio"
-	var retrato := AtlasTexture.new()
-	retrato.atlas = load(Dados.caminho_sprite(dono))
-	retrato.region = Rect2(64, 0, 64, 64)
-	_retrato.texture = retrato
-	_retrato.modulate = morador["cor"]
+	_retrato.definir_personagem(morador["folha"])
 	_fala.text = "%s\n%s\nRecompensa: %d Brasas e +2 amizade." % [dados["nome"], dados["texto"], dados["brasas"]]
 	_fala.visible_ratio = 1.0
 	if Cidade.missoes.get(_pedido, {}).get("estado", "disponivel") == "disponivel":
@@ -314,7 +498,7 @@ func _mostrar_carta_misteriosa() -> void:
 	var carta: Dictionary = Cidade.carta_misteriosa(_pedido)
 	_titulo.text = "CARTA SEM REMETENTE"
 	_titulo.tooltip_text = "Trazida pelo pombo-correio. De quem sera?"
-	_retrato.texture = TEXTURA_CARTA_MISTERIOSA
+	_retrato.definir_imagem(TEXTURA_CARTA_MISTERIOSA)
 	_retrato.modulate = Color.WHITE
 	_fala.text = "\"%s\"\n- ?" % carta.get("texto", "")
 	if int(carta.get("brasas", 0)) > 0:
@@ -336,7 +520,7 @@ func _abrir_submenu(qual: String) -> void:
 	focar_inicio()
 
 func _algum_prato_possivel() -> bool:
-	return Refeicoes.ORDEM.any(func(id): return Fazenda.motivo_para_nao_cozinhar(id) == "")
+	return Refeicoes.ORDEM.any(func(id): return Fazenda.motivo_para_nao_cozinhar(id,EventosJogo.dono(self)) == "")
 
 ## Os pratos com a receita; os que faltam ingrediente ficam apagados. Um prato por partida
 func _mostrar_cozinha() -> void:
@@ -344,15 +528,15 @@ func _mostrar_cozinha() -> void:
 		var atual := Refeicoes.dados(Progresso.refeicao)
 		_fala.text = "Voce ja comeu %s (%s). Vale ate o fim da proxima partida na arena; depois eu cozinho outro." % [String(atual["nome"]).to_lower(), Refeicoes.texto_bonus(Progresso.refeicao)]
 	else:
-		_fala.text = "Traga a colheita que eu cozinho. O prato vale a proxima partida inteira na arena (um por vez)."
+		_fala.text = "Traga a colheita e os peixes que eu cozinho. O prato vale a proxima partida inteira na arena (um por vez)."
 		for id in Refeicoes.ORDEM:
 			var dados := Refeicoes.dados(id)
-			var botao := _botao("%s: %s" % [dados["nome"], Refeicoes.texto_bonus(id)], _cozinhar.bind(id), Fazenda.motivo_para_nao_cozinhar(id) != "")
+			var botao := _botao("%s: %s" % [dados["nome"], Refeicoes.texto_bonus(id)], _cozinhar.bind(id), Fazenda.motivo_para_nao_cozinhar(id,EventosJogo.dono(self)) != "")
 			botao.tooltip_text = "%s\nReceita: %s" % [dados["texto"], Refeicoes.texto_receita(id, Fazenda.PLANTAS)]
 	_botao("VOLTAR", _abrir_submenu.bind(""))
 
 func _cozinhar(id: String) -> void:
-	var motivo := Fazenda.cozinhar(id)
+	var motivo := Fazenda.cozinhar(id,EventosJogo.dono(self))
 	if motivo != "":
 		_aviso = motivo
 		Sons.tocar("erro", 0.0)
@@ -409,7 +593,7 @@ func _mostrar_cardapio() -> void:
 			var dados: Dictionary = Dados.CARDAPIO[prato]
 			var botao := _botao("%s - %d" % [dados["nome"], dados["preco"]], _pedir_prato.bind(prato), Progresso.brasas < int(dados["preco"]))
 			botao.tooltip_text = "Recupera %d%% da vida." % roundi(float(dados["cura"]) * 100.0)
-	if not Cidade.mesa_aberta:
+	if not _mesa_aberta:
 		_botao("VOLTAR", _ver_cardapio.bind(false))
 
 func _pedir_prato(prato: String) -> void:
@@ -438,14 +622,14 @@ func _pedir_prato(prato: String) -> void:
 func _mostrar_mesa() -> void:
 	_titulo.text = "MESA DA TAVERNA"
 	_titulo.tooltip_text = ""
-	_retrato.texture = TEXTURA_CARDAPIO
+	_retrato.definir_imagem(TEXTURA_CARDAPIO)
 	_retrato.modulate = Color.WHITE
 	var rotina := _rotina()
 	if rotina != null:
 		_mostrar_cardapio()
 	else:
 		_fala.text = "Uma mesa tranquila."
-	for id in Cidade.mesa_vizinhos:
+	for id in _vizinhos_mesa:
 		if Dados.MORADORES.has(id):
 			_botao("FALAR COM " + String(Dados.MORADORES[id]["nome"]), _falar_com_vizinho.bind(id))
 	_botao("LEVANTAR", _levantar_da_mesa)
@@ -470,3 +654,50 @@ func _abrir_pedido(id: String) -> void:
 	_atualizar()
 	focar_inicio()
 
+
+func _ver_vara() -> void:
+	_abrir_submenu("vara")
+
+func _mostrar_vara() -> void:
+	var varas := preload("res://codigo/pesca/varas.gd")
+	var jogador := EventosJogo.dono(self)
+	var nv := varas.nivel(jogador)
+	_fala.text = "Sua vara esta no nivel %d de 5. Voce tem %d pedra(s) de refinamento." % [nv,varas.pedras(jogador)]
+	var resumo := _botao("VARA NV %d | PEDRAS: %d" % [nv,varas.pedras(jogador)],func(): pass,true)
+	resumo.add_theme_color_override("font_disabled_color",varas.CORES[nv-1])
+	_botao("NIVEL MAXIMO" if nv == 5 else "REFINAR PARA NV %d (%d PEDRAS)" % [nv+1,varas.custo(jogador)],_refinar_vara,nv == 5 or varas.pedras(jogador)<varas.custo(jogador))
+	_botao("VOLTAR",_abrir_submenu.bind(""))
+
+func _refinar_vara() -> void:
+	var cena := Cooperativo.cena_de(self)
+	if cena.local != "palafita" or cena.hora_atual() < 8 or cena.hora_atual() >= 17:
+		_falar("A oficina atende das 8h as 17h. Volte no horario de atendimento.")
+		return
+	if preload("res://codigo/pesca/varas.gd").melhorar(EventosJogo.dono(self)):
+		Sons.tocar("moeda",0.0)
+	_ver_vara()
+
+func _mostrar_venda_peixes() -> void:
+	var peixes := preload("res://codigo/pesca/peixes.gd")
+	_fala.text = "Compro os peixes que voce trouxer da praia e do lago."
+	for id in preload("res://codigo/pesca/peixes.gd").DADOS:
+		var quantidade := Fazenda.quantidade_peixes(id,EventosJogo.dono(self))
+		if quantidade<=0: continue
+		_botao("%s x%d = %d BRASAS" % [peixes.nome(id),quantidade,Fazenda.valor_dos_peixes(id,EventosJogo.dono(self))],_vender_peixe.bind(id))
+	if Fazenda.total_de_peixes(EventosJogo.dono(self)) == 0:
+		_botao("NENHUM PEIXE NA BOLSA",func(): pass,true)
+	_botao("VOLTAR",_abrir_submenu.bind(""))
+
+func _vender_peixe(id: String) -> void:
+	if _interlocutor_local() != "mercador" or Dados.servico_fechado("mercador",Cooperativo.cena_de(self).hora_atual(),Calendario.dia_da_semana()) != "":
+		return
+	if Fazenda.vender_peixes(id,EventosJogo.dono(self)) > 0:
+		Sons.tocar("moeda",0.05)
+	_atualizar()
+	focar_inicio()
+
+func _entregar(id: String) -> void:
+	if Cidade.concluir(id,_interlocutor_local(),EventosJogo.dono(self)):
+		_aviso = "Obrigado! Voce recebeu %d Brasas e ganhou amizade." % Dados.MISSOES[id]["brasas"]
+	_atualizar()
+	focar_inicio()

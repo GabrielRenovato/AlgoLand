@@ -1,0 +1,217 @@
+{
+  "estado": "Protótipo opcional no F3: idle nas quatro direções, caminhada lateral, corrida nas quatro direções e transições de partida/parada, sem alterar a aparência salva.",
+  "referencia_qualidade": "arte/fontes/comercio/cavalo_estudo_v2.png",
+  "referencia_corpo": "assets/personagens/Body/body_1.png",
+  "contrato": {
+    "quadro_logico": [
+      64,
+      64
+    ],
+    "pivo_planejado": [
+      32,
+      44
+    ],
+    "altura_corpo_planejada": 34,
+    "direcao_exemplo": "Corrida nas quatro direções; caminhada lateral",
+    "estados_exemplo": [
+      "idle",
+      "preparacao",
+      "impulso",
+      "andar",
+      "correr"
+    ],
+    "quadros_por_estado": {
+      "andar": 6,
+      "correr": 9,
+      "idle": 2,
+      "partida": 2
+    },
+    "camadas_futuras": [
+      "corpo",
+      "cabelo",
+      "roupas",
+      "ferramentas",
+      "equipamentos"
+    ],
+    "textura_por_quadro": [
+      1024,
+      1024
+    ],
+    "atlas": {
+      "andar": [
+        2,
+        3
+      ],
+      "correr": [
+        2,
+        5
+      ],
+      "idle": [
+        2,
+        2
+      ]
+    },
+    "altura_corpo": "aproximadamente 34 unidades, com ampliação de 1.4x apenas na apresentação",
+    "duracao_quadro_ms": {
+      "andar": 160,
+      "correr": [
+        80,
+        80,
+        80,
+        80,
+        80,
+        80,
+        40,
+        40,
+        80
+      ],
+      "idle": [
+        700,
+        700
+      ]
+    }
+  },
+  "paginas_existentes": [
+    "andar",
+    "fazenda",
+    "forja",
+    "sentado",
+    "espada",
+    "lanca",
+    "reacao_um_mao",
+    "reacao_lanca",
+    "reacao_arco",
+    "arco_p2",
+    "arco_p3"
+  ],
+  "animacoes_no_jogador": [
+    "idle_down",
+    "idle_left",
+    "idle_right",
+    "idle_up",
+    "run_down",
+    "run_left",
+    "run_right",
+    "run_up",
+    "running_down",
+    "running_left",
+    "running_right",
+    "running_up",
+    "smithing_left",
+    "spear_slash_1_down",
+    "spear_slash_1_left",
+    "spear_slash_1_right",
+    "spear_slash_1_up",
+    "spear_slash_2_down",
+    "spear_slash_2_left",
+    "spear_slash_2_right",
+    "spear_slash_2_up",
+    "spear_slash_3_down",
+    "spear_slash_3_left",
+    "spear_slash_3_right",
+    "spear_slash_3_up",
+    "sword_slash_1_down",
+    "sword_slash_1_left",
+    "sword_slash_1_right",
+    "sword_slash_1_up",
+    "sword_slash_2_down",
+    "sword_slash_2_left",
+    "sword_slash_2_right",
+    "sword_slash_2_up",
+    "sword_slash_3_down",
+    "sword_slash_3_left",
+    "sword_slash_3_right",
+    "sword_slash_3_up"
+  ],
+  "limite": "Corrida para cima, baixo, direita e esquerda por espelhamento. Caminhada apenas lateral; demais direções da caminhada e outras ações usam a base existente.",
+  "fontes": [
+    "revisao_movimento/andar_8_poses.png",
+    "revisao_movimento/correr_8_poses.png",
+    "revisao_movimento/andar_pose_2.png",
+    "revisao_movimento/andar_pose_6.png",
+    "revisao_movimento/correr_braco_baixo.png",
+    "corrida_vertical/correr_cima_fonte.png",
+    "corrida_vertical/correr_baixo_fonte.png"
+  ],
+  "prompts": [
+    "revisao_movimento/andar_prompt.txt",
+    "revisao_movimento/correr_prompt.txt",
+    "revisao_movimento/correcao_andar_prompt.txt",
+    "revisao_movimento/andar_pose_2_prompt.txt",
+    "revisao_movimento/andar_pose_6_prompt.txt",
+    "revisao_movimento/correr_braco_baixo_prompt.txt",
+    "corrida_vertical/correr_cima_prompt.txt",
+    "corrida_vertical/correr_baixo_prompt.txt"
+  ],
+  "ferramenta": "imagegen integrado, seguido de registro das poses inteiras e extração alfa. Sem rotação de recortes.",
+  "preparador": "ferramentas/personagem/preparar_exemplo_alta_qualidade.gd",
+  "previa_motor": "ferramentas/personagem/previa_exemplo_alta_qualidade.gd",
+  "previa": "arte/previas/personagens/exemplo_alta_qualidade/andando_e_correndo.gif",
+  "validacao": "Renderização real no Godot, save isolado; caminhada preservada por SHA256; oito poses originais da corrida preservadas pixel a pixel; uma pose de braço abaixando inserida; GIF da corrida com nove quadros e os mesmos 640 ms por ciclo.",
+  "guia_biomecanica": "revisao_movimento/guia_caminhada.svg",
+  "ordem_andar_na_fonte": [
+    0,
+    1,
+    2,
+    4,
+    5,
+    6
+  ],
+  "substituicoes_andar": {
+    "2": "revisao_movimento/andar_pose_2.png",
+    "6": "revisao_movimento/andar_pose_6.png"
+  },
+  "correcao_andar": "Removidos os contatos repetidos dos índices 3 e 7 da tentativa de oito poses. Passagens de apoio opostas foram geradas individualmente; escala registrada pela cabeça, sem esticar a altura das pernas.",
+  "correcao_braco_corrida": {
+    "insercao": "Entre os quadros originais 6 e 7 (índices iniciando em zero).",
+    "quadros_originais_preservados": 8,
+    "andar_preservado_por_sha256": true,
+    "duracao_ciclo_ms": 640,
+    "logs": [
+      "/tmp/algoland-personagem-braco-preparar.log",
+      "/tmp/algoland-personagem-braco-import.log",
+      "/tmp/algoland-personagem-braco-render.log"
+    ]
+  },
+  "integracao_jogo": {
+    "roteiro": "codigo/jogador/heroi_gerado.gd",
+    "menu": "F3 > PERSONAGEM > GERADO: ANDAR / GERADO: CORRER > EXECUTAR",
+    "restauracao": "F3 > PERSONAGEM > MANA SEED REFINADO",
+    "escala": 0.0625,
+    "pivo": "Pés no deslocamento Profundidade.PES_JOGADOR do jogador existente",
+    "direcoes": "Corrida nas quatro direções; caminhada lateral direita e esquerda. Demais ações usam o visual existente.",
+    "teste": "testes/teste_heroi_gerado.gd",
+    "resultado": "Integração ampliada em testes/teste_heroi_gerado.gd; log /tmp/algoland-corrida-vertical-teste.log",
+    "observacao_motor": "Persistem os avisos de vazamento de texturas e recursos ao encerrar o Godot, já registrados nas validações anteriores.",
+    "captura": "arte/previas/personagens/exemplo_alta_qualidade/no_jogo.png"
+  },
+  "corrida_vertical": "corrida_vertical/manifesto.json",
+  "alternancia_pernas": {
+    "fontes_e_prompts": "alternancia_pernas/manifesto.json",
+    "correcao": "Caminhada: fontes4/5 com apoio distante; corrida: fontes2/3/4/5 com perna distante avançando, coxa próxima por cima e para trás.",
+    "integracao": "Preparador carrega substituições por ação/índice; tempos, espelho e corridas verticais preservados."
+  },
+  "balanco_bracos": {
+    "fontes_e_prompts": "balanco_bracos/manifesto.json",
+    "integracao": "Preparador aplica as poses de braço por índice do atlas final; passagem central nas duas metades e posições intermediárias na corrida.",
+    "duracoes_preservadas_ms": {
+      "andar": 960,
+      "correr": 640
+    }
+  },
+  "idle_transicao": {
+    "fontes_e_prompts": "idle_transicao/manifesto.json",
+    "recursos": [
+      "assets/personagens/prototipos/exemplo_alta_qualidade/idle_lado.png",
+      "assets/personagens/prototipos/exemplo_alta_qualidade/idle_baixo.png",
+      "assets/personagens/prototipos/exemplo_alta_qualidade/idle_cima.png"
+    ],
+    "preparador": "ferramentas/personagem/preparar_idle_gerado.gd",
+    "registro": "ferramentas/personagem/registro_sprite_gerado.gd",
+    "controlador": "codigo/jogador/heroi_gerado.gd",
+    "previa": "ferramentas/personagem/previa_idle_gerado.gd",
+    "transicao_corrida_ms": 120,
+    "transicao_andar_ms": 90,
+    "movimento": "Preparação visual independente do deslocamento, controle imediato; virar preserva a fase; ações originais interrompem o protótipo."
+  }
+}

@@ -48,6 +48,10 @@ func conversar(id: String, quem: Node = null) -> void:
 	if not Dados.MORADORES.has(id):
 		return
 	interlocutor = id
+	if quem != null:
+		quem.set_meta("interlocutor_dialogo",id)
+		quem.set_meta("carta_dialogo","")
+		quem.set_meta("mesa_dialogo",false)
 	mesa_aberta = false
 	conversas[id] = true
 	if int(ultimo_dialogo.get(id, -1)) != Calendario.dia:
@@ -72,13 +76,17 @@ func abrir_carta(quem: Node, id: String) -> void:
 	interlocutor = ""
 	mesa_aberta = false
 	carta_aberta = id
+	if quem != null:
+		quem.set_meta("carta_dialogo",id)
+		quem.set_meta("mesa_dialogo",false)
 	conversa_pedida.emit("")
 	EventosJogo.abrir_tela_para(quem, "conversa_cidade")
 
 ## A caixa da carta fechou: registra a leitura (aceita ou não, o pombo não traz a mesma carta de novo)
-func fechar_carta() -> void:
-	var id := carta_aberta
-	carta_aberta = ""
+func fechar_carta(identificador := "") -> void:
+	var id := identificador if identificador != "" else carta_aberta
+	if carta_aberta == id:
+		carta_aberta = ""
 	if id == "":
 		return
 	var presente := int(carta_misteriosa(id).get("brasas", 0))
@@ -93,10 +101,15 @@ func fechar_carta() -> void:
 
 ## Próximo pedido que o pombo traz: o primeiro que o jogador ainda não aceitou nem leu por carta
 func proxima_carta() -> String:
-	for id in Dados.MISSOES:
-		if not missoes.has(id) and not cartas.has(id):
-			return id
-	return ""
+	var disponiveis: Array = Dados.MISSOES.keys().filter(func(id):
+		return not missoes.has(id) and not cartas.has(id) and Dados.missao_na_estacao(id,Calendario.estacao())
+	)
+	if disponiveis.has("boas_vindas"):
+		return "boas_vindas"
+	if Calendario.dia % 2 == 0:
+		for id in disponiveis:
+			if Dados.MISSOES[id]["tipo"] == "peixe": return id
+	return "" if disponiveis.is_empty() else String(disponiveis[0])
 
 ## A próxima carta sem remetente ainda não lida (Dados.CARTAS_MISTERIOSAS), ou vazio
 func proxima_carta_misteriosa() -> String:
@@ -128,7 +141,7 @@ func carta_entregue_hoje() -> bool:
 	return cartas.values().any(func(dia): return int(dia) == Calendario.dia)
 
 func aceitar(id: String) -> bool:
-	if not Dados.MISSOES.has(id) or missoes.has(id):
+	if not Dados.MISSOES.has(id) or missoes.has(id) or not Dados.missao_na_estacao(id,Calendario.estacao()):
 		return false
 	missoes[id] = {"estado": "aceita", "ondas_inicio": ondas_vencidas, "estacao": Calendario.estacao()}
 	_gravar()
@@ -146,7 +159,7 @@ func colheitas_aceitas(id: String) -> Array:
 			lista = Fazenda.plantas_da_estacao(estacao)
 	return lista
 
-func progresso_missao(id: String) -> Vector2i:
+func progresso_missao(id: String, quem: Node = null) -> Vector2i:
 	var dados: Dictionary = Dados.MISSOES[id]
 	match dados["tipo"]:
 		"conversas", "visitas":
@@ -155,6 +168,8 @@ func progresso_missao(id: String) -> Vector2i:
 			for alvo in dados["alvos"]:
 				total += 1 if tabela.has(alvo) else 0
 			return Vector2i(total, dados["alvos"].size())
+		"peixe":
+			return Vector2i(mini(Fazenda.quantidade_peixes(dados["peixe"],quem),int(dados["quantidade"])),dados["quantidade"])
 		"colheita":
 			var total := 0
 			for planta in colheitas_aceitas(id):
@@ -167,13 +182,18 @@ func progresso_missao(id: String) -> Vector2i:
 			return Vector2i(mini(Progresso.checkpoint_max, int(dados["quantidade"])), dados["quantidade"])
 	return Vector2i.ZERO
 
-func concluir(id: String, morador: String) -> bool:
+func concluir(id: String, morador: String, quem: Node = null) -> bool:
 	if not missoes.has(id) or missoes[id]["estado"] != "aceita" or Dados.MISSOES[id]["dono"] != morador:
 		return false
-	var progresso := progresso_missao(id)
+	var progresso := progresso_missao(id,quem)
 	if progresso.x < progresso.y:
 		return false
 	var dados: Dictionary = Dados.MISSOES[id]
+	missoes[id]["estado"] = "concluida"
+	if dados["tipo"] == "peixe":
+		var peixe: String = dados["peixe"]
+		Fazenda.gastar_peixes(peixe,int(dados["quantidade"]),quem)
+		Fazenda.bolsas_alteradas.emit()
 	if dados["tipo"] == "colheita":
 		var faltam := int(dados["quantidade"])
 		for planta in colheitas_aceitas(id):
@@ -186,7 +206,6 @@ func concluir(id: String, morador: String) -> bool:
 				break
 		Fazenda.salvar()
 		Fazenda.bolsas_alteradas.emit()
-	missoes[id]["estado"] = "concluida"
 	amizade[morador] = mini(int(amizade.get(morador, 0)) + 2, 10)
 	Progresso.brasas += int(dados["brasas"])
 	Progresso.salvar()
@@ -249,3 +268,12 @@ func apagar() -> void:
 	_limpar_estado()
 	if FileAccess.file_exists(caminho_save):
 		DirAccess.remove_absolute(ProjectSettings.globalize_path(caminho_save))
+
+## Mantém os dois moradores parados quando P1 e P2 conversam simultaneamente.
+func em_conversa(id: String) -> bool:
+	for interface in get_tree().get_nodes_in_group("interface"):
+		if interface._telas_abertas.has("conversa_cidade"):
+			var tela: Node = interface._telas["conversa_cidade"]
+			if tela._id_atual == id and not tela._mesa_aberta and not tela._carta:
+				return true
+	return false

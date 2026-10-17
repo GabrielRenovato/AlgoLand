@@ -144,6 +144,222 @@
         16,
         16
       ]
+    },
+    "cavala": {
+      "nome": "CAVALA",
+      "icone": "res://assets/pesca/peixes/anchova.png",
+      "ambiente": "mar",
+      "familia_visual": "anchova"
+    },
+    "arenque": {
+      "nome": "ARENQUE",
+      "icone": "res://assets/pesca/peixes/sardinha.png",
+      "ambiente": "mar",
+      "familia_visual": "sardinha"
+    },
+    "tainha": {
+      "nome": "TAINHA",
+      "icone": "res://assets/pesca/peixes/atum.png",
+      "ambiente": "mar",
+      "familia_visual": "atum"
+    },
+    "pescada": {
+      "nome": "PESCADA",
+      "icone": "res://assets/pesca/peixes/salmao.png",
+      "ambiente": "mar",
+      "familia_visual": "salmao"
+    },
+    "corvina": {
+      "nome": "CORVINA",
+      "icone": "res://assets/pesca/peixes/linguado.png",
+      "ambiente": "mar",
+      "familia_visual": "linguado"
+    },
+    "robalo": {
+      "nome": "ROBALO",
+      "icone": "res://assets/pesca/peixes/atum.png",
+      "ambiente": "mar",
+      "familia_visual": "atum"
+    },
+    "pargo": {
+      "nome": "PARGO",
+      "icone": "res://assets/pesca/peixes/salmao.png",
+      "ambiente": "mar",
+      "familia_visual": "salmao"
+    },
+    "sargo": {
+      "nome": "SARGO",
+      "icone": "res://assets/pesca/peixes/linguado.png",
+      "ambiente": "mar",
+      "familia_visual": "linguado"
+    },
+    "garoupa": {
+      "nome": "GAROUPA",
+      "icone": "res://assets/pesca/peixes/baiacu.png",
+      "ambiente": "mar",
+      "familia_visual": "baiacu"
+    },
+    "moreia": {
+      "nome": "MOREIA",
+      "icone": "res://assets/pesca/peixes/anchova.png",
+      "ambiente": "mar",
+      "familia_visual": "anchova"
+    },
+    "barracuda": {
+      "nome": "BARRACUDA",
+      "icone": "res://assets/pesca/peixes/atum.png",
+      "ambiente": "mar",
+      "familia_visual": "atum"
+    },
+    "peixe_espada": {
+      "nome": "PEIXE ESPADA",
+      "icone": "res://assets/pesca/peixes/salmao.png",
+      "ambiente": "mar",
+      "familia_visual": "salmao"
+    },
+    "arraia": {
+      "nome": "ARRAIA",
+      "icone": "res://assets/pesca/peixes/linguado.png",
+      "ambiente": "mar",
+      "familia_visual": "linguado"
+    },
+    "cacao": {
+      "nome": "CACAO",
+      "icone": "res://assets/pesca/peixes/atum.png",
+      "ambiente": "mar",
+      "familia_visual": "atum"
+    },
+    "tubarao_azul": {
+      "nome": "TUBARAO AZUL",
+      "icone": "res://assets/pesca/peixes/atum.png",
+      "ambiente": "mar",
+      "familia_visual": "atum"
+    },
+    "peixe_lua": {
+      "nome": "PEIXE LUA",
+      "icone": "res://assets/pesca/peixes/baiacu.png",
+      "ambiente": "mar",
+      "familia_visual": "baiacu"
+    },
+    "celacanto": {
+      "nome": "CELACANTO",
+      "icone": "res://assets/pesca/peixes/esturjao.png",
+      "ambiente": "mar",
+      "familia_visual": "esturjao"
+    },
+    "rei_das_profundezas": {
+      "nome": "REI DAS PROFUNDEZAS",
+      "icone": "res://assets/pesca/peixes/salmao.png",
+      "ambiente": "mar",
+      "familia_visual": "salmao"
+    },
+    "lambari": {
+      "nome": "LAMBARI",
+      "icone": "res://assets/pesca/peixes/sardinha.png",
+      "ambiente": "rio",
+      "familia_visual": "sardinha"
+    },
+    "tilapia": {
+      "nome": "TILAPIA",
+      "icone": "res://assets/pesca/peixes/perca.png",
+      "ambiente": "rio",
+      "familia_visual": "perca"
+    },
+    "tucunare": {
+      "nome": "TUCUNARE",
+      "icone": "res://assets/pesca/peixes/dourado.png",
+      "ambiente": "rio",
+      "familia_visual": "dourado"
+    },
+    "pacu": {
+      "nome": "PACU",
+      "icone": "res://assets/pesca/peixes/carpa.png",
+      "ambiente": "rio",
+      "familia_visual": "carpa"
+    },
+    "piraputanga": {
+      "nome": "PIRAPUTANGA",
+      "icone": "res://assets/pesca/peixes/truta.png",
+      "ambiente": "rio",
+      "familia_visual": "truta"
+    },
+    "mandi": {
+      "nome": "MANDI",
+      "icone": "res://assets/pesca/peixes/bagre.png",
+      "ambiente": "rio",
+      "familia_visual": "bagre"
+    },
+    "curimbata": {
+      "nome": "CURIMBATA",
+      "icone": "res://assets/pesca/peixes/carpa.png",
+      "ambiente": "rio",
+      "familia_visual": "carpa"
+    },
+    "jundia": {
+      "nome": "JUNDIA",
+      "icone": "res://assets/pesca/peixes/bagre.png",
+      "ambiente": "rio",
+      "familia_visual": "bagre"
+    },
+    "matrinxa": {
+      "nome": "MATRINXA",
+      "icone": "res://assets/pesca/peixes/truta.png",
+      "ambiente": "rio",
+      "familia_visual": "truta"
+    },
+    "pirarara": {
+      "nome": "PIRARARA",
+      "icone": "res://assets/pesca/peixes/bagre.png",
+      "ambiente": "rio",
+      "familia_visual": "bagre"
+    },
+    "surubim": {
+      "nome": "SURUBIM",
+      "icone": "res://assets/pesca/peixes/bagre.png",
+      "ambiente": "rio",
+      "familia_visual": "bagre"
+    },
+    "cachara": {
+      "nome": "CACHARA",
+      "icone": "res://assets/pesca/peixes/esturjao.png",
+      "ambiente": "rio",
+      "familia_visual": "esturjao"
+    },
+    "arapaima": {
+      "nome": "ARAPAIMA",
+      "icone": "res://assets/pesca/peixes/dourado.png",
+      "ambiente": "rio",
+      "familia_visual": "dourado"
+    },
+    "pirarucu": {
+      "nome": "PIRARUCU",
+      "icone": "res://assets/pesca/peixes/salmao.png",
+      "ambiente": "rio",
+      "familia_visual": "salmao"
+    },
+    "piraiba": {
+      "nome": "PIRAIBA",
+      "icone": "res://assets/pesca/peixes/esturjao.png",
+      "ambiente": "rio",
+      "familia_visual": "esturjao"
+    },
+    "arraia_do_rio": {
+      "nome": "ARRAIA DO RIO",
+      "icone": "res://assets/pesca/peixes/linguado.png",
+      "ambiente": "rio",
+      "familia_visual": "linguado"
+    },
+    "dourado_ancestral": {
+      "nome": "DOURADO ANCESTRAL",
+      "icone": "res://assets/pesca/peixes/dourado.png",
+      "ambiente": "rio",
+      "familia_visual": "dourado"
+    },
+    "guardiao_do_lago": {
+      "nome": "GUARDIAO DO LAGO",
+      "icone": "res://assets/pesca/peixes/esturjao.png",
+      "ambiente": "rio",
+      "familia_visual": "esturjao"
     }
   }
 }

@@ -23,3 +23,18 @@ func _ready() -> void:
 		sprite.z_index = Profundidade.z_de(dado[2])
 		sprite.texture_filter = TEXTURE_FILTER_NEAREST
 		add_child(sprite)
+
+	# Balcão frontal; corredor lateral livre para a rotina até o quarto.
+	for x in [128,192]:
+		var item: Dictionary = manifesto["interior/venda/balcao"]
+		var balcao := Sprite2D.new()
+		balcao.name = "Balcao%d" % x
+		balcao.texture = load(item["texturas"][0])
+		balcao.hframes = int(item["quadros"])
+		balcao.centered = false
+		balcao.position = Vector2(x,128)
+		balcao.offset = Vector2(-33,-41)
+		balcao.z_index = Profundidade.z_de(128)
+		balcao.texture_filter = TEXTURE_FILTER_NEAREST
+		add_child(balcao)
+	preload("res://codigo/pesca/mobiliario_cais.gd").montar(self,[["caixas_peixes",64,174],["equipamento_pesca",224,174]])

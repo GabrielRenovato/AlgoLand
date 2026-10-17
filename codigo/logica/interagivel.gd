@@ -20,6 +20,7 @@ var p2_perto: bool = false
 
 var _aviso: Sprite2D
 var _rotulo_tecla: Button
+var _icone_tecla: TextureRect
 var _tela_aberta: bool = false
 
 func _ready() -> void:
@@ -55,12 +56,20 @@ func _montar_aviso() -> void:
 	_rotulo_tecla.add_theme_font_size_override("font_size", 12)
 	_rotulo_tecla.pressed.connect(abrir_tela)
 	_aviso.add_child(_rotulo_tecla)
+	_icone_tecla = TextureRect.new()
+	_icone_tecla.texture = preload("res://codigo/ui/icones_toque.gd").glifo(Vector2i(15,5))
+	_icone_tecla.position = Vector2(5,4)
+	_icone_tecla.size = Vector2(22,22)
+	_icone_tecla.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_icone_tecla.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	_icone_tecla.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_rotulo_tecla.add_child(_icone_tecla)
 
 # F no teclado; no controle, o botão como está escrito nele (Y no Xbox, X no 8BitDo)
 func _atualizar_tecla() -> void:
-	_rotulo_tecla.text = Controle.rotulo_acao("open_menu")
-	# Texto de toque ("AGIR") é mais comprido que uma tecla: fonte menor para caber no botão de 32 px
-	_rotulo_tecla.add_theme_font_size_override("font_size", 12 if _rotulo_tecla.text.length() <= 2 else 7)
+	_icone_tecla.visible = Controle.usando_toque
+	_rotulo_tecla.text = "" if Controle.usando_toque else Controle.rotulo_acao("open_menu")
+	_rotulo_tecla.add_theme_font_size_override("font_size",12)
 
 func _process(_delta: float) -> void:
 	var p1 := Cooperativo._jogador1()
@@ -150,6 +159,8 @@ func disponivel_isolada_p2() -> bool:
 	return p2_perto and _p2_livre() and pode_interagir_para(Cooperativo.jogador2())
 
 func pode_interagir() -> bool:
+	if Comercio.em_viagem and nome_tela != "comercio":
+		return false
 	if not Introducao.permite_interacao(self):
 		return false
 	# No meio do refino na bigorna nada abre por perto (o portal cancelava a animação)

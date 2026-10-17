@@ -1,0 +1,193 @@
+{
+  "ferramenta": "imagegen integrada",
+  "funcao": "Idle com duas poses de respiração e duas poses de partida para o protótipo gerado.",
+  "contrato": {
+    "quadro_logico": [
+      64,
+      64
+    ],
+    "quadro_textura": [
+      1024,
+      1024
+    ],
+    "atlas": [
+      2,
+      2
+    ],
+    "pivo": [
+      32,
+      44
+    ],
+    "altura_aparente": 34,
+    "quadros": [
+      "idle expirando",
+      "idle inspirando",
+      "preparação",
+      "primeiro impulso"
+    ],
+    "direcoes": [
+      "direita",
+      "esquerda por espelho",
+      "baixo",
+      "cima"
+    ],
+    "movimento": "Transição apenas visual, sem bloquear nem atrasar a velocidade do jogador",
+    "temporizacao_ms": {
+      "respiracao": 1400,
+      "preparacao": 55,
+      "transicao_corrida": 120,
+      "transicao_andar": 90
+    },
+    "integracao": "codigo/jogador/heroi_gerado.gd",
+    "preparador": "ferramentas/personagem/preparar_idle_gerado.gd"
+  },
+  "fontes": [
+    {
+      "direcao": "lado",
+      "arquivo": "idle_lado_fonte.png",
+      "original": "/home/alfeim/.codex/generated_images/01a145ef-0cfd-7b82-9373-f0ace128ed9e/exec-a6733420-6965-4fa4-84d8-66dcd3cef35f.png",
+      "referencia": "referencia_lado.png",
+      "prompt": "Use case: identity-preserve. AlgoLand player sprite animation: generate FOUR coherent full-body poses in a precise 2 columns x 2 rows sheet using attached character as strict visual reference. Same bald tan adult base, large head, ivory ribbed tank top, dark brown shorts, bare feet, polished pixel art with original selective dark contours, shading and proportions. side three-quarter view facing RIGHT, as reference. Never face left. Foreground near bright leg must begin moving forward/right while far darker leg remains planted back/left in final takeoff; near arm swings backward and far arm forward.\nThis sheet supplies idle breathing and smooth IDLE-to-RUN takeoff, not a repeat of a run cycle. ALL FOUR CELLS same camera and character size, equal cell dimensions, wide transparent margins, no pose crosses a cell boundary. Overall 2x2 sheet, 4 fully isolated characters. No titles, no cell borders, no ground/shadows, genuinely transparent background.\nREADING ORDER:\nTOP LEFT (frame0): IDLE exhale. Upright relaxed balanced standing stance. Both bare feet planted hip width apart DIRECTLY BELOW hips, knees softly relaxed. Arms hang naturally down beside hips, relaxed lightly closed hands, NOT running fists raised. Calm same face. No stride.\nTOP RIGHT (frame1): IDLE inhale. Almost identical to frame0, EXACT SAME head position, feet positions and planted stance, chest subtly expands, shoulders lift only a tiny amount and arms move subtly with breathing. Do not move head or feet. No stepping, no arm swing. Intended for quiet breathing loop 0→1→0 over 2 seconds.\nBOTTOM LEFT (frame2): PREPARATION, single first takeoff transition. Same feet initially close below body, weight shifts onto pushing foot, knees flex very slightly, torso leans a little into direction of movement. Arms halfway between relaxed hanging and natural bent running position. Head slightly lowered less than one eye height, do not change head size. Grounded, no leap.\nBOTTOM RIGHT (frame3): FIRST PUSH, second takeoff transition immediately before reference running contact. Torso lean almost matches attached run. Trailing foot planted on forefoot directly behind hip with heel raised, other knee advances slightly forward, stride still SHORT and GROUNDED, arms now engage in opposed running swing with bent elbows. NOT a fully stretched run pose; this is the intermediate between frame2 and the attached reference, continuous arm trajectory. Two arms/two legs only, no duplicated feet.\nTechnical contract: source for64x64 logical frames, texture1024x1024 per frame, body~34logical units, physical pivot32,44, ground y44. Preserve rigid skull dimensions and identity in every cell, same anatomical proportions and pixel density. No equipment, hair or redesign. Source saved in arte/fontes/personagens/exemplo_alta_qualidade/idle_transicao, atlases consumed by Godot F3 generated player; other run/walk cycles unchanged."
+    },
+    {
+      "direcao": "baixo",
+      "arquivo": "idle_baixo_fonte.png",
+      "original": "/home/alfeim/.codex/generated_images/01a145ef-0cfd-7b82-9373-f0ace128ed9e/exec-2591a03c-d213-4826-851b-fd37a504e9cf.png",
+      "referencia": "referencia_baixo.png",
+      "prompt": "Use case: identity-preserve. AlgoLand player sprite animation: generate FOUR coherent full-body poses in a precise 2 columns x 2 rows sheet using attached character as strict visual reference. Same bald tan adult base, large head, ivory ribbed tank top, dark brown shorts, bare feet, polished pixel art with original selective dark contours, shading and proportions. front view facing DOWN toward camera, exactly reference viewing elevation. In final takeoff the character's RIGHT leg (viewer LEFT) begins forward toward viewer, left leg pushes behind; right arm goes backward and left arm forward, matching attached running contact pose.\nThis sheet supplies idle breathing and smooth IDLE-to-RUN takeoff, not a repeat of a run cycle. ALL FOUR CELLS same camera and character size, equal cell dimensions, wide transparent margins, no pose crosses a cell boundary. Overall 2x2 sheet, 4 fully isolated characters. No titles, no cell borders, no ground/shadows, genuinely transparent background.\nREADING ORDER:\nTOP LEFT (frame0): IDLE exhale. Upright relaxed balanced standing stance. Both bare feet planted hip width apart DIRECTLY BELOW hips, knees softly relaxed. Arms hang naturally down beside hips, relaxed lightly closed hands, NOT running fists raised. Calm same face. No stride.\nTOP RIGHT (frame1): IDLE inhale. Almost identical to frame0, EXACT SAME head position, feet positions and planted stance, chest subtly expands, shoulders lift only a tiny amount and arms move subtly with breathing. Do not move head or feet. No stepping, no arm swing. Intended for quiet breathing loop 0→1→0 over 2 seconds.\nBOTTOM LEFT (frame2): PREPARATION, single first takeoff transition. Same feet initially close below body, weight shifts onto pushing foot, knees flex very slightly, torso leans a little into direction of movement. Arms halfway between relaxed hanging and natural bent running position. Head slightly lowered less than one eye height, do not change head size. Grounded, no leap.\nBOTTOM RIGHT (frame3): FIRST PUSH, second takeoff transition immediately before reference running contact. Torso lean almost matches attached run. Trailing foot planted on forefoot directly behind hip with heel raised, other knee advances slightly forward, stride still SHORT and GROUNDED, arms now engage in opposed running swing with bent elbows. NOT a fully stretched run pose; this is the intermediate between frame2 and the attached reference, continuous arm trajectory. Two arms/two legs only, no duplicated feet.\nTechnical contract: source for64x64 logical frames, texture1024x1024 per frame, body~34logical units, physical pivot32,44, ground y44. Preserve rigid skull dimensions and identity in every cell, same anatomical proportions and pixel density. No equipment, hair or redesign. Source saved in arte/fontes/personagens/exemplo_alta_qualidade/idle_transicao, atlases consumed by Godot F3 generated player; other run/walk cycles unchanged."
+    },
+    {
+      "direcao": "cima",
+      "arquivo": "idle_cima_fonte.png",
+      "original": "/home/alfeim/.codex/generated_images/01a145ef-0cfd-7b82-9373-f0ace128ed9e/exec-5aa026ce-e6c6-48df-9010-8bbcb953f0b1.png",
+      "referencia": "referencia_cima.png",
+      "prompt": "Use case: identity-preserve. AlgoLand player sprite animation: generate FOUR coherent full-body poses in a precise 2 columns x 2 rows sheet using attached character as strict visual reference. Same bald tan adult base, large head, ivory ribbed tank top, dark brown shorts, bare feet, polished pixel art with original selective dark contours, shading and proportions. rear view facing UP away from camera, exactly reference viewing elevation. No face or eyes visible. In final takeoff the character's LEFT leg (viewer LEFT) begins forward away from viewer, right leg (viewer RIGHT) pushes behind toward viewer; opposite arm swing matching reference running pose.\nThis sheet supplies idle breathing and smooth IDLE-to-RUN takeoff, not a repeat of a run cycle. ALL FOUR CELLS same camera and character size, equal cell dimensions, wide transparent margins, no pose crosses a cell boundary. Overall 2x2 sheet, 4 fully isolated characters. No titles, no cell borders, no ground/shadows, genuinely transparent background.\nREADING ORDER:\nTOP LEFT (frame0): IDLE exhale. Upright relaxed balanced standing stance. Both bare feet planted hip width apart DIRECTLY BELOW hips, knees softly relaxed. Arms hang naturally down beside hips, relaxed lightly closed hands, NOT running fists raised. Calm same face. No stride.\nTOP RIGHT (frame1): IDLE inhale. Almost identical to frame0, EXACT SAME head position, feet positions and planted stance, chest subtly expands, shoulders lift only a tiny amount and arms move subtly with breathing. Do not move head or feet. No stepping, no arm swing. Intended for quiet breathing loop 0→1→0 over 2 seconds.\nBOTTOM LEFT (frame2): PREPARATION, single first takeoff transition. Same feet initially close below body, weight shifts onto pushing foot, knees flex very slightly, torso leans a little into direction of movement. Arms halfway between relaxed hanging and natural bent running position. Head slightly lowered less than one eye height, do not change head size. Grounded, no leap.\nBOTTOM RIGHT (frame3): FIRST PUSH, second takeoff transition immediately before reference running contact. Torso lean almost matches attached run. Trailing foot planted on forefoot directly behind hip with heel raised, other knee advances slightly forward, stride still SHORT and GROUNDED, arms now engage in opposed running swing with bent elbows. NOT a fully stretched run pose; this is the intermediate between frame2 and the attached reference, continuous arm trajectory. Two arms/two legs only, no duplicated feet.\nTechnical contract: source for64x64 logical frames, texture1024x1024 per frame, body~34logical units, physical pivot32,44, ground y44. Preserve rigid skull dimensions and identity in every cell, same anatomical proportions and pixel density. No equipment, hair or redesign. Source saved in arte/fontes/personagens/exemplo_alta_qualidade/idle_transicao, atlases consumed by Godot F3 generated player; other run/walk cycles unchanged."
+    }
+  ],
+  "validacao": {
+    "projeto_isolado": "/tmp/algoland-fazenda-tiny-20261016",
+    "teste": "testes/teste_heroi_gerado.gd --capturar-idle",
+    "resultado": "115 verificações, 0 falhas",
+    "casos": [
+      "idle nas quatro direções",
+      "respiração",
+      "preparação e primeiro impulso",
+      "controle sem bloqueio",
+      "virar durante a partida",
+      "toque curto",
+      "retomar durante a acomodação",
+      "ações originais interrompem a transição",
+      "delta longo preserva o excedente",
+      "regressão dos ciclos e do F3"
+    ],
+    "ciclos_anteriores": "SHA256 de andar e das três folhas de corrida permanece inalterado",
+    "avisos_existentes": "127 mensagens de recursos no encerramento do teste completo, já existentes; sem erros de script",
+    "revisao_visual": "Prévia com controlador real e capturas na fazenda das quatro direções, idle/preparação/impulso/corrida/acomodação; registro e escala comparados aos ciclos existentes.",
+    "previa_gif": "arte/previas/personagens/exemplo_alta_qualidade/idle_transicao/idle_para_corrida.gif",
+    "previa_fazenda": "arte/previas/personagens/exemplo_alta_qualidade/idle_transicao/idle_para_corrida_no_jogo.gif"
+  },
+  "recursos": {
+    "lado": {
+      "recurso": "assets/personagens/prototipos/exemplo_alta_qualidade/idle_lado.png",
+      "tamanho": [
+        2048,
+        2048
+      ],
+      "quadros_distintos": 4,
+      "limites": [
+        [
+          383,
+          153,
+          635,
+          704
+        ],
+        [
+          382,
+          153,
+          635,
+          704
+        ],
+        [
+          337,
+          223,
+          649,
+          704
+        ],
+        [
+          290,
+          217,
+          685,
+          704
+        ]
+      ]
+    },
+    "baixo": {
+      "recurso": "assets/personagens/prototipos/exemplo_alta_qualidade/idle_baixo.png",
+      "tamanho": [
+        2048,
+        2048
+      ],
+      "quadros_distintos": 4,
+      "limites": [
+        [
+          360,
+          159,
+          666,
+          704
+        ],
+        [
+          359,
+          159,
+          664,
+          704
+        ],
+        [
+          349,
+          215,
+          674,
+          703
+        ],
+        [
+          324,
+          189,
+          682,
+          704
+        ]
+      ]
+    },
+    "cima": {
+      "recurso": "assets/personagens/prototipos/exemplo_alta_qualidade/idle_cima.png",
+      "tamanho": [
+        2048,
+        2048
+      ],
+      "quadros_distintos": 4,
+      "limites": [
+        [
+          383,
+          169,
+          642,
+          704
+        ],
+        [
+          383,
+          169,
+          643,
+          704
+        ],
+        [
+          369,
+          185,
+          651,
+          704
+        ],
+        [
+          358,
+          163,
+          644,
+          704
+        ]
+      ]
+    }
+  }
+}

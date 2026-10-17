@@ -1,0 +1,33 @@
+{
+  "pacote": "Farm RPG - Tiny Asset Pack - (All in One)",
+  "grade": 16,
+  "escala": 1,
+  "uso": "Comparação reversível no F3, mesma planta e dados da fazenda.",
+  "originais": [
+    "Tileset/ALL props seasons.png",
+    "Tileset/Tilled Soil and wet soil.png",
+    "Tileset/Water tile.png",
+    "Objects/Tree/Common/No Shadow/Pine Tree.png",
+    "Objects/Tree/Common/No Shadow/Maple Tree.png",
+    "Objects/Exterior/Houses/3.png",
+    "Objects/Exterior/Houses/1.png",
+    "Objects/Exterior/Fence and Bridge/Fence Wood.png",
+    "Tileset/Tileset Grass Spring.png",
+    "Tileset/Tileset Grass Summer.png",
+    "Tileset/Tileset Grass Fall.png",
+    "Tileset/Tileset Grass Winter.png",
+    "Tileset/Tileset Grass Cliff Tileset Spring.png",
+    "Tileset/Tileset Grass Cliff Tileset Summer.png",
+    "Tileset/Tileset Grass Cliff Tileset Fall.png",
+    "Tileset/Tileset Grass Cliff Tileset Winter.png"
+  ],
+  "estacoes": [
+    "primavera",
+    "verao",
+    "outono",
+    "inverno"
+  ],
+  "pivos": "Posições existentes; árvores em telas compatíveis, casa com porta em (44, 100).",
+  "integracao": "codigo/cenario/fazenda_tiny.gd",
+  "adaptacoes": "Atlas compatível; face norte estendida; cerca recomposta; tons sazonais dos materiais e água."
+}

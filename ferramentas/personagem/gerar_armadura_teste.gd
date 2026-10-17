@@ -10,7 +10,8 @@ var _placas: Array[Image] = []
 func _initialize() -> void:
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(DESTINO))
 	_carregar_placas()
-	for pagina in Aparencia.PAGINAS_ANDAR + Aparencia.PAGINAS_COMBATE:
+	var paginas := ["pesca"] if "--pesca" in OS.get_cmdline_user_args() else Aparencia.PAGINAS_ANDAR + Aparencia.PAGINAS_COMBATE
+	for pagina in paginas:
 		var textura := Aparencia.roupa(2, pagina)
 		var original := textura.get_image()
 		var imagem: Image = original.duplicate()
@@ -47,6 +48,12 @@ func _initialize() -> void:
 	quit()
 
 func _carregar_placas() -> void:
+	# A folha preparada permite gerar páginas adicionais sem depender do conceito de trabalho.
+	if "--pesca" in OS.get_cmdline_user_args():
+		var atlas := Image.load_from_file(DESTINO + "placas_pixel.png")
+		for i in 4:
+			_placas.append(atlas.get_region(Rect2i(i * 14, 0, 14, 12)))
+		return
 	var fonte := Image.load_from_file(DESTINO + "conceitos/peitoral_placas_v3.png")
 	var paleta: Array[Color] = []
 	for cor in ["151622", "292b42", "40415c", "595c78", "777e99", "9ba5bb", "c8d0df", "eff0e8", "543b1e", "92642d", "cd9b45", "f1cf83", "321923", "602c35", "a04d44", "bc7762"]:

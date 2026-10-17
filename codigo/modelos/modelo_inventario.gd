@@ -1,6 +1,7 @@
 extends Node
 
 # Sem class_name: o nome "InventarioJogador" é o do autoload e o global colidiria
+const Varas := preload("res://codigo/pesca/varas.gd")
 const DadosItemScript := preload("res://codigo/modelos/dados_item.gd")
 const Equipamentos := preload("res://codigo/dados/equipamentos.gd")
 const Conjuntos := preload("res://codigo/dados/conjuntos_armadura.gd")
@@ -121,7 +122,7 @@ func guardar_para_nova_partida() -> Dictionary:
 		if item != null and Conjuntos.de_tipo(item.tipo) != null:
 			pecas.append({"item": item, "equipado": true})
 	for item in mochila:
-		if item != null and (Conjuntos.de_tipo(item.tipo) != null or item.categoria == "semente"):
+		if item != null and (Conjuntos.de_tipo(item.tipo) != null or item.categoria in ["semente","peixe","vara"]):
 			pecas.append({"item": item, "equipado": false})
 	return {"pecas": pecas, "moedas_forja": moedas_forja}
 
@@ -133,6 +134,11 @@ func restaurar_da_partida_anterior(guardado: Dictionary) -> void:
 		var casa := _primeira_livre()
 		if casa == -1:
 			break
+		# A vara guardada vale mais que a recém-criada pelo kit inicial (que ainda estava no nível certo, mas é outro item)
+		if registro["item"].categoria == "vara":
+			for i in mochila.size():
+				if mochila[i] != null and mochila[i].categoria == "vara":
+					mochila[i] = null
 		mochila[casa] = registro["item"]
 		if registro["equipado"]:
 			equipar(registro["item"])
@@ -211,6 +217,23 @@ func _migrar_ferramentas() -> void:
 		var casa := _primeira_livre()
 		if not tem and casa != -1:
 			mochila[casa] = DadosItemScript.de_fazenda(tipo)
+
+## A vara de pesca é um item da mochila de cada jogador, criado a partir deste patch nos saves que ainda não têm uma. O
+## nível/raridade dela seguem o refinamento (Varas). `nivel_vara` < 1 usa o do jogador deste inventário.
+func sincronizar_vara(nivel_vara: int = 0) -> void:
+	if Introducao.ativa():
+		return
+	var nivel_atual: int = nivel_vara if nivel_vara >= 1 else Varas.nivel_do_inventario(self)
+	for item in mochila:
+		if item != null and item.categoria == "vara":
+			if item.nivel != nivel_atual:
+				item.aplicar_nivel_vara(nivel_atual)
+				_avisar_item(item)
+			return
+	var casa := _primeira_livre()
+	if casa != -1:
+		mochila[casa] = DadosItemScript.de_vara(nivel_atual)
+		_avisar_mochila()
 
 func adicionar_moedas_forja(quantidade: int = 1) -> void:
 	moedas_forja = maxi(moedas_forja + quantidade, 0)
@@ -412,6 +435,13 @@ func desequipar(slot: String, indice: int = -1) -> bool:
 func receber(item, indice: int = -1) -> int:
 	if item == null:
 		return -1
+	if item.categoria == "peixe":
+		for pilha in mochila:
+			if pilha != null and pilha.categoria == "peixe" and pilha.tipo == item.tipo and pilha.qualidade == item.qualidade:
+				pilha.quantidade += item.quantidade
+				_avisar_item(pilha)
+				_avisar_mochila()
+				return mochila.find(pilha)
 	if item.categoria == "semente":
 		var pilha = _pilha_de_semente(item.tipo.trim_prefix(DadosItemScript.Plantas.PREFIXO_SEMENTE))
 		if pilha != null:
@@ -481,6 +511,7 @@ func criar_itens_iniciais(para_introducao := false) -> void:
 	_emitir_pendentes()
 	if not para_introducao:
 		entregar_armas_liberadas()
+		sincronizar_vara()
 
 ## Arquivo deste inventário (Saves troca entre o mundo solo e o cooperativo; o do jogador 2 é outro)
 var caminho_save := "user://inventario.json"
@@ -534,16 +565,24 @@ func carregar(caminho: String = "") -> bool:
 			armas_permanentes_entregues.append(tipo)
 	_migrar_aljava()
 	_migrar_ferramentas()
+	sincronizar_vara()
 	_avisar_mochila()
 	for slot in SLOTS:
 		_avisar_slot(slot)
 	return true
 
-# Saves anteriores à aljava podem ter um arco equipado sem ela; concede uma para não travar o personagem
+# Saves anteriores à aljava (ou que a perderam) ficam sem ela e o arco não equipa: reequipa a que estiver na mochila
+# ou concede uma básica, tenha o arco na mão ou não
 func _migrar_aljava() -> void:
-	var arma = equipados["arma"]
-	if arma != null and Equipamentos.familia_de(arma.tipo) == "arco" and equipados["secundaria"] == null:
-		equipados["secundaria"] = _criar_item({"tipo": "aljava_basica", "categoria": "secundaria", "duas_maos": false})
+	if equipados["secundaria"] != null:
+		return
+	for i in mochila.size():
+		var item = mochila[i]
+		if item != null and item.categoria == "secundaria":
+			equipados["secundaria"] = item
+			mochila[i] = null
+			return
+	equipados["secundaria"] = _criar_item({"tipo": "aljava_basica", "categoria": "secundaria", "duas_maos": false})
 
 ## Primeira casa vazia (das liberadas) que não é reservada pela mão
 func _primeira_livre() -> int:
@@ -657,3 +696,46 @@ func entregar_armas_liberadas() -> void:
 		mudou = true
 	if mudou:
 		salvar()
+
+## Encerramento voluntário usa a mesma seleção de itens permanentes da morte.
+## Conjuntos, sementes e moedas de forja ficam; equipamento temporário volta ao kit inicial.
+func reiniciar_equipamento_da_partida() -> void:
+	var guardado := guardar_para_nova_partida()
+	limpar()
+	criar_itens_iniciais()
+	restaurar_da_partida_anterior(guardado)
+	salvar()
+
+## Espécies e qualidades diferentes ocupam pilhas independentes.
+func adicionar_peixe(especie: String, qualidade := 0, quantos := 1) -> bool:
+	if not preload("res://codigo/pesca/peixes.gd").existe(especie) or quantos<=0: return false
+	for item in mochila:
+		if item != null and item.categoria == "peixe" and item.peixe()==especie and item.qualidade==qualidade:
+			item.quantidade += quantos
+			_avisar_item(item)
+			_avisar_mochila()
+			return true
+	return adicionar(DadosItemScript.de_peixe(especie,qualidade,quantos))>=0
+
+func quantidade_peixes(especie := "") -> int:
+	var total := 0
+	for item in mochila:
+		if item != null and item.categoria == "peixe" and (especie=="" or item.peixe()==especie): total += item.quantidade
+	return total
+
+func gastar_peixes(especie: String, quantos: int) -> bool:
+	if quantos<0 or quantidade_peixes(especie)<quantos: return false
+	# Receitas e cartas consomem primeiro a qualidade menor.
+	for qualidade in 4:
+		for i in mochila.size():
+			var item = mochila[i]
+			if item == null or item.categoria != "peixe" or item.peixe()!=especie or item.qualidade!=qualidade: continue
+			var tirar := mini(quantos,item.quantidade)
+			item.quantidade -= tirar
+			quantos -= tirar
+			if item.quantidade==0: mochila[i]=null
+			else: _avisar_item(item)
+			if quantos==0:
+				_avisar_mochila()
+				return true
+	return true

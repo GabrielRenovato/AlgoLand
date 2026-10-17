@@ -1,0 +1,24 @@
+{
+  "tipo": "Estudo de personagem base: corrida em quatro direções",
+  "referencia": "Zelda A Link to the Past: proporções e movimento; personagem original sem equipamentos de Link",
+  "fonte_referencia": "https://www.pinterest.com/pin/417286721704936773/",
+  "grade": {
+    "colunas": 6,
+    "linhas": 4,
+    "quadro_fonte": [
+      256,
+      256
+    ],
+    "direcoes": [
+      "baixo",
+      "direita",
+      "cima",
+      "esquerda"
+    ]
+  },
+  "pivo": "centro inferior; pés registrados em y=232 com oscilação de seis pixels da fonte",
+  "variantes": "seis poses por direção; esquerda espelha direita; segunda metade vertical espelha poses inteiras da primeira metade",
+  "integracao": "Prévia independente no Godot com save isolado. Não altera jogador nem F3.",
+  "observacao": "Estudo visual ampliado. O arquivo gerado não é um atlas nativo de 32 px validado para uso no mapa.",
+  "prompt": "Create a production pixel-art RUN animation spritesheet for an original neutral player base for AlgoLand. The attached Zelda A Link to the Past sprite sheet is a STYLE, PROPORTION and GAIT reference: use the same compact SNES top-down character construction, large head and short articulated legs, clean black/brown contour and few flat shade clusters. Create a NEW bald tan-skinned character wearing a plain ivory sleeveless undershirt, brown shorts and bare feet. No hat, hair, shield, sword or Link costume.\nOUTPUT EXACTLY 6 columns x 4 rows, 24 separate full body sprites, transparent background, no text, no borders, uniform square cells. Row1 runs DOWN facing camera, row2 runs RIGHT strict side view, row3 runs UP away from camera, row4 runs LEFT strict side view (consistent mirrored right). All characters identical proportions and outfit. Native design fits 32x32 pixels per frame, character about 23 pixels tall, rendered as crisp enlarged square pixel clusters, never smooth illustration or antialiasing. Every cell centered horizontally with ground contact at 28/32 of cell height. Full image landscape 1536x1024 (each cell256x256, conceptually32x32 at8x).\nFrames left-to-right form a seamless SIX FRAME RUN cycle: 1 left leg forward/right back opposing right arm forward; 2 feet pass below torso lowering; 3 right leg moving forward and left back; 4 right leg fully forward left back opposite arms; 5 feet pass under torso; 6 left leg moving forward and right back preparing frame1. Both anatomical legs MUST alternate leading every half cycle. Arms swing continuously opposite legs, bent elbows; hands remain same arm. Modest forward torso lean and one-native-pixel rhythmic body bob, fixed head size, stable body mass. Down/up directions must show alternating feet and arms, don't make six identical standing poses.\nPurpose: standalone animation study ONLY. Physical pivot bottom center of each cell, consistent foot baseline; no terrain, props, seasonal variants, captions or drop shadow. Keep generous empty gutters within cells. Reproduce the REFERENCE'S readable small pixel sprite logic rather than a polished high-resolution chibi illustration."
+}

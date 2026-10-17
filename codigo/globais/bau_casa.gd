@@ -67,9 +67,9 @@ func mover(item, casa: int) -> bool:
 	return true
 
 func _destino(item, casa: int) -> int:
-	if item.categoria == "semente":
+	if item.categoria in ["semente","peixe"]:
 		for i in capacidade:
-			if itens[i] != null and itens[i].categoria == "semente" and itens[i].tipo == item.tipo:
+			if itens[i] != null and itens[i].categoria == item.categoria and itens[i].tipo == item.tipo and itens[i].qualidade == item.qualidade:
 				return i
 	if casa >= 0 and casa < capacidade and itens[casa] == null:
 		return casa

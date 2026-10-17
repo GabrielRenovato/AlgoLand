@@ -51,12 +51,18 @@ def colisao(c, nome, x0, y0, x1, y1):
     c.no(nome, 'CollisionShape2D', 'Obstaculos', [f'position = {F.vec((x0+x1)/2, (y0+y1)/2)}', f'shape = SubResource("{ident}")'])
 
 
-def passagem(c, nome, pos, destino, chegada, automatica=False):
+def passagem(c, nome, pos, destino, chegada, automatica=False, saida=None):
     script = c.recurso('Script', 'res://codigo/cidade/passagem_cidade.gd', 'passagem')
     c.no(nome, 'Area2D', props=[f'position = {F.vec(*pos)}', f'script = ExtResource("{script}")',
         f'cena_destino = "res://cenas/{destino}.tscn"', f'ponto_chegada = "{chegada}"', 'so_entre_ondas = false']
-        + (['automatica = true'] if automatica else []))
+        + (['automatica = true'] if automatica else []) + ([f'direcao_saida = {F.vec(*saida)}'] if saida else []))
     c.no('Forma', 'CollisionShape2D', nome, ['shape = SubResource("Forma_porta")'])
+
+
+def placa(c, nome, pos, texto, pai='Terrains'):
+    """Placa que mostra o destino num balão quando o jogador chega perto (codigo/cidade/placa_local.gd)"""
+    script = c.recurso('Script', 'res://codigo/cidade/placa_local.gd', 'placa_local')
+    c.no(nome, 'Node2D', pai, [f'position = {F.vec(*pos)}', f'script = ExtResource("{script}")', f'texto = "{texto}"'])
 
 
 def rotulo(c, nome, pos, texto, pai='Terrains'):
@@ -108,15 +114,15 @@ def exterior():
     c.no('Lago','CollisionPolygon2D','Obstaculos',['polygon = '+F.T.poligono(lago)])
     c.no('EnfeitesFesta','Node2D','Terrains')
     c.no('Bandeiras','Node2D','Terrains/EnfeitesFesta',[f'script = ExtResource("{adorno}")','tipo = "bandeiras"','position = Vector2(336, 212)'])
-    for nome,caixa in [('Norte',(0,-32,w,14)),('SulOeste',(0,h-14,308,h+32)),('SulLeste',(364,h-14,w,h+32)),('Oeste',(-32,0,14,h)),('Leste',(w-14,0,w+32,h))]:colisao(c,nome,*caixa)
-    passagem(c,'TrilhaPraia',(336,h-20),'praia','cidade')
+    for nome,caixa in [('Norte',(0,-32,w,14)),('SulOeste',(0,h-14,308,h+32)),('SulLeste',(364,h-14,w,h+32)),('OesteNorte',(-32,0,14,248)),('OesteSul',(-32,296,14,h)),('Leste',(w-14,0,w+32,h))]:colisao(c,nome,*caixa)
+    passagem(c,'TrilhaPraia',(336,h-20),'praia','cidade',saida=(0,1))
     c.no('Chegada_praia','Marker2D',props=[f'position = {F.vec(336,h-56)}'],grupos=['chegada'])
-    rotulo(c,'PlacaPraia',(336,h-66),'PRAIA v')
-    passagem(c,'TrilhaFazenda',layout['entrada_fazenda'],'fazenda','cidade')
+    placa(c,'PlacaPraia',(310,h-34),'PRAIA')
+    passagem(c,'TrilhaFazenda',layout['entrada_fazenda'],'fazenda','cidade',saida=(-1,0))
     c.no('Chegada_fazenda','Marker2D',props=['position = Vector2(48, 272)'],grupos=['chegada'])
     # A arena só se alcança pelo portal (codigo/cidade/portal_arena.gd, montado por cidade.gd); quem volta dela chega em "portal"
     c.no('Chegada_portal','Marker2D',props=['position = Vector2(488, 136)'],grupos=['chegada'])
-    rotulo(c,'PlacaFazenda',(104,298),'< FAZENDA')
+    placa(c,'PlacaFazenda',(84,300),'FAZENDA')
     c.no('Estacoes','Node','Terrains',[f'script = ExtResource("{est}")','seguir_calendario = true'])
     finalizar(c,res)
     return c.texto()

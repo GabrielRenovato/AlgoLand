@@ -1,7 +1,7 @@
 extends "res://codigo/logica/passagem.gd"
 
 ## Saída automática (porta de dentro das casas): troca de cena assim que o jogador pisa no vão, sem aviso nem
-## botão. As passagens da cidade continuam por interação.
+## botão. Trilhas externas usam direcao_saida; portas de lojas continuam por interação.
 @export var automatica := false
 
 func _ready() -> void:
@@ -28,7 +28,7 @@ func disponivel_isolada_p2() -> bool:
 ## Lojas: a porta só abre no horário do dono (Dados.servico_fechado); fechada, avisa e não deixa entrar.
 ## A taverna abre à noite; a enfermaria segue o expediente da curandeira. A casa do Bento é livre.
 const Dados := preload("res://codigo/cidade/dados_cidade.gd")
-const LOJAS := {"venda": ["mercador", "VENDA"], "enfermaria": ["curandeira", "ENFERMARIA"], "mistica": ["mistica", "CASA DA ESTELA"],
+const LOJAS := {"palafita":["nilo","PESCARIA DO NILO"],"venda": ["mercador", "VENDA"], "enfermaria": ["curandeira", "ENFERMARIA"], "mistica": ["mistica", "CASA DA ESTELA"],
 	"sede": ["lia", "SEDE"], "pousada": ["bardo", "TAVERNA"]}
 
 func _atravessar(jogador: Node2D) -> void:
@@ -71,8 +71,9 @@ func _avisar_fechada(loja: String, dono: String, motivo: String, jogador: Node2D
 ## body_entered chega antes: o círculo de colisão encosta na área com os pés ainda dentro da sala.
 const Profundidade := preload("res://codigo/globais/profundidade.gd")
 
-func _physics_process(_delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	if not automatica:
+		super._physics_process(delta)
 		return
 	var forma := get_node_or_null("Forma") as CollisionShape2D
 	if forma == null or not forma.shape is RectangleShape2D:

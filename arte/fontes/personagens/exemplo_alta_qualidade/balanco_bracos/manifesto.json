@@ -1,0 +1,110 @@
+{
+  "ferramenta": "imagegen integrada",
+  "funcao": "Balanço dos braços com passagem central e continuidade na emenda do ciclo lateral.",
+  "contrato": {
+    "referencia": "Atlas atuais com alternância de pernas corrigida",
+    "quadro_logico": [
+      64,
+      64
+    ],
+    "quadro_textura": [
+      1024,
+      1024
+    ],
+    "pivo": [
+      32,
+      44
+    ],
+    "altura_aparente": 34,
+    "grade_atlas": {
+      "andar": [
+        2,
+        3
+      ],
+      "correr": [
+        2,
+        5
+      ]
+    },
+    "variantes": "Andar e correr para direita; esquerda espelhada; corridas verticais preservadas.",
+    "duracoes_ms": {
+      "andar": 960,
+      "correr": 640
+    },
+    "registro": "Cabeça e apoio do quadro anterior à edição; filtro nearest.",
+    "integracao": "ferramentas/personagem/preparar_exemplo_alta_qualidade.gd; F3 PERSONAGEM"
+  },
+  "poses": [
+    {
+      "acao": "andar",
+      "indice_atlas": 1,
+      "original": "andar_antes_1.png",
+      "arquivo": "andar_pose_1.png",
+      "fonte_gerada": "/home/alfeim/.codex/generated_images/01a145ef-0cfd-7b82-9373-f0ace128ed9e/exec-35301dfa-51a3-4cc5-98aa-6c2d2a8b7347.png",
+      "prompt": "Use case: precise-object-edit. AlgoLand game character animation. Edit this SINGLE sprite pose to repair ARM SWING ONLY. Keep the exact head/face looking RIGHT, torso lean, tank top, brown shorts, near/far leg identity, both leg silhouettes, feet positions, head size, skin palette, pixel-art style and framing unchanged. The legs have just been corrected: DO NOT redraw, swap or reverse legs. Preserve existing body proportions. Two arms total, naturally attached to the shoulders, elbows softly bent, closed relaxed hands. The near arm is the foreground arm attached to the shoulder by the ear on the left of the torso; the far arm is darker and behind the torso. Opposed natural arm swing, not punching. Transparent background, no white rectangle, no ground or cast shadow, no labels. One complete full-body pose per image, no sheet. Frame texture1024x1024 representing logical64x64, pivot32,44; body about34 logical px; nearest filtering. Change ONLY the arms and the tank fabric they uncover; everything else invariant.\nAction andar, frame 1. Natural WALKING passing pose: both arms pass close to vertical alongside the torso, hands down by the hip/short hem. Near upper arm almost vertical (0 degrees swing), relaxed elbow slightly flexed, near hand below waist. Far arm also close to vertical BEHIND torso, partly hidden. Neither arm extended ahead or behind. This is the exact middle of the pendulum, between forward and backward extremes."
+    },
+    {
+      "acao": "andar",
+      "indice_atlas": 4,
+      "original": "andar_antes_4.png",
+      "arquivo": "andar_pose_4.png",
+      "fonte_gerada": "/home/alfeim/.codex/generated_images/01a145ef-0cfd-7b82-9373-f0ace128ed9e/exec-e8bc98a4-2359-4d86-88bd-eceb255be0d5.png",
+      "prompt": "Use case: precise-object-edit. AlgoLand game character animation. Edit this SINGLE sprite pose to repair ARM SWING ONLY. Keep the exact head/face looking RIGHT, torso lean, tank top, brown shorts, near/far leg identity, both leg silhouettes, feet positions, head size, skin palette, pixel-art style and framing unchanged. The legs have just been corrected: DO NOT redraw, swap or reverse legs. Preserve existing body proportions. Two arms total, naturally attached to the shoulders, elbows softly bent, closed relaxed hands. The near arm is the foreground arm attached to the shoulder by the ear on the left of the torso; the far arm is darker and behind the torso. Opposed natural arm swing, not punching. Transparent background, no white rectangle, no ground or cast shadow, no labels. One complete full-body pose per image, no sheet. Frame texture1024x1024 representing logical64x64, pivot32,44; body about34 logical px; nearest filtering. Change ONLY the arms and the tank fabric they uncover; everything else invariant.\nAction andar, frame 4. Natural WALKING passing pose: both arms pass close to vertical alongside the torso, hands down by the hip/short hem. Near upper arm almost vertical (0 degrees swing), relaxed elbow slightly flexed, near hand below waist. Far arm also close to vertical BEHIND torso, partly hidden. Neither arm extended ahead or behind. This is the exact middle of the pendulum, between forward and backward extremes."
+    },
+    {
+      "acao": "correr",
+      "indice_atlas": 1,
+      "original": "correr_antes_1.png",
+      "arquivo": "correr_pose_1.png",
+      "fonte_gerada": "/home/alfeim/.codex/generated_images/01a145ef-0cfd-7b82-9373-f0ace128ed9e/exec-5c256496-609f-46e9-bd12-2fd122b537d1.png",
+      "prompt": "Use case: precise-object-edit. AlgoLand game character animation. Edit this SINGLE sprite pose to repair ARM SWING ONLY. Keep the exact head/face looking RIGHT, torso lean, tank top, brown shorts, near/far leg identity, both leg silhouettes, feet positions, head size, skin palette, pixel-art style and framing unchanged. The legs have just been corrected: DO NOT redraw, swap or reverse legs. Preserve existing body proportions. Two arms total, naturally attached to the shoulders, elbows softly bent, closed relaxed hands. The near arm is the foreground arm attached to the shoulder by the ear on the left of the torso; the far arm is darker and behind the torso. Opposed natural arm swing, not punching. Transparent background, no white rectangle, no ground or cast shadow, no labels. One complete full-body pose per image, no sheet. Frame texture1024x1024 representing logical64x64, pivot32,44; body about34 logical px; nearest filtering. Change ONLY the arms and the tank fabric they uncover; everything else invariant.\nAction correr, frame 1. RUNNING, early back-to-front swing: near upper arm 15 degrees BEHIND the torso vertical (left), elbow ~85 degrees, near fist just ahead of the hip at waist height; far arm symmetrically slightly FORWARD with fist at lower-chest height. This should be an INTERMEDIATE between maximal backward drive and vertical upper arm, not the original fully retracted near arm."
+    },
+    {
+      "acao": "correr",
+      "indice_atlas": 2,
+      "original": "correr_antes_2.png",
+      "arquivo": "correr_pose_2.png",
+      "fonte_gerada": "/home/alfeim/.codex/generated_images/01a145ef-0cfd-7b82-9373-f0ace128ed9e/exec-c7dd74d5-d0d8-4b43-b4ef-da52be88769b.png",
+      "prompt": "Use case: precise-object-edit. AlgoLand game character animation. Edit this SINGLE sprite pose to repair ARM SWING ONLY. Keep the exact head/face looking RIGHT, torso lean, tank top, brown shorts, near/far leg identity, both leg silhouettes, feet positions, head size, skin palette, pixel-art style and framing unchanged. The legs have just been corrected: DO NOT redraw, swap or reverse legs. Preserve existing body proportions. Two arms total, naturally attached to the shoulders, elbows softly bent, closed relaxed hands. The near arm is the foreground arm attached to the shoulder by the ear on the left of the torso; the far arm is darker and behind the torso. Opposed natural arm swing, not punching. Transparent background, no white rectangle, no ground or cast shadow, no labels. One complete full-body pose per image, no sheet. Frame texture1024x1024 representing logical64x64, pivot32,44; body about34 logical px; nearest filtering. Change ONLY the arms and the tank fabric they uncover; everything else invariant.\nAction correr, frame 2. RUNNING central passing position: near upper arm VERTICAL, elbow beside waist, elbow bent90degrees, near forearm pointing forward/right and fist at WAIST height, NOT chest or face. Far upper arm also nearly vertical, behind torso and partly occluded, opposite swing. Both hands low. This is the neutral midpoint between full backward and full forward arm swings."
+    },
+    {
+      "acao": "correr",
+      "indice_atlas": 3,
+      "original": "correr_antes_3.png",
+      "arquivo": "correr_pose_3.png",
+      "fonte_gerada": "/home/alfeim/.codex/generated_images/01a145ef-0cfd-7b82-9373-f0ace128ed9e/exec-ca93e2b7-6bda-4d58-8e93-049f742d1cc3.png",
+      "prompt": "Use case: precise-object-edit. AlgoLand player sprite arm animation, SINGLE pose edit. Keep exact character bald head/face facing RIGHT, size, head angle, torso lean, tank top, shorts, corrected near/far leg depth, both leg silhouettes, bare feet positions and pixel-art shading style unchanged. Change ONLY arms and the shirt area they uncover. Preserve framing and body proportion. Two naturally connected arms with elbows bent90degrees, relaxed fists, no extra limbs, no punching/extended elbow. Near arm is bright foreground arm attached to foreground shoulder on left side of torso by ear. Far arm darker behind torso. Single full-body pose on TRANSPARENT background, no white rectangle, no shadow, no lettering. Textureframe1024x1024 corresponds to64x64logical, body34logical high, foot pivot32,44. Match existing leg positions exactly; never mirror, swap or redraw the legs.\nRunning atlas frame 3. Intermediate FORWARD arm swing for running: near upper arm angles only about15 degrees FORWARD from vertical; elbow near front of waist and fist forward at LOWER CHEST height, midway between hip-height neutral and full forward chest-height extreme. REDUCE the forward raised near arm in the reference, lower the fist about half way toward waist; do not hold the original maximal forward pose. Far arm goes slightly backward at matching opposite angle, bent90degrees."
+    },
+    {
+      "acao": "correr",
+      "indice_atlas": 5,
+      "original": "correr_antes_5.png",
+      "arquivo": "correr_pose_5.png",
+      "fonte_gerada": "/home/alfeim/.codex/generated_images/01a145ef-0cfd-7b82-9373-f0ace128ed9e/exec-8a8d38d3-c3da-479b-847b-e8d473ef183e.png",
+      "prompt": "Use case: precise-object-edit. AlgoLand player sprite arm animation, SINGLE pose edit. Keep exact character bald head/face facing RIGHT, size, head angle, torso lean, tank top, shorts, corrected near/far leg depth, both leg silhouettes, bare feet positions and pixel-art shading style unchanged. Change ONLY arms and the shirt area they uncover. Preserve framing and body proportion. Two naturally connected arms with elbows bent90degrees, relaxed fists, no extra limbs, no punching/extended elbow. Near arm is bright foreground arm attached to foreground shoulder on left side of torso by ear. Far arm darker behind torso. Single full-body pose on TRANSPARENT background, no white rectangle, no shadow, no lettering. Textureframe1024x1024 corresponds to64x64logical, body34logical high, foot pivot32,44. Match existing leg positions exactly; never mirror, swap or redraw the legs.\nRunning atlas frame 5. Intermediate FORWARD arm swing for running: near upper arm angles only about15 degrees FORWARD from vertical; elbow near front of waist and fist forward at LOWER CHEST height, midway between hip-height neutral and full forward chest-height extreme. REDUCE the forward raised near arm in the reference, lower the fist about half way toward waist; do not hold the original maximal forward pose. Far arm goes slightly backward at matching opposite angle, bent90degrees."
+    },
+    {
+      "acao": "correr",
+      "indice_atlas": 6,
+      "original": "correr_antes_6.png",
+      "arquivo": "correr_pose_6.png",
+      "fonte_gerada": "/home/alfeim/.codex/generated_images/01a145ef-0cfd-7b82-9373-f0ace128ed9e/exec-d2f0247c-3fa2-4200-ba8f-cf0858b1e37a.png",
+      "prompt": "Use case: precise-object-edit. AlgoLand player sprite arm animation, SINGLE pose edit. Keep exact character bald head/face facing RIGHT, size, head angle, torso lean, tank top, shorts, corrected near/far leg depth, both leg silhouettes, bare feet positions and pixel-art shading style unchanged. Change ONLY arms and the shirt area they uncover. Preserve framing and body proportion. Two naturally connected arms with elbows bent90degrees, relaxed fists, no extra limbs, no punching/extended elbow. Near arm is bright foreground arm attached to foreground shoulder on left side of torso by ear. Far arm darker behind torso. Single full-body pose on TRANSPARENT background, no white rectangle, no shadow, no lettering. Textureframe1024x1024 corresponds to64x64logical, body34logical high, foot pivot32,44. Match existing leg positions exactly; never mirror, swap or redraw the legs.\nRunning atlas frame 6. Neutral RUNNING arm swing: near upper arm straight DOWN/vertical beside torso, near elbow at waist, forearm pointing RIGHT horizontally and near fist at WAIST height. Far upper arm also nearly vertical behind torso, hand low and partly hidden. This is midpoint of forward-to-back swing; lower original raised fist to waist."
+    },
+    {
+      "acao": "correr",
+      "indice_atlas": 7,
+      "original": "correr_antes_7.png",
+      "arquivo": "correr_pose_7.png",
+      "fonte_gerada": "/home/alfeim/.codex/generated_images/01a145ef-0cfd-7b82-9373-f0ace128ed9e/exec-c10e47f4-2faf-4244-be57-e88f8b708b32.png",
+      "prompt": "Use case: precise-object-edit. AlgoLand player sprite arm animation, SINGLE pose edit. Keep exact character bald head/face facing RIGHT, size, head angle, torso lean, tank top, shorts, corrected near/far leg depth, both leg silhouettes, bare feet positions and pixel-art shading style unchanged. Change ONLY arms and the shirt area they uncover. Preserve framing and body proportion. Two naturally connected arms with elbows bent90degrees, relaxed fists, no extra limbs, no punching/extended elbow. Near arm is bright foreground arm attached to foreground shoulder on left side of torso by ear. Far arm darker behind torso. Single full-body pose on TRANSPARENT background, no white rectangle, no shadow, no lettering. Textureframe1024x1024 corresponds to64x64logical, body34logical high, foot pivot32,44. Match existing leg positions exactly; never mirror, swap or redraw the legs.\nRunning atlas frame 7. Intermediate BACKWARD arm swing for running: near upper arm15 degrees BEHIND torso vertical to left, near elbow just BEHIND hip, forearm bent90degrees and near fist just IN FRONT of hip at waist height. Far upper arm slightly forward to right with far fist at lower-chest height. IMPORTANT: change far arm from retracted left to FORWARD; arms must swing in OPPOSITION. Restore bent elbow, not a straight downward hanging near arm. This bridges neutral arms to maximal backward near-arm drive in following pose."
+    }
+  ],
+  "validacao": {
+    "teste": "testes/teste_heroi_gerado.gd --capturar-ciclos em projeto isolado",
+    "resultado": "53 verificações, 0 falhas; avisos de recursos ao encerrar já existentes",
+    "revisao": "Prévia Godot: seis poses de andar e nove de corrida; contatos direita/esquerda no cenário e dois ciclos gravados para cada ação.",
+    "previas": "arte/previas/personagens/exemplo_alta_qualidade/",
+    "limite": "Caminhada lateral e corrida lateral; direções verticais mantidas."
+  }
+}

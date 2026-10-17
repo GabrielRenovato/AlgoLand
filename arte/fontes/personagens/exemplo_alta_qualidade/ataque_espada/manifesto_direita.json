@@ -1,0 +1,55 @@
+{
+  "tipo": "Ataque com espada para a direita do personagem detalhado",
+  "referencia": {
+    "autor": "JGSmashKing",
+    "titulo": "Project Collision - Link (Jab 1)",
+    "url": "https://www.deviantart.com/jgsmashking/art/Project-Collision---Link-%28Jab-1%29-911754424",
+    "uso": "Referência de poses e movimento; aparência original do AlgoLand."
+  },
+  "grade_fonte": {
+    "colunas": 3,
+    "linhas": 3,
+    "largura": 1536,
+    "altura": 1024,
+    "cortes_y": [
+      0,
+      375,
+      695,
+      1024
+    ]
+  },
+  "atlas": {
+    "colunas": 2,
+    "linhas": 5,
+    "quadro": [
+      1024,
+      1024
+    ],
+    "quadros_usados": 9,
+    "escala_no_jogo": 0.0625,
+    "pivo": [
+      512,
+      704
+    ]
+  },
+  "variantes": "Somente direita; outras direções usam os recursos anteriores.",
+  "integracao": "codigo/jogador/heroi_gerado.gd; F3 → PERSONAGEM → GERADO: ESPADA; duração visual acompanha os 300 ms do combate.",
+  "preparador": "ferramentas/personagem/preparar_espada_direita.gd",
+  "previa": "ferramentas/personagem/previa_espada_direita.gd com save isolado",
+  "correcoes": [
+    {
+      "indice": 3,
+      "arquivo": "espada_direita_pose_3.png",
+      "motivo": "Espada visível no punho conectado ao braço direito.",
+      "prompt": "Precise local anatomy correction to this ONE original AlgoLand attack pose. Preserve the SAME entire bald tan character, face, head size, white tank, brown shorts, bare feet, right-facing lunge, bent forward knee, back leg, body lean, art quality and overall placement. Do not redesign, rotate body, change stance, add equipment or make a sheet. The sword is missing. Draw the camera-near RIGHT weapon arm fully connected from the near shoulder down to an elbow slightly forward of the waist, then bent across the lower torso to a CLOSED RIGHT FIST at the LEFT side of the waist. The fist clearly holds the brown sword grip; brass guard and short steel blade extend to screen LEFT slightly upward. Blade is visible outside the torso. Keep the far empty LEFT arm as the single rear balancing arm. There must be exactly TWO shoulders, TWO arms and TWO hands, each continuously attached; no detached fists. Keep the sword at waist height pointing LEFT for this follow-through frame. Pixel-art detailing same as input; transparent background, one complete pose with generous blank margins. All pixels outside corrected arms/hand/sword should keep same visual appearance. Output one image only."
+    },
+    {
+      "indice": 5,
+      "arquivo": "espada_direita_pose_5.png",
+      "motivo": "Sexto quadro segue a pose do exemplo: dorso girado, braço livre acima da cabeça e mão da espada baixa junto ao joelho dianteiro, com lâmina passando atrás do quadril.",
+      "prompt": "Correct ONLY the SIXTH attack pose of the AlgoLand character. Image1 defines the character appearance (bald tan man, white tank top, brown shorts, bare feet, detailed pixel-art shading). Image2 is the EXACT SIXTH FRAME of the user's Link attack reference and defines the REQUIRED WHOLE BODY POSE. Retarget that pose faithfully onto image1. One full-body sprite, transparent background, no sheet and no text.\nMatch image2: a deep forward lean facing SCREEN RIGHT, shoulders rotated so the BACK of the tank top is visible, front knee bent and rear leg stretched back. Head turns right while body stays coiled.\nCRITICAL ARM PLACEMENT from image2:\n- The SWORD ARM hangs DOWN along the FRONT/RIGHT side of the bent torso; elbow low, forearm DOWN, weapon fist below the waist beside the TOP of the FRONT KNEE. NOT a fist at stomach height and NOT a forearm laid across the belly.\n- That LOW FRONT HAND grips the hilt of a single short steel sword. The blade points BACKWARD to screen LEFT and slightly UP. Its middle passes BEHIND the hip/torso and is occluded by it; its exposed steel TIP is clearly visible projecting from the LEFT/BACK of the waist, exactly like image2. The blade stays physically attached to this low-front fist through the concealed portion. It is not stuck in waistband.\n- The OTHER EMPTY arm is BENT UP behind/above the head, following the shield-arm pose of image2, but WITHOUT ANY SHIELD. One empty fist above the back of the head. This is not a third arm; exactly two arms and two hands.\nPrior failed pose in image1 has fist high on belly and torso showing chest; these are the exact errors to replace. Match image2's back-facing shoulder orientation, bent arms and sword height instead.\nPreserve original AlgoLand bald face and eyebrow, head/body proportions, clothing, colors, barefoot feet and art detail. Do not reproduce Link, hair, hat, tunic, boots or shield. Preserve planted front foot and extended back leg. Entire character, raised empty hand and exposed sword tip within image, generous alpha margins. Body/arms/weapon drawn together coherently; don't add separate loose body parts.",
+      "referencia": "referencia_jab_sexto_quadro.png"
+    }
+  ],
+  "prompt": "Retarget the EXACT NINE sequential attack poses of reference image2 onto the original detailed AlgoLand base character of image1. Image2 is the user-selected animation reference \"Project Collision - Link (Jab 1)\" by JGSmashKing, laid out 3x3 in chronological order. Its body and sword MOTION is the mandatory template. Image1 defines CHARACTER APPEARANCE ONLY: bald tan man, dark eyebrows, white tank top, brown shorts, barefoot, detailed warm shading, same proportions and head size. Do NOT use Link's costume, hair, hat, shield, face or character proportions.\nOutput a transparent spritesheet with EXACTLY 3 columns and 3 rows, nine spacious equal cells, read left-to-right each row. Enlarge the pixel artwork preserving its pixel-art detailing. No labels, grid, background, ground shadow or cut-off body/blade. Each full character and whole sword fits cell. Native destination is a64x64 logical sprite, enlarged source atlas; eventual foot pivot (32,44), body about34logical pixels tall.\nMost critical: imitate image2's actual body rotation, changing shoulder orientation, planted forward leg, bent front knee and back heel pivot. Do not replace the reference with a generic overhead sword chop. Its slash STARTS with sword back/up LEFT, sweeps fast across toward RIGHT, wraps back across the body's far side, then settles in front. Nine poses:\n1 reference top-left: upright but ready, sword-bearing arm raised back at shoulder/head, sword points UP-LEFT. \n2 reference top-center: torso coils, hand draws back/low at rear hip, blade still UP-LEFT, forward knee prepares.\n3 reference top-right: lunge/lean toward RIGHT, arm drives down-and-forward, blade extends RIGHT at waist level.\n4 reference middle-left: deepest follow-through, torso rotated showing back of tank top, sword arm continues arc around waist, blade naturally occluded behind torso; free arm raised for balance.\n5 reference middle-center: hold same forward weight, sword reappears on LEFT/back of torso continuing sweep, do not switch hands.\n6 reference middle-right: blade passes LEFT across waist behind body, chest starts to unwind.\n7 reference bottom-left: blade and fist come back to front of body near waist while right foot remains planted.\n8 reference bottom-center: recovering upright, right fist near waist, blade points diagonally DOWN-RIGHT.\n9 reference bottom-right: comfortable right-facing ready stance, sword held low pointing RIGHT.\nSame short steel sword with brass guard/brown grip throughout. Sword is always gripped by ONE SAME anatomical arm; use the camera-near RIGHT arm as weapon arm. Retarget the shield arm into an EMPTY balancing/guard arm; no shield and no two handed grip. Changing torso orientation must not transfer the weapon to the other shoulder. Keep hilt through same fist, no floating sword, no duplicated arms, hands or blades.\nKeep head consistent, stable feet baseline and consistent scale across frames while preserving body lean and knee compression. Pose fidelity to image2 has priority over inventing choreography. No cyan VFX necessary; depict actual blade on visible phases, hide only where legitimately behind torso. Show clear continuous arm and full-body motion with purposeful recovery."
+}

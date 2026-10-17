@@ -24,6 +24,7 @@ var _filtro_mouse_original: MouseFilter = MOUSE_FILTER_STOP
 ## Quantidade no canto (sementes empilhadas), criada na primeira vez que precisa
 var _rotulo_quantidade: Label = null
 var _arrastando: bool = false
+var _estrela_qualidade: TextureRect
 
 @onready var moldura: Panel = $Panel
 @onready var icone: TextureRect = $Icone
@@ -33,9 +34,11 @@ func _ready() -> void:
 	mouse_entered.connect(_ao_mouse_entrar)
 	mouse_exited.connect(_ao_mouse_sair)
 
-## Botão direito no item: o slot dono dele equipa (mochila) ou desequipa (slot de equipamento) na hora
+## Botão direito no item: o slot dono dele equipa (mochila) ou desequipa (slot de equipamento) na hora.
+## Toque duplo (o celular não tem botão direito; o toque vira clique do mouse) faz o mesmo.
 func _ao_entrada(evento: InputEvent) -> void:
-	if evento is InputEventMouseButton and evento.pressed and evento.button_index == MOUSE_BUTTON_RIGHT:
+	if evento is InputEventMouseButton and evento.pressed and (evento.button_index == MOUSE_BUTTON_RIGHT \
+			or (evento.button_index == MOUSE_BUTTON_LEFT and evento.double_click)):
 		var slot := get_parent()
 		if slot != null and slot.has_method("equipar_com_botao_direito"):
 			slot.equipar_com_botao_direito()
@@ -48,17 +51,21 @@ func exibir(item: DadosItem) -> void:
 		icone.texture = null
 		tooltip_text = ""
 		_mostrar_quantidade(0)
+		if _estrela_qualidade != null: _estrela_qualidade.hide()
 		return
 	icone.texture = IconesItens.obter(item, get_tree() if is_inside_tree() else null)
-	_mostrar_quantidade(item.quantidade if item.categoria == "semente" else 0)
+	_mostrar_quantidade(item.quantidade if item.categoria in ["semente","peixe"] else 0)
+	_mostrar_qualidade(item)
 	# O quadrado do item (o sprite de slot da interface) na cor da raridade, por cima do quadrado do slot
 	moldura.add_theme_stylebox_override("panel", EstiloSlot.caixa_raridade(item.raridade))
 	# O texto é a versão simples (acessibilidade/testes); o desenho da dica vem de _make_custom_tooltip
 	tooltip_text = "%s  NV %d  %s" % [item.nome(), item.nivel, Raridades.nome(item.raridade)]
-	if item.categoria == "semente":
+	if item.categoria in ["semente","peixe"]:
 		tooltip_text = "%s  x%d" % [item.nome(), item.quantidade]
 	elif item.categoria == "ferramenta":
 		tooltip_text = item.nome()
+	elif item.categoria == "vara":
+		tooltip_text = "%s  NV %d" % [item.nome(), item.nivel]
 
 ## Número pequeno no canto de baixo (quantas sementes há na casa); 0 esconde
 func _mostrar_quantidade(quantos: int) -> void:
@@ -93,48 +100,59 @@ func tooltip_do_item() -> Control:
 		return null
 	var linhas := VBoxContainer.new()
 	linhas.add_theme_constant_override("separation", 0)
-	linhas.add_child(_linha_dica(dados.nome(), dados.cor_raridade()))
+	linhas.add_child(linha_dica(dados.nome(), dados.cor_raridade()))
+	if dados.categoria == "peixe":
+		var qualidade := preload("res://codigo/pesca/qualidade_peixe.gd")
+		var peixes := preload("res://codigo/pesca/peixes.gd")
+		linhas.add_child(linha_dica("x%d  QUALIDADE %s" % [dados.quantidade,qualidade.NOMES[dados.qualidade]],qualidade.CORES[dados.qualidade]))
+		linhas.add_child(linha_dica("%s | %s" % ["MAR" if peixes.catalogo()[dados.peixe()]["ambiente"]=="mar" else "AGUA DOCE",Raridades.nome(dados.raridade)],COR_DICA_DETALHE))
+		linhas.add_child(linha_dica("VENDA: %d BRASAS CADA" % qualidade.valor(peixes.brasas(dados.peixe()),dados.qualidade),COR_DICA_DETALHE))
+		return linhas
 	if dados.categoria == "semente":
 		var planta: Dictionary = Plantas.PLANTAS.get(dados.planta(), {})
-		linhas.add_child(_linha_dica("x%d  %s" % [dados.quantidade, String(Plantas.NOME_RARIDADE.get(dados.raridade, ""))], dados.cor_raridade()))
-		linhas.add_child(_linha_dica("CRESCE EM %s" % Plantas.texto_crescimento(dados.planta()), COR_DICA_DETALHE))
-		linhas.add_child(_linha_dica("PLANTE NA %s" % NOMES_ESTACAO[clampi(int(planta.get("estacao", 0)), 0, 3)], COR_DICA_DETALHE))
+		linhas.add_child(linha_dica("x%d  %s" % [dados.quantidade, String(Plantas.NOME_RARIDADE.get(dados.raridade, ""))], dados.cor_raridade()))
+		linhas.add_child(linha_dica("CRESCE EM %s" % Plantas.texto_crescimento(dados.planta()), COR_DICA_DETALHE))
+		linhas.add_child(linha_dica("PLANTE NA %s" % NOMES_ESTACAO[clampi(int(planta.get("estacao", 0)), 0, 3)], COR_DICA_DETALHE))
 		return linhas
 	if dados.categoria == "ferramenta":
-		linhas.add_child(_linha_dica("FERRAMENTA DA FAZENDA", COR_DICA_DETALHE))
+		linhas.add_child(linha_dica("FERRAMENTA DA FAZENDA", COR_DICA_DETALHE))
 		return linhas
-	linhas.add_child(_linha_dica("NV %d  %s" % [dados.nivel, Raridades.nome(dados.raridade)], dados.cor_raridade()))
+	if dados.categoria == "vara":
+		linhas.add_child(linha_dica("NV %d / 5  %s" % [dados.nivel, Raridades.nome(dados.raridade)], dados.cor_raridade()))
+		linhas.add_child(linha_dica("REFINE COM O NILO PARA PESCAR PEIXES MAIS DIFICEIS", COR_DICA_DETALHE))
+		return linhas
+	linhas.add_child(linha_dica("NV %d  %s" % [dados.nivel, Raridades.nome(dados.raridade)], dados.cor_raridade()))
 	if dados.raridade != "comum" and dados.categoria in ["arma", "escudo", "cabeca", "corpo", "luvas", "botas"]:
-		linhas.add_child(_linha_dica("+%d%% STATUS" % roundi((dados.multiplicador_raridade() - 1.0) * 100.0), COR_DICA_DETALHE))
+		linhas.add_child(linha_dica("+%d%% STATUS" % roundi((dados.multiplicador_raridade() - 1.0) * 100.0), COR_DICA_DETALHE))
 	for id in dados.afixos:
-		linhas.add_child(_linha_dica(Raridades.texto_afixo(id, dados.afixos[id]), COR_AFIXO))
+		linhas.add_child(linha_dica(Raridades.texto_afixo(id, dados.afixos[id]), COR_AFIXO))
 	if dados.encantamento != "":
-		linhas.add_child(_linha_dica("%s NV %d" % [Encantamentos.nome(dados.encantamento), dados.nivel_encantamento],
+		linhas.add_child(linha_dica("%s NV %d" % [Encantamentos.nome(dados.encantamento), dados.nivel_encantamento],
 				Encantamentos.cor(dados.encantamento)))
 	var conjunto := Conjuntos.de_tipo(dados.tipo)
 	if conjunto != null:
 		var quantidade: int = conjunto.quantidade(EventosJogo.inventario_de(self).equipados)
-		linhas.add_child(_linha_dica("CONJUNTO %s %d/4" % [conjunto.NOME, quantidade], dados.cor_raridade()))
+		linhas.add_child(linha_dica("CONJUNTO %s %d/4" % [conjunto.NOME, quantidade], dados.cor_raridade()))
 		var fator_nivel: float = 1.0 + conjunto.Base.GANHO_POR_NIVEL * (clampi(dados.nivel, 1, 5) - 1)
 		var parcial: float = conjunto.Base.FRACAO_PARCIAL
 		if conjunto.TIPO_BONUS == "raio":
 			for pecas in [conjunto.Base.PECAS_PARCIAL, conjunto.Base.PECAS_COMPLETO]:
 				var f: float = fator_nivel * (parcial if pecas == conjunto.Base.PECAS_PARCIAL else 1.0)
-				linhas.add_child(_linha_dica("%d PECAS: %d%% RAIO AO ACERTAR" % [pecas, roundi(conjunto.CHANCE_BONUS * f * 100)], COR_DICA_DETALHE))
-			linhas.add_child(_linha_dica("DANO %d%%  RECARGA %dS" % [roundi(conjunto.MULT_DANO_BONUS * fator_nivel * 100), roundi(conjunto.RECARGA_BONUS)], COR_DICA_DETALHE))
+				linhas.add_child(linha_dica("%d PECAS: %d%% RAIO AO ACERTAR" % [pecas, roundi(conjunto.CHANCE_BONUS * f * 100)], COR_DICA_DETALHE))
+			linhas.add_child(linha_dica("DANO %d%%  RECARGA %dS" % [roundi(conjunto.MULT_DANO_BONUS * fator_nivel * 100), roundi(conjunto.RECARGA_BONUS)], COR_DICA_DETALHE))
 		elif conjunto.TIPO_BONUS == "congelamento":
 			for pecas in [conjunto.Base.PECAS_PARCIAL, conjunto.Base.PECAS_COMPLETO]:
 				var f: float = fator_nivel * (parcial if pecas == conjunto.Base.PECAS_PARCIAL else 1.0)
-				linhas.add_child(_linha_dica("%d PECAS: %d%% CONGELAR AO ACERTAR" % [pecas, roundi(conjunto.CHANCE_BONUS * f * 100)], COR_DICA_DETALHE))
-			linhas.add_child(_linha_dica("DURACAO %dS  RECARGA %dS" % [roundi(conjunto.DURACAO_BONUS), roundi(conjunto.RECARGA_BONUS)], COR_DICA_DETALHE))
+				linhas.add_child(linha_dica("%d PECAS: %d%% CONGELAR AO ACERTAR" % [pecas, roundi(conjunto.CHANCE_BONUS * f * 100)], COR_DICA_DETALHE))
+			linhas.add_child(linha_dica("DURACAO %dS  RECARGA %dS" % [roundi(conjunto.DURACAO_BONUS), roundi(conjunto.RECARGA_BONUS)], COR_DICA_DETALHE))
 		elif conjunto.TIPO_BONUS == "status":
 			var valores: Dictionary = conjunto.get_script_constant_map()
 			for pecas in [conjunto.Base.PECAS_PARCIAL, conjunto.Base.PECAS_COMPLETO]:
 				var f: float = fator_nivel * (parcial if pecas == conjunto.Base.PECAS_PARCIAL else 1.0)
-				linhas.add_child(_linha_dica("%d PECAS: +%d%% DEFESA, +%d%% VITALIDADE" % [pecas, roundi(float(valores.get("BONUS_DEFESA", 0.0)) * f * 100), roundi(float(valores.get("BONUS_VITALIDADE", 0.0)) * f * 100)], COR_DICA_DETALHE))
+				linhas.add_child(linha_dica("%d PECAS: +%d%% DEFESA, +%d%% VITALIDADE" % [pecas, roundi(float(valores.get("BONUS_DEFESA", 0.0)) * f * 100), roundi(float(valores.get("BONUS_VITALIDADE", 0.0)) * f * 100)], COR_DICA_DETALHE))
 	return linhas
 
-func _linha_dica(texto: String, cor: Color) -> Label:
+static func linha_dica(texto: String, cor: Color) -> Label:
 	var rotulo := Label.new()
 	rotulo.text = texto
 	rotulo.add_theme_font_override("font", FONTE_DICA)
@@ -220,3 +238,25 @@ func obter_textura_icone() -> Texture2D:
 func definir_em_uso(valor: bool) -> void:
 	em_uso = valor
 	icone.modulate = COR_EM_USO if valor else Color.WHITE
+
+func _mostrar_qualidade(item: DadosItem) -> void:
+	if _estrela_qualidade != null: _estrela_qualidade.hide()
+	if item.categoria != "peixe" or item.qualidade == 0: return
+	if _estrela_qualidade == null:
+		_estrela_qualidade = TextureRect.new()
+		_estrela_qualidade.name = "QualidadePeixe"
+		var textura := AtlasTexture.new()
+		textura.atlas = preload("res://assets/pesca/qualidade/estrela.png")
+		textura.region = Rect2(2,1,11,11)
+		_estrela_qualidade.texture = textura
+		_estrela_qualidade.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		_estrela_qualidade.texture_filter = TEXTURE_FILTER_NEAREST
+		_estrela_qualidade.mouse_filter = MOUSE_FILTER_IGNORE
+		_estrela_qualidade.position = Vector2(12,0)
+		_estrela_qualidade.size = Vector2(8,8)
+		var material_estrela := ShaderMaterial.new()
+		material_estrela.shader = preload("res://codigo/pesca/cor_vara.gdshader")
+		_estrela_qualidade.material = material_estrela
+		add_child(_estrela_qualidade)
+	_estrela_qualidade.material.set_shader_parameter("cor_nivel",preload("res://codigo/pesca/qualidade_peixe.gd").CORES[item.qualidade])
+	_estrela_qualidade.show()

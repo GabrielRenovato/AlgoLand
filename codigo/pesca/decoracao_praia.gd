@@ -23,6 +23,13 @@ static func montar(praia: Node2D, itens: Array) -> void:
 		sprite.centered = false
 		sprite.offset = Vector2(-textura.get_width() / 2.0, -textura.get_height())
 		objeto.add_child(sprite)
+		if tipo == "conchas":
+			var atualizar := func(_estacao: int):
+				var estacao: int = praia.estacao_visual()
+				sprite.texture = load("res://assets/cenario/praia/conchas/" + ["primavera","verao","outono","inverno"][estacao] + ".png")
+				sprite.offset = Vector2(-12,-24)
+			praia.get_node("/root/Calendario").estacao_mudou.connect(atualizar)
+			atualizar.call(praia.estacao_visual())
 		if tipo.begins_with("coqueiro") or tipo == "pedras":
 			var sombra := Sprite2D.new()
 			sombra.name = "Sombra"

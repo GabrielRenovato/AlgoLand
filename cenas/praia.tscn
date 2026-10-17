@@ -1,4 +1,4 @@
-[gd_scene load_steps=255 format=3]
+[gd_scene load_steps=258 format=3]
 
 [ext_resource type="Script" path="res://codigo/pesca/praia.gd" id="cidade_script"]
 [ext_resource type="PackedScene" path="res://cenas/jogador.tscn" id="jogador"]
@@ -7,14 +7,16 @@
 [ext_resource type="Script" path="res://codigo/efeitos/iluminacao.gd" id="luz"]
 [ext_resource type="PackedScene" path="res://cenas/efeitos/vinheta.tscn" id="vinheta"]
 [ext_resource type="TileSet" path="res://recursos/praia/tileset_praia.tres" id="terreno"]
-[ext_resource type="TileSet" path="res://recursos/cidade/tileset_terreno.tres" id="pedra_orla"]
+[ext_resource type="TileSet" path="res://recursos/praia/tileset_orla.tres" id="pedra_orla"]
 [ext_resource type="TileSet" path="res://recursos/praia/tileset_cais.tres" id="cais"]
 [ext_resource type="Script" path="res://codigo/cidade/passagem_cidade.gd" id="passagem"]
+[ext_resource type="Script" path="res://codigo/cidade/placa_local.gd" id="placa_local"]
 [ext_resource type="Texture2D" path="res://assets/cenario/praia/palafita/exterior.png" id="palafita"]
 [ext_resource type="Texture2D" path="res://assets/cenario/fazenda/cerca/primavera/horizontal.png" id="cerca_horizontal"]
 [ext_resource type="Texture2D" path="res://assets/cenario/fazenda/cerca/primavera/poste.png" id="poste_cais"]
 [ext_resource type="Texture2D" path="res://assets/cenario/fazenda/cerca/primavera/vertical.png" id="cerca_vertical"]
 [ext_resource type="Script" path="res://codigo/pesca/pescador.gd" id="pescador"]
+[ext_resource type="Script" path="res://codigo/pesca/ponto_pesca.gd" id="ponto_pesca"]
 
 [sub_resource type="RectangleShape2D" id="Forma_Mar_0"]
 size = Vector2(8, 314.3386)
@@ -733,6 +735,9 @@ size = Vector2(8, 80)
 [sub_resource type="RectangleShape2D" id="Forma_CorrimaoLateral150"]
 size = Vector2(8, 128)
 
+[sub_resource type="RectangleShape2D" id="Forma_ponto_pesca"]
+size = Vector2(36, 24)
+
 [node name="praia" type="Node2D"]
 script = ExtResource("cidade_script")
 local = "praia"
@@ -757,7 +762,7 @@ tile_set = ExtResource("terreno")
 position = Vector2(0, 0)
 texture_filter = 1
 z_index = -999
-tile_map_data = PackedByteArray("AAATAAAAAQAAAAUAAAAUAAAAAQAAAAUAAAAVAAAAAQAAAAUAAAAWAAAAAQAAAAUAAAATAAEAAQAAAAUAAAAUAAEAAQAAAAUAAAAVAAEAAQAAAAUAAAAWAAEAAQAAAAUAAAATAAIAAQAAAAUAAAAUAAIAAQAAAAUAAAAVAAIAAQAAAAUAAAAWAAIAAQAAAAUAAAATAAMAAQAAAAUAAAAUAAMAAQAAAAUAAAAVAAMAAQAAAAUAAAAWAAMAAQAAAAUAAAATAAQAAQAAAAUAAAAUAAQAAQAAAAUAAAAVAAQAAQAAAAUAAAAWAAQAAQAAAAUAAAATAAUAAQAAAAUAAAAUAAUAAQAAAAUAAAAVAAUAAQAAAAUAAAAWAAUAAQAAAAUAAAATAAYAAQAAAAUAAAAUAAYAAQAAAAUAAAAVAAYAAQAAAAUAAAAWAAYAAQAAAAUAAAAEAAcAAQAAAAUAAAAFAAcAAQAAAAUAAAAGAAcAAQAAAAUAAAAHAAcAAQAAAAUAAAAIAAcAAQAAAAUAAAAJAAcAAQAAAAUAAAAKAAcAAQAAAAUAAAALAAcAAQAAAAUAAAAMAAcAAQAAAAUAAAANAAcAAQAAAAUAAAAOAAcAAQAAAAUAAAAPAAcAAQAAAAUAAAAQAAcAAQAAAAUAAAARAAcAAQAAAAUAAAASAAcAAQAAAAUAAAATAAcAAQAAAAUAAAAUAAcAAQAAAAUAAAAVAAcAAQAAAAUAAAAWAAcAAQAAAAUAAAAXAAcAAQAAAAUAAAAYAAcAAQAAAAUAAAAZAAcAAQAAAAUAAAAaAAcAAQAAAAUAAAAbAAcAAQAAAAUAAAAcAAcAAQAAAAUAAAAdAAcAAQAAAAUAAAAeAAcAAQAAAAUAAAAfAAcAAQAAAAUAAAAgAAcAAQAAAAUAAAAhAAcAAQAAAAUAAAAiAAcAAQAAAAUAAAAjAAcAAQAAAAUAAAAkAAcAAQAAAAUAAAAlAAcAAQAAAAUAAAAmAAcAAQAAAAUAAAAnAAcAAQAAAAUAAAAEAAgAAQAAAAUAAAAFAAgAAQAAAAUAAAAGAAgAAQAAAAUAAAAHAAgAAQAAAAUAAAAIAAgAAQAAAAUAAAAJAAgAAQAAAAUAAAAKAAgAAQAAAAUAAAALAAgAAQAAAAUAAAAMAAgAAQAAAAUAAAANAAgAAQAAAAUAAAAOAAgAAQAAAAUAAAAPAAgAAQAAAAUAAAAQAAgAAQAAAAUAAAARAAgAAQAAAAUAAAASAAgAAQAAAAUAAAATAAgAAQAAAAUAAAAUAAgAAQAAAAUAAAAVAAgAAQAAAAUAAAAWAAgAAQAAAAUAAAAXAAgAAQAAAAUAAAAYAAgAAQAAAAUAAAAZAAgAAQAAAAUAAAAaAAgAAQAAAAUAAAAbAAgAAQAAAAUAAAAcAAgAAQAAAAUAAAAdAAgAAQAAAAUAAAAeAAgAAQAAAAUAAAAfAAgAAQAAAAUAAAAgAAgAAQAAAAUAAAAhAAgAAQAAAAUAAAAiAAgAAQAAAAUAAAAjAAgAAQAAAAUAAAAkAAgAAQAAAAUAAAAlAAgAAQAAAAUAAAAmAAgAAQAAAAUAAAAnAAgAAQAAAAUAAAA=")
+tile_map_data = PackedByteArray("AAASAP7/AAABAAEAAAATAP7/AAAAAAUAAAAUAP7/AAAAAAUAAAAVAP7/AAAAAAUAAAAWAP7/AAAAAAUAAAAXAP7/AAACAAIAAAASAP//AAABAAEAAAATAP//AAAAAAUAAAAUAP//AAAAAAUAAAAVAP//AAAAAAUAAAAWAP//AAAAAAUAAAAXAP//AAACAAIAAAASAAAAAAABAAEAAAATAAAAAAAAAAUAAAAUAAAAAAAAAAUAAAAVAAAAAAAAAAUAAAAWAAAAAAAAAAUAAAAXAAAAAAACAAIAAAASAAEAAAABAAEAAAATAAEAAAAAAAUAAAAUAAEAAAAAAAUAAAAVAAEAAAAAAAUAAAAWAAEAAAAAAAUAAAAXAAEAAAACAAIAAAASAAIAAAABAAEAAAATAAIAAAAAAAUAAAAUAAIAAAAAAAUAAAAVAAIAAAAAAAUAAAAWAAIAAAAAAAUAAAAXAAIAAAACAAIAAAASAAMAAAABAAEAAAATAAMAAAAAAAUAAAAUAAMAAAAAAAUAAAAVAAMAAAAAAAUAAAAWAAMAAAAAAAUAAAAXAAMAAAACAAIAAAASAAQAAAABAAEAAAATAAQAAAAAAAUAAAAUAAQAAAAAAAUAAAAVAAQAAAAAAAUAAAAWAAQAAAAAAAUAAAAXAAQAAAACAAIAAAASAAUAAAABAAEAAAATAAUAAAAAAAUAAAAUAAUAAAAAAAUAAAAVAAUAAAAAAAUAAAAWAAUAAAAAAAUAAAAXAAUAAAACAAIAAAADAAYAAAABAAAAAAAEAAYAAAADAAAAAAAFAAYAAAADAAAAAAAGAAYAAAADAAAAAAAHAAYAAAADAAAAAAAIAAYAAAADAAAAAAAJAAYAAAADAAAAAAAKAAYAAAADAAAAAAALAAYAAAADAAAAAAAMAAYAAAADAAAAAAANAAYAAAADAAAAAAAOAAYAAAADAAAAAAAPAAYAAAADAAAAAAAQAAYAAAADAAAAAAARAAYAAAADAAAAAAASAAYAAAADAAEAAAATAAYAAAAAAAUAAAAUAAYAAAAAAAUAAAAVAAYAAAAAAAUAAAAWAAYAAAAAAAUAAAAXAAYAAAADAAIAAAAYAAYAAAADAAAAAAAZAAYAAAADAAAAAAAaAAYAAAADAAAAAAAbAAYAAAADAAAAAAAcAAYAAAADAAAAAAAdAAYAAAADAAAAAAAeAAYAAAADAAAAAAAfAAYAAAADAAAAAAAgAAYAAAADAAAAAAAhAAYAAAADAAAAAAAiAAYAAAADAAAAAAAjAAYAAAADAAAAAAAkAAYAAAADAAAAAAAlAAYAAAADAAAAAAAmAAYAAAADAAAAAAAnAAYAAAADAAAAAAAoAAYAAAACAAAAAAADAAcAAAABAAEAAAAEAAcAAAAAAAUAAAAFAAcAAAAAAAUAAAAGAAcAAAAAAAUAAAAHAAcAAAAAAAUAAAAIAAcAAAAAAAUAAAAJAAcAAAAAAAUAAAAKAAcAAAAAAAUAAAALAAcAAAAAAAUAAAAMAAcAAAAAAAUAAAANAAcAAAAAAAUAAAAOAAcAAAAAAAUAAAAPAAcAAAAAAAUAAAAQAAcAAAAAAAUAAAARAAcAAAAAAAUAAAASAAcAAAAAAAUAAAATAAcAAAAAAAUAAAAUAAcAAAAAAAUAAAAVAAcAAAAAAAUAAAAWAAcAAAAAAAUAAAAXAAcAAAAAAAUAAAAYAAcAAAAAAAUAAAAZAAcAAAAAAAUAAAAaAAcAAAAAAAUAAAAbAAcAAAAAAAUAAAAcAAcAAAAAAAUAAAAdAAcAAAAAAAUAAAAeAAcAAAAAAAUAAAAfAAcAAAAAAAUAAAAgAAcAAAAAAAUAAAAhAAcAAAAAAAUAAAAiAAcAAAAAAAUAAAAjAAcAAAAAAAUAAAAkAAcAAAAAAAUAAAAlAAcAAAAAAAUAAAAmAAcAAAAAAAUAAAAnAAcAAAAAAAUAAAAoAAcAAAACAAIAAAADAAgAAAABAAEAAAAEAAgAAAAAAAUAAAAFAAgAAAAAAAUAAAAGAAgAAAAAAAUAAAAHAAgAAAAAAAUAAAAIAAgAAAAAAAUAAAAJAAgAAAAAAAUAAAAKAAgAAAAAAAUAAAALAAgAAAAAAAUAAAAMAAgAAAAAAAUAAAANAAgAAAAAAAUAAAAOAAgAAAAAAAUAAAAPAAgAAAAAAAUAAAAQAAgAAAAAAAUAAAARAAgAAAAAAAUAAAASAAgAAAAAAAUAAAATAAgAAAAAAAUAAAAUAAgAAAAAAAUAAAAVAAgAAAAAAAUAAAAWAAgAAAAAAAUAAAAXAAgAAAAAAAUAAAAYAAgAAAAAAAUAAAAZAAgAAAAAAAUAAAAaAAgAAAAAAAUAAAAbAAgAAAAAAAUAAAAcAAgAAAAAAAUAAAAdAAgAAAAAAAUAAAAeAAgAAAAAAAUAAAAfAAgAAAAAAAUAAAAgAAgAAAAAAAUAAAAhAAgAAAAAAAUAAAAiAAgAAAAAAAUAAAAjAAgAAAAAAAUAAAAkAAgAAAAAAAUAAAAlAAgAAAAAAAUAAAAmAAgAAAAAAAUAAAAnAAgAAAAAAAUAAAAoAAgAAAACAAIAAAADAAkAAAAAAAEAAAAEAAkAAAAAAAMAAAAFAAkAAAAAAAMAAAAGAAkAAAAAAAMAAAAHAAkAAAAAAAMAAAAIAAkAAAAAAAMAAAAJAAkAAAAAAAMAAAAKAAkAAAAAAAMAAAALAAkAAAAAAAMAAAAMAAkAAAAAAAMAAAANAAkAAAAAAAMAAAAOAAkAAAAAAAMAAAAPAAkAAAAAAAMAAAAQAAkAAAAAAAMAAAARAAkAAAAAAAMAAAASAAkAAAAAAAMAAAATAAkAAAAAAAMAAAAUAAkAAAAAAAMAAAAVAAkAAAAAAAMAAAAWAAkAAAAAAAMAAAAXAAkAAAAAAAMAAAAYAAkAAAAAAAMAAAAZAAkAAAAAAAMAAAAaAAkAAAAAAAMAAAAbAAkAAAAAAAMAAAAcAAkAAAAAAAMAAAAdAAkAAAAAAAMAAAAeAAkAAAAAAAMAAAAfAAkAAAAAAAMAAAAgAAkAAAAAAAMAAAAhAAkAAAAAAAMAAAAiAAkAAAAAAAMAAAAjAAkAAAAAAAMAAAAkAAkAAAAAAAMAAAAlAAkAAAAAAAMAAAAmAAkAAAAAAAMAAAAnAAkAAAAAAAMAAAAoAAkAAAAAAAIAAAA=")
 tile_set = ExtResource("pedra_orla")
 
 [node name="Pier" type="TileMapLayer" parent="Terrains"]
@@ -1401,6 +1406,7 @@ script = ExtResource("passagem")
 cena_destino = "res://cenas/cidade.tscn"
 ponto_chegada = "praia"
 so_entre_ondas = false
+direcao_saida = Vector2(0, -1)
 
 [node name="Forma" type="CollisionShape2D" parent="VoltaCidade"]
 shape = SubResource("Forma_porta")
@@ -1408,33 +1414,10 @@ shape = SubResource("Forma_porta")
 [node name="Chegada_cidade" type="Marker2D" parent="." groups=["chegada"]]
 position = Vector2(336, 64)
 
-[node name="PlacaCidade" type="Label" parent="Terrains"]
-offset_left = 256.0
-offset_top = 35.0
-offset_right = 416.0
-offset_bottom = 55.0
-mouse_filter = 2
-theme_override_font_sizes/font_size = 7
-theme_override_colors/font_color = Color(1, 0.91, 0.7, 1)
-theme_override_colors/font_shadow_color = Color(0.16, 0.11, 0.1, 1)
-theme_override_constants/shadow_offset_x = 1
-theme_override_constants/shadow_offset_y = 1
-text = "^ VILA"
-horizontal_alignment = 1
-
-[node name="PlacaPier" type="Label" parent="Terrains"]
-offset_left = 272.0
-offset_top = 230.0
-offset_right = 432.0
-offset_bottom = 250.0
-mouse_filter = 2
-theme_override_font_sizes/font_size = 7
-theme_override_colors/font_color = Color(1, 0.91, 0.7, 1)
-theme_override_colors/font_shadow_color = Color(0.16, 0.11, 0.1, 1)
-theme_override_constants/shadow_offset_x = 1
-theme_override_constants/shadow_offset_y = 1
-text = "PIER DO NILO"
-horizontal_alignment = 1
+[node name="PlacaCidade" type="Node2D" parent="Terrains"]
+position = Vector2(310, 50)
+script = ExtResource("placa_local")
+texto = "VILA"
 
 [node name="Palafita" type="Sprite2D" parent="."]
 position = Vector2(464, 224)
@@ -2428,6 +2411,38 @@ z_index = 448
 [node name="Nilo" type="CharacterBody2D" parent="."]
 position = Vector2(342, 404)
 script = ExtResource("pescador")
+
+[node name="PescaPierLeste" type="Area2D" parent="."]
+position = Vector2(372, 416)
+script = ExtResource("ponto_pesca")
+direcao = Vector2(1, 0)
+
+[node name="Forma" type="CollisionShape2D" parent="PescaPierLeste"]
+shape = SubResource("Forma_ponto_pesca")
+
+[node name="PescaPonta" type="Area2D" parent="."]
+position = Vector2(352, 496)
+script = ExtResource("ponto_pesca")
+direcao = Vector2(0, 1)
+
+[node name="Forma" type="CollisionShape2D" parent="PescaPonta"]
+shape = SubResource("Forma_ponto_pesca")
+
+[node name="PescaOeste" type="Area2D" parent="."]
+position = Vector2(128, 400)
+script = ExtResource("ponto_pesca")
+direcao = Vector2(-1, 0)
+
+[node name="Forma" type="CollisionShape2D" parent="PescaOeste"]
+shape = SubResource("Forma_ponto_pesca")
+
+[node name="PescaPalafita" type="Area2D" parent="."]
+position = Vector2(544, 436)
+script = ExtResource("ponto_pesca")
+direcao = Vector2(0, 1)
+
+[node name="Forma" type="CollisionShape2D" parent="PescaPalafita"]
+shape = SubResource("Forma_ponto_pesca")
 
 [node name="Jogador" parent="." instance=ExtResource("jogador")]
 position = Vector2(336, 64)

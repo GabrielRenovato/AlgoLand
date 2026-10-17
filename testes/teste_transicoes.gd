@@ -208,8 +208,8 @@ func _rodar() -> void:
 	_verificar("NAO fecha a tela e nao passa o dia", not tela.visible and _calendario.dia == 1 and not _transicao.ocupada, "dia=%d" % _calendario.dia)
 	_verificar("jogador volta a se mover depois de fechar", jogador.movimento_habilitado, "")
 
-	# ---- dormir de verdade: dia 7 (vira a estacao), cura total, salvamento, acorda ao lado da cama
-	_calendario.dia = 7
+	# ---- dormir de verdade: dia 30 (vira a estacao), cura total, salvamento, acorda ao lado da cama
+	_calendario.dia = 30
 	jogador.hp_atual = 33
 	jogador.stamina = 5.0
 	_progresso.salvar()
@@ -242,15 +242,15 @@ func _rodar() -> void:
 	_verificar("acordou: jogador de volta, cama normal (sem cabeca, cobertor nem Z)", jogador.visible and not cama_sprite.deitado and cama_sprite.get_node_or_null("Cobertor") == null
 			and not is_instance_valid(cabeca)
 			and get_nodes_in_group("z_dormindo").is_empty(), "")
-	_verificar("dormir: dia 8, verao (a estacao virou)", _calendario.dia == 8 and _calendario.estacao() == 1, "dia=%d" % _calendario.dia)
+	_verificar("dormir: dia 31, verao (a estacao virou)", _calendario.dia == 31 and _calendario.estacao() == 1, "dia=%d" % _calendario.dia)
 	_verificar("dormir: cura total e estamina cheia", jogador.hp_atual == jogador.estatisticas.hp_maximo and is_equal_approx(jogador.stamina, jogador.stamina_maxima), "hp=%d stamina=%.1f" % [jogador.hp_atual, jogador.stamina])
-	_verificar("dormir: calendario salvo (dia 8)", int(JSON.parse_string(FileAccess.get_file_as_string(CAMINHO_CALENDARIO)).get("dia", 0)) == 8, "")
+	_verificar("dormir: calendario salvo (dia 31)", int(JSON.parse_string(FileAccess.get_file_as_string(CAMINHO_CALENDARIO)).get("dia", 0)) == 31, "")
 	_verificar("dormir: progresso salvo", FileAccess.file_exists(CAMINHO_PROGRESSO), "")
 	_verificar("dormir: acorda ao lado da cama", jogador.global_position.distance_to(casa.get_node("Chegada_cama").global_position) < 2.0, str(jogador.global_position))
 	_verificar("dormir: jogador liberado e Transicao livre", jogador.movimento_habilitado and not _transicao.ocupada and not _transicao.esta_escuro(), "")
 	_verificar("dormir: nao e morte (partida, abates e onda intactos)", _progresso.partida_ativa and _progresso.abates == 2 and _mortes == 0 and _progresso.ultimo_resultado.is_empty(), "")
 	_verificar("dormir: ouro, forca e inventario intactos", _dados_jogo.moedas == 123 and jogador.estatisticas.forca == forca_antes + 3 and _inventario.mochila.size() == mochila_antes, "")
-	_verificar("dormir: HUD com a nova data (VERAO - DIA 1)", hud.rotulo_data.text == "SEG  VERAO - DIA 1", hud.rotulo_data.text)
+	_verificar("dormir: HUD com a nova data (VERAO - DIA 1)", hud.rotulo_data.text == "QUA  VERAO - DIA 1", hud.rotulo_data.text)
 	_verificar("dormir: manha seguinte", is_equal_approx(_transicao.hora_salva, 6.0), "hora=%.2f" % _transicao.hora_salva)
 	hud.faixa_banner.hide()
 
@@ -265,9 +265,9 @@ func _rodar() -> void:
 	fazenda = current_scene
 	jogador = _jogador()
 	_verificar("sair da casa: jogador na frente da porta", jogador.global_position.distance_to(fazenda.get_node("Terrains/Chegada_porta").global_position) < 2.0, "")
-	_verificar("fazenda no dia 8: verao", fazenda.get_node("Terrains/Estacoes").estacao_atual == 1, "")
+	_verificar("fazenda no dia 31: verao", fazenda.get_node("Terrains/Estacoes").estacao_atual == 1, "")
 	_verificar("fazenda: vida atravessou a porta (61)", jogador.hp_atual == 61, "hp=%d" % jogador.hp_atual)
-	_verificar("fazenda: o mesmo horario (manha) e a data nova no HUD", get_nodes_in_group("hud")[0].rotulo_data.text == "SEG  VERAO - DIA 1", "")
+	_verificar("fazenda: o mesmo horario (manha) e a data nova no HUD", get_nodes_in_group("hud")[0].rotulo_data.text == "QUA  VERAO - DIA 1", "")
 	var luz: Node = get_nodes_in_group("iluminacao")[0]
 	_verificar("fazenda: hora do dia segue de onde estava (6h)", absf(luz.hora - 6.0) < 0.2, "hora=%.2f" % luz.hora)
 
@@ -292,8 +292,8 @@ func _rodar() -> void:
 	_verificar("arena: ouro (123) nao voltou ao inicial", _dados_jogo.moedas == 123, "ouro=%d" % _dados_jogo.moedas)
 	_verificar("arena: vida (61), totem, mochila e equipamento intactos", jogador.hp_atual == 61 and jogador.estatisticas.forca == forca_antes + 3 and _inventario.mochila.size() == mochila_antes and _equipados() == equipados_antes, "hp=%d" % jogador.hp_atual)
 	_verificar("arena: sem morte, sem fim de partida", _mortes == 0 and _progresso.ultimo_resultado.is_empty() and not jogador.estaMorto, "")
-	_verificar("arena: estacao do calendario (verao, dia 8)", arena.get_node("Terrains/Estacoes").estacao_atual == 1, "")
-	_verificar("arena: HUD mostra ONDA 3 e a data", get_nodes_in_group("hud")[0].rotulo_onda.text == "ONDA 3" and get_nodes_in_group("hud")[0].rotulo_data.text == "SEG  VERAO - DIA 1", get_nodes_in_group("hud")[0].rotulo_onda.text)
+	_verificar("arena: estacao do calendario (verao, dia 31)", arena.get_node("Terrains/Estacoes").estacao_atual == 1, "")
+	_verificar("arena: HUD mostra ONDA 3 e a data", get_nodes_in_group("hud")[0].rotulo_onda.text == "ONDA 3" and get_nodes_in_group("hud")[0].rotulo_data.text == "QUA  VERAO - DIA 1", get_nodes_in_group("hud")[0].rotulo_onda.text)
 	_verificar("arena: Transicao livre (sem fade preso)", not _transicao.ocupada and not _transicao.esta_escuro() and not _transicao.retornando, "")
 	# A onda 3 ainda comeca normalmente e o evento nao quebra
 	gerenciador.iniciar_onda()

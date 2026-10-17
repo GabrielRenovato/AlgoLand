@@ -1,0 +1,15 @@
+{
+  "pacote": "Farm RPG - Tiny Asset Pack - (All in One)",
+  "arquivo": "UI/speech bubble, emojis, reaction.png",
+  "recorte": [
+    128,
+    96,
+    16,
+    16
+  ],
+  "folhas_pesca_conferidas": [
+    "Icons/Fish/Sea/Sardine.png",
+    "Animals/Forest/Beach/Fish/best fish point.png"
+  ],
+  "observacao": "Nas folhas de peixe h\u00e1 quadros de \u00edcone/contorno/silhueta; a estrela nativa est\u00e1 no atlas de rea\u00e7\u00f5es do mesmo pacote."
+}

@@ -104,7 +104,7 @@ func _criar_botoes() -> void:
 		{"acao": &"rolar", "rotulo": "ROLAR", "raio": RAIO_HABILIDADE, "cor": COR_ROLAR, "onde": "", "angulo": 218.0, "segura": false, "textura": _glifo(GLIFO_ROLAR), "lado": LADO_MIOLO},
 		{"acao": &"usar_pocao", "rotulo": "POÇÃO", "raio": RAIO_HABILIDADE, "cor": COR_POCAO, "onde": "arena", "angulo": 252.0, "segura": false, "textura": Pocoes.icone("cura"), "lado": LADO_ICONE_16},
 		{"acao": &"colher", "rotulo": "COLHER", "raio": RAIO_HABILIDADE, "cor": COR_AGIR, "onde": "fazenda", "angulo": 252.0, "segura": false},
-		{"acao": &"open_menu", "rotulo": "AGIR", "raio": RAIO_HABILIDADE, "cor": COR_AGIR, "onde": "", "angulo": 286.0, "segura": false, "textura": _glifo(GLIFO_AGIR), "lado": LADO_MIOLO},
+		{"acao": &"open_menu", "rotulo": "", "raio": RAIO_HABILIDADE, "cor": COR_AGIR, "onde": "", "angulo": 286.0, "segura": false, "textura": _glifo(GLIFO_AGIR), "lado": LADO_MIOLO},
 		{"acao": &"open_inventory", "rotulo": "ITENS", "raio": RAIO_MOCHILA, "cor": COR_NEUTRA, "onde": "", "canto": true, "segura": false, "textura": _glifo(GLIFO_ITENS), "lado": LADO_MIOLO},
 		# Pausa (opções, voltar ao menu, sair): logo abaixo do botão de itens, sem ícone (o texto "II" é desenhado)
 		{"acao": &"pausar", "rotulo": "II", "raio": RAIO_MOCHILA * 0.8, "cor": COR_NEUTRA, "onde": "", "canto": true, "canto_abaixo": 1, "segura": false},
@@ -130,14 +130,7 @@ func _redesenhar() -> void:
 
 # Só o branco do glifo da folha do Cute RPG: o ladrilho colorido e a moldura branca de 4 px em volta somem (o glifo ocupa o miolo de 24 px)
 func _glifo(celula: Vector2i) -> Texture2D:
-	var imagem := (load(FOLHA_GLIFOS) as Texture2D).get_image().get_region(Rect2i(celula * LADO_GLIFO + Vector2i(MOLDURA_GLIFO, MOLDURA_GLIFO), Vector2i(LADO_GLIFO - 2 * MOLDURA_GLIFO, LADO_GLIFO - 2 * MOLDURA_GLIFO)))
-	imagem.convert(Image.FORMAT_RGBA8)
-	for y in imagem.get_height():
-		for x in imagem.get_width():
-			var cor := imagem.get_pixel(x, y)
-			var branco := cor.a > 0.5 and cor.r > 0.9 and cor.g > 0.9 and cor.b > 0.9
-			imagem.set_pixel(x, y, Color.WHITE if branco else Color(1, 1, 1, 0))
-	return ImageTexture.create_from_image(imagem)
+	return preload("res://codigo/ui/icones_toque.gd").glifo(celula)
 
 # Põe cada ícone no centro do botão (e some com ele quando o botão some ou a tela está tomada por um menu)
 func _atualizar_icones() -> void:

@@ -59,6 +59,11 @@ func _contorno(margem: float) -> PackedVector2Array:
 	return pontos
 
 func _aplicar_estacao(estacao: int) -> void:
+	var tiny: String = preload("res://codigo/cenario/fazenda_tiny.gd").pasta_do_terreno(get_parent(), estacao)
+	if not tiny.is_empty():
+		_textura_agua = load(tiny + "agua.png")
+		queue_redraw()
+		return
 	var folha: Texture2D = load(FOLHA_ESTACAO % ESTACOES[clampi(estacao, 0, 3)])
 	var imagem := folha.get_image().get_region(REGIAO_AGUA)
 	_textura_agua = ImageTexture.create_from_image(imagem)

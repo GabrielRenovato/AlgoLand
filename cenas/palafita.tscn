@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3]
+[gd_scene load_steps=21 format=3]
 
 [ext_resource type="Script" path="res://codigo/cidade/cidade.gd" id="cidade_script"]
 [ext_resource type="PackedScene" path="res://cenas/jogador.tscn" id="jogador"]
@@ -37,6 +37,9 @@ size = Vector2(44, 82)
 [sub_resource type="RectangleShape2D" id="Forma_Mesa"]
 size = Vector2(38, 55)
 
+[sub_resource type="RectangleShape2D" id="Forma_BalcaoLoja"]
+size = Vector2(130, 12)
+
 [sub_resource type="RectangleShape2D" id="Forma_porta"]
 size = Vector2(40, 16)
 
@@ -44,7 +47,7 @@ size = Vector2(40, 16)
 script = ExtResource("cidade_script")
 local = "palafita"
 limites = Rect2(0, 0, 320, 224)
-metadata/titulo_hud = "PALAFITA DO NILO"
+metadata/titulo_hud = "PESCARIA DO NILO"
 
 [node name="Terrains" type="Node2D" parent="."]
 
@@ -90,6 +93,10 @@ shape = SubResource("Forma_Cama")
 [node name="Mesa" type="CollisionShape2D" parent="Obstaculos"]
 position = Vector2(275, 141.5)
 shape = SubResource("Forma_Mesa")
+
+[node name="BalcaoLoja" type="CollisionShape2D" parent="Obstaculos"]
+position = Vector2(160, 122)
+shape = SubResource("Forma_BalcaoLoja")
 
 [node name="Saida" type="Area2D" parent="."]
 position = Vector2(160, 204)

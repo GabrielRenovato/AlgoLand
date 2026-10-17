@@ -1,0 +1,65 @@
+{
+  "ferramenta": "imagegen integrada",
+  "referencia": "poses laterais existentes aceitas pelo usuário; correção da identidade das pernas",
+  "contrato": {
+    "quadro_logico": [
+      64,
+      64
+    ],
+    "textura_quadro": [
+      1024,
+      1024
+    ],
+    "pivo": [
+      32,
+      44
+    ],
+    "altura_aparente": 34,
+    "variantes": "andar e correr laterais, esquerda por espelho",
+    "integracao": "ferramentas/personagem/preparar_exemplo_alta_qualidade.gd; F3 PERSONAGEM GERADO"
+  },
+  "poses": [
+    {
+      "acao": "correr",
+      "indice_fonte": 2,
+      "fonte_gerada": "/home/alfeim/.codex/generated_images/01a145ef-0cfd-7b82-9373-f0ace128ed9e/exec-b2bce2dc-ff89-4b70-85e8-6f5816717dc7.png",
+      "arquivo": "arte/fontes/personagens/exemplo_alta_qualidade/alternancia_pernas/correr_pose_2.png",
+      "prompt": "Use case: precise-object-edit. AlgoLand animated player sprite, correction of leg identity in an existing lateral gait. Edit this SINGLE pose, transparent canvas. Preserve the exact character, pose silhouette, head, face pointing RIGHT, tank top, arms, hands and pixel-art shading style. CHANGE ONLY which leg is foreground vs background. The current art incorrectly puts the bright NEAR leg in front of the body. Swap leg depth: the leg reaching FORWARD to the RIGHT must be the FAR leg, darker/shadowed and attached to the FAR shorts opening behind the pelvis. The leg reaching BACKWARD to the LEFT must be the NEAR leg, bright skin, attached to the foreground shorts opening, its thigh drawn OVER and occluding the far thigh at the groin. This requires reversing the shorts crotch overlap too, not merely recoloring the shins. Keep exactly two legs, two bare feet. Do not mirror the whole character. Keep body proportions, framing, contact/flight position. Source used on 64x64 logical frames, 1024x1024 texture cell, body 34 logical pixels high, anchored foot baseline44, nearest sampling. Single corrected full-body pose only, no labels, grid, ground, shadow, or extra fragments.\nAction correr, source pose 2. The near bright leg extends BACK to the left; the forward raised knee on the right is the far dark leg, partially occluded at its hip."
+    },
+    {
+      "acao": "correr",
+      "indice_fonte": 3,
+      "fonte_gerada": "/home/alfeim/.codex/generated_images/01a145ef-0cfd-7b82-9373-f0ace128ed9e/exec-f0a91380-59de-4493-acce-69a6d0481784.png",
+      "arquivo": "arte/fontes/personagens/exemplo_alta_qualidade/alternancia_pernas/correr_pose_3.png",
+      "prompt": "Precise pixel-art sprite edit, AlgoLand game player. Edit this one full-body pose only. Preserve face facing RIGHT, bald head, ivory tank top, brown shorts, BOTH ARMS AND HANDS, body silhouette, size, style, overall leg positions and framing. FIX the leg overlap: The leg/foot to the right/front MUST BE THE FAR BACKGROUND LEG, darker skin, thigh partially hidden behind the NEAR thigh at the crotch. The leg bent backward to the LEFT must be the NEAR FOREGROUND LEG, bright skin like the near arm, with its thigh coming from the foreground shorts opening and visibly overlapping the far forward thigh. Reverse the crotch and shorts seam overlap to make the BACKWARD leg clearly the near leg. Present image has this backwards; do not preserve that error. Keep original leg silhouette but swap anatomical depth and lighting. Two legs and two bare feet only. Do NOT mirror character. This is airborne flight with extended far leg forward and bright near leg folded back. Transparent background, no text, no ground/shadow or stray marks. Source for logical64x64 cells, texture1024x1024, apparentbody34logicalpx, pivot baseline44. Single pose only; maintain polished pixel-art character identity."
+    },
+    {
+      "acao": "correr",
+      "indice_fonte": 4,
+      "fonte_gerada": "/home/alfeim/.codex/generated_images/01a145ef-0cfd-7b82-9373-f0ace128ed9e/exec-7a722cad-d673-4971-a433-58db6c2ae911.png",
+      "arquivo": "arte/fontes/personagens/exemplo_alta_qualidade/alternancia_pernas/correr_pose_4.png",
+      "prompt": "Use case: precise-object-edit. AlgoLand animated player sprite, correction of leg identity in an existing lateral gait. Edit this SINGLE pose, transparent canvas. Preserve the exact character, pose silhouette, head, face pointing RIGHT, tank top, arms, hands and pixel-art shading style. CHANGE ONLY which leg is foreground vs background. The current art incorrectly puts the bright NEAR leg in front of the body. Swap leg depth: the leg reaching FORWARD to the RIGHT must be the FAR leg, darker/shadowed and attached to the FAR shorts opening behind the pelvis. The leg reaching BACKWARD to the LEFT must be the NEAR leg, bright skin, attached to the foreground shorts opening, its thigh drawn OVER and occluding the far thigh at the groin. This requires reversing the shorts crotch overlap too, not merely recoloring the shins. Keep exactly two legs, two bare feet. Do not mirror the whole character. Keep body proportions, framing, contact/flight position. Source used on 64x64 logical frames, 1024x1024 texture cell, body 34 logical pixels high, anchored foot baseline44, nearest sampling. Single corrected full-body pose only, no labels, grid, ground, shadow, or extra fragments.\nAction correr, source pose 4. The extended forward foot on right belongs to far dark leg; backward left leg is bright near leg."
+    },
+    {
+      "acao": "correr",
+      "indice_fonte": 5,
+      "fonte_gerada": "/home/alfeim/.codex/generated_images/01a145ef-0cfd-7b82-9373-f0ace128ed9e/exec-1b6b3c7f-4af2-402a-8a90-d198dfbf3e83.png",
+      "arquivo": "arte/fontes/personagens/exemplo_alta_qualidade/alternancia_pernas/correr_pose_5.png",
+      "prompt": "Precise pixel-art sprite edit, AlgoLand game player. Edit this one full-body pose only. Preserve face facing RIGHT, bald head, ivory tank top, brown shorts, BOTH ARMS AND HANDS, body silhouette, size, style, overall leg positions and framing. FIX the leg overlap: The leg/foot to the right/front MUST BE THE FAR BACKGROUND LEG, darker skin, thigh partially hidden behind the NEAR thigh at the crotch. The leg bent backward to the LEFT must be the NEAR FOREGROUND LEG, bright skin like the near arm, with its thigh coming from the foreground shorts opening and visibly overlapping the far forward thigh. Reverse the crotch and shorts seam overlap to make the BACKWARD leg clearly the near leg. Present image has this backwards; do not preserve that error. Keep original leg silhouette but swap anatomical depth and lighting. Two legs and two bare feet only. Do NOT mirror character. This is compression after opposite-foot contact: far dark leg supports body in front, bright near leg folds backward with raised heel. Transparent background, no text, no ground/shadow or stray marks. Source for logical64x64 cells, texture1024x1024, apparentbody34logicalpx, pivot baseline44. Single pose only; maintain polished pixel-art character identity."
+    },
+    {
+      "acao": "andar",
+      "indice_fonte": 4,
+      "fonte_gerada": "/home/alfeim/.codex/generated_images/01a145ef-0cfd-7b82-9373-f0ace128ed9e/exec-5fbf2d92-fcff-44a0-a37e-806561f76447.png",
+      "arquivo": "arte/fontes/personagens/exemplo_alta_qualidade/alternancia_pernas/andar_pose_4.png",
+      "prompt": "Use case: precise-object-edit. AlgoLand animated player sprite, correction of leg identity in an existing lateral gait. Edit this SINGLE pose, transparent canvas. Preserve the exact character, pose silhouette, head, face pointing RIGHT, tank top, arms, hands and pixel-art shading style. CHANGE ONLY which leg is foreground vs background. The current art incorrectly puts the bright NEAR leg in front of the body. Swap leg depth: the leg reaching FORWARD to the RIGHT must be the FAR leg, darker/shadowed and attached to the FAR shorts opening behind the pelvis. The leg reaching BACKWARD to the LEFT must be the NEAR leg, bright skin, attached to the foreground shorts opening, its thigh drawn OVER and occluding the far thigh at the groin. This requires reversing the shorts crotch overlap too, not merely recoloring the shins. Keep exactly two legs, two bare feet. Do not mirror the whole character. Keep body proportions, framing, contact/flight position. Source used on 64x64 logical frames, 1024x1024 texture cell, body 34 logical pixels high, anchored foot baseline44, nearest sampling. Single corrected full-body pose only, no labels, grid, ground, shadow, or extra fragments.\nAction andar, source pose 4. The extended forward foot on right belongs to far dark leg; backward left leg is bright near leg."
+    },
+    {
+      "acao": "andar",
+      "indice_fonte": 5,
+      "fonte_gerada": "/home/alfeim/.codex/generated_images/01a145ef-0cfd-7b82-9373-f0ace128ed9e/exec-18bdee82-616e-4c0f-a4d6-f3f375dc0672.png",
+      "arquivo": "arte/fontes/personagens/exemplo_alta_qualidade/alternancia_pernas/andar_pose_5.png",
+      "prompt": "Precise pixel-art sprite edit, AlgoLand game player. Edit this one full-body pose only. Preserve face facing RIGHT, bald head, ivory tank top, brown shorts, BOTH ARMS AND HANDS, body silhouette, size, style, overall leg positions and framing. FIX the leg overlap: The leg/foot to the right/front MUST BE THE FAR BACKGROUND LEG, darker skin, thigh partially hidden behind the NEAR thigh at the crotch. The leg bent backward to the LEFT must be the NEAR FOREGROUND LEG, bright skin like the near arm, with its thigh coming from the foreground shorts opening and visibly overlapping the far forward thigh. Reverse the crotch and shorts seam overlap to make the BACKWARD leg clearly the near leg. Present image has this backwards; do not preserve that error. Keep original leg silhouette but swap anatomical depth and lighting. Two legs and two bare feet only. Do NOT mirror character. This is compression after opposite-foot contact: far dark leg supports body in front, bright near leg folds backward with raised heel. Transparent background, no text, no ground/shadow or stray marks. Source for logical64x64 cells, texture1024x1024, apparentbody34logicalpx, pivot baseline44. Single pose only; maintain polished pixel-art character identity."
+    }
+  ]
+}

@@ -169,17 +169,17 @@ func _testar_sorteio_do_evento() -> void:
 		var e: Dictionary = Gerenciador.sortear_evento(8, false, false, "", rng, 1.0, 3)
 		outros_no_inverno[e["id"]] = true
 	_verificar("inverno ainda sorteia os outros 5 eventos", outros_no_inverno.size() == 5 and not outros_no_inverno.has("tempestade"), str(outros_no_inverno.keys()))
-	# O gerenciador usa a estação do calendário (dias 22..28 = inverno)
+	# O gerenciador usa a estação do calendário (dias 91..120 = inverno)
 	_gerenciador_estacao_da_onda()
 
-# A estação passada ao sorteio pelo gerenciador (iniciar_onda) vem do Calendario: dias 22 a 28 = inverno
+# A estação passada ao sorteio pelo gerenciador (iniciar_onda) vem do Calendario: dias 91 a 120 = inverno
 func _gerenciador_estacao_da_onda() -> void:
 	var calendario = root.get_node("Calendario")
 	var inverno_ok := true
-	for dia in range(22, 29):
+	for dia in range(91, 121):
 		if calendario.estacao(dia) != Gerenciador.ESTACAO_INVERNO:
 			inverno_ok = false
-	_verificar("dias 22 a 28 sao o inverno do sorteio", inverno_ok, "")
+	_verificar("dias 91 a 120 sao o inverno do sorteio", inverno_ok, "")
 
 # -----------------------------------------------------------------
 # Estados: camadas, ordem, velocidades

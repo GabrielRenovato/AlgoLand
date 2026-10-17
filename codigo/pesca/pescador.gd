@@ -48,7 +48,7 @@ func _ready() -> void:
 	interacao.position.y = 8
 	var zona := CollisionShape2D.new()
 	var alcance := CircleShape2D.new()
-	alcance.radius = 32
+	alcance.radius = 48
 	zona.shape = alcance
 	interacao.add_child(zona)
 	add_child(interacao)
@@ -130,7 +130,7 @@ func _physics_process(delta: float) -> void:
 		_pesca.visible = false
 		return
 	var jogador := Cooperativo.jogador_no_ambiente(self)
-	var perto := jogador != null and position.distance_to(jogador.position) < 32
+	var perto := jogador != null and (position.distance_to(jogador.position) < 32 or Cidade.em_conversa(id))
 	var andando := false
 	if perto and (not _saindo or not jogador.movimento_habilitado):
 		_olhar(jogador.position - position)

@@ -13,7 +13,7 @@ const TELAS_ACOMPANHANTES := {"mercante": ["inventario"], "bau": ["inventario"]}
 # fechar, senão o A que fechou a conversa já abriria outra)
 const ACOES_DO_JOGADOR := ["rolar", "attack", "open_menu"]
 # Telas no centro da tela: em vez de deslizar de uma borda, aparecem com fade
-const TELAS_CENTRAIS := ["fim_partida", "dormir", "pausa", "conversa_cidade", "mural_cidade", "desafio_arena", "introducao", "guia_pesca"]
+const TELAS_CENTRAIS := ["fim_partida", "dormir", "pausa", "conversa_cidade", "mural_cidade", "desafio_arena", "introducao", "guia_pesca", "comercio"]
 # Só se fecha pelo próprio botão (B/Esc e o atalho do inventário são ignorados)
 const TELAS_OBRIGATORIAS := ["fim_partida", "introducao"]
 # Telas coladas na lateral direita da tela, onde o X de fechar fica no canto
@@ -54,6 +54,11 @@ func _ready() -> void:
 	add_child(bau)
 	_telas["bau"] = bau
 	_paineis["bau"] = bau.painel
+	var comercio := preload("res://codigo/comercio/tela_comercio.gd").new()
+	comercio.name = "TelaComercio"
+	add_child(comercio)
+	_telas["comercio"] = comercio
+	_paineis["comercio"] = comercio.painel
 	var guia_pesca := preload("res://codigo/pesca/guia_pesca.gd").new()
 	guia_pesca.name = "GuiaPesca"
 	add_child(guia_pesca)
@@ -132,6 +137,9 @@ func _ajustar_botoes_de_fechar_para_toque() -> void:
 			botao.get_parent().add_child(area)
 
 func _unhandled_input(evento: InputEvent) -> void:
+	if Comercio.em_viagem and not Comercio.em_combate:
+		get_viewport().set_input_as_handled()
+		return
 	if _telas_abertas.has("introducao"):
 		get_viewport().set_input_as_handled()
 		return
@@ -165,6 +173,8 @@ func _unhandled_input(evento: InputEvent) -> void:
 			get_viewport().set_input_as_handled()
 
 func _abrir_tela(nome: String, acompanhante := false) -> void:
+	if Comercio.em_viagem and not Comercio.em_combate and nome != "comercio":
+		return
 	if not Introducao.permite_tela(nome):
 		return
 	if not _telas.has(nome):

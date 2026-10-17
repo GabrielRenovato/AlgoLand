@@ -16,12 +16,12 @@ from preparar_testes import preparar
 
 # Testes de sistemas complementam o coop; não significam que foram executados com dois jogadores.
 GRUPOS = {
-    "coop": ["coop_entradas", "coop_geral", "interface_coop", "controle_ambientes_coop", "bugs_controle", "assentos_coop", "sono_coop", "economia_festa", "praia", "agenda_vila"],
+    "coop": ["coop_entradas", "coop_geral", "interface_coop", "controle_ambientes_coop", "bugs_controle", "assentos_coop", "sono_coop", "pesca_coop", "economia_festa", "praia", "agenda_vila"],
     "controle": ["controle_botoes", "mira", "barra_armas", "pausa"],
     "android": ["coop_android", "toque", "coleta_dedicada", "mini_tutorial"],
-    "sistemas": ["inventario", "fazenda", "plantio", "pocoes", "defesa", "morte", "transicoes", "introducao", "dialogo_cidade"],
+    "sistemas": ["inventario", "fazenda", "plantio", "pocoes", "defesa", "morte", "transicoes", "introducao", "dialogo_cidade", "varas_catalogo", "cartas_peixes", "peixes_mochila", "loja_nilo_pedidos", "progresso_pesca", "pesca", "retratos_dialogo"],
 }
-ARGUMENTOS_TESTES = {"economia_festa": ["--festa-coop"]}
+ARGUMENTOS_TESTES = {"economia_festa": ["--festa-coop"], "pesca_coop": ["--ambos", "--p1-sai"]}
 ERROS = re.compile(r"SCRIPT ERROR|Parse Error|^ERROR:|^FALHA(?:\s|:)|^FALHAS:\s*[1-9]", re.M)
 
 

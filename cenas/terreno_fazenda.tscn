@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3]
+[gd_scene load_steps=28 format=3]
 
 [ext_resource type="Texture2D" path="res://assets/cenario/Seasonal Forest/arena/spring.png" id="arena_folha"]
 [ext_resource type="Texture2D" path="res://assets/cenario/23.05a - Arctic Woodland 1.1/evergreen trees/evergreen trees (winter, top snow) 80x112.png" id="evergreen_inverno"]
@@ -15,6 +15,7 @@
 [ext_resource type="Texture2D" path="res://assets/cenario/fazenda/cerca/verao/vertical.png" id="cerca_vertical"]
 [ext_resource type="Script" path="res://codigo/cenario/cerca_sazonal.gd" id="cerca_script"]
 [ext_resource type="Script" path="res://codigo/cenario/lago_fazenda.gd" id="lago_script"]
+[ext_resource type="Script" path="res://codigo/cidade/placa_local.gd" id="placa_local"]
 
 [sub_resource type="TileSetAtlasSource" id="Fonte_fazenda"]
 texture = ExtResource("arena_folha")
@@ -3733,23 +3734,16 @@ script = ExtResource("passagem_script")
 cena_destino = "res://cenas/cidade.tscn"
 ponto_chegada = "fazenda"
 so_entre_ondas = false
+direcao_saida = Vector2(1, 0)
 deslocamento_aviso = Vector2(0, -30)
 
 [node name="Forma" type="CollisionShape2D" parent="PassagemCidade"]
 shape = SubResource("Forma_cidade")
 
-[node name="PlacaCidade" type="Label" parent="."]
-offset_left = 992.0
-offset_top = 256.0
-offset_right = 1072.0
-offset_bottom = 274.0
-mouse_filter = 2
-theme_override_font_sizes/font_size = 8
-text = "VILA >"
-theme_override_colors/font_shadow_color = Color(0.16, 0.11, 0.1, 1)
-theme_override_constants/shadow_offset_x = 1
-theme_override_constants/shadow_offset_y = 1
-horizontal_alignment = 1
+[node name="PlacaCidade" type="Node2D" parent="."]
+position = Vector2(1032, 268)
+script = ExtResource("placa_local")
+texto = "VILA"
 
 [node name="PortaCasa" type="Area2D" parent="."]
 position = Vector2(376, 230)

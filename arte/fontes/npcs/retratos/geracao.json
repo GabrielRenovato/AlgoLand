@@ -1,0 +1,96 @@
+{
+  "tipo": "Retratos de diálogo em pixel art, busto, transparência real",
+  "ferramenta": "image_gen integrada",
+  "referencia_estilo": "referencia_usuario.png",
+  "referencia_identidades": "referencia_identidades.png",
+  "contrato": {
+    "quadro": [
+      128,
+      128
+    ],
+    "grade": [
+      2,
+      1
+    ],
+    "pivo": "centro inferior",
+    "quadros": [
+      "boca fechada",
+      "boca aberta"
+    ],
+    "uso": "diálogo 66x70 unidades; 46x58 em vista estreita; filtro nearest",
+    "estacoes": "retrato de personagem sem variantes sazonais"
+  },
+  "prompt_comum": "Dois quadros quadrados em uma linha, proporção 2:1, fundo transparente. Retrato de cabeça, pescoço e ombros, três quartos olhando à esquerda. Estilo farming RPG em pixel art, grade lógica 128x128, grupos de pixels nítidos, contorno seletivo, 3-4 tons por material, sem gradientes ou pintura. Quadro esquerdo boca fechada, direito somente boca aberta; mesma cabeça, cabelo, roupa, posição e escala. Margens lógicas de 4 pixels no topo/laterais, busto na base. Sem texto, rótulos, moldura, cenário, objetos ou corpo inteiro. Preservar identidade do sprite de referência.",
+  "personagens": {
+    "tomas": {
+      "origem": "tomas_fala_v1.png",
+      "identidade": "Comerciante adulto, cabelo castanho curto, bigode e barba castanhos, camisa creme e avental marrom.",
+      "boca": [
+        36,
+        64,
+        35,
+        21
+      ]
+    },
+    "rosa": {
+      "origem": "rosa_fala_v1.png",
+      "identidade": "Curandeira idosa, cabelo cinza em coque alto, xale verde-musgo, blusa creme e vestido bordô.",
+      "boca": [
+        36,
+        64,
+        35,
+        21
+      ]
+    },
+    "caio": {
+      "origem": "caio_fala_v1.png",
+      "identidade": "Músico jovem, cabelo castanho bagunçado, bandana vermelha, colete azul-petróleo e camisa creme.",
+      "boca": [
+        36,
+        64,
+        35,
+        21
+      ]
+    },
+    "lia": {
+      "origem": "lia_fala_v1.png",
+      "identidade": "Líder comunitária adulta, trança ruiva, vestido verde-oliva e blusa creme.",
+      "boca": [
+        36,
+        64,
+        35,
+        21
+      ]
+    },
+    "bento": {
+      "origem": "bento_fala_v1.png",
+      "identidade": "Agricultor idoso, barba branca, chapéu de palha com faixa marrom, camisa verde e jardineira marrom.",
+      "boca": [
+        36,
+        64,
+        35,
+        21
+      ]
+    },
+    "nilo": {
+      "origem": "nilo_fala_v1.png",
+      "identidade": "Pescador idoso, barba branca, chapéu de palha com faixa azul, casaco azul-marinho e camisa creme.",
+      "boca": [
+        36,
+        64,
+        35,
+        21
+      ]
+    },
+    "estela": {
+      "origem": "estela_fala_v1.png",
+      "identidade": "Mística de pele morena, cabelo preto em rabo alto e franja, olhos roxos, manto roxo com dourado.",
+      "boca": [
+        40,
+        67,
+        23,
+        12
+      ]
+    }
+  }
+}

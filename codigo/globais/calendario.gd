@@ -9,7 +9,7 @@ signal dia_passou(dia: int)
 signal estacao_mudou(estacao: int)
 
 const CAMINHO_SAVE := "user://calendario.json"
-const DIAS_POR_ESTACAO := 7
+const DIAS_POR_ESTACAO := 30
 const ESTACOES_POR_ANO := 4
 ## Texto do HUD (a fonte do jogo não tem acentos)
 const NOMES: Array[String] = ["PRIMAVERA", "VERAO", "OUTONO", "INVERNO"]
@@ -42,7 +42,8 @@ func dia_na_estacao() -> int:
 func nome_estacao() -> String:
 	return NOMES[estacao()]
 
-## Cada estação tem 7 dias: é uma semana, que começa na segunda (os moradores folgam num dia fixo, ver dados_cidade.gd)
+## A semana tem 7 dias e começa na segunda (os moradores folgam num dia fixo, ver dados_cidade.gd); a estação tem
+## DIAS_POR_ESTACAO dias, então o dia da semana corre independente dela
 const DIAS_SEMANA := ["SEG", "TER", "QUA", "QUI", "SEX", "SAB", "DOM"]
 
 ## 0 = segunda ... 6 = domingo

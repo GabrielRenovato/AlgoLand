@@ -1,0 +1,98 @@
+{
+  "estado": "Carroça redesenhada no acabamento do cavalo, integrada nas quatro estações e em oito quadros de giro das rodas.",
+  "fontes": {
+    "primavera": "arte/fontes/comercio/carroca_arte.png",
+    "inverno": "arte/fontes/comercio/carroca_arte_inverno.png"
+  },
+  "prompts": [
+    "arte/fontes/comercio/carroca_prompt.txt",
+    "arte/fontes/comercio/carroca_inverno_prompt.txt"
+  ],
+  "gerador": "Imagegen integrado; imagens preservadas em alta resolução, sem redesenho manual nem redução da fonte.",
+  "referencia_qualidade": "arte/fontes/comercio/cavalo_estudo_v2.png",
+  "contrato": {
+    "tipo": "carroça de comércio da fazenda e vinhetas de viagem",
+    "fonte_tamanho": [
+      1672,
+      941
+    ],
+    "tela_textura": [
+      1824,
+      1216
+    ],
+    "tela_no_mundo": [
+      96,
+      64
+    ],
+    "origem_da_fonte": [
+      2,
+      232
+    ],
+    "escala_sprite": 0.05263157894736842,
+    "offset_sprite": [
+      -912,
+      -1102
+    ],
+    "pivo_chao": [
+      912,
+      1102
+    ],
+    "grade_mapa": 16,
+    "colisao_preservada": {
+      "centro": [
+        -4,
+        -10
+      ],
+      "tamanho": [
+        74,
+        20
+      ]
+    },
+    "rodas_centros_textura": [
+      [
+        418,
+        938
+      ],
+      [
+        1162,
+        938
+      ]
+    ],
+    "raio_giro_textura": 122,
+    "quadros": 8,
+    "atlas": [
+      2,
+      4
+    ],
+    "passageiros": "Posições e aparência existentes; lateral recortada por quadro recobre as pernas.",
+    "estacoes": [
+      "primavera",
+      "verao",
+      "outono",
+      "inverno"
+    ]
+  },
+  "sazonal": "Primavera: madeira quente; verão: madeira seca e clara; outono: madeira úmida e escura; inverno: fonte própria com neve nos apoios horizontais, madeira fria e ferragens preservadas. Geometria e colisão comuns.",
+  "preparador": "ferramentas/comercio/preparar_carroca.gd",
+  "integracao": "codigo/comercio/conjunto_carroca.gd; sprite e lateral em atlas 2x4, recorte com UV local por quadro.",
+  "revisao": "Renderização real nas quatro estações e três pelagens. Conferidas rodas, chassi, apoio no chão, passageiros e conexão dos varais.",
+  "validacao": {
+    "animacao": {
+      "verificacoes": 281,
+      "falhas": 0,
+      "log": "/tmp/algoland-carroca-final-animacao.log"
+    },
+    "comercio_log": "/tmp/algoland-carroca-final-comercio.log",
+    "coop_log": "/tmp/algoland-carroca-final-coop.log",
+    "limites": "Godot reporta recursos/texturas pendentes ao encerrar os testes, ocorrência já existente antes da nova arte.",
+    "comercio": {
+      "verificacoes": 66,
+      "falhas": 0
+    },
+    "coop": {
+      "verificacoes": 29,
+      "falhas": 0
+    }
+  },
+  "previa_viagem": "arte/previas/comercio/carroca_detalhada_viagem.gif"
+}

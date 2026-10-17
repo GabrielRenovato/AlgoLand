@@ -47,6 +47,8 @@ static var MORADORES := {
 	"bento": {"folha": "bento", "nome": "BENTO", "oficio": "Agricultor", "casa": "casa_bento", "textura": "merchant", "servico": "", "cor": Color.WHITE,
 		"fala": "Plante o que combina com a estacao e regue todo dia. No inverno, prepare a terra para a primavera.",
 		"rotina": [[6, "cidade", ponto("bento_horta"), "Cuidando da horta"], [12, "cidade", ponto("bento_praca"), "Descansando na praca"], [16, "casa_bento", InteriorCasa.ponto("casa_bento", "trabalho"), "Separando as sementes"], [19, "pousada", InteriorCasa.ponto_inverno(3), "Jantando na pousada"], [22, "casa_bento", InteriorCasa.ponto("casa_bento", "trabalho"), "Descansando em casa"]]},
+	"nilo": {"folha":"nilo", "nome":"NILO", "oficio":"Pescador e artesao de varas", "casa":"palafita", "textura":"merchant", "servico":"vara_pesca", "cor":Color.WHITE,
+		"fala":"Eu cuido da sua vara. Traga as pedras de refinamento que encontrar pescando.", "rotina":[]},
 }
 const FALAS_ESTACAO := [
 	"A primavera enche os jardins de flores. E tempo de recomecar.",
@@ -54,7 +56,8 @@ const FALAS_ESTACAO := [
 	"No outono, as folhas cobrem os caminhos e a colheita chega a mesa.",
 	"O inverno pede cafe quente e conversa dentro de casa.",
 ]
-const MISSOES := {
+static var MISSOES := _montar_missoes()
+const MISSOES_BASE := {
 	"boas_vindas": {"nome": "CONHECA SEUS VIZINHOS", "dono": "lia", "texto": "\"Uma vila so e vila quando todo mundo se conhece.\" A Lia quer que voce se apresente a Tomas, Dona Rosa, Caio, Estela e Bento.", "tipo": "conversas", "alvos": ["mercador", "curandeira", "bardo", "mistica", "bento"], "brasas": 10},
 	"passeio": {"nome": "PORTAS ABERTAS", "dono": "lia", "texto": "\"Cada porta daqui guarda uma ajuda.\" A Lia pede que voce entre na venda, na enfermaria, na pousada e na casa da mistica.", "tipo": "visitas", "alvos": ["venda", "enfermaria", "pousada", "mistica"], "brasas": 10},
 	"horta": {"nome": "DA HORTA PARA A MESA", "dono": "bento", "texto": "\"Terra boa a gente conhece pelo que ela da.\" O Bento quer provar 3 colheitas da estacao da sua horta. No inverno, qualquer colheita serve.", "tipo": "colheita", "quantidade": 3, "brasas": 15},
@@ -66,7 +69,7 @@ const MISSOES := {
 ## Vida de cada morador fora da rotina de trabalho (pedido de 2026-10-15):
 ## - dorme das HORA_DORMIR às 6h na cama dele (casa e índice da cama em interiores.json; a Lia dorme na pousada, a sede
 ##   não tem quarto), com a animação de dormir de morador_cidade.gd;
-## - folga num dia fixo da semana (0 = segunda; cada estação tem 7 dias): acorda em casa e das 8h até dormir anda pela
+## - folga num dia fixo da semana (0 = segunda; a semana tem 7 dias): acorda em casa e das 8h até dormir anda pela
 ##   cidade; depois de fechar o comércio também passeia pela cidade até dormir (ver passeio);
 ## - o serviço (loja, cura, sementes...) só abre no horário comercial e fora da folga (ver servico_fechado);
 ## - em dia de trabalho, antes de abrir, quem tem comércio fica em casa (não anda pela cidade).
@@ -76,7 +79,7 @@ const CAMAS := {"mercador": ["venda", 0], "curandeira": ["enfermaria", 0], "bard
 const FOLGAS := {"mercador": 6, "curandeira": 2, "bardo": 0, "mistica": 4, "lia": 5, "bento": 3}
 ## [abre, fecha] do serviço de cada um
 ## A loja só fica aberta enquanto o dono está nela (a rotina de trabalho cobre esse horário)
-const HORARIOS := {"mercador": [8, 17], "curandeira": [8, 18], "mistica": [8, 18], "lia": [6, 19], "bento": [6, 19]}
+const HORARIOS := {"nilo":[8,17],"mercador": [8, 17], "curandeira": [8, 18], "mistica": [8, 18], "lia": [6, 19], "bento": [6, 19]}
 
 ## Taverna noturna; o intervalo atravessa a meia-noite. A porta abre todos os dias.
 const HORARIO_TAVERNA := [18, 2]
@@ -176,6 +179,8 @@ static func servico_fechado(id: String, hora: float, dia_semana: int) -> String:
 	return ""
 
 static func agenda(id: String, hora: float, estacao: int, clima: int = -1, dia_semana: int = -1) -> Dictionary:
+	if id == "nilo":
+		return preload("res://codigo/pesca/rotina_nilo.gd").agenda(hora,clima)
 	var dados: Dictionary = MORADORES[id]
 	if festa_sabado(hora, dia_semana):
 		if hora < 18.0 and hora >= float(SAIDAS_FESTA[id]):
@@ -235,3 +240,25 @@ static func visita_praia(id: String, hora: float, estacao: int, clima: int, dia_
 	var deslocamento := Vector2(12, 8) if int(hora) % 4 >= 2 else Vector2.ZERO
 	return {"local": "praia", "ponto": pontos[indice % pontos.size()] + deslocamento,
 		"atividade": "Passeando na praia no dia de folga" if folga else "Olhando o mar depois do trabalho"}
+
+## Encomendas sazonais do pombo, entregues aos moradores (Nilo só refina varas).
+static func _montar_missoes() -> Dictionary:
+	var peixes := preload("res://codigo/pesca/peixes.gd")
+	var resultado := MISSOES_BASE.duplicate(true)
+	var estacoes := ["PRIMAVERA","VERAO","OUTONO","INVERNO"]
+	var moradores := ["bardo","curandeira","bento","lia"]
+	for estacao in 4:
+		var candidatos: Array = peixes.DADOS.keys().filter(func(id):
+			return peixes.DADOS[id]["estacoes"].has(estacao)
+		)
+		candidatos.sort_custom(func(a,b): return peixes.nivel_recomendado(a)<peixes.nivel_recomendado(b))
+		for i in mini(4,candidatos.size()):
+			var peixe: String = candidatos[i]
+			var quantidade := 2 if peixes.nivel_recomendado(peixe)<=2 else 1
+			resultado["carta_pesca_%d_%d" % [estacao,i]] = {"nome":"PESCA DE "+estacoes[estacao],"dono":moradores[i],"tipo":"peixe",
+				"peixe":peixe,"estacao":estacao,"quantidade":quantidade,"brasas":peixes.brasas(peixe)*quantidade*3,
+				"texto":"Pedido: %d peixes da especie %s.\nOnde: %s.\nEstacao: %s." % [quantidade,peixes.nome(peixe),"mar" if peixes.catalogo()[peixe]["ambiente"]=="mar" else "lago",estacoes[estacao]]}
+	return resultado
+
+static func missao_na_estacao(id: String, estacao: int) -> bool:
+	return not MISSOES[id].has("estacao") or int(MISSOES[id]["estacao"]) == estacao

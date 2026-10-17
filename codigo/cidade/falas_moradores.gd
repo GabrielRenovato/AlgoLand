@@ -13,6 +13,10 @@ extends RefCounted
 ## Histórias: liberadas pela amizade ("amizade"), uma por vez, na ordem.
 
 const FALAS := {
+	"nilo": {"boas_vindas":"Sou Nilo, o pescador. Minha oficina fica na casa do cais. Das 8h as 17h eu melhoro sua vara com as pedras raras que voce pescar.",
+		"saudacoes":{"novo":["Ola! Como anda a pescaria?"],"conhecido":["Bom ver voce de novo. Trouxe sua vara?"],"amigo":["Sempre tenho tempo para um amigo pescador."]},
+		"papo":[{"texto":"Quando fecho a oficina, gosto de passear pela vila. O mar pode esperar um pouco."},{"texto":"Uma vara bem cuidada dura muito. Traga as pedras e eu cuido do refinamento."}],
+		"dicas":[{"chave":"varas","prioridade":20,"texto":"Ha cinco niveis de vara. As pedras sao muito raras: para as melhorias preciso de 1, 2, 4 e 6 pedras. Peixes grandes exigem equipamento melhor."}]},
 	# Tomas: comerciante falante e otimista, conta tudo em moedas, chama o jogador de "cliente"
 	"mercador": {
 		"jeito": "Comerciante falante e otimista. Conta tudo em moedas e adora um bom negocio.",
@@ -470,7 +474,7 @@ const FALAS := {
 			{"chave": "regar", "prioridade": 40, "nao": ["inverno"],
 				"texto": "Planta so cresce no dia em que foi regada. Esqueceu um dia, atrasou um dia. Regue toda manha antes de sair."},
 			{"chave": "estacao", "prioridade": 30, "nao": ["inverno"],
-				"texto": "Nesta estacao da: {plantas_estacao}. A estacao tem 7 dias. Planta cedo as demoradas e deixa as rapidas pro fim."},
+				"texto": "Nesta estacao da: {plantas_estacao}. A estacao tem 30 dias. Planta cedo as demoradas e deixa as rapidas pro fim."},
 			{"chave": "caldeirao", "prioridade": 35, "se": ["tem_colheita"],
 				"texto": "Colheita parada no bolso nao enche barriga. Leva pra Dona Rosa que ela faz pocao pra arena."},
 		],

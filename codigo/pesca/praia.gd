@@ -28,3 +28,12 @@ func _process(delta: float) -> void:
 	_tempo += delta
 	if material_mar != null:
 		material_mar.set_shader_parameter("tempo", _tempo)
+
+func _aplicar_terreno(estacao: int) -> void:
+	super._aplicar_terreno(estacao)
+	var camada := get_node_or_null("Terrains/CalcadaOrla") as TileMapLayer
+	if camada != null:
+		# TileSet próprio: a prévia de outro ambiente do coop não altera esta orla.
+		camada.tile_set = camada.tile_set.duplicate(true)
+		var fonte := camada.tile_set.get_source(0) as TileSetAtlasSource
+		fonte.texture = load("res://assets/cenario/praia/orla/" + ESTACOES_TERRENO[estacao] + ".png")

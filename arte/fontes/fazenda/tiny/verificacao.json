@@ -1,0 +1,14 @@
+{
+  "integracao": "FAZENDA TINY: 4205 verificações, 0 falhas",
+  "solo_arado": "FALHAS: 0",
+  "plantio": "FALHAS: 0",
+  "capturas": "arte/previas/fazenda/tiny/",
+  "isolamento": "/tmp/algoland-fazenda-tiny-20261016; user dir AlgoLand testes fazenda tiny 20261016",
+  "observacao": "Godot registra vazamentos de texturas, ObjectDB e recursos ao encerrar, também presentes nos testes anteriores; as verificações funcionais terminaram sem falhas.",
+  "erros_encerramento_render": 127,
+  "logs": [
+    "/tmp/algoland-tiny-render.log",
+    "/tmp/algoland-tiny-solo.log",
+    "/tmp/algoland-tiny-plantio.log"
+  ]
+}

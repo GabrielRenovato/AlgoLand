@@ -404,6 +404,7 @@ func _iniciar_inventario() -> void:
 	inventario.entregar_armas_liberadas()
 	# Saves antigos guardavam as sementes na fazenda: agora são itens da mochila
 	Fazenda.migrar_sementes_antigas()
+	Fazenda.migrar_peixes_antigos()
 	_aplicar_modelo()
 	# As armaduras já foram equipadas acima; alinha o modelo caso o arquivo salvo divirja
 	_enviar_estado_ao_modelo()
@@ -816,6 +817,9 @@ func mover() -> void:
 		var velocidade_base = 64.0
 		if usando_espada or usando_lanca or usando_arco:
 			velocidade_base = 114.0
+		var visual_gerado := get_node_or_null("HeroiGerado")
+		if visual_gerado != null:
+			velocidade_base = visual_gerado.velocidade_de_teste()
 
 		# 2) Soma os bônus que já estão em estatisticas
 		#    (quando compra item, incrementa estatisticas.bonus_velocidade_item)
@@ -828,6 +832,9 @@ func mover() -> void:
 		var velocidade_final = min(velocidade_base + bonus_velocidade_item + bonus_agilidade, estatisticas.VELOCIDADE_MAXIMA)
 		# 5) Poção de velocidade multiplica por cima (pode passar do teto enquanto dura)
 		velocidade_final *= 1.0 + efeitos_pocao.bonus("velocidade")
+		# O corpo Tiny em escala nativa pede um deslocamento menor por passada.
+		if has_node("HeroiTiny"):
+			velocidade_final *= HeroiTiny.MULTIPLICADOR_MOVIMENTO
 
 		# Move interpolando a velocidade atual para a velocidade desejada
 		velocity.x = lerp(velocity.x, dir.x * velocidade_final, _aceleracao)
@@ -889,9 +896,9 @@ func _entrada_fazenda_fora_da_cena(evento: InputEvent) -> bool:
 			return true
 	return false
 
-## O cinto só vale na arena (na fazenda Q/E trocam a ferramenta), com o jogador vivo e sem tela aberta
+## O cinto vale na arena e nos encontros de estrada, com o jogador vivo e sem tela aberta.
 func _cinto_de_pocoes_ativo() -> bool:
-	return efeitos_pocao != null and gerenciador_ondas != null and not modo_fazenda and not estaMorto \
+	return efeitos_pocao != null and (gerenciador_ondas != null or Comercio.em_combate) and not modo_fazenda and not estaMorto \
 			and movimento_habilitado and get_viewport().gui_get_focus_owner() == null
 
 ## Bebe a poção escolhida no cinto; se não deu, o HUD mostra o motivo
@@ -987,6 +994,9 @@ func iniciar_slash_ataque(nome_anim: String, tempo_slash: float) -> void:
 	_maquina_estados.travel(nome_anim)
 	_temporizador.start(tempo_slash)
 	_pode_encadear_combo = true
+	var visual_gerado := get_node_or_null("HeroiGerado")
+	if visual_gerado != null:
+		visual_gerado.iniciar_ataque_espada(tempo_slash, false, maxi(1, _fase_combo))
 
 func _on_temporizador_ataque_timeout() -> void:
 	_esta_atacando = false
@@ -1728,6 +1738,11 @@ func receber_hitkill_chefe() -> void:
 	morrer(true)
 
 func morrer(ignorar_reviver: bool = false) -> void:
+	if Comercio.em_combate:
+		hp_atual = 1
+		atualizar_barra_hp()
+		Comercio.terminar_combate(false)
+		return
 	if estaMorto:
 		return
 	# Fora da arena (fazenda e casa) não há partida para perder: a vida só encosta no mínimo

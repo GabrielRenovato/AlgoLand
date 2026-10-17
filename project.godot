@@ -49,6 +49,7 @@ Cooperativo="*res://codigo/globais/cooperativo.gd"
 Saque="*res://codigo/globais/saque_partida.gd"
 Saves="*res://codigo/globais/saves.gd"
 AgendaVila="*res://codigo/globais/agenda_vila.gd"
+Comercio="*res://codigo/comercio/comercio.gd"
 
 [display]
 

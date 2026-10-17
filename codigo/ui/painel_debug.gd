@@ -75,7 +75,12 @@ func _montar() -> void:
 
 	# Seleção em duas etapas mantém todas as ferramentas acessíveis sem rolar o painel.
 	_opcoes = {
-		"PERSONAGEM": [["MANA SEED REFINADO", _reaplicar_personagem]],
+		"VISUAL DA FAZENDA": [["ORIGINAL / TINY RPG", _alternar_fazenda_tiny]],
+		"PERSONAGEM": [["MANA SEED REFINADO", _reaplicar_personagem],
+			["GERADO: ANDAR", _ativar_heroi_gerado.bind(false)],
+			["GERADO: CORRER", _ativar_heroi_gerado.bind(true)],
+			["GERADO: ESPADA", _ativar_espada_gerada],
+			["TINY RPG (TORI) LIGA/DESLIGA", _alternar_heroi_tiny]],
 		"CONJUNTOS": [
 			["MORDOMO (EQUIPAR)", _equipar_conjunto.bind("cavalheiro")],
 			["CAVALEIRO RUBRO (EQUIPAR)", _equipar_conjunto.bind("cavaleiro_rubro")],
@@ -470,16 +475,76 @@ func _atualizar_estado() -> void:
 	if clima != null:
 		texto_clima = CLIMAS[clampi(clima.clima_atual, 0, CLIMAS.size() - 1)]
 	_rotulo_estado.text = "%s / %s / %s" % [texto_estacao, texto_clima, Calendario.texto_data()]
+	var cena := get_tree().current_scene
+	var comparacao := cena.get_node_or_null("ComparacaoTiny") if cena != null else null
+	if comparacao != null:
+		_rotulo_estado.text += " / FAZENDA: " + ("TINY RPG" if comparacao.ativo else "ORIGINAL")
 	var gerenciador := get_tree().get_first_node_in_group("gerenciador_ondas")
 	if gerenciador != null:
 		_rotulo_estado.text += " / ONDA %d" % gerenciador.onda_atual
 
 ## Reaplica a base refinada sem alterar a aparência salva ou os equipamentos.
+## Protótipo: liga/desliga o herói do Tiny RPG (codigo/jogador/heroi_tiny.gd) no jogador da cena
+func _alternar_fazenda_tiny() -> void:
+	var cena := get_tree().current_scene
+	var comparacao := cena.get_node_or_null("ComparacaoTiny") if cena != null else null
+	if comparacao != null:
+		comparacao.alternar()
+
+func _alternar_heroi_tiny() -> void:
+	var cena := get_tree().current_scene
+	var jogador := cena.get_node_or_null("Jogador") if cena != null else null
+	if jogador == null:
+		return
+	var atual := jogador.get_node_or_null("HeroiTiny")
+	if atual != null:
+		jogador.remove_child(atual)
+		atual.free()
+		return
+	_remover_prototipo(jogador, "HeroiGerado")
+	jogador.add_child(HeroiTiny.new())
+
+func _remover_prototipo(jogador: Node, nome: String) -> void:
+	var atual := jogador.get_node_or_null(nome)
+	if atual != null:
+		jogador.remove_child(atual)
+		atual.free()
+
+func _ativar_heroi_gerado(correndo: bool) -> void:
+	var cena := get_tree().current_scene
+	var jogador := cena.get_node_or_null("Jogador") if cena != null else null
+	if jogador == null:
+		return
+	_remover_prototipo(jogador, "HeroiTiny")
+	var visual := jogador.get_node_or_null("HeroiGerado")
+	if visual == null:
+		visual = preload("res://codigo/jogador/heroi_gerado.gd").new()
+		visual.name = "HeroiGerado"
+		visual.correndo = correndo
+		jogador.add_child(visual)
+	else:
+		visual.correndo = correndo
+		visual._aplicar_folha()
+	visual.teste_espada = false
+	# O teste abre olhando para a direção que já tem as poses desenhadas.
+	jogador._direcao_ataque = Vector2.RIGHT
+	jogador.virar_para(Vector2.RIGHT)
+	visual._process(0.0)
+
+func _ativar_espada_gerada() -> void:
+	_ativar_heroi_gerado(true)
+	var cena := get_tree().current_scene
+	var jogador := cena.get_node_or_null("Jogador") if cena != null else null
+	if jogador != null and jogador.has_node("HeroiGerado"):
+		jogador.get_node("HeroiGerado").teste_espada = true
+
 func _reaplicar_personagem() -> void:
 	Aparencia._cache_cavaleiro.clear()
 	var cena := get_tree().current_scene
 	var jogador := cena.get_node_or_null("Jogador") if cena != null else null
 	if jogador != null:
+		_remover_prototipo(jogador, "HeroiTiny")
+		_remover_prototipo(jogador, "HeroiGerado")
 		jogador._aplicar_aparencia()
 		if jogador.usando_espada:
 			jogador.atualizar_texturas_espada()

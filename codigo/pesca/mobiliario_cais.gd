@@ -23,6 +23,11 @@ static func montar(praia: Node2D, itens: Array) -> void:
 		objeto.position = Vector2(item[1], item[2])
 		objeto.z_index = Profundidade.z_de(item[2])
 		grupo.add_child(objeto)
+		if tipo == "vasos":
+			var atualizar := func(_estacao: int):
+				objeto.texture = load("res://assets/cenario/praia/vasos/" + ["primavera","verao","outono","inverno"][praia.estacao_visual()] + ".png")
+			praia.get_node("/root/Calendario").estacao_mudou.connect(atualizar)
+			atualizar.call(praia.estacao_visual())
 		var corpo := StaticBody2D.new()
 		corpo.collision_layer = 64
 		corpo.collision_mask = 0
@@ -41,7 +46,9 @@ static func montar(praia: Node2D, itens: Array) -> void:
 static func _montar_movel(tipo: String) -> Sprite2D:
 	var sprite := Sprite2D.new()
 	var caminho := "res://assets/cenario/cidade/decoracao/mobiliario/" + tipo + ".png"
-	if tipo == "banco":
+	if tipo == "vasos":
+		caminho = "res://assets/cenario/praia/vasos/primavera.png"
+	elif tipo == "banco":
 		caminho = "res://assets/cenario/cidade/decoracao/mobiliario/topdown/banco.png"
 	elif TEXTURAS_PESCA.has(tipo):
 		caminho = TEXTURAS_PESCA[tipo]
@@ -50,8 +57,6 @@ static func _montar_movel(tipo: String) -> Sprite2D:
 	sprite.offset = Vector2(-sprite.texture.get_width() / 2.0, -sprite.texture.get_height())
 	if TEXTURAS_PESCA.has(tipo):
 		sprite.offset = sprite.offset.floor()
-	if tipo == "vasos":
-		sprite.scale = Vector2.ONE * 0.5
 	return sprite
 
 ## Mesmo contrato dos bancos da praça: F/Y senta de frente e levanta em área livre.

@@ -1,0 +1,133 @@
+{
+  "andar": {
+    "quadros": 6,
+    "quadros_distintos": 6,
+    "atlas": [
+      2048,
+      3072
+    ],
+    "limites": [
+      [
+        343,
+        153,
+        713,
+        703
+      ],
+      [
+        394,
+        162,
+        634,
+        704
+      ],
+      [
+        378,
+        121,
+        635,
+        704
+      ],
+      [
+        328,
+        167,
+        718,
+        705
+      ],
+      [
+        374,
+        170,
+        635,
+        705
+      ],
+      [
+        377,
+        120,
+        679,
+        704
+      ]
+    ],
+    "duracao_ms": 960
+  },
+  "correr": {
+    "quadros": 9,
+    "quadros_distintos": 9,
+    "atlas": [
+      2048,
+      5120
+    ],
+    "limites": [
+      [
+        281,
+        154,
+        723,
+        704
+      ],
+      [
+        371,
+        183,
+        712,
+        704
+      ],
+      [
+        290,
+        133,
+        684,
+        705
+      ],
+      [
+        283,
+        131,
+        751,
+        672
+      ],
+      [
+        286,
+        162,
+        732,
+        704
+      ],
+      [
+        364,
+        158,
+        691,
+        703
+      ],
+      [
+        260,
+        143,
+        685,
+        705
+      ],
+      [
+        266,
+        153,
+        693,
+        704
+      ],
+      [
+        256,
+        138,
+        749,
+        672
+      ]
+    ],
+    "duracao_ms": 640
+  },
+  "previa": {
+    "quadros": 96,
+    "duracao_ms": 1920,
+    "andar_ciclos": 2,
+    "correr_ciclos": 3
+  },
+  "alternancia_pernas": {
+    "manifesto": "../alternancia_pernas/manifesto.json",
+    "teste_integracao": "53 verificações, 0 falhas; 127 avisos de recursos no encerramento, já existentes",
+    "revisao_visual": "Godot: ciclo completo e contatos opostos na fazenda, direita e esquerda; corridas verticais com SHA256 inalterado",
+    "capturas": "arte/previas/personagens/exemplo_alta_qualidade/{andar,correr}_{direita,esquerda}_contato_{0,1}.png"
+  },
+  "balanco_bracos": {
+    "fontes_e_prompts": "../balanco_bracos/manifesto.json",
+    "teste_integracao": "53 verificações, 0 falhas; avisos preexistentes de recursos ao encerrar",
+    "revisao_visual": "Quadros renderizados no Godot e ciclos completos em capturas da fazenda; passagem central e intermediárias nas duas metades, incluindo emenda final/inicial.",
+    "corridas_verticais": "SHA256 inalterado",
+    "capturas": "arte/previas/personagens/exemplo_alta_qualidade/{andar,correr}_bracos_no_jogo.gif"
+  }
+}

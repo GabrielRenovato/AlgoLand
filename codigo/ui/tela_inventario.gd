@@ -27,6 +27,7 @@ var _info_item: PanelContainer
 var _info_linhas: VBoxContainer
 var _aba_missoes := false
 var _aba_atual := 0
+var _pesca: ScrollContainer
 var _desafios: ScrollContainer
 var _botoes_abas: Array[Button] = []
 var _missoes: ScrollContainer
@@ -92,7 +93,7 @@ func ajustar_largura(largura: float) -> void:
 ## Chamado pela Interface ao abrir a tela: no controle, o foco começa na arma equipada (ou na mochila)
 func focar_inicio() -> void:
 	if _aba_atual != 0:
-		var painel: ScrollContainer = _missoes if _aba_atual == 1 else _desafios
+		var painel: ScrollContainer = _pesca if _aba_atual == 3 else (_missoes if _aba_atual == 1 else _desafios)
 		var cartao: Control = painel.primeiro_cartao()
 		Controle.focar(cartao if cartao != null else _botoes_abas[_aba_atual])
 		return
@@ -154,7 +155,7 @@ func _montar_rolagem() -> void:
 	_rolagem = ScrollContainer.new()
 	_rolagem.name = "RolagemMochila"
 	_rolagem.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	_rolagem.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
+	_rolagem.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_SHOW_NEVER
 	# no controle, a rolagem acompanha a casa em foco
 	_rolagem.follow_focus = true
 	_rolagem.position = _grade.position
@@ -335,9 +336,9 @@ func _montar_abas() -> void:
 	linha.offset_bottom = 32
 	linha.add_theme_constant_override("separation", 2)
 	var grupo := ButtonGroup.new()
-	for i in 3:
+	for i in 4:
 		var botao := Button.new()
-		botao.tooltip_text = ["ITENS", "MISSOES ATIVAS", "DESAFIOS DE ARMAS"] [i]
+		botao.tooltip_text = ["ITENS", "MISSOES ATIVAS", "DESAFIOS DE ARMAS", "CATALOGO DE PESCA"] [i]
 		botao.custom_minimum_size.y = 18
 		var icone := preload("res://codigo/ui/icone_aba_inventario.gd").new()
 		icone.tipo = i
@@ -363,13 +364,18 @@ func _montar_abas() -> void:
 	_desafios.visible = false
 	$Sidebar.add_child(_desafios)
 	_desafios.offset_top = 38
+	_pesca = preload("res://codigo/ui/pesca_inventario.gd").new()
+	_pesca.theme = _missoes.theme
+	_pesca.visible = false
+	$Sidebar.add_child(_pesca)
+	_pesca.offset_top = 38
 	linha.tooltip_text = "%s / %s: trocar aba" % [Controle.rotulo_acao("ferramenta_anterior", self), Controle.rotulo_acao("ferramenta_proxima", self)]
 
 func selecionar_aba(missoes: bool) -> void:
 	selecionar_pagina(1 if missoes else 0)
 
 func selecionar_pagina(indice: int) -> void:
-	_aba_atual = clampi(indice, 0, 2)
+	_aba_atual = clampi(indice, 0, 3)
 	_aba_missoes = _aba_atual == 1
 	_botoes_abas[_aba_atual].button_pressed = true
 	$Sidebar/Painel.visible = _aba_atual == 0
@@ -377,6 +383,7 @@ func selecionar_pagina(indice: int) -> void:
 	$Sidebar/Separador.visible = _aba_atual == 0
 	_missoes.visible = _aba_atual == 1
 	_desafios.visible = _aba_atual == 2
+	_pesca.visible = _aba_atual == 3
 	_info_item.visible = false
 
 func _unhandled_input(evento: InputEvent) -> void:
@@ -388,6 +395,6 @@ func _unhandled_input(evento: InputEvent) -> void:
 	elif evento.is_action_pressed("ferramenta_proxima"):
 		passo = 1
 	if passo != 0:
-		selecionar_pagina(posmod(_aba_atual + passo, 3))
+		selecionar_pagina(posmod(_aba_atual + passo, 4))
 		Controle.focar(_botoes_abas[_aba_atual])
 		get_viewport().set_input_as_handled()

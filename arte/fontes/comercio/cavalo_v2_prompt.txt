@@ -1,0 +1,34 @@
+Pedido: refazer a arte do cavalo seguindo a referência enviada pelo usuário,
+com anatomia e acabamento melhores que o sprite anterior.
+
+Contrato AlgoLand:
+- Cavalo de tração da carroça; perfil voltado para a direita.
+- Referência de intenção: referencia_usuario_cavalo.png; corpo branco,
+  pescoço erguido, quatro pernas distintas, sela/arreios marrons.
+- Tela consumida: 96x64; grade do cenário: 16; offset no conjunto: (24,-55).
+- Cascos na linha 54; preservar ligação dos varais, base física e profundidade.
+- Três pelagens pelo shader existente. Oito quadros de caminhada.
+- Quatro estações: adaptar couro, mantendo geometria, identidade e pivô.
+- Fontes em arte/fontes/comercio; PNGs consumidos em assets/cenario/comercio;
+  capturas reais em arte/previas/comercio, usando save isolado da carroça.
+
+Conceito imagegen: cavalo branco/cinza de porte equino, garupa arredondada,
+peito musculoso, pescoço arqueado, focinho alongado, duas orelhas eretas,
+crina/cauda escuras e arreios de couro com fivelas de latão. Sem cavaleiro,
+carroça, chão, sombra externa, texto ou marca d'água. Fundo transparente.
+
+Segunda geração imagegen: redesenhar o conceito como pixel art de baixa
+resolução, cerca de 56x50 pixels lógicos. Grupos grandes, contorno fino,
+quatro tons neutros na pelagem, três na crina, três no couro e dois no metal.
+Sem antialiasing, microtexturas ou gradientes. Cabeça de aproximadamente
+10x10 pixels, pernas de 3x17, tronco de 28x16; quatro cascos legíveis.
+Simplificar a arte para a escala de uso antes de integrar e conferir no motor.
+
+Diretriz posterior do usuário (prevalece sobre o redesenho nativo acima):
+Manter a SEGUNDA imagem gerada como a própria arte consumida pelo jogo.
+Fonte integral: cavalo_estudo_v2.png (1484x1060). Enquadrar em 2112x1408,
+origem (462,160), escala uniforme 1/22 no Sprite2D; sem redução ou redesenho.
+Corrida: referência de movimento https://gandalfhardcore.itch.io/pixel-art-horse;
+articular as próprias pernas da imagem em oito quadros com apoio, extensão,
+recolhimento e suspensão, oscilação do tronco e cauda em movimento.
+Preparação reproduzível em ferramentas/comercio/preparar_animacoes.gd.

@@ -57,6 +57,7 @@ func _ready() -> void:
 	var rolagem := ScrollContainer.new()
 	rolagem.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	rolagem.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	rolagem.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_SHOW_NEVER
 	rolagem.follow_focus = true
 	_rolagem = rolagem
 	coluna.add_child(rolagem)
@@ -168,7 +169,7 @@ func _atualizar() -> void:
 		var hora: float = luz.hora if luz != null else 6.0
 		for id in Dados.MORADORES:
 			var agenda := Dados.agenda(id, hora, Calendario.estacao(), -1, Calendario.dia_da_semana())
-			var nome_local: String = "PRACA" if agenda["local"] == "cidade" else Dados.PREDIOS[agenda["local"]]["nome"]
+			var nome_local: String = {"cidade":"PRACA","praia":"PRAIA","palafita":"PESCARIA DO NILO"}.get(agenda["local"],Dados.PREDIOS.get(agenda["local"],{}).get("nome",String(agenda["local"]).to_upper()))
 			_texto("%s: %s - %s" % [Dados.MORADORES[id]["nome"], nome_local, agenda["atividade"]])
 		if Calendario.dia_na_estacao() == Calendario.DIAS_POR_ESTACAO:
 			_texto("FESTA DA ESTACAO: os vizinhos enfeitaram a praca!", Color(1, 0.8, 0.4))
@@ -191,6 +192,8 @@ func _atualizar() -> void:
 		if Cooperativo.cena_de(self).get("local") == "pousada":
 			_botao("PASSAR A NOITE NA POUSADA", _abrir_servico.bind("dormir"))
 	for missao in Dados.MISSOES:
+		if not Cidade.missoes.has(missao) and not Dados.missao_na_estacao(missao,Calendario.estacao()):
+			continue
 		if not modo_mural and Dados.MISSOES[missao]["dono"] != Cidade.interlocutor:
 			continue
 		_montar_missao(missao)

@@ -1,7 +1,7 @@
 extends "res://codigo/logica/interagivel.gd"
 
 func _ready() -> void:
-	nome_tela = "guia_pesca"
+	nome_tela = "conversa_cidade"
 	so_entre_ondas = false
 	deslocamento_aviso = Vector2(0, -38)
 	super._ready()
@@ -15,8 +15,8 @@ func pode_interagir() -> bool:
 
 func abrir_tela() -> void:
 	if pode_interagir_para(Cooperativo._jogador1()):
-		EventosJogo.abrir_tela_para(Cooperativo._jogador1(), nome_tela)
+		Cidade.conversar("nilo",Cooperativo._jogador1())
 
 func abrir_tela_p2() -> void:
 	if pode_interagir_para(Cooperativo.jogador2()):
-		EventosJogo.abrir_tela_para(Cooperativo.jogador2(), nome_tela)
+		Cidade.conversar("nilo",Cooperativo.jogador2())

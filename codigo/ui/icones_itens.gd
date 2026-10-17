@@ -36,9 +36,33 @@ static func obter_jogador(arvore: SceneTree) -> Node:
 			return no
 	return null
 
+static var _icones_vara: Dictionary = {}
+
+## Ícone da vara no tom do nível (a mesma mistura de cor_vara.gdshader: o brilho do desenho vira a cor do nível)
+static func icone_vara(nivel: int) -> Texture2D:
+	var chave := clampi(nivel, 1, 5)
+	if not _icones_vara.has(chave):
+		var imagem: Image = preload("res://assets/pesca/vara.png").get_image()
+		imagem.convert(Image.FORMAT_RGBA8)
+		var cor: Color = preload("res://codigo/pesca/varas.gd").CORES[chave - 1]
+		for y in imagem.get_height():
+			for x in imagem.get_width():
+				var pixel := imagem.get_pixel(x, y)
+				if pixel.a <= 0.0:
+					continue
+				var luz := maxf(pixel.r, maxf(pixel.g, pixel.b))
+				imagem.set_pixel(x, y, Color(lerpf(pixel.r, cor.r * luz, 0.85), lerpf(pixel.g, cor.g * luz, 0.85),
+						lerpf(pixel.b, cor.b * luz, 0.85), pixel.a))
+		_icones_vara[chave] = ImageTexture.create_from_image(imagem)
+	return _icones_vara[chave]
+
 static func obter(item: DadosItem, arvore: SceneTree) -> Texture2D:
 	if item == null:
 		return null
+	if item.categoria == "peixe":
+		return preload("res://codigo/pesca/peixes.gd").icone(item.peixe())
+	if item.categoria == "vara":
+		return icone_vara(item.nivel)
 	# Ferramentas e sementes da fazenda: o mesmo ícone da barra (saco de semente, enxada, regador, mão)
 	if item.categoria == "ferramenta" or item.categoria == "semente":
 		return IconesFazenda.da_ferramenta(item.tipo)

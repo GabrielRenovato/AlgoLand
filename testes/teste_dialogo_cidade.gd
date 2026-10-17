@@ -17,8 +17,10 @@ func quadros() -> void:
 func conferir(tela: Control, nome: String) -> void:
 	var painel: Rect2 = tela.painel.get_global_rect()
 	verificar(nome + ": painel compacto e dentro da tela", painel.size.y <= tela.size.y * 0.75 and Rect2(Vector2.ZERO, tela.size).encloses(painel))
-	verificar(nome + ": texto cabe sem cortar linhas", tela._fala.size.y >= tela._fala.get_minimum_size().y and painel.encloses(tela._fala.get_global_rect()))
-	verificar(nome + ": botoes dentro do painel", tela._botoes.all(func(b): return painel.encloses(b.get_global_rect())))
+	verificar(nome + ": texto cabe sem cortar linhas", not tela._fala.visible or (tela._fala.size.y >= tela._fala.get_minimum_size().y and painel.encloses(tela._fala.get_global_rect())))
+	var menu: Rect2 = tela._menu_assuntos.get_global_rect()
+	verificar(nome + ": respostas dentro do mesmo balão",not tela._menu_assuntos.visible or painel.encloses(menu))
+	verificar(nome + ": lista de respostas rolável",tela._rolagem != null and tela._rolagem.follow_focus)
 
 func _rodar() -> void:
 	if ProjectSettings.get_setting("application/config/name") != "AlgoLand testes Carrasco":

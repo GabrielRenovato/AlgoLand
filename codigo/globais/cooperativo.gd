@@ -439,6 +439,10 @@ func viajar_local(jogador: Node2D, caminho: String, ponto: String) -> void:
 	if _viajando.get(lado, false):
 		return
 	_viajando[lado] = true
+	# Uma pescaria em andamento acaba antes de o jogador mudar de mundo (a sessão é filha dele e não atravessa).
+	var pescaria := jogador.get_node_or_null("SessaoPesca")
+	if pescaria != null:
+		pescaria._terminar()
 	jogador.desabilitar_todas_acoes(true)
 	# As áreas podem pedir a passagem durante a física: só remover/reparentear depois dela.
 	await get_tree().process_frame

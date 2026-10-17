@@ -9,9 +9,19 @@ extends RefCounted
 ## vários níveis de melhoria, para a horta pesar na arena. Uma refeição por estação de plantio usa só plantas dela;
 ## o banquete mistura as três e é o mais forte. A fonte do jogo não tem acentos: os textos ficam sem eles.
 
+const Peixes := preload("res://codigo/pesca/peixes.gd")
 const IconesFazenda := preload("res://codigo/ui/icones_fazenda.gd")
 
 const REFEICOES := {
+	"peixe_assado": {"nome":"PEIXE ASSADO COM RAIZES", "receita":{"batata":1}, "peixes":{"sardinha":2},
+		"bonus":{"vigor":0.20,"folego":0.30}, "peixe_icone":"sardinha",
+		"texto":"SARDINHAS NA BRASA COM BATATA: VIDA E FOLEGO PARA A ARENA."},
+	"caldo_rio": {"nome":"CALDO DO RIO", "receita":{"cenoura":1}, "peixes":{"carpa":1,"bagre":1},
+		"bonus":{"couraca":0.12,"folego":0.35}, "peixe_icone":"carpa",
+		"texto":"CARPA E BAGRE NO CALDO: DEFESA E FOLEGO PARA A ARENA."},
+	"salmao_grelhado": {"nome":"SALMAO GRELHADO", "receita":{"abobora":1}, "peixes":{"salmao":1},
+		"bonus":{"forca":0.30,"vigor":0.25}, "peixe_icone":"salmao",
+		"texto":"UMA CAPTURA ESPECIAL COM ABOBORA: DANO E VIDA PARA A ARENA."},
 	"sopa_raizes": {"nome": "SOPA DE RAIZES", "receita": {"cenoura": 2, "batata": 2},
 		"bonus": {"vigor": 0.30}, "icone": "batata",
 		"texto": "CENOURA E BATATA NO CALDO GROSSO: AGUENTA MUITO MAIS PANCADA."},
@@ -31,7 +41,7 @@ const REFEICOES := {
 		"bonus": {"vigor": 0.25, "forca": 0.25, "saque": 0.25}, "icone": "uva",
 		"texto": "UM POUCO DE CADA ESTACAO NA MESMA MESA: TUDO MELHORA."},
 }
-const ORDEM: Array[String] = ["sopa_raizes", "torta_morango", "milho_assado", "salada_verao", "ensopado_outono", "banquete"]
+const ORDEM: Array[String] = ["sopa_raizes", "torta_morango", "milho_assado", "salada_verao", "ensopado_outono", "banquete", "peixe_assado", "caldo_rio", "salmao_grelhado"]
 ## Nome curto de cada bônus para os textos ("+30% VIDA")
 const NOMES_BONUS := {"vigor": "VIDA", "forca": "DANO", "couraca": "DEFESA", "folego": "FOLEGO", "saque": "OURO"}
 
@@ -56,7 +66,11 @@ static func texto_receita(id: String, plantas: Dictionary) -> String:
 	var receita: Dictionary = dados(id).get("receita", {})
 	for planta in receita:
 		partes.append("%d %s" % [int(receita[planta]), String(plantas.get(planta, {}).get("nome", planta.to_upper()))])
+	for peixe in dados(id).get("peixes",{}):
+		partes.append("%d %s" % [int(dados(id)["peixes"][peixe]),Peixes.nome(peixe)])
 	return ", ".join(partes)
 
 static func icone(id: String) -> Texture2D:
+	if dados(id).has("peixe_icone"):
+		return Peixes.icone(dados(id)["peixe_icone"])
 	return IconesFazenda.item_colhido(String(dados(id).get("icone", "cenoura")))

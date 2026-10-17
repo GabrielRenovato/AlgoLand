@@ -73,12 +73,18 @@ func _ready() -> void:
 			DadosJogo.definir_ouro_inicial()
 			DadosJogo.atualizar_ui_moedas()
 	for id in DadosCidade.MORADORES:
+		if id == "nilo":
+			continue
 		var npc := MoradorCidade.new()
 		npc.name = id.capitalize()
 		npc.id = id
 		npc.vila = self
 		add_child(npc)
 		moradores[id] = npc
+	if local == "cidade":
+		var nilo := preload("res://codigo/pesca/pescador.gd").new()
+		nilo.name = "Nilo"
+		add_child(nilo)
 	if local == "pousada":
 		add_child(preload("res://codigo/cidade/rotina_taverna.gd").new())
 	var meteorologia := get_node_or_null("Terrains/Estacoes/Meteorologia")
@@ -307,7 +313,7 @@ func porta_do_local(destino: String) -> Vector2:
 		return $Chegada_palafita.position if destino == "palafita" else $Chegada_cidade.position
 	if local != "cidade":
 		return $Chegada_entrada.position
-	if destino == "praia":
+	if destino in ["praia","palafita"]:
 		return $Chegada_praia.position
 	if DadosCidade.PREDIOS.has(destino):
 		return DadosCidade.PREDIOS[destino]["base"] + Vector2(DadosCidade.PREDIOS[destino]["porta_x"], 36)
@@ -410,6 +416,7 @@ func _montar_decoracao() -> void:
 	decoracao.name = "Decoracao"
 	add_child(decoracao)
 	add_child(CercasVila.new())
+	add_child(preload("res://codigo/cidade/limites_vila.gd").new())
 
 ## Grama original Mana Seed por estação; mantém os demais materiais, a guia e os índices Wang.
 func _aplicar_terreno(estacao: int) -> void:

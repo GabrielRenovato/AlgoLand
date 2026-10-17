@@ -33,6 +33,7 @@ const DISTANCIA_SOLTAR_JOGADOR := 18.0
 const CAMADA_JOGADOR := 2
 var _esperando_jogador := 0.0
 var _atravessando: Array[Node] = []
+var _cauda_balao: Sprite2D
 var _balao: Label
 var _espera_balao := 3.0
 var _animacao_balao: Tween
@@ -57,6 +58,7 @@ var _escondidos: Array[CanvasItem] = []
 
 func _ready() -> void:
 	add_to_group("moradores_cidade")
+	add_child(preload("res://codigo/cidade/indicador_pedido.gd").new())
 	collision_layer = 32
 	collision_mask = 64 | CAMADA_JOGADOR
 	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
@@ -156,25 +158,32 @@ func _montar_balao() -> void:
 	_balao.name = "Balao"
 	_balao.add_theme_font_override("font", FONTE)
 	_balao.add_theme_font_size_override("font_size", 8)
-	_balao.add_theme_color_override("font_color", Color("fff3d6"))
-	_balao.add_theme_color_override("font_outline_color", Color("2a2230"))
-	_balao.add_theme_constant_override("outline_size", 3)
+	_balao.add_theme_color_override("font_color", Color("302332"))
 	_balao.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_balao.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_balao.size = Vector2(164, 0)
-	_balao.resized.connect(func(): _balao.position = Vector2(-82, -34 - _balao.size.y))
-	var fundo := StyleBoxFlat.new()
-	fundo.bg_color = Color(0.10, 0.09, 0.14, 0.94)
-	fundo.set_content_margin_all(3)
+	_balao.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var fundo := StyleBoxTexture.new()
+	fundo.texture = preload("res://assets/ui/baloes/fala.png")
+	fundo.region_rect = Rect2(0,0,16,13)
+	for lado in [SIDE_LEFT,SIDE_TOP,SIDE_RIGHT,SIDE_BOTTOM]:
+		fundo.set_texture_margin(lado,4)
+		fundo.set_content_margin(lado,5)
 	_balao.add_theme_stylebox_override("normal", fundo)
 	_balao.position = Vector2(-80, -34)
 	_balao.z_as_relative = false
 	_balao.z_index = 899
 	_balao.visible = false
 	add_child(_balao)
+	_cauda_balao = Sprite2D.new()
+	_cauda_balao.texture = preload("res://assets/ui/baloes/fala.png")
+	_cauda_balao.region_enabled = true
+	_cauda_balao.region_rect = Rect2(5,13,6,3)
+	_cauda_balao.centered = false
+	_balao.add_child(_cauda_balao)
 
 ## Frase curta sobre a cabeça quando o jogador passa perto (fora de conversa)
 func _talvez_falar(delta: float, distancia: float, conversando: bool) -> void:
+	if _balao.visible: _ajustar_balao()
 	_espera_balao -= delta
 	var agora := Time.get_ticks_msec() / 1000.0
 	if conversando:
@@ -197,8 +206,7 @@ func dizer(texto: String, duracao := DURACAO_BALAO) -> void:
 	_espera_balao = INTERVALO_BALAO
 	_proximo_balao_global = Time.get_ticks_msec() / 1000.0 + duracao + 0.5
 	_balao.text = texto
-	_balao.size = Vector2(164, 0)
-	_balao.position = Vector2(-82, -34 - _balao.size.y)
+	_ajustar_balao()
 	_balao.modulate.a = 0.0
 	_balao.visible = true
 	_animacao_balao = create_tween()
@@ -213,7 +221,7 @@ func calar() -> void:
 	_balao.visible = false
 
 func pode_continuar_papo() -> bool:
-	return visible and not dormindo and not _saindo and not interacao._tela_aberta and Cidade.interlocutor != id
+	return visible and not dormindo and not _saindo and not interacao._tela_aberta and not Cidade.em_conversa(id)
 
 ## Pode parar durante um passeio; o trajeto continua depois da despedida.
 func livre_para_papo() -> bool:
@@ -249,7 +257,7 @@ func _physics_process(delta: float) -> void:
 	# Sentar perto da mesa não inicia conversa nem interrompe o atendimento.
 	var perto: bool = distancia < 34 and not jogador.esta_sentado and not atendendo_mesas
 	# Parado durante a conversa e também nos serviços abertos por ela (loja, poções, pedidos): enquanto o jogador está numa tela
-	var conversando: bool = jogador != null and Cidade.interlocutor == id and (interacao._tela_aberta or (not jogador.movimento_habilitado and not jogador.esta_sentado))
+	var conversando: bool = Cidade.em_conversa(id)
 	# Todas as telas fecharam: a conversa acabou (senão a próxima mochila aberta prenderia este morador)
 	if Cidade.interlocutor == id and not conversando:
 		Cidade.interlocutor = ""
@@ -257,6 +265,8 @@ func _physics_process(delta: float) -> void:
 		_talvez_falar(delta, distancia, conversando)
 		return
 	if is_instance_valid(parceiro_papo) and not conversando and not _saindo:
+		# Papo: o balão não passa pelo _talvez_falar, e o Label só acerta a altura depois de quebrar o texto na largura nova
+		if _balao.visible: _ajustar_balao()
 		olhar_para(parceiro_papo.position)
 		return
 	_talvez_falar(delta, distancia, conversando or _saindo)
@@ -398,3 +408,17 @@ func _direcao(vetor: Vector2) -> int:
 	if absf(vetor.x) > absf(vetor.y):
 		return 1 if vetor.x > 0 else 3
 	return 0 if vetor.y >= 0 else 2
+
+## Mede no viewport deste ambiente, inclusive nas telas divididas do cooperativo.
+func _ajustar_balao() -> void:
+	var transformacao := get_global_transform_with_canvas()
+	var escala := maxf(transformacao.get_scale().x,0.01)
+	var tela := get_viewport_rect().size / escala
+	var origem := transformacao.origin / escala
+	var largura := clampf(tela.x-16,60,144)
+	var medida := FONTE.get_string_size(_balao.text,HORIZONTAL_ALIGNMENT_LEFT,-1,8).x+12
+	_balao.size = Vector2(minf(largura,medida),0)
+	_balao.size.y = _balao.get_combined_minimum_size().y
+	_balao.position = Vector2(clampf(-_balao.size.x/2,8-origem.x,tela.x-origem.x-_balao.size.x-8),-38-_balao.size.y)
+	_balao.position.y = maxf(_balao.position.y,8-origem.y)
+	_cauda_balao.position = Vector2(clampf(-_balao.position.x-3,5,_balao.size.x-11),_balao.size.y)
