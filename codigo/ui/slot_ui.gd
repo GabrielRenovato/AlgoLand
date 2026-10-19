@@ -3,6 +3,7 @@ extends Control
 const COR_MOLDURA := Color(1.0, 0.82, 0.3, 0.9)
 const COR_MOLDURA_HOVER := Color(1.0, 0.9, 0.45, 1.0)
 const COR_PREENCHIMENTO_HOVER := Color(1.0, 0.85, 0.35, 0.25)
+const COR_CARREGADO := Color(0.45, 0.9, 1.0, 1.0)
 const COR_ICONE_VAZIO := Color(1.0, 1.0, 1.0, 0.35)
 ## Casa ainda bloqueada (linha extra da mochila): apagada; a última da linha leva o cadeado da folha de interface do inventário
 const COR_TRANCADO := Color(0.55, 0.55, 0.6, 0.7)
@@ -37,6 +38,9 @@ func _ready() -> void:
 	focus_entered.connect(_ao_foco_alterado)
 	focus_exited.connect(_ao_foco_alterado)
 	gui_input.connect(_ao_entrada)
+	var interface := EventosJogo.interface_de(self)
+	if interface != null and interface.has_signal("carregado_alterado"):
+		interface.carregado_alterado.connect(_moldura_atualizar)
 	# Desenhada por cima do fundo e do item; so aparece durante um arrasto compativel
 	_moldura = Control.new()
 	_moldura.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -144,16 +148,53 @@ func _dados_validos(dados: Variant) -> bool:
 func _ao_foco_alterado() -> void:
 	_moldura.queue_redraw()
 
+func _moldura_atualizar() -> void:
+	if _moldura != null:
+		_moldura.queue_redraw()
+
 func _ao_entrada(evento: InputEvent) -> void:
 	if evento.is_action_pressed("ui_accept"):
 		_usar_com_controle()
 		accept_event()
+	elif evento.is_action_pressed("colher") and tipo_slot in ["mochila", "arma", "escudo", "cabeca", "corpo", "luvas", "botas", "secundaria", "bau", "saque"]:
+		mover_com_controle()
+		accept_event()
+
+## Mover no controle: Y pega o item da casa em foco; Y em outra casa solta o item ali (a mesma regra do arrasto, inclusive troca);
+## Y na própria casa devolve. A casa do item "na mão" fica com a moldura azul
+func mover_com_controle() -> void:
+	var interface := EventosJogo.interface_de(self)
+	if interface == null or not interface.has_method("definir_carregado") or trancado:
+		return
+	var carregado: DadosItem = interface.item_carregado
+	if carregado == null:
+		if item_atual != null and not _item_ui.em_uso:
+			interface.definir_carregado(item_atual)
+		return
+	if carregado == item_atual:
+		interface.definir_carregado(null)
+		return
+	var dados := {"item": carregado}
+	if not _dados_validos(dados):
+		Sons.tocar("erro", 0.0)
+		return
+	_drop_data(Vector2.ZERO, dados)
+	interface.definir_carregado(null)
+
+## O item em foco está "na mão" (para a tela mostrar o que o Y faz)
+func esta_carregado() -> bool:
+	var interface := EventosJogo.interface_de(self)
+	return interface != null and "item_carregado" in interface and interface.item_carregado != null and interface.item_carregado == item_atual
 
 # Com a bigorna/encantamento abertos o item vai para o slot do mercador; senão, mochila equipa e
 # equipamento volta para a mochila. Armas, escudo e armaduras seguem a mesma regra do arrasto.
 func _usar_com_controle() -> void:
 	if item_atual == null or trancado:
 		return
+	var interface := EventosJogo.interface_de(self)
+	if interface != null:
+		var tela := interface._telas["inventario"] as Control
+		if tela.tentar_excluir_item(item_atual): return
 	if _item_ui.em_uso:
 		var ferreiro := EventosJogo.painel_do_grupo(self, "tela_mercante")
 		if ferreiro != null and ferreiro.is_visible_in_tree():
@@ -202,6 +243,11 @@ func equipar_com_botao_direito() -> void:
 	_equipar_ou_desequipar()
 
 func _equipar_ou_desequipar() -> void:
+	if item_atual.categoria == "receita" and tipo_slot == "mochila":
+		var mensagem: String = EventosJogo.inventario_de(self).usar_receita(item_atual)
+		Sons.tocar("compra" if mensagem.is_empty() else "erro", 0.0)
+		get_tree().call_group("hud_p2" if EventosJogo.eh_do_p2(self) else "hud_p1", "anunciar", "RECEITA APRENDIDA" if mensagem.is_empty() else mensagem, "FABRIQUE COM O IVO" if mensagem.is_empty() else "", 2.0)
+		return
 	if not item_atual.categoria in ["arma", "escudo", "secundaria", "cabeca", "corpo", "luvas", "botas"]:
 		return
 	if tipo_slot == "mochila":
@@ -210,11 +256,20 @@ func _equipar_ou_desequipar() -> void:
 	else:
 		EventosJogo.inventario_de(self).desequipar(tipo_slot)
 
-func _desenhar_moldura() -> void:
+## No co-op o Godot solta o foco desta metade quando o parceiro foca algo; a Interface guarda o foco lógico
+func _tem_foco() -> bool:
 	if has_focus():
+		return true
+	var interface := EventosJogo.interface_de(self) if is_inside_tree() else null
+	return interface != null and interface.has_method("foco_atual") and interface.foco_atual() == self
+
+func _desenhar_moldura() -> void:
+	if _tem_foco():
 		var foco := Rect2(Vector2.ZERO, size)
 		_moldura.draw_rect(foco, COR_PREENCHIMENTO_HOVER)
 		_moldura.draw_rect(foco.grow(-0.5), COR_MOLDURA_HOVER, false, 1.0)
+	if esta_carregado():
+		_moldura.draw_rect(Rect2(Vector2.ZERO, size).grow(-0.5), COR_CARREGADO, false, 2.0)
 	# Na grade da mochila so a celula sob o mouse acende, senao a grade inteira piscaria
 	if not _arrasto_valido or (tipo_slot == "mochila" and not _mouse_em_cima):
 		return

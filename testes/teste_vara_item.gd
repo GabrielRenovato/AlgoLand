@@ -30,7 +30,6 @@ func _rodar() -> void:
 	root.get_node("Saves").trocar("solo")
 	root.get_node("Introducao").pular_prologo()
 	fazenda.varas_pesca = {}
-	fazenda.pedras_vara = {}
 
 	# --- Save antigo (sem vara) ganha a vara ao carregar ---
 	inv.limpar()
@@ -41,14 +40,14 @@ func _rodar() -> void:
 	verificar("sem vara antes", varas_em(inv).is_empty())
 	inv.salvar()
 	inv.carregar()
-	verificar("carregar um save sem vara cria uma", varas_em(inv).size() == 1)
+	verificar("carregar repõe a vara gratuita",varas_em(inv).size()==1)
 	inv.carregar()
 	verificar("carregar de novo nao duplica", varas_em(inv).size() == 1)
 	var vara = varas_em(inv)[0]
 	verificar("nasce no nivel 1 comum", vara.nivel == 1 and vara.raridade == "comum" and vara.nome() == "VARA DE PESCA")
 
 	# --- Refinar muda nivel, cor da casa e icone ---
-	fazenda.pedras_vara["p1"] = 20
+	inv.adicionar_coletavel("material", "pedra_vara", 20)
 	var corpo := CharacterBody2D.new()  # sem "eh_p2": conta como o jogador 1
 	var cores_vistas := {}
 	for nv in range(2, 6):
@@ -77,6 +76,7 @@ func _rodar() -> void:
 	# --- Jogador 2 tem a sua, no nivel dele ---
 	inv2.limpar()
 	inv2.criar_itens_iniciais()
-	verificar("P2 ganha vara propria no nivel 1", varas_em(inv2).size() == 1 and varas_em(inv2)[0].nivel == 1)
+	verificar("vara inicial do P2 começa no nível 1", varas_em(inv2).size() == 1 and varas_em(inv2)[0].nivel == 1)
+	corpo.free()
 	print("FALHAS: ", falhas)
 	quit(1 if falhas else 0)

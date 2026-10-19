@@ -56,6 +56,7 @@ func _rodar() -> void:
 	p1.global_position = leste.global_position
 	p2.global_position = oeste.global_position
 	await quadros(8)
+	for quem in [p1,p2]: root.get_node("EventosJogo").inventario_de(quem).definir_vara_na_mao(true)
 	verificar("os dois podem pescar", leste.pode_interagir_para(p1) and oeste.pode_interagir_para(p2))
 	leste.abrir_tela()
 	oeste.abrir_tela_p2()

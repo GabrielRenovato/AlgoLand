@@ -1,0 +1,219 @@
+{
+  "job": {
+    "canvas": [
+      64,
+      64
+    ],
+    "frame_count": 6,
+    "durations_ms": [
+      100,
+      100,
+      140,
+      120,
+      60,
+      140
+    ],
+    "views": [
+      {
+        "id": "west",
+        "offset": [
+          0,
+          0
+        ]
+      }
+    ],
+    "source_bookends_exact": false,
+    "require_clear_border": true,
+    "events": {
+      "impacto": 5
+    }
+  },
+  "scene": {
+    "palette": {
+      "camisa": "#526780",
+      "madeira": "#804737",
+      "madeira_luz": "#af6548",
+      "aco": "#8297ad",
+      "aco_sombra": "#465970",
+      "aco_luz": "#c3c9be"
+    },
+    "layers": [
+      {
+        "id": "corpo",
+        "name": "Body - corpo"
+      },
+      {
+        "id": "braco",
+        "name": "Body - braco e martelo"
+      }
+    ],
+    "views": {
+      "west": {
+        "selections": {
+          "braco": {
+            "regions": [
+              [
+                33,
+                28,
+                37,
+                37
+              ]
+            ]
+          },
+          "resto": {}
+        },
+        "nodes": {
+          "corpo": {
+            "layer": "corpo",
+            "at": [
+              0,
+              0
+            ],
+            "draw": [
+              {
+                "op": "copy",
+                "part": "resto"
+              },
+              {
+                "op": "polygon",
+                "points": [
+                  [
+                    33,
+                    28
+                  ],
+                  [
+                    35,
+                    29
+                  ],
+                  [
+                    35,
+                    34
+                  ],
+                  [
+                    33,
+                    36
+                  ]
+                ],
+                "color": "camisa"
+              }
+            ]
+          },
+          "braco": {
+            "layer": "braco",
+            "at": [
+              0,
+              0
+            ],
+            "pivot": [
+              34,
+              29
+            ],
+            "draw": [
+              {
+                "op": "path",
+                "points": [
+                  [
+                    35,
+                    36
+                  ],
+                  [
+                    18,
+                    29
+                  ]
+                ],
+                "color": "madeira",
+                "stroke_width": 2
+              },
+              {
+                "op": "path",
+                "points": [
+                  [
+                    34,
+                    35
+                  ],
+                  [
+                    19,
+                    29
+                  ]
+                ],
+                "color": "madeira_luz",
+                "stroke_width": 1
+              },
+              {
+                "op": "rect",
+                "box": [
+                  14,
+                  26,
+                  22,
+                  30
+                ],
+                "color": "aco_sombra"
+              },
+              {
+                "op": "rect",
+                "box": [
+                  15,
+                  26,
+                  21,
+                  29
+                ],
+                "color": "aco"
+              },
+              {
+                "op": "path",
+                "points": [
+                  [
+                    15,
+                    26
+                  ],
+                  [
+                    21,
+                    26
+                  ]
+                ],
+                "color": "aco_luz"
+              },
+              {
+                "op": "copy",
+                "part": "braco"
+              }
+            ]
+          }
+        },
+        "tracks": [
+          {
+            "node": "braco",
+            "property": "angle",
+            "interpolation": "step",
+            "keys": [
+              [
+                1,
+                0
+              ],
+              [
+                2,
+                35
+              ],
+              [
+                3,
+                75
+              ],
+              [
+                4,
+                90
+              ],
+              [
+                5,
+                0
+              ],
+              [
+                6,
+                15
+              ]
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,2568 @@
+[
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      0,
+      0,
+      447,
+      255
+    ],
+    "colors": {
+      "#2b1a22": "#493432",
+      "#2d2d2d": "#453b39",
+      "#332328": "#503a38"
+    },
+    "reason": "Contorno marrom seletivo da vila, sem borda preta."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      0,
+      13,
+      63,
+      26
+    ],
+    "colors": {
+      "#4f3e38": "#453e43",
+      "#6a4d40": "#51464b",
+      "#805847": "#605054",
+      "#98684b": "#705c5d",
+      "#a87658": "#826e69"
+    },
+    "reason": "Cabelo curto e barba escuros."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      0,
+      26,
+      63,
+      63
+    ],
+    "colors": {
+      "#fbfafa": "#8297ad",
+      "#f3eeeb": "#788ca4",
+      "#e5dbcb": "#617b98",
+      "#d4c8b7": "#5b718c",
+      "#cabdad": "#526780",
+      "#beb2a1": "#465970",
+      "#aa9c8a": "#3d4e65",
+      "#98918b": "#3d4e65",
+      "#82776d": "#3d4e65",
+      "#73665d": "#39485b"
+    },
+    "reason": "Camisa indigo."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      0,
+      27,
+      63,
+      38
+    ],
+    "colors": {
+      "#53351e": "#674032",
+      "#674025": "#804737",
+      "#784b2a": "#98513c",
+      "#8a562f": "#af6548"
+    },
+    "reason": "Avental ferrugem."
+  },
+  {
+    "operation": "patch_pixels",
+    "frames": [
+      1
+    ],
+    "pixels": [
+      [
+        29,
+        15,
+        "#705c5d",
+        "#b5b1a6"
+      ],
+      [
+        29,
+        16,
+        "#826e69",
+        "#d2cbb9"
+      ],
+      [
+        28,
+        17,
+        "#453e43",
+        "#a4a49e"
+      ]
+    ],
+    "reason": "Mecha grisalha acompanha a cabeca."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      64,
+      13,
+      127,
+      26
+    ],
+    "colors": {
+      "#4f3e38": "#453e43",
+      "#6a4d40": "#51464b",
+      "#805847": "#605054",
+      "#98684b": "#705c5d",
+      "#a87658": "#826e69"
+    },
+    "reason": "Cabelo curto e barba escuros."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      64,
+      26,
+      127,
+      63
+    ],
+    "colors": {
+      "#fbfafa": "#8297ad",
+      "#f3eeeb": "#788ca4",
+      "#e5dbcb": "#617b98",
+      "#d4c8b7": "#5b718c",
+      "#cabdad": "#526780",
+      "#beb2a1": "#465970",
+      "#aa9c8a": "#3d4e65",
+      "#98918b": "#3d4e65",
+      "#82776d": "#3d4e65",
+      "#73665d": "#39485b"
+    },
+    "reason": "Camisa indigo."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      64,
+      27,
+      127,
+      38
+    ],
+    "colors": {
+      "#53351e": "#674032",
+      "#674025": "#804737",
+      "#784b2a": "#98513c",
+      "#8a562f": "#af6548"
+    },
+    "reason": "Avental ferrugem."
+  },
+  {
+    "operation": "patch_pixels",
+    "frames": [
+      1
+    ],
+    "pixels": [
+      [
+        94,
+        15,
+        "#705c5d",
+        "#b5b1a6"
+      ],
+      [
+        94,
+        16,
+        "#826e69",
+        "#d2cbb9"
+      ],
+      [
+        93,
+        17,
+        "#453e43",
+        "#a4a49e"
+      ]
+    ],
+    "reason": "Mecha grisalha acompanha a cabeca."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      128,
+      13,
+      191,
+      26
+    ],
+    "colors": {
+      "#4f3e38": "#453e43",
+      "#6a4d40": "#51464b",
+      "#805847": "#605054",
+      "#98684b": "#705c5d",
+      "#a87658": "#826e69"
+    },
+    "reason": "Cabelo curto e barba escuros."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      128,
+      26,
+      191,
+      63
+    ],
+    "colors": {
+      "#fbfafa": "#8297ad",
+      "#f3eeeb": "#788ca4",
+      "#e5dbcb": "#617b98",
+      "#d4c8b7": "#5b718c",
+      "#cabdad": "#526780",
+      "#beb2a1": "#465970",
+      "#aa9c8a": "#3d4e65",
+      "#98918b": "#3d4e65",
+      "#82776d": "#3d4e65",
+      "#73665d": "#39485b"
+    },
+    "reason": "Camisa indigo."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      128,
+      27,
+      191,
+      38
+    ],
+    "colors": {
+      "#53351e": "#674032",
+      "#674025": "#804737",
+      "#784b2a": "#98513c",
+      "#8a562f": "#af6548"
+    },
+    "reason": "Avental ferrugem."
+  },
+  {
+    "operation": "patch_pixels",
+    "frames": [
+      1
+    ],
+    "pixels": [
+      [
+        157,
+        15,
+        "#705c5d",
+        "#b5b1a6"
+      ],
+      [
+        157,
+        16,
+        "#826e69",
+        "#d2cbb9"
+      ],
+      [
+        156,
+        17,
+        "#453e43",
+        "#a4a49e"
+      ]
+    ],
+    "reason": "Mecha grisalha acompanha a cabeca."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      192,
+      13,
+      255,
+      26
+    ],
+    "colors": {
+      "#4f3e38": "#453e43",
+      "#6a4d40": "#51464b",
+      "#805847": "#605054",
+      "#98684b": "#705c5d",
+      "#a87658": "#826e69"
+    },
+    "reason": "Cabelo curto e barba escuros."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      192,
+      26,
+      255,
+      63
+    ],
+    "colors": {
+      "#fbfafa": "#8297ad",
+      "#f3eeeb": "#788ca4",
+      "#e5dbcb": "#617b98",
+      "#d4c8b7": "#5b718c",
+      "#cabdad": "#526780",
+      "#beb2a1": "#465970",
+      "#aa9c8a": "#3d4e65",
+      "#98918b": "#3d4e65",
+      "#82776d": "#3d4e65",
+      "#73665d": "#39485b"
+    },
+    "reason": "Camisa indigo."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      192,
+      27,
+      255,
+      38
+    ],
+    "colors": {
+      "#53351e": "#674032",
+      "#674025": "#804737",
+      "#784b2a": "#98513c",
+      "#8a562f": "#af6548"
+    },
+    "reason": "Avental ferrugem."
+  },
+  {
+    "operation": "patch_pixels",
+    "frames": [
+      1
+    ],
+    "pixels": [
+      [
+        221,
+        15,
+        "#705c5d",
+        "#b5b1a6"
+      ],
+      [
+        221,
+        16,
+        "#826e69",
+        "#d2cbb9"
+      ],
+      [
+        220,
+        17,
+        "#453e43",
+        "#a4a49e"
+      ]
+    ],
+    "reason": "Mecha grisalha acompanha a cabeca."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      256,
+      13,
+      319,
+      26
+    ],
+    "colors": {
+      "#4f3e38": "#453e43",
+      "#6a4d40": "#51464b",
+      "#805847": "#605054",
+      "#98684b": "#705c5d",
+      "#a87658": "#826e69"
+    },
+    "reason": "Cabelo curto e barba escuros."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      256,
+      26,
+      319,
+      63
+    ],
+    "colors": {
+      "#fbfafa": "#8297ad",
+      "#f3eeeb": "#788ca4",
+      "#e5dbcb": "#617b98",
+      "#d4c8b7": "#5b718c",
+      "#cabdad": "#526780",
+      "#beb2a1": "#465970",
+      "#aa9c8a": "#3d4e65",
+      "#98918b": "#3d4e65",
+      "#82776d": "#3d4e65",
+      "#73665d": "#39485b"
+    },
+    "reason": "Camisa indigo."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      256,
+      27,
+      319,
+      38
+    ],
+    "colors": {
+      "#53351e": "#674032",
+      "#674025": "#804737",
+      "#784b2a": "#98513c",
+      "#8a562f": "#af6548"
+    },
+    "reason": "Avental ferrugem."
+  },
+  {
+    "operation": "patch_pixels",
+    "frames": [
+      1
+    ],
+    "pixels": [
+      [
+        285,
+        15,
+        "#705c5d",
+        "#b5b1a6"
+      ],
+      [
+        285,
+        16,
+        "#826e69",
+        "#d2cbb9"
+      ],
+      [
+        284,
+        17,
+        "#453e43",
+        "#a4a49e"
+      ]
+    ],
+    "reason": "Mecha grisalha acompanha a cabeca."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      320,
+      13,
+      383,
+      26
+    ],
+    "colors": {
+      "#4f3e38": "#453e43",
+      "#6a4d40": "#51464b",
+      "#805847": "#605054",
+      "#98684b": "#705c5d",
+      "#a87658": "#826e69"
+    },
+    "reason": "Cabelo curto e barba escuros."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      320,
+      26,
+      383,
+      63
+    ],
+    "colors": {
+      "#fbfafa": "#8297ad",
+      "#f3eeeb": "#788ca4",
+      "#e5dbcb": "#617b98",
+      "#d4c8b7": "#5b718c",
+      "#cabdad": "#526780",
+      "#beb2a1": "#465970",
+      "#aa9c8a": "#3d4e65",
+      "#98918b": "#3d4e65",
+      "#82776d": "#3d4e65",
+      "#73665d": "#39485b"
+    },
+    "reason": "Camisa indigo."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      320,
+      27,
+      383,
+      38
+    ],
+    "colors": {
+      "#53351e": "#674032",
+      "#674025": "#804737",
+      "#784b2a": "#98513c",
+      "#8a562f": "#af6548"
+    },
+    "reason": "Avental ferrugem."
+  },
+  {
+    "operation": "patch_pixels",
+    "frames": [
+      1
+    ],
+    "pixels": [
+      [
+        350,
+        15,
+        "#705c5d",
+        "#b5b1a6"
+      ],
+      [
+        350,
+        16,
+        "#826e69",
+        "#d2cbb9"
+      ],
+      [
+        349,
+        17,
+        "#453e43",
+        "#a4a49e"
+      ]
+    ],
+    "reason": "Mecha grisalha acompanha a cabeca."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      384,
+      13,
+      447,
+      26
+    ],
+    "colors": {
+      "#4f3e38": "#453e43",
+      "#6a4d40": "#51464b",
+      "#805847": "#605054",
+      "#98684b": "#705c5d",
+      "#a87658": "#826e69"
+    },
+    "reason": "Cabelo curto e barba escuros."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      384,
+      26,
+      447,
+      63
+    ],
+    "colors": {
+      "#fbfafa": "#8297ad",
+      "#f3eeeb": "#788ca4",
+      "#e5dbcb": "#617b98",
+      "#d4c8b7": "#5b718c",
+      "#cabdad": "#526780",
+      "#beb2a1": "#465970",
+      "#aa9c8a": "#3d4e65",
+      "#98918b": "#3d4e65",
+      "#82776d": "#3d4e65",
+      "#73665d": "#39485b"
+    },
+    "reason": "Camisa indigo."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      384,
+      27,
+      447,
+      38
+    ],
+    "colors": {
+      "#53351e": "#674032",
+      "#674025": "#804737",
+      "#784b2a": "#98513c",
+      "#8a562f": "#af6548"
+    },
+    "reason": "Avental ferrugem."
+  },
+  {
+    "operation": "patch_pixels",
+    "frames": [
+      1
+    ],
+    "pixels": [
+      [
+        414,
+        15,
+        "#705c5d",
+        "#b5b1a6"
+      ],
+      [
+        414,
+        16,
+        "#826e69",
+        "#d2cbb9"
+      ],
+      [
+        413,
+        17,
+        "#453e43",
+        "#a4a49e"
+      ]
+    ],
+    "reason": "Mecha grisalha acompanha a cabeca."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      0,
+      78,
+      63,
+      91
+    ],
+    "colors": {
+      "#4f3e38": "#453e43",
+      "#6a4d40": "#51464b",
+      "#805847": "#605054",
+      "#98684b": "#705c5d",
+      "#a87658": "#826e69"
+    },
+    "reason": "Cabelo curto e barba escuros."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      0,
+      91,
+      63,
+      127
+    ],
+    "colors": {
+      "#fbfafa": "#8297ad",
+      "#f3eeeb": "#788ca4",
+      "#e5dbcb": "#617b98",
+      "#d4c8b7": "#5b718c",
+      "#cabdad": "#526780",
+      "#beb2a1": "#465970",
+      "#aa9c8a": "#3d4e65",
+      "#98918b": "#3d4e65",
+      "#82776d": "#3d4e65",
+      "#73665d": "#39485b"
+    },
+    "reason": "Camisa indigo."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      0,
+      92,
+      63,
+      103
+    ],
+    "colors": {
+      "#53351e": "#674032",
+      "#674025": "#804737",
+      "#784b2a": "#98513c",
+      "#8a562f": "#af6548"
+    },
+    "reason": "Avental ferrugem."
+  },
+  {
+    "operation": "patch_pixels",
+    "frames": [
+      1
+    ],
+    "pixels": [
+      [
+        28,
+        80,
+        "#705c5d",
+        "#b5b1a6"
+      ],
+      [
+        28,
+        81,
+        "#705c5d",
+        "#d2cbb9"
+      ],
+      [
+        28,
+        82,
+        "#705c5d",
+        "#a4a49e"
+      ]
+    ],
+    "reason": "Mecha grisalha acompanha a cabeca."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      64,
+      78,
+      127,
+      91
+    ],
+    "colors": {
+      "#4f3e38": "#453e43",
+      "#6a4d40": "#51464b",
+      "#805847": "#605054",
+      "#98684b": "#705c5d",
+      "#a87658": "#826e69"
+    },
+    "reason": "Cabelo curto e barba escuros."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      64,
+      91,
+      127,
+      127
+    ],
+    "colors": {
+      "#fbfafa": "#8297ad",
+      "#f3eeeb": "#788ca4",
+      "#e5dbcb": "#617b98",
+      "#d4c8b7": "#5b718c",
+      "#cabdad": "#526780",
+      "#beb2a1": "#465970",
+      "#aa9c8a": "#3d4e65",
+      "#98918b": "#3d4e65",
+      "#82776d": "#3d4e65",
+      "#73665d": "#39485b"
+    },
+    "reason": "Camisa indigo."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      64,
+      92,
+      127,
+      103
+    ],
+    "colors": {
+      "#53351e": "#674032",
+      "#674025": "#804737",
+      "#784b2a": "#98513c",
+      "#8a562f": "#af6548"
+    },
+    "reason": "Avental ferrugem."
+  },
+  {
+    "operation": "patch_pixels",
+    "frames": [
+      1
+    ],
+    "pixels": [
+      [
+        93,
+        80,
+        "#705c5d",
+        "#b5b1a6"
+      ],
+      [
+        93,
+        81,
+        "#705c5d",
+        "#d2cbb9"
+      ],
+      [
+        93,
+        82,
+        "#705c5d",
+        "#a4a49e"
+      ]
+    ],
+    "reason": "Mecha grisalha acompanha a cabeca."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      128,
+      78,
+      191,
+      91
+    ],
+    "colors": {
+      "#4f3e38": "#453e43",
+      "#6a4d40": "#51464b",
+      "#805847": "#605054",
+      "#98684b": "#705c5d",
+      "#a87658": "#826e69"
+    },
+    "reason": "Cabelo curto e barba escuros."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      128,
+      91,
+      191,
+      127
+    ],
+    "colors": {
+      "#fbfafa": "#8297ad",
+      "#f3eeeb": "#788ca4",
+      "#e5dbcb": "#617b98",
+      "#d4c8b7": "#5b718c",
+      "#cabdad": "#526780",
+      "#beb2a1": "#465970",
+      "#aa9c8a": "#3d4e65",
+      "#98918b": "#3d4e65",
+      "#82776d": "#3d4e65",
+      "#73665d": "#39485b"
+    },
+    "reason": "Camisa indigo."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      128,
+      92,
+      191,
+      103
+    ],
+    "colors": {
+      "#53351e": "#674032",
+      "#674025": "#804737",
+      "#784b2a": "#98513c",
+      "#8a562f": "#af6548"
+    },
+    "reason": "Avental ferrugem."
+  },
+  {
+    "operation": "patch_pixels",
+    "frames": [
+      1
+    ],
+    "pixels": [
+      [
+        157,
+        80,
+        "#705c5d",
+        "#b5b1a6"
+      ],
+      [
+        157,
+        81,
+        "#705c5d",
+        "#d2cbb9"
+      ],
+      [
+        157,
+        82,
+        "#705c5d",
+        "#a4a49e"
+      ]
+    ],
+    "reason": "Mecha grisalha acompanha a cabeca."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      192,
+      78,
+      255,
+      91
+    ],
+    "colors": {
+      "#4f3e38": "#453e43",
+      "#6a4d40": "#51464b",
+      "#805847": "#605054",
+      "#98684b": "#705c5d",
+      "#a87658": "#826e69"
+    },
+    "reason": "Cabelo curto e barba escuros."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      192,
+      91,
+      255,
+      127
+    ],
+    "colors": {
+      "#fbfafa": "#8297ad",
+      "#f3eeeb": "#788ca4",
+      "#e5dbcb": "#617b98",
+      "#d4c8b7": "#5b718c",
+      "#cabdad": "#526780",
+      "#beb2a1": "#465970",
+      "#aa9c8a": "#3d4e65",
+      "#98918b": "#3d4e65",
+      "#82776d": "#3d4e65",
+      "#73665d": "#39485b"
+    },
+    "reason": "Camisa indigo."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      192,
+      92,
+      255,
+      103
+    ],
+    "colors": {
+      "#53351e": "#674032",
+      "#674025": "#804737",
+      "#784b2a": "#98513c",
+      "#8a562f": "#af6548"
+    },
+    "reason": "Avental ferrugem."
+  },
+  {
+    "operation": "patch_pixels",
+    "frames": [
+      1
+    ],
+    "pixels": [
+      [
+        221,
+        80,
+        "#705c5d",
+        "#b5b1a6"
+      ],
+      [
+        221,
+        81,
+        "#705c5d",
+        "#d2cbb9"
+      ],
+      [
+        221,
+        82,
+        "#705c5d",
+        "#a4a49e"
+      ]
+    ],
+    "reason": "Mecha grisalha acompanha a cabeca."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      256,
+      78,
+      319,
+      91
+    ],
+    "colors": {
+      "#4f3e38": "#453e43",
+      "#6a4d40": "#51464b",
+      "#805847": "#605054",
+      "#98684b": "#705c5d",
+      "#a87658": "#826e69"
+    },
+    "reason": "Cabelo curto e barba escuros."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      256,
+      91,
+      319,
+      127
+    ],
+    "colors": {
+      "#fbfafa": "#8297ad",
+      "#f3eeeb": "#788ca4",
+      "#e5dbcb": "#617b98",
+      "#d4c8b7": "#5b718c",
+      "#cabdad": "#526780",
+      "#beb2a1": "#465970",
+      "#aa9c8a": "#3d4e65",
+      "#98918b": "#3d4e65",
+      "#82776d": "#3d4e65",
+      "#73665d": "#39485b"
+    },
+    "reason": "Camisa indigo."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      256,
+      92,
+      319,
+      103
+    ],
+    "colors": {
+      "#53351e": "#674032",
+      "#674025": "#804737",
+      "#784b2a": "#98513c",
+      "#8a562f": "#af6548"
+    },
+    "reason": "Avental ferrugem."
+  },
+  {
+    "operation": "patch_pixels",
+    "frames": [
+      1
+    ],
+    "pixels": [
+      [
+        285,
+        80,
+        "#705c5d",
+        "#b5b1a6"
+      ],
+      [
+        285,
+        81,
+        "#705c5d",
+        "#d2cbb9"
+      ],
+      [
+        285,
+        82,
+        "#705c5d",
+        "#a4a49e"
+      ]
+    ],
+    "reason": "Mecha grisalha acompanha a cabeca."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      320,
+      78,
+      383,
+      91
+    ],
+    "colors": {
+      "#4f3e38": "#453e43",
+      "#6a4d40": "#51464b",
+      "#805847": "#605054",
+      "#98684b": "#705c5d",
+      "#a87658": "#826e69"
+    },
+    "reason": "Cabelo curto e barba escuros."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      320,
+      91,
+      383,
+      127
+    ],
+    "colors": {
+      "#fbfafa": "#8297ad",
+      "#f3eeeb": "#788ca4",
+      "#e5dbcb": "#617b98",
+      "#d4c8b7": "#5b718c",
+      "#cabdad": "#526780",
+      "#beb2a1": "#465970",
+      "#aa9c8a": "#3d4e65",
+      "#98918b": "#3d4e65",
+      "#82776d": "#3d4e65",
+      "#73665d": "#39485b"
+    },
+    "reason": "Camisa indigo."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      320,
+      92,
+      383,
+      103
+    ],
+    "colors": {
+      "#53351e": "#674032",
+      "#674025": "#804737",
+      "#784b2a": "#98513c",
+      "#8a562f": "#af6548"
+    },
+    "reason": "Avental ferrugem."
+  },
+  {
+    "operation": "patch_pixels",
+    "frames": [
+      1
+    ],
+    "pixels": [
+      [
+        349,
+        80,
+        "#705c5d",
+        "#b5b1a6"
+      ],
+      [
+        349,
+        81,
+        "#705c5d",
+        "#d2cbb9"
+      ],
+      [
+        349,
+        82,
+        "#705c5d",
+        "#a4a49e"
+      ]
+    ],
+    "reason": "Mecha grisalha acompanha a cabeca."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      384,
+      78,
+      447,
+      91
+    ],
+    "colors": {
+      "#4f3e38": "#453e43",
+      "#6a4d40": "#51464b",
+      "#805847": "#605054",
+      "#98684b": "#705c5d",
+      "#a87658": "#826e69"
+    },
+    "reason": "Cabelo curto e barba escuros."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      384,
+      91,
+      447,
+      127
+    ],
+    "colors": {
+      "#fbfafa": "#8297ad",
+      "#f3eeeb": "#788ca4",
+      "#e5dbcb": "#617b98",
+      "#d4c8b7": "#5b718c",
+      "#cabdad": "#526780",
+      "#beb2a1": "#465970",
+      "#aa9c8a": "#3d4e65",
+      "#98918b": "#3d4e65",
+      "#82776d": "#3d4e65",
+      "#73665d": "#39485b"
+    },
+    "reason": "Camisa indigo."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      384,
+      92,
+      447,
+      103
+    ],
+    "colors": {
+      "#53351e": "#674032",
+      "#674025": "#804737",
+      "#784b2a": "#98513c",
+      "#8a562f": "#af6548"
+    },
+    "reason": "Avental ferrugem."
+  },
+  {
+    "operation": "patch_pixels",
+    "frames": [
+      1
+    ],
+    "pixels": [
+      [
+        413,
+        80,
+        "#705c5d",
+        "#b5b1a6"
+      ],
+      [
+        413,
+        81,
+        "#705c5d",
+        "#d2cbb9"
+      ],
+      [
+        413,
+        82,
+        "#705c5d",
+        "#a4a49e"
+      ]
+    ],
+    "reason": "Mecha grisalha acompanha a cabeca."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      0,
+      141,
+      63,
+      154
+    ],
+    "colors": {
+      "#4f3e38": "#453e43",
+      "#6a4d40": "#51464b",
+      "#805847": "#605054",
+      "#98684b": "#705c5d",
+      "#a87658": "#826e69"
+    },
+    "reason": "Cabelo curto e barba escuros."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      0,
+      154,
+      63,
+      191
+    ],
+    "colors": {
+      "#fbfafa": "#8297ad",
+      "#f3eeeb": "#788ca4",
+      "#e5dbcb": "#617b98",
+      "#d4c8b7": "#5b718c",
+      "#cabdad": "#526780",
+      "#beb2a1": "#465970",
+      "#aa9c8a": "#3d4e65",
+      "#98918b": "#3d4e65",
+      "#82776d": "#3d4e65",
+      "#73665d": "#39485b"
+    },
+    "reason": "Camisa indigo."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      0,
+      155,
+      63,
+      166
+    ],
+    "colors": {
+      "#53351e": "#674032",
+      "#674025": "#804737",
+      "#784b2a": "#98513c",
+      "#8a562f": "#af6548"
+    },
+    "reason": "Avental ferrugem."
+  },
+  {
+    "operation": "patch_pixels",
+    "frames": [
+      1
+    ],
+    "pixels": [
+      [
+        30,
+        143,
+        "#705c5d",
+        "#b5b1a6"
+      ],
+      [
+        30,
+        144,
+        "#705c5d",
+        "#d2cbb9"
+      ],
+      [
+        29,
+        145,
+        "#705c5d",
+        "#a4a49e"
+      ]
+    ],
+    "reason": "Mecha grisalha acompanha a cabeca."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      64,
+      141,
+      127,
+      154
+    ],
+    "colors": {
+      "#4f3e38": "#453e43",
+      "#6a4d40": "#51464b",
+      "#805847": "#605054",
+      "#98684b": "#705c5d",
+      "#a87658": "#826e69"
+    },
+    "reason": "Cabelo curto e barba escuros."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      64,
+      154,
+      127,
+      191
+    ],
+    "colors": {
+      "#fbfafa": "#8297ad",
+      "#f3eeeb": "#788ca4",
+      "#e5dbcb": "#617b98",
+      "#d4c8b7": "#5b718c",
+      "#cabdad": "#526780",
+      "#beb2a1": "#465970",
+      "#aa9c8a": "#3d4e65",
+      "#98918b": "#3d4e65",
+      "#82776d": "#3d4e65",
+      "#73665d": "#39485b"
+    },
+    "reason": "Camisa indigo."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      64,
+      155,
+      127,
+      166
+    ],
+    "colors": {
+      "#53351e": "#674032",
+      "#674025": "#804737",
+      "#784b2a": "#98513c",
+      "#8a562f": "#af6548"
+    },
+    "reason": "Avental ferrugem."
+  },
+  {
+    "operation": "patch_pixels",
+    "frames": [
+      1
+    ],
+    "pixels": [
+      [
+        94,
+        143,
+        "#705c5d",
+        "#b5b1a6"
+      ],
+      [
+        94,
+        144,
+        "#705c5d",
+        "#d2cbb9"
+      ],
+      [
+        93,
+        145,
+        "#705c5d",
+        "#a4a49e"
+      ]
+    ],
+    "reason": "Mecha grisalha acompanha a cabeca."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      128,
+      141,
+      191,
+      154
+    ],
+    "colors": {
+      "#4f3e38": "#453e43",
+      "#6a4d40": "#51464b",
+      "#805847": "#605054",
+      "#98684b": "#705c5d",
+      "#a87658": "#826e69"
+    },
+    "reason": "Cabelo curto e barba escuros."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      128,
+      154,
+      191,
+      191
+    ],
+    "colors": {
+      "#fbfafa": "#8297ad",
+      "#f3eeeb": "#788ca4",
+      "#e5dbcb": "#617b98",
+      "#d4c8b7": "#5b718c",
+      "#cabdad": "#526780",
+      "#beb2a1": "#465970",
+      "#aa9c8a": "#3d4e65",
+      "#98918b": "#3d4e65",
+      "#82776d": "#3d4e65",
+      "#73665d": "#39485b"
+    },
+    "reason": "Camisa indigo."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      128,
+      155,
+      191,
+      166
+    ],
+    "colors": {
+      "#53351e": "#674032",
+      "#674025": "#804737",
+      "#784b2a": "#98513c",
+      "#8a562f": "#af6548"
+    },
+    "reason": "Avental ferrugem."
+  },
+  {
+    "operation": "patch_pixels",
+    "frames": [
+      1
+    ],
+    "pixels": [
+      [
+        158,
+        143,
+        "#705c5d",
+        "#b5b1a6"
+      ],
+      [
+        158,
+        144,
+        "#705c5d",
+        "#d2cbb9"
+      ],
+      [
+        157,
+        145,
+        "#705c5d",
+        "#a4a49e"
+      ]
+    ],
+    "reason": "Mecha grisalha acompanha a cabeca."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      192,
+      141,
+      255,
+      154
+    ],
+    "colors": {
+      "#4f3e38": "#453e43",
+      "#6a4d40": "#51464b",
+      "#805847": "#605054",
+      "#98684b": "#705c5d",
+      "#a87658": "#826e69"
+    },
+    "reason": "Cabelo curto e barba escuros."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      192,
+      154,
+      255,
+      191
+    ],
+    "colors": {
+      "#fbfafa": "#8297ad",
+      "#f3eeeb": "#788ca4",
+      "#e5dbcb": "#617b98",
+      "#d4c8b7": "#5b718c",
+      "#cabdad": "#526780",
+      "#beb2a1": "#465970",
+      "#aa9c8a": "#3d4e65",
+      "#98918b": "#3d4e65",
+      "#82776d": "#3d4e65",
+      "#73665d": "#39485b"
+    },
+    "reason": "Camisa indigo."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      192,
+      155,
+      255,
+      166
+    ],
+    "colors": {
+      "#53351e": "#674032",
+      "#674025": "#804737",
+      "#784b2a": "#98513c",
+      "#8a562f": "#af6548"
+    },
+    "reason": "Avental ferrugem."
+  },
+  {
+    "operation": "patch_pixels",
+    "frames": [
+      1
+    ],
+    "pixels": [
+      [
+        222,
+        143,
+        "#705c5d",
+        "#b5b1a6"
+      ],
+      [
+        222,
+        144,
+        "#705c5d",
+        "#d2cbb9"
+      ],
+      [
+        221,
+        145,
+        "#705c5d",
+        "#a4a49e"
+      ]
+    ],
+    "reason": "Mecha grisalha acompanha a cabeca."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      256,
+      141,
+      319,
+      154
+    ],
+    "colors": {
+      "#4f3e38": "#453e43",
+      "#6a4d40": "#51464b",
+      "#805847": "#605054",
+      "#98684b": "#705c5d",
+      "#a87658": "#826e69"
+    },
+    "reason": "Cabelo curto e barba escuros."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      256,
+      154,
+      319,
+      191
+    ],
+    "colors": {
+      "#fbfafa": "#8297ad",
+      "#f3eeeb": "#788ca4",
+      "#e5dbcb": "#617b98",
+      "#d4c8b7": "#5b718c",
+      "#cabdad": "#526780",
+      "#beb2a1": "#465970",
+      "#aa9c8a": "#3d4e65",
+      "#98918b": "#3d4e65",
+      "#82776d": "#3d4e65",
+      "#73665d": "#39485b"
+    },
+    "reason": "Camisa indigo."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      256,
+      155,
+      319,
+      166
+    ],
+    "colors": {
+      "#53351e": "#674032",
+      "#674025": "#804737",
+      "#784b2a": "#98513c",
+      "#8a562f": "#af6548"
+    },
+    "reason": "Avental ferrugem."
+  },
+  {
+    "operation": "patch_pixels",
+    "frames": [
+      1
+    ],
+    "pixels": [
+      [
+        286,
+        143,
+        "#705c5d",
+        "#b5b1a6"
+      ],
+      [
+        286,
+        144,
+        "#705c5d",
+        "#d2cbb9"
+      ],
+      [
+        285,
+        145,
+        "#705c5d",
+        "#a4a49e"
+      ]
+    ],
+    "reason": "Mecha grisalha acompanha a cabeca."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      320,
+      141,
+      383,
+      154
+    ],
+    "colors": {
+      "#4f3e38": "#453e43",
+      "#6a4d40": "#51464b",
+      "#805847": "#605054",
+      "#98684b": "#705c5d",
+      "#a87658": "#826e69"
+    },
+    "reason": "Cabelo curto e barba escuros."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      320,
+      154,
+      383,
+      191
+    ],
+    "colors": {
+      "#fbfafa": "#8297ad",
+      "#f3eeeb": "#788ca4",
+      "#e5dbcb": "#617b98",
+      "#d4c8b7": "#5b718c",
+      "#cabdad": "#526780",
+      "#beb2a1": "#465970",
+      "#aa9c8a": "#3d4e65",
+      "#98918b": "#3d4e65",
+      "#82776d": "#3d4e65",
+      "#73665d": "#39485b"
+    },
+    "reason": "Camisa indigo."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      320,
+      155,
+      383,
+      166
+    ],
+    "colors": {
+      "#53351e": "#674032",
+      "#674025": "#804737",
+      "#784b2a": "#98513c",
+      "#8a562f": "#af6548"
+    },
+    "reason": "Avental ferrugem."
+  },
+  {
+    "operation": "patch_pixels",
+    "frames": [
+      1
+    ],
+    "pixels": [
+      [
+        350,
+        143,
+        "#705c5d",
+        "#b5b1a6"
+      ],
+      [
+        350,
+        144,
+        "#705c5d",
+        "#d2cbb9"
+      ],
+      [
+        349,
+        145,
+        "#705c5d",
+        "#a4a49e"
+      ]
+    ],
+    "reason": "Mecha grisalha acompanha a cabeca."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      384,
+      141,
+      447,
+      154
+    ],
+    "colors": {
+      "#4f3e38": "#453e43",
+      "#6a4d40": "#51464b",
+      "#805847": "#605054",
+      "#98684b": "#705c5d",
+      "#a87658": "#826e69"
+    },
+    "reason": "Cabelo curto e barba escuros."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      384,
+      154,
+      447,
+      191
+    ],
+    "colors": {
+      "#fbfafa": "#8297ad",
+      "#f3eeeb": "#788ca4",
+      "#e5dbcb": "#617b98",
+      "#d4c8b7": "#5b718c",
+      "#cabdad": "#526780",
+      "#beb2a1": "#465970",
+      "#aa9c8a": "#3d4e65",
+      "#98918b": "#3d4e65",
+      "#82776d": "#3d4e65",
+      "#73665d": "#39485b"
+    },
+    "reason": "Camisa indigo."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      384,
+      155,
+      447,
+      166
+    ],
+    "colors": {
+      "#53351e": "#674032",
+      "#674025": "#804737",
+      "#784b2a": "#98513c",
+      "#8a562f": "#af6548"
+    },
+    "reason": "Avental ferrugem."
+  },
+  {
+    "operation": "patch_pixels",
+    "frames": [
+      1
+    ],
+    "pixels": [
+      [
+        414,
+        143,
+        "#705c5d",
+        "#b5b1a6"
+      ],
+      [
+        414,
+        144,
+        "#705c5d",
+        "#d2cbb9"
+      ],
+      [
+        413,
+        145,
+        "#705c5d",
+        "#a4a49e"
+      ]
+    ],
+    "reason": "Mecha grisalha acompanha a cabeca."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      0,
+      206,
+      63,
+      219
+    ],
+    "colors": {
+      "#4f3e38": "#453e43",
+      "#6a4d40": "#51464b",
+      "#805847": "#605054",
+      "#98684b": "#705c5d",
+      "#a87658": "#826e69"
+    },
+    "reason": "Cabelo curto e barba escuros."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      0,
+      219,
+      63,
+      255
+    ],
+    "colors": {
+      "#fbfafa": "#8297ad",
+      "#f3eeeb": "#788ca4",
+      "#e5dbcb": "#617b98",
+      "#d4c8b7": "#5b718c",
+      "#cabdad": "#526780",
+      "#beb2a1": "#465970",
+      "#aa9c8a": "#3d4e65",
+      "#98918b": "#3d4e65",
+      "#82776d": "#3d4e65",
+      "#73665d": "#39485b"
+    },
+    "reason": "Camisa indigo."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      0,
+      220,
+      63,
+      231
+    ],
+    "colors": {
+      "#53351e": "#674032",
+      "#674025": "#804737",
+      "#784b2a": "#98513c",
+      "#8a562f": "#af6548"
+    },
+    "reason": "Avental ferrugem."
+  },
+  {
+    "operation": "patch_pixels",
+    "frames": [
+      1
+    ],
+    "pixels": [
+      [
+        32,
+        208,
+        "#705c5d",
+        "#b5b1a6"
+      ],
+      [
+        32,
+        209,
+        "#51464b",
+        "#d2cbb9"
+      ],
+      [
+        33,
+        210,
+        "#705c5d",
+        "#a4a49e"
+      ]
+    ],
+    "reason": "Mecha grisalha acompanha a cabeca."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      64,
+      206,
+      127,
+      219
+    ],
+    "colors": {
+      "#4f3e38": "#453e43",
+      "#6a4d40": "#51464b",
+      "#805847": "#605054",
+      "#98684b": "#705c5d",
+      "#a87658": "#826e69"
+    },
+    "reason": "Cabelo curto e barba escuros."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      64,
+      219,
+      127,
+      255
+    ],
+    "colors": {
+      "#fbfafa": "#8297ad",
+      "#f3eeeb": "#788ca4",
+      "#e5dbcb": "#617b98",
+      "#d4c8b7": "#5b718c",
+      "#cabdad": "#526780",
+      "#beb2a1": "#465970",
+      "#aa9c8a": "#3d4e65",
+      "#98918b": "#3d4e65",
+      "#82776d": "#3d4e65",
+      "#73665d": "#39485b"
+    },
+    "reason": "Camisa indigo."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      64,
+      220,
+      127,
+      231
+    ],
+    "colors": {
+      "#53351e": "#674032",
+      "#674025": "#804737",
+      "#784b2a": "#98513c",
+      "#8a562f": "#af6548"
+    },
+    "reason": "Avental ferrugem."
+  },
+  {
+    "operation": "patch_pixels",
+    "frames": [
+      1
+    ],
+    "pixels": [
+      [
+        95,
+        208,
+        "#705c5d",
+        "#b5b1a6"
+      ],
+      [
+        95,
+        209,
+        "#51464b",
+        "#d2cbb9"
+      ],
+      [
+        96,
+        210,
+        "#705c5d",
+        "#a4a49e"
+      ]
+    ],
+    "reason": "Mecha grisalha acompanha a cabeca."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      128,
+      206,
+      191,
+      219
+    ],
+    "colors": {
+      "#4f3e38": "#453e43",
+      "#6a4d40": "#51464b",
+      "#805847": "#605054",
+      "#98684b": "#705c5d",
+      "#a87658": "#826e69"
+    },
+    "reason": "Cabelo curto e barba escuros."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      128,
+      219,
+      191,
+      255
+    ],
+    "colors": {
+      "#fbfafa": "#8297ad",
+      "#f3eeeb": "#788ca4",
+      "#e5dbcb": "#617b98",
+      "#d4c8b7": "#5b718c",
+      "#cabdad": "#526780",
+      "#beb2a1": "#465970",
+      "#aa9c8a": "#3d4e65",
+      "#98918b": "#3d4e65",
+      "#82776d": "#3d4e65",
+      "#73665d": "#39485b"
+    },
+    "reason": "Camisa indigo."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      128,
+      220,
+      191,
+      231
+    ],
+    "colors": {
+      "#53351e": "#674032",
+      "#674025": "#804737",
+      "#784b2a": "#98513c",
+      "#8a562f": "#af6548"
+    },
+    "reason": "Avental ferrugem."
+  },
+  {
+    "operation": "patch_pixels",
+    "frames": [
+      1
+    ],
+    "pixels": [
+      [
+        159,
+        208,
+        "#705c5d",
+        "#b5b1a6"
+      ],
+      [
+        159,
+        209,
+        "#51464b",
+        "#d2cbb9"
+      ],
+      [
+        160,
+        210,
+        "#705c5d",
+        "#a4a49e"
+      ]
+    ],
+    "reason": "Mecha grisalha acompanha a cabeca."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      192,
+      206,
+      255,
+      219
+    ],
+    "colors": {
+      "#4f3e38": "#453e43",
+      "#6a4d40": "#51464b",
+      "#805847": "#605054",
+      "#98684b": "#705c5d",
+      "#a87658": "#826e69"
+    },
+    "reason": "Cabelo curto e barba escuros."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      192,
+      219,
+      255,
+      255
+    ],
+    "colors": {
+      "#fbfafa": "#8297ad",
+      "#f3eeeb": "#788ca4",
+      "#e5dbcb": "#617b98",
+      "#d4c8b7": "#5b718c",
+      "#cabdad": "#526780",
+      "#beb2a1": "#465970",
+      "#aa9c8a": "#3d4e65",
+      "#98918b": "#3d4e65",
+      "#82776d": "#3d4e65",
+      "#73665d": "#39485b"
+    },
+    "reason": "Camisa indigo."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      192,
+      220,
+      255,
+      231
+    ],
+    "colors": {
+      "#53351e": "#674032",
+      "#674025": "#804737",
+      "#784b2a": "#98513c",
+      "#8a562f": "#af6548"
+    },
+    "reason": "Avental ferrugem."
+  },
+  {
+    "operation": "patch_pixels",
+    "frames": [
+      1
+    ],
+    "pixels": [
+      [
+        223,
+        208,
+        "#705c5d",
+        "#b5b1a6"
+      ],
+      [
+        223,
+        209,
+        "#51464b",
+        "#d2cbb9"
+      ],
+      [
+        224,
+        210,
+        "#705c5d",
+        "#a4a49e"
+      ]
+    ],
+    "reason": "Mecha grisalha acompanha a cabeca."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      256,
+      206,
+      319,
+      219
+    ],
+    "colors": {
+      "#4f3e38": "#453e43",
+      "#6a4d40": "#51464b",
+      "#805847": "#605054",
+      "#98684b": "#705c5d",
+      "#a87658": "#826e69"
+    },
+    "reason": "Cabelo curto e barba escuros."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      256,
+      219,
+      319,
+      255
+    ],
+    "colors": {
+      "#fbfafa": "#8297ad",
+      "#f3eeeb": "#788ca4",
+      "#e5dbcb": "#617b98",
+      "#d4c8b7": "#5b718c",
+      "#cabdad": "#526780",
+      "#beb2a1": "#465970",
+      "#aa9c8a": "#3d4e65",
+      "#98918b": "#3d4e65",
+      "#82776d": "#3d4e65",
+      "#73665d": "#39485b"
+    },
+    "reason": "Camisa indigo."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      256,
+      220,
+      319,
+      231
+    ],
+    "colors": {
+      "#53351e": "#674032",
+      "#674025": "#804737",
+      "#784b2a": "#98513c",
+      "#8a562f": "#af6548"
+    },
+    "reason": "Avental ferrugem."
+  },
+  {
+    "operation": "patch_pixels",
+    "frames": [
+      1
+    ],
+    "pixels": [
+      [
+        287,
+        208,
+        "#705c5d",
+        "#b5b1a6"
+      ],
+      [
+        287,
+        209,
+        "#51464b",
+        "#d2cbb9"
+      ],
+      [
+        288,
+        210,
+        "#705c5d",
+        "#a4a49e"
+      ]
+    ],
+    "reason": "Mecha grisalha acompanha a cabeca."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      320,
+      206,
+      383,
+      219
+    ],
+    "colors": {
+      "#4f3e38": "#453e43",
+      "#6a4d40": "#51464b",
+      "#805847": "#605054",
+      "#98684b": "#705c5d",
+      "#a87658": "#826e69"
+    },
+    "reason": "Cabelo curto e barba escuros."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      320,
+      219,
+      383,
+      255
+    ],
+    "colors": {
+      "#fbfafa": "#8297ad",
+      "#f3eeeb": "#788ca4",
+      "#e5dbcb": "#617b98",
+      "#d4c8b7": "#5b718c",
+      "#cabdad": "#526780",
+      "#beb2a1": "#465970",
+      "#aa9c8a": "#3d4e65",
+      "#98918b": "#3d4e65",
+      "#82776d": "#3d4e65",
+      "#73665d": "#39485b"
+    },
+    "reason": "Camisa indigo."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      320,
+      220,
+      383,
+      231
+    ],
+    "colors": {
+      "#53351e": "#674032",
+      "#674025": "#804737",
+      "#784b2a": "#98513c",
+      "#8a562f": "#af6548"
+    },
+    "reason": "Avental ferrugem."
+  },
+  {
+    "operation": "patch_pixels",
+    "frames": [
+      1
+    ],
+    "pixels": [
+      [
+        351,
+        208,
+        "#705c5d",
+        "#b5b1a6"
+      ],
+      [
+        351,
+        209,
+        "#51464b",
+        "#d2cbb9"
+      ],
+      [
+        352,
+        210,
+        "#705c5d",
+        "#a4a49e"
+      ]
+    ],
+    "reason": "Mecha grisalha acompanha a cabeca."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      384,
+      206,
+      447,
+      219
+    ],
+    "colors": {
+      "#4f3e38": "#453e43",
+      "#6a4d40": "#51464b",
+      "#805847": "#605054",
+      "#98684b": "#705c5d",
+      "#a87658": "#826e69"
+    },
+    "reason": "Cabelo curto e barba escuros."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      384,
+      219,
+      447,
+      255
+    ],
+    "colors": {
+      "#fbfafa": "#8297ad",
+      "#f3eeeb": "#788ca4",
+      "#e5dbcb": "#617b98",
+      "#d4c8b7": "#5b718c",
+      "#cabdad": "#526780",
+      "#beb2a1": "#465970",
+      "#aa9c8a": "#3d4e65",
+      "#98918b": "#3d4e65",
+      "#82776d": "#3d4e65",
+      "#73665d": "#39485b"
+    },
+    "reason": "Camisa indigo."
+  },
+  {
+    "operation": "map_colors",
+    "frames": [
+      1
+    ],
+    "region": [
+      384,
+      220,
+      447,
+      231
+    ],
+    "colors": {
+      "#53351e": "#674032",
+      "#674025": "#804737",
+      "#784b2a": "#98513c",
+      "#8a562f": "#af6548"
+    },
+    "reason": "Avental ferrugem."
+  },
+  {
+    "operation": "patch_pixels",
+    "frames": [
+      1
+    ],
+    "pixels": [
+      [
+        415,
+        208,
+        "#705c5d",
+        "#b5b1a6"
+      ],
+      [
+        415,
+        209,
+        "#51464b",
+        "#d2cbb9"
+      ],
+      [
+        416,
+        210,
+        "#705c5d",
+        "#a4a49e"
+      ]
+    ],
+    "reason": "Mecha grisalha acompanha a cabeca."
+  }
+]

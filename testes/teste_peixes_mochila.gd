@@ -87,7 +87,7 @@ func _rodar() -> void:
 	for casa in ui._telas["inventario"]._slots_mochila:
 		if casa.item_atual != null and casa.item_atual.categoria=="peixe" and casa.item_atual.qualidade==2: slot=casa
 	var dica: Control = slot.item_ui().tooltip_do_item() if slot != null else null
-	verificar("peixe com qualidade usa estrela nativa e tooltip do item",slot != null and slot.item_ui()._estrela_qualidade.visible and dica.get_child(1).text.contains("OURO"))
+	verificar("peixe com qualidade usa estrela nativa e tooltip do item",slot != null and slot.item_ui()._estrela_qualidade.visible and dica.find_children("*","Label",true,false).any(func(rotulo): return rotulo.text.contains("OURO")))
 	if dica != null: dica.free()
 	print("FALHAS: ",falhas)
 	quit(1 if falhas else 0)

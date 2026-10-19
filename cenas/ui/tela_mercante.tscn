@@ -1,30 +1,31 @@
-[gd_scene load_steps=16 format=3]
+[gd_scene load_steps=17 format=3]
 
 [ext_resource type="Script" path="res://codigo/ui/tela_mercante.gd" id="1_script"]
 [ext_resource type="Theme" path="res://recursos/ui/tema_sidebar.tres" id="2_tema"]
-[ext_resource type="Texture2D" path="res://assets/ui/craftpix-net-420010-pixel-game-user-interface-for-platformer/1 Interface/TileMap.png" id="3_tilemap"]
+[ext_resource type="Texture2D" path="res://assets/ui/bosque/painel.png" id="3_tilemap"]
 [ext_resource type="FontFile" path="res://assets/ui/craftpix-net-775352-game-user-interface-pixel-art/6 Font/CraftPixNet Survival Kit.otf" id="4_fonte_titulo"]
 [ext_resource type="Texture2D" path="res://assets/ui/sem org/3 Icons/Icons_37.png" id="5_icone_fechar"]
 [ext_resource type="Texture2D" uid="uid://cqxopks5b2xfq" path="res://assets/ui/icons-coin/32x32/3.png" id="9_moeda"]
 [ext_resource type="PackedScene" path="res://cenas/slot.tscn" id="10_slot"]
 
+[ext_resource type="Script" path="res://codigo/ui/layout_flex.gd" id="layout_flex"]
+
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_moldura"]
-content_margin_left = 8.0
-content_margin_top = 1.0
-content_margin_right = 8.0
-content_margin_bottom = 8.0
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
 texture = ExtResource("3_tilemap")
-texture_margin_left = 16.0
-texture_margin_top = 16.0
-texture_margin_right = 16.0
-texture_margin_bottom = 16.0
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
 axis_stretch_horizontal = 2
 axis_stretch_vertical = 2
-region_rect = Rect2(96, 64, 48, 48)
 
 [sub_resource type="LabelSettings" id="LabelSettings_titulo"]
 font = ExtResource("4_fonte_titulo")
-font_color = Color(0.13, 0.12, 0.18, 1)
+font_color = Color(0.93, 0.85, 0.68, 1)
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_abas"]
 
@@ -52,47 +53,47 @@ theme_override_styles/panel = SubResource("StyleBoxTexture_moldura")
 layout_mode = 2
 theme_override_constants/separation = 6
 
-[node name="Cabecalho" type="Control" parent="Painel/Linhas"]
-custom_minimum_size = Vector2(0, 14)
+[node name="Cabecalho" type="HBoxContainer" parent="Painel/Linhas"]
+custom_minimum_size = Vector2(0, 28)
 layout_mode = 2
 mouse_filter = 2
 
 [node name="Titulo" type="Label" parent="Painel/Linhas/Cabecalho"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
 text = "FERREIRO"
 label_settings = SubResource("LabelSettings_titulo")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="BotaoFechar" type="TextureButton" parent="Painel/Linhas/Cabecalho"]
-unique_name_in_owner = true
-modulate = Color(0.13, 0.12, 0.18, 1)
-layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -10.0
-offset_top = -5.0
-offset_bottom = 5.0
-grow_horizontal = 0
-grow_vertical = 2
-texture_normal = ExtResource("5_icone_fechar")
-ignore_texture_size = true
-stretch_mode = 5
+size_flags_horizontal = 3
+autowrap_mode = 2
 
-[node name="Abas" type="HFlowContainer" parent="Painel/Linhas"]
+[node name="BotaoFechar" type="Button" parent="Painel/Linhas/Cabecalho"]
+layout_mode = 2
+unique_name_in_owner = true
+
+custom_minimum_size = Vector2(28, 28)
+
+text = "X"
+
+[node name="Rolagem" type="ScrollContainer" parent="Painel/Linhas"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+follow_focus = true
+
+[node name="Conteudo" type="VBoxContainer" parent="Painel/Linhas/Rolagem"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+
+[node name="Abas" type="GridContainer" parent="Painel/Linhas/Rolagem/Conteudo"]
 layout_mode = 2
 theme_override_constants/h_separation = 2
 theme_override_constants/v_separation = 2
+columns = 2
 
-[node name="AbaEncantar" type="Button" parent="Painel/Linhas/Abas"]
+[node name="AbaEncantar" type="Button" parent="Painel/Linhas/Rolagem/Conteudo/Abas"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -102,7 +103,7 @@ button_pressed = true
 button_group = SubResource("ButtonGroup_abas")
 text = "ENCANTAR"
 
-[node name="AbaLoja" type="Button" parent="Painel/Linhas/Abas"]
+[node name="AbaLoja" type="Button" parent="Painel/Linhas/Rolagem/Conteudo/Abas"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -111,7 +112,7 @@ toggle_mode = true
 button_group = SubResource("ButtonGroup_abas")
 text = "LOJA"
 
-[node name="AbaBigorna" type="Button" parent="Painel/Linhas/Abas"]
+[node name="AbaBigorna" type="Button" parent="Painel/Linhas/Rolagem/Conteudo/Abas"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -120,7 +121,7 @@ toggle_mode = true
 button_group = SubResource("ButtonGroup_abas")
 text = "BIGORNA"
 
-[node name="AbaVender" type="Button" parent="Painel/Linhas/Abas"]
+[node name="AbaVender" type="Button" parent="Painel/Linhas/Rolagem/Conteudo/Abas"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -129,12 +130,12 @@ toggle_mode = true
 button_group = SubResource("ButtonGroup_abas")
 text = "VENDER"
 
-[node name="Conteudo" type="Control" parent="Painel/Linhas"]
+[node name="Conteudo" type="VBoxContainer" parent="Painel/Linhas/Rolagem/Conteudo"]
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
 
-[node name="Encantar" type="VBoxContainer" parent="Painel/Linhas/Conteudo"]
+[node name="Encantar" type="VBoxContainer" parent="Painel/Linhas/Rolagem/Conteudo/Conteudo"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
@@ -144,16 +145,16 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 5
 
-[node name="CentroSlot" type="CenterContainer" parent="Painel/Linhas/Conteudo/Encantar"]
+[node name="CentroSlot" type="CenterContainer" parent="Painel/Linhas/Rolagem/Conteudo/Conteudo/Encantar"]
 custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
 
-[node name="SlotEncantar" parent="Painel/Linhas/Conteudo/Encantar/CentroSlot" instance=ExtResource("10_slot")]
+[node name="SlotEncantar" parent="Painel/Linhas/Rolagem/Conteudo/Conteudo/Encantar/CentroSlot" instance=ExtResource("10_slot")]
 unique_name_in_owner = true
 layout_mode = 2
 tipos_aceitos = Array[String](["espada_basica", "espada_gemea", "machado", "maca", "arco_curto", "arco_curvo", "arco_longo", "lanca_basica"])
 
-[node name="RotuloArrasteEncantar" type="Label" parent="Painel/Linhas/Conteudo/Encantar"]
+[node name="RotuloArrasteEncantar" type="Label" parent="Painel/Linhas/Rolagem/Conteudo/Conteudo/Encantar"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
@@ -161,26 +162,26 @@ text = "ARRASTE UMA ESPADA OU LANCA DO INVENTARIO PARA ENCANTAR"
 horizontal_alignment = 1
 autowrap_mode = 2
 
-[node name="InfoEncantar" type="VBoxContainer" parent="Painel/Linhas/Conteudo/Encantar"]
+[node name="InfoEncantar" type="VBoxContainer" parent="Painel/Linhas/Rolagem/Conteudo/Conteudo/Encantar"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="EncantamentoAtual" type="Label" parent="Painel/Linhas/Conteudo/Encantar/InfoEncantar"]
+[node name="EncantamentoAtual" type="Label" parent="Painel/Linhas/Rolagem/Conteudo/Conteudo/Encantar/InfoEncantar"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "SEM ENCANTAMENTO"
 horizontal_alignment = 1
 
-[node name="Opcoes" type="GridContainer" parent="Painel/Linhas/Conteudo/Encantar/InfoEncantar"]
+[node name="Opcoes" type="GridContainer" parent="Painel/Linhas/Rolagem/Conteudo/Conteudo/Encantar/InfoEncantar"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/h_separation = 3
 theme_override_constants/v_separation = 3
 columns = 2
 
-[node name="DescricaoEncantamento" type="Label" parent="Painel/Linhas/Conteudo/Encantar/InfoEncantar"]
+[node name="DescricaoEncantamento" type="Label" parent="Painel/Linhas/Rolagem/Conteudo/Conteudo/Encantar/InfoEncantar"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
@@ -188,19 +189,19 @@ text = "ESCOLHA UM ELEMENTO"
 horizontal_alignment = 1
 autowrap_mode = 2
 
-[node name="CustoEncantamento" type="Label" parent="Painel/Linhas/Conteudo/Encantar/InfoEncantar"]
+[node name="CustoEncantamento" type="Label" parent="Painel/Linhas/Rolagem/Conteudo/Conteudo/Encantar/InfoEncantar"]
 unique_name_in_owner = true
 layout_mode = 2
 horizontal_alignment = 1
 
-[node name="BotaoEncantar" type="Button" parent="Painel/Linhas/Conteudo/Encantar/InfoEncantar"]
+[node name="BotaoEncantar" type="Button" parent="Painel/Linhas/Rolagem/Conteudo/Conteudo/Encantar/InfoEncantar"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 text = "ENCANTAR"
 
-[node name="Loja" type="VBoxContainer" parent="Painel/Linhas/Conteudo"]
+[node name="Loja" type="VBoxContainer" parent="Painel/Linhas/Rolagem/Conteudo/Conteudo"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 1
@@ -211,7 +212,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 6
 
-[node name="GradeItens" type="GridContainer" parent="Painel/Linhas/Conteudo/Loja"]
+[node name="GradeItens" type="GridContainer" parent="Painel/Linhas/Rolagem/Conteudo/Conteudo/Loja"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
@@ -219,20 +220,20 @@ theme_override_constants/h_separation = 2
 theme_override_constants/v_separation = 3
 columns = 5
 
-[node name="Detalhe" type="VBoxContainer" parent="Painel/Linhas/Conteudo/Loja"]
+[node name="Detalhe" type="VBoxContainer" parent="Painel/Linhas/Rolagem/Conteudo/Conteudo/Loja"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="NomeItem" type="Label" parent="Painel/Linhas/Conteudo/Loja/Detalhe"]
+[node name="NomeItem" type="Label" parent="Painel/Linhas/Rolagem/Conteudo/Conteudo/Loja/Detalhe"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.85, 0.45, 1)
 text = "NOME"
 horizontal_alignment = 1
 
-[node name="DescricaoItem" type="Label" parent="Painel/Linhas/Conteudo/Loja/Detalhe"]
+[node name="DescricaoItem" type="Label" parent="Painel/Linhas/Rolagem/Conteudo/Conteudo/Loja/Detalhe"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
@@ -240,11 +241,11 @@ text = "DESCRICAO"
 horizontal_alignment = 1
 autowrap_mode = 2
 
-[node name="LinhaPreco" type="HBoxContainer" parent="Painel/Linhas/Conteudo/Loja/Detalhe"]
+[node name="LinhaPreco" type="HBoxContainer" parent="Painel/Linhas/Rolagem/Conteudo/Conteudo/Loja/Detalhe"]
 layout_mode = 2
 alignment = 1
 
-[node name="IconeMoeda" type="TextureRect" parent="Painel/Linhas/Conteudo/Loja/Detalhe/LinhaPreco"]
+[node name="IconeMoeda" type="TextureRect" parent="Painel/Linhas/Rolagem/Conteudo/Conteudo/Loja/Detalhe/LinhaPreco"]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 size_flags_vertical = 4
@@ -252,19 +253,19 @@ texture = ExtResource("9_moeda")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="PrecoItem" type="Label" parent="Painel/Linhas/Conteudo/Loja/Detalhe/LinhaPreco"]
+[node name="PrecoItem" type="Label" parent="Painel/Linhas/Rolagem/Conteudo/Conteudo/Loja/Detalhe/LinhaPreco"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "0"
 
-[node name="BotaoComprar" type="Button" parent="Painel/Linhas/Conteudo/Loja/Detalhe"]
+[node name="BotaoComprar" type="Button" parent="Painel/Linhas/Rolagem/Conteudo/Conteudo/Loja/Detalhe"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 custom_minimum_size = Vector2(80, 0)
 text = "COMPRAR"
 
-[node name="Bigorna" type="VBoxContainer" parent="Painel/Linhas/Conteudo"]
+[node name="Bigorna" type="VBoxContainer" parent="Painel/Linhas/Rolagem/Conteudo/Conteudo"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 1
@@ -275,19 +276,19 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 6
 
-[node name="MolduraSlot" type="CenterContainer" parent="Painel/Linhas/Conteudo/Bigorna"]
+[node name="MolduraSlot" type="CenterContainer" parent="Painel/Linhas/Rolagem/Conteudo/Conteudo/Bigorna"]
 custom_minimum_size = Vector2(28, 28)
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="SlotBigorna" parent="Painel/Linhas/Conteudo/Bigorna/MolduraSlot" instance=ExtResource("10_slot")]
+[node name="SlotBigorna" parent="Painel/Linhas/Rolagem/Conteudo/Conteudo/Bigorna/MolduraSlot" instance=ExtResource("10_slot")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 tipos_aceitos = Array[String](["espada_basica", "espada_gemea", "machado", "maca", "arco_curto", "arco_curvo", "arco_longo", "lanca_basica", "escudo_basico"])
 
-[node name="RotuloArraste" type="Label" parent="Painel/Linhas/Conteudo/Bigorna"]
+[node name="RotuloArraste" type="Label" parent="Painel/Linhas/Rolagem/Conteudo/Conteudo/Bigorna"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
@@ -295,13 +296,13 @@ text = "ARRASTE UMA ARMA DO INVENTARIO PARA A BIGORNA"
 horizontal_alignment = 1
 autowrap_mode = 2
 
-[node name="InfoUpgrade" type="VBoxContainer" parent="Painel/Linhas/Conteudo/Bigorna"]
+[node name="InfoUpgrade" type="VBoxContainer" parent="Painel/Linhas/Rolagem/Conteudo/Conteudo/Bigorna"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 theme_override_constants/separation = 3
 
-[node name="TituloUpgrade" type="Label" parent="Painel/Linhas/Conteudo/Bigorna/InfoUpgrade"]
+[node name="TituloUpgrade" type="Label" parent="Painel/Linhas/Rolagem/Conteudo/Conteudo/Bigorna/InfoUpgrade"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
@@ -310,7 +311,7 @@ text = "ESPADA NV 1 > 2"
 horizontal_alignment = 1
 autowrap_mode = 2
 
-[node name="AtributosUpgrade" type="Label" parent="Painel/Linhas/Conteudo/Bigorna/InfoUpgrade"]
+[node name="AtributosUpgrade" type="Label" parent="Painel/Linhas/Rolagem/Conteudo/Conteudo/Bigorna/InfoUpgrade"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
@@ -318,7 +319,7 @@ text = "DANO 1 > 2"
 horizontal_alignment = 1
 autowrap_mode = 2
 
-[node name="RequisitosUpgrade" type="Label" parent="Painel/Linhas/Conteudo/Bigorna/InfoUpgrade"]
+[node name="RequisitosUpgrade" type="Label" parent="Painel/Linhas/Rolagem/Conteudo/Conteudo/Bigorna/InfoUpgrade"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
@@ -326,7 +327,7 @@ text = "CUSTO 0 MOEDAS"
 horizontal_alignment = 1
 autowrap_mode = 2
 
-[node name="BloqueioUpgrade" type="Label" parent="Painel/Linhas/Conteudo/Bigorna/InfoUpgrade"]
+[node name="BloqueioUpgrade" type="Label" parent="Painel/Linhas/Rolagem/Conteudo/Conteudo/Bigorna/InfoUpgrade"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
@@ -335,14 +336,14 @@ text = "LIBERA NA ONDA 8"
 horizontal_alignment = 1
 autowrap_mode = 2
 
-[node name="BotaoMelhorar" type="Button" parent="Painel/Linhas/Conteudo/Bigorna"]
+[node name="BotaoMelhorar" type="Button" parent="Painel/Linhas/Rolagem/Conteudo/Conteudo/Bigorna"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 text = "MELHORAR"
 
-[node name="Vender" type="VBoxContainer" parent="Painel/Linhas/Conteudo"]
+[node name="Vender" type="VBoxContainer" parent="Painel/Linhas/Rolagem/Conteudo/Conteudo"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 1
@@ -353,12 +354,12 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 6
 
-[node name="MolduraSlotVenda" type="CenterContainer" parent="Painel/Linhas/Conteudo/Vender"]
+[node name="MolduraSlotVenda" type="CenterContainer" parent="Painel/Linhas/Rolagem/Conteudo/Conteudo/Vender"]
 custom_minimum_size = Vector2(28, 28)
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="SlotVenda" parent="Painel/Linhas/Conteudo/Vender/MolduraSlotVenda" instance=ExtResource("10_slot")]
+[node name="SlotVenda" parent="Painel/Linhas/Rolagem/Conteudo/Conteudo/Vender/MolduraSlotVenda" instance=ExtResource("10_slot")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
@@ -366,7 +367,7 @@ size_flags_vertical = 4
 tipos_aceitos = Array[String](["espada_basica", "espada_gemea", "machado", "maca", "arco_curto", "arco_curvo", "arco_longo", "lanca_basica", "escudo_basico"])
 somente_mochila = true
 
-[node name="RotuloVender" type="Label" parent="Painel/Linhas/Conteudo/Vender"]
+[node name="RotuloVender" type="Label" parent="Painel/Linhas/Rolagem/Conteudo/Conteudo/Vender"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
@@ -374,19 +375,19 @@ text = "ARRASTE UMA ARMA DA MOCHILA PARA VENDER"
 horizontal_alignment = 1
 autowrap_mode = 2
 
-[node name="InfoVenda" type="VBoxContainer" parent="Painel/Linhas/Conteudo/Vender"]
+[node name="InfoVenda" type="VBoxContainer" parent="Painel/Linhas/Rolagem/Conteudo/Conteudo/Vender"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 theme_override_constants/separation = 3
 
-[node name="TituloVenda" type="Label" parent="Painel/Linhas/Conteudo/Vender/InfoVenda"]
+[node name="TituloVenda" type="Label" parent="Painel/Linhas/Rolagem/Conteudo/Conteudo/Vender/InfoVenda"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "ESPADA NV 1"
 horizontal_alignment = 1
 
-[node name="DetalheVenda" type="Label" parent="Painel/Linhas/Conteudo/Vender/InfoVenda"]
+[node name="DetalheVenda" type="Label" parent="Painel/Linhas/Rolagem/Conteudo/Conteudo/Vender/InfoVenda"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
@@ -394,28 +395,28 @@ text = "RARO"
 horizontal_alignment = 1
 autowrap_mode = 2
 
-[node name="ValorVenda" type="Label" parent="Painel/Linhas/Conteudo/Vender/InfoVenda"]
+[node name="ValorVenda" type="Label" parent="Painel/Linhas/Rolagem/Conteudo/Conteudo/Vender/InfoVenda"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "VALE 0 MOEDAS"
 horizontal_alignment = 1
 
-[node name="BotaoVender" type="Button" parent="Painel/Linhas/Conteudo/Vender"]
+[node name="BotaoVender" type="Button" parent="Painel/Linhas/Rolagem/Conteudo/Conteudo/Vender"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 text = "VENDER"
 
-[node name="Rodape" type="VBoxContainer" parent="Painel/Linhas"]
+[node name="Rodape" type="VBoxContainer" parent="Painel/Linhas/Rolagem/Conteudo"]
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="LinhaMoedas" type="HBoxContainer" parent="Painel/Linhas/Rodape"]
+[node name="LinhaMoedas" type="HBoxContainer" parent="Painel/Linhas/Rolagem/Conteudo/Rodape"]
 layout_mode = 2
 alignment = 1
 
-[node name="IconeMoeda" type="TextureRect" parent="Painel/Linhas/Rodape/LinhaMoedas"]
+[node name="IconeMoeda" type="TextureRect" parent="Painel/Linhas/Rolagem/Conteudo/Rodape/LinhaMoedas"]
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 size_flags_vertical = 4
@@ -423,14 +424,19 @@ texture = ExtResource("9_moeda")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="RotuloMoedas" type="Label" parent="Painel/Linhas/Rodape/LinhaMoedas"]
+[node name="RotuloMoedas" type="Label" parent="Painel/Linhas/Rolagem/Conteudo/Rodape/LinhaMoedas"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "0"
 
-[node name="BotaoIniciarOnda" type="Button" parent="Painel/Linhas/Rodape"]
+[node name="BotaoIniciarOnda" type="Button" parent="Painel/Linhas/Rolagem/Conteudo/Rodape"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 18)
 layout_mode = 2
 theme_type_variation = &"BotaoPrimario"
 text = "IR PARA A ARENA"
+
+[node name="LayoutFlex" type="Node" parent="."]
+script = ExtResource("layout_flex")
+caminho_painel = NodePath("../Painel")
+central = false

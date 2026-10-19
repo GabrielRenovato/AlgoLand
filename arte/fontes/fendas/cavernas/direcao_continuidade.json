@@ -1,0 +1,26 @@
+{
+  "referencia_funcional": "/var/home/alfeim/Downloads/Farm RPG - Tiny Asset Pack - (All in One)/Tileset/Rock Caves.png",
+  "uso_referencia": "apenas separação de topo, face, pé e cantos; pixels e paleta não copiados",
+  "fonte_rocha": "parede_material_fonte.png",
+  "atlas_descartado": "tileset_continuo_fonte.png: geração não preservou os endereços das peças",
+  "preparador": "ferramentas/fendas/preparar_caverna.py",
+  "dimensoes": {
+    "atlas": [
+      256,
+      256
+    ],
+    "grade": [
+      16,
+      16
+    ],
+    "contexto_wang": [
+      32,
+      32
+    ]
+  },
+  "geometria": "máscaras do template32 e seleção4x4; rejeita centros incompatíveis",
+  "profundidade": "terreno abaixo dos atores, bases de objetos com colisão e profundidadeglobal",
+  "estacoes": "quatro tons materiais protegidos integrados via caverna_sazonal; neve e chuva desativadas",
+  "status": "substituído pelos recortes fornecidos pelo autor, em caverna_usuario/contrato.json",
+  "captura": "arte/previas/fenda/jornada/cavernas_tiles_quatro_estacoes.png"
+}

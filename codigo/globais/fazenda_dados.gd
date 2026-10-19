@@ -13,7 +13,7 @@ extends Node
 ## - Ferramentas (enxada, regador, mão) e sementes são itens da mochila (InventarioJogador), a mesma da arena: a barra de baixo é a
 ##   primeira linha dela. As sementes empilham (uma casa por planta) e não se compram: caem dos inimigos da arena
 ##   (codigo/logica/semente_drop.gd chama dar_sementes). A ferramenta ativa é escolhida na barra (teclas 1 a 5, toque) ou com Q/E.
-## - Colheita vai para a bolsa de colheita (contador por planta, não usa a mochila de equipamentos) e o caldeirão a
+## - Colheita e poções ocupam casas na mochila, em pilhas por tipo. O caldeirão
 ##   transforma em poções (receitas em codigo/dados/pocoes.gd); as poções são bebidas na arena pelo cinto do HUD.
 ## - Nada daqui se perde ao morrer na arena (o reset roguelite só leva ouro e equipamento): a fazenda é progressão. As sementes
 ##   da mochila também ficam (InventarioJogador.guardar_para_nova_partida).
@@ -34,6 +34,45 @@ signal entulho_alterado(celula: Vector2i)
 signal acao_realizada(acao: String, celula: Vector2i)
 ## O regador gastou ou encheu (agua_regador)
 signal agua_regador_alterada(quantidade: int)
+## A energia de um jogador mudou (lado 1 ou 2)
+signal energia_alterada(lado: int)
+
+## Energia da fazenda (a barra verde, como no Stardew): cada ferramenta gasta um pouco, o sono recupera tudo. É própria de cada jogador
+## e não tem a ver com a estamina do combate. Colher, plantar e encher o regador não gastam. No prólogo nada gasta
+const ENERGIA_MAXIMA := 270
+const CUSTO_ENERGIA := {"enxada": 2, "machado": 2, "picareta": 2, "regar": 2}
+const MSG_SEM_ENERGIA := "SEM ENERGIA: DURMA PARA RECUPERAR"
+var energia_p1 := ENERGIA_MAXIMA
+var energia_p2 := ENERGIA_MAXIMA
+
+func energia_de(lado := 1) -> int:
+	return energia_p2 if lado == 2 else energia_p1
+
+## Gasta a energia da ação (se tem custo). false = não tem energia suficiente (nada é gasto)
+func gastar_energia(acao: String, lado := 1) -> bool:
+	var custo := custo_energia(acao,lado)
+	if custo == 0 or Introducao.ativa():
+		return true
+	if energia_de(lado) < custo:
+		return false
+	_definir_energia(lado, energia_de(lado) - custo)
+	_agendar_salvamento()
+	return true
+
+func custo_energia(acao: String, lado := 1) -> int:
+	var melhorias := preload("res://codigo/dados/melhorias_ferramentas.gd")
+	var tipo: String=melhorias.POR_ACAO.get(acao,"")
+	var grau: int=melhorias.nivel(mochila_do_lado(lado),tipo) if not tipo.is_empty() else 1
+	var base: int=CUSTO_ENERGIA.get(acao,0)
+	return maxi(1,base-(grau-1)) if base>0 else 0
+
+func _definir_energia(lado: int, valor: int) -> void:
+	valor = clampi(valor, 0, ENERGIA_MAXIMA)
+	if lado == 2:
+		energia_p2 = valor
+	else:
+		energia_p1 = valor
+	energia_alterada.emit(lado)
 
 const ClimaScript := preload("res://codigo/cenario/clima.gd")
 const Pocoes := preload("res://codigo/dados/pocoes.gd")
@@ -95,19 +134,26 @@ var solo: Dictionary = {}
 ## Sementes de saves antigos (antes de virarem itens da mochila), à espera de migrar_sementes_antigas()
 var _sementes_antigas: Dictionary = {}
 ## id da planta -> quantidade
-var colheita: Dictionary = {}
+var colheita: Dictionary:
+	get:
+		return contagens_coletaveis("colheita")
+	set(valor):
+		definir_contagens_coletaveis("colheita", valor)
 ## Peixes pescados e ainda não vendidos ao Nilo {id: quantidade}, e quantos já foram pescados no total (catálogo do Nilo)
 var peixes: Dictionary = {}
 var peixes_pescados: Dictionary = {}
 var varas_pesca: Dictionary = {}
-var pedras_vara: Dictionary = {}
 var pesca_capturas_jogador: Dictionary = {}
 var pesca_ultima_pedra: Dictionary = {}
 var pesca_perfeitas := 0
 var pesca_recompensas: Dictionary = {}
 var pesca_pedidos_entregues: Dictionary = {}
 ## id da poção (Pocoes.POCOES) -> quantidade
-var pocoes: Dictionary = {}
+var pocoes: Dictionary:
+	get:
+		return contagens_coletaveis("pocao")
+	set(valor):
+		definir_contagens_coletaveis("pocao", valor)
 ## Entulho na área de plantio: Vector2i -> "mato", "pedra", "arbusto" ou "arvoreta"
 var entulho: Dictionary = {}
 ## Se a primeira leva de entulho já foi espalhada (fazenda nova começa cheia de mato e pedra)
@@ -192,17 +238,54 @@ func quantidade_sementes(id: String, lado := 1) -> int:
 func mochila_do_lado(lado: int) -> Node:
 	return InventarioJogador2 if lado == 2 else InventarioJogador
 
-func quantidade_colhida(id: String) -> int:
-	return int(colheita.get(id, 0))
+func mochilas_coletaveis(quem: Node = null) -> Array:
+	if quem != null:
+		return [mochila_pesca(quem)]
+	return [InventarioJogador, InventarioJogador2] if Saves.eh_coop() else [InventarioJogador]
 
-func quantidade_pocoes(id: String) -> int:
-	return int(pocoes.get(id, 0))
+func contagens_coletaveis(categoria: String, quem: Node = null) -> Dictionary:
+	var totais := {}
+	for mochila in mochilas_coletaveis(quem):
+		for item in mochila.mochila:
+			if item != null and item.categoria == categoria:
+				totais[item.conteudo()] = int(totais.get(item.conteudo(),0)) + item.quantidade
+	return totais
+
+## Compatibilidade das ferramentas de debug: o estoque continua sendo itens físicos.
+func definir_contagens_coletaveis(categoria: String, valores: Dictionary) -> void:
+	for mochila in mochilas_coletaveis():
+		for i in mochila.capacidade():
+			if mochila.mochila[i] != null and mochila.mochila[i].categoria == categoria:
+				mochila.mochila[i] = null
+	for id in valores:
+		InventarioJogador.adicionar_coletavel(categoria,id,maxi(0,int(valores[id])))
+	_ao_bolsa_alterada()
+
+func gastar_coletavel(categoria: String, id: String, quantidade: int, quem: Node = null) -> bool:
+	if quantidade <= 0:
+		return true
+	if int(contagens_coletaveis(categoria,quem).get(id,0)) < quantidade:
+		return false
+	var restante := quantidade
+	for mochila in mochilas_coletaveis(quem):
+		var tirar := mini(restante,mochila.quantidade_tipo(categoria+":"+id))
+		if tirar > 0:
+			mochila.gastar_tipo(categoria+":"+id,tirar)
+			mochila.salvar()
+			restante -= tirar
+	return restante == 0
+
+func quantidade_colhida(id: String, quem: Node = null) -> int:
+	return int(contagens_coletaveis("colheita",quem).get(id,0))
+
+func quantidade_pocoes(id: String, quem: Node = null) -> int:
+	return int(contagens_coletaveis("pocao",quem).get(id,0))
 
 ## Poções que o jogador tem, na ordem do cinto
-func pocoes_que_tem() -> Array[String]:
+func pocoes_que_tem(quem: Node = null) -> Array[String]:
 	var lista: Array[String] = []
 	for id in Pocoes.ORDEM:
-		if quantidade_pocoes(id) > 0:
+		if quantidade_pocoes(id,quem) > 0:
 			lista.append(id)
 	return lista
 
@@ -268,7 +351,8 @@ func aplicar(acao: String, celula: Vector2i, semente := "", lado := 1) -> String
 		"enxada":
 			# Mato: o golpe só arranca (o canteiro fica livre para arar no próximo)
 			if entulho.get(celula, "") == "mato":
-				remover_entulho(celula)
+				if not remover_entulho(celula,lado):
+					return "MOCHILA CHEIA"
 				return ""
 			if solo.has(celula):
 				solo[celula]["planta"] = ""   # tira o resto seco
@@ -288,7 +372,10 @@ func aplicar(acao: String, celula: Vector2i, semente := "", lado := 1) -> String
 			mochila_do_lado(lado).salvar()
 		"colher":
 			var id := planta_em(celula)
-			colheita[id] = quantidade_colhida(id) + 1
+			var mochila := mochila_do_lado(lado)
+			if not mochila.adicionar_coletavel("colheita",id):
+				return "MOCHILA CHEIA"
+			mochila.salvar()
 			solo[celula]["planta"] = ""
 			solo[celula]["dias"] = 0
 			_ao_bolsa_alterada()
@@ -318,6 +405,9 @@ func _ao_estacao_mudou(estacao: int) -> void:
 		_agendar_salvamento()
 
 func _ao_dia_passou(_dia: int) -> void:
+	# Dormir (ou desmaiar) recupera toda a energia dos dois jogadores
+	_definir_energia(1, ENERGIA_MAXIMA)
+	_definir_energia(2, ENERGIA_MAXIMA)
 	avancar_dia()
 
 ## Fim do dia: a planta regada cresce, as regas zeram e o clima do dia seguinte é sorteado (chuva molha tudo).
@@ -375,39 +465,40 @@ func migrar_sementes_antigas() -> void:
 	salvar()
 
 ## Por que a poção não pode ser feita agora ("" = pode)
-func motivo_para_nao_fazer(id: String) -> String:
+func motivo_para_nao_fazer(id: String, quem: Node = null) -> String:
 	if not Pocoes.POCOES.has(id):
 		return "POCAO INVALIDA"
-	var receita: Dictionary = Pocoes.POCOES[id]["receita"]
-	for planta in receita:
-		if quantidade_colhida(planta) < int(receita[planta]):
+	var mochila := mochila_pesca(quem)
+	for planta in Pocoes.POCOES[id]["receita"]:
+		if mochila.quantidade_tipo("colheita:"+planta) < int(Pocoes.POCOES[id]["receita"][planta]):
 			return MSG_FALTA_INGREDIENTE
 	return ""
 
-## Gasta os ingredientes da bolsa de colheita e soma 1 poção. "" = fez
-func fazer_pocao(id: String) -> String:
-	var motivo := motivo_para_nao_fazer(id)
+## Ingredientes e resultado são itens reais da mochila de quem prepara.
+func fazer_pocao(id: String, quem: Node = null) -> String:
+	var motivo := motivo_para_nao_fazer(id,quem)
 	if motivo != "":
 		return motivo
 	var receita: Dictionary = Pocoes.POCOES[id]["receita"]
+	var destino := mochila_pesca(quem)
+	var antes: Array = destino.fotografar_mochila()
 	for planta in receita:
-		colheita[planta] = quantidade_colhida(planta) - int(receita[planta])
-		if colheita[planta] <= 0:
-			colheita.erase(planta)
-	pocoes[id] = quantidade_pocoes(id) + 1
+		destino.gastar_tipo("colheita:"+planta,int(receita[planta]))
+	if not destino.adicionar_coletavel("pocao",id):
+		destino.restaurar_mochila(antes)
+		return "MOCHILA CHEIA"
+	if not destino.salvar():
+		destino.restaurar_mochila(antes)
+		return "NAO FOI POSSIVEL SALVAR"
 	_ao_bolsa_alterada()
 	_agendar_salvamento()
 	return ""
 
 ## Tira 1 poção do estoque (bebida na arena). false = não tinha
-func gastar_pocao(id: String) -> bool:
-	if quantidade_pocoes(id) <= 0:
+func gastar_pocao(id: String, quem: Node = null) -> bool:
+	if not gastar_coletavel("pocao",id,1,quem):
 		return false
-	pocoes[id] = quantidade_pocoes(id) - 1
-	if pocoes[id] <= 0:
-		pocoes.erase(id)
 	_ao_bolsa_alterada()
-	_agendar_salvamento()
 	return true
 
 # --- Refeições do Caio e venda de colheita para a Lia (ligação fazenda -> arena, 2026-10-16) -------------------
@@ -440,9 +531,7 @@ func cozinhar(id: String, quem: Node = null) -> String:
 		return motivo
 	var receita: Dictionary = Refeicoes.dados(id)["receita"]
 	for planta in receita:
-		colheita[planta] = quantidade_colhida(planta) - int(receita[planta])
-		if colheita[planta] <= 0:
-			colheita.erase(planta)
+		gastar_coletavel("colheita",planta,int(receita[planta]),quem)
 	for peixe in Refeicoes.dados(id).get("peixes",{}):
 		gastar_peixes(peixe,int(Refeicoes.dados(id)["peixes"][peixe]),quem)
 	Progresso.comer(id)
@@ -459,9 +548,7 @@ func vender_colheita(planta: String, quantidade := 0) -> int:
 	var vende := tem if quantidade <= 0 else mini(quantidade, tem)
 	if vende <= 0:
 		return 0
-	colheita[planta] = tem - vende
-	if colheita[planta] <= 0:
-		colheita.erase(planta)
+	gastar_coletavel("colheita",planta,vende)
 	var ganho := vende * brasas_por_colheita(planta)
 	Progresso.brasas += ganho
 	Progresso.salvar()
@@ -512,10 +599,15 @@ func espalhar_entulho(quantidade: int) -> void:
 		entulho_alterado.emit(Vector2i(-1, -1))
 		_agendar_salvamento()
 
-func remover_entulho(celula: Vector2i) -> void:
+func remover_entulho(celula: Vector2i, lado := 1) -> bool:
+	if entulho.get(celula, "") == "mato":
+		if not mochila_do_lado(lado).adicionar_coletavel("material","fibra"):
+			return false
+		mochila_do_lado(lado).salvar()
 	if entulho.erase(celula):
 		entulho_alterado.emit(celula)
 		_agendar_salvamento()
+	return true
 
 # --- Árvores e pedras do mapa ---------------------------------------------------------------------------
 
@@ -624,14 +716,14 @@ func dar_sementes_debug(quantidade := SEMENTES_GRATIS_DEBUG) -> void:
 ## Colheita de graça de todas as plantas (para testar o caldeirão em qualquer estação)
 func dar_colheita_debug(quantidade := SEMENTES_GRATIS_DEBUG) -> void:
 	for id in ORDEM_PLANTAS:
-		colheita[id] = quantidade_colhida(id) + quantidade
+		InventarioJogador.adicionar_coletavel("colheita",id,quantidade)
 	_ao_bolsa_alterada()
 	_agendar_salvamento()
 
 ## Poções de graça de todos os tipos (para testar o cinto na arena)
 func dar_pocoes_debug(quantidade := 3) -> void:
 	for id in Pocoes.ORDEM:
-		pocoes[id] = quantidade_pocoes(id) + quantidade
+		InventarioJogador.adicionar_coletavel("pocao",id,quantidade)
 	_ao_bolsa_alterada()
 	_agendar_salvamento()
 
@@ -783,10 +875,11 @@ func salvar() -> bool:
 	if arquivo == null:
 		return false
 	# "sementes" só guarda o que ainda não migrou para a mochila (saves antigos)
-	arquivo.store_string(JSON.stringify({"versao": 3, "solo": tabela, "sementes": _sementes_antigas, "colheita": colheita, "peixes": peixes, "peixes_pescados": peixes_pescados,
-			"varas_pesca": varas_pesca, "pedras_vara": pedras_vara, "pesca_capturas_jogador":pesca_capturas_jogador, "pesca_ultima_pedra":pesca_ultima_pedra, "pesca_perfeitas": pesca_perfeitas, "pesca_recompensas": pesca_recompensas, "pesca_pedidos_entregues": pesca_pedidos_entregues,
-			"pocoes": pocoes, "clima_hoje": clima_hoje, "removidos": removidos,
-			"entulho": _tabela_entulho(), "entulho_iniciado": entulho_iniciado, "agua_regador": agua_regador}, "\t"))
+	arquivo.store_string(JSON.stringify({"versao": 3, "solo": tabela, "sementes": _sementes_antigas, "peixes": peixes, "peixes_pescados": peixes_pescados,
+			"varas_pesca": varas_pesca, "pesca_capturas_jogador":pesca_capturas_jogador, "pesca_ultima_pedra":pesca_ultima_pedra, "pesca_perfeitas": pesca_perfeitas, "pesca_recompensas": pesca_recompensas, "pesca_pedidos_entregues": pesca_pedidos_entregues,
+			"clima_hoje": clima_hoje, "removidos": removidos,
+			"entulho": _tabela_entulho(), "entulho_iniciado": entulho_iniciado, "agua_regador": agua_regador,
+			"energia_maxima": ENERGIA_MAXIMA, "energia_p1": energia_p1, "energia_p2": energia_p2}, "\t"))
 	return true
 
 ## Lê o arquivo (ausente ou inválido = fazenda vazia). Células, plantas e contagens inválidas são descartadas
@@ -814,18 +907,17 @@ func carregar() -> bool:
 			solo[celula] = {"molhado": bool(item.get("molhado", false)), "planta": planta,
 					"dias": clampi(int(item.get("dias", 0)), 0, int(PLANTAS[planta]["dias"]) if planta != "" else 0),
 					"murcha": planta != "" and bool(item.get("murcha", false))}
+	# Saves anteriores usavam 100 pontos: conserva a fração restante ao ampliar a barra.
+	var maximo_salvo := maxi(1, int(dados.get("energia_maxima", 100)))
+	energia_p1 = clampi(roundi(float(dados.get("energia_p1", maximo_salvo)) / maximo_salvo * ENERGIA_MAXIMA), 0, ENERGIA_MAXIMA)
+	energia_p2 = clampi(roundi(float(dados.get("energia_p2", maximo_salvo)) / maximo_salvo * ENERGIA_MAXIMA), 0, ENERGIA_MAXIMA)
 	_sementes_antigas = _ler_contagens(dados.get("sementes", {}), PLANTAS)
-	colheita = _ler_contagens(dados.get("colheita", {}), PLANTAS)
 	peixes = _ler_contagens(dados.get("peixes", {}), Peixes.DADOS)
 	peixes_pescados = _ler_contagens(dados.get("peixes_pescados", {}), Peixes.DADOS)
-	for campo in ["varas_pesca","pedras_vara"]:
-		var lido = dados.get(campo,{})
-		if lido is Dictionary:
-			for chave in ["p1","p2"]:
-				if campo == "varas_pesca":
-					varas_pesca[chave] = clampi(int(lido.get(chave,1)),1,5)
-				else:
-					pedras_vara[chave] = maxi(0,int(lido.get(chave,0)))
+	var niveis_varas = dados.get("varas_pesca", {})
+	if niveis_varas is Dictionary:
+		for chave in ["p1", "p2"]:
+			varas_pesca[chave] = clampi(int(niveis_varas.get(chave, 1)), 1, 5)
 	pesca_perfeitas = maxi(0,int(dados.get("pesca_perfeitas",0)))
 	for campo in ["pesca_capturas_jogador","pesca_ultima_pedra"]:
 		var lido = dados.get(campo,{})
@@ -843,7 +935,6 @@ func carregar() -> bool:
 			var partes := String(id).split("_")
 			if pedidos_entregues[id] == true and partes.size() == 2 and partes[0].is_valid_int() and int(partes[0]) > 0 and partes[1] in ["mar","rio"]:
 				pesca_pedidos_entregues[id] = true
-	pocoes = _ler_contagens(dados.get("pocoes", {}), Pocoes.POCOES)
 	clima_hoje = clampi(int(dados.get("clima_hoje", -1)), -1, ClimaScript.Estado.NEVE_FORTE)
 	var tabela_entulho = dados.get("entulho", {})
 	if tabela_entulho is Dictionary:
@@ -863,6 +954,8 @@ func carregar() -> bool:
 				removidos[String(chave)] = {"dia": int(item.get("dia", 0)), "tipo": String(item["tipo"]), "toco": bool(item.get("toco", false))}
 	# A vara na mochila segue o nível que acabou de ser lido
 	preload("res://codigo/pesca/varas.gd").sincronizar_itens()
+	energia_alterada.emit(1)
+	energia_alterada.emit(2)
 	return true
 
 ## Contagens {id: n} do arquivo: só ids de `validos` e quantidades positivas
@@ -875,19 +968,18 @@ static func _ler_contagens(bruto, validos: Dictionary) -> Dictionary:
 	return saida
 
 func _zerar() -> void:
+	energia_p1 = ENERGIA_MAXIMA
+	energia_p2 = ENERGIA_MAXIMA
 	solo = {}
 	_sementes_antigas = {}
-	colheita = {}
 	peixes = {}
 	peixes_pescados = {}
 	varas_pesca = {}
-	pedras_vara = {}
 	pesca_capturas_jogador = {}
 	pesca_ultima_pedra = {}
 	pesca_perfeitas = 0
 	pesca_recompensas = {}
 	pesca_pedidos_entregues = {}
-	pocoes = {}
 	removidos = {}
 	entulho = {}
 	entulho_iniciado = false

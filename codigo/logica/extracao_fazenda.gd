@@ -5,7 +5,7 @@ extends Node2D
 ## "arbusto" ou "pedra"), o ponto da base, o sprite (árvores) ou a célula da camada Detalhes (pedras) e o polígono de
 ## colisão. Cada golpe balança e solta lascas; no último, a pedra se desfaz e a colisão sai; o carvalho cai e deixa um toco
 ## (ferramentas/fazenda/desenhar_toco.py), que segue bloqueando e sai com mais VIDA_TOCO golpes.
-## O que caiu volta depois de alguns dias (Fazenda.RECRESCER), ao carregar a cena. Por enquanto não dropa nada.
+## O que caiu volta depois de alguns dias (Fazenda.RECRESCER), ao carregar a cena. Materiais caem no chao e ocupam a mochila ao coletar.
 ## Também desenha o entulho da área de plantio (Fazenda.entulho, como no Stardew) com os desenhos recortados por
 ## ferramentas/fazenda/recortar_entulho.py (sem o chão da folha, um por estação), com colisão (menos o mato). Pedra, arbusto e arvoreta saem como os recursos fixos,
 ## mas não voltam; o mato sai com a enxada (Fazenda.aplicar).
@@ -213,14 +213,14 @@ func motivo(acao: String, ponto_global: Vector2) -> String:
 	return MSG_NADA_CORTAR if acao == "machado" else MSG_NADA_QUEBRAR
 
 ## A ferramenta acertou (quadro de impacto da animação)
-func impacto(acao: String, ponto_global: Vector2) -> void:
+func impacto(acao: String, ponto_global: Vector2, forca := 1) -> void:
 	var recurso := alvo(acao, ponto_global)
 	if recurso.is_empty():
 		return
 	var chave: String = recurso["chave"]
 	var tipo: String = recurso["tipo"]
 	var no_toco := _tocos.has(chave)
-	_vida[chave] = int(_vida.get(chave, VIDA_TOCO if no_toco else VIDA[tipo])) - 1
+	_vida[chave] = int(_vida.get(chave, VIDA_TOCO if no_toco else VIDA[tipo])) - clampi(forca,1,3)
 	_lascas(recurso["pos"] + Vector2(0, -10 if tipo != "pedra" else -4), COR_LASCA[tipo], 6)
 	if _vida[chave] > 0:
 		Sons.tocar("acerto" if tipo != "pedra" else "bloqueio", 0.1, -4.0)
@@ -232,6 +232,9 @@ func impacto(acao: String, ponto_global: Vector2) -> void:
 	Sons.tocar("escudada" if tipo != "pedra" else "bloqueio", 0.05, -1.0)
 	_lascas(recurso["pos"] + Vector2(0, -16 if tipo == "arvore" else -4), COR_LASCA[tipo], 14)
 	_vida.erase(chave)
+	var ganhos: Dictionary = preload("res://codigo/dados/forja_armas.gd").extracao(tipo, no_toco)
+	for id in ganhos:
+		preload("res://codigo/logica/drops_forja.gd").soltar_material(id,int(ganhos[id]),to_global(recurso["pos"]),get_parent())
 	recurso_extraido.emit.call_deferred(chave, tipo)
 	if recurso.has("entulho"):
 		_soltar_entulho(recurso)
@@ -256,6 +259,27 @@ func impacto(acao: String, ponto_global: Vector2) -> void:
 		return
 	Fazenda.remover_recurso(chave, tipo)
 	_sumir(recurso, true)
+
+func _avisar_materiais(ponto: Vector2, ganhos: Dictionary) -> void:
+	var nomes: Dictionary = preload("res://codigo/dados/forja_armas.gd").MATERIAIS
+	var linhas: Array[String] = []
+	for id in ganhos:
+		linhas.append("+%d %s" % [ganhos[id], nomes[id]["nome"]])
+	var aviso := Label.new()
+	aviso.text = "\n".join(linhas)
+	aviso.add_theme_font_override("font", preload("res://assets/ui/Planes_ValMore.ttf"))
+	aviso.add_theme_font_size_override("font_size", 8)
+	aviso.add_theme_color_override("font_color", Color("ffe6a5"))
+	aviso.add_theme_color_override("font_outline_color", Color("241c21"))
+	aviso.add_theme_constant_override("outline_size", 2)
+	aviso.position = ponto + Vector2(-24, -24)
+	aviso.z_as_relative = false
+	aviso.z_index = 1000
+	add_child(aviso)
+	var animacao := aviso.create_tween().set_parallel()
+	animacao.tween_property(aviso, "position:y", aviso.position.y - 16, 1.5)
+	animacao.tween_property(aviso, "modulate:a", 0.0, 0.5).set_delay(1.0)
+	animacao.chain().tween_callback(aviso.queue_free)
 
 ## Entulho derrubado: desbota antes de sair. Não volta
 func _soltar_entulho(recurso: Dictionary) -> void:

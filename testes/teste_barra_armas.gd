@@ -60,6 +60,10 @@ func _tipo_da_casa(i: int) -> String:
 ## O kit inicial agora vem com espada e escudo na mão e as ferramentas da fazenda na primeira linha. Estes cenários partem da
 ## barra só de armas, de mãos vazias: espada, lança e escudo nas casas 1 a 3 e as ferramentas na terceira linha
 func _arranjo_so_de_armas() -> void:
+	# Equipamentos fabricados explicitamente para o cenário de troca de armas.
+	_inv.adicionar_arma_nova("lanca_basica")
+	_inv.adicionar_arma_nova("aljava_basica")
+	_inv.equipar(_inv.buscar_por_tipo("aljava_basica"))
 	_inv.desequipar("arma")
 	_inv.desequipar("escudo")
 	_inv.mover_para_mochila(_inv.buscar_por_tipo("lanca_basica"), 1)
@@ -68,6 +72,8 @@ func _arranjo_so_de_armas() -> void:
 	_inv.mover_para_mochila(_inv.buscar_por_tipo("regador"), 11)
 	_inv.mover_para_mochila(_inv.buscar_por_tipo("machadinha"), 12)
 	_inv.mover_para_mochila(_inv.buscar_por_tipo("picareta"), 13)
+	# Este arranjo testa o ciclo apenas de armas; a vara tambem fica fora da fileira.
+	_inv.mover_para_mochila(_inv.buscar_por_tipo("vara_pesca"), 14)
 
 func _rodar() -> void:
 	await process_frame
@@ -93,7 +99,7 @@ func _rodar() -> void:
 	var grade: GridContainer = _cena.get_node("Interface/TelaInventario")._grade
 	_verificar("a grade da mochila tem as mesmas colunas da barra", grade.columns == _inv.COLUNAS_MOCHILA, str(grade.columns))
 	_verificar("as casas usam o slot do inventario (slot_ui)", _barra._casas[0].get_node("Conteudo/Slot").get_script() == load("res://codigo/ui/slot_ui.gd"), "")
-	_verificar("kit inicial na primeira linha: espada, lanca e escudo", _tipo_da_casa(0) == "espada_basica" and _tipo_da_casa(1) == "lanca_basica" and _tipo_da_casa(2) == "escudo_basico" and _item_da_casa(3) == null, "%s %s %s" % [_tipo_da_casa(0), _tipo_da_casa(1), _tipo_da_casa(2)])
+	_verificar("arranjo de teste na primeira linha: espada, lanca e escudo", _tipo_da_casa(0) == "espada_basica" and _tipo_da_casa(1) == "lanca_basica" and _tipo_da_casa(2) == "escudo_basico" and _item_da_casa(3) == null, "%s %s %s" % [_tipo_da_casa(0), _tipo_da_casa(1), _tipo_da_casa(2)])
 	_verificar("a casa mostra o item (icone do slot)", _barra._casas[0].get_node("Conteudo/Slot").item_atual == _item_da_casa(0), "")
 	_verificar("sem arma na mao no inicio, nenhuma casa em destaque", _tipo_equipado() == "" and not _barra._casas[0].get_node("Conteudo/Marco").visible, "")
 

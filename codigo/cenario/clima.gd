@@ -270,6 +270,7 @@ func definir_estacao(indice: int, imediato := false) -> void:
 
 ## Muda o clima com fade (ou na hora). Sair da TEMPESTADE apaga os raios
 func definir_clima(estado: int, imediato := false) -> void:
+	if get_parent().get("ambiente_interno") == true: estado = Estado.LIMPO
 	var anterior := clima_atual
 	clima_atual = estado
 	if anterior == Estado.TEMPESTADE and estado != Estado.TEMPESTADE:

@@ -1,7 +1,11 @@
 extends Node2D
 
 ## Apoios sob as faces inferiores; a máscara impede invadir qualquer célula caminhável do cais.
-const MADEIRA := preload("res://assets/cenario/fazenda/cerca/primavera/poste.png")
+var _estacao := 0
+
+func aplicar_estacao(estacao: int) -> void:
+	_estacao = estacao
+	queue_redraw()
 var _celulas: Dictionary = {}
 var _costa_base := 300.0
 var _curvas := Vector4(16, 0.011, 8, 0.027)
@@ -77,8 +81,10 @@ func _estaca(ponto: Vector2) -> void:
 	var canto := ponto - Vector2(3, 0)
 	var altura := 18.0
 	draw_rect(Rect2(canto - Vector2(1, 0), Vector2(8, altura)), Color("49382b"))
-	draw_texture_rect_region(MADEIRA, Rect2(canto, Vector2(6, 12)), Rect2(1, 7, 6, 12))
-	draw_texture_rect_region(MADEIRA, Rect2(canto + Vector2(0, 12), Vector2(6, 6)), Rect2(1, 13, 6, 6))
+	var madeira: Color = [Color("976b3e"),Color("a67946"),Color("83603e"),Color("75644d")][_estacao]
+	draw_rect(Rect2(canto, Vector2(6, altura)), madeira)
+	draw_line(canto+Vector2(1,1), canto+Vector2(1,altura-4), madeira.lightened(0.14))
+	draw_line(canto+Vector2(4,4), canto+Vector2(4,altura-2), madeira.darkened(0.23))
 	draw_rect(Rect2(canto + Vector2(0, altura - 5), Vector2(6, 5)), Color(0.08, 0.25, 0.23, 0.48))
 	var agua := ponto + Vector2(0, altura)
 	draw_polyline(PackedVector2Array([agua + Vector2(-5, -1), agua + Vector2(-3, 1),

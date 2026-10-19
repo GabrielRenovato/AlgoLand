@@ -4,6 +4,8 @@ const AreaDanoChefe := preload("res://codigo/inimigos/area_dano_chefe.gd")
 const Aviso := preload("res://codigo/efeitos/aviso_ataque.gd")
 const TEXTURA_LUZ := preload("res://recursos/luz/luz_radial.tres")
 const AVISO_VERDE := preload("res://recursos/personagens/aviso_ruina_medusa.gdshader")
+const RUINA_NITIDA := preload("res://recursos/personagens/ruina_medusa.gdshader")
+const TELA_RUINA := preload("res://recursos/personagens/tela_ruina_medusa.tres")
 const TIPOS := ["garras", "cauda", "bote", "olhar", "ruina"]
 const AVISOS := {"garras": 0.45, "cauda": 0.7, "bote": 0.8, "olhar": 1.2, "ruina": 2.5}
 const DURACOES := {"garras": 0.4, "cauda": 0.5, "bote": 0.65, "olhar": 0.45, "ruina": 0.65}
@@ -114,7 +116,10 @@ func _physics_process(delta: float) -> void:
 				_atingir_area()
 			if is_instance_valid(_efeito):
 				_efeito.visible = ataque_atual == "bote" or _tempo >= duracao * 0.3
-				_efeito.frame = clampi(int(_tempo / duracao * 6), 0, 5)
+				if ataque_atual == "ruina":
+					_efeito.material.set_shader_parameter("impacto",clampf(_tempo/duracao,0,1))
+				else:
+					_efeito.frame = clampi(int(_tempo / duracao * 6), 0, 5)
 			if estado == Estado.ATACANDO and _tempo >= duracao:
 				_recuperar()
 		Estado.RECUPERANDO:
@@ -186,18 +191,17 @@ func iniciar_ataque(tipo: String, destino: Vector2) -> bool:
 	_efeito.visible = false
 	_efeito.z_index = 2
 	if tipo == "ruina":
+		_efeito.texture = TELA_RUINA
+		_efeito.hframes = 1
 		_efeito.z_as_relative = false
 		_efeito.z_index = Profundidade.Z_CHAO + 35
 		_efeito.position = to_local(_centro_ruina)
-		var imagem: Image = _efeito.texture.get_image()
-		var lado := imagem.get_width() / 6
-		var tamanho := imagem.get_region(Rect2i(0, 0, lado, lado)).get_used_rect().size
-		_efeito.scale = Vector2(RAIO_RUINA * 2 / maxf(tamanho.x, 1), RAIO_RUINA * 2 / maxf(tamanho.y, 1))
-		_escala_circulo = _efeito.scale
+		_efeito.scale = Vector2.ONE
 		_efeito.visible = true
-		var sem_sombra := CanvasItemMaterial.new()
-		sem_sombra.light_mode = CanvasItemMaterial.LIGHT_MODE_UNSHADED
-		_efeito.material = sem_sombra
+		var material_ruina := ShaderMaterial.new()
+		material_ruina.shader = RUINA_NITIDA
+		material_ruina.set_shader_parameter("raio",RAIO_RUINA)
+		_efeito.material = material_ruina
 	elif tipo == "garras":
 		_efeito.position = _direcao * 38 + Vector2(0, -20)
 		_efeito.rotation = _direcao.angle()
@@ -235,17 +239,19 @@ func _origem_olhos() -> Vector2:
 	if not _cache_olhos.has(quadro):
 		if _imagem_olhar == null:
 			_imagem_olhar = _folhas["olhar"].get_image()
-		var inicio := Vector2i(quadro % 6, quadro / 6) * 256
+		var lado := _imagem_olhar.get_width()/6
+		var inicio := Vector2i(quadro % 6, quadro / 6) * lado
 		var centro := Vector2.ZERO
 		var quantidade := 0
-		for y in range(24, 115):
-			for x in range(24, 232):
+		for y in range(int(lado*.09),int(lado*.45)):
+			for x in range(int(lado*.09),int(lado*.91)):
 				var pixel := _imagem_olhar.get_pixelv(inicio + Vector2i(x, y))
 				if pixel.a > 0.5 and pixel.g > 0.7 and pixel.g > pixel.r * 1.25 and pixel.g > pixel.b * 1.15:
 					centro += Vector2(x, y)
 					quantidade += 1
-		_cache_olhos[quadro] = centro / quantidade if quantidade > 0 else Vector2(128, 70)
-	return sprite.position + (Vector2(_cache_olhos[quadro]) - Vector2(128, 128)) * sprite.scale
+		_cache_olhos[quadro] = centro / quantidade if quantidade > 0 else Vector2(lado*.5,lado*.27)
+	var metade := Vector2(sprite.texture.get_width()/6.0,sprite.texture.get_height()/4.0)*.5
+	return sprite.position + (Vector2(_cache_olhos[quadro]) - metade) * sprite.scale
 
 func _animar_invocacao() -> void:
 	if not is_instance_valid(_efeito) or not is_instance_valid(_luz_olhos):
@@ -255,11 +261,11 @@ func _animar_invocacao() -> void:
 	# Um anel nasce no rosto, cresce em todas as direções e assenta na área marcada.
 	var progresso := clampf(_tempo / 0.8, 0, 1)
 	_efeito.position = olhos.lerp(destino, progresso)
-	_efeito.scale = (Vector2.ONE * 0.12).lerp(_escala_circulo, progresso)
+	_efeito.material.set_shader_parameter("invocacao",maxf(.04,progresso))
+	_efeito.material.set_shader_parameter("relogio",_tempo)
 	_efeito.z_as_relative = progresso < 1
 	_efeito.z_index = 4 if progresso < 1 else Profundidade.Z_CHAO + 35
-	_efeito.frame = int(_tempo * 5) % 2
-	_efeito.modulate.a = 0.75 + 0.2 * sin(_tempo * 7)
+	_efeito.modulate.a = 1.0
 	_luz_olhos.position = olhos
 	_luz_olhos.energy = 1.0 + 0.3 * sin(_tempo * 12)
 	_luz_circulo.energy = 0.6 + 0.35 * clampf(_tempo / float(AVISOS.ruina), 0, 1)

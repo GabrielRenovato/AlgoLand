@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="680"><g font-family="DejaVu Sans" fill="#f5e3ba"><rect x="0" y="0" width="1200" height="680" rx="12" fill="#22202f" stroke="#6b6e62"/>
+<text x="18" y="28" font-size="19" font-weight="bold">11 · Abismo das Profundezas</text>
+<text x="18" y="52" font-size="13">4800 × 1440 px · meta 235 pontos</text>
+<g transform="translate(600.0,358.0) scale(0.24375)">
+<polyline points="-2080,448 -1744,-224" stroke="#787085" stroke-width="160" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="-2080,448 -1280,224" stroke="#787085" stroke-width="160" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="-1744,-224 -928,-496" stroke="#787085" stroke-width="160" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="-1280,224 -576,448" stroke="#787085" stroke-width="160" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="-928,-496 -224,-32" stroke="#787085" stroke-width="160" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="-576,448 -224,-32" stroke="#787085" stroke-width="160" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="-224,-32 224,-496" stroke="#787085" stroke-width="160" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="-224,-32 576,448" stroke="#787085" stroke-width="160" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="224,-496 928,-80" stroke="#787085" stroke-width="160" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="576,448 928,-80" stroke="#787085" stroke-width="160" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="928,-80 1280,-496" stroke="#787085" stroke-width="160" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="928,-80 1632,336" stroke="#787085" stroke-width="160" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="1280,-496 2080,-160" stroke="#787085" stroke-width="160" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="1632,336 2080,-160" stroke="#787085" stroke-width="160" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<ellipse cx="-2080" cy="448" rx="136" ry="112" fill="#787085"/>
+<circle cx="-2080" cy="448" r="65.64102564102565" fill="#7de0c2"/>
+<text x="-2080" y="468.5128205128205" text-anchor="middle" fill="#202923" font-size="57.43589743589744">E</text>
+<ellipse cx="-1744" cy="-224" rx="136" ry="112" fill="#787085"/>
+<circle cx="-1744" cy="-224" r="65.64102564102565" fill="#ead496"/>
+<text x="-1744" y="-203.48717948717947" text-anchor="middle" fill="#202923" font-size="57.43589743589744">2</text>
+<ellipse cx="-1280" cy="224" rx="136" ry="112" fill="#787085"/>
+<circle cx="-1280" cy="224" r="65.64102564102565" fill="#ead496"/>
+<text x="-1280" y="244.51282051282053" text-anchor="middle" fill="#202923" font-size="57.43589743589744">1</text>
+<ellipse cx="-928" cy="-496" rx="136" ry="112" fill="#787085"/>
+<circle cx="-928" cy="-496" r="65.64102564102565" fill="#ead496"/>
+<text x="-928" y="-475.4871794871795" text-anchor="middle" fill="#202923" font-size="57.43589743589744">2</text>
+<ellipse cx="-576" cy="448" rx="136" ry="112" fill="#787085"/>
+<circle cx="-576" cy="448" r="65.64102564102565" fill="#ead496"/>
+<text x="-576" y="468.5128205128205" text-anchor="middle" fill="#202923" font-size="57.43589743589744">1</text>
+<ellipse cx="-224" cy="-32" rx="136" ry="112" fill="#787085"/>
+<circle cx="-224" cy="-32" r="65.64102564102565" fill="#ead496"/>
+<text x="-224" y="-11.487179487179485" text-anchor="middle" fill="#202923" font-size="57.43589743589744">2</text>
+<ellipse cx="224" cy="-496" rx="136" ry="112" fill="#787085"/>
+<circle cx="224" cy="-496" r="65.64102564102565" fill="#ead496"/>
+<text x="224" y="-475.4871794871795" text-anchor="middle" fill="#202923" font-size="57.43589743589744">1</text>
+<ellipse cx="576" cy="448" rx="136" ry="112" fill="#787085"/>
+<circle cx="576" cy="448" r="65.64102564102565" fill="#ead496"/>
+<text x="576" y="468.5128205128205" text-anchor="middle" fill="#202923" font-size="57.43589743589744">2</text>
+<ellipse cx="928" cy="-80" rx="136" ry="112" fill="#787085"/>
+<circle cx="928" cy="-80" r="65.64102564102565" fill="#ead496"/>
+<text x="928" y="-59.48717948717949" text-anchor="middle" fill="#202923" font-size="57.43589743589744">1</text>
+<ellipse cx="1280" cy="-496" rx="136" ry="112" fill="#787085"/>
+<circle cx="1280" cy="-496" r="65.64102564102565" fill="#ead496"/>
+<text x="1280" y="-475.4871794871795" text-anchor="middle" fill="#202923" font-size="57.43589743589744">2</text>
+<ellipse cx="1632" cy="336" rx="136" ry="112" fill="#787085"/>
+<circle cx="1632" cy="336" r="65.64102564102565" fill="#ead496"/>
+<text x="1632" y="356.5128205128205" text-anchor="middle" fill="#202923" font-size="57.43589743589744">1</text>
+<ellipse cx="2080" cy="-160" rx="176" ry="144" fill="#787085"/>
+<circle cx="2080" cy="-160" r="65.64102564102565" fill="#ef986e"/>
+<text x="2080" y="-139.48717948717947" text-anchor="middle" fill="#202923" font-size="57.43589743589744">B</text>
+</g>
+<text x="18" y="666" font-size="12">E: entrada · números: grupos · B: guardião</text></g></svg>

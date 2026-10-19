@@ -22,14 +22,17 @@ GRUPOS = {
     "sistemas": ["inventario", "fazenda", "plantio", "pocoes", "defesa", "morte", "transicoes", "introducao", "dialogo_cidade", "varas_catalogo", "cartas_peixes", "peixes_mochila", "loja_nilo_pedidos", "progresso_pesca", "pesca", "retratos_dialogo"],
 }
 ARGUMENTOS_TESTES = {"economia_festa": ["--festa-coop"], "pesca_coop": ["--ambos", "--p1-sai"]}
+# Uma ocorrência exata: o teste injeta JSON inválido e verifica a recuperação.
+ERROS_ESPERADOS = {"calendario": ["ERROR: Parse JSON failed. Error at line 0: Expected 'true', 'false', or 'null', got 'isto'"]}
 ERROS = re.compile(r"SCRIPT ERROR|Parse Error|^ERROR:|^FALHA(?:\s|:)|^FALHAS:\s*[1-9]", re.M)
 
 
-# Diagnósticos conhecidos do backend headless/encerramento, mantidos no relatório e no log.
-AVISOS_CONHECIDOS = re.compile(r"^ERROR: (?:Not supported by this display server\.|[0-9]+ resources still in use at exit .*|[0-9]+ RID allocations of type 'PN13RendererDummy.* were leaked at exit\.)$")
+# Diagnósticos conhecidos de encerramento, mantidos no relatório e no log.
+# Os GL/RID GLES também aparecem ao instanciar e liberar apenas jogador.tscn, sem carregar mapas.
+AVISOS_CONHECIDOS = re.compile(r"^ERROR: (?:Not supported by this display server\.|[0-9]+ resources still in use at exit .*|[0-9]+ RID allocations of type '(?:PN13RendererDummy|N5GLES3).* were leaked at exit\.|Texture with GL ID of [0-9]+: leaked [0-9]+ bytes\.)$")
 
 
-def executar(comando, log, limite):
+def executar(comando, log, limite, erros_esperados=()):
     inicio = time.monotonic()
     expirou = False
     with log.open("w") as arquivo:
@@ -49,13 +52,24 @@ def executar(comando, log, limite):
                     codigo = processo.wait()
                     break
     texto = log.read_text(errors="replace")
+    avisos, erros, esperados = analisar_log(texto, erros_esperados)
+    return {"codigo": codigo, "segundos": round(time.monotonic() - inicio, 2),
+            "timeout": expirou, "avisos_conhecidos": avisos, "erros_esperados": esperados, "erros": erros[:30], "total_erros": len(erros),
+            "verificacoes_ok": len(re.findall(r"^OK(?:\s|$)", texto, re.M)), "log": str(log),
+            "aprovado": codigo == 0 and not expirou and not erros}
+
+
+def analisar_log(texto, erros_esperados=()):
+    """Classifica logs já capturados sem repetir os testes; preserva todos os diagnósticos."""
     diagnosticos = [linha for linha in texto.splitlines() if ERROS.search(linha)]
     avisos = [linha for linha in diagnosticos if AVISOS_CONHECIDOS.fullmatch(linha)]
     erros = [linha for linha in diagnosticos if linha not in avisos]
-    return {"codigo": codigo, "segundos": round(time.monotonic() - inicio, 2),
-            "timeout": expirou, "avisos_conhecidos": avisos, "erros": erros[:30], "total_erros": len(erros),
-            "verificacoes_ok": len(re.findall(r"^OK(?:\s|$)", texto, re.M)), "log": str(log),
-            "aprovado": codigo == 0 and not expirou and not erros}
+    esperados = []
+    for esperado in erros_esperados:
+        if esperado in erros:
+            erros.remove(esperado)
+            esperados.append(esperado)
+    return avisos, erros, esperados
 
 
 def main():
@@ -107,7 +121,7 @@ def main():
             comando = motor + ([] if args.grafico else ["--headless"]) + ["--path", str(projeto), "--script", "res://testes/teste_" + nome + ".gd"]
             if nome in ARGUMENTOS_TESTES:
                 comando += ["--"] + ARGUMENTOS_TESTES[nome]
-            resultado = executar(comando, saida / (nome + ".log"), args.limite)
+            resultado = executar(comando, saida / (nome + ".log"), args.limite, ERROS_ESPERADOS.get(nome, ()))
             resultado["nome"] = nome
             if resultado["verificacoes_ok"] == 0:
                 resultado["aprovado"] = False

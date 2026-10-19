@@ -1,0 +1,212 @@
+{
+  "andar": 2,
+  "nome": "Selva dos Riachos",
+  "bioma": "bosque",
+  "grade": 16,
+  "limites": [
+    -900,
+    -640,
+    1800,
+    1280
+  ],
+  "entrada": [
+    -704,
+    496
+  ],
+  "guardiao": [
+    704,
+    -448
+  ],
+  "setores": [
+    {
+      "id": "entrada",
+      "nome": "Portal",
+      "centro": [
+        -704,
+        496
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 0
+    },
+    {
+      "id": "area_1",
+      "nome": "Clareira 1",
+      "centro": [
+        -368,
+        80
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 1
+    },
+    {
+      "id": "area_2",
+      "nome": "Clareira 2",
+      "centro": [
+        -208,
+        -416
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 1
+    },
+    {
+      "id": "area_3",
+      "nome": "Clareira 3",
+      "centro": [
+        128,
+        272
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 1
+    },
+    {
+      "id": "area_4",
+      "nome": "Clareira 4",
+      "centro": [
+        448,
+        -192
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 1
+    },
+    {
+      "id": "guardiao",
+      "nome": "Guardiao",
+      "centro": [
+        704,
+        -448
+      ],
+      "raios": [
+        176,
+        144
+      ],
+      "grupos": 0
+    }
+  ],
+  "trilhas": [
+    {
+      "pontos": [
+        [
+          -704,
+          496
+        ],
+        [
+          -368,
+          80
+        ]
+      ],
+      "raio": 88
+    },
+    {
+      "pontos": [
+        [
+          -368,
+          80
+        ],
+        [
+          -208,
+          -416
+        ]
+      ],
+      "raio": 88
+    },
+    {
+      "pontos": [
+        [
+          -368,
+          80
+        ],
+        [
+          128,
+          272
+        ]
+      ],
+      "raio": 88
+    },
+    {
+      "pontos": [
+        [
+          -208,
+          -416
+        ],
+        [
+          448,
+          -192
+        ]
+      ],
+      "raio": 88
+    },
+    {
+      "pontos": [
+        [
+          128,
+          272
+        ],
+        [
+          448,
+          -192
+        ]
+      ],
+      "raio": 88
+    },
+    {
+      "pontos": [
+        [
+          448,
+          -192
+        ],
+        [
+          704,
+          -448
+        ]
+      ],
+      "raio": 88
+    }
+  ],
+  "lago": {
+    "lobos": [
+      [
+        -438,
+        -104,
+        64,
+        50
+      ],
+      [
+        58,
+        88,
+        64,
+        50
+      ]
+    ],
+    "folga": 28
+  },
+  "combate": {
+    "comuns_por_grupo": 6,
+    "elites": 1,
+    "meta": 63,
+    "pontos_comum": 3,
+    "pontos_elite": 9,
+    "fracao_exigida": 0.778
+  },
+  "guardiao_id": "cogumelo",
+  "contrato_visual": {
+    "referencia": "Gentle Forest v02 (jungle of illusion)",
+    "grade": "16x16, escala nativa",
+    "estacoes": "quatro folhas privadas e calendario",
+    "encaixe": "pisos com bordas nativas; limites e navegacao derivados da mesma planta"
+  }
+}

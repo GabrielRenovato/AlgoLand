@@ -375,6 +375,31 @@ func caminho_entre(inicio: Vector2, fim: Vector2) -> PackedVector2Array:
 			pontos.append(fim)
 	return pontos
 
+## Percursos próprios passam por um lugar familiar, quando o desvio é razoável.
+## A navegação normal continua verificando os móveis e os corredores de cada trecho.
+func caminho_morador(inicio: Vector2, fim: Vector2, id: String) -> PackedVector2Array:
+	var direto := caminho_entre(inicio,fim)
+	var perfis: Dictionary = preload("res://codigo/cidade/perfis_rotina.gd").PERFIS
+	if local not in ["cidade","praia"] or not perfis.has(id) or inicio.distance_to(fim) < 80 or direto.is_empty():
+		return direto
+	var perfil: Dictionary = perfis[id]
+	var apoio: Vector2 = DadosCidade.ponto(perfil["via"]) if local == "cidade" else perfil["orla"]
+	if inicio.distance_to(apoio) < 24 or fim.distance_to(apoio) < 24: return direto
+	var primeira := caminho_entre(inicio,apoio)
+	if primeira.is_empty(): return direto
+	var segunda := caminho_entre(primeira[-1],fim)
+	if segunda.is_empty(): return direto
+	var distancia_direta := _comprimento_rota(direto)
+	if _comprimento_rota(primeira)+_comprimento_rota(segunda) > distancia_direta*1.5+24:
+		return direto
+	primeira.append_array(segunda)
+	return primeira
+
+func _comprimento_rota(rota: PackedVector2Array) -> float:
+	var comprimento := 0.0
+	for i in range(1,rota.size()): comprimento += rota[i-1].distance_to(rota[i])
+	return comprimento
+
 func _celula_livre(ponto: Vector2) -> Vector2i:
 	var celula := Vector2i(ponto / navegacao.cell_size)
 	celula.x = clampi(celula.x, 0, navegacao.region.size.x - 1)

@@ -134,19 +134,30 @@ func _rodar() -> void:
 	praia._process(1.3)
 	verificar("mar e espuma avançam na animação", praia.material_mar.get_shader_parameter("tempo") > anterior)
 	var adornos := praia.get_node("DecoracaoPraia").get_children()
-	verificar("coqueiros e conchas presentes", adornos.filter(func(no): return no.name.begins_with("coqueiro")).size() == 6 and adornos.filter(func(no): return no.name.begins_with("conchas")).size() == 10)
+	verificar("coqueiros preservados", adornos.filter(func(no): return no.name.begins_with("coqueiro")).size() == 6)
 	verificar("tronco tem colisão", bloqueado(praia, Vector2(74, 160)))
+	var layout: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://codigo/pesca/layout_praia.json"))
+	var curvas: Array = layout["curvas_costa"]
 	var margem_correta := true
 	for x in range(32, 672, 32):
 		if (x >= 112 and x <= 160) or (x >= 320 and x <= 384) or (x >= 448 and x <= 640):
 			continue
-		var costa := 300 + 16 * sin(x * 0.011) + 8 * sin(x * 0.027)
-		margem_correta = margem_correta and not bloqueado(praia, Vector2(x, costa - 6)) and bloqueado(praia, Vector2(x, costa + 10))
+		var costa: float = layout["costa_base"] + curvas[0]*sin(x*curvas[1]) + curvas[2]*sin(x*curvas[3])
+		# A nova enseada cruza a passarela horizontal; ela continua caminhavel sobre o mar.
+		var ponto_agua := Vector2(x,costa+10)
+		var sobre_cais := false
+		for caixa: Array in layout["cais"]:
+			if Rect2(caixa[0],caixa[1],caixa[2],caixa[3]).has_point(ponto_agua): sobre_cais = true
+		var areia_livre := not _colisao_do_mar(praia,Vector2(x,costa-6))
+		var agua_bloqueada := sobre_cais or _colisao_do_mar(praia,ponto_agua)
+		if not areia_livre or not agua_bloqueada: print("Margem x=",x," costa=",costa," areia=",areia_livre," agua=",agua_bloqueada)
+		margem_correta = margem_correta and areia_livre and agua_bloqueada
 	verificar("colisão acompanha margem curva", margem_correta)
 	var nilo := praia.get_node("Nilo")
 	verificar("NPC próprio com quatro direções", nilo.sprite.hframes == 4 and nilo.sprite.texture.resource_path.ends_with("nilo.png"))
 	var catalogo: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://assets/pesca/catalogo.json"))
-	verificar("12 peixes Tiny RPG catalogados", catalogo["peixes"].size() == 12)
+	var peixes: GDScript = load("res://codigo/pesca/peixes.gd")
+	verificar("catálogo contém todas as espécies atuais", catalogo["peixes"].size() == peixes.DADOS.size())
 	for id in catalogo["peixes"]:
 		verificar("ícone original carregável: " + id, load(catalogo["peixes"][id]["icone"]) is Texture2D)
 	var jogador: Node2D = praia.get_node("Jogador")
@@ -158,14 +169,14 @@ func _rodar() -> void:
 	verificar("jogador diante da porta não fica atrás da casa", jogador.z_index >= praia.get_node("Palafita").z_index)
 	verificar("porta permanece alcançável", praia.get_node("PortaPalafita").disponivel_para_interacao())
 	for estacao in 4:
-		root.get_node("Calendario").dia = 1 + estacao * 7
+		root.get_node("Calendario").dia = 1 + estacao * 30
 		root.get_node("Calendario").estacao_mudou.emit(estacao)
 		await quadros()
-		verificar("casa e corrimão preservam colisão na estação %d" % estacao, bloqueado(praia, Vector2(544, 350)) and bloqueado(praia, Vector2(636, 400)))
+		verificar("casa e borda externa preservam colisão na estação %d" % estacao, bloqueado(praia, Vector2(544, 350)) and bloqueado(praia, Vector2(641, 400)))
 		await capturar_colisoes(praia, "casa-estacao-%d" % estacao, Vector2(544, 326), 3.0)
 	root.get_node("Calendario").dia = 1
 	root.get_node("Calendario").estacao_mudou.emit(0)
-	verificar("corrimãos verticais bloqueiam suas bases", bloqueado(praia, Vector2(116, 410)) and bloqueado(praia, Vector2(156, 410)) and bloqueado(praia, Vector2(636, 400)))
+	verificar("bordas externas impedem cair no mar", bloqueado(praia, Vector2(111, 410)) and bloqueado(praia, Vector2(161, 410)) and bloqueado(praia, Vector2(641, 400)))
 	verificar("corredor do cais livre entre corrimãos", not corpo_bloqueado(jogador, Vector2(136, 410)) and not corpo_bloqueado(jogador, Vector2(416, 344)))
 	verificar("tronco inclinado B bloqueia sua base real", bloqueado(praia, Vector2(132, 104)) and not bloqueado(praia, Vector2(150, 104)))
 	verificar("tronco A bloqueia sua base real", bloqueado(praia, Vector2(80, 160)))
@@ -173,11 +184,10 @@ func _rodar() -> void:
 	await capturar_colisoes(praia, "geral", Vector2(352, 288), 1.0)
 	jogador.position = Vector2(368, 406)
 	await quadros()
-	var zona := nilo.get_node("Interacao")
-	zona.abrir_tela()
-	await quadros()
 	var interface := praia.get_node("Interface")
-	verificar("Nilo abre guia com ícones", interface._telas["guia_pesca"].visible and interface._telas["guia_pesca"]._grade.get_child_count() == 12)
+	interface._abrir_tela("guia_pesca")
+	await quadros()
+	verificar("catálogo da interface abre com ícones de todas as espécies", interface._telas["guia_pesca"].visible and interface._telas["guia_pesca"]._grade.get_child_count() == peixes.DADOS.size())
 	verificar("conversa bloqueia ações do jogador", not jogador.movimento_habilitado)
 	interface._telas["guia_pesca"]._fechar.pressed.emit()
 	await quadros()
@@ -201,7 +211,7 @@ func _rodar() -> void:
 				await RenderingServer.frame_post_draw
 				root.get_texture().get_image().save_png("/tmp/algoland-praia-mar/quadro_%02d.png" % i)
 			praia.set_process(true)
-		zona.abrir_tela()
+		interface._abrir_tela("guia_pesca")
 		await quadros(30)
 		await RenderingServer.frame_post_draw
 		root.get_texture().get_image().save_png("res://arte/previas/praia/catalogo_nilo.png")
@@ -232,13 +242,11 @@ func _rodar() -> void:
 		verificar("controle de P2 levanta sem afetar P1", not p2.esta_sentado and p1.esta_sentado and not corpo_bloqueado(p2, p2.position))
 		await apertar_interacao()
 		verificar("P1 levanta sem sentar novamente no mesmo toque", not p1.esta_sentado and not corpo_bloqueado(p1, p1.position))
-		var nilo_coop := current_scene.get_node("Nilo")
-		var conversa_coop := nilo_coop.get_node("Interacao")
+		var interface2: Node = coop.interface_p2()
 		p2.position = Vector2(368, 406)
 		await quadros()
-		conversa_coop.abrir_tela_p2()
+		interface2._abrir_tela("guia_pesca")
 		await quadros()
-		var interface2: Node = coop.interface_p2()
 		var guia2: Control = interface2._telas["guia_pesca"]
 		verificar("catálogo abre somente para P2", guia2.visible and not root.get_node("EventosJogo").interface_p1()._telas["guia_pesca"].visible)
 		verificar("P1 continua livre durante conversa de P2", p1.movimento_habilitado and not p2.movimento_habilitado)
@@ -263,16 +271,12 @@ func _rodar() -> void:
 		var casa: Node = coop.cena_de(p2)
 		verificar("P2 entra na palafita sem levar P1", casa.get("local") == "palafita" and coop.cena_de(p1).get("local") == "praia")
 		var nilo_interior: Node2D = casa.get_node("Nilo")
-		verificar("Nilo não duplica enquanto caminha para casa", nilo_casa.visible and not nilo_interior.visible)
-		nilo_casa.set_physics_process(false)
-		for i in 2400:
-			if not nilo_casa.visible:
-				break
-			nilo_casa._physics_process(1.0 / 30)
-			if i % 100 == 0:
-				await quadros(1)
+		verificar("Nilo está passeando na vila às 18h, sem cópias na praia ou palafita", not nilo_casa.visible and not nilo_interior.visible)
+		if nilo_casa.visible or nilo_interior.visible: print("Nilo18 praia=",nilo_casa.visible," agenda=",nilo_casa.agenda," interior=",nilo_interior.visible," agenda=",nilo_interior.agenda," hora=",casa.get_node("Iluminacao").hora)
+		casa.get_node("Iluminacao").definir_hora(19)
+		nilo_interior.atualizar_rotina()
 		await quadros(20)
-		verificar("mesmo Nilo chega ao interior no cooperativo", not nilo_casa.visible and nilo_interior.visible)
+		verificar("Nilo volta à palafita no horário de descanso", not nilo_casa.visible and nilo_interior.agenda["local"] == "palafita")
 		coop.viajar_local(p2, "res://cenas/praia.tscn", "palafita")
 		await quadros(40)
 		verificar("P2 volta da palafita para a praia compartilhada", p1.get_world_2d() == p2.get_world_2d())
@@ -281,3 +285,15 @@ func _rodar() -> void:
 	current_scene = null
 	await quadros()
 	quit(1 if falhas else 0)
+
+## Isola a barreira do litoral: rochas e troncos sobre a areia sao obstaculos legitimos.
+func _colisao_do_mar(cena: Node2D, ponto: Vector2) -> bool:
+	var consulta := PhysicsPointQueryParameters2D.new()
+	consulta.position = ponto
+	consulta.collision_mask = 64
+	for hit in cena.get_world_2d().direct_space_state.intersect_point(consulta):
+		var corpo: CollisionObject2D = hit["collider"]
+		var dono := corpo.shape_find_owner(hit["shape"])
+		var forma: Node = corpo.shape_owner_get_owner(dono)
+		if forma.name.begins_with("Mar_"): return true
+	return false

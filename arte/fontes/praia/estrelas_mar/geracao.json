@@ -1,0 +1,39 @@
+{
+  "tipo": "estrelas-do-mar decorativas sobre a areia",
+  "referencia": "arte/previas/praia/enseada/primavera_geral.png e pedras/coqueiros existentes; conchas removidas sao referencia negativa",
+  "dimensoes_nativas_planejadas": [
+    16,
+    16
+  ],
+  "ocupacao_planejada": [
+    12,
+    12
+  ],
+  "grade": "atlas 2x2: primavera, verao, outono, inverno; silhueta e margens comuns",
+  "pivo": "centro inferior da silhueta, normalizado ao carregar; os quatro quadros do atlas mantem a mesma tela, sem cortes individuais",
+  "colisao": "nenhuma; detalhe baixo abaixo de jogadores e NPCs",
+  "variantes": [
+    "primavera",
+    "verao",
+    "outono",
+    "inverno"
+  ],
+  "fonte": "arte/fontes/praia/estrelas_mar/atlas_gerado.png",
+  "recurso": "assets/cenario/praia/estrelas_mar/",
+  "consumidor": "codigo/pesca/decoracao_praia.gd; posicoes em layout_praia.json",
+  "revisao": "renderizacao real e detalhe da estrela nas quatro estacoes com save isolado",
+  "ferramenta": "image_gen integrado",
+  "dimensoes_atlas_recebidas": [
+    1254,
+    1254
+  ],
+  "integracao": "preparar_estrelas_mar.gd extrai os quadros de grade comum e gera quatro PNGs 32x32 por vizinho mais proximo; exibicao em 16x16 preserva contorno e detalhe em 2x, com troca pelo calendario",
+  "dimensoes_nativas_finais": [
+    32,
+    32
+  ],
+  "quadro_no_mundo": [
+    16,
+    16
+  ]
+}

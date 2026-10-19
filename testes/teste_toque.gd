@@ -208,26 +208,19 @@ func _rodar() -> void:
 	_toque(6, ataque["centro"], false)
 	_verificar("não existe mais o botão FECHAR flutuante", not _controles.has_method("_fechar_disponivel"), "")
 
-	# --- o X da mochila (lateral da direita) vai para o lado esquerdo do título, com uma área de toque maior
+	# Cabeçalho flexível: o próprio botão tem área de toque, sem sobrepor controles vizinhos.
 	var interface: Node = _cena.get_node("Interface")
 	var barra: Control = interface.get_node("TelaInventario/Sidebar")
-	var x_mochila: Control = barra.get_node("BotaoFechar")
-	var area_mochila: Button = barra.get_node_or_null("AreaFechar")
-	_verificar("o X da mochila ficou no lado esquerdo da barra", x_mochila.get_global_rect().get_center().x < barra.get_global_rect().get_center().x
-			and x_mochila.get_global_rect().position.x - barra.get_global_rect().position.x < 20.0, "x=%s barra=%s" % [x_mochila.get_global_rect(), barra.get_global_rect()])
-	_verificar("com uma área de toque de 56x16 sobre o X", area_mochila != null and area_mochila.get_global_rect().size.x >= 56.0 and area_mochila.get_global_rect().size.y >= 16.0
-			and area_mochila.get_global_rect().encloses(x_mochila.get_global_rect()), "")
-	_verificar("o X não está mais no canto direito da tela", x_mochila.get_global_rect().end.x < tam.x - 100.0 or barra.get_global_rect().position.x > 0.0, "")
-	_verificar("o toque na área do X fecha a mochila", interface._telas_abertas.has("inventario"), "")
-	area_mochila.pressed.emit()
+	var x_mochila: Button = barra.find_child("BotaoFechar",true,false)
+	_verificar("fechar mochila tem area de toque no cabecalho",x_mochila.size.x >= 28 and x_mochila.size.y >= 28, str(x_mochila.size))
+	_verificar("fechar mochila preserva margem interna",barra.get_global_rect().grow(-8).encloses(x_mochila.get_global_rect()),str(x_mochila.get_global_rect()))
+	x_mochila.pressed.emit()
 	await _fisica(4)
-	_verificar("e ela fecha", not interface._telas_abertas.has("inventario"), str(interface._telas_abertas))
-	_verificar("fechada a tela os controles de jogo voltam", _controles._ativo and _controles._tela.visible, "")
-	# o caldeirão (também colado na direita) segue o mesmo caminho; a loja (na esquerda) mantém o X onde estava
-	var x_caldeirao: Control = interface.get_node("TelaCaldeirao").find_child("BotaoFechar", true, false)
-	_verificar("o X do caldeirão também vai para a esquerda, com área de toque", x_caldeirao.anchor_left == 0.0 and x_caldeirao.get_parent().get_node_or_null("AreaFechar") != null, "")
-	var x_loja: Control = interface.get_node("TelaMercante").find_child("BotaoFechar", true, false)
-	_verificar("o X da loja continua à direita do painel dela, com área de toque", x_loja.anchor_left >= 1.0 and x_loja.get_parent().get_node_or_null("AreaFechar") != null, "")
+	_verificar("toque em fechar encerra mochila",not interface._telas_abertas.has("inventario"),str(interface._telas_abertas))
+	_verificar("fechada a tela os controles de jogo voltam",_controles._ativo and _controles._tela.visible,"")
+	for nome in ["TelaCaldeirao","TelaMercante"]:
+		var fechar: Button = interface.get_node(nome).find_child("BotaoFechar",true,false)
+		_verificar(nome+" usa botao proprio no container",fechar.get_parent() is HBoxContainer and fechar.custom_minimum_size.x >= 28,"")
 	# a tela obrigatória (fim de partida) segue sem como fechar de fora
 	_eventos.abrir_tela.emit("fim_partida")
 	await _fisica(3)

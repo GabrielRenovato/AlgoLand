@@ -85,6 +85,15 @@
       ],
       "largura": 128,
       "porta_x": 0
+    },
+    "forja": {
+      "nome": "FORJA DO IVO",
+      "base": [
+        192,
+        112
+      ],
+      "largura": 128,
+      "porta_x": 0
     }
   },
   "mercador_abertura": [

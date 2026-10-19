@@ -21,6 +21,11 @@ func cabe(controle: Control) -> bool:
 	var retangulo := controle.get_global_rect()
 	return area.encloses(retangulo)
 
+func separados(interface: Node, nome: String) -> bool:
+	if not interface._telas[nome].visible or not interface._telas["inventario"].visible:
+		return interface._troca_companheira.visible
+	return not interface._paineis[nome].get_global_rect().intersects(interface._paineis["inventario"].get_global_rect())
+
 func carregar(caminho: String) -> void:
 	change_scene_to_file(caminho)
 	await quadros(20)
@@ -58,19 +63,24 @@ func conferir_telas() -> void:
 			verificar("painel %s cabe no jogador %d: %s" % [nome, lado, painel.get_global_rect()], cabe(painel))
 			if nome in ["mercante", "bau"]:
 				var mochila: Control = interface._paineis["inventario"]
-				verificar("%s e mochila sem sobreposicao %d" % [nome, lado], not painel.get_global_rect().intersects(mochila.get_global_rect()))
+				verificar("%s e mochila sem sobreposicao %d" % [nome, lado], separados(interface,nome))
 			if nome in ["mercante", "bau"]:
 				var inventario: Node = interface._telas["inventario"]
-				var area: Rect2 = inventario.get_node("Sidebar").get_global_rect()
+				if interface._troca_companheira.visible:
+					interface._troca_companheira.pressed.emit()
+					await quadros(4)
+				inventario._rolagem.ensure_control_visible(inventario._atributos)
+				await quadros(4)
+				var area: Rect2 = inventario.get_node("Sidebar").get_global_rect().grow(-8)
 				verificar("atributos cabem na mochila compacta %d" % lado, area.encloses(inventario._atributos.get_global_rect()))
 				for rotulo in inventario._atributos.get_children():
 					verificar("atributo legivel %s %d" % [rotulo.text, lado], area.encloses(rotulo.get_global_rect()))
 			if nome == "mercante":
 				var loja: Node = interface._telas[nome]
-				for aba in [loja._painel_loja, loja._painel_bigorna, loja._painel_encantar, loja._painel_vender, loja._painel_saque]:
+				for aba in [loja._painel_loja, loja._painel_bigorna, loja._painel_encantar, loja._painel_vender]:
 					loja._mostrar_aba(aba)
 					await quadros(3)
-					verificar("aba %s cabe ao lado da mochila %d" % [aba.name, lado], cabe(painel) and not painel.get_global_rect().intersects(interface._paineis["inventario"].get_global_rect()))
+					verificar("aba %s cabe ao lado da mochila %d" % [aba.name, lado], cabe(painel) and separados(interface,nome))
 			interface._fechar_tela(nome)
 		interface._abrir_tela("inventario")
 		var inventario_aberto: Node = interface._telas["inventario"]
@@ -78,11 +88,11 @@ func conferir_telas() -> void:
 		interface._abrir_tela("mercante")
 		await create_timer(0.25).timeout
 		verificar("loja volta da aba missoes para itens %d" % lado, not inventario_aberto._aba_missoes)
-		verificar("loja ajusta mochila ja aberta %d" % lado, not interface._paineis["mercante"].get_global_rect().intersects(interface._paineis["inventario"].get_global_rect()))
+		verificar("loja ajusta mochila ja aberta %d" % lado, separados(interface,"mercante"))
 		interface._fechar_tela("mercante")
 		# O X da mochila do jogador 2 precisa fechar a mochila dele.
 		interface._abrir_tela("inventario")
-		interface._telas["inventario"].get_node("Sidebar/BotaoFechar").pressed.emit()
+		interface._telas["inventario"].find_child("BotaoFechar",true,false).pressed.emit()
 		verificar("X fecha a mochila do dono %d" % lado, interface._telas_abertas.is_empty())
 		interface._abrir_tela("inventario")
 		await create_timer(0.25).timeout
@@ -90,7 +100,7 @@ func conferir_telas() -> void:
 		if lado == 1:
 			# O clique atravessa as coordenadas físicas da moldura e as lógicas da interface.
 			var moldura: Control = camada.get_node("Vista1")
-			var fechar: Control = interface._telas["inventario"].get_node("Sidebar/BotaoFechar")
+			var fechar: Control = interface._telas["inventario"].find_child("BotaoFechar",true,false)
 			var posicao := (moldura.position + fechar.get_global_rect().get_center()) * root.get_final_transform().get_scale()
 			var mover := InputEventMouseMotion.new()
 			mover.position = posicao

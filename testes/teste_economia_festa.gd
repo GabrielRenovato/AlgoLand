@@ -79,13 +79,25 @@ func _rodar() -> void:
 	cal.dia = 1
 	prog.iniciar_partida()
 	prog.registrar_onda_concluida(3, false, false)
-	verificar("onda 3 libera arco permanentemente", prog.arma_liberada("arco_curto") and not prog.arma_liberada("arco_longo"))
-	verificar("liberacao entrega uma copia aos dois jogadores", inv.buscar_por_tipo("arco_curto") != null and inv2.buscar_por_tipo("arco_curto") != null)
+	verificar("onda 3 nao aprende receita nem entrega a arma", not prog.receita_liberada("arco_curto") and not prog.arma_liberada("arco_curto") and inv.buscar_por_tipo("arco_curto") == null and inv2.buscar_por_tipo("arco_curto") == null)
+	var receitas = load("res://codigo/dados/forja_armas.gd")
+	inv.adicionar_coletavel("receita", "arco_curto")
+	prog.aprender_receita("arco_curto", inv)
+	prog.adicionar_materiais_forja(receitas.RECEITAS["arco_curto"])
+	verificar("primeira fabricacao libera modelo e entrega aos dois", prog.fabricar_arma("arco_curto") == "" and inv.buscar_por_tipo("arco_curto") != null and inv2.buscar_por_tipo("arco_curto") != null)
 	prog.registrar_onda_concluida(20, true, false)
-	verificar("desafios liberam as seis armas adicionais", prog.armas_liberadas.size() == 6)
+	verificar("ondas nao aprendem receitas sozinhas", prog.armas_liberadas.size() == 1)
+	for tipo in receitas.RECEITAS:
+		if not prog.receita_liberada(tipo):
+			inv.adicionar_coletavel("receita", tipo)
+			prog.aprender_receita(tipo, inv)
 	prog.salvar()
 	prog.carregar()
 	verificar("desbloqueios sobrevivem ao carregamento", prog.armas_liberadas.size() == 6)
+	for tipo in receitas.RECEITAS:
+		if not prog.arma_liberada(tipo):
+			prog.adicionar_materiais_forja(receitas.RECEITAS[tipo])
+			prog.fabricar_arma(tipo)
 	var arma = inv.buscar_por_tipo("arco_longo")
 	arma.nivel = 5
 	arma.raridade = "lendario"
@@ -114,12 +126,12 @@ func _rodar() -> void:
 	# Sábado tem prioridade sobre folga e sono, incluindo a madrugada até as 06h.
 	for hora in [18.0, 23.0, 0.0]:
 		var todos := true
-		for id in Dados.MORADORES:
+		for id in Dados.CAMAS:
 			var agenda: Dictionary = Dados.agenda(id, hora, 0, 0, 5)
 			todos = todos and agenda["local"] == "pousada" and agenda.get("festa", false) and not agenda.get("dormindo", false)
 		verificar("todos festejam sabado as " + str(hora), todos and Dados.taverna_aberta(hora, 5))
 	var todos_dormindo := true
-	for id in Dados.MORADORES:
+	for id in Dados.CAMAS:
 		var agenda: Dictionary = Dados.agenda(id, 1.4, 0, 0, 5)
 		todos_dormindo = todos_dormindo and agenda.get("dormindo", false) and agenda["local"] == Dados.cama(id)["local"]
 	verificar("todos saem para dormir antes das 2h", todos_dormindo)
@@ -236,6 +248,6 @@ func verificar_taverna_coop(coop: Node, taverna: Node) -> void:
 	verificar("taverna continua iluminada com parceiro na rua", taverna.get_node("Iluminacao/CanvasModulate").color.get_luminance() > 0.7)
 	await coop.viajar_local(p1, "res://cenas/cidade/pousada.tscn", "entrada")
 	await quadros()
-	verificar("reencontro reutiliza a mesma taverna e seus moradores", p1.get_world_2d() == p2.get_world_2d() and coop.cena_de(p1) == taverna and get_nodes_in_group("moradores_cidade").filter(func(npc): return npc.vila == taverna).size() == 6)
+	verificar("reencontro reutiliza a mesma taverna e seus moradores", p1.get_world_2d() == p2.get_world_2d() and coop.cena_de(p1) == taverna and get_nodes_in_group("moradores_cidade").filter(func(npc): return npc.vila == taverna).size() == Dados.MORADORES.size() - 1)
 	p1.position = Vector2(560, 280)
 	p2.position = Vector2(600, 280)

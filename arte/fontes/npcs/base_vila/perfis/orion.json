@@ -1,0 +1,41 @@
+{
+  "base": "adulto_avental.json",
+  "paletas": {
+    "corpo": {},
+    "cabelo_barba": {
+      "#4f3e38": "#757c80",
+      "#6a4d40": "#979e9b",
+      "#805847": "#b7beb6",
+      "#98684b": "#d3d6c5",
+      "#a87658": "#efe9d2"
+    },
+    "camisa": {
+      "#fbfafa": "#84b9b3",
+      "#f3eeeb": "#72a6a4",
+      "#e5dbcb": "#609392",
+      "#d4c8b7": "#537f83",
+      "#cabdad": "#486e79",
+      "#beb2a1": "#3e5e6d",
+      "#aa9c8a": "#354e60",
+      "#98918b": "#354e60",
+      "#82776d": "#354e60",
+      "#73665d": "#303e50"
+    },
+    "avental": {
+      "#53351e": "#354052",
+      "#674025": "#44536c",
+      "#784b2a": "#566987",
+      "#8a562f": "#6e81a0"
+    }
+  },
+  "contorno": {
+    "#2b1a22": "#493432",
+    "#2d2d2d": "#453b39",
+    "#332328": "#503a38"
+  },
+  "id": "orion",
+  "nome": "Orion",
+  "identidade": "Mago idoso grisalho com barba branca, tunica indigo antiga gasta e remendada, chapeu de bruxo envelhecido, de aba larga e ponta dobrada. Braco e mao seguram um cajado de madeira retorcida com forquilha, integrados a cada pose.",
+  "acessorios": [],
+  "folha_mago": "arte/fontes/npcs/orion_mago/gerado_cajado.png"
+}

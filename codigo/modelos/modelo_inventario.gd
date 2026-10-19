@@ -25,25 +25,27 @@ const COLUNAS_MOCHILA := 8
 ## O que a barra de baixo mostra e troca: arma e escudo
 const CATEGORIAS_DA_BARRA := ["arma", "escudo"]
 const SLOTS := ["arma", "escudo", "secundaria", "cabeca", "corpo", "luvas", "botas"]
-## Ordem = casas da mochila: a primeira linha (a barra de baixo, igual na arena e na fazenda) já vem com espada, escudo, enxada, regador e lança
+## Espada, escudo e ferramentas são iniciais; os demais equipamentos exigem receita e forja.
 const DEFINICOES_INICIAIS := [
 	{"tipo": "espada_basica", "categoria": "arma", "duas_maos": false, "equipado": false},
 	{"tipo": "escudo_basico", "categoria": "escudo", "duas_maos": false, "equipado": false},
 	{"tipo": "enxada", "categoria": "ferramenta", "duas_maos": false, "equipado": false},
 	{"tipo": "regador", "categoria": "ferramenta", "duas_maos": false, "equipado": false},
-	{"tipo": "lanca_basica", "categoria": "arma", "duas_maos": true, "equipado": false},
-	{"tipo": "aljava_basica", "categoria": "secundaria", "duas_maos": false, "equipado": true},
-	{"tipo": "cabeca_basica", "categoria": "cabeca", "duas_maos": false, "equipado": true},
-	{"tipo": "armadura_basica", "categoria": "corpo", "duas_maos": false, "equipado": true},
-	{"tipo": "luvas_basicas", "categoria": "luvas", "duas_maos": false, "equipado": true},
-	{"tipo": "botas_basicas", "categoria": "botas", "duas_maos": false, "equipado": true},
 	{"tipo": "machadinha", "categoria": "ferramenta", "duas_maos": false, "equipado": false},
 	{"tipo": "picareta", "categoria": "ferramenta", "duas_maos": false, "equipado": false},
 ]
 
 ## Moeda especial de forja (cai dos chefes): 1 por nível de peça de conjunto na bigorna. Vale só nesta partida, como o equipamento
 signal moedas_forja_alteradas(quantidade: int)
-var moedas_forja: int = 0
+var moedas_forja: int:
+	get:
+		return quantidade_tipo("material:moeda_forja")
+	set(valor):
+		var atual := quantidade_tipo("material:moeda_forja")
+		if valor > atual:
+			adicionar_coletavel("material","moeda_forja",valor-atual)
+		elif valor < atual:
+			gastar_tipo("material:moeda_forja",atual-maxi(0,valor))
 var _rng_ascensao := RandomNumberGenerator.new()
 
 var mochila: Array = []
@@ -51,6 +53,16 @@ var equipados: Dictionary = {}
 ## A arma (e o escudo) em uso continua "ocupando" a casa da mochila de onde saiu, para a barra de baixo mostrá-la no lugar dela, como o item na
 ## mão do Stardew: {"arma": índice da casa, "escudo": índice} (-1 = sem casa). A casa fica vazia no modelo, mas reservada: nada novo entra
 ## nela (ver _primeira_livre) e quem passa a usar outro item devolve o anterior para ela
+## A vara de pesca está na mão (escolhida na barra de baixo): só assim dá para pescar. Não é salvo: ao entrar no jogo a mão é a arma.
+## Equipar uma arma tira a vara da mão
+var vara_na_mao := false
+
+func definir_vara_na_mao(valor: bool) -> void:
+	if vara_na_mao == valor:
+		return
+	vara_na_mao = valor
+	equipamento_alterado.emit("arma")
+
 var celulas_da_mao: Dictionary = {"arma": -1, "escudo": -1}
 ## Linhas extras já liberadas (ver ONDAS_LINHA_EXTRA)
 var linhas_extras: int = 0
@@ -113,8 +125,8 @@ func limpar() -> void:
 	for slot in SLOTS:
 		_avisar_slot(slot)
 
-## O que sobrevive à morte: as peças de conjunto (equipadas ou na mochila, com nível e afixos), as sementes (progresso da fazenda) e as
-## moedas de forja. As ferramentas não precisam: fazem parte do kit inicial
+## Sobrevivem à morte: peças de conjunto, sementes, peixes, materiais, receitas,
+## colheitas e poções, além das ferramentas e da vara. Tudo permanece em slots reais.
 func guardar_para_nova_partida() -> Dictionary:
 	var pecas: Array = []
 	for slot in SLOTS:
@@ -122,15 +134,23 @@ func guardar_para_nova_partida() -> Dictionary:
 		if item != null and Conjuntos.de_tipo(item.tipo) != null:
 			pecas.append({"item": item, "equipado": true})
 	for item in mochila:
-		if item != null and (Conjuntos.de_tipo(item.tipo) != null or item.categoria in ["semente","peixe","vara"]):
+		if item != null and (Conjuntos.de_tipo(item.tipo) != null or item.categoria in ["ferramenta","semente","peixe","vara","material","receita","colheita","pocao"]):
 			pecas.append({"item": item, "equipado": false})
 	return {"pecas": pecas, "moedas_forja": moedas_forja}
 
 ## Devolve o que guardar_para_nova_partida separou, depois do kit inicial: as peças voltam aos mesmos slots
 func restaurar_da_partida_anterior(guardado: Dictionary) -> void:
 	_sincronizando = true
-	moedas_forja = int(guardado.get("moedas_forja", 0))
+	# Restaura os itens reais antes dos presentes da próxima partida. Uma mochila
+	# cheia não pode perder materiais para dar lugar ao kit ou às armas liberadas.
+	mochila.fill(null)
+	var pecas_na_mochila: int = guardado.get("pecas", []).filter(func(p): return not p["equipado"]).size()
+	celulas_da_mao = {"arma": 0, "escudo": 1} if pecas_na_mochila <= capacidade()-2 else {"arma": -1, "escudo": -1}
+	armas_permanentes_entregues.clear()
 	for registro in guardado.get("pecas", []):
+		if registro["equipado"]:
+			equipados[registro["item"].categoria] = registro["item"]
+			continue
 		var casa := _primeira_livre()
 		if casa == -1:
 			break
@@ -140,9 +160,9 @@ func restaurar_da_partida_anterior(guardado: Dictionary) -> void:
 				if mochila[i] != null and mochila[i].categoria == "vara":
 					mochila[i] = null
 		mochila[casa] = registro["item"]
-		if registro["equipado"]:
-			equipar(registro["item"])
+	sincronizar_vara()
 	_sincronizando = false
+	entregar_armas_liberadas()
 	moedas_forja_alteradas.emit(moedas_forja)
 	_avisar_mochila()
 	for slot in SLOTS:
@@ -209,16 +229,12 @@ func _migrar_ferramentas() -> void:
 	if Introducao.ativa():
 		return
 	for tipo in DadosItemScript.FERRAMENTAS:
-		var tem := false
-		for item in mochila:
-			if item != null and item.tipo == tipo:
-				tem = true
-				break
-		var casa := _primeira_livre()
-		if not tem and casa != -1:
-			mochila[casa] = DadosItemScript.de_fazenda(tipo)
+		if buscar_por_tipo(tipo) == null:
+			var casa := _primeira_livre()
+			if casa != -1: mochila[casa] = DadosItemScript.de_fazenda(tipo)
 
-## A vara de pesca é um item da mochila de cada jogador, criado a partir deste patch nos saves que ainda não têm uma. O
+
+## A vara inicial é um item da mochila de cada jogador. O
 ## nível/raridade dela seguem o refinamento (Varas). `nivel_vara` < 1 usa o do jogador deste inventário.
 func sincronizar_vara(nivel_vara: int = 0) -> void:
 	if Introducao.ativa():
@@ -236,19 +252,18 @@ func sincronizar_vara(nivel_vara: int = 0) -> void:
 		_avisar_mochila()
 
 func adicionar_moedas_forja(quantidade: int = 1) -> void:
-	moedas_forja = maxi(moedas_forja + quantidade, 0)
+	adicionar_coletavel("material", "moeda_forja", quantidade)
 	moedas_forja_alteradas.emit(moedas_forja)
 
 func gastar_moeda_forja(quantidade: int = 1) -> bool:
 	if moedas_forja < quantidade:
 		return false
-	moedas_forja -= quantidade
+	gastar_tipo("material:moeda_forja", quantidade)
 	moedas_forja_alteradas.emit(moedas_forja)
 	return true
 
 func _limpar() -> void:
 	armas_permanentes_entregues.clear()
-	moedas_forja = 0
 	mochila.clear()
 	mochila.resize(TAMANHO_MAXIMO)
 	mochila.fill(null)
@@ -258,12 +273,72 @@ func _limpar() -> void:
 	celulas_da_mao = {"arma": -1, "escudo": -1}
 
 func adicionar(item) -> int:
-	var indice := _primeira_livre()
-	if indice == -1:
-		return -1
-	mochila[indice] = item
+	return receber(item)
+
+func quantidade_tipo(tipo: String) -> int:
+	var total := 0
+	for item in mochila:
+		if item != null and item.tipo == tipo:
+			total += item.quantidade
+	return total
+
+func pode_receber(item: DadosItem) -> bool:
+	if item == null:
+		return false
+	if item.empilhavel():
+		for pilha in mochila:
+			if pilha != null and pilha.tipo == item.tipo and pilha.qualidade == item.qualidade:
+				return true
+	return _primeira_livre() >= 0
+
+func adicionar_coletavel(categoria: String, id: String, quantidade := 1) -> bool:
+	if quantidade <= 0:
+		return false
+	return receber(DadosItemScript.de_coletavel(categoria,id,quantidade)) >= 0
+
+func fotografar_mochila() -> Array:
+	return mochila.map(func(item): return item.para_dict() if item != null else null)
+
+func restaurar_mochila(fotografia: Array) -> void:
+	for i in mochila.size():
+		mochila[i] = DadosItemScript.de_dict(fotografia[i]) if i < fotografia.size() and fotografia[i] is Dictionary else null
 	_avisar_mochila()
-	return indice
+
+func receber_materiais(ganhos: Dictionary) -> bool:
+	var antes := fotografar_mochila()
+	for id in ganhos:
+		if not preload("res://codigo/dados/forja_armas.gd").MATERIAIS.has(id) or int(ganhos[id]) <= 0 or not adicionar_coletavel("material",id,int(ganhos[id])):
+			restaurar_mochila(antes)
+			return false
+	if not salvar():
+		restaurar_mochila(antes)
+		return false
+	return true
+
+func usar_receita(item: DadosItem) -> String:
+	if item == null or item.categoria != "receita" or indice_de(item) < 0:
+		return "RECEITA NAO ESTA NA MOCHILA"
+	return get_node("/root/Progresso").aprender_receita(item.conteudo(), self)
+
+func gastar_tipo(tipo: String, quantidade: int) -> bool:
+	if quantidade <= 0 or quantidade_tipo(tipo) < quantidade:
+		return false
+	var restante := quantidade
+	for i in capacidade():
+		var item = mochila[i]
+		if item == null or item.tipo != tipo:
+			continue
+		var retirar := mini(restante,item.quantidade)
+		item.quantidade -= retirar
+		restante -= retirar
+		if item.quantidade == 0:
+			mochila[i] = null
+		else:
+			_avisar_item(item)
+		if restante == 0:
+			break
+	_avisar_mochila()
+	return true
 
 func indice_de(item) -> int:
 	return mochila.find(item)
@@ -372,6 +447,8 @@ func equipar(item) -> bool:
 	if celula == -1 or not pode_equipar(item):
 		return false
 	var slot: String = item.categoria
+	if slot == "arma":
+		definir_vara_na_mao(false)
 	var anterior = equipados[slot]
 	var escudo_deslocado = null
 	if item.duas_maos and equipados["escudo"] != null:
@@ -435,6 +512,13 @@ func desequipar(slot: String, indice: int = -1) -> bool:
 func receber(item, indice: int = -1) -> int:
 	if item == null:
 		return -1
+	if item.empilhavel():
+		for pilha in mochila:
+			if pilha != null and pilha != item and pilha.tipo == item.tipo and pilha.qualidade == item.qualidade:
+				pilha.quantidade += item.quantidade
+				_avisar_item(pilha)
+				_avisar_mochila()
+				return mochila.find(pilha)
 	if item.categoria == "peixe":
 		for pilha in mochila:
 			if pilha != null and pilha.categoria == "peixe" and pilha.tipo == item.tipo and pilha.qualidade == item.qualidade:
@@ -464,6 +548,18 @@ func remover_da_mochila(item) -> bool:
 	_avisar_mochila()
 	return true
 
+## Exclusão persistente de uma pilha da mochila. Em falha de escrita, conserva o item.
+func excluir_item(item) -> bool:
+	var indice := mochila.find(item)
+	if item == null or indice == -1:
+		return false
+	mochila[indice] = null
+	if not salvar():
+		mochila[indice] = item
+		return false
+	_avisar_mochila()
+	return true
+
 func subir_nivel(item) -> void:
 	# Peça de conjunto no nível 5: a bigorna sobe a raridade (e soma um bônus) em vez do nível; lendária já está no máximo
 	if Conjuntos.de_tipo(item.tipo) != null and item.nivel >= Conjuntos.NIVEL_ASCENSAO:
@@ -482,19 +578,23 @@ func encantar(item, tipo: String) -> void:
 		item.nivel_encantamento = 1
 	_avisar_item(item)
 
+## A vara de pesca não conta: ela é criada na mochila logo ao abrir o jogo (Fazenda.carregar -> Varas), antes do save ser lido. Se contasse, o
+## jogo acharia que já tem inventário, nunca leria o inventario.json e o próximo salvamento apagaria todos os itens
 func esta_vazio() -> bool:
 	for item in mochila:
-		if item != null:
+		if item != null and item.categoria != "vara":
 			return false
 	for slot in SLOTS:
 		if equipados[slot] != null:
 			return false
 	return true
 
-# Armas e escudo começam na mochila; as peças de armadura já vêm equipadas
+# O kit inicial entrega espada, escudo e ferramentas.
 func criar_itens_iniciais(para_introducao := false) -> void:
 	_sincronizando = true
 	for definicao in DEFINICOES_INICIAIS:
+		if not definicao["tipo"] in preload("res://codigo/dados/forja_armas.gd").INICIAIS_LIVRES:
+			continue
 		if para_introducao and not definicao["categoria"] in ["cabeca", "corpo", "luvas", "botas"]:
 			continue
 		var item = _criar_item(definicao)
@@ -516,21 +616,36 @@ func criar_itens_iniciais(para_introducao := false) -> void:
 ## Arquivo deste inventário (Saves troca entre o mundo solo e o cooperativo; o do jogador 2 é outro)
 var caminho_save := "user://inventario.json"
 
-func salvar(caminho: String = "") -> bool:
-	if caminho == "":
-		caminho = caminho_save
-	var dados_mochila: Array = []
-	for item in mochila:
-		dados_mochila.append(item.para_dict() if item != null else null)
+func dados_save() -> Dictionary:
 	var dados_equipados: Dictionary = {}
 	for slot in SLOTS:
 		var item = equipados[slot]
 		dados_equipados[slot] = item.para_dict() if item != null else null
-	var arquivo := FileAccess.open(caminho, FileAccess.WRITE)
+	return {"mochila": fotografar_mochila(), "equipados": dados_equipados, "mao": celulas_da_mao,
+		"armas_permanentes_entregues": armas_permanentes_entregues}
+
+static func gravar_dados(caminho: String, dados: Dictionary) -> bool:
+	var arquivo := FileAccess.open(caminho + ".tmp", FileAccess.WRITE)
 	if arquivo == null:
 		return false
-	arquivo.store_string(JSON.stringify({"mochila": dados_mochila, "equipados": dados_equipados, "mao": celulas_da_mao, "moedas_forja": moedas_forja, "armas_permanentes_entregues": armas_permanentes_entregues}, "\t"))
-	return true
+	arquivo.store_string(JSON.stringify(dados, "\t"))
+	arquivo.flush()
+	var erro := arquivo.get_error()
+	arquivo.close()
+	if erro != OK:
+		return false
+	return DirAccess.rename_absolute(ProjectSettings.globalize_path(caminho + ".tmp"), ProjectSettings.globalize_path(caminho)) == OK
+
+func salvar(caminho: String = "") -> bool:
+	if caminho == "":
+		caminho = caminho_save
+	var dados := dados_save()
+	var progresso := get_node_or_null("/root/Progresso") if is_inside_tree() else null
+	if progresso != null and progresso.mochila_pendente.get("caminho", "") == caminho:
+		progresso.mochila_pendente["dados"] = dados
+		if not progresso.salvar():
+			return false
+	return gravar_dados(caminho, dados)
 
 func carregar(caminho: String = "") -> bool:
 	if caminho == "":
@@ -558,21 +673,42 @@ func carregar(caminho: String = "") -> bool:
 			var casa := int(mao.get(categoria, -1))
 			if casa >= 0 and casa < TAMANHO_MAXIMO and mochila[casa] == null and equipados[categoria] != null:
 				celulas_da_mao[categoria] = casa
-	moedas_forja = maxi(int(dados.get("moedas_forja", 0)), 0)
 	moedas_forja_alteradas.emit(moedas_forja)
 	for tipo in dados.get("armas_permanentes_entregues", []):
 		if Equipamentos.ARMAS_ADICIONAIS.has(tipo) and not tipo in armas_permanentes_entregues:
 			armas_permanentes_entregues.append(tipo)
 	_migrar_aljava()
 	_migrar_ferramentas()
+	_garantir_armas_basicas()
 	sincronizar_vara()
 	_avisar_mochila()
 	for slot in SLOTS:
 		_avisar_slot(slot)
 	return true
 
+## Save antigo (ou gravado no meio do prólogo) pode vir sem nenhuma arma ou escudo: fora do prólogo, quem não tem NENHUMA arma
+## (ou nenhum escudo) ganha a básica, já na mão. Quem tem qualquer arma/escudo, mesmo trocado ou melhorado, não recebe nada
+func _garantir_armas_basicas() -> void:
+	if Introducao.ativa():
+		return
+	for par in [["arma", "espada_basica"], ["escudo", "escudo_basico"]]:
+		var tem: bool = equipados.get(par[0]) != null
+		for item in mochila:
+			if item != null and item.categoria == par[0]:
+				tem = true
+				break
+		var casa := _primeira_livre()
+		if tem or casa == -1:
+			continue
+		for definicao in DEFINICOES_INICIAIS:
+			if definicao["tipo"] == par[1]:
+				var novo = _criar_item(definicao)
+				mochila[casa] = novo
+				equipar(novo)
+				break
+
 # Saves anteriores à aljava (ou que a perderam) ficam sem ela e o arco não equipa: reequipa a que estiver na mochila
-# ou concede uma básica, tenha o arco na mão ou não
+# sem conceder outra: a aljava precisa ter sido fabricada.
 func _migrar_aljava() -> void:
 	if equipados["secundaria"] != null:
 		return
@@ -582,7 +718,7 @@ func _migrar_aljava() -> void:
 			equipados["secundaria"] = item
 			mochila[i] = null
 			return
-	equipados["secundaria"] = _criar_item({"tipo": "aljava_basica", "categoria": "secundaria", "duas_maos": false})
+	# Sem concessão automática: a aljava precisa ter sido fabricada no Ivo.
 
 ## Primeira casa vazia (das liberadas) que não é reservada pela mão
 func _primeira_livre() -> int:
@@ -631,6 +767,9 @@ func buscar_por_tipo(tipo: String):
 
 # Armas recém-liberadas: vão para a mochila no nível 1.
 func adicionar_arma_nova(tipo: String) -> bool:
+	var forja = preload("res://codigo/dados/forja_armas.gd")
+	if forja.RECEITAS.has(tipo):
+		return adicionar(forja.criar_item(tipo)) != -1
 	var duas_maos: bool = Equipamentos.ARMAS_ADICIONAIS.get(tipo, {}).get("duas_maos", false)
 	return adicionar(_criar_item({"tipo": tipo, "categoria": "arma", "duas_maos": duas_maos})) != -1
 
@@ -649,6 +788,7 @@ func _avisar_mochila() -> void:
 		_pendente_mochila = true
 	else:
 		mochila_alterada.emit()
+		moedas_forja_alteradas.emit(moedas_forja)
 
 func _avisar_slot(slot: String) -> void:
 	if _sincronizando:
@@ -673,21 +813,22 @@ func _emitir_pendentes() -> void:
 	_pendente_mochila = false
 	if mochila_mudou:
 		mochila_alterada.emit()
+		moedas_forja_alteradas.emit(moedas_forja)
 	for slot in slots:
 		equipamento_alterado.emit(slot)
 	for item in itens:
 		item_alterado.emit(item)
 
 ## Uma cópia comum por arma e por partida; não permite retirar e vender infinitamente.
-func entregar_armas_liberadas() -> void:
-	if not is_inside_tree() or esta_vazio():
+func entregar_armas_liberadas(forcar := false) -> void:
+	if not is_inside_tree() or (esta_vazio() and not forcar):
 		return
 	var progresso := get_node_or_null("/root/Progresso")
 	var introducao := get_node_or_null("/root/Introducao")
 	if progresso == null or progresso._carregando or (introducao != null and introducao.ativa()):
 		return
 	var mudou := false
-	for tipo in Equipamentos.ARMAS_ADICIONAIS:
+	for tipo in preload("res://codigo/dados/forja_armas.gd").RECEITAS:
 		if not progresso.arma_liberada(tipo) or tipo in armas_permanentes_entregues:
 			continue
 		if buscar_por_tipo(tipo) == null and not adicionar_arma_nova(tipo):

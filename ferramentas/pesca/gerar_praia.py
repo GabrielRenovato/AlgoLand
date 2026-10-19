@@ -39,10 +39,11 @@ def gerar():
     K.camada(c, 'AreiaMar', celulas, tileset, 'Terrains', z=-1000)
     # A mesma composição por cantos da cidade: guia, cantos internos e externos sobre a areia.
     import terreno_vila as TV
-    from preparar_orla import preparar
+    from preparar_orla import preparar, preparar_vegetacao
     preparar()
+    preparar_vegetacao()
     def pavimentado(x, y):
-        return (64 <= x <= 640 and 112 <= y <= 144) or (304 <= x <= 368 and y <= 128)
+        return 304 <= x <= 368 and y <= 128
     orla = {}
     for y in range(-2, 11):
         for x in range(2, 42):
@@ -55,6 +56,21 @@ def gerar():
         [('res://assets/cenario/praia/orla/primavera.png',4,6,'PEDRA E GUIA DA CIDADE')], 'Orla')
     pedra = c.recurso('TileSet', 'res://recursos/praia/tileset_orla.tres', 'pedra_orla')
     K.camada(c, 'CalcadaOrla', orla, pedra, 'Terrains', z=-999)
+    # Enseada emoldurada pela mata. A composicao de cantos da cidade evita recortes retangulares.
+    def gramado(x, y):
+        return (y < 64 + 12 * math.sin(x * 0.025) and not 288 <= x <= 384) or (x < 96 + 24 * math.sin(y * 0.015) and y < 304) or (x > 656 - 12 * math.sin(y * 0.018) and y < 272)
+    vegetacao = {}
+    for y in range(-2, 21):
+        for x in range(-2, 46):
+            cantos = ['grama' if gramado(vx*16, vy*16) else 'terra'
+                      for vx,vy in [(x,y),(x+1,y),(x,y+1),(x+1,y+1)]]
+            if 'grama' in cantos:
+                _, tx, ty = TV.tile_da_celula(cantos, x, y)
+                vegetacao[(x,y)] = (0,tx,ty)
+    K.recurso_tileset('recursos/praia/tileset_vegetacao_orla.tres',
+        [('res://assets/cenario/praia/vegetacao_orla/primavera.png',4,6,'MARGEM NATURAL DA ENSEADA')], 'VegetacaoOrla')
+    grama = c.recurso('TileSet','res://recursos/praia/tileset_vegetacao_orla.tres','grama_orla')
+    K.camada(c,'VegetacaoOrla',vegetacao,grama,'Terrains',z=-999)
     piso_cais = 'res://assets/cenario/Starter Pack/home interiors, timber roof.png'
     K.recurso_tileset('recursos/praia/tileset_cais.tres', [(piso_cais, 31, 16, 'MADEIRA NATIVA MANA SEED')], 'Cais')
     cais = c.recurso('TileSet', 'res://recursos/praia/tileset_cais.tres', 'cais')
@@ -143,54 +159,20 @@ def gerar_palafita():
 
 
 def montar_corrimaos(c, celulas, costa):
-    """Bordas modulares do cais, com abertura para a vara do Nilo e entradas de terra."""
-    horizontal = c.recurso('Texture2D', 'res://assets/cenario/fazenda/cerca/primavera/horizontal.png', 'cerca_horizontal')
-    poste = c.recurso('Texture2D', 'res://assets/cenario/fazenda/cerca/primavera/poste.png', 'poste_cais')
-    vertical = c.recurso('Texture2D', 'res://assets/cenario/fazenda/cerca/primavera/vertical.png', 'cerca_vertical')
-    c.no('Corrimaos', 'Node2D', props=['texture_filter = 1'])
-    indice = 0
-    laterais = {}
-    for x, y in sorted(celulas):
+    """Limite baixo na borda externa do tablado, sem cercas de fazenda."""
+    for indice, (x, y) in enumerate(sorted(celulas)):
         for dx, dy in [(0, -1), (0, 1), (-1, 0), (1, 0)]:
             if (x + dx, y + dy) in celulas:
                 continue
             px, py = x * 16, y * 16
-            yy = py if dy == -1 else py + 16
             if py < costa(px) + 6:
                 continue
-            # O trecho de pesca fica aberto, com a colisão da água preservada.
-            if dx == 1 and px == 368 and 384 <= py < 448:
-                continue
             if dy:
-                c.no(f'Travessa{indice}', 'Sprite2D', 'Corrimaos', [f'position = {F.vec(px, yy - 23)}', 'centered = false',
-                    f'texture = ExtResource("{horizontal}")', f'z_index = {int(yy // 8) * 8}'])
-                C.colisao(c, f'Corrimao{indice}', px, yy - 2, px + 16, yy + 2)
+                yy = py if dy < 0 else py + 16
+                C.colisao(c, f'BordaCais{indice}_y{dy+1}', px, yy - (2 if dy < 0 else 0), px + 16, yy + (2 if dy > 0 else 0))
             else:
-                # Os oito pixels da cerca ficam inteiros sobre a madeira.
-                xx = px if dx == -1 else px + 8
-                laterais.setdefault((xx, dx), []).append(py)
-            indice += 1
-
-    for (xx, _lado), alturas in sorted(laterais.items()):
-        alturas.sort()
-        trechos = []
-        for py in alturas:
-            if trechos and trechos[-1][1] == py:
-                trechos[-1][1] = py + 16
-            else:
-                trechos.append([py, py + 16])
-        for inicio, fim in trechos:
-            # A barreira acompanha a base sobre a madeira, não só a água fora do cais.
-            C.colisao(c, f'CorrimaoLateral{indice}', xx, inicio, xx + 8, fim)
-            # O poste inicial e a peça vertical compartilham a mesma base.
-            # Cada peça seguinte contém a ligação até o poste anterior.
-            bases = [inicio, *range(inicio + 32, fim, 32), fim]
-            for posicao, base in enumerate(bases):
-                textura, altura = (poste, 23) if posicao == 0 else (vertical, 47)
-                c.no(f'Lateral{indice}', 'Sprite2D', 'Corrimaos', [
-                    f'position = {F.vec(xx, base - altura)}', 'centered = false',
-                    f'texture = ExtResource("{textura}")', f'z_index = {base}'])
-                indice += 1
+                xx = px if dx < 0 else px + 16
+                C.colisao(c, f'BordaCais{indice}_x{dx+1}', xx - (2 if dx < 0 else 0), py, xx + (2 if dx > 0 else 0), py + 16)
 
 
 if __name__ == '__main__':

@@ -163,8 +163,7 @@ func iniciar(semente: int = -1) -> bool:
 		return false
 	for chave: String in total:
 		var p := chave.split(":")
-		var bolsa: Dictionary = Fazenda.colheita if p[0] == "colheita" else Fazenda.pocoes
-		bolsa[p[1]] = int(bolsa[p[1]]) - int(total[chave])
+		Fazenda.gastar_coletavel(p[0], p[1], int(total[chave]))
 	Fazenda.bolsas_alteradas.emit()
 	Fazenda.salvar()
 	atualizar_semana()
@@ -281,10 +280,18 @@ func pedir_retorno(lado: int) -> void:
 func voltar() -> void:
 	if not em_viagem or etapa != eventos.size() + 1:
 		return
-	for c in carga:
+	for c in carga.duplicate():
 		var p: PackedStringArray = String(c.chave).split(":")
-		var bolsa: Dictionary = Fazenda.colheita if p[0] == "colheita" else Fazenda.pocoes
-		bolsa[p[1]] = int(bolsa.get(p[1], 0)) + 1
+		var mochila: Node = InventarioJogador2 if int(c.lado) == 2 else InventarioJogador
+		if not mochila.adicionar_coletavel(p[0], p[1], 1):
+			aviso = "LIBERE ESPACO NA MOCHILA OU VENDA A CARGA ANTES DE VOLTAR."
+			etapa = eventos.size()
+			votos.clear()
+			salvar()
+			alterado.emit()
+			return
+		mochila.salvar()
+		carga.erase(c)
 	for lado in range(1, 3):
 		if receita[lado - 1] > 0:
 			DadosJogo.adicionar_de(_jogador(lado), receita[lado - 1])

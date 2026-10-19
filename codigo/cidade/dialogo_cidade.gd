@@ -10,6 +10,7 @@ var _retrato: RetratoFalante
 var _opcoes: GridContainer
 var _menu_assuntos: PanelContainer
 var _continuar: Button
+var _fechar_dialogo: Button
 var _paginas: Array[String] = []
 var _pagina := 0
 var _texto_completo := ""
@@ -32,6 +33,8 @@ var _id_atual := ""
 ## Fala em tela (só muda quando o jogador escolhe um assunto ou abre a conversa)
 var _fala_atual := ""
 var _digitando: Tween
+var _subir_respostas: Button
+var _descer_respostas: Button
 
 func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -70,7 +73,7 @@ func _ready() -> void:
 	_indicador.add_theme_color_override("font_color",Color("947353"))
 	rodape.add_child(_indicador)
 	_continuar = Button.new()
-	_continuar.text = "CONTINUAR >"
+	_continuar.text = "CONTINUAR"
 	_continuar.custom_minimum_size.y = 32 if _usa_toque() else 19
 	_estilizar_opcao(_continuar)
 	if _usa_toque():
@@ -82,12 +85,21 @@ func _ready() -> void:
 	_rosto.custom_minimum_size = Vector2(66,70)
 	_rosto.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	var fundo := _estilo_conversa()
-	fundo.bg_color = Color("dfbd83")
-	fundo.set_border_width_all(1)
 	fundo.set_content_margin_all(3)
-	fundo.shadow_size = 0
 	_rosto.add_theme_stylebox_override("panel",fundo)
-	_linha_dialogo.add_child(_rosto)
+	var lateral := VBoxContainer.new()
+	lateral.add_theme_constant_override("separation", 4)
+	_linha_dialogo.add_child(lateral)
+	_fechar_dialogo = Button.new()
+	_fechar_dialogo.name = "FecharDialogo"
+	_fechar_dialogo.text = "X"
+	_fechar_dialogo.tooltip_text = "FECHAR CONVERSA"
+	_fechar_dialogo.custom_minimum_size = Vector2(32,32) if _usa_toque() else Vector2(26,26)
+	_fechar_dialogo.size_flags_horizontal = Control.SIZE_SHRINK_END
+	_estilizar_opcao(_fechar_dialogo)
+	_fechar_dialogo.pressed.connect(_fechar)
+	lateral.add_child(_fechar_dialogo)
+	lateral.add_child(_rosto)
 	_retrato = RetratoFalante.new()
 	_retrato.rotulo = _fala
 	_retrato.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
@@ -105,7 +117,28 @@ func _ready() -> void:
 	_rolagem.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	_rolagem.follow_focus = true
 	_rolagem.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_SHOW_NEVER
-	_menu_assuntos.add_child(_rolagem)
+	var linha_respostas := HBoxContainer.new()
+	linha_respostas.add_theme_constant_override("separation",4)
+	_menu_assuntos.add_child(linha_respostas)
+	_rolagem.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	linha_respostas.add_child(_rolagem)
+	var setas := VBoxContainer.new()
+	setas.add_theme_constant_override("separation",2)
+	linha_respostas.add_child(setas)
+	for sentido in [-1,1]:
+		var seta := Button.new()
+		seta.text = "▲" if sentido < 0 else "▼"
+		seta.custom_minimum_size = Vector2(44,32)
+		seta.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		_estilizar_opcao(seta)
+		seta.alignment = HORIZONTAL_ALIGNMENT_CENTER
+		seta.add_theme_font_size_override("font_size",20)
+		seta.pressed.connect(func(): _rolagem.scroll_vertical += sentido * PASSO_ROLAGEM)
+		setas.add_child(seta)
+		if sentido < 0: _subir_respostas = seta
+		else: _descer_respostas = seta
+	_rolagem.get_v_scroll_bar().changed.connect(_atualizar_setas_respostas)
+	_rolagem.get_v_scroll_bar().value_changed.connect(_atualizar_setas_respostas)
 	_opcoes = GridContainer.new()
 	_opcoes.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_opcoes.add_theme_constant_override("h_separation",8)
@@ -119,30 +152,23 @@ func _ready() -> void:
 	_ajustar_conversa()
 	visible = false
 
-func _estilo_conversa() -> StyleBoxFlat:
-	var estilo := StyleBoxFlat.new()
-	estilo.bg_color = Color("f3dfb1")
-	estilo.border_color = Color("9b633b")
-	estilo.set_border_width_all(2)
-	estilo.set_corner_radius_all(4)
-	estilo.set_content_margin_all(10)
-	estilo.shadow_color = Color(0.16,0.09,0.05,0.3)
-	estilo.shadow_size = 3
-	return estilo
+func _atualizar_setas_respostas(_valor := 0.0) -> void:
+	var barra := _rolagem.get_v_scroll_bar()
+	_subir_respostas.disabled = barra.value <= barra.min_value
+	_descer_respostas.disabled = barra.value >= barra.max_value - barra.page
+
+func _estilo_conversa() -> StyleBoxTexture:
+	return preload("res://codigo/ui/estilo_interface.gd").painel(true)
 
 func _estilizar_opcao(botao: Button) -> void:
-	botao.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	botao.alignment = HORIZONTAL_ALIGNMENT_CENTER
 	botao.add_theme_font_size_override("font_size",9)
 	botao.add_theme_color_override("font_color",Color("62422c"))
 	botao.add_theme_color_override("font_hover_color",Color("372418"))
 	botao.add_theme_color_override("font_focus_color",Color("372418"))
 	botao.add_theme_color_override("font_disabled_color",Color("a49172"))
-	for estado in ["normal","hover","pressed","focus","disabled"]:
-		var estilo := StyleBoxFlat.new()
-		estilo.bg_color = Color("e6c58b") if estado in ["hover","focus","pressed"] else Color(0,0,0,0)
-		estilo.set_corner_radius_all(3)
-		estilo.set_content_margin_all(4)
-		botao.add_theme_stylebox_override(estado,estilo)
+	for estado in ["normal","hover","pressed","hover_pressed","focus","disabled"]:
+		botao.add_theme_stylebox_override(estado, preload("res://codigo/ui/estilo_interface.gd").botao(estado))
 
 func _ajustar_conversa() -> void:
 	if painel == null:
@@ -224,14 +250,14 @@ func _topo_respostas() -> void:
 
 func _atualizar_indicador() -> void:
 	_indicador.text = "%d / %d" % [_pagina+1,maxi(1,_paginas.size())] if _paginas.size() > 1 else ("" if size.x < 360 or _usa_toque() else (Controle.rotulo_botao(JOY_BUTTON_B,self)+": VOLTAR" if Controle.usando_controle_de(self) else "ESC: DESPEDIR-SE"))
-	_continuar.text = "LER A FALA" if _menu_assuntos.visible else ("CONTINUAR >" if _pagina+1 < _paginas.size() else "RESPONDER >")
+	_continuar.text = "LER A FALA" if _menu_assuntos.visible else ("CONTINUAR" if _pagina+1 < _paginas.size() else "RESPONDER")
 
 func _digitar_pagina() -> void:
 	if _digitando != null and _digitando.is_valid():
 		_digitando.kill()
 	_fala.visible_ratio = 0.0
 	_digitando = create_tween()
-	_continuar.text = "CONTINUAR >"
+	_continuar.text = "CONTINUAR"
 	_digitando.tween_property(_fala,"visible_ratio",1.0,maxf(0.15,_fala.text.length()/VELOCIDADE_TEXTO))
 	_digitando.tween_callback(_atualizar_indicador)
 
@@ -384,8 +410,6 @@ func _atualizar() -> void:
 		_mostrar_cardapio()
 	elif _submenu == "cozinha":
 		_mostrar_cozinha()
-	elif _submenu == "vara":
-		_mostrar_vara()
 	elif _submenu == "peixes":
 		_mostrar_venda_peixes()
 	elif _submenu == "venda":
@@ -441,6 +465,8 @@ func _servico_dialogo(id: String, morador: Dictionary) -> void:
 		return
 	var contratado := not id in Progresso.MORADORES or Progresso.tem_morador(id)
 	match morador["servico"]:
+		"forja":
+			_botao("SOBRE A FORJA", func(): _falar("Aprenda as receitas da arena e traga os materiais na mochila ate a bigorna. Voce entrega os materiais ao encomendar; cada arma leva de um a tres dias do nosso calendario. A bigorna mostra a data para voltar e retirar. Atendo das 8h as 18h, exceto quarta."))
 		"mercante":
 			_botao("SEMENTES", _abrir_servico.bind("mercante"))
 			_botao("VENDER PEIXES",_abrir_submenu.bind("peixes"))
@@ -656,26 +682,8 @@ func _abrir_pedido(id: String) -> void:
 
 
 func _ver_vara() -> void:
-	_abrir_submenu("vara")
-
-func _mostrar_vara() -> void:
-	var varas := preload("res://codigo/pesca/varas.gd")
-	var jogador := EventosJogo.dono(self)
-	var nv := varas.nivel(jogador)
-	_fala.text = "Sua vara esta no nivel %d de 5. Voce tem %d pedra(s) de refinamento." % [nv,varas.pedras(jogador)]
-	var resumo := _botao("VARA NV %d | PEDRAS: %d" % [nv,varas.pedras(jogador)],func(): pass,true)
-	resumo.add_theme_color_override("font_disabled_color",varas.CORES[nv-1])
-	_botao("NIVEL MAXIMO" if nv == 5 else "REFINAR PARA NV %d (%d PEDRAS)" % [nv+1,varas.custo(jogador)],_refinar_vara,nv == 5 or varas.pedras(jogador)<varas.custo(jogador))
-	_botao("VOLTAR",_abrir_submenu.bind(""))
-
-func _refinar_vara() -> void:
-	var cena := Cooperativo.cena_de(self)
-	if cena.local != "palafita" or cena.hora_atual() < 8 or cena.hora_atual() >= 17:
-		_falar("A oficina atende das 8h as 17h. Volte no horario de atendimento.")
-		return
-	if preload("res://codigo/pesca/varas.gd").melhorar(EventosJogo.dono(self)):
-		Sons.tocar("moeda",0.0)
-	_ver_vara()
+	_fechar()
+	EventosJogo.abrir_tela_de(self,"oficina_vara")
 
 func _mostrar_venda_peixes() -> void:
 	var peixes := preload("res://codigo/pesca/peixes.gd")

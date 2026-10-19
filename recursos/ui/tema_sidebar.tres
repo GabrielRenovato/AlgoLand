@@ -1,31 +1,36 @@
 [gd_resource type="Theme" format=3 uid="uid://ut1e6wc3fypu"]
 
 [ext_resource type="FontFile" uid="uid://dwub7qum41gaq" path="res://assets/ui/Planes_ValMore.ttf" id="1_planes"]
-[ext_resource type="Texture2D" uid="uid://csf6tmi2cnmna" path="res://assets/ui/craftpix-net-420010-pixel-game-user-interface-for-platformer/2 Buttons/11.png" id="2_claro"]
-[ext_resource type="Texture2D" uid="uid://bejl34h5kd0yv" path="res://assets/ui/craftpix-net-420010-pixel-game-user-interface-for-platformer/2 Buttons/12.png" id="3_claro_hover"]
-[ext_resource type="Texture2D" uid="uid://d2rnv8qr6w6yr" path="res://assets/ui/craftpix-net-420010-pixel-game-user-interface-for-platformer/2 Buttons/13.png" id="4_claro_pressionado"]
-[ext_resource type="Texture2D" uid="uid://5uorq6svajm1" path="res://assets/ui/craftpix-net-420010-pixel-game-user-interface-for-platformer/2 Buttons/1.png" id="5_vermelho"]
-[ext_resource type="Texture2D" uid="uid://c054j42ggkdrc" path="res://assets/ui/craftpix-net-420010-pixel-game-user-interface-for-platformer/2 Buttons/2.png" id="6_vermelho_hover"]
-[ext_resource type="Texture2D" uid="uid://7el8tyfa4k1o" path="res://assets/ui/craftpix-net-420010-pixel-game-user-interface-for-platformer/2 Buttons/3.png" id="7_vermelho_pressionado"]
-[ext_resource type="Texture2D" uid="uid://dn04w5ydju0be" path="res://assets/ui/craftpix-net-420010-pixel-game-user-interface-for-platformer/2 Buttons/17.png" id="10_moldura_slot"]
+[ext_resource type="Texture2D" path="res://assets/ui/bosque/botao.png" id="2_claro"]
+[ext_resource type="Texture2D" path="res://assets/ui/bosque/botao_hover.png" id="3_claro_hover"]
+[ext_resource type="Texture2D" path="res://assets/ui/bosque/botao_pressionado.png" id="4_claro_pressionado"]
+[ext_resource type="Texture2D" path="res://assets/ui/bosque/primario.png" id="5_vermelho"]
+[ext_resource type="Texture2D" path="res://assets/ui/bosque/primario_hover.png" id="6_vermelho_hover"]
+[ext_resource type="Texture2D" path="res://assets/ui/bosque/primario_pressionado.png" id="7_vermelho_pressionado"]
+[ext_resource type="Texture2D" path="res://assets/ui/bosque/slot.png" id="10_moldura_slot"]
+[ext_resource type="Texture2D" path="res://assets/ui/bosque/campo.png" id="campo_bosque"]
+
+
+[ext_resource type="Texture2D" path="res://assets/ui/bosque/botao_desabilitado.png" id="desabilitado_bosque"]
+[ext_resource type="Texture2D" path="res://assets/ui/bosque/slot.png" id="alca_bosque"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_pedra_hover"]
-content_margin_left = 4.0
-content_margin_top = 5.0
-content_margin_right = 4.0
-content_margin_bottom = 2.0
+content_margin_left = 8.0
+content_margin_top = 6.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
 texture = ExtResource("3_claro_hover")
 texture_margin_left = 6.0
 texture_margin_top = 4.0
 texture_margin_right = 6.0
 texture_margin_bottom = 6.0
-modulate_color = Color(0.78, 0.8, 0.88, 1)
+modulate_color = Color(1, 1, 1, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_aba_selecionada"]
-content_margin_left = 4.0
-content_margin_top = 5.0
-content_margin_right = 4.0
-content_margin_bottom = 4.0
+content_margin_left = 8.0
+content_margin_top = 6.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
 texture = ExtResource("2_claro")
 texture_margin_left = 6.0
 texture_margin_top = 4.0
@@ -33,34 +38,33 @@ texture_margin_right = 6.0
 texture_margin_bottom = 6.0
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_pedra"]
-content_margin_left = 4.0
-content_margin_top = 5.0
-content_margin_right = 4.0
-content_margin_bottom = 2.0
+content_margin_left = 8.0
+content_margin_top = 6.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
 texture = ExtResource("4_claro_pressionado")
 texture_margin_left = 6.0
 texture_margin_top = 4.0
 texture_margin_right = 6.0
 texture_margin_bottom = 6.0
-modulate_color = Color(0.6, 0.62, 0.7, 1)
+modulate_color = Color(0.8, 0.78, 0.68, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vermelho_desabilitado"]
-content_margin_left = 5.0
-content_margin_top = 5.0
-content_margin_right = 5.0
-content_margin_bottom = 2.0
-texture = ExtResource("7_vermelho_pressionado")
+content_margin_left = 8.0
+content_margin_top = 6.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+texture = ExtResource("desabilitado_bosque")
 texture_margin_left = 6.0
 texture_margin_top = 4.0
 texture_margin_right = 6.0
 texture_margin_bottom = 6.0
-modulate_color = Color(0.5, 0.5, 0.55, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vermelho_hover"]
-content_margin_left = 5.0
-content_margin_top = 5.0
-content_margin_right = 5.0
-content_margin_bottom = 2.0
+content_margin_left = 8.0
+content_margin_top = 6.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
 texture = ExtResource("6_vermelho_hover")
 texture_margin_left = 6.0
 texture_margin_top = 4.0
@@ -68,10 +72,10 @@ texture_margin_right = 6.0
 texture_margin_bottom = 6.0
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vermelho_pressionado"]
-content_margin_left = 5.0
-content_margin_top = 5.0
-content_margin_right = 5.0
-content_margin_bottom = 2.0
+content_margin_left = 8.0
+content_margin_top = 6.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
 texture = ExtResource("7_vermelho_pressionado")
 texture_margin_left = 6.0
 texture_margin_top = 4.0
@@ -79,10 +83,10 @@ texture_margin_right = 6.0
 texture_margin_bottom = 6.0
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vermelho"]
-content_margin_left = 5.0
-content_margin_top = 5.0
-content_margin_right = 5.0
-content_margin_bottom = 4.0
+content_margin_left = 8.0
+content_margin_top = 6.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
 texture = ExtResource("5_vermelho")
 texture_margin_left = 6.0
 texture_margin_top = 4.0
@@ -121,16 +125,15 @@ texture_margin_right = 5.0
 texture_margin_bottom = 5.0
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_claro_desabilitado"]
-content_margin_left = 5.0
-content_margin_top = 5.0
-content_margin_right = 5.0
-content_margin_bottom = 2.0
-texture = ExtResource("4_claro_pressionado")
+content_margin_left = 8.0
+content_margin_top = 6.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+texture = ExtResource("desabilitado_bosque")
 texture_margin_left = 6.0
 texture_margin_top = 4.0
 texture_margin_right = 6.0
 texture_margin_bottom = 6.0
-modulate_color = Color(0.55, 0.55, 0.6, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_foco"]
 draw_center = false
@@ -141,10 +144,10 @@ border_width_bottom = 1
 border_color = Color(1, 0.82, 0.3, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_claro_hover"]
-content_margin_left = 5.0
-content_margin_top = 5.0
-content_margin_right = 5.0
-content_margin_bottom = 2.0
+content_margin_left = 8.0
+content_margin_top = 6.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
 texture = ExtResource("3_claro_hover")
 texture_margin_left = 6.0
 texture_margin_top = 4.0
@@ -152,10 +155,10 @@ texture_margin_right = 6.0
 texture_margin_bottom = 6.0
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_claro_pressionado"]
-content_margin_left = 5.0
-content_margin_top = 5.0
-content_margin_right = 5.0
-content_margin_bottom = 2.0
+content_margin_left = 8.0
+content_margin_top = 6.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
 texture = ExtResource("4_claro_pressionado")
 texture_margin_left = 6.0
 texture_margin_top = 4.0
@@ -163,15 +166,41 @@ texture_margin_right = 6.0
 texture_margin_bottom = 6.0
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_claro"]
-content_margin_left = 5.0
-content_margin_top = 5.0
-content_margin_right = 5.0
-content_margin_bottom = 4.0
+content_margin_left = 8.0
+content_margin_top = 6.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
 texture = ExtResource("2_claro")
 texture_margin_left = 6.0
 texture_margin_top = 4.0
 texture_margin_right = 6.0
 texture_margin_bottom = 6.0
+
+
+[sub_resource type="StyleBoxTexture" id="CampoBosque"]
+content_margin_left = 6.0
+content_margin_top = 3.0
+content_margin_right = 6.0
+content_margin_bottom = 3.0
+texture = ExtResource("campo_bosque")
+texture_margin_left = 5.0
+texture_margin_top = 5.0
+texture_margin_right = 5.0
+texture_margin_bottom = 5.0
+
+[sub_resource type="StyleBoxTexture" id="TrilhoBosque"]
+texture = ExtResource("campo_bosque")
+texture_margin_left = 3.0
+texture_margin_top = 3.0
+texture_margin_right = 3.0
+texture_margin_bottom = 3.0
+
+[sub_resource type="StyleBoxTexture" id="AlcaBosque"]
+texture = ExtResource("alca_bosque")
+texture_margin_left = 3.0
+texture_margin_top = 3.0
+texture_margin_right = 3.0
+texture_margin_bottom = 3.0
 
 [resource]
 default_font = ExtResource("1_planes")
@@ -186,8 +215,9 @@ BotaoAba/styles/hover_pressed = SubResource("StyleBoxTexture_aba_selecionada")
 BotaoAba/styles/normal = SubResource("StyleBoxTexture_pedra")
 BotaoAba/styles/pressed = SubResource("StyleBoxTexture_aba_selecionada")
 BotaoPrimario/base_type = &"Button"
+BotaoPrimario/colors/font_focus_color = Color(1, 0.95, 0.88, 1)
 BotaoPrimario/colors/font_color = Color(1, 0.95, 0.88, 1)
-BotaoPrimario/colors/font_disabled_color = Color(0.75, 0.7, 0.7, 1)
+BotaoPrimario/colors/font_disabled_color = Color(0.28, 0.23, 0.18, 1)
 BotaoPrimario/colors/font_hover_color = Color(1, 1, 1, 1)
 BotaoPrimario/colors/font_hover_pressed_color = Color(1, 0.95, 0.88, 1)
 BotaoPrimario/colors/font_pressed_color = Color(1, 0.95, 0.88, 1)
@@ -203,7 +233,7 @@ BotaoSlot/styles/hover_pressed = SubResource("StyleBoxTexture_slot_hover")
 BotaoSlot/styles/normal = SubResource("StyleBoxTexture_slot")
 BotaoSlot/styles/pressed = SubResource("StyleBoxTexture_slot_hover")
 Button/colors/font_color = Color(0.13, 0.12, 0.18, 1)
-Button/colors/font_disabled_color = Color(0.3, 0.3, 0.36, 1)
+Button/colors/font_disabled_color = Color(0.28, 0.23, 0.18, 1)
 Button/colors/font_focus_color = Color(0.13, 0.12, 0.18, 1)
 Button/colors/font_hover_color = Color(0.13, 0.12, 0.18, 1)
 Button/colors/font_hover_pressed_color = Color(0.13, 0.12, 0.18, 1)
@@ -219,3 +249,18 @@ Label/font_sizes/font_size = 10
 Label/fonts/font = ExtResource("1_planes")
 MolduraSlot/base_type = &"PanelContainer"
 MolduraSlot/styles/panel = SubResource("StyleBoxTexture_slot")
+LineEdit/colors/font_color = Color(0.96, 0.9, 0.76, 1)
+LineEdit/colors/font_placeholder_color = Color(0.66, 0.58, 0.46, 1)
+LineEdit/colors/caret_color = Color(1, 0.82, 0.3, 1)
+LineEdit/styles/normal = SubResource("CampoBosque")
+LineEdit/styles/read_only = SubResource("CampoBosque")
+VScrollBar/styles/scroll = SubResource("TrilhoBosque")
+VScrollBar/styles/scroll_focus = SubResource("TrilhoBosque")
+VScrollBar/styles/grabber = SubResource("AlcaBosque")
+VScrollBar/styles/grabber_highlight = SubResource("AlcaBosque")
+VScrollBar/styles/grabber_pressed = SubResource("AlcaBosque")
+HScrollBar/styles/scroll = SubResource("TrilhoBosque")
+HScrollBar/styles/scroll_focus = SubResource("TrilhoBosque")
+HScrollBar/styles/grabber = SubResource("AlcaBosque")
+HScrollBar/styles/grabber_highlight = SubResource("AlcaBosque")
+HScrollBar/styles/grabber_pressed = SubResource("AlcaBosque")

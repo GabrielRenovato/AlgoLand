@@ -17,6 +17,13 @@ func _initialize() -> void:
 		var falando := origem.get_region(Rect2i(largura,0,largura,origem.get_height()))
 		fechada.resize(LADO,LADO,Image.INTERPOLATE_NEAREST)
 		falando.resize(LADO,LADO,Image.INTERPOLATE_NEAREST)
+		if dados.get("alfa_binario", false):
+			for imagem in [fechada, falando]:
+				for y in LADO:
+					for x in LADO:
+						var cor: Color = imagem.get_pixel(x,y)
+						cor.a = 1.0 if cor.a >= 0.5 else 0.0
+						imagem.set_pixel(x,y,cor)
 		var boca: Array = dados["boca"]
 		var recorte := Rect2i(boca[0],boca[1],boca[2],boca[3])
 		var aberta := fechada.duplicate()

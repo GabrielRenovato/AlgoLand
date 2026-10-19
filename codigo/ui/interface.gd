@@ -13,13 +13,25 @@ const TELAS_ACOMPANHANTES := {"mercante": ["inventario"], "bau": ["inventario"]}
 # fechar, senão o A que fechou a conversa já abriria outra)
 const ACOES_DO_JOGADOR := ["rolar", "attack", "open_menu"]
 # Telas no centro da tela: em vez de deslizar de uma borda, aparecem com fade
-const TELAS_CENTRAIS := ["fim_partida", "dormir", "pausa", "conversa_cidade", "mural_cidade", "desafio_arena", "introducao", "guia_pesca", "comercio"]
+const TELAS_CENTRAIS := ["fim_partida", "dormir", "pausa", "conversa_cidade", "mural_cidade", "desafio_arena", "introducao", "guia_pesca", "comercio", "forja", "oficina_vara", "mapa_mundi"]
 # Só se fecha pelo próprio botão (B/Esc e o atalho do inventário são ignorados)
 const TELAS_OBRIGATORIAS := ["fim_partida", "introducao"]
-# Telas coladas na lateral direita da tela, onde o X de fechar fica no canto
-const LATERAIS_DA_DIREITA := ["inventario", "caldeirao", "acampamento", "mistica"]
 
 var _telas_abertas: Array[String] = []
+var _troca_companheira: Button
+var _companheira_mochila := false
+var _par_compacto := ""
+
+## Último controle que ganhou foco nesta metade da tela. O Godot guarda UM foco por janela: quando o outro jogador do co-op
+## foca algo na metade dele, o foco desta metade é solto. Este guarda o "foco lógico" para devolvê-lo no próximo comando.
+var _foco_logico: Control = null
+## Item "na mão" de quem joga no controle: Y pega, Y numa casa solta (o controle não tem arrastar). Ver slot_ui.mover_com_controle
+var item_carregado: DadosItem = null
+var _mapa_aguardando := false
+var _mapa_pedido := 0
+signal carregado_alterado
+const ACOES_NAVEGACAO := ["ui_up", "ui_down", "ui_left", "ui_right", "ui_accept", "ui_cancel", "ui_focus_next", "ui_focus_prev",
+		"ferramenta_anterior", "ferramenta_proxima", "colher"]
 
 @onready var _telas: Dictionary = {
 	"inventario": $TelaInventario,
@@ -44,6 +56,16 @@ var _telas_abertas: Array[String] = []
 
 func _ready() -> void:
 	Introducao.preparar_cena(get_parent())
+	var mapa := preload("res://codigo/ui/tela_mapa_mundi.gd").new()
+	mapa.name = "MapaMundi"
+	add_child(mapa)
+	_telas["mapa_mundi"] = mapa
+	_paineis["mapa_mundi"] = mapa.painel
+	var forja := preload("res://codigo/ui/tela_forja.gd").new()
+	forja.name = "TelaForja"
+	add_child(forja)
+	_telas["forja"] = forja
+	_paineis["forja"] = forja.painel
 	var introducao := DialogoIntroducao.new()
 	introducao.name = "DialogoIntroducao"
 	add_child(introducao)
@@ -59,6 +81,11 @@ func _ready() -> void:
 	add_child(comercio)
 	_telas["comercio"] = comercio
 	_paineis["comercio"] = comercio.painel
+	var oficina := preload("res://codigo/pesca/oficina_vara.gd").new()
+	oficina.name = "OficinaVara"
+	add_child(oficina)
+	_telas["oficina_vara"] = oficina
+	_paineis["oficina_vara"] = oficina.painel
 	var guia_pesca := preload("res://codigo/pesca/guia_pesca.gd").new()
 	guia_pesca.name = "GuiaPesca"
 	add_child(guia_pesca)
@@ -83,58 +110,105 @@ func _ready() -> void:
 		EventosJogo.abrir_tela.connect(_abrir_tela)
 		EventosJogo.fechar_tela.connect(_fechar_tela)
 	Controle.modo_alterado.connect(_ao_modo_controle)
+	get_viewport().gui_focus_changed.connect(_ao_foco_mudou)
 	# Celular: joystick e botões na tela (somem enquanto uma tela está aberta)
 	if Controle.usando_toque:
 		# No coop o toque pertence ao P1; o parceiro usa o próprio controle.
 		if not EventosJogo.eh_do_p2(self):
 			add_child(ControlesToque.new())
-		_ajustar_botoes_de_fechar_para_toque()
+	_troca_companheira = Button.new()
+	_troca_companheira.name = "TrocarLojaMochila"
+	_troca_companheira.theme = preload("res://recursos/ui/tema_sidebar.tres")
+	_troca_companheira.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_troca_companheira.add_theme_font_size_override("font_size",8)
+	_troca_companheira.pressed.connect(func():
+		_companheira_mochila = not _companheira_mochila
+		_organizar_companheiras()
+		_focar_tela("inventario" if _companheira_mochila else _par_compacto))
+	add_child(_troca_companheira)
+	_troca_companheira.hide()
+	preload("res://codigo/ui/escala_interface.gd").ligar(self)
 
-## Celular: o X das telas é de 10 unidades (pequeno para o dedo) e, nas laterais da direita (mochila, caldeirão), fica colado no canto
-## da tela. O X passa para o lado esquerdo do título, cresce um pouco e ganha uma área de toque maior (um botão transparente de 56x16 por
-## cima, na altura da faixa do título para não cobrir os itens que vêm logo abaixo)
-const AREA_TOQUE_FECHAR := Vector2(56, 16)
-## Quanto o X cresce em cada lado (10 -> 12 unidades)
-const CRESCER_X := 1.0
+func _process(_delta: float) -> void:
+	_organizar_companheiras()
 
-func _ajustar_botoes_de_fechar_para_toque() -> void:
-	for nome in _telas:
-		for botao: TextureButton in _telas[nome].find_children("BotaoFechar", "TextureButton", true, false):
-			var no_canto_direito: bool = botao.anchor_left >= 1.0 and nome in LATERAIS_DA_DIREITA
-			var area := Button.new()
-			area.name = "AreaFechar"
-			area.flat = true
-			area.focus_mode = Control.FOCUS_NONE
-			for estado in ["normal", "hover", "pressed", "focus", "disabled"]:
-				area.add_theme_stylebox_override(estado, StyleBoxEmpty.new())
-			area.set_meta(Sons.META_SOM_PROPRIO, true)
-			area.pressed.connect(_fechar_tela.bind(nome))
-			area.anchor_top = 0.0
-			area.anchor_bottom = 0.0
-			area.offset_top = 0.0
-			area.offset_bottom = AREA_TOQUE_FECHAR.y
-			botao.offset_top -= CRESCER_X
-			botao.offset_bottom += CRESCER_X
-			if no_canto_direito:
-				# O X vai para a esquerda do título
-				var largura := botao.offset_right - botao.offset_left
-				botao.anchor_left = 0.0
-				botao.anchor_right = 0.0
-				# Bem junto da borda: o título da mochila (centrado) começa em x 18
-				botao.offset_left = 3.0
-				botao.offset_right = 3.0 + largura + 2.0 * CRESCER_X
-				botao.grow_horizontal = Control.GROW_DIRECTION_END
-				area.anchor_left = 0.0
-				area.anchor_right = 0.0
-				area.offset_left = 0.0
-				area.offset_right = AREA_TOQUE_FECHAR.x
-			else:
-				botao.offset_left -= 2.0 * CRESCER_X
-				area.anchor_left = botao.anchor_left
-				area.anchor_right = botao.anchor_right
-				area.offset_left = botao.offset_right - AREA_TOQUE_FECHAR.x
-				area.offset_right = botao.offset_right + 4.0
-			botao.get_parent().add_child(area)
+## Em janelas estreitas alterna entre loja e mochila, preservando os itens e o arrastar no PC.
+func _organizar_companheiras() -> void:
+	if _troca_companheira == null: return
+	var medida := preload("res://codigo/ui/escala_interface.gd").tamanho_logico(self)
+	var par := ""
+	for nome in TELAS_ACOMPANHANTES:
+		if nome in _telas_abertas and "inventario" in _telas_abertas: par = nome
+	var compacto := par != "" and medida.x < 440
+	_troca_companheira.visible = compacto
+	if not compacto:
+		if _par_compacto != "":
+			for nome in [_par_compacto,"inventario"]:
+				if nome in _telas_abertas: _telas[nome].show()
+		_par_compacto = ""
+		return
+	_par_compacto = par
+	_telas[par].visible = not _companheira_mochila
+	_telas["inventario"].visible = _companheira_mochila
+	_telas["inventario"].ajustar_largura(minf(216,medida.x-80))
+	_troca_companheira.text = ("BAU" if par == "bau" else "LOJA") if _companheira_mochila else "MOCHILA"
+	var painel: Control = _paineis["inventario" if _companheira_mochila else par]
+	var largura := minf(68,medida.x-painel.size.x-24)
+	_troca_companheira.size = Vector2(largura,44)
+	_troca_companheira.position = Vector2(8 if _companheira_mochila else medida.x-largura-8, (medida.y-44)/2)
+
+
+func definir_carregado(item: DadosItem) -> void:
+	if item_carregado == item:
+		return
+	item_carregado = item
+	carregado_alterado.emit()
+
+func _ao_foco_mudou(no: Control) -> void:
+	_foco_logico = no
+
+## O controle que esta metade considera em foco, mesmo quando o foco do Godot foi solto pelo outro jogador
+func foco_atual() -> Control:
+	var real := get_viewport().gui_get_focus_owner()
+	if real != null:
+		return real
+	if is_instance_valid(_foco_logico) and _foco_logico.is_visible_in_tree() and not _telas_abertas.is_empty():
+		return _foco_logico
+	return null
+
+## No co-op o foco do Godot é único por janela: se o parceiro focou algo, devolve o foco desta metade antes de o comando navegar
+func _input(evento: InputEvent) -> void:
+	var jogador := EventosJogo.dono(self)
+	var acao_mapa: String = jogador.acao("open_map") if jogador != null else "open_map"
+	if evento.is_action(acao_mapa) and evento is InputEventJoypadButton:
+		if evento.pressed and not Introducao.ativa() and not Comercio.em_viagem:
+			if "mapa_mundi" in _telas_abertas:
+				_fechar_tela("mapa_mundi")
+			elif _telas_abertas.is_empty():
+				_mapa_aguardando = true
+				_mapa_pedido += 1
+				_abrir_mapa_se_segurou(_mapa_pedido)
+		elif not evento.pressed and _mapa_aguardando:
+			_mapa_aguardando = false
+			# R3 curto continua trocando a arma; segurar reserva o mesmo botao para o mapa.
+			if _telas_abertas.is_empty():
+				for hud in get_tree().get_nodes_in_group("hud_p2" if EventosJogo.eh_do_p2(self) else "hud_p1"):
+					if hud.barra_armas != null and not hud.barra_armas.modo_fazenda: hud.barra_armas.trocar(1)
+		get_viewport().set_input_as_handled()
+		return
+	if evento.is_action_pressed(acao_mapa) and not evento.is_echo() and not Introducao.ativa() and not Comercio.em_viagem:
+		if "mapa_mundi" in _telas_abertas: _fechar_tela("mapa_mundi")
+		elif _telas_abertas.is_empty(): _abrir_tela("mapa_mundi")
+		get_viewport().set_input_as_handled()
+		return
+	if _telas_abertas.is_empty() or get_viewport().gui_get_focus_owner() != null or not is_instance_valid(_foco_logico):
+		return
+	if not (evento is InputEventJoypadButton or evento is InputEventJoypadMotion or evento is InputEventKey):
+		return
+	for acao in ACOES_NAVEGACAO:
+		if evento.is_action_pressed(acao) and _foco_logico.is_visible_in_tree() and _foco_logico.focus_mode != Control.FOCUS_NONE:
+			_foco_logico.grab_focus()
+			return
 
 func _unhandled_input(evento: InputEvent) -> void:
 	if Comercio.em_viagem and not Comercio.em_combate:
@@ -203,19 +277,21 @@ func _abrir_tela(nome: String, acompanhante := false) -> void:
 		_abrir_tela(outra, true)
 	# No controle o foco vai para a tela pedida (não para a que abriu junto)
 	if not acompanhante:
+		_companheira_mochila = false
+		_organizar_companheiras()
 		_focar_tela(nome)
 
 ## A mochila mantém os slots nativos: ao lado da loja usa quatro colunas em vez de encolher.
 func _ajustar_mochila(nome: String) -> void:
-	if nome != "inventario" or not get_viewport().has_meta("dono"):
+	if nome != "inventario":
 		return
-	var disponivel := get_viewport().get_visible_rect().size.x
+	var disponivel := preload("res://codigo/ui/escala_interface.gd").tamanho_logico(self).x
 	for outra in TELAS_ACOMPANHANTES:
 		if outra in _telas_abertas:
 			var painel: Control = _paineis[outra]
-			var inicio := get_viewport().get_visible_rect().size.x * painel.anchor_left + float(painel.get_meta("offset_entrada", painel.offset_left))
+			var inicio := disponivel * painel.anchor_left + float(painel.get_meta("offset_entrada", painel.offset_left))
 			disponivel -= inicio + painel.size.x
-	_telas["inventario"].ajustar_largura(minf(210.0, maxf(110.0, floorf(disponivel))))
+	_telas["inventario"].ajustar_largura(minf(210.0, maxf(136.0, floorf(disponivel)-16)))
 
 func _fechar_tela(nome: String) -> void:
 	if not _telas_abertas.has(nome):
@@ -226,6 +302,8 @@ func _fechar_tela(nome: String) -> void:
 		_definir_acoes_do_jogador_desabilitadas(false)
 		# Com algum botão em foco o jogador não ataca; e o B/A que fechou a tela não pode rolar/atacar
 		get_viewport().gui_release_focus()
+		_foco_logico = null
+		definir_carregado(null)
 		for acao in ACOES_DO_JOGADOR:
 			Input.action_release(acao)
 	else:
@@ -278,3 +356,10 @@ func _definir_acoes_do_jogador_desabilitadas(desabilitar: bool) -> void:
 	var jogador := EventosJogo.dono(self)
 	if jogador != null:
 		jogador.desabilitar_todas_acoes(desabilitar or Introducao.cinematica)
+
+func _abrir_mapa_se_segurou(pedido: int) -> void:
+	await get_tree().create_timer(0.4).timeout
+	if not _mapa_aguardando or pedido != _mapa_pedido: return
+	_mapa_aguardando = false
+	if _telas_abertas.is_empty() and not Introducao.ativa() and not Comercio.em_viagem:
+		_abrir_tela("mapa_mundi")

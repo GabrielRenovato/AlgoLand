@@ -50,7 +50,10 @@ func _rodar() -> void:
 			tiles.ativo = true
 			tiles.aplicar_no(camada)
 			_verificar("ligar acabamento conserva células e colisão",original == _dados(camada))
-			_verificar("cenário recebe acabamento e UI mantém material",camada.material == tiles.material_tiles if elegivel else camada.material == material_original)
+			if elegivel and material_original is ShaderMaterial and material_original.shader.resource_path == tiles.AGUA:
+				_verificar("água mantém seu shader e recebe acabamento", camada.material == material_original and is_equal_approx(float(material_original.get_shader_parameter("intensidade_acabamento")), 1.0))
+			else:
+				_verificar("cenário recebe acabamento sem substituir material próprio", camada.material == tiles.material_tiles if elegivel and material_original == null else camada.material == material_original)
 		var jogador: Node = cena.get_node("Jogador")
 		_verificar("acabamento não altera material do jogador",jogador.sprite_corpo.material == null and jogador.sprite_roupa.material == null)
 		cena.queue_free()

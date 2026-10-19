@@ -1,0 +1,20 @@
+{
+  "tipo": "materiais de rocha para TileMaps de pedreira e caverna",
+  "referencia": "paleta natural e perspectiva Mana Seed; Seasonal Forest existente",
+  "origem": "image_gen, geracao de atlas com quatro colunas de materiais, sem texto ou bordas",
+  "original": "materiais_rocha_original.png",
+  "prompt_resumo": "Production pixel-art TILE ATLAS for AlgoLand, compatible with Mana Seed RPG top-down 3/4 natural rocky cave. Seamless gray purple natural rock, dark brown earth and warm gray natural plateau. Selective cracks, no grass on rock, no horizontal ledges, no thick black outline, restrained contrast, no framing.",
+  "grade_runtime": [
+    16,
+    16
+  ],
+  "folha_runtime": [
+    64,
+    256
+  ],
+  "preparador": "ferramentas/fendas/preparar_materiais.py",
+  "encaixe": "material de chao/teto sem pivo fisico; limite caminhavel e colisao derivados da planta",
+  "variantes": "Rocha usa quatro materiais sazonais por shader (umidade primavera, seco verao, tom neutro outono, reflexo frio inverno). Piso e agua usam as quatro folhas privadas de cada andar. Cavernas protegidas de chuva/neve.",
+  "integracao": "Rocha/rocha_sazonal.gd e Estacoes; cenas/fendas/terreno_XX.tscn",
+  "revisao": "ferramentas/fendas/renderizar_jornada.gd renderiza quatro estacoes e detalhe de cada andar em saves isolados"
+}

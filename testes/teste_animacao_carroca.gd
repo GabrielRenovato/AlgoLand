@@ -36,7 +36,7 @@ func _rodar() -> void:
 	var base: Vector2 = carroca.position
 	var calendario := root.get_node("Calendario")
 	for estacao in 4:
-		calendario.dia = estacao * 7 + 1
+		calendario.dia = estacao * 30 + 1
 		calendario.estacao_mudou.emit(estacao)
 		current_scene.get_node("Terrains/Estacoes").definir_estacao(estacao, true)
 		for pelagem in 3:
@@ -137,7 +137,7 @@ func _capturar() -> void:
 	vista.conjunto.set_process(false)
 	DirAccess.make_dir_recursive_absolute("/tmp/algoland-carroca-video")
 	for estacao in 4:
-		calendario.dia = estacao * 7 + 1
+		calendario.dia = estacao * 30 + 1
 		calendario.estacao_mudou.emit(estacao)
 		current_scene.get_node("Terrains/Estacoes").definir_estacao(estacao, true)
 		vista._estacao = estacao

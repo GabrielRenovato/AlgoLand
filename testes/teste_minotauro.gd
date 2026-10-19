@@ -41,7 +41,7 @@ func _rodar() -> void:
 	var chefe = load("res://cenas/inimigos/minotauro.tscn").instantiate()
 	cena.add_child(chefe)
 	chefe.set_physics_process(false)
-	verificar("minotauro persegue com velocidade 72", chefe.velocidade == 72)
+	verificar("minotauro persegue com velocidade 84", chefe.velocidade == 84)
 	verificar("minotauro é chefe sem dano de contato", chefe.eh_chefe and chefe.collision_layer == 0)
 	chefe.aplicar_dano_contato()
 	verificar("proximidade não causa dano", jogador.golpes == 0)

@@ -88,7 +88,7 @@ func _rodar() -> void:
 	# Dormir na última noite do outono deve trocar a casa junto com o terreno.
 	estacoes.definir_estacao(2, true)
 	var calendario: Node = root.get_node("Calendario")
-	calendario.dia = 21
+	calendario.dia = 90
 	calendario.dormir()
 	await create_timer(1.6).timeout
 	_verificar("calendário troca a fachada ao entrar no inverno", sprite.texture.resource_path.ends_with("inverno.png"))

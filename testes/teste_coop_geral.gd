@@ -6,7 +6,7 @@ extends SceneTree
 
 const CENAS := ["res://cenas/cidade.tscn", "res://cenas/cidade/venda.tscn", "res://cenas/cidade/sede.tscn",
 	"res://cenas/cidade/enfermaria.tscn", "res://cenas/cidade/pousada.tscn", "res://cenas/cidade/mistica.tscn",
-	"res://cenas/cidade/casa_bento.tscn", "res://cenas/casa.tscn", "res://cenas/fazenda.tscn"]
+	"res://cenas/cidade/casa_bento.tscn", "res://cenas/cidade/forja.tscn", "res://cenas/casa.tscn", "res://cenas/fazenda.tscn"]
 const P1 := 41
 const P2 := 40
 

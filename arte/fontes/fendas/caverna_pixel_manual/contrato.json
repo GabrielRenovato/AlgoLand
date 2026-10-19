@@ -1,0 +1,46 @@
+{
+  "tipo": "Amostra de tiles desenhada por comandos exatos no PixelLab, sem modelos geradores",
+  "referencia": "arte/previas/fenda/gruta_nascente/estudo_gaias_navel_v2.png",
+  "dimensoes": "Atlas nativo256x256; módulos64 subdivididos em16; sem redução da arte",
+  "encaixe": "Pivô(0,0), sem offsets; camada de chão/parede com material explícito",
+  "variantes": "Uma versão conforme pedido do usuário",
+  "base_fisica": "Bancada visual isolada, sem navegação/colisão, sem substituir campanha",
+  "integracao": "Renderização Godot e inspeção nativa/ampliada antes de apresentar",
+  "paleta": {
+    "0": "#000000",
+    "1": "#281b30",
+    "2": "#402238",
+    "3": "#5b2f40",
+    "4": "#7a4244",
+    "5": "#955646",
+    "6": "#ad704e",
+    "7": "#c48b59",
+    "8": "#d8a76c",
+    "9": "#ecd096",
+    "a": "#f3dfb0",
+    "b": "#34252c",
+    "c": "#3b292d",
+    "d": "#46312e",
+    "e": "#543c32",
+    "f": "#624934",
+    "g": "#75593e",
+    "h": "#8a704c",
+    "i": "#20212d",
+    "j": "#3e4050",
+    "k": "#62616a"
+  },
+  "receita": "receita.json",
+  "desenhos_pixellab": [
+    "f4d878fa-f82c-46ba-85f8-6e638c363188",
+    "59e94fce-cfca-45e7-91d5-eeb192f4bdaf",
+    "68b58c7f-5a88-406b-a060-895b8bbbdbab"
+  ],
+  "revisao": {
+    "modo": "Comandos draw e set_node determinísticos; sem modelos geradores",
+    "primeira": "Reprovada: veios paralelos parecendo paliçada",
+    "segunda": "Facetas inclinadas e fissuras; reprovada a franja roxa no pé das paredes",
+    "atual": "Sombra encurtada, sala com duas câmaras montada e inspecionada no Godot nativo e ampliado",
+    "limites": "Amostra de piso e paredes; repetição de facetas e cascalho ainda reconhecível. Não aprovada pelo usuário nem integrada à campanha.",
+    "evidencia_tecnica": "Pixels do PNG iguais à receita e captura Godot igual à composição nativa; isso não comprova qualidade artística"
+  }
+}

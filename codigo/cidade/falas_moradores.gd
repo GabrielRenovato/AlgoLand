@@ -13,6 +13,22 @@ extends RefCounted
 ## Histórias: liberadas pela amizade ("amizade"), uma por vez, na ordem.
 
 const FALAS := {
+	"ferreiro": {
+		"jeito": "Ferreiro meticuloso, de humor seco. Mede duas vezes, martela uma. Gosta de reparar antes de descartar.",
+		"boas_vindas": "Ivo. Ferreiro. Essa mecha branca? Uma receita que deu errado. Brincadeira... duas. Minha forja fica ao norte da venda. As receitas caem na arena. Colete o pergaminho e use na mochila para aprender. Depois traga os materiais na mochila. Depois da primeira fabricacao, o modelo fica seu para sempre.",
+		"saudacoes": {"novo": ["{periodo}. Cuidado com a bancada: ela ganha qualquer disputa com um joelho."],
+			"conhecido": ["{periodo}. Trouxe material ou uma historia de como quebrou a ultima arma?", "{periodo}. O fogo ja esta no ponto."],
+			"amigo": ["{periodo}, camarada. Separei um lugar longe das faiscas para voce.", "Chegou em boa hora. Preciso de alguem que saiba ouvir o silencio entre as marteladas."]},
+		"papo": [{"texto": "Uma lamina torta sempre parece reta para quem esta com pressa. E por isso que eu tomo cha devagar."},
+			{"texto": "O Bento emprestou a enxada favorita dele. Pediu para nao mudar o cabo. Fingi que nao vi o nome que ele gravou na madeira."},
+			{"texto": "O Caio quer uma espada que cante. Estou fazendo uma que fique quieta. Ele ja faz barulho pelos dois."},
+			{"texto": "No inverno o fogo aquece a casa inteira. O dificil e convencer os vizinhos a ir embora antes de dormir."}],
+		"dicas": [{"chave": "forja", "prioridade": 25, "texto": "A receita e um pergaminho que cai na arena. Use na mochila para aprender; so entao o craft fica disponivel aqui."},
+			{"chave": "deposito", "prioridade": 20, "texto": "Madeira, pedra, minerio, fibras, fragmentos e nucleos ocupam espaco na mochila. Itens iguais empilham. Eu uso os materiais de quem faz o pedido; o bau serve para guardar e trocar com seu parceiro."},
+			{"chave": "modelo", "prioridade": 20, "texto": "Fabrique cada modelo uma vez. A proxima partida entrega uma copia comum no nivel 1. Melhorias e encantamentos da arena continuam valendo so aquela partida."}],
+		"historias": [{"amizade": 3, "texto": "Aprendi com minha mae. Ela dizia que ferro lembra cada golpe. Levei anos para entender que gente tambem lembra."},
+			{"amizade": 7, "texto": "Ja fiz armas para gente que eu nem conhecia. Hoje prefiro ver quem segura o cabo. Da mais trabalho, mas eu durmo melhor."}],
+	},
 	"nilo": {"boas_vindas":"Sou Nilo, o pescador. Minha oficina fica na casa do cais. Das 8h as 17h eu melhoro sua vara com as pedras raras que voce pescar.",
 		"saudacoes":{"novo":["Ola! Como anda a pescaria?"],"conhecido":["Bom ver voce de novo. Trouxe sua vara?"],"amigo":["Sempre tenho tempo para um amigo pescador."]},
 		"papo":[{"texto":"Quando fecho a oficina, gosto de passear pela vila. O mar pode esperar um pouco."},{"texto":"Uma vara bem cuidada dura muito. Traga as pedras e eu cuido do refinamento."}],

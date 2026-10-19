@@ -23,14 +23,14 @@ func quadros(n := 4) -> void:
 		await process_frame
 
 func verificar_terreno(vila: Node) -> void:
-	for nome in ["Chao", "Terra", "Horta", "JardimEnfermaria"]:
-		var camada: TileMapLayer = vila.get_node("Terrains/" + nome)
+	for camada: TileMapLayer in vila.get_node("Terrains").find_children("*", "TileMapLayer", true, false):
+		var nome: String = camada.name
 		var validos := not camada.get_used_cells().is_empty()
 		for celula in camada.get_used_cells():
 			var fonte := camada.tile_set.get_source(camada.get_cell_source_id(celula)) as TileSetAtlasSource
 			validos = validos and fonte != null and fonte.has_tile(camada.get_cell_atlas_coords(celula))
 		verificar("tiles existentes no atlas: " + nome, validos)
-	var chao: TileMapLayer = vila.get_node("Terrains/Chao")
+	var chao: TileMapLayer = vila.get_node("Terrains/Terreno")
 	verificar("chao cobre toda a vila e as margens", chao.get_used_rect() == Rect2i(-2, -2, 48, 40))
 	var fonte := chao.tile_set.get_source(0) as TileSetAtlasSource
 	for estacao in range(4):
@@ -91,8 +91,8 @@ func _rodar() -> void:
 		var morador: Node = vila.moradores[id]
 		var geometria: Dictionary = dados.geometria_sprite(id)
 		var folha: Image = morador.sprite.texture.get_image()
-		var altura := folha.get_region(Rect2i(64, 0, 64, 64)).get_used_rect().size.y
-		verificar("altura do NPC acompanha o jogador: " + id, absf(altura * morador.sprite.scale.y - 34.0) < 0.01)
+		var altura := folha.get_region(Rect2i(0, 0, 64, 64)).get_used_rect().size.y
+		verificar("altura do NPC acompanha o jogador: " + id, altura == int(geometria["altura_parado"]) and is_equal_approx(morador.sprite.scale.y, float(geometria["escala_mapa"])))
 		var pes: float = morador.sprite.position.y + (float(geometria["pes_y"]) - 32) * morador.sprite.scale.y
 		verificar("escala mantem pes na colisao: " + id, absf(pes - morador.get_node("CollisionShape2D").position.y) < 0.01)
 	verificar("nenhuma onda na cidade", get_nodes_in_group("gerenciador_ondas").is_empty())
@@ -100,13 +100,12 @@ func _rodar() -> void:
 	verificar_terreno(vila)
 	var jogador_fisica: CharacterBody2D = vila.get_node("Jogador")
 	jogador_fisica.collision_mask = 64
-	for objeto in ["PocoNovo", "FeiraOeste", "BancoNovo", "MuralNovo", "Barril", "Arbusto0", "Arbusto1", "Arbusto2", "Arbusto3", "Arbusto4", "Arbusto5", "Arbusto6"]:
-		var visual: Node2D = vila.get_node_or_null("Terrains/" + objeto)
-		if visual == null:
-			visual = vila.get_node("Terrains/Objetos3D/" + objeto)
-		var base_objeto: Vector2 = visual.global_position
-		verificar("objeto impede atravessar: " + objeto, jogador_fisica.test_move(Transform2D(0, base_objeto + Vector2(0, 30)), Vector2(0, -40)))
-	verificar("ponte permite atravessar rio", not jogador_fisica.test_move(Transform2D(0, Vector2(632, 96)), Vector2(48, 0)))
+	for forma: CollisionShape2D in vila.get_node("Decoracao/Obstaculos").get_children():
+		if forma.disabled:
+			continue
+		verificar("decoração bloqueia o corpo na base: " + forma.name, jogador_fisica.test_move(Transform2D(0, forma.global_position + Vector2(0, 30)), Vector2(0, -40)))
+	var ponte: Vector2 = dados.ponto("ponte")
+	verificar("ponte permite atravessar rio", not jogador_fisica.test_move(Transform2D(0, ponte - Vector2(24, 0)), Vector2(32, 0)))
 	verificar("rio bloqueia fora da ponte", jogador_fisica.test_move(Transform2D(0, Vector2(636, 400)), Vector2(48, 0)))
 	var consulta := PhysicsShapeQueryParameters2D.new()
 	consulta.shape = jogador_fisica.get_node("CollisionShape2D").shape
@@ -143,7 +142,8 @@ func _rodar() -> void:
 	verificar("fechar conversa libera o jogador", vila.get_node("Jogador").movimento_habilitado)
 	interface._abrir_tela("mural_cidade")
 	await quadros()
-	verificar("mural mostra pedidos e agenda", interface._telas["mural_cidade"]._botoes.size() == 6)
+	var pedidos: Array = dados.MISSOES.keys().filter(func(id): return dados.missao_na_estacao(id, calendario.estacao()))
+	verificar("mural mostra pedidos da estação e agenda", interface._telas["mural_cidade"]._botoes.size() == pedidos.size())
 	interface._fechar_tela("mural_cidade")
 	# A bigorna conserva os requisitos da arena mesmo estando em outro mapa.
 	transicao.estado = {"onda_atual": 8}
@@ -171,7 +171,7 @@ func _rodar() -> void:
 	verificar("amizade cresce ao ajudar", cidade.amizade["lia"] == 3)
 	cidade.aceitar("horta")
 	fazenda.colheita = {"cenoura": 3, "tomate": 4}
-	calendario.dia = 8
+	calendario.dia = 31
 	verificar("pedido guarda estacao em que foi aceito", cidade.progresso_missao("horta").x == 3)
 	verificar("so entrega ao morador certo", not cidade.concluir("horta", "lia"))
 	verificar("entrega desconta colheita correta", cidade.concluir("horta", "bento") and fazenda.quantidade_colhida("cenoura") == 0 and fazenda.quantidade_colhida("tomate") == 4)
@@ -193,9 +193,12 @@ func _rodar() -> void:
 		verificar("porta exterior aponta para o interior: " + id, vila.get_node("Porta_" + id).cena_destino == "res://cenas/cidade/%s.tscn" % id)
 		vila.get_node("Iluminacao").definir_hora(12)
 		await trocar("res://cenas/cidade/%s.tscn" % id, "entrada")
-		verificar("interior tem piso ampliado: " + id, current_scene.get_node("Piso").get_used_cells().size() == 200)
-		verificar("interior tem mobiliario proprio: " + id, current_scene.get_node("Objetos3D").get_child_count() >= 9)
-		verificar("navegacao cobre o interior: " + id, current_scene.navegacao.region.size == Vector2i(36, 22))
+		var interior: Node = current_scene.get_node("Interior")
+		var sala: Node = interior.get_node("Sala")
+		verificar("interior tem piso nativo e cômodos: " + id, sala.casa == id and not sala.geometria["areas"].is_empty() and sala.FOLHA is Texture2D)
+		verificar("interior tem mobiliário próprio: " + id, interior.get_child_count() >= 9)
+		var tamanho := Vector2i(sala.geometria["recorte"][2], sala.geometria["recorte"][3])
+		verificar("navegação cobre o interior em grade de 8 pixels: " + id, current_scene.navegacao.cell_size == Vector2(8, 8) and current_scene.navegacao.region.size == tamanho / 8)
 		consulta.transform = Transform2D(0, current_scene.get_node("Jogador").global_position + Vector2(0, 9))
 		verificar("entrada interior sem colisao: " + id, current_scene.get_world_2d().direct_space_state.intersect_shape(consulta).is_empty())
 		verificar("morador alcancavel desde a porta: " + id, not current_scene.caminho_entre(current_scene.get_node("Chegada_entrada").position, Vector2(64, 60)).is_empty())
@@ -220,7 +223,7 @@ func _rodar() -> void:
 		vila.get_node("Iluminacao").set_process(false)
 		verificar("retorno coloca jogador na porta: " + id, vila.get_node("Jogador").position.distance_to(vila.get_node("Chegada_" + id).position) < 2)
 	verificar("pedido de visitas conclui", cidade.concluir("passeio", "lia"))
-	calendario.dia = 22
+	calendario.dia = 91
 	vila.get_node("Iluminacao").definir_hora(12)
 	var pousada := await carregar_cena("res://cenas/cidade/pousada.tscn")
 	verificar("inverno moradores se encontram dentro da pousada", pousada.moradores.values().filter(func(n): return n.visible).size() == 4)

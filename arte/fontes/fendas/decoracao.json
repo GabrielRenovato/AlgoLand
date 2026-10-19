@@ -1,0 +1,59 @@
+{
+  "tipo": "Atlas de marcos ambientais de fendas",
+  "referencias": [
+    "assets/cenario/Seasonal Forest/seasonal sample (spring).png"
+  ],
+  "quadros": [
+    64,
+    64
+  ],
+  "grade": 16,
+  "pivo": [
+    32,
+    60
+  ],
+  "colisao": "Bases sólidas inteiramente fora do contorno caminhável; utiliza o limite existente da planta.",
+  "variantes": [
+    "spring",
+    "summer",
+    "autumn",
+    "winter"
+  ],
+  "interiores": "Base protegida da neve, com reflexos sazonais no controlador, sem precipitação.",
+  "fontes": {
+    "base": "decoracao_base.png",
+    "referencia": "decoracao_referencia.png",
+    "verao": "decoracao_summer.png",
+    "outono": "decoracao_autumn.png",
+    "inverno": "decoracao_winter.png",
+    "rascunho_rejeitado": "decoracao_rascunho.png"
+  },
+  "gerador": "image_gen integrado",
+  "prompts": {
+    "base": "Use case: stylized-concept. Create a production game environmental SPRITE ATLAS for AlgoLand, using attached image ONLY as STYLE REFERENCE (do not edit it). Mana Seed compatible top-down 3/4 RPG perspective. TRANSPARENT background. Exactly 4 columns by 4 rows of 64x64 LOGICAL PIXEL cells: logical canvas 256x256, shown at exactly 4x nearest neighbor =1024x1024. Each visible pixel must be 4x4 output pixels, NO fine illustration detail, no antialias, no black contour. Warm gray stone, muted brown wood, subdued natural greens, upper-left light matching reference. Each separate object fits its cell with 4logicalpixel padding. Center x32 and bottom base y60 for each cell. Keep shadow compact at base, contact on ground, generous transparent empty space. No text, no grid, no floor/background squares.\nRow1: broken stone arch with missing upper-right stones; tall broken mossy column on square foot; collapsed low stone wall rubble; circular ancient altar with worn spiral.\nRow2: broad layered quarry boulder; three pointed cave stalagmites cluster; wooden mine support arch with diagonal braces; mine cart with dark iron rocks and 4 visible wheels.\nRow3: gnarled dead stump with exposed roots; fallen hollow mossy log laid horizontally; tall swamp reeds and cattails; thick twisting ancient tree roots arching over earth.\nRow4: violet cave crystal cluster; low turquoise cave mushroom colony; cracked cylindrical stone pillar fallen horizontally; abandoned wooden winch with rope coil.\nNATIVE scale compared with reference: character is 32px high; arches about48pxhigh, columns40px, reeds28px, boulder30px; do not fill every cell uniformly with giant objects. Spring base version. Source art goes arte/fontes/fendas; runtime cropped fixed64 cells assets/cenario/fendas/decoracao, seasonal versions keep same geometry and pivot; collisions only solid foot bases; outside traversable corridors. This is an actual pixel sprite sheet, not a concept board.",
+    "edicao": "Simplificar em grupos de pixels, remover franjas e preservar os 16 objetos e sua ordem."
+  },
+  "prompts_variantes": {
+    "summer": "Use case lighting-weather. Edit exact attached transparent pixel art atlas. Summer: slightly dry yellow-green moss, warmer sunlit gray stone, dry golden wood. Keep all pixels and silhouettes otherwise exactly identical. Strict invariants: EXACT same 1024x1024 canvas and 4x4 cells. All 16 sprites same positions and exact shapes with bases at y60 of64 logical cells, logical256x256 enlarged4x. Change only season, preserve object identity, selective outline, upperleft light. Crisp nativepixel clusters of4outputpixels, no antialias no fine illustration no colored alpha fringes. Preserve existing transparent empty spaces, no background. Never move sprites or fill negative space.",
+    "autumn": "Use case lighting-weather. Edit exact attached transparent pixel art atlas. Autumn: moss and reeds become muted ochre olive and rust brown, fallen leaves rest on broad upper surfaces and stump roots. No orange filter on metal, crystal or mushrooms. Strict invariants: EXACT same 1024x1024 canvas and 4x4 cells. All 16 sprites same positions and exact shapes with bases at y60 of64 logical cells, logical256x256 enlarged4x. Change only season, preserve object identity, selective outline, upperleft light. Crisp nativepixel clusters of4outputpixels, no antialias no fine illustration no colored alpha fringes. Preserve existing transparent empty spaces, no background. Never move sprites or fill negative space.",
+    "winter": "Use case lighting-weather. Edit exact attached transparent pixel art atlas. Winter outdoor: add small convincing pale blue-white snow caps on exposed horizontal stone, wood tops, broken arch ledges, stump roots and reed tips. Cold muted moss. Keep cart iron dark and crystals violet and mushrooms cyan. Do not uniformly whiten vertical surfaces. Snow no more than 2-3 native pixels thick. Strict invariants: EXACT same 1024x1024 canvas and 4x4 cells. All 16 sprites same positions and exact shapes with bases at y60 of64 logical cells, logical256x256 enlarged4x. Change only season, preserve object identity, selective outline, upperleft light. Crisp nativepixel clusters of4outputpixels, no antialias no fine illustration no colored alpha fringes. Preserve existing transparent empty spaces, no background. Never move sprites or fill negative space."
+  },
+  "integracao": "ferramentas/fendas/preparar_decoracao.py e detalhar_biomas.py; codigo/fendas/decoracao_sazonal.gd",
+  "revisao": "ferramentas/fendas/renderizar_jornada.gd em projeto e save isolados",
+  "motivo_rejeicao": "Detalhe excessivo e franjas de alpha; não é consumido pelo jogo.",
+  "piso_mineral": "Derivado dos agrupamentos de pixels dos tiles de terra da folha nativa de verão; ardósia nas grutas, basalto no abismo e tom arenito na pedreira. IDs e grade preservados.",
+  "paredes": "Face de pedra nativa recortada pelo campo da planta, com máscara exata nas bordas.",
+  "temas_por_andar": {
+    "1": "Bosque jovem, troncos e clareiras",
+    "2": "Riachos, juncos, troncos e pequenas mesas",
+    "3": "Pedreira com suporte, carrinhos e guinchos",
+    "4": "Gruta com raizes, formacoes e fungos",
+    "5": "Brejo com reservatorios e vegetacao de margem",
+    "6": "Patios de ruinas com arcos, colunas e entulho",
+    "7": "Galerias alagadas com mineracao abandonada",
+    "8": "Bosque antigo com carvalhos, raizes e cogumelos",
+    "9": "Desfiladeiro mineral e mesas expostas",
+    "10": "Santuario com patios, altares e colunatas quebradas",
+    "11": "Abismo de basalto, cristais e restos antigos"
+  }
+}

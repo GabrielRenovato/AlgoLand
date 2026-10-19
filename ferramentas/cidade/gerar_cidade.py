@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""Gera a vila com Mana Seed original e seis interiores. Determinístico.
-Uso: python3 ferramentas/cidade/gerar_cidade.py [interiores]   (com "interiores" só refaz as seis casas, depois de layout_interiores.py)
+"""Gera a vila com Mana Seed original e os interiores cadastrados. Determinístico.
+Uso: python3 ferramentas/cidade/gerar_cidade.py [interiores]   (com "interiores" só refaz as casas, depois de layout_interiores.py)
 """
 from pathlib import Path
 import sys
@@ -13,6 +13,7 @@ import gerar_fazenda as F
 G, D = F.G, F.D
 RNG = random.Random(1401026)
 PREDIOS = {
+    'forja': ('FORJA DO IVO', 192, 112, 'Color(1, 0.9, 0.8, 1)'),
     'venda': ('VENDA DO TOMAS', 240, 184, 'Color(1, 0.95, 0.85, 1)'),
     'sede': ('CASA DA COMUNIDADE', 480, 184, 'Color(0.92, 0.94, 1, 1)'),
     'enfermaria': ('ENFERMARIA', 720, 184, 'Color(1, 0.86, 0.83, 1)'),
@@ -155,7 +156,7 @@ def interior(ident):
 def so_interiores():
     for ident in PREDIOS:
         (RAIZ/'cenas/cidade'/f'{ident}.tscn').write_text(interior(ident))
-    print('Seis interiores gerados.')
+    print(f'{len(PREDIOS)} interiores gerados.')
 
 def liberar_saida_praia():
     """Preserva a decoração existente e libera só o corredor acrescentado ao sul."""

@@ -1,0 +1,118 @@
+{
+  "tipo": "Prop de cenario mineravel: veio de ferro da arena",
+  "referencia": "assets/cenario/fazenda/entulho/primavera/pedra_3.png e arvores/rochas Mana Seed de cenas/terreno.tscn; comparado ao jogador na arena real",
+  "grade": [
+    16,
+    16
+  ],
+  "quadro": [
+    32,
+    32
+  ],
+  "pivo": [
+    16,
+    28
+  ],
+  "dimensao_aparente": "Corpo aproximadamente 22-26 px, borda de musgo/folhas ate 29 px; pixels nativos, sem redimensionar",
+  "base_fisica": {
+    "colisao": [
+      22,
+      12
+    ],
+    "centro": [
+      0,
+      -6
+    ],
+    "camada": 64,
+    "profundidade": "Profundidade.z_de(base_global.y)-1; pes do jogador definem sua frente/tras"
+  },
+  "gerador": "PixelLab create_image_pixflux; cada sprite produzido em pixels nativos",
+  "fontes": [
+    {
+      "arquivo": "ferro_estacoes_original.png",
+      "job_id": "8fccbdaa-3cee-4830-9806-b8881f474795",
+      "uso": "Estudo rejeitado: metais e estacoes pouco legiveis; nao integrado"
+    },
+    {
+      "arquivo": "ferro_estacoes_v2.png",
+      "job_id": "45e2d51b-7496-4854-8bf0-4bb9e932cdb3",
+      "uso": "Primavera, verao e outono; quarta celula rejeitada por falta de neve",
+      "prompt": "Vertical game sprite strip, exactly four 32x32 cells on transparent 32x128 canvas. Same low squat dark slate grey iron ore boulder with a diagonal burnt-orange rusty metallic seam, upper-left light, selective dark outline, Mana Seed top-down farming RPG scenery. Spring: small moss fleck; summer: dry grey surface and pale lichen; autumn: orange leaves at base; winter: white snow cap with orange vein exposed. Same shape, native pixel clusters, base y28, no background tile or text."
+    },
+    {
+      "arquivo": "ferro_inverno_original.png",
+      "job_id": "6149eb60-a2a6-4f09-8dd8-ade6f50f22f0",
+      "uso": "Estudo de inverno substituido: neve encobria demais a identidade do minerio.",
+      "prompt": "One small iron ore rock, native32x32 transparent winter Mana Seed top-down prop. Low squat dark slate grey angular boulder about26x23 pixels, diagonal burnt-orange iron seam from upper right to front left, upper-left light. Thick white snow cap resting on top facets, icy blue shadows, orange iron exposed on front, snow patches at contact rim, no green grass. Base y28, no tile, text, glow, blur or gradients."
+    },
+    {
+      "arquivo": "ferro_inverno_v3.png",
+      "job_id": "561fa0a9-3936-4ee3-97b6-0712609f2008",
+      "uso": "Inverno integrado, com capa de neve e faixa de ferro visivel na frente",
+      "prompt": "Grey iron ore boulder with a very visible rusty orange diagonal mineral band across its front face and a small white snow cap only on top. One native32x32 transparent Mana Seed high top-down prop. Front vein orange #c16f40, never blue or grey, charcoal grey body, selective dark outline, top-left lighting, base y28. Snow only uppermost4 pixels, cannot cover front or orange seam. No blue ice block, crystals, grass, tile, text or blur."
+    }
+  ],
+  "recortes": {
+    "primavera": {
+      "arquivo": "ferro_estacoes_v2.png",
+      "regiao": [
+        0,
+        0,
+        32,
+        32
+      ]
+    },
+    "verao": {
+      "arquivo": "ferro_estacoes_v2.png",
+      "regiao": [
+        0,
+        32,
+        32,
+        64
+      ]
+    },
+    "outono": {
+      "arquivo": "ferro_estacoes_v2.png",
+      "regiao": [
+        0,
+        64,
+        32,
+        96
+      ]
+    },
+    "inverno": {
+      "arquivo": "ferro_inverno_v3.png",
+      "regiao": [
+        0,
+        0,
+        32,
+        32
+      ]
+    }
+  },
+  "preparador": "ferramentas/arena/preparar_minerios.py; apenas recorte e alinhamento, sem reamostragem",
+  "integracao": "codigo/logica/mineracao_arena.gd; criado por codigo/logica/cenario.gd, ligado ao sinal onda_iniciada e a Terrains/Estacoes.estacao_mudou",
+  "balanceamento": {
+    "primeira_onda": 6,
+    "intervalo": 3,
+    "ferro_por_veio": 1,
+    "veio_rico_a_partir": 21,
+    "ferro_veio_rico": 2,
+    "golpes": [
+      3,
+      4
+    ],
+    "energia_por_golpe": 4,
+    "veios_por_jogador": 1,
+    "fontes_fora_da_arena": false,
+    "custos_ferro_das_receitas": [
+      3,
+      4,
+      6,
+      3,
+      5
+    ]
+  },
+  "persistencia": "Progresso.veios_arena preserva golpes e extracao nas viagens da mesma partida; iniciar_partida renova os veios. Ferro coletado permanece como pilha fisica na mochila. Nova sessao inicia nova partida conforme o loop existente.",
+  "revisao": "testes/teste_mineracao_arena.gd: solo/coop, coleta/lotacao, animacao/energia/dano, reentrada, quatro estacoes e comparacao de renderizacao da frente/tras. -- --somente-navegacao confere inimigo de chao contornando o veio. ferramentas/arena/revisar_minerios.gd gera as capturas reais finais com saves isolados em arte/previas/mineracao_arena/."
+}

@@ -1,7 +1,7 @@
 extends SceneTree
 
 ## Agendas e deslocamentos reais; execute somente na cópia com saves isolados.
-const Dados := preload("res://codigo/cidade/dados_cidade.gd")
+var Dados: GDScript
 var Clima: GDScript
 var falhas := 0
 
@@ -32,6 +32,8 @@ func carregar(caminho: String) -> Node:
 	return cena
 
 func _rodar() -> void:
+	await process_frame
+	Dados = load("res://codigo/cidade/dados_cidade.gd")
 	if ProjectSettings.get_setting("application/config/name") != "AlgoLand testes Carrasco":
 		quit(1)
 		return
@@ -44,11 +46,13 @@ func _rodar() -> void:
 		for estacao in range(4):
 			for hora in [1.0, 7.0, 12.0, 19.0, 23.0]:
 				var abrigo: Dictionary = Dados.agenda(id, hora, estacao, Clima.Estado.TEMPESTADE)
-				verificar("temporal mantém %s em casa (%d / %s)" % [id, estacao, hora], abrigo["local"] == Dados.MORADORES[id]["casa"])
+				var cama: Dictionary = Dados.cama(id)
+				var casa: String = cama["local"] if abrigo.get("dormindo", false) and not cama.is_empty() else Dados.MORADORES[id]["casa"]
+				verificar("temporal mantém %s abrigado (%d / %s)" % [id, estacao, hora], abrigo["local"] == casa)
 		for chuva in [Clima.Estado.CHUVA_LEVE, Clima.Estado.CHUVA_FORTE]:
 			verificar("chuva preserva agenda de " + id, Dados.agenda(id, 12, 0, chuva) == Dados.agenda(id, 12, 0))
 	var vila := await carregar("res://cenas/cidade.tscn")
-	verificar("cidade carrega os seis moradores", vila.moradores.size() == 6)
+	verificar("cidade carrega todos os moradores da vila", vila.moradores.size() == Dados.MORADORES.size() - 1)
 	vila.get_node("Jogador").position = Vector2(-500, -500)
 	var clima: Node = vila.get_node("Terrains/Estacoes/Meteorologia")
 	for estado in [Clima.Estado.CHUVA_LEVE, Clima.Estado.CHUVA_FORTE, Clima.Estado.LIMPO, Clima.Estado.NEVE_LEVE]:
@@ -88,7 +92,7 @@ func _rodar() -> void:
 	fazenda.definir_clima_hoje(Clima.Estado.TEMPESTADE)
 	for local in Dados.PREDIOS:
 		var interior := await carregar("res://cenas/cidade/%s.tscn" % local)
-		verificar("interior carrega os seis moradores: " + local, interior.moradores.size() == 6)
+		verificar("interior carrega todos os moradores da vila: " + local, interior.moradores.size() == Dados.MORADORES.size() - 1)
 		for id in interior.moradores:
 			var npc: Node = interior.moradores[id]
 			verificar("abrigo correto %s / %s" % [local, id], npc.visible == (Dados.MORADORES[id]["casa"] == local) and not npc.usando_capa_chuva)

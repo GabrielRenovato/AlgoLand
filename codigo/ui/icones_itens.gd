@@ -59,6 +59,14 @@ static func icone_vara(nivel: int) -> Texture2D:
 static func obter(item: DadosItem, arvore: SceneTree) -> Texture2D:
 	if item == null:
 		return null
+	if item.categoria == "receita":
+		return load("res://assets/ui/coletaveis/receita.png")
+	if item.categoria == "material":
+		return load("res://assets/ui/coletaveis/%s.png" % item.conteudo())
+	if item.categoria == "colheita":
+		return IconesFazenda.item_colhido(item.conteudo())
+	if item.categoria == "pocao":
+		return preload("res://codigo/dados/pocoes.gd").icone(item.conteudo())
 	if item.categoria == "peixe":
 		return preload("res://codigo/pesca/peixes.gd").icone(item.peixe())
 	if item.categoria == "vara":
@@ -81,7 +89,8 @@ static func obter(item: DadosItem, arvore: SceneTree) -> Texture2D:
 	if ARMADURAS.has(item.tipo) and jogador != null:
 		var sprite_armadura: Sprite2D = jogador.get(ARMADURAS[item.tipo])
 		if sprite_armadura != null and sprite_armadura.texture != null:
-			return _recortar(sprite_armadura.texture, Rect2i(Vector2i.ZERO, Vector2i(sprite_armadura.texture.get_size())))
+			var tamanho := Vector2i(sprite_armadura.texture.get_size()) / Vector2i(sprite_armadura.hframes,sprite_armadura.vframes)
+			return _recortar(sprite_armadura.texture, Rect2i(sprite_armadura.get_frame_coords()*tamanho,tamanho))
 	return null
 
 static func obter_arma(tipo: String, arvore: SceneTree, nivel: int = 1) -> Texture2D:

@@ -14,12 +14,7 @@ func _ready() -> void:
 	painel = PanelContainer.new()
 	painel.name = "Painel"
 	painel.set_anchors_preset(Control.PRESET_CENTER)
-	var moldura := StyleBoxTexture.new()
-	moldura.texture = preload("res://assets/ui/craftpix-net-420010-pixel-game-user-interface-for-platformer/1 Interface/TileMap.png")
-	moldura.region_rect = Rect2(96, 64, 48, 48)
-	for lado in [SIDE_LEFT, SIDE_TOP, SIDE_RIGHT, SIDE_BOTTOM]:
-		moldura.set_texture_margin(lado, 16)
-		moldura.set_content_margin(lado, 10)
+	var moldura := preload("res://codigo/ui/estilo_interface.gd").painel(false, 10.0)
 	painel.add_theme_stylebox_override("panel", moldura)
 	painel.texture_filter = TEXTURE_FILTER_NEAREST
 	add_child(painel)

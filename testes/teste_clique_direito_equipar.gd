@@ -26,6 +26,7 @@ func _rodar() -> void:
 	var inv := root.get_node("InventarioJogador")
 	inv.limpar()
 	inv.criar_itens_iniciais()
+	inv.adicionar_arma_nova("lanca_basica")
 	var lanca = inv.buscar_por_tipo("lanca_basica")
 	var slot: Control = load("res://cenas/ui/componentes/slot_ui.tscn").instantiate()
 	slot.tipo_slot = "mochila"

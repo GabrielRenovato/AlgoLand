@@ -1,0 +1,31 @@
+{
+  "tipo": "recomposicao do mapa jogavel da praia",
+  "referencia_aceita": "assets/ui/mapa_mundi/algoland.png; praia da carta aprovada pelo usuario",
+  "dimensoes": [
+    704,
+    576
+  ],
+  "grade": [
+    16,
+    16
+  ],
+  "composicao": "enseada com costa sinuosa, mata nas laterais e ao norte, passagem estreita da vila, cais conectado e palafita a leste",
+  "pivo": "grade e coordenadas originais; acessos e portas preservados",
+  "base_fisica": "colisao da agua recalculada pela mesma curva da renderizacao; troncos e arbustos usam bases da vila",
+  "variantes": [
+    "primavera",
+    "verao",
+    "outono",
+    "inverno"
+  ],
+  "fontes": "arvores, arbustos e grama Mana Seed ja integrados na vila; rochas originais da praia",
+  "arte_nova": "nenhuma ilustracao convertida em cenario; recortes de terrenos nativos e shaders do mar",
+  "integracao": [
+    "codigo/pesca/vegetacao_orla.gd",
+    "codigo/pesca/praia.gd",
+    "codigo/pesca/mar.gdshader",
+    "ferramentas/pesca/gerar_praia.py",
+    "ferramentas/pesca/preparar_orla.py"
+  ],
+  "revisao": "teste_enseada_visual.gd: geral e detalhe de margem nas quatro estacoes; teste_praia.gd: colisoes, pesca, porta, bancos e coop"
+}

@@ -18,6 +18,9 @@ func conferir(tela: Control, nome: String) -> void:
 	var painel: Rect2 = tela.painel.get_global_rect()
 	verificar(nome + ": painel compacto e dentro da tela", painel.size.y <= tela.size.y * 0.75 and Rect2(Vector2.ZERO, tela.size).encloses(painel))
 	verificar(nome + ": texto cabe sem cortar linhas", not tela._fala.visible or (tela._fala.size.y >= tela._fala.get_minimum_size().y and painel.encloses(tela._fala.get_global_rect())))
+	verificar(nome + ": X acessível dentro do balão", tela._fechar_dialogo.visible and painel.encloses(tela._fechar_dialogo.get_global_rect()))
+	for botao in [tela._continuar,tela._fechar_dialogo]:
+		verificar(nome + ": texto centralizado e botão dentro do balão",botao.alignment == HORIZONTAL_ALIGNMENT_CENTER and painel.encloses(botao.get_global_rect()))
 	var menu: Rect2 = tela._menu_assuntos.get_global_rect()
 	verificar(nome + ": respostas dentro do mesmo balão",not tela._menu_assuntos.visible or painel.encloses(menu))
 	verificar(nome + ": lista de respostas rolável",tela._rolagem != null and tela._rolagem.follow_focus)
@@ -28,6 +31,14 @@ func _rodar() -> void:
 		quit(1)
 		return
 	await process_frame
+	for caminho in ["tema_global","tema_sidebar","tema_menu"]:
+		var tema: Theme = load("res://recursos/ui/"+caminho+".tres")
+		for tipo in (["Button","BotaoAba","BotaoPrimario"] if caminho == "tema_sidebar" else ["Button"]):
+			for estado in ["normal","hover","pressed","disabled"]:
+				var estilo := tema.get_stylebox(estado,tipo) as StyleBoxTexture
+				if estilo == null: continue
+				for lado in [SIDE_LEFT,SIDE_RIGHT,SIDE_TOP,SIDE_BOTTOM]:
+					verificar("%s/%s/%s: folga além da borda %d" % [caminho,tipo,estado,lado],estilo.get_content_margin(lado)>=estilo.get_texture_margin(lado)+2)
 	var cidade: Node = root.get_node("Cidade")
 	cidade.caminho_save = "user://teste_dialogo_cidade.json"
 	cidade.apagar()
@@ -58,6 +69,11 @@ func _rodar() -> void:
 					await quadros()
 					conferir(tela, "pedido/" + pedido)
 			interface._fechar_tela("conversa_cidade")
+	cidade.conversar("bento")
+	await quadros()
+	tela._fechar_dialogo.pressed.emit()
+	await quadros()
+	verificar("X encerra conversa e libera o jogador",not interface._telas_abertas.has("conversa_cidade") and vila.get_node("Jogador").movimento_habilitado)
 	cidade.conversar("bento")
 	await quadros()
 	tela._abrir_pedido("horta")

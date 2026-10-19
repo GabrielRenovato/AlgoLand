@@ -171,7 +171,7 @@ func _testar_dados() -> void:
 	_verificar("drop de chefe: piso RARO nas armas e raridade própria nos conjuntos", chefe_ok, "")
 	_verificar("drop: sai todo tipo de arma e o escudo", tipos_vistos.size() == Equipamentos.TIPOS_DROP.size(), str(tipos_vistos.keys()))
 	_verificar("nivel liberado pela onda (1, 2, 3, 4, 5)", Equipamentos.nivel_liberado(1) == 1 and Equipamentos.nivel_liberado(4) == 2 and Equipamentos.nivel_liberado(8) == 3 and Equipamentos.nivel_liberado(14) == 4 and Equipamentos.nivel_liberado(22) == 5, "")
-	_verificar("chance de drop: comum < mutante < chefe (100%)", EquipamentoDrop.chance(false, false) < EquipamentoDrop.chance(true, false) and EquipamentoDrop.chance(true, true) == 1.0, "")
+	_verificar("chance de receita: comum < mutante < chefe, sem garantia", EquipamentoDrop.chance(false, false) < EquipamentoDrop.chance(true, false) and EquipamentoDrop.chance(true, false) < EquipamentoDrop.chance(true, true) and EquipamentoDrop.chance(true, true) == 0.20, "")
 
 	# Preço de venda
 	_verificar("venda: o nivel entra pelo custo das melhorias (400 + 200 + 500 = 1100 x 30%)", Equipamentos.preco_venda("espada_gemea", "comum", 3) == 330, str(Equipamentos.preco_venda("espada_gemea", "comum", 3)))
@@ -317,6 +317,14 @@ func _testar_drop() -> void:
 	# mochila cheia: nao pega, avisa, e o item fica no chao
 	while _inv.tem_espaco():
 		_inv.adicionar(_novo("maca", "arma", "comum"))
+	var saque := root.get_node("Saque")
+	saque.filtro = 0
+	var para_sacola = _novo("machado", "arma", "raro")
+	EquipamentoDrop.soltar_item(para_sacola, _jogador.global_position + Vector2(0, 11), _cena, rng)
+	await _ms(1500)
+	_verificar("mochila cheia encaminha o drop para o saque temporário", saque.contem(para_sacola) and not _inv.mochila.has(para_sacola), "")
+	while saque.tem_espaco():
+		saque.adicionar(_novo("maca", "arma", "comum"))
 	var sobra = _novo("arco_curvo", "arma", "lendario", 3, {"critico": 0.04})
 	var drop2: Node2D = EquipamentoDrop.soltar_item(sobra, _jogador.global_position + Vector2(0, 11), _cena, rng)
 	await _ms(1500)
@@ -325,7 +333,7 @@ func _testar_drop() -> void:
 	var moedas1: int = root.get_node("DadosJogo").moedas
 	get_nodes_in_group("equipamento_drop").map(func(d): d.atrair())
 	await _quadros(3)
-	var valor: int = Equipamentos.preco_venda("arco_curvo", "lendario", 3)
+	var valor: int = saque.preco(sobra)
 	_verificar("mochila cheia no fim da onda: o drop vira ouro", root.get_node("DadosJogo").moedas == moedas1 + valor and valor > 0, "%d + %d" % [moedas1, valor])
 	_verificar("o drop vendido some do chao", get_nodes_in_group("equipamento_drop").is_empty(), str(get_nodes_in_group("equipamento_drop").size()))
 
@@ -338,7 +346,7 @@ func _testar_drop() -> void:
 		return
 	var casa_ui: Control = load("res://cenas/ui/componentes/item_ui.tscn").instantiate()
 	root.add_child(casa_ui)
-	var para_vender = _inv.mochila[0]
+	var para_vender = _inv.buscar_por_tipo("maca")
 	casa_ui.exibir(para_vender)
 	_verificar("o slot de venda aceita item da mochila", mercante._slot_venda.aceita_item(casa_ui), "")
 	var equipado = _novo("espada_gemea", "arma", "raro")
@@ -353,7 +361,8 @@ func _testar_drop() -> void:
 	_inv.desequipar("arma")
 	mercante._slot_venda.colocar_item(casa_ui)
 	await _quadros(2)
-	var esperado: int = Equipamentos.preco_venda(para_vender.tipo, para_vender.raridade, para_vender.nivel)
+	var onda_vencida: int = root.get_node("Progresso").maior_onda_vencida
+	var esperado: int = roundi(saque.preco_na_partida(para_vender.raridade, maxi(onda_vencida, 1)) * 1.5)
 	_verificar("venda: o valor mostrado e o preco de venda", mercante._valor_venda.text == "VALE %d MOEDAS" % esperado and not mercante._botao_vender.disabled, mercante._valor_venda.text)
 	var moedas2: int = root.get_node("DadosJogo").moedas
 	mercante._ao_vender_pressionado()

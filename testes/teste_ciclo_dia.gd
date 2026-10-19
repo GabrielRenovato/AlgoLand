@@ -83,6 +83,11 @@ func _rodar() -> void:
 	transicao.dormiu.connect(func(): dormiu["ok"] = true)
 	await _esperar(func(): return dormiu["ok"], 8.0)
 	_verificar("as 02:00 o jogador apaga: dormir e chamado uma vez", fim_do_dia["n"] == 1 and dormiu["ok"], "n=%d" % fim_do_dia["n"])
+	# O desmaio agora leva o jogador para a casa; a fazenda anterior foi liberada.
+	cena = current_scene
+	luz = cena.get_node("Iluminacao")
+	jogador = cena.get_node("Jogador")
+	_verificar("desmaio fora da cama acorda na casa", cena.scene_file_path == "res://cenas/casa.tscn", cena.scene_file_path)
 	# (o relogio esta a 1 s por hora no teste: durante o fade ele ja andou um pouco depois das 06:00)
 	_verificar("o dia seguinte comeca (calendario +1) e o relogio volta as 06:00", calendario.dia == dia_antes + 1 and luz.hora >= 6.0 and luz.hora < 8.5 and luz.horas_decorridas < 2.5,
 			"dia=%d hora=%.2f dec=%.2f" % [calendario.dia, luz.hora, luz.horas_decorridas])
@@ -114,6 +119,8 @@ func _rodar() -> void:
 	var dormiu2 := {"ok": false}
 	transicao.dormiu.connect(func(): dormiu2["ok"] = true)
 	await _esperar(func(): return dormiu2["ok"], 8.0)
+	arena = current_scene
+	luz2 = arena.get_node("Iluminacao")
 	_verificar("a onda acabou: apaga, passa o dia e volta as 06:00", tela_dormir["n"] == 1 and calendario.dia == dia_2 + 1 and luz2.hora >= 6.0 and luz2.hora < 8.5,
 			"dia=%d hora=%.2f" % [calendario.dia, luz2.hora])
 	arena.queue_free()

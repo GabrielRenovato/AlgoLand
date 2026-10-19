@@ -1,0 +1,35 @@
+{
+  "nome": "Fenda do Bosque — andar 1",
+  "grade": 16,
+  "limites": [-1200, -832, 2400, 1632],
+  "entrada": [-928, 512],
+  "guardiao": [864, -480],
+  "setores": [
+    {"id":"entrada", "nome":"1. Portal de entrada", "centro":[-928,512], "raios":[152,128], "grupos":0},
+    {"id":"bifurcacao", "nome":"2. Encruzilhada", "centro":[-544,256], "raios":[176,144], "grupos":2},
+    {"id":"lago", "nome":"3. Margem do lago", "centro":[-784,-192], "raios":[192,176], "grupos":2},
+    {"id":"central", "nome":"4. Clareira central", "centro":[-112,-48], "raios":[208,160], "grupos":3},
+    {"id":"leste", "nome":"5. Bosque dos elites", "centro":[544,304], "raios":[208,160], "grupos":2},
+    {"id":"norte", "nome":"6. Passagem norte", "centro":[256,-416], "raios":[192,144], "grupos":2},
+    {"id":"guardiao", "nome":"7. Clareira do guardiao", "centro":[864,-480], "raios":[224,192], "grupos":0}
+  ],
+  "trilhas": [
+    {"pontos":[[-928,512],[-800,384],[-544,256]], "raio":88},
+    {"pontos":[[-544,256],[-672,64],[-784,-192]], "raio":88},
+    {"pontos":[[-784,-192],[-464,-224],[-272,-144],[-112,-48]], "raio":96},
+    {"pontos":[[-544,256],[-320,192],[-112,-48]], "raio":88},
+    {"pontos":[[-112,-48],[128,112],[352,272],[544,304]], "raio":96},
+    {"pontos":[[-112,-48],[32,-224],[256,-416]], "raio":88},
+    {"pontos":[[544,304],[704,64],[624,-144],[448,-288],[256,-416]], "raio":96},
+    {"pontos":[[256,-416],[544,-480],[864,-480]], "raio":104}
+  ],
+  "lago": {"lobos":[[-1008,-152,110,150],[-992,-320,108,92]], "folga":28},
+  "combate": {"comuns_por_grupo":3, "elites":2, "meta":120, "pontos_comum":5, "pontos_elite":15},
+  "contrato_visual": {
+    "referencia":"cenas/terreno.tscn; Seasonal Forest e Arctic Woodland existentes",
+    "escala":"tiles 16x16; sprites nativos sem ampliacao; pes na origem",
+    "estacoes":"spring, summer, autumn, winter; folhas privadas da fenda, troca pelo Calendario",
+    "colisao":"limite acompanha bosque; lago bloqueado; trilhas e clareiras sem props nas rotas",
+    "integracao":"cenas/terreno_fenda.tscn; arena antiga nao e sobrescrita"
+  }
+}

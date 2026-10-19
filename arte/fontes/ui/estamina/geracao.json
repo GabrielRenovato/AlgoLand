@@ -1,0 +1,28 @@
+{
+  "tipo": "Glifo estático de personagem correndo para a estamina do HUD",
+  "referencias": ["cenas/ui.tscn: IconeStamina", "assets/ui/Cute RPG - Icons (1)/Cute RPG - Icons/32x32/CuteRPG_Icons01.png"],
+  "dimensoes": [12, 12],
+  "grade": "Pixels nativos, filtro nearest, sem redimensionar",
+  "pivo": [0, 0],
+  "paleta": "Branco com transparência, tingido pelo mesmo amarelo da estamina no Godot",
+  "variantes": "Um estado estático de corrida; interface sem variantes sazonais",
+  "ferramenta": "PixelLab pixelart_workbench, desenho exato por grade",
+  "drawing_id": "c0041488-2288-4903-8dd4-775b17488ae8",
+  "pedido": "Personagem correndo para substituir o raio da estamina, compatível com os glifos pequenos do HUD",
+  "integracao": "cenas/ui.tscn; mantém a mudança de cor de hud.gd quando falta estamina",
+  "legenda": {"w": "#ffffff", ".": "transparente"},
+  "pixels": [
+    ".......ww...",
+    ".......ww...",
+    "......ww....",
+    "...wwwww....",
+    "..ww..ww.ww.",
+    "..w..wwwww..",
+    ".....ww.....",
+    "....wwww....",
+    "...ww..ww...",
+    ".www....w...",
+    ".w.....ww...",
+    ".......w...."
+  ]
+}

@@ -203,9 +203,9 @@ func _ao_pocao_bebida(id: String) -> void:
 ## A casa mostra a poção escolhida e quanto resta; sem poção nem efeito, o cinto todo some
 func _atualizar() -> void:
 	var id: String = efeitos.selecionada if efeitos != null else ""
-	var tem := id != "" and Fazenda.quantidade_pocoes(id) > 0
+	var tem := id != "" and Fazenda.quantidade_pocoes(id,EventosJogo.dono(self)) > 0
 	_icone.texture = Pocoes.icone(id) if tem else null
-	_quantidade.text = str(Fazenda.quantidade_pocoes(id)) if tem else ""
+	_quantidade.text = str(Fazenda.quantidade_pocoes(id,EventosJogo.dono(self))) if tem else ""
 	_linha_cinto.visible = tem
 	_linha_efeitos.visible = not _rotulos_efeitos.is_empty()
 

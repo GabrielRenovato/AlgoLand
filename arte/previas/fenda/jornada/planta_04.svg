@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="680"><g font-family="DejaVu Sans" fill="#f5e3ba"><rect x="0" y="0" width="1200" height="680" rx="12" fill="#22202f" stroke="#6b6e62"/>
+<text x="18" y="28" font-size="19" font-weight="bold">04 · Gruta das Raizes</text>
+<text x="18" y="52" font-size="13">2500 × 1280 px · meta 75 pontos</text>
+<g transform="translate(600.0,358.0) scale(0.453125)">
+<polyline points="-1056,0 -768,-416" stroke="#787085" stroke-width="160" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="-1056,0 -640,416" stroke="#787085" stroke-width="160" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="-768,-416 -176,-192" stroke="#787085" stroke-width="160" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="-640,416 176,336" stroke="#787085" stroke-width="160" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="-176,-192 464,-384" stroke="#787085" stroke-width="160" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="176,336 768,160" stroke="#787085" stroke-width="160" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="464,-384 768,160" stroke="#787085" stroke-width="160" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="768,160 1024,-272" stroke="#787085" stroke-width="160" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<ellipse cx="-1056" cy="0" rx="136" ry="112" fill="#787085"/>
+<circle cx="-1056" cy="0" r="35.310344827586206" fill="#7de0c2"/>
+<text x="-1056" y="11.03448275862069" text-anchor="middle" fill="#202923" font-size="30.896551724137932">E</text>
+<ellipse cx="-768" cy="-416" rx="136" ry="112" fill="#787085"/>
+<circle cx="-768" cy="-416" r="35.310344827586206" fill="#ead496"/>
+<text x="-768" y="-404.9655172413793" text-anchor="middle" fill="#202923" font-size="30.896551724137932">1</text>
+<ellipse cx="-640" cy="416" rx="136" ry="112" fill="#787085"/>
+<circle cx="-640" cy="416" r="35.310344827586206" fill="#ead496"/>
+<text x="-640" y="427.0344827586207" text-anchor="middle" fill="#202923" font-size="30.896551724137932">1</text>
+<ellipse cx="-176" cy="-192" rx="136" ry="112" fill="#787085"/>
+<circle cx="-176" cy="-192" r="35.310344827586206" fill="#ead496"/>
+<text x="-176" y="-180.9655172413793" text-anchor="middle" fill="#202923" font-size="30.896551724137932">1</text>
+<ellipse cx="176" cy="336" rx="136" ry="112" fill="#787085"/>
+<circle cx="176" cy="336" r="35.310344827586206" fill="#ead496"/>
+<text x="176" y="347.0344827586207" text-anchor="middle" fill="#202923" font-size="30.896551724137932">1</text>
+<ellipse cx="464" cy="-384" rx="136" ry="112" fill="#787085"/>
+<circle cx="464" cy="-384" r="35.310344827586206" fill="#ead496"/>
+<text x="464" y="-372.9655172413793" text-anchor="middle" fill="#202923" font-size="30.896551724137932">1</text>
+<ellipse cx="768" cy="160" rx="136" ry="112" fill="#787085"/>
+<circle cx="768" cy="160" r="35.310344827586206" fill="#ead496"/>
+<text x="768" y="171.0344827586207" text-anchor="middle" fill="#202923" font-size="30.896551724137932">1</text>
+<ellipse cx="1024" cy="-272" rx="176" ry="144" fill="#787085"/>
+<circle cx="1024" cy="-272" r="35.310344827586206" fill="#ef986e"/>
+<text x="1024" y="-260.9655172413793" text-anchor="middle" fill="#202923" font-size="30.896551724137932">B</text>
+</g>
+<text x="18" y="666" font-size="12">E: entrada · números: grupos · B: guardião</text></g></svg>

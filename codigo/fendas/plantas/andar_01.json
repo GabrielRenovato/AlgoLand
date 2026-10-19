@@ -1,0 +1,110 @@
+{
+  "andar": 1,
+  "nome": "Entrada do Bosque",
+  "bioma": "bosque",
+  "grade": 16,
+  "limites": [
+    -640,
+    -448,
+    1280,
+    896
+  ],
+  "entrada": [
+    -464,
+    224
+  ],
+  "guardiao": [
+    448,
+    -176
+  ],
+  "setores": [
+    {
+      "id": "entrada",
+      "nome": "Portal",
+      "centro": [
+        -464,
+        224
+      ],
+      "raios": [
+        120,
+        104
+      ],
+      "grupos": 0
+    },
+    {
+      "id": "area_1",
+      "nome": "Primeiros passos",
+      "centro": [
+        -160,
+        64
+      ],
+      "raios": [
+        144,
+        120
+      ],
+      "grupos": 1
+    },
+    {
+      "id": "area_2",
+      "nome": "Clareira",
+      "centro": [
+        128,
+        -96
+      ],
+      "raios": [
+        144,
+        120
+      ],
+      "grupos": 2
+    },
+    {
+      "id": "guardiao",
+      "nome": "Guardiao",
+      "centro": [
+        448,
+        -176
+      ],
+      "raios": [
+        176,
+        144
+      ],
+      "grupos": 0
+    }
+  ],
+  "trilhas": [
+    {
+      "pontos": [
+        [
+          -464,
+          224
+        ],
+        [
+          -160,
+          64
+        ],
+        [
+          128,
+          -96
+        ],
+        [
+          448,
+          -176
+        ]
+      ],
+      "raio": 88
+    }
+  ],
+  "lago": {
+    "lobos": [],
+    "folga": 28
+  },
+  "combate": {
+    "comuns_por_grupo": 5,
+    "elites": 1,
+    "meta": 41,
+    "pontos_comum": 3,
+    "pontos_elite": 9,
+    "fracao_exigida": 0.759
+  },
+  "guardiao_id": "minotauro"
+}

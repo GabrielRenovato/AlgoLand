@@ -30,4 +30,6 @@ Para conferir com renderização real, acrescente `--grafico`. Isso abre janelas
 - Desconectar/reconectar o controle, colocar o app em segundo plano e voltar; conferir comandos presos, foco e retomada.
 - Travessias separadas, combate, queda/reanimação e sono conjunto com saves descartáveis.
 
-Pesca ainda não possui mecânica de captura implementada. Compatibilidade com aparelhos, recortes físicos, permissões do Android e reconexão Bluetooth precisam da validação em dispositivo; o relatório automatizado não certifica esses itens.
+Pesca possui testes de captura, minijogo, bolsa, varas, pedidos e sessões simultâneas no cooperativo. Compatibilidade com aparelhos, recortes físicos, permissões do Android e reconexão Bluetooth precisam da validação em dispositivo; o relatório automatizado não certifica esses itens.
+
+O teste de calendário injeta um JSON inválido para verificar a recuperação do save. Os executores registram uma ocorrência exata desse diagnóstico em `erros_esperados`; mensagens adicionais, erros de script e falhas nas verificações continuam reprovando a execução.

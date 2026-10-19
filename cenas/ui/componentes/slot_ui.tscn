@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://codigo/ui/slot_ui.gd" id="1_slotui"]
 [ext_resource type="PackedScene" path="res://cenas/ui/componentes/item_ui.tscn" id="3_itemui"]
-[ext_resource type="Texture2D" path="res://assets/ui/craftpix-net-420010-pixel-game-user-interface-for-platformer/2 Buttons/17.png" id="9_sprite_slot"]
+[ext_resource type="Texture2D" path="res://assets/ui/bosque/slot.png" id="9_sprite_slot"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_slot"]
 texture = ExtResource("9_sprite_slot")
@@ -10,7 +10,7 @@ texture_margin_left = 4.0
 texture_margin_top = 4.0
 texture_margin_right = 4.0
 texture_margin_bottom = 4.0
-region_rect = Rect2(1, 1, 19, 17)
+region_rect = Rect2(0, 0, 24, 24)
 
 [node name="SlotUi" type="Control"]
 custom_minimum_size = Vector2(20, 20)

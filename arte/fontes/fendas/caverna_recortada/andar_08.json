@@ -1,0 +1,28 @@
+{
+  "planta": "codigo/fendas/plantas/andar_08.json",
+  "cena": "cenas/fendas/previa_caverna_08.tscn",
+  "preservados": [
+    "dez setores",
+    "doze trilhas",
+    "entrada",
+    "guardiao",
+    "grade16",
+    "pixels e escala dos recortes"
+  ],
+  "uso": "Prévia independente; não modifica campanha nem saves",
+  "variantes": 1,
+  "selecionador": "ferramentas/fendas/montar_caverna_08_recortes.py",
+  "dependencias_preparacao": [
+    "numpy",
+    "Pillow"
+  ],
+  "criterio": "Tipos de material e vizinhança orientam a escolha; custo de junção une blocos nativos; degraus excluídos de paredes",
+  "fisica": "Máscara8px de solo visível, restrita ao piso da planta; apenas componente ligada à entrada",
+  "navegacao": "Bake de faixas unidas, raio8; evita limite de polígonos nas rotas longas",
+  "validacao": "Quatro testes Python; Godot gráfico com save isolado, dez destinos alcançáveis e livres",
+  "cores": "CanvasItemMaterial explícito impede acabamento automático",
+  "capturas": [
+    "arte/previas/fenda/caverna_recortada/andar_08_geral_godot.png",
+    "arte/previas/fenda/caverna_recortada/andar_08_detalhe_godot.png"
+  ]
+}

@@ -64,7 +64,7 @@ func restante(efeito: String) -> float:
 
 ## Passa para a poção seguinte (+1) ou anterior (-1) entre as que o jogador tem, dando a volta
 func trocar(passo: int) -> void:
-	var lista := Fazenda.pocoes_que_tem()
+	var lista := Fazenda.pocoes_que_tem(get_parent())
 	if lista.is_empty():
 		_definir_selecao("")
 		return
@@ -77,7 +77,7 @@ func beber_selecionada() -> String:
 
 ## Bebe a poção `id`: gasta 1 do estoque, aplica o efeito e avisa. Devolve "" se bebeu, ou o motivo
 func beber(id: String) -> String:
-	if id == "" or Fazenda.quantidade_pocoes(id) <= 0:
+	if id == "" or Fazenda.quantidade_pocoes(id,get_parent()) <= 0:
 		return MSG_SEM_POCAO
 	if _espera > 0.0:
 		return MSG_ESPERE
@@ -87,7 +87,7 @@ func beber(id: String) -> String:
 	# Cura com a vida cheia gastaria a poção à toa
 	if efeito == "cura" and jogador != null and "hp_atual" in jogador and jogador.hp_atual >= jogador.estatisticas.hp_maximo:
 		return MSG_VIDA_CHEIA
-	Fazenda.gastar_pocao(id)
+	Fazenda.gastar_pocao(id,get_parent())
 	_espera = ESPERA_ENTRE_GOLES
 	if float(dados["duracao"]) > 0.0:
 		ativos[efeito] = {"pocao": id, "restante": float(dados["duracao"]), "duracao": float(dados["duracao"]),
@@ -112,7 +112,7 @@ func _definir_selecao(id: String) -> void:
 
 # A escolhida acabou (ou ainda não há escolha): passa para a primeira que ainda tem
 func _validar_selecao() -> void:
-	if selecionada != "" and Fazenda.quantidade_pocoes(selecionada) > 0:
+	if selecionada != "" and Fazenda.quantidade_pocoes(selecionada,get_parent()) > 0:
 		return   # só a quantidade mudou: o cinto se redesenha pelo próprio Fazenda.bolsas_alteradas
-	var lista := Fazenda.pocoes_que_tem()
+	var lista := Fazenda.pocoes_que_tem(get_parent())
 	_definir_selecao(lista[0] if not lista.is_empty() else "")

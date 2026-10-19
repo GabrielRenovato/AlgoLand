@@ -1,0 +1,31 @@
+{
+  "tipo": "Sprite de interface: moldura da energia da fazenda",
+  "referencias": [
+    "Linguagem Mana Seed da madeira da fazenda",
+    "cenas/ui.tscn",
+    "/tmp/algoland-energia-antes.png"
+  ],
+  "dimensoes": [
+    16,
+    64
+  ],
+  "grade": "1 pixel nativo; filtro nearest; escala 1 no HUD",
+  "pivo": [
+    0,
+    0
+  ],
+  "interior_preenchimento": [
+    5,
+    13,
+    6,
+    44
+  ],
+  "variantes": "Preenchimento dinâmico cheio/parcial/vazio e vermelho abaixo de 25%; interface sem variantes sazonais",
+  "gerador": "PixelLab create_image_pixflux",
+  "job_id": "cafdaa60-3692-4967-b6eb-a19139e01fde",
+  "asset_id": "86d7d40e-fb13-5083-9d04-d0a0f7691ea5",
+  "integracao": "codigo/ui/barra_energia_vertical.gd; abaixo de Status no mobile, canto inferior direito no desktop",
+  "prompt": "Single vertical farm energy meter UI sprite for AlgoLand matching Mana Seed cozy fantasy pixel art. Native 16x64 transparent canvas, front facing HUD, warm walnut wood frame, honey gold edge highlights, selective 1px outline, top-left lighting. Golden lightning emblem at top, straight recessed dark green channel for live fill; pixel-stepped wooden caps. Restrained natural warm palette. No text, scene, antialiasing or seasonal variants.",
+  "status": "Rejeitado: madeira destoa das barras de vida e estamina; preservado apenas como fonte, sem uso no jogo.",
+  "substituto": "codigo/ui/barra_energia_vertical.gd reutiliza desenho_barra.gd e Icon_49.png, os mesmos sprites de vida/estamina."
+}

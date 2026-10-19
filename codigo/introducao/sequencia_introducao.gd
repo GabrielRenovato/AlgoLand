@@ -446,7 +446,7 @@ func _visita_fazenda() -> void:
 			return
 		# Entrega antes da fala para a ferramenta já estar disponível ao explicar seu uso.
 		for tipo in dados.get("ferramentas", []):
-			await _entregar(str(tipo), 1)
+			await _entregar(str(tipo),1)
 		if dados.get("sementes", false):
 			await _entregar("semente:cenoura", 6)
 			await _entregar("semente:morango", 4)

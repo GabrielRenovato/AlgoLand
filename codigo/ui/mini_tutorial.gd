@@ -4,7 +4,7 @@ extends Control
 const TEMA := preload("res://recursos/ui/tema_sidebar.tres")
 const ACOES := [["attack", "ATACAR"], ["rolar", "ESQUIVAR"], ["aparar", "DEFENDER"],
 	["open_menu", "INTERAGIR"], ["usar_pocao", "BEBER POCAO"],
-	["open_inventory", "MOCHILA"], ["arma_proxima", "TROCAR ARMA"], ["pausar", "PAUSA"]]
+	["open_inventory", "MOCHILA"], ["arma_proxima", "TROCAR ARMA"], ["pausar", "PAUSA"], ["open_map", "MAPA"]]
 
 const Opcoes := preload("res://codigo/globais/opcoes_jogo.gd")
 ## Fechado com o X (ou L3 no controle): fica guardado em user://opcoes.cfg e não volta mais, nem ao reabrir o jogo.
@@ -38,8 +38,8 @@ func _ready() -> void:
 	_painel = PanelContainer.new()
 	_painel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var estilo: StyleBoxTexture = TEMA.get_stylebox("panel", "MolduraSlot").duplicate()
-	estilo.region_rect = Rect2(1, 1, 19, 17)
-	estilo.modulate_color = Color(0.85, 0.88, 1.0, 0.9)
+	estilo.region_rect = Rect2(0, 0, 24, 24)
+	estilo.modulate_color = Color(1.0, 0.95, 0.85, 0.9)
 	for lado in [SIDE_LEFT, SIDE_TOP, SIDE_RIGHT, SIDE_BOTTOM]:
 		estilo.set_content_margin(lado, 6)
 	_painel.add_theme_stylebox_override("panel", estilo)
@@ -122,11 +122,13 @@ func _atualizar() -> void:
 					tecla = "GUIA"
 		if _acoes[i][0] == "attack" and not Controle.usando_controle:
 			tecla = "CLIQUE / " + tecla
-		_teclas[i + 1].text = tecla
+		_teclas[i + 1].text = "SEGURAR " + tecla if _acoes[i][0] == "open_map" and Controle.usando_controle else tecla
 	_painel.reset_size()
 	_encaixar.call_deferred()
 
 func _encaixar() -> void:
+	if not is_inside_tree():
+		return
 	var margens := Controle.margens_seguras()
 	_painel.reset_size()
 	_painel.offset_left = -8 - margens.z - _painel.size.x

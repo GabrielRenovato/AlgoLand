@@ -1,0 +1,249 @@
+{
+  "job": {
+    "canvas": [
+      64,
+      64
+    ],
+    "frame_count": 4,
+    "durations_ms": [
+      180,
+      180,
+      180,
+      180
+    ],
+    "views": [
+      {
+        "id": "east",
+        "offset": [
+          0,
+          0
+        ]
+      }
+    ],
+    "source_bookends_exact": false,
+    "require_clear_border": true
+  },
+  "scene": {
+    "palette": {
+      "camisa": "#526780",
+      "aco": "#465970",
+      "aco_luz": "#8297ad",
+      "brasa": "#eaa55d",
+      "brasa_luz": "#f5d188"
+    },
+    "layers": [
+      {
+        "id": "corpo",
+        "name": "Body - corpo"
+      },
+      {
+        "id": "braco",
+        "name": "Body - braco"
+      },
+      {
+        "id": "tenaz",
+        "name": "Ferramenta - tenaz e metal quente"
+      }
+    ],
+    "views": {
+      "east": {
+        "selections": {
+          "braco": {
+            "regions": [
+              [
+                26,
+                28,
+                30,
+                37
+              ]
+            ]
+          },
+          "resto": {}
+        },
+        "nodes": {
+          "corpo": {
+            "layer": "corpo",
+            "at": [
+              0,
+              0
+            ],
+            "draw": [
+              {
+                "op": "copy",
+                "part": "resto"
+              },
+              {
+                "op": "polygon",
+                "points": [
+                  [
+                    28,
+                    28
+                  ],
+                  [
+                    30,
+                    28
+                  ],
+                  [
+                    30,
+                    36
+                  ],
+                  [
+                    28,
+                    34
+                  ]
+                ],
+                "color": "camisa"
+              }
+            ]
+          },
+          "braco": {
+            "layer": "braco",
+            "at": [
+              0,
+              0
+            ],
+            "pivot": [
+              28,
+              29
+            ],
+            "draw": [
+              {
+                "op": "copy",
+                "part": "braco"
+              }
+            ]
+          },
+          "tenaz": {
+            "layer": "tenaz",
+            "at": [
+              0,
+              0
+            ],
+            "draw": [
+              {
+                "op": "path",
+                "points": [
+                  [
+                    34,
+                    31
+                  ],
+                  [
+                    48,
+                    31
+                  ],
+                  [
+                    50,
+                    30
+                  ]
+                ],
+                "color": "aco"
+              },
+              {
+                "op": "path",
+                "points": [
+                  [
+                    34,
+                    33
+                  ],
+                  [
+                    48,
+                    32
+                  ],
+                  [
+                    50,
+                    33
+                  ]
+                ],
+                "color": "aco_luz"
+              },
+              {
+                "op": "rect",
+                "box": [
+                  49,
+                  30,
+                  53,
+                  32
+                ],
+                "color": "brasa"
+              },
+              {
+                "op": "path",
+                "points": [
+                  [
+                    50,
+                    30
+                  ],
+                  [
+                    52,
+                    30
+                  ]
+                ],
+                "color": "brasa_luz"
+              }
+            ]
+          }
+        },
+        "tracks": [
+          {
+            "node": "braco",
+            "property": "angle",
+            "interpolation": "step",
+            "keys": [
+              [
+                1,
+                -60
+              ],
+              [
+                2,
+                -65
+              ],
+              [
+                3,
+                -70
+              ],
+              [
+                4,
+                -65
+              ]
+            ]
+          },
+          {
+            "node": "tenaz",
+            "property": "at",
+            "interpolation": "step",
+            "keys": [
+              [
+                1,
+                [
+                  0,
+                  0
+                ]
+              ],
+              [
+                2,
+                [
+                  0,
+                  -1
+                ]
+              ],
+              [
+                3,
+                [
+                  0,
+                  -1
+                ]
+              ],
+              [
+                4,
+                [
+                  0,
+                  0
+                ]
+              ]
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

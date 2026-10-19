@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="680"><g font-family="DejaVu Sans" fill="#f5e3ba"><rect x="0" y="0" width="1200" height="680" rx="12" fill="#163c3f" stroke="#6b6e62"/>
+<text x="18" y="28" font-size="19" font-weight="bold">05 · Brejo dos Ecos</text>
+<text x="18" y="52" font-size="13">2800 × 1440 px · meta 110 pontos</text>
+<g transform="translate(600.0,358.0) scale(0.4027777777777778)">
+<polyline points="-1184,416 -864,-32" stroke="#749b74" stroke-width="176" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="-864,-32 -528,-496" stroke="#749b74" stroke-width="176" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="-864,-32 -192,304" stroke="#749b74" stroke-width="176" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="-528,-496 128,-160" stroke="#749b74" stroke-width="176" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="-192,304 128,-160" stroke="#749b74" stroke-width="176" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="-192,304 528,448" stroke="#749b74" stroke-width="176" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="128,-160 656,-416" stroke="#749b74" stroke-width="176" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="528,448 1168,-80" stroke="#749b74" stroke-width="176" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="656,-416 1168,-80" stroke="#749b74" stroke-width="176" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<ellipse cx="-1184" cy="416" rx="136" ry="112" fill="#749b74"/>
+<circle cx="-1184" cy="416" r="39.724137931034484" fill="#7de0c2"/>
+<text x="-1184" y="428.41379310344826" text-anchor="middle" fill="#202923" font-size="34.758620689655174">E</text>
+<ellipse cx="-864" cy="-32" rx="136" ry="112" fill="#749b74"/>
+<circle cx="-864" cy="-32" r="39.724137931034484" fill="#ead496"/>
+<text x="-864" y="-19.586206896551722" text-anchor="middle" fill="#202923" font-size="34.758620689655174">2</text>
+<ellipse cx="-528" cy="-496" rx="136" ry="112" fill="#749b74"/>
+<circle cx="-528" cy="-496" r="39.724137931034484" fill="#ead496"/>
+<text x="-528" y="-483.58620689655174" text-anchor="middle" fill="#202923" font-size="34.758620689655174">1</text>
+<ellipse cx="-192" cy="304" rx="136" ry="112" fill="#749b74"/>
+<circle cx="-192" cy="304" r="39.724137931034484" fill="#ead496"/>
+<text x="-192" y="316.41379310344826" text-anchor="middle" fill="#202923" font-size="34.758620689655174">2</text>
+<ellipse cx="128" cy="-160" rx="136" ry="112" fill="#749b74"/>
+<circle cx="128" cy="-160" r="39.724137931034484" fill="#ead496"/>
+<text x="128" y="-147.58620689655172" text-anchor="middle" fill="#202923" font-size="34.758620689655174">1</text>
+<ellipse cx="528" cy="448" rx="136" ry="112" fill="#749b74"/>
+<circle cx="528" cy="448" r="39.724137931034484" fill="#ead496"/>
+<text x="528" y="460.41379310344826" text-anchor="middle" fill="#202923" font-size="34.758620689655174">2</text>
+<ellipse cx="656" cy="-416" rx="136" ry="112" fill="#749b74"/>
+<circle cx="656" cy="-416" r="39.724137931034484" fill="#ead496"/>
+<text x="656" y="-403.58620689655174" text-anchor="middle" fill="#202923" font-size="34.758620689655174">1</text>
+<ellipse cx="1168" cy="-80" rx="176" ry="144" fill="#749b74"/>
+<circle cx="1168" cy="-80" r="39.724137931034484" fill="#ef986e"/>
+<text x="1168" y="-67.58620689655173" text-anchor="middle" fill="#202923" font-size="34.758620689655174">B</text>
+<ellipse cx="-934" cy="-216" rx="90" ry="50" fill="#4b8b9d"/>
+<ellipse cx="-262" cy="120" rx="90" ry="50" fill="#4b8b9d"/>
+<ellipse cx="458" cy="264" rx="90" ry="50" fill="#4b8b9d"/>
+<ellipse cx="-376" cy="-128" rx="192" ry="64" fill="#4b8b9d"/>
+<ellipse cx="1000" cy="506" rx="160" ry="90" fill="#4b8b9d"/>
+<ellipse cx="-168" cy="-584" rx="112" ry="72" fill="#4b8b9d"/>
+<ellipse cx="-1144" cy="-424" rx="112" ry="72" fill="#4b8b9d"/>
+<ellipse cx="-1016" cy="-536" rx="112" ry="72" fill="#4b8b9d"/>
+<ellipse cx="-568" cy="464" rx="192" ry="64" fill="#4b8b9d"/>
+<ellipse cx="536" cy="-22" rx="160" ry="90" fill="#4b8b9d"/>
+<ellipse cx="-520" cy="592" rx="192" ry="64" fill="#4b8b9d"/>
+<ellipse cx="1144" cy="-486" rx="160" ry="90" fill="#4b8b9d"/>
+</g>
+<text x="18" y="666" font-size="12">E: entrada · números: grupos · B: guardião</text></g></svg>

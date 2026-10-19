@@ -1,0 +1,21 @@
+{
+  "autor": "Arte fornecida pelo usuário, declarada de autoria dele",
+  "fonte": "cenario_original.png",
+  "grade_nativa": [
+    16,
+    16
+  ],
+  "origem_grade": [
+    6,
+    10
+  ],
+  "ampliacao_fonte": 2,
+  "recuperacao": "nearest, retirando apenas a ampliação inteira2x; sem IA e sem suavização",
+  "atlas": "atlas.png",
+  "manifesto_recortes": "recortes.json",
+  "selecao": "vizinhança5x5 e comparação das bordas de peças já colocadas; vazio somente com tilesinteiramentevazios; vegetação luminosa e efeitos brancos excluídos de paredes",
+  "piso_colisao": "máscara reconstruída dos pixels de piso; navegação derivada dos mesmos contornos",
+  "estacoes": "quatro tons protegidos do calendário, sem chuva/neve no subterrâneo",
+  "status": "integrado e conferido nos andares3,4,7,11, quatro estações e saves isolados",
+  "regressao": "testes/teste_continuidade_caverna.gd: junção do andar4 e margem do andar7"
+}

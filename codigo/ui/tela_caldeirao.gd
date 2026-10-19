@@ -30,7 +30,7 @@ const LADO_INGREDIENTE := 22
 @onready var _ingredientes: VBoxContainer = %Ingredientes
 @onready var aviso: Label = %Aviso
 @onready var botao_fazer: Button = %BotaoFazer
-@onready var botao_fechar: TextureButton = %BotaoFechar
+@onready var botao_fechar: Button = %BotaoFechar
 
 var selecionada: String = ""
 ## id da poção -> Button da casa na grade
@@ -57,7 +57,7 @@ func focar_inicio(preferida := "") -> void:
 	if not casas.has(id):
 		id = Pocoes.ORDEM[0]
 		for outra in Pocoes.ORDEM:
-			if Fazenda.motivo_para_nao_fazer(outra) == "":
+			if Fazenda.motivo_para_nao_fazer(outra,EventosJogo.dono(self)) == "":
 				id = outra
 				break
 	selecionar(id)
@@ -73,7 +73,7 @@ func selecionar(id: String) -> void:
 func fazer(id := "") -> void:
 	if id != "":
 		selecionada = id
-	var motivo := Fazenda.fazer_pocao(selecionada)
+	var motivo := Fazenda.fazer_pocao(selecionada,EventosJogo.dono(self))
 	if motivo != "":
 		_avisar(motivo, COR_FALTA)
 		Sons.tocar("erro", 0.0)
@@ -136,9 +136,9 @@ func _atualizar() -> void:
 	for id: String in casas:
 		var casa: Button = casas[id]
 		casa.add_theme_stylebox_override("normal", dourada if id == selecionada else normal)
-		var pode := Fazenda.motivo_para_nao_fazer(id) == ""
+		var pode := Fazenda.motivo_para_nao_fazer(id,EventosJogo.dono(self)) == ""
 		(casa.get_node("Icone") as TextureRect).modulate = Color.WHITE if pode else COR_APAGADO
-		var tem := Fazenda.quantidade_pocoes(id)
+		var tem := Fazenda.quantidade_pocoes(id,EventosJogo.dono(self))
 		(casa.get_node("Quantidade") as Label).text = str(tem) if tem > 0 else ""
 	_atualizar_detalhe()
 
@@ -149,14 +149,14 @@ func _atualizar_detalhe() -> void:
 	_nome.text = String(dados["nome"])
 	_texto.text = String(dados["texto"])
 	_efeito.text = Pocoes.texto_efeito(selecionada) + ("" if float(dados["duracao"]) > 0.0 else " NA HORA")
-	_info.text = "TEM %d" % Fazenda.quantidade_pocoes(selecionada)
+	_info.text = "TEM %d" % Fazenda.quantidade_pocoes(selecionada,EventosJogo.dono(self))
 	for filho in _ingredientes.get_children():
 		_ingredientes.remove_child(filho)
 		filho.queue_free()
 	var receita: Dictionary = dados["receita"]
 	for planta in receita:
 		_ingredientes.add_child(_linha_ingrediente(planta, int(receita[planta])))
-	botao_fazer.disabled = Fazenda.motivo_para_nao_fazer(selecionada) != ""
+	botao_fazer.disabled = Fazenda.motivo_para_nao_fazer(selecionada,EventosJogo.dono(self)) != ""
 
 ## Ícone da planta numa casinha (a mesma moldura de slot), o nome e "tem / precisa" (verde quando dá, vermelho quando falta)
 func _linha_ingrediente(planta: String, precisa: int) -> Control:
@@ -176,7 +176,7 @@ func _linha_ingrediente(planta: String, precisa: int) -> Control:
 	nome.custom_minimum_size = Vector2(76, 0)
 	nome.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	linha.add_child(nome)
-	var tem := Fazenda.quantidade_colhida(planta)
+	var tem := Fazenda.quantidade_colhida(planta,EventosJogo.dono(self))
 	var contagem := Label.new()
 	contagem.name = "Contagem"
 	contagem.text = "%d / %d" % [tem, precisa]

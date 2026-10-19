@@ -40,7 +40,7 @@ const CriacaoPersonagem := preload("res://codigo/ui/tela_criacao_personagem.gd")
 @onready var sprite_corpo: Sprite2D = %Corpo
 @onready var sprite_roupa: Sprite2D = %Roupa
 @onready var sprite_cabelo: Sprite2D = %Cabelo
-@onready var menu: VBoxContainer = %Menu
+@onready var menu: GridContainer = %Menu
 @onready var botao_continuar: Button = %BotaoContinuar
 @onready var botao_novo_jogo: Button = %BotaoNovoJogo
 @onready var botao_opcoes: Button = %BotaoOpcoes
@@ -63,6 +63,13 @@ var _linhas: Array = []
 var _painel_aberto: Control = null
 var _botao_origem: Button = null
 var _saindo := false
+var _rolagens_paineis := {}
+var _rolagem_menu: ScrollContainer
+var _menu_painel: PanelContainer
+var _menu_centro: CenterContainer
+var _cartao_jornada: Control
+var _moldura_coop: PanelContainer
+var _layout_pendente := false
 
 func _ready() -> void:
 	# Voltando de um mundo cooperativo para o título: o menu principal é o do jogo solo
@@ -76,9 +83,176 @@ func _ready() -> void:
 	_montar_opcoes()
 	_montar_creditos()
 	_montar_menu()
+	_montar_layout_flex()
 	_fade_entrada()
 	# Fogo no máximo: a tela inicial é sempre crepúsculo
 	get_tree().call_group("luzes_noturnas", "set", "multiplicador_noite", 1.0)
+
+## Fluxo vertical com rolagem para manter título, menu e opções dentro da janela.
+func _montar_layout_flex() -> void:
+	var raiz := $Interface/Raiz as Control
+	raiz.theme = preload("res://recursos/ui/tema_sidebar.tres")
+	$Interface/Raiz/FundoLateral.hide()
+	$Interface/Raiz/Versao.hide()
+	var fundo := preload("res://codigo/ui/fundo_vila_viva.gd").new()
+	fundo.name = "VilaViva"
+	raiz.add_child(fundo)
+	raiz.move_child(fundo,0)
+	var sombra := ColorRect.new()
+	sombra.color = Color(0.04,0.07,0.05,0.16)
+	sombra.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	raiz.add_child(sombra)
+	sombra.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	raiz.move_child(sombra,1)
+	var brilhos := preload("res://codigo/ui/brilhos_interface.gd").new()
+	raiz.add_child(brilhos)
+	raiz.move_child(brilhos,2)
+	var margem := MarginContainer.new()
+	raiz.add_child(margem)
+	margem.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	for lado in ["left","right","top","bottom"]: margem.add_theme_constant_override("margin_"+lado,16)
+	margem.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	raiz.move_child(margem,escurecer.get_index())
+	var linha := HBoxContainer.new()
+	linha.add_theme_constant_override("separation",16)
+	linha.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	margem.add_child(linha)
+	_menu_centro = CenterContainer.new()
+	_menu_centro.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	linha.add_child(_menu_centro)
+	_menu_painel = PanelContainer.new()
+	_menu_painel.add_theme_stylebox_override("panel",preload("res://codigo/ui/estilo_interface.gd").painel(false,12))
+	_menu_centro.add_child(_menu_painel)
+	_menu_painel.minimum_size_changed.connect(_agendar_layout_inicio)
+	var coluna := VBoxContainer.new()
+	coluna.add_theme_constant_override("separation",8)
+	_menu_painel.add_child(coluna)
+	titulo.reparent(coluna)
+	titulo.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
+	titulo.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	titulo.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	titulo.label_settings = titulo.label_settings.duplicate()
+	titulo.label_settings.font_size = 26
+	titulo.label_settings.font_color = Color("f2d48d")
+	titulo.label_settings.outline_size = 1
+	titulo.label_settings.outline_color = Color("402b24")
+	titulo.label_settings.shadow_offset = Vector2(1,2)
+	var legenda := Label.new()
+	legenda.text = "CULTIVE. EXPLORE. ENFRENTE."
+	legenda.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	legenda.add_theme_font_size_override("font_size",8)
+	legenda.add_theme_color_override("font_color",Color("d2b88e"))
+	coluna.add_child(legenda)
+	_rolagem_menu = ScrollContainer.new()
+	_rolagem_menu.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	_rolagem_menu.follow_focus = true
+	_rolagem_menu.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	coluna.add_child(_rolagem_menu)
+	menu.reparent(_rolagem_menu)
+	menu.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
+	menu.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	menu.add_theme_constant_override("h_separation",6)
+	menu.add_theme_constant_override("v_separation",4)
+	for botao in menu.get_children():
+		botao.custom_minimum_size = Vector2(0,24)
+		botao.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		botao.alignment = HORIZONTAL_ALIGNMENT_CENTER
+	(botao_continuar if botao_continuar.visible else botao_novo_jogo).theme_type_variation = &"BotaoPrimario"
+	var rodape := Label.new()
+	rodape.text = "TECLADO / CONTROLE / TOQUE"
+	rodape.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	rodape.add_theme_font_size_override("font_size",8)
+	rodape.add_theme_color_override("font_color",Color("a7977f"))
+	coluna.add_child(rodape)
+	var direita := VBoxContainer.new()
+	direita.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	direita.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	linha.add_child(direita)
+	_cartao_jornada = direita
+	var espaco := Control.new()
+	espaco.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	espaco.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	direita.add_child(espaco)
+	var papel := PanelContainer.new()
+	papel.add_theme_stylebox_override("panel",preload("res://codigo/ui/estilo_interface.gd").painel(true,10))
+	direita.add_child(papel)
+	var resumo := HBoxContainer.new()
+	resumo.add_theme_constant_override("separation",8)
+	papel.add_child(resumo)
+	var retrato := Control.new()
+	retrato.custom_minimum_size = Vector2(36,44)
+	resumo.add_child(retrato)
+	personagem.reparent(retrato)
+	personagem.position = Vector2(18,40)
+	personagem.get_node("Profundidade").queue_free()
+	for sprite in [sprite_corpo,sprite_roupa,sprite_cabelo]: sprite.z_index = 0
+	var boas_vindas := VBoxContainer.new()
+	boas_vindas.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	resumo.add_child(boas_vindas)
+	for entrada in [["VILA DAS FLORES",10],["Sua proxima aventura comeca aqui.",9],["ALGOLAND / v0.1",8]]:
+		var texto := Label.new()
+		texto.text = entrada[0]
+		texto.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		texto.add_theme_font_size_override("font_size",entrada[1])
+		texto.add_theme_color_override("font_color",Color("694a32"))
+		boas_vindas.add_child(texto)
+	direita.move_child(espaco,direita.get_child_count()-1)
+	for painel in [painel_opcoes,painel_creditos,confirmar_novo_jogo]:
+		painel.add_theme_stylebox_override("panel",preload("res://codigo/ui/estilo_interface.gd").painel(false,12.0))
+		var conteudo := painel.get_child(0) as Container
+		var rolagem := ScrollContainer.new()
+		rolagem.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+		rolagem.follow_focus = true
+		var coluna_painel := VBoxContainer.new()
+		coluna_painel.add_theme_constant_override("separation",8)
+		painel.add_child(coluna_painel)
+		var cabecalho := conteudo.get_child(0) as Label
+		cabecalho.reparent(coluna_painel)
+		cabecalho.label_settings = cabecalho.label_settings.duplicate()
+		cabecalho.label_settings.font_color = Color("efdab2")
+		coluna_painel.add_child(rolagem)
+		rolagem.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		conteudo.reparent(rolagem)
+		conteudo.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		_rolagens_paineis[painel] = conteudo
+	_moldura_coop = PanelContainer.new()
+	_moldura_coop.add_theme_stylebox_override("panel",preload("res://codigo/ui/estilo_interface.gd").painel(false,12))
+	raiz.add_child(_moldura_coop)
+	raiz.move_child(_moldura_coop,transicao.get_index())
+	_painel_coop.reparent(_moldura_coop)
+	_painel_coop.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
+	_painel_coop.visibility_changed.connect(func(): _moldura_coop.visible = _painel_coop.visible)
+	_moldura_coop.hide()
+	rolagem_creditos.custom_minimum_size.y = 100
+	raiz.resized.connect(_ajustar_layout_flex)
+	_ajustar_layout_flex.call_deferred()
+
+func _ajustar_layout_flex() -> void:
+	var medida := ($Interface/Raiz as Control).size
+	var compacto := medida.x < 480 or medida.y < 270
+	menu.columns = 2 if compacto else 1
+	_menu_centro.size_flags_horizontal = Control.SIZE_EXPAND_FILL if compacto else Control.SIZE_SHRINK_BEGIN
+	_menu_painel.custom_minimum_size = Vector2(minf(288,medida.x-32) if compacto else 216,minf(292,medida.y-32))
+	_cartao_jornada.visible = not compacto
+	for painel in _rolagens_paineis:
+		var largura := minf(340,medida.x-24)
+		var altura := minf(_rolagens_paineis[painel].get_combined_minimum_size().y+48,medida.y-24)
+		painel.custom_minimum_size = Vector2(largura,altura)
+		painel.size = Vector2(largura,altura)
+		painel.position = ((medida-painel.size)/2).round()
+	if _moldura_coop != null:
+		_moldura_coop.custom_minimum_size = Vector2(minf(340,medida.x-24),0)
+		_moldura_coop.size = Vector2(minf(340,medida.x-24),_painel_coop.get_combined_minimum_size().y+24)
+		_moldura_coop.position = ((medida-_moldura_coop.size)/2).round()
+
+func _agendar_layout_inicio() -> void:
+	if _layout_pendente: return
+	_layout_pendente = true
+	_layout_inicio_depois.call_deferred()
+
+func _layout_inicio_depois() -> void:
+	_layout_pendente = false
+	_ajustar_layout_flex()
 
 func _unhandled_input(evento: InputEvent) -> void:
 	if _saindo or _painel_aberto == null:
@@ -119,7 +293,7 @@ func _configurar_botao(botao: Button) -> void:
 
 func _destacar(botao: Button, ativo: bool) -> void:
 	var texto_base: String = botao.get_meta("texto_base")
-	botao.text = "> " + texto_base if ativo else texto_base
+	botao.text = texto_base
 	botao.modulate = BRILHO_FOCO if ativo else Color.WHITE
 
 func _montar_opcoes() -> void:
@@ -140,6 +314,28 @@ func _montar_opcoes() -> void:
 	var indice_layout := maxi(Opcoes.LAYOUTS_CONTROLE.find(_opcoes["layout_controle"]), 0)
 	_adicionar_linha("layout_controle", Opcoes.LAYOUTS_CONTROLE, ["AUTO", "XBOX", "NINTENDO", "PS"], indice_layout,
 			%BotaoBotoesMenos, %ValorBotoes, %BotaoBotoesMais)
+	var linha_interface := HBoxContainer.new()
+	linha_interface.add_theme_constant_override("separation",4)
+	var nome_interface := Label.new()
+	nome_interface.text = "INTERFACE"
+	nome_interface.custom_minimum_size.x = 76
+	linha_interface.add_child(nome_interface)
+	var menos_interface := Button.new()
+	menos_interface.text = "-"
+	menos_interface.custom_minimum_size = Vector2(16,16)
+	linha_interface.add_child(menos_interface)
+	var valor_interface := Label.new()
+	valor_interface.custom_minimum_size.x = 52
+	valor_interface.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	linha_interface.add_child(valor_interface)
+	var mais_interface := Button.new()
+	mais_interface.text = "+"
+	mais_interface.custom_minimum_size = Vector2(16,16)
+	linha_interface.add_child(mais_interface)
+	var conteudo := %BotaoBotoesMenos.get_parent().get_parent()
+	conteudo.add_child(linha_interface)
+	conteudo.move_child(linha_interface,%BotaoBotoesMenos.get_parent().get_index()+1)
+	_adicionar_linha("escala_interface", Opcoes.ESCALAS_INTERFACE, Opcoes.ROTULOS_INTERFACE, maxi(Opcoes.ESCALAS_INTERFACE.find(_opcoes["escala_interface"]),0), menos_interface, valor_interface, mais_interface)
 	Controle.dicas_alteradas.connect(_atualizar_dica_botoes)
 	_atualizar_dica_botoes()
 	# Celular: não existe tela cheia nem desenho de botões de controle para escolher
@@ -153,10 +349,10 @@ func _montar_opcoes() -> void:
 		var linha: Dictionary = _linhas[i]
 		for lado in ["menos", "mais"]:
 			var botao: Button = linha[lado]
-			botao.focus_neighbor_top = (anterior[lado] as Button).get_path()
+			botao.focus_neighbor_top = botao.get_path_to(anterior[lado])
 			var abaixo: Button = proxima[lado] if not proxima.is_empty() else botao_voltar_opcoes
-			botao.focus_neighbor_bottom = abaixo.get_path()
-	botao_voltar_opcoes.focus_neighbor_top = (_linhas[_linhas.size() - 1]["menos"] as Button).get_path()
+			botao.focus_neighbor_bottom = botao.get_path_to(abaixo)
+	botao_voltar_opcoes.focus_neighbor_top = botao_voltar_opcoes.get_path_to(_linhas[_linhas.size() - 1]["menos"])
 
 # Diz como o jogo escreve os botões agora; se estiver trocado (A e B invertidos), é só mudar BOTOES
 func _atualizar_dica_botoes() -> void:
@@ -175,8 +371,8 @@ func _montar_creditos() -> void:
 		var espaco := Control.new()
 		espaco.custom_minimum_size = Vector2(0, 4)
 		lista_creditos.add_child(espaco)
-	botao_voltar_creditos.focus_neighbor_top = botao_voltar_creditos.get_path()
-	botao_voltar_creditos.focus_neighbor_bottom = botao_voltar_creditos.get_path()
+	botao_voltar_creditos.focus_neighbor_top = NodePath(".")
+	botao_voltar_creditos.focus_neighbor_bottom = NodePath(".")
 	botao_voltar_creditos.gui_input.connect(_ao_entrada_creditos)
 
 func _adicionar_texto_credito(texto: String, cor: Color) -> void:
@@ -243,6 +439,7 @@ func _abrir_painel(painel: Control, origem: Button, foco: Control) -> void:
 	menu.hide()
 	escurecer.show()
 	painel.show()
+	_ajustar_layout_flex.call_deferred()
 	if painel == painel_creditos:
 		rolagem_creditos.scroll_vertical = 0
 	foco.grab_focus()
@@ -258,7 +455,7 @@ func _fechar_painel() -> void:
 
 func _ao_continuar() -> void:
 	if FileAccess.file_exists(caminho_save_personagem):
-		_trocar_cena("res://cenas/fazenda.tscn" if Comercio.em_viagem else Introducao.cena_continuar())
+		_trocar_cena(Saves.preparar_continuacao())
 	else:
 		_trocar_cena(CENA_CUSTOMIZACAO)
 
@@ -324,6 +521,7 @@ func _montar_coop() -> void:
 	var aviso := Label.new()
 	aviso.text = "DOIS JOGADORES NA MESMA TELA (TELA DIVIDIDA)\nO JOGADOR 2 USA UM CONTROLE. MUNDO SEPARADO DO SOLO."
 	aviso.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	aviso.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	aviso.add_theme_font_size_override("font_size", 8)
 	_painel_coop.add_child(aviso)
 	_botao_continuar_coop = _novo_botao_coop("CONTINUAR CO-OP", _ao_continuar_coop)
@@ -353,7 +551,7 @@ func _ao_continuar_coop() -> void:
 	if _saindo:
 		return
 	Saves.trocar(Saves.COOP)
-	_trocar_cena("res://cenas/fazenda.tscn" if Comercio.em_viagem else Introducao.cena_continuar())
+	_trocar_cena(Saves.preparar_continuacao())
 
 ## Novo mundo co-op: apaga o anterior (pedindo confirmação se ele existe), começa sem o prólogo, com o kit inicial e as
 ## sementes para os dois, e vai criar os dois personagens
@@ -401,7 +599,12 @@ func _trocar_cena(caminho: String) -> void:
 	var tween := create_tween()
 	tween.tween_property(transicao, "modulate:a", 1.0, 0.35)
 	await tween.finished
-	get_tree().change_scene_to_file(caminho)
+	var erro := await Transicao.carregar_cena(caminho)
+	if erro != OK:
+		_saindo = false
+		transicao.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		create_tween().tween_property(transicao, "modulate:a", 0.0, 0.25)
+		push_error("Nao foi possivel abrir a cena: "+caminho)
 
 func _fade_entrada() -> void:
 	transicao.modulate.a = 1.0
@@ -409,12 +612,10 @@ func _fade_entrada() -> void:
 	tween.tween_property(transicao, "modulate:a", 0.0, 0.5)
 
 func _animar_titulo() -> void:
-	var y_base := titulo.position.y
-	titulo.position.y = y_base - 3.0
 	var tween := create_tween().set_loops()
 	tween.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-	tween.tween_property(titulo, "position:y", y_base + 3.0, 1.6)
-	tween.tween_property(titulo, "position:y", y_base - 3.0, 1.6)
+	tween.tween_property(titulo,"modulate",Color(1.12,1.05,0.90),1.8)
+	tween.tween_property(titulo,"modulate",Color.WHITE,1.8)
 
 func _animar_respiracao() -> void:
 	var tween := create_tween().set_loops()

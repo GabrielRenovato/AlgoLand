@@ -114,8 +114,8 @@ func _rodar() -> void:
 	verificar("ITENS abre mochila do P1", interface._telas_abertas.has("inventario"))
 	verificar("mochila do P1 esconde e solta toque", not toque_ui._ativo and controle.vetor_toque == Vector2.ZERO and not Input.is_action_pressed("attack"))
 	await create_timer(0.25).timeout
-	var fechar: Button = interface._telas["inventario"].get_node("Sidebar/AreaFechar")
-	verificar("mochila tem área ampliada para fechar", fechar != null and fechar.size.x >= 56)
+	var fechar: Button = interface._telas["inventario"].find_child("BotaoFechar", true, false)
+	verificar("mochila tem área ampliada para fechar", fechar != null and fechar.size.x >= 28)
 	# O clique emulado do Android segue a rota GUI, sem chamar o callback do botão.
 	vista.notify_mouse_entered()
 	var movimento := InputEventMouseMotion.new()

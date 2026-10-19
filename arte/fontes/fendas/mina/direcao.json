@@ -1,0 +1,20 @@
+{
+  "tipo": "Mapa subterrâneo de mina abandonada",
+  "andar": 3,
+  "planta": "codigo/fendas/plantas/andar_03.json",
+  "dimensoes_nativas": [
+    2200,
+    1280
+  ],
+  "grade": 16,
+  "base_objetos": [
+    32,
+    60
+  ],
+  "topologia": "Preservar sete setores, circuito central, entrada sudoeste e guardião nordeste",
+  "sombras": "Teto preto e oclusão nas bordas do piso",
+  "estacoes": "Quatro tratamentos protegidos; sem chuva, neve ou pétalas no subterrâneo",
+  "fonte": "conceito_andar_03.png",
+  "ferramenta": "image_gen integrada",
+  "estado": "mapa completo rejeitado pelo usuário; arte inteira retirada do jogo e substituída por tiles"
+}

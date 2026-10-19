@@ -1,0 +1,251 @@
+{
+  "tileset_data": {
+    "tiles": [
+      {
+        "id": 0,
+        "corners": {
+          "NW": "lower",
+          "NE": "lower",
+          "SW": "lower",
+          "SE": "lower"
+        },
+        "bounding_box": {
+          "x": 0,
+          "y": 0,
+          "width": 32,
+          "height": 32
+        }
+      },
+      {
+        "id": 1,
+        "corners": {
+          "NW": "upper",
+          "NE": "lower",
+          "SW": "lower",
+          "SE": "lower"
+        },
+        "bounding_box": {
+          "x": 32,
+          "y": 0,
+          "width": 32,
+          "height": 32
+        }
+      },
+      {
+        "id": 2,
+        "corners": {
+          "NW": "lower",
+          "NE": "upper",
+          "SW": "lower",
+          "SE": "lower"
+        },
+        "bounding_box": {
+          "x": 64,
+          "y": 0,
+          "width": 32,
+          "height": 32
+        }
+      },
+      {
+        "id": 3,
+        "corners": {
+          "NW": "upper",
+          "NE": "upper",
+          "SW": "lower",
+          "SE": "lower"
+        },
+        "bounding_box": {
+          "x": 96,
+          "y": 0,
+          "width": 32,
+          "height": 32
+        }
+      },
+      {
+        "id": 4,
+        "corners": {
+          "NW": "lower",
+          "NE": "lower",
+          "SW": "upper",
+          "SE": "lower"
+        },
+        "bounding_box": {
+          "x": 0,
+          "y": 32,
+          "width": 32,
+          "height": 32
+        }
+      },
+      {
+        "id": 5,
+        "corners": {
+          "NW": "upper",
+          "NE": "lower",
+          "SW": "upper",
+          "SE": "lower"
+        },
+        "bounding_box": {
+          "x": 32,
+          "y": 32,
+          "width": 32,
+          "height": 32
+        }
+      },
+      {
+        "id": 6,
+        "corners": {
+          "NW": "lower",
+          "NE": "upper",
+          "SW": "upper",
+          "SE": "lower"
+        },
+        "bounding_box": {
+          "x": 64,
+          "y": 32,
+          "width": 32,
+          "height": 32
+        }
+      },
+      {
+        "id": 7,
+        "corners": {
+          "NW": "upper",
+          "NE": "upper",
+          "SW": "upper",
+          "SE": "lower"
+        },
+        "bounding_box": {
+          "x": 96,
+          "y": 32,
+          "width": 32,
+          "height": 32
+        }
+      },
+      {
+        "id": 8,
+        "corners": {
+          "NW": "lower",
+          "NE": "lower",
+          "SW": "lower",
+          "SE": "upper"
+        },
+        "bounding_box": {
+          "x": 0,
+          "y": 64,
+          "width": 32,
+          "height": 32
+        }
+      },
+      {
+        "id": 9,
+        "corners": {
+          "NW": "upper",
+          "NE": "lower",
+          "SW": "lower",
+          "SE": "upper"
+        },
+        "bounding_box": {
+          "x": 32,
+          "y": 64,
+          "width": 32,
+          "height": 32
+        }
+      },
+      {
+        "id": 10,
+        "corners": {
+          "NW": "lower",
+          "NE": "upper",
+          "SW": "lower",
+          "SE": "upper"
+        },
+        "bounding_box": {
+          "x": 64,
+          "y": 64,
+          "width": 32,
+          "height": 32
+        }
+      },
+      {
+        "id": 11,
+        "corners": {
+          "NW": "upper",
+          "NE": "upper",
+          "SW": "lower",
+          "SE": "upper"
+        },
+        "bounding_box": {
+          "x": 96,
+          "y": 64,
+          "width": 32,
+          "height": 32
+        }
+      },
+      {
+        "id": 12,
+        "corners": {
+          "NW": "lower",
+          "NE": "lower",
+          "SW": "upper",
+          "SE": "upper"
+        },
+        "bounding_box": {
+          "x": 0,
+          "y": 96,
+          "width": 32,
+          "height": 32
+        }
+      },
+      {
+        "id": 13,
+        "corners": {
+          "NW": "upper",
+          "NE": "lower",
+          "SW": "upper",
+          "SE": "upper"
+        },
+        "bounding_box": {
+          "x": 32,
+          "y": 96,
+          "width": 32,
+          "height": 32
+        }
+      },
+      {
+        "id": 14,
+        "corners": {
+          "NW": "lower",
+          "NE": "upper",
+          "SW": "upper",
+          "SE": "upper"
+        },
+        "bounding_box": {
+          "x": 64,
+          "y": 96,
+          "width": 32,
+          "height": 32
+        }
+      },
+      {
+        "id": 15,
+        "corners": {
+          "NW": "upper",
+          "NE": "upper",
+          "SW": "upper",
+          "SE": "upper"
+        },
+        "bounding_box": {
+          "x": 96,
+          "y": 96,
+          "width": 32,
+          "height": 32
+        }
+      }
+    ]
+  },
+  "grade_nativa": [
+    128,
+    128
+  ],
+  "origem": "guia_agua.png; imagegen acabamento"
+}

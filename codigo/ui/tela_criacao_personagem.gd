@@ -1,8 +1,8 @@
 extends Control
 
 ## Criação do personagem (novo jogo): escolhe o cabelo, a roupa, a cor do cabelo e o nome, vendo o personagem de corpo inteiro girar.
-## Mesmo visual da mochila, da loja e do caldeirão: tema_sidebar.tres, moldura do TileMap.png com o título escuro na faixa de cima, casinhas
-## (BotaoSlot) com a escolhida na moldura dourada, abas (BotaoAba) e o botão vermelho (BotaoPrimario) para CONFIRMAR.
+## Mesmo visual da mochila, da loja e do caldeirão: tema_sidebar.tres e sprites Bosque, com título na faixa de pergaminho e casinhas
+## (BotaoSlot) com a escolhida na moldura dourada, abas (BotaoAba) e o botão verde (BotaoPrimario) para CONFIRMAR.
 ## Funciona com mouse, teclado, controle (foco nas casinhas; Q/E ou LB/RB trocam de aba; o nome abre o teclado virtual) e toque (casinhas
 ## grandes, lista com rolagem por arrasto, sem depender de passar o mouse).
 ## As peças vêm de codigo/dados/aparencia.gd. Ao confirmar grava user://configuracao_jogador.json (índices de cabelo e roupa,
@@ -13,7 +13,7 @@ signal confirmada(dados: Dictionary)
 const Aparencia := preload("res://codigo/dados/aparencia.gd")
 const TecladoVirtual := preload("res://codigo/ui/teclado_virtual.gd")
 const TEMA := preload("res://recursos/ui/tema_sidebar.tres")
-const TILEMAP := preload("res://assets/ui/craftpix-net-420010-pixel-game-user-interface-for-platformer/1 Interface/TileMap.png")
+const TILEMAP := preload("res://assets/ui/bosque/paineis.png")
 const FONTE_TITULO := preload("res://assets/ui/craftpix-net-775352-game-user-interface-pixel-art/6 Font/CraftPixNet Survival Kit.otf")
 const SETA_ESQUERDA := preload("res://assets/ui/sem org/3 Icons/Icons_14.png")
 const SETA_DIREITA := preload("res://assets/ui/sem org/3 Icons/Icons_15.png")
@@ -92,6 +92,10 @@ var _slider_matiz: HSlider
 var _slider_saturacao: HSlider
 var _slider_brilho: HSlider
 var _amostra_cor: ColorRect
+var _colunas: BoxContainer
+var _painel_previa: Control
+var _painel_edicao: Control
+var _palco: Control
 var _campo_nome: LineEdit
 var _botao_confirmar: Button
 var _botao_voltar: Button
@@ -138,7 +142,7 @@ func _ready() -> void:
 
 func _montar() -> void:
 	var fundo := ColorRect.new()
-	fundo.color = Color(0.09, 0.085, 0.14)
+	fundo.color = Color("201a16")
 	fundo.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	fundo.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(fundo)
@@ -147,49 +151,50 @@ func _montar() -> void:
 	for lado in ["left", "top", "right", "bottom"]:
 		margem.add_theme_constant_override("margin_" + lado, 8)
 	add_child(margem)
-	var colunas := HBoxContainer.new()
-	colunas.add_theme_constant_override("separation", 8)
-	margem.add_child(colunas)
-	colunas.add_child(_montar_painel_previa())
-	colunas.add_child(_montar_painel_edicao())
+	var rolagem := ScrollContainer.new()
+	rolagem.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	rolagem.follow_focus = true
+	margem.add_child(rolagem)
+	_colunas = BoxContainer.new()
+	_colunas.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_colunas.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_colunas.add_theme_constant_override("separation", 8)
+	rolagem.add_child(_colunas)
+	_painel_previa = _montar_painel_previa()
+	_painel_edicao = _montar_painel_edicao()
+	_colunas.add_child(_painel_previa)
+	_colunas.add_child(_painel_edicao)
+	resized.connect(_ajustar_layout)
+	_ajustar_layout.call_deferred()
+
+func _ajustar_layout() -> void:
+	if _colunas == null:
+		return
+	var estreito := size.x < 420 or size.y < 270
+	_colunas.vertical = estreito
+	_painel_previa.custom_minimum_size = Vector2(0, 154) if estreito else Vector2(150, 0)
+	_painel_edicao.custom_minimum_size = Vector2(0, 280) if estreito else Vector2.ZERO
+	_palco.custom_minimum_size.y = 80 if estreito else 150
+	_modelo.scale = Vector2.ONE * (2.0 if estreito else ESCALA_PREVIA)
 
 func _novo_painel(titulo: String) -> Array:
 	var painel := PanelContainer.new()
 	painel.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-	var estilo := StyleBoxTexture.new()
-	estilo.texture = TILEMAP
-	estilo.region_rect = Rect2(96, 64, 48, 48)
-	estilo.texture_margin_left = 16
-	estilo.texture_margin_top = 16
-	estilo.texture_margin_right = 16
-	estilo.texture_margin_bottom = 16
-	estilo.axis_stretch_horizontal = StyleBoxTexture.AXIS_STRETCH_MODE_TILE_FIT
-	estilo.axis_stretch_vertical = StyleBoxTexture.AXIS_STRETCH_MODE_TILE_FIT
-	estilo.content_margin_left = 8
-	estilo.content_margin_top = 1
-	estilo.content_margin_right = 8
-	estilo.content_margin_bottom = 8
-	painel.add_theme_stylebox_override("panel", estilo)
+	painel.add_theme_stylebox_override("panel", preload("res://codigo/ui/estilo_interface.gd").painel(false,10.0))
 	var linhas := VBoxContainer.new()
 	linhas.add_theme_constant_override("separation", 6)
 	painel.add_child(linhas)
-	var cabecalho := Control.new()
-	cabecalho.custom_minimum_size = Vector2(0, 14)
-	cabecalho.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	linhas.add_child(cabecalho)
 	var rotulo := Label.new()
 	rotulo.text = titulo
-	rotulo.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	# a fonte do título assenta uns 2 px abaixo do centro da faixa
-	rotulo.offset_top = -2.0
-	rotulo.offset_bottom = -2.0
+	rotulo.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	linhas.add_child(rotulo)
 	rotulo.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	rotulo.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	var configuracao := LabelSettings.new()
 	configuracao.font = FONTE_TITULO
-	configuracao.font_color = Color(0.13, 0.12, 0.18)
+	configuracao.font_color = Color(0.93, 0.85, 0.68)
 	rotulo.label_settings = configuracao
-	cabecalho.add_child(rotulo)
+
 	return [painel, linhas]
 
 # Painel da esquerda: o personagem de corpo inteiro girando, o nome da peça e os botões de girar
@@ -200,6 +205,7 @@ func _montar_painel_previa() -> Control:
 	painel.custom_minimum_size = Vector2(150, 0)
 	painel.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	var palco := Control.new()
+	_palco = palco
 	palco.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	palco.custom_minimum_size = Vector2(0, 150)
 	palco.clip_contents = true
@@ -314,7 +320,7 @@ func _montar_painel_edicao() -> Control:
 	_campo_nome.gui_input.connect(_ao_entrada_nome)
 	linha_nome.add_child(_campo_nome)
 	# Rodapé
-	var rodape := HBoxContainer.new()
+	var rodape := HFlowContainer.new()
 	rodape.add_theme_constant_override("separation", 4)
 	linhas.add_child(rodape)
 	_botao_voltar = _botao_rodape("VOLTAR", &"")
@@ -340,8 +346,8 @@ func _botao_rodape(texto: String, variacao: StringName) -> Button:
 # Grade de casinhas (cabelos ou roupas) com rolagem
 func _moldura_casa(estilo: StyleBox) -> StyleBox:
 	var moldura: StyleBoxTexture = estilo.duplicate()
-	# O sprite do slot tem três linhas transparentes embaixo; elas não são área útil.
-	moldura.region_rect = Rect2(1, 1, 19, 17)
+	# O mesmo recorte nativo é usado nas casas de cabelo e roupa.
+	moldura.region_rect = Rect2(0, 0, 24, 24)
 	moldura.texture_margin_left = 2
 	moldura.texture_margin_top = 2
 	moldura.texture_margin_right = 2
@@ -663,7 +669,12 @@ func _sair_para(caminho: String) -> void:
 	var tween := create_tween()
 	tween.tween_property(_cortina, "modulate:a", 1.0, 0.35)
 	await tween.finished
-	get_tree().change_scene_to_file(caminho)
+	var erro := await Transicao.carregar_cena(caminho)
+	if erro != OK:
+		_saindo = false
+		_cortina.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		create_tween().tween_property(_cortina, "modulate:a", 0.0, 0.25)
+		push_error("Nao foi possivel abrir a cena: "+caminho)
 
 # --- Teclado, controle e toque ---------------------------------------------------------------------------------
 

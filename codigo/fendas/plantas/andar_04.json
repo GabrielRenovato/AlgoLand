@@ -1,0 +1,251 @@
+{
+  "andar": 4,
+  "nome": "Gruta das Raizes",
+  "bioma": "caverna",
+  "grade": 16,
+  "limites": [
+    -1250,
+    -640,
+    2500,
+    1280
+  ],
+  "entrada": [
+    -1056,
+    0
+  ],
+  "guardiao": [
+    1024,
+    -272
+  ],
+  "setores": [
+    {
+      "id": "entrada",
+      "nome": "Portal",
+      "centro": [
+        -1056,
+        0
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 0
+    },
+    {
+      "id": "area_1",
+      "nome": "Camara 1",
+      "centro": [
+        -768,
+        -416
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 1
+    },
+    {
+      "id": "area_2",
+      "nome": "Camara 2",
+      "centro": [
+        -640,
+        416
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 1
+    },
+    {
+      "id": "area_3",
+      "nome": "Camara 3",
+      "centro": [
+        -176,
+        -192
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 1
+    },
+    {
+      "id": "area_4",
+      "nome": "Camara 4",
+      "centro": [
+        176,
+        336
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 1
+    },
+    {
+      "id": "area_5",
+      "nome": "Camara 5",
+      "centro": [
+        464,
+        -384
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 1
+    },
+    {
+      "id": "area_6",
+      "nome": "Camara 6",
+      "centro": [
+        768,
+        160
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 1
+    },
+    {
+      "id": "guardiao",
+      "nome": "Guardiao",
+      "centro": [
+        1024,
+        -272
+      ],
+      "raios": [
+        176,
+        144
+      ],
+      "grupos": 0
+    }
+  ],
+  "trilhas": [
+    {
+      "pontos": [
+        [
+          -1056,
+          0
+        ],
+        [
+          -768,
+          -416
+        ]
+      ],
+      "raio": 80
+    },
+    {
+      "pontos": [
+        [
+          -1056,
+          0
+        ],
+        [
+          -640,
+          416
+        ]
+      ],
+      "raio": 80
+    },
+    {
+      "pontos": [
+        [
+          -768,
+          -416
+        ],
+        [
+          -176,
+          -192
+        ]
+      ],
+      "raio": 80
+    },
+    {
+      "pontos": [
+        [
+          -640,
+          416
+        ],
+        [
+          176,
+          336
+        ]
+      ],
+      "raio": 80
+    },
+    {
+      "pontos": [
+        [
+          -176,
+          -192
+        ],
+        [
+          464,
+          -384
+        ]
+      ],
+      "raio": 80
+    },
+    {
+      "pontos": [
+        [
+          176,
+          336
+        ],
+        [
+          768,
+          160
+        ]
+      ],
+      "raio": 80
+    },
+    {
+      "pontos": [
+        [
+          464,
+          -384
+        ],
+        [
+          768,
+          160
+        ]
+      ],
+      "raio": 80
+    },
+    {
+      "pontos": [
+        [
+          768,
+          160
+        ],
+        [
+          1024,
+          -272
+        ]
+      ],
+      "raio": 80
+    }
+  ],
+  "lago": {
+    "lobos": [],
+    "folga": 28
+  },
+  "combate": {
+    "comuns_por_grupo": 6,
+    "elites": 2,
+    "meta": 101,
+    "pontos_comum": 3,
+    "pontos_elite": 9,
+    "fracao_exigida": 0.802
+  },
+  "guardiao_id": "medusa",
+  "contrato_visual": {
+    "referencia": "RPGW_Caves_v2.1: MainLev2.0.png e decorative.png",
+    "grade": "Peças32x32 originais subdivididas na grade16x16, sem escala",
+    "estacoes": "quatro folhas privadas e calendario",
+    "encaixe": "Contexto das peças originais e bordas nativas; colisão derivada da transparência"
+  }
+}

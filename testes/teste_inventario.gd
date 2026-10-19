@@ -252,24 +252,13 @@ func _testar_itens_iniciais() -> void:
 	for slot in modelo.SLOTS:
 		if modelo.equipados[slot] != null:
 			total += 1
-	_verificar("criar_itens_iniciais cria 12 itens (com as quatro ferramentas e aljava)", total == 12 and not modelo.esta_vazio(), "total=%d" % total)
-	# Kit inicial: espada e escudo já na mão, cada um reservando a casa da barra de onde saiu; a primeira linha segue com
-	# enxada, regador e mão (a mesma barra serve à fazenda) e a lança fica na segunda linha
-	var tipos_mochila: Array = []
-	for i in 6:
-		tipos_mochila.append(modelo.mochila[i].tipo if modelo.mochila[i] != null else "")
-	var kit_na_mao: bool = modelo.equipados["arma"] != null and modelo.equipados["arma"].tipo == "espada_basica" and modelo.equipados["escudo"] != null \
-			and modelo.equipados["escudo"].tipo == "escudo_basico" and tipos_mochila == ["", "", "enxada", "regador", "lanca_basica", "machadinha"] \
-			and modelo.celulas_da_mao["arma"] == 0 and modelo.celulas_da_mao["escudo"] == 1 and modelo.mochila[2].categoria == "ferramenta"
-	_verificar("espada e escudo equipados, enxada, regador, lança e machadinha nas casas previstas", kit_na_mao, "mochila=%s mao=%s" % [str(tipos_mochila), str(modelo.celulas_da_mao)])
-	var armaduras_equipadas: bool = modelo.equipados["cabeca"].tipo == "cabeca_basica" and modelo.equipados["corpo"].tipo == "armadura_basica" and modelo.equipados["luvas"].tipo == "luvas_basicas" and modelo.equipados["botas"].tipo == "botas_basicas"
-	_verificar("armaduras comecam equipadas", armaduras_equipadas, "armaduras fora do lugar")
-	_verificar("aljava comeca equipada", modelo.equipados["secundaria"].tipo == "aljava_basica", "secundaria=%s" % str(modelo.equipados["secundaria"]))
-	_verificar("criar_itens_iniciais emite cada sinal uma vez", contagem["mochila"] == 1 and contagem["slots"] == 7 and contagem["itens"] == 0, str(contagem))
-	var lanca = modelo.buscar_por_tipo("lanca_basica")
-	_verificar("buscar_por_tipo acha na mochila e equipado", lanca != null and lanca.nivel == 1 and modelo.buscar_por_tipo("botas_basicas") != null and modelo.buscar_por_tipo("inexistente") == null, "busca falhou")
+	_verificar("kit inicial tem espada escudo ferramentas e vara",total==7 and modelo.buscar_por_tipo("vara_pesca")!=null,"total=%d" % total)
+	_verificar("espada e escudo começam equipados",modelo.equipados.arma!=null and modelo.equipados.escudo!=null,"kit ausente")
+	_verificar("armaduras e aljava exigem fabricação",["cabeca","corpo","luvas","botas","secundaria"].all(func(slot): return modelo.equipados[slot]==null),"item gratuito")
+	var lanca = _item("lanca_basica","arma")
+	modelo.adicionar(lanca)
 	modelo.subir_nivel(lanca)
-	_verificar("nivel lido pelo tipo apos subir_nivel", modelo.buscar_por_tipo("lanca_basica").nivel == 2, "nivel=%d" % modelo.buscar_por_tipo("lanca_basica").nivel)
+	_verificar("nivel lido pelo tipo apos subir_nivel",modelo.buscar_por_tipo("lanca_basica").nivel==2,"nivel errado")
 	modelo.free()
 
 func _testar_arco_exige_aljava() -> void:

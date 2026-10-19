@@ -4,13 +4,18 @@ extends SceneTree
 # Usa instâncias isoladas do Progresso e do modelo de inventário (sem tocar nos saves reais)
 
 const ScriptProgresso := preload("res://codigo/globais/progresso.gd")
-const ScriptModelo := preload("res://codigo/modelos/modelo_inventario.gd")
+var ScriptModelo: GDScript
 
 const CAMINHO_TESTE := "user://teste_progresso.json"
 
 var _falhas: int = 0
 
 func _initialize() -> void:
+	_rodar()
+
+func _rodar() -> void:
+	await process_frame
+	ScriptModelo = load("res://codigo/modelos/modelo_inventario.gd")
 	_testar_comprar_melhoria()
 	_testar_custos_e_maximo()
 	_testar_brasas_insuficientes()
@@ -231,14 +236,14 @@ func _testar_reset_do_inventario() -> void:
 			and modelo.equipados["luvas"] != null and modelo.equipados["botas"] != null and modelo.equipados["secundaria"] != null
 	_verificar("reset: armadura, espada e escudo equipados", kit_ok, str(modelo.equipados))
 	var na_mochila: bool = modelo.indice_de(modelo.buscar_por_tipo("lanca_basica")) != -1 and modelo.indice_de(modelo.buscar_por_tipo("enxada")) != -1 \
-			and modelo.indice_de(modelo.buscar_por_tipo("regador")) != -1 and modelo.indice_de(modelo.buscar_por_tipo("mao")) != -1
+			and modelo.indice_de(modelo.buscar_por_tipo("regador")) != -1 and modelo.indice_de(modelo.buscar_por_tipo("machadinha")) != -1 and modelo.indice_de(modelo.buscar_por_tipo("picareta")) != -1 and modelo.buscar_por_tipo("vara_pesca") != null
 	_verificar("reset: lanca e ferramentas da fazenda na mochila", na_mochila, "")
 	_verificar("reset: itens voltam ao nivel 1 e sem extras", modelo.buscar_por_tipo("espada_basica").nivel == 1 and modelo.buscar_por_tipo("machado") == null, "")
 	var contagem := 0
 	for item in modelo.mochila:
 		if item != null:
 			contagem += 1
-	_verificar("reset: mochila so com a lanca e as 3 ferramentas iniciais", contagem == 4, "itens=%d" % contagem)
+	_verificar("reset: mochila com lança, quatro ferramentas e vara", contagem == 6, "itens=%d" % contagem)
 	modelo.free()
 
 func _testar_reviver_da_curandeira() -> void:

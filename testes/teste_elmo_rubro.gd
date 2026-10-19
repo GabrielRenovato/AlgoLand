@@ -30,7 +30,7 @@ func _initialize() -> void:
 			print("FALHA ", pagina, ": folha do elmo ausente")
 			_falhas += 1
 			continue
-		var corpo: Image = load("res://assets/personagens/" + Padrao.CORPOS[pagina]).get_image()
+		var corpo: Image = load(Aparencia.RAIZ_CORPO_REFINADO + pagina + ".png").get_image()
 		var cabelos := Aparencia.cabelo(0, pagina).get_image()
 		var corpo_usado := Aparencia.corpo(pagina, indice, 15).get_image()
 		if not _mesmos_pixels(corpo, corpo_usado):

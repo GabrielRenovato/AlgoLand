@@ -22,5 +22,22 @@ def preparar():
         destino.parent.mkdir(parents=True, exist_ok=True)
         origem.save(destino)
 
+def preparar_vegetacao():
+    """Recorta a grama nativa; cantos e juncoes deixam a areia aparecer por baixo."""
+    recortes = mascaras()['grama_terra']
+    for estacao in ['primavera', 'verao', 'outono', 'inverno']:
+        origem = Image.open(RAIZ / f'assets/cenario/cidade/terreno/mana_seed/{estacao}/grama_terra.png').convert('RGBA')
+        for y in range(96):
+            for x in range(64):
+                linha, coluna = y // 16, x // 16
+                indice = linha * 4 + coluna if linha < 4 else (0 if linha == 4 else 15)
+                if recortes[indice].getpixel((x % 16, y % 16))[0] != 0:
+                    origem.putpixel((x, y), (0, 0, 0, 0))
+        destino = RAIZ / f'assets/cenario/praia/vegetacao_orla/{estacao}.png'
+        destino.parent.mkdir(parents=True, exist_ok=True)
+        origem.save(destino)
+
+
 if __name__ == '__main__':
     preparar()
+    preparar_vegetacao()

@@ -196,5 +196,38 @@
 			0
 		],
 		"traje_chuva": "capa"
+	},
+	"ivo": {
+		"altura_mapa": 31,
+		"altura_parado": 31,
+		"direcoes": [
+			"baixo",
+			"direita",
+			"cima",
+			"esquerda"
+		],
+		"escala_mapa": 1.0,
+		"folha": "res://assets/npcs/cidade/ivo.png",
+		"fonte": "res://arte/fontes/npcs/base_vila/perfis/ivo.json",
+		"grade": [
+			7,
+			4
+		],
+		"pes_y": 44,
+		"quadro": [
+			64,
+			64
+		],
+		"quadros_andar": 6,
+		"folha_chuva": "res://assets/npcs/cidade/capas_chuva/ivo.png",
+		"quadro_chuva": [
+			64,
+			64
+		],
+		"margem_chuva": [
+			0,
+			0
+		],
+		"traje_chuva": "capa"
 	}
 }

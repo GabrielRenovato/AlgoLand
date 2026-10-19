@@ -52,6 +52,7 @@ func _montar() -> void:
 	fundo.add_child(centro)
 
 	var painel := PanelContainer.new()
+	painel.add_theme_stylebox_override("panel", preload("res://codigo/ui/estilo_interface.gd").painel())
 	centro.add_child(painel)
 	var coluna := VBoxContainer.new()
 	coluna.add_theme_constant_override("separation", 3)

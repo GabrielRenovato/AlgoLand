@@ -1,0 +1,381 @@
+{
+  "andar": 11,
+  "nome": "Abismo das Profundezas",
+  "bioma": "caverna",
+  "grade": 16,
+  "limites": [
+    -2400,
+    -720,
+    4800,
+    1440
+  ],
+  "entrada": [
+    -2080,
+    448
+  ],
+  "guardiao": [
+    2080,
+    -160
+  ],
+  "setores": [
+    {
+      "id": "entrada",
+      "nome": "Portal",
+      "centro": [
+        -2080,
+        448
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 0
+    },
+    {
+      "id": "area_1",
+      "nome": "Camara 1",
+      "centro": [
+        -1744,
+        -224
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 2
+    },
+    {
+      "id": "area_2",
+      "nome": "Camara 2",
+      "centro": [
+        -1280,
+        224
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 1
+    },
+    {
+      "id": "area_3",
+      "nome": "Camara 3",
+      "centro": [
+        -928,
+        -496
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 2
+    },
+    {
+      "id": "area_4",
+      "nome": "Camara 4",
+      "centro": [
+        -576,
+        448
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 1
+    },
+    {
+      "id": "area_5",
+      "nome": "Camara 5",
+      "centro": [
+        -224,
+        -32
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 2
+    },
+    {
+      "id": "area_6",
+      "nome": "Camara 6",
+      "centro": [
+        224,
+        -496
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 1
+    },
+    {
+      "id": "area_7",
+      "nome": "Camara 7",
+      "centro": [
+        576,
+        448
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 2
+    },
+    {
+      "id": "area_8",
+      "nome": "Camara 8",
+      "centro": [
+        928,
+        -80
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 1
+    },
+    {
+      "id": "area_9",
+      "nome": "Camara 9",
+      "centro": [
+        1280,
+        -496
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 2
+    },
+    {
+      "id": "area_10",
+      "nome": "Camara 10",
+      "centro": [
+        1632,
+        336
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 1
+    },
+    {
+      "id": "guardiao",
+      "nome": "Guardiao",
+      "centro": [
+        2080,
+        -160
+      ],
+      "raios": [
+        176,
+        144
+      ],
+      "grupos": 0
+    }
+  ],
+  "trilhas": [
+    {
+      "pontos": [
+        [
+          -2080,
+          448
+        ],
+        [
+          -1744,
+          -224
+        ]
+      ],
+      "raio": 80
+    },
+    {
+      "pontos": [
+        [
+          -2080,
+          448
+        ],
+        [
+          -1280,
+          224
+        ]
+      ],
+      "raio": 80
+    },
+    {
+      "pontos": [
+        [
+          -1744,
+          -224
+        ],
+        [
+          -928,
+          -496
+        ]
+      ],
+      "raio": 80
+    },
+    {
+      "pontos": [
+        [
+          -1280,
+          224
+        ],
+        [
+          -576,
+          448
+        ]
+      ],
+      "raio": 80
+    },
+    {
+      "pontos": [
+        [
+          -928,
+          -496
+        ],
+        [
+          -224,
+          -32
+        ]
+      ],
+      "raio": 80
+    },
+    {
+      "pontos": [
+        [
+          -576,
+          448
+        ],
+        [
+          -224,
+          -32
+        ]
+      ],
+      "raio": 80
+    },
+    {
+      "pontos": [
+        [
+          -224,
+          -32
+        ],
+        [
+          224,
+          -496
+        ]
+      ],
+      "raio": 80
+    },
+    {
+      "pontos": [
+        [
+          -224,
+          -32
+        ],
+        [
+          576,
+          448
+        ]
+      ],
+      "raio": 80
+    },
+    {
+      "pontos": [
+        [
+          224,
+          -496
+        ],
+        [
+          928,
+          -80
+        ]
+      ],
+      "raio": 80
+    },
+    {
+      "pontos": [
+        [
+          576,
+          448
+        ],
+        [
+          928,
+          -80
+        ]
+      ],
+      "raio": 80
+    },
+    {
+      "pontos": [
+        [
+          928,
+          -80
+        ],
+        [
+          1280,
+          -496
+        ]
+      ],
+      "raio": 80
+    },
+    {
+      "pontos": [
+        [
+          928,
+          -80
+        ],
+        [
+          1632,
+          336
+        ]
+      ],
+      "raio": 80
+    },
+    {
+      "pontos": [
+        [
+          1280,
+          -496
+        ],
+        [
+          2080,
+          -160
+        ]
+      ],
+      "raio": 80
+    },
+    {
+      "pontos": [
+        [
+          1632,
+          336
+        ],
+        [
+          2080,
+          -160
+        ]
+      ],
+      "raio": 80
+    }
+  ],
+  "lago": {
+    "lobos": [],
+    "folga": 28
+  },
+  "combate": {
+    "comuns_por_grupo": 8,
+    "elites": 5,
+    "meta": 364,
+    "pontos_comum": 3,
+    "pontos_elite": 9,
+    "fracao_exigida": 0.899
+  },
+  "guardiao_id": "dragao_vermelho",
+  "contrato_visual": {
+    "referencia": "RPGW_Caves_v2.1: MainLev2.0.png e decorative.png",
+    "grade": "Peças32x32 originais subdivididas na grade16x16, sem escala",
+    "estacoes": "quatro folhas privadas e calendario",
+    "encaixe": "Contexto das peças originais e bordas nativas; colisão derivada da transparência"
+  }
+}

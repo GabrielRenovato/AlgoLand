@@ -5008,6 +5008,417 @@
         }
       ],
       "pontos": {}
+    },
+    "forja": {
+      "geometria": {
+        "recorte": [
+          0,
+          0,
+          528,
+          248
+        ],
+        "porta": [
+          216,
+          248
+        ],
+        "chao_sul": 224,
+        "parede_oeste": 16,
+        "parede_leste": 520,
+        "parede_norte": 40,
+        "chegada": [
+          232,
+          198
+        ],
+        "saida": [
+          232,
+          230
+        ],
+        "areas": [
+          {
+            "nome": "cozinha",
+            "retangulo": [
+              136,
+              56,
+              192,
+              168
+            ],
+            "piso": "medio"
+          },
+          {
+            "nome": "quarto",
+            "retangulo": [
+              16,
+              96,
+              104,
+              112
+            ],
+            "piso": "claro"
+          },
+          {
+            "nome": "porta_quarto",
+            "retangulo": [
+              120,
+              144,
+              16,
+              32
+            ],
+            "piso": "claro"
+          },
+          {
+            "nome": "oficina",
+            "retangulo": [
+              352,
+              40,
+              168,
+              128
+            ],
+            "piso": "escuro"
+          },
+          {
+            "nome": "porta_oficina",
+            "retangulo": [
+              328,
+              104,
+              24,
+              32
+            ],
+            "piso": "escuro"
+          },
+          {
+            "nome": "saida",
+            "retangulo": [
+              216,
+              224,
+              32,
+              24
+            ],
+            "piso": "medio"
+          }
+        ],
+        "janelas": [
+          [
+            160,
+            56
+          ],
+          [
+            64,
+            96
+          ]
+        ],
+        "perspectiva": "topdown_comodos"
+      },
+      "itens": [
+        {
+          "p": "tapete",
+          "x": 232,
+          "y": 216,
+          "usado": [
+            0,
+            0,
+            53,
+            36
+          ],
+          "chao": true,
+          "texturas": [
+            "res://assets/cenario/cidade/ambientes/interior/casa_bento/tapete/primavera.png",
+            "res://assets/cenario/cidade/ambientes/interior/casa_bento/tapete/verao.png",
+            "res://assets/cenario/cidade/ambientes/interior/casa_bento/tapete/outono.png",
+            "res://assets/cenario/cidade/ambientes/interior/casa_bento/tapete/inverno.png"
+          ],
+          "quadros": 4,
+          "fps": 0,
+          "escala_origem": 1.0,
+          "calor_sazonal": false,
+          "fonte": "res://assets/cenario/cidade/interiores/casa_bento/props/tapete.png"
+        },
+        {
+          "p": "lareira",
+          "x": 232,
+          "y": 74,
+          "usado": [
+            0,
+            0,
+            52,
+            56
+          ],
+          "chao": false,
+          "col": [
+            44,
+            12
+          ],
+          "luzes": [
+            [
+              0,
+              -20,
+              "#ff9a45",
+              1.0,
+              0.95,
+              "fogo"
+            ]
+          ],
+          "texturas": [
+            "res://assets/cenario/cidade/ambientes/interior/casa_bento/lareira/primavera.png",
+            "res://assets/cenario/cidade/ambientes/interior/casa_bento/lareira/verao.png",
+            "res://assets/cenario/cidade/ambientes/interior/casa_bento/lareira/outono.png",
+            "res://assets/cenario/cidade/ambientes/interior/casa_bento/lareira/inverno.png"
+          ],
+          "quadros": 4,
+          "fps": 4,
+          "escala_origem": 1.0,
+          "calor_sazonal": false,
+          "fonte": "res://assets/cenario/cidade/interiores/casa_bento/props/lareira.png"
+        },
+        {
+          "p": "prateleira",
+          "x": 300,
+          "y": 72,
+          "usado": [
+            0,
+            0,
+            32,
+            46
+          ],
+          "chao": false,
+          "col": [
+            28,
+            14
+          ],
+          "variante": "gasta",
+          "texturas": [
+            "res://assets/cenario/cidade/ambientes/interior/venda/prateleira/primavera.png",
+            "res://assets/cenario/cidade/ambientes/interior/venda/prateleira/verao.png",
+            "res://assets/cenario/cidade/ambientes/interior/venda/prateleira/outono.png",
+            "res://assets/cenario/cidade/ambientes/interior/venda/prateleira/inverno.png"
+          ],
+          "quadros": 4,
+          "fps": 0,
+          "escala_origem": 1.0,
+          "calor_sazonal": false,
+          "fonte": "res://assets/cenario/cidade/interiores/venda/props/prateleira.png"
+        },
+        {
+          "p": "mesa",
+          "x": 240,
+          "y": 154,
+          "usado": [
+            0,
+            0,
+            48,
+            29
+          ],
+          "chao": false,
+          "col": [
+            44,
+            22
+          ],
+          "luzes": [
+            [
+              0,
+              -22,
+              "#ffc46b",
+              0.4,
+              0.45,
+              "fogo"
+            ]
+          ],
+          "texturas": [
+            "res://assets/cenario/cidade/ambientes/interior/casa_bento/mesa/primavera.png",
+            "res://assets/cenario/cidade/ambientes/interior/casa_bento/mesa/verao.png",
+            "res://assets/cenario/cidade/ambientes/interior/casa_bento/mesa/outono.png",
+            "res://assets/cenario/cidade/ambientes/interior/casa_bento/mesa/inverno.png"
+          ],
+          "quadros": 4,
+          "fps": 2,
+          "escala_origem": 1.0,
+          "calor_sazonal": false,
+          "fonte": "res://assets/cenario/cidade/decoracao/mobiliario/topdown/mesa_media.png"
+        },
+        {
+          "p": "cadeira",
+          "x": 198,
+          "y": 158,
+          "usado": [
+            0,
+            0,
+            14,
+            24
+          ],
+          "chao": false,
+          "col": [
+            12,
+            8
+          ],
+          "variante": "gasta",
+          "texturas": [
+            "res://assets/cenario/cidade/ambientes/interior/sede/cadeira/primavera.png",
+            "res://assets/cenario/cidade/ambientes/interior/sede/cadeira/verao.png",
+            "res://assets/cenario/cidade/ambientes/interior/sede/cadeira/outono.png",
+            "res://assets/cenario/cidade/ambientes/interior/sede/cadeira/inverno.png"
+          ],
+          "quadros": 4,
+          "fps": 0,
+          "escala_origem": 1.0,
+          "calor_sazonal": false,
+          "fonte": "res://assets/cenario/cidade/decoracao/mobiliario/topdown/cadeira.png"
+        },
+        {
+          "p": "cadeira",
+          "x": 266,
+          "y": 158,
+          "usado": [
+            0,
+            0,
+            14,
+            24
+          ],
+          "chao": false,
+          "col": [
+            12,
+            8
+          ],
+          "variante": "nogueira",
+          "texturas": [
+            "res://assets/cenario/cidade/ambientes/interior/sede/cadeira/primavera.png",
+            "res://assets/cenario/cidade/ambientes/interior/sede/cadeira/verao.png",
+            "res://assets/cenario/cidade/ambientes/interior/sede/cadeira/outono.png",
+            "res://assets/cenario/cidade/ambientes/interior/sede/cadeira/inverno.png"
+          ],
+          "quadros": 4,
+          "fps": 0,
+          "escala_origem": 1.0,
+          "calor_sazonal": false,
+          "fonte": "res://assets/cenario/cidade/decoracao/mobiliario/topdown/cadeira.png"
+        },
+        {
+          "p": "cama",
+          "x": 36,
+          "y": 160,
+          "usado": [
+            0,
+            0,
+            32,
+            58
+          ],
+          "chao": false,
+          "col": [
+            28,
+            48
+          ],
+          "texturas": [
+            "res://assets/cenario/cidade/ambientes/interior/casa_bento/cama/primavera.png",
+            "res://assets/cenario/cidade/ambientes/interior/casa_bento/cama/verao.png",
+            "res://assets/cenario/cidade/ambientes/interior/casa_bento/cama/outono.png",
+            "res://assets/cenario/cidade/ambientes/interior/casa_bento/cama/inverno.png"
+          ],
+          "quadros": 4,
+          "fps": 0,
+          "escala_origem": 1.0,
+          "calor_sazonal": false,
+          "fonte": "res://assets/cenario/cidade/decoracao/mobiliario/topdown/cama.png"
+        },
+        {
+          "p": "bau",
+          "x": 96,
+          "y": 126,
+          "usado": [
+            0,
+            0,
+            32,
+            26
+          ],
+          "chao": false,
+          "col": [
+            26,
+            12
+          ],
+          "variante": "gasta",
+          "texturas": [
+            "res://assets/cenario/cidade/ambientes/interior/venda/bau/primavera.png",
+            "res://assets/cenario/cidade/ambientes/interior/venda/bau/verao.png",
+            "res://assets/cenario/cidade/ambientes/interior/venda/bau/outono.png",
+            "res://assets/cenario/cidade/ambientes/interior/venda/bau/inverno.png"
+          ],
+          "quadros": 4,
+          "fps": 0,
+          "escala_origem": 1.0,
+          "calor_sazonal": false,
+          "fonte": "res://assets/cenario/cidade/interiores/venda/props/bau.png"
+        },
+        {
+          "p": "bancada",
+          "x": 464,
+          "y": 150,
+          "usado": [
+            0,
+            0,
+            73,
+            50
+          ],
+          "chao": false,
+          "col": [
+            66,
+            16
+          ],
+          "texturas": [
+            "res://assets/cenario/cidade/ambientes/interior/casa_bento/bancada/primavera.png",
+            "res://assets/cenario/cidade/ambientes/interior/casa_bento/bancada/verao.png",
+            "res://assets/cenario/cidade/ambientes/interior/casa_bento/bancada/outono.png",
+            "res://assets/cenario/cidade/ambientes/interior/casa_bento/bancada/inverno.png"
+          ],
+          "quadros": 4,
+          "fps": 0,
+          "escala_origem": 1.0,
+          "calor_sazonal": false,
+          "fonte": "res://assets/cenario/cidade/interiores/casa_bento/props/bancada.png"
+        },
+        {
+          "p": "fornalha",
+          "x": 432,
+          "y": 92,
+          "usado": [
+            0,
+            0,
+            80,
+            56
+          ],
+          "chao": false,
+          "col": [
+            74,
+            14
+          ],
+          "luzes": [
+            [
+              -18,
+              -19,
+              "#ff9a45",
+              0.6,
+              0.7,
+              "fogo"
+            ]
+          ],
+          "texturas": [
+            "res://assets/cenario/cidade/ambientes/interior/forja/fornalha/primavera.png",
+            "res://assets/cenario/cidade/ambientes/interior/forja/fornalha/verao.png",
+            "res://assets/cenario/cidade/ambientes/interior/forja/fornalha/outono.png",
+            "res://assets/cenario/cidade/ambientes/interior/forja/fornalha/inverno.png"
+          ],
+          "quadros": 1,
+          "fps": 0,
+          "escala_origem": 1.0,
+          "calor_sazonal": false,
+          "fonte": "res://assets/cenario/cidade/ambientes/interior/forja/fornalha/primavera.png"
+        }
+      ],
+      "pontos": {
+        "trabalho": [
+          380,
+          126
+        ],
+        "passeio": [
+          240,
+          194
+        ]
+      }
     }
   }
 }

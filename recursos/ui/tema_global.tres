@@ -1,24 +1,88 @@
-[gd_resource type="Theme" load_steps=4 format=3]
+[gd_resource type="Theme" format=3]
 
 [ext_resource type="FontFile" uid="uid://dwub7qum41gaq" path="res://assets/ui/Planes_ValMore.ttf" id="1_fonte"]
-[ext_resource type="Texture2D" path="res://assets/ui/craftpix-net-420010-pixel-game-user-interface-for-platformer/2 Buttons/17.png" id="2_moldura"]
+[ext_resource type="Texture2D" path="res://assets/ui/bosque/painel.png" id="2_moldura"]
+[ext_resource type="Texture2D" path="res://assets/ui/bosque/campo.png" id="campo_bosque"]
+
+
+[ext_resource type="Texture2D" path="res://assets/ui/bosque/botao_desabilitado.png" id="desabilitado_bosque"]
+[ext_resource type="Texture2D" path="res://assets/ui/bosque/slot.png" id="alca_bosque"]
+
+[ext_resource type="StyleBoxTexture" path="res://recursos/ui/botoes/normal.tres" id="botao_normal"]
+
+[ext_resource type="StyleBoxTexture" path="res://recursos/ui/botoes/hover.tres" id="botao_hover"]
+
+[ext_resource type="StyleBoxTexture" path="res://recursos/ui/botoes/pressed.tres" id="botao_pressed"]
+
+[ext_resource type="StyleBoxTexture" path="res://recursos/ui/botoes/disabled.tres" id="botao_disabled"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_dica"]
-content_margin_left = 7.0
-content_margin_top = 5.0
-content_margin_right = 7.0
-content_margin_bottom = 7.0
+content_margin_left = 9.0
+content_margin_top = 9.0
+content_margin_right = 9.0
+content_margin_bottom = 9.0
 texture = ExtResource("2_moldura")
-texture_margin_left = 4.0
-texture_margin_top = 4.0
-texture_margin_right = 4.0
-texture_margin_bottom = 4.0
-region_rect = Rect2(1, 1, 19, 17)
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+
+
+[sub_resource type="StyleBoxTexture" id="CampoBosque"]
+content_margin_left = 6.0
+content_margin_top = 3.0
+content_margin_right = 6.0
+content_margin_bottom = 3.0
+texture = ExtResource("campo_bosque")
+texture_margin_left = 5.0
+texture_margin_top = 5.0
+texture_margin_right = 5.0
+texture_margin_bottom = 5.0
+
+[sub_resource type="StyleBoxTexture" id="TrilhoBosque"]
+texture = ExtResource("campo_bosque")
+texture_margin_left = 3.0
+texture_margin_top = 3.0
+texture_margin_right = 3.0
+texture_margin_bottom = 3.0
+
+[sub_resource type="StyleBoxTexture" id="AlcaBosque"]
+texture = ExtResource("alca_bosque")
+texture_margin_left = 3.0
+texture_margin_top = 3.0
+texture_margin_right = 3.0
+texture_margin_bottom = 3.0
 
 [resource]
+Button/fonts/font = ExtResource("1_fonte")
+Button/font_sizes/font_size = 10
+Button/colors/font_color = Color(0.25, 0.17, 0.11, 1)
+Button/colors/font_hover_color = Color(0.2, 0.12, 0.07, 1)
+Button/colors/font_focus_color = Color(0.25, 0.17, 0.11, 1)
+Button/colors/font_pressed_color = Color(0.25, 0.17, 0.11, 1)
+Button/styles/normal = ExtResource("botao_normal")
+Button/styles/hover = ExtResource("botao_hover")
+Button/styles/pressed = ExtResource("botao_pressed")
+Button/styles/hover_pressed = ExtResource("botao_pressed")
+Button/styles/disabled = ExtResource("botao_disabled")
 TooltipLabel/colors/font_color = Color(0.93, 0.9, 0.85, 1)
 TooltipLabel/colors/font_outline_color = Color(0.08, 0.07, 0.11, 1)
 TooltipLabel/constants/outline_size = 0
 TooltipLabel/font_sizes/font_size = 10
 TooltipLabel/fonts/font = ExtResource("1_fonte")
 TooltipPanel/styles/panel = SubResource("StyleBoxTexture_dica")
+LineEdit/colors/font_color = Color(0.96, 0.9, 0.76, 1)
+LineEdit/colors/font_placeholder_color = Color(0.66, 0.58, 0.46, 1)
+LineEdit/colors/caret_color = Color(1, 0.82, 0.3, 1)
+LineEdit/styles/normal = SubResource("CampoBosque")
+LineEdit/styles/read_only = SubResource("CampoBosque")
+VScrollBar/styles/scroll = SubResource("TrilhoBosque")
+VScrollBar/styles/scroll_focus = SubResource("TrilhoBosque")
+VScrollBar/styles/grabber = SubResource("AlcaBosque")
+VScrollBar/styles/grabber_highlight = SubResource("AlcaBosque")
+VScrollBar/styles/grabber_pressed = SubResource("AlcaBosque")
+HScrollBar/styles/scroll = SubResource("TrilhoBosque")
+HScrollBar/styles/scroll_focus = SubResource("TrilhoBosque")
+HScrollBar/styles/grabber = SubResource("AlcaBosque")
+HScrollBar/styles/grabber_highlight = SubResource("AlcaBosque")
+HScrollBar/styles/grabber_pressed = SubResource("AlcaBosque")

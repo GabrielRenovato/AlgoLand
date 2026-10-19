@@ -29,12 +29,16 @@ static func montar(praia: Node2D, itens: Array) -> void:
 			praia.get_node("/root/Calendario").estacao_mudou.connect(atualizar)
 			atualizar.call(praia.estacao_visual())
 		var corpo := StaticBody2D.new()
+		corpo.name = objeto.name + "_Colisao"
 		corpo.collision_layer = 64
 		corpo.collision_mask = 0
 		grupo.add_child(corpo)
 		var forma := CollisionShape2D.new()
 		var caixa := RectangleShape2D.new()
 		caixa.size = Vector2(12, 6) if tipo == "vasos" else (Vector2(38, 8) if tipo == "banco" else Vector2(14, 8))
+		if tipo == "canteiro":
+			# A caixa larga bloqueia pela base; as flores continuam permitindo passar por trás.
+			caixa.size = Vector2(44,12)
 		if MOVEIS_PESCA.has(tipo):
 			caixa.size = MOVEIS_PESCA[tipo]
 		forma.shape = caixa

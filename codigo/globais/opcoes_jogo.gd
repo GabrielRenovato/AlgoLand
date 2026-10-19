@@ -6,7 +6,11 @@ const SECAO := "opcoes"
 const SECAO_INTERFACE := "interface"
 ## Cooperativo: o jogador 2 tem as próprias opções do controle e da câmera (o resto vale para a janela toda)
 const SECAO_P2 := "jogador2"
-const CHAVES_POR_JOGADOR := ["vibracao", "zoom", "layout_controle"]
+const CHAVES_POR_JOGADOR := ["vibracao", "zoom", "layout_controle", "escala_interface"]
+const ESCALAS_INTERFACE := [0.75, 1.0, 1.25, 1.5]
+const ROTULOS_INTERFACE := ["75%", "100%", "125%", "150%"]
+static var _escalas_interface := {}
+
 # Ver Controle: "auto" escolhe pelo nome do controle conectado
 const LAYOUTS_CONTROLE := ["auto", "xbox", "nintendo", "playstation"]
 
@@ -15,6 +19,11 @@ const ZOOMS := [0.75, 1.0, 1.25, 1.5, 2.0]
 const ROTULOS_ZOOM := ["75%", "100%", "125%", "150%", "200%"]
 static var _zoom := -1.0
 static var _zoom_p2 := -1.0
+
+static func escala_interface(lado := 1) -> float:
+	if not _escalas_interface.has(lado):
+		_escalas_interface[lado] = carregar(lado)["escala_interface"]
+	return float(_escalas_interface[lado])
 
 static func zoom(lado := 1) -> float:
 	if lado == 2:
@@ -35,7 +44,7 @@ static func carregar(lado := 1) -> Dictionary:
 	return opcoes
 
 static func _carregar_secao(secao: String) -> Dictionary:
-	var opcoes := {"volume": 1.0, "tela_cheia": true, "max_fps": 60, "layout_controle": "auto", "vibracao": true, "zoom": 1.0}
+	var opcoes := {"volume": 1.0, "tela_cheia": true, "max_fps": 60, "layout_controle": "auto", "vibracao": true, "zoom": 1.0, "escala_interface": 1.0}
 	var config := ConfigFile.new()
 	if config.load(CAMINHO) != OK:
 		return opcoes
@@ -47,6 +56,8 @@ static func _carregar_secao(secao: String) -> Dictionary:
 	opcoes["vibracao"] = bool(config.get_value(secao, "vibracao", true))
 	var valor_zoom := float(config.get_value(secao, "zoom", 1.0))
 	opcoes["zoom"] = valor_zoom if valor_zoom in ZOOMS else 1.0
+	var escala := float(config.get_value(secao, "escala_interface", 1.0))
+	opcoes["escala_interface"] = escala if escala in ESCALAS_INTERFACE else 1.0
 	return opcoes
 
 static func salvar(opcoes: Dictionary, lado := 1) -> void:
@@ -55,7 +66,7 @@ static func salvar(opcoes: Dictionary, lado := 1) -> void:
 	config.load(CAMINHO)
 	if lado == 2:
 		for chave in CHAVES_POR_JOGADOR:
-			config.set_value(SECAO_P2, chave, opcoes[chave])
+			config.set_value(SECAO_P2, chave, opcoes.get(chave, 1.0) if chave == "escala_interface" else opcoes[chave])
 		config.save(CAMINHO)
 		return
 	config.set_value(SECAO, "volume", opcoes.get("volume", 1.0))
@@ -64,6 +75,7 @@ static func salvar(opcoes: Dictionary, lado := 1) -> void:
 	config.set_value(SECAO, "layout_controle", opcoes.get("layout_controle", "auto"))
 	config.set_value(SECAO, "vibracao", opcoes.get("vibracao", true))
 	config.set_value(SECAO, "zoom", opcoes.get("zoom", 1.0))
+	config.set_value(SECAO, "escala_interface", opcoes.get("escala_interface", 1.0))
 	config.save(CAMINHO)
 
 ## O jogador fechou o quadro de controles (X): fica fechado nas próximas vezes que abrir o jogo
@@ -80,6 +92,8 @@ static func fechar_mini_tutorial() -> void:
 	config.save(CAMINHO)
 
 static func aplicar(opcoes: Dictionary, lado := 1) -> void:
+	var escala := float(opcoes.get("escala_interface", 1.0))
+	_escalas_interface[lado] = escala if escala in ESCALAS_INTERFACE else 1.0
 	var arvore_p2 := Engine.get_main_loop() as SceneTree
 	if lado == 2:
 		_zoom_p2 = float(opcoes.get("zoom", 1.0))

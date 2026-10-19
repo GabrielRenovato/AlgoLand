@@ -132,7 +132,7 @@ func _rodar() -> void:
 	verificar("missao mostra progresso recompensa e entrega", textos.contains("3 / 3") and textos.contains("20 BRASAS") and textos.contains("PRONTA PARA ENTREGAR"))
 	verificar("aba de missoes independente por jogador", not interface_p1._telas["inventario"]._aba_missoes)
 	await botao(40, JOY_BUTTON_LEFT_SHOULDER)
-	verificar("LB volta aos itens no jogador 2", not mochila._aba_missoes and mochila.get_node("Sidebar/Painel").visible)
+	verificar("LB volta aos itens no jogador 2", not mochila._aba_missoes and mochila._rolagem.visible)
 	await botao(40, JOY_BUTTON_RIGHT_SHOULDER)
 	verificar("RB abre missoes no jogador 2", mochila._aba_missoes and mochila._missoes.is_visible_in_tree())
 	await botao(40, JOY_BUTTON_DPAD_DOWN)

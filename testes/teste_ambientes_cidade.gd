@@ -113,7 +113,7 @@ func _rodar() -> void:
 		var detalhes := interior.find_children("DetalheAmbiente", "Node", true, false)
 		verificar("móveis preparados em escala nativa: " + id, not detalhes.is_empty())
 		for estacao in 4:
-			root.get_node("Calendario").dia = estacao * 7 + 1
+			root.get_node("Calendario").dia = estacao * 30 + 1
 			await quadros()
 			var corretos := true
 			for detalhe in detalhes:
@@ -127,8 +127,9 @@ func _rodar() -> void:
 		var lareira := interior.get_node_or_null("Lareira/Imagem")
 		if lareira != null:
 			verificar("chamas têm quadros distintos: " + id, quadros_distintos(lareira))
-			if id != "casa_bento":
-				root.get_node("Calendario").dia = 8
+			var detalhe := lareira.get_parent().get_node_or_null("DetalheAmbiente")
+			if detalhe != null and detalhe.dados.get("calor_sazonal", false):
+				root.get_node("Calendario").dia = 31
 				await quadros()
 				var apagada := true
 				for filho in lareira.get_parent().get_children():

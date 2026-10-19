@@ -169,7 +169,7 @@ func _testar_dados_das_plantas() -> void:
 			if cel.x * 16 + 16 > folha.get_width() or cel.y * 16 + 16 > folha.get_height():
 				problemas.append("%s: %s fora do All Crops" % [id, chave])
 		if int(d["dias"]) < 3 or int(d["dias"]) > 6:
-			problemas.append("%s: dias %d fora de 3..6 (a estacao tem 7)" % [id, d["dias"]])
+			problemas.append("%s: dias %d fora de 3..6" % [id, d["dias"]])
 		if d.has("venda") or d.has("semente"):
 			problemas.append("%s: plantas nao tem mais preco (sementes caem dos inimigos, colheita vira pocao)" % id)
 		if not (d["nome"] as String).to_upper() == d["nome"]:

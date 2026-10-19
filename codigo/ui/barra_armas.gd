@@ -11,7 +11,7 @@ extends Control
 ## Ao ir para uma arma de duas mãos (lança, arco) o escudo volta para a casa dele; ao voltar para uma de uma mão a barra o põe de novo.
 ## Na fazenda (modo_fazenda, ligado pelo HUD) é a MESMA barra: escolher a casa de uma ferramenta (enxada, regador, machadinha, picareta) ou de uma semente
 ## da estação a torna a ferramenta ativa (Fazenda.ferramenta, moldura branca); arma e escudo não fazem nada lá e ficam apagados, como
-## ferramentas e sementes na arena. Também mostra os avisos da fazenda (FORA DA AREA DE PLANTIO...).
+## as demais ferramentas e sementes na arena. A picareta pode ser selecionada para minerar os veios da arena. Tambem mostra os avisos da fazenda (FORA DA AREA DE PLANTIO...).
 
 const CENA_SLOT := preload("res://cenas/ui/componentes/slot_ui.tscn")
 const TEMA := preload("res://recursos/ui/tema_menu.tres")
@@ -36,6 +36,11 @@ const COR_APAGADO := Color(0.5, 0.5, 0.55, 0.8)
 
 ## Fazenda: as casas escolhem a ferramenta em vez da arma (definido pelo HUD antes de entrar na árvore)
 var modo_fazenda := false
+## Fileira da mochila que a barra mostra (como o Tab do Stardew): 0 = primeira. O botão FILEIRA passa para a seguinte
+var _fileira := 0
+var _pagina_barra := 0
+var _casas_por_pagina := 8
+var _botao_fileira: Button
 
 var _coluna: VBoxContainer
 var _nome: Label
@@ -51,6 +56,7 @@ func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	_montar()
+	resized.connect(_ajustar_paginacao)
 	EventosJogo.inventario_de(self).mochila_alterada.connect(_atualizar)
 	EventosJogo.inventario_de(self).equipamento_alterado.connect(_ao_equipamento_alterado)
 	EventosJogo.inventario_de(self).item_alterado.connect(_ao_item_alterado)
@@ -87,6 +93,7 @@ func _montar() -> void:
 	_coluna.offset_top = -5
 	_coluna.offset_bottom = -5
 	add_child(_coluna)
+	_coluna.resized.connect(_posicionar_coluna)
 	_nome = _novo_rotulo(COR_NOME, 10)
 	_nome.modulate.a = 0.0
 	_coluna.add_child(_nome)
@@ -97,6 +104,7 @@ func _montar() -> void:
 	_painel.add_theme_stylebox_override("panel", EstiloSlot.moldura_barra())
 	_coluna.add_child(_painel)
 	_linha = HBoxContainer.new()
+	_casas_por_pagina = EventosJogo.inventario_de(self).COLUNAS_MOCHILA
 	_linha.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_linha.alignment = BoxContainer.ALIGNMENT_CENTER
 	_linha.add_theme_constant_override("separation", ESPACO_ENTRE_CASAS)
@@ -105,6 +113,39 @@ func _montar() -> void:
 		var casa := _nova_casa(i)
 		_linha.add_child(casa)
 		_casas.append(casa)
+	if Controle.usando_toque:
+		# O celular não tem tecla/botão de fileira: um botão ao lado da barra passa para a próxima
+		var lado := LADO_SLOT * ESCALA_TOQUE
+		_botao_fileira = Button.new()
+		_botao_fileira.focus_mode = Control.FOCUS_NONE
+		_botao_fileira.custom_minimum_size = Vector2(lado, lado)
+		_botao_fileira.add_theme_font_size_override("font_size", 10)
+		_botao_fileira.add_to_group("toque_hud")
+		_botao_fileira.pressed.connect(proxima_linha)
+		_linha.add_child(_botao_fileira)
+	_ajustar_paginacao.call_deferred()
+
+func _ajustar_paginacao() -> void:
+	if _linha == null: return
+	var quantidade := _casas.size()
+	if Controle.usando_toque:
+		var escala := preload("res://codigo/ui/escala_interface.gd").fator(self)
+		var lado := LADO_SLOT * ESCALA_TOQUE
+		# Mantém uma fileira embaixo, com espaço para os polegares e o botão de página.
+		var disponivel := size.x - 288 / escala - 16 - lado - ESPACO_ENTRE_CASAS
+		quantidade = clampi(floori((disponivel + ESPACO_ENTRE_CASAS) / (lado + ESPACO_ENTRE_CASAS)), 1, _casas.size())
+	if quantidade != _casas_por_pagina:
+		_casas_por_pagina = quantidade
+		_pagina_barra = mini(_pagina_barra, _paginas_por_fileira() - 1)
+		_atualizar.call_deferred()
+	_posicionar_coluna.call_deferred()
+
+func _posicionar_coluna() -> void:
+	if not is_inside_tree(): return
+	_coluna.position = Vector2(floorf((size.x - _coluna.size.x) / 2.0), size.y - _coluna.size.y - 5)
+
+func _paginas_por_fileira() -> int:
+	return maxi(1,ceili(float(_casas.size()) / maxi(_casas_por_pagina,1)))
 
 func _novo_rotulo(cor: Color, tamanho: int) -> Label:
 	var rotulo := Label.new()
@@ -171,14 +212,46 @@ func _ao_equipamento_alterado(slot: String) -> void:
 func _ao_item_alterado(_item) -> void:
 	_atualizar()
 
-## Refaz as casas a partir da primeira linha da mochila (muda ao comprar, pegar, trocar, mover no inventário ou evoluir uma arma)
+## Índice da casa na mochila para a casa `i` da barra (na fileira que está à mostra)
+func _celula(i: int) -> int:
+	return _fileira * EventosJogo.inventario_de(self).COLUNAS_MOCHILA + _pagina_barra * _casas_por_pagina + i
+
+func _quantas_linhas() -> int:
+	return maxi(floori(float(EventosJogo.inventario_de(self).capacidade()) / EventosJogo.inventario_de(self).COLUNAS_MOCHILA), 1)
+
+## Passa pelas páginas da fileira e pelas fileiras da mochila, dando a volta.
+func proxima_linha() -> bool:
+	if _quantas_linhas() * _paginas_por_fileira() < 2:
+		return false
+	_pagina_barra += 1
+	if _pagina_barra >= _paginas_por_fileira():
+		_pagina_barra = 0
+		_fileira = (_fileira + 1) % _quantas_linhas()
+	_atualizar()
+	Sons.tocar("menu_mover", 0.0, -3.0)
+	_mostrar_nome("BARRA %d/%d" % [_fileira * _paginas_por_fileira() + _pagina_barra + 1, _quantas_linhas() * _paginas_por_fileira()], COR_NOME)
+	return true
+
+## Refaz as casas a partir da fileira à mostra da mochila (muda ao comprar, pegar, trocar, mover no inventário ou evoluir uma arma)
 func _atualizar() -> void:
 	if not is_node_ready():
 		return
+	var jogador := EventosJogo.dono(self)
+	if jogador != null and jogador.picareta_arena_ativa and EventosJogo.inventario_de(self).buscar_por_tipo("picareta") == null:
+		jogador.picareta_arena_ativa = false
+	_fileira = clampi(_fileira, 0, _quantas_linhas() - 1)
+	if _botao_fileira != null:
+		_botao_fileira.visible = _quantas_linhas() * _paginas_por_fileira() > 1
+		_botao_fileira.text = "%d/%d" % [_fileira * _paginas_por_fileira() + _pagina_barra + 1, _quantas_linhas() * _paginas_por_fileira()]
+	_ajustar_paginacao()
 	for i in _casas.size():
-		var item: DadosItem = EventosJogo.inventario_de(self).item_na_celula(i)
 		var casa := _casas[i]
+		casa.visible = i < _casas_por_pagina
+		if not casa.visible: continue
+		var dentro_da_fileira := _pagina_barra * _casas_por_pagina + i < _casas.size()
+		var item: DadosItem = EventosJogo.inventario_de(self).item_na_celula(_celula(i)) if dentro_da_fileira else null
 		var slot: Control = casa.get_node("Conteudo/Slot")
+		slot.indice = _celula(i)
 		slot.exibir(item)
 		casa.tooltip_text = _texto_da_casa(item)
 		var de_fazenda: bool = item != null and (item.categoria == "ferramenta" or item.categoria == "semente")
@@ -189,9 +262,17 @@ func _atualizar() -> void:
 			pode = item == null or (de_fazenda and Fazenda.ferramentas(_lado()).has(item.tipo))
 		else:
 			var em_uso: bool = item != null and EventosJogo.inventario_de(self).slot_de(item) != ""
-			_marcar(casa, em_uso and item.categoria == "arma", em_uso and item.categoria == "escudo")
-			# a arma que não dá para usar agora (arco sem aljava...) fica apagada; ferramenta e semente só servem na fazenda
-			pode = item == null or em_uso or (not de_fazenda and EventosJogo.inventario_de(self).pode_equipar(item))
+			var inv = EventosJogo.inventario_de(self)
+			_marcar(casa, (em_uso and item.categoria == "arma" and not inv.vara_na_mao) or (item != null and item.categoria == "vara" and inv.vara_na_mao), em_uso and item.categoria == "escudo")
+			var dono := EventosJogo.dono(self)
+			var picareta: bool = dono != null and dono.picareta_arena_ativa and inv.buscar_por_tipo("picareta") != null
+			if picareta: _marcar(casa,item!=null and item.tipo=="picareta",false)
+			# Armas indisponiveis e sementes ficam apagadas; a picareta tambem pode ser usada na arena.
+			pode = item == null or em_uso or (item.categoria == "vara") or (not de_fazenda and EventosJogo.inventario_de(self).pode_equipar(item))
+		pode = pode or (item != null and item.categoria == "receita")
+		if not modo_fazenda and item != null and item.tipo=="picareta":
+			var dono := EventosJogo.dono(self)
+			pode = dono != null and get_tree().get_nodes_in_group("mineracao_arena").any(func(no): return no.get_world_2d()==dono.get_world_2d())
 		slot.get_node("ItemUi/Icone").modulate = Color.WHITE if pode else COR_APAGADO
 		_mostrar_agua(casa, item)
 
@@ -219,6 +300,8 @@ func _mostrar_agua(casa: Control, item) -> void:
 func _texto_da_casa(item) -> String:
 	if item == null:
 		return ""
+	if item.empilhavel() and item.categoria != "semente":
+		return "%s x%d" % [item.nome(), item.quantidade]
 	if item.categoria == "semente":
 		return "%s x%d - CRESCE EM %s" % [item.nome(), item.quantidade, Fazenda.texto_crescimento(item.planta())]
 	if item.categoria == "ferramenta":
@@ -256,6 +339,10 @@ func _unhandled_input(evento: InputEvent) -> void:
 			if escolher(tecla - KEY_1):
 				get_viewport().set_input_as_handled()
 			return
+	if evento.is_action_pressed("fileira_proxima"):
+		if proxima_linha():
+			get_viewport().set_input_as_handled()
+		return
 	# No controle o RB troca a arma na arena; na fazenda o mesmo RB é a próxima ferramenta (plantio.gd)
 	if evento.is_action_pressed("arma_proxima") and not (modo_fazenda and evento is InputEventJoypadButton):
 		if trocar(1):
@@ -275,18 +362,46 @@ func _pode_trocar() -> bool:
 
 ## Usa o item da casa `indice` (0-based): arma equipa; escudo equipa ou guarda de novo. Devolve true se mudou algo
 func escolher(indice: int) -> bool:
-	if indice < 0 or indice >= _casas.size() or not _pode_trocar():
+	if indice < 0 or indice >= _casas_por_pagina or _pagina_barra * _casas_por_pagina + indice >= _casas.size() or not _pode_trocar():
 		return false
-	var item = EventosJogo.inventario_de(self).item_na_celula(indice)
+	var item = EventosJogo.inventario_de(self).item_na_celula(_celula(indice))
 	if item == null:
 		return false
+	if item.categoria == "receita":
+		var mensagem: String = EventosJogo.inventario_de(self).usar_receita(item)
+		Sons.tocar("menu_confirmar" if mensagem == "" else "erro", 0.0)
+		_mostrar_nome("RECEITA APRENDIDA" if mensagem == "" else mensagem, COR_NOME)
+		return mensagem == ""
 	if modo_fazenda:
 		return _escolher_na_fazenda(item)
+	var dono := EventosJogo.dono(self)
+	if item.tipo == "picareta" and get_tree().get_nodes_in_group("mineracao_arena").any(func(no): return no.get_world_2d()==dono.get_world_2d()):
+		if EventosJogo.inventario_de(self).vara_na_mao: EventosJogo.inventario_de(self).definir_vara_na_mao(false)
+		dono.picareta_arena_ativa = not dono.picareta_arena_ativa
+		_atualizar()
+		_mostrar_nome("PICARETA NA MAO" if dono.picareta_arena_ativa else "PICARETA GUARDADA",COR_NOME)
+		Sons.tocar("menu_confirmar",0)
+		return true
 	if item.categoria == "ferramenta" or item.categoria == "semente":
 		return false
+	if item.categoria in ["arma","escudo","vara"] and dono.picareta_arena_ativa:
+		dono.picareta_arena_ativa = false
+		_atualizar()
+		if item == EventosJogo.inventario_de(self).equipados.get("arma"):
+			Sons.tocar("menu_confirmar",0)
+			return true
+	if item.categoria == "vara":
+		return _usar_vara(item)
 	if item.categoria == "escudo":
 		return _usar_escudo(item)
-	if item.categoria != "arma" or item == EventosJogo.inventario_de(self).equipados.get("arma"):
+	if item.categoria != "arma":
+		return false
+	if item == EventosJogo.inventario_de(self).equipados.get("arma"):
+		# Já é a arma em uso: se a vara estava na mão, só guarda a vara
+		if EventosJogo.inventario_de(self).vara_na_mao:
+			EventosJogo.inventario_de(self).definir_vara_na_mao(false)
+			Sons.tocar("menu_confirmar", 0.0)
+			return true
 		return false
 	var escudo_antes = EventosJogo.inventario_de(self).equipados.get("escudo")
 	# Troca rápida: a arma muda na hora, sem a pose de guardar a anterior e sacar a nova
@@ -335,6 +450,14 @@ static func nome_da_ferramenta(tipo: String) -> String:
 func mostrar_aviso(texto: String) -> void:
 	_mostrar_nome(texto, COR_AVISO)
 
+## Vara de pesca: escolher a casa dela põe a vara na mão (e escolher de novo guarda); a arma volta ao escolher outra casa
+func _usar_vara(vara) -> bool:
+	var inventario = EventosJogo.inventario_de(self)
+	inventario.definir_vara_na_mao(not inventario.vara_na_mao)
+	Sons.tocar("menu_confirmar", 0.0)
+	_mostrar_nome("%s NA MAO" % vara.nome() if inventario.vara_na_mao else "VARA GUARDADA", COR_NOME)
+	return true
+
 ## Escudo: em uso, guarda de volta na casa dele; guardado, equipa (se a arma deixar)
 func _usar_escudo(escudo) -> bool:
 	if escudo == EventosJogo.inventario_de(self).equipados.get("escudo"):
@@ -361,11 +484,12 @@ func trocar(passo: int) -> bool:
 		return true
 	var casas_de_arma: Array[int] = []
 	var atual := -1
-	for i in _casas.size():
-		var item = EventosJogo.inventario_de(self).item_na_celula(i)
-		if item != null and item.categoria == "arma":
+	for i in mini(_casas_por_pagina, _casas.size() - _pagina_barra * _casas_por_pagina):
+		var item = EventosJogo.inventario_de(self).item_na_celula(_celula(i))
+		if item != null and (item.categoria == "arma" or item.categoria == "vara"):
 			casas_de_arma.append(i)
-			if item == EventosJogo.inventario_de(self).equipados.get("arma"):
+			var vara_na_mao: bool = EventosJogo.inventario_de(self).vara_na_mao
+			if (item.categoria == "vara" and vara_na_mao) or (item == EventosJogo.inventario_de(self).equipados.get("arma") and not vara_na_mao):
 				atual = casas_de_arma.size() - 1
 	if casas_de_arma.is_empty() or (casas_de_arma.size() == 1 and atual != -1):
 		return false

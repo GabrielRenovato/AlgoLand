@@ -1,0 +1,31 @@
+{
+  "pacote": "19.07a - Gentle Forest 3.0a ($0 palettes)",
+  "origem": "Seliel the Shaper; README original em origem.txt",
+  "mapas": {
+    "1": "v01 rabite forest",
+    "2": "v02 jungle of illusion",
+    "5": "v02 jungle of illusion, brejo",
+    "8": "v03 moonlight forest"
+  },
+  "grade": 16,
+  "arvores": {
+    "quadro": [
+      80,
+      96
+    ],
+    "pivo": [
+      40,
+      95
+    ],
+    "escala": 1,
+    "paletas": 3
+  },
+  "terrenos": "grama, trilhas com quatro cantos internos/externos, margens de água, penhascos completos",
+  "props": "troncos, tocos, raízes, flores e plantas originais",
+  "animacao_agua": "três quadros nativos; recursos personalizados na troca de estação",
+  "estacoes": "quatro folhas e árvores adaptadas de cada paleta, com neve só em vegetação/grama",
+  "preparador": "ferramentas/fendas/gentle_forest.py",
+  "controlador": "codigo/fendas/gentle_sazonal.gd",
+  "revisao": "Godot: quatro estações, detalhes e visão geral dos quatro mapas",
+  "recortes": "Plantas inteiras de32×32 em (0,160) no atlas adaptado; tronco caído completo (128,48,48,32) sem fundo de grama; mesas6×8 com topo nativo; copas com acabamento alfa nas bordas do quadro, sem mudar pivô."
+}

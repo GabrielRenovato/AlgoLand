@@ -273,9 +273,11 @@ func _rodar() -> void:
 
 	# ---- fazenda -> cidade pela trilha a leste -> arena
 	var caverna_fazenda: Node = fazenda.get_node("Terrains/PassagemCidade")
+	Input.action_press("move_right")
 	await _ir_para_zona(caverna_fazenda)
-	_verificar("trilha da cidade: zona ativa", caverna_fazenda.jogador_perto and caverna_fazenda.disponivel_para_interacao(), "")
-	caverna_fazenda.abrir_tela()
+	Input.action_release("move_right")
+	await _quadros(2)
+	_verificar("trilha da cidade inicia a travessia automaticamente", _transicao.ocupada, "")
 	_verificar("cidade carregada ao sair da fazenda", await _esperar(_transicao.troca_concluida) and current_scene.name == "cidade")
 	await _quadros(4)
 	_transicao.entrar_na_arena()
@@ -293,7 +295,7 @@ func _rodar() -> void:
 	_verificar("arena: vida (61), totem, mochila e equipamento intactos", jogador.hp_atual == 61 and jogador.estatisticas.forca == forca_antes + 3 and _inventario.mochila.size() == mochila_antes and _equipados() == equipados_antes, "hp=%d" % jogador.hp_atual)
 	_verificar("arena: sem morte, sem fim de partida", _mortes == 0 and _progresso.ultimo_resultado.is_empty() and not jogador.estaMorto, "")
 	_verificar("arena: estacao do calendario (verao, dia 31)", arena.get_node("Terrains/Estacoes").estacao_atual == 1, "")
-	_verificar("arena: HUD mostra ONDA 3 e a data", get_nodes_in_group("hud")[0].rotulo_onda.text == "ONDA 3" and get_nodes_in_group("hud")[0].rotulo_data.text == "QUA  VERAO - DIA 1", get_nodes_in_group("hud")[0].rotulo_onda.text)
+	_verificar("fenda: HUD mostra ANDAR 3 e a data", get_nodes_in_group("hud")[0].rotulo_onda.text == "ANDAR 3" and get_nodes_in_group("hud")[0].rotulo_data.text == "QUA  VERAO - DIA 1", get_nodes_in_group("hud")[0].rotulo_onda.text)
 	_verificar("arena: Transicao livre (sem fade preso)", not _transicao.ocupada and not _transicao.esta_escuro() and not _transicao.retornando, "")
 	# A onda 3 ainda comeca normalmente e o evento nao quebra
 	gerenciador.iniciar_onda()

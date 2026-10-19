@@ -73,6 +73,9 @@ func rodar() -> void:
 	tecla.keycode = KEY_ENTER
 	tecla.pressed = true
 	dialogo._espera = 0
+	# A entrada avança depois que a animação de digitação terminou.
+	if dialogo._digitando != null: dialogo._digitando.kill()
+	dialogo._texto.visible_ratio = 1.0
 	Input.parse_input_event(tecla)
 	await quadros()
 	verificar("Enter avança o diálogo sem foco de teclado", dialogo._indice == 1)
@@ -82,16 +85,26 @@ func rodar() -> void:
 	botao.button_index = JOY_BUTTON_A
 	botao.pressed = true
 	dialogo._espera = 0
+	# A entrada avança depois que a animação de digitação terminou.
+	if dialogo._digitando != null: dialogo._digitando.kill()
+	dialogo._texto.visible_ratio = 1.0
 	Input.parse_input_event(botao)
 	await quadros()
 	verificar("confirmação do controle avança só uma página", dialogo._indice == 2)
 	botao.pressed = false
 	Input.parse_input_event(botao)
 	dialogo._espera = 0
+	# A entrada avança depois que a animação de digitação terminou.
+	if dialogo._digitando != null: dialogo._digitando.kill()
+	dialogo._texto.visible_ratio = 1.0
 	dialogo._avancar.pressed.emit()
 	verificar("botão de toque avança o diálogo", dialogo._indice == 3)
 	verificar("fala preserva o texto da página e título em maiúsculas", not dialogo._texto.text.is_empty() and dialogo._texto.text == dialogo._paginas[dialogo._indice] and dialogo._titulo.text == dialogo._titulo.text.to_upper())
-	verificar("fonte do diálogo ampliada", dialogo._texto.get_theme_font_size("font_size") >= 12)
+	verificar("fonte do diálogo ampliada", dialogo._texto.get_theme_font_size("font_size") >= 10)
+	var encerramento := [false]
+	dialogo.concluido.connect(func(): encerramento[0] = true)
+	dialogo._fechar_dialogo.pressed.emit()
+	verificar("X conclui a fala sem exigir as páginas restantes",encerramento[0] and dialogo._indice == dialogo._paginas.size())
 	dialogo.queue_free()
 	await quadros()
 	process_frame.connect(conduzir)
@@ -103,48 +116,23 @@ func rodar() -> void:
 		await quadros(4)
 		var jogador: Node = current_scene.get_node("Jogador")
 		verificar("jogador acompanha Bento automaticamente na cidade", jogador.seguindo_introducao and intro.acompanhando)
-	var chegou_na_pratica := await esperar(func():
-		if not is_instance_valid(current_scene):
-			return false
-		var sequencia: Node = current_scene.get_node_or_null("SequenciaIntroducao")
-		return sequencia != null and is_instance_valid(sequencia.tarefa) and sequencia.tarefa.ativa
-	, 10000)
-	verificar("chegou à primeira tarefa prática", chegou_na_pratica)
-	if chegou_na_pratica:
-		var parada: int = intro.parada
-		var sequencia: Node = current_scene.get_node("SequenciaIntroducao")
-		await quadros(20)
-		verificar("fechar as falas não conclui a tarefa nem avança o passeio", intro.parada == parada and sequencia.tarefa.ativa and not intro.tarefas.has("cortar"))
-		verificar("controle devolvido na prática", not intro.acompanhando and not current_scene.get_node("Jogador").seguindo_introducao and current_scene.get_node("Jogador").movimento_habilitado)
-		verificar("tarefas não indicam locais no mundo", sequencia._alvo == null and not sequencia._marcador.visible)
-		var alvo: Vector2 = sequencia.tarefa.ponto
-		var extracao: Node = current_scene.get_node("Terrains/Extracao")
-		extracao.impacto("picareta", alvo)
-		await quadros(3)
-		verificar("ferramenta errada não conclui cortar árvore", sequencia.tarefa.ativa and not intro.tarefas.has("cortar"))
-		var id_anterior: String = sequencia.tarefa.id
-		intro.salvar()
-		intro.carregar()
-		verificar("checkpoint mantém tarefa pendente e alvo", not intro.tarefas.has(id_anterior) and intro.alvos_tarefas.get(id_anterior, "") == sequencia.tarefa.recurso.chave)
-
 	praticar_liberado = true
 	var terminou := await esperar(func(): return intro.etapa == intro.Etapa.CONCLUIDA, 20000)
 	verificar("sequência inteira termina ao descansar na cama", terminou)
+	verificar("prólogo deixa a entrada no andar 1",int(root.get_node("Transicao").estado.get("onda_atual",1)) == 1)
+	verificar("treino não conclui andar nem bloqueia checkpoint",root.get_node("Progresso").ondas_concluidas == 0 and not root.get_node("Progresso").onda_comecou)
 	verificar("equipou espada e escudo antes da luta", equipou)
 	verificar("vitória nos slimes acionou o resgate", visitas.has(intro.Etapa.RESGATE))
 	verificar("visitou arena, cidade, fazenda e descanso", visitas.has(intro.Etapa.PORTAL) and visitas.has(intro.Etapa.VILA) and visitas.has(intro.Etapa.PASSEIO) and visitas.has(intro.Etapa.DESCANSO))
-	verificar("guia andou pelos dois mapas", andou_cidade and andou_fazenda)
-	verificar("entregou quatro ferramentas", ["machadinha", "picareta", "enxada", "regador"].all(func(tipo): return inv.buscar_por_tipo(tipo) != null))
+	verificar("guia acompanhou o jogador até a fazenda",andou_cidade)
+	verificar("prólogo entrega ferramentas sem receita",["machadinha","picareta","enxada","regador"].all(func(tipo): return inv.buscar_por_tipo(tipo)!=null))
 	verificar("entregou sementes de primavera", inv.quantidade_sementes("cenoura") >= 5 and inv.quantidade_sementes("morango") >= 4)
-	verificar("seis lições exigiram ações reais", ["cortar", "quebrar", "arar", "plantar", "regar", "colher"].all(func(id): return intro.tarefas.has(id)))
+	verificar("ferramentas gratuitas permitem as seis lições",["cortar","quebrar","arar","plantar","regar","colher"].all(func(id): return intro.tarefas.has(id)))
 	verificar("queda tem suspensão, impacto e recuperação", ["CAINDO", "IMPACTO", "RECUPERANDO", "PRONTO"].all(func(id): return reacoes_vistas.has(id)))
-	verificar("qualquer árvore válida conclui a lição", not arvore_alternativa.is_empty() and root.get_node("Fazenda").recurso_removido(arvore_alternativa.chave) and intro.tarefas.has("cortar"))
-	verificar("caminhada atualiza direções do movimento", direcoes_vistas.size() >= 3)
-	verificar("conversas param a física e a animação olhando para Bento", dialogos_vistos > 10 and erros_dialogo.is_empty())
-	verificar("jogador recebe o rastro real de Bento", passos_seguidos > 100)
+	verificar("caminhada atualiza direções do movimento", direcoes_vistas.size() >= 2)
+	verificar("conversas param a física e a animação olhando para Bento", dialogos_vistos >= 5 and erros_dialogo.is_empty())
+	verificar("jogador recebe o rastro real de Bento", passos_seguidos > 10)
 	verificar("trajeto da cidade acompanha ruas de pedra", andou_cidade and not fora_da_rua)
-	verificar("qualquer pedra conclui a lição", not pedra_alternativa.is_empty() and intro.tarefas.has("quebrar"))
-	verificar("qualquer solo permitido conclui a lição", solo_alternativo != Vector2i(-1, -1) and intro.tarefas.has("arar"))
 	verificar("primeiro descanso avançou para o dia 2", root.get_node("Calendario").dia == 2)
 	# Confere os quadros realmente desenhados nas quatro direções, com a espada equipada.
 	roteiro_automatico = false

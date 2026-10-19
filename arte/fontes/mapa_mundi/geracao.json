@@ -1,0 +1,52 @@
+{
+  "tipo": "ilustracao de interface; mapa de consulta, sem viagem rapida",
+  "dimensoes": [
+    1536,
+    1024
+  ],
+  "grade": "pixel art ilustrada; nao e TileMap",
+  "pivo": "centro do painel; proporcao preservada",
+  "base_fisica": "nao se aplica a interface",
+  "variantes": "carta permanente ilustrada; nao representa a estacao atual",
+  "referencias": [
+    "arte/previas/fazenda/tiny/original_geral.png",
+    "arte/previas/forja/cidade_0.png",
+    "arte/previas/praia/praia_refinada.png"
+  ],
+  "recurso": "assets/ui/mapa_mundi/algoland.png",
+  "consumidor": "codigo/ui/tela_mapa_mundi.gd",
+  "ferramenta": "image_gen integrado",
+  "prompt": "Use case: stylized-concept.\nAsset type: illustrated world map BACKGROUND for an existing Brazilian pixel-art farming RPG AlgoLand. It is a flat UI illustration, not a playable TileMap, no seasonal variants required. Output landscape 1536x1024, opaque, no text whatsoever.\nReferences: first attached image is actual farm layout, second is actual village layout, third actual beach. Use these as geography and architecture references only. Remove all HUD, people, overlays and combat portal.\nPrimary request: create ONE coherent, attractive miniature world-map illustration joining those three real locations into one continuous landscape, in clean deliberate pixel art with crisp pixel clusters, selective dark outlines, warm wood, natural greens and azure sea. Elevated top-down 3/4 cartographic viewpoint, consistent scale, readable silhouettes; like an illustrated RPG travel map. No parchment or border, image is terrain edge to edge.\nGeography is mandatory: FARM occupies LEFT HALF, approximately x .03-.44 and y .10-.65. Its orange-roof timber farmhouse sits upper left of farm, a fenced crop plot below, small pond at lower right of farm, scattered orchard trees. A dirt road goes east from farm to the VILLAGE in UPPER RIGHT (x .49-.96, y .08-.62). The farm is west of the village, not above it.\nVILLAGE: exactly seven distinguishable small buildings around a central fountain and stone streets, matching reference arrangement: forge chimney northwest, broad blue-roof community hall north-center, produce shop west-middle, green-roof infirmary east-middle, straw-roof Bento cottage southwest, orange-roof inn south-middle-left, purple-roof mystic house southeast. Small gazebo south-middle-right near inn, town noticeboard by fountain. No eighth building. River at far east edge if room. Omit the glowing portal entirely.\nA single stone/dirt footpath runs south from village to the BEACH at LOWER RIGHT (x .50-.97,y .65-.98). Sandy shore, a few palm trees, sea entering bottom and right edges. A timber fishing pier extends into water southward with crosswalk, and ONE orange-roof fisherman stilt house on the eastern/right pier platform (around x .88,y .88). This is Nilo's palafita. Keep all piers supported, connected to shore.\nForest surrounds the farm and northern village; use forested land in lower-left to make a pleasing connected composition without adding any destination. Do not invent mountains, castles, islands, dungeons, roads to other areas or other towns. No arena, no arena gate, no rifts or portals.\nKeep geographic landmarks easy to see at small in-game display size. Flat image, no perspective page mockup, no frame, no legend, no compass, no lettering, no pins, no numbers, no UI buttons. We'll add all interface labels in code.",
+  "icones_originais": {
+    "recurso": "assets/ui/mapa_mundi/servicos.png",
+    "fonte": "arte/fontes/mapa_mundi/servicos_gerados.png",
+    "prompt": "arte/fontes/mapa_mundi/icones_geracao.json"
+  },
+  "edicoes": [
+    {
+      "tipo": "remocao localizada de objetos",
+      "ferramenta": "image_gen integrado",
+      "fonte_original": "arte/fontes/mapa_mundi/base_gerada.png",
+      "fonte_editada": "arte/fontes/mapa_mundi/sem_postes_gerado.png",
+      "alteracao": "Remover os dois lampioes da praia, de ambos os lados da entrada do pier central, preservando a vila, a fazenda e as coordenadas dos marcos.",
+      "dimensoes": [
+        1536,
+        1024
+      ],
+      "regioes_aproximadas": [
+        [
+          966,
+          695,
+          40,
+          76
+        ],
+        [
+          1128,
+          695,
+          48,
+          76
+        ]
+      ]
+    }
+  ]
+}

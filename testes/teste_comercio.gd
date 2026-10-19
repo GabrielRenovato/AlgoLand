@@ -28,6 +28,21 @@ func _executar() -> void:
 	saves.trocar("solo")
 	introducao.pular_prologo()
 	comercio.apagar()
+	# Retorno sem espaço preserva a carga e permite vender, sem criar estoque virtual.
+	var mochila := root.get_node("InventarioJogador")
+	mochila.limpar()
+	for i in mochila.capacidade():
+		mochila.mochila[i] = DadosItem.de_coletavel("material", "madeira", 1)
+	comercio.em_viagem = true
+	comercio.eventos.assign(["roda"])
+	comercio.etapa = 2
+	comercio.carga.assign([{"chave":"pocao:cura", "lado":1}])
+	comercio.voltar()
+	verificar(comercio.em_viagem and comercio.carga.size() == 1 and fazenda.quantidade_pocoes("cura") == 0, "mochila cheia preserva produto na carga")
+	verificar(comercio.etapa == comercio.eventos.size() and comercio.vender(0, 1) > 0, "retorno bloqueado permite vender o produto restante")
+	mochila.limpar()
+	mochila.criar_itens_iniciais()
+	comercio.apagar()
 	comercio.definir_pelagem(0)
 	comercio.carregar()
 	verificar(comercio.pelagem == 0, "pelagem preta persiste no save")
@@ -65,7 +80,8 @@ func _executar() -> void:
 	comercio.etapa = comercio.eventos.size()
 	verificar(comercio.vender(0, 1) == 0, "P1 nao vende a unidade do P2")
 	verificar(comercio.vender(0, 2) == 12, "P2 vende seu produto")
-	calendario.dia = 8
+	# A semana 5 cai no verão; o segundo produto é tomate.
+	calendario.dia = 36
 	verificar(comercio.pedidos().has("colheita:tomate"), "demanda acompanha semana e estacao")
 	verificar(comercio.atendidos.is_empty(), "cotas reiniciam na nova semana")
 	comercio.em_viagem = false
@@ -102,7 +118,7 @@ func _executar() -> void:
 	luz.definir_hora(12)
 	var estacoes := current_scene.get_node("Terrains/Estacoes")
 	for estacao in 4:
-		calendario.dia = estacao * 7 + 1
+		calendario.dia = estacao * 30 + 1
 		calendario.estacao_mudou.emit(estacao)
 		call_group("hud", "atualizar_data")
 		estacoes.definir_estacao(estacao, true)

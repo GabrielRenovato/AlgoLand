@@ -1,0 +1,33 @@
+{
+  "tipo": "icones originais de servico para interface",
+  "funcao": "identificar as casas no mapa-mundi",
+  "referencia": "linguagem pixel art de AlgoLand; icones anteriores rejeitados por pouca nitidez",
+  "dimensoes_pedidas": [
+    1536,
+    1536
+  ],
+  "dimensoes_recebidas": [
+    1254,
+    1254
+  ],
+  "grade": [
+    3,
+    3
+  ],
+  "nativo_planejado": [
+    16,
+    16
+  ],
+  "exibicao": [
+    12,
+    12
+  ],
+  "pivo": "centro da silhueta; recorte automatico da transparencia por celula",
+  "base_fisica": "interface, sem colisao",
+  "variantes": "nove servicos; sem variantes sazonais por ser interface",
+  "fonte": "arte/fontes/mapa_mundi/servicos_gerados.png",
+  "recurso": "assets/ui/mapa_mundi/servicos.png",
+  "consumidor": "codigo/ui/icone_servico_mapa.gd",
+  "ferramenta": "image_gen integrado",
+  "prompt": "Use case: stylized-concept. Asset type: custom pixel-art minimap service icon atlas for AlgoLand farming RPG UI, NEW original designs.\nProduce exactly 1536x1536 PNG with TRANSPARENT background. Nine isolated icons in an exact regular 3x3 grid, each cell 512x512. Each cell represents a NATIVE 16x16 pixel icon enlarged precisely 32x with nearest-neighbor block edges. Draw at native sixteen-pixel logic: hard square pixel clusters, no antialiasing, no smooth outlines, no subpixel lines, no painterly texture. Each design fits inside a centered 12x12 native pixel footprint (384x384 in its cell), leaving two native pixels transparent padding on each edge. No grid lines, no labels, no text, no numbers, no badges, no frames, no circles or square backgrounds. Each of the nine cells must be independently readable at 12–16 screen pixels.\nStyle: polished coherent colorful pixel RPG minimap pictograms, strong dark warm outline one native pixel thick, bright cream highlight on top left, simple two-tone material shading, limited palette per icon. Similar visual care as a classic 16-bit farm RPG UI. Shapes must convey the building service immediately and remain crisp at tiny size. User disliked large crude abstract symbols and reused blurry clipart. These must be newly authored and intuitive.\nGrid exact row-major positions:\nROW1 COL1: warm orange-roof little farmhouse, cream wall and dark brown doorway (player home).\nROW1 COL2: silver blacksmith hammer diagonally crossing a squat dark iron anvil, small warm gold highlight (forge). Recognizable hammer head, no pickaxe.\nROW1 COL3: cream open book with two symmetric pages and a tiny gold clasp at bottom (community quests).\nROW2 COL1: brown merchant shopping bag with gold coin at its front and visible loop handle (general store).\nROW2 COL2: thick bright red medical cross with small cream highlight, clean equal arms (infirmary).\nROW2 COL3: tiny side-view wooden bed, cream pillow at left and teal blanket on right, two short legs (inn).\nROW3 COL1: small sprouting green seedling with two leaves above a warm brown plant pot (farmer Bento's house/garden).\nROW3 COL2: bright golden four-point magic star over a small purple crescent, simple broad shapes (mystic).\nROW3 COL3: turquoise fish with visible tail and one white eye next to a simple brass fishhook (fishing shop).\nIMPORTANT: only these nine icons. Exactly 3 columns and 3 rows, centered at x=256,768,1280 and y=256,768,1280. Transparent everywhere outside icon silhouettes; dark outline follows each object silhouette, never a square tile. No drop shadows separate from silhouettes. Not a map illustration, not a mockup. Transparent sprite atlas only."
+}

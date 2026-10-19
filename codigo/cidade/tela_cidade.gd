@@ -5,11 +5,14 @@ const TEMA := preload("res://recursos/ui/tema_sidebar.tres")
 var modo_mural := false
 var modo_desafio := false
 var painel: PanelContainer
+var _entrada_portal: Button
 var _lista: VBoxContainer
 var _titulo: Label
 var _fala: Label
 var _botoes: Array[Button] = []
 var _aviso := ""
+var _aba_mural := 0
+var _abas_mural: Array[Button] = []
 ## Lista rolável (mural, portal). No controle: o foco puxa a rolagem, o analógico direito rola e, no primeiro ou no
 ## último botão, o direcional continua rolando o texto que não tem botão
 var _rolagem: ScrollContainer
@@ -23,12 +26,7 @@ func _ready() -> void:
 	painel = PanelContainer.new()
 	painel.name = "Painel"
 	painel.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-	var moldura := StyleBoxTexture.new()
-	moldura.texture = preload("res://assets/ui/craftpix-net-420010-pixel-game-user-interface-for-platformer/1 Interface/TileMap.png")
-	moldura.region_rect = Rect2(96, 64, 48, 48)
-	for lado in [SIDE_LEFT, SIDE_TOP, SIDE_RIGHT, SIDE_BOTTOM]:
-		moldura.set_texture_margin(lado, 16)
-		moldura.set_content_margin(lado, 8)
+	var moldura := preload("res://codigo/ui/estilo_interface.gd").painel(false, 8.0)
 	painel.add_theme_stylebox_override("panel", moldura)
 	painel.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
 	painel.offset_left = -260
@@ -38,7 +36,7 @@ func _ready() -> void:
 	add_child(painel)
 	var margem := MarginContainer.new()
 	for lado in ["left", "right", "top", "bottom"]:
-		margem.add_theme_constant_override("margin_" + lado, 8)
+		margem.add_theme_constant_override("margin_" + lado, 0 if modo_desafio else (4 if modo_mural else 8))
 	painel.add_child(margem)
 	var coluna := VBoxContainer.new()
 	coluna.add_theme_constant_override("separation", 4)
@@ -51,20 +49,45 @@ func _ready() -> void:
 	_titulo.add_theme_color_override("font_color", Color(1, 0.85, 0.5))
 	cabecalho.add_child(_titulo)
 	var fechar := Button.new()
-	fechar.text = "FECHAR"
+	fechar.text = "X" if modo_mural else "FECHAR"
+	fechar.custom_minimum_size = Vector2(32,32) if modo_mural else (Vector2(28,28) if modo_desafio else Vector2.ZERO)
 	fechar.pressed.connect(_fechar)
 	cabecalho.add_child(fechar)
+	if modo_mural:
+		var abas := HBoxContainer.new()
+		abas.add_theme_constant_override("separation",4)
+		coluna.add_child(abas)
+		var grupo := ButtonGroup.new()
+		for indice in 2:
+			var aba := Button.new()
+			aba.text = "PEDIDOS" if indice == 0 else "HOJE NA VILA"
+			aba.theme_type_variation = &"BotaoAba"
+			aba.toggle_mode = true
+			aba.button_group = grupo
+			aba.button_pressed = indice == _aba_mural
+			aba.custom_minimum_size.y = 32 if Controle.usando_toque else 26
+			aba.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			aba.pressed.connect(_trocar_aba_mural.bind(indice))
+			abas.add_child(aba)
+			_abas_mural.append(aba)
 	var rolagem := ScrollContainer.new()
 	rolagem.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	rolagem.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	rolagem.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_SHOW_NEVER
+	rolagem.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO if modo_mural else ScrollContainer.SCROLL_MODE_SHOW_NEVER
 	rolagem.follow_focus = true
 	_rolagem = rolagem
 	coluna.add_child(rolagem)
+	preload("res://codigo/ui/indicador_rolagem.gd").ligar(rolagem)
 	_lista = VBoxContainer.new()
 	_lista.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_lista.add_theme_constant_override("separation", 6)
 	rolagem.add_child(_lista)
+	if modo_desafio:
+		_entrada_portal = Button.new()
+		_entrada_portal.theme_type_variation = &"BotaoPrimario"
+		_entrada_portal.custom_minimum_size.y = 28
+		_entrada_portal.pressed.connect(_iniciar_desafio)
+		coluna.add_child(_entrada_portal)
 	visibility_changed.connect(_ao_visibilidade)
 	Cidade.alterado.connect(_ao_estado)
 	Cidade.conversa_pedida.connect(_ao_conversa)
@@ -109,6 +132,10 @@ func _ajustar_largura() -> void:
 	var largura := minf(520.0, maxf(size.x - 16.0, 0.0))
 	painel.offset_left = -largura / 2.0
 	painel.offset_right = largura / 2.0
+	if modo_mural or modo_desafio:
+		var altura := minf(340.0 if modo_desafio else 300.0,maxf(size.y-16.0,0.0))
+		painel.offset_top = -8.0-altura
+		painel.offset_bottom = -8.0
 
 func _ao_visibilidade() -> void:
 	if visible:
@@ -152,29 +179,27 @@ func _botao(texto: String, acao: Callable, desativado := false) -> Button:
 func _atualizar() -> void:
 	_limpar()
 	if modo_desafio:
-		_titulo.text = "PORTAL DA ARENA"
+		_titulo.text = "FENDA DO BOSQUE"
+		var papel := PanelContainer.new()
+		papel.add_theme_stylebox_override("panel",preload("res://codigo/ui/estilo_interface.gd").painel(true,8.0))
+		_lista.add_child(papel)
+		var mapa := preload("res://codigo/ui/mapa_jornada_arena.gd").new()
+		mapa.modo_andares = true
+		mapa.preparar(maxi(Progresso.recorde_onda,Progresso.onda_maxima),_onda_do_portal())
+		papel.add_child(mapa)
 		var jogador := EventosJogo.dono(self)
-		if jogador != null:
-			_texto("ONDA %d. Prepare seus equipamentos e pocoes antes de entrar. O portal leva voce para a arena e a onda comeca na chegada. Ao vencer, voce escolhe melhorias e decide entre a proxima onda e a volta para a cidade." % _onda_do_portal())
-			var armado: bool = jogador.usando_espada or jogador.usando_lanca or jogador.usando_arco
-			_botao("ENTRAR NO PORTAL", _iniciar_desafio, not armado)
-			if not armado:
-				_texto("Equipe uma arma na mochila para enfrentar a arena.")
+		var armado: bool = jogador != null and (jogador.usando_espada or jogador.usando_lanca or jogador.usando_arco)
+		_texto("Explore o bosque. Derrote grupos para completar a barra e invocar o guardiao. Elites valem mais progresso.")
+		_entrada_portal.text = "ENTRAR / ANDAR %d" % _onda_do_portal()
+		_entrada_portal.disabled = not armado
+		_botoes.append(_entrada_portal)
+		if not armado: _texto("EQUIPE UMA ARMA NA MOCHILA PARA ENTRAR.")
+		Sons.ligar_botoes(self)
 		return
 	if modo_mural:
-		_titulo.text = "MURAL DE PEDIDOS - VILA DAS FLORES"
-		_texto("Aceite os pedidos aqui. Para entregar e receber a recompensa, converse com quem fez o pedido.")
-		_texto("HOJE NA VILA", Color(1, 0.85, 0.5))
-		var luz := Cooperativo.cena_de(self).get_node_or_null("Iluminacao")
-		var hora: float = luz.hora if luz != null else 6.0
-		for id in Dados.MORADORES:
-			var agenda := Dados.agenda(id, hora, Calendario.estacao(), -1, Calendario.dia_da_semana())
-			var nome_local: String = {"cidade":"PRACA","praia":"PRAIA","palafita":"PESCARIA DO NILO"}.get(agenda["local"],Dados.PREDIOS.get(agenda["local"],{}).get("nome",String(agenda["local"]).to_upper()))
-			_texto("%s: %s - %s" % [Dados.MORADORES[id]["nome"], nome_local, agenda["atividade"]])
-		if Calendario.dia_na_estacao() == Calendario.DIAS_POR_ESTACAO:
-			_texto("FESTA DA ESTACAO: os vizinhos enfeitaram a praca!", Color(1, 0.8, 0.4))
-		if Calendario.dia_da_semana() == int(Dados.EVENTOS["festa_sabado"]["dia_semana"]):
-			_texto("HOJE: FESTA NA TAVERNA a partir das %dh. Toda a vila vai estar la!" % int(Dados.EVENTOS["festa_sabado"]["inicio"]), Color(1, 0.8, 0.4))
+		_montar_mural()
+		Sons.ligar_botoes(self)
+		return
 	else:
 		var id := Cidade.interlocutor
 		if not Dados.MORADORES.has(id):
@@ -200,6 +225,73 @@ func _atualizar() -> void:
 	if _aviso != "":
 		_texto(_aviso, Color(0.65, 1, 0.65))
 	Sons.ligar_botoes(self)
+
+func _trocar_aba_mural(indice: int) -> void:
+	_aba_mural = indice
+	for i in _abas_mural.size():
+		_abas_mural[i].set_pressed_no_signal(i == indice)
+	_rolagem.scroll_vertical = 0
+	_atualizar()
+
+func _montar_mural() -> void:
+	_titulo.text = "MURAL DE PEDIDOS"
+	if _aba_mural == 1:
+		_montar_agenda_mural()
+		return
+	var dica := _texto("Aceite aqui. Entregue o pedido ao morador.")
+	dica.add_theme_font_size_override("font_size",8)
+	var pedidos: Array = Dados.MISSOES.keys().filter(func(id): return Cidade.missoes.has(id) or Dados.missao_na_estacao(id,Calendario.estacao()))
+	var ordem := {"aceita":0,"disponivel":1,"concluida":2}
+	pedidos.sort_custom(func(a,b): return ordem[Cidade.missoes.get(a,{}).get("estado","disponivel")] < ordem[Cidade.missoes.get(b,{}).get("estado","disponivel")])
+	for id in pedidos:
+		_cartao_pedido(id)
+
+func _rotulo_cartao(pai: Node, texto: String, cor := Color("493629"), tamanho := 9) -> Label:
+	var rotulo := Label.new()
+	rotulo.text = texto
+	rotulo.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	rotulo.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	rotulo.add_theme_color_override("font_color",cor)
+	rotulo.add_theme_font_size_override("font_size",tamanho)
+	pai.add_child(rotulo)
+	return rotulo
+
+func _novo_cartao() -> VBoxContainer:
+	var cartao := PanelContainer.new()
+	cartao.mouse_filter = Control.MOUSE_FILTER_PASS
+	cartao.add_theme_stylebox_override("panel",preload("res://codigo/ui/estilo_interface.gd").painel(true,9.0))
+	_lista.add_child(cartao)
+	var linhas := VBoxContainer.new()
+	linhas.add_theme_constant_override("separation",5)
+	cartao.add_child(linhas)
+	return linhas
+
+func _cartao_pedido(id: String) -> void:
+	var cartao := preload("res://codigo/ui/cartao_pedido.gd").criar(id,Cidade)
+	_lista.add_child(cartao)
+	if Cidade.missoes.get(id,{}).get("estado","disponivel") == "disponivel":
+		var aceitar := Button.new()
+		aceitar.text = "ACEITAR PEDIDO"
+		aceitar.theme_type_variation = &"BotaoPrimario"
+		aceitar.custom_minimum_size.y = 32 if Controle.usando_toque else 26
+		aceitar.pressed.connect(_aceitar.bind(id))
+		cartao.get_node("Conteudo").add_child(aceitar)
+		_botoes.append(aceitar)
+
+func _montar_agenda_mural() -> void:
+	_texto("Encontre os moradores da Vila das Flores.")
+	var luz := Cooperativo.cena_de(self).get_node_or_null("Iluminacao")
+	var hora: float = luz.hora if luz != null else 6.0
+	if Calendario.dia_na_estacao() == Calendario.DIAS_POR_ESTACAO:
+		_texto("FESTA DA ESTACAO NA PRACA!",Color("f6d581"))
+	if Calendario.dia_da_semana() == int(Dados.EVENTOS["festa_sabado"]["dia_semana"]):
+		_texto("FESTA NA TAVERNA A PARTIR DAS %dh." % int(Dados.EVENTOS["festa_sabado"]["inicio"]),Color("f6d581"))
+	for id in Dados.MORADORES:
+		var agenda := Dados.agenda(id,hora,Calendario.estacao(),-1,Calendario.dia_da_semana())
+		var local: String = {"cidade":"PRACA","praia":"PRAIA","palafita":"PESCARIA DO NILO"}.get(agenda["local"],Dados.PREDIOS.get(agenda["local"],{}).get("nome",String(agenda["local"]).to_upper()))
+		var linhas := _novo_cartao()
+		_rotulo_cartao(linhas,Dados.MORADORES[id]["nome"]+" - "+local,Color("493020"),9)
+		_rotulo_cartao(linhas,agenda["atividade"],Color("805532"),8)
 
 func _montar_servico(id: String, morador: Dictionary) -> void:
 	var servico: String = morador["servico"]
@@ -275,6 +367,9 @@ func _iniciar_desafio() -> void:
 	Transicao.entrar_na_arena()
 
 func focar_inicio() -> void:
+	if modo_mural and _botoes.is_empty():
+		Controle.focar(_abas_mural[_aba_mural])
+		return
 	for botao in _botoes:
 		if not botao.disabled:
 			Controle.focar(botao)

@@ -1,0 +1,33 @@
+{
+  "versao": 1,
+  "referencia": "assets/npcs/cidade/tomas.png",
+  "quadro": [
+    64,
+    64
+  ],
+  "grade": [
+    7,
+    4
+  ],
+  "pes_y": 44,
+  "altura": 31,
+  "direcoes": [
+    "baixo",
+    "direita",
+    "cima",
+    "esquerda"
+  ],
+  "camadas": {
+    "corpo": "camadas/adulto_avental_corpo.png",
+    "cabelo_barba": "camadas/adulto_avental_cabelo_barba.png",
+    "camisa": "camadas/adulto_avental_camisa.png",
+    "avental": "camadas/adulto_avental_avental.png"
+  },
+  "chuva": "adulto_avental_chuva.png",
+  "sentar": {
+    "quadros": 9,
+    "quadril_y": 34,
+    "descida": 4,
+    "compressao_pernas": 0.48
+  }
+}

@@ -1,0 +1,148 @@
+{
+  "ferramenta": "image_gen integrada",
+  "identidade": "Ivo, ferreiro meticuloso, cabelo escuro com mecha grisalha, barba curta, camisa indigo e avental vermelho ferrugem. Humor seco, valoriza reparos e paciencia.",
+  "referencias": [
+    "assets/npcs/cidade/bento.png",
+    "assets/npcs/retratos/bento.png",
+    "assets/cenario/cidade/casas/exterior/venda.png",
+    "assets/cenario/cidade/interiores/casa_bento/props/bancada.png"
+  ],
+  "npc": {
+    "fonte": "ivo_andar.png",
+    "quadro": [
+      64,
+      64
+    ],
+    "grade": [
+      7,
+      4
+    ],
+    "direcoes": [
+      "baixo",
+      "direita",
+      "cima",
+      "esquerda"
+    ],
+    "colunas": [
+      "parado",
+      "andar1",
+      "andar2",
+      "andar3",
+      "andar4",
+      "andar5",
+      "andar6"
+    ],
+    "altura": 31,
+    "pes_y": 45,
+    "chuva": "ivo_chuva.png",
+    "prompt": "Mesmo estilo pixel art nativo e perspectiva elevada 3/4 dos moradores. Corpo31px, pes45, mesma identidade/paleta/dimensoes em todas poses. Sem chao, sombra ou texto; transparencia real. Capa ocre com capuz abaixado para chuva.",
+    "substituido_por": "arte/fontes/npcs/base_vila/perfis/ivo.json",
+    "revisao": "Estudo antigo gerado e reduzido, rejeitado por destoar dos moradores. Caminhada, chuva, sentado e retrato agora usam ferramentas/npcs/gerar_npc.py."
+  },
+  "retrato": {
+    "fonte": "ivo_retrato.png",
+    "quadro": [
+      128,
+      128
+    ],
+    "grade": [
+      2,
+      1
+    ],
+    "boca": [
+      44,
+      61,
+      33,
+      18
+    ],
+    "prompt": "Busto de Ivo em pixel art nativa, mecha grisalha, barba escura, avental ferrugem, camisa indigo. Dois quadros alinhados, boca fechada e aberta, transparente. Preservar todos os pixels fora da boca."
+  },
+  "fachada": {
+    "fonte": "forja_estacoes.png",
+    "quadro": [
+      128,
+      112
+    ],
+    "grade": [
+      2,
+      2
+    ],
+    "estacoes": [
+      "primavera",
+      "verao",
+      "outono",
+      "inverno"
+    ],
+    "prompt": "Casa-oficina na perspectiva/paleta e escala da venda. Madeira quente, reboco creme, alvenaria baixa, telhado de telhas vermelhas, chamine a esquerda, porta frontal central livre, janela ambar direita e placa com bigorna. Sem chao, grades, legendas ou sombra. Mesma geometria nas quatro estacoes: trepadeira verde/florida, verao exuberante, outono dourado, inverno neve nos telhados e galhos sem folhas. Pixel art logica128x112, alpha.",
+    "ancora_final": [
+      60,
+      98
+    ],
+    "colisoes_relativas": [
+      [
+        -50,
+        -22,
+        50,
+        6
+      ]
+    ],
+    "base_mapa": [
+      192,
+      112
+    ],
+    "profundidade": "casa_exterior.gd: Profundidade.z_de(base.y); sombras sob piso/atores",
+    "troca_estacao": "DetalheAmbiente, chave fachada/forja no manifesto de ambientes",
+    "sombra": "Reutiliza mascara artistica casas/venda.png pelo mesmo porte e telhado em duas aguas."
+  },
+  "bancada": {
+    "fonte": "bancada_forja_estacoes.png",
+    "quadro": [
+      80,
+      56
+    ],
+    "grade": [
+      2,
+      2
+    ],
+    "estacoes": [
+      "primavera",
+      "verao",
+      "outono",
+      "inverno"
+    ],
+    "prompt": "Forno compacto de tijolos com brasas/hoodmetal a esquerda e bigorna no cepo a direita, perspectiva elevada3/4 nativa80x56. Mesma base/colisao nas4estacoes. Interior sem neve: calor neutro primavera, brasas menos intensas verao, brilho cobre outono e brasas fortes com sombras frias inverno. Transparente, sem chao ou icone colado.",
+    "ancora": [
+      40,
+      56
+    ],
+    "base_mapa_interior": [
+      432,
+      92
+    ],
+    "colisao_base": [
+      74,
+      14
+    ],
+    "troca_estacao": "DetalheAmbiente: texturas no layout do interior forja"
+  },
+  "sentar": {
+    "fonte": "ivo_sentar.png",
+    "quadro": [
+      64,
+      64
+    ],
+    "grade": [
+      9,
+      2
+    ],
+    "direcoes": [
+      "baixo",
+      "cima"
+    ],
+    "prompt": "18 poses Ivo: 9 colunas x2linhas64px. Em pe para sentado em banco invisivel, joelhos dobram, tronco desce, mantem cabeca/roupa/pixel. Frente e costas. Transparencia, nenhum movel ou sombra."
+  },
+  "revisao": {
+    "capturas": "arte/previas/forja/",
+    "motor": "Godot4.7, cenas reais em save isolado; conferir 4estacoes, visao geral/detalhe e PC/mobile/coop"
+  }
+}

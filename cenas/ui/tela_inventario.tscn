@@ -1,7 +1,7 @@
 [gd_scene load_steps=19 format=3]
 
 [ext_resource type="Script" path="res://codigo/ui/tela_inventario.gd" id="1_tela"]
-[ext_resource type="Texture2D" path="res://assets/ui/craftpix-net-420010-pixel-game-user-interface-for-platformer/1 Interface/TileMap.png" id="2_tilemap"]
+[ext_resource type="Texture2D" path="res://assets/ui/bosque/paineis.png" id="2_tilemap"]
 [ext_resource type="PackedScene" path="res://cenas/ui/componentes/slot_ui.tscn" id="3_slot"]
 [ext_resource type="Texture2D" path="res://assets/ui/Cute RPG - Icons (1)/Cute RPG - Icons/16x16/CuteRPG_Icons06.png" id="5_icones"]
 [ext_resource type="Texture2D" path="res://assets/ui/sem org/3 Icons/Icons_37.png" id="6_icone_fechar"]
@@ -96,8 +96,7 @@ label_settings = SubResource("LabelSettings_cabecalho")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="BotaoFechar" type="TextureButton" parent="Sidebar"]
-modulate = Color(0.13, 0.12, 0.18, 1)
+[node name="BotaoFechar" type="Button" parent="Sidebar"]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -107,9 +106,8 @@ offset_top = 3.0
 offset_right = -8.0
 offset_bottom = 13.0
 grow_horizontal = 0
-texture_normal = ExtResource("6_icone_fechar")
-ignore_texture_size = true
-stretch_mode = 5
+
+text = "X"
 
 [node name="Painel" type="Control" parent="Sidebar"]
 layout_mode = 0

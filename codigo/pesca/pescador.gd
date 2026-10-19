@@ -4,6 +4,7 @@ extends CharacterBody2D
 const Profundidade := preload("res://codigo/globais/profundidade.gd")
 const Rotina := preload("res://codigo/pesca/rotina_nilo.gd")
 const Trajeto := preload("res://codigo/cidade/trajeto_morador.gd")
+const Espacamento := preload("res://codigo/cidade/espacamento_moradores.gd")
 const PARADO := preload("res://assets/npcs/cidade/nilo.png")
 const ANDANDO := preload("res://assets/npcs/cidade/nilo_andar.png")
 var id := "nilo"
@@ -11,6 +12,8 @@ var vila: Node2D
 var sprite: Sprite2D
 var interacao: Area2D
 var agenda: Dictionary = {}
+var _agenda_base: Dictionary = {}
+var passeio := preload("res://codigo/cidade/passeio_morador.gd").new()
 var caminho := PackedVector2Array()
 var _saindo := false
 var dormindo := false
@@ -72,8 +75,10 @@ func _ready() -> void:
 
 func atualizar_rotina(inicial := false) -> void:
 	var nova := Rotina.agenda(vila.hora_atual(), vila.clima_atual())
-	if nova == agenda:
+	if nova == _agenda_base:
 		return
+	_agenda_base = nova.duplicate(true)
+	passeio.reiniciar()
 	var anterior := agenda
 	agenda = nova
 	if inicial:
@@ -117,7 +122,7 @@ func _atualizar_colisao() -> void:
 
 func _ir_ate(ponto: Vector2) -> void:
 	_alvo = ponto
-	caminho = vila.caminho_entre(position, ponto)
+	caminho = vila.caminho_morador(position, ponto,id)
 
 func _physics_process(delta: float) -> void:
 	_tempo += delta
@@ -131,6 +136,7 @@ func _physics_process(delta: float) -> void:
 		return
 	var jogador := Cooperativo.jogador_no_ambiente(self)
 	var perto := jogador != null and (position.distance_to(jogador.position) < 32 or Cidade.em_conversa(id))
+	if not perto: passeio.atualizar(self,delta)
 	var andando := false
 	if perto and (not _saindo or not jogador.movimento_habilitado):
 		_olhar(jogador.position - position)
@@ -140,8 +146,10 @@ func _physics_process(delta: float) -> void:
 			caminho.remove_at(0)
 		else:
 			_olhar(diferenca)
-			var colisao := move_and_collide(diferenca.normalized() * minf(26 * delta, diferenca.length()))
-			andando = colisao == null
+			var ritmo: float = passeio.velocidade if agenda.get("livre",false) else 26.0
+			var movimento := Espacamento.limitar(self,diferenca.normalized() * minf(ritmo * delta, diferenca.length()))
+			var colisao := move_and_collide(movimento)
+			andando = colisao == null and not movimento.is_zero_approx()
 			if colisao != null and int(_tempo * 2) % 2 == 0:
 				_ir_ate(_alvo)
 	elif _saindo:
@@ -167,6 +175,9 @@ func _physics_process(delta: float) -> void:
 		sprite.hframes = 4
 		sprite.vframes = 1
 		sprite.frame = _direcao
+
+func olhar_para(ponto: Vector2) -> void:
+	_olhar(ponto-position)
 
 func _olhar(direcao: Vector2) -> void:
 	_direcao = (1 if direcao.x > 0 else 3) if absf(direcao.x) > absf(direcao.y) else (0 if direcao.y > 0 else 2)

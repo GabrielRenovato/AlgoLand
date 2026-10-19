@@ -68,9 +68,16 @@ const AREA_CLIMA_EXTENSAO := Vector2(470, 380)
 @export_range(0, 3) var estacao_inicial: int = 3
 ## Segue o Calendario (a fazenda liga isto; a arena é detectada pelo gerenciador de ondas irmão do terreno)
 @export var seguir_calendario: bool = false
+## Grutas seguem a paleta sazonal, protegidas de chuva, neve e folhas.
+@export var ambiente_interno := false
 ## Mapas com margens de água próprias podem fornecer suas quatro folhas sazonais.
 @export var folhas_personalizadas: Array[Texture2D] = []
+## Conjuntos com animação de água própria preservam o recurso mesmo ao reaplicar a estação atual.
+@export var brilhos_personalizados: Array[Texture2D] = []
 
+## Mapas maiores fornecem a extensão sem alterar as dimensões da arena original.
+@export var area_clima_centro := AREA_CLIMA_CENTRO
+@export var area_clima_extensao := AREA_CLIMA_EXTENSAO
 var estacao_atual := -1
 
 var _terreno: Node2D
@@ -139,7 +146,7 @@ func _aplicar(indice: int, imediato: bool) -> void:
 	if _fonte_chao:
 		_fonte_chao.texture = _folha_da_estacao(indice)
 	if _fonte_brilho:
-		_fonte_brilho.texture = BRILHOS[indice]
+		_fonte_brilho.texture = brilhos_personalizados[indice] if brilhos_personalizados.size() == 4 else BRILHOS[indice]
 	for t in _atlas_arvores:
 		t.atlas = ARVORES[indice]
 	for t in _atlas_variacao:
@@ -234,9 +241,9 @@ func _novo_emissor(quantidade: int, vida: float, direcao: Vector2, abertura: flo
 	p.lifetime = vida
 	p.preprocess = vida
 	p.local_coords = false
-	p.position = AREA_CLIMA_CENTRO
+	p.position = area_clima_centro
 	p.emission_shape = CPUParticles2D.EMISSION_SHAPE_RECTANGLE
-	p.emission_rect_extents = AREA_CLIMA_EXTENSAO
+	p.emission_rect_extents = area_clima_extensao
 	p.direction = direcao
 	p.spread = abertura
 	p.gravity = gravidade
@@ -278,9 +285,9 @@ func _textura_da_forma(forma: Array[String]) -> ImageTexture:
 	return ImageTexture.create_from_image(img)
 
 func _atualizar_clima(indice: int) -> void:
-	_alternar_emissor(_petalas, indice == 0)
-	_alternar_emissor(_vagalumes, _vagalumes_acesos(indice))
-	_alternar_emissor(_folhas, indice == 2)
+	_alternar_emissor(_petalas, indice == 0 and not ambiente_interno)
+	_alternar_emissor(_vagalumes, _vagalumes_acesos(indice) and not ambiente_interno)
+	_alternar_emissor(_folhas, indice == 2 and not ambiente_interno)
 	# A neve (inverno) é de sprite e vem do clima.gd, junto com a chuva
 
 func _alternar_emissor(p: CPUParticles2D, ligado: bool) -> void:
@@ -291,7 +298,7 @@ func _alternar_emissor(p: CPUParticles2D, ligado: bool) -> void:
 
 # Os vaga-lumes do verão se escondem na chuva (pétalas e folhas continuam, o vento as carrega)
 func _vagalumes_acesos(indice: int) -> bool:
-	return indice == 1 and not ClimaScript.eh_chuva(meteorologia.clima_atual if meteorologia else ClimaScript.Estado.LIMPO)
+	return not ambiente_interno and indice == 1 and not ClimaScript.eh_chuva(meteorologia.clima_atual if meteorologia else ClimaScript.Estado.LIMPO)
 
 func _ao_clima_mudou(_estado: int) -> void:
 	if estacao_atual < 0:

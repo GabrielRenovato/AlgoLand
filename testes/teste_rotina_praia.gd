@@ -50,12 +50,12 @@ func _rodar() -> void:
 	Dados = load("res://codigo/cidade/dados_cidade.gd")
 	root.get_node("Fazenda").definir_clima_hoje(0)
 	root.get_node("Calendario").dia = 1
-	for faixa in [[6.0, "palafita"], [8.0, "praia"], [12.0, "praia"], [17.0, "praia"], [19.0, "palafita"], [23.0, "palafita"]]:
+	for faixa in [[6.0, "palafita"], [8.0, "palafita"], [12.0, "palafita"], [17.0, "cidade"], [19.0, "palafita"], [23.0, "palafita"]]:
 		verificar("agenda do Nilo às %dh" % faixa[0], Rotina.agenda(faixa[0], 0)["local"] == faixa[1])
 	verificar("Nilo dorme à noite", Rotina.agenda(23, 0).get("dormindo", false))
 	for clima in [3, 4, 6]:
 		verificar("Nilo se abriga no clima %d" % clima, Rotina.agenda(12, clima)["local"] == "palafita")
-	for id in Dados.MORADORES:
+	for id in Dados.FOLGAS:
 		var folga: int = Dados.FOLGAS[id]
 		verificar("%s visita na folga" % id, Dados.agenda(id, 12, 0, 0, folga)["local"] == "praia")
 		verificar("%s evita praia no inverno" % id, Dados.agenda(id, 12, 3, 0, folga)["local"] != "praia")
@@ -64,17 +64,24 @@ func _rodar() -> void:
 		verificar("%s preserva sono ou festa" % id, noite.get("dormindo", false) or noite.get("festa", false) or id == "bardo")
 	verificar("Tomás atende em dia de trabalho", Dados.agenda("mercador", 12, 0, 0, 0)["local"] == "venda")
 	verificar("festa continua prioritária", Dados.agenda("mercador", 18.5, 0, 0, 5).get("festa", false))
-	var praia := await carregar("res://cenas/praia.tscn", 12)
-	verificar("palafita acessível", praia.get_node("PortaPalafita").cena_destino == "res://cenas/palafita.tscn")
-	var nilo: Node2D = praia.get_node("Nilo")
-	verificar("Nilo começa no píer com a hora restaurada", nilo.visible and nilo.position.distance_to(Vector2(342, 404)) < 2)
-	praia.get_node("Jogador").position = Vector2(336, 64)
-	praia.get_node("Iluminacao").definir_hora(18)
+	var oficina := await carregar("res://cenas/palafita.tscn", 12)
+	var nilo: Node2D = oficina.get_node("Nilo")
+	verificar("Nilo atende na palafita com a hora restaurada", nilo.visible and nilo.position.distance_to(Vector2(152, 100)) < 2)
+	oficina.get_node("Jogador").position = Vector2(80, 170)
+	oficina.get_node("Iluminacao").definir_hora(17)
 	nilo.atualizar_rotina()
-	verificar("Nilo sai andando para casa", nilo._saindo and not nilo.caminho.is_empty())
+	verificar("Nilo fecha a oficina e sai caminhando para a vila", nilo._saindo and not nilo.caminho.is_empty() and nilo.agenda["local"] == "cidade")
 	await caminhar(nilo)
-	verificar("Nilo alcança a porta sem atravessar o mar", not nilo.visible)
-	verificar("trajeto praia/casa é direto", root.get_node("Cidade").trajetos_moradores.get("nilo", {}).get("fase") == "chegou")
+	verificar("Nilo alcança a saída da oficina", not nilo.visible)
+	var vila_nilo := await carregar("res://cenas/cidade.tscn", 18)
+	var passeio: Node2D = vila_nilo.get_node("Nilo")
+	verificar("o mesmo Nilo passeia na vila", passeio.visible and passeio.agenda["local"] == "cidade")
+	vila_nilo.get_node("Jogador").position = Vector2(50, 64)
+	vila_nilo.get_node("Iluminacao").definir_hora(19)
+	passeio.atualizar_rotina()
+	verificar("ao fim do passeio Nilo volta caminhando para casa", passeio._saindo and not passeio.caminho.is_empty())
+	await caminhar(passeio)
+	verificar("Nilo alcança a saída da vila", not passeio.visible)
 	var casa := await carregar("res://cenas/palafita.tscn", 19)
 	var morador: Node2D = casa.get_node("Nilo")
 	verificar("Nilo janta em casa", morador.visible and not morador.dormindo)
@@ -98,8 +105,11 @@ func _rodar() -> void:
 		root.get_texture().get_image().save_png("res://arte/previas/praia/nilo_dormindo.png")
 	casa.get_node("Iluminacao").definir_hora(7)
 	morador.atualizar_rotina()
-	await caminhar(morador)
-	verificar("Nilo acorda e sai de casa", not morador.dormindo and not morador.visible)
+	for i in 600:
+		morador._physics_process(1.0 / 30)
+		if morador.caminho.is_empty():
+			break
+	verificar("Nilo acorda e prepara a oficina dentro da palafita", not morador.dormindo and morador.visible and morador.position.distance_to(Vector2(152, 100)) < 3)
 	root.get_node("Cidade").trajetos_moradores.clear()
 	var vila := await carregar("res://cenas/cidade.tscn", 9)
 	var caio: Node2D = vila.moradores["bardo"]
@@ -110,7 +120,7 @@ func _rodar() -> void:
 	verificar("visita começa caminhando até a saída sul", caio._saindo and caio.agenda["local"] == "praia" and not caio.caminho.is_empty())
 	await caminhar(caio)
 	verificar("visitante alcança a saída sul", not caio.visible)
-	praia = await carregar("res://cenas/praia.tscn", 12)
+	var praia := await carregar("res://cenas/praia.tscn", 12)
 	var visitante: Node2D = praia.moradores["bardo"]
 	verificar("mesmo visitante aparece na praia", visitante.visible and visitante.agenda["local"] == "praia")
 	praia.get_node("Jogador").position = Vector2(390, 240)

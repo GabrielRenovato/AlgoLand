@@ -153,7 +153,7 @@ func _atualizar_icones() -> void:
 func _organizar() -> void:
 	_tamanho = get_viewport().get_visible_rect().size
 	# Recorte da câmera e cantos arredondados (esquerda, cima, direita, baixo)
-	var margens: Vector4 = Controle.margens_seguras()
+	var margens: Vector4 = Controle.margens_seguras() * preload("res://codigo/ui/escala_interface.gd").fator(self)
 	var ataque := Vector2(_tamanho.x - MARGEM - RAIO_ATAQUE - 6.0 - margens.z, _tamanho.y - MARGEM - RAIO_ATAQUE - 4.0 - margens.w)
 	for botao in _botoes:
 		if botao.has("angulo"):
@@ -193,6 +193,8 @@ func _atualizar_icones_dinamicos(jogador: Node, na_fazenda: bool) -> void:
 	var icone: TextureRect = ataque["icone"]
 	ataque["lado"] = LADO_ICONE_16 if na_fazenda else LADO_MIOLO
 	icone.texture = IconesFazenda.da_ferramenta(Fazenda.ferramenta) if na_fazenda else ataque["textura"]
+	var grau: int=preload("res://codigo/dados/melhorias_ferramentas.gd").nivel(EventosJogo.inventario_de(self),Fazenda.ferramenta)
+	icone.material = preload("res://codigo/dados/ferramentas_madeira.gd").do_tipo(Fazenda.ferramenta,grau) if na_fazenda else null
 	var pocao := _botao_da_acao(&"usar_pocao")
 	var id := "cura"
 	if jogador != null and jogador.get("efeitos_pocao") != null and String(jogador.efeitos_pocao.selecionada) != "":
@@ -254,14 +256,14 @@ func _input(evento: InputEvent) -> void:
 	if not _ativo:
 		return
 	if evento is InputEventScreenTouch:
-		_toque(evento.index, evento.position, evento.pressed)
+		_toque(evento.index, transform.affine_inverse() * evento.position, evento.pressed)
 	elif evento is InputEventScreenDrag:
-		_arrastar(evento.index, evento.position)
+		_arrastar(evento.index, transform.affine_inverse() * evento.position)
 	elif _modo_mouse:
 		if evento is InputEventMouseButton and evento.button_index == MOUSE_BUTTON_LEFT:
-			_toque(0, evento.position, evento.pressed)
+			_toque(0, transform.affine_inverse() * evento.position, evento.pressed)
 		elif evento is InputEventMouseMotion and (evento.button_mask & MOUSE_BUTTON_MASK_LEFT) != 0:
-			_arrastar(0, evento.position)
+			_arrastar(0, transform.affine_inverse() * evento.position)
 
 func _toque(dedo: int, posicao: Vector2, apertou: bool) -> void:
 	if not apertou:
@@ -283,7 +285,7 @@ func _toque(dedo: int, posicao: Vector2, apertou: bool) -> void:
 # Casas da barra de ferramentas e do cinto de poções (o toque nelas é do HUD, não do joystick)
 func _sobre_hud_tocavel(posicao: Vector2) -> bool:
 	for no in get_tree().get_nodes_in_group("toque_hud"):
-		if no is Control and no.get_viewport() == get_viewport() and no.is_visible_in_tree() and no.get_global_rect().has_point(posicao):
+		if no is Control and no.get_viewport() == get_viewport() and no.is_visible_in_tree() and Rect2(Vector2.ZERO,no.size).has_point(no.get_global_transform_with_canvas().affine_inverse() * posicao):
 			return true
 	return false
 
@@ -357,7 +359,7 @@ func _desenhar() -> void:
 		_circulo(_base_joystick, RAIO_JOYSTICK, COR_NEUTRA, OPACIDADE * 0.7)
 		_circulo(_base_joystick + (_haste_joystick - _base_joystick).limit_length(RAIO_JOYSTICK), RAIO_HASTE, Color.WHITE, OPACIDADE_APERTADO)
 	else:
-		_circulo(Vector2(MARGEM + RAIO_JOYSTICK + 16.0 + Controle.margens_seguras().x, _tamanho.y - MARGEM - RAIO_JOYSTICK - 8.0), RAIO_JOYSTICK, COR_NEUTRA, 0.18)
+		_circulo(Vector2(MARGEM + RAIO_JOYSTICK + 16.0 + Controle.margens_seguras().x * preload("res://codigo/ui/escala_interface.gd").fator(self), _tamanho.y - MARGEM - RAIO_JOYSTICK - 8.0), RAIO_JOYSTICK, COR_NEUTRA, 0.18)
 	for botao in _botoes:
 		if not botao["visivel"]:
 			continue

@@ -1,9 +1,11 @@
 shader_type canvas_item;
 uniform sampler2D atlas : source_color, filter_nearest, repeat_disable;
 
+uniform sampler2D rochas : source_color, filter_nearest, repeat_disable;
+uniform int estacao = 0;
 uniform float tempo = 0.0;
-uniform float costa_base = 300.0;
-uniform vec4 curvas_costa = vec4(16.0, 0.011, 8.0, 0.027);
+uniform float costa_base = 310.0;
+uniform vec4 curvas_costa = vec4(42.0, 0.009, 12.0, 0.026);
 varying vec2 mundo;
 varying vec4 tom;
 
@@ -38,9 +40,20 @@ void fragment() {
 	vec2 deslocamento = vec2(sin(p.y * 0.07 + tempo * 0.7) * 1.3, tempo * 2.1 + sin(p.x * 0.04 + tempo * 0.6));
 	vec3 rasa = amostra(vec2(64.0, 0.0), p + deslocamento);
 	vec3 funda = amostra(vec2(96.0, 0.0), p + deslocamento * 0.7);
-	rasa = mix(vec3(0.25, 0.63, 0.62), rasa, 0.23);
+	vec3 tom_raso = estacao == 3 ? vec3(0.30,0.63,0.69) : (estacao == 2 ? vec3(0.25,0.65,0.64) : vec3(0.21,0.71,0.72));
+	rasa = mix(tom_raso, rasa, 0.18);
 	funda = mix(vec3(0.10, 0.34, 0.47), funda, 0.20);
-	vec3 agua = mix(rasa, funda, smoothstep(28.0, 170.0, profundidade));
+	vec3 agua = mix(rasa, funda, smoothstep(40.0, 200.0, profundidade));
+	// Pedras vistas atraves da agua rasa: ficam sob a espuma e sob o piso do cais.
+	const vec2 recifes[6] = vec2[6](vec2(230.0,416.0),vec2(282.0,460.0),vec2(664.0,390.0),vec2(420.0,490.0),vec2(600.0,526.0),vec2(64.0,420.0));
+	for (int i=0;i<6;i++) {
+		vec2 uv_pedra = (p-recifes[i])/vec2(42.0,24.0)+vec2(0.5);
+		if (uv_pedra.x>=0.0 && uv_pedra.x<=1.0 && uv_pedra.y>=0.0 && uv_pedra.y<=1.0 && profundidade>18.0) {
+			vec4 pedra = texture(rochas,uv_pedra);
+			vec3 submersa = mix(pedra.rgb,agua,0.48);
+			agua = mix(agua,submersa,pedra.a*0.62);
+		}
+	}
 	// Ondulações largas atravessam a textura; brilhos curtos se desfazem em pixels.
 	float ondulacao = sin(p.y * 0.10 + sin(p.x * 0.022) * 1.8 + tempo * 1.2);
 	agua *= 0.97 + ondulacao * 0.035;

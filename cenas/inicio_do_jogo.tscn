@@ -1,10 +1,9 @@
 [gd_scene format=3 uid="uid://cwohs50op1f8l"]
 
 [ext_resource type="Script" uid="uid://btiqd6aes5cm7" path="res://codigo/ui/tela_inicial.gd" id="1_tela"]
-[ext_resource type="PackedScene" uid="uid://dtphjwfloo87l" path="res://cenas/terreno.tscn" id="2_terreno"]
 [ext_resource type="Theme" path="res://recursos/ui/tema_menu.tres" id="3_tema"]
 [ext_resource type="FontFile" uid="uid://b13xmp6wu4ea" path="res://assets/ui/craftpix-net-775352-game-user-interface-pixel-art/6 Font/CraftPixNet Survival Kit.otf" id="4_fonte"]
-[ext_resource type="Texture2D" uid="uid://d1iiqnaqd3rjw" path="res://assets/ui/craftpix-net-420010-pixel-game-user-interface-for-platformer/1 Interface/TileMap.png" id="5_tilemap"]
+[ext_resource type="Texture2D" path="res://assets/ui/bosque/paineis.png" id="5_tilemap"]
 [ext_resource type="FontFile" uid="uid://dwub7qum41gaq" path="res://assets/ui/Planes_ValMore.ttf" id="6_planes"]
 [ext_resource type="PackedScene" path="res://cenas/efeitos/vinheta.tscn" id="7_vinheta"]
 [ext_resource type="Script" path="res://codigo/cenario/profundidade_estatica.gd" id="8_profundidade"]
@@ -46,8 +45,6 @@ region_rect = Rect2(96, 64, 48, 48)
 
 [node name="InicioDoJogo" type="Node2D" unique_id=215836441]
 script = ExtResource("1_tela")
-
-[node name="Cenario" parent="." unique_id=66432697 instance=ExtResource("2_terreno")]
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=61456181]
 position = Vector2(495, 150)
@@ -124,7 +121,7 @@ offset_bottom = 94.0
 text = "ALGOLAND"
 label_settings = SubResource("LabelSettings_titulo")
 
-[node name="Menu" type="VBoxContainer" parent="Interface/Raiz" unique_id=627370945]
+[node name="Menu" type="GridContainer" parent="Interface/Raiz" unique_id=627370945]
 unique_name_in_owner = true
 layout_mode = 0
 offset_left = 28.0
@@ -228,7 +225,7 @@ text = "VOLUME"
 unique_name_in_owner = true
 custom_minimum_size = Vector2(22, 18)
 layout_mode = 2
-text = "<"
+text = "-"
 
 [node name="ValorVolume" type="Label" parent="Interface/Raiz/PainelOpcoes/Conteudo/LinhaVolume" unique_id=666497224]
 unique_name_in_owner = true
@@ -240,7 +237,7 @@ horizontal_alignment = 1
 unique_name_in_owner = true
 custom_minimum_size = Vector2(22, 18)
 layout_mode = 2
-text = ">"
+text = "+"
 
 [node name="LinhaTelaCheia" type="HBoxContainer" parent="Interface/Raiz/PainelOpcoes/Conteudo" unique_id=1063291238]
 layout_mode = 2
@@ -254,7 +251,7 @@ text = "TELA CHEIA"
 unique_name_in_owner = true
 custom_minimum_size = Vector2(22, 18)
 layout_mode = 2
-text = "<"
+text = "-"
 
 [node name="ValorTelaCheia" type="Label" parent="Interface/Raiz/PainelOpcoes/Conteudo/LinhaTelaCheia" unique_id=49488883]
 unique_name_in_owner = true
@@ -266,7 +263,7 @@ horizontal_alignment = 1
 unique_name_in_owner = true
 custom_minimum_size = Vector2(22, 18)
 layout_mode = 2
-text = ">"
+text = "+"
 
 [node name="LinhaFps" type="HBoxContainer" parent="Interface/Raiz/PainelOpcoes/Conteudo" unique_id=57710186]
 layout_mode = 2
@@ -280,7 +277,7 @@ text = "FPS"
 unique_name_in_owner = true
 custom_minimum_size = Vector2(22, 18)
 layout_mode = 2
-text = "<"
+text = "-"
 
 [node name="ValorFps" type="Label" parent="Interface/Raiz/PainelOpcoes/Conteudo/LinhaFps" unique_id=109771382]
 unique_name_in_owner = true
@@ -292,7 +289,7 @@ horizontal_alignment = 1
 unique_name_in_owner = true
 custom_minimum_size = Vector2(22, 18)
 layout_mode = 2
-text = ">"
+text = "+"
 
 [node name="LinhaVibracao" type="HBoxContainer" parent="Interface/Raiz/PainelOpcoes/Conteudo"]
 layout_mode = 2
@@ -306,7 +303,7 @@ text = "VIBRACAO"
 unique_name_in_owner = true
 custom_minimum_size = Vector2(22, 18)
 layout_mode = 2
-text = "<"
+text = "-"
 
 [node name="ValorVibracao" type="Label" parent="Interface/Raiz/PainelOpcoes/Conteudo/LinhaVibracao"]
 unique_name_in_owner = true
@@ -318,7 +315,7 @@ horizontal_alignment = 1
 unique_name_in_owner = true
 custom_minimum_size = Vector2(22, 18)
 layout_mode = 2
-text = ">"
+text = "+"
 [node name="LinhaBotoes" type="HBoxContainer" parent="Interface/Raiz/PainelOpcoes/Conteudo"]
 layout_mode = 2
 
@@ -331,7 +328,7 @@ text = "BOTOES"
 unique_name_in_owner = true
 custom_minimum_size = Vector2(22, 18)
 layout_mode = 2
-text = "<"
+text = "-"
 
 [node name="ValorBotoes" type="Label" parent="Interface/Raiz/PainelOpcoes/Conteudo/LinhaBotoes"]
 unique_name_in_owner = true
@@ -343,7 +340,7 @@ horizontal_alignment = 1
 unique_name_in_owner = true
 custom_minimum_size = Vector2(22, 18)
 layout_mode = 2
-text = ">"
+text = "+"
 [node name="DicaBotoes" type="Label" parent="Interface/Raiz/PainelOpcoes/Conteudo"]
 unique_name_in_owner = true
 modulate = Color(1, 1, 1, 0.6)

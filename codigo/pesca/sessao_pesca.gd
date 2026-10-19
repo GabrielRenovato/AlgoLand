@@ -190,7 +190,10 @@ func _pegar(perfeita := false) -> void:
 	estado = Estado.PEGOU
 	_tempo = 0.0
 	if peixe == "pedra_vara":
-		preload("res://codigo/pesca/varas.gd").receber_pedra(jogador)
+		if not preload("res://codigo/pesca/varas.gd").receber_pedra(jogador):
+			Sons.tocar("erro",0.0)
+			_terminar()
+			return
 	else:
 		if not Fazenda.pescar(peixe,perfeita,jogador,qualidade_peixe):
 			Sons.tocar("erro",0.0)
@@ -208,31 +211,40 @@ func _pegar(perfeita := false) -> void:
 	cartaz.position = Vector2(0, -38)
 	cartaz.scale = Vector2.ZERO
 	add_child(cartaz)
-	var fundo := Panel.new()
-	var estilo := StyleBoxFlat.new()
-	estilo.bg_color = Color(0.10, 0.09, 0.14, 0.94)
-	estilo.set_corner_radius_all(4)
-	fundo.add_theme_stylebox_override("panel", estilo)
+	var fundo := PanelContainer.new()
+	fundo.name = "ResultadoCaptura"
+	fundo.add_theme_stylebox_override("panel", preload("res://recursos/ui/tema_global.tres").get_stylebox("panel", "TooltipPanel"))
 	fundo.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	fundo.position = Vector2(-44, -14)
-	fundo.size = Vector2(88, 28)
 	cartaz.add_child(fundo)
-	var icone := Sprite2D.new()
+	var linha := HBoxContainer.new()
+	linha.add_theme_constant_override("separation", 6)
+	linha.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	fundo.add_child(linha)
+	var icone := TextureRect.new()
 	icone.texture = Peixes.icone(peixe)
 	if peixe == "pedra_vara":
 		icone.modulate = Color("8bdcf7")
 	icone.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-	icone.position = Vector2(-30, 0)
-	cartaz.add_child(icone)
-	var rotulo := Label.new()
-	rotulo.text = Peixes.nome(peixe) + "\n" + ("REFINAMENTO" if peixe == "pedra_vara" else preload("res://codigo/pesca/qualidade_peixe.gd").NOMES[qualidade_peixe])
-	rotulo.add_theme_font_override("font", FONTE)
-	rotulo.add_theme_font_size_override("font_size", 7)
-	rotulo.add_theme_color_override("font_color", Raridades.cor(Peixes.raridade(peixe)))
-	rotulo.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.9))
-	rotulo.add_theme_constant_override("outline_size", 2)
-	rotulo.position = Vector2(-20, -10)
-	cartaz.add_child(rotulo)
+	icone.custom_minimum_size = Vector2(16, 16)
+	icone.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	icone.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	icone.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	linha.add_child(icone)
+	var textos := VBoxContainer.new()
+	textos.add_theme_constant_override("separation", 4)
+	textos.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	linha.add_child(textos)
+	var dica := preload("res://codigo/ui/item_ui.gd")
+	var nome := dica.linha_dica(Peixes.nome(peixe), Raridades.cor(Peixes.raridade(peixe)))
+	# O cartaz mede o conteúdo; nomes longos não escapam de uma caixa fixa.
+	nome.autowrap_mode = TextServer.AUTOWRAP_OFF
+	textos.add_child(nome)
+	var qualidade := preload("res://codigo/pesca/qualidade_peixe.gd")
+	var detalhe := dica.linha_dica("REFINAMENTO" if peixe == "pedra_vara" else qualidade.NOMES[qualidade_peixe], dica.COR_DICA_DETALHE if peixe == "pedra_vara" else qualidade.CORES[qualidade_peixe])
+	detalhe.autowrap_mode = TextServer.AUTOWRAP_OFF
+	textos.add_child(detalhe)
+	fundo.size = fundo.get_combined_minimum_size()
+	fundo.position = Vector2(-roundf(fundo.size.x / 2.0), -fundo.size.y)
 	var tween := create_tween()
 	tween.tween_property(cartaz, "scale", Vector2.ONE, 0.35).set_trans(Tween.TRANS_SPRING).set_ease(Tween.EASE_OUT)
 	tween.tween_interval(1.8)

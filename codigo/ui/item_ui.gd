@@ -1,5 +1,6 @@
 extends Control
 
+const Madeira := preload("res://codigo/dados/ferramentas_madeira.gd")
 const IconesItens := preload("res://codigo/ui/icones_itens.gd")
 const Encantamentos := preload("res://codigo/dados/encantamentos.gd")
 const Conjuntos := preload("res://codigo/dados/conjuntos_armadura.gd")
@@ -24,6 +25,7 @@ var _filtro_mouse_original: MouseFilter = MOUSE_FILTER_STOP
 ## Quantidade no canto (sementes empilhadas), criada na primeira vez que precisa
 var _rotulo_quantidade: Label = null
 var _arrastando: bool = false
+var _inicio_toque := Vector2.ZERO
 var _estrela_qualidade: TextureRect
 
 @onready var moldura: Panel = $Panel
@@ -37,6 +39,13 @@ func _ready() -> void:
 ## Botão direito no item: o slot dono dele equipa (mochila) ou desequipa (slot de equipamento) na hora.
 ## Toque duplo (o celular não tem botão direito; o toque vira clique do mouse) faz o mesmo.
 func _ao_entrada(evento: InputEvent) -> void:
+	if evento is InputEventMouseButton and evento.button_index == MOUSE_BUTTON_LEFT and evento.pressed:
+		_inicio_toque = evento.position
+	if evento is InputEventMouseButton and evento.button_index == MOUSE_BUTTON_LEFT and not evento.pressed and evento.position.distance_to(_inicio_toque) < 6:
+		var interface := EventosJogo.interface_de(self)
+		if interface != null and interface._telas["inventario"].tentar_excluir_item(dados):
+			accept_event()
+			return
 	if evento is InputEventMouseButton and evento.pressed and (evento.button_index == MOUSE_BUTTON_RIGHT \
 			or (evento.button_index == MOUSE_BUTTON_LEFT and evento.double_click)):
 		var slot := get_parent()
@@ -47,6 +56,7 @@ func _ao_entrada(evento: InputEvent) -> void:
 func exibir(item: DadosItem) -> void:
 	dados = item
 	modulate = Color.WHITE
+	icone.material = Madeira.do_tipo(item.tipo,item.nivel) if item != null else null
 	if item == null:
 		icone.texture = null
 		tooltip_text = ""
@@ -54,13 +64,13 @@ func exibir(item: DadosItem) -> void:
 		if _estrela_qualidade != null: _estrela_qualidade.hide()
 		return
 	icone.texture = IconesItens.obter(item, get_tree() if is_inside_tree() else null)
-	_mostrar_quantidade(item.quantidade if item.categoria in ["semente","peixe"] else 0)
+	_mostrar_quantidade(item.quantidade if item.empilhavel() else 0)
 	_mostrar_qualidade(item)
 	# O quadrado do item (o sprite de slot da interface) na cor da raridade, por cima do quadrado do slot
 	moldura.add_theme_stylebox_override("panel", EstiloSlot.caixa_raridade(item.raridade))
 	# O texto é a versão simples (acessibilidade/testes); o desenho da dica vem de _make_custom_tooltip
 	tooltip_text = "%s  NV %d  %s" % [item.nome(), item.nivel, Raridades.nome(item.raridade)]
-	if item.categoria in ["semente","peixe"]:
+	if item.empilhavel():
 		tooltip_text = "%s  x%d" % [item.nome(), item.quantidade]
 	elif item.categoria == "ferramenta":
 		tooltip_text = item.nome()
@@ -92,35 +102,44 @@ func _mostrar_quantidade(quantos: int) -> void:
 ## Dica do item no estilo do jogo (a caixa vem do tema global: TooltipPanel com a moldura de slot do pack):
 ## nome na cor da raridade, nível e raridade embaixo e, se tiver, o encantamento na cor do elemento
 func _make_custom_tooltip(_texto: String) -> Object:
-	return tooltip_do_item()
+	return tooltip_do_item(minf(220,preload("res://codigo/ui/escala_interface.gd").tamanho_logico(self).x-40))
 
 ## O mesmo desenho da dica do mouse, para quem mostra o detalhe sem o mouse (o controle)
-func tooltip_do_item() -> Control:
+func tooltip_do_item(largura := 170.0) -> Control:
 	if dados == null:
 		return null
 	var linhas := VBoxContainer.new()
-	linhas.add_theme_constant_override("separation", 0)
+	linhas.custom_minimum_size.x = largura
+	linhas.add_theme_constant_override("separation", 4)
 	linhas.add_child(linha_dica(dados.nome(), dados.cor_raridade()))
+	if dados.categoria in ["receita", "material", "colheita", "pocao"]:
+		linhas.add_child(linha_dica("x%d  OCUPA ESPACO NA MOCHILA" % dados.quantidade, COR_DICA_DETALHE))
+		if dados.categoria == "receita":
+			linhas.add_child(linha_dica("CONFIRMAR / BOTAO DIREITO / TOQUE DUPLO: APRENDER", COR_DICA_DETALHE))
+			linhas.add_child(linha_dica("APRENDER LIBERA O CRAFT NO IVO E CONSOME UMA RECEITA", COR_DICA_DETALHE))
+		elif dados.categoria == "material":
+			linhas.add_child(linha_dica(preload("res://codigo/dados/forja_armas.gd").MATERIAIS.get(dados.conteudo(),{}).get("origem",""),COR_DICA_DETALHE))
+		return _dimensionar_dica(linhas,largura)
 	if dados.categoria == "peixe":
 		var qualidade := preload("res://codigo/pesca/qualidade_peixe.gd")
 		var peixes := preload("res://codigo/pesca/peixes.gd")
 		linhas.add_child(linha_dica("x%d  QUALIDADE %s" % [dados.quantidade,qualidade.NOMES[dados.qualidade]],qualidade.CORES[dados.qualidade]))
 		linhas.add_child(linha_dica("%s | %s" % ["MAR" if peixes.catalogo()[dados.peixe()]["ambiente"]=="mar" else "AGUA DOCE",Raridades.nome(dados.raridade)],COR_DICA_DETALHE))
 		linhas.add_child(linha_dica("VENDA: %d BRASAS CADA" % qualidade.valor(peixes.brasas(dados.peixe()),dados.qualidade),COR_DICA_DETALHE))
-		return linhas
+		return _dimensionar_dica(linhas,largura)
 	if dados.categoria == "semente":
 		var planta: Dictionary = Plantas.PLANTAS.get(dados.planta(), {})
 		linhas.add_child(linha_dica("x%d  %s" % [dados.quantidade, String(Plantas.NOME_RARIDADE.get(dados.raridade, ""))], dados.cor_raridade()))
 		linhas.add_child(linha_dica("CRESCE EM %s" % Plantas.texto_crescimento(dados.planta()), COR_DICA_DETALHE))
 		linhas.add_child(linha_dica("PLANTE NA %s" % NOMES_ESTACAO[clampi(int(planta.get("estacao", 0)), 0, 3)], COR_DICA_DETALHE))
-		return linhas
+		return _dimensionar_dica(linhas,largura)
 	if dados.categoria == "ferramenta":
 		linhas.add_child(linha_dica("FERRAMENTA DA FAZENDA", COR_DICA_DETALHE))
-		return linhas
+		return _dimensionar_dica(linhas,largura)
 	if dados.categoria == "vara":
 		linhas.add_child(linha_dica("NV %d / 5  %s" % [dados.nivel, Raridades.nome(dados.raridade)], dados.cor_raridade()))
 		linhas.add_child(linha_dica("REFINE COM O NILO PARA PESCAR PEIXES MAIS DIFICEIS", COR_DICA_DETALHE))
-		return linhas
+		return _dimensionar_dica(linhas,largura)
 	linhas.add_child(linha_dica("NV %d  %s" % [dados.nivel, Raridades.nome(dados.raridade)], dados.cor_raridade()))
 	if dados.raridade != "comum" and dados.categoria in ["arma", "escudo", "cabeca", "corpo", "luvas", "botas"]:
 		linhas.add_child(linha_dica("+%d%% STATUS" % roundi((dados.multiplicador_raridade() - 1.0) * 100.0), COR_DICA_DETALHE))
@@ -150,11 +169,32 @@ func tooltip_do_item() -> Control:
 			for pecas in [conjunto.Base.PECAS_PARCIAL, conjunto.Base.PECAS_COMPLETO]:
 				var f: float = fator_nivel * (parcial if pecas == conjunto.Base.PECAS_PARCIAL else 1.0)
 				linhas.add_child(linha_dica("%d PECAS: +%d%% DEFESA, +%d%% VITALIDADE" % [pecas, roundi(float(valores.get("BONUS_DEFESA", 0.0)) * f * 100), roundi(float(valores.get("BONUS_VITALIDADE", 0.0)) * f * 100)], COR_DICA_DETALHE))
-	return linhas
+	return _dimensionar_dica(linhas,largura)
+
+## O Popup mede o conteudo antes do primeiro layout. Fixar a largura antes da altura evita uma letra por linha.
+static func _dimensionar_dica(linhas: VBoxContainer, largura: float) -> Control:
+	var altura := 0.0
+	for rotulo: Label in linhas.get_children():
+		rotulo.size.x = largura
+		rotulo.custom_minimum_size.x = largura
+		var medida := FONTE_DICA.get_multiline_string_size(rotulo.text,HORIZONTAL_ALIGNMENT_LEFT,largura,10)
+		rotulo.custom_minimum_size.y = ceilf(medida.y)
+		rotulo.size = Vector2(largura,ceilf(medida.y))
+		altura += ceilf(medida.y)
+	altura += maxi(0,linhas.get_child_count()-1)*linhas.get_theme_constant("separation")
+	var caixa := Control.new()
+	caixa.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	caixa.custom_minimum_size = Vector2(largura,altura)
+	caixa.size = caixa.custom_minimum_size
+	caixa.add_child(linhas)
+	linhas.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	return caixa
 
 static func linha_dica(texto: String, cor: Color) -> Label:
 	var rotulo := Label.new()
 	rotulo.text = texto
+	rotulo.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	rotulo.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	rotulo.add_theme_font_override("font", FONTE_DICA)
 	rotulo.add_theme_font_size_override("font_size", 10)
 	rotulo.add_theme_color_override("font_color", cor)
@@ -175,6 +215,11 @@ func _notification(what: int) -> void:
 func _get_drag_data(_posicao: Vector2) -> Variant:
 	if dados == null or em_uso or not is_visible_in_tree():
 		return null
+	if Controle.usando_toque:
+		var deslocamento := get_local_mouse_position() - _inicio_toque
+		# Na mochila, deslizar verticalmente rola; arrastar para o lado ainda move o item.
+		if absf(deslocamento.y) >= absf(deslocamento.x):
+			return null
 	# Todo item arrasta (armas, armaduras, aljava, ferramentas e sementes): quem recebe é que decide (mochila aceita qualquer um;
 	# os slots de equipamento só a categoria deles, e o modelo recusa o que não pode, como a aljava com o arco em uso)
 	PreviewArrasto.mostrar(_criar_preview())

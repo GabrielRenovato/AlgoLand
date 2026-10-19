@@ -109,6 +109,8 @@ var esta_em_acao_fazenda: bool = false
 ## Na fazenda não há armas em uso: o botão de ataque pede a ferramenta ativa (sinal ferramenta_pedida) em vez de atacar.
 ## O Plantio (codigo/logica/plantio.gd) liga isto; as armas seguem equipadas e o dash continua valendo
 var modo_fazenda: bool = false
+## Selecionada pela barra, sem trocar o equipamento real nem desligar o combate da arena.
+var picareta_arena_ativa := false
 ## Poções bebidas e o cinto (efeitos_pocao.gd). Só se bebe na arena: Q/E (LB/RB) trocam a poção, R (X) bebe
 var efeitos_pocao: EfeitosPocao = null
 ## Teto da redução de dano somando a poção de pedra (a da defesa sozinha para em REDUCAO_MAXIMA)
@@ -451,6 +453,7 @@ func _enviar_estado_ao_modelo() -> void:
 	_sincronizando = false
 
 func _ao_modelo_equipamento_alterado(_slot: String) -> void:
+	picareta_arena_ativa = false
 	_aplicar_modelo()
 
 func _aplicar_modelo() -> void:
@@ -925,6 +928,13 @@ func logica_combo_ataque() -> void:
 	if modo_fazenda:
 		if atacar and not esta_em_acao_fazenda:
 			ferramenta_pedida.emit()
+		return
+	if picareta_arena_ativa:
+		if atacar:
+			for mineracao in get_tree().get_nodes_in_group("mineracao_arena"):
+				if mineracao.get_world_2d()==get_world_2d():
+					mineracao.pedir_golpe(self)
+					break
 		return
 	# Durante a pose (sacar, esquiva, ferido) o jogador não ataca
 	if no_reacao.visible:

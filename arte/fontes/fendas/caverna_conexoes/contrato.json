@@ -1,0 +1,53 @@
+{
+  "fonte_atual": "folha_ajuste_cantos.png",
+  "prompts_adicionais": [
+    "Edit IMAGE1, this game cave tileset. Keep EXACT atlas size and every tile position, all wall shapes and their striated mineral rendering. IMAGE2 is its structural connection guide.\nTWO SPECIFIC PRODUCTION FIXES:\n1) Floor is far too noisy and its grain reveals repeated square patches. Replace all brown FLOOR regions INCLUDING the two upper right swatches with one quiet, seamless nearly-flat dark brown base (#412826), with only very sparse muted clustered gravel flecks (#50352c and #36222c). 90 percent floor pixels should be base color, flecks low contrast. No larger rocks, no highlights, no clouds, no black borders. The central floor cell (row1col1) must tile seamlessly with itself and with both right column swatches, preserving EXACT same quiet brown along all four tile edges. Don't alter walls in this floor fix.\n2) Enforce connecting silhouettes at edges. Image is4x4 equal cells. For ALL wall cells, within the last and first8 logical pixels of each cell edge, the BLACK/WALL/FLOOR profile must follow EXACTLY IMAGE2's geometry and match the same-type neighbor. Currently the two last bottom-row inner corner cells have wall endpoints about5 logicalpixels too high/low. Fix their endpoints to connect seamlessly to straight top/bottom/side wall tiles. Keep the jagged texture in the interior of wall tiles; smooth only the geometric discontinuity at connecting endpoints. No visible straight gridlines. Preserve pure black exterior.\nSquare production atlas, no extra tiles, no labels, no padding, no captions. Closely follow Image1's art while replacing noisy floor with quiet original pixelart soil and enforcing edge profiles from Image2. Native64px logical tiles shown4x with crisp4x4 pixel blocks.",
+    "Precise local edit to this 4x4 tile atlas. Preserve ALL image content and pixel colors EXACTLY except a small deformation of the TWO BOTTOM-RIGHT tiles (bottom row columns3 and4). No changes to floor texture, outer room, black solid tile, or the two bottom-left tiles.\nThe remaining defect: on the LEFT edge of bottom-row column3 (inner southwest corner), the black region currently starts at 62.5 percent tile height (logical y40 of64). It must start at70.3 percent tile height (logical y45 of64), exactly matching the black silhouette on the right edge of the outer lower-left corner tile row3column1 and lower wall row3column2. Locally move the wall in bottom-row column3 DOWN by5 logicalpixels = about24 imagepixels at its LEFT edge, gradually tapering this adjustment to zero toward its RIGHT edge. The floor above this wall grows down correspondingly. Preserve striated cliff rendering and blackbelow. Do NOT move whole tile; only reshape the wall within it.\nSymmetric correction for bottom-row column4 (inner southeast corner): at RIGHT tile edge its black currently starts y40, must start y45. Move that wall DOWN5 logicalpixels at RIGHT edge, gradually taper to zero at LEFT edge. The floor above grows correspondingly.\nThese are the ONLY two corners to alter. Do not redraw the atlas, resize cells, add labels or move other cliffs. Keep exact existing palette, all unchanged pixel-art material and quiet brown floor. Keep pure black zones and exact 4x4 square layout."
+  ],
+  "revisao_final": {
+    "estado": "Base de parede e piso revisada no Godot; não aprovada pelo usuário",
+    "parecer": "Retas e reentrâncias contínuas na bancada, piso discreto, fundo preto sem fragmentos; textura das retas ainda repetível e contorno regular.",
+    "pares": 86,
+    "max_descontinuidade_preto_px": 2,
+    "testes": "3 testes aprovados; captura real idêntica à montagem dos tiles, incluindo espelhamento; auditoria 0 falhas.",
+    "espelhamento": "Canto interno nordeste reutiliza noroeste com TRANSFORM_FLIP_H no motor.",
+    "escopo": "Base visual: água, entrada e escadas não refeitas; sem colisão/navegação ou substituição da campanha.",
+    "capturas": [
+      "arte/previas/fenda/caverna_conexoes/bancada_godot.png",
+      "arte/previas/fenda/caverna_conexoes/detalhe_godot.png"
+    ]
+  },
+  "tipo": "Tiles de caverna para montagem modular; bancada visual sem substituir campanha",
+  "referencia": "arte/previas/fenda/gruta_nascente/estudo_gaias_navel_v2.png",
+  "grade": 16,
+  "modulo": 64,
+  "pivo": "Origem superior esquerda alinhada à grade; sem offsets",
+  "variantes": "Uma versão por pedido explícito do usuário",
+  "arte": "Folha desenhada por image_gen; normalização do zoom lógico e subdivisão em16",
+  "revisao": "Bancada Godot em save isolado; máscaras externas, internas e retas; avaliação da arte separada de testes",
+  "gerador": "image_gen integrado",
+  "prompts": [
+    "Create a PRODUCTION TILESET, NOT an illustration or a cave map. Image 1 is ONLY the accepted color/material/perspective reference: jagged pale ochre cave rock, deep plum shadow, dark brown fine gravel floor, pure black solid unexcavated rock. Keep these materials, do NOT copy its layout.\nOutput a perfectly square 1024x1024 atlas, divided into exactly FOUR columns and FOUR rows of equally sized 256x256 cells, ZERO gutters, ZERO labels, ZERO frames. Each cell depicts a 64x64 LOGICAL PIXEL tile at exact 4x nearest-neighbor upscale; strictly aligned 4x4 blocks, no antialias, no tiny subpixels. Natural hand-pixelled SNES cave cliff material, grouped shapes, NOT chunky square brickwork, NOT smooth gradients.\nCRITICAL tile design: the upper-left 3x3 cells together depict ONE seamless square cave room whose dark brown FLOOR fills the center and whose ROCK WALLS form its outer perimeter. These 9 cells are intended to be separated and repeated. Every straight-wall tile must have identical terrain height profiles on its two connecting edges. No changes of height along edge. Wall depth 20 logical pixels, black outside, floor inside. Jagged vertical thin mineral striations in the walls, tan highlights with plum and burgundy shadows; subtle organically scalloped crest. Keep a quiet 4 logical-pixel margin near every cell edge so neighbors connect. The floor must have restrained gravel texture, no large rocks, no noise.\nTop left 3x3 arrangement:\nr0c0 outer upper-left wall corner; r0c1 repeating top wall; r0c2 outer upper-right corner.\nr1c0 repeating left wall; r1c1 seamless dark brown floor; r1c2 repeating right wall.\nr2c0 outer lower-left corner; r2c1 repeating bottom wall; r2c2 outer lower-right corner.\nRightmost column (c3): r0 quiet floor variant matching r1c1 at all edges; r1 quiet floor variant; r2 pure black solid rock; r3 quiet floor variant.\nBottom row r3 c0-c2 plus r3c3? Need FOUR inner corners: instead set entire bottom row c0 c1 c2 c3 to INNER CONCAVE corners. These continue the same walls where a solid rock peninsula protrudes into the floor. Respectively BLACK rock occupies upper-left / upper-right / lower-left / lower-right quadrant of each tile, while brown floor occupies the other three quadrants. Rock quadrant reaches exactly middle of connecting cell edges; 20px cliff face transitions into floor. All four inner corners required.\nFinal arrangement fixed: first 3x3 outer room, c3 rows0&1 floor variants, c3 row2 pure black; bottom row four inner corners. No props, stairs, water, moss, UI, text, perspective grid or decorative board. Native top-down 3/4 cave wall perspective. The tiles must connect when rearranged, preserve exact floor color and rock palette.",
+    "Edit this tile atlas, preserving palette, rock textures, exact cell arrangement and dimensions. It is a 4 by 4 grid of game tiles, each cell one quarter image width/height.\nFIX 1: REMOVE ALL drawn black straight grid lines between floor cells. They are accidental artifacts, not desired grid. Continue brown floor cleanly over the thin lines. No visible grid.\nFIX 2: REDESIGN THE FOUR BOTTOM ROW CELLS as correct compatible inner cave-wall corners. Each inner corner is a SMALL solid BLACK QUADRANT intrusion surrounded by the same jagged ochre/plum cliff band, with brown floor filling the other THREE quadrants. Explicit four corners:\nbottom row first cell: black TOP LEFT quadrant with rightward-facing vertical wall down its right edge and downward-facing horizontal wall across its bottom edge, meeting rounded at center. Brown floor on right half and bottom half.\nbottom row second cell: black TOP RIGHT quadrant with leftward-facing wall down its left edge and downward-facing wall across its bottom edge. Brown floor on left and bottom.\nbottom row third cell: black BOTTOM LEFT quadrant, same vertical wall up its right edge and upward-facing horizontal wall across its TOP edge; floor upper and right areas.\nbottom row fourth cell: black BOTTOM RIGHT quadrant, vertical wall up its left edge and upward-facing horizontal wall across its TOP edge; floor upper and left areas.\nALL endpoints of cliffs must be at SAME coordinates as connecting straight walls: left wall occupies first 20% tile width, right wall last 20%, top wall first 50% tile height, bottom wall last 50%. Each inner corner's BLACK quadrant actually expands to reach the matching opposite-side wall endpoint, so no breaks. Do NOT draw additional walls along outer edges of corner cells.\nFIX 3: Top 3x3 room outer corners should end at exact same wall thickness/height as adjacent straight walls, on every edge; also straight wall tile first/last edge must match itself when repeated. Preserve authentic jagged cliff faces, brown granular floor, pure black outside. No labels, no borders, no grid. Pixel art 4x block upscale, uniform pixel lattice.",
+    null
+  ],
+  "revisoes": [
+    {
+      "fonte": "folha_gerada.png",
+      "estado": "reprovada",
+      "defeitos": [
+        "Grade desenhada nas junções",
+        "Cantos internos incompatíveis",
+        "Tile preto contaminado por parede"
+      ]
+    },
+    {
+      "fonte": "folha_corrigida.png",
+      "estado": "reprovada",
+      "defeitos": [
+        "Grade retirada, mas estrutura dos cantos internos não corrigida",
+        "Limites de células não respeitados"
+      ]
+    }
+  ]
+}

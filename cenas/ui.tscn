@@ -5,8 +5,8 @@
 [ext_resource type="FontFile" uid="uid://b13xmp6wu4ea" path="res://assets/ui/craftpix-net-775352-game-user-interface-pixel-art/6 Font/CraftPixNet Survival Kit.otf" id="3_craftpix"]
 [ext_resource type="Texture2D" path="res://assets/ui/craftpix-net-420010-pixel-game-user-interface-for-platformer/4 Bars/13.png" id="4_coracao"]
 [ext_resource type="Texture2D" path="res://assets/ui/craftpix-net-420010-pixel-game-user-interface-for-platformer/3 Icons/Icon_01.png" id="5_caveira"]
-[ext_resource type="Texture2D" path="res://assets/ui/craftpix-net-420010-pixel-game-user-interface-for-platformer/3 Icons/Icon_49.png" id="10_raio"]
-[ext_resource type="Texture2D" uid="uid://d1iiqnaqd3rjw" path="res://assets/ui/craftpix-net-420010-pixel-game-user-interface-for-platformer/1 Interface/TileMap.png" id="6_tilemap"]
+[ext_resource type="Texture2D" path="res://assets/ui/icone_estamina_corrida.png" id="10_corrida"]
+[ext_resource type="Texture2D" path="res://assets/ui/bosque/paineis.png" id="6_tilemap"]
 [ext_resource type="Script" path="res://codigo/ui/barra_pecas.gd" id="7_barra"]
 [ext_resource type="Texture2D" uid="uid://cqxopks5b2xfq" path="res://assets/ui/icons-coin/32x32/3.png" id="8_moeda"]
 [ext_resource type="PackedScene" uid="uid://dsd2y11vv3y3c" path="res://cenas/info_tab.tscn" id="9_info_tab"]
@@ -87,11 +87,11 @@ theme_override_constants/separation = 3
 [node name="IconeStamina" type="TextureRect" parent="Status/LinhaStamina"]
 unique_name_in_owner = true
 modulate = Color(1, 0.85, 0.3, 1)
-custom_minimum_size = Vector2(10, 8)
+custom_minimum_size = Vector2(12, 12)
 layout_mode = 2
 size_flags_vertical = 4
 mouse_filter = 2
-texture = ExtResource("10_raio")
+texture = ExtResource("10_corrida")
 expand_mode = 1
 stretch_mode = 5
 

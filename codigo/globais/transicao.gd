@@ -13,6 +13,9 @@ signal troca_concluida(caminho: String)
 ## Terminou de dormir (já com o dia seguinte aplicado e o jogador acordado)
 signal dormiu
 
+## Para restaurar o modo anterior basta usar ARENA_ORIGINAL como DESTINO_COMBATE.
+const ARENA_ORIGINAL := "res://cenas/cenario.tscn"
+const DESTINO_COMBATE := "res://cenas/andar_fenda.tscn"
 const DURACAO_SAIDA := 0.35
 const DURACAO_ENTRADA := 0.45
 const DURACAO_DORMIR := 0.7
@@ -21,6 +24,8 @@ const TEMPO_NA_CAMA := 1.3
 const HORA_ACORDAR := 6.0
 const CAMADA := 100
 const QUADROS_ESPERA_CHEGADA := 3
+## Trocas rapidas usam apenas o fade; o painel aparece se o recurso ainda estiver pendente.
+const ESPERA_PAINEL_CARREGAMENTO_MS := 400
 
 ## true da saída de uma cena até a nova terminar de carregar: o Gerenciador-de-ondas não reinicia a partida
 var retornando := false
@@ -32,6 +37,9 @@ var ocupada := false
 
 var _painel: ColorRect
 var _tween: Tween
+var _carregador: Control
+var _carregando := false
+signal progresso_carregamento(caminho: String, progresso: float)
 
 func _ready() -> void:
 	layer = CAMADA
@@ -41,6 +49,8 @@ func _ready() -> void:
 	_painel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_painel.set_anchors_preset(Control.PRESET_FULL_RECT)
 	add_child(_painel)
+	_carregador = preload("res://codigo/ui/tela_carregamento.gd").new()
+	add_child(_carregador)
 
 ## A arena só se alcança pelo portal da cidade: a onda começa sozinha logo depois da chegada (lido e zerado pelo
 ## GerenciadorOndas ao carregar). Sair para a cidade guarda a partida: a onda atual volta na próxima entrada.
@@ -50,7 +60,10 @@ func entrar_na_arena() -> void:
 	if ocupada:
 		return
 	iniciar_onda_ao_chegar = true
-	ir_para("res://cenas/cenario.tscn", "portal")
+	var onda: int = int(estado.get("onda_atual",1))
+	if not Progresso.onda_comecou: onda = maxi(onda,Progresso.onda_inicial)
+	var destino: String = preload("res://codigo/fendas/catalogo_andares.gd").cena(onda) if DESTINO_COMBATE != ARENA_ORIGINAL else ARENA_ORIGINAL
+	ir_para(destino, "portal")
 
 ## `encerrar`: a partida acabou (o jogador escolheu voltar no meio dela): a onda e os totens não voltam
 func sair_da_arena(encerrar := false) -> void:
@@ -103,7 +116,7 @@ func ir_para(caminho: String, ponto := "", clarear_no_fim := true) -> void:
 	await escurecer()
 	_guardar_estado()
 	retornando = true
-	var erro := get_tree().change_scene_to_file(caminho)
+	var erro := await carregar_cena(caminho)
 	if erro != OK:
 		push_error("Transicao: nao foi possivel abrir %s (erro %d)" % [caminho, erro])
 		retornando = false
@@ -120,6 +133,49 @@ func ir_para(caminho: String, ponto := "", clarear_no_fim := true) -> void:
 		await clarear()
 	ocupada = false
 	troca_concluida.emit(caminho)
+
+## Carregamento compartilhado pelo titulo, criacao, pausa e viagens. O percentual vem do ResourceLoader.
+func carregar_cena(caminho: String) -> Error:
+	if _carregando: return ERR_BUSY
+	if not ResourceLoader.exists(caminho,"PackedScene"): return ERR_FILE_NOT_FOUND
+	_carregando = true
+	var origem := ""
+	if get_tree().current_scene != null:
+		origem = preload("res://codigo/ui/tela_carregamento.gd").nome_do_destino(get_tree().current_scene.scene_file_path)
+	var inicio := Time.get_ticks_msec()
+	progresso_carregamento.emit(caminho,0.0)
+	var erro := ResourceLoader.load_threaded_request(caminho,"PackedScene")
+	if erro != OK:
+		_carregador.hide()
+		_carregando = false
+		return erro
+	var progresso: Array = []
+	var status := ResourceLoader.load_threaded_get_status(caminho,progresso)
+	while status == ResourceLoader.THREAD_LOAD_IN_PROGRESS:
+		var valor := float(progresso[0]) if not progresso.is_empty() else 0.0
+		if not _carregador.visible and Time.get_ticks_msec()-inicio >= ESPERA_PAINEL_CARREGAMENTO_MS:
+			_carregador.iniciar(caminho,origem)
+		if _carregador.visible: _carregador.atualizar(valor)
+		progresso_carregamento.emit(caminho,valor)
+		await get_tree().process_frame
+		status = ResourceLoader.load_threaded_get_status(caminho,progresso)
+	if status != ResourceLoader.THREAD_LOAD_LOADED:
+		_carregador.hide()
+		_carregando = false
+		return ERR_CANT_OPEN
+	var cena := ResourceLoader.load_threaded_get(caminho) as PackedScene
+	if _carregador.visible:
+		_carregador.atualizar(1.0,true)
+		await get_tree().process_frame
+	progresso_carregamento.emit(caminho,1.0)
+	erro = get_tree().change_scene_to_packed(cena)
+	if erro == OK:
+		for i in QUADROS_ESPERA_CHEGADA: await get_tree().process_frame
+	if erro == OK:
+		await Saves.restaurar_local()
+	_carregador.hide()
+	_carregando = false
+	return erro
 
 ## Dormir na cama: fade, Calendario.dormir() (passa o dia e salva), cura total, salvamento do progresso e do
 ## inventário, a manhã seguinte (6h) e o jogador acorda em `ponto_acordar` (Marker2D "Chegada_<ponto>" da cena).

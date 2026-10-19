@@ -197,7 +197,12 @@ func _ao_ferramenta_pedida() -> void:
 		_avisar(motivo)
 		Sons.tocar("erro", 0.0, -4.0)
 		return
-	jogador.acao_fazenda(Fazenda.acao_da_ferramenta(_lado()))
+	var acao_ferramenta := Fazenda.acao_da_ferramenta(_lado())
+	if not Fazenda.gastar_energia(acao_ferramenta, _lado()):
+		_avisar(Fazenda.MSG_SEM_ENERGIA)
+		Sons.tocar("erro", 0.0, -4.0)
+		return
+	jogador.acao_fazenda(acao_ferramenta)
 
 ## De quem é o pedido em andamento (o `jogador` aponta para quem pediu)
 func _lado() -> int:
@@ -248,9 +253,10 @@ func _ao_impacto(acao: String, ponto: Vector2) -> void:
 		return
 	if _eh_extracao(acao):
 		if _extracao() != null:
-			_extracao().impacto(acao, ponto)
+			_extracao().impacto(acao, ponto, preload("res://codigo/dados/melhorias_ferramentas.gd").nivel(Fazenda.mochila_do_lado(_lado()),"machadinha" if acao=="machado" else "picareta"))
 		return
 	var celula := Fazenda.celula_do_ponto(to_local(ponto))
+	var grau: int=preload("res://codigo/dados/melhorias_ferramentas.gd").nivel(Fazenda.mochila_do_lado(_lado()),"enxada" if acao=="enxada" else "regador") if acao in ["enxada","regar"] else 1
 	var semente := Fazenda.semente_da_ferramenta(_lado())
 	var planta_antes := Fazenda.planta_em(celula)
 	var era_resto := Fazenda.esta_murcha(celula)
@@ -276,6 +282,13 @@ func _ao_impacto(acao: String, ponto: Vector2) -> void:
 		"colher":
 			Sons.tocar("colher", 0.06)
 			_efeito_colheita(celula, planta_antes)
+	if grau>1:
+		var lateral := Vector2i(1,0) if absf(jogador._direcao_ataque.y)>=absf(jogador._direcao_ataque.x) else Vector2i(0,1)
+		for i in range(-1,2):
+			for j in range(-1 if grau==3 else 0,2 if grau==3 else 1):
+				var extra := celula+lateral*i+Vector2i(-lateral.y,lateral.x)*j
+				if extra==celula: continue
+				if avaliar_terreno(acao,extra)=="": Fazenda.aplicar(acao,extra,"",_lado())
 
 # --- Efeitos ----------------------------------------------------------------------------------------------
 

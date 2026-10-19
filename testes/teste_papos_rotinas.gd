@@ -38,8 +38,9 @@ func _rodar() -> void:
 	root.get_node("Saves").trocar("solo")
 	var validos := true
 	var pares := 0
-	for a in Dados.MORADORES:
-		for b in Dados.MORADORES:
+	# O Nilo tem rotina própria e não participa dos encontros espontâneos da vila.
+	for a in Dados.CAMAS:
+		for b in Dados.CAMAS:
 			if a >= b:
 				continue
 			pares += 1
@@ -52,7 +53,7 @@ func _rodar() -> void:
 						validos = validos and Papos.duracao(falas[i]["texto"]) >= 3.5
 						if i > 0:
 							validos = validos and falas[i]["dono"] != falas[i - 1]["dono"]
-	verificar("15 duplas, sete climas e quatro niveis de progresso geram conversas completas", validos and pares == 15)
+	verificar("todas as duplas, sete climas e quatro niveis de progresso geram conversas completas", validos and pares == Dados.CAMAS.size() * (Dados.CAMAS.size() - 1) / 2)
 	var chuva := str(Papos.montar("mercador", "bardo", contexto(4)))
 	verificar("temporal usa falas de abrigo, sem inventar calor", chuva.contains("trovoes") and not chuva.contains("ceu aberto"))
 	var arena := str(Papos.montar("bento", "lia", contexto(0, 20, 20)))
@@ -175,7 +176,7 @@ func _rodar() -> void:
 	var baloes_legiveis := visiveis(vila) == 1
 	for npc in [a, b]:
 		if npc._balao.visible:
-			baloes_legiveis = baloes_legiveis and npc._balao.size.x == 164.0 and npc._balao.size.y < 100.0
+			baloes_legiveis = baloes_legiveis and npc._balao.size.x > 0 and npc._balao.size.x <= 144.0 and npc._balao.size.y < 100.0
 	verificar("encontro real mantem uma fala legivel apos varios quadros", baloes_legiveis)
 	if "--capturar" in OS.get_cmdline_user_args():
 		await RenderingServer.frame_post_draw

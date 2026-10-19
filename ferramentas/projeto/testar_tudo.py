@@ -10,10 +10,10 @@ import tempfile
 import uuid
 
 from preparar_testes import preparar
-from testar_coop import ARGUMENTOS_TESTES, executar
+from testar_coop import ARGUMENTOS_TESTES, ERROS_ESPERADOS, executar
 
 RAIZ = Path(__file__).resolve().parents[2]
-GRAFICOS = {"fazenda_tiny", "sobreposicao_cais", "heroi_gerado", "rotas_visuais"}
+GRAFICOS = {"enseada_visual", "mapa_mundi", "fazenda_tiny", "sobreposicao_cais", "pegadas_praia", "heroi_gerado", "rotas_visuais", "barra_energia", "continuidade_caverna"}
 
 
 def main():
@@ -62,6 +62,9 @@ def main():
         elif nome == "fazenda_tiny":
             prefixo += "fazenda tiny "
         diretorio = prefixo + identificador + " " + nome
+        caminho_teste = testes.get(nome)
+        if caminho_teste and 'ends_with("AlgoLand testes Carrasco")' in caminho_teste.read_text():
+            diretorio += "/AlgoLand testes Carrasco"
         if nome == "rotina_praia":
             diretorio = "AlgoLand testes praia 20261016"
         config = base.replace("[application]", '[application]\nconfig/use_custom_user_dir=true\nconfig/custom_user_dir_name="' + diretorio + '"', 1)
@@ -70,7 +73,7 @@ def main():
     godot = shutil.which("godot") or shutil.which("godot4")
     # Isola também o teste legado que exige um nome de save exato.
     dados = str(saida / "dados")
-    motor = ["env", "XDG_DATA_HOME=" + dados, godot] if godot else ["flatpak", "run", "--filesystem=" + str(saida), "--env=XDG_DATA_HOME=" + dados, "org.godotengine.Godot"]
+    motor = ["env", "XDG_DATA_HOME=" + dados, godot] if godot else ["flatpak", "run", "--filesystem=" + str(saida), "--command=env", "org.godotengine.Godot", "XDG_DATA_HOME=" + dados, "godot"]
     isolar("importacao")
     print("Logs e relatório: " + str(saida), flush=True)
     importacao = executar(motor + ["--headless", "--editor", "--path", str(projeto), "--import", "--quit"], saida / "importacao.log", max(180, args.limite))
@@ -88,7 +91,7 @@ def main():
                     comando = motor + ([] if nome in GRAFICOS else ["--headless"]) + ["--path", str(projeto), "--script", "res://testes/" + caminho.name]
                     if nome in ARGUMENTOS_TESTES:
                         comando += ["--"] + ARGUMENTOS_TESTES[nome]
-                resultado = executar(comando, saida / (nome + ".log"), args.limite)
+                resultado = executar(comando, saida / (nome + ".log"), args.limite, ERROS_ESPERADOS.get(nome, ()))
                 resultado.update(nome=nome, modo="python" if caminho.suffix == ".py" else "grafico" if nome in GRAFICOS else "headless")
             relatorio["testes"].append(resultado)
             relatorio["falhas"] = sum(not r["aprovado"] for r in relatorio["testes"])

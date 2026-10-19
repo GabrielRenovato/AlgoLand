@@ -75,6 +75,7 @@ func _rodar() -> void:
 	var ponto: Area2D = current_scene.get_node("PescaPierLeste")
 	jogador.global_position = ponto.global_position
 	await quadros(8)
+	root.get_node("InventarioJogador").definir_vara_na_mao(true)
 	verificar("perto do ponto", ponto.jogador_perto and ponto.pode_interagir())
 	ponto.abrir_tela()
 	await quadros(3)

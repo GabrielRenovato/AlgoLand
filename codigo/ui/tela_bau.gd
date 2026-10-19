@@ -12,6 +12,7 @@ const COLUNAS := 4
 
 var painel: PanelContainer
 var _grade: GridContainer
+var _rolagem: ScrollContainer
 var _rotulo: Label
 var _slots: Array[Control] = []
 
@@ -46,7 +47,12 @@ func _ready() -> void:
 	_grade.columns = COLUNAS
 	_grade.add_theme_constant_override("h_separation", 2)
 	_grade.add_theme_constant_override("v_separation", 2)
-	coluna.add_child(_grade)
+	_rolagem = ScrollContainer.new()
+	_rolagem.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	_rolagem.size_flags_vertical = SIZE_EXPAND_FILL
+	_rolagem.follow_focus = true
+	coluna.add_child(_rolagem)
+	_rolagem.add_child(_grade)
 	_rotulo = Label.new()
 	_rotulo.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_rotulo.add_theme_font_override("font", FONTE)
@@ -60,7 +66,18 @@ func _ready() -> void:
 	coluna.add_child(fechar)
 	BauCasa.alterado.connect(_atualizar)
 	visibility_changed.connect(func() -> void: if visible: _atualizar())
+	resized.connect(_ajustar)
 	_atualizar()
+	_ajustar()
+
+func _ajustar() -> void:
+	if painel == null: return
+	painel.anchor_top = 0
+	painel.anchor_bottom = 0
+	painel.offset_left = 8
+	painel.offset_right = 118
+	painel.offset_top = 8
+	painel.offset_bottom = minf(288,size.y-8)
 
 func _atualizar() -> void:
 	while _slots.size() < BauCasa.capacidade:

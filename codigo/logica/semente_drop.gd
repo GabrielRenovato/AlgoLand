@@ -2,7 +2,7 @@ extends Node2D
 
 ## Saquinho de semente no chão da arena: cai do inimigo que morreu, pula um pouco, fica balançando e é puxado
 ## quando o jogador chega perto (ímã). Ao encostar vai para a pilha da planta na mochila (Fazenda.dar_sementes). Mochila cheia
-## sem pilha daquela planta: não é pego (avisa "MOCHILA CHEIA"); no fim da onda, se ainda não couber, some.
+## sem pilha daquela planta: não é pego (avisa "MOCHILA CHEIA"); permanece no chão até haver espaço.
 ## No fim da onda todos os saquinhos que sobraram voam até o jogador (grupo "semente_drop", método atrair).
 ##
 ## Quem cria: o slime_spawner, ao morrer cada inimigo da onda (soltar_de). A tabela de drop fica aqui, no estilo dos
@@ -213,12 +213,8 @@ func _process(delta: float) -> void:
 		_sprite.position.y = 0.0 if _atraido else -absf(sin(_tempo * 3.0)) * 2.0
 	_atualizar_z()
 
-## Fim da onda: voa até o jogador, esteja onde estiver; se não couber na mochila, some
+## Fim da onda: voa até o jogador; se não couber, permanece no chão.
 func atrair() -> void:
-	if not cabe_na_mochila(semente):
-		_pego = true
-		queue_free()
-		return
 	_atraido = true
 	_recusado_ate = -1.0
 	_pulo = DURACAO_PULO

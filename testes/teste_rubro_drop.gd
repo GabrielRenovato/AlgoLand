@@ -69,7 +69,7 @@ func _rodar() -> void:
 			_verificar("bônus parcial com " + str(pecas.size()) + " peças", is_equal_approx(jogador.estatisticas.bonus_defesa_conjunto, esperado) and is_equal_approx(jogador.estatisticas.bonus_vitalidade_conjunto, esperado))
 	_verificar("quatro peças reais nível 2 dão 12,5% de defesa e vitalidade", jogador.estatisticas.defesa == roundi(jogador.bonus_defesa * 1.125) and jogador.estatisticas.vitalidade == roundi((jogador.vitalidade_base + jogador.bonus_vitalidade) * 1.125) and is_equal_approx(jogador.estatisticas.bonus_defesa_conjunto, 0.125))
 	_verificar("Rubro não ativa o raio do Carrasco", not Carrasco.pode_ativar(inv.equipados, 0.0, 0.0))
-	_verificar("visual real usa o Rubro e mantém a cabeça original", jogador.sprite_roupa.texture.resource_path == Rubro.RAIZ_SPRITES + "andar.png" and jogador.sprite_corpo.texture.resource_path == "res://assets/personagens/Body/body_1.png")
+	_verificar("visual real usa o Rubro e mantém a cabeça da base refinada", jogador.sprite_roupa.texture.resource_path == Rubro.RAIZ_SPRITES + "andar.png" and jogador.sprite_corpo.texture.resource_path == "res://assets/personagens/refinado/paginas/andar.png")
 	var defesa: int = jogador.estatisticas.defesa
 	var vitalidade: int = jogador.estatisticas.vitalidade
 	for i in 5:

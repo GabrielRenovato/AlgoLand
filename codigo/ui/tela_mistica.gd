@@ -8,7 +8,7 @@ const COR_DESCRICAO := Color(0.75, 0.7, 0.62)
 
 @onready var _lista: VBoxContainer = %ListaCheckpoints
 @onready var _aviso: Label = %Aviso
-@onready var _botao_fechar: TextureButton = %BotaoFechar
+@onready var _botao_fechar: Button = %BotaoFechar
 
 var _grupo := ButtonGroup.new()
 var _botoes: Dictionary = {}
@@ -46,7 +46,7 @@ func _montar() -> void:
 		botao.toggle_mode = true
 		botao.button_group = _grupo
 		botao.custom_minimum_size = Vector2(0, 18)
-		botao.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		botao.alignment = HORIZONTAL_ALIGNMENT_CENTER
 		var compensacao := Progresso.ouro_checkpoint(onda)
 		botao.text = "ONDA %d" % onda if compensacao == 0 else "ONDA %d    +%d OURO" % [onda, compensacao]
 		botao.disabled = not pode

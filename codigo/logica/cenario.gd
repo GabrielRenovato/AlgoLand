@@ -17,6 +17,9 @@ func _ready() -> void:
 	# No prólogo a sequência monta o próprio portal (PortalDoResgate), com a volta para a vila
 	if not Introducao.ativa():
 		_montar_portal()
+		var mineracao := preload("res://codigo/logica/mineracao_arena.gd").new()
+		mineracao.name = "MineracaoArena"
+		add_child(mineracao)
 
 func _montar_portal() -> void:
 	var portal := Portal.new()

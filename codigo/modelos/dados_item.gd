@@ -33,7 +33,7 @@ const NOMES := {
 
 @export var id: StringName = &""
 @export var tipo: String = "espada_basica"
-@export_enum("arma", "escudo", "secundaria", "cabeca", "corpo", "luvas", "botas", "ferramenta", "semente", "peixe", "vara") var categoria: String = "arma"
+@export_enum("arma", "escudo", "secundaria", "cabeca", "corpo", "luvas", "botas", "ferramenta", "semente", "peixe", "vara", "material", "receita", "colheita", "pocao") var categoria: String = "arma"
 @export var nivel: int = 1
 @export_enum("comum", "incomum", "raro", "epico", "lendario") var raridade: String = "comum"
 @export var icone: Texture2D
@@ -88,6 +88,14 @@ func aplicar_nivel_vara(nivel_vara: int) -> void:
 	raridade = Raridades.ORDEM[nivel - 1]
 
 func nome() -> String:
+	if categoria == "receita":
+		return "RECEITA: " + preload("res://codigo/dados/forja_armas.gd").nome(conteudo())
+	if categoria == "material":
+		return String(preload("res://codigo/dados/forja_armas.gd").MATERIAIS.get(conteudo(), {}).get("nome", conteudo().to_upper()))
+	if categoria == "colheita":
+		return String(Plantas.PLANTAS.get(conteudo(), {}).get("nome", conteudo().to_upper()))
+	if categoria == "pocao":
+		return String(preload("res://codigo/dados/pocoes.gd").dados(conteudo()).get("nome", conteudo().to_upper()))
 	if categoria == "vara":
 		return "VARA DE PESCA"
 	if categoria == "peixe":
@@ -98,6 +106,24 @@ func nome() -> String:
 	if conjunto != null:
 		return conjunto.TIPOS[tipo]["nome"]
 	return NOMES.get(tipo, tipo.to_upper())
+
+func conteudo() -> String:
+	return tipo.get_slice(":", 1)
+
+func empilhavel() -> bool:
+	return categoria in ["semente", "peixe", "material", "receita", "colheita", "pocao"]
+
+static func de_coletavel(categoria_item: String, conteudo_item: String, quantos := 1) -> DadosItem:
+	var item := DadosItem.new()
+	item.tipo = categoria_item + ":" + conteudo_item
+	item.id = StringName(item.tipo)
+	item.categoria = categoria_item
+	item.quantidade = maxi(quantos, 1)
+	if categoria_item == "receita":
+		item.raridade = "raro"
+	elif conteudo_item in ["nucleo", "pedra_vara", "moeda_forja"]:
+		item.raridade = "epico"
+	return item
 
 func cor_raridade() -> Color:
 	return Raridades.cor(raridade)

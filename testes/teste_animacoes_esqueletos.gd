@@ -5,6 +5,7 @@ var _falhas := 0
 
 class JogadorTeste extends Node2D:
 	var invulneravel := true
+	var estaMorto := false
 	func receber_dano(_dano: int, _forca: Vector2) -> void:
 		pass
 

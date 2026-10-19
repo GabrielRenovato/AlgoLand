@@ -73,6 +73,7 @@ var layout := "xbox"
 var dispositivo := 0
 
 func _ready() -> void:
+	add_child(preload("res://codigo/ui/rolagem_toque.gd").new())
 	usando_toque = OS.has_feature("mobile") or ARGUMENTO_TOQUE in OS.get_cmdline_user_args() or ARGUMENTO_TOQUE in OS.get_cmdline_args()
 	if usando_toque:
 		_tirar_mouse_das_acoes()
@@ -117,7 +118,7 @@ func margens_seguras() -> Vector4:
 	var cima := maxf(float(segura.position.y), 0.0)
 	var direita := maxf(tela.x - float(segura.end.x), 0.0)
 	var baixo := maxf(tela.y - float(segura.end.y), 0.0)
-	return Vector4(esquerda, cima, direita, baixo) / escala
+	return Vector4(esquerda, cima, direita, baixo) / (escala * preload("res://codigo/ui/escala_interface.gd").fator(self))
 
 func _input(evento: InputEvent) -> void:
 	# O controle do jogador 2 (cooperativo) não muda as dicas nem o modo do jogador 1

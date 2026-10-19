@@ -1,0 +1,59 @@
+{
+  "nome": "Caverna de referência SNES",
+  "estado": "Cena modular de prévia; versão única solicitada pelo usuário; não substitui os andares da campanha",
+  "referencia_visual": "https://www.spriters-resource.com/snes/secretofmana/asset/132945/",
+  "referencia_captura": "https://thekingofgrabs.com/2019/09/02/secret-of-mana-super-nintendo/secret-of-mana-snes-100/",
+  "proveniencia": "Adaptação visual muito próxima de Secret of Mana solicitada pelo usuário. Não declarar arte inteiramente original nem autorização dos titulares.",
+  "geracao": {
+    "guia_wang_pixellab": "a0c0da92-28b7-4b2a-81df-53a9411f6b23",
+    "paredes": "imagegen; paredes_snes_original.png; reconstrução da grade lógica128x256",
+    "agua": "imagegen; agua_original.png; máscara Wang bilinear e materiais com bordas periódicas",
+    "falha_agua_pixellab": "b8df49e1-a3b3-48a1-a8f1-d6f9a5c369b7 falhou por falta de créditos; não usado"
+  },
+  "contrato": {
+    "tamanho_cena": [
+      640,
+      448
+    ],
+    "grade_godot": [
+      16,
+      16
+    ],
+    "pecas_wang": [
+      32,
+      32
+    ],
+    "pivo_tile": [
+      8,
+      8
+    ],
+    "escala": 1,
+    "atlas": [
+      256,
+      512
+    ],
+    "colisao": "máscara física8px baseada no guia de solo; água bloqueada",
+    "navegacao": "malha da mesma máscara física; entrada sul",
+    "camadas": [
+      "Chao z0",
+      "Agua z1",
+      "Objetos z2; sem instâncias na revisão SNES"
+    ],
+    "variantes": "somente uma, por pedido explícito"
+  },
+  "integracao": {
+    "cena": "cenas/fendas/gruta_nascente.tscn",
+    "atlas": "assets/cenario/fendas/gruta_nascente/base.png",
+    "planta": "assets/cenario/fendas/gruta_nascente/mapa.json",
+    "captura": "arte/previas/fenda/gruta_nascente/caverna_godot.png"
+  },
+  "verificacao": [
+    "Godot4.7.2 OpenGL; save isolado",
+    "revisar_gruta_nascente.gd: renderização, grade, reutilização, colisões e rota",
+    "teste_gruta_nascente.py:128 pares compatíveis de margens; atlas consumido igual ao validado"
+  ],
+  "prompts": {
+    "paredes": "Edit FIRST image, a cave autotile atlas. SECOND image is the Secret of Mana SNES cave screenshot and is the PRIMARY VISUAL REFERENCE. The user explicitly wants a very faithful visual adaptation of that SNES cave aesthetic, with minor original drawing differences. Match the screenshot's subdued dark brown speckled earth, pale tan sharp vertically striated cave cliffs, dark red brown crevices, purple selective shadow contours. This is NOT a bright golden rocky grotto. No modern rounded rocks, no orange mustard dirt, no smooth gradients, no moss, no gold ore. Water is not present in this atlas.\nPreserve FIRST image's EXACT terrain mask arrangement:128x256 logical pixels, four columns and eight rows of32x32 logical tiles. Every floor-rock boundary, all transition silhouettes and the locations of corners must remain exactly where they are in first image. Repaint its materials to be exceptionally close to the SECOND image's wall color, native pixel density, small sharply tapered cliff ridges, weathered streaks and deep violet-brown shaded recesses. The cliff tops are irregular narrow pointed pale-tan ridges with dark ochre backing, NOT flat cylindrical column caps. The solid rock mass is near black maroon purple with restrained tiny cave texture, NOT cobbled stones or pavement. Dry floor is muted very dark earthy umber with subtle irregular brown and olive pixel clusters. Read SECOND image carefully: the floor is darker than wall faces. Do not include its characters or interface or map layout, only faithfully use cave materials and pixel drawing treatment.\nKeep an intentional128x256 native pixel art grid. If rendering enlarged, each logical pixel must be a uniform square block and every32px logical cell must keep exact atlas placement. No scenes, no labels, no margins, no new objects. This is a functional Wang tileset sheet.",
+    "agua": "Repaint FIRST image, a 4x4 Wang tileset mask template, with pixel-art MATERIALS ONLY. SECOND image is the original AlgoLand cave reference: match its spring cave water and dry ground. Preserve first image layout and silhouettes EXACTLY, no rearranging. Each 256x256 cell is a separate 32x32 native pixel tile enlarged8x. Brown areas become warm tan packed cave-earth floor with very subtle sparse texture, dark teal areas become calm deep turquoise cave water with small sparse low-contrast horizontal ripples. Along existing brown/teal boundary ONLY draw a narrow continuous low rocky ochre bank, 2-3 native pixels wide, little stone facets, dark contact shadow at water and subtle teal reflections. No high cliffs. No vegetation, no objects, no foam all over water. No lines between tiles, no text, no padding, no UI. Top left cell is pure seamlessly tiling water, bottom right cell is pure seamlessly tiling dirt. Preserve every corner's land or water classification. Native art grid128x128, each native pixel a solid8x8 block at final1024x1024; sharp pixel art not high-res illustration, no antialias. Terrain texture must be subtle and match the second image. Same ground material across every tile."
+  }
+}

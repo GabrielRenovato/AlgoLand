@@ -1,0 +1,31 @@
+{
+  "ferramenta": "image_gen integrada",
+  "origem": "icones.png",
+  "referencias": [
+    "assets/ui/fazenda/drop_madeira.png",
+    "assets/ui/fazenda/drop_pedra.png"
+  ],
+  "grade": [
+    3,
+    3
+  ],
+  "quadro_final": [
+    16,
+    16
+  ],
+  "pivo": "centro",
+  "uso": "mochila, bau e drops fisicos",
+  "estacoes": "Icones de inventario sem variantes sazonais.",
+  "ordem": [
+    "madeira",
+    "pedra",
+    "ferro",
+    "fibra",
+    "fragmento",
+    "nucleo",
+    "moeda_forja",
+    "pedra_vara",
+    "receita"
+  ],
+  "prompt": "Folha3x3 de icones em pixel art nativa16px: madeira, pedra, ferro com ferrugem, fibra amarrada, cristal azul violeta, nucleo ambar com aro, moeda com martelo, pedra turquesa e pergaminho com bigorna. Mesmo estilo das referencias. Alpha, sem texto, moldura, chao ou sombra; poucos tons e grupos de pixels nitidos."
+}

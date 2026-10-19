@@ -1,21 +1,8 @@
 extends Node2D
 
-## Equipamento (arma ou escudo, com raridade) no chão da arena: cai do inimigo que morreu, pula um pouco, fica balançando com um brilho na cor
-## da raridade e é puxado quando o jogador chega perto (ímã). Ao encostar vai para a mochila (InventarioJogador.adicionar).
-## Mochila cheia: vai para o saque da partida (Saque, aba SAQUE da janela entre as ondas); raridades no filtro de venda viram ouro na
-## hora; com tudo cheio fica no chão e, no fim da onda, é vendido sozinho (grupo "equipamento_drop", método atrair).
-##
-## Quem cria: o slime_spawner, ao morrer cada inimigo da onda (soltar_de). A tabela de drop fica aqui:
-##
-##                      chance de cair      raridade
-##   inimigo comum      1,5%                sorteio normal (Raridades.pesos)
-##   mutante            6%                  um degrau acima
-##   chefe              100%                dois degraus acima e no mínimo RARO
-##
-## Peças de conjunto só caem no equipamento do chefe, por chance (ver criar_item).
-##
-## O nível do item vai de 1 até o que a onda já libera na bigorna (Equipamentos.NIVEIS_ONDA), para um raro de nível 1 não ser ofuscado por
-## um comum de nível 5 que o jogador já tenha forjado. Quanto mais alta a onda, mais provável a raridade alta (Raridades.GANHO_POR_ONDA).
+## Drops físicos de receitas e coletáveis. Inimigos nunca entregam equipamento pronto.
+## criar_item conserva a construção de equipamentos para prévias e ferramentas de debug.
+## A fabricação de itens reais é feita na bigorna do Ivo, depois de aprender a receita.
 
 const Profundidade := preload("res://codigo/globais/profundidade.gd")
 const Raridades := preload("res://codigo/dados/raridades.gd")
@@ -26,8 +13,9 @@ const Conjuntos := preload("res://codigo/dados/conjuntos_armadura.gd")
 ## Este script (soltar_de é estático e não tem `self` para instanciar)
 const ROTEIRO := "res://codigo/logica/equipamento_drop.gd"
 
-const CHANCE_NORMAL := 0.015
-const CHANCE_MUTANTE := 0.06
+const CHANCE_NORMAL := 0.002
+const CHANCE_MUTANTE := 0.01
+const CHANCE_CHEFE := 0.20
 const DEGRAUS_MUTANTE := 1
 const DEGRAUS_CHEFE := 2
 const RARIDADE_MINIMA_CHEFE := "raro"
@@ -68,16 +56,19 @@ var _recusado_ate := -1.0
 
 # --- Sorteio ---------------------------------------------------------------------------------------------------------
 
-## Chance de o inimigo soltar equipamento (1 para o chefe)
+## Pergaminhos raros: chefes têm chance maior, sem receita garantida por andar.
 static func chance(mutante: bool, chefe: bool) -> float:
 	if chefe:
-		return 1.0
+		return CHANCE_CHEFE
 	return CHANCE_MUTANTE if mutante else CHANCE_NORMAL
 
 ## Equipamento novo: tipo, raridade, nível e afixos sorteados. Sem sorteio de se cai: só o conteúdo
 ## `raridade_forcada` (e `tipo_forcado`) pulam o sorteio: usados pelo painel de debug para ver cada raridade
 static func criar_item(rng: RandomNumberGenerator, onda: int, mutante: bool, chefe: bool, raridade_forcada: String = "", tipo_forcado: String = "") -> DadosItem:
 	var tipo: String = tipo_forcado if Equipamentos.TIPOS_DROP.has(tipo_forcado) else Equipamentos.TIPOS_DROP[rng.randi_range(0, Equipamentos.TIPOS_DROP.size() - 1)]
+	if tipo_forcado == "" and not Progresso.arma_liberada(tipo):
+		var disponiveis: Array = Equipamentos.TIPOS_DROP.filter(func(id): return Progresso.arma_liberada(id))
+		tipo = disponiveis[rng.randi_range(0, disponiveis.size() - 1)]
 	if Conjuntos.de_tipo(tipo_forcado) != null:
 		tipo = tipo_forcado
 	elif tipo_forcado == "" and raridade_forcada == "" and chefe:
@@ -126,7 +117,7 @@ static func soltar_de(inimigo: Node2D, pai: Node, rng: RandomNumberGenerator, on
 	var mutante := bool(inimigo.get("eh_mutante"))
 	if rng.randf() >= chance(mutante, chefe):
 		return null
-	return soltar_item(criar_item(rng, onda, mutante, chefe), inimigo.global_position, pai, rng)
+	return load("res://codigo/logica/drops_forja.gd").soltar_receita(onda,inimigo.global_position,pai)
 
 static func soltar_item(novo: DadosItem, onde: Vector2, pai: Node, rng: RandomNumberGenerator) -> Node2D:
 	var drop: Node2D = (load(ROTEIRO) as GDScript).new()
@@ -188,6 +179,7 @@ func _ready() -> void:
 			add_child(faiscas)
 	_sprite = Sprite2D.new()
 	_sprite.texture = IconesItens.obter(item, get_tree())
+	_sprite.material = preload("res://codigo/dados/ferramentas_madeira.gd").do_tipo(item.tipo,item.nivel)
 	var maior := 1.0
 	if _sprite.texture != null:
 		maior = maxf(maxf(_sprite.texture.get_width(), _sprite.texture.get_height()), 1.0)
@@ -235,9 +227,6 @@ func atrair() -> void:
 	if _pego:
 		return
 	_jogador()
-	if Saque.vende_sozinho(item) or not (_inventario().tem_espaco() or Saque.tem_espaco()):
-		vender()
-		return
 	_atraido = true
 	_pulo = DURACAO_PULO
 
@@ -248,31 +237,25 @@ static func mochila_tem_espaco() -> bool:
 static func tem_lugar() -> bool:
 	return InventarioJogador.tem_espaco() or Saque.tem_espaco()
 
-## Pego: abaixo do filtro de venda vira ouro; senão vai para a mochila; mochila cheia, para o saque da partida (aba
-## SAQUE da janela entre as ondas); os dois cheios, fica no chão e o jogador é avisado
+## Exige espaço na mochila inclusive com filtro de venda ligado. Sem espaço, permanece no chão.
 func _tentar_pegar() -> void:
-	if Saque.vende_sozinho(item):
-		vender()
-		return
-	if _inventario().tem_espaco():
-		_pego = true
-		_inventario().adicionar(item)
-		_inventario().salvar()
-		Sons.tocar("compra", 0.05)
-		get_tree().call_group(_grupo_hud(), "avisar_equipamento", item)
-		queue_free()
-		return
-	if Saque.adicionar(item):
-		_pego = true
-		Sons.tocar("compra", 0.05)
-		get_tree().call_group(_grupo_hud(), "avisar_equipamento_no_saque", item)
-		queue_free()
-		return
-	# Recusa: o item volta a ficar parado no chão por um tempo e o jogador é avisado
+	var inventario := _inventario()
+	if inventario.pode_receber(item):
+		if Saque.vende_sozinho(item):
+			vender()
+			return
+		var antes: Array = inventario.fotografar_mochila()
+		if inventario.receber(item) >= 0 and inventario.salvar():
+			_pego = true
+			Sons.tocar("compra", 0.05)
+			get_tree().call_group(_grupo_hud(), "avisar_equipamento", item)
+			queue_free()
+			return
+		inventario.restaurar_mochila(antes)
 	_atraido = false
 	_velocidade = 0.0
 	_recusado_ate = _tempo + ESPERA_RECUSA
-	get_tree().call_group(_grupo_hud(), "avisar_equipamento_cheio", "MOCHILA E SAQUE CHEIOS")
+	get_tree().call_group(_grupo_hud(), "avisar_equipamento_cheio", "MOCHILA CHEIA: LIBERE ESPACO")
 	Sons.tocar("erro", 0.0)
 
 ## Vende o equipamento direto (sem a mochila) pelo preço da partida (Saque.preco_na_partida: pouco, para não deixar o
@@ -294,7 +277,7 @@ func _jogador() -> Node2D:
 	var melhor: Node2D = null
 	var menor := INF
 	for jogador in get_tree().get_nodes_in_group("jogadores") if is_inside_tree() else []:
-		if bool(jogador.get("estaMorto")):
+		if bool(jogador.get("estaMorto")) or jogador.get_world_2d()!=get_world_2d():
 			continue
 		var distancia := global_position.distance_squared_to(jogador.global_position)
 		if distancia < menor:

@@ -26,6 +26,25 @@ func _limpar() -> void:
 func contem(item) -> bool:
 	return item != null and itens.has(item)
 
+## Guardar uma arma não torna seus aprimoramentos temporários permanentes.
+## O baú preserva a cópia; o modelo recomeça comum, nível 1, como o kit da mochila.
+func reiniciar_equipamento_da_partida() -> void:
+	var mudou := false
+	for item in itens:
+		if item == null or item.categoria not in ["arma", "escudo"]:
+			continue
+		if preload("res://codigo/dados/conjuntos_armadura.gd").de_tipo(item.tipo) != null:
+			continue
+		item.nivel = 1
+		item.raridade = "comum"
+		item.encantamento = ""
+		item.nivel_encantamento = 0
+		item.afixos.clear()
+		mudou = true
+	if mudou:
+		salvar()
+		alterado.emit()
+
 ## Guarda um item da mochila. `casa` = onde soltou (ocupada ou -1: a primeira livre). false se não coube
 func guardar(item, casa: int = -1, quem: Node = null) -> bool:
 	var mochila := _mochila_de(quem)
@@ -67,7 +86,7 @@ func mover(item, casa: int) -> bool:
 	return true
 
 func _destino(item, casa: int) -> int:
-	if item.categoria in ["semente","peixe"]:
+	if item.empilhavel():
 		for i in capacidade:
 			if itens[i] != null and itens[i].categoria == item.categoria and itens[i].tipo == item.tipo and itens[i].qualidade == item.qualidade:
 				return i

@@ -49,7 +49,7 @@ func preco(item) -> int:
 # --- Filtro -------------------------------------------------------------------------------------------------------
 
 func vende_sozinho(item) -> bool:
-	return item != null and String(item.raridade) in FILTROS[filtro]["raridades"]
+	return item != null and not item.empilhavel() and String(item.raridade) in FILTROS[filtro]["raridades"]
 
 func trocar_filtro() -> void:
 	filtro = (filtro + 1) % FILTROS.size()

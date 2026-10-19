@@ -8,6 +8,31 @@ const LINHAS := [0, 1, 3, 2] # Fontes: frente, costas, esquerda, direita; jogo: 
 func _initialize() -> void:
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path("res://assets/inimigos/medusa"))
 	for pagina in PAGINAS:
+		var revisada: String = "res://arte/fontes/inimigos/medusa/revisao_nitidez/"+pagina+".png"
+		if FileAccess.file_exists(revisada):
+			var fonte_nova := Image.load_from_file(revisada)
+			var nativa := Image.create(768,512,false,Image.FORMAT_RGBA8)
+			for linha in 4:
+				for coluna in 6:
+					var quadro := fonte_nova.get_region(Rect2i(coluna*256,linha*256,256,256))
+					quadro.convert(Image.FORMAT_RGBA8)
+					quadro.resize(128,128,Image.INTERPOLATE_NEAREST)
+					for y in 128:
+						for x in 128:
+							var pixel := quadro.get_pixel(x,y)
+							pixel.a=1 if pixel.a>=.5 else 0
+							quadro.set_pixel(x,y,pixel if pixel.a>0 else Color.TRANSPARENT)
+					quadro=Recorte.extrair_silhueta(quadro)
+					var limites := quadro.get_used_rect()
+					if not limites.has_area():
+						push_error("Pose vazia: "+pagina)
+						quit(1)
+						return
+					# Encaixe no chão preservado; não normaliza largura/altura por pose.
+					nativa.blit_rect(quadro,limites,Vector2i(coluna*128+limites.position.x,linha*128+120-limites.size.y))
+			nativa.save_png("res://assets/inimigos/medusa/"+pagina+".png")
+			print("Medusa nativa: ",pagina," 128px, 24 poses")
+			continue
 		var caminho: String = "res://arte/fontes/inimigos/medusa/" + pagina + "_v1.png"
 		if FileAccess.file_exists("res://arte/fontes/inimigos/medusa/" + pagina + "_v2.png"):
 			caminho = "res://arte/fontes/inimigos/medusa/" + pagina + "_v2.png"

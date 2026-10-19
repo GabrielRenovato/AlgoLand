@@ -120,7 +120,7 @@ func _rodar() -> void:
 	inv.criar_itens_iniciais()
 	inv.restaurar_da_partida_anterior(guardado)
 	_verificar("morte: elmo equipado volta equipado e com o nível", inv.equipados["cabeca"] == elmo and elmo.nivel == 3)
-	_verificar("morte: peça da mochila volta para a mochila", inv.mochila.has(botas) and inv.equipados["botas"].tipo == "botas_basicas")
+	_verificar("morte: peça da mochila volta para a mochila", inv.mochila.has(botas) and inv.equipados["botas"] == null)
 	_verificar("morte: moedas de forja ficam", inv.moedas_forja == 4)
 	_verificar("morte: espada e escudo do kit continuam equipados", inv.equipados["arma"] != null and inv.equipados["escudo"] != null)
 	inv.limpar()

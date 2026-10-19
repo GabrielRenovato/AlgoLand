@@ -1,0 +1,22 @@
+{
+  "quadro": [
+    64,
+    64
+  ],
+  "grade": [
+    7,
+    4
+  ],
+  "pes_y": 44,
+  "altura": 40,
+  "direcoes": [
+    "baixo",
+    "direita",
+    "cima",
+    "esquerda"
+  ],
+  "escala_mapa": 1,
+  "perfil": "res://arte/fontes/npcs/base_vila/perfis/orion.json",
+  "fonte": "res://arte/fontes/npcs/orion_mago/gerado_cajado.png",
+  "cajado_integrado": true
+}

@@ -28,28 +28,34 @@ static func nivel(jogador: Node) -> int:
 	return clampi(int(_estado().varas_pesca.get(chave(jogador),1)),1,MAXIMO)
 
 static func pedras(jogador: Node) -> int:
-	return maxi(0,int(_estado().pedras_vara.get(chave(jogador),0)))
+	return _estado().mochila_pesca(jogador).quantidade_tipo("material:pedra_vara")
 
 static func custo(jogador: Node) -> int:
 	return int(CUSTOS.get(nivel(jogador)+1,0))
 
 static func melhorar(jogador: Node) -> bool:
+	if _estado().mochila_pesca(jogador).buscar_por_tipo("vara_pesca") == null:
+		return false
 	var necessario := custo(jogador)
 	if necessario == 0 or pedras(jogador) < necessario:
 		return false
 	var id := chave(jogador)
-	_estado().pedras_vara[id] = pedras(jogador)-necessario
+	_estado().mochila_pesca(jogador).gastar_tipo("material:pedra_vara",necessario)
+	_estado().mochila_pesca(jogador).salvar()
 	_estado().varas_pesca[id] = nivel(jogador)+1
 	sincronizar_itens()
 	_estado().salvar()
 	_estado().bolsas_alteradas.emit()
 	return true
 
-static func receber_pedra(jogador: Node) -> void:
-	_estado().pedras_vara[chave(jogador)] = pedras(jogador)+1
+static func receber_pedra(jogador: Node) -> bool:
+	if not _estado().mochila_pesca(jogador).adicionar_coletavel("material","pedra_vara"):
+		return false
+	_estado().mochila_pesca(jogador).salvar()
 	_estado().pesca_ultima_pedra[chave(jogador)] = capturas(jogador)
 	_estado().salvar()
 	_estado().bolsas_alteradas.emit()
+	return true
 
 static func sortear_pedra(rng: RandomNumberGenerator = null) -> bool:
 	return (rng.randf() if rng != null else randf()) < CHANCE_PEDRA

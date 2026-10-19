@@ -135,7 +135,10 @@ func _rodar() -> void:
 	_jogador._recarga_carrasco = 0.0
 	_verificar("três peças dão só metade da chance (5%) e restauram cabelo", not _jogador._tentar_raio_carrasco(alvo, 20, 0.06) and not _jogador.sprite_cabelo.texture.get_image().is_invisible())
 	for slot in basicos:
-		_inv.equipar(basicos[slot])
+		if basicos[slot] == null:
+			_inv.desequipar(slot)
+		else:
+			_inv.equipar(basicos[slot])
 	_verificar("trocar de volta restaura exatamente os bônus básicos", _jogador.bonus_defesa == defesa_base and _jogador.bonus_vitalidade == vita_base and _jogador.pecas_cavaleiro == 0)
 	# O traje cosmético do F3 não concede o bônus do conjunto.
 	for i in Aparencia.total_roupas():

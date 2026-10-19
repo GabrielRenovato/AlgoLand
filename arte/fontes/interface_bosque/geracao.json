@@ -1,0 +1,260 @@
+{
+  "tipo": "sprites de interface, sem cenário sazonal",
+  "referencias": [
+    "assets/cenario/cidade/decoracao/mobiliario/caixas_legumes.png",
+    "arte/previas/forja/dialogo_ivo.png"
+  ],
+  "estilo": "madeira quente, bronze, pergaminho e verde sálvia; clusters nativos sem suavização",
+  "grade": "painéis 48x48, botões48x20, slots24x24; bordas nove partes",
+  "encaixe": "UI frontal, pivô superior esquerdo, sem colisão; margens preservadas pelos StyleBoxTexture",
+  "variantes": [
+    "painel_titulo",
+    "painel",
+    "pergaminho",
+    "slot",
+    "botao",
+    "botao_hover",
+    "botao_pressionado",
+    "botao_desabilitado",
+    "primario",
+    "primario_hover",
+    "primario_pressionado",
+    "campo"
+  ],
+  "fonte": "arte/fontes/interface_bosque/atlas_original.png",
+  "destino": "assets/ui/bosque",
+  "recortes": {
+    "painel_titulo": {
+      "tamanho": [
+        48,
+        48
+      ],
+      "celula_fonte": [
+        0,
+        140,
+        375,
+        520
+      ],
+      "bbox": [
+        40,
+        47,
+        357,
+        341
+      ]
+    },
+    "painel": {
+      "tamanho": [
+        48,
+        48
+      ],
+      "celula_fonte": [
+        375,
+        140,
+        740,
+        520
+      ],
+      "bbox": [
+        30,
+        47,
+        348,
+        341
+      ]
+    },
+    "pergaminho": {
+      "tamanho": [
+        48,
+        48
+      ],
+      "celula_fonte": [
+        740,
+        140,
+        1100,
+        520
+      ],
+      "bbox": [
+        31,
+        47,
+        350,
+        341
+      ]
+    },
+    "slot": {
+      "tamanho": [
+        24,
+        24
+      ],
+      "celula_fonte": [
+        1100,
+        140,
+        1448,
+        520
+      ],
+      "bbox": [
+        94,
+        142,
+        267,
+        315
+      ]
+    },
+    "botao": {
+      "tamanho": [
+        48,
+        20
+      ],
+      "celula_fonte": [
+        0,
+        540,
+        375,
+        740
+      ],
+      "bbox": [
+        39,
+        37,
+        345,
+        162
+      ]
+    },
+    "botao_hover": {
+      "tamanho": [
+        48,
+        20
+      ],
+      "celula_fonte": [
+        375,
+        540,
+        740,
+        740
+      ],
+      "bbox": [
+        22,
+        37,
+        328,
+        162
+      ]
+    },
+    "botao_pressionado": {
+      "tamanho": [
+        48,
+        20
+      ],
+      "celula_fonte": [
+        740,
+        540,
+        1100,
+        740
+      ],
+      "bbox": [
+        14,
+        37,
+        319,
+        162
+      ]
+    },
+    "botao_desabilitado": {
+      "tamanho": [
+        48,
+        20
+      ],
+      "celula_fonte": [
+        1100,
+        540,
+        1448,
+        740
+      ],
+      "bbox": [
+        9,
+        37,
+        312,
+        162
+      ]
+    },
+    "primario": {
+      "tamanho": [
+        48,
+        20
+      ],
+      "celula_fonte": [
+        0,
+        760,
+        375,
+        960
+      ],
+      "bbox": [
+        36,
+        35,
+        349,
+        167
+      ]
+    },
+    "primario_hover": {
+      "tamanho": [
+        48,
+        20
+      ],
+      "celula_fonte": [
+        375,
+        760,
+        740,
+        960
+      ],
+      "bbox": [
+        17,
+        35,
+        331,
+        167
+      ]
+    },
+    "primario_pressionado": {
+      "tamanho": [
+        48,
+        20
+      ],
+      "celula_fonte": [
+        740,
+        760,
+        1100,
+        960
+      ],
+      "bbox": [
+        8,
+        35,
+        322,
+        167
+      ]
+    },
+    "campo": {
+      "tamanho": [
+        48,
+        20
+      ],
+      "celula_fonte": [
+        1100,
+        760,
+        1448,
+        960
+      ],
+      "bbox": [
+        3,
+        35,
+        317,
+        167
+      ]
+    }
+  },
+  "integracao": "temas globais/menu/sidebar, telas, criação, diálogo, slots e HUD",
+  "gerador": "image_gen: atlas de 4x3 com formas vazias, cantos madeira/bronze e centros legíveis",
+  "barras": {
+    "fonte": "arte/fontes/interface_bosque/barras_original.png",
+    "quadro": [
+      48,
+      8
+    ],
+    "segmentos": 3,
+    "variantes": [
+      "vida",
+      "vazia",
+      "neutra"
+    ],
+    "integracao": "codigo/ui/desenho_barra.gd; energia reutiliza as peças giradas"
+  }
+}

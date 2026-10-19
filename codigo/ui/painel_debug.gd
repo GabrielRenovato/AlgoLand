@@ -88,6 +88,7 @@ func _montar() -> void:
 			["PEITORAL + BOTAS (TESTE)", _ao_armadura_teste],
 			["RESTAURAR ROUPA", _restaurar_roupa],
 		],
+		"ANDARES": [["PROXIMO ANDAR", _ao_proximo_andar], ["IR DIRETO AO CHEFE", _ao_chefe_andar]],
 		"ONDAS": [["AVANCAR 1", _ao_avancar_onda.bind(1)], ["AVANCAR 10", _ao_avancar_onda.bind(10)]],
 		"MINOTAURO": [["IR PARA ONDA DO MINOTAURO", _ao_onda_minotauro],
 			["INVESTIDA", _ao_ataque_minotauro.bind("investida")],
@@ -228,6 +229,18 @@ func _ao_avancar_hora(quantidade: float) -> void:
 		return
 	iluminacao.definir_hora(iluminacao.hora + quantidade)
 	iluminacao._aplicar()
+
+func _ao_proximo_andar() -> void:
+	var gerente := get_tree().get_first_node_in_group("gerenciador_ondas")
+	var cena := get_tree().current_scene
+	if gerente == null or cena == null or not cena.get_meta("andar_fenda",false) or Transicao.ocupada:
+		return
+	gerente.avancar_onda_debug(1)
+
+func _ao_chefe_andar() -> void:
+	var gerente := get_tree().get_first_node_in_group("gerenciador_andar")
+	if gerente != null and not Transicao.ocupada:
+		gerente.ir_ao_guardiao_debug()
 
 func _ao_avancar_onda(quantidade: int) -> void:
 	var gerenciador := get_tree().get_first_node_in_group("gerenciador_ondas")

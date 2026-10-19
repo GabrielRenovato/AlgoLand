@@ -134,7 +134,7 @@ func spawnar_inimigo_com_tentativas(spawn: Marker2D, multiplicador_vida: float, 
 	return false
 
 ## Espécie da onda ou as três classes de esqueleto; ver ESTAGIOS.
-func obter_pool_especies(onda: int) -> Array[PackedScene]:
+static func obter_pool_especies(onda: int) -> Array[PackedScene]:
 	var estagio := (maxi(onda, 1) - 1) / ONDAS_POR_ESTAGIO
 	if estagio >= ESTAGIOS.size():
 		estagio = ESTAGIO_INICIO_CICLO + (estagio - ESTAGIOS.size()) % (ESTAGIOS.size() - ESTAGIO_INICIO_CICLO)
@@ -301,7 +301,10 @@ func _soltar_equipamento(inimigo: Node2D) -> void:
 	var onda: int = gerenciador_ondas.onda_atual if is_instance_valid(gerenciador_ondas) else 1
 	var chefe := SementeDrop.eh_chefe(inimigo)
 	EquipamentoDrop.soltar_de(inimigo, principal, _rng_equipamentos, onda, chefe)
+	var drops := preload("res://codigo/logica/drops_forja.gd")
+	if chefe:
+		drops.soltar_material("nucleo",1,inimigo.global_position,principal)
+	if gerenciador_ondas.inimigos_vivos == 1 and not gerenciador_ondas.onda_bonus:
+		drops.soltar_material("fragmento",1,inimigo.global_position,principal)
 	if EquipamentoDrop.sortear_moeda_forja(_rng_equipamentos, chefe):
-		InventarioJogador.adicionar_moedas_forja()
-		InventarioJogador.salvar()
-		get_tree().call_group("hud", "avisar_moeda_forja")
+		drops.soltar_material("moeda_forja",1,inimigo.global_position,principal)

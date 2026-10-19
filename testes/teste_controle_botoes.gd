@@ -186,7 +186,7 @@ func _rodar() -> void:
 	await _quadros(3)
 	var ultima: Node = inventario._info_linhas.get_child(inventario._info_linhas.get_child_count() - 1)
 	_verificar("inventario: item em foco mostra a caixa de detalhe no controle", inventario._info_item.visible and inventario._info_linhas.get_child_count() >= 2, "")
-	_verificar("inventario: com ENCANTAR aberto, confirmar coloca a arma no encanto (B no Nintendo)", ultima is Label and ultima.text == "B COLOCAR NO ENCANTO", ultima.text if ultima is Label else "?")
+	_verificar("inventario: com ENCANTAR aberto, confirmar coloca a arma no encanto (B no Nintendo)", inventario._info_linhas.get_children().any(func(no): return no is Label and no.text == "B COLOCAR NO ENCANTO"), ultima.text if ultima is Label else "?")
 	ctl._definir(false)
 	await _quadros(2)
 	_verificar("inventario: no mouse a caixa some (a dica fica no mouse)", not inventario._info_item.visible, "")
@@ -340,7 +340,7 @@ func _rodar() -> void:
 	ctl._definir(true)
 	titulo._abrir_painel(titulo.painel_opcoes, titulo.botao_opcoes, titulo.get_node("%BotaoVolumeMenos"))
 	await _quadros(4)
-	_verificar("opcoes: 5 linhas (volume, tela cheia, fps, vibracao, botoes)", titulo._linhas.size() == 5, str(titulo._linhas.size()))
+	_verificar("opcoes: 6 linhas incluindo escala da interface", titulo._linhas.size() == 6, str(titulo._linhas.size()))
 	for i in 4:
 		await _acao("ui_down")
 	_verificar("opcoes: baixo 4 vezes chega na linha BOTOES", root.get_viewport().gui_get_focus_owner() == titulo.get_node("%BotaoBotoesMenos"), "")

@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="1100" viewBox="-1280 -1040 2560 1955">
+<rect x="-1280" y="-1040" width="2560" height="1955" fill="#172a25"/>
+<style>text {font-family:DejaVu Sans,sans-serif;fill:#f5e3ba} .nome{font-size:28px;font-weight:bold} .nota{font-size:25px;fill:#b7cbb5}</style>
+<text x="-1190" y="-930" font-size="54" font-weight="bold">FENDA DO BOSQUE — PLANTA DO ANDAR</text>
+<text x="-1190" y="-873" class="nota">2.400 × 1.632 px de terreno • grade 16 px • escala nativa preservada</text>
+<polyline points="-928,512 -800,384 -544,256" stroke="#496449" stroke-width="176" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="-544,256 -672,64 -784,-192" stroke="#496449" stroke-width="176" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="-784,-192 -464,-224 -272,-144 -112,-48" stroke="#496449" stroke-width="192" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="-544,256 -320,192 -112,-48" stroke="#496449" stroke-width="176" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="-112,-48 128,112 352,272 544,304" stroke="#496449" stroke-width="192" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="-112,-48 32,-224 256,-416" stroke="#496449" stroke-width="176" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="544,304 704,64 624,-144 448,-288 256,-416" stroke="#496449" stroke-width="192" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="256,-416 544,-480 864,-480" stroke="#496449" stroke-width="208" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<ellipse cx="-928" cy="512" rx="152" ry="128" fill="#526e4d" stroke="#80976a" stroke-width="3"/>
+<ellipse cx="-544" cy="256" rx="176" ry="144" fill="#526e4d" stroke="#80976a" stroke-width="3"/>
+<ellipse cx="-784" cy="-192" rx="192" ry="176" fill="#526e4d" stroke="#80976a" stroke-width="3"/>
+<ellipse cx="-112" cy="-48" rx="208" ry="160" fill="#526e4d" stroke="#80976a" stroke-width="3"/>
+<ellipse cx="544" cy="304" rx="208" ry="160" fill="#526e4d" stroke="#80976a" stroke-width="3"/>
+<ellipse cx="256" cy="-416" rx="192" ry="144" fill="#526e4d" stroke="#80976a" stroke-width="3"/>
+<ellipse cx="864" cy="-480" rx="224" ry="192" fill="#526e4d" stroke="#80976a" stroke-width="3"/>
+<polyline points="-928,512 -800,384 -544,256" stroke="#d2ae74" stroke-width="14" fill="none" stroke-linecap="round" stroke-dasharray="20 14"/>
+<polyline points="-544,256 -672,64 -784,-192" stroke="#d2ae74" stroke-width="14" fill="none" stroke-linecap="round" stroke-dasharray="20 14"/>
+<polyline points="-784,-192 -464,-224 -272,-144 -112,-48" stroke="#d2ae74" stroke-width="14" fill="none" stroke-linecap="round" stroke-dasharray="20 14"/>
+<polyline points="-544,256 -320,192 -112,-48" stroke="#d2ae74" stroke-width="14" fill="none" stroke-linecap="round" stroke-dasharray="20 14"/>
+<polyline points="-112,-48 128,112 352,272 544,304" stroke="#d2ae74" stroke-width="14" fill="none" stroke-linecap="round" stroke-dasharray="20 14"/>
+<polyline points="-112,-48 32,-224 256,-416" stroke="#d2ae74" stroke-width="14" fill="none" stroke-linecap="round" stroke-dasharray="20 14"/>
+<polyline points="544,304 704,64 624,-144 448,-288 256,-416" stroke="#d2ae74" stroke-width="14" fill="none" stroke-linecap="round" stroke-dasharray="20 14"/>
+<polyline points="256,-416 544,-480 864,-480" stroke="#d2ae74" stroke-width="14" fill="none" stroke-linecap="round" stroke-dasharray="20 14"/>
+<ellipse cx="-1008" cy="-152" rx="110" ry="150" fill="#366b7a" stroke="#75acac" stroke-width="6"/>
+<ellipse cx="-992" cy="-320" rx="108" ry="92" fill="#366b7a" stroke="#75acac" stroke-width="6"/>
+<text x="-928" y="488" text-anchor="middle" class="nome">1. Portal de entrada</text>
+<text x="-928" y="528" text-anchor="middle" font-size="21">ENTRADA SEGURA</text>
+<text x="-544" y="232" text-anchor="middle" class="nome">2. Encruzilhada</text>
+<text x="-544" y="272" text-anchor="middle" font-size="21">2 grupos de combate</text>
+<circle cx="-559.0" cy="314" r="9" fill="#efb974"/>
+<circle cx="-529.0" cy="314" r="9" fill="#efb974"/>
+<text x="-784" y="-216" text-anchor="middle" class="nome">3. Margem do lago</text>
+<text x="-784" y="-176" text-anchor="middle" font-size="21">2 grupos de combate</text>
+<circle cx="-799.0" cy="-134" r="9" fill="#efb974"/>
+<circle cx="-769.0" cy="-134" r="9" fill="#efb974"/>
+<text x="-112" y="-72" text-anchor="middle" class="nome">4. Clareira central</text>
+<text x="-112" y="-32" text-anchor="middle" font-size="21">3 grupos de combate</text>
+<circle cx="-142.0" cy="10" r="9" fill="#efb974"/>
+<circle cx="-112.0" cy="10" r="9" fill="#efb974"/>
+<circle cx="-82.0" cy="10" r="9" fill="#efb974"/>
+<text x="544" y="280" text-anchor="middle" class="nome">5. Bosque dos elites</text>
+<text x="544" y="320" text-anchor="middle" font-size="21">2 grupos de combate</text>
+<circle cx="529.0" cy="362" r="9" fill="#efb974"/>
+<circle cx="559.0" cy="362" r="9" fill="#efb974"/>
+<text x="256" y="-440" text-anchor="middle" class="nome">6. Passagem norte</text>
+<text x="256" y="-400" text-anchor="middle" font-size="21">2 grupos de combate</text>
+<circle cx="241.0" cy="-358" r="9" fill="#efb974"/>
+<circle cx="271.0" cy="-358" r="9" fill="#efb974"/>
+<text x="864" y="-504" text-anchor="middle" class="nome">7. Clareira do guardiao</text>
+<text x="864" y="-464" text-anchor="middle" font-size="21">BOSS APÓS COMPLETAR A BARRA</text>
+<text x="-1190" y="760" class="nota">Rotas alternativas: margem do lago ou trilha central; circuito pelo bosque leste.</text>
+<text x="-1190" y="810" class="nota">11 grupos + 2 elites • inimigos de sobra para a barra • clareira final livre para o guardião.</text>
+<text x="-1190" y="860" class="nota">Bosque fechado delimita passagens; sem ampliar os sprites. Arena anterior preservada.</text></svg>

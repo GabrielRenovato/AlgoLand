@@ -6,6 +6,12 @@ const Clima := preload("res://codigo/dados/estados_clima.gd")
 const Conversa := preload("res://codigo/cidade/conversa_moradores.gd")
 # A ordem da chave define os interlocutores das falas alternadas.
 const DUPLAS := {
+	"mercador|ferreiro": ["Ivo, tenho madeira nova na venda. Esta quase reta.", "Quase reta tambem e o formato da ultima prateleira que voce pediu para eu consertar.", "Entao ja sabe trabalhar com o meu estoque!", "Separo o esquadro. Voce separa a madeira que nao faz curva."],
+	"curandeira|ferreiro": ["Ivo, mostrou a mao para mim ou escondeu outra queimadura?", "Mostrei as duas. A senhora conta os dedos toda vez.", "E pretendo continuar encontrando dez.", "Por isso deixei as luvas perto da porta. Hoje eu lembrei."],
+	"bardo|ferreiro": ["Ivo, pensei num ritmo novo para suas marteladas!", "O ferro continua preferindo o antigo. Ele e um publico conservador.", "Posso cantar baixo enquanto voce trabalha.", "Baixo e uma tonalidade que eu aprecio muito."],
+	"mistica|ferreiro": ["As faiscas da sua forja parecem pequenas constelacoes, Ivo.", "As minhas tem a vantagem de avisar quando caem no sapato.", "Talvez eu desenhe uma no meu mapa.", "Desenhe longe da borda. Nem no papel gosto de desperdicar material."],
+	"lia|ferreiro": ["Ivo, a dobradica da sede voltou a cantar.", "Vou conferir. Da ultima vez era o Caio atras da porta.", "Desta vez eu conferi antes de pedir.", "Entao levo oleo e deixo os protetores de ouvido em casa."],
+	"bento|ferreiro": ["A enxada voltou boa, Ivo. Voce preservou o cabo.", "Sei reconhecer uma peca que ja encontrou a mao certa.", "Foi presente da minha companheira. Tem historia ali.", "Entao na proxima manutencao voce me conta mais um pedaco."],
 	"mercador|curandeira": [
 		"Rosa, separei seu mel. Mas voce levou dois potes na semana passada; a vila inteira ficou gripada?",
 		"Um foi para o xarope. O outro virou bolo para quem ficou esperando na enfermaria.",

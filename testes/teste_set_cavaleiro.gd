@@ -80,9 +80,8 @@ func _rodar() -> void:
 		_verificar(pagina + ": quatro peças recompõem o set completo", recomposicao)
 		_verificar(pagina + ": peças não compartilham pixels", sem_sobreposicao)
 		_verificar(pagina + ": sem elmo preserva cabelo", not Aparencia.cabelo(1, pagina, indice, 14).get_image().is_invisible())
-	var capa: Image = Aparencia.roupa(34, "andar").get_image()
-	var peito_sobre_capa: Image = Aparencia.roupa(34, "andar", 2).get_image()
-	_verificar("peitoral sozinho elimina a borda da capa nos ombros", capa.get_pixel(25, 27).a > 0.5 and peito_sobre_capa.get_pixel(25, 27).a == 0.0 and peito_sobre_capa.get_pixel(38, 27).a == 0.0)
+	var substituta: int = Aparencia.roupas()[34]["combate"]
+	_verificar("peitoral sobre roupa antiga incompleta usa a substituta compatível", Aparencia.roupa(34, "andar", 2).get_image().get_data() == Aparencia.roupa(substituta, "andar", 2).get_image().get_data())
 	var andar: Image = Aparencia.roupa(indice, "andar").get_image()
 	_verificar("corrida tem quadros diferentes acompanhando a passada", andar.get_region(Rect2i(0, 256, 64, 64)).get_data() != andar.get_region(Rect2i(128, 256, 64, 64)).get_data())
 	var cena := Node2D.new()
@@ -107,6 +106,7 @@ func _rodar() -> void:
 	jogador.pecas_cavaleiro = 15
 	# Instancia o jogador real sem entrar na árvore: valida as camadas sem carregar/gravar saves.
 	var real = load("res://cenas/jogador.tscn").instantiate()
+	real.inventario = root.get_node("InventarioJogador")
 	var camadas := {
 		"sprite_corpo": "BaseSprites/Corpo",
 		"corpo_espada_escudo_ataque": "AttackSwordAnimation/CorpoEspadaEscudo",
@@ -123,7 +123,7 @@ func _rodar() -> void:
 	for chave in ["sprite_cabelo", "cabelo_ataque", "cabelo_lanca_ataque", "sprite_cabelo_forja"]:
 		_verificar("jogador real: elmo oculta " + chave, real.get(chave).texture.get_image().is_invisible())
 	real._aplicar_roupa_sentado()
-	_verificar("jogador real: sentado mantém o set", real.sprite_roupa_forja.texture == Aparencia.roupa(indice, "sentado"))
+	_verificar("jogador real: sentado mantém o set", real.sprite_roupa_forja.texture == Aparencia.roupa_refinada(indice, "sentado"))
 	real.definir_peca_cavaleiro("elmo", false)
 	_verificar("jogador real: retirar só o elmo mantém outras peças", real.pecas_cavaleiro == 14 and not real.sprite_cabelo.texture.get_image().is_invisible())
 	real.definir_aparencia(1, 2)

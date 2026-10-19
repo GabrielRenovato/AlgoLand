@@ -11,7 +11,7 @@ static func montar(praia: Node2D, itens: Array) -> void:
 	for item: Array in itens:
 		var tipo: String = item[0]
 		var base := Vector2(item[1], item[2])
-		var textura: Texture2D = load(PASTA + tipo + ".png")
+		var textura: Texture2D = load("res://assets/cenario/praia/estrelas_mar/primavera.png" if tipo == "estrela_mar" else PASTA + tipo + ".png")
 		var objeto := Node2D.new()
 		objeto.name = "%s_%d_%d" % [tipo, base.x, base.y]
 		objeto.position = base
@@ -23,6 +23,18 @@ static func montar(praia: Node2D, itens: Array) -> void:
 		sprite.centered = false
 		sprite.offset = Vector2(-textura.get_width() / 2.0, -textura.get_height())
 		objeto.add_child(sprite)
+		if tipo == "estrela_mar":
+			var atualizar := func(_estacao: int):
+				sprite.texture = load("res://assets/cenario/praia/estrelas_mar/"+["primavera","verao","outono","inverno"][praia.estacao_visual()]+".png")
+				# Quadro de 16 px no mundo, com detalhe em 2x e base alinhada na areia.
+				sprite.scale = Vector2.ONE*16.0/sprite.texture.get_width()
+				var usado := sprite.texture.get_image().get_used_rect()
+				sprite.offset = Vector2(-usado.get_center().x,-usado.end.y)
+				sprite.flip_h = int(base.x+base.y)%3 == 0
+			praia.get_node("/root/Calendario").estacao_mudou.connect(atualizar)
+			var estacoes := praia.get_node_or_null("Terrains/Estacoes")
+			if estacoes != null: estacoes.estacao_mudou.connect(atualizar)
+			atualizar.call(praia.estacao_visual())
 		if tipo == "conchas":
 			var atualizar := func(_estacao: int):
 				var estacao: int = praia.estacao_visual()
@@ -58,5 +70,5 @@ static func montar(praia: Node2D, itens: Array) -> void:
 			forma.position = Vector2(6, -4) if tipo == "coqueiro_a" else (Vector2(-18, -4) if tipo == "coqueiro_b" else Vector2(0, -4))
 			corpo.add_child(forma)
 		else:
-			# Conchas, capim e madeira seca são detalhes baixos e não travam a caminhada.
+			# Estrelas-do-mar, conchas, capim e madeira seca sao detalhes baixos, sem colisao.
 			objeto.z_index = -997

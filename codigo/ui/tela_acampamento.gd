@@ -19,7 +19,7 @@ const TEXTURA_BRASA := preload("res://assets/ui/icone_brasa.png")
 @onready var _lista_moradores: VBoxContainer = %ListaMoradores
 @onready var _rotulo_brasas: Label = %RotuloBrasas
 @onready var _rotulo_recorde: Label = %Recorde
-@onready var _botao_fechar: TextureButton = %BotaoFechar
+@onready var _botao_fechar: Button = %BotaoFechar
 
 # id -> {"nivel": Label, "botao": Button}
 var _linhas_melhorias: Dictionary = {}
@@ -96,11 +96,12 @@ func _criar_linha(texto_nome: String, texto_descricao: String, botao: Button, ni
 	var nome := _criar_rotulo(texto_nome, 0)
 	nome.add_theme_color_override("font_color", COR_NOME)
 	nome.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	nome.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	cima.add_child(nome)
 	if nivel != null:
 		cima.add_child(nivel)
 	textos.add_child(cima)
-	var descricao := _criar_rotulo(texto_descricao, LARGURA_TEXTO)
+	var descricao := _criar_rotulo(texto_descricao, 0)
 	descricao.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	descricao.add_theme_color_override("font_color", COR_DESCRICAO)
 	textos.add_child(descricao)

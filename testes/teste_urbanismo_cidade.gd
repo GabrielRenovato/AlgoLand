@@ -1,7 +1,7 @@
 extends SceneTree
 
 ## Valida a cidade real após mudar o layout. Só executa no projeto com saves isolados.
-const Dados := preload("res://codigo/cidade/dados_cidade.gd")
+var Dados: GDScript
 var falhas := 0
 
 func _initialize() -> void:
@@ -36,6 +36,8 @@ func calçamento_conectado(terreno: TileMapLayer, origem: Vector2) -> Dictionary
 	return visitados
 
 func _rodar() -> void:
+	await process_frame
+	Dados = load("res://codigo/cidade/dados_cidade.gd")
 	if ProjectSettings.get_setting("application/config/name") != "AlgoLand testes Carrasco":
 		push_error("Execute na cópia de testes, com saves isolados.")
 		quit(1)

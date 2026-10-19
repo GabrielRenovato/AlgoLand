@@ -33,7 +33,7 @@ func _rodar() -> void:
 	_verificar("chance acima de 100% é recusada", not Padrao.validar(invalido).is_empty())
 	_verificar("nome é convertido para a fonte pixel", Padrao.nome_pixel("Guardião") == "GUARDIAO")
 	_verificar("cadastro do Carrasco lê os dados gerados", Carrasco.ID == config["id"] and Carrasco.RARIDADE == config["raridade"] and Carrasco.RAIZ_SPRITES == config["destino"] and Carrasco.PRECO_BASE == int(config["preco_base"]))
-	_verificar("bônus e drop não mudaram", Carrasco.CHANCE_RAIO == float(config["bonus"]["chance"]) and Carrasco.chance_drop(13, false, true) == 0.0 and Carrasco.chance_drop(14, false, true) == 0.2)
+	_verificar("bônus e drops seguem o manifesto", Carrasco.CHANCE_RAIO == float(config["bonus"]["chance"]) and Carrasco.chance_drop(0, false, true) == 0.0 and Carrasco.chance_drop(1, false, true) == 0.1 and Carrasco.chance_drop(1, false, false) == 0.05)
 	var equipados := {}
 	for tipo in Carrasco.TIPOS:
 		var item := Dados.new()
@@ -46,7 +46,7 @@ func _rodar() -> void:
 			_verificar(tipo + ": status do manifesto no nível " + str(nivel), dados["bonus_defesa"] == int(base["defesa"][nivel - 1]) and dados["bonus_vitalidade"] == int(base["vitalidade"][nivel - 1]))
 	_verificar("base ativa quatro peças do mesmo set", Base.pode_ativar(Carrasco.TIPOS, equipados, 0.0, 0.0, 0.1))
 	equipados["botas"].tipo = "botas_guardiao"
-	_verificar("mistura de sets não libera bônus completo", not Base.pode_ativar(Carrasco.TIPOS, equipados, 0.0, 0.0, 0.1))
+	_verificar("três peças dão metade do bônus", Base.fator_pecas(Carrasco.TIPOS, equipados) == 0.5 and Base.pode_ativar(Carrasco.TIPOS, equipados, 0.0, 0.0, 0.1) and not Base.pode_ativar(Carrasco.TIPOS, equipados, 0.0, 0.075, 0.1))
 	var raiz: String = config["destino"]
 	var completo := Aparencia.compor_armadura("andar", 15, 34, raiz).get_image()
 	var mistura := Aparencia.compor_pecas_armadura("andar", 34, {

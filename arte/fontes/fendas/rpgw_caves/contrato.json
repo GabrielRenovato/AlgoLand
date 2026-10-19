@@ -1,0 +1,23 @@
+{
+  "pacote": "RPGW_Caves_v2.1",
+  "fontes": [
+    "MainLev2.0.png",
+    "decorative.png"
+  ],
+  "licenca": "_license.txt",
+  "mapas": [
+    3,
+    4,
+    7,
+    11
+  ],
+  "grade_original": 32,
+  "grade_godot": 16,
+  "escala": 1,
+  "pisos": "terra, pedra escura, piso azulado alagado e piso com musgo; variação sem transparência no atlas base",
+  "paredes": "peças completas da folha original, comparação de contexto e bordas",
+  "colisao": "derivada da transparência das peças nativas, com lagoas e bases de props",
+  "estacoes": "quatro reflexos protegidos, sem precipitação; geometrias preservadas",
+  "preparador": "ferramentas/fendas/rpgw_caves.py",
+  "revisao": "Godot: quatro estações e detalhes; regressão de parede e margem"
+}

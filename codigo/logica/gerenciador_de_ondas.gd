@@ -239,7 +239,7 @@ func iniciar_onda_introducao() -> void:
 	multiplicador_vida_inimigo = 0.65
 	multiplicador_dano_inimigo = 0.5
 	onda_em_andamento = true
-	Progresso.registrar_onda_iniciada(1)
+	# O treino do prólogo não inicia a progressão dos andares.
 	onda_iniciada.emit(1)
 	atualizar_ui()
 	gerador.spawnar_inimigos(3, multiplicador_vida_inimigo, multiplicador_dano_inimigo, preload("res://cenas/inimigos/slime.tscn"))
@@ -278,7 +278,10 @@ func quantidade_inimigos_onda(onda: int) -> int:
 
 ## Chefe da onda no rodízio (10, 20, 30, 40, 50...). Dicionário de CHEFES
 func chefe_da_onda(onda: int) -> Dictionary:
-	var posicao := (maxi(onda / maxi(intervalo_chefe, 1), 1) - 1) % CHEFES.size()
+	return dados_chefe_para_onda(onda,intervalo_chefe)
+
+static func dados_chefe_para_onda(onda: int, intervalo := 10) -> Dictionary:
+	var posicao := (maxi(onda/maxi(intervalo,1),1)-1)%CHEFES.size()
 	return CHEFES[posicao]
 
 ## Sorteio puro (sem estado do gerenciador, para poder ser testado): devolve um item de EVENTOS ou {}.
@@ -359,20 +362,22 @@ func _descontar_inimigo() -> void:
 		DadosJogo.adicionar_moedas(roundi(float(recompensa * mult_ouro_final_bonus if onda_bonus else recompensa) * mult_evento("ouro")))
 		get_tree().call_group("tela_mercante", "atualizar_exibicao_moedas")
 		onda_em_andamento = false
-		Progresso.registrar_onda_concluida(onda_atual, eh_onda_chefe(onda_atual) and not onda_bonus, onda_bonus)
-		if not onda_bonus:
-			Cidade.registrar_onda(onda_atual)
+		var combate_introducao := Introducao.ativa()
+		if not combate_introducao:
+			Progresso.registrar_onda_concluida(onda_atual, eh_onda_chefe(onda_atual) and not onda_bonus, onda_bonus)
+			if not onda_bonus:
+				Cidade.registrar_onda(onda_atual)
 		emit_signal("onda_completada", onda_atual)
 		# Cooperativo: quem estava caído levanta no fim da onda
 		Cooperativo.levantar_todos()
 		Sons.tocar("onda_fim", 0.0)
 		# Saquinhos de semente que ficaram no chão voam até o jogador
 		get_tree().call_group("semente_drop", "atrair")
-		# Equipamento no chão também (mochila cheia: é vendido na hora)
+		# Equipamento, receitas e materiais no chão também; sem espaço, permanecem no chão.
 		get_tree().call_group("equipamento_drop", "atrair")
 		_encerrar_evento()
 		# O bônus é um estágio extra: a próxima onda é a mesma que ficou esperando
-		if not onda_bonus:
+		if not onda_bonus and not combate_introducao:
 			onda_atual += 1
 		_abrir_janela_entre_ondas()
 

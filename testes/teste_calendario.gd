@@ -220,7 +220,9 @@ func _testar_novo_jogo() -> void:
 	_cal.salvar()
 	# um pedacinho de fazenda para o "novo jogo" apagar junto
 	_fazenda.solo[Vector2i(18, 23)] = {"molhado": true, "planta": "cenoura", "dias": 1, "murcha": false}
-	_fazenda.sementes["morango"] = 2
+	var inventario := root.get_node("InventarioJogador")
+	inventario.limpar()
+	inventario.adicionar_sementes("morango", 2)
 	_fazenda.colheita["batata"] = 3
 	_fazenda.salvar()
 	_verificar("fazenda salva antes do novo jogo", FileAccess.file_exists(CAMINHO_FAZENDA), "")
@@ -232,13 +234,16 @@ func _testar_novo_jogo() -> void:
 	titulo.caminho_save_personagem = "user://nao_existe_teste_cal_a.json"
 	titulo.caminho_save_inventario = "user://nao_existe_teste_cal_b.json"
 	_verificar("sem save de personagem de teste", not titulo.tem_save(), "")
+	var destino: String = titulo.CENA_CUSTOMIZACAO
 	titulo.botao_novo_jogo.pressed.emit()
-	await _quadros(2)
+	var limite := Time.get_ticks_msec() + 5000
+	while (current_scene == titulo or current_scene == null) and Time.get_ticks_msec() < limite:
+		await process_frame
 	_verificar("novo jogo: calendario volta ao dia 1", _cal.dia == 1, "dia=%d" % _cal.dia)
 	_verificar("novo jogo: arquivo do calendario apagado", not FileAccess.file_exists(CAMINHO), "")
-	_verificar("novo jogo: fazenda esvaziada e arquivo apagado", _fazenda.solo.is_empty() and _fazenda.sementes.is_empty() and _fazenda.colheita.is_empty() and not FileAccess.file_exists(CAMINHO_FAZENDA), "")
-	_verificar("tela de titulo continua fixa no inverno", titulo.get_node("Cenario/Estacoes").estacao_atual == 3, "")
-	titulo.queue_free()
+	_verificar("novo jogo: fazenda e sementes da mochila esvaziadas", _fazenda.solo.is_empty() and inventario.quantidade_sementes("morango") == 0 and _fazenda.colheita.is_empty() and not FileAccess.file_exists(CAMINHO_FAZENDA), "")
+	_verificar("novo jogo inicia o prólogo e abre a criação de personagem", root.get_node("Introducao").ativa() and current_scene.scene_file_path == destino, "")
+	current_scene.queue_free()
 	await _quadros(2)
 	progresso.apagar()
 	progresso.caminho_save = caminho_progresso

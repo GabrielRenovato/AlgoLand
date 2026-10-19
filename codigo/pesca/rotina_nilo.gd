@@ -12,5 +12,5 @@ static func agenda(hora: float, clima: int) -> Dictionary:
 	if hora < 17:
 		return {"local":"palafita", "ponto":Vector2(152,100), "atividade":"Atendendo na loja de pesca"}
 	if clima not in [Clima.CHUVA_FORTE,Clima.TEMPESTADE,Clima.NEVE_FORTE] and hora < 19:
-		return {"local":"cidade", "ponto":Vector2(392,360), "atividade":"Passeando pela vila"}
+		return {"local":"cidade", "ponto":Vector2(392,360), "atividade":"Conferindo suprimentos depois da oficina", "livre":true}
 	return {"local":"palafita", "ponto":Vector2(232,142), "atividade":"Descansando em casa"}

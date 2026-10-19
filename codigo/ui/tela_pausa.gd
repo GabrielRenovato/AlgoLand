@@ -20,6 +20,7 @@ enum Vista { MENU, OPCOES, CONFIRMAR }
 @onready var _confirmar: HBoxContainer = %Confirmar
 @onready var _botao_continuar: Button = %BotaoContinuar
 @onready var _botao_opcoes: Button = %BotaoOpcoes
+@onready var _botao_salvar: Button = %BotaoSalvar
 @onready var _botao_menu: Button = %BotaoMenu
 @onready var _botao_sair: Button = %BotaoSair
 @onready var _botao_sim: Button = %BotaoSim
@@ -29,20 +30,45 @@ var _vista := Vista.MENU
 var _opcoes: Dictionary
 var _linhas: Array = []
 var _botao_voltar: Button
+var _rolagem_opcoes: ScrollContainer
 ## O que o SIM da confirmação faz: "menu" ou "sair"
 var _pedido := ""
 var _saindo := false
 
 func _ready() -> void:
 	_botao_continuar.pressed.connect(_continuar)
+	var mapa := Button.new()
+	mapa.name = "BotaoMapaMundi"
+	mapa.text = "MAPA"
+	mapa.pressed.connect(func():
+		EventosJogo.fechar_tela_de(self,"pausa")
+		EventosJogo.abrir_tela_de(self,"mapa_mundi"))
+	_menu.add_child(mapa)
+	_menu.move_child(mapa, _botao_continuar.get_index()+1)
 	%BotaoFechar.pressed.connect(_continuar)
 	_botao_opcoes.pressed.connect(_mostrar.bind(Vista.OPCOES))
+	_botao_salvar.pressed.connect(_salvar_pelo_menu)
 	_botao_menu.pressed.connect(_pedir.bind("menu"))
 	_botao_sair.pressed.connect(_pedir.bind("sair"))
 	_botao_sim.pressed.connect(_ao_sim)
 	_botao_nao.pressed.connect(_mostrar.bind(Vista.MENU))
 	_montar_opcoes()
+	_rolagem_opcoes = ScrollContainer.new()
+	_rolagem_opcoes.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	_rolagem_opcoes.follow_focus = true
+	var pai_opcoes := _vista_opcoes.get_parent()
+	var indice_opcoes := _vista_opcoes.get_index()
+	pai_opcoes.add_child(_rolagem_opcoes)
+	pai_opcoes.move_child(_rolagem_opcoes, indice_opcoes)
+	_vista_opcoes.reparent(_rolagem_opcoes)
+	_vista_opcoes.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_rolagem_opcoes.hide()
+	resized.connect(_ajustar_altura_opcoes)
+	_ajustar_altura_opcoes.call_deferred()
 	visibility_changed.connect(_ao_visibilidade_alterada)
+
+func _ajustar_altura_opcoes() -> void:
+	_rolagem_opcoes.custom_minimum_size.y = minf(_vista_opcoes.get_combined_minimum_size().y, maxf(size.y - 112, 40))
 
 func _exit_tree() -> void:
 	# Nunca deixa o jogo parado ao sair da cena por esta tela
@@ -75,6 +101,8 @@ func _mostrar(vista: Vista) -> void:
 	_vista = vista
 	_menu.visible = vista == Vista.MENU
 	_vista_opcoes.visible = vista == Vista.OPCOES
+	_rolagem_opcoes.visible = vista == Vista.OPCOES
+	_ajustar_altura_opcoes()
 	_confirmar.visible = vista == Vista.CONFIRMAR
 	_detalhe.visible = vista != Vista.OPCOES and _detalhe.text != ""
 	match vista:
@@ -118,13 +146,22 @@ func _ao_sim() -> void:
 		return
 	get_tree().paused = false
 	Transicao.limpar()
-	get_tree().change_scene_to_file(CENA_MENU)
+	var erro := await Transicao.carregar_cena(CENA_MENU)
+	if erro != OK:
+		_saindo = false
+		get_tree().paused = true
+		push_error("Nao foi possivel abrir o menu inicial.")
 
 func _salvar_tudo() -> void:
-	InventarioJogador.salvar()
-	Progresso.salvar()
-	Calendario.salvar()
-	Fazenda.salvar()
+	Saves.salvar_tudo()
+
+## Botão SALVAR: grava o jogo sem sair e avisa no detalhe da pausa
+func _salvar_pelo_menu() -> void:
+	_salvar_tudo()
+	Sons.tocar("moeda", 0.0)
+	_detalhe.text = "JOGO SALVO"
+	_detalhe.visible = true
+	_botao_salvar.grab_focus()
 
 # --- Opcoes ----------------------------------------------------------------------------------------------------------
 
@@ -136,6 +173,7 @@ func _montar_opcoes() -> void:
 	if _lado() == 2:
 		_adicionar_linha("vibracao", "VIBRACAO", [false, true], ["NAO", "SIM"])
 		_adicionar_linha("zoom", "ZOOM", Opcoes.ZOOMS, Opcoes.ROTULOS_ZOOM)
+		_adicionar_linha("escala_interface", "INTERFACE", Opcoes.ESCALAS_INTERFACE, Opcoes.ROTULOS_INTERFACE)
 		_adicionar_linha("layout_controle", "BOTOES", Opcoes.LAYOUTS_CONTROLE, ["AUTO", "XBOX", "NINTENDO", "PS"])
 		_terminar_opcoes()
 		return
@@ -150,6 +188,7 @@ func _montar_opcoes() -> void:
 	_adicionar_linha("max_fps", "FPS MAXIMO", VALORES_FPS, ROTULOS_FPS)
 	_adicionar_linha("vibracao", "VIBRACAO", [false, true], ["NAO", "SIM"])
 	_adicionar_linha("zoom", "ZOOM", Opcoes.ZOOMS, Opcoes.ROTULOS_ZOOM)
+	_adicionar_linha("escala_interface", "INTERFACE", Opcoes.ESCALAS_INTERFACE, Opcoes.ROTULOS_INTERFACE)
 	if not Controle.usando_toque:
 		_adicionar_linha("layout_controle", "BOTOES", Opcoes.LAYOUTS_CONTROLE, ["AUTO", "XBOX", "NINTENDO", "PS"])
 	_terminar_opcoes()
@@ -167,11 +206,11 @@ func _terminar_opcoes() -> void:
 			var botao: Button = linha[lado]
 			var acima: Button = _linhas[maxi(i - 1, 0)][lado]
 			var abaixo: Button = _linhas[i + 1][lado] if i + 1 < _linhas.size() else _botao_voltar
-			botao.focus_neighbor_top = acima.get_path()
-			botao.focus_neighbor_bottom = abaixo.get_path()
-	_botao_voltar.focus_neighbor_top = (_linhas[_linhas.size() - 1]["menos"] as Button).get_path()
+			botao.focus_neighbor_top = botao.get_path_to(acima)
+			botao.focus_neighbor_bottom = botao.get_path_to(abaixo)
+	_botao_voltar.focus_neighbor_top = _botao_voltar.get_path_to(_linhas[_linhas.size() - 1]["menos"])
 
-## Uma linha "NOME  <  valor  >": os botões mudam o valor um passo e as setas do teclado/controle também
+## Uma linha "NOME  -  valor  +": os botões mudam o valor um passo e as setas do teclado/controle também
 func _adicionar_linha(chave: String, nome: String, valores: Array, rotulos: Array) -> void:
 	var caixa := HBoxContainer.new()
 	caixa.add_theme_constant_override("separation", 4)
@@ -181,7 +220,7 @@ func _adicionar_linha(chave: String, nome: String, valores: Array, rotulos: Arra
 	rotulo_nome.add_theme_color_override("font_color", COR_NOME_OPCAO)
 	caixa.add_child(rotulo_nome)
 	var menos := Button.new()
-	menos.text = "<"
+	menos.text = "-"
 	menos.custom_minimum_size = Vector2(16, 16)
 	caixa.add_child(menos)
 	var rotulo_valor := Label.new()
@@ -189,7 +228,7 @@ func _adicionar_linha(chave: String, nome: String, valores: Array, rotulos: Arra
 	rotulo_valor.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	caixa.add_child(rotulo_valor)
 	var mais := Button.new()
-	mais.text = ">"
+	mais.text = "+"
 	mais.custom_minimum_size = Vector2(16, 16)
 	caixa.add_child(mais)
 	_vista_opcoes.add_child(caixa)

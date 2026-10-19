@@ -1,0 +1,27 @@
+{
+  "uso": "Medusa: cinco folhas redesenhadas com 24 poses cada; ruina renderizada em pixels no motor",
+  "fonte": "revisao_nitidez/*.png; imagegen com folhas anteriores como referencia e direcao preservada",
+  "folha_fonte": [
+    1536,
+    1024
+  ],
+  "grade": [
+    6,
+    4
+  ],
+  "quadro_nativo": [
+    128,
+    128
+  ],
+  "escala_mapa": 1,
+  "pes_y": 120,
+  "direcoes": [
+    "baixo",
+    "cima",
+    "direita",
+    "esquerda"
+  ],
+  "integracao": "ferramentas/inimigos/preparar_medusa.gd",
+  "efeito": "recursos/personagens/ruina_medusa.gdshader: coordenadas de mundo; raio180; aviso2.5s; impacto0.65s",
+  "preservado": "alcances, dano, limiares50%/10%, duracoes, colisao nos pes; variante sazonal nao se aplica a chefe/efeito"
+}

@@ -11,12 +11,17 @@ signal checkpoint_alterado(onda: int)
 ## A maior onda já vencida subiu (libera as linhas extras da mochila, ver modelo_inventario.gd)
 signal onda_vencida_alterada(onda: int)
 signal armas_liberadas_alteradas
+signal materiais_forja_alterados
 const DesafiosArmas := preload("res://codigo/dados/desafios_armas.gd")
+const ForjaArmas := preload("res://codigo/dados/forja_armas.gd")
 const Refeicoes := preload("res://codigo/dados/refeicoes.gd")
 ## Prato do Caio (codigo/dados/refeicoes.gd) para a partida atual ou a próxima; "" = nenhum. Acaba em encerrar_partida()
 var refeicao: String = ""
 signal refeicao_alterada(id: String)
 var armas_liberadas: Dictionary = {}
+var armas_fabricadas: Dictionary = {}
+## Encomenda permanente e compartilhada: materiais entregues, prazo absoluto no calendário.
+var encomenda_forja: Dictionary = {}
 var _carregando := false
 
 const CAMINHO_SAVE := "user://progresso.json"
@@ -62,6 +67,8 @@ var moradores: Dictionary = {}
 var checkpoint_max: int = 0
 
 # --- Partida atual ---
+## Veios e golpes desta partida: mantidos ao viajar, reiniciados junto da partida.
+var veios_arena: Dictionary = {}
 var partida_ativa: bool = false
 var onda_maxima: int = 0
 var ondas_concluidas: int = 0
@@ -78,15 +85,22 @@ var ouro_compensacao: int = 0
 var onda_comecou: bool = false
 var ultimo_resultado: Dictionary = {}
 
+## Local de retorno fora da arena, separado por mundo.
+var local_jogadores: Dictionary = {}
+
 var caminho_save: String = CAMINHO_SAVE
 var _ondas_de_chefe_contadas: Dictionary = {}
 
 func _ready() -> void:
 	carregar()
+	if not mochila_pendente.is_empty():
+		push_error("Não foi possível recuperar a operação da mochila.")
+		get_tree().quit(1)
 
 # --- Partida ---
 
 func iniciar_partida() -> void:
+	veios_arena.clear()
 	partida_ativa = true
 	onda_maxima = 0
 	ondas_concluidas = 0
@@ -130,7 +144,6 @@ func registrar_onda_concluida(onda: int, chefe: bool, bonus: bool) -> void:
 			onda_vencida_alterada.emit(maior_onda_vencida)
 	if chefe:
 		registrar_chefe(onda)
-	_atualizar_desafios_armas()
 
 ## Chamado na morte do chefe e na conclusão da onda dele; conta uma vez só por onda
 func registrar_chefe(onda: int) -> void:
@@ -140,7 +153,6 @@ func registrar_chefe(onda: int) -> void:
 	chefes += 1
 	if onda > checkpoint_max:
 		checkpoint_max = onda
-		_atualizar_desafios_armas()
 		salvar()
 
 func calcular_brasas_base() -> int:
@@ -151,6 +163,8 @@ func encerrar_partida() -> Dictionary:
 	if not partida_ativa:
 		return ultimo_resultado
 	partida_ativa = false
+	if is_inside_tree():
+		get_tree().root.get_node("BauCasa").reiniciar_equipamento_da_partida()
 	# O prato valia a partida inteira: acabou junto com ela
 	_acabar_refeicao()
 	var base := calcular_brasas_base()
@@ -303,10 +317,12 @@ func definir_checkpoint(onda: int, intervalo_chefe: int = 10) -> int:
 # --- Salvar / carregar ---
 
 func salvar() -> bool:
-	var arquivo := FileAccess.open(caminho_save, FileAccess.WRITE)
+	var temporario := caminho_save + ".tmp"
+	var arquivo := FileAccess.open(temporario, FileAccess.WRITE)
 	if arquivo == null:
 		return false
 	var dados := {
+		"local_jogadores": local_jogadores,
 		"brasas": brasas,
 		"recorde_onda": recorde_onda,
 		"maior_onda_vencida": maior_onda_vencida,
@@ -314,10 +330,18 @@ func salvar() -> bool:
 		"moradores": moradores,
 		"checkpoint_max": checkpoint_max,
 		"armas_liberadas": armas_liberadas,
+		"armas_fabricadas": armas_fabricadas,
+		"encomenda_forja": encomenda_forja,
 		"refeicao": refeicao,
+		"mochila_pendente": mochila_pendente,
 	}
 	arquivo.store_string(JSON.stringify(dados, "\t"))
-	return true
+	arquivo.flush()
+	var erro := arquivo.get_error()
+	arquivo.close()
+	if erro != OK:
+		return false
+	return DirAccess.rename_absolute(ProjectSettings.globalize_path(temporario), ProjectSettings.globalize_path(caminho_save)) == OK
 
 func carregar() -> bool:
 	_zerar_dados()
@@ -327,6 +351,9 @@ func carregar() -> bool:
 	if not dados is Dictionary:
 		return false
 	_carregando = true
+	var locais = dados.get("local_jogadores", {})
+	if locais is Dictionary: local_jogadores = locais
+	mochila_pendente = dados.get("mochila_pendente", {})
 	brasas = maxi(int(dados.get("brasas", 0)), 0)
 	recorde_onda = maxi(int(dados.get("recorde_onda", 0)), 0)
 	maior_onda_vencida = maxi(int(dados.get("maior_onda_vencida", 0)), 0)
@@ -346,14 +373,29 @@ func carregar() -> bool:
 				moradores[id] = bool(dados_moradores[id])
 	var liberadas = dados.get("armas_liberadas", {})
 	if liberadas is Dictionary:
-		for tipo in DesafiosArmas.DESAFIOS:
+		for tipo in ForjaArmas.RECEITAS:
 			if bool(liberadas.get(tipo, false)):
 				armas_liberadas[tipo] = true
-	_atualizar_desafios_armas()
+	var fabricadas = dados.get("armas_fabricadas", {})
+	if fabricadas is Dictionary:
+		for tipo in ForjaArmas.RECEITAS:
+			if receita_liberada(tipo) and bool(fabricadas.get(tipo, false)):
+				armas_fabricadas[tipo] = true
+	var encomenda = dados.get("encomenda_forja", {})
+	if encomenda is Dictionary and ForjaArmas.RECEITAS.has(str(encomenda.get("tipo", ""))):
+		var tipo := str(encomenda["tipo"])
+		if receita_liberada(tipo) and not arma_liberada(tipo):
+			var inicio := maxi(1,int(encomenda.get("dia_inicio",1)))
+			encomenda_forja = {"tipo":tipo, "dia_inicio":inicio,
+				"dia_pronto":maxi(inicio+1,int(encomenda.get("dia_pronto",inicio+ForjaArmas.dias_fabricacao(tipo)))),
+				"jogador":clampi(int(encomenda.get("jogador",1)),1,2)}
+	materiais_forja_alterados.emit()
 	brasas_alteradas.emit(brasas)
 	melhorias_alteradas.emit()
 	armas_liberadas_alteradas.emit()
 	_carregando = false
+	if not mochila_pendente.is_empty():
+		return resolver_mochila_pendente()
 	return true
 
 ## Novo jogo: apaga o arquivo e zera tudo na memória
@@ -365,9 +407,16 @@ func apagar() -> void:
 	brasas_alteradas.emit(brasas)
 	melhorias_alteradas.emit()
 	onda_vencida_alterada.emit(maior_onda_vencida)
+	armas_liberadas_alteradas.emit()
+	materiais_forja_alterados.emit()
 
 func _zerar_dados() -> void:
+	local_jogadores = {}
+	veios_arena.clear()
+	mochila_pendente.clear()
 	armas_liberadas.clear()
+	armas_fabricadas.clear()
+	encomenda_forja.clear()
 	brasas = 0
 	recorde_onda = 0
 	maior_onda_vencida = 0
@@ -376,18 +425,154 @@ func _zerar_dados() -> void:
 	moradores = {}
 	refeicao = ""
 
-## Saves antigos também recebem os desbloqueios que o progresso existente já conquistou.
-func _atualizar_desafios_armas() -> void:
-	var mudou := false
-	for tipo in DesafiosArmas.DESAFIOS:
-		var desafio: Dictionary = DesafiosArmas.DESAFIOS[tipo]
-		if not armas_liberadas.get(tipo, false) and int(get(desafio["campo"])) >= int(desafio["meta"]):
-			armas_liberadas[tipo] = true
-			mudou = true
-	if mudou:
-		salvar()
-		if not _carregando:
-			armas_liberadas_alteradas.emit()
-
 func arma_liberada(tipo: String) -> bool:
-	return not DesafiosArmas.DESAFIOS.has(tipo) or bool(armas_liberadas.get(tipo, false))
+	return tipo in ForjaArmas.INICIAIS_LIVRES or (ForjaArmas.RECEITAS.has(tipo) and bool(armas_fabricadas.get(tipo, false)))
+
+func receita_liberada(tipo: String) -> bool:
+	return ForjaArmas.RECEITAS.has(tipo) and bool(armas_liberadas.get(tipo, false))
+
+func quantidade_material_forja(id: String, inventario: Node = null) -> int:
+	var mochila: Node = inventario if inventario != null else (Engine.get_main_loop() as SceneTree).root.get_node("InventarioJogador")
+	return mochila.quantidade_tipo("material:" + id)
+
+func adicionar_materiais_forja(ganhos: Dictionary, inventario: Node = null) -> bool:
+	var mochila: Node = inventario if inventario != null else (Engine.get_main_loop() as SceneTree).root.get_node("InventarioJogador")
+	return mochila.receber_materiais(ganhos)
+
+func aprender_receita(tipo: String, inventario: Node) -> String:
+	if not resolver_mochila_pendente():
+		return "NAO FOI POSSIVEL SALVAR. TENTE NOVAMENTE."
+	if not ForjaArmas.RECEITAS.has(tipo):
+		return "RECEITA DESCONHECIDA"
+	if receita_liberada(tipo):
+		return "RECEITA JA APRENDIDA"
+	if inventario == null or inventario.quantidade_tipo("receita:" + tipo) == 0:
+		return "RECEITA NAO ESTA NA MOCHILA"
+	var antes: Array = inventario.fotografar_mochila()
+	inventario.gastar_tipo("receita:" + tipo, 1)
+	armas_liberadas[tipo] = true
+	if not _confirmar_mochila(inventario):
+		armas_liberadas.erase(tipo)
+		inventario.restaurar_mochila(antes)
+		return "NAO FOI POSSIVEL SALVAR. TENTE NOVAMENTE."
+	armas_liberadas_alteradas.emit()
+	return ""
+
+func motivo_fabricar_arma(tipo: String, inventario: Node = null) -> String:
+	if not encomenda_forja.is_empty():
+		return "IVO JA TEM UMA ENCOMENDA"
+	if not ForjaArmas.RECEITAS.has(tipo):
+		return "RECEITA DESCONHECIDA"
+	if arma_liberada(tipo):
+		return "MODELO JA FABRICADO"
+	if not receita_liberada(tipo):
+		return "ENCONTRE E USE A RECEITA NA MOCHILA"
+	for id in ForjaArmas.RECEITAS[tipo]:
+		if quantidade_material_forja(id, inventario) < int(ForjaArmas.RECEITAS[tipo][id]):
+			return "FALTAM MATERIAIS NA MOCHILA"
+	return ""
+
+func encomendar_arma(tipo: String, inventario: Node) -> String:
+	if inventario != InventarioJogador and inventario != InventarioJogador2:
+		return "MOCHILA INVALIDA"
+	if not resolver_mochila_pendente():
+		return "NAO FOI POSSIVEL SALVAR. TENTE NOVAMENTE."
+	var motivo := motivo_fabricar_arma(tipo,inventario)
+	if motivo != "":
+		return motivo
+	var antes: Array = inventario.fotografar_mochila()
+	encomenda_forja = {"tipo":tipo, "dia_inicio":Calendario.dia,
+		"dia_pronto":Calendario.dia+ForjaArmas.dias_fabricacao(tipo),
+		"jogador":2 if inventario == InventarioJogador2 else 1}
+	for id in ForjaArmas.RECEITAS[tipo]:
+		inventario.gastar_tipo("material:"+id,int(ForjaArmas.RECEITAS[tipo][id]))
+	if not _confirmar_mochila(inventario):
+		encomenda_forja.clear()
+		inventario.restaurar_mochila(antes)
+		materiais_forja_alterados.emit()
+		return "NAO FOI POSSIVEL SALVAR. TENTE NOVAMENTE."
+	materiais_forja_alterados.emit()
+	return ""
+
+func encomenda_forja_pronta() -> bool:
+	return not encomenda_forja.is_empty() and Calendario.dia >= int(encomenda_forja["dia_pronto"])
+
+func texto_encomenda_forja() -> String:
+	if encomenda_forja.is_empty():
+		return ""
+	var nome: String = ForjaArmas.nome(str(encomenda_forja["tipo"]))
+	if encomenda_forja_pronta():
+		return "PRONTA PARA RETIRAR: %s.\nVOLTE A BIGORNA NO HORARIO DE ATENDIMENTO." % nome
+	var dia := int(encomenda_forja["dia_pronto"])
+	var faltam := maxi(0,dia-Calendario.dia)
+	var data := "%s, DIA %d" % [Calendario.NOMES[Calendario.estacao(dia)],(dia-1)%Calendario.DIAS_POR_ESTACAO+1]
+	if Calendario.ano(dia) != Calendario.ano():
+		data += " DO ANO %d" % Calendario.ano(dia)
+	return "ENCOMENDA: %s.\nPRONTA EM %s. FALTA%s %d DIA%s." % [nome,data,"M" if faltam != 1 else "",faltam,"S" if faltam != 1 else ""]
+
+func retirar_encomenda_forja(inventario: Node) -> String:
+	if inventario != InventarioJogador and inventario != InventarioJogador2:
+		return "MOCHILA INVALIDA"
+	if not resolver_mochila_pendente():
+		return "NAO FOI POSSIVEL SALVAR. TENTE NOVAMENTE."
+	if encomenda_forja.is_empty():
+		return "NENHUMA ENCOMENDA PARA RETIRAR"
+	if not encomenda_forja_pronta():
+		return "A ENCOMENDA AINDA NAO ESTA PRONTA"
+	var pedido := encomenda_forja.duplicate(true)
+	var tipo := str(pedido["tipo"])
+	armas_fabricadas[tipo] = true
+	encomenda_forja.clear()
+	if not salvar():
+		encomenda_forja = pedido
+		armas_fabricadas.erase(tipo)
+		return "NAO FOI POSSIVEL SALVAR. TENTE NOVAMENTE."
+	armas_liberadas_alteradas.emit()
+	inventario.entregar_armas_liberadas(true)
+	materiais_forja_alterados.emit()
+	return ""
+
+func fabricar_arma(tipo: String, inventario: Node = null) -> String:
+	if not resolver_mochila_pendente():
+		return "NAO FOI POSSIVEL SALVAR. TENTE NOVAMENTE."
+	var mochila: Node = inventario if inventario != null else (Engine.get_main_loop() as SceneTree).root.get_node("InventarioJogador")
+	var motivo := motivo_fabricar_arma(tipo, mochila)
+	if motivo != "":
+		return motivo
+	var antes: Array = mochila.fotografar_mochila()
+	for id in ForjaArmas.RECEITAS[tipo]:
+		mochila.gastar_tipo("material:" + id, int(ForjaArmas.RECEITAS[tipo][id]))
+	armas_fabricadas[tipo] = true
+	if not _confirmar_mochila(mochila):
+		mochila.restaurar_mochila(antes)
+		armas_fabricadas.erase(tipo)
+		return "NAO FOI POSSIVEL SALVAR. TENTE NOVAMENTE."
+	materiais_forja_alterados.emit()
+	armas_liberadas_alteradas.emit()
+	return ""
+
+## O progresso confirma a operação com uma fotografia da mochila. Se a gravação da
+## mochila falhar ou o jogo fechar entre os arquivos, carregar reaplica a fotografia.
+var mochila_pendente: Dictionary = {}
+
+func _confirmar_mochila(mochila: Node) -> bool:
+	mochila_pendente = {"caminho": mochila.caminho_save, "dados": mochila.dados_save()}
+	if not salvar():
+		mochila_pendente.clear()
+		return false
+	if mochila.salvar():
+		mochila_pendente.clear()
+		salvar()
+	return true
+
+func resolver_mochila_pendente() -> bool:
+	if mochila_pendente.is_empty():
+		return true
+	var caminho := str(mochila_pendente.get("caminho", ""))
+	var raiz := (Engine.get_main_loop() as SceneTree).root
+	if caminho not in [raiz.get_node("InventarioJogador").caminho_save, raiz.get_node("InventarioJogador2").caminho_save]:
+		return false
+	if not load("res://codigo/modelos/modelo_inventario.gd").gravar_dados(caminho, mochila_pendente.get("dados", {})):
+		return false
+	mochila_pendente.clear()
+	return salvar()

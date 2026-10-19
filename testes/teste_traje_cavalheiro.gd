@@ -36,7 +36,7 @@ func _rodar() -> void:
 	_verificar("Mordomo comum com congelamento", config["modo_visual"] == "tecido" and config["raridade"] == "comum" and config["bonus"]["tipo"] == "congelamento" and config["chances_drop"] == {"normal": 0.05, "mutante": 0.1, "chefe": 0.1})
 	_verificar("peças reais do Cavalheiro disponíveis para equipar pelo F3", Conjuntos.de_tipo("elmo_cavalheiro") != null)
 	for pagina in Padrao.CORPOS:
-		var corpo: Texture2D = load("res://assets/personagens/" + Padrao.CORPOS[pagina])
+		var corpo: Texture2D = load(Aparencia.RAIZ_CORPO_REFINADO + pagina + ".png")
 		_verificar(pagina + ": cabeça original preservada", Aparencia.corpo(pagina, indice, 15) == corpo)
 		var traje := Aparencia.roupa(indice, pagina)
 		_verificar(pagina + ": própria folha nas poses do jogador", traje.resource_path == raiz + pagina + ".png")
@@ -102,6 +102,7 @@ func _rodar() -> void:
 	_verificar("F3 restaura roupa original após alternar conjuntos", jogador.roupa_atual == 2)
 	# Jogador real fora da árvore: não executa _ready nem lê/grava a partida.
 	var real = load("res://cenas/jogador.tscn").instantiate()
+	real.inventario = root.get_node("InventarioJogador")
 	var camadas := {
 		"sprite_corpo": "BaseSprites/Corpo", "sprite_cabelo": "BaseSprites/Cabelo", "sprite_roupa": "BaseSprites/Roupa",
 		"corpo_espada_escudo_ataque": "AttackSwordAnimation/CorpoEspadaEscudo", "cabelo_ataque": "AttackSwordAnimation/Cabelo", "roupa_ataque": "AttackSwordAnimation/Roupa",
@@ -133,7 +134,7 @@ func _rodar() -> void:
 		cartola.sincronizar()
 		_verificar("camada inativa não deixa cartola flutuando", not cartola.visible)
 	real._aplicar_roupa_sentado()
-	_verificar("jogador real usa traje sentado", real.sprite_roupa_forja.texture == Aparencia.roupa(indice, "sentado"))
+	_verificar("jogador real usa traje sentado", real.sprite_roupa_forja.texture == Aparencia.roupa_refinada(indice, "sentado"))
 	real.definir_aparencia(1, 2)
 	_verificar("jogador real restaura roupa e cabelo", real.sprite_roupa.texture == Aparencia.roupa_refinada(2, "andar") and real.sprite_cabelo.texture == Aparencia.cabelo_refinado(1, "andar"))
 	_verificar("retirar traje oculta a camada extra da cartola", not real.sprite_roupa.get_parent().get_node("CartolaSobreCabelo").visible)

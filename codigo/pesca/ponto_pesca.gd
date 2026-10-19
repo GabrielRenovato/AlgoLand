@@ -33,4 +33,9 @@ func _pescar(jogador: Node2D) -> void:
 	if not pode_interagir_para(jogador):
 		return
 	EventosJogo.inventario_de(jogador).sincronizar_vara()
+	if not EventosJogo.inventario_de(jogador).vara_na_mao:
+		# Funciona igual no teclado, no controle e no toque: a vara se escolhe na barra de baixo (casa, tecla, RB ou toque)
+		Sons.tocar("erro", 0.0)
+		get_tree().call_group(jogador.grupo_hud(), "avisar_barra", "EQUIPE A VARA NA BARRA DE BAIXO")
+		return
 	Sessao.new().iniciar(jogador, direcao.normalized(), ambiente)

@@ -1,0 +1,91 @@
+{
+  "pares": 86,
+  "max_descontinuidade_preto_px": 2,
+  "piores": [
+    {
+      "a": 11,
+      "b": 14,
+      "eixo": "vertical",
+      "preto_divergente_px": 2,
+      "diferenca_media_rgb": 20.79
+    },
+    {
+      "a": 7,
+      "b": 13,
+      "eixo": "vertical",
+      "preto_divergente_px": 2,
+      "diferenca_media_rgb": 19.56
+    },
+    {
+      "a": 12,
+      "b": 4,
+      "eixo": "horizontal",
+      "preto_divergente_px": 2,
+      "diferenca_media_rgb": 15.29
+    },
+    {
+      "a": 4,
+      "b": 13,
+      "eixo": "vertical",
+      "preto_divergente_px": 2,
+      "diferenca_media_rgb": 15.04
+    },
+    {
+      "a": 5,
+      "b": 13,
+      "eixo": "vertical",
+      "preto_divergente_px": 2,
+      "diferenca_media_rgb": 12.83
+    },
+    {
+      "a": 3,
+      "b": 11,
+      "eixo": "horizontal",
+      "preto_divergente_px": 1,
+      "diferenca_media_rgb": 24.66
+    },
+    {
+      "a": 11,
+      "b": 10,
+      "eixo": "vertical",
+      "preto_divergente_px": 1,
+      "diferenca_media_rgb": 24.53
+    },
+    {
+      "a": 12,
+      "b": 14,
+      "eixo": "horizontal",
+      "preto_divergente_px": 1,
+      "diferenca_media_rgb": 21.8
+    },
+    {
+      "a": 2,
+      "b": 11,
+      "eixo": "horizontal",
+      "preto_divergente_px": 1,
+      "diferenca_media_rgb": 21.38
+    },
+    {
+      "a": 7,
+      "b": 1,
+      "eixo": "vertical",
+      "preto_divergente_px": 1,
+      "diferenca_media_rgb": 19.69
+    },
+    {
+      "a": 8,
+      "b": 2,
+      "eixo": "vertical",
+      "preto_divergente_px": 1,
+      "diferenca_media_rgb": 17.22
+    },
+    {
+      "a": 7,
+      "b": 3,
+      "eixo": "horizontal",
+      "preto_divergente_px": 1,
+      "diferenca_media_rgb": 16.8
+    }
+  ],
+  "criterio": "No m\u00e1ximo 3px divergentes em borda de64; n\u00e3o substitui revis\u00e3o art\u00edstica no Godot."
+}

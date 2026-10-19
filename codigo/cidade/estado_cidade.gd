@@ -198,9 +198,7 @@ func concluir(id: String, morador: String, quem: Node = null) -> bool:
 		var faltam := int(dados["quantidade"])
 		for planta in colheitas_aceitas(id):
 			var retirar := mini(faltam, Fazenda.quantidade_colhida(planta))
-			Fazenda.colheita[planta] = Fazenda.quantidade_colhida(planta) - retirar
-			if Fazenda.colheita[planta] == 0:
-				Fazenda.colheita.erase(planta)
+			Fazenda.gastar_coletavel("colheita",planta,retirar)
 			faltam -= retirar
 			if faltam == 0:
 				break

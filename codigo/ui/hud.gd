@@ -103,15 +103,19 @@ func _ready() -> void:
 	Calendario.dia_passou.connect(_ao_dia_passou)
 	Calendario.estacao_mudou.connect(_ao_estacao_mudou)
 	_montar_relogio()
-	if _cena() != null and bool(_cena().get_meta("barra_ferramentas", false)):
-		# Fazenda: a mesma barra da arena, escolhendo ferramenta e semente
-		_criar_barra(true)
+	if Controle.usando_toque: _montar_botao_mapa()
+	var na_fazenda := _cena() != null and bool(_cena().get_meta("barra_ferramentas", false))
+	_criar_barra(na_fazenda)
+	if na_fazenda or (_cena() != null and _cena().has_node("enemySpawner/GerenciadorOndas")):
+		# Fazenda e mineracao na arena: a mesma barra da arena, escolhendo ferramenta e semente
+		_criar_barra_energia()
 	# O Jogador fica antes na árvore e já atualizou a vida antes deste nó entrar no grupo
 	var jogador := EventosJogo.dono(self)
 	if jogador:
 		jogador.atualizar_barra_hp()
 		atualizar_stamina(jogador.stamina, jogador.stamina_maxima)
 	_conectar_gerenciador()
+	preload("res://codigo/ui/escala_interface.gd").ligar(self)
 
 func _conectar_gerenciador() -> void:
 	var gerenciador: Node = null
@@ -138,7 +142,12 @@ func _conectar_gerenciador() -> void:
 	gerenciador.sinal_ondas_paradas.connect(_ao_ondas_paradas)
 	gerenciador.inimigos_alterados.connect(_ao_inimigos_alterados)
 	gerenciador.evento_alterado.connect(_ao_evento_alterado)
-	rotulo_onda.text = "ONDA %d" % gerenciador.onda_atual
+	if gerenciador.is_in_group("gerenciador_andar"):
+		barra_inimigos.custom_minimum_size.x = 64
+		gerenciador.progresso_andar_alterado.connect(_atualizar_andar)
+		_atualizar_andar()
+	else:
+		rotulo_onda.text = "ONDA %d" % gerenciador.onda_atual
 
 ## Data do calendário ("PRIMAVERA - DIA 3"), nas cenas de jogo
 func atualizar_data() -> void:
@@ -251,6 +260,11 @@ func _criar_barra(na_fazenda: bool) -> void:
 	barra_armas.modo_fazenda = na_fazenda
 	add_child(barra_armas)
 
+## Aviso curto acima da barra de baixo (ex.: "EQUIPE A VARA")
+func avisar_barra(texto: String) -> void:
+	if barra_armas != null:
+		barra_armas.mostrar_aviso(texto)
+
 ## Por que a poção não foi bebida (SEM POCOES, VIDA CHEIA...)
 func avisar_pocao(texto: String) -> void:
 	if cinto_pocoes != null:
@@ -341,6 +355,21 @@ func esconder_chefe() -> void:
 func atualizar_stamina(atual: float, maximo: float) -> void:
 	barra_stamina.definir(atual, maximo, false)
 
+## Fazenda: energia vertical (abaixo do Status no toque); separada da estamina amarela do combate.
+var barra_energia: Control = null
+
+func _criar_barra_energia() -> void:
+	if barra_energia != null:
+		return
+	barra_energia = preload("res://codigo/ui/barra_energia_vertical.gd").new()
+	barra_energia.name = "BarraEnergia"
+	add_child(barra_energia)
+	var lado := 2 if EventosJogo.eh_do_p2(self) else 1
+	barra_energia.definir(Fazenda.energia_de(lado), Fazenda.ENERGIA_MAXIMA)
+	Fazenda.energia_alterada.connect(func(quem: int) -> void:
+		if quem == lado:
+			barra_energia.definir(Fazenda.energia_de(lado), Fazenda.ENERGIA_MAXIMA))
+
 func avisar_stamina_insuficiente() -> void:
 	if _tween_stamina and _tween_stamina.is_running():
 		return
@@ -349,7 +378,7 @@ func avisar_stamina_insuficiente() -> void:
 		_tween_stamina.tween_property(icone_stamina, "modulate", COR_STAMINA_VAZIA, 0.08)
 		_tween_stamina.tween_property(icone_stamina, "modulate", COR_STAMINA, 0.08)
 
-## Moeda de forja ao lado do ouro e das brasas: o ícone da moeda em vermelho e a quantidade
+## Moeda de forja: o mesmo ícone do item físico e sua quantidade na mochila.
 func _criar_contador_moeda_forja() -> void:
 	var linha: Node = rotulo_brasas.get_parent()
 	var espaco := Control.new()
@@ -358,13 +387,12 @@ func _criar_contador_moeda_forja() -> void:
 	linha.add_child(espaco)
 	var icone := TextureRect.new()
 	icone.name = "IconeMoedaForja"
-	icone.texture = load("res://assets/ui/icons-coin/32x32/3.png")
+	icone.texture = preload("res://assets/ui/coletaveis/moeda_forja.png")
 	icone.custom_minimum_size = Vector2(10, 10)
 	icone.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	icone.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	icone.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	icone.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	icone.self_modulate = Color(1, 0.35, 0.3)
 	linha.add_child(icone)
 	rotulo_moeda_forja = Label.new()
 	rotulo_moeda_forja.name = "RotuloMoedaForja"
@@ -385,13 +413,17 @@ func atualizar_brasas(quantidade: int) -> void:
 
 ## Rótulo da onda fora dos eventos do gerenciador (a Mística muda a onda inicial)
 func atualizar_rotulo_onda(onda: int) -> void:
-	rotulo_onda.text = "ONDA %d" % onda
+	rotulo_onda.text = ("ANDAR %d" if _eh_andar() else "ONDA %d") % onda
 
 ## Banner no centro da tela para avisos de outros sistemas (reviver, estações, eventos)
 func anunciar(texto: String, subtitulo := "", tempo_visivel := 1.5) -> void:
 	_mostrar_banner(texto, subtitulo, tempo_visivel)
 
 func _ao_onda_iniciada(onda: int) -> void:
+	if _eh_andar():
+		_atualizar_andar()
+		_mostrar_banner("ANDAR %d" % onda, "EXPLORE E DERROTE OS GRUPOS", 2.0)
+		return
 	_mostrar_inimigos(true)
 	if _gerenciador != null and _gerenciador.onda_bonus:
 		rotulo_onda.text = "BONUS"
@@ -418,6 +450,10 @@ func _ao_evento_alterado(evento: Dictionary) -> void:
 	rotulo_evento.modulate = evento["cor"]
 
 func _ao_onda_completada(onda: int) -> void:
+	if _eh_andar():
+		_atualizar_andar()
+		_mostrar_banner("GUARDIAO DERROTADO", "ANDAR %d CONCLUIDO" % onda, 2.0)
+		return
 	_mostrar_inimigos(false)
 	# O bônus não avança a onda: a próxima é a mesma que ficou esperando
 	if _gerenciador != null and _gerenciador.onda_bonus:
@@ -440,6 +476,9 @@ func _ao_ondas_paradas() -> void:
 	esconder_chefe()
 
 func _ao_inimigos_alterados(vivos: int, total: int) -> void:
+	if _eh_andar():
+		_atualizar_andar()
+		return
 	rotulo_inimigos.text = "%d/%d" % [maxi(vivos, 0), total]
 	barra_inimigos.definir(maxi(vivos, 0), maxi(total, 1))
 
@@ -455,32 +494,22 @@ func _mostrar_banner(texto: String, subtitulo := "", tempo_visivel := 1.5) -> vo
 		_tween_banner.kill()
 	faixa_banner.show()
 	faixa_banner.modulate.a = 0.0
-	var na_metade := get_viewport().has_meta("dono")
-	if na_metade:
-		# A fita se ajusta pelo tamanho e pela quebra de linha, sem reamostrar letras ou pixels.
-		var largura := floorf(get_viewport().get_visible_rect().size.x) - 16.0
-		faixa_banner.get_node("Textos").custom_minimum_size.x = largura - 20.0
-		rotulo_banner.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		subtitulo_banner.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		faixa_banner.size = Vector2(largura, 0)
-	faixa_banner.scale = Vector2.ONE if na_metade else ESCALA_BANNER * 1.3
-	# Espera o PanelContainer recalcular o tamanho para o texto novo
-	if is_inside_tree() and get_tree():
-		await get_tree().process_frame
-	if not is_inside_tree():
-		return
-	if na_metade:
-		# O PanelContainer só cresce sozinho: na primeira vez a quebra de linha ainda sem largura media o texto letra
-		# por letra e a fita ficava da altura da tela (o "vermelho" cobrindo a metade). Volta ao tamanho mínimo real
-		faixa_banner.reset_size()
-		faixa_banner.position.x = floorf((get_viewport().get_visible_rect().size.x - faixa_banner.size.x) / 2.0)
-		faixa_banner.position.y = floorf(faixa_banner.position.y)
-	faixa_banner.pivot_offset = faixa_banner.size / 2.0
+	faixa_banner.add_theme_stylebox_override("panel",preload("res://codigo/ui/estilo_interface.gd").painel(true,12.0))
+	faixa_banner.get_node("Textos").add_theme_constant_override("separation",6)
+	for rotulo in [rotulo_banner,subtitulo_banner]:
+		rotulo.label_settings = rotulo.label_settings.duplicate()
+		rotulo.label_settings.font_color = Color("493629")
+		rotulo.label_settings.outline_size = 0
+		rotulo.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	rotulo_banner.label_settings.font_size = 16
+	subtitulo_banner.label_settings.font_size = 10
+	faixa_banner.scale = Vector2.ONE
+	_ajustar_faixa_banner()
+	if is_inside_tree() and get_tree(): await get_tree().process_frame
+	if not is_inside_tree(): return
+	_ajustar_faixa_banner()
 	_tween_banner = create_tween()
-	_tween_banner.set_parallel()
-	_tween_banner.tween_property(faixa_banner, "modulate:a", 1.0, 0.2)
-	if not na_metade:
-		_tween_banner.tween_property(faixa_banner, "scale", ESCALA_BANNER, 0.3).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	_tween_banner.tween_property(faixa_banner,"modulate:a",1.0,0.2)
 	_tween_banner.chain().tween_interval(tempo_visivel)
 	_tween_banner.chain().tween_property(faixa_banner, "modulate:a", 0.0, 0.4)
 	_tween_banner.chain().tween_callback(faixa_banner.hide)
@@ -506,3 +535,60 @@ func _definir_vida_baixa(baixa: bool) -> void:
 	_tween_coracao = create_tween().set_loops()
 	_tween_coracao.tween_property(coracao, "scale", Vector2(1.25, 1.25), 0.3)
 	_tween_coracao.tween_property(coracao, "scale", Vector2.ONE, 0.3)
+
+## O painel usa os mesmos containers e a escala individual do HUD, inclusive no coop.
+func _eh_andar() -> bool:
+	return is_instance_valid(_gerenciador) and _gerenciador.is_in_group("gerenciador_andar")
+
+func _atualizar_andar() -> void:
+	if not _eh_andar(): return
+	var etapa: int = _gerenciador.etapa
+	rotulo_onda.text = "ANDAR %d" % (_gerenciador.onda_atual - 1 if etapa == 4 else _gerenciador.onda_atual)
+	linha_inimigos.visible = etapa in [1, 2, 3]
+	rotulo_espera.visible = etapa not in [1, 2, 3]
+	rotulo_espera.text = "CONCLUIDO" if etapa == 4 else "PREPARE-SE"
+	rotulo_inimigos.text = "%d%%" % roundi(100.0 * _gerenciador.pontos / _gerenciador.META_PROGRESSO)
+	barra_inimigos.definir(_gerenciador.pontos, _gerenciador.META_PROGRESSO)
+	rotulo_evento.visible = etapa in [1, 2, 3]
+	rotulo_evento.text = "DERROTE OS GRUPOS" if etapa == 1 else "SIGA O GUARDIAO"
+	rotulo_evento.modulate = Color("e7c884")
+
+func _process(_delta: float) -> void:
+	if faixa_banner.visible: _ajustar_faixa_banner()
+	if not _eh_andar() or _gerenciador.etapa not in [2, 3]: return
+	var jogador := EventosJogo.dono(self)
+	if jogador == null: return
+	var ponto: Vector2 = _gerenciador.posicao_guardiao
+	if is_instance_valid(_gerenciador.guardiao): ponto = _gerenciador.guardiao.global_position
+	var direcao: Vector2 = ponto - jogador.global_position
+	var rumo := "PERTO"
+	if direcao.length() > 64:
+		var nomes := ["LESTE", "SUDESTE", "SUL", "SUDOESTE", "OESTE", "NOROESTE", "NORTE", "NORDESTE"]
+		rumo = nomes[posmod(roundi(direcao.angle() / (PI / 4)), 8)]
+	rotulo_evento.text = "GUARDIAO: " + rumo
+
+## Reacomoda também um aviso que já estava aberto ao girar/redimensionar a tela.
+func _ajustar_faixa_banner() -> void:
+	var tela := preload("res://codigo/ui/escala_interface.gd").tamanho_logico(self)
+	var largura := minf(400, tela.x - 24)
+	# A posição já usa o tamanho lógico: âncoras relativas aplicariam a escala
+	# novamente, acumulando deslocamento ao arredondar o Y a cada quadro.
+	faixa_banner.set_anchors_preset(Control.PRESET_TOP_LEFT)
+	faixa_banner.get_node("Textos").custom_minimum_size.x = largura - 24
+	faixa_banner.custom_minimum_size.x = largura
+	faixa_banner.size.x = largura
+	faixa_banner.size.y = faixa_banner.get_combined_minimum_size().y
+	faixa_banner.position = Vector2(floorf((tela.x-faixa_banner.size.x)/2),floorf(tela.y*0.3))
+
+## Acesso ao mapa também no celular, fora da área do joystick.
+func _montar_botao_mapa() -> void:
+	var botao := Button.new()
+	botao.name = "BotaoMapaMundi"
+	botao.text = "MAPA"
+	botao.tooltip_text = "Mapa de AlgoLand (M)"
+	botao.theme = preload("res://recursos/ui/tema_sidebar.tres")
+	botao.add_theme_font_size_override("font_size",8)
+	botao.custom_minimum_size = Vector2(46,22)
+	botao.size_flags_horizontal = Control.SIZE_SHRINK_END
+	botao.pressed.connect(func(): EventosJogo.abrir_tela_de(self,"mapa_mundi"))
+	$CantoDireito.add_child(botao)

@@ -30,6 +30,7 @@ var _dica_abas: Label
 ## Aberta de dentro da arena (entre as ondas, sozinha ao vencer uma onda ou pelo portal da arena): abas MELHORIAS (os totens, só eles),
 ## BIGORNA e ENCANTAR, e um rodapé pequeno com PROXIMA ONDA e CIDADE. Na cidade é o ferreiro de sempre (loja, bigorna, encantar, vender)
 var _modo_arena := false
+var _conversa_guia: HBoxContainer
 var _linha_abas_loja: Control
 var _linha_arena: HBoxContainer
 var _botao_proxima: Button
@@ -124,7 +125,9 @@ func _ready() -> void:
 	)
 	_montar_dica_abas()
 	_montar_rodape_arena()
-	_montar_aba_saque()
+	# Moedas e avanço permanecem no rodapé, enquanto os serviços rolam acima.
+	_botao_iniciar_onda.get_parent().reparent($Painel/Linhas)
+	_montar_conversa_guia()
 	Controle.dicas_alteradas.connect(_atualizar_dicas)
 	_atualizar_dicas()
 	set_process(false)
@@ -160,7 +163,7 @@ func _ao_visibilidade_alterada() -> void:
 func _mostrar_aba(painel: Control) -> void:
 	if _mensagem != null:
 		_mensagem.hide()
-	for aba in [_painel_encantar, _painel_loja, _painel_bigorna, _painel_vender, _painel_saque]:
+	for aba in [_painel_encantar, _painel_loja, _painel_bigorna, _painel_vender]:
 		aba.visible = aba == painel
 	# Um item só pode estar num slot por vez; a aba escondida devolve o dela
 	if painel != _painel_encantar:
@@ -186,6 +189,11 @@ func _fechar() -> void:
 
 ## Chamado pela Interface ao abrir a tela: no controle, o foco começa na primeira aba
 func focar_inicio() -> void:
+	# Volta para a aba aberta (vindo do inventário pelo LB), não sempre para a primeira
+	for aba in _aba_encantar.get_parent().get_children():
+		if aba is Button and aba.button_pressed and aba.visible and not aba.disabled:
+			Controle.focar(aba)
+			return
 	Controle.focar(_aba_loja)
 
 ## No controle não dá para arrastar: confirmar num item do inventário o coloca na bigorna ou no
@@ -275,6 +283,10 @@ func _unhandled_input(evento: InputEvent) -> void:
 		_botao_item_loja.grab_focus()
 		get_viewport().set_input_as_handled()
 		return
+	# Com o foco na mochila (aberta ao lado), LB/RB são dela: o LB volta para cá
+	var foco_atual := get_viewport().gui_get_focus_owner()
+	if foco_atual != null and not is_ancestor_of(foco_atual) and Controle.usando_controle_de(self):
+		return
 	var passo := 0
 	if evento.is_action_pressed("ferramenta_anterior"):
 		passo = -1
@@ -292,6 +304,13 @@ func _unhandled_input(evento: InputEvent) -> void:
 	var novo := atual + passo
 	while novo >= 0 and novo < abas.size() and (abas[novo].disabled or not abas[novo].visible):
 		novo += passo
+	if novo >= abas.size() and passo > 0 and Controle.usando_controle_de(self):
+		# Depois da última aba, o RB passa para a mochila (que abre ao lado da loja/bigorna); o LB de lá volta
+		var interface := EventosJogo.interface_de(self)
+		if interface != null and interface._telas_abertas.has("inventario"):
+			interface._focar_tela("inventario")
+			get_viewport().set_input_as_handled()
+		return
 	if novo < 0 or novo >= abas.size():
 		return
 	abas[novo].button_pressed = true
@@ -326,12 +345,23 @@ func _atualizar_dicas() -> void:
 		_rotulo_arraste_encantar.text = "ARRASTE UMA ARMA DO INVENTARIO PARA ENCANTAR"
 		_rotulo_arraste.text = "ARRASTE UMA ARMA DO INVENTARIO PARA A BIGORNA"
 	_dica_abas.visible = Controle.usando_controle_de(self)
-	_dica_abas.text = "%s / %s  TROCAR ABA" % [Controle.rotulo_acao("ferramenta_anterior", self), Controle.rotulo_acao("ferramenta_proxima", self)]
+	_dica_abas.text = "%s / %s  ABAS  |  %s NA ULTIMA: MOCHILA" % [Controle.rotulo_acao("ferramenta_anterior", self), Controle.rotulo_acao("ferramenta_proxima", self), Controle.rotulo_acao("ferramenta_proxima", self)]
 
 ## Modo arena: abas na ordem MELHORIAS, BIGORNA, ENCANTAR (a loja só mostra os totens e a venda some); no ferreiro da cidade a ordem
 ## é a de sempre e a venda só tem sementes
 func _aplicar_modo() -> void:
 	var abas := _aba_encantar.get_parent()
+	abas.columns = 3 if _modo_arena else 1
+	for aba in [_aba_loja, _aba_bigorna, _aba_encantar]:
+		aba.custom_minimum_size = Vector2(64 if _modo_arena else 0, 24)
+		aba.add_theme_font_size_override("font_size", 8 if _modo_arena else 10)
+	_grade_itens.columns = 3 if _modo_arena else 5
+	_grade_itens.size_flags_horizontal = SIZE_SHRINK_CENTER
+	_grade_itens.add_theme_constant_override("h_separation", 6 if _modo_arena else 2)
+	_grade_itens.add_theme_constant_override("v_separation", 6 if _modo_arena else 3)
+	for botao in _botoes_loja["totens"]:
+		botao.custom_minimum_size = Vector2(40,40) if _modo_arena else Vector2(LADO_BOTAO_ITEM,LADO_BOTAO_ITEM)
+		botao.size_flags_horizontal = SIZE_FILL
 	abas.move_child(_aba_loja, 0 if _modo_arena else 1)
 	if _modo_arena:
 		abas.move_child(_aba_bigorna, 1)
@@ -340,14 +370,17 @@ func _aplicar_modo() -> void:
 		abas.move_child(_aba_encantar, 0)
 		abas.move_child(_aba_bigorna, 2)
 	_aba_loja.text = "MELHORIAS" if _modo_arena else "SEMENTES"
+	if _modo_arena:
+		var largura_aba := 64.0
+		for aba in [_aba_loja,_aba_bigorna,_aba_encantar]:
+			largura_aba = maxf(largura_aba,aba.get_minimum_size().x)
+		for aba in [_aba_loja,_aba_bigorna,_aba_encantar]:
+			aba.custom_minimum_size.x = largura_aba
 	_aba_encantar.visible = _modo_arena
 	_aba_bigorna.visible = _modo_arena
 	_aba_loja.visible = true
 	_aba_vender.visible = false
 	_aba_vender.disabled = true
-	_aba_saque.visible = _modo_arena
-	_aba_saque.disabled = not _modo_arena
-	_atualizar_saque()
 	# Os totens só valem dentro da partida (ouro da onda): na cidade a loja vende sementes da estação, sem as abas TOTENS/ARMAS
 	_linha_abas_loja.visible = false
 	_mostrar_categoria_loja("totens" if _modo_arena else "sementes")
@@ -355,8 +388,12 @@ func _aplicar_modo() -> void:
 	_linha_arena.visible = _modo_arena
 	_botao_iniciar_onda.text = "IR PARA A ARENA"
 	var titulo: Label = $Painel/Linhas/Cabecalho/Titulo
+	titulo.label_settings = titulo.label_settings.duplicate()
+	titulo.label_settings.font_size = 12 if _modo_arena else 16
 	titulo.text = _titulo_arena() if _modo_arena else "VENDA DO TOMAS"
-	for icone in [$Painel/Linhas/Rodape/LinhaMoedas/IconeMoeda, $Painel/Linhas/Conteudo/Loja/Detalhe/LinhaPreco/IconeMoeda]:
+	var cena_guia := Cooperativo.cena_de(self)
+	_conversa_guia.visible = _modo_arena and cena_guia!=null and cena_guia.has_node("GuiaDoAndar")
+	for icone in [_rotulo_moedas.get_parent().get_node("IconeMoeda"), _preco_item.get_parent().get_node("IconeMoeda")]:
 		icone.visible = _modo_arena
 	if not _modo_arena and _botoes_loja["sementes"].is_empty():
 		_detalhe.visible = true
@@ -366,17 +403,53 @@ func _aplicar_modo() -> void:
 		_botao_comprar.disabled = true
 	var gerenciador := get_tree().get_first_node_in_group("gerenciador_ondas")
 	if _modo_arena and gerenciador != null:
-		_botao_proxima.text = "PROXIMA ONDA (%d)" % gerenciador.onda_atual
+		_botao_proxima.text = ("ANDAR %d" if gerenciador.is_in_group("gerenciador_andar") else "PROXIMA ONDA (%d)") % gerenciador.onda_atual
 		_botao_proxima.disabled = gerenciador.onda_em_andamento
+		if gerenciador.is_in_group("gerenciador_andar"):
+			_botao_proxima.custom_minimum_size = Vector2(80,24)
+			_botao_cidade.custom_minimum_size = Vector2(80,24)
+		var largura_acao := maxf(_botao_cidade.get_combined_minimum_size().x,_botao_proxima.get_combined_minimum_size().x)
+		_botao_cidade.custom_minimum_size.x = largura_acao
+		_botao_proxima.custom_minimum_size.x = largura_acao
 
 ## Título da janela entre as ondas. Depois de uma onda comum o gerenciador já avançou o contador; no estágio bônus a mesma onda espera
 func _titulo_arena() -> String:
 	var gerenciador := get_tree().get_first_node_in_group("gerenciador_ondas")
 	if gerenciador == null:
 		return "ACAMPAMENTO"
+	if gerenciador.is_in_group("gerenciador_andar"):
+		return "ANDAR %d CONCLUIDO" % maxi(gerenciador.onda_atual - 1, 1)
 	if gerenciador.onda_bonus:
 		return "BONUS CONCLUIDO"
 	return "ONDA %d CONCLUIDA" % maxi(gerenciador.onda_atual - 1, 1)
+
+func _montar_conversa_guia() -> void:
+	_conversa_guia=HBoxContainer.new()
+	_conversa_guia.add_theme_constant_override("separation",8)
+	_conversa_guia.name = "ConversaGuia"
+	var linhas: VBoxContainer=$Painel/Linhas/Rolagem/Conteudo
+	linhas.add_child(_conversa_guia)
+	linhas.move_child(_conversa_guia,0)
+	var retrato:=TextureRect.new()
+	var recorte:=AtlasTexture.new()
+	recorte.atlas=preload("res://assets/npcs/fendas/orion.png")
+	recorte.region=Rect2(12,2,40,46)
+	retrato.texture=recorte
+	retrato.custom_minimum_size=Vector2(32,40)
+	retrato.expand_mode=TextureRect.EXPAND_IGNORE_SIZE
+	retrato.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	retrato.size_flags_vertical=SIZE_SHRINK_CENTER
+	retrato.texture_filter=CanvasItem.TEXTURE_FILTER_NEAREST
+	_conversa_guia.add_child(retrato)
+	var texto:=Label.new()
+	texto.text="ORION - GUIA DAS FENDAS\nBom trabalho. Fortaleca-se antes da proxima passagem."
+	texto.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+	texto.size_flags_horizontal=SIZE_EXPAND_FILL
+	texto.add_theme_font_size_override("font_size",8)
+	texto.add_theme_color_override("font_color",Color("e6ca98"))
+	texto.size_flags_vertical=SIZE_SHRINK_CENTER
+	_conversa_guia.add_child(texto)
+	_conversa_guia.hide()
 
 ## Rodapé pequeno do modo arena: duas ações lado a lado, sem os botões grandes
 func _montar_rodape_arena() -> void:
@@ -889,98 +962,5 @@ func _ao_encantar_pressionado() -> void:
 	atualizar_exibicao_moedas()
 	atualizar_painel_encantar()
 
-# --- Saque da partida (arena) -------------------------------------------------------------------------------------
-# O que não coube na mochila durante as ondas (Saque): levar para a mochila (arrastar ou confirmar), vender soltando na
-# casa VENDER AQUI (ou com o botão direito), vender tudo, e o filtro que vende sozinho as raridades baixas. Os preços
-# são os da partida (Saque.preco_na_partida), baixos de propósito para vender não deixar o jogador rico
-
-## A loja da cidade paga um pouco mais que a venda dentro da partida
+## Margem da loja da cidade em relação ao preço base de venda.
 const PREMIO_VENDA_LOJA := 1.5
-const CENA_SLOT_SAQUE := preload("res://cenas/ui/componentes/slot_ui.tscn")
-var _aba_saque: Button
-var _painel_saque: VBoxContainer
-var _slots_saque: Array[Control] = []
-var _rotulo_saque: Label
-var _botao_vender_tudo: Button
-var _botao_filtro: Button
-
-func _montar_aba_saque() -> void:
-	_aba_saque = _aba_vender.duplicate() as Button
-	_aba_saque.name = "AbaSaque"
-	_aba_saque.unique_name_in_owner = false
-	_aba_saque.text = "SAQUE"
-	_aba_saque.button_group = _aba_vender.button_group
-	_aba_vender.get_parent().add_child(_aba_saque)
-	_painel_saque = VBoxContainer.new()
-	_painel_saque.name = "Saque"
-	_painel_saque.visible = false
-	_painel_saque.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	_painel_saque.add_theme_constant_override("separation", 4)
-	_painel_vender.get_parent().add_child(_painel_saque)
-	_aba_saque.pressed.connect(_mostrar_aba.bind(_painel_saque))
-	_rotulo_saque = Label.new()
-	_rotulo_saque.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_rotulo_saque.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_rotulo_saque.add_theme_font_size_override("font_size", 8)
-	_painel_saque.add_child(_rotulo_saque)
-	var grade := GridContainer.new()
-	grade.columns = 6
-	grade.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-	grade.add_theme_constant_override("h_separation", 2)
-	grade.add_theme_constant_override("v_separation", 2)
-	_painel_saque.add_child(grade)
-	for i in Saque.CAPACIDADE:
-		var slot: Control = CENA_SLOT_SAQUE.instantiate()
-		slot.tipo_slot = "saque"
-		slot.indice = i
-		grade.add_child(slot)
-		_slots_saque.append(slot)
-	var linha := HFlowContainer.new()
-	linha.alignment = FlowContainer.ALIGNMENT_CENTER
-	linha.add_theme_constant_override("h_separation", 4)
-	linha.add_theme_constant_override("v_separation", 4)
-	_painel_saque.add_child(linha)
-	var venda: Control = CENA_SLOT_SAQUE.instantiate()
-	venda.tipo_slot = "venda_saque"
-	venda.tooltip_text = "SOLTE AQUI PARA VENDER"
-	linha.add_child(venda)
-	var rotulo_venda := Label.new()
-	rotulo_venda.text = "VENDER AQUI"
-	rotulo_venda.add_theme_font_size_override("font_size", 8)
-	linha.add_child(rotulo_venda)
-	_botao_vender_tudo = Button.new()
-	_botao_vender_tudo.add_theme_font_size_override("font_size", 8)
-	_botao_vender_tudo.pressed.connect(func() -> void:
-		var total := Saque.vender_tudo(EventosJogo.dono(self))
-		if total > 0:
-			atualizar_exibicao_moedas()
-			get_tree().call_group("hud", "avisar_pocao", "SAQUE VENDIDO +%d" % total))
-	linha.add_child(_botao_vender_tudo)
-	_botao_filtro = Button.new()
-	_botao_filtro.add_theme_font_size_override("font_size", 8)
-	_botao_filtro.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_botao_filtro.tooltip_text = "Raridades que viram ouro na hora em que voce pega (nem ocupam espaco)."
-	_botao_filtro.pressed.connect(Saque.trocar_filtro)
-	_painel_saque.add_child(_botao_filtro)
-	Saque.alterado.connect(_atualizar_saque)
-	EventosJogo.inventario_de(self).mochila_alterada.connect(_atualizar_saque)
-
-func _atualizar_saque() -> void:
-	if _aba_saque == null:
-		return
-	var quantos := Saque.quantidade()
-	_aba_saque.text = "SAQUE (%d)" % quantos if quantos > 0 else "SAQUE"
-	for i in _slots_saque.size():
-		var item = Saque.itens[i]
-		_slots_saque[i].exibir(item)
-		_slots_saque[i].tooltip_text = "%s %s - VALE %d" % [item.nome(), item.nome_raridade(), Saque.preco(item)] if item != null else ""
-	var total := 0
-	for item in Saque.itens:
-		if item != null:
-			total += Saque.preco(item)
-	_rotulo_saque.text = "O QUE NAO COUBE NA MOCHILA (%d/%d). LEVE PARA A MOCHILA OU VENDA. AO VOLTAR PARA A CIDADE, O RESTO E VENDIDO." % [quantos, Saque.CAPACIDADE]
-	_botao_vender_tudo.text = "VENDER TUDO (+%d)" % total
-	_botao_vender_tudo.disabled = quantos == 0
-	_botao_filtro.text = "VENDER SOZINHO AO PEGAR: %s" % Saque.nome_filtro()
-	atualizar_exibicao_moedas()
-

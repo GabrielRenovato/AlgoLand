@@ -16,6 +16,7 @@ const ArcoJogador := preload("res://codigo/jogador/arco_jogador.gd")
 
 const RAIZ := "res://assets/personagens/Fazenda/"
 const QUADROS_POR_LINHA := 8
+const Madeira := preload("res://codigo/dados/ferramentas_madeira.gd")
 const ObjetosRefinados := preload("res://codigo/dados/objetos_refinados.gd")
 const Aparencia := preload("res://codigo/dados/aparencia.gd")
 # Camadas relativas ao corpo (z = 3 em BaseSprites); a ferramenta (6tla) fica sempre por cima: o artista só
@@ -92,6 +93,9 @@ func tocar(acao: String, direcao: Vector2) -> bool:
 	_tempo = 0.0
 	_impacto_emitido = false
 	ObjetosRefinados.aplicar(_ferramenta, load(RAIZ + "ferramenta_%s.png" % dados["ferramenta"]))
+	var melhorias := preload("res://codigo/dados/melhorias_ferramentas.gd")
+	var grau: int=melhorias.nivel(EventosJogo.inventario_de(jogador),melhorias.POR_ACAO.get(acao,""))
+	_ferramenta.material = Madeira.material(2.0,grau) if acao in ["enxada","machado","picareta","regar"] else null
 	_sincronizar_aparencia()
 	visible = true
 	_aplicar_quadro()

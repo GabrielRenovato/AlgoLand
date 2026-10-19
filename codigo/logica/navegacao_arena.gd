@@ -11,6 +11,7 @@ extends NavigationRegion2D
 const RAIOS_AGENTE: Array[float] = [14.0, 21.0, 30.0]
 const LADOS_CIRCULO := 10
 
+@export var folga_adicional := 0.0
 @export var limite: NodePath = ^"../LimiteArena/Contorno"
 @export var obstaculos: Array[NodePath] = [^"../Obstaculos"]
 
@@ -26,7 +27,7 @@ func _ready() -> void:
 			_coletar(no, geometria)
 	for i in RAIOS_AGENTE.size():
 		var malha := NavigationPolygon.new()
-		malha.agent_radius = RAIOS_AGENTE[i]
+		malha.agent_radius = RAIOS_AGENTE[i] + folga_adicional
 		NavigationServer2D.bake_from_source_geometry_data(malha, geometria)
 		malha = _triangular(malha)
 		if i == 0:

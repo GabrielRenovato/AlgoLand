@@ -105,7 +105,7 @@ func _rodar() -> void:
 	_verificar("mercador sentado fica parado no quadro de repouso (nao balanca a mao o tempo todo)", parado_merc == [20], str(parado_merc))
 	vivo_merc._espera_gesto = 0.0
 	var gesto_merc: Array = await _amostrar(mercador, 1.5)
-	_verificar("de vez em quando faz um gesto curto (alterna os 2 quadros da linha 5) e volta ao repouso", gesto_merc.size() == 2 and gesto_merc.all(func(q): return q / 4 == 5)
+	_verificar("de vez em quando faz um gesto curto (alterna os 2 quadros da linha 5) e volta ao repouso", gesto_merc.size() == 2 and gesto_merc.all(func(q): return floori(float(q) / 4.0) == 5)
 			and mercador.frame == 20 and vivo_merc._espera_gesto >= 6.0, str(gesto_merc))
 	_verificar("mercador sentado fica no lugar", npcs["Merchant"]["npc"].global_position == pos_mercador, "")
 	# --- curandeira parada: quadro de passagem (coluna 1) de frente

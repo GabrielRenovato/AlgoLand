@@ -25,7 +25,7 @@ const TEMPO_REVIVER := 2.0
 ## Sem controle no teclado: as ações do jogador 1 vão para um device que não existe
 const SEM_CONTROLE := 99
 const ACOES_P2 := ["move_left", "move_right", "move_up", "move_down", "attack", "rolar", "aparar", "usar_pocao", "colher",
-	"ferramenta_anterior", "ferramenta_proxima", "arma_proxima", "open_menu"]
+	"ferramenta_anterior", "ferramenta_proxima", "arma_proxima", "open_menu", "open_map"]
 ## Aparência do jogador 2 (índices de Aparencia e cor do cabelo)
 const APARENCIA_P2 := {"cabelo_atual": 3, "roupa_atual": 1, "apelido": "JOGADOR 2", "cor_cabelo": {"r": 0.55, "g": 0.85, "b": 1.0, "a": 1.0}}
 
@@ -447,6 +447,9 @@ func viajar_local(jogador: Node2D, caminho: String, ponto: String) -> void:
 	# As áreas podem pedir a passagem durante a física: só remover/reparentear depois dela.
 	await get_tree().process_frame
 	var raiz := get_tree().current_scene
+	# Os moradores devem nascer na hora atual, antes do ready do novo ambiente.
+	var luz := raiz.get_node_or_null("Iluminacao")
+	if luz != null: Transicao.hora_salva = luz.hora_do_mundo()
 	var anterior: Node = _locais.get(lado, raiz)
 	_cameras_locais[str(lado) + anterior.scene_file_path] = _guardar_camera(jogador.camera)
 	var destino: Node
@@ -500,6 +503,7 @@ func viajar_local(jogador: Node2D, caminho: String, ponto: String) -> void:
 	if chegada != null:
 		jogador.global_position = chegada.global_position
 	jogador.velocity = Vector2.ZERO
+	jogador.picareta_arena_ativa = false
 	jogador.modo_fazenda = bool(destino.get_meta("barra_ferramentas", false))
 	if jogador.modo_fazenda:
 		for plantio in get_tree().get_nodes_in_group("plantio_fazenda"):
@@ -511,10 +515,18 @@ func viajar_local(jogador: Node2D, caminho: String, ponto: String) -> void:
 	for hud in get_tree().get_nodes_in_group("hud_p%d" % lado):
 		# O relógio passa a seguir a iluminação do lugar novo
 		hud._ligar_iluminacao()
-		if jogador.modo_fazenda and hud.barra_armas == null:
-			hud._criar_barra(true)
-		if hud.barra_armas != null and hud.barra_armas.modo_fazenda:
-			hud.barra_armas.visible = jogador.modo_fazenda
+		# Todos os mapas mantêm a barra; só a fazenda usa o modo de ferramentas.
+		if hud.barra_armas != null and hud.barra_armas.modo_fazenda != jogador.modo_fazenda:
+			hud.barra_armas.queue_free()
+			hud.barra_armas = null
+		if hud.barra_armas == null:
+			hud._criar_barra(jogador.modo_fazenda)
+		if hud.barra_armas != null:
+			hud.barra_armas.visible = true
+		if jogador.modo_fazenda or destino.has_node("enemySpawner/GerenciadorOndas"):
+			hud._criar_barra_energia()
+		if hud.barra_energia != null:
+			hud.barra_energia.visible = jogador.modo_fazenda or destino.has_node("enemySpawner/GerenciadorOndas")
 	jogador.desabilitar_todas_acoes(false)
 	_atualizar_tela_dividida(_jogador1(), jogador2())
 	_cameras[lado].reset_smoothing()

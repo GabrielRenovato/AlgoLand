@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="680"><g font-family="DejaVu Sans" fill="#f5e3ba"><rect x="0" y="0" width="1200" height="680" rx="12" fill="#193b30" stroke="#6b6e62"/>
+<text x="18" y="28" font-size="19" font-weight="bold">08 · Bosque Ancestral</text>
+<text x="18" y="52" font-size="13">3700 × 1440 px · meta 175 pontos</text>
+<g transform="translate(600.0,358.0) scale(0.3162162162162162)">
+<polyline points="-1600,-384 -1232,272" stroke="#6c8b54" stroke-width="176" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="-1600,-384 -800,-32" stroke="#6c8b54" stroke-width="176" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="-1232,272 -800,-32" stroke="#6c8b54" stroke-width="176" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="-800,-32 -448,-496" stroke="#6c8b54" stroke-width="176" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="-800,-32 -272,496" stroke="#6c8b54" stroke-width="176" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="-448,-496 272,-80" stroke="#6c8b54" stroke-width="176" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="-272,496 272,-80" stroke="#6c8b54" stroke-width="176" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="272,-80 704,416" stroke="#6c8b54" stroke-width="176" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="272,-80 976,-448" stroke="#6c8b54" stroke-width="176" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="704,416 1232,32" stroke="#6c8b54" stroke-width="176" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="976,-448 1232,32" stroke="#6c8b54" stroke-width="176" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="1232,32 1600,416" stroke="#6c8b54" stroke-width="176" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+<ellipse cx="-1600" cy="-384" rx="136" ry="112" fill="#6c8b54"/>
+<circle cx="-1600" cy="-384" r="50.5982905982906" fill="#7de0c2"/>
+<text x="-1600" y="-368.1880341880342" text-anchor="middle" fill="#202923" font-size="44.27350427350427">E</text>
+<ellipse cx="-1232" cy="272" rx="136" ry="112" fill="#6c8b54"/>
+<circle cx="-1232" cy="272" r="50.5982905982906" fill="#ead496"/>
+<text x="-1232" y="287.8119658119658" text-anchor="middle" fill="#202923" font-size="44.27350427350427">2</text>
+<ellipse cx="-800" cy="-32" rx="136" ry="112" fill="#6c8b54"/>
+<circle cx="-800" cy="-32" r="50.5982905982906" fill="#ead496"/>
+<text x="-800" y="-16.188034188034187" text-anchor="middle" fill="#202923" font-size="44.27350427350427">1</text>
+<ellipse cx="-448" cy="-496" rx="136" ry="112" fill="#6c8b54"/>
+<circle cx="-448" cy="-496" r="50.5982905982906" fill="#ead496"/>
+<text x="-448" y="-480.1880341880342" text-anchor="middle" fill="#202923" font-size="44.27350427350427">2</text>
+<ellipse cx="-272" cy="496" rx="136" ry="112" fill="#6c8b54"/>
+<circle cx="-272" cy="496" r="50.5982905982906" fill="#ead496"/>
+<text x="-272" y="511.8119658119658" text-anchor="middle" fill="#202923" font-size="44.27350427350427">1</text>
+<ellipse cx="272" cy="-80" rx="136" ry="112" fill="#6c8b54"/>
+<circle cx="272" cy="-80" r="50.5982905982906" fill="#ead496"/>
+<text x="272" y="-64.18803418803418" text-anchor="middle" fill="#202923" font-size="44.27350427350427">2</text>
+<ellipse cx="704" cy="416" rx="136" ry="112" fill="#6c8b54"/>
+<circle cx="704" cy="416" r="50.5982905982906" fill="#ead496"/>
+<text x="704" y="431.8119658119658" text-anchor="middle" fill="#202923" font-size="44.27350427350427">1</text>
+<ellipse cx="976" cy="-448" rx="136" ry="112" fill="#6c8b54"/>
+<circle cx="976" cy="-448" r="50.5982905982906" fill="#ead496"/>
+<text x="976" y="-432.1880341880342" text-anchor="middle" fill="#202923" font-size="44.27350427350427">2</text>
+<ellipse cx="1232" cy="32" rx="136" ry="112" fill="#6c8b54"/>
+<circle cx="1232" cy="32" r="50.5982905982906" fill="#ead496"/>
+<text x="1232" y="47.81196581196581" text-anchor="middle" fill="#202923" font-size="44.27350427350427">1</text>
+<ellipse cx="1600" cy="416" rx="176" ry="144" fill="#6c8b54"/>
+<circle cx="1600" cy="416" r="50.5982905982906" fill="#ef986e"/>
+<text x="1600" y="431.8119658119658" text-anchor="middle" fill="#202923" font-size="44.27350427350427">B</text>
+</g>
+<text x="18" y="666" font-size="12">E: entrada · números: grupos · B: guardião</text></g></svg>

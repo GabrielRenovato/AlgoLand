@@ -93,6 +93,7 @@ func _rodar() -> void:
 	_inventario = root.get_node("InventarioJogador")
 	_inventario.limpar()
 	_inventario.criar_itens_iniciais()
+	_inventario.adicionar_arma_nova("lanca_basica")
 	_cena = load("res://cenas/cenario.tscn").instantiate()
 	root.add_child(_cena)
 	current_scene = _cena

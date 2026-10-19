@@ -1401,5 +1401,23 @@
    90
   ],
   "escala_origem": 1
+ },
+ "fachada/forja": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/fachada/forja/primavera.png",
+   "res://assets/cenario/cidade/ambientes/fachada/forja/verao.png",
+   "res://assets/cenario/cidade/ambientes/fachada/forja/outono.png",
+   "res://assets/cenario/cidade/ambientes/fachada/forja/inverno.png"
+  ],
+  "quadros": 1,
+  "fps": 0,
+  "usado": [
+   0,
+   0,
+   128,
+   112
+  ],
+  "escala_origem": 1.0,
+  "fonte": "res://assets/cenario/cidade/casas/exterior/forja.png"
  }
 }

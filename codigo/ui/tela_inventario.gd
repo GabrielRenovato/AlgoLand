@@ -19,6 +19,10 @@ const FOLGA_BAIXO := 14.0
 
 var _atualizacao_pendente: bool = false
 var _rolagem: ScrollContainer
+var _equipamento: Control
+var _titulo: Label
+var _separador: Control
+var _largura_flex := 216.0
 var _slots_mochila: Array[Control] = []
 ## Casas que mostram, apagada, a arma/escudo em uso que "ocupa" a casa na barra de baixo (ver EventosJogo.inventario_de(self).celulas_da_mao)
 var _fantasmas: Array[Control] = []
@@ -31,6 +35,7 @@ var _pesca: ScrollContainer
 var _desafios: ScrollContainer
 var _botoes_abas: Array[Button] = []
 var _missoes: ScrollContainer
+var lixeira: Button
 
 @onready var _grade: GridContainer = $Sidebar/Painel/Mochila
 @onready var _corpo: TextureRect = $Sidebar/Painel/Boneco/Corpo
@@ -41,7 +46,6 @@ var _missoes: ScrollContainer
 func _ready() -> void:
 	add_to_group("tela_inventario")
 	$Sidebar/BotaoFechar.pressed.connect(EventosJogo.fechar_tela_de.bind(self, "inventario"))
-	_montar_rolagem()
 	for i in EventosJogo.inventario_de(self).TAMANHO_MAXIMO:
 		var slot: Control = CENA_SLOT.instantiate()
 		slot.tipo_slot = "mochila"
@@ -58,6 +62,9 @@ func _ready() -> void:
 		decorativo.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_montar_info_item()
 	_montar_abas()
+	_montar_rolagem()
+	resized.connect(_ajustar_area)
+	_ajustar_area()
 	Controle.dicas_alteradas.connect(_atualizar_info_foco)
 	EventosJogo.inventario_de(self).mochila_alterada.connect(_agendar_atualizacao)
 	EventosJogo.inventario_de(self).equipamento_alterado.connect(_agendar_atualizacao)
@@ -73,22 +80,20 @@ func ajustar_largura(largura: float) -> void:
 	var animacao: Tween = $Sidebar.get_meta("animacao_entrada") if $Sidebar.has_meta("animacao_entrada") else null
 	if animacao != null and animacao.is_valid():
 		animacao.kill()
-	var compacta := largura < 210.0
-	$Sidebar.offset_right = 0.0
-	$Sidebar.offset_left = -largura
-	$Sidebar.set_meta("offset_entrada", -largura)
-	$Sidebar/Painel.position.x = floorf((largura - 112.0) / 2.0)
-	$Sidebar/Titulo.text = "MOCHILA" if compacta else "PERSONAGEM"
-	_atributos.columns = 1 if compacta else 2
-	_atributos.reset_size()
-	_grade.columns = 4 if compacta else EventosJogo.inventario_de(self).COLUNAS_MOCHILA
-	_grade.reset_size()
-	_rolagem.position.x = 11.0 if compacta else -31.0
-	_atributos.position.x = 4.0 if compacta else 18.0
-	_atributos.size.x = largura - (8.0 if compacta else 36.0)
-	$Sidebar/Separador.offset_left = 4.0 if compacta else 14.0
-	$Sidebar/Separador.offset_right = largura - (4.0 if compacta else 14.0)
-	_posicionar_atributos.call_deferred()
+	_largura_flex = largura
+	_ajustar_area()
+
+func _ajustar_area() -> void:
+	if _rolagem == null: return
+	var largura := minf(_largura_flex,size.x-16)
+	$Sidebar.anchor_bottom = 1
+	$Sidebar.offset_top = 8
+	$Sidebar.offset_bottom = -8
+	$Sidebar.offset_left = -largura-8
+	$Sidebar.offset_right = -8
+	$Sidebar.set_meta("offset_entrada",$Sidebar.offset_left)
+	_titulo.text = "MOCHILA" if largura < 210 else "PERSONAGEM"
+	_posicionar_atributos()
 
 ## Chamado pela Interface ao abrir a tela: no controle, o foco começa na arma equipada (ou na mochila)
 func focar_inicio() -> void:
@@ -151,42 +156,93 @@ func _atualizar_linhas_da_mochila() -> void:
 
 ## A grade vai para dentro de uma rolagem no mesmo lugar (só a barra vertical, fina, nas cores da moldura do inventário)
 func _montar_rolagem() -> void:
-	var painel := _grade.get_parent()
+	$Sidebar.theme = preload("res://recursos/ui/tema_sidebar.tres")
+	_equipamento = $Sidebar/Painel
+	_titulo = $Sidebar/Titulo
+	_separador = $Sidebar/Separador
+	var fundo := $Sidebar/Fundo as NinePatchRect
+	fundo.texture = preload("res://assets/ui/bosque/painel.png")
+	fundo.region_rect = Rect2(0,0,48,48)
+	for lado in [SIDE_LEFT,SIDE_TOP,SIDE_RIGHT,SIDE_BOTTOM]: fundo.set_patch_margin(lado,8)
+	var margem := MarginContainer.new()
+	margem.name = "MargemSegura"
+	$Sidebar.add_child(margem)
+	margem.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	for lado in ["left","top","right","bottom"]: margem.add_theme_constant_override("margin_"+lado,10)
+	var coluna := VBoxContainer.new()
+	coluna.add_theme_constant_override("separation",6)
+	margem.add_child(coluna)
+	var cabecalho := HBoxContainer.new()
+	coluna.add_child(cabecalho)
+	_titulo.reparent(cabecalho)
+	_titulo.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
+	_titulo.size_flags_horizontal = SIZE_EXPAND_FILL
+	_titulo.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_titulo.label_settings = _titulo.label_settings.duplicate()
+	_titulo.label_settings.font_color = Color("efdab2")
+	var fechar := $Sidebar/BotaoFechar as Button
+	fechar.reparent(cabecalho)
+	fechar.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
+	fechar.custom_minimum_size = Vector2(28,28)
+	var abas := $Sidebar/Abas as Container
+	abas.reparent(coluna)
+	abas.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
+	var paginas := VBoxContainer.new()
+	paginas.size_flags_vertical = SIZE_EXPAND_FILL
+	coluna.add_child(paginas)
 	_rolagem = ScrollContainer.new()
 	_rolagem.name = "RolagemMochila"
 	_rolagem.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	_rolagem.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_SHOW_NEVER
-	# no controle, a rolagem acompanha a casa em foco
 	_rolagem.follow_focus = true
-	_rolagem.position = _grade.position
-	painel.add_child(_rolagem)
-	painel.move_child(_rolagem, _grade.get_index())
-	painel.remove_child(_grade)
-	_rolagem.add_child(_grade)
-	var barra := _rolagem.get_v_scroll_bar()
-	barra.custom_minimum_size.x = LARGURA_BARRA_ROLAGEM
-	var trilho := StyleBoxFlat.new()
-	trilho.bg_color = COR_TRILHO_ROLAGEM
-	var alca := StyleBoxFlat.new()
-	alca.bg_color = COR_ALCA_ROLAGEM
-	barra.add_theme_stylebox_override("scroll", trilho)
-	barra.add_theme_stylebox_override("scroll_focus", trilho)
-	for estado in ["grabber", "grabber_highlight", "grabber_pressed"]:
-		barra.add_theme_stylebox_override(estado, alca)
+	_rolagem.size_flags_vertical = SIZE_EXPAND_FILL
+	paginas.add_child(_rolagem)
+	var itens := VBoxContainer.new()
+	itens.size_flags_horizontal = SIZE_EXPAND_FILL
+	itens.add_theme_constant_override("separation",8)
+	_rolagem.add_child(itens)
+	var centro := CenterContainer.new()
+	itens.add_child(centro)
+	_equipamento.reparent(centro)
+	_equipamento.custom_minimum_size = Vector2(112,104)
+	_equipamento.size = Vector2(112,104)
+	var centro_grade := CenterContainer.new()
+	itens.add_child(centro_grade)
+	_grade.reparent(centro_grade)
+	var linha_lixeira := HBoxContainer.new()
+	linha_lixeira.add_theme_constant_override("separation",4)
+	_info_item.reparent(coluna)
+	_info_item.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
+	# O detalhe em foco ocupa espaco proprio, sem cobrir os atributos da mochila.
+	coluna.add_child(linha_lixeira)
+	var ajuda_lixeira := Label.new()
+	ajuda_lixeira.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	ajuda_lixeira.size_flags_horizontal = SIZE_EXPAND_FILL
+	ajuda_lixeira.size_flags_vertical = SIZE_SHRINK_CENTER
+	ajuda_lixeira.add_theme_font_size_override("font_size",8)
+	lixeira = preload("res://codigo/ui/lixeira_inventario.gd").new()
+	lixeira.tela = self
+	lixeira.ajuda = ajuda_lixeira
+	linha_lixeira.add_child(lixeira)
+	linha_lixeira.add_child(ajuda_lixeira)
+	_separador.reparent(itens)
+	_separador.custom_minimum_size.y = 1
+	_atributos.reparent(itens)
+	_atributos.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
+	for pagina in [_missoes,_desafios,_pesca]:
+		pagina.reparent(paginas)
+		pagina.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
+		pagina.size_flags_vertical = SIZE_EXPAND_FILL
 
-## A grade ocupa o que precisa até o espaço que sobra acima dos atributos; passando disso, rola. Separador e atributos ficam logo abaixo
+func tentar_excluir_item(item: DadosItem) -> bool:
+	if lixeira == null or not lixeira.selecionando: return false
+	lixeira.solicitar(item)
+	return true
+
+## A largura disponível define quantas casas cabem; os containers posicionam o restante.
 func _posicionar_atributos() -> void:
-	var conteudo := _grade.get_combined_minimum_size()
-	var topo: float = _rolagem.get_parent().position.y + _rolagem.position.y
-	var altura_atributos: float = _atributos.get_combined_minimum_size().y
-	var disponivel: float = $Sidebar.size.y - topo - FOLGA_SEPARADOR * 2.0 - altura_atributos - FOLGA_BAIXO
-	var altura := minf(conteudo.y, maxf(disponivel, 20.0))
-	var rola := altura < conteudo.y
-	_rolagem.custom_minimum_size = Vector2(conteudo.x + (LARGURA_BARRA_ROLAGEM + 1 if rola else 0), altura)
-	_rolagem.size = _rolagem.custom_minimum_size
-	var separador: Control = $Sidebar/Separador
-	separador.position.y = topo + altura + FOLGA_SEPARADOR
-	_atributos.position.y = separador.position.y + FOLGA_SEPARADOR
+	if _rolagem == null: return
+	_grade.columns = clampi(int(($Sidebar.size.x-24)/22),4,8)
+	_atributos.columns = 1 if $Sidebar.size.x < 180 else 2
 
 # Equipar e comprar mudam as estatísticas do Jogador; espera um frame para ele recalcular
 func atualizar_atributos() -> void:
@@ -254,8 +310,8 @@ func _montar_info_item() -> void:
 	_info_item.anchor_bottom = 1.0
 	_info_item.offset_left = 14.0
 	_info_item.offset_right = -14.0
-	_info_item.offset_top = -11.0
-	_info_item.offset_bottom = -10.0
+	_info_item.offset_top = -49.0
+	_info_item.offset_bottom = -48.0
 	_info_item.grow_vertical = Control.GROW_DIRECTION_BEGIN
 	_info_linhas = VBoxContainer.new()
 	_info_linhas.add_theme_constant_override("separation", 0)
@@ -268,21 +324,26 @@ func _montar_info_item() -> void:
 func _atualizar_info_foco() -> void:
 	if _info_item == null:
 		return
-	var foco := get_viewport().gui_get_focus_owner() if is_inside_tree() else null
+	var interface := EventosJogo.interface_de(self) if is_inside_tree() else null
+	var foco: Control = interface.foco_atual() if interface != null and interface.has_method("foco_atual") else (get_viewport().gui_get_focus_owner() if is_inside_tree() else null)
 	var slot: Control = foco if foco != null and $Sidebar.is_ancestor_of(foco) and "item_atual" in foco else null
-	if not Controle.usando_controle_de(self) or slot == null or slot.item_atual == null:
+	var carregado = interface.item_carregado if interface != null and "item_carregado" in interface else null
+	if not Controle.usando_controle_de(self) or slot == null or (slot.item_atual == null and carregado == null):
 		_info_item.visible = false
 		return
 	for filho in _info_linhas.get_children():
 		_info_linhas.remove_child(filho)
 		filho.queue_free()
-	var dica: Control = slot.item_ui().tooltip_do_item()
+	var dica: Control = slot.item_ui().tooltip_do_item(maxf(90,$Sidebar.size.x-46)) if slot.item_atual != null else null
 	if dica != null:
 		_info_linhas.add_child(dica)
-	var verbo := _verbo_do_item(slot)
-	if verbo != "":
+	var verbo := _verbo_do_item(slot) if slot.item_atual != null else ""
+	var verbo_mover := "SOLTAR AQUI" if carregado != null and carregado != slot.item_atual else ("DEVOLVER" if carregado != null else ("MOVER" if not slot.item_ui().em_uso else ""))
+	for par in [["ui_accept", verbo], ["colher", verbo_mover]]:
+		if par[1] == "":
+			continue
 		var acao := Label.new()
-		acao.text = "%s %s" % [Controle.rotulo_acao("ui_accept", self), verbo]
+		acao.text = "%s %s" % [Controle.rotulo_acao(par[0], self), par[1]]
 		# A caixa tem a largura da barra lateral: o texto quebra em vez de empurrar a caixa para fora
 		acao.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		acao.custom_minimum_size = Vector2(LARGURA_TEXTO_INFO, 0)
@@ -294,6 +355,8 @@ func _atualizar_info_foco() -> void:
 
 # O que confirmar faz no item (a mesma regra de slot_ui._usar_com_controle)
 func _verbo_do_item(slot: Control) -> String:
+	if slot.item_atual.categoria == "receita" and slot.tipo_slot == "mochila":
+		return "APRENDER RECEITA"
 	if slot.item_ui().em_uso:
 		return ""
 	var mercante := EventosJogo.painel_do_grupo(self, "tela_mercante")
@@ -378,16 +441,31 @@ func selecionar_pagina(indice: int) -> void:
 	_aba_atual = clampi(indice, 0, 3)
 	_aba_missoes = _aba_atual == 1
 	_botoes_abas[_aba_atual].button_pressed = true
-	$Sidebar/Painel.visible = _aba_atual == 0
-	_atributos.visible = _aba_atual == 0
-	$Sidebar/Separador.visible = _aba_atual == 0
+	_rolagem.visible = _aba_atual == 0
 	_missoes.visible = _aba_atual == 1
 	_desafios.visible = _aba_atual == 2
 	_pesca.visible = _aba_atual == 3
 	_info_item.visible = false
+	if lixeira != null:
+		lixeira.get_parent().visible = _aba_atual == 0
+		if _aba_atual != 0:
+			lixeira.selecionando = false
+			lixeira.button_pressed = false
 
 func _unhandled_input(evento: InputEvent) -> void:
-	if not is_visible_in_tree() or EventosJogo.interface_de(self)._telas_abertas != ["inventario"]:
+	if not is_visible_in_tree():
+		return
+	var abertas: Array = EventosJogo.interface_de(self)._telas_abertas
+	# Aberta ao lado de outra tela (bigorna, loja, baú): o LB devolve o foco para ela
+	if abertas.size() > 1 and evento.is_action_pressed("ferramenta_anterior") and Controle.usando_controle_de(self):
+		var foco := get_viewport().gui_get_focus_owner()
+		if foco != null and $Sidebar.is_ancestor_of(foco):
+			for nome in abertas:
+				if nome != "inventario":
+					EventosJogo.interface_de(self)._focar_tela(nome)
+					get_viewport().set_input_as_handled()
+					return
+	if abertas != ["inventario"]:
 		return
 	var passo := 0
 	if evento.is_action_pressed("ferramenta_anterior"):

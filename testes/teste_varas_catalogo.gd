@@ -42,7 +42,7 @@ func _rodar() -> void:
 	var ui2: Node = coop.interface_p2()
 	verificar("varas novas começam no nível 1",Varas.nivel(p1)==1 and Varas.nivel(p2)==1)
 	verificar("não refina sem pedras",not Varas.melhorar(p1))
-	fazenda.pedras_vara["p1"] = 13
+	root.get_node("InventarioJogador").adicionar_coletavel("material", "pedra_vara", 13)
 	for nv in range(2,6):
 		var antes := Varas.pedras(p1)
 		verificar("custo nv %d" % nv,Varas.custo(p1)==int(Varas.CUSTOS[nv]))
@@ -125,9 +125,10 @@ func _rodar() -> void:
 	verificar("ambos os NPCs permanecem em conversa",cidade.em_conversa("nilo") and cidade.em_conversa("mercador"))
 	d1._ver_vara()
 	await quadros()
-	verificar("oficina informa nível máximo e não oferece catálogo",d1._botoes.size()==4 and d1._botoes[0].text.contains("NV 5") and d1._botoes[1].disabled)
+	var oficina: Control = ui1._telas["oficina_vara"]
+	verificar("oficina mostra comparacao e nivel maximo",oficina.visible and oficina._comparacao.get_child_count()==2 and oficina._refinar.disabled and oficina._refinar.text.contains("MAXIMO"))
 	await botao(JOY_BUTTON_B)
-	verificar("B fecha somente a conversa do P2",not d2.visible and d1.visible)
-	ui1._fechar_tela("conversa_cidade")
+	verificar("B fecha somente a conversa do P2",not d2.visible and oficina.visible)
+	ui1._fechar_tela("oficina_vara")
 	print("FALHAS: ",falhas)
 	quit(1 if falhas else 0)

@@ -48,7 +48,7 @@ func _rodar() -> void:
 
 func _testar_lista() -> void:
 	_verificar("sete cabelos (2 antigos + 5 novos)", Aparencia.total_cabelos() == 7, str(Aparencia.total_cabelos()))
-	_verificar("42 roupas (12 antigas + 30 novas)", Aparencia.total_roupas() == 42, str(Aparencia.total_roupas()))
+	_verificar("46 entradas preservadas (12 bases, 30 migradas e 4 prévias)", Aparencia.total_roupas() == 46, str(Aparencia.total_roupas()))
 	var ids := {}
 	var repetido := false
 	var sem_nome := false
@@ -88,24 +88,26 @@ func _testar_texturas() -> void:
 				tamanho_errado.append("roupa %d %s %s" % [i, pagina, t.get_size()])
 	_verificar("todo cabelo e toda roupa tem textura em todas as %d páginas" % paginas.size(), faltando.is_empty(), str(faltando.slice(0, 5)))
 	_verificar("todas as folhas são de 512x512 (8x8 quadros de 64 px)", tamanho_errado.is_empty(), str(tamanho_errado.slice(0, 5)))
-	# nas páginas de combate a roupa nova é a folha RECOLORIDA a partir do molde antigo (roupas/<id>_<pagina>.png), nunca a antiga com tinta
-	var roupa_recolorida := true
-	for pagina in Aparencia.PAGINAS_COMBATE:
-		for i in range(2, Aparencia.total_roupas()):
-			if int(Aparencia.roupas()[i]["legado"]) > 0:
-				continue
-			var textura := Aparencia.roupa(i, pagina)
-			roupa_recolorida = roupa_recolorida and textura != null and textura.resource_path.ends_with("%s_%s.png" % [Aparencia.roupas()[i]["id"], pagina])
-	_verificar("nas páginas de combate a roupa nova é a folha recolorida própria", roupa_recolorida, "")
+	# Os trinta pacotes incompletos conservam o id do save, mas usam uma
+	# roupa completa em todas as poses para não trocar de modelo ao atacar.
+	var migracoes := true
+	for i in range(12, 42):
+		var substituta: int = Aparencia.roupas()[i]["combate"]
+		migracoes = migracoes and not Aparencia.roupa_completa(i) and Aparencia.indice_roupa(i) == substituta
+		for pagina in paginas:
+			migracoes = migracoes and Aparencia.roupa(i, pagina) == Aparencia.roupa(substituta, pagina)
+	_verificar("pacotes incompletos migram para a mesma roupa em todas as poses", migracoes, "")
 	var cabelo_em_combate := true
 	for pagina in Aparencia.PAGINAS_COMBATE:
 		for i in range(2, Aparencia.total_cabelos()):
 			var t := Aparencia.cabelo(i, pagina)
-			cabelo_em_combate = cabelo_em_combate and t != null and t.resource_path.contains("Aparencia/cabelos/") and t.resource_path.ends_with("_%s.png" % pagina)
-	_verificar("os cabelos novos têm folha de combate própria (sintetizada) em todas as páginas de combate: não trocam de cabelo ao golpear", cabelo_em_combate, "")
-	_verificar("andar, fazenda e página 4 usam a arte nova", Aparencia.roupa(20, "andar").resource_path.contains("Aparencia/roupas/")
-			and Aparencia.roupa(20, "fazenda").resource_path.ends_with("_p2.png") and Aparencia.roupa(20, "sentado").resource_path.ends_with("_p4.png")
-			and Aparencia.cabelo(4, "forja").resource_path.ends_with("_p4.png"), Aparencia.roupa(20, "andar").resource_path)
+			cabelo_em_combate = cabelo_em_combate and t != null and t.resource_path.begins_with(Aparencia.PASTA_NOVAS + "cabelos/") and t.resource_path.ends_with("_%s.png" % pagina)
+	_verificar("cabelos novos mantêm suas folhas próprias de combate", cabelo_em_combate, "")
+	var previas := true
+	for i in range(42, 46):
+		var id: String = Aparencia.roupas()[i]["id"]
+		previas = previas and Aparencia.roupa_completa(i) and id in ["armadura_teste", "armadura_cavaleiro", "armadura_cavaleiro_rubro", "traje_cavalheiro"]
+	_verificar("prévias completas continuam acrescentadas após os índices legados", previas, "")
 
 # Os índices que os saves já guardam: 0 e 1 (cabelos) e 0 a 11 (roupas) apontam para os mesmos arquivos de sempre
 func _testar_saves_antigos() -> void:
@@ -148,9 +150,9 @@ func _testar_jogador() -> void:
 	# um save antigo e um save com peça nova
 	jogador.aplicar_dados_carregados({"cabelo_atual": 1, "roupa_atual": 11, "cor_cabelo": {"r": 1.0, "g": 0.0, "b": 0.0, "a": 1.0}})
 	_verificar("carregar um save antigo (cabelo 1, roupa 11) mantém as peças de sempre", jogador.cabelo_atual == 1 and jogador.roupa_atual == 11
-			and jogador.sprite_roupa.texture.resource_path.ends_with("outfit (12).png") and jogador.sprite_cabelo.modulate == Color(1, 0, 0, 1), "")
+			and jogador.sprite_roupa.texture == Aparencia.roupa_refinada(11, "andar") and jogador.sprite_cabelo.modulate == Color(1, 0, 0, 1), "")
 	jogador.aplicar_dados_carregados({"cabelo_atual": 6, "roupa_atual": 41})
-	_verificar("carregar um save com as peças mais novas (cabelo 6, roupa 41)", jogador.cabelo_atual == 6 and jogador.roupa_atual == 41 and jogador.sprite_roupa.texture == Aparencia.roupa_refinada(41, "andar"), "")
+	_verificar("save com pacote incompleto conserva cabelo e migra a roupa 41", jogador.cabelo_atual == 6 and jogador.roupa_atual == Aparencia.roupas()[41]["combate"] and jogador.sprite_roupa.texture == Aparencia.roupa_refinada(41, "andar"), "")
 	jogador.aplicar_dados_carregados({"cabelo_atual": 99, "roupa_atual": 999})
 	_verificar("um índice que não existe mais cai na primeira peça, sem quebrar", jogador.cabelo_atual == 0 and jogador.roupa_atual == 0 and jogador.sprite_roupa.texture != null, "")
 	# sentado

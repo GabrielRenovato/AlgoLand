@@ -40,10 +40,10 @@ func _rodar() -> void:
 	jogador.set_physics_process(false)
 	jogador.definir_aparencia(1, 2)
 	root.get_node("PainelDebug")._equipar_conjunto("cavalheiro")
-	var legendarias := true
+	var comuns := true
 	for slot in ["cabeca", "corpo", "luvas", "botas"]:
-		legendarias = legendarias and inv.equipados[slot].raridade == "lendario" and inv.equipados[slot].nome().contains("MORDOMO")
-	_verificar("F3 equipa quatro peças lendárias do Mordomo", legendarias and Mordomo.mascara(inv.equipados) == 15)
+		comuns = comuns and inv.equipados[slot].raridade == "comum" and inv.equipados[slot].nome().contains("MORDOMO")
+	_verificar("F3 equipa quatro peças comuns do Mordomo", comuns and Mordomo.mascara(inv.equipados) == 15)
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 331
 	var ativacoes := 0
@@ -56,7 +56,7 @@ func _rodar() -> void:
 	antigo.categoria = "cabeca"
 	antigo.nivel = 3
 	var migrado := Dados.de_dict(antigo.para_dict())
-	_verificar("peça comum antiga migra sem perder id ou melhoria", migrado.raridade == "lendario" and migrado.tipo == antigo.tipo and migrado.nivel == 3)
+	_verificar("peça comum antiga mantém raridade, id e melhoria", migrado.raridade == "comum" and migrado.tipo == antigo.tipo and migrado.nivel == 3)
 	var slime = load("res://cenas/inimigos/slime.tscn").instantiate()
 	arena.add_child(slime)
 	slime.global_position = jogador.global_position + Vector2(80, 0)
@@ -112,7 +112,9 @@ func _rodar() -> void:
 	inv.remover_da_mochila(inv.buscar_por_tipo("lanca_basica"))
 	inv.desequipar("botas")
 	jogador._recarga_mordomo = 0.0
-	_verificar("três peças não aplicam novos congelamentos", not jogador._tentar_congelamento_mordomo(slime, 0.0))
+	_verificar("três peças permitem congelamento com sorteio favorável", jogador._tentar_congelamento_mordomo(slime, 0.0) and slime.esta_congelado())
+	jogador._recarga_mordomo = 0.0
+	_verificar("três peças têm metade da chance", not jogador._tentar_congelamento_mordomo(slime, 0.075))
 	root.get_node("PainelDebug")._equipar_conjunto("cavaleiro_rubro")
 	_verificar("outro conjunto não dispara gelo", not jogador._tentar_congelamento_mordomo(slime, 0.0))
 	print("Falhas: ", _falhas)

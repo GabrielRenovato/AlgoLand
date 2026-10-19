@@ -682,6 +682,10 @@ func _testar_ondas_de_chefe() -> void:
 	var casos := [[10, "MINOTAURO", false], [20, "MEDUSA", false], [30, "GOBLIN MAROMBA", false], [40, "COGUMELO ANCIAO", true]]
 	for caso in casos:
 		_limpar_inimigos()
+		# Estes casos medem progressão/recompensas; o dano dos chefes tem testes próprios.
+		_curar()
+		_jogador.invulneravel = true
+		_jogador.temporizador_invul = 1000.0
 		_gerenciador.parar_ondas()
 		_gerenciador.ondas_paradas = false
 		_progresso.iniciar_partida()

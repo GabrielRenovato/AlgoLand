@@ -26,12 +26,16 @@ func _rodar() -> void:
 	jogador._arvore_animacao.active = false
 	assert(jogador.get_node_or_null("CompositeSprites/CorridaBaseNova") == null)
 	var opcoes: Array = root.get_node("PainelDebug")._opcoes["PERSONAGEM"]
-	assert(opcoes.size() == 1 and opcoes[0][0] == "MANA SEED REFINADO")
+	var base: Array = []
+	for opcao in opcoes:
+		if opcao[0] == "MANA SEED REFINADO":
+			base = opcao
+	assert(not base.is_empty(), "F3 deve manter a opção da base refinada")
 	var roupa: int = jogador.roupa_atual
 	var cabelo: int = jogador.cabelo_atual
 	var inventario: Node = root.get_node("InventarioJogador")
 	var equipados: Dictionary = inventario.equipados.duplicate()
-	opcoes[0][1].call()
+	base[1].call()
 	assert(jogador.roupa_atual == roupa and jogador.cabelo_atual == cabelo)
 	assert(inventario.equipados == equipados)
 	for sprite in [jogador.sprite_corpo,jogador.corpo_espada_escudo_ataque,jogador.corpo_lanca_escudo_ataque]:

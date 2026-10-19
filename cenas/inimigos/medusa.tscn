@@ -21,7 +21,7 @@ altura_pes = 2.0
 
 [node name="Texture" type="Sprite2D" parent="."]
 position = Vector2(0, -54)
-scale = Vector2(0.5, 0.5)
+scale = Vector2(1, 1)
 texture_filter = 1
 texture = ExtResource("2")
 hframes = 6

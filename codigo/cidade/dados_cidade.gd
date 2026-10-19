@@ -49,6 +49,9 @@ static var MORADORES := {
 		"rotina": [[6, "cidade", ponto("bento_horta"), "Cuidando da horta"], [12, "cidade", ponto("bento_praca"), "Descansando na praca"], [16, "casa_bento", InteriorCasa.ponto("casa_bento", "trabalho"), "Separando as sementes"], [19, "pousada", InteriorCasa.ponto_inverno(3), "Jantando na pousada"], [22, "casa_bento", InteriorCasa.ponto("casa_bento", "trabalho"), "Descansando em casa"]]},
 	"nilo": {"folha":"nilo", "nome":"NILO", "oficio":"Pescador e artesao de varas", "casa":"palafita", "textura":"merchant", "servico":"vara_pesca", "cor":Color.WHITE,
 		"fala":"Eu cuido da sua vara. Traga as pedras de refinamento que encontrar pescando.", "rotina":[]},
+	"ferreiro": {"folha": "ivo", "nome": "IVO", "oficio": "Ferreiro", "casa": "forja", "textura": "merchant", "servico": "forja", "cor": Color.WHITE,
+		"fala": "Na arena voce aprende o desenho. A terra fornece o material. Eu junto as duas coisas.",
+		"rotina": [[6, "forja", InteriorCasa.ponto("forja", "passeio"), "Afiando as ferramentas"], [8, "forja", InteriorCasa.ponto("forja", "trabalho"), "Trabalhando na forja"]]},
 }
 const FALAS_ESTACAO := [
 	"A primavera enche os jardins de flores. E tempo de recomecar.",
@@ -75,11 +78,11 @@ const MISSOES_BASE := {
 ## - em dia de trabalho, antes de abrir, quem tem comércio fica em casa (não anda pela cidade).
 const HORA_DORMIR := 22.0
 const CAMAS := {"mercador": ["venda", 0], "curandeira": ["enfermaria", 0], "bardo": ["pousada", 0], "lia": ["pousada", 1],
-	"mistica": ["mistica", 0], "bento": ["casa_bento", 0]}
-const FOLGAS := {"mercador": 6, "curandeira": 2, "bardo": 0, "mistica": 4, "lia": 5, "bento": 3}
+	"mistica": ["mistica", 0], "bento": ["casa_bento", 0], "ferreiro": ["forja", 0]}
+const FOLGAS := {"mercador": 6, "curandeira": 2, "bardo": 0, "mistica": 4, "lia": 5, "bento": 3, "ferreiro": 2}
 ## [abre, fecha] do serviço de cada um
 ## A loja só fica aberta enquanto o dono está nela (a rotina de trabalho cobre esse horário)
-const HORARIOS := {"nilo":[8,17],"mercador": [8, 17], "curandeira": [8, 18], "mistica": [8, 18], "lia": [6, 19], "bento": [6, 19]}
+const HORARIOS := {"nilo":[8,17],"mercador": [8, 17], "curandeira": [8, 18], "mistica": [8, 18], "lia": [6, 19], "bento": [6, 19], "ferreiro": [8, 18]}
 
 ## Taverna noturna; o intervalo atravessa a meia-noite. A porta abre todos os dias.
 const HORARIO_TAVERNA := [18, 2]
@@ -90,6 +93,7 @@ const LUGARES_FESTA := {
 	"mercador": Vector2(184, 185), "curandeira": Vector2(184, 239),
 	"lia": Vector2(264, 185), "mistica": Vector2(264, 239),
 	"bento": Vector2(400, 185),
+	"ferreiro": Vector2(400, 257),
 }
 const COSTAS_FESTA := ["curandeira", "mistica"]
 const DUPLAS_FESTA := [["mercador", "curandeira"], ["lia", "mistica"]]
@@ -110,8 +114,9 @@ const PEDIDOS_MORADORES := {
 	"mistica": ["cha", "caldo"],
 	"lia": ["sopa", "pao"],
 	"bento": ["caldo", "ensopado"],
+	"ferreiro": ["ensopado", "cha"],
 }
-const SAIDAS_FESTA := {"curandeira": 0.5, "bento": 0.7, "mercador": 0.9, "lia": 1.0, "mistica": 1.15, "bardo": 1.3}
+const SAIDAS_FESTA := {"curandeira": 0.5, "bento": 0.7, "mercador": 0.9, "lia": 1.0, "mistica": 1.15, "bardo": 1.3, "ferreiro": 1.1}
 
 ## Cartas sem remetente que o pombo-correio traz (agenda_vila.gd): no domingo de manhã e, sem pedidos a entregar, em
 ## qualquer manhã. Vêm na ordem, uma vez cada; "brasas" > 0 é um presentinho dentro do envelope. Sem acentos (fonte).
@@ -178,6 +183,19 @@ static func servico_fechado(id: String, hora: float, dia_semana: int) -> String:
 		return "FECHOU AS %dH" % int(horario[1])
 	return ""
 
+## A bigorna permite consultar receitas; fabricar e retirar exigem o ferreiro atendendo.
+static func atendimento_forja(cena: Node, dia_semana: int) -> String:
+	if cena == null or cena.get("local") != "forja":
+		return "FABRICACAO SOMENTE NA FORJA"
+	var fechado := servico_fechado("ferreiro", cena.hora_atual(), dia_semana)
+	if fechado != "":
+		return fechado
+	var moradores: Dictionary = cena.get("moradores") if cena.get("moradores") != null else {}
+	var ivo: Node2D = moradores.get("ferreiro")
+	if not is_instance_valid(ivo) or not ivo.visible or ivo.dormindo or ivo._saindo or ivo.agenda.get("local", "") != "forja":
+		return "AGUARDE IVO CHEGAR A OFICINA"
+	return ""
+
 static func agenda(id: String, hora: float, estacao: int, clima: int = -1, dia_semana: int = -1) -> Dictionary:
 	if id == "nilo":
 		return preload("res://codigo/pesca/rotina_nilo.gd").agenda(hora,clima)
@@ -204,6 +222,13 @@ static func agenda(id: String, hora: float, estacao: int, clima: int = -1, dia_s
 	var praia := visita_praia(id, hora, estacao, clima, dia_semana)
 	if not praia.is_empty():
 		return praia
+	# O ferreiro encerra o expediente, janta com a vila e volta à própria casa antes de dormir.
+	if id == "ferreiro" and hora >= 18.0:
+		if hora < 19.0:
+			return passeio(id, hora, estacao, "Descansando depois da forja")
+		if hora < 21.0:
+			return {"local": "pousada", "ponto": LUGARES_FESTA[id], "atividade": "Jantando depois do expediente"}
+		return {"local": "forja", "ponto": InteriorCasa.ponto("forja", "passeio"), "atividade": "Guardando as ferramentas e descansando"}
 	# Folga: acorda sem pressa e passa o dia andando pela cidade até a hora de dormir
 	if de_folga(id, dia_semana):
 		if hora < 8.0:
@@ -236,10 +261,9 @@ static func visita_praia(id: String, hora: float, estacao: int, clima: int, dia_
 	var depois := HORARIOS.has(id) and dia_semana == (indice + 2) % 7 and hora >= maxf(17, HORARIOS[id][1]) and hora < 19
 	if not folga and not depois:
 		return {}
-	var pontos := [Vector2(236, 220), Vector2(196, 232), Vector2(288, 240), Vector2(424, 224), Vector2(448, 190), Vector2(224, 260)]
-	var deslocamento := Vector2(12, 8) if int(hora) % 4 >= 2 else Vector2.ZERO
-	return {"local": "praia", "ponto": pontos[indice % pontos.size()] + deslocamento,
-		"atividade": "Passeando na praia no dia de folga" if folga else "Olhando o mar depois do trabalho"}
+	var lugares: Array = preload("res://codigo/cidade/perfis_rotina.gd").PERFIS[id]["praia"]
+	var lugar: Array = lugares[posmod(dia_semana, lugares.size())]
+	return {"local": "praia", "ponto": lugar[0], "atividade": lugar[1], "livre": true}
 
 ## Encomendas sazonais do pombo, entregues aos moradores (Nilo só refina varas).
 static func _montar_missoes() -> Dictionary:

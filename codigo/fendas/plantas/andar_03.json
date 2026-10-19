@@ -1,0 +1,225 @@
+{
+  "andar": 3,
+  "nome": "Mina Abandonada",
+  "bioma": "caverna_mina",
+  "grade": 16,
+  "limites": [
+    -1100,
+    -640,
+    2200,
+    1280
+  ],
+  "entrada": [
+    -864,
+    416
+  ],
+  "guardiao": [
+    864,
+    -416
+  ],
+  "setores": [
+    {
+      "id": "entrada",
+      "nome": "Portal",
+      "centro": [
+        -864,
+        416
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 0
+    },
+    {
+      "id": "area_1",
+      "nome": "Clareira 1",
+      "centro": [
+        -560,
+        -192
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 1
+    },
+    {
+      "id": "area_2",
+      "nome": "Clareira 2",
+      "centro": [
+        -160,
+        272
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 1
+    },
+    {
+      "id": "area_3",
+      "nome": "Clareira 3",
+      "centro": [
+        -160,
+        -448
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 1
+    },
+    {
+      "id": "area_4",
+      "nome": "Clareira 4",
+      "centro": [
+        352,
+        -192
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 1
+    },
+    {
+      "id": "area_5",
+      "nome": "Clareira 5",
+      "centro": [
+        560,
+        384
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 1
+    },
+    {
+      "id": "guardiao",
+      "nome": "Guardiao",
+      "centro": [
+        864,
+        -416
+      ],
+      "raios": [
+        176,
+        144
+      ],
+      "grupos": 0
+    }
+  ],
+  "trilhas": [
+    {
+      "pontos": [
+        [
+          -864,
+          416
+        ],
+        [
+          -560,
+          -192
+        ]
+      ],
+      "raio": 88
+    },
+    {
+      "pontos": [
+        [
+          -560,
+          -192
+        ],
+        [
+          -160,
+          272
+        ]
+      ],
+      "raio": 88
+    },
+    {
+      "pontos": [
+        [
+          -560,
+          -192
+        ],
+        [
+          -160,
+          -448
+        ]
+      ],
+      "raio": 88
+    },
+    {
+      "pontos": [
+        [
+          -160,
+          -448
+        ],
+        [
+          352,
+          -192
+        ]
+      ],
+      "raio": 88
+    },
+    {
+      "pontos": [
+        [
+          -160,
+          272
+        ],
+        [
+          560,
+          384
+        ]
+      ],
+      "raio": 88
+    },
+    {
+      "pontos": [
+        [
+          560,
+          384
+        ],
+        [
+          352,
+          -192
+        ]
+      ],
+      "raio": 88
+    },
+    {
+      "pontos": [
+        [
+          352,
+          -192
+        ],
+        [
+          864,
+          -416
+        ]
+      ],
+      "raio": 88
+    }
+  ],
+  "lago": {
+    "lobos": [],
+    "folga": 28
+  },
+  "combate": {
+    "comuns_por_grupo": 6,
+    "elites": 1,
+    "meta": 78,
+    "pontos_comum": 3,
+    "pontos_elite": 9,
+    "fracao_exigida": 0.788
+  },
+  "guardiao_id": "minotauro",
+  "contrato_visual": {
+    "referencia": "RPGW_Caves_v2.1: MainLev2.0.png e decorative.png",
+    "grade": "Peças32x32 originais subdivididas na grade16x16, sem escala",
+    "estacoes": "subterrâneo protegido com quatro tons sazonais; teto preto e oclusão",
+    "encaixe": "Contexto das peças originais e bordas nativas; colisão derivada da transparência"
+  }
+}

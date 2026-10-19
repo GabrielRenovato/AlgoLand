@@ -10,6 +10,7 @@ func _ready() -> void:
 	horizontal_scroll_mode = SCROLL_MODE_DISABLED
 	vertical_scroll_mode = SCROLL_MODE_SHOW_NEVER
 	follow_focus = true
+	preload("res://codigo/ui/indicador_rolagem.gd").ligar(self)
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	offset_left = 8
 	offset_right = -8
@@ -39,12 +40,9 @@ func _atualizar() -> void:
 	for id in Dados.MISSOES:
 		if Cidade.missoes.get(id, {}).get("estado", "") != "aceita":
 			continue
-		var dados: Dictionary = Dados.MISSOES[id]
-		var progresso := Cidade.progresso_missao(id)
-		var cartao := PanelContainer.new()
+		var cartao := preload("res://codigo/ui/cartao_pedido.gd").criar(id,Cidade)
 		cartao.set_meta("missao", id)
 		cartao.focus_mode = Control.FOCUS_ALL
-		cartao.add_theme_stylebox_override("panel", get_theme_stylebox("panel", "TooltipPanel"))
 		cartao.draw.connect(func():
 			if cartao.has_focus():
 				cartao.draw_rect(Rect2(Vector2.ZERO, cartao.size), Color("f6d879"), false, 1.0)
@@ -52,16 +50,6 @@ func _atualizar() -> void:
 		cartao.focus_entered.connect(cartao.queue_redraw)
 		cartao.focus_exited.connect(cartao.queue_redraw)
 		_lista.add_child(cartao)
-		var linhas := VBoxContainer.new()
-		linhas.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		linhas.add_theme_constant_override("separation", 4)
-		cartao.add_child(linhas)
-		_rotulo(linhas, dados["nome"], Color("f6d879"))
-		_rotulo(linhas, dados["texto"])
-		_rotulo(linhas, "PROGRESSO: %d / %d" % [progresso.x, progresso.y])
-		_rotulo(linhas, "RECOMPENSA: %d BRASAS" % int(dados["brasas"]))
-		var morador: String = Dados.MORADORES[dados["dono"]]["nome"]
-		_rotulo(linhas, ("PRONTA PARA ENTREGAR\nFALE COM " if progresso.x >= progresso.y else "PEDIDO DE ") + morador, Color("a8dfad") if progresso.x >= progresso.y else Color.WHITE)
 		if id == id_foco:
 			cartao.grab_focus()
 	if _lista.get_child_count() == 0:

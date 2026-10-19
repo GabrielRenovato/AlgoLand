@@ -6,6 +6,7 @@ const Profundidade := preload("res://codigo/globais/profundidade.gd")
 const Interacao := preload("res://codigo/cidade/interacao_morador.gd")
 const SombraCidade := preload("res://codigo/cidade/sombra_cidade.gd")
 const Trajeto := preload("res://codigo/cidade/trajeto_morador.gd")
+const Espacamento := preload("res://codigo/cidade/espacamento_moradores.gd")
 const Conversa := preload("res://codigo/cidade/conversa_moradores.gd")
 const FONTE := preload("res://assets/ui/Planes_ValMore.ttf")
 ## Balão de fala: aparece quando o jogador passa perto, com intervalo por morador e entre moradores
@@ -19,6 +20,8 @@ var vila: Node2D
 var agenda: Dictionary = {}
 var sprite: Sprite2D
 var usando_capa_chuva := false
+## Um pedido aceito termina antes de o ferreiro retomar a agenda comercial.
+var ocupado_na_forja := false
 var interacao: Area2D
 var caminho := PackedVector2Array()
 var _alvo := Vector2.ZERO
@@ -33,7 +36,7 @@ const DISTANCIA_SOLTAR_JOGADOR := 18.0
 const CAMADA_JOGADOR := 2
 var _esperando_jogador := 0.0
 var _atravessando: Array[Node] = []
-var _cauda_balao: Sprite2D
+var _cauda_balao: Polygon2D
 var _balao: Label
 var _espera_balao := 3.0
 var _animacao_balao: Tween
@@ -99,6 +102,8 @@ func _ready() -> void:
 	atualizar_rotina(true)
 
 func atualizar_rotina(inicial := false) -> void:
+	if ocupado_na_forja:
+		return
 	var clima: int = vila.clima_atual()
 	# Atualiza mesmo quando a agenda é igual: começar/parar de chover só troca o traje.
 	_atualizar_visual_chuva(clima)
@@ -116,6 +121,12 @@ func atualizar_rotina(inicial := false) -> void:
 	if inicial:
 		visible = agenda["local"] == vila.local and not Trajeto.aguardar(self)
 		position = agenda["ponto"] if visible else Vector2.ZERO
+		if visible and vila.local != "cidade" and not agenda.get("dormindo", false):
+			# Pontos de repouso podem ficar sobre bancos. O corpo em pé precisa nascer
+			# no corredor livre para alcançar a aproximação do assento sem colidir.
+			var celula := Vector2i(position / vila.navegacao.cell_size)
+			if not vila.navegacao.is_in_boundsv(celula) or vila.navegacao.is_point_solid(celula):
+				position = vila.navegacao.get_point_position(vila._celula_livre(position))
 		if visible and agenda.get("festa", false):
 			visible = not Trajeto.aguardar(self)
 			position = vila.porta_do_local("cidade")
@@ -162,24 +173,22 @@ func _montar_balao() -> void:
 	_balao.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_balao.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_balao.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var fundo := StyleBoxTexture.new()
-	fundo.texture = preload("res://assets/ui/baloes/fala.png")
-	fundo.region_rect = Rect2(0,0,16,13)
-	for lado in [SIDE_LEFT,SIDE_TOP,SIDE_RIGHT,SIDE_BOTTOM]:
-		fundo.set_texture_margin(lado,4)
-		fundo.set_content_margin(lado,5)
+	var fundo := preload("res://codigo/ui/estilo_interface.gd").painel(true, 8.0)
 	_balao.add_theme_stylebox_override("normal", fundo)
 	_balao.position = Vector2(-80, -34)
 	_balao.z_as_relative = false
-	_balao.z_index = 899
+	_balao.z_index = Profundidade.Z_TOPO + 2
+	_balao.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	_balao.visible = false
 	add_child(_balao)
-	_cauda_balao = Sprite2D.new()
-	_cauda_balao.texture = preload("res://assets/ui/baloes/fala.png")
-	_cauda_balao.region_enabled = true
-	_cauda_balao.region_rect = Rect2(5,13,6,3)
-	_cauda_balao.centered = false
+	_cauda_balao = Polygon2D.new()
+	_cauda_balao.polygon = PackedVector2Array([Vector2(0,0),Vector2(8,0),Vector2(4,5)])
+	_cauda_balao.color = Color("804b20")
 	_balao.add_child(_cauda_balao)
+	var miolo := Polygon2D.new()
+	miolo.polygon = PackedVector2Array([Vector2(1,0),Vector2(7,0),Vector2(4,3)])
+	miolo.color = Color("eed1ab")
+	_cauda_balao.add_child(miolo)
 
 ## Frase curta sobre a cabeça quando o jogador passa perto (fora de conversa)
 func _talvez_falar(delta: float, distancia: float, conversando: bool) -> void:
@@ -207,6 +216,8 @@ func dizer(texto: String, duracao := DURACAO_BALAO) -> void:
 	_proximo_balao_global = Time.get_ticks_msec() / 1000.0 + duracao + 0.5
 	_balao.text = texto
 	_ajustar_balao()
+	# O Label conclui a quebra de linhas após receber a largura.
+	_ajustar_balao.call_deferred()
 	_balao.modulate.a = 0.0
 	_balao.visible = true
 	_animacao_balao = create_tween()
@@ -239,9 +250,11 @@ func _atualizar_colisao() -> void:
 
 func _ir_ate(ponto: Vector2) -> void:
 	_alvo = ponto
-	caminho = vila.caminho_entre(position, ponto)
+	caminho = vila.caminho_morador(position, ponto,id)
 
 func _physics_process(delta: float) -> void:
+	if ocupado_na_forja:
+		return
 	Trajeto.sincronizar(self)
 	if not visible:
 		return
@@ -282,7 +295,10 @@ func _physics_process(delta: float) -> void:
 		else:
 			andando = true
 			_linha = _direcao(diferenca)
-			var colisao := move_and_collide(diferenca.normalized() * minf((passeio.velocidade if agenda.get("livre", false) else 26.0 * ritmo()) * delta, diferenca.length()))
+			var movimento := diferenca.normalized() * minf((passeio.velocidade if agenda.get("livre", false) else 26.0 * ritmo()) * delta, diferenca.length())
+			movimento = Espacamento.limitar(self,movimento)
+			andando = not movimento.is_zero_approx()
+			var colisao := move_and_collide(movimento)
 			if colisao != null and colisao.get_collider() is Node and (colisao.get_collider() as Node).is_in_group("jogadores"):
 				_jogador_no_caminho(colisao.get_collider(), delta)
 				andando = false
@@ -416,9 +432,11 @@ func _ajustar_balao() -> void:
 	var tela := get_viewport_rect().size / escala
 	var origem := transformacao.origin / escala
 	var largura := clampf(tela.x-16,60,144)
-	var medida := FONTE.get_string_size(_balao.text,HORIZONTAL_ALIGNMENT_LEFT,-1,8).x+12
-	_balao.size = Vector2(minf(largura,medida),0)
+	var medida := FONTE.get_string_size(_balao.text,HORIZONTAL_ALIGNMENT_LEFT,-1,8).x+16
+	# Não zerar a altura junto da largura: o Label pode calcular a quebra usando
+	# a largura mínima transitória e conservar uma caixa muito alta.
+	_balao.size.x = minf(largura,medida)
 	_balao.size.y = _balao.get_combined_minimum_size().y
 	_balao.position = Vector2(clampf(-_balao.size.x/2,8-origem.x,tela.x-origem.x-_balao.size.x-8),-38-_balao.size.y)
 	_balao.position.y = maxf(_balao.position.y,8-origem.y)
-	_cauda_balao.position = Vector2(clampf(-_balao.position.x-3,5,_balao.size.x-11),_balao.size.y)
+	_cauda_balao.position = Vector2(clampf(-_balao.position.x-4,8,_balao.size.x-16),_balao.size.y-1)

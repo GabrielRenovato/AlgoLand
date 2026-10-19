@@ -70,7 +70,7 @@ func _rodar() -> void:
 
 func _testar_mapa_de_dias_para_estacoes() -> void:
 	var calendario = root.get_node("Calendario")
-	var esperado := {1: 0, 7: 0, 8: 1, 14: 1, 15: 2, 21: 2, 22: 3, 28: 3, 29: 0, 36: 1, 50: 3, 57: 0}
+	var esperado := {1: 0, 30: 0, 31: 1, 60: 1, 61: 2, 90: 2, 91: 3, 120: 3, 121: 0, 151: 1, 211: 3, 241: 0}
 	for dia in esperado:
 		_verificar("dia %d -> estacao %d" % [dia, esperado[dia]], calendario.estacao(dia) == esperado[dia],
 				"obteve %d" % calendario.estacao(dia))
@@ -252,10 +252,10 @@ func _testar_ciclo_por_calendario() -> void:
 	await create_timer(Estacoes.DURACAO_FADE_SAIDA + 0.6).timeout
 	_verificar("ondas, bonus e morte nao mudam a estacao", _estacoes.estacao_atual == 0, "estacao=%d" % _estacoes.estacao_atual)
 	# dormir no ultimo dia da primavera (dia 7): vai para o verao com fade
-	calendario.dia = 7
+	calendario.dia = 30
 	calendario.dormir()
 	await create_timer(Estacoes.DURACAO_FADE_SAIDA + Estacoes.ATRASO_AVISO + 0.5).timeout
-	_verificar("dormir no dia 7: dia 8 e verao", calendario.dia == 8 and _estacoes.estacao_atual == 1, "dia=%d estacao=%d" % [calendario.dia, _estacoes.estacao_atual])
+	_verificar("dormir no dia 30: dia 31 e verao", calendario.dia == 31 and _estacoes.estacao_atual == 1, "dia=%d estacao=%d" % [calendario.dia, _estacoes.estacao_atual])
 	# dormir dentro da estacao nao troca
 	calendario.dormir()
 	await create_timer(0.5).timeout
@@ -263,10 +263,10 @@ func _testar_ciclo_por_calendario() -> void:
 	# morte (ondas paradas) depois de virar a estacao nao volta ao calendario antigo
 	_gerenciador.sinal_ondas_paradas.emit()
 	_verificar("ondas paradas nao voltam a primavera", _estacoes.estacao_atual == 1, "estacao=%d" % _estacoes.estacao_atual)
-	calendario.dia = 14
+	calendario.dia = 60
 	calendario.dormir()
 	await create_timer(Estacoes.DURACAO_FADE_SAIDA + Estacoes.ATRASO_AVISO + 0.5).timeout
-	_verificar("dia 15: outono", _estacoes.estacao_atual == 2, "estacao=%d" % _estacoes.estacao_atual)
+	_verificar("dia 61: outono", _estacoes.estacao_atual == 2, "estacao=%d" % _estacoes.estacao_atual)
 	calendario.apagar()
 	_estacoes.definir_estacao(0, true)
 
@@ -275,9 +275,10 @@ func _testar_tela_de_titulo() -> void:
 	root.add_child(titulo)
 	current_scene = titulo
 	await _quadros(8)
-	var est: Node = titulo.get_node("Cenario/Estacoes")
-	_verificar("tela de titulo: inverno fixo", est.estacao_atual == 3, "estacao=%d" % est.estacao_atual)
-	_verificar("tela de titulo: neve leve de sprite", est.meteorologia.clima_atual == est.meteorologia.Estado.NEVE_LEVE, "clima=%d" % est.meteorologia.clima_atual)
-	_verificar("tela de titulo: sem particulas de neve antigas", titulo.get_node_or_null("Neve") == null)
+	# O título atual usa a vila isolada; não instancia mais o terreno da arena.
+	var fundo: Node = titulo.get_node("Interface/Raiz/VilaViva")
+	_verificar("tela de titulo: vila em mundo isolado", fundo._vista.world_2d != root.world_2d)
+	_verificar("tela de titulo: fundo acompanha calendario", fundo._fundo.texture.resource_path.ends_with("/%s.png" % fundo.ESTACOES[root.get_node("Calendario").estacao()]))
+	_verificar("tela de titulo: nao instancia combate da arena", titulo.get_node_or_null("Cenario") == null and get_nodes_in_group("gerenciador_ondas").is_empty())
 	titulo.queue_free()
 	await _quadros(2)

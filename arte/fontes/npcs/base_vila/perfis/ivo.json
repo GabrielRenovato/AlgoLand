@@ -1,0 +1,81 @@
+{
+  "id": "ivo",
+  "nome": "Ivo",
+  "base": "adulto_avental.json",
+  "identidade": "Ferreiro de cabelo escuro com mecha grisalha, barba curta, camisa indigo e avental ferrugem.",
+  "paletas": {
+    "corpo": {},
+    "cabelo_barba": {
+      "#4f3e38": "#453e43",
+      "#6a4d40": "#51464b",
+      "#805847": "#605054",
+      "#98684b": "#705c5d",
+      "#a87658": "#826e69"
+    },
+    "camisa": {
+      "#fbfafa": "#8297ad",
+      "#f3eeeb": "#788ca4",
+      "#e5dbcb": "#617b98",
+      "#d4c8b7": "#5b718c",
+      "#cabdad": "#526780",
+      "#beb2a1": "#465970",
+      "#aa9c8a": "#3d4e65",
+      "#98918b": "#3d4e65",
+      "#82776d": "#3d4e65",
+      "#73665d": "#39485b"
+    },
+    "avental": {
+      "#53351e": "#674032",
+      "#674025": "#804737",
+      "#784b2a": "#98513c",
+      "#8a562f": "#af6548"
+    }
+  },
+  "contorno": {
+    "#2b1a22": "#493432",
+    "#2d2d2d": "#453b39",
+    "#332328": "#503a38"
+  },
+  "acessorios": [
+    "camadas/ivo_mecha.png"
+  ],
+  "retrato": "ivo_retrato_montado.png",
+  "boca": [
+    44,
+    61,
+    33,
+    18
+  ],
+  "edicao_exata": "ivo_edicoes.json",
+  "origem_edicao": "PixelLab pixelart_workbench 43ed1d3b-89c7-4a4e-87f4-878926e899ea (edicao gratuita, sem IA)",
+  "chuva": "ivo_chuva_azul.png",
+  "edicoes_complementares": {
+    "chuva": "39813831-628a-45a5-9940-5625942c2f8d",
+    "retrato": "035a20a0-8c7b-4f15-a2ca-fe8f33d0eb14"
+  },
+  "identidade_chuva": "Capa azul acinzentada, fecho ferrugem; amarelo reservado ao traje dos outros moradores.",
+  "trabalho": {
+    "aquecer": {
+      "fonte": "ivo_aquecer.png",
+      "colunas": 2,
+      "quadros": 4,
+      "fps": 5.55556,
+      "origem": "5b1f2489-fc82-477d-bda6-5d4f1bc4e596"
+    },
+    "martelar": {
+      "fonte": "ivo_martelar.png",
+      "colunas": 3,
+      "quadros": 6,
+      "duracoes": [
+        0.1,
+        0.1,
+        0.14,
+        0.12,
+        0.06,
+        0.14
+      ],
+      "impacto": 4,
+      "origem": "00d3e9ad-110a-4ea5-a886-33860eed2065"
+    }
+  }
+}

@@ -10,12 +10,12 @@ func _ready() -> void:
 
 func pode_interagir() -> bool:
 	var jogador: Node = Cooperativo.jogador_no_ambiente(self)
-	return get_parent().visible and jogador != null and jogador.movimento_habilitado and not Transicao.ocupada and super.pode_interagir()
+	return get_parent().visible and not get_parent().ocupado_na_forja and jogador != null and jogador.movimento_habilitado and not Transicao.ocupada and super.pode_interagir()
 
 ## Cooperativo: cada jogador conversa pelo próprio estado (antes valia o do jogador mais perto do morador, e um
 ## jogador sentado ao lado travava a conversa do outro)
 func pode_interagir_para(jogador: Node2D) -> bool:
-	return jogador != null and get_parent().visible and jogador.get_world_2d() == get_world_2d() \
+	return jogador != null and get_parent().visible and not get_parent().ocupado_na_forja and jogador.get_world_2d() == get_world_2d() \
 		and jogador.movimento_habilitado and not bool(jogador.get("esta_sentado")) and not Transicao.ocupada \
 		and Introducao.permite_interacao(self)
 

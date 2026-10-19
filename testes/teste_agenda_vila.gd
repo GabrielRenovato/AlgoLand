@@ -143,8 +143,9 @@ func _eventos_solo() -> void:
 func _mural_tem_festa() -> bool:
 	calendario.dia = 6
 	var tela: Node = root.get_node("EventosJogo").interface_p1()._telas["mural_cidade"]
+	tela._aba_mural = 1
 	tela._atualizar()
-	for filho in tela._lista.get_children():
+	for filho in tela._lista.find_children("*","Label",true,false):
 		if filho is Label and filho.text.contains("FESTA NA TAVERNA"):
 			return true
 	return false
@@ -212,7 +213,7 @@ func _pombo_solo() -> void:
 	# Noite seguinte: o próximo pedido; o jogador se afasta e o pombo vai atrás; DEPOIS fecha sem aceitar
 	await _dormir_e_sair()
 	pombo = agenda.pombo
-	verificar("depois de dormir de novo traz o proximo pedido", pombo != null and pombo.missao == "passeio")
+	verificar("no dia par, a segunda carta prioriza pesca da estação", pombo != null and pombo.missao == "carta_pesca_0_0")
 	if pombo == null:
 		return
 	await _esperar_pouso(pombo)
@@ -225,8 +226,8 @@ func _pombo_solo() -> void:
 	tela = _carta(root.get_node("EventosJogo").interface_p1())
 	_botao(tela, "DEPOIS").pressed.emit()
 	await quadros()
-	verificar("DEPOIS nao aceita o pedido", not cidade_estado.missoes.has("passeio") and cidade_estado.cartas.has("passeio"))
-	verificar("o pedido continua no mural/morador", cidade_estado.proxima_carta() == "horta")
+	verificar("DEPOIS registra a carta sem aceitar o pedido de pesca", not cidade_estado.missoes.has("carta_pesca_0_0") and cidade_estado.cartas.has("carta_pesca_0_0"))
+	verificar("a próxima carta par também é de pesca", cidade_estado.proxima_carta() == "carta_pesca_0_1")
 	await create_timer(3.0).timeout
 	# Ignorado: o pombo vai embora e a carta espera a próxima saída de casa
 	await _dormir_e_sair()
@@ -246,7 +247,7 @@ func _pombo_solo() -> void:
 		change_scene_to_file("res://cenas/fazenda.tscn")
 		await quadros(30)
 		agenda.verificar()
-		verificar("na proxima saida de casa ele volta com a carta", agenda.pombo != null and agenda.pombo.missao == "horta")
+		verificar("na próxima saída, o pedido ímpar continua sendo passeio", agenda.pombo != null and agenda.pombo.missao == "passeio")
 		if agenda.pombo != null:
 			agenda.pombo.queue_free()
 			agenda.pombo = null
@@ -329,7 +330,7 @@ func _pombo_toque() -> void:
 		controle.usando_toque = false
 		return
 	await _esperar_pouso(pombo)
-	verificar("toque: aviso mostra AGIR", pombo._rotulo_tecla.text == "AGIR", pombo._rotulo_tecla.text)
+	verificar("toque: aviso usa ícone em vez de texto", pombo._icone_tecla.visible and pombo._rotulo_tecla.text.is_empty(), pombo._rotulo_tecla.text)
 	pombo._rotulo_tecla.pressed.emit()
 	await quadros()
 	verificar("toque: tocar no aviso abre a carta", interface._telas_abertas.has("conversa_cidade") and _carta(interface)._carta)

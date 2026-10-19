@@ -1,0 +1,38 @@
+{
+  "referencia": "Vila das Flores existente, cenas/cidade.tscn e sprites Mana Seed dos moradores",
+  "producao": "Captura real no Godot, sem alterar a arte do cenario",
+  "gerador": "ferramentas/cidade/capturar_fundos_interface.gd (exige projeto com saves isolados)",
+  "dimensoes": [
+    704,
+    576
+  ],
+  "grade": "Mesmas coordenadas mundiais e caminhos AStar da cidade",
+  "pivo": [
+    0,
+    0
+  ],
+  "camera_captura": {
+    "centro": [
+      352,
+      288
+    ],
+    "zoom": 1,
+    "hora": 12,
+    "clima": "limpo"
+  },
+  "variantes": [
+    "primavera",
+    "verao",
+    "outono",
+    "inverno"
+  ],
+  "integracao": [
+    "codigo/ui/fundo_vila_viva.gd",
+    "codigo/ui/fundo_interface.gd"
+  ],
+  "profundidade": "Cenario fotografado sob moradores; percursos restritos as ruas livres diante da fonte e entre as casas, sem cruzar telhados ou postes",
+  "moradores": "codigo/ui/morador_vitrine.gd usa atlas, grade, escala e pes_y de assets/npcs/cidade/manifesto.json; personagens com ordenacao por profundidade; apenas passeiam pelos percursos, sem falas nem pausas para conversar",
+  "estado": "Mundo visual isolado, sem agendas, colisoes, missoes ou gravacao de partida",
+  "revisao": "testes/teste_inicio_carregamento.gd; capturas reais das quatro estacoes, PC e mobile; -- --capturar-animacao grava quadros em /tmp/algoland-vila-animada",
+  "nitidez": "Textura e mundo em nearest; SubViewport na resolucao fisica da exibicao, zoom proporcional para preservar o tamanho dos sprites e camera continua, sem arredondamento em pixels logicos ampliados."
+}

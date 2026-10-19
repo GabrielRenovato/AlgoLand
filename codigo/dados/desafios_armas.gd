@@ -1,6 +1,6 @@
 extends RefCounted
 
-## Liberações permanentes; o item recebido em cada partida nasce comum e no nível 1.
+## Desafios liberam receitas. Após fabricar no Ivo, cada partida recebe uma cópia comum no nível 1.
 const DESAFIOS := {
 	"arco_curto": {"titulo": "PRIMEIROS DISPAROS", "texto": "Venca a onda 3 da arena.", "campo": "maior_onda_vencida", "meta": 3},
 	"espada_gemea": {"titulo": "DOIS GUMES", "texto": "Venca a onda 5 da arena.", "campo": "maior_onda_vencida", "meta": 5},

@@ -1,0 +1,45 @@
+{
+  "tipo": "NPC guia Orion nas fendas",
+  "referencia": "assets/npcs/fendas/orion.png anterior; mesma escala dos moradores e do jogador",
+  "ferramenta": "image_gen integrada, edicao com referencia e fundo transparente",
+  "prompt": "Use case precise-object-edit. Edite SOMENTE o braço, mão e cajado do mago do sprite sheet imagem1; imagem2 é referência de formato/material do cajado, não de estilo. Preservar personagem, túnica velha azul indigo remendada, chapéu pontudo gasto, rosto e barba branca, estilo pixel art e alinhamento. ADICIONAR um cajado de MADEIRA NATURAL retorcida castanha com nós e pequena forquilha de galhos no topo, como a referência2, SEM CRISTAL, SEM METAL, SEM ORBE. O mago deve SEGURAR de verdade: braço da manga dobrado com antebraço estendido e mão fechada ao redor da haste na altura da cintura; dedos visíveis na frente da madeira, polegar atrás, manga ligada ao ombro e punho ligado à mão SEM VÃO TRANSPARENTE. Cajado vertical do chão (mesma linha dos pés) até altura do chapéu, a poucos pixels do corpo, nunca flutuando ao lado de um braço caído. Nas laterais a mão vai à frente da barriga e agarra o cajado; de costas respeitar oclusão do braço e manter o mesmo lado anatômico. Imprescindível mostrar a empunhadura em todas quatro direções. Contrato técnico: canvas EXATAMENTE1659x948, 7colunas x4linhas de células237x237; linhas frente/baixo, direita, costas/cima, esquerda, coluna0 parado restantes seis caminhada. Preservar escala e posição do corpo em cada célula, pés y211 da célula e centro x118. Nenhum traço fora da célula. A geração será importada como quadro64x64 com personagem40pixels de altura; usar grupos de pixels fortes, haste pelo menos2pixels na escala final e mão legível de3pixels, sem microtexturas ou antialiasing. Sem chão nem sombra projetada. Fundo transparente verdadeiro. Entrega é sprite NPC para AlgoLand, sem variantes sazonais, mesmas colisões e pivôs. Não adicionar outros objetos nem textos.",
+  "quadro": [
+    64,
+    64
+  ],
+  "grade": [
+    7,
+    4
+  ],
+  "pes_y": 44,
+  "altura_com_chapeu": 40,
+  "normalizacao": {
+    "grade_fonte": [
+      237,
+      237
+    ],
+    "quadro_importado": [
+      52,
+      52
+    ],
+    "offset": [
+      6,
+      -2
+    ],
+    "filtro": "nearest",
+    "alfa_minimo": 128,
+    "mesma_transformacao_todas_poses": true
+  },
+  "origem": "gerado_cajado.png",
+  "destino": "assets/npcs/fendas/orion.png",
+  "gerador": "ferramentas/npcs/preparar_guia_fenda.py",
+  "integracao": [
+    "codigo/fendas/guia_andar.gd",
+    "codigo/ui/tela_mercante.gd"
+  ],
+  "variantes": "quatro direcoes e sete poses; NPC sem variantes sazonais",
+  "colisao": "capsula existente raio5 altura12, centro y9; sprite offset y-3; profundidade pela base y9",
+  "prompt_anterior": "Preservar o homem idoso grisalho e suas 28 poses. Trocar a roupa por tunica antiga indigo/azul petroleo desbotada, longa ate os tornozelos, barra gasta e remendos ocres discretos. Chapeu de bruxo antigo pontudo de aba larga, ponta dobrada e faixa marrom gasta; barba branca visivel. Pixel art nativa de RPG de fazenda top-down de tres quartos, contornos seletivos, grupos de pixels, sem suavizacao. Sem cajado na imagem; cajado separado no motor. Grade 7x4 com direcoes baixo/direita/cima/esquerda, primeira coluna parada e outras seis caminhada. Centros x32 e pes y44 em quadros64x64. Altura incluindo chapeu40pixels. Sem legendas nem fundo.",
+  "referencia_cajado": "referencia_cajado.png",
+  "empunhadura": "braco dobrado, manga ligada ao punho e mao fechada na haste de madeira; integrado nas quatro direcoes, sem desenho separado no motor"
+}

@@ -19,12 +19,7 @@ func _ready() -> void:
 	theme = preload("res://recursos/ui/tema_sidebar.tres")
 	painel = PanelContainer.new()
 	painel.set_anchors_preset(Control.PRESET_CENTER)
-	var moldura := StyleBoxTexture.new()
-	moldura.texture = preload("res://assets/ui/craftpix-net-420010-pixel-game-user-interface-for-platformer/1 Interface/TileMap.png")
-	moldura.region_rect = Rect2(96, 64, 48, 48)
-	for lado in [SIDE_LEFT, SIDE_TOP, SIDE_RIGHT, SIDE_BOTTOM]:
-		moldura.set_texture_margin(lado, 16)
-		moldura.set_content_margin(lado, 12)
+	var moldura := preload("res://codigo/ui/estilo_interface.gd").painel(false, 12.0)
 	painel.add_theme_stylebox_override("panel", moldura)
 	add_child(painel)
 	var coluna := VBoxContainer.new()
@@ -77,6 +72,21 @@ func _ready() -> void:
 	_grade.columns = 3
 	_grade.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	rolagem.add_child(_grade)
+	var conteudo := VBoxContainer.new()
+	conteudo.size_flags_horizontal = SIZE_EXPAND_FILL
+	conteudo.add_theme_constant_override("separation",8)
+	var corpo := ScrollContainer.new()
+	corpo.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	corpo.follow_focus = true
+	corpo.size_flags_vertical = SIZE_EXPAND_FILL
+	coluna.add_child(corpo)
+	corpo.add_child(conteudo)
+	for filho in coluna.get_children():
+		if filho != cabecalho and filho != corpo: filho.reparent(conteudo)
+	rolagem.size_flags_vertical = SIZE_FILL
+	rolagem.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	titulo.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_resumo.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_preencher()
 	resized.connect(_ajustar)
 	_ajustar()
@@ -100,6 +110,7 @@ func _preencher() -> void:
 	for id: String in catalogo["peixes"]:
 		var peixe: Dictionary = catalogo["peixes"][id]
 		var linha := HBoxContainer.new()
+		linha.size_flags_horizontal = SIZE_EXPAND_FILL
 		linha.custom_minimum_size.y = 32
 		_grade.add_child(linha)
 		var icone := TextureRect.new()
@@ -112,6 +123,8 @@ func _preencher() -> void:
 		icone.modulate = Color.WHITE if pescados > 0 else Color(0.35, 0.35, 0.4)
 		linha.add_child(icone)
 		var nome := Label.new()
+		nome.size_flags_horizontal = SIZE_EXPAND_FILL
+		nome.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		var estacoes: Array = Peixes.DADOS[id]["estacoes"]
 		var epoca := "ANO TODO" if estacoes.is_empty() else "/".join(estacoes.map(func(e): return Calendario.NOMES[int(e)].substr(0,3)))
 		nome.tooltip_text = "%s | %s\nPESCADOS: %d | VENDA: %d BRASAS\nUSOS: VENDA E PRATOS DO CAIO" % [Peixes.raridade(id).to_upper(),epoca,pescados,Peixes.brasas(id)]

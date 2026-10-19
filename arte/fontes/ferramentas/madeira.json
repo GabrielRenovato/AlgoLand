@@ -1,0 +1,42 @@
+{
+  "funcao": "Aparência de madeira das quatro ferramentas iniciais, nos ícones e nas animações em todas as direções",
+  "referencias": [
+    "assets/ui/fazenda/icones_ferramentas.png",
+    "assets/personagens/Fazenda/ferramenta_fazenda.png",
+    "assets/personagens/Fazenda/ferramenta_machado.png",
+    "assets/personagens/Fazenda/ferramenta_picareta.png",
+    "assets/cenario/cidade/decoracao/mobiliario/barril_agua.png"
+  ],
+  "dimensoes": {
+    "icones": [
+      16,
+      16
+    ],
+    "folhas": [
+      512,
+      512
+    ],
+    "grade": [
+      8,
+      8
+    ],
+    "quadro": [
+      64,
+      64
+    ],
+    "refinado": {
+      "escala": 0.5,
+      "pixels_por_unidade": 2
+    }
+  },
+  "encaixe": "Mesmas silhuetas, pivôs e quadros nativos; nenhum deslocamento ou alteração de alcance",
+  "material": "Paleta compartilhada de seis tons quentes, contorno marrom e veios discretos. Água azul e rastros brancos preservados",
+  "variantes": "Quatro direções e todos os quadros. Equipamentos pessoais mantêm o material nas quatro estações, recebendo a iluminação do ambiente",
+  "integracao": [
+    "codigo/dados/ferramentas_madeira.gd",
+    "codigo/jogador/fazenda_jogador.gd",
+    "codigo/ui/item_ui.gd",
+    "codigo/ui/controles_toque.gd",
+    "codigo/logica/equipamento_drop.gd"
+  ]
+}

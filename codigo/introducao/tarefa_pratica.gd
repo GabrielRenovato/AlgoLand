@@ -50,6 +50,15 @@ func iniciar(qual: String) -> bool:
 		ponto = extracao.to_global(recurso.pos)
 	else:
 		var chave := "demonstracao" if id == "colher" else "horta"
+		# A cenoura de exemplo escolhida antes (save do prólogo) pode estar escondida atrás de entulho: sorteia de novo
+		if id == "colher" and Introducao.alvos_tarefas.has(chave):
+			var guardada: Array = Introducao.alvos_tarefas[chave]
+			var antiga := Vector2i(guardada[0], guardada[1])
+			if not _vista_livre(antiga) and not Introducao.tarefas.has("colher"):
+				if Fazenda.planta_em(antiga) == "cenoura":
+					Fazenda.solo.erase(antiga)
+					Fazenda.solo_alterado.emit(antiga)
+				Introducao.alvos_tarefas.erase(chave)
 		if not Introducao.alvos_tarefas.has(chave):
 			celula = _escolher_celula()
 			Introducao.alvos_tarefas[chave] = [celula.x, celula.y]
@@ -67,6 +76,15 @@ func iniciar(qual: String) -> bool:
 	equipar()
 	return true
 
+## Nenhum entulho (arbusto, pedra, mato) na célula nem em volta dela, incluindo as duas de baixo: os arbustos são altos e
+## escondem o que está atrás deles. A cenoura de exemplo precisa estar à vista
+func _vista_livre(c: Vector2i) -> bool:
+	for dy in range(-1, 3):
+		for dx in range(-1, 2):
+			if Fazenda.entulho.has(c + Vector2i(dx, dy)):
+				return false
+	return true
+
 func _escolher_celula() -> Vector2i:
 	var plantio: Node = cena.get_node("Terrains/Plantio")
 	var melhor := Vector2i(25, 23)
@@ -75,6 +93,8 @@ func _escolher_celula() -> Vector2i:
 		for x in range(7, 37):
 			var candidata := Vector2i(x, y)
 			if Fazenda.entulho.has(candidata) or Fazenda.esta_arado(candidata) or plantio.avaliar_terreno("enxada", candidata) != "":
+				continue
+			if id == "colher" and not _vista_livre(candidata):
 				continue
 			var d := candidata.distance_squared_to(Vector2i(25, 23))
 			if d < distancia:

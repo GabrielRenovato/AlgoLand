@@ -1,13 +1,63 @@
 [gd_resource type="Theme" format=3 uid="uid://dopk8ho1d0tm2"]
 
-[ext_resource type="FontFile" uid="uid://b13xmp6wu4ea" path="res://assets/ui/craftpix-net-775352-game-user-interface-pixel-art/6 Font/CraftPixNet Survival Kit.otf" id="1_fonte"]
+[ext_resource type="FontFile" path="res://assets/ui/craftpix-net-775352-game-user-interface-pixel-art/6 Font/CraftPixNet Survival Kit.otf" id="1_fonte"]
+[ext_resource type="Texture2D" path="res://assets/ui/bosque/botao_desabilitado.png" id="desabilitado"]
+[ext_resource type="Texture2D" path="res://assets/ui/bosque/botao_hover.png" id="hover"]
+[ext_resource type="Texture2D" path="res://assets/ui/bosque/botao.png" id="normal"]
+[ext_resource type="Texture2D" path="res://assets/ui/bosque/botao_pressionado.png" id="pressed"]
+[ext_resource type="Texture2D" path="res://assets/ui/bosque/campo.png" id="campo_bosque"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_desabilitado"]
-content_margin_left = 6.0
-content_margin_top = 2.0
-content_margin_right = 6.0
-content_margin_bottom = 2.0
-bg_color = Color(0.1, 0.08, 0.06, 0.4)
+
+
+
+
+
+[ext_resource type="Texture2D" path="res://assets/ui/bosque/botao_desabilitado.png" id="desabilitado_bosque"]
+[ext_resource type="Texture2D" path="res://assets/ui/bosque/slot.png" id="alca_bosque"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxFlat_desabilitado"]
+content_margin_left = 8.0
+content_margin_top = 6.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+texture = ExtResource("desabilitado")
+texture_margin_left = 6.0
+texture_margin_top = 4.0
+texture_margin_right = 6.0
+texture_margin_bottom = 6.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxFlat_hover"]
+content_margin_left = 8.0
+content_margin_top = 6.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+texture = ExtResource("hover")
+texture_margin_left = 6.0
+texture_margin_top = 4.0
+texture_margin_right = 6.0
+texture_margin_bottom = 6.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxFlat_normal"]
+content_margin_left = 8.0
+content_margin_top = 6.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+texture = ExtResource("normal")
+texture_margin_left = 6.0
+texture_margin_top = 4.0
+texture_margin_right = 6.0
+texture_margin_bottom = 6.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxFlat_pressed"]
+content_margin_left = 8.0
+content_margin_top = 6.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+texture = ExtResource("pressed")
+texture_margin_left = 6.0
+texture_margin_top = 4.0
+texture_margin_right = 6.0
+texture_margin_bottom = 6.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_focus"]
 draw_center = false
@@ -16,69 +66,58 @@ border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
 border_color = Color(1, 0.82, 0.3, 1)
-corner_radius_top_left = 2
-corner_radius_top_right = 2
-corner_radius_bottom_right = 2
-corner_radius_bottom_left = 2
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hover"]
-content_margin_left = 6.0
-content_margin_top = 2.0
-content_margin_right = 6.0
-content_margin_bottom = 2.0
-bg_color = Color(0.22, 0.18, 0.13, 0.9)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(1, 0.82, 0.3, 1)
-corner_radius_top_left = 2
-corner_radius_top_right = 2
-corner_radius_bottom_right = 2
-corner_radius_bottom_left = 2
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_normal"]
+[sub_resource type="StyleBoxTexture" id="CampoBosque"]
 content_margin_left = 6.0
-content_margin_top = 2.0
+content_margin_top = 3.0
 content_margin_right = 6.0
-content_margin_bottom = 2.0
-bg_color = Color(0.1, 0.08, 0.06, 0.85)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.08, 0.06, 0.05, 1)
-corner_radius_top_left = 2
-corner_radius_top_right = 2
-corner_radius_bottom_right = 2
-corner_radius_bottom_left = 2
+content_margin_bottom = 3.0
+texture = ExtResource("campo_bosque")
+texture_margin_left = 5.0
+texture_margin_top = 5.0
+texture_margin_right = 5.0
+texture_margin_bottom = 5.0
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pressed"]
-content_margin_left = 6.0
-content_margin_top = 2.0
-content_margin_right = 6.0
-content_margin_bottom = 2.0
-bg_color = Color(0.05, 0.04, 0.03, 0.95)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.08, 0.06, 0.05, 1)
-corner_radius_top_left = 2
-corner_radius_top_right = 2
-corner_radius_bottom_right = 2
-corner_radius_bottom_left = 2
+[sub_resource type="StyleBoxTexture" id="TrilhoBosque"]
+texture = ExtResource("campo_bosque")
+texture_margin_left = 3.0
+texture_margin_top = 3.0
+texture_margin_right = 3.0
+texture_margin_bottom = 3.0
+
+[sub_resource type="StyleBoxTexture" id="AlcaBosque"]
+texture = ExtResource("alca_bosque")
+texture_margin_left = 3.0
+texture_margin_top = 3.0
+texture_margin_right = 3.0
+texture_margin_bottom = 3.0
 
 [resource]
 default_font = ExtResource("1_fonte")
 default_font_size = 12
-Button/colors/font_color = Color(1, 1, 0.960784, 1)
-Button/colors/font_focus_color = Color(1, 0.82, 0.3, 1)
-Button/colors/font_hover_color = Color(1, 1, 1, 1)
-Button/colors/font_pressed_color = Color(1, 0.82, 0.3, 1)
+Button/colors/font_color = Color(0.25, 0.17, 0.11, 1)
+Button/colors/font_focus_color = Color(0.25, 0.17, 0.11, 1)
+Button/colors/font_hover_color = Color(0.2, 0.12, 0.07, 1)
+Button/colors/font_pressed_color = Color(0.25, 0.17, 0.11, 1)
 Button/styles/disabled = SubResource("StyleBoxFlat_desabilitado")
 Button/styles/focus = SubResource("StyleBoxFlat_focus")
 Button/styles/hover = SubResource("StyleBoxFlat_hover")
 Button/styles/normal = SubResource("StyleBoxFlat_normal")
 Button/styles/pressed = SubResource("StyleBoxFlat_pressed")
 Label/colors/font_color = Color(1, 1, 0.960784, 1)
+LineEdit/colors/font_color = Color(0.96, 0.9, 0.76, 1)
+LineEdit/colors/font_placeholder_color = Color(0.66, 0.58, 0.46, 1)
+LineEdit/colors/caret_color = Color(1, 0.82, 0.3, 1)
+LineEdit/styles/normal = SubResource("CampoBosque")
+LineEdit/styles/read_only = SubResource("CampoBosque")
+VScrollBar/styles/scroll = SubResource("TrilhoBosque")
+VScrollBar/styles/scroll_focus = SubResource("TrilhoBosque")
+VScrollBar/styles/grabber = SubResource("AlcaBosque")
+VScrollBar/styles/grabber_highlight = SubResource("AlcaBosque")
+VScrollBar/styles/grabber_pressed = SubResource("AlcaBosque")
+HScrollBar/styles/scroll = SubResource("TrilhoBosque")
+HScrollBar/styles/scroll_focus = SubResource("TrilhoBosque")
+HScrollBar/styles/grabber = SubResource("AlcaBosque")
+HScrollBar/styles/grabber_highlight = SubResource("AlcaBosque")
+HScrollBar/styles/grabber_pressed = SubResource("AlcaBosque")

@@ -2,7 +2,11 @@ extends "res://codigo/ui/missoes_inventario.gd"
 
 ## Grade e tooltip iguais para peixes e armas; cada vista do coop mantém os próprios controles.
 var _grade_catalogo: GridContainer
-var _dica: Panel
+var colunas_maximas := 5
+var _lado_casa := 32.0
+var _dica: PanelContainer
+var _area_dica: Control
+var _rolagem_dica: ScrollContainer
 var _linhas_dica: VBoxContainer
 var _pagina := 0
 var _paginacao: HBoxContainer
@@ -32,6 +36,7 @@ func _limpar_catalogo() -> void:
 
 func _nova_grade() -> GridContainer:
 	_grade_catalogo = GridContainer.new()
+	_grade_catalogo.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_grade_catalogo.add_theme_constant_override("h_separation",3)
 	_grade_catalogo.add_theme_constant_override("v_separation",3)
 	_lista.add_child(_grade_catalogo)
@@ -39,7 +44,7 @@ func _nova_grade() -> GridContainer:
 	_paginacao.alignment = BoxContainer.ALIGNMENT_CENTER
 	_lista.add_child(_paginacao)
 	_anterior = Button.new()
-	_anterior.text = "<"
+	_anterior.text = "ANT."
 	_anterior.custom_minimum_size = Vector2(32,32)
 	_anterior.pressed.connect(_trocar_pagina.bind(-1))
 	_paginacao.add_child(_anterior)
@@ -48,7 +53,7 @@ func _nova_grade() -> GridContainer:
 	_pagina_texto.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_paginacao.add_child(_pagina_texto)
 	_proxima = Button.new()
-	_proxima.text = ">"
+	_proxima.text = "PROX."
 	_proxima.custom_minimum_size = Vector2(32,32)
 	_proxima.pressed.connect(_trocar_pagina.bind(1))
 	_paginacao.add_child(_proxima)
@@ -61,15 +66,10 @@ func _adicionar_item(id: String, textura: Texture2D, descoberto: bool, detalhes:
 	slot.set_meta("catalogo",id)
 	slot.set_meta("detalhes",detalhes)
 	slot.custom_minimum_size = Vector2(32,32)
-	var estilo := StyleBoxFlat.new()
-	estilo.bg_color = Color("211f30")
-	estilo.border_color = Color("647081")
-	estilo.set_border_width_all(1)
-	estilo.set_corner_radius_all(2)
+	slot.size_flags_horizontal = Control.SIZE_EXPAND | Control.SIZE_SHRINK_CENTER
+	var estilo := preload("res://codigo/ui/estilo_slot.gd").caixa()
 	slot.add_theme_stylebox_override("normal",estilo)
-	var realce: StyleBoxFlat = estilo.duplicate()
-	realce.border_color = Color("f6d879")
-	realce.bg_color = Color("353447")
+	var realce := preload("res://codigo/ui/estilo_slot.gd").caixa(Color("ffe0a0"))
 	for estado in ["hover","pressed","focus"]: slot.add_theme_stylebox_override(estado,realce)
 	_grade_catalogo.add_child(slot)
 	var icone := TextureRect.new()
@@ -80,11 +80,11 @@ func _adicionar_item(id: String, textura: Texture2D, descoberto: bool, detalhes:
 	icone.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	icone.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	slot.add_child(icone)
-	icone.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	icone.offset_left = 6
-	icone.offset_top = 6
-	icone.offset_right = -6
-	icone.offset_bottom = -6
+	icone.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
+	icone.offset_left = -8
+	icone.offset_top = -8
+	icone.offset_right = 8
+	icone.offset_bottom = 8
 	icone.modulate = Color.WHITE if descoberto else Color.BLACK
 	slot.mouse_entered.connect(func():
 		if not _usa_toque() and not Controle.usando_controle_de(self): _mostrar_dica(id,slot)
@@ -108,12 +108,14 @@ func _usa_toque() -> bool:
 
 func _ajustar_grade() -> void:
 	if is_instance_valid(_grade_catalogo):
-		_grade_catalogo.columns = maxi(1,int((size.x-4)/35.0))
+		_grade_catalogo.columns = clampi(int((size.x-4)/35.0),1,colunas_maximas)
+		_lado_casa = 32.0
+		for slot in _grade_catalogo.get_children(): slot.custom_minimum_size.y = _lado_casa
 		_aplicar_pagina.call_deferred()
 	_fechar_dica()
 
 func _por_pagina() -> int:
-	var linhas := maxi(1,int((size.y-_grade_catalogo.position.y-38)/35.0))
+	var linhas := maxi(1,int((size.y-_grade_catalogo.position.y-38)/(_lado_casa+3)))
 	return linhas*_grade_catalogo.columns
 
 func _aplicar_pagina() -> void:
@@ -138,52 +140,79 @@ func _trocar_pagina(passo: int) -> void:
 		_grade_catalogo.get_child(_pagina*_por_pagina()).grab_focus()
 
 func _montar_dica() -> void:
-	_dica = Panel.new()
+	var ancestral := get_parent()
+	while ancestral != null and ancestral.name != "Sidebar": ancestral = ancestral.get_parent()
+	_area_dica = ancestral as Control
+	if _area_dica == null: return
+	_dica = PanelContainer.new()
 	_dica.name = "TooltipCatalogo"
 	_dica.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_dica.z_index = 30
-	# A mesma moldura TooltipPanel e as mesmas linhas do ItemUI da mochila.
-	_dica.add_theme_stylebox_override("panel",get_theme_stylebox("panel","TooltipPanel"))
-	get_parent().add_child(_dica)
+	_dica.add_theme_stylebox_override("panel",preload("res://codigo/ui/estilo_interface.gd").painel(true,10.0))
+	_area_dica.add_child(_dica)
+	_rolagem_dica = ScrollContainer.new()
+	_rolagem_dica.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	_dica.add_child(_rolagem_dica)
 	_linhas_dica = VBoxContainer.new()
-	_linhas_dica.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_linhas_dica.add_theme_constant_override("separation",0)
-	_dica.add_child(_linhas_dica)
-	_linhas_dica.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	_linhas_dica.offset_left = 7
-	_linhas_dica.offset_right = -7
-	_linhas_dica.offset_top = 5
-	_linhas_dica.offset_bottom = -7
+	_linhas_dica.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_linhas_dica.add_theme_constant_override("separation",4)
+	_rolagem_dica.add_child(_linhas_dica)
 	_dica.hide()
 
 func _mostrar_dica(id: String, slot: Control) -> void:
 	if not is_instance_valid(_dica) or not is_visible_in_tree(): return
 	_id_dica = id
 	for filho in _linhas_dica.get_children(): filho.free()
-	var largura := minf(180,get_parent().size.x-12)
-	var altura := 12.0
+	var largura := minf(220,_area_dica.size.x-20)
+	var altura := 20.0
+	var largura_texto := largura-24-_rolagem_dica.get_v_scroll_bar().get_combined_minimum_size().x
 	var item_ui := preload("res://codigo/ui/item_ui.gd")
 	var textos := String(slot.get_meta("detalhes","")).split("\n")
 	for i in textos.size():
-		var rotulo := item_ui.linha_dica(textos[i],Color("f6d879") if i==0 else item_ui.COR_DICA_DETALHE)
-		rotulo.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		rotulo.custom_minimum_size.x = largura-14
+		if textos[i].is_empty(): continue
+		var rotulo := item_ui.linha_dica(textos[i],Color("493020") if i == 0 else Color("65472f"))
+		rotulo.custom_minimum_size.x = largura_texto
 		rotulo.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		_linhas_dica.add_child(rotulo)
+		if i == 0 and _usa_toque():
+			var cabecalho := HBoxContainer.new()
+			_linhas_dica.add_child(cabecalho)
+			rotulo.custom_minimum_size.x = 0
+			cabecalho.add_child(rotulo)
+			var fechar := Button.new()
+			fechar.text = "X"
+			fechar.custom_minimum_size = Vector2(24,24)
+			fechar.pressed.connect(_fechar_dica)
+			cabecalho.add_child(fechar)
+		else:
+			_linhas_dica.add_child(rotulo)
 		var fonte := rotulo.get_theme_font("font")
-		altura += maxf(fonte.get_height(10),fonte.get_multiline_string_size(textos[i],HORIZONTAL_ALIGNMENT_LEFT,largura-14,10).y)
+		altura += maxf(fonte.get_height(10),fonte.get_multiline_string_size(textos[i],HORIZONTAL_ALIGNMENT_LEFT,largura_texto,10).y)+4
+		if i == 0:
+			var separador := HSeparator.new()
+			_linhas_dica.add_child(separador)
+			altura += 5
+	altura = minf(altura,_area_dica.size.y-20)
+	_rolagem_dica.custom_minimum_size = Vector2(largura_texto,altura-20)
+	_dica.custom_minimum_size = Vector2(largura,altura)
 	_dica.size = Vector2(largura,altura)
 	_dica.show()
 	_posicionar_dica.call_deferred(slot)
 
 func _posicionar_dica(slot: Control) -> void:
+	# A quebra de linha precisa da largura real antes de medir e posicionar o painel.
+	await get_tree().process_frame
+	if not is_instance_valid(slot) or not is_instance_valid(_dica) or not _dica.visible: return
+	var altura := minf(_linhas_dica.get_combined_minimum_size().y+20,_area_dica.size.y-20)
+	_rolagem_dica.custom_minimum_size.y = altura-20
+	_dica.custom_minimum_size.y = altura
+	_dica.size.y = altura
+	await get_tree().process_frame
 	if not is_instance_valid(slot) or not is_instance_valid(_dica): return
-	var pai := get_parent() as Control
 	var retangulo := slot.get_global_rect()
-	var ponto := retangulo.end-pai.global_position+Vector2(4,4)
-	if ponto.y+_dica.size.y > pai.size.y-8:
-		ponto.y = retangulo.position.y-pai.global_position.y-_dica.size.y-4
-	_dica.position = Vector2(clampf(ponto.x,6,maxf(6,pai.size.x-_dica.size.x-6)),clampf(ponto.y,38,maxf(38,pai.size.y-_dica.size.y-8)))
+	var ponto := retangulo.end-_area_dica.global_position+Vector2(4,4)
+	if ponto.y+_dica.size.y > _area_dica.size.y-10:
+		ponto.y = retangulo.position.y-_area_dica.global_position.y-_dica.size.y-4
+	_dica.position = Vector2(clampf(ponto.x,10,maxf(10,_area_dica.size.x-_dica.size.x-10)),clampf(ponto.y,10,maxf(10,_area_dica.size.y-_dica.size.y-10)))
 
 func _fechar_dica() -> void:
 	_id_dica = ""

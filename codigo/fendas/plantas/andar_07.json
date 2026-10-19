@@ -1,0 +1,370 @@
+{
+  "andar": 7,
+  "nome": "Galerias Inundadas",
+  "bioma": "caverna_agua",
+  "grade": 16,
+  "limites": [
+    -1700,
+    -720,
+    3400,
+    1440
+  ],
+  "entrada": [
+    -1456,
+    416
+  ],
+  "guardiao": [
+    1456,
+    416
+  ],
+  "setores": [
+    {
+      "id": "entrada",
+      "nome": "Portal",
+      "centro": [
+        -1456,
+        416
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 0
+    },
+    {
+      "id": "area_1",
+      "nome": "Camara 1",
+      "centro": [
+        -1136,
+        -272
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 2
+    },
+    {
+      "id": "area_2",
+      "nome": "Camara 2",
+      "centro": [
+        -560,
+        -448
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 1
+    },
+    {
+      "id": "area_3",
+      "nome": "Camara 3",
+      "centro": [
+        -640,
+        384
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 2
+    },
+    {
+      "id": "area_4",
+      "nome": "Camara 4",
+      "centro": [
+        -80,
+        -32
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 1
+    },
+    {
+      "id": "area_5",
+      "nome": "Camara 5",
+      "centro": [
+        320,
+        448
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 2
+    },
+    {
+      "id": "area_6",
+      "nome": "Camara 6",
+      "centro": [
+        560,
+        -416
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 1
+    },
+    {
+      "id": "area_7",
+      "nome": "Camara 7",
+      "centro": [
+        976,
+        -32
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 2
+    },
+    {
+      "id": "guardiao",
+      "nome": "Guardiao",
+      "centro": [
+        1456,
+        416
+      ],
+      "raios": [
+        176,
+        144
+      ],
+      "grupos": 0
+    }
+  ],
+  "trilhas": [
+    {
+      "pontos": [
+        [
+          -1456,
+          416
+        ],
+        [
+          -1136,
+          -272
+        ]
+      ],
+      "raio": 80
+    },
+    {
+      "pontos": [
+        [
+          -1136,
+          -272
+        ],
+        [
+          -560,
+          -448
+        ]
+      ],
+      "raio": 80
+    },
+    {
+      "pontos": [
+        [
+          -1456,
+          416
+        ],
+        [
+          -640,
+          384
+        ]
+      ],
+      "raio": 80
+    },
+    {
+      "pontos": [
+        [
+          -560,
+          -448
+        ],
+        [
+          -80,
+          -32
+        ]
+      ],
+      "raio": 80
+    },
+    {
+      "pontos": [
+        [
+          -640,
+          384
+        ],
+        [
+          -80,
+          -32
+        ]
+      ],
+      "raio": 80
+    },
+    {
+      "pontos": [
+        [
+          -80,
+          -32
+        ],
+        [
+          320,
+          448
+        ]
+      ],
+      "raio": 80
+    },
+    {
+      "pontos": [
+        [
+          -80,
+          -32
+        ],
+        [
+          560,
+          -416
+        ]
+      ],
+      "raio": 80
+    },
+    {
+      "pontos": [
+        [
+          320,
+          448
+        ],
+        [
+          976,
+          -32
+        ]
+      ],
+      "raio": 80
+    },
+    {
+      "pontos": [
+        [
+          560,
+          -416
+        ],
+        [
+          976,
+          -32
+        ]
+      ],
+      "raio": 80
+    },
+    {
+      "pontos": [
+        [
+          976,
+          -32
+        ],
+        [
+          1456,
+          416
+        ]
+      ],
+      "raio": 80
+    }
+  ],
+  "lago": {
+    "lobos": [
+      [
+        -1206,
+        -456,
+        64,
+        50
+      ],
+      [
+        -710,
+        200,
+        64,
+        50
+      ],
+      [
+        250,
+        264,
+        64,
+        50
+      ],
+      [
+        906,
+        -216,
+        64,
+        50
+      ],
+      [
+        156,
+        -544,
+        192,
+        64
+      ],
+      [
+        -996,
+        72,
+        112,
+        72
+      ],
+      [
+        1340,
+        -310,
+        160,
+        90
+      ],
+      [
+        1388,
+        40,
+        112,
+        72
+      ],
+      [
+        -4,
+        -358,
+        160,
+        90
+      ],
+      [
+        -212,
+        584,
+        112,
+        72
+      ],
+      [
+        -660,
+        -32,
+        192,
+        64
+      ],
+      [
+        1356,
+        -496,
+        192,
+        64
+      ],
+      [
+        -1476,
+        -120,
+        112,
+        72
+      ]
+    ],
+    "folga": 28
+  },
+  "combate": {
+    "comuns_por_grupo": 7,
+    "elites": 3,
+    "meta": 218,
+    "pontos_comum": 3,
+    "pontos_elite": 9,
+    "fracao_exigida": 0.845
+  },
+  "guardiao_id": "medusa",
+  "contrato_visual": {
+    "referencia": "RPGW_Caves_v2.1: MainLev2.0.png e decorative.png",
+    "grade": "Peças32x32 originais subdivididas na grade16x16, sem escala",
+    "estacoes": "quatro folhas privadas e calendario",
+    "encaixe": "Contexto das peças originais e bordas nativas; colisão derivada da transparência"
+  },
+  "direcao_ambiental": "Galerias minerais com reservatorios, cristais e estruturas antigas de mineracao"
+}

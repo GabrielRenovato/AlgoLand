@@ -91,6 +91,17 @@
         23,
         12
       ]
+    },
+    "ivo": {
+      "origem": "../base_vila/ivo_retrato_montado.png",
+      "identidade": "Ferreiro Ivo: mecha grisalha, barba escura, camisa indigo e avental vermelho ferrugem.",
+      "boca": [
+        44,
+        61,
+        33,
+        18
+      ],
+      "alfa_binario": true
     }
   }
 }

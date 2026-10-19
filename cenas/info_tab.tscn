@@ -1,8 +1,10 @@
 [gd_scene load_steps=9 format=4 uid="uid://dsd2y11vv3y3c"]
 
 [ext_resource type="Script" uid="uid://ciyax00h8t7vr" path="res://codigo/cenario/informacoes_do_player_tab.gd" id="1_hbuxv"]
-[ext_resource type="Texture2D" uid="uid://d1iiqnaqd3rjw" path="res://assets/ui/craftpix-net-420010-pixel-game-user-interface-for-platformer/1 Interface/TileMap.png" id="2_uq2o2"]
+[ext_resource type="Texture2D" path="res://assets/ui/bosque/paineis.png" id="2_uq2o2"]
 [ext_resource type="FontFile" uid="uid://dwub7qum41gaq" path="res://assets/ui/Planes_ValMore.ttf" id="2_wsgip"]
+
+[ext_resource type="Texture2D" path="res://assets/ui/bosque/campo.png" id="campo_bosque"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_p0vde"]
 texture = ExtResource("2_uq2o2")
@@ -74,19 +76,19 @@ texture = ExtResource("2_uq2o2")
 [sub_resource type="TileSet" id="TileSet_yw4k5"]
 sources/0 = SubResource("TileSetAtlasSource_p0vde")
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2q05x"]
-bg_color = Color(0.237539, 0.237539, 0.237539, 1)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
+[sub_resource type="StyleBoxTexture" id="StyleBoxFlat_2q05x"]
+texture = ExtResource("campo_bosque")
+texture_margin_left = 5.0
+texture_margin_top = 5.0
+texture_margin_right = 5.0
+texture_margin_bottom = 5.0
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i7kji"]
-bg_color = Color(0.212305, 0.212305, 0.212305, 1)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
+[sub_resource type="StyleBoxTexture" id="StyleBoxFlat_i7kji"]
+texture = ExtResource("campo_bosque")
+texture_margin_left = 5.0
+texture_margin_top = 5.0
+texture_margin_right = 5.0
+texture_margin_bottom = 5.0
 
 [sub_resource type="LabelSettings" id="LabelSettings_g7v7p"]
 font = ExtResource("2_wsgip")

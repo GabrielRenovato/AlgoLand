@@ -1,0 +1,66 @@
+{
+  "estado": "integrado",
+  "critica_do_usuario": "A construcao nao parece uma caverna; paredes e encaixes rejeitados.",
+  "processo_solicitado": "Desenho normal primeiro, transformacao em pixel art depois como referencia de reconstrucao.",
+  "rejeitar": [
+    "corredores recortados numa textura repetitiva",
+    "face de penhasco de floresta como parede subterranea",
+    "objetos espalhados para disfarcar a estrutura",
+    "grama em galerias",
+    "piso parecendo asfalto"
+  ],
+  "construcao": [
+    "salas naturais com volume",
+    "paredes espessas com topo e face separados",
+    "cantos concavos e convexos encaixados",
+    "agua abaixo da margem mineral",
+    "formacoes apoiadas no chao junto das paredes"
+  ],
+  "contrato_runtime": {
+    "grade": 16,
+    "personagem_aparente": 34,
+    "paredes_altura_aparente": 48,
+    "estacoes": [
+      "primavera",
+      "verao",
+      "outono",
+      "inverno"
+    ],
+    "interior": "protegido de neve e precipitacao; reflexo sazonal discreto"
+  },
+  "referencia_aprovada": "conceito_pintado.png",
+  "conversao_pixel": "referencia_continua.png",
+  "orientacao_do_usuario": "Seguir este padrao, caverna continua, formato das plantas existentes.",
+  "tileset_prototipo_rejeitado": "tileset_original.png: simples demais frente a referencia aprovada",
+  "tileset_candidato_id": "401768f9-60c5-432c-a40f-a4bce9dbbc7c",
+  "atlas_producao": {
+    "arquivo": "tileset_producao.png",
+    "dimensoes": [
+      256,
+      256
+    ],
+    "template": "tileset_32_metadata.json",
+    "celula_motor": [
+      16,
+      16
+    ],
+    "peca_nativa": [
+      32,
+      32
+    ],
+    "construcao": "Contexto Wang 4x4 com passos de 64px; falha se houver centro incompatível."
+  },
+  "integração": {
+    "gerador": "ferramentas/fendas/construir_cavernas.py",
+    "preparador": "ferramentas/fendas/preparar_caverna.py",
+    "recurso": "assets/cenario/fendas/cavernas/calcario.png",
+    "estacoes": "codigo/fendas/caverna_sazonal.gd",
+    "fisica": "A máscara do piso também gera colisão e navegação. Lagos usam margem pela distância real e fundo transparente."
+  },
+  "prompts": "prompts.json",
+  "revisao": "Capturas reais dos andares 4, 7 e 11, quatro estacoes, em arte/previas/fenda/jornada/",
+  "regressoes": [
+    "testes/teste_continuidade_caverna.gd",
+    "testes/teste_margens_caverna.py"
+  ]
+}

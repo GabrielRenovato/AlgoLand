@@ -23,10 +23,11 @@ config/name="top down"
 run/main_scene="res://cenas/inicio_do_jogo.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 run/max_fps=60
-config/icon="res://assets/cenario/icon.svg"
+config/icon="res://assets/icone/icone.png"
 
 [autoload]
 
+Saves="*res://codigo/globais/saves.gd"
 DadosDosItems="*res://codigo/dados/dados_dos_items_loja.gd"
 DadosJogo="*res://codigo/dados/dados_do_jogo.gd"
 GDConsole="*res://addons/gdconsole/gdconsole.gd"
@@ -47,7 +48,6 @@ Introducao="*res://codigo/introducao/estado_introducao.gd"
 BauCasa="*res://codigo/globais/bau_casa.gd"
 Cooperativo="*res://codigo/globais/cooperativo.gd"
 Saque="*res://codigo/globais/saque_partida.gd"
-Saves="*res://codigo/globais/saves.gd"
 AgendaVila="*res://codigo/globais/agenda_vila.gd"
 Comercio="*res://codigo/comercio/comercio.gd"
 
@@ -157,6 +157,11 @@ debug_damage={
 show_stats={
 "deadzone": 0.5,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194306,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+]
+}
+open_map={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":77,"key_label":0,"unicode":109,"location":0,"echo":false,"script":null)
 , Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":8,"pressure":0.0,"pressed":true,"script":null)
 ]
 }
@@ -199,6 +204,12 @@ colher={
 "deadzone": 0.5,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":82,"key_label":0,"unicode":114,"location":0,"echo":false,"script":null)
 , Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":3,"pressure":0.0,"pressed":true,"script":null)
+]
+}
+fileira_proxima={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":88,"key_label":0,"unicode":120,"location":0,"echo":false,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"button_index":7,"pressure":0.0,"pressed":true,"script":null)
 ]
 }
 arma_proxima={

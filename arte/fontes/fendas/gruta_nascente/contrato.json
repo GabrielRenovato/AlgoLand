@@ -1,0 +1,17 @@
+{
+  "nome": "Gruta da Nascente",
+  "estado": "estudo visual; sem integração no jogo",
+  "funcao": "Definir uma caverna original para o AlgoLand",
+  "referencia": "https://www.spriters-resource.com/snes/secretofmana/asset/132945/",
+  "referencia_em_cena": "https://thekingofgrabs.com/2019/09/02/secret-of-mana-super-nintendo/secret-of-mana-snes-100/",
+  "comparacao_local": "arte/previas/fenda/encontros/andar_03_patrulha_0.png",
+  "direcao": "Paredes ocres, sombras arroxeadas, piso terroso legível e água verde-azulada; desenhos e planta próprios",
+  "grade_planejada": [16, 16],
+  "viewport_logico_por_estacao": [384, 256],
+  "apresentacao": "Quatro painéis sazonais com geometria compartilhada; imagem conceitual, não atlas recortável",
+  "encaixe_planejado": "Origem superior esquerda; objetos apoiados pelo centro inferior; paredes sobre o contato com o piso; margens contínuas",
+  "colisoes": "Não implementadas; preservar corredor central e acesso inferior em futura integração",
+  "estacoes": ["primavera", "verao", "outono", "inverno"],
+  "tratamento_sazonal": "Musgo, umidade e luz; folhas e neve apenas no limiar exposto da entrada",
+  "integracao": "Nenhuma cena ou recurso de produção alterado; integração e inspeção Godot pendentes caso solicitadas"
+}

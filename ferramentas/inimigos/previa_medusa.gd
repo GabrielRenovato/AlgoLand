@@ -31,7 +31,7 @@ func _rodar() -> void:
 			sprite.texture = load("res://assets/inimigos/medusa/" + PAGINAS[i] + ".png")
 			sprite.hframes = 6
 			sprite.vframes = 4
-			sprite.scale = Vector2.ONE * 0.55
+			sprite.scale = Vector2.ONE
 			sprite.position = Vector2(100 + direcao * 172, i * 172 + 90)
 			vp.add_child(sprite)
 			corpos.append(sprite)
