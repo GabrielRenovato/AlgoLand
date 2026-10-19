@@ -44,6 +44,17 @@ def acabar_copas(im):
  return im
 
 def tile(im,x,y):return im.crop((x*16,y*16,x*16+16,y*16+16))
+
+def relevo_completo(folha):
+ """Platô nativo completo de64x64, centralizado no espaço reservado de96x128.
+
+ A região(112,128,208,256) da fonte é um kit de paredes com centro aberto
+ e fragmentos vizinhos; não representa um penhasco inteiro.
+ """
+ quadro=Image.new('RGBA',(96,128))
+ quadro.alpha_composite(folha.crop((0,64,64,128)),(16,32))
+ return quadro
+
 def preparar_folha(caminho,p,e,m,G):
  paleta=PALETAS[p['andar']];base=Image.open(FONTE/f'gentle forest v{paleta}.png').convert('RGBA');src=sazonal(base,e,paleta)
  out=Image.new('RGBA',(256,256+math.ceil(len(m.tiles_margem)/16)*16))
@@ -64,8 +75,7 @@ def preparar_folha(caminho,p,e,m,G):
  out.paste(plantas.crop((96,0,128,32)),(0,160))
  for dy in range(2):
   for dx in range(2):colar((2+dx,8+dy),(8+dx,dy))
- for dy in range(8):
-  for dx in range(6):colar((5+dx,8+dy),(7+dx,8+dy))
+ out.alpha_composite(relevo_completo(src),(5*16,8*16))
  class Folha:
   def pix(self,tx,ty,x,y):return out.getpixel((tx*16+x,ty*16+y))
  folha=Folha()
@@ -155,3 +165,20 @@ def integrar(texto,p):
      if linha not in b.splitlines():b+='\n'+linha+'\n'
    blocos[i]=b
  return '\n'.join(blocos)
+
+
+def corrigir_relevos_existentes():
+ """Atualiza somente o recorte defeituoso, mantendo mapas, caminhos e colisões."""
+ for andar,paleta in PALETAS.items():
+  fonte=Image.open(FONTE/f'gentle forest v{paleta}.png').convert('RGBA')
+  for estacao in ESTACOES:
+   caminho=RAIZ/f'assets/cenario/fendas/andar_{andar:02}/{estacao}.png'
+   folha=Image.open(caminho).convert('RGBA')
+   folha.paste((0,0,0,0),(80,128,176,256))
+   folha.alpha_composite(relevo_completo(sazonal(fonte,estacao,paleta)),(80,128))
+   folha.save(caminho)
+  print(f'OK andar {andar}: relevo nativo completo nas quatro estações')
+
+
+if __name__=='__main__':
+ corrigir_relevos_existentes()

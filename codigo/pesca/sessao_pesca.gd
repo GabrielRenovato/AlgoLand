@@ -12,13 +12,15 @@ const Minijogo := preload("res://codigo/pesca/minijogo_pesca.gd")
 const FONTE := preload("res://assets/ui/Planes_ValMore.ttf")
 const Animacao := preload("res://codigo/pesca/animacao_pesca.gd")
 
-enum Estado { LANCANDO, ESPERANDO, BELISCANDO, PUXANDO, PEGOU }
+enum Estado { LANCANDO, ESPERANDO, BELISCANDO, PUXANDO, PEGOU, CARREGANDO }
 
 const ESPERA_MIN := 2.0
 const ESPERA_MAX := 6.0
 const JANELA_BELISCO := 1.5
 const DURACAO_LANCE := 0.55
 const ALCANCE := 44.0
+const TEMPO_FORCA := 1.0
+var forca_lancamento := 0.0
 
 var jogador: CharacterBody2D
 var ambiente := "mar"
@@ -40,17 +42,21 @@ var _arvore_ativa := false
 var _visual_visivel := true
 var _ataques_bloqueados := false
 var _tempo_puxao := 0.0
+var _tempo_recolhimento := 0.0
+const QUADROS_RECOLHIMENTO := [3,4,5,4]
+const TEMPO_QUADRO_RECOLHIMENTO := 0.14
 var _tempo_peixe := 0.0
 var _restaurado := false
 
 static func em_andamento(quem: Node) -> bool:
 	return quem != null and quem.has_node("SessaoPesca")
 
-func iniciar(quem: CharacterBody2D, direcao: Vector2, ambiente_agua: String) -> void:
+func iniciar(quem: CharacterBody2D, direcao: Vector2, ambiente_agua: String, carregar := false) -> void:
 	name = "SessaoPesca"
 	jogador = quem
 	ambiente = ambiente_agua
 	_frente = direcao
+	if carregar: estado = Estado.CARREGANDO
 	# Linha na água atrás do corpo; avisos e resultado têm profundidade própria.
 	z_as_relative = true
 	z_index = 0
@@ -79,7 +85,7 @@ func iniciar(quem: CharacterBody2D, direcao: Vector2, ambiente_agua: String) -> 
 	_exclamacao.position = Vector2(-6, -46)
 	_exclamacao.visible = false
 	add_child(_exclamacao)
-	Sons.tocar("enxada", 0.1, -6.0)
+	if not carregar: Sons.tocar("enxada", 0.1, -6.0)
 
 func _process(delta: float) -> void:
 	if jogador == null or not is_instance_valid(jogador) or jogador.estaMorto or Transicao.ocupada:
@@ -88,9 +94,15 @@ func _process(delta: float) -> void:
 	_tempo += delta
 	_guarda_entrada = maxf(_guarda_entrada - delta, 0.0)
 	var cancelar := _guarda_entrada <= 0.0 and Input.is_action_just_pressed(jogador.acao("rolar"))
-	var agir := _guarda_entrada <= 0.0 and (Input.is_action_just_pressed(jogador.acao("open_menu")) \
-			or Input.is_action_just_pressed(jogador.acao("attack")))
+	var agir := _guarda_entrada <= 0.0 and Input.is_action_just_pressed(jogador.acao("attack"))
 	match estado:
+		Estado.CARREGANDO:
+			forca_lancamento = 1.0 - absf(1.0-fmod(_tempo/TEMPO_FORCA,2.0))
+			if cancelar:
+				_terminar()
+				return
+			if not Input.is_action_pressed(jogador.acao("attack")):
+				_lancar()
 		Estado.LANCANDO:
 			if _tempo >= DURACAO_LANCE:
 				_esperar()
@@ -116,6 +128,22 @@ func _process(delta: float) -> void:
 				return
 	_atualizar_animacao(delta)
 	queue_redraw()
+
+func _lancar() -> void:
+	var alcance_maximo := 64.0 if ambiente == "rio" else 120.0
+	var alcance := lerpf(28.0,alcance_maximo,forca_lancamento)
+	_alvo = Vector2(0,14) + _frente * alcance
+	# O lago pequeno limita a linha à água real, sem lançar a boia sobre a margem oposta.
+	if ambiente == "rio":
+		for lago in get_tree().get_nodes_in_group("lago_fazenda"):
+			if lago.get_world_2d() != jogador.get_world_2d(): continue
+			while alcance > 16 and not Geometry2D.is_point_in_polygon(lago.to_local(jogador.to_global(_alvo)),lago.poligono):
+				alcance -= 1
+				_alvo = Vector2(0,14) + _frente * alcance
+	estado = Estado.LANCANDO
+	_tempo = 0.0
+	_guarda_entrada = 0.3
+	Sons.tocar("enxada",0.1,-6.0)
 
 func _esperar() -> void:
 	estado = Estado.ESPERANDO
@@ -149,6 +177,8 @@ func _mostrar_sombra() -> void:
 
 func _puxar() -> void:
 	estado = Estado.PUXANDO
+	_tempo_recolhimento = 0.0
+	_sacudir_vara()
 	_exclamacao.visible = false
 	var interface := EventosJogo.interface_de(jogador)
 	if interface == null:
@@ -162,16 +192,22 @@ func _puxar() -> void:
 
 func _sacudir_vara() -> void:
 	_tempo_puxao = 0.24
+	_tempo_recolhimento = TEMPO_QUADRO_RECOLHIMENTO
 
 func _atualizar_animacao(delta: float) -> void:
 	_tempo_puxao = maxf(0.0,_tempo_puxao-delta)
 	match estado:
+		Estado.CARREGANDO:
+			_animacao.pose(0)
 		Estado.LANCANDO:
 			_animacao.pose(0 if _tempo < 0.20 else (1 if _tempo < 0.28 else 2))
 		Estado.ESPERANDO, Estado.BELISCANDO:
 			_animacao.pose(2)
 		Estado.PUXANDO:
-			_animacao.pose(4 if _tempo_puxao > 0.12 else (5 if _tempo_puxao > 0 else 3))
+			# Recolhe continuamente enquanto o peixe resiste; um acerto acelera o puxão.
+			_tempo_recolhimento += delta * (1.6 if _tempo_puxao > 0 else 1.0)
+			var quadro := int(_tempo_recolhimento/TEMPO_QUADRO_RECOLHIMENTO) % QUADROS_RECOLHIMENTO.size()
+			_animacao.pose(QUADROS_RECOLHIMENTO[quadro])
 		Estado.PEGOU:
 			_animacao.pose(6 if _tempo < 0.16 else 7)
 
@@ -285,6 +321,14 @@ func _physics_process(delta: float) -> void:
 		_sombra.frame = int(_tempo_peixe / 0.18) % _sombra.hframes
 
 func _draw() -> void:
+	if estado == Estado.CARREGANDO:
+		# Medidor nativo de 48x6 px, junto à vara, com contraste e marca no limite máximo.
+		draw_string(FONTE,Vector2(-24,-60),"FORCA %d%%" % roundi(forca_lancamento*100),HORIZONTAL_ALIGNMENT_LEFT,-1,8,Color("fff0ce"))
+		draw_rect(Rect2(-26,-57,52,10),Color("30221c"))
+		draw_rect(Rect2(-24,-55,48,6),Color("685044"))
+		draw_rect(Rect2(-24,-55,roundf(48*forca_lancamento),6),Color("a3df6b") if forca_lancamento < 0.85 else Color("ffd875"))
+		draw_line(Vector2(22,-56),Vector2(22,-48),Color("fff0ce"),1)
+		return
 	if estado == Estado.PEGOU:
 		return
 	var ponta: Vector2 = _animacao.ponta() if is_instance_valid(_animacao) else Vector2(0,-12)

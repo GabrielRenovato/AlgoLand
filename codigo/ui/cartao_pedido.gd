@@ -2,7 +2,7 @@ extends RefCounted
 
 const Dados := preload("res://codigo/cidade/dados_cidade.gd")
 
-static func criar(id: String, cidade: Node) -> PanelContainer:
+static func criar(id: String, cidade: Node, quem: Node = null) -> PanelContainer:
 	var pedido: Dictionary = Dados.MISSOES[id]
 	var morador: Dictionary = Dados.MORADORES[pedido["dono"]]
 	var cartao := PanelContainer.new()
@@ -34,7 +34,7 @@ static func criar(id: String, cidade: Node) -> PanelContainer:
 	rotulo(linhas,"RECOMPENSA: %d BRASAS  +  2 AMIZADE" % pedido["brasas"],Color("7e4d22"),8)
 	var estado: String = cidade.missoes.get(id,{}).get("estado","disponivel")
 	if estado == "aceita":
-		var progresso: Vector2i = cidade.progresso_missao(id)
+		var progresso: Vector2i = cidade.progresso_missao(id,quem)
 		rotulo(linhas,"PROGRESSO: %d / %d" % [progresso.x,progresso.y],Color("44602c"))
 		rotulo(linhas,("PRONTA PARA ENTREGAR\n" if progresso.x >= progresso.y else "")+"CONVERSE COM "+morador["nome"]+" PARA ENTREGAR.",Color("694f36"),8)
 	elif estado == "concluida":

@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="PackedScene" path="res://cenas/inimigos/mimico.tscn" id="mimico"]
+[ext_resource type="Script" path="res://codigo/fendas/bau_gigante.gd" id="roteiro"]
+
+[node name="BauGigante" instance=ExtResource("mimico")]
+script = ExtResource("roteiro")

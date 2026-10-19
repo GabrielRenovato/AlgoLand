@@ -1,6 +1,6 @@
 extends Node
 
-## Efeitos sonoros 8-bit (gerados por ferramentas/sons/gerar_sons.py). Sem música.
+## Efeitos sonoros e mixagem por categoria; trilhas em AmbienteSonoro.
 ## A chuva em loop (assets/audio/chuva.wav) não passa por aqui: quem a toca é o clima (codigo/cenario/clima.gd), com player próprio.
 ## Um pool de AudioStreamPlayers toca os sons; o volume geral é o do bus Master (opcoes_jogo.gd).
 ## Uso: Sons.tocar("moeda") ou Sons.tocar("acerto", 0.15, -3.0)
@@ -74,8 +74,10 @@ func _ready() -> void:
 	# Os sons dos menus continuam tocando com o jogo pausado
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	_ligar_limitador()
+	add_child(preload("res://codigo/globais/ambiente_sonoro.gd").new())
 	for i in TAMANHO_POOL:
 		var jogador := AudioStreamPlayer.new()
+		jogador.bus = "Efeitos"
 		jogador.name = "Jogador%d" % i
 		add_child(jogador)
 		_jogadores.append(jogador)

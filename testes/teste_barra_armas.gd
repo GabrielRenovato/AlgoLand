@@ -2,7 +2,7 @@ extends SceneTree
 
 # Rodar: godot --headless --path . --script res://testes/teste_barra_armas.gd
 # Barra de baixo do HUD (codigo/ui/barra_armas.gd): é a primeira linha da mochila (como a do Stardew), nos slots do inventário. Troca por 1-5,
-# roda do mouse, Z, toque na casa; a arma em uso continua na casa dela; escudo que some com arma de duas mãos e volta; não troca no meio do golpe.
+# roda do mouse, Z, toque na casa; a arma em uso continua na casa dela; escudo permanece equipado e suspende efeitos com duas mãos; não troca no meio do golpe.
 # ATENCAO: carrega a cena de jogo e equipa itens (grava user://inventario.json); faça backup do user:// antes.
 
 var _falhas: int = 0
@@ -125,23 +125,26 @@ func _rodar() -> void:
 	_tecla(KEY_3)
 	await _quadros(3)
 	_verificar("tecla 3 equipa o escudo junto da espada", _inv.equipados["escudo"] != null and _tipo_equipado() == "espada_basica", "")
-	_verificar("o escudo em uso leva o filete azul na casa 3", _barra._casas[2].get_node("Conteudo/Marco").visible and _item_da_casa(2) == _inv.equipados["escudo"], "")
+	_verificar("escudo equipado libera casa 3 e mantém seus efeitos", _item_da_casa(2) == null and _jogador.usando_escudo and _inv.escudo_ativo(), "")
 	# tecla 2: lanca (duas maos): o escudo volta para a casa dele, a espada para a casa 1
 	await _ms(500)
 	_tecla(KEY_2)
 	await _quadros(3)
 	_verificar("trocar pela barra nao toca a pose de guardar/sacar (troca na hora)", not _jogador.no_reacao.visible and not _jogador.troca_sem_pose, "")
-	_verificar("tecla 2 equipa a lanca e o escudo volta para a casa 3", _tipo_equipado() == "lanca_basica" and _inv.equipados["escudo"] == null and _inv.mochila[2] != null and _inv.mochila[2].tipo == "escudo_basico", _tipo_equipado())
+	_verificar("tecla 2 seleciona lanca e mantém escudo inativo fora da mochila", _tipo_equipado() == "lanca_basica" and _inv.equipados["escudo"] != null and _inv.item_na_celula(2) == null and not _jogador.usando_escudo, _tipo_equipado())
 	_verificar("a espada voltou para a casa 1 e a lanca ocupa a casa 2", _inv.mochila[0] != null and _inv.mochila[0].tipo == "espada_basica" and _tipo_da_casa(1) == "lanca_basica" and _barra._casas[1].get_node("Conteudo/Marco").visible, "")
 	await _ms(500)
 	_tecla(KEY_1)
 	await _quadros(3)
 	_verificar("voltar para a espada poe o escudo de novo", _tipo_equipado() == "espada_basica" and _inv.equipados["escudo"] != null, "escudo=%s" % _inv.equipados["escudo"])
-	# tecla 3 de novo: guarda o escudo na casa dele
+	# Casa liberada não altera o escudo equipado
 	await _ms(500)
 	_tecla(KEY_3)
 	await _quadros(3)
-	_verificar("tecla 3 com o escudo em uso guarda o escudo de volta na casa 3", _inv.equipados["escudo"] == null and _inv.mochila[2] != null and _tipo_equipado() == "espada_basica", "")
+	_verificar("casa vazia guarda arma e preserva escudo equipado", _inv.equipados["escudo"] != null and _inv.mochila[2] == null and _tipo_equipado() == "" and not _jogador.usando_espada, "")
+	_jogador._pedido_ataque = true
+	_jogador.logica_combo_ataque()
+	_verificar("clique esquerdo sem arma selecionada não inicia golpe",not _jogador._esta_atacando and _barra._casas[2].get_node("Conteudo/Marco").visible, "")
 	await _ms(500)
 	# arco
 	_tecla(KEY_5)
@@ -234,7 +237,25 @@ func _rodar() -> void:
 	var tela_inv: Control = _cena.get_node("Interface/TelaInventario")
 	tela_inv._atualizar()
 	var casa_grade: Control = tela_inv._slots_mochila[3]
-	_verificar("a grade do inventario mostra a arma em uso apagada na casa dela", casa_grade.item_atual == machado and casa_grade.item_ui().em_uso, "")
+	_verificar("arma selecionada pode ser movida na grade sem slot dedicado", casa_grade.item_atual == machado and not casa_grade.item_ui().em_uso and not tela_inv._slots_equipamento.has("arma") and tela_inv.get_node_or_null("Sidebar/Painel/SlotArma") == null, "")
+	await _ms(500)
+	_inv.mover_para_mochila(_inv.buscar_por_tipo("enxada"),7)
+	_barra.escolher(7)
+	_jogador._pedido_ataque = true
+	_jogador.logica_combo_ataque()
+	_verificar("selecionar ferramenta fora da fazenda não usa arma anterior",_tipo_equipado() == "" and not _jogador._esta_atacando,"" )
+	_barra.escolher(0)
+	await _ms(500)
+	_inv.mover_para_mochila(_inv.buscar_por_tipo("vara_pesca"),7)
+	_barra.escolher(7)
+	_jogador._pedido_ataque = true
+	_jogador.logica_combo_ataque()
+	_verificar("vara selecionada suspende ataque e visual da espada",_inv.vara_na_mao and not _jogador.usando_espada and not _jogador._esta_atacando,"" )
+	_barra.escolher(0)
+	await _ms(500)
+	_jogador._pedido_ataque = true
+	_jogador.logica_combo_ataque()
+	_verificar("selecionar espada novamente restaura ataque",not _inv.vara_na_mao and _jogador.usando_espada and _jogador._esta_atacando,"" )
 	# arma em uso nao some da barra se a mochila encher: o inventario cheio nao a tira da casa
 	root.get_node("Progresso").apagar()
 	root.get_node("Fazenda").apagar()

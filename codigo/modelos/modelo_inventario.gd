@@ -22,8 +22,8 @@ const ONDAS_LINHA_EXTRA := [10, 30, 60, 100, 150, 210, 280]
 const TAMANHO_MAXIMO := 80
 ## Colunas da grade da mochila (a grade da tela do inventário tem as mesmas). A primeira linha é a barra de baixo da tela, como a do Stardew Valley
 const COLUNAS_MOCHILA := 8
-## O que a barra de baixo mostra e troca: arma e escudo
-const CATEGORIAS_DA_BARRA := ["arma", "escudo"]
+## Só a arma selecionada reserva uma casa na barra; escudo e aljava ficam nos seus slots.
+const CATEGORIAS_DA_BARRA := ["arma"]
 const SLOTS := ["arma", "escudo", "secundaria", "cabeca", "corpo", "luvas", "botas"]
 ## Espada, escudo e ferramentas são iniciais; os demais equipamentos exigem receita e forja.
 const DEFINICOES_INICIAIS := [
@@ -50,9 +50,9 @@ var _rng_ascensao := RandomNumberGenerator.new()
 
 var mochila: Array = []
 var equipados: Dictionary = {}
-## A arma (e o escudo) em uso continua "ocupando" a casa da mochila de onde saiu, para a barra de baixo mostrá-la no lugar dela, como o item na
-## mão do Stardew: {"arma": índice da casa, "escudo": índice} (-1 = sem casa). A casa fica vazia no modelo, mas reservada: nada novo entra
-## nela (ver _primeira_livre) e quem passa a usar outro item devolve o anterior para ela
+## A arma selecionada ocupa uma casa da mochila/barra. O item é guardado em
+## equipados["arma"] para compatibilidade com combate e saves; item_na_celula o expõe
+## na casa original. Escudo e aljava equipados não reservam casas.
 ## A vara de pesca está na mão (escolhida na barra de baixo): só assim dá para pescar. Não é salvo: ao entrar no jogo a mão é a arma.
 ## Equipar uma arma tira a vara da mão
 var vara_na_mao := false
@@ -145,7 +145,7 @@ func restaurar_da_partida_anterior(guardado: Dictionary) -> void:
 	# cheia não pode perder materiais para dar lugar ao kit ou às armas liberadas.
 	mochila.fill(null)
 	var pecas_na_mochila: int = guardado.get("pecas", []).filter(func(p): return not p["equipado"]).size()
-	celulas_da_mao = {"arma": 0, "escudo": 1} if pecas_na_mochila <= capacidade()-2 else {"arma": -1, "escudo": -1}
+	celulas_da_mao = {"arma": 0, "escudo": -1} if pecas_na_mochila < capacidade() else {"arma": -1, "escudo": -1}
 	armas_permanentes_entregues.clear()
 	for registro in guardado.get("pecas", []):
 		if registro["equipado"]:
@@ -360,9 +360,26 @@ func mover_para_mochila(item, indice: int) -> bool:
 		return false
 	if indice_origem == indice:
 		return true
+	var casa_arma: int = celulas_da_mao.get("arma", -1)
+	if slot_origem == "arma" and casa_arma >= 0:
+		if indice == casa_arma:
+			return true
+		mochila[casa_arma] = mochila[indice]
+		mochila[indice] = null
+		celulas_da_mao["arma"] = indice
+		_avisar_mochila()
+		return true
+	if indice == casa_arma and equipados.get("arma") != null:
+		if indice_origem < 0:
+			return false
+		mochila[indice_origem] = null
+		mochila[indice] = item
+		celulas_da_mao["arma"] = indice_origem
+		_avisar_mochila()
+		return true
 	var ocupante = mochila[indice]
 	# quem põe algo numa casa reservada pela mão tira a reserva (o item em uso fica sem casa na barra)
-	for categoria in celulas_da_mao:
+	for categoria in CATEGORIAS_DA_BARRA:
 		if celulas_da_mao[categoria] == indice:
 			celulas_da_mao[categoria] = -1
 	if slot_origem != "":
@@ -387,14 +404,15 @@ func mover_para_mochila(item, indice: int) -> bool:
 func pode_equipar(item) -> bool:
 	if item == null or not equipados.has(item.categoria):
 		return false
-	if item.categoria == "escudo":
-		var arma = equipados["arma"]
-		if arma != null and arma.duas_maos:
-			return false
 	# Arco exige aljava equipada: sem ela não tem de onde tirar as flechas
 	if item.categoria == "arma" and Equipamentos.familia_de(item.tipo) == "arco" and equipados["secundaria"] == null:
 		return false
 	return true
+
+## O escudo permanece equipado com duas mãos, mas só funciona junto de arma compatível.
+func escudo_ativo() -> bool:
+	var arma = equipados.get("arma")
+	return equipados.get("escudo") != null and arma != null and Equipamentos.familia_de(arma.tipo) == "espada" and not arma.duas_maos and not vara_na_mao
 
 # Enquanto o arco estiver equipado a aljava é obrigatória, então ela não pode ser retirada
 func _aljava_obrigatoria(slot: String) -> bool:
@@ -443,6 +461,9 @@ func equipar_conjunto_armadura(pecas: Dictionary) -> bool:
 	return true
 
 func equipar(item) -> bool:
+	if item != null and item == equipados.get("arma"):
+		definir_vara_na_mao(false)
+		return true
 	var celula := indice_de(item)
 	if celula == -1 or not pode_equipar(item):
 		return false
@@ -450,26 +471,13 @@ func equipar(item) -> bool:
 	if slot == "arma":
 		definir_vara_na_mao(false)
 	var anterior = equipados[slot]
-	var escudo_deslocado = null
-	if item.duas_maos and equipados["escudo"] != null:
-		escudo_deslocado = equipados["escudo"]
-	if escudo_deslocado != null and anterior != null and _primeira_livre() == -1:
-		return false
 	mochila[celula] = null
 	_trocar_equipado(slot, item, anterior, celula)
-	if escudo_deslocado != null:
-		equipados["escudo"] = null
-		var casa_escudo: int = celulas_da_mao["escudo"]
-		celulas_da_mao["escudo"] = -1
-		# o escudo volta para a casa em que estava (se ainda estiver livre); senão, para a primeira livre
-		var destino := casa_escudo if casa_escudo >= 0 and mochila[casa_escudo] == null else _primeira_livre()
-		mochila[destino] = escudo_deslocado
-		_avisar_slot("escudo")
 	_avisar_slot(slot)
 	_avisar_mochila()
 	return true
 
-## Põe `item` no slot e decide onde fica o `anterior`. Arma e escudo: o anterior volta à casa que o item novo deixou de vez (a que ele ocupava
+## Põe `item` no slot e decide onde fica o `anterior`. Arma: o anterior volta à casa que o item novo deixou de vez (a que ele ocupava
 ## na mão) e o item novo passa a ocupar a casa de onde veio; sem casa livre assim, o anterior ocupa a casa do novo (troca simples)
 func _trocar_equipado(slot: String, item, anterior, celula: int) -> void:
 	equipados[slot] = item
@@ -604,7 +612,7 @@ func criar_itens_iniciais(para_introducao := false) -> void:
 		else:
 			mochila[_primeira_livre()] = item
 			_avisar_mochila()
-	# Já começa com espada e escudo na mão (cada um fica ligado à casa da barra de onde saiu)
+	# Começa com espada selecionada na barra e escudo no slot, liberando sua casa.
 	for tipo in ["espada_basica", "escudo_basico"]:
 		equipar(buscar_por_tipo(tipo))
 	_sincronizando = false
@@ -731,20 +739,20 @@ func _primeira_livre() -> int:
 func tem_espaco() -> bool:
 	return _primeira_livre() != -1
 
-## A casa é a que a arma ou o escudo em uso ocupam na mão (vazia no modelo)
+## Casa ocupada pela arma selecionada (vazia internamente, visível na barra).
 func casa_reservada(i: int) -> bool:
-	for categoria in celulas_da_mao:
+	for categoria in CATEGORIAS_DA_BARRA:
 		if celulas_da_mao[categoria] == i and equipados.get(categoria) != null:
 			return true
 	return false
 
-## O que a casa mostra na barra de baixo: o item da mochila ou, se for a casa da mão, a arma/escudo em uso
+## Item da casa da mochila/barra, incluindo a arma selecionada.
 func item_na_celula(i: int):
 	if i < 0 or i >= TAMANHO_MAXIMO:
 		return null
 	if mochila[i] != null:
 		return mochila[i]
-	for categoria in celulas_da_mao:
+	for categoria in CATEGORIAS_DA_BARRA:
 		if celulas_da_mao[categoria] == i and equipados.get(categoria) != null:
 			return equipados[categoria]
 	return null

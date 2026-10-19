@@ -153,7 +153,7 @@ func registrar_onda(_onda: int) -> void:
 
 func colheitas_aceitas(id: String) -> Array:
 	var lista: Array = Fazenda.PLANTAS.keys()
-	if id == "horta":
+	if id in ["horta", "limiar_raizes"]:
 		var estacao := int(missoes.get(id, {}).get("estacao", Calendario.estacao()))
 		if estacao != 3:
 			lista = Fazenda.plantas_da_estacao(estacao)
@@ -173,7 +173,7 @@ func progresso_missao(id: String, quem: Node = null) -> Vector2i:
 		"colheita":
 			var total := 0
 			for planta in colheitas_aceitas(id):
-				total += Fazenda.quantidade_colhida(planta)
+				total += Fazenda.quantidade_colhida(planta,quem)
 			return Vector2i(mini(total, int(dados["quantidade"])), dados["quantidade"])
 		"ondas":
 			var inicio := int(missoes.get(id, {}).get("ondas_inicio", ondas_vencidas))
@@ -197,18 +197,23 @@ func concluir(id: String, morador: String, quem: Node = null) -> bool:
 	if dados["tipo"] == "colheita":
 		var faltam := int(dados["quantidade"])
 		for planta in colheitas_aceitas(id):
-			var retirar := mini(faltam, Fazenda.quantidade_colhida(planta))
-			Fazenda.gastar_coletavel("colheita",planta,retirar)
+			var retirar := mini(faltam, Fazenda.quantidade_colhida(planta,quem))
+			Fazenda.gastar_coletavel("colheita",planta,retirar,quem)
 			faltam -= retirar
 			if faltam == 0:
 				break
 		Fazenda.salvar()
 		Fazenda.bolsas_alteradas.emit()
 	amizade[morador] = mini(int(amizade.get(morador, 0)) + 2, 10)
+	if dados.has("receita"):
+		Progresso.armas_liberadas[dados.receita] = true
+		Progresso.armas_liberadas_alteradas.emit()
 	Progresso.brasas += int(dados["brasas"])
 	Progresso.salvar()
 	Progresso.brasas_alteradas.emit(Progresso.brasas)
 	_gravar()
+	if id == "limiar_selo":
+		get_tree().call_group("hud", "anunciar", "O SELO FOI RESTAURADO", "A FONTE DA PRACA AGORA RECUPERA ENERGIA", 5.0)
 	return true
 
 ## Grava a memória das conversas sem avisar as telas (a fala na tela não deve mudar por isso)

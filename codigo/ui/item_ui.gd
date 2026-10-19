@@ -143,6 +143,9 @@ func tooltip_do_item(largura := 170.0) -> Control:
 	linhas.add_child(linha_dica("NV %d  %s" % [dados.nivel, Raridades.nome(dados.raridade)], dados.cor_raridade()))
 	if dados.raridade != "comum" and dados.categoria in ["arma", "escudo", "cabeca", "corpo", "luvas", "botas"]:
 		linhas.add_child(linha_dica("+%d%% STATUS" % roundi((dados.multiplicador_raridade() - 1.0) * 100.0), COR_DICA_DETALHE))
+	if dados.categoria == "arma":
+		var especialidade: String = preload("res://codigo/dados/estilos_arma.gd").DESCRICOES.get(dados.tipo, "")
+		if especialidade != "": linhas.add_child(linha_dica(especialidade, COR_DICA_DETALHE))
 	for id in dados.afixos:
 		linhas.add_child(linha_dica(Raridades.texto_afixo(id, dados.afixos[id]), COR_AFIXO))
 	if dados.encantamento != "":

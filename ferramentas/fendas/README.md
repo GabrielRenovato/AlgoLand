@@ -44,6 +44,8 @@ As onze plantas canônicas ficam em `codigo/fendas/plantas/andar_01.json` até `
 
 A grade é16px; árvores80×96 mantêm pivô(40,95) e escala1. Grama, trilhas, cantos internos/externos, margens de água, penhascos completos, plantas, troncos, tocos e raízes vêm do pacote. As quatro estações adaptam vegetação e cobertura de neve, preservando geometria, materiais de madeira/pedra e a identidade da paleta. Árvores e demais materiais seguem o calendário e a prévia do F3.
 
+O relevo usa o platô nativo completo da região `(0,64,64,64)`, centralizado em `(16,32)` no espaço reservado de96×128. O kit de paredes abertas da região `(112,128,96,128)` não pode ser usado como um objeto inteiro. `python3 ferramentas/fendas/gentle_forest.py` corrige somente esses recortes nos quatro mapas e quatro estações, sem regenerar a geometria. `teste_relevo_gentle.gd` compara a renderização real e salva detalhes em `arte/previas/fenda/relevo/` dentro da cópia isolada.
+
 `gentle_sazonal.gd` troca o atlas compartilhado de árvores e conserva os três quadros nativos da animação da água. `Estacoes.brilhos_personalizados` impede que reaplicar a estação atual restaure o brilho de outro pacote. A arena original continua usando os recursos padrão.
 
 ## RPGW Caves

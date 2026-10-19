@@ -147,9 +147,12 @@ func rodar() -> void:
 		personagem.caminho_introducao = PackedVector2Array([personagem.position + direcao * 80])
 		personagem._mover_na_introducao(0.016)
 		personagem._arvore_animacao.advance(0.25)
-		var linha: int = 4 + [Vector2.DOWN, Vector2.UP, Vector2.RIGHT, Vector2.LEFT].find(direcao)
+		# A corrida para a esquerda espelha os quadros da direita, como no combate.
+		var linha: int = 6 if direcao.x != 0 else (5 if direcao.y < 0 else 4)
 		var quadro: int = personagem.sprite_corpo.frame
-		verificar("passos calmos na direção %s" % direcao, quadro / 8 == linha and quadro % 8 < 6)
+		verificar("corrida na direção %s" % direcao, quadro / 8 == linha and quadro % 8 < 8 and personagem._maquina_estados.get_current_node() == "running")
+		if direcao.x != 0:
+			verificar("corrida lateral orientada corretamente %s" % direcao,personagem.sprite_corpo.flip_h == (direcao.x < 0))
 		verificar("camadas alinhadas na caminhada %s" % direcao, personagem.sprite_cabelo.frame == quadro and personagem.sprite_roupa.frame == quadro)
 	personagem.seguindo_introducao = false
 	alvo.queue_free()
@@ -194,9 +197,8 @@ func conduzir() -> void:
 		reacoes_vistas[sequencia.reacao_queda] = true
 	if intro.acompanhando and jogador.velocity.length() > 2:
 		var direcao: Vector2 = jogador._direcao_ataque
-		var esperado := 48 if direcao.x > 0 else (56 if direcao.x < 0 else (40 if direcao.y < 0 else 32))
 		# A árvore de animação avalia no fim do quadro; amostra só quando o blend já corresponde.
-		if jogador._arvore_animacao.get("parameters/run/blend_position") == direcao:
+		if jogador._arvore_animacao.get("parameters/running/blend_position") == direcao:
 			direcoes_vistas[direcao] = true
 	jogador.set_physics_process(true)
 	if intro.acompanhando and is_instance_valid(sequencia.guia):

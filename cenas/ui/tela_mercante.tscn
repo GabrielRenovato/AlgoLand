@@ -332,7 +332,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.45, 0.45, 1)
-text = "LIBERA NA ONDA 8"
+text = "LIBERA NO ANDAR 8"
 horizontal_alignment = 1
 autowrap_mode = 2
 

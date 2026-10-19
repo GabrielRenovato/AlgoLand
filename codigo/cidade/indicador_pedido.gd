@@ -2,6 +2,8 @@ extends Node2D
 
 ## Estado dos pedidos do morador; acompanha o ator em todos os mapas da rotina.
 const Dados := preload("res://codigo/cidade/dados_cidade.gd")
+const Jornada := preload("res://codigo/cidade/jornada_limiar.gd")
+var principal := false
 var pronto := false
 var _rotulo: Label
 var _espera := 0.0
@@ -86,3 +88,10 @@ func _atualizar(_valor: Variant = null) -> void:
 	visible = ativo
 	_rotulo.add_theme_color_override("font_color",Color("ffe07a") if pronto else Color("a3a7af"))
 	_sprite.texture = preload("res://assets/ui/baloes/pedido_amarelo.png") if pronto else preload("res://assets/ui/baloes/pedido_cinza.png")
+	var objetivo := Jornada.rastreio(Cidade)
+	principal = objetivo.dono == id and not Introducao.ativa()
+	if principal:
+		visible = true
+		_sprite.texture = preload("res://assets/ui/baloes/pedido_amarelo.png") if objetivo.fase == "aceitar" or pronto else preload("res://assets/ui/baloes/pedido_cinza.png")
+	_rotulo.visible = false
+	_sprite.visible = true

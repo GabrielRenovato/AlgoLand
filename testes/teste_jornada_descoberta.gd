@@ -22,6 +22,8 @@ func rodar() -> void:
 	mapa.preparar(3,1)
 	papel.add_child(mapa)
 	await quadros()
+	verificar("jornada usa andar nos textos de entrada e recorde",mapa._resumo.get_child(0).text == "RECORDE: ANDAR 3" and mapa._resumo.get_child(1).text == "ENTRADA: ANDAR 1")
+	verificar("jornada usa andares no intervalo e na consulta",mapa._intervalo.text == "ANDARES 1 - 10" and mapa._detalhe.text == "SELECIONE UM ANDAR PARA CONSULTAR." and mapa._marcos[1].tooltip_text.begins_with("ANDAR 1"))
 	verificar("ondas 1 a 3 mostram aparencia descoberta",[1,2,3].all(func(onda): return mapa._marcos[onda].find_child("Inimigos",true,false).self_modulate==Color.WHITE))
 	verificar("ondas 4 a 10 mostram silhuetas",range(4,11).all(func(onda): return mapa._marcos[onda].find_child("Inimigos",true,false).self_modulate==Color.BLACK))
 	var chefe=mapa._marcos[10].find_child("Inimigos",true,false)

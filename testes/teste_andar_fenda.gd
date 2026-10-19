@@ -95,7 +95,7 @@ func rodar() -> void:
 	verificar("vitoria chama guia e aguarda conversa",not loja.visible and is_instance_valid(gerente.guia))
 	gerente.guia.interacao.abrir_tela()
 	await quadros(5)
-	verificar("conversa abre melhorias com botao do proximo andar",loja.visible and loja._botao_proxima.text=="ANDAR 2 >" and loja._conversa_guia.visible)
+	verificar("conversa abre melhorias com botao do proximo andar",loja.visible and loja._botao_proxima.text=="ANDAR 2" and loja._conversa_guia.visible)
 	await foto("melhorias_andar")
 	# Coop viaja junto e permanece na mesma partida.
 	root.get_node("Cooperativo").entrar(99)

@@ -130,8 +130,8 @@ func _testar_casas_da_mao() -> void:
 	modelo.adicionar(escudo)
 	modelo.equipar(espada)
 	modelo.equipar(escudo)
-	_verificar("escudo em uso tambem ocupa a casa dele", modelo.celulas_da_mao["escudo"] == 1 and modelo.item_na_celula(1) == escudo and modelo.item_na_celula(0) == espada, str(modelo.celulas_da_mao))
-	_verificar("tem_espaco ignora as casas da mao", modelo.tem_espaco() and modelo._primeira_livre() == 2, "livre=%d" % modelo._primeira_livre())
+	_verificar("escudo equipado libera sua casa da mochila", modelo.celulas_da_mao["escudo"] == -1 and modelo.item_na_celula(1) == null and modelo.item_na_celula(0) == espada, str(modelo.celulas_da_mao))
+	_verificar("tem_espaco ignora as casas da mao", modelo.tem_espaco() and modelo._primeira_livre() == 1, "livre=%d" % modelo._primeira_livre())
 	modelo.desequipar("arma")
 	_verificar("desequipar volta para a casa da mao", modelo.indice_de(espada) == 0 and modelo.celulas_da_mao["arma"] == -1, "indice=%d" % modelo.indice_de(espada))
 	# salvar e carregar mantem a casa da mao
@@ -139,14 +139,14 @@ func _testar_casas_da_mao() -> void:
 	modelo.salvar("user://teste_inventario_mao.json")
 	var outro = _modelo()
 	outro.carregar("user://teste_inventario_mao.json")
-	_verificar("salvar e carregar mantem as casas da mao", outro.celulas_da_mao["arma"] == 0 and outro.celulas_da_mao["escudo"] == 1 and outro.item_na_celula(0) != null and outro.item_na_celula(0).tipo == "espada_basica", str(outro.celulas_da_mao))
+	_verificar("salvar e carregar mantem as casas da mao", outro.celulas_da_mao["arma"] == 0 and outro.celulas_da_mao["escudo"] == -1 and outro.item_na_celula(0) != null and outro.item_na_celula(0).tipo == "espada_basica", str(outro.celulas_da_mao))
 	DirAccess.remove_absolute(ProjectSettings.globalize_path("user://teste_inventario_mao.json"))
 	outro.free()
 	# mover algo para a casa reservada tira a reserva
 	var bota = _item("botas_basicas", "botas")
 	modelo.adicionar(bota)
 	modelo.mover_para_mochila(bota, 0)
-	_verificar("pôr um item na casa da mao tira a reserva da arma (ela fica sem casa na barra)", modelo.celulas_da_mao["arma"] == -1 and modelo.indice_de(bota) == 0, str(modelo.celulas_da_mao))
+	_verificar("troca com a casa selecionada move a arma sem escondê-la", modelo.celulas_da_mao["arma"] == 1 and modelo.item_na_celula(1) == espada and modelo.indice_de(bota) == 0, str(modelo.celulas_da_mao))
 	modelo.free()
 
 func _testar_lanca_tira_escudo() -> void:
@@ -158,9 +158,9 @@ func _testar_lanca_tira_escudo() -> void:
 	modelo.equipar(escudo)
 	_verificar("escudo equipa sem lanca", modelo.slot_de(escudo) == "escudo", "slot=%s" % modelo.slot_de(escudo))
 	modelo.equipar(lanca)
-	_verificar("lanca tira o escudo para a mochila", modelo.slot_de(lanca) == "arma" and modelo.slot_de(escudo) == "" and modelo.indice_de(escudo) != -1, "escudo em %d" % modelo.indice_de(escudo))
-	_verificar("pode_equipar escudo false com lanca", not modelo.pode_equipar(escudo), "permitiu")
-	_verificar("equipar escudo recusado com lanca", not modelo.equipar(escudo) and modelo.slot_de(escudo) == "", "equipou")
+	_verificar("lanca mantém escudo no slot e suspende efeito", modelo.slot_de(lanca) == "arma" and modelo.slot_de(escudo) == "escudo" and modelo.indice_de(escudo) == -1 and not modelo.escudo_ativo(), "escudo em %d" % modelo.indice_de(escudo))
+	_verificar("escudo pode ser equipado mesmo com lanca", modelo.pode_equipar(escudo), "permitiu")
+	_verificar("troca escudo com lanca sem ativar efeito", modelo.desequipar("escudo") and modelo.equipar(escudo) and modelo.slot_de(escudo) == "escudo" and not modelo.escudo_ativo(), "equipou")
 	modelo.free()
 
 func _testar_desequipar() -> void:

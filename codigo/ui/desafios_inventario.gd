@@ -26,7 +26,7 @@ func _atualizar() -> void:
 		elif aprendida:
 			detalhes += "\nRECEITA APRENDIDA\nFabrique na bigorna do Ivo usando os materiais da mochila."
 		else:
-			detalhes += "\nRECEITA NA ARENA\nA PARTIR DA ONDA %d\nColete e use a receita na mochila para aprender." % Receitas.onda_receita(tipo)
+			detalhes += "\nRECEITA NA ARENA\nA PARTIR DO ANDAR %d\nColete e use a receita na mochila para aprender." % Receitas.onda_receita(tipo)
 		_adicionar_item(tipo,Icones.obter(Receitas.criar_item(tipo),get_tree()),liberada or Progresso.receita_liberada(tipo),detalhes,_retirar.bind(tipo))
 
 func _retirar(tipo: String) -> void:

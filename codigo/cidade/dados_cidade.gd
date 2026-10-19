@@ -65,8 +65,8 @@ const MISSOES_BASE := {
 	"passeio": {"nome": "PORTAS ABERTAS", "dono": "lia", "texto": "\"Cada porta daqui guarda uma ajuda.\" A Lia pede que voce entre na venda, na enfermaria, na pousada e na casa da mistica.", "tipo": "visitas", "alvos": ["venda", "enfermaria", "pousada", "mistica"], "brasas": 10},
 	"horta": {"nome": "DA HORTA PARA A MESA", "dono": "bento", "texto": "\"Terra boa a gente conhece pelo que ela da.\" O Bento quer provar 3 colheitas da estacao da sua horta. No inverno, qualquer colheita serve.", "tipo": "colheita", "quantidade": 3, "brasas": 15},
 	"remedios": {"nome": "UM CUIDADO PARA A VILA", "dono": "curandeira", "texto": "\"Remedio bom comeca no canteiro, querido.\" A Dona Rosa precisa de 2 colheitas para encher as prateleiras da enfermaria.", "tipo": "colheita", "quantidade": 2, "brasas": 15},
-	"cancao": {"nome": "UMA HISTORIA PARA CANTAR", "dono": "bardo", "texto": "\"Me falta o refrao, e o refrao e voce!\" O Caio quer uma cancao nova: depois de aceitar, venca 3 ondas na arena e volte para contar.", "tipo": "ondas", "quantidade": 3, "brasas": 20},
-	"caminhos": {"nome": "CAMINHOS DA FLORESTA", "dono": "mistica", "texto": "\"As estrelas apontam para algo grande na arena.\" A Estela pede que voce derrote o primeiro chefe e volte para conversar.", "tipo": "chefe", "quantidade": 10, "brasas": 25},
+	"cancao": {"nome": "UMA HISTORIA PARA CANTAR", "dono": "bardo", "texto": "\"Me falta o refrao, e o refrao e voce!\" O Caio quer uma cancao nova: depois de aceitar, venca 3 andares na arena e volte para contar.", "tipo": "ondas", "quantidade": 3, "brasas": 20},
+	"caminhos": {"nome": "CAMINHOS DA FLORESTA", "dono": "mistica", "texto": "\"As estrelas apontam para algo grande na arena.\" A Estela pede que voce derrote o guardiao do andar 10 e volte para conversar.", "tipo": "chefe", "quantidade": 10, "brasas": 25},
 }
 
 ## Vida de cada morador fora da rotina de trabalho (pedido de 2026-10-15):
@@ -268,7 +268,8 @@ static func visita_praia(id: String, hora: float, estacao: int, clima: int, dia_
 ## Encomendas sazonais do pombo, entregues aos moradores (Nilo só refina varas).
 static func _montar_missoes() -> Dictionary:
 	var peixes := preload("res://codigo/pesca/peixes.gd")
-	var resultado := MISSOES_BASE.duplicate(true)
+	var resultado: Dictionary = preload("res://codigo/cidade/jornada_limiar.gd").MISSOES.duplicate(true)
+	resultado.merge(MISSOES_BASE)
 	var estacoes := ["PRIMAVERA","VERAO","OUTONO","INVERNO"]
 	var moradores := ["bardo","curandeira","bento","lia"]
 	for estacao in 4:
@@ -285,4 +286,6 @@ static func _montar_missoes() -> Dictionary:
 	return resultado
 
 static func missao_na_estacao(id: String, estacao: int) -> bool:
+	var cidade := (Engine.get_main_loop() as SceneTree).root.get_node_or_null("Cidade")
+	if not preload("res://codigo/cidade/jornada_limiar.gd").disponivel(id, cidade): return false
 	return not MISSOES[id].has("estacao") or int(MISSOES[id]["estacao"]) == estacao

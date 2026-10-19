@@ -8,7 +8,7 @@ const MATERIAIS := {
 	"pedra": {"nome": "PEDRA", "origem": "Quebre pedras na fazenda com a picareta."},
 	"ferro": {"nome": "MINERIO DE FERRO", "origem": "Mine os veios com a picareta: andares 6, 9, 12..."},
 	"fibra": {"nome": "FIBRA", "origem": "Corte arbustos ou retire o mato da fazenda."},
-	"fragmento": {"nome": "FRAGMENTO DA ARENA", "origem": "Receba um ao concluir cada onda da arena."},
+	"fragmento": {"nome": "FRAGMENTO DA ARENA", "origem": "Receba um ao concluir cada andar da arena."},
 	"nucleo": {"nome": "NUCLEO DE GUARDIAO", "origem": "Derrote chefes da arena."},
 }
 const INICIAIS_LIVRES := ["espada_basica", "escudo_basico", "enxada", "regador", "machadinha", "picareta", "vara_pesca"]

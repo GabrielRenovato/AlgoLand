@@ -113,7 +113,7 @@ func _rotulo(texto: String, cor: Color) -> Label:
 
 func _atualizar() -> void:
 	_botao_fechar.text = "%s X" % Controle.rotulo_botao(BOTAO_FECHAR_CONTROLE) if Controle.usando_controle else "X"
-	_teclas[0].text = "ANALOGICO" if Controle.usando_controle else "WASD"
+	_teclas[0].text = "ANALOGICO" if Controle.usando_controle else "".join([Controle.rotulo_acao("move_up"),Controle.rotulo_acao("move_left"),Controle.rotulo_acao("move_down"),Controle.rotulo_acao("move_right")])
 	for i in _acoes.size():
 		var tecla := Controle.rotulo_acao(_acoes[i][0]).replace("SPACE", "ESPACO").replace("ESCAPE", "ESC")
 		if tecla.is_empty() and Controle.usando_controle:

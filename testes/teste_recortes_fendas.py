@@ -48,7 +48,14 @@ for andar,paleta in ((1,'01'),(2,'02'),(5,'02'),(8,'03')):
             for linha in range(1,6):
                 assert set(folha.crop((0,linha*16,16,linha*16+16)).getdata()) <= cores_grama, f'Andar {andar}: fragmento de objeto na grama'
         assert folha.crop((0,160,32,192)).getchannel('A').tobytes() == original, f'Andar {andar}, {estacao}: perdeu parte da planta'
+        relevo = folha.crop((80,128,176,256))
+        assert relevo.getbbox() == (16,32,80,96), f'Andar {andar}, {estacao}: fragmentos do kit de paredes fora do platô'
+        plato = relevo.crop((16,32,80,96))
+        assert plato.getchannel('A').getextrema() == (255,255), f'Andar {andar}, {estacao}: centro do platô aberto ou incompleto'
+        if estacao == 'spring':
+            assert plato.tobytes() == grama.crop((0,64,64,128)).tobytes(), f'Andar {andar}: relevo não corresponde ao platô nativo inteiro'
     print(f'OK andar {andar}: silhueta inteira da planta nas quatro estações')
+    print(f'OK andar {andar}: platô completo sem aro aberto nas quatro estações')
 
 # Nenhum andar pode reintroduzir os atlas ilustrados das tentativas rejeitadas.
 for andar in range(1,12):

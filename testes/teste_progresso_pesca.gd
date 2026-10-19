@@ -167,6 +167,11 @@ func _rodar() -> void:
 	jogador.global_position = lago.global_position
 	await quadros(10)
 	verificar("ponto do lago alcançável",lago.jogador_perto and lago.pode_interagir_para(jogador))
+	var barra = get_nodes_in_group("hud").filter(func(h): return h.get_viewport() == jogador.get_viewport())[0].barra_armas
+	var inv_lago = root.get_node("InventarioJogador")
+	var casa_vara: int = inv_lago.indice_de(inv_lago.buscar_por_tipo("vara_pesca"))
+	barra._fileira = casa_vara / inv_lago.COLUNAS_MOCHILA
+	verificar("barra da fazenda permite selecionar a vara", barra.escolher(casa_vara % inv_lago.COLUNAS_MOCHILA) and inv_lago.vara_na_mao)
 	lago.abrir_tela()
 	await quadros(3)
 	var sessao: Node = jogador.get_node_or_null("SessaoPesca")

@@ -12,6 +12,8 @@ var _rolagem: ScrollContainer
 var _carta: Control
 var _imagem: TextureRect
 var _detalhe: Label
+var _objetivo_principal: Label
+const Jornada := preload("res://codigo/cidade/jornada_limiar.gd")
 var _atores: Dictionary = {}
 var _servicos: Dictionary = {}
 var _tempo_atores := 0.0
@@ -49,6 +51,11 @@ func _ready() -> void:
 	_fechar.custom_minimum_size = Vector2(24,24)
 	_fechar.pressed.connect(func(): EventosJogo.fechar_tela_de(self,"mapa_mundi"))
 	cabecalho.add_child(_fechar)
+	_objetivo_principal = Label.new()
+	_objetivo_principal.add_theme_font_size_override("font_size",8)
+	_objetivo_principal.add_theme_color_override("font_color",Color("f6d879"))
+	_objetivo_principal.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	coluna.add_child(_objetivo_principal)
 	_rolagem = ScrollContainer.new()
 	_rolagem.name = "RolagemMapa"
 	_rolagem.size_flags_vertical = SIZE_EXPAND_FILL
@@ -219,6 +226,10 @@ func _atualizar_atores() -> void:
 	_ocupados.clear()
 	var cena := get_tree().current_scene
 	if cena == null: return
+	var objetivo := Jornada.rastreio(Cidade,EventosJogo.dono(self))
+	_objetivo_principal.text = "! PRINCIPAL: "+objetivo.texto
+	for id in _servicos:
+		_marcar_principal(_servicos[id],objetivo.fase == "cumprir" and id == "casa")
 	var luz := cena.get_node_or_null("Iluminacao")
 	var hora: float = float(luz.hora) if luz != null else maxf(6,Transicao.hora_salva)
 	var clima: int = preload("res://codigo/cenario/clima.gd").clima_do_mundo(Calendario.estacao())
@@ -240,6 +251,8 @@ func _atualizar_atores() -> void:
 			atlas.region = Rect2(0,0,128,128)
 			botao = _ator("npc_"+id,Moradores.MORADORES[id]["nome"],atlas)
 		botao.tooltip_text = Moradores.MORADORES[id]["nome"]+" - "+str(agenda.get("atividade",""))
+		_marcar_principal(botao,objetivo.dono == id)
+		if objetivo.dono == id: botao.tooltip_text += "\nMISSAO PRINCIPAL: "+objetivo.texto
 		_colocar_ator(botao,DadosMapa.projetar(local,ponto))
 	for par in [["p1",Cooperativo._jogador1()],["p2",Cooperativo.jogador2()]]:
 		var jogador: Node2D = par[1]
@@ -250,3 +263,18 @@ func _atualizar_atores() -> void:
 		var local: String = ambiente.scene_file_path.get_file().get_basename()
 		var posicao := DadosMapa.projetar(local,jogador.position)
 		_colocar_ator(_ator(par[0],"JOGADOR "+par[0].substr(1)+" - "+jogador.apelido),posicao)
+
+func _marcar_principal(botao: Button, ativo: bool) -> void:
+	var marca := botao.get_node_or_null("MissaoPrincipal") as Label
+	if marca == null:
+		marca = Label.new()
+		marca.name = "MissaoPrincipal"
+		marca.text = "!"
+		marca.position = Vector2(-4,-9)
+		marca.add_theme_font_size_override("font_size",12)
+		marca.add_theme_color_override("font_color",Color("ffe27a"))
+		marca.add_theme_color_override("font_outline_color",Color("302117"))
+		marca.add_theme_constant_override("outline_size",3)
+		marca.mouse_filter = MOUSE_FILTER_IGNORE
+		botao.add_child(marca)
+	marca.visible = ativo

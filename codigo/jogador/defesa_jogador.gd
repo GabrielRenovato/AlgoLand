@@ -201,6 +201,7 @@ func resolver(dano: int, forca_knockback: Vector2) -> Dictionary:
 
 func _aparo_perfeito() -> void:
 	var j := jogador
+	j.contragolpe_ate_ms = Time.get_ticks_msec() + 3000
 	j.stamina = minf(j.stamina + REEMBOLSO_PERFEITO, j.stamina_maxima)
 	j._avisar_stamina()
 	var pode_contra: bool = j.usando_espada and j.usando_escudo

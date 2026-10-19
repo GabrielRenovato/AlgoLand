@@ -120,7 +120,7 @@ func _mostrar(vista: Vista) -> void:
 func _texto_estado() -> String:
 	var gerenciador := get_tree().get_first_node_in_group("gerenciador_ondas")
 	if gerenciador != null and bool(gerenciador.get("onda_em_andamento")):
-		return "ONDA %d EM ANDAMENTO" % int(gerenciador.get("onda_atual"))
+		return "ANDAR %d EM ANDAMENTO" % int(gerenciador.get("onda_atual"))
 	return ""
 
 func _pedir(que: String) -> void:
@@ -130,7 +130,7 @@ func _pedir(que: String) -> void:
 	_mostrar(Vista.CONFIRMAR)
 	# _mostrar põe o título do menu; a confirmação usa o dela
 	_titulo.text = "VOLTAR AO MENU?" if que == "menu" else "SAIR DO JOGO?"
-	_detalhe.text = "A ONDA ATUAL SE PERDE" if _perde_onda() else "SEU JOGO FICA SALVO"
+	_detalhe.text = "O ANDAR ATUAL SE PERDE" if _perde_onda() else "SEU JOGO FICA SALVO"
 
 func _perde_onda() -> bool:
 	var gerenciador := get_tree().get_first_node_in_group("gerenciador_ondas")
@@ -183,6 +183,8 @@ func _montar_opcoes() -> void:
 		volumes.append(i / 10.0)
 		rotulos_volume.append("%d%%" % (i * 10))
 	_adicionar_linha("volume", "VOLUME", volumes, rotulos_volume)
+	for item in [["volume_musica","MUSICA"],["volume_efeitos","EFEITOS"],["volume_ambiente","AMBIENTE"]]:
+		_adicionar_linha(item[0],item[1],volumes,rotulos_volume)
 	if not Controle.usando_toque:
 		_adicionar_linha("tela_cheia", "TELA CHEIA", [false, true], ["NAO", "SIM"])
 	_adicionar_linha("max_fps", "FPS MAXIMO", VALORES_FPS, ROTULOS_FPS)
@@ -194,6 +196,10 @@ func _montar_opcoes() -> void:
 	_terminar_opcoes()
 
 func _terminar_opcoes() -> void:
+	var controles := Button.new()
+	controles.text = "REMAPEAR COMANDOS"
+	controles.pressed.connect(func(): preload("res://codigo/ui/tela_controles.gd").new().abrir(self,_lado()))
+	_vista_opcoes.add_child(controles)
 	_botao_voltar = Button.new()
 	_botao_voltar.text = "VOLTAR"
 	_botao_voltar.custom_minimum_size = Vector2(0, 18)
@@ -205,10 +211,12 @@ func _terminar_opcoes() -> void:
 		for lado in ["menos", "mais"]:
 			var botao: Button = linha[lado]
 			var acima: Button = _linhas[maxi(i - 1, 0)][lado]
-			var abaixo: Button = _linhas[i + 1][lado] if i + 1 < _linhas.size() else _botao_voltar
+			var abaixo: Button = _linhas[i + 1][lado] if i + 1 < _linhas.size() else controles
 			botao.focus_neighbor_top = botao.get_path_to(acima)
 			botao.focus_neighbor_bottom = botao.get_path_to(abaixo)
-	_botao_voltar.focus_neighbor_top = _botao_voltar.get_path_to(_linhas[_linhas.size() - 1]["menos"])
+	controles.focus_neighbor_top = controles.get_path_to(_linhas[_linhas.size()-1]["menos"])
+	controles.focus_neighbor_bottom = controles.get_path_to(_botao_voltar)
+	_botao_voltar.focus_neighbor_top = _botao_voltar.get_path_to(controles)
 
 ## Uma linha "NOME  -  valor  +": os botões mudam o valor um passo e as setas do teclado/controle também
 func _adicionar_linha(chave: String, nome: String, valores: Array, rotulos: Array) -> void:

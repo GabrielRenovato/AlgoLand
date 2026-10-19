@@ -403,7 +403,7 @@ func _aplicar_modo() -> void:
 		_botao_comprar.disabled = true
 	var gerenciador := get_tree().get_first_node_in_group("gerenciador_ondas")
 	if _modo_arena and gerenciador != null:
-		_botao_proxima.text = ("ANDAR %d" if gerenciador.is_in_group("gerenciador_andar") else "PROXIMA ONDA (%d)") % gerenciador.onda_atual
+		_botao_proxima.text = ("ANDAR %d" if gerenciador.is_in_group("gerenciador_andar") else "PROXIMO ANDAR (%d)") % gerenciador.onda_atual
 		_botao_proxima.disabled = gerenciador.onda_em_andamento
 		if gerenciador.is_in_group("gerenciador_andar"):
 			_botao_proxima.custom_minimum_size = Vector2(80,24)
@@ -421,7 +421,7 @@ func _titulo_arena() -> String:
 		return "ANDAR %d CONCLUIDO" % maxi(gerenciador.onda_atual - 1, 1)
 	if gerenciador.onda_bonus:
 		return "BONUS CONCLUIDO"
-	return "ONDA %d CONCLUIDA" % maxi(gerenciador.onda_atual - 1, 1)
+	return "ANDAR %d CONCLUIDO" % maxi(gerenciador.onda_atual - 1, 1)
 
 func _montar_conversa_guia() -> void:
 	_conversa_guia=HBoxContainer.new()
@@ -512,7 +512,7 @@ func _montar_confirmacao() -> void:
 	titulo.add_theme_color_override("font_color", Color("e7c884"))
 	coluna.add_child(titulo)
 	var aviso := Label.new()
-	aviso.text = "A PARTIDA VAI SE ENCERRAR:\nSUA LUTA VIRA BRASAS, OS TOTENS SOMEM, O SAQUE\nE VENDIDO E A PROXIMA ENTRADA COMECA NA ONDA 1.\nO EQUIPAMENTO TEMPORARIO DA ARENA E DESCARTADO.\nCONJUNTOS E RECURSOS PERMANENTES FICAM COM VOCE."
+	aviso.text = "A PARTIDA VAI SE ENCERRAR:\nSUA LUTA VIRA BRASAS, OS TOTENS SOMEM, O SAQUE\nE VENDIDO E A PROXIMA ENTRADA COMECA NO ANDAR 1.\nO EQUIPAMENTO TEMPORARIO DA ARENA E DESCARTADO.\nCONJUNTOS E RECURSOS PERMANENTES FICAM COM VOCE."
 	aviso.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	aviso.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	aviso.add_theme_font_size_override("font_size", 8)
@@ -800,7 +800,7 @@ func atualizar_painel_upgrade() -> void:
 	_bloqueio_upgrade.visible = not dados["onda_ok"]
 	if not dados["onda_ok"]:
 		var faltam: int = dados["onda_necessaria"] - dados["onda_atual"]
-		_bloqueio_upgrade.text = "LIBERA NA ONDA %d (FALTA%s %d)" % [dados["onda_necessaria"], "M" if faltam > 1 else "", faltam]
+		_bloqueio_upgrade.text = "LIBERA NO ANDAR %d (FALTA%s %d)" % [dados["onda_necessaria"], "M" if faltam > 1 else "", faltam]
 	_botao_melhorar.disabled = not (dados["onda_ok"] and dados["moedas_ok"] and dados["forja_ok"])
 
 func _ao_melhorar_pressionado() -> void:

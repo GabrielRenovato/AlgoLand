@@ -17,6 +17,7 @@ extends Node2D
 ##   epico      0,04% (1 em 2500)        0,12%          0,8%
 ##
 ## Além das chances extras, o chefe sempre solta QTD_GARANTIDA_CHEFE sementes sorteadas pelos pesos de PESO_CHEFE.
+## Nas fendas, as chances extras caem para 25% desta tabela e cada guardião garante uma semente da estação.
 ## Só caem sementes que crescem na estação atual; no inverno, que não tem plantio, não cai nenhuma (nem a garantida do chefe).
 ## Saquinho raro ou épico brilha no chão com a cor da raridade.
 
@@ -29,6 +30,9 @@ const CHANCE_POR_RARIDADE := {"comum": 0.01, "incomum": 0.004, "raro": 0.0012, "
 const MULT_MUTANTE := 3.0
 const MULT_CHEFE := 20.0
 const QTD_GARANTIDA_CHEFE := 2
+## Andares têm mais inimigos e um guardião em cada mapa, em vez de um chefe a cada dez ondas.
+const MULT_CHANCE_ANDAR := 0.25
+const QTD_GARANTIDA_GUARDIAO := 1
 ## Sementes garantidas do chefe: peso de cada raridade no sorteio
 const PESO_CHEFE := {"comum": 50, "incomum": 30, "raro": 15, "epico": 5}
 ## Raridades que brilham no chão (na cor de Fazenda.COR_RARIDADE)
@@ -84,14 +88,16 @@ static func eh_chefe(inimigo: Object) -> bool:
 
 ## Sementes que um inimigo solta: cada semente da estação é sorteada separadamente pela chance da raridade dela
 ## (vezes o multiplicador do mutante ou do chefe); o chefe ainda solta QTD_GARANTIDA_CHEFE pelos pesos de raridade
-static func sortear(estacao: int, mutante: bool, chefe: bool, rng: RandomNumberGenerator) -> Array[String]:
+static func sortear(estacao: int, mutante: bool, chefe: bool, rng: RandomNumberGenerator, modo_andares: bool = false) -> Array[String]:
 	var saida: Array[String] = []
 	var mult := MULT_CHEFE if chefe else (MULT_MUTANTE if mutante else 1.0)
+	if modo_andares:
+		mult *= MULT_CHANCE_ANDAR
 	for id in plantas_que_caem(estacao):
 		if rng.randf() < minf(chance(id) * mult, 1.0):
 			saida.append(id)
 	if chefe and not plantas_que_caem(estacao).is_empty():
-		for i in QTD_GARANTIDA_CHEFE:
+		for i in (QTD_GARANTIDA_GUARDIAO if modo_andares else QTD_GARANTIDA_CHEFE):
 			saida.append(sortear_planta(estacao, rng))
 	return saida
 
@@ -111,11 +117,11 @@ static func sortear_planta(estacao: int, rng: RandomNumberGenerator) -> String:
 	return plantas[plantas.size() - 1]
 
 ## Cria os saquinhos do inimigo `inimigo` (que acabou de morrer) na cena `pai`. Devolve os criados
-static func soltar_de(inimigo: Node2D, pai: Node, rng: RandomNumberGenerator) -> Array[Node2D]:
+static func soltar_de(inimigo: Node2D, pai: Node, rng: RandomNumberGenerator, modo_andares: bool = false) -> Array[Node2D]:
 	var criados: Array[Node2D] = []
 	if not is_instance_valid(inimigo) or pai == null:
 		return criados
-	var sementes := sortear(Calendario.estacao(), bool(inimigo.get("eh_mutante")), eh_chefe(inimigo), rng)
+	var sementes := sortear(Calendario.estacao(), bool(inimigo.get("eh_mutante")), eh_chefe(inimigo), rng, modo_andares)
 	for i in sementes.size():
 		var drop: Node2D = (load(ROTEIRO) as GDScript).new()
 		drop.semente = sementes[i]

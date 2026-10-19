@@ -5,7 +5,7 @@ const IconesItens := preload("res://codigo/ui/icones_itens.gd")
 const FONTE_DICA := preload("res://assets/ui/Planes_ValMore.ttf")
 const LARGURA_TEXTO_INFO := 90
 const GRADE_FOLHA_BONECO := Vector2i(8, 8)
-const NOMES_SLOTS_EQUIPAMENTO := ["SlotCabeca", "SlotCorpo", "SlotLuvas", "SlotBotas", "SlotArma", "SlotEscudo", "SlotSecundaria"]
+const NOMES_SLOTS_EQUIPAMENTO := ["SlotCabeca", "SlotCorpo", "SlotLuvas", "SlotBotas", "SlotEscudo", "SlotSecundaria"]
 ## Anéis e colar ainda não existem no jogo: os quadrados aparecem (com o símbolo apagado), mas não recebem foco nem item
 const NOMES_SLOTS_DECORATIVOS := ["SlotAnel1", "SlotAnel2", "SlotColar"]
 
@@ -24,7 +24,7 @@ var _titulo: Label
 var _separador: Control
 var _largura_flex := 216.0
 var _slots_mochila: Array[Control] = []
-## Casas que mostram, apagada, a arma/escudo em uso que "ocupa" a casa na barra de baixo (ver EventosJogo.inventario_de(self).celulas_da_mao)
+## Casas que exibem a arma selecionada, guardada internamente no estado da mão.
 var _fantasmas: Array[Control] = []
 var _slots_equipamento: Dictionary = {}
 var _info_item: PanelContainer
@@ -102,7 +102,9 @@ func focar_inicio() -> void:
 		var cartao: Control = painel.primeiro_cartao()
 		Controle.focar(cartao if cartao != null else _botoes_abas[_aba_atual])
 		return
-	var inicio: Control = _slots_equipamento.get("arma")
+	var inv = EventosJogo.inventario_de(self)
+	var casa: int = inv.casa_da_mao(inv.equipados.get("arma"))
+	var inicio: Control = _slots_mochila[casa] if casa >= 0 else null
 	if inicio == null or inicio.item_atual == null:
 		inicio = _slots_mochila[0]
 		for slot in _slots_mochila:
@@ -129,10 +131,9 @@ func _atualizar() -> void:
 	_atualizar_linhas_da_mochila()
 	for i in _slots_mochila.size():
 		_slots_mochila[i].exibir(EventosJogo.inventario_de(self).mochila[i])
-		# a casa da mão: o item em uso aparece apagado, para a grade bater com a barra de baixo (ele se mexe pelo slot de equipamento)
+		# A arma selecionada continua visível e pode ser movida pela mochila.
 		if EventosJogo.inventario_de(self).mochila[i] == null and EventosJogo.inventario_de(self).item_na_celula(i) != null:
 			_slots_mochila[i].exibir(EventosJogo.inventario_de(self).item_na_celula(i))
-			_slots_mochila[i].item_ui().definir_em_uso(true)
 			_fantasmas.append(_slots_mochila[i])
 	for slot in _slots_equipamento:
 		_slots_equipamento[slot].exibir(EventosJogo.inventario_de(self).equipados[slot])
@@ -147,7 +148,7 @@ func _atualizar_linhas_da_mochila() -> void:
 	var proxima: int = EventosJogo.inventario_de(self).onda_da_proxima_linha()
 	var colunas: int = EventosJogo.inventario_de(self).COLUNAS_MOCHILA
 	var fim_trancadas := capacidade + (colunas if proxima != -1 else 0)
-	var dica := "VENCA A ONDA %d PARA LIBERAR MAIS %d ESPACOS" % [proxima, colunas]
+	var dica := "VENCA O ANDAR %d PARA LIBERAR MAIS %d ESPACOS" % [proxima, colunas]
 	for i in _slots_mochila.size():
 		var slot: Control = _slots_mochila[i]
 		slot.visible = i < fim_trancadas
@@ -364,8 +365,10 @@ func _verbo_do_item(slot: Control) -> String:
 		var destino: String = mercante.destino_do_item(slot.item_ui())
 		if destino != "":
 			return "COLOCAR " + destino
-	if not slot.item_atual.categoria in ["arma", "escudo", "cabeca", "corpo", "luvas", "botas"]:
+	if not slot.item_atual.categoria in ["arma", "escudo", "secundaria", "cabeca", "corpo", "luvas", "botas"]:
 		return ""
+	if slot.item_atual.categoria == "arma":
+		return "SELECIONAR NA BARRA"
 	return "EQUIPAR" if slot.tipo_slot == "mochila" else "DESEQUIPAR"
 
 # --- Ajuda para o ferreiro (BIGORNA/ENCANTAR) ---
@@ -373,7 +376,9 @@ func _verbo_do_item(slot: Control) -> String:
 ## Item (nó do slot) equipado que o slot do ferreiro aceita: arma primeiro, depois escudo; null se não há
 func item_equipado_que_serve(destino: Control) -> Control:
 	for categoria in ["arma", "escudo"]:
-		var slot: Control = _slots_equipamento.get(categoria)
+		var inv = EventosJogo.inventario_de(self)
+		var casa: int = inv.casa_da_mao(inv.equipados.get("arma"))
+		var slot: Control = _slots_mochila[casa] if categoria == "arma" and casa >= 0 else _slots_equipamento.get(categoria)
 		if slot != null and slot.item_atual != null and not slot.item_ui().em_uso and destino.aceita_item(slot.item_ui()):
 			return slot.item_ui()
 	return null

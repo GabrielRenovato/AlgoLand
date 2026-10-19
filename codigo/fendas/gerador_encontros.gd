@@ -76,13 +76,15 @@ func montar_populacao(geracao: int) -> int:
 func _criar(cena: PackedScene, ponto: Vector2, geracao: int, valor: int, chefe: bool) -> Node2D:
 	var inimigo := cena.instantiate() as Node2D
 	inimigo.position = principal.to_local(ponto)
+	if not chefe:
+		inimigo.vida = mini(inimigo.vida,preload("res://codigo/fendas/ritmo_andares.gd").teto_vida_comum(gerenciador_ondas.onda_atual))
 	aplicar_atributos(inimigo, gerenciador_ondas.multiplicador_vida_inimigo, gerenciador_ondas.multiplicador_dano_inimigo)
 	if chefe:
 		if cena == preload("res://cenas/inimigos/cogumelo.tscn"):
 			inimigo.tornar_chefe("COGUMELO ANCIAO",2.0,7.0,1.2,"cogumelo",10.0)
 		var andar: int = gerenciador_ondas.onda_atual
-		inimigo.vida = roundi((180 + 24 * maxi(andar-1,0)) * gerenciador_ondas.multiplicador_vida_inimigo)
-		inimigo.dano = (9.0 + 0.8 * maxi(andar-1,0)) * gerenciador_ondas.multiplicador_dano_inimigo
+		inimigo.vida = roundi((180 + 24 * maxi(andar-1,0)) * gerenciador_ondas.multiplicador_vida_inimigo * _mult_evento("vida"))
+		inimigo.dano = (9.0 + 0.8 * maxi(andar-1,0)) * gerenciador_ondas.multiplicador_dano_inimigo * _mult_evento("dano")
 		inimigo.velocidade = 65
 		if Cooperativo.com_dois(): inimigo.vida = roundi(inimigo.vida * Cooperativo.MULT_VIDA_CHEFE_COOP)
 	principal.add_child(inimigo)

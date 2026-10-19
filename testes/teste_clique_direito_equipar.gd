@@ -37,14 +37,9 @@ func _rodar() -> void:
 	_clique(slot.item_ui(), MOUSE_BUTTON_LEFT)
 	_verificar("botão esquerdo não equipa", inv.indice_de(lanca) != -1)
 	_clique(slot.item_ui(), MOUSE_BUTTON_RIGHT)
-	_verificar("botão direito equipa a lança (e tira o escudo)", inv.equipados["arma"] == lanca and inv.equipados["escudo"] == null)
-	var slot_arma: Control = load("res://cenas/ui/componentes/slot_ui.tscn").instantiate()
-	slot_arma.tipo_slot = "arma"
-	root.add_child(slot_arma)
-	await process_frame
-	slot_arma.exibir(lanca)
-	_clique(slot_arma.item_ui(), MOUSE_BUTTON_RIGHT)
-	_verificar("botão direito no slot de equipamento desequipa", inv.equipados["arma"] == null and inv.indice_de(lanca) != -1)
+	_verificar("botão direito seleciona lança e suspende escudo sem retirá-lo", inv.equipados["arma"] == lanca and inv.equipados["escudo"] != null and not inv.escudo_ativo())
+	_clique(slot.item_ui(), MOUSE_BUTTON_RIGHT)
+	_verificar("selecionar novamente mantém a arma na barra", inv.equipados["arma"] == lanca and inv.item_na_celula(inv.casa_da_mao(lanca)) == lanca)
 	inv.limpar()
 	inv.criar_itens_iniciais()
 	inv.salvar()

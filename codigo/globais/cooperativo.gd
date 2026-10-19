@@ -141,6 +141,7 @@ func _reconfigurar_entrada() -> void:
 				var copia: InputEvent = evento.duplicate()
 				copia.device = dispositivo_p2
 				InputMap.action_add_event(nome, copia)
+	preload("res://codigo/dados/controles_personalizados.gd").aplicar()
 
 func _definir_device_p1(dispositivo: int) -> void:
 	for acao in InputMap.get_actions():
@@ -300,6 +301,7 @@ func _ajustar_metades(camada: CanvasLayer) -> void:
 ## O controle do jogador 2 vai só para a metade dele, com o device trocado para o do jogador 1: assim as telas dele
 ## entendem as ações de sempre (ui_accept, close_menu, open_inventory...) sem mexer nas do jogador 1
 func _input(evento: InputEvent) -> void:
+	if get_tree().get_first_node_in_group("remapeando_controles") != null: return
 	if not ativo or not (evento is InputEventJoypadButton or evento is InputEventJoypadMotion) or evento.device != dispositivo_p2:
 		return
 	var vista: SubViewport = _vistas.get(2)

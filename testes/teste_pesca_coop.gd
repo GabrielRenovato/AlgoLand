@@ -58,10 +58,18 @@ func _rodar() -> void:
 	await quadros(8)
 	for quem in [p1,p2]: root.get_node("EventosJogo").inventario_de(quem).definir_vara_na_mao(true)
 	verificar("os dois podem pescar", leste.pode_interagir_para(p1) and oeste.pode_interagir_para(p2))
-	leste.abrir_tela()
-	oeste.abrir_tela_p2()
+	for quem in [p1,p2]:
+		Input.action_press(quem.acao("attack"))
+		quem._pedido_ataque = true
+		quem.logica_combo_ataque()
 	await quadros(3)
 	verificar("cada um tem a própria sessão", Sessao.em_andamento(p1) and Sessao.em_andamento(p2) and p1.get_node("SessaoPesca") != p2.get_node("SessaoPesca"))
+	verificar("cada jogador carrega sua própria força",p1.get_node("SessaoPesca").estado == Sessao.Estado.CARREGANDO and p2.get_node("SessaoPesca").estado == Sessao.Estado.CARREGANDO)
+	Input.action_release(p1.acao("attack"))
+	await quadros(3)
+	verificar("soltar P1 não lança a linha de P2",p1.get_node("SessaoPesca").estado == Sessao.Estado.LANCANDO and p2.get_node("SessaoPesca").estado == Sessao.Estado.CARREGANDO)
+	Input.action_release(p2.acao("attack"))
+	await quadros(3)
 	verificar("os dois travam o próprio movimento", not p1.movimento_habilitado and not p2.movimento_habilitado)
 	verificar("não dá para lançar de novo na mesma sessão", not leste.pode_interagir_para(p1) and not oeste.pode_interagir_para(p2))
 	# P2 cancela antes do minigame sem mexer em P1.

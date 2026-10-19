@@ -68,7 +68,7 @@ func _process(delta: float) -> void:
 	if _jogador._esta_atacando:
 		anim = "sword"
 	elif _jogador.velocity.length() > 2.0:
-		anim = "run" if (_jogador.usando_espada or _jogador.usando_lanca) else "walk"
+		anim = "run"
 	if anim != _animacao:
 		_animacao = anim
 		_tempo = 0.0

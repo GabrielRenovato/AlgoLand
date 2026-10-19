@@ -124,7 +124,7 @@ func iniciar(quem: Node, nome_peixe: String, dificuldade_peixe: float, recomenda
 	perda_erro = (8.0 if peixe_facil else 13.0)*equipamento["perda"]
 	_titulo.text = nome_peixe
 	_tecla_icone.visible = Controle.usando_toque and not EventosJogo.eh_do_p2(quem)
-	_tecla.text = "" if _tecla_icone.visible else Controle.rotulo_acao("open_menu",quem)
+	_tecla.text = "" if _tecla_icone.visible else Controle.rotulo_acao("attack",quem)
 	var largura := maxf(13.0, _tecla.text.length() * 6.0 + 8.0)
 	_tecla_caixa.size = Vector2(largura, 13)
 	_tecla_caixa.position = centro - _tecla_caixa.size / 2.0
@@ -140,7 +140,7 @@ func iniciar(quem: Node, nome_peixe: String, dificuldade_peixe: float, recomenda
 func _apertou() -> bool:
 	if jogador == null:
 		return false
-	return Input.is_action_just_pressed(jogador.acao("open_menu")) or Input.is_action_just_pressed(jogador.acao("attack"))
+	return Input.is_action_just_pressed(jogador.acao("attack"))
 
 func _process(delta: float) -> void:
 	if not ativo:

@@ -2,6 +2,7 @@ extends ScrollContainer
 
 ## Consulta o progresso compartilhado da partida, sem aceitar nem entregar pedidos.
 const Dados := preload("res://codigo/cidade/dados_cidade.gd")
+const Jornada := preload("res://codigo/cidade/jornada_limiar.gd")
 var _lista: VBoxContainer
 var _atualizacao_pendente := false
 
@@ -37,10 +38,24 @@ func _atualizar() -> void:
 	var id_foco := str(foco.get_meta("missao", "")) if foco != null else ""
 	for filho in _lista.get_children():
 		filho.free()
+	var objetivo := Jornada.rastreio(Cidade,EventosJogo.dono(self))
+	_rotulo(_lista,"MISSAO PRINCIPAL",Color("f6d879"))
+	_rotulo(_lista,objetivo.texto,Color("f6d879"))
+	if objetivo.id != "":
+		var principal := preload("res://codigo/ui/cartao_pedido.gd").criar(objetivo.id,Cidade,EventosJogo.dono(self))
+		principal.name = "MissaoPrincipal"
+		principal.focus_mode = Control.FOCUS_ALL
+		principal.draw.connect(func(): principal.draw_rect(Rect2(Vector2.ZERO,principal.size),Color("f6d879"),false,1))
+		_lista.add_child(principal)
+		if id_foco == objetivo.id: principal.grab_focus()
+	_rotulo(_lista,"PEDIDOS DOS MORADORES")
+	var pedidos := 0
 	for id in Dados.MISSOES:
+		if id in Jornada.ORDEM: continue
 		if Cidade.missoes.get(id, {}).get("estado", "") != "aceita":
 			continue
-		var cartao := preload("res://codigo/ui/cartao_pedido.gd").criar(id,Cidade)
+		pedidos += 1
+		var cartao := preload("res://codigo/ui/cartao_pedido.gd").criar(id,Cidade,EventosJogo.dono(self))
 		cartao.set_meta("missao", id)
 		cartao.focus_mode = Control.FOCUS_ALL
 		cartao.draw.connect(func():
@@ -52,7 +67,7 @@ func _atualizar() -> void:
 		_lista.add_child(cartao)
 		if id == id_foco:
 			cartao.grab_focus()
-	if _lista.get_child_count() == 0:
+	if pedidos == 0:
 		_rotulo(_lista, "NENHUMA MISSAO ATIVA\n\nConverse com os moradores ou visite o mural da cidade para aceitar pedidos.")
 
 func _rotulo(pai: Node, texto: String, cor := Color.WHITE) -> void:

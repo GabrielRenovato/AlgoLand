@@ -65,6 +65,10 @@ func _ready() -> void:
 		_montar_portal()
 		# A decoração entra antes da navegação, para os moradores contornarem barracas, bancos e árvores
 		_montar_decoracao()
+		var selo := preload("res://codigo/cidade/selo_limiar.gd").new()
+		selo.name = "SeloDoLimiar"
+		selo.position = DadosCidade.ponto("poco") + Vector2(0,12)
+		add_child(selo)
 	_montar_navegacao()
 	Cidade.visitar(local)
 	if not Progresso.partida_ativa:

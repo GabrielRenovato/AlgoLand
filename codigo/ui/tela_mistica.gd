@@ -48,16 +48,16 @@ func _montar() -> void:
 		botao.custom_minimum_size = Vector2(0, 18)
 		botao.alignment = HORIZONTAL_ALIGNMENT_CENTER
 		var compensacao := Progresso.ouro_checkpoint(onda)
-		botao.text = "ONDA %d" % onda if compensacao == 0 else "ONDA %d    +%d OURO" % [onda, compensacao]
+		botao.text = "ANDAR %d" % onda if compensacao == 0 else "ANDAR %d    +%d OURO" % [onda, compensacao]
 		botao.disabled = not pode
 		botao.set_pressed_no_signal(onda == Progresso.onda_inicial)
 		botao.pressed.connect(_ao_escolher.bind(onda))
 		_lista.add_child(botao)
 		_botoes[onda] = botao
 	if not pode:
-		_aviso.text = "SO ANTES DA PRIMEIRA ONDA"
+		_aviso.text = "SO ANTES DO PRIMEIRO ANDAR"
 	elif _botoes.size() == 1:
-		_aviso.text = "DERROTE UM CHEFE PARA LIBERAR MAIS"
+		_aviso.text = "CONCLUA 10 ANDARES PARA LIBERAR UM ATALHO"
 	else:
 		_aviso.text = ""
 

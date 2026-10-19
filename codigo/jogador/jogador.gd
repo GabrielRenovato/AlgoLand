@@ -103,6 +103,7 @@ var no_arco: ArcoJogador = null
 var no_reacao: ReacaoJogador = null
 ## Aparar e escudada (defesa_jogador.gd)
 var defesa: DefesaJogador = null
+var contragolpe_ate_ms := 0
 # Enxada, machado, picareta, plantar, regar e colher (fazenda_jogador.gd); trava o jogador enquanto dura
 var no_fazenda: FazendaJogador = null
 var esta_em_acao_fazenda: bool = false
@@ -428,12 +429,12 @@ func _subir_nivel_no_modelo(item: DadosItem) -> void:
 func _ao_tela_fechada(_nome: String) -> void:
 	inventario.salvar()
 
-# Desequipa antes de equipar para que a arma de duas mãos não esbarre no escudo ainda equipado
+# Sincroniza a arma nas chamadas legadas. O escudo equipado independe da sua atividade visual.
 func _enviar_estado_ao_modelo() -> void:
 	if _sincronizando:
 		return
 	_sincronizando = true
-	var estados := {"escudo_basico": usando_escudo}
+	var estados := {}
 	for tipo in Equipamentos.FAMILIAS:
 		match Equipamentos.familia_de(tipo):
 			"espada":
@@ -460,8 +461,8 @@ func _aplicar_modelo() -> void:
 	if _sincronizando:
 		return
 	_sincronizando = true
-	var arma = inventario.equipados["arma"]
-	var escudo = inventario.equipados["escudo"]
+	var arma = inventario.equipados["arma"] if not inventario.vara_na_mao else null
+	var escudo = inventario.equipados["escudo"] if inventario.escudo_ativo() else null
 	var tipo_arma: String = arma.tipo if arma != null else ""
 
 	# Outro escudo (mesmo do mesmo tipo, de outra raridade) também sai e entra de novo: os bônus são os do item
@@ -471,6 +472,7 @@ func _aplicar_modelo() -> void:
 	# Trocar por outra arma da mesma família também desequipa, para recarregar as texturas; o mesmo vale para outra arma do MESMO tipo
 	# (raridade e nível próprios)
 	var outra_arma: bool = arma != _arma_aplicada
+	if outra_arma: contragolpe_ate_ms = 0
 	if usando_espada and (familia != "espada" or tipo_arma != id_arma_atual or outra_arma):
 		desequipar_espada()
 	if usando_lanca and (familia != "lanca" or tipo_arma != id_lanca_atual or outra_arma):
@@ -744,7 +746,7 @@ func _mover_na_introducao(delta: float) -> void:
 		_direcao_ataque = ultima_direcao
 		_cardinal_anterior = ultima_direcao
 		_arvore_animacao.set("parameters/idle/blend_position", _direcao_ataque)
-		_arvore_animacao.set("parameters/run/blend_position", _direcao_ataque)
+		_arvore_animacao.set("parameters/running/blend_position", _direcao_ataque)
 	animar()
 
 ## Comprimento do rastro: a distância em linha reta cortava as curvas do guia.
@@ -761,7 +763,7 @@ func parar_para_conversa(ponto: Vector2) -> void:
 	_direcao_ataque = _cardinal_de(ponto - global_position)
 	_cardinal_anterior = _direcao_ataque
 	virar_para(_direcao_ataque)
-	_arvore_animacao.set("parameters/run/blend_position", _direcao_ataque)
+	_arvore_animacao.set("parameters/running/blend_position", _direcao_ataque)
 	_maquina_estados.start("idle")
 	_arvore_animacao.advance(0)
 
@@ -814,12 +816,8 @@ func mover() -> void:
 		# **IMPORTANTE**: Atualiza a última direção de ataque
 		_direcao_ataque = dir
 
-		# 1) Define a base de velocidade
-		#    - Sem arma: base = 64
-		#    - Com arma (espada ou lança): base = 114
-		var velocidade_base = 64.0
-		if usando_espada or usando_lanca or usando_arco:
-			velocidade_base = 114.0
+		# Trocar o item da mão não altera a velocidade de deslocamento.
+		var velocidade_base = 114.0
 		var visual_gerado := get_node_or_null("HeroiGerado")
 		if visual_gerado != null:
 			velocidade_base = visual_gerado.velocidade_de_teste()
@@ -843,13 +841,8 @@ func mover() -> void:
 		velocity.x = lerp(velocity.x, dir.x * velocidade_final, _aceleracao)
 		velocity.y = lerp(velocity.y, dir.y * velocidade_final, _aceleracao)
 
-		# Atualiza a animação dependendo de ter (espada/lança/arco) ou não
-		if usando_espada or usando_lanca or usando_arco:
-			_arvore_animacao.set("parameters/idle/blend_position", dir)
-			_arvore_animacao.set("parameters/running/blend_position", dir)
-		else:
-			_arvore_animacao.set("parameters/idle/blend_position", dir)
-			_arvore_animacao.set("parameters/run/blend_position", dir)
+		_arvore_animacao.set("parameters/idle/blend_position", dir)
+		_arvore_animacao.set("parameters/running/blend_position", dir)
 	else:
 		# Se não há input (dir == Vector2.ZERO), freia suavemente
 		velocity.x = lerp(velocity.x, 0.0, _friccao)
@@ -923,6 +916,10 @@ func logica_combo_ataque() -> void:
 	var atacar := _pedido_ataque
 	_pedido_ataque = false
 	if ataques_bloqueados or estaMorto or caido or get_viewport().gui_get_focus_owner() != null:
+		return
+	if inventario.vara_na_mao:
+		if atacar and movimento_habilitado and not esta_em_acao_fazenda and not esta_em_dash and not esta_sentado:
+			preload("res://codigo/pesca/ponto_pesca.gd").tentar_lancar(self)
 		return
 	# Na fazenda o ataque vira "usar ferramenta" (quem decide e toca a animação é o Plantio)
 	if modo_fazenda:
@@ -1087,17 +1084,14 @@ func animar() -> void:
 	# A forja e a cadeira têm pose própria: abrir uma tela por perto (portal, mochila) não pode trocar para "parado"
 	if esta_forjando or esta_sentado:
 		return
-	# A caminhada guiada usa os seis quadros de passos calmos, mesmo com espada equipada.
+	# O deslocamento guiado também usa a corrida, independentemente do item na mão.
 	if seguindo_introducao:
-		_maquina_estados.travel("run" if velocity.length() > 2 else "idle")
+		_maquina_estados.travel("running" if velocity.length() > 2 else "idle")
 		return
 	if _esta_atacando:
 		return
 	if velocity.length() > 2:
-		if usando_espada or usando_lanca or usando_arco:
-			_maquina_estados.travel("running")
-		else:
-			_maquina_estados.travel("run")
+		_maquina_estados.travel("running")
 	else:
 		_maquina_estados.travel("idle")
 
@@ -1173,16 +1167,25 @@ func _desenhar_raio(de: Vector2, ate: Vector2, cor: Color) -> void:
 	tween.tween_callback(linha.queue_free)
 
 ## mult_dano e mult_empurrao: a escudada (defesa_jogador.gd) bate mais forte e empurra mais que o golpe da arma
-func aplicar_golpe(alvo: Node, direcao_knockback: Vector2, mult_dano: float = 1.0, mult_empurrao: float = 1.0) -> void:
+func aplicar_golpe(alvo: Node, direcao_knockback: Vector2, mult_dano: float = 1.0, mult_empurrao: float = 1.0, disparo: Dictionary = {}) -> void:
 	if not alvo.has_method("receber_dano"):
 		return
 	if "esta_morto" in alvo and alvo.esta_morto:
 		return
-	var golpe = estatisticas.calcular_dano_golpe()
+	var golpe: Dictionary = disparo.get("golpe", estatisticas.calcular_dano_golpe()).duplicate()
+	var tipo: String = disparo.get("tipo", inventario.equipados.arma.tipo if inventario.equipados.arma != null else "")
+	var distancia: float = disparo.get("distancia", global_position.distance_to(alvo.global_position))
+	var contra: bool = tipo == "espada_basica" and Time.get_ticks_msec() < contragolpe_ate_ms and mult_dano == 1.0
+	var estilo := preload("res://codigo/dados/estilos_arma.gd").efeito(tipo, _fase_combo, distancia, contra) if mult_dano == 1.0 else {"dano":1.0,"empurrao":1.0,"atordoar":0.0}
+	if contra: contragolpe_ate_ms = 0
+	mult_dano *= float(estilo.dano)
+	mult_empurrao *= float(estilo.empurrao)
 	# Poção de força
-	golpe["dano"] = maxi(1, roundi(golpe["dano"] * (1.0 + efeitos_pocao.bonus("forca")) * mult_dano))
+	golpe["dano"] = maxi(1, roundi(golpe["dano"] * (1.0 + float(disparo.get("forca", efeitos_pocao.bonus("forca")))) * mult_dano))
 	var forca = (225.0 if golpe["critico"] else 150.0) * mult_empurrao
 	alvo.receber_dano(golpe["dano"], direcao_knockback * forca)
+	if is_instance_valid(alvo) and float(estilo.atordoar) > 0 and alvo.has_method("atordoar"):
+		alvo.atordoar(float(estilo.atordoar))
 	# Toque leve a cada acerto; o crítico pesa mais
 	Controle.vibrar(0.0, 0.5 if golpe["critico"] else 0.2, 0.07, self)
 	_aplicar_encantamento(alvo, golpe["dano"])
@@ -1542,8 +1545,7 @@ func equipar_escudo() -> void:
 	if usando_escudo:
 		desequipar_escudo()
 		return
-	if eh_arma_duas_maos:
-		print("Não é possível equipar escudo com arma de duas mãos!")
+	if not inventario.escudo_ativo():
 		return
 
 	usando_escudo = true
@@ -2210,6 +2212,9 @@ func atualizar_texturas_lanca() -> void:
 			print("Erro: Textura não encontrada:", caminho_ataque_lanca)
 
 func atualizar_texturas_escudo() -> void:
+	# O nó também desenha a aljava: refinar escudo inativo não pode substituí-la.
+	if not usando_escudo:
+		return
 	var instancia_bd_armas = preload("res://codigo/dados/equipamentos.gd").new()
 	var dados_nivel = instancia_bd_armas.obter_dados_nivel_arma(id_escudo_atual, nivel_escudo)
 	if dados_nivel.size() > 0 and dados_nivel.has("textura"):

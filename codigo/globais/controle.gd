@@ -85,6 +85,7 @@ func _ready() -> void:
 	vibracao_p2 = opcoes_p2["vibracao"]
 	Input.joy_connection_changed.connect(_ao_conexao_alterada)
 	_atualizar_layout()
+	preload("res://codigo/dados/controles_personalizados.gd").aplicar()
 
 # O toque vira clique do mouse (para os menus), e o clique é "attack"/"aparar": sem isso, tocar num botão de menu atacaria
 func _tirar_mouse_das_acoes() -> void:

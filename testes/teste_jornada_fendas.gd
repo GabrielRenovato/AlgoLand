@@ -55,7 +55,7 @@ func rodar() -> void:
 		for s in dados.setores: esperados += int(s.grupos)*int(dados.combate.comuns_por_grupo)
 		verificar("populacao completa e dois tipos de recompensa %d" % andar, comuns == esperados and elites == int(dados.combate.elites))
 		var disponivel: int = comuns*int(dados.combate.pontos_comum)+elites*int(dados.combate.pontos_elite)
-		verificar("100 por cento alcancavel com sobra %d" % andar, gerente.META_PROGRESSO == int(dados.combate.meta) and disponivel > gerente.META_PROGRESSO)
+		verificar("100 por cento alcancavel com sobra %d" % andar, gerente.META_PROGRESSO == Catalogo.meta(andar) and disponivel > gerente.META_PROGRESSO)
 		var mapa := terreno.get_world_2d().navigation_map
 		var entrada: Vector2 = terreno.get_node("Chegada_portal").global_position
 		var conectadas := true

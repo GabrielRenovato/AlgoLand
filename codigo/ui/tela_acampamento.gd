@@ -151,7 +151,7 @@ func _atualizar() -> void:
 	if not is_node_ready():
 		return
 	_rotulo_brasas.text = str(Progresso.brasas)
-	_rotulo_recorde.text = "RECORDE: ONDA %d" % Progresso.recorde_onda
+	_rotulo_recorde.text = "RECORDE: ANDAR %d" % Progresso.recorde_onda
 	for id in Progresso.ORDEM_MELHORIAS:
 		var linha: Dictionary = _linhas_melhorias[id]
 		var nivel := Progresso.nivel(id)

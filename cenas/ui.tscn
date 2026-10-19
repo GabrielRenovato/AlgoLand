@@ -171,7 +171,7 @@ theme_override_constants/separation = 1
 [node name="RotuloOnda" type="Label" parent="CantoDireito/PainelOnda/Linhas"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "ONDA 1"
+text = "ANDAR 1"
 label_settings = SubResource("LabelSettings_banner")
 horizontal_alignment = 2
 vertical_alignment = 1
@@ -318,7 +318,7 @@ horizontal_alignment = 1
 [node name="RotuloBanner" type="Label" parent="FaixaBanner/Textos"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "ONDA 1"
+text = "ANDAR 1"
 label_settings = SubResource("LabelSettings_banner")
 horizontal_alignment = 1
 

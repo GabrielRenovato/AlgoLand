@@ -209,15 +209,6 @@ offset_bottom = 99.0
 tipo_slot = "botas"
 icone_vazio = SubResource("AtlasTexture_botas")
 
-[node name="SlotArma" parent="Sidebar/Painel" instance=ExtResource("3_slot")]
-layout_mode = 0
-offset_left = 27.0
-offset_top = 79.0
-offset_right = 47.0
-offset_bottom = 99.0
-tipo_slot = "arma"
-icone_vazio = SubResource("AtlasTexture_espada")
-
 [node name="SlotEscudo" parent="Sidebar/Painel" instance=ExtResource("3_slot")]
 layout_mode = 0
 offset_left = 86.0
@@ -229,9 +220,9 @@ icone_vazio = SubResource("AtlasTexture_escudo")
 
 [node name="SlotSecundaria" parent="Sidebar/Painel" instance=ExtResource("3_slot")]
 layout_mode = 0
-offset_left = 65.0
+offset_left = 46.0
 offset_top = 79.0
-offset_right = 85.0
+offset_right = 66.0
 offset_bottom = 99.0
 tipo_slot = "secundaria"
 

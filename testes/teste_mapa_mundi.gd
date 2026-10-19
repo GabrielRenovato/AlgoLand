@@ -24,7 +24,7 @@ func rodar() -> void:
 	verificar("local atual e fazenda", mapa.regiao_atual()=="fazenda" and mapa._atores["p1"].visible)
 	verificar("servicos nas casas e retratos dos oito moradores",mapa._servicos.size()==9 and mapa._atores.size()==9)
 	verificar("pictogramas usam texturas do jogo",mapa._servicos["forja"].get_child(0).texture!=null)
-	verificar("cabecalho seguido diretamente pelo mapa",mapa._rolagem.get_index()==1)
+	verificar("objetivo principal fica entre cabeçalho e mapa",mapa._rolagem.get_index()==2 and mapa._objetivo_principal.get_index()==1 and mapa._objetivo_principal.text.contains("PRINCIPAL"))
 	var grafico := DisplayServer.get_name() != "headless"
 	var pasta := "/tmp/algoland-mapa-mundi"
 	if grafico: DirAccess.make_dir_recursive_absolute(pasta)
@@ -93,7 +93,7 @@ func rodar() -> void:
 		ui._abrir_tela("mapa_mundi")
 		await quadros()
 		verificar("indica regiao correta em "+caminho, mapa.regiao_atual()==caminho.get_file().get_basename())
-		verificar("mapa sem seletor de regioes em "+caminho,mapa._rolagem.get_index()==1)
+		verificar("mapa mantém objetivo principal sem seletor de regiões em "+caminho,mapa._rolagem.get_index()==2 and mapa._objetivo_principal.get_index()==1)
 		verificar("desktop nao tem botao sob relogio",get_first_node_in_group("hud").get_node_or_null("CantoDireito/BotaoMapaMundi")==null)
 		if caminho.ends_with("cidade.tscn"):
 			root.content_scale_size = Vector2i(576,324)

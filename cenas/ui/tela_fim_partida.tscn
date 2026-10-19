@@ -106,7 +106,7 @@ columns = 2
 [node name="RotuloOnda" type="Label" parent="Centro/Painel/Linhas/Rolagem/Conteudo/Estatisticas"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "ONDA ALCANCADA"
+text = "ANDAR ALCANCADO"
 
 [node name="ValorOnda" type="Label" parent="Centro/Painel/Linhas/Rolagem/Conteudo/Estatisticas"]
 unique_name_in_owner = true

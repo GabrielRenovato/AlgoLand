@@ -88,22 +88,22 @@ func _montar() -> void:
 			["PEITORAL + BOTAS (TESTE)", _ao_armadura_teste],
 			["RESTAURAR ROUPA", _restaurar_roupa],
 		],
-		"ANDARES": [["PROXIMO ANDAR", _ao_proximo_andar], ["IR DIRETO AO CHEFE", _ao_chefe_andar]],
-		"ONDAS": [["AVANCAR 1", _ao_avancar_onda.bind(1)], ["AVANCAR 10", _ao_avancar_onda.bind(10)]],
-		"MINOTAURO": [["IR PARA ONDA DO MINOTAURO", _ao_onda_minotauro],
+		"ANDARES": [["PROXIMO ANDAR", _ao_proximo_andar], ["IR DIRETO AO CHEFE", _ao_chefe_andar],
+			["AVANCAR 1", _ao_avancar_onda.bind(1)], ["AVANCAR 10", _ao_avancar_onda.bind(10)]],
+		"MINOTAURO": [["IR PARA ANDAR DO MINOTAURO", _ao_onda_minotauro],
 			["INVESTIDA", _ao_ataque_minotauro.bind("investida")],
 			["PISAO", _ao_ataque_minotauro.bind("pisao")],
 			["VARRIDA DO MACHADO", _ao_ataque_minotauro.bind("machado")],
 			["ESPECIAL: FURIA", _ao_ataque_minotauro.bind("furia")]],
-		"MEDUSA": [["IR PARA ONDA DA MEDUSA", _ao_onda_medusa],
+		"MEDUSA": [["IR PARA ANDAR DA MEDUSA", _ao_onda_medusa],
 			["GARRAS", _ao_ataque_medusa.bind("garras")], ["VARRIDA DE CAUDA", _ao_ataque_medusa.bind("cauda")],
 			["BOTE", _ao_ataque_medusa.bind("bote")],
 			["ESPECIAL FATAL: RUINA", _ao_ataque_medusa.bind("ruina")]],
-		"GOBLIN": [["IR PARA ONDA DO GOBLIN", _ao_onda_goblin],
+		"GOBLIN": [["IR PARA ANDAR DO GOBLIN", _ao_onda_goblin],
 			["PORRETADA", _ao_ataque_goblin.bind("porretada")], ["VARRIDA", _ao_ataque_goblin.bind("varrida")],
 			["SALTO ESMAGADOR", _ao_ataque_goblin.bind("salto")], ["ESPECIAL: FURIA", _ao_ataque_goblin.bind("furia")],
 			["HIT KILL: EXECUCAO", _ao_ataque_goblin.bind("execucao")]],
-		"DRAGAO": [["IR PARA ONDA DO DRAGAO", _ao_onda_dragao],
+		"DRAGAO": [["IR PARA ANDAR DO DRAGAO", _ao_onda_dragao],
 			["SOPRO DE FOGO", _ao_ataque_dragao.bind("sopro")],
 			["VARRIDA DE CAUDA", _ao_ataque_dragao.bind("cauda")],
 			["BATIDA DE ASAS", _ao_ataque_dragao.bind("asas")],
@@ -494,7 +494,7 @@ func _atualizar_estado() -> void:
 		_rotulo_estado.text += " / FAZENDA: " + ("TINY RPG" if comparacao.ativo else "ORIGINAL")
 	var gerenciador := get_tree().get_first_node_in_group("gerenciador_ondas")
 	if gerenciador != null:
-		_rotulo_estado.text += " / ONDA %d" % gerenciador.onda_atual
+		_rotulo_estado.text += " / ANDAR %d" % gerenciador.onda_atual
 
 ## Reaplica a base refinada sem alterar a aparência salva ou os equipamentos.
 ## Protótipo: liga/desliga o herói do Tiny RPG (codigo/jogador/heroi_tiny.gd) no jogador da cena

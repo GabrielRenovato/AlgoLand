@@ -23,8 +23,7 @@ static func dados(andar: int) -> Dictionary:
 	return PLANTAS[clampi(indice(andar)-1,0,10)].data
 
 static func meta(andar: int) -> int:
-	var base := int(dados(andar).combate.meta)
-	return base # A vida e o dano continuam crescendo; a meta respeita o estoque de mobs do layout.
+	return preload("res://codigo/fendas/ritmo_andares.gd").meta(dados(andar), andar)
 
 static func cena(andar: int) -> String:
 	return "res://cenas/fendas/andar_%02d.tscn" % indice(andar)

@@ -31,8 +31,8 @@ func _ready() -> void:
 	_resumo = resumo
 	resumo.add_theme_constant_override("h_separation",12)
 	add_child(resumo)
-	_rotulo(resumo,("RECORDE: ANDAR %d" if modo_andares else "RECORDE: ONDA %d") % recorde,Color("75452d"),10)
-	_rotulo(resumo,("ENTRADA: ANDAR %d" if modo_andares else "ENTRADA: ONDA %d") % entrada,Color("44602c"),10)
+	_rotulo(resumo,"RECORDE: ANDAR %d" % recorde,Color("75452d"),10)
+	_rotulo(resumo,"ENTRADA: ANDAR %d" % entrada,Color("44602c"),10)
 	var navegacao := HBoxContainer.new()
 	add_child(navegacao)
 	_anterior = _botao(navegacao,"ANT.",_mudar_pagina.bind(-1))
@@ -56,7 +56,7 @@ func _ready() -> void:
 	_legenda = legenda
 	legenda.add_theme_constant_override("h_separation",10)
 	add_child(legenda)
-	_rotulo(legenda,"VERDE: ALCANCADA",Color("44602c"),8)
+	_rotulo(legenda,"VERDE: ALCANCADO",Color("44602c"),8)
 	_rotulo(legenda,"OURO: ENTRADA",Color("91602b"),8)
 	_rotulo(legenda,"PRETO: AINDA NAO DESCOBERTO",Color("75452d"),8)
 	_preencher()
@@ -92,7 +92,7 @@ func _preencher() -> void:
 	_pagina = clampi(_pagina,0,maximo)
 	_anterior.disabled = _pagina == 0
 	_proxima.disabled = _pagina == maximo
-	_intervalo.text = ("ANDARES %d - %d" if modo_andares else "ONDAS %d - %d") % [_pagina*10+1,_pagina*10+10]
+	_intervalo.text = "ANDARES %d - %d" % [_pagina*10+1,_pagina*10+10]
 	for celula in 10:
 		var linha := celula/5
 		var coluna := celula%5 if linha == 0 else 4-celula%5
@@ -127,9 +127,11 @@ func _preencher() -> void:
 		previa.custom_minimum_size = Vector2(16,16)
 		var cenas: Array[PackedScene] = []
 		if modo_andares:
-			cenas.append(preload("res://codigo/fendas/catalogo_andares.gd").chefe(onda).cena)
+			var guardiao: Dictionary = preload("res://codigo/fendas/catalogo_andares.gd").chefe(onda)
+			cenas.append(load("res://cenas/inimigos/%s.tscn" % guardiao.id))
 		elif onda%10 == 0:
-			cenas.append(preload("res://codigo/logica/gerenciador_de_ondas.gd").dados_chefe_para_onda(onda)["cena"])
+			var chefe: Dictionary = preload("res://codigo/logica/gerenciador_de_ondas.gd").dados_chefe_para_onda(onda)
+			cenas.append(load("res://cenas/inimigos/%s.tscn" % chefe.id))
 		else:
 			cenas = preload("res://codigo/logica/slime_spawner.gd").obter_pool_especies(onda)
 		previa.preparar(cenas)
@@ -143,7 +145,7 @@ func _preencher() -> void:
 		numero.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		numero.mouse_filter = MOUSE_FILTER_IGNORE
 
-	_detalhe.text = "SELECIONE UM ANDAR PARA CONSULTAR." if modo_andares else "SELECIONE UMA ONDA PARA CONSULTAR."
+	_detalhe.text = "SELECIONE UM ANDAR PARA CONSULTAR."
 	_ajustar()
 	_trilha.queue_redraw()
 
@@ -161,7 +163,7 @@ func _ajustar() -> void:
 		for lado in ["left","right","top","bottom"]: marco.get_child(0).add_theme_constant_override("margin_"+lado,2 if _compacto else 3)
 
 func _descricao(onda: int) -> String:
-	return ("ANDAR %d%s - %s" if modo_andares else "ONDA %d%s - %s") % [onda," / GUARDIAO" if modo_andares else (" / CHEFE" if onda%10 == 0 else ""),"SUA ENTRADA" if onda == entrada else ("ALCANCADA" if onda <= recorde else "AINDA NAO ALCANCADA")]
+	return "ANDAR %d%s - %s" % [onda," / GUARDIAO" if modo_andares else (" / CHEFE" if onda%10 == 0 else ""),"SUA ENTRADA" if onda == entrada else ("ALCANCADO" if onda <= recorde else "AINDA NAO ALCANCADO")]
 
 func _desenhar_trilha() -> void:
 	for onda in range(_pagina*10+1,_pagina*10+10):

@@ -54,6 +54,7 @@ func _montar_aviso() -> void:
 	_rotulo_tecla.size = Vector2(32, 31)
 	_rotulo_tecla.add_theme_font_override("font", FONTE_AVISO)
 	_rotulo_tecla.add_theme_font_size_override("font_size", 12)
+	aplicar_cores_aviso(_rotulo_tecla)
 	_rotulo_tecla.pressed.connect(abrir_tela)
 	_aviso.add_child(_rotulo_tecla)
 	_icone_tecla = TextureRect.new()
@@ -64,6 +65,13 @@ func _montar_aviso() -> void:
 	_icone_tecla.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	_icone_tecla.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_rotulo_tecla.add_child(_icone_tecla)
+
+## Fundo escuro: usar o dourado do mercador sem herdar o texto marrom dos menus.
+static func aplicar_cores_aviso(botao: Button) -> void:
+	botao.add_theme_color_override("font_color", Color(1, 0.85, 0.2))
+	botao.add_theme_color_override("font_hover_color", Color(1, 0.95, 0.5))
+	botao.add_theme_color_override("font_pressed_color", Color(1, 0.95, 0.5))
+	botao.add_theme_color_override("font_focus_color", Color(1, 0.85, 0.2))
 
 # F no teclado; no controle, o botão como está escrito nele (Y no Xbox, X no 8BitDo)
 func _atualizar_tecla() -> void:

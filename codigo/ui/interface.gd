@@ -178,6 +178,7 @@ func foco_atual() -> Control:
 
 ## No co-op o foco do Godot é único por janela: se o parceiro focou algo, devolve o foco desta metade antes de o comando navegar
 func _input(evento: InputEvent) -> void:
+	if get_tree().get_first_node_in_group("remapeando_controles") != null: return
 	var jogador := EventosJogo.dono(self)
 	var acao_mapa: String = jogador.acao("open_map") if jogador != null else "open_map"
 	if evento.is_action(acao_mapa) and evento is InputEventJoypadButton:
@@ -211,6 +212,7 @@ func _input(evento: InputEvent) -> void:
 			return
 
 func _unhandled_input(evento: InputEvent) -> void:
+	if get_tree().get_first_node_in_group("remapeando_controles") != null: return
 	if Comercio.em_viagem and not Comercio.em_combate:
 		get_viewport().set_input_as_handled()
 		return

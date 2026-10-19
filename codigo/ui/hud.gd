@@ -115,6 +115,7 @@ func _ready() -> void:
 		jogador.atualizar_barra_hp()
 		atualizar_stamina(jogador.stamina, jogador.stamina_maxima)
 	_conectar_gerenciador()
+	add_child(preload("res://codigo/ui/objetivo_principal.gd").new())
 	preload("res://codigo/ui/escala_interface.gd").ligar(self)
 
 func _conectar_gerenciador() -> void:
@@ -147,7 +148,7 @@ func _conectar_gerenciador() -> void:
 		gerenciador.progresso_andar_alterado.connect(_atualizar_andar)
 		_atualizar_andar()
 	else:
-		rotulo_onda.text = "ONDA %d" % gerenciador.onda_atual
+		rotulo_onda.text = "ANDAR %d" % gerenciador.onda_atual
 
 ## Data do calendário ("PRIMAVERA - DIA 3"), nas cenas de jogo
 func atualizar_data() -> void:
@@ -413,7 +414,7 @@ func atualizar_brasas(quantidade: int) -> void:
 
 ## Rótulo da onda fora dos eventos do gerenciador (a Mística muda a onda inicial)
 func atualizar_rotulo_onda(onda: int) -> void:
-	rotulo_onda.text = ("ANDAR %d" if _eh_andar() else "ONDA %d") % onda
+	rotulo_onda.text = "ANDAR %d" % onda
 
 ## Banner no centro da tela para avisos de outros sistemas (reviver, estações, eventos)
 func anunciar(texto: String, subtitulo := "", tempo_visivel := 1.5) -> void:
@@ -433,13 +434,13 @@ func _ao_onda_iniciada(onda: int) -> void:
 	if _eh_onda_chefe(onda):
 		rotulo_onda.text = "CHEFE"
 		return
-	rotulo_onda.text = "ONDA %d" % onda
+	rotulo_onda.text = "ANDAR %d" % onda
 	# O evento (se houver) entra como subtítulo do banner da onda
 	var evento: Dictionary = _gerenciador.evento_atual if _gerenciador != null else {}
 	if evento.is_empty():
-		_mostrar_banner("ONDA %d" % onda)
+		_mostrar_banner("ANDAR %d" % onda)
 	else:
-		_mostrar_banner("ONDA %d" % onda, "%s - %s" % [evento["nome"], evento["resumo"]], 2.4)
+		_mostrar_banner("ANDAR %d" % onda, "%s - %s" % [evento["nome"], evento["resumo"]], 2.4)
 
 ## Indicador fixo no painel da onda enquanto o evento durar
 func _ao_evento_alterado(evento: Dictionary) -> void:
@@ -457,20 +458,20 @@ func _ao_onda_completada(onda: int) -> void:
 	_mostrar_inimigos(false)
 	# O bônus não avança a onda: a próxima é a mesma que ficou esperando
 	if _gerenciador != null and _gerenciador.onda_bonus:
-		rotulo_onda.text = "ONDA %d" % onda
-		_mostrar_banner("BONUS CONCLUIDO", "PROXIMA: ONDA %d" % onda)
+		rotulo_onda.text = "ANDAR %d" % onda
+		_mostrar_banner("BONUS CONCLUIDO", "PROXIMO: ANDAR %d" % onda)
 		return
-	rotulo_onda.text = "ONDA %d" % (onda + 1)
+	rotulo_onda.text = "ANDAR %d" % (onda + 1)
 	if _eh_onda_chefe(onda):
-		_mostrar_banner("CHEFE DERROTADO", "ONDA %d CONCLUIDA" % onda)
+		_mostrar_banner("CHEFE DERROTADO", "ANDAR %d CONCLUIDO" % onda)
 	else:
-		_mostrar_banner("ONDA %d CONCLUIDA" % onda)
+		_mostrar_banner("ANDAR %d CONCLUIDO" % onda)
 
 func _eh_onda_chefe(onda: int) -> bool:
 	return _gerenciador != null and _gerenciador.eh_onda_chefe(onda)
 
 func _ao_ondas_paradas() -> void:
-	rotulo_onda.text = "ONDA 1"
+	rotulo_onda.text = "ANDAR 1"
 	rotulo_evento.hide()
 	_mostrar_inimigos(false)
 	esconder_chefe()
@@ -542,6 +543,16 @@ func _eh_andar() -> bool:
 
 func _atualizar_andar() -> void:
 	if not _eh_andar(): return
+	if is_instance_valid(_gerenciador.tesouro) and _gerenciador.tesouro.ativo:
+		var tesouro: Node = _gerenciador.tesouro
+		rotulo_onda.text = "TESOURO"
+		linha_inimigos.visible = true
+		rotulo_espera.visible = false
+		rotulo_evento.visible = true
+		rotulo_evento.text = "MIMICOS / OURO EXTRA"
+		rotulo_inimigos.text = "%d / %d" % [tesouro.total_inimigos - tesouro.vivos.size(), tesouro.total_inimigos]
+		barra_inimigos.definir(tesouro.total_inimigos - tesouro.vivos.size(), maxi(tesouro.total_inimigos, 1))
+		return
 	var etapa: int = _gerenciador.etapa
 	rotulo_onda.text = "ANDAR %d" % (_gerenciador.onda_atual - 1 if etapa == 4 else _gerenciador.onda_atual)
 	linha_inimigos.visible = etapa in [1, 2, 3]
@@ -555,6 +566,7 @@ func _atualizar_andar() -> void:
 
 func _process(_delta: float) -> void:
 	if faixa_banner.visible: _ajustar_faixa_banner()
+	if _eh_andar() and is_instance_valid(_gerenciador.tesouro) and _gerenciador.tesouro.ativo: return
 	if not _eh_andar() or _gerenciador.etapa not in [2, 3]: return
 	var jogador := EventosJogo.dono(self)
 	if jogador == null: return

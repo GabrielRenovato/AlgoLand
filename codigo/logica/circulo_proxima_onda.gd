@@ -56,7 +56,7 @@ func _process(delta: float) -> void:
 	_carga = clampf(_carga + (delta if pode_contar else -delta * 2.0), 0.0, TEMPO_PARA_COMECAR)
 	_rotulo.visible = _ativo
 	if _ativo:
-		_rotulo.text = "PROXIMA ONDA (%d)" % int(_gerenciador.onda_atual)
+		_rotulo.text = "PROXIMO ANDAR (%d)" % int(_gerenciador.onda_atual)
 	if pode_contar and _carga >= TEMPO_PARA_COMECAR:
 		_carga = 0.0
 		Sons.tocar("menu_confirmar", 0.0)

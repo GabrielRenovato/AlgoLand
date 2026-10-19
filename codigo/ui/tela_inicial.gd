@@ -184,7 +184,10 @@ func _montar_layout_flex() -> void:
 	resumo.add_child(retrato)
 	personagem.reparent(retrato)
 	personagem.position = Vector2(18,40)
+	personagem.get_node("Profundidade").set_process(false)
 	personagem.get_node("Profundidade").queue_free()
+	personagem.z_as_relative = true
+	personagem.z_index = 0
 	for sprite in [sprite_corpo,sprite_roupa,sprite_cabelo]: sprite.z_index = 0
 	var boas_vindas := VBoxContainer.new()
 	boas_vindas.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -297,6 +300,7 @@ func _destacar(botao: Button, ativo: bool) -> void:
 	botao.modulate = BRILHO_FOCO if ativo else Color.WHITE
 
 func _montar_opcoes() -> void:
+	var conteudo := %BotaoVolumeMenos.get_parent().get_parent()
 	var volumes: Array = []
 	var rotulos_volume: Array = []
 	for i in 11:
@@ -305,6 +309,8 @@ func _montar_opcoes() -> void:
 	var indice_fps := VALORES_FPS.find(_opcoes["max_fps"])
 	_adicionar_linha("volume", volumes, rotulos_volume, roundi(float(_opcoes["volume"]) * 10.0),
 			%BotaoVolumeMenos, %ValorVolume, %BotaoVolumeMais)
+	for item in [["volume_musica","MUSICA"],["volume_efeitos","EFEITOS"],["volume_ambiente","AMBIENTE"]]:
+		_adicionar_volume_extra(item[0],item[1],conteudo,volumes,rotulos_volume)
 	_adicionar_linha("tela_cheia", [false, true], ["NAO", "SIM"], 1 if _opcoes["tela_cheia"] else 0,
 			%BotaoTelaCheiaMenos, %ValorTelaCheia, %BotaoTelaCheiaMais)
 	_adicionar_linha("max_fps", VALORES_FPS, ROTULOS_FPS, indice_fps if indice_fps != -1 else 1,
@@ -332,7 +338,7 @@ func _montar_opcoes() -> void:
 	mais_interface.text = "+"
 	mais_interface.custom_minimum_size = Vector2(16,16)
 	linha_interface.add_child(mais_interface)
-	var conteudo := %BotaoBotoesMenos.get_parent().get_parent()
+	conteudo = %BotaoBotoesMenos.get_parent().get_parent()
 	conteudo.add_child(linha_interface)
 	conteudo.move_child(linha_interface,%BotaoBotoesMenos.get_parent().get_index()+1)
 	_adicionar_linha("escala_interface", Opcoes.ESCALAS_INTERFACE, Opcoes.ROTULOS_INTERFACE, maxi(Opcoes.ESCALAS_INTERFACE.find(_opcoes["escala_interface"]),0), menos_interface, valor_interface, mais_interface)
@@ -353,6 +359,38 @@ func _montar_opcoes() -> void:
 			var abaixo: Button = proxima[lado] if not proxima.is_empty() else botao_voltar_opcoes
 			botao.focus_neighbor_bottom = botao.get_path_to(abaixo)
 	botao_voltar_opcoes.focus_neighbor_top = botao_voltar_opcoes.get_path_to(_linhas[_linhas.size() - 1]["menos"])
+	var controles := Button.new()
+	controles.text = "REMAPEAR COMANDOS"
+	conteudo.add_child(controles)
+	conteudo.move_child(botao_voltar_opcoes,conteudo.get_child_count()-1)
+	controles.pressed.connect(func(): preload("res://codigo/ui/tela_controles.gd").new().abrir(botao_opcoes))
+	for lado in ["menos","mais"]:
+		var anterior: Button = _linhas[-1][lado]
+		anterior.focus_neighbor_bottom = anterior.get_path_to(controles)
+	controles.focus_neighbor_top = controles.get_path_to(_linhas[-1]["menos"])
+	controles.focus_neighbor_bottom = controles.get_path_to(botao_voltar_opcoes)
+	botao_voltar_opcoes.focus_neighbor_top = botao_voltar_opcoes.get_path_to(controles)
+
+func _adicionar_volume_extra(chave: String, nome: String, pai: Node, valores: Array, rotulos: Array) -> void:
+	var linha := HBoxContainer.new()
+	linha.add_theme_constant_override("separation",4)
+	pai.add_child(linha)
+	pai.move_child(linha,%BotaoVolumeMenos.get_parent().get_index()+_linhas.size())
+	var titulo_volume := Label.new()
+	titulo_volume.text = nome
+	titulo_volume.custom_minimum_size.x = 76
+	linha.add_child(titulo_volume)
+	var menos := Button.new()
+	menos.text = "-"
+	linha.add_child(menos)
+	var valor := Label.new()
+	valor.custom_minimum_size.x = 52
+	valor.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	linha.add_child(valor)
+	var mais := Button.new()
+	mais.text = "+"
+	linha.add_child(mais)
+	_adicionar_linha(chave,valores,rotulos,roundi(float(_opcoes.get(chave,1.0))*10),menos,valor,mais)
 
 # Diz como o jogo escreve os botões agora; se estiver trocado (A e B invertidos), é só mudar BOTOES
 func _atualizar_dica_botoes() -> void:

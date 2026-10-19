@@ -96,14 +96,23 @@ func _rodar() -> void:
 	var minijogo: Control = sessao._minijogo
 	verificar("minijogo aberto", minijogo != null and minijogo.ativo)
 	var quadros_peixe := {}
+	var quadros_puxando := {}
+	var pontas_linha := {}
+	var camadas_alinhadas := true
 	minijogo.set_process(false)
 	for i in 8:
 		quadros_peixe[sessao._sombra.frame] = true
+		quadros_puxando[sessao._animacao._pose] = true
+		pontas_linha[sessao._animacao.ponta()] = true
+		for camada in sessao._animacao._camadas:
+			camadas_alinhadas = camadas_alinhadas and camada.frame == sessao._animacao.vara.frame
 		if DisplayServer.get_name() != "headless":
 			await RenderingServer.frame_post_draw
 			root.get_texture().get_image().save_png("/tmp/algoland-peixe-pulando-%d.png" % i)
 		await create_timer(0.10).timeout
 	verificar("peixe continua pulando durante a fisgada",quadros_peixe.size() == 4)
+	verificar("personagem recolhe a linha continuamente sem novos cliques",quadros_puxando.size() == 3)
+	verificar("vara e linha acompanham o puxão com corpo e roupa alinhados",pontas_linha.size() > 1 and camadas_alinhadas)
 	minijogo.set_process(true)
 	foto("minijogo")
 	var guarda := 0

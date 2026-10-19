@@ -2,30 +2,30 @@ extends RefCounted
 
 const RESGATE: Array[String] = [
 	"Ei! Voce esta inteiro? Sou Bento, da Vila das Flores.",
-	"Isto e a Arena do Limiar. Daqui saem criaturas em ondas, cada vez mais fortes.",
+	"Isto e a Arena do Limiar. Seus andares abrigam criaturas cada vez mais fortes.",
 	"Essa espada e esse escudo eram de quem guardava este lugar. Agora sao seus.",
 	"Aqui nao e seguro. Vou na frente: quando eu sumir, entre no portal."
 ]
 const VILA: Array[String] = [
 	"Bem-vindo a Vila das Flores! O selo nas pedras ainda protege nossas casas.",
 	"O Limiar chamou voce para segurar as criaturas. Mas ninguem vive so de batalha.",
-	"Tomas vende armas, Rosa cuida dos feridos, Caio canta lendas e Lia organiza tudo.",
+	"Tomas vende sementes, Ivo fabrica equipamentos, Rosa prepara pocoes e Lia organiza a vila.",
 	"Se cair na arena, voce acorda na enfermaria da Rosa. A fazenda e as melhorias ficam.",
 	"Tem uma fazenda vazia a oeste. Vamos la, e so me acompanhar."
 ]
 ## Depois da primeira onda vencida no jogo livre: Bento explica a janela entre as ondas e as moedas (aula_arena.gd)
 const AULA_ARENA: Array[String] = [
-	"Primeira onda vencida! Deixa eu te explicar o que vem agora.",
+	"Primeiro andar vencido! Deixa eu te explicar o que vem agora.",
 	"Essas moedas sao ouro. Ele so vale nesta partida, entao gaste sem do.",
-	"Sementes e equipamentos que os monstros soltam voam ate voce no fim da onda.",
-	"Se a mochila encher, o equipamento vai para o SAQUE da janela: la voce escolhe o que levar ou vender.",
-	"Na janela entre as ondas, MELHORIAS vende totens que te fortalecem ate o fim da partida.",
+	"Recolha os materiais, receitas e sementes deixados pelos monstros.",
+	"Se a mochila encher, os itens ficam no chao. Libere espaco antes de sair do mapa.",
+	"Orion aparece depois da vitoria. Em MELHORIAS ele vende totens para esta partida.",
 	"Na BIGORNA a arma sobe de nivel. Pecas de conjunto pedem moeda de forja, que vem dos chefes.",
 	"Em ENCANTAR sua arma ganha fogo, gelo ou raio.",
-	"Pronto para mais? Pise no circulo brilhante do chao e a proxima onda comeca.",
-	"O portal reabre a janela e leva voce para a vila. A cada dez ondas vem um chefe.",
-	"Se cair, sua luta vira Brasas. A Lia troca Brasas por melhorias permanentes.",
-	"Era isso. Boa sorte la dentro!"
+	"Pronto para mais? Fale com Orion, o guia que aparece ao concluir o andar, e escolha seguir para o proximo.",
+	"Orion tambem permite voltar para a vila. Cada andar tem um guardiao: derrote os grupos para invoca-lo.",
+	"Se cair, voce perde ouro, totens e melhorias temporarias das armas. Conjuntos, ferramentas, materiais e sua fazenda ficam.",
+	"Sua luta tambem rende Brasas. A Lia troca Brasas por melhorias permanentes. Procure-a para investigar o selo da praca."
 ]
 ## Paradas acessíveis, junto aos sistemas que já existem; não promete funções apenas decorativas.
 const PARADAS := [
@@ -52,6 +52,7 @@ const PARADAS := [
 	{"nome": "UM LUGAR PARA DESCANSAR", "ponto": Vector2(376, 261), "falas": [
 		"Esta casa agora e sua. A cama passa o dia e recupera suas forcas.",
 		"Nao fique na rua depois das duas da manha, ou voce desmaia de cansaco.",
+		"Para pescar, escolha a vara na barra junto a agua. Segure o botao de ataque para carregar a forca e solte para lancar. Clique quando o peixe beliscar. Nilo ensina mais na praia.",
 		"Vou voltar para a vila. Seja bem-vindo ao seu novo lar!"
 	]}
 ]

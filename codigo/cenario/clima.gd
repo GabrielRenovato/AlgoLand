@@ -519,6 +519,8 @@ func piscar_raio(intensidade := 0.85) -> void:
 
 func _criar_som() -> void:
 	_som_chuva = AudioStreamPlayer.new()
+	preload("res://codigo/dados/mixagem_audio.gd").preparar()
+	_som_chuva.bus = "Ambiente"
 	_som_chuva.name = "SomChuva"
 	var fluxo: AudioStreamWAV = SOM_CHUVA
 	# O .import já pede loop; isto garante o mesmo caso o arquivo seja reimportado com outras opções

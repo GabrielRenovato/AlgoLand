@@ -17,6 +17,8 @@ var _aviso_guardiao: Node2D
 var _tempo_alerta := 0.0
 var posicao_guardiao := Vector2.ZERO
 var guia: Node2D
+var tesouro: Node2D
+var encontro: Node2D
 
 func _abrir_janela_entre_ondas() -> void:
 	# Nas fendas a vitória chama o guia, sem abrir um menu em cima do saque.
@@ -50,6 +52,8 @@ func _ready() -> void:
 	super()
 
 func iniciar_onda(ignorar_checkpoint: bool = false) -> void:
+	if is_instance_valid(tesouro) and tesouro.ativo:
+		return
 	if Introducao.ativa() or onda_em_andamento or jogador.estaMorto:
 		return
 	if not ignorar_checkpoint and not Progresso.onda_comecou:
@@ -62,6 +66,15 @@ func iniciar_onda(ignorar_checkpoint: bool = false) -> void:
 		Transicao.ir_para(Catalogo.cena(onda_atual),"portal")
 		return
 	META_PROGRESSO = Catalogo.meta(onda_atual)
+	# Modificadores compatíveis com a população fixa dos mapas; horda/elite ficam na arena antiga.
+	var chave_evento := str(onda_atual)
+	var anterior: String = Progresso.eventos_andares.get(str(onda_atual-1), "")
+	var candidatos: Array = EVENTOS.filter(func(e): return not e.id in ["horda", "elite", anterior] and not (Calendario.estacao() == 3 and e.get("nao_no_inverno",false)))
+	if not Progresso.eventos_andares.has(chave_evento):
+		Progresso.eventos_andares[chave_evento] = candidatos[_rng.randi_range(0,candidatos.size()-1)].id if onda_atual >= 4 and _rng.randf() < chance_evento else ""
+	var id_evento: String = Progresso.eventos_andares[chave_evento]
+	var encontrados: Array = EVENTOS.filter(func(e): return e.id == id_evento)
+	_definir_evento(encontrados[0] if not encontrados.is_empty() else {})
 	_geracao += 1
 	var geracao := _geracao
 	ondas_paradas = false
@@ -93,6 +106,34 @@ func iniciar_onda(ignorar_checkpoint: bool = false) -> void:
 	onda_iniciada.emit(onda_atual)
 	atualizar_ui()
 	progresso_andar_alterado.emit()
+	if not is_instance_valid(tesouro):
+		tesouro = preload("res://codigo/fendas/tesouro_mimicos.gd").new()
+		tesouro.name = "TesouroMimicos"
+		tesouro.gerente = self
+		get_parent().get_parent().add_child(tesouro)
+		tesouro.preparar()
+	if is_instance_valid(encontro): encontro.queue_free()
+	if onda_atual >= 2:
+		encontro = preload("res://codigo/fendas/encontro_andar.gd").new()
+		encontro.gerente = self
+		var entrada: Vector2 = raiz.get_node("Terrains/Chegada_portal").global_position
+		encontro.position = raiz.to_local(_ponto_encontro(entrada))
+		raiz.add_child(encontro)
+
+func _ponto_encontro(entrada: Vector2) -> Vector2:
+	var mapa: RID = jogador.get_world_2d().navigation_map
+	var consulta := PhysicsShapeQueryParameters2D.new()
+	var forma := CircleShape2D.new()
+	forma.radius = 16
+	consulta.shape = forma
+	consulta.collision_mask = 64
+	for deslocamento in [Vector2(-64,24),Vector2(64,24),Vector2(-80,48),Vector2(80,48),Vector2(0,96),Vector2(-96,0),Vector2(96,0)]:
+		var ponto := NavigationServer2D.map_get_closest_point(mapa,entrada+deslocamento)
+		if ponto.distance_to(entrada) < 30: continue
+		if is_instance_valid(tesouro) and is_instance_valid(tesouro.portal) and ponto.distance_to(tesouro.portal.global_position) < 80: continue
+		consulta.transform = Transform2D(0,ponto)
+		if jogador.get_world_2d().direct_space_state.intersect_shape(consulta,1).is_empty(): return ponto
+	return NavigationServer2D.map_get_closest_point(mapa,entrada+Vector2(0,64))
 
 func _physics_process(delta: float) -> void:
 	if etapa == Etapa.GUARDIAO:
@@ -154,7 +195,7 @@ func ao_abate(inimigo: Node2D, valor: int, chefe: bool, geracao: int) -> void:
 		progresso_andar_alterado.emit()
 		return
 	if etapa != Etapa.EXPLORANDO: return
-	DadosJogo.adicionar_moedas(_aplicar_saque(float(ouro_por_abate(onda_atual))))
+	DadosJogo.adicionar_moedas(_aplicar_saque(float(ouro_por_abate(onda_atual)) * mult_evento("ouro")))
 	Progresso.registrar_abate()
 	inimigos_vivos = maxi(inimigos_vivos - 1, 0)
 	pontos = mini(pontos + valor, META_PROGRESSO)
@@ -189,6 +230,8 @@ func _invocar_guardiao(geracao: int) -> void:
 
 ## F3: pula os encontros sem abates/drops e leva o grupo à luta real do andar atual.
 func ir_ao_guardiao_debug() -> void:
+	if is_instance_valid(tesouro) and tesouro.ativo:
+		return
 	if not OS.is_debug_build() or Transicao.ocupada or ondas_paradas or jogador.estaMorto:
 		return
 	var geracao := _geracao
@@ -214,6 +257,10 @@ func eh_onda_chefe(_onda: int) -> bool:
 	return etapa == Etapa.GUARDIAO or etapa == Etapa.CONCLUIDO
 
 func parar_ondas() -> void:
+	if is_instance_valid(tesouro) and tesouro.ativo:
+		tesouro._restaurar()
+	if is_instance_valid(encontro): encontro.queue_free()
+	encontro = null
 	if is_instance_valid(guia): guia.queue_free()
 	guia=null
 	if is_instance_valid(_aviso_guardiao): _aviso_guardiao.queue_free()

@@ -322,7 +322,7 @@ func _atualizar() -> void:
 	var receita := Progresso.receita_liberada(_tipo)
 	_situacao.text = _mensagem
 	if _mensagem.is_empty():
-		_situacao.text = "MODELO PERMANENTE.\nReceba comum, nivel 1, a cada partida." if fabricada else ("RECEITA APRENDIDA.\nOs materiais serao consumidos da sua mochila." if receita else "ENCONTRE A RECEITA NA ARENA E USE NA MOCHILA.\nA PARTIR DA ONDA %d." % Receitas.onda_receita(_tipo))
+		_situacao.text = "MODELO PERMANENTE.\nReceba comum, nivel 1, a cada partida." if fabricada else ("RECEITA APRENDIDA.\nOs materiais serao consumidos da sua mochila." if receita else "ENCONTRE A RECEITA NA ARENA E USE NA MOCHILA.\nA PARTIR DO ANDAR %d." % Receitas.onda_receita(_tipo))
 	var inventario := EventosJogo.inventario_de(self)
 	var falta_entregar: bool = fabricada and not _tipo in inventario.armas_permanentes_entregues
 	_fabricar.text = "RETIRAR ITEM" if falta_entregar else ("JA FABRICADA" if fabricada else "ENCOMENDAR")
@@ -350,7 +350,7 @@ func _atualizar() -> void:
 	for tipo in _botoes:
 		if tipo in Ferramentas.TIPOS: continue
 		_botoes[tipo].set_pressed_no_signal(tipo == _tipo)
-		_botoes[tipo].tooltip_text = "RECEITA APRENDIDA" if Progresso.receita_liberada(tipo) else "RECEITA A PARTIR DA ONDA %d" % Receitas.onda_receita(tipo)
+		_botoes[tipo].tooltip_text = "RECEITA APRENDIDA" if Progresso.receita_liberada(tipo) else "RECEITA A PARTIR DO ANDAR %d" % Receitas.onda_receita(tipo)
 
 func _ao_fabricar() -> void:
 	var cena := Cooperativo.cena_de(self)

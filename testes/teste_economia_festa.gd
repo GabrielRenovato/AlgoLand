@@ -93,7 +93,9 @@ func _rodar() -> void:
 			prog.aprender_receita(tipo, inv)
 	prog.salvar()
 	prog.carregar()
-	verificar("desbloqueios sobrevivem ao carregamento", prog.armas_liberadas.size() == 6)
+	verificar("desbloqueios sobrevivem ao carregamento", prog.armas_liberadas.size() == receitas.RECEITAS.size())
+	inv.definir_linhas_extras(7)
+	inv2.definir_linhas_extras(7)
 	for tipo in receitas.RECEITAS:
 		if not prog.arma_liberada(tipo):
 			prog.adicionar_materiais_forja(receitas.RECEITAS[tipo])
@@ -116,7 +118,7 @@ func _rodar() -> void:
 	inventario.selecionar_pagina(2)
 	await quadros(12)
 	verificar("inventario tem quatro abas com icones e sem texto", inventario._botoes_abas.size() == 4 and inventario._botoes_abas.all(func(botao): return botao.text == "" and botao.get_child_count() > 0 and botao.tooltip_text != ""))
-	verificar("aba de desafios mostra armas e progresso", inventario._desafios.is_visible_in_tree() and inventario._desafios._grade_catalogo.get_child_count() == 6)
+	verificar("aba de desafios mostra armas e progresso", inventario._desafios.is_visible_in_tree() and inventario._desafios._grade_catalogo.get_child_count() == receitas.RECEITAS.size())
 	if "--capturar" in OS.get_cmdline_user_args():
 		await root.get_node("Transicao").clarear(0.0)
 		await quadros()

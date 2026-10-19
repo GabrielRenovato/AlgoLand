@@ -292,7 +292,8 @@ func spawnar_inimigo_em(spawn: Marker2D, multiplicador_vida: float, multiplicado
 func _soltar_sementes(inimigo: Node2D) -> void:
 	if Introducao.ativa():
 		return
-	SementeDrop.soltar_de(inimigo, principal, _rng_sementes)
+	var modo_andares: bool = is_instance_valid(gerenciador_ondas) and gerenciador_ondas.is_in_group("gerenciador_andar")
+	SementeDrop.soltar_de(inimigo, principal, _rng_sementes, modo_andares)
 
 ## Equipamento com raridade no lugar onde o inimigo morreu (chance e sorteio em equipamento_drop.gd)
 func _soltar_equipamento(inimigo: Node2D) -> void:

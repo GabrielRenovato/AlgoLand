@@ -126,6 +126,7 @@ func _unhandled_input(evento: InputEvent) -> void:
 		passo = -1
 	if passo == 0:
 		return
+	EventosJogo.inventario_de(jogador).definir_vara_na_mao(false)
 	Fazenda.trocar_ferramenta(passo, _lado())
 	Sons.tocar("menu_mover", 0.0, -3.0)
 	get_viewport().set_input_as_handled()
@@ -139,6 +140,7 @@ func _entrada_do_outro(outro: Node, evento: InputEvent) -> bool:
 		return true
 	var passo := 1 if evento.is_action_pressed(outro.acao("ferramenta_proxima")) else (-1 if evento.is_action_pressed(outro.acao("ferramenta_anterior")) else 0)
 	if passo != 0:
+		EventosJogo.inventario_de(outro).definir_vara_na_mao(false)
 		Fazenda.trocar_ferramenta(passo, Fazenda.lado_de(outro))
 		return true
 	return false
@@ -151,6 +153,7 @@ func entrada_do_jogador(quem: Node, colher: bool, passo: int) -> void:
 	if colher:
 		_como(quem, pedir_coleta)
 	elif passo != 0:
+		EventosJogo.inventario_de(quem).definir_vara_na_mao(false)
 		Fazenda.trocar_ferramenta(passo, Fazenda.lado_de(quem))
 		Sons.tocar("menu_mover", 0.0, -3.0)
 
@@ -174,6 +177,9 @@ func celula_alvo() -> Vector2i:
 ## O botão de ataque foi apertado: confere se a ação é possível e só então toca a animação
 func _ao_ferramenta_pedida() -> void:
 	if jogador == null or jogador.get_world_2d() != get_world_2d():
+		return
+	if EventosJogo.inventario_de(jogador).vara_na_mao:
+		_avisar("SEGURE ATAQUE E SOLTE JUNTO AO LAGO")
 		return
 	if Fazenda.acao_da_ferramenta(_lado()) == "":
 		_avisar(MSG_SEM_FERRAMENTA)
@@ -413,6 +419,7 @@ func _montar_aviso_colher() -> void:
 	_tecla_colher.position = Vector2(-15.1428, -15.7037)
 	_tecla_colher.size = Vector2(32, 31)
 	_tecla_colher.add_theme_font_override("font", Interagivel.FONTE_AVISO)
+	Interagivel.aplicar_cores_aviso(_tecla_colher)
 	_tecla_colher.pressed.connect(pedir_coleta)
 	_aviso_colher.add_child(_tecla_colher)
 	Controle.dicas_alteradas.connect(_atualizar_tecla_colher)

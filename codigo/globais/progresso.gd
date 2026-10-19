@@ -69,6 +69,11 @@ var checkpoint_max: int = 0
 # --- Partida atual ---
 ## Veios e golpes desta partida: mantidos ao viajar, reiniciados junto da partida.
 var veios_arena: Dictionary = {}
+## Resultado do portal especial por andar nesta partida; viajar não repete o sorteio nem o prêmio.
+var portais_tesouro: Dictionary = {}
+## Uma escolha por andar/partida; viagens não permitem repetir a recompensa.
+var encontros_andares: Dictionary = {}
+var eventos_andares: Dictionary = {}
 var partida_ativa: bool = false
 var onda_maxima: int = 0
 var ondas_concluidas: int = 0
@@ -101,6 +106,9 @@ func _ready() -> void:
 
 func iniciar_partida() -> void:
 	veios_arena.clear()
+	portais_tesouro.clear()
+	encontros_andares.clear()
+	eventos_andares.clear()
 	partida_ativa = true
 	onda_maxima = 0
 	ondas_concluidas = 0
@@ -411,6 +419,9 @@ func apagar() -> void:
 	materiais_forja_alterados.emit()
 
 func _zerar_dados() -> void:
+	portais_tesouro.clear()
+	encontros_andares.clear()
+	eventos_andares.clear()
 	local_jogadores = {}
 	veios_arena.clear()
 	mochila_pendente.clear()

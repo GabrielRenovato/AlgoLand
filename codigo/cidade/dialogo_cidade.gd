@@ -706,6 +706,6 @@ func _vender_peixe(id: String) -> void:
 
 func _entregar(id: String) -> void:
 	if Cidade.concluir(id,_interlocutor_local(),EventosJogo.dono(self)):
-		_aviso = "Obrigado! Voce recebeu %d Brasas e ganhou amizade." % Dados.MISSOES[id]["brasas"]
+		_aviso = preload("res://codigo/cidade/jornada_limiar.gd").ENTREGAS.get(id, "Obrigado! Voce recebeu %d Brasas e ganhou amizade." % Dados.MISSOES[id]["brasas"])
 	_atualizar()
 	focar_inicio()

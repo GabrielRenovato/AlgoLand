@@ -26,48 +26,21 @@ Mais detalhes: [estrutura do projeto](docs/estrutura_projeto.md). Antes de alter
 
 ## Sistemas principais
 
-**Ondas e chefes.** A arena (`codigo/logica/gerenciador_de_ondas.gd`) roda ondas com vida, dano e ouro crescentes. Ondas de bônus (mímicos) e eventos de clima/modificadores são sorteados, mas nunca na onda de chefe. A cada 10 ondas (`intervalo_chefe`) entra um chefe sozinho, sem escolta, em rodízio; depois do último, o ciclo recomeça mais forte pelos multiplicadores por onda:
+**Fenda.** Onze mapas exploráveis, com patrulhas, grupos, elites e um guardião por andar. A barra exige 60–72% dos pontos disponíveis para evitar limpeza obrigatória de becos. Depois do mapa 11, o circuito repete 2–11 com dificuldade crescente. Orion oferece melhorias, refino, encantamentos e avanço depois da vitória. Os checkpoints continuam em blocos de dez.
 
-| Onda | Chefe | Observação |
-|---:|---|---|
-| 10 | Minotauro | investida, pisão, machado e pisão em fúria |
-| 20 | Medusa | garras, cauda, bote, olhar de pedra e ruína em área |
-| 30 | Goblin Maromba | porretada, varrida, salto, fúria e execução |
-| 40 | Cogumelo Ancião | escala 2,4; esporos em área e invocação de cogumelos |
-| 50 | Dragão Vermelho | sopro, cauda, asas, patada e chuva de fogo |
+**Exploração e escolhas.** A partir do segundo andar, ecos opcionais oferecem descanso ou fragmentos, risco por ouro e mudança na meta da caçada. A decisão vale para o grupo e não pode ser repetida ao viajar. Modificadores de clima/combate aparecem a partir do quarto andar. O portal dos mímicos tem 15% de chance por andar; o baú gigante conserva 5% de chance de uma peça de conjunto lendária no nível 5, além de ouro e fragmentos.
 
-Chefes têm coroa dourada, barra de vida no HUD e avisos de ataque no chão. Ao morrer, soltam sementes garantidas para a fazenda, sempre soltam equipamento, rendem 15 Brasas e têm 5% de chance de soltar a Moeda de Forja. Cada chefe derrotado libera a onda seguinte (11, 21...) como ponto de partida. Os dados do rodízio ficam em `CHEFES`; habilidades genéricas em `codigo/inimigos/habilidade_chefe.gd`.
+**Primeiro arco do Limiar.** Quatro pedidos encadeados de Lia, Bento, Ivo e Estela ligam a primeira vitória, a horta e os andares 6 e 10. Há projetos de equipamento como recompensa e uma conclusão que restaura o selo da praça. A fonte passa a recuperar até 30 de energia por jogador/dia. O diário de missões acompanha a etapa atual, sem reiniciar saves existentes.
 
-**Armaduras.** Quatro peças independentes (elmo, peitoral, luvas, botas). Os três conjuntos são **comuns**, caem desde a onda 1 e sempre no **nível 1**. As peças só caem de **chefes**, por chance: o equipamento que o chefe solta tem 10% de ser peça de cada conjunto (30% no total, nada garantido). Mobs normais e mutantes continuam soltando só sementes, armas e escudo, como antes. Por serem raras, o poder vem de farmar chefes e evoluir cada peça na bigorna. O cadastro está em `codigo/dados/conjuntos_armadura.gd`:
+**Equipamento.** A arma é selecionada pela barra, sem slot dedicado na tela. Escudo e aljava equipados liberam espaço na mochila; o escudo permanece equipado com armas incompatíveis, mas sem atributos ou animação. As armas têm especialidades de combo, contragolpe, impacto e distância, explicadas nas dicas. Há 24 receitas de equipamento e três conjuntos com quatro peças independentes, refino e ascensão de raridade. A fabricação com Ivo usa materiais físicos e prazo no calendário.
 
-| Conjunto | Efeito (4/4 no nível 1) | Com 2 ou 3 peças |
-|---|---|---|
-| Carrasco | 10% de chance de raio ao acertar (dano 200%, recarga 2 s) | metade da chance |
-| Cavaleiro Rubro | +10% defesa e +10% vitalidade | +5% e +5% |
-| Mordomo (`cavalheiro`) | 10% de congelar o alvo por 2 s (recarga 2 s) | metade da chance |
+**Fazenda, vila e pesca.** Quatro estações, plantio, ferramentas melhoráveis, refeições e poções ligadas às expedições. A vila tem agendas, conversas, cartas, pedidos e amizade. A pesca tem minijogo, coleção, encomendas e evolução da vara. Escolher a vara funciona também na barra da fazenda.
 
-Regras (`codigo/dados/base_conjunto_armadura.gd`): 1 peça não dá bônus; 2 ou 3 dão metade; 4 dão o efeito completo. Cada nível acima do 1 soma 25% ao efeito (nível 5 = 2x), usando o nível da peça equipada mais fraca do conjunto. No Carrasco o nível também aumenta o dano do raio.
+**Persistência e cooperativo.** Ouro, totens e melhorias temporárias de armas pertencem à partida; conjuntos, ferramentas, materiais e progresso da vila sobrevivem à derrota. O cooperativo local mantém inventários e ambientes individuais, com entrada conjunta na fenda.
 
-**Bigorna de armaduras.** Peças de conjunto sobem na bigorna, uma por vez, pagando o mesmo ouro e a mesma onda mínima das armas **mais 1 Moeda de Forja por nível**. A moeda cai de qualquer chefe com 5% de chance, vai direto para a bolsa (aviso no HUD), é única para todos os conjuntos e, como o equipamento, se perde ao morrer. Fica em `InventarioJogador.moedas_forja` e é salva em `inventario.json`.
+**Áudio e controles.** Trilhas instrumentais procedurais de vila, fazenda, praia, fenda e guardião, com ambientes de bosque, mar e caverna. Volumes separados de música, efeitos e ambiente no título e na pausa. Remapeamento persistente de teclado e controle, com comandos de combate próprios para o jogador 2, verificação de conflitos e restauração dos padrões.
 
-**Ascensão de raridade.** No nível 5 a peça de conjunto não sobe mais de nível: cada melhoria na bigorna sobe um degrau de raridade (comum > incomum > raro > épico > lendário) e soma um bônus aleatório que ela ainda não tem (crítico, dano crítico, roubo de vida, velocidade, vitalidade ou defesa). O multiplicador da raridade também passa a valer sobre a vitalidade e a defesa da peça. Cada degrau custa 1 Moeda de Forja e 2500, 3500, 5000 e 7000 de ouro (`Equipamentos.CUSTOS_ASCENSAO`); lendária nível 5 é o máximo, com 4 bônus.
-
-Sets podem ser misturados, e a aparência acompanha as peças equipadas nas 11 páginas de animação. O F3 oferece prévia cosmética (sem bônus) e a ação EQUIPAR, que coloca itens reais nos slots. Para criar ou alterar um conjunto, seguir [o padrão de armaduras](ferramentas/armaduras/PADRAO.md).
-
-**Mochila única (arena e fazenda).** A mochila é a mesma nos dois lugares, e a barra de baixo (teclas 1 a 5, toque) é a primeira linha dela. O kit inicial vem com espada e escudo na mão e enxada, regador e mão (colher) na primeira linha; a lança fica na segunda. Ferramentas e sementes são itens da mochila: arrastam como qualquer item, as sementes empilham (uma casa por planta, com a quantidade no canto) e a dica mostra o tempo de crescimento. Na fazenda, escolher a casa de uma ferramenta ou de uma semente da estação a torna a ferramenta ativa (o nome dela fica fixo acima da barra); arma e escudo não fazem nada lá, e ferramenta e semente não fazem nada na arena. Ao morrer, as ferramentas voltam com o kit e as sementes ficam. Saves antigos têm as sementes passadas da fazenda para a mochila na primeira carga (`Fazenda.migrar_sementes_antigas`). Dados das plantas: `codigo/dados/plantas.gd`.
-
-**Progresso permanente.** Ao morrer, a partida vira Brasas (2 por onda, 15 por chefe, 5 por bônus), gastas em melhorias e moradores do acampamento (`codigo/globais/progresso.gd`).
-
-**Cidade e moradores.** A partida começa na **Vila das Flores** (`cenas/cidade.tscn`), com seis interiores: venda do Tomás, casa da comunidade da Lia, enfermaria da Dona Rosa, pousada do Caio, casa da Estela e casa do Bento. Os NPCs e seus serviços saíram da arena. A trilha oeste leva à fazenda e a leste à arena; a caverna da arena só abre entre ondas. As portas e as conversas usam F ou o botão de interação do controle. As ondas começam no mural de desafio da arena; a bigorna na cidade consulta a onda guardada pela transição.
-
-Os moradores seguem agendas do relógio: trabalham, encontram-se na praça e voltam para casa à noite. No inverno, os encontros externos passam para a pousada. A praça ganha bandeirinhas no último dia de cada estação e lampiões ao anoitecer. A pousada permite passar a noite. Diálogos acompanham horário, estação e amizade; conversar uma vez por dia dá amizade. Os apoios permanentes da curandeira, do bardo e da mística continuam dependendo das contratações existentes, agora feitas com Lia.
-
-O mural da praça e da comunidade mostra a localização dos moradores e seis pedidos: conhecer os vizinhos, visitar os interiores, entregar colheitas, vencer ondas e derrotar o primeiro chefe. Aceitar é gratuito; a entrega acontece com o autor do pedido e concede Brasas e amizade. Pedidos de colheita guardam a estação em que foram aceitos. Bento também oferece duas sementes da estação por dia, quando há espaço na mochila. Missões, amizade e presentes ficam em `user://cidade.json`, separados dos outros saves; novo jogo limpa esse arquivo.
-
-A cidade usa o **kit novo Mana v2**, gerado com as folhas Mana Seed do projeto como referência de estilo. O chão usa `recursos/cidade/tileset_cidade.tres`; as casas usam `recursos/cidade/tileset_construcoes.tres`. As construções em `recursos/cidade/construcoes/` possuem TileMapLayers editáveis para paredes, telhado, portas e janelas. Os PNGs originais de 1254×1254 ficam preservados em `assets/cenario/cidade/tilesets/mana_v2/`, sem redução; os atlas recortam as peças com alturas próprias. Os prompts estão em `arte/fontes/cidade/prompts_mana_v2.json`.
-
-O mapa é uma vila compacta de 864×704, com as seis construções próximas da praça, caminhos curtos, um riacho na borda com ponte, pequeno lago e horta. O cadastro e as agendas ficam em `codigo/cidade/dados_cidade.gd`, e as posições em `codigo/cidade/layout_vila.json`. Gere o kit e os exemplos com `python3 ferramentas/cidade/gerar_tilesets.py`, depois a cidade com `python3 ferramentas/cidade/gerar_cidade.py`. Testes e prévias devem usar a cópia com saves isolados descrita abaixo.
-
+O mapa técnico em [ferramentas/projeto/CONTEXTO.md](ferramentas/projeto/CONTEXTO.md) reúne caminhos, contratos e comandos de teste. Para criar ou alterar conjuntos, seguir [o padrão de armaduras](ferramentas/armaduras/PADRAO.md).
 
 ## Verificação
 

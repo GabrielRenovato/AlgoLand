@@ -1,0 +1,36 @@
+{
+  "tipo": "portal opcional para sala de mimicos",
+  "referencias": [
+    "Portal azul de Diablo III, conforme pedido do usuario",
+    "assets/cenario/cidade/objetos/portal_arena.png: escala e pixels aceitos no jogo"
+  ],
+  "celula": [
+    64,
+    80
+  ],
+  "atlas": [
+    4,
+    9
+  ],
+  "pivo": [
+    32,
+    72
+  ],
+  "estacoes": [
+    "primavera",
+    "verao",
+    "outono",
+    "inverno"
+  ],
+  "animacao": {
+    "quadros": 9,
+    "fps": 9,
+    "pixel_lab_job": "2694a4ca-e334-452b-995e-c5fc64d1bf74",
+    "descricao": "Redemoinho girando, chamas de energia pulsando e particulas sazonais; posicao e base fixas em cada celula."
+  },
+  "geracao": "Base gerada com image_gen como pixel art ampliada; simplificada antes da importacao nativa. Animacao gerada no PixelLab a partir da folha nativa.",
+  "prompt_base": "Quatro portais magicos azuis ovais sem arco de pedra, borda ciano/branca de chamas, tunel indigo em espiral, grupos de pixels grandes sem suavizacao, grade nativa64x80, base y72. Primavera: petalas verdes; verao: faiscas douradas; outono: folhas cobre; inverno: cristais claros. Quatro celulas alinhadas em uma linha, fundo transparente.",
+  "integracao": "codigo/fendas/portal_tesouro.gd: atlas de quatro estações e nove quadros a9fps, partículas sazonais reutilizadas de estacoes.gd. Entrada no andar e retorno no Bosque do Tesouro; versões ligadas ao sinal estacao_mudou.",
+  "preparacao": "python3 ferramentas/fendas/preparar_portal_tesouro.py",
+  "validacao": "teste_tesouro_mimicos.gd -- --capturar: quatro estacoes, sala e cooperativo"
+}
