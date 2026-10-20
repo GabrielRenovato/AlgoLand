@@ -1,0 +1,42 @@
+{
+  "fonte": "clara_empurrando_helena.png",
+  "grade": [
+    7,
+    4
+  ],
+  "quadro": [
+    96,
+    96
+  ],
+  "ancora_cadeira": [
+    48,
+    64
+  ],
+  "ancoras_fonte": [
+    [
+      122,
+      235
+    ],
+    [
+      158,
+      218
+    ],
+    [
+      120,
+      206
+    ],
+    [
+      92,
+      184
+    ]
+  ],
+  "escala": 0.21,
+  "ordem": [
+    "baixo",
+    "direita",
+    "cima",
+    "esquerda"
+  ],
+  "mae": "sentada com bracos apoiados",
+  "filha": "seis fases andando com as maos nos apoios traseiros"
+}

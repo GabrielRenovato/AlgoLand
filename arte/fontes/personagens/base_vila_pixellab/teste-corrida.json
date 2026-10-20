@@ -1,0 +1,30 @@
+{
+  "ferramenta": "PixelLab animate_image",
+  "job_id": "3e51a690-ba0a-4915-b123-ea3055fb0462",
+  "modelo": "modelo-direita-64.png",
+  "origem": "parado-v1-original.png: recorte fixo640x640+512+0, redução inteira10x nearest",
+  "quadros_gerados": 8,
+  "custo_informado": "1 geração do bônus diário",
+  "direcao": "direita",
+  "acao": "Corrida no lugar com alternância dos apoios, braços opostos às pernas, compressão e fase aérea; manter identidade e escala.",
+  "integracao": "Estudo isolado. Não substitui recursos ativos antes de revisar o movimento.",
+  "resultado": {
+    "status": "concluído",
+    "quadros": 9,
+    "reproducao": "GIF usa quadros gerados1..8,100ms; quadro0 é modelo de entrada em repouso.",
+    "fundo": "Branco opaco na saída; não pronto para integrar.",
+    "revisao": "Rejeitado na inspeção: pele desbotada, fundo opaco e rastros/fragmentos de membros. Não integrar.",
+    "gif": "arte/previas/personagens/base_vila_pixellab/corrida_direita.gif"
+  },
+  "correcao": {
+    "job_id": "fb993cdb-e758-4e44-a5fa-1075d98c7361",
+    "custo": "1 geração do bônus diário",
+    "no_background": true,
+    "instrucao": "Preservar paleta, transparência, um único corpo sem rastros/efeitos e alternar apoios.",
+    "status": "concluído",
+    "quadros": 9,
+    "transparencia": "confirmada",
+    "revisao": "Sem rastros claros do primeiro teste. Flexão e extensão das pernas visíveis; últimos quadros giram ombros para a câmera e braços mudam de volume. Estudo útil de movimento, ainda não pronto para integrar.",
+    "gif": "arte/previas/personagens/base_vila_pixellab/v2/corrida_direita.gif"
+  }
+}

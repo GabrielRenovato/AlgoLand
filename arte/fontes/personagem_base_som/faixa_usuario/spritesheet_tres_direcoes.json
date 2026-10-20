@@ -1,0 +1,36 @@
+{
+  "grade": [
+    6,
+    3
+  ],
+  "quadro": [
+    512,
+    512
+  ],
+  "linhas": [
+    {
+      "direcao": "baixo",
+      "quadros": 6
+    },
+    {
+      "direcao": "direita",
+      "quadros": 5
+    },
+    {
+      "direcao": "esquerda",
+      "quadros": 5
+    }
+  ],
+  "celulas_vazias": [
+    [
+      5,
+      1
+    ],
+    [
+      5,
+      2
+    ]
+  ],
+  "observacao": "Indices de celula iniciam em zero. Desenhos preservados sem redimensionar. Sem espada.",
+  "integrado_ao_jogo": false
+}

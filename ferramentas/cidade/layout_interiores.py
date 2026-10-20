@@ -322,6 +322,10 @@ CASAS = {
 }
 
 
+from layout_carpintaria import planta_carpintaria
+CASAS['carpintaria'] = planta_carpintaria(geo)
+
+
 def montar_item(casa, prop, x, y, opcoes):
     casa = opcoes.get('de', casa)
     preparado = AMBIENTES.get('interior/' + casa + '/' + prop)

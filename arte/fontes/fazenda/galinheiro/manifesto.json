@@ -1,0 +1,139 @@
+{
+  "origem_construcao": "imagegen, geração própria com referência casa Bento",
+  "referencia": "assets/cenario/cidade/casas/exterior/casa_bento.png",
+  "grade": 16,
+  "tela_exterior": [
+    224,
+    160
+  ],
+  "pivo_porta": [
+    112,
+    144
+  ],
+  "recortes": [
+    [
+      80,
+      80,
+      528,
+      576
+    ],
+    [
+      584,
+      72,
+      1248,
+      576
+    ],
+    [
+      0,
+      624,
+      692,
+      1148
+    ]
+  ],
+  "portas_fonte": [
+    [
+      320,
+      556
+    ],
+    [
+      916,
+      556
+    ],
+    [
+      356,
+      1132
+    ]
+  ],
+  "aberturas_galinhas": [
+    [
+      133,
+      117,
+      10,
+      11
+    ],
+    [
+      133,
+      117,
+      10,
+      11
+    ],
+    [
+      134,
+      116,
+      10,
+      11
+    ]
+  ],
+  "niveis": [
+    {
+      "nivel": 1,
+      "capacidade": 4,
+      "dimensoes": [
+        112,
+        124
+      ]
+    },
+    {
+      "nivel": 2,
+      "capacidade": 8,
+      "dimensoes": [
+        166,
+        126
+      ]
+    },
+    {
+      "nivel": 3,
+      "capacidade": 12,
+      "dimensoes": [
+        173,
+        131
+      ]
+    }
+  ],
+  "galinhas": {
+    "origem": "Tiny RPG",
+    "quadro": [
+      16,
+      16
+    ],
+    "grade": [
+      4,
+      7
+    ],
+    "galo": "Chicken Brown Black.png",
+    "pintinho": "Baby Chicken Yellow.png"
+  },
+  "estacoes": [
+    "primavera",
+    "verao",
+    "outono",
+    "inverno"
+  ],
+  "contrato": "Telhado de palha e madeira, três ampliações próprias, base alinhada. Interior abrigado com piso ampliável. Portinha lateral com rampa e trânsito de aves.",
+  "interior": {
+    "fonte": "gerados/interior_revisado.png",
+    "dimensoes": [
+      [
+        192,
+        144
+      ],
+      [
+        256,
+        160
+      ],
+      [
+        320,
+        192
+      ]
+    ],
+    "ninhos": "dois para coleta e um para incubacao; centros y34, deslocados com a ampliacao",
+    "ovos": "primeiro quadro16x16 do atlas Tiny, sem reduzir a folha inteira",
+    "estacoes": [
+      "primavera",
+      "verao",
+      "outono",
+      "inverno"
+    ],
+    "comedouro": "vazio no fundo, feno dinamico com borda frontal preservada"
+  }
+}

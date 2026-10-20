@@ -1,0 +1,40 @@
+{
+  "modelo": "parado-v1-original.png",
+  "movimento_referencia": "assets/personagens/craftpix_base_masculina/Unarmed_Run/Unarmed_Run_full.png",
+  "producao": "Quatro tiras geradas por IA com as poses CraftPix como referência; não é transferência exata de articulações.",
+  "folha": "corrida-v1-64.png",
+  "celula": [
+    64,
+    64
+  ],
+  "grade": [
+    8,
+    4
+  ],
+  "direcoes": [
+    "frente",
+    "direita",
+    "costas",
+    "esquerda"
+  ],
+  "duracoes_ms": [
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100
+  ],
+  "loop": true,
+  "pivo": [
+    32,
+    44
+  ],
+  "alinhamento": "Escala fixa por direção; registro horizontal pelo centro da cabeça; posição vertical comum preserva compressão e suspensão.",
+  "roupa": "Camisa creme, bermuda marrom, sapatos marrom escuro.",
+  "reproducao": "ferramentas/personagem/previa_corrida_base_vila.gd",
+  "revisao": "Folha de contato e capturas de reprodução a 10 FPS no cenário real do Godot em save isolado. Não substitui jogador ativo.",
+  "log_motor": "/tmp/algoland-corrida-godot.log; execução concluída sem SCRIPT ERROR; motor informou vazamentos de texturas ao encerrar."
+}

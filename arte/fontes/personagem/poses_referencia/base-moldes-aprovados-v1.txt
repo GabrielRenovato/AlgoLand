@@ -1,0 +1,4 @@
+Ferramenta: image_gen integrado.
+Molde: arte/previas/personagem/moldes_costas/moldes-isolados.png, derivado dos quatro recortes aprovados pelo usuário.
+Aparência: folha original do personagem base enviada pelo usuário.
+Prompt: pintar os detalhes do personagem base dentro das quatro silhuetas aprovadas, preservando inclinação de cabeça e tronco, braços, pernas sobrepostas, postura estreita e escala. Personagem simples bege careca, membros estreitos, mãos pequenas, paleta pêssego e marrom, contorno fino. Quatro poses de costas olhando para cima, mãos vazias, fundo transparente. Sem articulações mecânicas, músculos volumosos, armas, roupa, cabelo ou efeitos. Preservar a geometria individual de cada molde.

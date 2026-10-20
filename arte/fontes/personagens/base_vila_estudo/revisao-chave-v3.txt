@@ -1,0 +1,5 @@
+Objetivo esclarecido pelo usuário: criar personagem original do AlgoLand com os sprites CraftPix como guia real de poses. Não é criar software que só troque paletas.
+Ferramenta: image_gen integrado; estudo canônico parado-v1-original.png, caminhada CraftPix Unarmed_Walk_full.png e Tomas como referências.
+Prompt: quatro quadros-chave da caminhada direita, contatos e passagens alternados, mantendo aparência própria do estudo. Solicitar alternância dos membros próximos/distantes, braço oposto à perna, pivô estável, cabeça/volume constantes, roupa creme/shorts marrons.
+Revisão visual: o primeiro resultado repete os gestos dos braços nos dois contatos; a edição localizada ainda não resolveu de forma convincente a oposição dos braços. Arquivos v2/v3 são estudos reprovados para integração ou geração do ciclo. Não chamar a sequência de animação pronta nem multiplicar o erro para outras direções. Próximo trabalho deve partir dos recortes de poses e marcação dos membros, não repetir o mesmo prompt para a folha inteira.
+Modelo visual canônico ainda é o estudo parado nas quatro direções; jogador normal preservado. Nenhum sprite desta rodada foi integrado no jogo.

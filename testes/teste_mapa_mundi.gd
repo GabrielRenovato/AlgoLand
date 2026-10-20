@@ -22,7 +22,7 @@ func rodar() -> void:
 	verificar("primeira abertura cabe sem redimensionar a janela", Rect2(Vector2.ZERO,tamanho_logico).encloses(mapa.painel.get_global_rect()))
 	verificar("primeira abertura mostra a imagem inteira", mapa._rolagem.get_global_rect().encloses(mapa._imagem.get_global_rect()))
 	verificar("local atual e fazenda", mapa.regiao_atual()=="fazenda" and mapa._atores["p1"].visible)
-	verificar("servicos nas casas e retratos dos oito moradores",mapa._servicos.size()==9 and mapa._atores.size()==9)
+	verificar("servicos das casas e retratos de todos os moradores",mapa._servicos.size()==preload("res://codigo/ui/dados_mapa_mundi.gd").CASAS.size() and mapa._atores.size()==load("res://codigo/cidade/dados_cidade.gd").MORADORES.size()+1)
 	verificar("pictogramas usam texturas do jogo",mapa._servicos["forja"].get_child(0).texture!=null)
 	verificar("objetivo principal fica entre cabeçalho e mapa",mapa._rolagem.get_index()==2 and mapa._objetivo_principal.get_index()==1 and mapa._objetivo_principal.text.contains("PRINCIPAL"))
 	var grafico := DisplayServer.get_name() != "headless"
@@ -37,7 +37,8 @@ func rodar() -> void:
 		await quadros(20)
 		verificar("painel cabe na tela %s" % tamanho, Rect2(Vector2.ZERO,Vector2(tamanho)).encloses(mapa.painel.get_global_rect()))
 		verificar("icones comerciais pequenos %s" % tamanho,mapa._servicos["forja"].size.x<=14)
-		verificar("mapa legivel sem deformacao %s" % tamanho, is_equal_approx(mapa._imagem.size.x/mapa._imagem.size.y,1.5) or absf(mapa._imagem.size.x/mapa._imagem.size.y-1.5)<0.02)
+		var proporcao: float = float(mapa._imagem.texture.get_width())/mapa._imagem.texture.get_height()
+		verificar("mapa legivel sem deformacao %s" % tamanho, absf(mapa._imagem.size.x/mapa._imagem.size.y-proporcao)<0.02)
 		verificar("detalhes e fechar ficam dentro do painel %s" % tamanho, mapa.painel.get_global_rect().encloses(mapa._detalhe.get_global_rect()) and mapa.painel.get_global_rect().encloses(mapa._fechar.get_global_rect()))
 		if grafico:
 			await RenderingServer.frame_post_draw

@@ -1,0 +1,47 @@
+{
+  "quadro": [
+    64,
+    64
+  ],
+  "pes_y": 44,
+  "pivo": [
+    32,
+    44
+  ],
+  "altura_parado": 31,
+  "escala_jogo": 1,
+  "direcoes": [
+    "baixo",
+    "direita",
+    "cima",
+    "esquerda"
+  ],
+  "referencia": "arte/fontes/npcs/base_vila/adulto_avental.json",
+  "transformacao": {
+    "tela_intermediaria": [
+      90,
+      90
+    ],
+    "recorte": [
+      13,
+      18,
+      77,
+      82
+    ],
+    "filtro": "nearest"
+  },
+  "excecoes": {
+    "Sword_Run_Attack": {
+      "quadro": [
+        66,
+        66
+      ],
+      "pivo": [
+        33,
+        45
+      ],
+      "motivo": "margem para preservar arco do golpe"
+    }
+  },
+  "originais": "assets/personagens/craftpix_base_masculina/"
+}

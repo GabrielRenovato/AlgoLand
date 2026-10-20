@@ -1,0 +1,23 @@
+{
+  "fonte": "base_seis_quadros_aprovada.png",
+  "quadros_originais": [
+    2,
+    3,
+    4,
+    5,
+    6
+  ],
+  "alteracao": "Somente exclusao do primeiro quadro; demais pixels preservados no PNG.",
+  "quadro": [
+    512,
+    512
+  ],
+  "duracoes_ms": [
+    90,
+    80,
+    80,
+    90,
+    150
+  ],
+  "integrado_ao_jogo": false
+}

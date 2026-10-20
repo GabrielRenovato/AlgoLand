@@ -160,15 +160,16 @@ func _rodar() -> void:
 	if festa_coop:
 		await verificar_taverna_coop(coop, taverna)
 	Engine.time_scale = 12.0
+	var convidados: Array = taverna.moradores.values().filter(func(npc): return npc.agenda.get("local","") == "pousada")
 	# Quem estava andando na rua só aparece no interior depois de alcançar a porta.
 	for i in 300:
-		if taverna.moradores.values().all(func(npc): return npc.visible and not npc.dormindo):
+		if convidados.all(func(npc): return npc.visible and not npc.dormindo):
 			break
 		await process_frame
 	for npc in taverna.moradores.values():
 		if not npc.visible or npc.dormindo:
 			print("DIAGNOSTICO chegada ", npc.id, " hora=", taverna.hora_atual(), " dia=", cal.dia, " agenda=", npc.agenda, " trajeto=", root.get_node("Cidade").trajetos_moradores.get(npc.id))
-	verificar("festa reune todos no interior", taverna.moradores.values().all(func(npc): return npc.visible and not npc.dormindo))
+	verificar("festa reune os moradores convidados no interior",convidados.size() >= 6 and convidados.all(func(npc): return npc.visible and not npc.dormindo))
 	var levou := false
 	var correu := false
 	var vistos_sentados := {}

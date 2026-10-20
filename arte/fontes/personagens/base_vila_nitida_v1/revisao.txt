@@ -1,0 +1,1 @@
+Prévia das gerações do modelo nítido. Recorte de células fixas4x2 e4x6, sem recentralizar ou escalar pelo contorno de cada pose; GIF100ms/quadro. Exportação ampliada, não folha nativa pronta para Godot. Não integrada ao jogo. Ataque: geração interrompida pela revogação de permissão de rede. Conferir alternância dos membros e variações de desenho antes de integrar.

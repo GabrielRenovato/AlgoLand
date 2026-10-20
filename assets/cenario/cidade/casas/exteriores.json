@@ -359,5 +359,51 @@
    ],
    "poste": false
   }
+ },
+ "carpintaria": {
+  "ancora": [
+   80,
+   116
+  ],
+  "usado": [
+   4,
+   2,
+   186,
+   117
+  ],
+  "colisoes": [
+   [
+    -70,
+    -23,
+    98,
+    6
+   ]
+  ],
+  "chamine": [
+   38,
+   -111
+  ],
+  "janelas": [
+   [
+    -40,
+    -28
+   ],
+   [
+    0,
+    -69
+   ],
+   [
+    34,
+    -28
+   ]
+  ],
+  "placa": {
+   "texto": "CARPINTARIA",
+   "pos": [
+    0,
+    30
+   ],
+   "poste": false
+  }
  }
 }

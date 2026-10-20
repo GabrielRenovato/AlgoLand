@@ -47,8 +47,10 @@ func visitar(local: String) -> void:
 func conversar(id: String, quem: Node = null) -> void:
 	if not Dados.MORADORES.has(id):
 		return
+	if quem == null: quem = Cooperativo._jogador1()
 	interlocutor = id
 	if quem != null:
+		quem.set_meta("atendimento_dialogo", "")
 		quem.set_meta("interlocutor_dialogo",id)
 		quem.set_meta("carta_dialogo","")
 		quem.set_meta("mesa_dialogo",false)
@@ -61,10 +63,26 @@ func conversar(id: String, quem: Node = null) -> void:
 	conversa_pedida.emit(id)
 	EventosJogo.abrir_tela_para(quem, "conversa_cidade")
 
+## Abrir um serviço não registra conversa nem concede amizade.
+func atender(id: String, modo: String, quem: Node) -> void:
+	if not Dados.MORADORES.has(id) or quem == null: return
+	interlocutor = id
+	mesa_aberta = false
+	quem.set_meta("interlocutor_dialogo",id)
+	quem.set_meta("atendimento_dialogo",modo)
+	quem.set_meta("carta_dialogo","")
+	quem.set_meta("mesa_dialogo",false)
+	conversa_pedida.emit(id)
+	EventosJogo.abrir_tela_para(quem,"conversa_cidade")
+
 ## Sentado à mesa: abre a caixa de conversa no modo mesa (cardápio e quem está sentado junto). `vizinhos`: ids
 func abrir_mesa(quem: Node, vizinhos: Array) -> void:
 	interlocutor = ""
 	mesa_aberta = true
+	if quem != null:
+		quem.set_meta("mesa_dialogo",true)
+		quem.set_meta("carta_dialogo","")
+		quem.set_meta("atendimento_dialogo","")
 	mesa_vizinhos = vizinhos
 	conversa_pedida.emit("")
 	EventosJogo.abrir_tela_para(quem, "conversa_cidade")
@@ -78,6 +96,7 @@ func abrir_carta(quem: Node, id: String) -> void:
 	carta_aberta = id
 	if quem != null:
 		quem.set_meta("carta_dialogo",id)
+		quem.set_meta("atendimento_dialogo","")
 		quem.set_meta("mesa_dialogo",false)
 	conversa_pedida.emit("")
 	EventosJogo.abrir_tela_para(quem, "conversa_cidade")
@@ -277,6 +296,13 @@ func em_conversa(id: String) -> bool:
 	for interface in get_tree().get_nodes_in_group("interface"):
 		if interface._telas_abertas.has("conversa_cidade"):
 			var tela: Node = interface._telas["conversa_cidade"]
-			if tela._id_atual == id and not tela._mesa_aberta and not tela._carta:
+			if tela._id_atual == id and not tela._mesa_aberta and not tela._carta and tela._atendimento == "":
 				return true
+	return false
+
+func dialogo_aberto_no_ambiente(no: Node) -> bool:
+	var cena := Cooperativo.cena_de(no)
+	for interface in get_tree().get_nodes_in_group("interface"):
+		if Cooperativo.cena_de(interface)==cena and interface._telas_abertas.has("conversa_cidade"):
+			return true
 	return false

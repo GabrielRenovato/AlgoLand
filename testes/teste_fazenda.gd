@@ -7,7 +7,7 @@ extends SceneTree
 
 const Objetos := preload("res://codigo/dados/objetos_refinados.gd")
 const Aparencia := preload("res://codigo/dados/aparencia.gd")
-const FazendaJogador := preload("res://codigo/jogador/fazenda_jogador.gd")
+var FazendaJogador: Script
 const CAMINHO_PROGRESSO := "user://teste_fazenda_progresso.json"
 const DIRECOES := [Vector2.DOWN, Vector2.UP, Vector2.RIGHT, Vector2.LEFT]
 
@@ -39,11 +39,12 @@ func _duracao(acao: String) -> float:
 	return total
 
 func _rodar() -> void:
-	if ProjectSettings.get_setting("application/config/name") != "AlgoLand testes Carrasco":
+	if not OS.get_user_data_dir().get_file().begins_with("AlgoLand testes"):
 		push_error("Execute com saves isolados.")
 		quit(1)
 		return
 	await process_frame
+	FazendaJogador = load("res://codigo/jogador/fazenda_jogador.gd")
 	var progresso = root.get_node("Progresso")
 	progresso.caminho_save = CAMINHO_PROGRESSO
 	# O clima do mundo fica no autoload Fazenda (as ondas o mudam): arquivo de teste, sem o save real

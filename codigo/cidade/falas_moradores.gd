@@ -147,9 +147,9 @@ const FALAS := {
 		],
 		"dicas": [
 			{"chave": "hp_baixo", "prioridade": 100, "se": ["hp_baixo", "rosa_contratada"],
-				"texto": "Meu bem, voce esta todo machucado! Nao saia daqui assim. Use DESCANSAR NA ENFERMARIA que eu cuido de voce agora mesmo."},
+				"texto": "Meu bem, voce esta todo machucado! Nao saia daqui assim. Use RECUPERAR na recepcao da enfermaria que eu cuido de voce agora mesmo."},
 			{"chave": "hp_baixo_sem", "prioridade": 100, "se": ["hp_baixo"], "nao": ["rosa_contratada"],
-				"texto": "Voce esta muito ferido, meu bem. Durma na pousada para recuperar, e converse com a Lia para me contratar: eu cuido de voce aqui e ainda te levanto uma vez por partida na arena."},
+				"texto": "Voce esta muito ferido, meu bem. Durma na pousada para recuperar, e passe na mesa da sede para me contratar: eu cuido de voce aqui e ainda te levanto uma vez por partida na arena."},
 			{"chave": "reviver", "prioridade": 70, "se": ["rosa_contratada"],
 				"texto": "Lembre: contratada, eu te levanto uma vez em cada partida, com metade da vida. Mas nao abuse, que coracao de velha nao aguenta susto."},
 			{"chave": "pocao_cura", "prioridade": 65, "nao": ["tem_pocao_cura", "inverno"],
@@ -227,7 +227,7 @@ const FALAS := {
 		],
 		"dicas": [
 			{"chave": "cozinhar", "prioridade": 60, "se": ["pode_cozinhar"],
-				"texto": "Isso na sua bolsa e colheita de verdade! Me deixa cozinhar: um prato bem feito vale a proxima partida inteira na arena. Mais vida, mais dano, mais ouro. Escolha em COZINHAR."},
+				"texto": "Isso na sua bolsa e colheita de verdade! Me deixa cozinhar: um prato bem feito vale a proxima partida inteira na arena. Mais vida, mais dano, mais ouro. Use o fogao da pousada para escolher o prato."},
 			{"chave": "horta_arena", "prioridade": 35, "nao": ["comeu", "pode_cozinhar"],
 				"texto": "Quem vai para a arena de barriga vazia volta cedo. Plante, traga a colheita e eu preparo algo que faz voce aguentar os andares altos."},
 			{"chave": "proximo_chefe", "prioridade": 60, "nao": ["todos_chefes"],

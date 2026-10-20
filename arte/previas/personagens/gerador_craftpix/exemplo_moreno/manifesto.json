@@ -1,0 +1,737 @@
+{
+  "quadro": [
+    64,
+    64
+  ],
+  "pivo": [
+    32,
+    44
+  ],
+  "direcoes": [
+    "baixo",
+    "esquerda",
+    "direita",
+    "cima"
+  ],
+  "animacoes": {
+    "sword_attack": {
+      "folha": "sword_attack.png",
+      "direcoes": {
+        "back": {
+          "linha": 3,
+          "duracoes": [
+            0.5,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        },
+        "front": {
+          "linha": 0,
+          "duracoes": [
+            0.5,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        },
+        "side_left": {
+          "linha": 1,
+          "duracoes": [
+            0.5,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        },
+        "side_right": {
+          "linha": 2,
+          "duracoes": [
+            0.5,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        }
+      }
+    },
+    "sword_death": {
+      "folha": "sword_death.png",
+      "direcoes": {
+        "back": {
+          "linha": 3,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.3
+          ]
+        },
+        "front": {
+          "linha": 0,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.3
+          ]
+        },
+        "side_left": {
+          "linha": 1,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.3
+          ]
+        },
+        "side_right": {
+          "linha": 2,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.3
+          ]
+        }
+      }
+    },
+    "sword_hurt": {
+      "folha": "sword_hurt.png",
+      "direcoes": {
+        "back": {
+          "linha": 3,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        },
+        "front": {
+          "linha": 0,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        },
+        "side_left": {
+          "linha": 1,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        },
+        "side_right": {
+          "linha": 2,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        }
+      }
+    },
+    "sword_idle": {
+      "folha": "sword_idle.png",
+      "direcoes": {
+        "back": {
+          "linha": 3,
+          "duracoes": [
+            0.9,
+            0.1,
+            0.9,
+            0.1
+          ]
+        },
+        "front": {
+          "linha": 0,
+          "duracoes": [
+            0.3,
+            0.1,
+            0.1,
+            0.1,
+            0.3,
+            0.1,
+            0.3,
+            0.1,
+            0.1,
+            0.1,
+            0.3,
+            0.1
+          ]
+        },
+        "side_left": {
+          "linha": 1,
+          "duracoes": [
+            0.3,
+            0.1,
+            0.1,
+            0.1,
+            0.3,
+            0.1,
+            0.3,
+            0.1,
+            0.1,
+            0.1,
+            0.3,
+            0.1
+          ]
+        },
+        "side_right": {
+          "linha": 2,
+          "duracoes": [
+            0.3,
+            0.1,
+            0.1,
+            0.1,
+            0.3,
+            0.1,
+            0.3,
+            0.1,
+            0.1,
+            0.1,
+            0.3,
+            0.1
+          ]
+        }
+      }
+    },
+    "sword_run": {
+      "folha": "sword_run.png",
+      "direcoes": {
+        "back": {
+          "linha": 3,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        },
+        "front": {
+          "linha": 0,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        },
+        "side_left": {
+          "linha": 1,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        },
+        "side_right": {
+          "linha": 2,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        }
+      }
+    },
+    "sword_run_attack": {
+      "folha": "sword_run_attack.png",
+      "direcoes": {
+        "back": {
+          "linha": 3,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        },
+        "front": {
+          "linha": 0,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        },
+        "side_left": {
+          "linha": 1,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        },
+        "side_right": {
+          "linha": 2,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        }
+      }
+    },
+    "sword_walk": {
+      "folha": "sword_walk.png",
+      "direcoes": {
+        "back": {
+          "linha": 3,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        },
+        "front": {
+          "linha": 0,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        },
+        "side_left": {
+          "linha": 1,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        },
+        "side_right": {
+          "linha": 2,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        }
+      }
+    },
+    "sword_walk_attack": {
+      "folha": "sword_walk_attack.png",
+      "direcoes": {
+        "back": {
+          "linha": 3,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        },
+        "front": {
+          "linha": 0,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        },
+        "side_left": {
+          "linha": 1,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        },
+        "side_right": {
+          "linha": 2,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        }
+      }
+    },
+    "unarmed_death": {
+      "folha": "unarmed_death.png",
+      "direcoes": {
+        "front": {
+          "linha": 0,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.3
+          ]
+        },
+        "back": {
+          "linha": 3,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.3
+          ]
+        },
+        "side_left": {
+          "linha": 1,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.3
+          ]
+        },
+        "side_right": {
+          "linha": 2,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.3
+          ]
+        }
+      }
+    },
+    "unarmed_hurt": {
+      "folha": "unarmed_hurt.png",
+      "direcoes": {
+        "back": {
+          "linha": 3,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        },
+        "front": {
+          "linha": 0,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        },
+        "side_left": {
+          "linha": 1,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        },
+        "side_right": {
+          "linha": 2,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        }
+      }
+    },
+    "unarmed_idle": {
+      "folha": "unarmed_idle.png",
+      "direcoes": {
+        "back": {
+          "linha": 3,
+          "duracoes": [
+            0.9,
+            0.1,
+            0.9,
+            0.1
+          ]
+        },
+        "front": {
+          "linha": 0,
+          "duracoes": [
+            0.3,
+            0.1,
+            0.1,
+            0.1,
+            0.3,
+            0.1,
+            0.3,
+            0.1,
+            0.1,
+            0.1,
+            0.3,
+            0.1
+          ]
+        },
+        "side_left": {
+          "linha": 1,
+          "duracoes": [
+            0.3,
+            0.1,
+            0.1,
+            0.1,
+            0.3,
+            0.1,
+            0.3,
+            0.1,
+            0.1,
+            0.1,
+            0.3,
+            0.1
+          ]
+        },
+        "side_right": {
+          "linha": 2,
+          "duracoes": [
+            0.3,
+            0.1,
+            0.1,
+            0.1,
+            0.3,
+            0.1,
+            0.3,
+            0.1,
+            0.1,
+            0.1,
+            0.3,
+            0.1
+          ]
+        }
+      }
+    },
+    "unarmed_run": {
+      "folha": "unarmed_run.png",
+      "direcoes": {
+        "back": {
+          "linha": 3,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        },
+        "front": {
+          "linha": 0,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        },
+        "side_left": {
+          "linha": 1,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        },
+        "side_right": {
+          "linha": 2,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        }
+      }
+    },
+    "unarmed_walk": {
+      "folha": "unarmed_walk.png",
+      "direcoes": {
+        "back": {
+          "linha": 3,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        },
+        "front": {
+          "linha": 0,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        },
+        "side_left": {
+          "linha": 1,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        },
+        "side_right": {
+          "linha": 2,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        }
+      }
+    }
+  },
+  "nome": "exemplo_moreno",
+  "perfil": {
+    "nome": "Morena",
+    "pele": [
+      "442a24",
+      "624037",
+      "805344",
+      "a16b50",
+      "bd8b63",
+      "d6a577"
+    ],
+    "olhos": [
+      "353e31",
+      "62754c"
+    ]
+  },
+  "origem": "CraftPix / Free Game Assets",
+  "licenca": "https://craftpix.net/file-licenses/"
+}

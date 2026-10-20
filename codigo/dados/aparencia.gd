@@ -234,8 +234,13 @@ static func cabelo(indice: int, pagina: String, indice_vestimenta: int = -1, pec
 ## A apresentação usa esta folha de 128 px com o mesmo encaixe e índice.
 static func cabelo_refinado(indice: int, pagina: String, indice_vestimenta: int = -1, pecas: int = -1, raizes: Dictionary = {}) -> Texture2D:
 	var nativo := cabelo(indice, pagina, indice_vestimenta, pecas, raizes)
-	var chave := str(nativo.get_instance_id())
+	var chave := _chave_textura(nativo)
 	if _cache_cabelos_refinados.has(chave):
+		return _cache_cabelos_refinados[chave]
+	# Elmo fechado usa a mesma folha vazia; não percorrer um milhão de pixels.
+	if nativo == TEXTURA_VAZIA:
+		var vazia := Image.create(1024, 1024, false, Image.FORMAT_RGBA8)
+		_cache_cabelos_refinados[chave] = ImageTexture.create_from_image(vazia)
 		return _cache_cabelos_refinados[chave]
 	var caminho := RAIZ_CABELOS_REFINADOS+String(cabelos()[indice_cabelo(indice)]["id"])+"_"+pagina+".png"
 	var folha := _carregar(caminho)
@@ -370,7 +375,7 @@ static func roupa(indice: int, pagina: String, pecas: int = -1, raizes: Dictiona
 ## Mantém roupa() e o compositor nativo disponíveis para os validadores de armadura.
 static func roupa_refinada(indice: int, pagina: String, pecas: int = -1, raizes: Dictionary = {}) -> Texture2D:
 	var nativa := roupa(indice,pagina,pecas,raizes)
-	var chave := str(nativa.get_instance_id())
+	var chave := _chave_textura(nativa)
 	if _cache_roupas_refinadas.has(chave):
 		return _cache_roupas_refinadas[chave]
 	if not nativa.resource_path.is_empty():
@@ -425,10 +430,13 @@ static func caminho_roupa_refinada(nativa: Texture2D) -> String:
 static func peca_refinada(raiz: String, peca: String, pagina: String) -> Texture2D:
 	var id := raiz.trim_suffix("/").get_file()
 	var caminho := AcabamentoVestimenta.RAIZ+id+"/"+peca+"/"+pagina+".png"
-	if ResourceLoader.exists(caminho):
-		return _carregar(caminho)
 	var chave := "peca:"+raiz+peca+pagina
-	if not _cache_roupas_refinadas.has(chave):
+	if _cache_roupas_refinadas.has(chave):
+		return _cache_roupas_refinadas[chave]
+	if ResourceLoader.exists(caminho):
+		# Mantém a peça viva: seu id participa do cache da cabeça com cartola.
+		_cache_roupas_refinadas[chave] = _carregar(caminho)
+	else:
 		_cache_roupas_refinadas[chave] = ImageTexture.create_from_image(AcabamentoVestimenta.refinar(_carregar(raiz+peca+"/"+pagina+".png").get_image(),true))
 	return _cache_roupas_refinadas[chave]
 
@@ -592,6 +600,11 @@ static func _limpar_cobertura(imagem: Image, cobertura: PackedByteArray, mascara
 			bytes[k + 2] = 0
 			bytes[k + 3] = 0
 	imagem.set_data(imagem.get_width(), imagem.get_height(), false, Image.FORMAT_RGBA8, bytes)
+
+static func _chave_textura(textura: Texture2D) -> String:
+	# Texturas de arquivo podem ser descarregadas pelo cache fraco do motor.
+	# O caminho é estável; composições em memória continuam identificadas pelo id.
+	return textura.resource_path if not textura.resource_path.is_empty() else str(textura.get_instance_id())
 
 static func _carregar(caminho: String) -> Texture2D:
 	return load(caminho) as Texture2D

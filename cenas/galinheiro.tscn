@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://codigo/fazenda/interior_galinheiro.gd" id="interior"]
+[ext_resource type="PackedScene" path="res://cenas/jogador.tscn" id="jogador"]
+[ext_resource type="PackedScene" path="res://cenas/ui.tscn" id="hud"]
+[ext_resource type="PackedScene" path="res://cenas/ui/interface.tscn" id="interface"]
+[ext_resource type="Script" path="res://codigo/efeitos/iluminacao.gd" id="luz"]
+
+[node name="galinheiro" type="Node2D"]
+script = ExtResource("interior")
+metadata/titulo_hud = "GALINHEIRO"
+metadata/barra_ferramentas = true
+
+[node name="Fundo" type="ColorRect" parent="."]
+z_index = -1001
+offset_left = -1800.0
+offset_top = -1400.0
+offset_right = 1800.0
+offset_bottom = 1400.0
+mouse_filter = 2
+color = Color(0.075,0.07,0.105,1)
+
+[node name="Jogador" parent="." instance=ExtResource("jogador")]
+position = Vector2(96,104)
+
+[node name="Iluminacao" type="Node" parent="."]
+script = ExtResource("luz")
+
+[node name="CanvasModulate" type="CanvasModulate" parent="Iluminacao"]
+
+[node name="Interface" parent="." instance=ExtResource("interface")]
+
+[node name="HUD" parent="." instance=ExtResource("hud")]

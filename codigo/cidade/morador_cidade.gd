@@ -84,8 +84,8 @@ func _ready() -> void:
 	var forma := CollisionShape2D.new()
 	forma.name = "CollisionShape2D"
 	var capsula := CapsuleShape2D.new()
-	capsula.radius = 5
-	capsula.height = 12
+	capsula.radius = 9 if dados.get("cadeira_de_rodas",false) else 5
+	capsula.height = 18 if dados.get("cadeira_de_rodas",false) else 12
 	forma.shape = capsula
 	forma.position.y = 9
 	add_child(forma)
@@ -192,6 +192,9 @@ func _montar_balao() -> void:
 
 ## Frase curta sobre a cabeça quando o jogador passa perto (fora de conversa)
 func _talvez_falar(delta: float, distancia: float, conversando: bool) -> void:
+	if Cidade.dialogo_aberto_no_ambiente(self):
+		calar()
+		return
 	if _balao.visible: _ajustar_balao()
 	_espera_balao -= delta
 	var agora := Time.get_ticks_msec() / 1000.0
@@ -256,6 +259,8 @@ func _physics_process(delta: float) -> void:
 	if ocupado_na_forja:
 		return
 	Trajeto.sincronizar(self)
+	if vila.apoio_helena != null and vila.apoio_helena.antes_de_mover(self,delta):
+		return
 	if not visible:
 		return
 	_tempo += delta
@@ -268,13 +273,13 @@ func _physics_process(delta: float) -> void:
 	var jogador: Node2D = Cooperativo.jogador_no_ambiente(self)
 	var distancia := global_position.distance_to(jogador.global_position) if jogador != null else INF
 	# Sentar perto da mesa não inicia conversa nem interrompe o atendimento.
-	var perto: bool = distancia < 34 and not jogador.esta_sentado and not atendendo_mesas
+	var perto: bool = distancia < 34 and not jogador.esta_sentado and not atendendo_mesas and not agenda.get("construindo",false)
 	# Parado durante a conversa e também nos serviços abertos por ela (loja, poções, pedidos): enquanto o jogador está numa tela
 	var conversando: bool = Cidade.em_conversa(id)
 	# Todas as telas fecharam: a conversa acabou (senão a próxima mochila aberta prenderia este morador)
 	if Cidade.interlocutor == id and not conversando:
 		Cidade.interlocutor = ""
-	if assento.atualizar(self, delta):
+	if id != "helena" and assento.atualizar(self, delta):
 		_talvez_falar(delta, distancia, conversando)
 		return
 	if is_instance_valid(parceiro_papo) and not conversando and not _saindo:
@@ -282,20 +287,22 @@ func _physics_process(delta: float) -> void:
 		if _balao.visible: _ajustar_balao()
 		olhar_para(parceiro_papo.position)
 		return
-	_talvez_falar(delta, distancia, conversando or _saindo)
+	_talvez_falar(delta, distancia, conversando or _saindo or agenda.get("construindo",false))
 	if not perto and not conversando:
 		passeio.atualizar(self, delta)
+	# Consome os pontos já alcançados no mesmo passo de física. Antes cada
+	# célula da rota produzia um quadro parado entre dois passos de caminhada.
+	while not caminho.is_empty() and position.distance_to(caminho[0]) <= 1.0:
+		caminho.remove_at(0)
 	var andando := false
 	if (perto and not _saindo) or conversando:
 		_linha = _direcao(jogador.position - position)
 	elif not caminho.is_empty():
 		var diferenca := caminho[0] - position
-		if diferenca.length() <= 1.0:
-			caminho.remove_at(0)
-		else:
+		if not diferenca.is_zero_approx():
 			andando = true
 			_linha = _direcao(diferenca)
-			var movimento := diferenca.normalized() * minf((passeio.velocidade if agenda.get("livre", false) else 26.0 * ritmo()) * delta, diferenca.length())
+			var movimento := diferenca.normalized() * minf((passeio.velocidade if agenda.get("livre", false) else (18.0 if id == "helena" else 26.0) * ritmo()) * delta, diferenca.length())
 			movimento = Espacamento.limitar(self,movimento)
 			andando = not movimento.is_zero_approx()
 			var colisao := move_and_collide(movimento)
@@ -317,6 +324,8 @@ func _physics_process(delta: float) -> void:
 		return
 	z_index = Profundidade.z_de(position.y + 9)
 	sprite.frame = _linha * _colunas + (1 + int(_tempo * 8 * ritmo()) % _quadros_andar if andando else 0)
+	if id == "helena" and vila.apoio_helena != null:
+		vila.apoio_helena.depois_de_mover(andando)
 
 ## Mais rápido só servindo as mesas na festa
 func ritmo() -> float:
@@ -356,7 +365,7 @@ func _deitar() -> void:
 	var base: Vector2 = agenda["cama"]
 	var altura: float = agenda["altura_cama"]
 	_pe_da_cama = base + Vector2(0, 12)
-	position = base + Vector2(0, -altura + 4)
+	position = base + Vector2(0, -altura + 4) + Vector2(agenda.get("ajuste_travesseiro",Vector2.ZERO))
 	_escondidos.clear()
 	for filho in get_children():
 		if filho is CanvasItem and filho != _cabeca and filho != _zzz and filho != _balao and filho.visible:

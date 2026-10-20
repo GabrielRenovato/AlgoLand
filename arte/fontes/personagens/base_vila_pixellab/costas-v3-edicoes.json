@@ -1,0 +1,5181 @@
+{
+  "ferramenta": "PixelLab pixelart_workbench (edição exata gratuita)",
+  "origem": "job:9f266415-e3b0-47eb-832d-df6a8b23a033",
+  "resultado": "c6c17601-205f-45df-8eb1-a45c8a9dd261",
+  "changes": [
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        63,
+        0,
+        63,
+        63
+      ],
+      "at": [
+        0,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        62,
+        0,
+        62,
+        63
+      ],
+      "at": [
+        1,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        61,
+        0,
+        61,
+        63
+      ],
+      "at": [
+        2,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        60,
+        0,
+        60,
+        63
+      ],
+      "at": [
+        3,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        59,
+        0,
+        59,
+        63
+      ],
+      "at": [
+        4,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        58,
+        0,
+        58,
+        63
+      ],
+      "at": [
+        5,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        57,
+        0,
+        57,
+        63
+      ],
+      "at": [
+        6,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        56,
+        0,
+        56,
+        63
+      ],
+      "at": [
+        7,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        55,
+        0,
+        55,
+        63
+      ],
+      "at": [
+        8,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        54,
+        0,
+        54,
+        63
+      ],
+      "at": [
+        9,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        53,
+        0,
+        53,
+        63
+      ],
+      "at": [
+        10,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        52,
+        0,
+        52,
+        63
+      ],
+      "at": [
+        11,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        51,
+        0,
+        51,
+        63
+      ],
+      "at": [
+        12,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        50,
+        0,
+        50,
+        63
+      ],
+      "at": [
+        13,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        49,
+        0,
+        49,
+        63
+      ],
+      "at": [
+        14,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        48,
+        0,
+        48,
+        63
+      ],
+      "at": [
+        15,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        47,
+        0,
+        47,
+        63
+      ],
+      "at": [
+        16,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        46,
+        0,
+        46,
+        63
+      ],
+      "at": [
+        17,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        45,
+        0,
+        45,
+        63
+      ],
+      "at": [
+        18,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        44,
+        0,
+        44,
+        63
+      ],
+      "at": [
+        19,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        43,
+        0,
+        43,
+        63
+      ],
+      "at": [
+        20,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        42,
+        0,
+        42,
+        63
+      ],
+      "at": [
+        21,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        41,
+        0,
+        41,
+        63
+      ],
+      "at": [
+        22,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        40,
+        0,
+        40,
+        63
+      ],
+      "at": [
+        23,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        39,
+        0,
+        39,
+        63
+      ],
+      "at": [
+        24,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        38,
+        0,
+        38,
+        63
+      ],
+      "at": [
+        25,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        37,
+        0,
+        37,
+        63
+      ],
+      "at": [
+        26,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        36,
+        0,
+        36,
+        63
+      ],
+      "at": [
+        27,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        35,
+        0,
+        35,
+        63
+      ],
+      "at": [
+        28,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        34,
+        0,
+        34,
+        63
+      ],
+      "at": [
+        29,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        33,
+        0,
+        33,
+        63
+      ],
+      "at": [
+        30,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        32,
+        0,
+        32,
+        63
+      ],
+      "at": [
+        31,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        31,
+        0,
+        31,
+        63
+      ],
+      "at": [
+        32,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        30,
+        0,
+        30,
+        63
+      ],
+      "at": [
+        33,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        29,
+        0,
+        29,
+        63
+      ],
+      "at": [
+        34,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        28,
+        0,
+        28,
+        63
+      ],
+      "at": [
+        35,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        27,
+        0,
+        27,
+        63
+      ],
+      "at": [
+        36,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        26,
+        0,
+        26,
+        63
+      ],
+      "at": [
+        37,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        25,
+        0,
+        25,
+        63
+      ],
+      "at": [
+        38,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        24,
+        0,
+        24,
+        63
+      ],
+      "at": [
+        39,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        23,
+        0,
+        23,
+        63
+      ],
+      "at": [
+        40,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        22,
+        0,
+        22,
+        63
+      ],
+      "at": [
+        41,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        21,
+        0,
+        21,
+        63
+      ],
+      "at": [
+        42,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        20,
+        0,
+        20,
+        63
+      ],
+      "at": [
+        43,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        19,
+        0,
+        19,
+        63
+      ],
+      "at": [
+        44,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        18,
+        0,
+        18,
+        63
+      ],
+      "at": [
+        45,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        17,
+        0,
+        17,
+        63
+      ],
+      "at": [
+        46,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        16,
+        0,
+        16,
+        63
+      ],
+      "at": [
+        47,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        15,
+        0,
+        15,
+        63
+      ],
+      "at": [
+        48,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        14,
+        0,
+        14,
+        63
+      ],
+      "at": [
+        49,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        13,
+        0,
+        13,
+        63
+      ],
+      "at": [
+        50,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        12,
+        0,
+        12,
+        63
+      ],
+      "at": [
+        51,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        11,
+        0,
+        11,
+        63
+      ],
+      "at": [
+        52,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        10,
+        0,
+        10,
+        63
+      ],
+      "at": [
+        53,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        9,
+        0,
+        9,
+        63
+      ],
+      "at": [
+        54,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        8,
+        0,
+        8,
+        63
+      ],
+      "at": [
+        55,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        7,
+        0,
+        7,
+        63
+      ],
+      "at": [
+        56,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        6,
+        0,
+        6,
+        63
+      ],
+      "at": [
+        57,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        5,
+        0,
+        5,
+        63
+      ],
+      "at": [
+        58,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        4,
+        0,
+        4,
+        63
+      ],
+      "at": [
+        59,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        3,
+        0,
+        3,
+        63
+      ],
+      "at": [
+        60,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        2,
+        0,
+        2,
+        63
+      ],
+      "at": [
+        61,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        1,
+        0,
+        1,
+        63
+      ],
+      "at": [
+        62,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        6
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        0,
+        0,
+        0,
+        63
+      ],
+      "at": [
+        63,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        63,
+        0,
+        63,
+        63
+      ],
+      "at": [
+        0,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        62,
+        0,
+        62,
+        63
+      ],
+      "at": [
+        1,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        61,
+        0,
+        61,
+        63
+      ],
+      "at": [
+        2,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        60,
+        0,
+        60,
+        63
+      ],
+      "at": [
+        3,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        59,
+        0,
+        59,
+        63
+      ],
+      "at": [
+        4,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        58,
+        0,
+        58,
+        63
+      ],
+      "at": [
+        5,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        57,
+        0,
+        57,
+        63
+      ],
+      "at": [
+        6,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        56,
+        0,
+        56,
+        63
+      ],
+      "at": [
+        7,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        55,
+        0,
+        55,
+        63
+      ],
+      "at": [
+        8,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        54,
+        0,
+        54,
+        63
+      ],
+      "at": [
+        9,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        53,
+        0,
+        53,
+        63
+      ],
+      "at": [
+        10,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        52,
+        0,
+        52,
+        63
+      ],
+      "at": [
+        11,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        51,
+        0,
+        51,
+        63
+      ],
+      "at": [
+        12,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        50,
+        0,
+        50,
+        63
+      ],
+      "at": [
+        13,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        49,
+        0,
+        49,
+        63
+      ],
+      "at": [
+        14,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        48,
+        0,
+        48,
+        63
+      ],
+      "at": [
+        15,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        47,
+        0,
+        47,
+        63
+      ],
+      "at": [
+        16,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        46,
+        0,
+        46,
+        63
+      ],
+      "at": [
+        17,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        45,
+        0,
+        45,
+        63
+      ],
+      "at": [
+        18,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        44,
+        0,
+        44,
+        63
+      ],
+      "at": [
+        19,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        43,
+        0,
+        43,
+        63
+      ],
+      "at": [
+        20,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        42,
+        0,
+        42,
+        63
+      ],
+      "at": [
+        21,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        41,
+        0,
+        41,
+        63
+      ],
+      "at": [
+        22,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        40,
+        0,
+        40,
+        63
+      ],
+      "at": [
+        23,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        39,
+        0,
+        39,
+        63
+      ],
+      "at": [
+        24,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        38,
+        0,
+        38,
+        63
+      ],
+      "at": [
+        25,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        37,
+        0,
+        37,
+        63
+      ],
+      "at": [
+        26,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        36,
+        0,
+        36,
+        63
+      ],
+      "at": [
+        27,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        35,
+        0,
+        35,
+        63
+      ],
+      "at": [
+        28,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        34,
+        0,
+        34,
+        63
+      ],
+      "at": [
+        29,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        33,
+        0,
+        33,
+        63
+      ],
+      "at": [
+        30,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        32,
+        0,
+        32,
+        63
+      ],
+      "at": [
+        31,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        31,
+        0,
+        31,
+        63
+      ],
+      "at": [
+        32,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        30,
+        0,
+        30,
+        63
+      ],
+      "at": [
+        33,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        29,
+        0,
+        29,
+        63
+      ],
+      "at": [
+        34,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        28,
+        0,
+        28,
+        63
+      ],
+      "at": [
+        35,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        27,
+        0,
+        27,
+        63
+      ],
+      "at": [
+        36,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        26,
+        0,
+        26,
+        63
+      ],
+      "at": [
+        37,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        25,
+        0,
+        25,
+        63
+      ],
+      "at": [
+        38,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        24,
+        0,
+        24,
+        63
+      ],
+      "at": [
+        39,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        23,
+        0,
+        23,
+        63
+      ],
+      "at": [
+        40,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        22,
+        0,
+        22,
+        63
+      ],
+      "at": [
+        41,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        21,
+        0,
+        21,
+        63
+      ],
+      "at": [
+        42,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        20,
+        0,
+        20,
+        63
+      ],
+      "at": [
+        43,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        19,
+        0,
+        19,
+        63
+      ],
+      "at": [
+        44,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        18,
+        0,
+        18,
+        63
+      ],
+      "at": [
+        45,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        17,
+        0,
+        17,
+        63
+      ],
+      "at": [
+        46,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        16,
+        0,
+        16,
+        63
+      ],
+      "at": [
+        47,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        15,
+        0,
+        15,
+        63
+      ],
+      "at": [
+        48,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        14,
+        0,
+        14,
+        63
+      ],
+      "at": [
+        49,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        13,
+        0,
+        13,
+        63
+      ],
+      "at": [
+        50,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        12,
+        0,
+        12,
+        63
+      ],
+      "at": [
+        51,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        11,
+        0,
+        11,
+        63
+      ],
+      "at": [
+        52,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        10,
+        0,
+        10,
+        63
+      ],
+      "at": [
+        53,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        9,
+        0,
+        9,
+        63
+      ],
+      "at": [
+        54,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        8,
+        0,
+        8,
+        63
+      ],
+      "at": [
+        55,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        7,
+        0,
+        7,
+        63
+      ],
+      "at": [
+        56,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        6,
+        0,
+        6,
+        63
+      ],
+      "at": [
+        57,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        5,
+        0,
+        5,
+        63
+      ],
+      "at": [
+        58,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        4,
+        0,
+        4,
+        63
+      ],
+      "at": [
+        59,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        3,
+        0,
+        3,
+        63
+      ],
+      "at": [
+        60,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        2,
+        0,
+        2,
+        63
+      ],
+      "at": [
+        61,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        1,
+        0,
+        1,
+        63
+      ],
+      "at": [
+        62,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        7
+      ],
+      "source_layer": "image",
+      "source_frame": 3,
+      "region": [
+        0,
+        0,
+        0,
+        63
+      ],
+      "at": [
+        63,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        63,
+        0,
+        63,
+        63
+      ],
+      "at": [
+        0,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        62,
+        0,
+        62,
+        63
+      ],
+      "at": [
+        1,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        61,
+        0,
+        61,
+        63
+      ],
+      "at": [
+        2,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        60,
+        0,
+        60,
+        63
+      ],
+      "at": [
+        3,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        59,
+        0,
+        59,
+        63
+      ],
+      "at": [
+        4,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        58,
+        0,
+        58,
+        63
+      ],
+      "at": [
+        5,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        57,
+        0,
+        57,
+        63
+      ],
+      "at": [
+        6,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        56,
+        0,
+        56,
+        63
+      ],
+      "at": [
+        7,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        55,
+        0,
+        55,
+        63
+      ],
+      "at": [
+        8,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        54,
+        0,
+        54,
+        63
+      ],
+      "at": [
+        9,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        53,
+        0,
+        53,
+        63
+      ],
+      "at": [
+        10,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        52,
+        0,
+        52,
+        63
+      ],
+      "at": [
+        11,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        51,
+        0,
+        51,
+        63
+      ],
+      "at": [
+        12,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        50,
+        0,
+        50,
+        63
+      ],
+      "at": [
+        13,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        49,
+        0,
+        49,
+        63
+      ],
+      "at": [
+        14,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        48,
+        0,
+        48,
+        63
+      ],
+      "at": [
+        15,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        47,
+        0,
+        47,
+        63
+      ],
+      "at": [
+        16,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        46,
+        0,
+        46,
+        63
+      ],
+      "at": [
+        17,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        45,
+        0,
+        45,
+        63
+      ],
+      "at": [
+        18,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        44,
+        0,
+        44,
+        63
+      ],
+      "at": [
+        19,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        43,
+        0,
+        43,
+        63
+      ],
+      "at": [
+        20,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        42,
+        0,
+        42,
+        63
+      ],
+      "at": [
+        21,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        41,
+        0,
+        41,
+        63
+      ],
+      "at": [
+        22,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        40,
+        0,
+        40,
+        63
+      ],
+      "at": [
+        23,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        39,
+        0,
+        39,
+        63
+      ],
+      "at": [
+        24,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        38,
+        0,
+        38,
+        63
+      ],
+      "at": [
+        25,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        37,
+        0,
+        37,
+        63
+      ],
+      "at": [
+        26,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        36,
+        0,
+        36,
+        63
+      ],
+      "at": [
+        27,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        35,
+        0,
+        35,
+        63
+      ],
+      "at": [
+        28,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        34,
+        0,
+        34,
+        63
+      ],
+      "at": [
+        29,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        33,
+        0,
+        33,
+        63
+      ],
+      "at": [
+        30,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        32,
+        0,
+        32,
+        63
+      ],
+      "at": [
+        31,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        31,
+        0,
+        31,
+        63
+      ],
+      "at": [
+        32,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        30,
+        0,
+        30,
+        63
+      ],
+      "at": [
+        33,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        29,
+        0,
+        29,
+        63
+      ],
+      "at": [
+        34,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        28,
+        0,
+        28,
+        63
+      ],
+      "at": [
+        35,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        27,
+        0,
+        27,
+        63
+      ],
+      "at": [
+        36,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        26,
+        0,
+        26,
+        63
+      ],
+      "at": [
+        37,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        25,
+        0,
+        25,
+        63
+      ],
+      "at": [
+        38,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        24,
+        0,
+        24,
+        63
+      ],
+      "at": [
+        39,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        23,
+        0,
+        23,
+        63
+      ],
+      "at": [
+        40,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        22,
+        0,
+        22,
+        63
+      ],
+      "at": [
+        41,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        21,
+        0,
+        21,
+        63
+      ],
+      "at": [
+        42,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        20,
+        0,
+        20,
+        63
+      ],
+      "at": [
+        43,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        19,
+        0,
+        19,
+        63
+      ],
+      "at": [
+        44,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        18,
+        0,
+        18,
+        63
+      ],
+      "at": [
+        45,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        17,
+        0,
+        17,
+        63
+      ],
+      "at": [
+        46,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        16,
+        0,
+        16,
+        63
+      ],
+      "at": [
+        47,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        15,
+        0,
+        15,
+        63
+      ],
+      "at": [
+        48,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        14,
+        0,
+        14,
+        63
+      ],
+      "at": [
+        49,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        13,
+        0,
+        13,
+        63
+      ],
+      "at": [
+        50,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        12,
+        0,
+        12,
+        63
+      ],
+      "at": [
+        51,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        11,
+        0,
+        11,
+        63
+      ],
+      "at": [
+        52,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        10,
+        0,
+        10,
+        63
+      ],
+      "at": [
+        53,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        9,
+        0,
+        9,
+        63
+      ],
+      "at": [
+        54,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        8,
+        0,
+        8,
+        63
+      ],
+      "at": [
+        55,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        7,
+        0,
+        7,
+        63
+      ],
+      "at": [
+        56,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        6,
+        0,
+        6,
+        63
+      ],
+      "at": [
+        57,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        5,
+        0,
+        5,
+        63
+      ],
+      "at": [
+        58,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        4,
+        0,
+        4,
+        63
+      ],
+      "at": [
+        59,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        3,
+        0,
+        3,
+        63
+      ],
+      "at": [
+        60,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        2,
+        0,
+        2,
+        63
+      ],
+      "at": [
+        61,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        1,
+        0,
+        1,
+        63
+      ],
+      "at": [
+        62,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        8
+      ],
+      "source_layer": "image",
+      "source_frame": 4,
+      "region": [
+        0,
+        0,
+        0,
+        63
+      ],
+      "at": [
+        63,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        63,
+        0,
+        63,
+        63
+      ],
+      "at": [
+        0,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        62,
+        0,
+        62,
+        63
+      ],
+      "at": [
+        1,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        61,
+        0,
+        61,
+        63
+      ],
+      "at": [
+        2,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        60,
+        0,
+        60,
+        63
+      ],
+      "at": [
+        3,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        59,
+        0,
+        59,
+        63
+      ],
+      "at": [
+        4,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        58,
+        0,
+        58,
+        63
+      ],
+      "at": [
+        5,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        57,
+        0,
+        57,
+        63
+      ],
+      "at": [
+        6,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        56,
+        0,
+        56,
+        63
+      ],
+      "at": [
+        7,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        55,
+        0,
+        55,
+        63
+      ],
+      "at": [
+        8,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        54,
+        0,
+        54,
+        63
+      ],
+      "at": [
+        9,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        53,
+        0,
+        53,
+        63
+      ],
+      "at": [
+        10,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        52,
+        0,
+        52,
+        63
+      ],
+      "at": [
+        11,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        51,
+        0,
+        51,
+        63
+      ],
+      "at": [
+        12,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        50,
+        0,
+        50,
+        63
+      ],
+      "at": [
+        13,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        49,
+        0,
+        49,
+        63
+      ],
+      "at": [
+        14,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        48,
+        0,
+        48,
+        63
+      ],
+      "at": [
+        15,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        47,
+        0,
+        47,
+        63
+      ],
+      "at": [
+        16,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        46,
+        0,
+        46,
+        63
+      ],
+      "at": [
+        17,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        45,
+        0,
+        45,
+        63
+      ],
+      "at": [
+        18,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        44,
+        0,
+        44,
+        63
+      ],
+      "at": [
+        19,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        43,
+        0,
+        43,
+        63
+      ],
+      "at": [
+        20,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        42,
+        0,
+        42,
+        63
+      ],
+      "at": [
+        21,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        41,
+        0,
+        41,
+        63
+      ],
+      "at": [
+        22,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        40,
+        0,
+        40,
+        63
+      ],
+      "at": [
+        23,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        39,
+        0,
+        39,
+        63
+      ],
+      "at": [
+        24,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        38,
+        0,
+        38,
+        63
+      ],
+      "at": [
+        25,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        37,
+        0,
+        37,
+        63
+      ],
+      "at": [
+        26,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        36,
+        0,
+        36,
+        63
+      ],
+      "at": [
+        27,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        35,
+        0,
+        35,
+        63
+      ],
+      "at": [
+        28,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        34,
+        0,
+        34,
+        63
+      ],
+      "at": [
+        29,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        33,
+        0,
+        33,
+        63
+      ],
+      "at": [
+        30,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        32,
+        0,
+        32,
+        63
+      ],
+      "at": [
+        31,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        31,
+        0,
+        31,
+        63
+      ],
+      "at": [
+        32,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        30,
+        0,
+        30,
+        63
+      ],
+      "at": [
+        33,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        29,
+        0,
+        29,
+        63
+      ],
+      "at": [
+        34,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        28,
+        0,
+        28,
+        63
+      ],
+      "at": [
+        35,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        27,
+        0,
+        27,
+        63
+      ],
+      "at": [
+        36,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        26,
+        0,
+        26,
+        63
+      ],
+      "at": [
+        37,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        25,
+        0,
+        25,
+        63
+      ],
+      "at": [
+        38,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        24,
+        0,
+        24,
+        63
+      ],
+      "at": [
+        39,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        23,
+        0,
+        23,
+        63
+      ],
+      "at": [
+        40,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        22,
+        0,
+        22,
+        63
+      ],
+      "at": [
+        41,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        21,
+        0,
+        21,
+        63
+      ],
+      "at": [
+        42,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        20,
+        0,
+        20,
+        63
+      ],
+      "at": [
+        43,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        19,
+        0,
+        19,
+        63
+      ],
+      "at": [
+        44,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        18,
+        0,
+        18,
+        63
+      ],
+      "at": [
+        45,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        17,
+        0,
+        17,
+        63
+      ],
+      "at": [
+        46,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        16,
+        0,
+        16,
+        63
+      ],
+      "at": [
+        47,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        15,
+        0,
+        15,
+        63
+      ],
+      "at": [
+        48,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        14,
+        0,
+        14,
+        63
+      ],
+      "at": [
+        49,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        13,
+        0,
+        13,
+        63
+      ],
+      "at": [
+        50,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        12,
+        0,
+        12,
+        63
+      ],
+      "at": [
+        51,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        11,
+        0,
+        11,
+        63
+      ],
+      "at": [
+        52,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        10,
+        0,
+        10,
+        63
+      ],
+      "at": [
+        53,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        9,
+        0,
+        9,
+        63
+      ],
+      "at": [
+        54,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        8,
+        0,
+        8,
+        63
+      ],
+      "at": [
+        55,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        7,
+        0,
+        7,
+        63
+      ],
+      "at": [
+        56,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        6,
+        0,
+        6,
+        63
+      ],
+      "at": [
+        57,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        5,
+        0,
+        5,
+        63
+      ],
+      "at": [
+        58,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        4,
+        0,
+        4,
+        63
+      ],
+      "at": [
+        59,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        3,
+        0,
+        3,
+        63
+      ],
+      "at": [
+        60,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        2,
+        0,
+        2,
+        63
+      ],
+      "at": [
+        61,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        1,
+        0,
+        1,
+        63
+      ],
+      "at": [
+        62,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 5,
+      "region": [
+        0,
+        0,
+        0,
+        63
+      ],
+      "at": [
+        63,
+        0
+      ],
+      "reason": "Segunda metade com apoio e contrabalanço opostos à primeira."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        24,
+        18,
+        39,
+        31
+      ],
+      "at": [
+        24,
+        18
+      ],
+      "reason": "Cabeça e nuca com volume e altura constantes, sem pulo."
+    },
+    {
+      "operation": "copy_region",
+      "layer": "image",
+      "frames": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "source_layer": "image",
+      "source_frame": 2,
+      "region": [
+        28,
+        32,
+        35,
+        45
+      ],
+      "at": [
+        28,
+        32
+      ],
+      "reason": "Dorso e cintura firmes; braços e pernas articulam ao redor."
+    }
+  ]
+}

@@ -16,7 +16,7 @@ const NOME_CONTRATO := {"curandeira": "a DONA ROSA", "bardo": "o CAIO", "mistica
 static var _rng := RandomNumberGenerator.new()
 
 static func falas(id: String) -> Dictionary:
-	return Falas.FALAS.get(id, {})
+	return preload("res://codigo/cidade/familia_carpinteiro.gd").FALAS.get(id,Falas.FALAS.get(id, {}))
 
 ## Nome do chefe que aparece na onda dada (múltipla de 10)
 static func chefe_da_onda(onda: int) -> String:
@@ -188,6 +188,18 @@ static func _vezes_hoje(id: String, chave: String) -> int:
 	var hoje = _memoria(id)["hoje"].get(chave)
 	return int(hoje[1]) if hoje is Array and int(hoje[0]) == Calendario.dia else 0
 
+static func conversa_natural(id: String, ctx: Dictionary) -> String:
+	var vez := _vezes_hoje(id,"conversa_natural")
+	_marcar(id,"conversa_natural")
+	if tem_historia_nova(id,ctx) and vez % 4 == 1: return historia(id,ctx)
+	var texto := ""
+	match vez % 4:
+		0: texto = papo(id,ctx)
+		1: texto = dica(id,ctx)
+		2: texto = vizinho(id,ctx)
+		3: texto = dica(id,ctx)
+	return texto if texto != "" else saudacao(id,ctx)
+
 ## Saudação pela amizade (novo, conhecido, amigo) e pela hora
 static func saudacao(id: String, ctx: Dictionary) -> String:
 	var tabela: Dictionary = falas(id).get("saudacoes", {})
@@ -294,7 +306,7 @@ static func vizinho(id: String, ctx: Dictionary) -> String:
 	Cidade.lembrar()
 	var outro: String = nomes[indice]
 	var agenda := Dados.agenda(outro, ctx["hora"], Calendario.estacao(), -1, Calendario.dia_da_semana())
-	var lugar: String = "PRACA" if agenda["local"] == "cidade" else Dados.PREDIOS[agenda["local"]]["nome"]
+	var lugar: String = {"cidade":"PRACA", "praia":"PRAIA", "palafita":"LOJA DO CAIS"}.get(agenda["local"],Dados.PREDIOS.get(agenda["local"],{}).get("nome","VILA"))
 	return "%s\n(Agora: %s - %s, %s.)" % [_texto(opinioes[outro], ctx), Dados.MORADORES[outro]["nome"], agenda["atividade"], lugar]
 
 ## Frase curta do balão sobre a cabeça, sem repetir a última

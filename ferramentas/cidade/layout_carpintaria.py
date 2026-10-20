@@ -1,0 +1,47 @@
+"""Casa da família: três quartos independentes, sala/ofício e cozinha, com vãos de 48 px."""
+def planta_carpintaria(geo):
+    itens = [
+        ('cama',64,112,{'de':'casa_bento','id':'CamaOsvaldo','col':[28,48],'variante':'nogueira'}),
+        ('bau',168,146,{'de':'venda','col':[26,12]}),
+        ('ferramentas',128,66,{'de':'casa_bento','col':[34,8]}),
+        ('cama',248,112,{'de':'casa_bento','id':'CamaHelena','col':[28,48],'variante':'cerejeira'}),
+        ('armario',368,72,{'de':'enfermaria','col':[28,14]}),
+        ('planta',368,150,{'de':'venda','col':[14,8]}),
+        ('cama',456,112,{'de':'casa_bento','id':'CamaClara','col':[28,48],'variante':'pinho'}),
+        ('bau',584,70,{'de':'venda','col':[26,12]}),
+        ('mesa',568,144,{'de':'casa_bento','col':[40,14]}),
+        # A sala mantém livre o eixo entre entrada, quartos e cozinha.
+        ('poltrona',64,370,{'de':'mistica','col':[26,12]}),
+        ('mesa',124,414,{'de':'casa_bento','col':[42,14]}),
+        ('cadeira',164,430,{'de':'sede','col':[12,8]}),
+        ('tapete',264,524,{'de':'venda','chao':True}),
+        ('ferramentas',264,330,{'de':'casa_bento','col':[48,8]}),
+        ('bancada',264,370,{'de':'casa_bento','col':[66,16]}),
+        ('estante',48,494,{'de':'mistica','col':[38,12]}),
+        # Cozinha separada: fogo, mantimentos, mesa e assentos.
+        ('lareira',384,334,{'de':'casa_bento','col':[44,12],'luzes':[[0,-20,'#ff9a45',0.8,0.85,'fogo']]}),
+        ('prateleira',592,336,{'de':'pousada','col':[38,12]}),
+        ('lavatorio',544,338,{'de':'enfermaria','col':[28,12]}),
+        ('mesa',480,430,{'de':'pousada','col':[44,14]}),
+        ('cadeira',440,442,{'de':'sede','col':[12,8]}),
+        ('cadeira',520,442,{'de':'sede','col':[12,8],'espelhar':True}),
+        ('cestos',588,506,{'de':'venda','col':[30,12]}),
+    ]
+    return {'geometria':geo(640,560,[240,288],536,[
+        ('quarto_osvaldo',[16,40,176,128],'escuro'),
+        ('quarto_helena',[208,40,192,128],'claro'),
+        ('quarto_clara',[416,40,208,128],'medio'),
+        ('porta_osvaldo',[80,168,48,40],'escuro'),
+        ('porta_helena',[280,168,48,40],'claro'),
+        ('porta_clara',[488,168,48,40],'medio'),
+        ('corredor',[16,208,608,64],'medio'),
+        ('porta_sala',[136,272,48,40],'medio'),
+        ('porta_cozinha',[456,272,48,40],'claro'),
+        ('sala',[16,312,304,224],'medio'),
+        ('cozinha',[344,312,280,224],'claro'),
+        ('passagem_cozinha',[320,448,24,48],'medio'),
+    ],janelas=[[104,40],[304,40],[512,40],[64,312],[568,312]]),
+    'itens':itens,'pontos':{'trabalho':[264,400],'passeio':[212,466],
+        'helena':[76,450],'clara':[112,450],
+        'quarto_osvaldo':[104,136],'quarto_helena':[304,136],'quarto_clara':[512,136],
+        'cha_osvaldo':[472,476],'cha_helena':[408,460],'cha_clara':[544,476]}}

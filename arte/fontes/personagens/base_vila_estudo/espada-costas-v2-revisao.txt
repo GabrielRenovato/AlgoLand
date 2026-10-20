@@ -1,0 +1,4 @@
+Ferramenta: image_gen integrado. Referências: linha3 original do Sword_attack CraftPix, recortada/ampliada por guia_ataque_craftpix.gd, e estudo próprio parado-v1-original.png.
+Refazer somente norte/de costas: preparar com arma à direita nos primeiros quadros; corte passa acima da cabeça e termina à esquerda. Preservar costas, personagem, roupa e paleta. Nenhuma integração no jogador.
+Preparo: fonte espada-costas-v2-original.png; altura e solas normalizadas com escala comum por fonte; manter aço/rastro separados acima da cabeça, sem removê-los por componente desconectado. Tempos500ms+7x100ms como no original.
+Comparação quadro a quadro salva em comparacao_espada_costas_v2. A nova sequência corrige a trajetória geral, mas ainda tem diferenças de braço e ângulo da espada, especialmente na preparação, em relação ao CraftPix; não declarar transferência exata ou aprovação artística do usuário.

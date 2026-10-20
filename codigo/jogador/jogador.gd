@@ -400,6 +400,17 @@ func _ready() -> void:
 	_posicao_acampamento = global_position
 	Progresso.melhorias_alteradas.connect(aplicar_melhorias_permanentes)
 	aplicar_melhorias_permanentes()
+	_instalar_base_vila.call_deferred()
+
+func _instalar_base_vila() -> void:
+	if not is_inside_tree() or not get_tree().get_meta("visual_base_vila", false):
+		return
+	var cena := Cooperativo.cena_de(self)
+	# Não aplicar à miniatura do título ou à criação de personagem.
+	if cena == null or (cena.get_node_or_null("Jogador") != self and not eh_p2):
+		return
+	if not has_node("HeroiBaseVila"):
+		add_child(preload("res://codigo/jogador/heroi_base_vila.gd").new())
 
 func _iniciar_inventario() -> void:
 	if inventario.esta_vazio() and not inventario.carregar():
@@ -917,6 +928,8 @@ func logica_combo_ataque() -> void:
 	_pedido_ataque = false
 	if ataques_bloqueados or estaMorto or caido or get_viewport().gui_get_focus_owner() != null:
 		return
+	if atacar and movimento_habilitado and not esta_em_acao_fazenda and not esta_em_dash and not esta_sentado:
+		if preload("res://codigo/fazenda/acao_galinheiro.gd").tentar_usar_feno(self): return
 	if inventario.vara_na_mao:
 		if atacar and movimento_habilitado and not esta_em_acao_fazenda and not esta_em_dash and not esta_sentado:
 			preload("res://codigo/pesca/ponto_pesca.gd").tentar_lancar(self)

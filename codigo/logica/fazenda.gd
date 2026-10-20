@@ -15,6 +15,10 @@ func _ready() -> void:
 		comparacao.name = "ComparacaoTiny"
 		add_child(comparacao)
 		_montar_pesca_lago()
+		var galinheiro := preload("res://codigo/fazenda/galinheiro_exterior.gd").new()
+		galinheiro.position = Vector2(176,224)
+		add_child(galinheiro)
+		_montar_carpinteiro.call_deferred()
 	if Comercio.liberado:
 		_montar_carroca()
 	var jogador := get_node_or_null("Jogador")
@@ -69,3 +73,6 @@ func _montar_pesca_lago() -> void:
 	forma.shape = retangulo
 	ponto.add_child(forma)
 	add_child(ponto)
+
+func _montar_carpinteiro() -> void:
+	add_child(preload("res://codigo/fazenda/ambiente_obra.gd").new())

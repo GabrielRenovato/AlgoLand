@@ -1,0 +1,10 @@
+{
+  "tipo": "estudo visual, sem integracao",
+  "referencia": "https://www.spriters-resource.com/snes/secretofmana/asset/129980/",
+  "pedido": "Preservar poses de Randi e mudar somente estilo de arte.",
+  "arquivo": "estudo_randi_v2.png",
+  "revisao": "A geracao ainda altera detalhes das poses e proporcoes; nao validada como substituicao quadro a quadro.",
+  "grade_destino": 16,
+  "pivo": "Ainda nao extraido; preservar pes da referencia ao preparar folhas.",
+  "variantes": "Folha base de movimentos; sem variantes sazonais por ser personagem."
+}

@@ -1,0 +1,46 @@
+{
+  "fonte": "arte/fontes/personagens/base_vila_estudo",
+  "versao": "v4: geometria nativa restaurada; adaptação anatômica e shaders rejeitados desativados",
+  "corpo_parado_px": 31,
+  "celula": [
+    80,
+    80
+  ],
+  "pivo": [
+    40,
+    52
+  ],
+  "margem_px": 8,
+  "transformacao": "Somente translação fixa8,8 da célula64. Cabeça, tronco, roupa e arma não recebem escalas ou recortes separados.",
+  "roupa": "Camisa creme, bermuda marrom e sapatos marrom escuro originais.",
+  "direcoes": [
+    "frente",
+    "direita",
+    "costas",
+    "esquerda"
+  ],
+  "corrida_ms": [
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100
+  ],
+  "espada_ms": [
+    500,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100
+  ],
+  "preparador": "ferramentas/personagem/restaurar_geometria_base_vila.gd",
+  "validador": "testes/teste_geometria_base_vila.gd",
+  "exportador": "ferramentas/personagem/exportar_gifs_base_vila_nativa.gd",
+  "limite": "Restaura as proporções da arte anteriormente aceita; não é um novo desenho ou aprovação do estilo pelo usuário."
+}

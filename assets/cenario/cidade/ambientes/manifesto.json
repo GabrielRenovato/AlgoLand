@@ -1419,5 +1419,22 @@
   ],
   "escala_origem": 1.0,
   "fonte": "res://assets/cenario/cidade/casas/exterior/forja.png"
+ },
+ "fachada/carpintaria": {
+  "texturas": [
+   "res://assets/cenario/cidade/ambientes/fachada/carpintaria/primavera.png",
+   "res://assets/cenario/cidade/ambientes/fachada/carpintaria/verao.png",
+   "res://assets/cenario/cidade/ambientes/fachada/carpintaria/outono.png",
+   "res://assets/cenario/cidade/ambientes/fachada/carpintaria/inverno.png"
+  ],
+  "quadros": 1,
+  "fps": 0,
+  "usado": [
+   4,
+   2,
+   186,
+   117
+  ],
+  "escala_origem": 1.0
  }
 }

@@ -31,7 +31,7 @@ func verificar_terreno(vila: Node) -> void:
 			validos = validos and fonte != null and fonte.has_tile(camada.get_cell_atlas_coords(celula))
 		verificar("tiles existentes no atlas: " + nome, validos)
 	var chao: TileMapLayer = vila.get_node("Terrains/Terreno")
-	verificar("chao cobre toda a vila e as margens", chao.get_used_rect() == Rect2i(-2, -2, 48, 40))
+	verificar("chao cobre toda a vila e as margens", chao.get_used_rect() == Rect2i(Vector2i(-2,-2),Vector2i(vila.limites.size/16)+Vector2i(4,4)))
 	var fonte := chao.tile_set.get_source(0) as TileSetAtlasSource
 	for estacao in range(4):
 		vila.get_node("Terrains/Estacoes").definir_estacao(estacao, true)
@@ -86,7 +86,7 @@ func _rodar() -> void:
 	verificar("inverno leva encontros para a pousada", dados.agenda("bardo", 12, 3)["local"] == "pousada")
 	verificar("madrugada leva moradores para casa", dados.agenda("bento", 1, 0)["local"] == "casa_bento")
 	var vila := await carregar_cena("res://cenas/cidade.tscn")
-	verificar("vila tem seis moradores", vila.moradores.size() == 6)
+	verificar("vila instancia moradores e preserva pescador próprio", vila.moradores.size() == dados.MORADORES.size()-1 and vila.moradores.has_all(["osvaldo","helena","clara"]) and vila.has_node("Nilo"))
 	for id in vila.moradores:
 		var morador: Node = vila.moradores[id]
 		var geometria: Dictionary = dados.geometria_sprite(id)
@@ -96,7 +96,7 @@ func _rodar() -> void:
 		var pes: float = morador.sprite.position.y + (float(geometria["pes_y"]) - 32) * morador.sprite.scale.y
 		verificar("escala mantem pes na colisao: " + id, absf(pes - morador.get_node("CollisionShape2D").position.y) < 0.01)
 	verificar("nenhuma onda na cidade", get_nodes_in_group("gerenciador_ondas").is_empty())
-	verificar("camera respeita os limites da vila", vila.get_node("Jogador").camera.limit_right == 704)
+	verificar("camera respeita os limites da vila", vila.get_node("Jogador").camera.limit_right == int(vila.limites.end.x))
 	verificar_terreno(vila)
 	var jogador_fisica: CharacterBody2D = vila.get_node("Jogador")
 	jogador_fisica.collision_mask = 64
@@ -204,7 +204,7 @@ func _rodar() -> void:
 		verificar("morador alcancavel desde a porta: " + id, not current_scene.caminho_entre(current_scene.get_node("Chegada_entrada").position, Vector2(64, 60)).is_empty())
 		var jogador_interior: CharacterBody2D = current_scene.get_node("Jogador")
 		jogador_interior.collision_mask = 64
-		for forma: CollisionShape2D in current_scene.get_node("Obstaculos").get_children():
+		for forma: CollisionShape2D in current_scene.get_node("Interior/Obstaculos").get_children():
 			if not forma.name.begins_with("Movel"):
 				continue
 			var centro := forma.global_position
@@ -230,27 +230,24 @@ func _rodar() -> void:
 	transicao.dormir("cama")
 	while transicao.ocupada:
 		await process_frame
-	verificar("pousada permite dormir e avancar o dia", calendario.dia == 23 and absf(pousada.hora_atual() - 6) < 0.1)
+	verificar("pousada permite dormir e avancar o dia", calendario.dia == 92 and absf(pousada.hora_atual() - 6) < 0.1)
 	verificar("acorda dentro da pousada com vida cheia", pousada.get_node("Jogador").hp_atual == pousada.get_node("Jogador").estatisticas.hp_maximo)
 	verificar("acorda ao lado da cama", pousada.get_node("Jogador").position.distance_to(pousada.get_node("Chegada_cama").position) < 2)
 	var arena := await carregar_cena("res://cenas/cenario.tscn")
 	verificar("NPCs sairam da arena", arena.get_node_or_null("Merchant") == null and arena.get_node_or_null("Mistica") == null and get_nodes_in_group("moradores_cidade").is_empty())
-	verificar("arena aponta para cidade", arena.get_node("Terrains/PassagemCaverna").cena_destino == "res://cenas/cidade.tscn")
+	verificar("portal da arena oferece preparação e retorno", arena.get_node("PortalDaArena/InteracaoPortal").nome_tela == "mercante")
 	var gerenciador: Node = arena.get_node("enemySpawner/GerenciadorOndas")
-	verificar("mural de desafio substitui inicio pelo mercador", arena.get_node("InicioOndas").nome_tela == "desafio_arena")
-	arena.get_node("Interface")._abrir_tela("desafio_arena")
-	verificar("desafio oferece inicio de combate", arena.get_node("Interface")._telas["desafio_arena"]._botoes.size() == 1)
-	arena.get_node("Interface")._fechar_tela("desafio_arena")
+	verificar("círculo permite seguir para o próximo andar",arena.has_node("CirculoProximaOnda"))
 	gerenciador.onda_atual = 3
 	progresso.abates = 4
 	await trocar("res://cenas/cidade.tscn", "arena")
 	verificar("cidade preserva partida e onda", progresso.abates == 4 and transicao.estado["onda_atual"] == 3)
-	await trocar("res://cenas/cenario.tscn", "caverna")
+	await trocar("res://cenas/cenario.tscn", "portal")
 	verificar("volta a arena conserva onda e abates", current_scene.get_node("enemySpawner/GerenciadorOndas").onda_atual == 3 and progresso.abates == 4)
-	current_scene.get_node("Interface")._abrir_tela("desafio_arena")
-	current_scene.get_node("Interface")._telas["desafio_arena"]._iniciar_desafio()
+	current_scene.get_node("Interface")._abrir_tela("mercante")
+	current_scene.get_node("Interface")._telas["mercante"]._ao_proxima_onda()
 	await quadros()
-	verificar("botao do mural inicia a onda e fecha a passagem", current_scene.get_node("enemySpawner/GerenciadorOndas").onda_em_andamento and not current_scene.get_node("Terrains/PassagemCaverna").pode_interagir())
+	verificar("preparação inicia combate e bloqueia o portal", current_scene.get_node("enemySpawner/GerenciadorOndas").onda_em_andamento and not current_scene.get_node("PortalDaArena/InteracaoPortal").pode_interagir())
 	current_scene.queue_free()
 	await quadros()
 	for no in [cidade, progresso, calendario, fazenda]:

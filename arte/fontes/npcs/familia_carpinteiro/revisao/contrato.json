@@ -1,0 +1,47 @@
+{
+  "referencias": [
+    "assets/npcs/cidade/ivo.png",
+    "assets/npcs/cidade/rosa.png",
+    "assets/npcs/cidade/lia.png"
+  ],
+  "comparacao_antes": "arte/previas/carpintaria/familia-comparacao-antes.png",
+  "grade": [
+    7,
+    4
+  ],
+  "quadro_logico": [
+    64,
+    64
+  ],
+  "folha_logica": [
+    448,
+    256
+  ],
+  "folha_pedida": [
+    1792,
+    1024
+  ],
+  "altura_logica": 31,
+  "pes_y": 45,
+  "direcoes": [
+    "baixo",
+    "direita",
+    "cima",
+    "esquerda"
+  ],
+  "poses": [
+    "repouso",
+    "seis fases de movimento"
+  ],
+  "invariantes": [
+    "identidade e roupas",
+    "Helena sempre na cadeira"
+  ],
+  "problemas_corrigir": [
+    "olhos brancos grandes",
+    "contorno excessivo",
+    "proporcoes chibi",
+    "tres poses de andar em vez de seis"
+  ],
+  "ferramenta": "image_gen integrada"
+}

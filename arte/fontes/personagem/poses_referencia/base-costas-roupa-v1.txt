@@ -1,0 +1,3 @@
+Ferramenta: image_gen integrado.
+Referências: moldes-isolados.png, folha original do personagem e sequência do Secret of Mana fornecidas pelo usuário.
+Pedido: quatro quadros de costas do ataque de espada de uma mão, usando o personagem base com camiseta azul acinzentada, shorts marrons e sapatos simples. Preservar as poses dos moldes, proporções compactas, membros finos, cabeça redonda careca, contorno marrom e sombreado bege da folha original. Corpos como camada separada, mãos vazias. Células iguais, pés alinhados e fundo transparente.

@@ -1,0 +1,4 @@
+Ferramenta: image_gen integrado.
+Fontes: folha original do personagem, costas com roupa e moldes aprovados.
+Pedido: unificar todas as direções no mesmo personagem da folha original, com cabeça redonda careca, proporções compactas, membros finos, contorno marrom fino e sombreado simples pêssego/bege. Camiseta azul, shorts marrons e sapatos marrons iguais em todas as poses. Preservar gestos da folha original para baixo, direita e esquerda e usar os moldes de costas para cima. Mãos vazias, transparência, sem arma ou efeitos. Corrigir exclusivamente a direção das costas na terceira linha, preservando as demais direções.
+Preparação: montar_ataque_uma_mao.gd seleciona 6/5/4/5 poses; exclui o repouso repetido das costas. Escala única para toda a folha, células64x64, grade7x4, pés y44, altura parada31px.

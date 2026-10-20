@@ -1,0 +1,44 @@
+{
+  "modelo": "parado-v1-original.png confirmado pelo usuário",
+  "ferramenta": "PixelLab animate_image",
+  "direcoes": [
+    "frente",
+    "direita",
+    "costas",
+    "esquerda"
+  ],
+  "folha": "corrida-quatro-direcoes-v3-64.png",
+  "celula": [
+    64,
+    64
+  ],
+  "grade": [
+    8,
+    4
+  ],
+  "pivo_referencia": [
+    32,
+    57
+  ],
+  "duracoes_ms": [
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100
+  ],
+  "quadros": "Gerados1..8, quadro0 em repouso não faz parte do ciclo.",
+  "geometria": "Células64x64, posições dos quadros preservadas. Esquerda é flip horizontal da célula direita completa.",
+  "jobs": {
+    "frente": "b1bea8d4-8c19-4841-8c6f-dcf5e09a94f3",
+    "direita": "fb993cdb-e758-4e44-a5fa-1075d98c7361",
+    "costas": "PixelLab edição exata c6c17601-205f-45df-8eb1-a45c8a9dd261; operações em costas-v3-edicoes.json",
+    "esquerda": "Espelhamento horizontal da direita, sem geração"
+  },
+  "revisao": "Cabeça e centro do dorso/cintura idênticos nos8quadros, sem reescalonamento. Primeira metade de4fases e segunda com apoios opostos; braços permanecem articulados. Frente e laterais idênticas à versão anterior. Estudo corrigido por edição, sem nova geração. Avaliar leitura do movimento pelo GIF.",
+  "motor": "Prévia100ms no Godot com save isolado; log/tmp/algoland-pixellab-costas-v3-render.log",
+  "integracao": "Prévia e folha exportadas; personagem ativo não substituído nesta tarefa."
+}

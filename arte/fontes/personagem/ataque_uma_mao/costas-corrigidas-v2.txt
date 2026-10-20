@@ -1,0 +1,4 @@
+Ferramenta: image_gen integrado.
+Referências: recorte indicado pelo usuário, uniforme-v1.png e moldes-isolados.png.
+Correção: todos os quatro quadros da linha cima devem mostrar costas, sem rosto ou olho lateral. Preservar personagem careca, camiseta azul, shorts e sapatos marrons, membros finos, paleta e contorno da folha uniforme. Quatro gestos dos moldes: guarda compacta, inclinação com braços dobrados abertos, braço dobrado junto à cabeça e continuação horizontal para esquerda. Mãos vazias, transparência.
+Integração: montar_ataque_uma_mao.gd substitui exclusivamente a linha cima. As outras três linhas foram comparadas pixel a pixel e permanecem idênticas. Prévia renderizada no Godot em projeto isolado.

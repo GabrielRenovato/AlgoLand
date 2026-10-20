@@ -5,8 +5,8 @@ const DadosMapa := preload("res://codigo/ui/dados_mapa_mundi.gd")
 const Moradores := preload("res://codigo/cidade/dados_cidade.gd")
 const IconeServico := preload("res://codigo/ui/icone_servico_mapa.gd")
 const IMAGEM := "res://assets/ui/mapa_mundi/algoland.png"
-const PONTO_VILA := Vector2(0.72,0.34)
-const DESCRICAO_VILA := "Praca e mural. Venda do Tomas, Forja do Ivo, Comunidade, Enfermaria, Pousada, Bento e Mistica."
+const PONTO_VILA := Vector2(0.57,0.34)
+const DESCRICAO_VILA := "Praca e servicos da vila. Casa e oficina de Osvaldo, Helena e Clara depois da ponte, com o cercado das aves."
 var painel: PanelContainer
 var _rolagem: ScrollContainer
 var _carta: Control
@@ -222,7 +222,7 @@ func _colocar_ator(botao: Button, ponto: Vector2) -> void:
 		botao.position = (_imagem.position+ponto*_imagem.size-botao.size/2+desvio).floor()
 
 func _atualizar_atores() -> void:
-	if _imagem == null or _imagem.size.x <= 0: return
+	if not is_inside_tree() or _imagem == null or _imagem.size.x <= 0: return
 	_ocupados.clear()
 	var cena := get_tree().current_scene
 	if cena == null: return

@@ -14,15 +14,17 @@ func _ready() -> void:
 	corpo.collision_mask = 0
 	add_child(corpo)
 	# Margem em terra firme; o topo passa abaixo da linha de árvores.
-	_horizontal(corpo, 48, 640, 104)
+	# A margem leste tem floresta e o cercado próprio da família. Estender a
+	# cerca antiga até lá deixava fragmentos isolados entre as copas.
+	var leste := 640
+	_horizontal(corpo, 48, leste, 104)
 	_horizontal(corpo, 16, 304, 560)
-	_horizontal(corpo, 368, 640, 560)
+	_horizontal(corpo, 368, leste, 560)
 	# Desvio conectado em torno do arbusto oeste, sem deslocar a vegetação.
 	_vertical(corpo, 48, 104, 176)
 	_horizontal(corpo, 16, 48, 176)
 	_vertical(corpo, 16, 176, 248)
 	_vertical(corpo, 16, 296, 560)
-	_vertical(corpo, 640, 104, 560)
 	_aplicar_estacao(get_parent().estacao_visual())
 	var calendario := get_node("/root/Calendario")
 	calendario.estacao_mudou.connect(_aplicar_estacao)

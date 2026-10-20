@@ -1,0 +1,39 @@
+{
+  "modelo": "arte/fontes/personagens/base_vila_npc/parado-v1-original.png, confirmado pelo usuário em19/10/2026",
+  "aparencia": "Careca, pele quente, camisa creme de manga curta, bermuda marrom e botas marrons; quatro vistas do mesmo adulto.",
+  "referencia_movimento": "base_vila_estudo: corrida e espada aprovadas, somente gesto/fases; não copiar cabeça chibi ou suas proporções.",
+  "producao": "Geração de poses a partir do modelo nítido; não remontar o corpo por shader nem reduzir cabeça separadamente.",
+  "primeira_etapa": "Corrida direita:8quadros em4colunas e2linhas; depois demais vistas e espada.",
+  "duracoes_ms": {
+    "corrida": [
+      100,
+      100,
+      100,
+      100,
+      100,
+      100,
+      100,
+      100
+    ],
+    "espada": [
+      500,
+      100,
+      100,
+      100,
+      100,
+      100,
+      100,
+      100
+    ]
+  },
+  "celula_planejada": [
+    80,
+    80
+  ],
+  "pivo_planejado": [
+    40,
+    52
+  ],
+  "altura_modelo_px": 31,
+  "integracao": "Prévia isolada no Godot; não substituir o personagem ativo durante o estudo."
+}

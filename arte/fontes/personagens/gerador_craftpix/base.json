@@ -1,0 +1,993 @@
+{
+  "quadro": [
+    64,
+    64
+  ],
+  "pivo": [
+    32,
+    44
+  ],
+  "direcoes": [
+    "baixo",
+    "esquerda",
+    "direita",
+    "cima"
+  ],
+  "animacoes": {
+    "sword_attack": {
+      "folha": "res://assets/personagens/craftpix_base_masculina/Sword_attack/Sword_attack_full.png",
+      "direcoes": {
+        "back": {
+          "linha": 3,
+          "duracoes": [
+            0.5,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        },
+        "front": {
+          "linha": 0,
+          "duracoes": [
+            0.5,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        },
+        "side_left": {
+          "linha": 1,
+          "duracoes": [
+            0.5,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        },
+        "side_right": {
+          "linha": 2,
+          "duracoes": [
+            0.5,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        }
+      },
+      "camadas": [
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Sword_attack/Sword_attack1_shadow.png",
+          "material": "original"
+        },
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Sword_attack/Sword_attack2_sword_back.png",
+          "material": "original"
+        },
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Sword_attack/Sword_attack3_body.png",
+          "material": "pele"
+        },
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Sword_attack/Sword_attack4_sword_front.png",
+          "material": "original"
+        },
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Sword_attack/Sword_attack5_head.png",
+          "material": "pele"
+        },
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Sword_attack/Sword_attack6_swing.png",
+          "material": "original"
+        }
+      ]
+    },
+    "sword_death": {
+      "folha": "res://assets/personagens/craftpix_base_masculina/Sword_Death/Sword_Death_full.png",
+      "direcoes": {
+        "back": {
+          "linha": 3,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.3
+          ]
+        },
+        "front": {
+          "linha": 0,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.3
+          ]
+        },
+        "side_left": {
+          "linha": 1,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.3
+          ]
+        },
+        "side_right": {
+          "linha": 2,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.3
+          ]
+        }
+      },
+      "camadas": [
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Sword_Death/Sword_Death1_shadow.png",
+          "material": "original"
+        },
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Sword_Death/Sword_Death2_sword_back.png",
+          "material": "original"
+        },
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Sword_Death/Sword_Death3_body.png",
+          "material": "pele"
+        },
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Sword_Death/Sword_Death4_sword_front.png",
+          "material": "original"
+        },
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Sword_Death/Sword_Death5_head.png",
+          "material": "pele"
+        },
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Sword_Death/Sword_Death7_red.png",
+          "material": "original"
+        }
+      ]
+    },
+    "sword_hurt": {
+      "folha": "res://assets/personagens/craftpix_base_masculina/Sword_Hurt/Sword_Hurt_full.png",
+      "direcoes": {
+        "back": {
+          "linha": 3,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        },
+        "front": {
+          "linha": 0,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        },
+        "side_left": {
+          "linha": 1,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        },
+        "side_right": {
+          "linha": 2,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        }
+      },
+      "camadas": [
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Sword_Hurt/Sword_Hurt1_shadow.png",
+          "material": "original"
+        },
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Sword_Hurt/Sword_Hurt2_sword_back.png",
+          "material": "original"
+        },
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Sword_Hurt/Sword_Hurt3_body.png",
+          "material": "pele"
+        },
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Sword_Hurt/Sword_Hurt4_sword_front.png",
+          "material": "original"
+        },
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Sword_Hurt/Sword_Hurt5_head.png",
+          "material": "pele"
+        },
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Sword_Hurt/Sword_Hurt7_red.png",
+          "material": "original"
+        }
+      ]
+    },
+    "sword_idle": {
+      "folha": "res://assets/personagens/craftpix_base_masculina/Sword_Idle/Sword_Idle_full.png",
+      "direcoes": {
+        "back": {
+          "linha": 3,
+          "duracoes": [
+            0.9,
+            0.1,
+            0.9,
+            0.1
+          ]
+        },
+        "front": {
+          "linha": 0,
+          "duracoes": [
+            0.3,
+            0.1,
+            0.1,
+            0.1,
+            0.3,
+            0.1,
+            0.3,
+            0.1,
+            0.1,
+            0.1,
+            0.3,
+            0.1
+          ]
+        },
+        "side_left": {
+          "linha": 1,
+          "duracoes": [
+            0.3,
+            0.1,
+            0.1,
+            0.1,
+            0.3,
+            0.1,
+            0.3,
+            0.1,
+            0.1,
+            0.1,
+            0.3,
+            0.1
+          ]
+        },
+        "side_right": {
+          "linha": 2,
+          "duracoes": [
+            0.3,
+            0.1,
+            0.1,
+            0.1,
+            0.3,
+            0.1,
+            0.3,
+            0.1,
+            0.1,
+            0.1,
+            0.3,
+            0.1
+          ]
+        }
+      },
+      "camadas": [
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Sword_Idle/Sword_Idle1_shadow.png",
+          "material": "original"
+        },
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Sword_Idle/Sword_Idle2_sword_back.png",
+          "material": "original"
+        },
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Sword_Idle/Sword_Idle3_body.png",
+          "material": "pele"
+        },
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Sword_Idle/Sword_Idle4_sword_front.png",
+          "material": "original"
+        },
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Sword_Idle/Sword_Idle5_head.png",
+          "material": "pele"
+        }
+      ]
+    },
+    "sword_run": {
+      "folha": "res://assets/personagens/craftpix_base_masculina/Sword_Run/Sword_Run_full.png",
+      "direcoes": {
+        "back": {
+          "linha": 3,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        },
+        "front": {
+          "linha": 0,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        },
+        "side_left": {
+          "linha": 1,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        },
+        "side_right": {
+          "linha": 2,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        }
+      },
+      "camadas": [
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Sword_Run/Sword_Run1_shadow.png",
+          "material": "original"
+        },
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Sword_Run/Sword_Run2_sword_back.png",
+          "material": "original"
+        },
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Sword_Run/Sword_Run3_body.png",
+          "material": "pele"
+        },
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Sword_Run/Sword_Run4_head.png",
+          "material": "pele"
+        },
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Sword_Run/Sword_Run5_sword_front.png",
+          "material": "original"
+        }
+      ]
+    },
+    "sword_run_attack": {
+      "folha": "res://assets/personagens/craftpix_base_masculina/Sword_Run_Attack/Sword_Run_Attack_full.png",
+      "direcoes": {
+        "back": {
+          "linha": 3,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        },
+        "front": {
+          "linha": 0,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        },
+        "side_left": {
+          "linha": 1,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        },
+        "side_right": {
+          "linha": 2,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        }
+      },
+      "camadas": [
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Sword_Run_Attack/Sword_Run_Attack1_shadow.png",
+          "material": "original"
+        },
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Sword_Run_Attack/Sword_Run_Attack2_sword_back.png",
+          "material": "original"
+        },
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Sword_Run_Attack/Sword_Run_Attack3_body.png",
+          "material": "pele"
+        },
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Sword_Run_Attack/Sword_Run_Attack4_sword_front.png",
+          "material": "original"
+        },
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Sword_Run_Attack/Sword_Run_Attack5_head.png",
+          "material": "pele"
+        },
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Sword_Run_Attack/Sword_Run_Attack6_swing.png",
+          "material": "original"
+        }
+      ]
+    },
+    "sword_walk": {
+      "folha": "res://assets/personagens/craftpix_base_masculina/Sword_Walk/Sword_Walk_full.png",
+      "direcoes": {
+        "back": {
+          "linha": 3,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        },
+        "front": {
+          "linha": 0,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        },
+        "side_left": {
+          "linha": 1,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        },
+        "side_right": {
+          "linha": 2,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        }
+      },
+      "camadas": [
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Sword_Walk/Sword_Walk1_shadow.png",
+          "material": "original"
+        },
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Sword_Walk/Sword_Walk2_sword_back.png",
+          "material": "original"
+        },
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Sword_Walk/Sword_Walk3_body.png",
+          "material": "pele"
+        },
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Sword_Walk/Sword_Walk4_sword_front.png",
+          "material": "original"
+        },
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Sword_Walk/Sword_Walk5_head.png",
+          "material": "pele"
+        }
+      ]
+    },
+    "sword_walk_attack": {
+      "folha": "res://assets/personagens/craftpix_base_masculina/Sword_Walk_Attack/Sword_Walk_Attack_full.png",
+      "direcoes": {
+        "back": {
+          "linha": 3,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        },
+        "front": {
+          "linha": 0,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        },
+        "side_left": {
+          "linha": 1,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        },
+        "side_right": {
+          "linha": 2,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        }
+      },
+      "camadas": [
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Sword_Walk_Attack/Sword_Walk_Attack1_shadow.png",
+          "material": "original"
+        },
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Sword_Walk_Attack/Sword_Walk_Attack2_sword_back.png",
+          "material": "original"
+        },
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Sword_Walk_Attack/Sword_Walk_Attack3_body.png",
+          "material": "pele"
+        },
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Sword_Walk_Attack/Sword_Walk_Attack4_sword_front.png",
+          "material": "original"
+        },
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Sword_Walk_Attack/Sword_Walk_Attack5_head.png",
+          "material": "pele"
+        },
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Sword_Walk_Attack/Sword_Walk_Attack6_swing.png",
+          "material": "original"
+        }
+      ]
+    },
+    "unarmed_death": {
+      "folha": "res://assets/personagens/craftpix_base_masculina/Unarmed_Death/Unarmed_Death_full.png",
+      "direcoes": {
+        "front": {
+          "linha": 0,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.3
+          ]
+        },
+        "back": {
+          "linha": 3,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.3
+          ]
+        },
+        "side_left": {
+          "linha": 1,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.3
+          ]
+        },
+        "side_right": {
+          "linha": 2,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.3
+          ]
+        }
+      },
+      "camadas": [
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Unarmed_Death/Unarmed_Death1_shadow.png",
+          "material": "original"
+        },
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Unarmed_Death/Unarmed_Death2_body.png",
+          "material": "pele"
+        },
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Unarmed_Death/Unarmed_Death3_head.png",
+          "material": "pele"
+        },
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Unarmed_Death/Unarmed_Death4_red.png",
+          "material": "original"
+        }
+      ]
+    },
+    "unarmed_hurt": {
+      "folha": "res://assets/personagens/craftpix_base_masculina/Unarmed_Hurt/Unarmed_Hurt_full.png",
+      "direcoes": {
+        "back": {
+          "linha": 3,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        },
+        "front": {
+          "linha": 0,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        },
+        "side_left": {
+          "linha": 1,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        },
+        "side_right": {
+          "linha": 2,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        }
+      },
+      "camadas": [
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Unarmed_Hurt/Unarmed_Hurt1_shadow.png",
+          "material": "original"
+        },
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Unarmed_Hurt/Unarmed_Hurt2_body.png",
+          "material": "pele"
+        },
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Unarmed_Hurt/Unarmed_Hurt3_head.png",
+          "material": "pele"
+        },
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Unarmed_Hurt/Unarmed_Hurt4_red.png",
+          "material": "original"
+        }
+      ]
+    },
+    "unarmed_idle": {
+      "folha": "res://assets/personagens/craftpix_base_masculina/Unarmed_Idle/Unarmed_Idle_full.png",
+      "direcoes": {
+        "back": {
+          "linha": 3,
+          "duracoes": [
+            0.9,
+            0.1,
+            0.9,
+            0.1
+          ]
+        },
+        "front": {
+          "linha": 0,
+          "duracoes": [
+            0.3,
+            0.1,
+            0.1,
+            0.1,
+            0.3,
+            0.1,
+            0.3,
+            0.1,
+            0.1,
+            0.1,
+            0.3,
+            0.1
+          ]
+        },
+        "side_left": {
+          "linha": 1,
+          "duracoes": [
+            0.3,
+            0.1,
+            0.1,
+            0.1,
+            0.3,
+            0.1,
+            0.3,
+            0.1,
+            0.1,
+            0.1,
+            0.3,
+            0.1
+          ]
+        },
+        "side_right": {
+          "linha": 2,
+          "duracoes": [
+            0.3,
+            0.1,
+            0.1,
+            0.1,
+            0.3,
+            0.1,
+            0.3,
+            0.1,
+            0.1,
+            0.1,
+            0.3,
+            0.1
+          ]
+        }
+      },
+      "camadas": [
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Unarmed_Idle/Unarmed_Idle1_shadow.png",
+          "material": "original"
+        },
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Unarmed_Idle/Unarmed_Idle2_body.png",
+          "material": "pele"
+        },
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Unarmed_Idle/Unarmed_Idle3_head.png",
+          "material": "pele"
+        }
+      ]
+    },
+    "unarmed_run": {
+      "folha": "res://assets/personagens/craftpix_base_masculina/Unarmed_Run/Unarmed_Run_full.png",
+      "direcoes": {
+        "back": {
+          "linha": 3,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        },
+        "front": {
+          "linha": 0,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        },
+        "side_left": {
+          "linha": 1,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        },
+        "side_right": {
+          "linha": 2,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        }
+      },
+      "camadas": [
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Unarmed_Run/Unarmed_Run1_shadow.png",
+          "material": "original"
+        },
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Unarmed_Run/Unarmed_Run2_body.png",
+          "material": "pele"
+        },
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Unarmed_Run/Unarmed_Run3_head.png",
+          "material": "pele"
+        }
+      ]
+    },
+    "unarmed_walk": {
+      "folha": "res://assets/personagens/craftpix_base_masculina/Unarmed_Walk/Unarmed_Walk_full.png",
+      "direcoes": {
+        "back": {
+          "linha": 3,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        },
+        "front": {
+          "linha": 0,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        },
+        "side_left": {
+          "linha": 1,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        },
+        "side_right": {
+          "linha": 2,
+          "duracoes": [
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1,
+            0.1
+          ]
+        }
+      },
+      "camadas": [
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Unarmed_Walk/Unarmed_Walk1_shadow.png",
+          "material": "original"
+        },
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Unarmed_Walk/Unarmed_Walk2_body.png",
+          "material": "pele"
+        },
+        {
+          "arquivo": "res://assets/personagens/craftpix_base_masculina/Unarmed_Walk/Unarmed_Walk3_head.png",
+          "material": "pele"
+        }
+      ]
+    }
+  }
+}

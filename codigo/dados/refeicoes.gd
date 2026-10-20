@@ -13,6 +13,9 @@ const Peixes := preload("res://codigo/pesca/peixes.gd")
 const IconesFazenda := preload("res://codigo/ui/icones_fazenda.gd")
 
 const REFEICOES := {
+	"omelete_horta": {"nome":"OMELETE DA HORTA", "receita":{"cenoura":1}, "produtos":{"ovo":2},
+		"bonus":{"vigor":0.20,"folego":0.25}, "produto_icone":"omelete",
+		"texto":"OVOS DO SEU GALINHEIRO COM CENOURA: VIDA E FOLEGO PARA EXPLORAR."},
 	"peixe_assado": {"nome":"PEIXE ASSADO COM RAIZES", "receita":{"batata":1}, "peixes":{"sardinha":2},
 		"bonus":{"vigor":0.20,"folego":0.30}, "peixe_icone":"sardinha",
 		"texto":"SARDINHAS NA BRASA COM BATATA: VIDA E FOLEGO PARA A ARENA."},
@@ -41,7 +44,7 @@ const REFEICOES := {
 		"bonus": {"vigor": 0.25, "forca": 0.25, "saque": 0.25}, "icone": "uva",
 		"texto": "UM POUCO DE CADA ESTACAO NA MESMA MESA: TUDO MELHORA."},
 }
-const ORDEM: Array[String] = ["sopa_raizes", "torta_morango", "milho_assado", "salada_verao", "ensopado_outono", "banquete", "peixe_assado", "caldo_rio", "salmao_grelhado"]
+const ORDEM: Array[String] = ["sopa_raizes", "torta_morango", "milho_assado", "salada_verao", "ensopado_outono", "banquete", "peixe_assado", "caldo_rio", "salmao_grelhado", "omelete_horta"]
 ## Nome curto de cada bônus para os textos ("+30% VIDA")
 const NOMES_BONUS := {"vigor": "VIDA", "forca": "DANO", "couraca": "DEFESA", "folego": "FOLEGO", "saque": "OURO"}
 
@@ -68,9 +71,13 @@ static func texto_receita(id: String, plantas: Dictionary) -> String:
 		partes.append("%d %s" % [int(receita[planta]), String(plantas.get(planta, {}).get("nome", planta.to_upper()))])
 	for peixe in dados(id).get("peixes",{}):
 		partes.append("%d %s" % [int(dados(id)["peixes"][peixe]),Peixes.nome(peixe)])
+	for produto in dados(id).get("produtos",{}):
+		partes.append("%d %s" % [int(dados(id)["produtos"][produto]),produto.to_upper()])
 	return ", ".join(partes)
 
 static func icone(id: String) -> Texture2D:
+	if dados(id).has("produto_icone"):
+		return load("res://assets/cenario/fazenda/galinheiro/%s.png" % dados(id).produto_icone)
 	if dados(id).has("peixe_icone"):
 		return Peixes.icone(dados(id)["peixe_icone"])
 	return IconesFazenda.item_colhido(String(dados(id).get("icone", "cenoura")))

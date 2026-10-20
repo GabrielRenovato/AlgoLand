@@ -1,0 +1,703 @@
+{
+  "sword_attack": {
+    "folha": "res://assets/personagens/craftpix_base_masculina/Sword_attack/Sword_attack_full.png",
+    "direcoes": {
+      "back": {
+        "linha": 3,
+        "duracoes": [
+          0.5,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1
+        ]
+      },
+      "front": {
+        "linha": 0,
+        "duracoes": [
+          0.5,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1
+        ]
+      },
+      "side_left": {
+        "linha": 1,
+        "duracoes": [
+          0.5,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1
+        ]
+      },
+      "side_right": {
+        "linha": 2,
+        "duracoes": [
+          0.5,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1
+        ]
+      }
+    }
+  },
+  "sword_death": {
+    "folha": "res://assets/personagens/craftpix_base_masculina/Sword_Death/Sword_Death_full.png",
+    "direcoes": {
+      "back": {
+        "linha": 3,
+        "duracoes": [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.3
+        ]
+      },
+      "front": {
+        "linha": 0,
+        "duracoes": [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.3
+        ]
+      },
+      "side_left": {
+        "linha": 1,
+        "duracoes": [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.3
+        ]
+      },
+      "side_right": {
+        "linha": 2,
+        "duracoes": [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.3
+        ]
+      }
+    }
+  },
+  "sword_hurt": {
+    "folha": "res://assets/personagens/craftpix_base_masculina/Sword_Hurt/Sword_Hurt_full.png",
+    "direcoes": {
+      "back": {
+        "linha": 3,
+        "duracoes": [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1
+        ]
+      },
+      "front": {
+        "linha": 0,
+        "duracoes": [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1
+        ]
+      },
+      "side_left": {
+        "linha": 1,
+        "duracoes": [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1
+        ]
+      },
+      "side_right": {
+        "linha": 2,
+        "duracoes": [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1
+        ]
+      }
+    }
+  },
+  "sword_idle": {
+    "folha": "res://assets/personagens/craftpix_base_masculina/Sword_Idle/Sword_Idle_full.png",
+    "direcoes": {
+      "back": {
+        "linha": 3,
+        "duracoes": [
+          0.9,
+          0.1,
+          0.9,
+          0.1
+        ]
+      },
+      "front": {
+        "linha": 0,
+        "duracoes": [
+          0.3,
+          0.1,
+          0.1,
+          0.1,
+          0.3,
+          0.1,
+          0.3,
+          0.1,
+          0.1,
+          0.1,
+          0.3,
+          0.1
+        ]
+      },
+      "side_left": {
+        "linha": 1,
+        "duracoes": [
+          0.3,
+          0.1,
+          0.1,
+          0.1,
+          0.3,
+          0.1,
+          0.3,
+          0.1,
+          0.1,
+          0.1,
+          0.3,
+          0.1
+        ]
+      },
+      "side_right": {
+        "linha": 2,
+        "duracoes": [
+          0.3,
+          0.1,
+          0.1,
+          0.1,
+          0.3,
+          0.1,
+          0.3,
+          0.1,
+          0.1,
+          0.1,
+          0.3,
+          0.1
+        ]
+      }
+    }
+  },
+  "sword_run": {
+    "folha": "res://assets/personagens/craftpix_base_masculina/Sword_Run/Sword_Run_full.png",
+    "direcoes": {
+      "back": {
+        "linha": 3,
+        "duracoes": [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1
+        ]
+      },
+      "front": {
+        "linha": 0,
+        "duracoes": [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1
+        ]
+      },
+      "side_left": {
+        "linha": 1,
+        "duracoes": [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1
+        ]
+      },
+      "side_right": {
+        "linha": 2,
+        "duracoes": [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1
+        ]
+      }
+    }
+  },
+  "sword_run_attack": {
+    "folha": "res://assets/personagens/craftpix_base_masculina/Sword_Run_Attack/Sword_Run_Attack_full.png",
+    "direcoes": {
+      "back": {
+        "linha": 3,
+        "duracoes": [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1
+        ]
+      },
+      "front": {
+        "linha": 0,
+        "duracoes": [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1
+        ]
+      },
+      "side_left": {
+        "linha": 1,
+        "duracoes": [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1
+        ]
+      },
+      "side_right": {
+        "linha": 2,
+        "duracoes": [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1
+        ]
+      }
+    }
+  },
+  "sword_walk": {
+    "folha": "res://assets/personagens/craftpix_base_masculina/Sword_Walk/Sword_Walk_full.png",
+    "direcoes": {
+      "back": {
+        "linha": 3,
+        "duracoes": [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1
+        ]
+      },
+      "front": {
+        "linha": 0,
+        "duracoes": [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1
+        ]
+      },
+      "side_left": {
+        "linha": 1,
+        "duracoes": [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1
+        ]
+      },
+      "side_right": {
+        "linha": 2,
+        "duracoes": [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1
+        ]
+      }
+    }
+  },
+  "sword_walk_attack": {
+    "folha": "res://assets/personagens/craftpix_base_masculina/Sword_Walk_Attack/Sword_Walk_Attack_full.png",
+    "direcoes": {
+      "back": {
+        "linha": 3,
+        "duracoes": [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1
+        ]
+      },
+      "front": {
+        "linha": 0,
+        "duracoes": [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1
+        ]
+      },
+      "side_left": {
+        "linha": 1,
+        "duracoes": [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1
+        ]
+      },
+      "side_right": {
+        "linha": 2,
+        "duracoes": [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1
+        ]
+      }
+    }
+  },
+  "unarmed_death": {
+    "folha": "res://assets/personagens/craftpix_base_masculina/Unarmed_Death/Unarmed_Death_full.png",
+    "direcoes": {
+      "front": {
+        "linha": 0,
+        "duracoes": [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.3
+        ]
+      },
+      "back": {
+        "linha": 3,
+        "duracoes": [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.3
+        ]
+      },
+      "side_left": {
+        "linha": 1,
+        "duracoes": [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.3
+        ]
+      },
+      "side_right": {
+        "linha": 2,
+        "duracoes": [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.3
+        ]
+      }
+    }
+  },
+  "unarmed_hurt": {
+    "folha": "res://assets/personagens/craftpix_base_masculina/Unarmed_Hurt/Unarmed_Hurt_full.png",
+    "direcoes": {
+      "back": {
+        "linha": 3,
+        "duracoes": [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1
+        ]
+      },
+      "front": {
+        "linha": 0,
+        "duracoes": [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1
+        ]
+      },
+      "side_left": {
+        "linha": 1,
+        "duracoes": [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1
+        ]
+      },
+      "side_right": {
+        "linha": 2,
+        "duracoes": [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1
+        ]
+      }
+    }
+  },
+  "unarmed_idle": {
+    "folha": "res://assets/personagens/craftpix_base_masculina/Unarmed_Idle/Unarmed_Idle_full.png",
+    "direcoes": {
+      "back": {
+        "linha": 3,
+        "duracoes": [
+          0.9,
+          0.1,
+          0.9,
+          0.1
+        ]
+      },
+      "front": {
+        "linha": 0,
+        "duracoes": [
+          0.3,
+          0.1,
+          0.1,
+          0.1,
+          0.3,
+          0.1,
+          0.3,
+          0.1,
+          0.1,
+          0.1,
+          0.3,
+          0.1
+        ]
+      },
+      "side_left": {
+        "linha": 1,
+        "duracoes": [
+          0.3,
+          0.1,
+          0.1,
+          0.1,
+          0.3,
+          0.1,
+          0.3,
+          0.1,
+          0.1,
+          0.1,
+          0.3,
+          0.1
+        ]
+      },
+      "side_right": {
+        "linha": 2,
+        "duracoes": [
+          0.3,
+          0.1,
+          0.1,
+          0.1,
+          0.3,
+          0.1,
+          0.3,
+          0.1,
+          0.1,
+          0.1,
+          0.3,
+          0.1
+        ]
+      }
+    }
+  },
+  "unarmed_run": {
+    "folha": "res://assets/personagens/craftpix_base_masculina/Unarmed_Run/Unarmed_Run_full.png",
+    "direcoes": {
+      "back": {
+        "linha": 3,
+        "duracoes": [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1
+        ]
+      },
+      "front": {
+        "linha": 0,
+        "duracoes": [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1
+        ]
+      },
+      "side_left": {
+        "linha": 1,
+        "duracoes": [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1
+        ]
+      },
+      "side_right": {
+        "linha": 2,
+        "duracoes": [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1
+        ]
+      }
+    }
+  },
+  "unarmed_walk": {
+    "folha": "res://assets/personagens/craftpix_base_masculina/Unarmed_Walk/Unarmed_Walk_full.png",
+    "direcoes": {
+      "back": {
+        "linha": 3,
+        "duracoes": [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1
+        ]
+      },
+      "front": {
+        "linha": 0,
+        "duracoes": [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1
+        ]
+      },
+      "side_left": {
+        "linha": 1,
+        "duracoes": [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1
+        ]
+      },
+      "side_right": {
+        "linha": 2,
+        "duracoes": [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1
+        ]
+      }
+    }
+  }
+}

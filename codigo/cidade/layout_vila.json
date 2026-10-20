@@ -1,6 +1,6 @@
 {
   "tamanho": [
-    704,
+    1024,
     576
   ],
   "praca": [
@@ -94,6 +94,15 @@
       ],
       "largura": 128,
       "porta_x": 0
+    },
+    "carpintaria": {
+      "nome": "CASA E OFICINA DE OSVALDO",
+      "base": [
+        816,
+        224
+      ],
+      "largura": 192,
+      "porta_x": 0
     }
   },
   "mercador_abertura": [
@@ -131,5 +140,21 @@
   "bento_praca": [
     232,
     262
-  ]
+  ],
+  "quintal_carpinteiro": {
+    "cercado": [
+      736,
+      304,
+      192,
+      120
+    ],
+    "portao": [
+      800,
+      864
+    ],
+    "abrigo": [
+      888,
+      344
+    ]
+  }
 }

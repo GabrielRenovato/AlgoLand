@@ -52,6 +52,10 @@ static var MORADORES := {
 	"ferreiro": {"folha": "ivo", "nome": "IVO", "oficio": "Ferreiro", "casa": "forja", "textura": "merchant", "servico": "forja", "cor": Color.WHITE,
 		"fala": "Na arena voce aprende o desenho. A terra fornece o material. Eu junto as duas coisas.",
 		"rotina": [[6, "forja", InteriorCasa.ponto("forja", "passeio"), "Afiando as ferramentas"], [8, "forja", InteriorCasa.ponto("forja", "trabalho"), "Trabalhando na forja"]]},
+	"osvaldo": {"folha":"osvaldo","nome":"OSVALDO","oficio":"Carpinteiro, 65 anos","idade":65,"casa":"carpintaria","textura":"merchant","servico":"carpinteiro","cor":Color.WHITE,"fala":"Traga madeira e pedra. Construo e amplio o abrigo das suas aves.","rotina":[]},
+	"helena": {"folha":"helena","nome":"HELENA","oficio":"Bordadeira e contadora de historias, 55 anos","idade":55,"condicao":"ELA","cadeira_de_rodas":true,"casa":"carpintaria","textura":"old woman","servico":"","cor":Color.WHITE,"fala":"Clara me ajuda no dia a dia. Agora me conte de voce: como anda sua fazenda?","rotina":[]},
+	"clara": {"folha":"clara","nome":"CLARA","oficio":"Artesa, 30 anos; ajuda nos cuidados da mae","idade":30,"casa":"carpintaria","textura":"merchant","servico":"","cor":Color.WHITE,"fala":"Divido meu tempo entre minhas encomendas e os cuidados da minha mae, Helena.","rotina":[]},
+
 }
 const FALAS_ESTACAO := [
 	"A primavera enche os jardins de flores. E tempo de recomecar.",
@@ -197,6 +201,8 @@ static func atendimento_forja(cena: Node, dia_semana: int) -> String:
 	return ""
 
 static func agenda(id: String, hora: float, estacao: int, clima: int = -1, dia_semana: int = -1) -> Dictionary:
+	if id in ["osvaldo","helena","clara"]:
+		return preload("res://codigo/cidade/familia_carpinteiro.gd").agenda(id,hora,estacao,clima)
 	if id == "nilo":
 		return preload("res://codigo/pesca/rotina_nilo.gd").agenda(hora,clima)
 	var dados: Dictionary = MORADORES[id]

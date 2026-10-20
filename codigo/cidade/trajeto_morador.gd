@@ -8,7 +8,7 @@ static func _precisa_rua(origem: String, destino: String) -> bool:
 	return origem != "cidade" and destino != "cidade" and not (origem in ["praia", "palafita"] and destino in ["praia", "palafita"])
 
 static func _porta_na_rua(local: String) -> Vector2:
-	return Vector2(336, 520) if local == "praia" else Dados.PREDIOS.get(local, {}).get("base", Vector2(336, 272))
+	return Vector2(48,272) if local == "fazenda" else Vector2(336, 520) if local == "praia" else Dados.PREDIOS.get(local, {}).get("base", Vector2(336, 272))
 
 ## Se o destino atualiza primeiro no cooperativo, registra a saída do ator que ainda está na origem.
 static func preparar_chegada(npc: Node2D, origem: String) -> void:
@@ -22,11 +22,16 @@ static func _duracao(npc: Node2D) -> float:
 	for ponto in npc.caminho:
 		distancia += de.distance_to(ponto)
 		de = ponto
-	return distancia / 26.0 + 0.5
+	return distancia / (18.0 if npc.id=="helena" else 26.0) + 0.5
 
 static func registrar(npc: Node2D) -> void:
 	Cidade.trajetos_moradores[npc.id] = {"origem": npc.vila.local, "destino": npc.agenda["local"],
 		"fase": "saindo", "ator": weakref(npc), "chegada": Cidade.tempo_moradores + _duracao(npc)}
+	# Se o mapa for descarregado, mãe e filha mantêm a mesma previsão de chegada.
+	if npc.id=="clara":
+		var mae: Dictionary = Cidade.trajetos_moradores.get("helena",{})
+		if mae.get("fase","")=="saindo" and mae.origem==npc.vila.local and mae.destino==npc.agenda.local:
+			Cidade.trajetos_moradores.clara.chegada = mae.chegada
 
 static func concluir(npc: Node2D) -> void:
 	var registro: Dictionary = Cidade.trajetos_moradores.get(npc.id, {})
@@ -82,7 +87,7 @@ static func sincronizar(npc: Node2D) -> void:
 		npc._atualizar_colisao()
 
 static func iniciar_rua(npc: Node2D, origem: String) -> void:
-	if origem == "cidade" or origem == npc.agenda["local"] or (not Dados.PREDIOS.has(origem) and origem != "praia"):
+	if origem == "cidade" or origem == npc.agenda["local"] or (not Dados.PREDIOS.has(origem) and origem not in ["praia","fazenda"]):
 		return
 	for outro in npc.get_tree().get_nodes_in_group("moradores_cidade"):
 		# Ao carregar a rua no coop, quem já chegou ao destino não deve surgir outra vez na porta de casa.

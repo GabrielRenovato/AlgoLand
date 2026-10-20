@@ -1,0 +1,27 @@
+{
+  "tipo": "previa sem integracao",
+  "grade": [
+    5,
+    4
+  ],
+  "quadro": [
+    64,
+    64
+  ],
+  "direcoes": [
+    "BAIXO",
+    "DIREITA",
+    "CIMA",
+    "ESQUERDA"
+  ],
+  "duracoes_ms": [
+    260,
+    120,
+    70,
+    70,
+    160
+  ],
+  "espada": "recortes da referencia enviada, ancorados manualmente nas maos",
+  "laterais": "direita aprovada; esquerda espelhada",
+  "limite": "poses geradas nao sao copia exata das originais"
+}

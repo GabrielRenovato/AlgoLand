@@ -13,7 +13,7 @@ from preparar_testes import preparar
 from testar_coop import ARGUMENTOS_TESTES, ERROS_ESPERADOS, executar
 
 RAIZ = Path(__file__).resolve().parents[2]
-GRAFICOS = {"relevo_gentle", "enseada_visual", "mapa_mundi", "fazenda_tiny", "sobreposicao_cais", "pegadas_praia", "heroi_gerado", "rotas_visuais", "barra_energia", "continuidade_caverna"}
+GRAFICOS = {"rotina_aves", "painel_debug", "obra_carpinteiro","atendimento_cidade", "dialogo_cidade", "familia_carpinteiro", "casa_carpinteiro", "galinheiro", "relevo_gentle", "enseada_visual", "mapa_mundi", "fazenda_tiny", "sobreposicao_cais", "pegadas_praia", "heroi_gerado", "rotas_visuais", "barra_energia", "continuidade_caverna"}
 
 
 def main():

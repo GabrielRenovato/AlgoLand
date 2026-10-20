@@ -26,6 +26,10 @@ signal solo_alterado(celula: Vector2i)
 signal solo_recarregado
 ## Sementes, colheita ou poções mudaram (drop, plantio, colheita, caldeirão, poção bebida)
 signal bolsas_alteradas
+signal galinheiro_alterado
+const CriacaoGalinhas := preload("res://codigo/fazenda/criacao_galinhas.gd")
+var galinheiro: Dictionary = CriacaoGalinhas.inicial()
+var bando: Node
 signal ferramenta_alterada(ferramenta: String)
 signal clima_do_dia_mudou(estado: int)
 ## Entulho apareceu ou saiu de uma célula da área de plantio (Vector2i(-1, -1) = vários de uma vez)
@@ -173,6 +177,8 @@ var rng := RandomNumberGenerator.new()
 var _salvamento_agendado := false
 
 func _ready() -> void:
+	bando = preload("res://codigo/fazenda/bando_galinhas.gd").new()
+	add_child(bando)
 	rng.randomize()
 	carregar()
 	# Sementes e ferramentas moram na mochila: qualquer mudança nela pode tirar a ferramenta ativa da lista
@@ -413,6 +419,7 @@ func _ao_dia_passou(_dia: int) -> void:
 ## Fim do dia: a planta regada cresce, as regas zeram e o clima do dia seguinte é sorteado (chuva molha tudo).
 ## `clima_amanha` força o clima (-1 sorteia pela estação atual do Calendario)
 func avancar_dia(clima_amanha := -1) -> void:
+	CriacaoGalinhas.avancar(self,Calendario.dia)
 	for celula in solo:
 		var dados: Dictionary = solo[celula]
 		if String(dados["planta"]) != "" and not dados["murcha"] and dados["molhado"]:
@@ -427,6 +434,7 @@ func avancar_dia(clima_amanha := -1) -> void:
 	salvar()
 	solo_recarregado.emit()
 	clima_do_dia_mudou.emit(clima_hoje)
+	galinheiro_alterado.emit()
 
 ## O clima do mundo mudou durante o dia (sorteio de uma onda, tempestade na arena; ver clima.gd): guarda e, se começou
 ## a chover, molha todo o solo arado — a chuva rega as plantas mesmo com o jogador longe da fazenda
@@ -517,10 +525,13 @@ func motivo_para_nao_cozinhar(id: String, quem: Node = null) -> String:
 		return "VOCE JA COMEU: " + String(Refeicoes.dados(Progresso.refeicao)["nome"])
 	var receita: Dictionary = Refeicoes.dados(id)["receita"]
 	for planta in receita:
-		if quantidade_colhida(planta) < int(receita[planta]):
+		if quantidade_colhida(planta,quem) < int(receita[planta]):
 			return MSG_FALTA_INGREDIENTE
 	for peixe in Refeicoes.dados(id).get("peixes",{}):
 		if quantidade_peixes(peixe,quem) < int(Refeicoes.dados(id)["peixes"][peixe]):
+			return MSG_FALTA_INGREDIENTE
+	for produto in Refeicoes.dados(id).get("produtos",{}):
+		if int(contagens_coletaveis("produto",quem).get(produto,0)) < int(Refeicoes.dados(id).produtos[produto]):
 			return MSG_FALTA_INGREDIENTE
 	return ""
 
@@ -534,6 +545,8 @@ func cozinhar(id: String, quem: Node = null) -> String:
 		gastar_coletavel("colheita",planta,int(receita[planta]),quem)
 	for peixe in Refeicoes.dados(id).get("peixes",{}):
 		gastar_peixes(peixe,int(Refeicoes.dados(id)["peixes"][peixe]),quem)
+	for produto in Refeicoes.dados(id).get("produtos",{}):
+		gastar_coletavel("produto",produto,int(Refeicoes.dados(id).produtos[produto]),quem)
 	Progresso.comer(id)
 	_ao_bolsa_alterada()
 	_agendar_salvamento()
@@ -877,7 +890,7 @@ func salvar() -> bool:
 	# "sementes" só guarda o que ainda não migrou para a mochila (saves antigos)
 	arquivo.store_string(JSON.stringify({"versao": 3, "solo": tabela, "sementes": _sementes_antigas, "peixes": peixes, "peixes_pescados": peixes_pescados,
 			"varas_pesca": varas_pesca, "pesca_capturas_jogador":pesca_capturas_jogador, "pesca_ultima_pedra":pesca_ultima_pedra, "pesca_perfeitas": pesca_perfeitas, "pesca_recompensas": pesca_recompensas, "pesca_pedidos_entregues": pesca_pedidos_entregues,
-			"clima_hoje": clima_hoje, "removidos": removidos,
+			"clima_hoje": clima_hoje, "removidos": removidos, "galinheiro":galinheiro,
 			"entulho": _tabela_entulho(), "entulho_iniciado": entulho_iniciado, "agua_regador": agua_regador,
 			"energia_maxima": ENERGIA_MAXIMA, "energia_p1": energia_p1, "energia_p2": energia_p2}, "\t"))
 	return true
@@ -891,6 +904,7 @@ func carregar() -> bool:
 	if json.parse(FileAccess.get_file_as_string(caminho_save)) != OK or not json.data is Dictionary:
 		return false   # arquivo corrompido: fazenda vazia (o parse com JSON.new nao imprime erro)
 	var dados: Dictionary = json.data
+	galinheiro = CriacaoGalinhas.ler(dados.get("galinheiro",{}))
 	var tabela = dados.get("solo", {})
 	if tabela is Dictionary:
 		for chave in tabela:
@@ -956,6 +970,7 @@ func carregar() -> bool:
 	preload("res://codigo/pesca/varas.gd").sincronizar_itens()
 	energia_alterada.emit(1)
 	energia_alterada.emit(2)
+	galinheiro_alterado.emit()
 	return true
 
 ## Contagens {id: n} do arquivo: só ids de `validos` e quantidades positivas
@@ -968,6 +983,8 @@ static func _ler_contagens(bruto, validos: Dictionary) -> Dictionary:
 	return saida
 
 func _zerar() -> void:
+	if bando != null: bando.reiniciar()
+	galinheiro = CriacaoGalinhas.inicial()
 	energia_p1 = ENERGIA_MAXIMA
 	energia_p2 = ENERGIA_MAXIMA
 	solo = {}

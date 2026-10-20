@@ -13,6 +13,7 @@ import gerar_fazenda as F
 G, D = F.G, F.D
 RNG = random.Random(1401026)
 PREDIOS = {
+    'carpintaria': ('CASA E OFICINA DE OSVALDO', 816, 224, 'Color(1, 1, 1, 1)'),
     'forja': ('FORJA DO IVO', 192, 112, 'Color(1, 0.9, 0.8, 1)'),
     'venda': ('VENDA DO TOMAS', 240, 184, 'Color(1, 0.95, 0.85, 1)'),
     'sede': ('CASA DA COMUNIDADE', 480, 184, 'Color(0.92, 0.94, 1, 1)'),
@@ -81,7 +82,7 @@ def exterior():
     layout=json.loads((RAIZ/'codigo/cidade/layout_vila.json').read_text())
     predios=layout['predios']; w,h=layout['tamanho']; tw,th=w//16,h//16
     praca=layout['praca'];coreto=layout['coreto'];poco=layout['poco']
-    c=F.Cena();res=comuns(c,'cidade','VILA DAS FLORES',(392,360))
+    c=F.Cena();res=comuns(c,'cidade','VILA DAS FLORES',(392,360),limites=(w,h))
     prof=c.recurso('Script','res://codigo/cenario/profundidade_grupo.gd','prof')
     est=c.recurso('Script','res://codigo/cenario/estacoes.gd','estacoes')
     adorno=c.recurso('Script','res://codigo/cidade/adorno.gd','adorno')
@@ -173,12 +174,14 @@ def main():
     import gerar_tilesets as Kit
     Kit.gerar_tileset()
     liberar_saida_praia()
+    from decorar_quintal_carpinteiro import atualizar
+    atualizar()
     RNG.seed(1401026)
     G.RNG = RNG
     (RAIZ/'cenas/cidade.tscn').write_text(exterior())
     for ident in PREDIOS:
         (RAIZ/'cenas/cidade'/f'{ident}.tscn').write_text(interior(ident))
-    print('Cidade e seis interiores gerados.')
+    print(f'Cidade e {len(PREDIOS)} interiores gerados.')
 
 if __name__=='__main__':
     main()

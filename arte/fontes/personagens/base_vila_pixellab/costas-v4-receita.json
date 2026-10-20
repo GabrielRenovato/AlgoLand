@@ -1,0 +1,1324 @@
+{
+  "job": {
+    "canvas": [
+      64,
+      64
+    ],
+    "frame_count": 8,
+    "durations_ms": [
+      100,
+      100,
+      100,
+      100,
+      100,
+      100,
+      100,
+      100
+    ],
+    "views": [
+      {
+        "id": "north",
+        "offset": [
+          0,
+          0
+        ]
+      }
+    ],
+    "source_bookends_exact": false,
+    "require_clear_border": true,
+    "gif_background": "#29232a"
+  },
+  "scene": {
+    "palette": {
+      "B": "#1f0c09",
+      "G": "#190603",
+      "C": "#f9f1db",
+      "M": "#d3c8ae",
+      "D": "#f8b47e",
+      "E": "#c47e50",
+      "L": "#65402b",
+      "H": "#6e452c",
+      "F": "#482d1c",
+      "I": "#563824"
+    },
+    "layers": [
+      {
+        "id": "legs",
+        "name": "Body - pernas"
+      },
+      {
+        "id": "arms",
+        "name": "Body - bracos"
+      },
+      {
+        "id": "body",
+        "name": "Body - modelo"
+      }
+    ],
+    "views": {
+      "north": {
+        "selections": {
+          "old_left_arm": {
+            "regions": [
+              [
+                23,
+                36,
+                27,
+                44
+              ]
+            ]
+          },
+          "old_right_arm": {
+            "regions": [
+              [
+                36,
+                36,
+                41,
+                44
+              ]
+            ]
+          },
+          "old_legs": {
+            "regions": [
+              [
+                24,
+                44,
+                40,
+                60
+              ]
+            ]
+          },
+          "rest": {}
+        },
+        "nodes": {
+          "root": {
+            "layer": "body",
+            "at": [
+              0,
+              0
+            ],
+            "draw": []
+          },
+          "left_leg": {
+            "layer": "legs",
+            "at": {
+              "node": "root",
+              "point": [
+                0,
+                0
+              ]
+            },
+            "draw": []
+          },
+          "right_leg": {
+            "layer": "legs",
+            "at": {
+              "node": "root",
+              "point": [
+                0,
+                0
+              ]
+            },
+            "draw": []
+          },
+          "left_arm": {
+            "layer": "arms",
+            "at": {
+              "node": "root",
+              "point": [
+                0,
+                0
+              ]
+            },
+            "draw": []
+          },
+          "right_arm": {
+            "layer": "arms",
+            "at": {
+              "node": "root",
+              "point": [
+                0,
+                0
+              ]
+            },
+            "draw": []
+          },
+          "body": {
+            "layer": "body",
+            "at": {
+              "node": "root",
+              "point": [
+                0,
+                0
+              ]
+            },
+            "draw": [
+              {
+                "op": "copy",
+                "part": "rest"
+              }
+            ]
+          }
+        },
+        "poses": {
+          "p0": {
+            "root": {
+              "at": [
+                0,
+                0
+              ]
+            },
+            "left_leg": {
+              "draw": [
+                {
+                  "op": "grid",
+                  "at": [
+                    26,
+                    44
+                  ],
+                  "legend": {
+                    "B": "B",
+                    "G": "G",
+                    "C": "C",
+                    "M": "M",
+                    "D": "D",
+                    "E": "E",
+                    "L": "L",
+                    "H": "H",
+                    "F": "F",
+                    "I": "I"
+                  },
+                  "rows": [
+                    "BLLLLB",
+                    "BLHHHB",
+                    "BLHHHB",
+                    "BLHHHB",
+                    ".BHHHB",
+                    ".BEEB.",
+                    ".BDDB.",
+                    ".BDDB.",
+                    ".BFFB.",
+                    ".BFFB.",
+                    "BFFFB.",
+                    "BIFLB.",
+                    ".BBBB."
+                  ]
+                }
+              ]
+            },
+            "right_leg": {
+              "draw": [
+                {
+                  "op": "grid",
+                  "at": [
+                    32,
+                    44
+                  ],
+                  "legend": {
+                    "B": "B",
+                    "G": "G",
+                    "C": "C",
+                    "M": "M",
+                    "D": "D",
+                    "E": "E",
+                    "L": "L",
+                    "H": "H",
+                    "F": "F",
+                    "I": "I"
+                  },
+                  "rows": [
+                    "BLLLLB",
+                    "BHHHLB",
+                    "BHHHLB",
+                    "BHHHB.",
+                    "BEEB..",
+                    "BDDB..",
+                    "BFFB..",
+                    "BLFIB.",
+                    "BBBB.."
+                  ]
+                }
+              ]
+            },
+            "left_arm": {
+              "draw": [
+                {
+                  "op": "grid",
+                  "at": [
+                    24,
+                    35
+                  ],
+                  "legend": {
+                    "B": "B",
+                    "G": "G",
+                    "C": "C",
+                    "M": "M",
+                    "D": "D",
+                    "E": "E",
+                    "L": "L",
+                    "H": "H",
+                    "F": "F",
+                    "I": "I"
+                  },
+                  "rows": [
+                    "BCCB",
+                    "BCMB",
+                    "BEGB",
+                    "BEDB",
+                    ".BB."
+                  ]
+                }
+              ]
+            },
+            "right_arm": {
+              "draw": [
+                {
+                  "op": "grid",
+                  "at": [
+                    36,
+                    35
+                  ],
+                  "legend": {
+                    "B": "B",
+                    "G": "G",
+                    "C": "C",
+                    "M": "M",
+                    "D": "D",
+                    "E": "E",
+                    "L": "L",
+                    "H": "H",
+                    "F": "F",
+                    "I": "I"
+                  },
+                  "rows": [
+                    "BCCB",
+                    "BMCB",
+                    "BGEB",
+                    "BDDB",
+                    "BDDB",
+                    "BDEB",
+                    ".BB."
+                  ]
+                }
+              ]
+            }
+          },
+          "p1": {
+            "root": {
+              "at": [
+                0,
+                0
+              ]
+            },
+            "left_leg": {
+              "draw": [
+                {
+                  "op": "grid",
+                  "at": [
+                    26,
+                    44
+                  ],
+                  "legend": {
+                    "B": "B",
+                    "G": "G",
+                    "C": "C",
+                    "M": "M",
+                    "D": "D",
+                    "E": "E",
+                    "L": "L",
+                    "H": "H",
+                    "F": "F",
+                    "I": "I"
+                  },
+                  "rows": [
+                    "BLLLLB",
+                    "BLHHHB",
+                    "BLHHHB",
+                    "BLHHHB",
+                    ".BHHHB",
+                    ".BHHB.",
+                    ".BEEB.",
+                    ".BDDB.",
+                    ".BDDB.",
+                    ".BFFB.",
+                    ".BFFB.",
+                    "BFFFB.",
+                    "BIFLB.",
+                    ".BBBB."
+                  ]
+                }
+              ]
+            },
+            "right_leg": {
+              "draw": [
+                {
+                  "op": "grid",
+                  "at": [
+                    32,
+                    44
+                  ],
+                  "legend": {
+                    "B": "B",
+                    "G": "G",
+                    "C": "C",
+                    "M": "M",
+                    "D": "D",
+                    "E": "E",
+                    "L": "L",
+                    "H": "H",
+                    "F": "F",
+                    "I": "I"
+                  },
+                  "rows": [
+                    "BLLLLB",
+                    "BHHHLB",
+                    "BHHHLB",
+                    "BHHHB.",
+                    ".BHHB.",
+                    ".BEEB.",
+                    ".BDDB.",
+                    ".BFFB.",
+                    ".BFIB.",
+                    ".BBBB."
+                  ]
+                }
+              ]
+            },
+            "left_arm": {
+              "draw": [
+                {
+                  "op": "grid",
+                  "at": [
+                    24,
+                    35
+                  ],
+                  "legend": {
+                    "B": "B",
+                    "G": "G",
+                    "C": "C",
+                    "M": "M",
+                    "D": "D",
+                    "E": "E",
+                    "L": "L",
+                    "H": "H",
+                    "F": "F",
+                    "I": "I"
+                  },
+                  "rows": [
+                    "BCCB",
+                    "BCMB",
+                    "BEGB",
+                    "BDDB",
+                    "BEDB",
+                    ".BB."
+                  ]
+                }
+              ]
+            },
+            "right_arm": {
+              "draw": [
+                {
+                  "op": "grid",
+                  "at": [
+                    36,
+                    35
+                  ],
+                  "legend": {
+                    "B": "B",
+                    "G": "G",
+                    "C": "C",
+                    "M": "M",
+                    "D": "D",
+                    "E": "E",
+                    "L": "L",
+                    "H": "H",
+                    "F": "F",
+                    "I": "I"
+                  },
+                  "rows": [
+                    "BCCB",
+                    "BMCB",
+                    "BGEB",
+                    "BDDB",
+                    "BDDB",
+                    "BDDB",
+                    "BDEB",
+                    ".BB."
+                  ]
+                }
+              ]
+            }
+          },
+          "p2": {
+            "root": {
+              "at": [
+                0,
+                -1
+              ]
+            },
+            "left_leg": {
+              "draw": [
+                {
+                  "op": "grid",
+                  "at": [
+                    26,
+                    44
+                  ],
+                  "legend": {
+                    "B": "B",
+                    "G": "G",
+                    "C": "C",
+                    "M": "M",
+                    "D": "D",
+                    "E": "E",
+                    "L": "L",
+                    "H": "H",
+                    "F": "F",
+                    "I": "I"
+                  },
+                  "rows": [
+                    "BLLLLB",
+                    "BLHHHB",
+                    "BLHHHB",
+                    ".BHHHB",
+                    ".BHHB.",
+                    "..BEB.",
+                    "..BDB.",
+                    "..BFB.",
+                    ".BFFB.",
+                    ".BIFB.",
+                    "..BBB."
+                  ]
+                }
+              ]
+            },
+            "right_leg": {
+              "draw": [
+                {
+                  "op": "grid",
+                  "at": [
+                    32,
+                    44
+                  ],
+                  "legend": {
+                    "B": "B",
+                    "G": "G",
+                    "C": "C",
+                    "M": "M",
+                    "D": "D",
+                    "E": "E",
+                    "L": "L",
+                    "H": "H",
+                    "F": "F",
+                    "I": "I"
+                  },
+                  "rows": [
+                    "BLLLLB",
+                    "BHHHLB",
+                    "BHHHLB",
+                    "BHHHLB",
+                    "BHHHB.",
+                    ".BEEB.",
+                    ".BDDB.",
+                    ".BFFB.",
+                    ".BFFB.",
+                    ".BLFIB",
+                    ".BBBB."
+                  ]
+                }
+              ]
+            },
+            "left_arm": {
+              "draw": [
+                {
+                  "op": "grid",
+                  "at": [
+                    24,
+                    35
+                  ],
+                  "legend": {
+                    "B": "B",
+                    "G": "G",
+                    "C": "C",
+                    "M": "M",
+                    "D": "D",
+                    "E": "E",
+                    "L": "L",
+                    "H": "H",
+                    "F": "F",
+                    "I": "I"
+                  },
+                  "rows": [
+                    "BCCB",
+                    "BCMB",
+                    "BEGB",
+                    "BDDB",
+                    "BDDB",
+                    "BEDB",
+                    ".BB."
+                  ]
+                }
+              ]
+            },
+            "right_arm": {
+              "draw": [
+                {
+                  "op": "grid",
+                  "at": [
+                    36,
+                    35
+                  ],
+                  "legend": {
+                    "B": "B",
+                    "G": "G",
+                    "C": "C",
+                    "M": "M",
+                    "D": "D",
+                    "E": "E",
+                    "L": "L",
+                    "H": "H",
+                    "F": "F",
+                    "I": "I"
+                  },
+                  "rows": [
+                    "BCCB",
+                    "BMCB",
+                    "BGEB",
+                    "BDDB",
+                    "BDDB",
+                    "BDEB",
+                    ".BB."
+                  ]
+                }
+              ]
+            }
+          },
+          "p3": {
+            "root": {
+              "at": [
+                0,
+                -1
+              ]
+            },
+            "left_leg": {
+              "draw": [
+                {
+                  "op": "grid",
+                  "at": [
+                    26,
+                    44
+                  ],
+                  "legend": {
+                    "B": "B",
+                    "G": "G",
+                    "C": "C",
+                    "M": "M",
+                    "D": "D",
+                    "E": "E",
+                    "L": "L",
+                    "H": "H",
+                    "F": "F",
+                    "I": "I"
+                  },
+                  "rows": [
+                    "BLLLLB",
+                    "BLHHHB",
+                    ".BHHHB",
+                    "..BHHB",
+                    "..BEEB",
+                    "..BFFB",
+                    ".BIFLB",
+                    "..BBBB"
+                  ]
+                }
+              ]
+            },
+            "right_leg": {
+              "draw": [
+                {
+                  "op": "grid",
+                  "at": [
+                    32,
+                    44
+                  ],
+                  "legend": {
+                    "B": "B",
+                    "G": "G",
+                    "C": "C",
+                    "M": "M",
+                    "D": "D",
+                    "E": "E",
+                    "L": "L",
+                    "H": "H",
+                    "F": "F",
+                    "I": "I"
+                  },
+                  "rows": [
+                    "BLLLLB",
+                    "BHHHLB",
+                    "BHHHLB",
+                    "BHHHLB",
+                    "BHHHB.",
+                    ".BEEB.",
+                    ".BDDB.",
+                    ".BDDB.",
+                    ".BFFB.",
+                    ".BFFB.",
+                    ".BLFIB",
+                    ".BBBB."
+                  ]
+                }
+              ]
+            },
+            "left_arm": {
+              "draw": [
+                {
+                  "op": "grid",
+                  "at": [
+                    24,
+                    35
+                  ],
+                  "legend": {
+                    "B": "B",
+                    "G": "G",
+                    "C": "C",
+                    "M": "M",
+                    "D": "D",
+                    "E": "E",
+                    "L": "L",
+                    "H": "H",
+                    "F": "F",
+                    "I": "I"
+                  },
+                  "rows": [
+                    "BCCB",
+                    "BCMB",
+                    "BEGB",
+                    "BDDB",
+                    "BDDB",
+                    "BEDB",
+                    ".BB."
+                  ]
+                }
+              ]
+            },
+            "right_arm": {
+              "draw": [
+                {
+                  "op": "grid",
+                  "at": [
+                    36,
+                    35
+                  ],
+                  "legend": {
+                    "B": "B",
+                    "G": "G",
+                    "C": "C",
+                    "M": "M",
+                    "D": "D",
+                    "E": "E",
+                    "L": "L",
+                    "H": "H",
+                    "F": "F",
+                    "I": "I"
+                  },
+                  "rows": [
+                    "BCCB",
+                    "BMCB",
+                    "BGEB",
+                    "BDDB",
+                    "BDEB",
+                    ".BB."
+                  ]
+                }
+              ]
+            }
+          },
+          "p4": {
+            "root": {
+              "at": [
+                0,
+                0
+              ]
+            },
+            "left_leg": {
+              "draw": [
+                {
+                  "op": "grid",
+                  "at": [
+                    26,
+                    44
+                  ],
+                  "legend": {
+                    "B": "B",
+                    "G": "G",
+                    "C": "C",
+                    "M": "M",
+                    "D": "D",
+                    "E": "E",
+                    "L": "L",
+                    "H": "H",
+                    "F": "F",
+                    "I": "I"
+                  },
+                  "rows": [
+                    "BLLLLB",
+                    "BLHHHB",
+                    "BLHHHB",
+                    ".BHHHB",
+                    "..BEEB",
+                    "..BDDB",
+                    "..BFFB",
+                    ".BIFLB",
+                    "..BBBB"
+                  ]
+                }
+              ]
+            },
+            "right_leg": {
+              "draw": [
+                {
+                  "op": "grid",
+                  "at": [
+                    32,
+                    44
+                  ],
+                  "legend": {
+                    "B": "B",
+                    "G": "G",
+                    "C": "C",
+                    "M": "M",
+                    "D": "D",
+                    "E": "E",
+                    "L": "L",
+                    "H": "H",
+                    "F": "F",
+                    "I": "I"
+                  },
+                  "rows": [
+                    "BLLLLB",
+                    "BHHHLB",
+                    "BHHHLB",
+                    "BHHHLB",
+                    "BHHHB.",
+                    ".BEEB.",
+                    ".BDDB.",
+                    ".BDDB.",
+                    ".BFFB.",
+                    ".BFFB.",
+                    ".BFFFB",
+                    ".BLFIB",
+                    ".BBBB."
+                  ]
+                }
+              ]
+            },
+            "left_arm": {
+              "draw": [
+                {
+                  "op": "grid",
+                  "at": [
+                    24,
+                    35
+                  ],
+                  "legend": {
+                    "B": "B",
+                    "G": "G",
+                    "C": "C",
+                    "M": "M",
+                    "D": "D",
+                    "E": "E",
+                    "L": "L",
+                    "H": "H",
+                    "F": "F",
+                    "I": "I"
+                  },
+                  "rows": [
+                    "BCCB",
+                    "BCMB",
+                    "BEGB",
+                    "BDDB",
+                    "BDDB",
+                    "BEDB",
+                    ".BB."
+                  ]
+                }
+              ]
+            },
+            "right_arm": {
+              "draw": [
+                {
+                  "op": "grid",
+                  "at": [
+                    36,
+                    35
+                  ],
+                  "legend": {
+                    "B": "B",
+                    "G": "G",
+                    "C": "C",
+                    "M": "M",
+                    "D": "D",
+                    "E": "E",
+                    "L": "L",
+                    "H": "H",
+                    "F": "F",
+                    "I": "I"
+                  },
+                  "rows": [
+                    "BCCB",
+                    "BMCB",
+                    "BGEB",
+                    "BDEB",
+                    ".BB."
+                  ]
+                }
+              ]
+            }
+          },
+          "p5": {
+            "root": {
+              "at": [
+                0,
+                0
+              ]
+            },
+            "left_leg": {
+              "draw": [
+                {
+                  "op": "grid",
+                  "at": [
+                    26,
+                    44
+                  ],
+                  "legend": {
+                    "B": "B",
+                    "G": "G",
+                    "C": "C",
+                    "M": "M",
+                    "D": "D",
+                    "E": "E",
+                    "L": "L",
+                    "H": "H",
+                    "F": "F",
+                    "I": "I"
+                  },
+                  "rows": [
+                    "BLLLLB",
+                    "BLHHHB",
+                    "BLHHHB",
+                    ".BHHHB",
+                    ".BHHB.",
+                    ".BEEB.",
+                    ".BDDB.",
+                    ".BFFB.",
+                    ".BIFB.",
+                    ".BBBB."
+                  ]
+                }
+              ]
+            },
+            "right_leg": {
+              "draw": [
+                {
+                  "op": "grid",
+                  "at": [
+                    32,
+                    44
+                  ],
+                  "legend": {
+                    "B": "B",
+                    "G": "G",
+                    "C": "C",
+                    "M": "M",
+                    "D": "D",
+                    "E": "E",
+                    "L": "L",
+                    "H": "H",
+                    "F": "F",
+                    "I": "I"
+                  },
+                  "rows": [
+                    "BLLLLB",
+                    "BHHHLB",
+                    "BHHHLB",
+                    "BHHHLB",
+                    "BHHHB.",
+                    ".BHHB.",
+                    ".BEEB.",
+                    ".BDDB.",
+                    ".BDDB.",
+                    ".BFFB.",
+                    ".BFFB.",
+                    ".BFFFB",
+                    ".BLFIB",
+                    ".BBBB."
+                  ]
+                }
+              ]
+            },
+            "left_arm": {
+              "draw": [
+                {
+                  "op": "grid",
+                  "at": [
+                    24,
+                    35
+                  ],
+                  "legend": {
+                    "B": "B",
+                    "G": "G",
+                    "C": "C",
+                    "M": "M",
+                    "D": "D",
+                    "E": "E",
+                    "L": "L",
+                    "H": "H",
+                    "F": "F",
+                    "I": "I"
+                  },
+                  "rows": [
+                    "BCCB",
+                    "BCMB",
+                    "BEGB",
+                    "BDDB",
+                    "BDDB",
+                    "BDDB",
+                    "BEDB",
+                    ".BB."
+                  ]
+                }
+              ]
+            },
+            "right_arm": {
+              "draw": [
+                {
+                  "op": "grid",
+                  "at": [
+                    36,
+                    35
+                  ],
+                  "legend": {
+                    "B": "B",
+                    "G": "G",
+                    "C": "C",
+                    "M": "M",
+                    "D": "D",
+                    "E": "E",
+                    "L": "L",
+                    "H": "H",
+                    "F": "F",
+                    "I": "I"
+                  },
+                  "rows": [
+                    "BCCB",
+                    "BMCB",
+                    "BGEB",
+                    "BDDB",
+                    "BDEB",
+                    ".BB."
+                  ]
+                }
+              ]
+            }
+          },
+          "p6": {
+            "root": {
+              "at": [
+                0,
+                -1
+              ]
+            },
+            "left_leg": {
+              "draw": [
+                {
+                  "op": "grid",
+                  "at": [
+                    26,
+                    44
+                  ],
+                  "legend": {
+                    "B": "B",
+                    "G": "G",
+                    "C": "C",
+                    "M": "M",
+                    "D": "D",
+                    "E": "E",
+                    "L": "L",
+                    "H": "H",
+                    "F": "F",
+                    "I": "I"
+                  },
+                  "rows": [
+                    "BLLLLB",
+                    "BLHHHB",
+                    "BLHHHB",
+                    "BLHHHB",
+                    ".BHHHB",
+                    ".BEEB.",
+                    ".BDDB.",
+                    ".BFFB.",
+                    ".BFFB.",
+                    "BIFLB.",
+                    ".BBBB."
+                  ]
+                }
+              ]
+            },
+            "right_leg": {
+              "draw": [
+                {
+                  "op": "grid",
+                  "at": [
+                    32,
+                    44
+                  ],
+                  "legend": {
+                    "B": "B",
+                    "G": "G",
+                    "C": "C",
+                    "M": "M",
+                    "D": "D",
+                    "E": "E",
+                    "L": "L",
+                    "H": "H",
+                    "F": "F",
+                    "I": "I"
+                  },
+                  "rows": [
+                    "BLLLLB",
+                    "BHHHLB",
+                    "BHHHLB",
+                    "BHHHB.",
+                    ".BHHB.",
+                    ".BEB..",
+                    ".BDB..",
+                    ".BFB..",
+                    ".BFFB.",
+                    ".BFIB.",
+                    ".BBB.."
+                  ]
+                }
+              ]
+            },
+            "left_arm": {
+              "draw": [
+                {
+                  "op": "grid",
+                  "at": [
+                    24,
+                    35
+                  ],
+                  "legend": {
+                    "B": "B",
+                    "G": "G",
+                    "C": "C",
+                    "M": "M",
+                    "D": "D",
+                    "E": "E",
+                    "L": "L",
+                    "H": "H",
+                    "F": "F",
+                    "I": "I"
+                  },
+                  "rows": [
+                    "BCCB",
+                    "BCMB",
+                    "BEGB",
+                    "BDDB",
+                    "BDDB",
+                    "BEDB",
+                    ".BB."
+                  ]
+                }
+              ]
+            },
+            "right_arm": {
+              "draw": [
+                {
+                  "op": "grid",
+                  "at": [
+                    36,
+                    35
+                  ],
+                  "legend": {
+                    "B": "B",
+                    "G": "G",
+                    "C": "C",
+                    "M": "M",
+                    "D": "D",
+                    "E": "E",
+                    "L": "L",
+                    "H": "H",
+                    "F": "F",
+                    "I": "I"
+                  },
+                  "rows": [
+                    "BCCB",
+                    "BMCB",
+                    "BGEB",
+                    "BDDB",
+                    "BDDB",
+                    "BDEB",
+                    ".BB."
+                  ]
+                }
+              ]
+            }
+          },
+          "p7": {
+            "root": {
+              "at": [
+                0,
+                -1
+              ]
+            },
+            "left_leg": {
+              "draw": [
+                {
+                  "op": "grid",
+                  "at": [
+                    26,
+                    44
+                  ],
+                  "legend": {
+                    "B": "B",
+                    "G": "G",
+                    "C": "C",
+                    "M": "M",
+                    "D": "D",
+                    "E": "E",
+                    "L": "L",
+                    "H": "H",
+                    "F": "F",
+                    "I": "I"
+                  },
+                  "rows": [
+                    "BLLLLB",
+                    "BLHHHB",
+                    "BLHHHB",
+                    "BLHHHB",
+                    ".BHHHB",
+                    ".BEEB.",
+                    ".BDDB.",
+                    ".BDDB.",
+                    ".BFFB.",
+                    ".BFFB.",
+                    "BIFLB.",
+                    ".BBBB."
+                  ]
+                }
+              ]
+            },
+            "right_leg": {
+              "draw": [
+                {
+                  "op": "grid",
+                  "at": [
+                    32,
+                    44
+                  ],
+                  "legend": {
+                    "B": "B",
+                    "G": "G",
+                    "C": "C",
+                    "M": "M",
+                    "D": "D",
+                    "E": "E",
+                    "L": "L",
+                    "H": "H",
+                    "F": "F",
+                    "I": "I"
+                  },
+                  "rows": [
+                    "BLLLLB",
+                    "BHHHLB",
+                    "BHHHB.",
+                    "BHHB..",
+                    "BEEB..",
+                    "BFFB..",
+                    "BLFIB.",
+                    "BBBB.."
+                  ]
+                }
+              ]
+            },
+            "left_arm": {
+              "draw": [
+                {
+                  "op": "grid",
+                  "at": [
+                    24,
+                    35
+                  ],
+                  "legend": {
+                    "B": "B",
+                    "G": "G",
+                    "C": "C",
+                    "M": "M",
+                    "D": "D",
+                    "E": "E",
+                    "L": "L",
+                    "H": "H",
+                    "F": "F",
+                    "I": "I"
+                  },
+                  "rows": [
+                    "BCCB",
+                    "BCMB",
+                    "BEGB",
+                    "BDDB",
+                    "BEDB",
+                    ".BB."
+                  ]
+                }
+              ]
+            },
+            "right_arm": {
+              "draw": [
+                {
+                  "op": "grid",
+                  "at": [
+                    36,
+                    35
+                  ],
+                  "legend": {
+                    "B": "B",
+                    "G": "G",
+                    "C": "C",
+                    "M": "M",
+                    "D": "D",
+                    "E": "E",
+                    "L": "L",
+                    "H": "H",
+                    "F": "F",
+                    "I": "I"
+                  },
+                  "rows": [
+                    "BCCB",
+                    "BMCB",
+                    "BGEB",
+                    "BDDB",
+                    "BDDB",
+                    "BDEB",
+                    ".BB."
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        "frames": [
+          "p0",
+          "p1",
+          "p2",
+          "p3",
+          "p4",
+          "p5",
+          "p6",
+          "p7"
+        ]
+      }
+    }
+  }
+}

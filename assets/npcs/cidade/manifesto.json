@@ -229,5 +229,80 @@
 			0
 		],
 		"traje_chuva": "capa"
+	},
+	"osvaldo": {
+		"fonte": "res://arte/fontes/npcs/familia_carpinteiro/revisao/osvaldo.png",
+		"folha": "res://assets/npcs/cidade/osvaldo.png",
+		"grade": [
+			7,
+			4
+		],
+		"quadro": [
+			64,
+			64
+		],
+		"pes_y": 45,
+		"altura_parado": 30,
+		"altura_mapa": 30,
+		"escala_mapa": 1.0,
+		"direcoes": [
+			"baixo",
+			"direita",
+			"cima",
+			"esquerda"
+		],
+		"quadros_andar": 6,
+		"folha_chuva": "res://assets/npcs/cidade/capas_chuva/osvaldo.png",
+		"traje_chuva": "roupa propria; abrigo na chuva"
+	},
+	"helena": {
+		"fonte": "res://arte/fontes/npcs/familia_carpinteiro/revisao/helena.png",
+		"folha": "res://assets/npcs/cidade/helena.png",
+		"grade": [
+			7,
+			4
+		],
+		"quadro": [
+			64,
+			64
+		],
+		"pes_y": 45,
+		"altura_parado": 30,
+		"altura_mapa": 30,
+		"escala_mapa": 1.0,
+		"direcoes": [
+			"baixo",
+			"direita",
+			"cima",
+			"esquerda"
+		],
+		"quadros_andar": 6,
+		"folha_chuva": "res://assets/npcs/cidade/capas_chuva/helena.png",
+		"traje_chuva": "roupa propria; abrigo na chuva"
+	},
+	"clara": {
+		"fonte": "res://arte/fontes/npcs/familia_carpinteiro/revisao/clara.png",
+		"folha": "res://assets/npcs/cidade/clara.png",
+		"grade": [
+			7,
+			4
+		],
+		"quadro": [
+			64,
+			64
+		],
+		"pes_y": 45,
+		"altura_parado": 31,
+		"altura_mapa": 31,
+		"escala_mapa": 1.0,
+		"direcoes": [
+			"baixo",
+			"direita",
+			"cima",
+			"esquerda"
+		],
+		"quadros_andar": 6,
+		"folha_chuva": "res://assets/npcs/cidade/capas_chuva/clara.png",
+		"traje_chuva": "roupa propria; abrigo na chuva"
 	}
 }

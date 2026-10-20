@@ -72,7 +72,7 @@ func _process(delta: float) -> void:
 	var caminho := cena.scene_file_path
 	if caminho.ends_with("praia.tscn") or caminho.ends_with("palafita.tscn"):
 		definir("praia","mar")
-	elif caminho.ends_with("fazenda.tscn"):
+	elif caminho.ends_with("fazenda.tscn") or caminho.ends_with("galinheiro.tscn"):
 		definir("fazenda","bosque")
 	else:
 		definir("vila", "bosque" if caminho.ends_with("cidade.tscn") else "")

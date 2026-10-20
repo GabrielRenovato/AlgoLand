@@ -38,3 +38,5 @@ func _ready() -> void:
 		balcao.texture_filter = TEXTURE_FILTER_NEAREST
 		add_child(balcao)
 	preload("res://codigo/pesca/mobiliario_cais.gd").montar(self,[["caixas_peixes",64,174],["equipamento_pesca",224,174]])
+
+	load("res://codigo/cidade/atendimento_cidade.gd").montar(self,"palafita")

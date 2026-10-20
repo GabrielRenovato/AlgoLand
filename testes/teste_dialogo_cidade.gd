@@ -1,6 +1,7 @@
 extends SceneTree
 
 var falhas := 0
+var capturar := false
 
 func _initialize() -> void:
 	_rodar()
@@ -14,13 +15,22 @@ func quadros() -> void:
 	for i in range(6):
 		await process_frame
 
+func foto(nome: String) -> void:
+	if not capturar: return
+	await quadros()
+	await RenderingServer.frame_post_draw
+	var pasta := "res://arte/previas/dialogos/"
+	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(pasta))
+	root.get_texture().get_image().save_png(pasta+nome+".png")
+
 func conferir(tela: Control, nome: String) -> void:
 	var painel: Rect2 = tela.painel.get_global_rect()
 	verificar(nome + ": painel compacto e dentro da tela", painel.size.y <= tela.size.y * 0.75 and Rect2(Vector2.ZERO, tela.size).encloses(painel))
 	verificar(nome + ": texto cabe sem cortar linhas", not tela._fala.visible or (tela._fala.size.y >= tela._fala.get_minimum_size().y and painel.encloses(tela._fala.get_global_rect())))
 	verificar(nome + ": X acessível dentro do balão", tela._fechar_dialogo.visible and painel.encloses(tela._fechar_dialogo.get_global_rect()))
 	for botao in [tela._continuar,tela._fechar_dialogo]:
-		verificar(nome + ": texto centralizado e botão dentro do balão",botao.alignment == HORIZONTAL_ALIGNMENT_CENTER and painel.encloses(botao.get_global_rect()))
+		if botao.visible:
+			verificar(nome + ": texto centralizado e botão dentro do balão",botao.alignment == HORIZONTAL_ALIGNMENT_CENTER and painel.encloses(botao.get_global_rect()))
 	var menu: Rect2 = tela._menu_assuntos.get_global_rect()
 	verificar(nome + ": respostas dentro do mesmo balão",not tela._menu_assuntos.visible or painel.encloses(menu))
 	verificar(nome + ": lista de respostas rolável",tela._rolagem != null and tela._rolagem.follow_focus)
@@ -31,6 +41,8 @@ func _rodar() -> void:
 		quit(1)
 		return
 	await process_frame
+	capturar = "--capturar" in OS.get_cmdline_user_args() and DisplayServer.get_name()!="headless"
+	root.mode = Window.MODE_WINDOWED
 	for caminho in ["tema_global","tema_sidebar","tema_menu"]:
 		var tema: Theme = load("res://recursos/ui/"+caminho+".tres")
 		for tipo in (["Button","BotaoAba","BotaoPrimario"] if caminho == "tema_sidebar" else ["Button"]):
@@ -51,7 +63,8 @@ func _rodar() -> void:
 	var interface: Node = vila.get_node("Interface")
 	var tela: Control = interface._telas["conversa_cidade"]
 	var dados: GDScript = load("res://codigo/cidade/dados_cidade.gd")
-	for tamanho in [Vector2i(576,324), Vector2i(480,270), Vector2i(704,576)]:
+	for tamanho in [Vector2i(576,324), Vector2i(480,270), Vector2i(704,576), Vector2i(288,512), Vector2i(320,324)]:
+		root.get_node("Controle").usando_toque = tamanho.x<300
 		root.content_scale_size = tamanho
 		root.size = tamanho * 2
 		await quadros()
@@ -60,9 +73,18 @@ func _rodar() -> void:
 			await quadros()
 			conferir(tela, str(tamanho) + "/" + id)
 			verificar("retrato e nome correspondem: " + id, tela._retrato.texture != null and tela._titulo.text == dados.MORADORES[id]["nome"])
-			tela._assunto("papo")
+			verificar("conversa sem menu de serviços: "+id,not tela._menu_assuntos.visible and tela._submenu == "" and tela._botoes.size() <= 2)
+			if id == "mercador":
+				await foto("fala-"+str(tamanho.x)+"x"+str(tamanho.y))
+			tela._pedido = ""
+			tela._falar("Que bom te encontrar! Como anda a fazenda?")
+			tela._pagina = tela._paginas.size()-1
+			tela._avancar_fala()
+			tela._avancar_fala()
 			await quadros()
-			conferir(tela, "assunto de conversa/" + id)
+			verificar("última fala encerra sem lista de assuntos: "+id,not tela.visible)
+			cidade.conversar(id)
+			await quadros()
 			for pedido in dados.MISSOES:
 				if dados.MISSOES[pedido]["dono"] == id:
 					tela._abrir_pedido(pedido)
@@ -80,23 +102,8 @@ func _rodar() -> void:
 	tela._botoes[0].pressed.emit()
 	await quadros()
 	verificar("aceite continua funcional", cidade.missoes["horta"]["estado"] == "aceita")
-	verificar("pedido incompleto impede entrega", tela._botoes[0].disabled)
+	verificar("aceite volta à fala, sem novo menu",tela._botoes.is_empty() and not tela._menu_assuntos.visible)
 	interface._fechar_tela("conversa_cidade")
-	cidade.conversar("curandeira")
-	await quadros()
-	var pocoes: Button = tela._botoes.filter(func(b): return b.text == "POCOES")[0]
-	pocoes.pressed.emit()
-	await quadros()
-	verificar("Rosa abre preparo de poções", interface._telas_abertas.has("caldeirao") and not interface._telas_abertas.has("conversa_cidade"))
-	interface._fechar_tela("caldeirao")
-	cidade.conversar("mercador")
-	await quadros()
-	var sementes: Button = tela._botoes.filter(func(b): return b.text == "SEMENTES")[0]
-	sementes.pressed.emit()
-	await quadros()
-	verificar("negociar abre loja e inventario", interface._telas_abertas.has("mercante") and interface._telas_abertas.has("inventario") and not interface._telas_abertas.has("conversa_cidade"))
-	interface._fechar_tela("mercante")
-	verificar("fechar libera o jogador", vila.get_node("Jogador").movimento_habilitado)
 	current_scene.queue_free()
 	current_scene = null
 	await quadros()

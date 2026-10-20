@@ -1,0 +1,5 @@
+Correção solicitada: espada estava mudando da mão direita para esquerda na sequência de costas.
+Ferramenta: image_gen integrado. Primeira edição da folha ainda trocou o ombro; por isso foi isolada uma pose sem arma, mostrando braço direito erguido e mão esquerda baixa. A sequência v4 usa essa pose como guia.
+Contrato: rosto oculto/norte, direita anatômica no lado direito da tela, mão esquerda baixa e vazia em todos os quadros, espada única na mão direita, sem efeito que esconda a pegada. Preservar personagem de roupa creme/shorts marrons.
+Revisão do contato v4: as oito poses conservam braço direito e mão esquerda baixa. A trajetória foi simplificada e não equivale ainda ao corte completo do CraftPix; é um estudo da continuidade da pegada, sem aprovação artística do usuário. Não declarar a animação final pronta nem integrar ao jogador.
+Prévia: ataque_costas-v4.gif, tempos500ms+7x100ms; preparo Godot com sola alinhada. Guia isolado em espada-costas-guia-braco-direito.png.

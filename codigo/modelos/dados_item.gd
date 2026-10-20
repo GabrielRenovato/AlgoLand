@@ -33,7 +33,7 @@ const NOMES := {
 
 @export var id: StringName = &""
 @export var tipo: String = "espada_basica"
-@export_enum("arma", "escudo", "secundaria", "cabeca", "corpo", "luvas", "botas", "ferramenta", "semente", "peixe", "vara", "material", "receita", "colheita", "pocao") var categoria: String = "arma"
+@export_enum("arma", "escudo", "secundaria", "cabeca", "corpo", "luvas", "botas", "ferramenta", "semente", "peixe", "vara", "material", "receita", "colheita", "pocao", "produto") var categoria: String = "arma"
 @export var nivel: int = 1
 @export_enum("comum", "incomum", "raro", "epico", "lendario") var raridade: String = "comum"
 @export var icone: Texture2D
@@ -92,6 +92,8 @@ func nome() -> String:
 		return "RECEITA: " + preload("res://codigo/dados/forja_armas.gd").nome(conteudo())
 	if categoria == "material":
 		return String(preload("res://codigo/dados/forja_armas.gd").MATERIAIS.get(conteudo(), {}).get("nome", conteudo().to_upper()))
+	if categoria == "produto":
+		return {"ovo":"OVO","feno":"FENO"}.get(conteudo(),conteudo().to_upper())
 	if categoria == "colheita":
 		return String(Plantas.PLANTAS.get(conteudo(), {}).get("nome", conteudo().to_upper()))
 	if categoria == "pocao":
@@ -111,7 +113,7 @@ func conteudo() -> String:
 	return tipo.get_slice(":", 1)
 
 func empilhavel() -> bool:
-	return categoria in ["semente", "peixe", "material", "receita", "colheita", "pocao"]
+	return categoria in ["semente", "peixe", "material", "receita", "colheita", "pocao", "produto"]
 
 static func de_coletavel(categoria_item: String, conteudo_item: String, quantos := 1) -> DadosItem:
 	var item := DadosItem.new()

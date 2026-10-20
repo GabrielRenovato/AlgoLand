@@ -16,7 +16,9 @@ const NUVENS_SUAVES := preload("res://codigo/cidade/nuvens_suaves.gdshader")
 const POSICAO_PORTAL := Vector2(488, 112)
 @export var local := "cidade"
 var moradores: Dictionary = {}
+var apoio_helena: Node
 var navegacao := AStarGrid2D.new()
+var _navegacao_cadeira := AStarGrid2D.new()
 var _tempo_rotina := 0.0
 var _decoracao: Node2D
 var _estacao_visual := -1
@@ -65,6 +67,8 @@ func _ready() -> void:
 		_montar_portal()
 		# A decoração entra antes da navegação, para os moradores contornarem barracas, bancos e árvores
 		_montar_decoracao()
+		var quintal := preload("res://codigo/cidade/quintal_carpinteiro.gd").new()
+		add_child(quintal)
 		var selo := preload("res://codigo/cidade/selo_limiar.gd").new()
 		selo.name = "SeloDoLimiar"
 		selo.position = DadosCidade.ponto("poco") + Vector2(0,12)
@@ -85,6 +89,8 @@ func _ready() -> void:
 		npc.vila = self
 		add_child(npc)
 		moradores[id] = npc
+	apoio_helena = preload("res://codigo/cidade/apoio_helena.gd").new()
+	add_child(apoio_helena)
 	if local == "cidade":
 		var nilo := preload("res://codigo/pesca/pescador.gd").new()
 		nilo.name = "Nilo"
@@ -225,6 +231,7 @@ var _historico_papos: Dictionary = {}
 var _reencontro: Dictionary = {}
 
 func _tentar_papo_entre_vizinhos() -> void:
+	if Cidade.dialogo_aberto_no_ambiente(self): return
 	var agora := Time.get_ticks_msec() / 1000.0
 	if not _participantes.is_empty() or agora < _proximo_papo or randf() > 0.35:
 		return
@@ -317,18 +324,31 @@ func porta_do_local(destino: String) -> Vector2:
 		return $Chegada_palafita.position if destino == "palafita" else $Chegada_cidade.position
 	if local != "cidade":
 		return $Chegada_entrada.position
+	if destino == "fazenda":
+		return $Chegada_fazenda.position
 	if destino in ["praia","palafita"]:
 		return $Chegada_praia.position
 	if DadosCidade.PREDIOS.has(destino):
 		return DadosCidade.PREDIOS[destino]["base"] + Vector2(DadosCidade.PREDIOS[destino]["porta_x"], 36)
 	return DadosCidade.ponto("praca")
 
+func ajustar_posicao_continuacao(ponto: Vector2) -> Vector2:
+	if local != "carpintaria": return ponto
+	# A planta anterior era uma sala única; uma posição antiga pode cair numa parede nova.
+	var celula := Vector2i(to_local(ponto)/navegacao.cell_size)
+	if navegacao.is_in_boundsv(celula) and not navegacao.is_point_solid(celula): return ponto
+	return $Chegada_entrada.global_position
+
 func _montar_navegacao() -> void:
-	navegacao.cell_size = Vector2(8, 8) if local != "cidade" else Vector2(16, 16)
-	navegacao.region = Rect2i(Vector2i.ZERO, Vector2i(limites.size / navegacao.cell_size))
-	navegacao.offset = navegacao.cell_size * 0.5
-	navegacao.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_NEVER
-	navegacao.update()
+	_montar_grade(navegacao,6)
+	_montar_grade(_navegacao_cadeira,10)
+
+func _montar_grade(grade: AStarGrid2D, folga: float) -> void:
+	grade.cell_size = Vector2(8, 8) if local != "cidade" else Vector2(16, 16)
+	grade.region = Rect2i(Vector2i.ZERO, Vector2i(limites.size / grade.cell_size))
+	grade.offset = grade.cell_size * 0.5
+	grade.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_NEVER
+	grade.update()
 	for cuerpo in find_children("*", "StaticBody2D", true, false):
 		for forma in cuerpo.get_children():
 			if forma is CollisionShape2D and forma.disabled:
@@ -348,40 +368,42 @@ func _montar_navegacao() -> void:
 				continue
 			# A rota representa a posição do corpo; os pés ficam nove pixels abaixo.
 			area.position.y -= 9
-			area = area.grow(6)
-			for y in navegacao.region.size.y:
-				for x in navegacao.region.size.x:
+			area = area.grow(folga)
+			for y in grade.region.size.y:
+				for x in grade.region.size.x:
 					var celula := Vector2i(x, y)
-					var ponto := navegacao.get_point_position(celula)
+					var ponto := grade.get_point_position(celula)
 					if not area.has_point(ponto):
 						continue
 					if poligono.is_empty():
-						navegacao.set_point_solid(celula)
+						grade.set_point_solid(celula)
 					else:
 						# Não bloquear terra seca dentro do retângulo que envolve o lago.
-						for margem in [Vector2.ZERO, Vector2(-6, 0), Vector2(6, 0), Vector2(0, -6), Vector2(0, 6)]:
+						for margem in [Vector2.ZERO, Vector2(-folga, 0), Vector2(folga, 0), Vector2(0, -folga), Vector2(0, folga)]:
 							if Geometry2D.is_point_in_polygon(ponto + Vector2(0, 9) + margem, poligono):
-								navegacao.set_point_solid(celula)
+								grade.set_point_solid(celula)
 								break
 
-func caminho_entre(inicio: Vector2, fim: Vector2) -> PackedVector2Array:
-	var de := _celula_livre(inicio)
-	var ate := _celula_livre(fim)
-	var pontos := navegacao.get_point_path(de, ate)
+func caminho_entre(inicio: Vector2, fim: Vector2, grade: AStarGrid2D = null) -> PackedVector2Array:
+	if grade == null: grade = navegacao
+	var de := _celula_livre(inicio,grade)
+	var ate := _celula_livre(fim,grade)
+	var pontos := grade.get_point_path(de, ate)
 	if not pontos.is_empty():
 		# Preservar o centro inicial evita cortar a quina do móvel ao sair da borda da célula.
 		if not pontos[0].is_equal_approx(inicio):
 			pontos.insert(0, inicio)
 		# Um destino dentro de um móvel ou parede precisa terminar na célula livre,
 		# sem acrescentar um último segmento que faça o morador colidir para sempre.
-		var celula_fim := Vector2i(fim / navegacao.cell_size)
-		if navegacao.is_in_boundsv(celula_fim) and not navegacao.is_point_solid(celula_fim):
+		var celula_fim := Vector2i(fim / grade.cell_size)
+		if grade.is_in_boundsv(celula_fim) and not grade.is_point_solid(celula_fim):
 			pontos.append(fim)
 	return pontos
 
 ## Percursos próprios passam por um lugar familiar, quando o desvio é razoável.
 ## A navegação normal continua verificando os móveis e os corredores de cada trecho.
 func caminho_morador(inicio: Vector2, fim: Vector2, id: String) -> PackedVector2Array:
+	if id == "helena": return caminho_entre(inicio,fim,_navegacao_cadeira)
 	var direto := caminho_entre(inicio,fim)
 	var perfis: Dictionary = preload("res://codigo/cidade/perfis_rotina.gd").PERFIS
 	if local not in ["cidade","praia"] or not perfis.has(id) or inicio.distance_to(fim) < 80 or direto.is_empty():
@@ -404,17 +426,18 @@ func _comprimento_rota(rota: PackedVector2Array) -> float:
 	for i in range(1,rota.size()): comprimento += rota[i-1].distance_to(rota[i])
 	return comprimento
 
-func _celula_livre(ponto: Vector2) -> Vector2i:
-	var celula := Vector2i(ponto / navegacao.cell_size)
-	celula.x = clampi(celula.x, 0, navegacao.region.size.x - 1)
-	celula.y = clampi(celula.y, 0, navegacao.region.size.y - 1)
-	if not navegacao.is_point_solid(celula):
+func _celula_livre(ponto: Vector2, grade: AStarGrid2D = null) -> Vector2i:
+	if grade == null: grade = navegacao
+	var celula := Vector2i(ponto / grade.cell_size)
+	celula.x = clampi(celula.x, 0, grade.region.size.x - 1)
+	celula.y = clampi(celula.y, 0, grade.region.size.y - 1)
+	if not grade.is_point_solid(celula):
 		return celula
 	for raio in range(1, 12):
 		for dy in range(-raio, raio + 1):
 			for dx in range(-raio, raio + 1):
 				var candidata := celula + Vector2i(dx, dy)
-				if navegacao.is_in_boundsv(candidata) and not navegacao.is_point_solid(candidata):
+				if grade.is_in_boundsv(candidata) and not grade.is_point_solid(candidata):
 					return candidata
 	return celula
 

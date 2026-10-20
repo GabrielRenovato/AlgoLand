@@ -1,0 +1,62 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://codigo/cidade/cidade.gd" id="cidade_script"]
+[ext_resource type="PackedScene" path="res://cenas/jogador.tscn" id="jogador"]
+[ext_resource type="PackedScene" path="res://cenas/ui.tscn" id="ui"]
+[ext_resource type="PackedScene" path="res://cenas/ui/interface.tscn" id="interface"]
+[ext_resource type="Script" path="res://codigo/efeitos/iluminacao.gd" id="luz"]
+[ext_resource type="PackedScene" path="res://cenas/efeitos/vinheta.tscn" id="vinheta"]
+[ext_resource type="Script" path="res://codigo/cidade/interior_casa.gd" id="interior"]
+[ext_resource type="Script" path="res://codigo/cidade/passagem_cidade.gd" id="passagem"]
+
+[sub_resource type="RectangleShape2D" id="Forma_porta"]
+size = Vector2(40, 16)
+
+[node name="carpintaria" type="Node2D"]
+script = ExtResource("cidade_script")
+local = "carpintaria"
+limites = Rect2(0, 0, 640, 560)
+metadata/titulo_hud = "CASA E OFICINA DE OSVALDO"
+
+[node name="Fundo" type="ColorRect" parent="."]
+z_index = -1001
+offset_left = -1000.0
+offset_top = -1000.0
+offset_right = 1000.0
+offset_bottom = 1000.0
+mouse_filter = 2
+color = Color(0.075, 0.07, 0.105, 1)
+
+[node name="Interior" type="Node2D" parent="."]
+script = ExtResource("interior")
+id = "carpintaria"
+
+[node name="Saida" type="Area2D" parent="."]
+position = Vector2(264, 542)
+script = ExtResource("passagem")
+cena_destino = "res://cenas/cidade.tscn"
+ponto_chegada = "carpintaria"
+so_entre_ondas = false
+automatica = true
+
+[node name="Forma" type="CollisionShape2D" parent="Saida"]
+shape = SubResource("Forma_porta")
+
+[node name="Chegada_entrada" type="Marker2D" parent="." groups=["chegada"]]
+position = Vector2(264, 510)
+
+[node name="Jogador" parent="." instance=ExtResource("jogador")]
+position = Vector2(264, 510)
+collision_mask = 96
+
+[node name="Iluminacao" type="Node" parent="."]
+script = ExtResource("luz")
+
+[node name="CanvasModulate" type="CanvasModulate" parent="Iluminacao"]
+
+[node name="Vinheta" parent="." instance=ExtResource("vinheta")]
+layer = 1
+
+[node name="assets/ui" parent="." instance=ExtResource("ui")]
+
+[node name="Interface" parent="." instance=ExtResource("interface")]

@@ -250,7 +250,7 @@ func _atualizar() -> void:
 		slot.indice = _celula(i)
 		slot.exibir(item)
 		casa.tooltip_text = _texto_da_casa(item)
-		var de_fazenda: bool = item != null and (item.categoria == "ferramenta" or item.categoria == "semente")
+		var de_fazenda: bool = item != null and (item.categoria == "ferramenta" or item.categoria == "semente" or item.tipo == "produto:feno")
 		var pode: bool
 		if modo_fazenda:
 			# Na fazenda: a ferramenta ativa leva a moldura; arma, escudo e semente fora da estação ficam apagados
@@ -268,7 +268,7 @@ func _atualizar() -> void:
 				_marcar(casa,_celula(i) == _celula_sem_arma,false)
 			# Armas indisponiveis e sementes ficam apagadas; a picareta tambem pode ser usada na arena.
 			pode = item == null or em_uso or (item.categoria == "vara") or (not de_fazenda and EventosJogo.inventario_de(self).pode_equipar(item))
-		pode = pode or (item != null and item.categoria == "receita")
+		pode = pode or (item != null and (item.categoria == "receita" or item.tipo == "produto:feno"))
 		if not modo_fazenda and item != null and item.tipo=="picareta":
 			var dono := EventosJogo.dono(self)
 			pode = dono != null and get_tree().get_nodes_in_group("mineracao_arena").any(func(no): return no.get_world_2d()==dono.get_world_2d())
@@ -364,6 +364,8 @@ func escolher(indice: int) -> bool:
 	if indice < 0 or indice >= _casas_por_pagina or _pagina_barra * _casas_por_pagina + indice >= _casas.size() or not _pode_trocar():
 		return false
 	var item = EventosJogo.inventario_de(self).item_na_celula(_celula(indice))
+	var dono_item := EventosJogo.dono(self)
+	dono_item.set_meta("item_uso", "produto:feno" if item != null and item.tipo == "produto:feno" else "")
 	if item == null:
 		return _selecionar_sem_arma(indice) if not modo_fazenda else false
 	if item.categoria == "receita":
@@ -435,7 +437,7 @@ func _selecionar_sem_arma(indice: int) -> bool:
 
 ## Fazenda: ferramenta ou semente da estação vira a ferramenta ativa; arma e escudo não fazem nada aqui
 func _escolher_na_fazenda(item) -> bool:
-	if item.categoria != "ferramenta" and item.categoria != "semente":
+	if item.categoria != "ferramenta" and item.categoria != "semente" and item.tipo != "produto:feno":
 		return false
 	if not Fazenda.ferramentas(_lado()).has(item.tipo):
 		Sons.tocar("erro", 0.0)
@@ -450,6 +452,7 @@ func _escolher_na_fazenda(item) -> bool:
 
 ## Nome da ferramenta para a barra: "ENXADA", "SEMENTE: TOMATE - CRESCE EM 4 DIAS"
 static func nome_da_ferramenta(tipo: String) -> String:
+	if tipo == "produto:feno": return "FENO - ATAQUE PARA JOGAR NO COMEDOURO"
 	if tipo.begins_with(Fazenda.PREFIXO_SEMENTE):
 		var id := tipo.trim_prefix(Fazenda.PREFIXO_SEMENTE)
 		return "SEMENTE: %s - CRESCE EM %s" % [String(Fazenda.PLANTAS[id]["nome"]), Fazenda.texto_crescimento(id)]

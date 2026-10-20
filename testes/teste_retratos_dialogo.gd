@@ -80,20 +80,16 @@ func _rodar() -> void:
 		await quadros(3)
 	cidade.conversar("bardo",jogador)
 	await quadros(4)
+	tela._pedido = ""
+	tela._falar("Ate a proxima! Volte para ouvir minhas historias.")
 	tela._avancar_fala()
 	while tela._pagina+1 < tela._paginas.size():
 		tela._avancar_fala()
 		tela._avancar_fala()
 	tela._avancar_fala()
 	await quadros(5)
-	verificar("respostas aparecem após leitura",tela._menu_assuntos.visible)
+	verificar("conversa termina após leitura",not tela.visible)
 	await foto("respostas")
-	root.get_node("Progresso").refeicao = ""
-	tela._abrir_submenu("cozinha")
-	await quadros(5)
-	verificar("cardápio longo tem rolagem e ações acessíveis",tela._menu_assuntos.visible and tela._botoes.size() >= 10 and tela._rolagem.follow_focus)
-	await foto("cozinha")
-	interface._fechar_tela("conversa_cidade")
 	tela.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
 	tela.size = Vector2(240,270)
 	await quadros(6)

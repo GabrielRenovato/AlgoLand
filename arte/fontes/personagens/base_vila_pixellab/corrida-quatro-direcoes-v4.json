@@ -1,0 +1,46 @@
+{
+  "modelo": "parado-v1-original.png confirmado pelo usuário",
+  "ferramenta": "PixelLab animate_image",
+  "direcoes": [
+    "frente",
+    "direita",
+    "costas",
+    "esquerda"
+  ],
+  "folha": "corrida-quatro-direcoes-v4-64.png",
+  "celula": [
+    64,
+    64
+  ],
+  "grade": [
+    8,
+    4
+  ],
+  "pivo_referencia": [
+    32,
+    57
+  ],
+  "duracoes_ms": [
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100
+  ],
+  "quadros": "Gerados1..8, quadro0 em repouso não faz parte do ciclo.",
+  "geometria": "Células64x64, posições dos quadros preservadas. Esquerda é flip horizontal da célula direita completa.",
+  "jobs": {
+    "frente": "b1bea8d4-8c19-4841-8c6f-dcf5e09a94f3",
+    "direita": "fb993cdb-e758-4e44-a5fa-1075d98c7361",
+    "costas": "PixelLab pixelart_workbench draw319bdc33-95b6-4bd8-88e4-6c4bc6663825",
+    "esquerda": "Espelhamento horizontal da direita, sem geração"
+  },
+  "revisao": "Estudo de passada com8poses explícitas, contatos e recolhimento alternados, oposição dos braços e oscilação1px. O remendo v3 foi rejeitado pelo usuário. Esta v4 é prévia para avaliar, não aprovação artística nem troca no jogo.",
+  "motor": "Reprodução100ms com save isolado: /tmp/algoland-pixellab-costas-v4-render.log",
+  "integracao": "Prévia e folha exportadas; personagem ativo não substituído nesta tarefa.",
+  "producao_costas": "Redesenho dirigido de braços/pernas em grade nativa, preservando head/camisa do modelo. Guia CraftPix examinado para fases; não é transferência exata de articulações.",
+  "receita": "costas-v4-receita.json"
+}

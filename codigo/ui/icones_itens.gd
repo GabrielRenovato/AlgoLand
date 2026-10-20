@@ -61,6 +61,8 @@ static func obter(item: DadosItem, arvore: SceneTree) -> Texture2D:
 		return null
 	if item.categoria == "receita":
 		return load("res://assets/ui/coletaveis/receita.png")
+	if item.categoria == "produto":
+		return load("res://assets/cenario/fazenda/galinheiro/%s.png" % ("racao" if item.conteudo() == "feno" else "ovo"))
 	if item.categoria == "material":
 		return load("res://assets/ui/coletaveis/%s.png" % item.conteudo())
 	if item.categoria == "colheita":

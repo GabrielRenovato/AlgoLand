@@ -1,0 +1,44 @@
+{
+  "modelo": "parado-v1-original.png confirmado pelo usuário",
+  "ferramenta": "PixelLab animate_image",
+  "direcoes": [
+    "frente",
+    "direita",
+    "costas",
+    "esquerda"
+  ],
+  "folha": "corrida-quatro-direcoes-64.png",
+  "celula": [
+    64,
+    64
+  ],
+  "grade": [
+    8,
+    4
+  ],
+  "pivo_referencia": [
+    32,
+    57
+  ],
+  "duracoes_ms": [
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100
+  ],
+  "quadros": "Gerados1..8, quadro0 em repouso não faz parte do ciclo.",
+  "geometria": "Células preservadas sem escala/recentralização; esquerda61x64 recebe3pixels transparentes só à direita.",
+  "jobs": {
+    "frente": "b1bea8d4-8c19-4841-8c6f-dcf5e09a94f3",
+    "direita": "fb993cdb-e758-4e44-a5fa-1075d98c7361",
+    "costas": "4847769f-14c8-49b1-85e9-fa3ca2bea1ae",
+    "esquerda": "8de5e464-75f2-4709-826f-72add64a398f"
+  },
+  "revisao": "32poses inspecionadas; frente v1 descartada por abrir braços lateralmente; v2 usada. Costas sem rosto, lateral esquerda voltada a oeste. Pequena rotação dos ombros permanece nas laterais conforme sequência direita aprovada.",
+  "motor": "ferramentas/personagem/previa_corrida_pixellab.gd; duas voltas100ms em viewport isolado, log/tmp/algoland-pixellab-quatro-render.log",
+  "integracao": "Prévia e folha exportadas; personagem ativo não substituído nesta tarefa."
+}

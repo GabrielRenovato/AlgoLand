@@ -1,0 +1,13 @@
+{
+  "direcao": "frente",
+  "prompt": "Clean pixel-art running IN PLACE. Preserve input bald adult, peach skin, cream short sleeves, brown knee shorts, bare shins, brown boots and proportions. Transparent background. NO trails, blur, dust, smear, particles, ghost limbs. One head, two arms and two legs. Alternate supporting legs: contact, compression/passing, push-off, airborne stride, then same phases with opposite leg. Arms swing opposite to advancing legs; elbows bent. Clear knee bends and raised trailing heels. Same scale and root pivot, head bob max1px. No camera movement or sliding. Seamless loop. Face SOUTH, FRONT VIEW running TOWARD camera in place. TWO eyes always. Front of shirt throughout; never turn sideways or backward. Alternate left/right knees advancing toward viewer and opposite arm swings with depth.",
+  "resposta": {
+    "content": [
+      {
+        "type": "text",
+        "text": "id: cd6c823f-4972-4b57-a2c8-e583f8ee3372\njob_id: cd6c823f-4972-4b57-a2c8-e583f8ee3372\naction: Clean pixel-art running IN PLACE. Preserve input bald adult, peach skin, cream short sleeves, brown knee shorts, bare shins, brown boots and proportions. Transparent background. NO trails, blur, dust, smear, particles, ghost limbs. One head, two arms and two legs. Alternate supporting legs: contact, compression/passing, push-off, airborne stride, then same phases with opposite leg. Arms swing opposite to advancing legs; elbows bent. Clear knee bends and raised trailing heels. Same scale and root pivot, head bob max1px. No camera movement or sliding. Seamless loop. Face SOUTH, FRONT VIEW running TOWARD camera in place. TWO eyes always. Front of shirt throughout; never turn sideways or backward. Alternate left/right knees advancing toward viewer and opposite arm swings with depth.\nframes: 8\nsize: 64x64px\ntransparent: True\nasset_id: 17ab8aac-6370-50ee-9c8b-8c191ffb1540\nasset_status: pending (saved when generation completes)\ncost: 1 generation\nstatus: processing (~30-180s)\n\nhint: get_image(job_id=\"cd6c823f-4972-4b57-a2c8-e583f8ee3372\")"
+      }
+    ],
+    "isError": false
+  }
+}

@@ -57,7 +57,7 @@ func _rodar() -> void:
 	var chuva := str(Papos.montar("mercador", "bardo", contexto(4)))
 	verificar("temporal usa falas de abrigo, sem inventar calor", chuva.contains("trovoes") and not chuva.contains("ceu aberto"))
 	var arena := str(Papos.montar("bento", "lia", contexto(0, 20, 20)))
-	verificar("arena cita onda concluida e chefe reais", arena.contains("onda concluida ja e a 20") and arena.contains("MEDUSA"))
+	verificar("arena cita andar concluido e chefe reais", arena.contains("andar concluido ja e o 20") and arena.contains("MEDUSA"))
 	verificar("iniciante nao recebe vitoria inventada", str(Papos.montar("bento", "lia", contexto())).to_lower().contains("ainda nao tivemos noticia") )
 	verificar("reencontros variam o assunto", Papos.montar("lia", "bento", contexto(), 0) != Papos.montar("lia", "bento", contexto(), 1))
 	change_scene_to_file("res://cenas/cidade.tscn")

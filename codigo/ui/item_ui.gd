@@ -112,13 +112,15 @@ func tooltip_do_item(largura := 170.0) -> Control:
 	linhas.custom_minimum_size.x = largura
 	linhas.add_theme_constant_override("separation", 4)
 	linhas.add_child(linha_dica(dados.nome(), dados.cor_raridade()))
-	if dados.categoria in ["receita", "material", "colheita", "pocao"]:
+	if dados.categoria in ["receita", "material", "colheita", "pocao", "produto"]:
 		linhas.add_child(linha_dica("x%d  OCUPA ESPACO NA MOCHILA" % dados.quantidade, COR_DICA_DETALHE))
 		if dados.categoria == "receita":
 			linhas.add_child(linha_dica("CONFIRMAR / BOTAO DIREITO / TOQUE DUPLO: APRENDER", COR_DICA_DETALHE))
 			linhas.add_child(linha_dica("APRENDER LIBERA O CRAFT NO IVO E CONSOME UMA RECEITA", COR_DICA_DETALHE))
 		elif dados.categoria == "material":
 			linhas.add_child(linha_dica(preload("res://codigo/dados/forja_armas.gd").MATERIAIS.get(dados.conteudo(),{}).get("origem",""),COR_DICA_DETALHE))
+		elif dados.categoria == "produto":
+			linhas.add_child(linha_dica("SELECIONE NA BARRA E USE ATAQUE PERTO DO COMEDOURO PARA JOGAR." if dados.conteudo() == "feno" else "DO GALINHEIRO. CAIO PREPARA OMELETE COM 2 OVOS E 1 CENOURA.",COR_DICA_DETALHE))
 		return _dimensionar_dica(linhas,largura)
 	if dados.categoria == "peixe":
 		var qualidade := preload("res://codigo/pesca/qualidade_peixe.gd")

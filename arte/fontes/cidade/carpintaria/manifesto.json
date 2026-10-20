@@ -1,0 +1,45 @@
+{
+  "tipo": "casa familiar com oficina",
+  "referencia": "assets/cenario/cidade/casas/exterior/casa_bento.png",
+  "fonte": "estacoes.png",
+  "folha": [
+    1536,
+    1024
+  ],
+  "grade_folha": [
+    2,
+    2
+  ],
+  "quadro_fonte": [
+    768,
+    512
+  ],
+  "quadro_logico": [
+    192,
+    128
+  ],
+  "escala_integracao": 0.25,
+  "pivo_porta": [
+    80,
+    116
+  ],
+  "base_mapa": [
+    816,
+    224
+  ],
+  "estacoes": [
+    "primavera",
+    "verao",
+    "outono",
+    "inverno"
+  ],
+  "colisoes": [
+    [
+      -70,
+      -23,
+      98,
+      6
+    ]
+  ],
+  "integracao": "casa_exterior.gd e DetalheAmbiente; planta e portas em layout_vila.json"
+}

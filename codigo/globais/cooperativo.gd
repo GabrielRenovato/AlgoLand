@@ -348,6 +348,7 @@ func _criar_p2(p1: Node2D) -> Node2D:
 	var p2: Node2D = CENA_JOGADOR.instantiate()
 	p2.name = "Jogador2"
 	p2.eh_p2 = true
+	p2.modo_fazenda = p1.modo_fazenda
 	p2.remove_from_group("character")
 	p2.position = p1.position + Vector2(18, 0)
 	p1.get_parent().add_child(p2)

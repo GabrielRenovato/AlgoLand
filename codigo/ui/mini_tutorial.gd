@@ -31,7 +31,7 @@ func _ready() -> void:
 	_acoes = ACOES.duplicate(true)
 	var cena := get_tree().current_scene
 	if cena != null and bool(cena.get_meta("barra_ferramentas", false)):
-		_acoes[0][1] = "USAR FERRAMENTA"
+		_acoes[0][1] = "USAR ITEM"
 		_acoes[2] = ["colher", "COLHER"]
 		_acoes[6] = ["ferramenta_proxima", "FERRAMENTA"]
 		_acoes.remove_at(4)

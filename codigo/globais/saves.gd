@@ -97,7 +97,7 @@ func trocar(qual: String) -> void:
 
 # Só cenas permanentes podem ser retomadas; arenas e destinos desconhecidos voltam à cidade.
 const CIDADE := "res://cenas/cidade.tscn"
-const LOCAIS := [CIDADE, "res://cenas/fazenda.tscn", "res://cenas/casa.tscn",
+const LOCAIS := [CIDADE, "res://cenas/fazenda.tscn", "res://cenas/casa.tscn", "res://cenas/galinheiro.tscn", "res://cenas/cidade/carpintaria.tscn",
 	"res://cenas/praia.tscn", "res://cenas/palafita.tscn",
 	"res://cenas/cidade/forja.tscn", "res://cenas/cidade/casa_bento.tscn",
 	"res://cenas/cidade/mistica.tscn", "res://cenas/cidade/pousada.tscn",
@@ -146,6 +146,8 @@ func restaurar_local() -> void:
 			await Cooperativo.viajar_local(jogador, local["cena"], "")
 		if local.has("x") and local.has("y"):
 			var posicao := Vector2(float(local["x"]), float(local["y"]))
+			cena = Cooperativo.cena_de(jogador)
+			if cena.has_method("ajustar_posicao_continuacao"): posicao = cena.ajustar_posicao_continuacao(posicao)
 			if posicao.is_finite(): jogador.global_position = posicao
 		jogador.velocity = Vector2.ZERO
 		if jogador.camera != null: jogador.camera.reset_smoothing()

@@ -1,0 +1,2 @@
+Ferramenta: image_gen integrado. Referências: folha original do personagem e referência de poses enviada pelo usuário.
+Direção: costas para câmera, olhando para cima da tela, conforme a direção que faltava. Transferir as poses da referência: pronto, inclinado alcançando baixo, braço elevado, inclinado com braço curvado acima da cabeça. Personagem base careca bege, mãos vazias, sem itens. Quatro quadros em linha, pixel art com contorno marrom, fundo transparente.

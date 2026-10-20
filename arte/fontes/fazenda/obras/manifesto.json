@@ -1,0 +1,73 @@
+{
+  "referencias": [
+    "assets/npcs/cidade/osvaldo.png",
+    "assets/cenario/fazenda/galinheiro/nivel_1_primavera.png",
+    "assets/cenario/fazenda/galinheiro/nivel_2_primavera.png",
+    "assets/cenario/fazenda/galinheiro/nivel_3_primavera.png"
+  ],
+  "cenario": {
+    "grade": [
+      3,
+      3
+    ],
+    "quadro": [
+      224,
+      160
+    ],
+    "pivo": [
+      112,
+      144
+    ],
+    "tile": 16,
+    "linhas": "inicial; expansão nível2; expansão nível3",
+    "colunas": [
+      "fundacao",
+      "estrutura",
+      "acabamento"
+    ],
+    "estacoes": [
+      "primavera",
+      "verao",
+      "outono",
+      "inverno"
+    ],
+    "ampliacoes": "sobreposição transparente preserva prédio anterior e acesso"
+  },
+  "ator": {
+    "grade": [
+      6,
+      4
+    ],
+    "quadro": [
+      64,
+      64
+    ],
+    "pes_y": 45,
+    "direcoes": [
+      "baixo",
+      "direita",
+      "cima",
+      "esquerda"
+    ],
+    "acao": "preparar, levantar, armar, descer, golpear, recuperar",
+    "base_fonte": [
+      128,
+      222
+    ],
+    "fonte_revisada": "osvaldo_construindo_revisado.png",
+    "contorno": "seletivo marrom/roxo, sem matte preto",
+    "bases_fonte_y": [
+      220,
+      462,
+      702,
+      938
+    ],
+    "escala_revisada": 0.21232876712328766
+  },
+  "origem": "imagegen integrado; somente recorte, alfa e encaixe determinísticos no preparador",
+  "integracao": [
+    "codigo/fazenda/galinheiro_exterior.gd",
+    "codigo/fazenda/trabalho_carpinteiro.gd",
+    "codigo/fazenda/ambiente_obra.gd"
+  ]
+}

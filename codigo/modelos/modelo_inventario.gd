@@ -134,7 +134,7 @@ func guardar_para_nova_partida() -> Dictionary:
 		if item != null and Conjuntos.de_tipo(item.tipo) != null:
 			pecas.append({"item": item, "equipado": true})
 	for item in mochila:
-		if item != null and (Conjuntos.de_tipo(item.tipo) != null or item.categoria in ["ferramenta","semente","peixe","vara","material","receita","colheita","pocao"]):
+		if item != null and (Conjuntos.de_tipo(item.tipo) != null or item.categoria in ["ferramenta","semente","peixe","vara","material","receita","colheita","pocao","produto"]):
 			pecas.append({"item": item, "equipado": false})
 	return {"pecas": pecas, "moedas_forja": moedas_forja}
 
@@ -209,7 +209,7 @@ func gastar_semente(planta: String) -> bool:
 func itens_de_fazenda() -> Array:
 	var lista: Array = []
 	for item in mochila:
-		if item != null and (item.categoria == "ferramenta" or item.categoria == "semente"):
+		if item != null and (item.categoria == "ferramenta" or item.categoria == "semente" or item.tipo == "produto:feno"):
 			lista.append(item)
 	return lista
 

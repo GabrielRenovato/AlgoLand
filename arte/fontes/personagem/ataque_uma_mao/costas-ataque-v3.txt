@@ -1,0 +1,4 @@
+Ferramenta: image_gen integrado.
+Referências: uniforme-v1.png e ataque original enviado pelo usuário.
+Pedido: ataque de uma mão em quatro fases de costas: antecipação com cotovelo direito recolhido junto à cabeça; golpe com extensão do braço e transferência de peso; continuação do braço para esquerda com rotação do tronco; recuperação. Preservar personagem de camiseta azul, shorts e sapatos marrons, cabeça redonda, proporções compactas e membros finos. Mãos vazias para a arma em camada separada, fundo transparente.
+Preparo: montar_ataque_uma_mao.gd usa este arquivo apenas na direção cima. Prévia animada com durações de 120, 60, 100 e 220ms, iguais às do SpriteFrames. Demais direções mantidas.

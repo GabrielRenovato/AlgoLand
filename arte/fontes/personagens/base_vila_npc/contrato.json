@@ -1,0 +1,52 @@
+{
+  "modelo_visual": "parado-v1-original.png; segunda proposta aceita pelo usuário",
+  "producao": "Modelo gerado por IA; animações aprovadas remontadas em grade nativa, sem reordenar poses. Novas gerações de corrida que engrossaram a cabeça foram descartadas.",
+  "referencias_npcs": [
+    "assets/npcs/cidade/tomas.png",
+    "assets/npcs/cidade/caio.png"
+  ],
+  "fontes_movimento": "arte/fontes/personagens/base_vila_estudo",
+  "celula": [
+    80,
+    80
+  ],
+  "grade": [
+    8,
+    4
+  ],
+  "direcoes": [
+    "frente",
+    "direita",
+    "costas",
+    "esquerda"
+  ],
+  "pivo": [
+    40,
+    52
+  ],
+  "corrida_ms": [
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100
+  ],
+  "espada_ms": [
+    500,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100
+  ],
+  "transformacao": "Corpo/arma: 60/64 em X e78/64 em Y, pivô fixo; cabeça recortada separadamente e reduzida; paleta quente controlada. Arma não foi espelhada.",
+  "limites": "Proporções mudam a geometria das trajetórias, preservando sequência, fases e durações. Não é repintura manual de cada pixel. Não substitui jogador ativo.",
+  "reproduzir": "ferramentas/personagem/adaptar_base_vila_npc.gd",
+  "margem": "8px extras em cada lado em relação ao estudo64; corpo mantém escala31px.",
+  "revisao": "Folhas de contato de64quadros; oito GIFs e tempos conferidos; reprodução na fazenda com save isolado e Tomas ao lado; capturas godot_00..11.png."
+}

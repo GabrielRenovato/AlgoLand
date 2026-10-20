@@ -1,0 +1,302 @@
+{
+	"acao": "ataque_espada_uma_mao_corpo",
+	"altura_parado": 31,
+	"base_tecnica": "arte/fontes/npcs/base_vila/adulto_avental.json",
+	"camada_arma": false,
+	"celulas_restantes": "transparentes",
+	"direcoes": [
+		"baixo",
+		"direita",
+		"cima",
+		"esquerda"
+	],
+	"filtro": "nearest",
+	"grade": [
+		7,
+		4
+	],
+	"offset_sprite_centralizado": [
+		0,
+		-12
+	],
+	"pes_y": 44,
+	"pivo": [
+		32,
+		44
+	],
+	"quadro": [
+		64,
+		64
+	],
+	"quadros": [
+		{
+			"coluna": 0,
+			"direcao": "baixo",
+			"escala_fonte": 0.167567567567568,
+			"fonte": "uniforme-v1.png",
+			"linha": 0,
+			"regiao_fonte": [
+				73,
+				42,
+				109,
+				196
+			]
+		},
+		{
+			"coluna": 1,
+			"direcao": "baixo",
+			"escala_fonte": 0.167567567567568,
+			"fonte": "uniforme-v1.png",
+			"linha": 0,
+			"regiao_fonte": [
+				323,
+				42,
+				135,
+				196
+			]
+		},
+		{
+			"coluna": 2,
+			"direcao": "baixo",
+			"escala_fonte": 0.167567567567568,
+			"fonte": "uniforme-v1.png",
+			"linha": 0,
+			"regiao_fonte": [
+				592,
+				42,
+				132,
+				196
+			]
+		},
+		{
+			"coluna": 3,
+			"direcao": "baixo",
+			"escala_fonte": 0.167567567567568,
+			"fonte": "uniforme-v1.png",
+			"linha": 0,
+			"regiao_fonte": [
+				811,
+				42,
+				133,
+				196
+			]
+		},
+		{
+			"coluna": 4,
+			"direcao": "baixo",
+			"escala_fonte": 0.167567567567568,
+			"fonte": "uniforme-v1.png",
+			"linha": 0,
+			"regiao_fonte": [
+				1049,
+				42,
+				118,
+				196
+			]
+		},
+		{
+			"coluna": 5,
+			"direcao": "baixo",
+			"escala_fonte": 0.167567567567568,
+			"fonte": "uniforme-v1.png",
+			"linha": 0,
+			"regiao_fonte": [
+				1269,
+				42,
+				168,
+				196
+			]
+		},
+		{
+			"coluna": 0,
+			"direcao": "direita",
+			"escala_fonte": 0.167567567567568,
+			"fonte": "uniforme-v1.png",
+			"linha": 1,
+			"regiao_fonte": [
+				82,
+				297,
+				86,
+				185
+			]
+		},
+		{
+			"coluna": 1,
+			"direcao": "direita",
+			"escala_fonte": 0.167567567567568,
+			"fonte": "uniforme-v1.png",
+			"linha": 1,
+			"regiao_fonte": [
+				320,
+				297,
+				110,
+				185
+			]
+		},
+		{
+			"coluna": 2,
+			"direcao": "direita",
+			"escala_fonte": 0.167567567567568,
+			"fonte": "uniforme-v1.png",
+			"linha": 1,
+			"regiao_fonte": [
+				572,
+				297,
+				116,
+				185
+			]
+		},
+		{
+			"coluna": 3,
+			"direcao": "direita",
+			"escala_fonte": 0.167567567567568,
+			"fonte": "uniforme-v1.png",
+			"linha": 1,
+			"regiao_fonte": [
+				790,
+				297,
+				179,
+				185
+			]
+		},
+		{
+			"coluna": 4,
+			"direcao": "direita",
+			"escala_fonte": 0.167567567567568,
+			"fonte": "uniforme-v1.png",
+			"linha": 1,
+			"regiao_fonte": [
+				1029,
+				297,
+				171,
+				185
+			]
+		},
+		{
+			"coluna": 0,
+			"direcao": "cima",
+			"escala_fonte": 0.0796915167095116,
+			"fonte": "costas-ataque-v3.png",
+			"linha": 2,
+			"regiao_fonte": [
+				0,
+				0,
+				543,
+				724
+			]
+		},
+		{
+			"coluna": 1,
+			"direcao": "cima",
+			"escala_fonte": 0.0796915167095116,
+			"fonte": "costas-ataque-v3.png",
+			"linha": 2,
+			"regiao_fonte": [
+				543,
+				0,
+				543,
+				724
+			]
+		},
+		{
+			"coluna": 2,
+			"direcao": "cima",
+			"escala_fonte": 0.0796915167095116,
+			"fonte": "costas-ataque-v3.png",
+			"linha": 2,
+			"regiao_fonte": [
+				1086,
+				0,
+				543,
+				724
+			]
+		},
+		{
+			"coluna": 3,
+			"direcao": "cima",
+			"escala_fonte": 0.0796915167095116,
+			"fonte": "costas-ataque-v3.png",
+			"linha": 2,
+			"regiao_fonte": [
+				1629,
+				0,
+				543,
+				724
+			]
+		},
+		{
+			"coluna": 0,
+			"direcao": "esquerda",
+			"escala_fonte": 0.167567567567568,
+			"fonte": "uniforme-v1.png",
+			"linha": 3,
+			"regiao_fonte": [
+				85,
+				736,
+				83,
+				180
+			]
+		},
+		{
+			"coluna": 1,
+			"direcao": "esquerda",
+			"escala_fonte": 0.167567567567568,
+			"fonte": "uniforme-v1.png",
+			"linha": 3,
+			"regiao_fonte": [
+				349,
+				736,
+				105,
+				180
+			]
+		},
+		{
+			"coluna": 2,
+			"direcao": "esquerda",
+			"escala_fonte": 0.167567567567568,
+			"fonte": "uniforme-v1.png",
+			"linha": 3,
+			"regiao_fonte": [
+				592,
+				736,
+				122,
+				180
+			]
+		},
+		{
+			"coluna": 3,
+			"direcao": "esquerda",
+			"escala_fonte": 0.167567567567568,
+			"fonte": "uniforme-v1.png",
+			"linha": 3,
+			"regiao_fonte": [
+				801,
+				736,
+				184,
+				180
+			]
+		},
+		{
+			"coluna": 4,
+			"direcao": "esquerda",
+			"escala_fonte": 0.167567567567568,
+			"fonte": "uniforme-v1.png",
+			"linha": 3,
+			"regiao_fonte": [
+				1046,
+				736,
+				176,
+				180
+			]
+		}
+	],
+	"quadros_por_direcao": [
+		6,
+		5,
+		4,
+		5
+	],
+	"roupa": "camiseta_azul_shorts_marrons_sapatos_marrons_em_todas_as_direcoes",
+	"total_poses": 20,
+	"versao": 2
+}

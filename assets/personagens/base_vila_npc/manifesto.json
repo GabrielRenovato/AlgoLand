@@ -1,0 +1,49 @@
+{
+  "fonte": "arte/fontes/personagens/base_vila_npc",
+  "versao_visual": "v1 aprovada no jogo: restaurada após rejeição do acabamento v2",
+  "celula": [
+    80,
+    80
+  ],
+  "pivo": [
+    40,
+    52
+  ],
+  "direcoes": [
+    "frente",
+    "direita",
+    "costas",
+    "esquerda"
+  ],
+  "corrida_quadros": 8,
+  "corrida_ms": [
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100
+  ],
+  "espada_quadros": 8,
+  "espada_ms": [
+    500,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100
+  ],
+  "parado_quadros": 4,
+  "controlador": "codigo/jogador/heroi_base_vila.gd",
+  "geometria": "Folhas originais v1 aprovadas, sem alterações.",
+  "acabamento_renderizacao": "Atlas *_acabamento.png gerados por ferramentas/personagem/gerar_acabamento_base_vila.gd: limpeza dos olhos antigos, pupilas1x2px com margem de pele e paleta creme uniforme no tecido. Contorno externo RGB28,24,26 do Bento; shader preserva alfa e iluminação. PNGs v1 intactos.",
+  "cabeca_estavel": {
+    "modelo": "parado.png, cabeças nativas em x34..47/y21..30; sem escala entre quadros",
+    "movimento": "Apenas translação pelo guia de cabeça; corpo, pivô, mão e tempos aprovados preservados. Lâmina e oclusão metálica têm prioridade.",
+    "controle": "testes/teste_olhos_contorno_base_vila.gd compara cabeça renderizada por direção nos68quadros e verifica olhos e preservação do corpo."
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "modelo": "modelo-gerado.png",
+  "modelo_amostrado": "modelo-nativo.png",
+  "edicao": "Estudo de acabamento por IA; pixels de rosto reaplicados por posição, materiais e costuras por região nas mesmas poses aprovadas. Sem refazer movimentos.",
+  "referencias": [
+    "assets/npcs/cidade/tomas.png",
+    "assets/npcs/cidade/caio.png"
+  ],
+  "celula": [
+    80,
+    80
+  ],
+  "pivo": [
+    40,
+    52
+  ],
+  "direcoes": [
+    "frente",
+    "direita",
+    "costas",
+    "esquerda"
+  ],
+  "silhueta": "Alfa preservado em68quadros; nenhuma mudança de escala, pivô ou posição dos membros.",
+  "arma": "RGB/alfa preservados no aço/rastro e vizinhança.",
+  "cores": "Pele, camisa e calça baseadas no estudo e paleta real dos moradores; barba/cabelo não acrescentados.",
+  "tempos_corrida_ms": [
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100
+  ],
+  "tempos_espada_ms": [
+    500,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100
+  ],
+  "controle": "codigo/jogador/heroi_base_vila.gd sem alterações.",
+  "revisao": "68 máscaras conferidas idênticas; oito GIFs e tempos; teste_base_vila_jogavel aprovado; comparação Tomas/Caio/antes/agora no Godot, com save isolado e controlador real."
+}

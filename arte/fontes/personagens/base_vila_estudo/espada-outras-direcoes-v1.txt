@@ -1,0 +1,6 @@
+Ferramenta: image_gen integrado.
+Fontes: linhas frente0, esquerda1 e costas3 de Sword_attack_full.png do CraftPix, ampliadas sem filtro por guia_ataque_craftpix.gd; estudo canônico parado-v1-original.png e espada-direita-v1-original.png como referências de identidade e acabamento.
+Pedido: gerar8 poses por direção, personagem próprio de camiseta creme/shorts marrons, mesmo corpo e paleta, espada única com mão consistente, preparação/corte/continuação/recuperação conforme a linha original de cada direção. Fundo transparente, pivô estável e sem efeitos invadindo outras células.
+Correção esquerda: v1 foi rejeitada por atacar para direita. V2 reposiciona braço, lâmina e arco dos quadros ativos para esquerda, seguindo a linha original do CraftPix; não usar a versão rejeitada.
+Preparo: previa_espada_quatro_direcoes.gd fixa escala por guarda, ancora pela sola, preserva arma e remove fragmentos desconectados de células vizinhas. GIF usa500ms no primeiro quadro e100ms nos demais. Ordem conjunta: frente/direita/costas/esquerda.
+Revisão: contato e quadros ativos4/5 inspecionados. Estudo mantém diferenças de poses e volume em relação ao original; não é transferência exata, não está integrado ao jogador nem aprovado artisticamente pelo usuário.

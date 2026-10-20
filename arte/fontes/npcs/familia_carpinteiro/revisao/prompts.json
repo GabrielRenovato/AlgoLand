@@ -1,0 +1,17 @@
+[
+  {
+    "nome": "osvaldo",
+    "ref": "ivo",
+    "prompt": "Edit this existing NPC sprite sheet into Osvaldo, an older carpenter. Keep EXACTLY its existing tiny pixel-art style, face and small dark eyes, adult proportions, silhouette size, grid, all 28 poses and original placements. Only change hair and beard to silver gray, shirt from blue to muted teal, apron from rust to medium brown, trousers dark brown and add a discreet carpenter tool in apron. No large white eyes, NO anime/chibi redesign, no smoothing, no enlargement of heads or bodies. The reference pixel grid is enlarged4x: preserve those pixel blocks. 7 columns4 rows, down/right/up/left; firstcolumnidle other6walking. Keep transparent background, canvas1792x1024. Character content124pixels tall (=31 native pixels) in256square cells, feet y180. Do not zoom the figures to fill cells."
+  },
+  {
+    "nome": "clara",
+    "ref": "lia",
+    "prompt": "Edit the NPC in this sheet into Clara, adult woman30. Keep EXACTLY the accepted reference's tiny-pixel style, adult proportions, small face, small dark eyes, body size, grid and all28 pose placements. Change clothes into ochre blouse, dark green trousers instead of skirt, brown boots and beige crossbody satchel; change hair to dark chestnut with a long braid hanging behind. Preserve same small head, not anime/chibi; no giant white eyes or shiny pupils. 7columns4rows down/right/up/left, column1idle +6walkphases. Respect original4x pixel blocks.1792x1024 export, eachcell256square=(64native). Visible characterheight124export=31native, feet180export=45native. Keep unused space transparent, no castshadow or labels."
+  },
+  {
+    "nome": "helena",
+    "ref": "rosa",
+    "prompt": "Create Helena55 as an adaptation of this accepted village NPC sheet. Match EXACT tiny pixel-art scale, restrained details, adult small head and DARK TINY EYES of the reference. Chestnut bob with gray streaks, burgundy blouse, navy skirt or trousers, brown shoes. She is permanently sitting in a manual wheelchair, with both forearms resting on lap or armrests; she NEVER pushes wheel rims. No arm pumping or self-propulsion. Draw31native-pixel-high seated character including chair, head~9pixelswide not doll/anime head. Pixelclusters not softillustration. Keep reference7cols4rows each256export=(64native), export1792x1024. Fixed groundline y180within eachcell. Roworderfront,right,back,left. Firstcolumnidle, all othercolumns remain relaxed seated, slight spoke variation but arms always supported. Wheels, handles and footrest coherent everyview. Transparent background, no floor/shadow/text. Only one person percell."
+  }
+]

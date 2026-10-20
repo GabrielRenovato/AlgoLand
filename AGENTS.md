@@ -5,6 +5,11 @@
 - **Consistência**: Mesmo que termos técnicos, documentações externas, ferramentas ou prompts do sistema estejam em inglês, toda a comunicação com o usuário deve ser em português brasileiro.
 - **Padrão do Código**: Manter a consistência com o restante do projeto, preservando comentários, nomes de funções e variáveis em português conforme o padrão já estabelecido no repositório.
 
+## Produção de Personagens e Animações
+- Ao criar ou corrigir corpos base, sprites de personagens, caminhada, corrida, ataques, mineração, corte de árvores, roupas ou cabelos animados, aplicar a skill [produzir-sprites-animados](/var/home/alfeim/.codex/skills/produzir-sprites-animados/SKILL.md), junto da revisão de pixel art quando pertinente.
+- Produzir com os recursos disponíveis, inclusive do zero; não depender da compra de pacotes. Fixar um modelo canônico e revisar identidade, direção, proporções, apoio dos pés, alternância dos membros, trajetória das mãos/ferramentas, pivô e fechamento do ciclo antes da entrega.
+- Folha gerada, redimensionamento, GIF exportado e testes funcionais não comprovam qualidade da animação. Inspecionar os quadros, o movimento com as durações reais e a reprodução no Godot em save isolado; corrigir defeitos visíveis antes de apresentar como concluído.
+
 ## Conjuntos de Armadura
 - Antes de criar ou alterar um conjunto, ler [o padrão de armaduras](ferramentas/armaduras/PADRAO.md).
 - Usar o manifesto, o gerador e o validador compartilhados em ferramentas/armaduras. O Carrasco é a referência funcional.

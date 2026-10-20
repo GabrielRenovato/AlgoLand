@@ -75,6 +75,7 @@ func _ready() -> void:
 	_itens_da_casa = todos["casas"][id]["itens"]
 	for item in _itens_da_casa:
 		_montar_item(corpo, item)
+	load("res://codigo/cidade/atendimento_cidade.gd").montar(self,id)
 
 func _montar_sala(geometria: Dictionary) -> void:
 	var sala := SalaTopdown.new()
