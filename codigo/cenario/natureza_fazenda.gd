@@ -3,6 +3,7 @@ extends Node
 const SHADER := preload("res://codigo/cenario/natureza_fazenda.gdshader")
 const BARRANCO := preload("res://codigo/cenario/barranco_fazenda.gdshader")
 const PASTA := "res://assets/cenario/fazenda/natureza_detalhada/"
+const ACABAMENTO := "res://assets/cenario/fazenda/acabamento_detalhado/"
 const NOMES := ["primavera","verao","outono","inverno"]
 var estacao := -1
 var ativo := true
@@ -44,6 +45,11 @@ func configurar(terreno: Node2D) -> void:
 		material_pedra.set_shader_parameter("uv_origem",Vector2(atlas*16)/fonte.texture.get_size())
 		material_pedra.set_shader_parameter("uv_tamanho",Vector2(16,16)/fonte.texture.get_size())
 		fonte.get_tile_data(atlas,0).material=material_pedra
+	for v in 2:
+		var atlas := Vector2i(0, 8 + v)
+		var material_mato := _material("mato_%d" % v)
+		material_mato.set_shader_parameter("uv_origem", Vector2(atlas * 16) / fonte.texture.get_size())
+		material_mato.set_shader_parameter("uv_tamanho", Vector2(16, 16) / fonte.texture.get_size())
 	_estacoes.estacao_mudou.connect(aplicar)
 	aplicar(maxi(_estacoes.estacao_atual,0))
 
@@ -57,12 +63,13 @@ func _material(peca: String) -> ShaderMaterial:
 func vestir(sprite: Sprite2D,peca: String) -> void:
 	if not _originais.has(sprite): _originais[sprite]=sprite.material
 	# Pedras em TileMap têm UVs de atlas; sprites de entulho usam o quadro inteiro.
-	var chave:=peca+"_sprite" if peca.begins_with("pedra_") else peca
+	var chave:=peca+"_sprite" if peca.begins_with("pedra_") or peca.begins_with("mato_") else peca
 	if not ativo:
 		sprite.material=_originais[sprite]
 		return
 	var acabamento:=_material(chave)
-	acabamento.set_shader_parameter("arte",load(PASTA+NOMES[estacao]+"/"+peca+".png"))
+	var pasta := ACABAMENTO if peca.begins_with("mato_") else PASTA
+	acabamento.set_shader_parameter("arte",load(pasta+NOMES[estacao]+"/"+peca+".png"))
 	sprite.material=acabamento
 	sprite.set_meta("arte_natureza",peca)
 
@@ -76,6 +83,10 @@ func aplicar(indice: int) -> void:
 	var fonte:=_detalhes.tile_set.get_source(0) as TileSetAtlasSource
 	fonte.texture=_estacoes._fonte_chao.texture
 	for v in 4: fonte.get_tile_data(Vector2i(4,6+v),0).material=_material("pedra_%d" % v) if ativo else null
+	for v in 2:
+		var material_mato := _material("mato_%d" % v)
+		material_mato.set_shader_parameter("arte", load(ACABAMENTO + NOMES[estacao] + "/mato_%d.png" % v))
+		fonte.get_tile_data(Vector2i(0, 8 + v), 0).material = material_mato if ativo else null
 	for dados: Dictionary in _fontes_paredao.values():
 		var faixa: bool=dados.material.get_shader_parameter("faixa")
 		dados.fonte.texture=_estacoes._penhasco_original._fonte.texture if faixa else _estacoes._fonte_chao.texture
@@ -90,7 +101,7 @@ func aplicar(indice: int) -> void:
 			if nome in ["arvore","arvore_var"]: vestir(sprite,"carvalho" if nome=="arvore" else "pinheiro")
 	var extracao:=_terreno.get_node("Extracao")
 	for registro: Dictionary in extracao._entulho.values():
-		if registro.has("sprite") and (registro.peca.begins_with("pedra_") or registro.peca=="arvoreta"): vestir(registro.sprite,registro.peca)
+		if registro.has("sprite") and (registro.peca.begins_with("pedra_") or registro.peca.begins_with("mato_") or registro.peca=="arvoreta"): vestir(registro.sprite,registro.peca)
 	for chave in extracao._crescimentos:
 		var sprite: Sprite2D=extracao._crescimentos[chave]
 		var estagio: int=Fazenda.estagio_arvore(chave)

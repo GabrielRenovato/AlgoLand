@@ -1,0 +1,110 @@
+{
+  "uso": "Cercas, casa do jogador e matos da fazenda no acabamento pintado já usado pela cidade e natureza atuais.",
+  "referencias": [
+    "arte/previas/fazenda/natureza_detalhada/fazenda_0.png",
+    "arte/fontes/cidade/enfeites_detalhados/cerca.png",
+    "arte/fontes/fazenda/casa_inicial/exterior_original.png",
+    "arte/fontes/cidade/enfeites_detalhados/flores.png"
+  ],
+  "geracao": {
+    "ferramenta": "image_gen integrada",
+    "casa": "Editar a casa de referência: preservar telhado terracota, empena central, porta central, duas janelas azuis, estrutura de madeira, reboco creme, fundação de pedra e chaminé direita. Substituir pixels blocados por pintura detalhada e formas suaves legíveis. Vista ortográfica elevada de RPG. Luz superior esquerda. Fundo transparente, sem chão nem sombra projetada, sem adereços.",
+    "mato": "Tufo baixo isolado, folhas verdes e dois trevos na base. Pintura detalhada de RPG vista de cima em três quartos, luz superior esquerda. Silhueta larga e baixa legível em 16×16, textura 64×64. Fundo transparente, sem chão, flores, sombras projetadas, pixels blocados ou contorno preto.",
+    "casa_inverno": "Editar casa.png preservando arquitetura, câmera, proporções e porta. Neve pintada contínua e arredondada sobre telhado, empena, peitoris e borda da chaminé sem fechar sua abertura. Degraus e porta acessíveis. Sem barras verticais, listras, estalactites, chão ou objetos novos; fundo transparente."
+  },
+  "grade_logica": 16,
+  "resolucao": 4,
+  "pecas": {
+    "cerca_horizontal": {
+      "canvas": [
+        64,
+        92
+      ],
+      "pivo": [
+        16,
+        92
+      ],
+      "passo_logico": 16
+    },
+    "cerca_vertical": {
+      "canvas": [
+        32,
+        188
+      ],
+      "pivo": [
+        16,
+        188
+      ],
+      "passo_logico": 24
+    },
+    "cerca_poste": {
+      "canvas": [
+        32,
+        92
+      ],
+      "pivo": [
+        16,
+        92
+      ]
+    },
+    "mato": {
+      "canvas": [
+        64,
+        64
+      ],
+      "base": [
+        32,
+        60
+      ],
+      "celula_logica": [
+        16,
+        16
+      ],
+      "colisao": false
+    },
+    "casa": {
+      "canvas": [
+        448,
+        360
+      ],
+      "pivo_porta": [
+        224,
+        360
+      ],
+      "area_logica": [
+        112,
+        90
+      ]
+    },
+    "flores": {
+      "canvas": [
+        64,
+        64
+      ],
+      "area_logica": [
+        16,
+        16
+      ],
+      "desenho_logico": [
+        8,
+        6
+      ],
+      "colisao": false
+    }
+  },
+  "estacoes": [
+    "primavera",
+    "verao",
+    "outono",
+    "inverno"
+  ],
+  "variantes": "Mesma área lógica e pivô. Casa usa edição pintada específica de inverno com neve no telhado e peitoris; não repintar paredes com filtro branco. Cerca conserva madeira com tratamento de exposição e neve em apoios. Tufos verdes no verão, secos no outono e dormentes com neve nas folhas no inverno.",
+  "integracao": [
+    "codigo/cenario/cerca_sazonal.gd",
+    "codigo/cenario/natureza_fazenda.gd",
+    "codigo/logica/extracao_fazenda.gd",
+    "assets/cenario/cidade/fachadas_detalhadas/manifesto.json"
+  ],
+  "preparo": "ferramentas/fazenda/preparar_acabamento_detalhado.gd",
+  "revisao": "testes/teste_acabamento_fazenda.gd, renderização gráfica em save isolado; arte/previas/fazenda/acabamento_detalhado/"
+}

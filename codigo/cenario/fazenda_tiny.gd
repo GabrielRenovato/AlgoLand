@@ -67,10 +67,10 @@ func definir_ativo(valor: bool) -> void:
 				sprite.frame = _originais[sprite]["frame"]
 		_casa_obstaculo.polygon = _poligono_casa
 		_terreno.get_node("Objetos3D/Casa")._area_visual = _area_casa
-		_terreno.get_node("CercaSazonal")._aplicar(estacoes.estacao_atual)
 		if _detalhe_casa != null:
 			_detalhe_casa.estacao = -1
 			_detalhe_casa._atualizar_estacao()
+	_terreno.get_node("CercaSazonal")._aplicar(estacoes.estacao_atual)
 	_atualizar_dinamicos(estacoes.estacao_atual)
 	var natureza := _terreno.get_node_or_null("NaturezaFazenda")
 	if natureza != null: natureza.aplicar(estacoes.estacao_atual)

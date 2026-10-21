@@ -1,0 +1,218 @@
+{
+  "cidade/carpintaria/inverno": {
+    "alfa_parcial": 238943,
+    "cores": 127030,
+    "filtro": "linear_mipmaps",
+    "tamanho": "(768, 512)"
+  },
+  "cidade/carpintaria/outono": {
+    "alfa_parcial": 246159,
+    "cores": 159098,
+    "filtro": "linear_mipmaps",
+    "tamanho": "(768, 512)"
+  },
+  "cidade/carpintaria/primavera": {
+    "alfa_parcial": 243659,
+    "cores": 165990,
+    "filtro": "linear_mipmaps",
+    "tamanho": "(768, 512)"
+  },
+  "cidade/carpintaria/verao": {
+    "alfa_parcial": 236000,
+    "cores": 161981,
+    "filtro": "linear_mipmaps",
+    "tamanho": "(768, 512)"
+  },
+  "cidade/casa_bento/inverno": {
+    "alfa_parcial": 166762,
+    "cores": 96210,
+    "filtro": "linear_mipmaps",
+    "tamanho": "(640, 448)"
+  },
+  "cidade/casa_bento/outono": {
+    "alfa_parcial": 167992,
+    "cores": 99144,
+    "filtro": "linear_mipmaps",
+    "tamanho": "(640, 448)"
+  },
+  "cidade/casa_bento/primavera": {
+    "alfa_parcial": 167668,
+    "cores": 101090,
+    "filtro": "linear_mipmaps",
+    "tamanho": "(640, 448)"
+  },
+  "cidade/casa_bento/verao": {
+    "alfa_parcial": 167604,
+    "cores": 101593,
+    "filtro": "linear_mipmaps",
+    "tamanho": "(640, 448)"
+  },
+  "cidade/enfermaria/inverno": {
+    "alfa_parcial": 147702,
+    "cores": 88893,
+    "filtro": "linear_mipmaps",
+    "tamanho": "(512, 448)"
+  },
+  "cidade/enfermaria/outono": {
+    "alfa_parcial": 149069,
+    "cores": 87735,
+    "filtro": "linear_mipmaps",
+    "tamanho": "(512, 448)"
+  },
+  "cidade/enfermaria/primavera": {
+    "alfa_parcial": 149054,
+    "cores": 87150,
+    "filtro": "linear_mipmaps",
+    "tamanho": "(512, 448)"
+  },
+  "cidade/enfermaria/verao": {
+    "alfa_parcial": 148923,
+    "cores": 87102,
+    "filtro": "linear_mipmaps",
+    "tamanho": "(512, 448)"
+  },
+  "cidade/forja/inverno": {
+    "alfa_parcial": 147834,
+    "cores": 84607,
+    "filtro": "linear_mipmaps",
+    "tamanho": "(512, 448)"
+  },
+  "cidade/forja/outono": {
+    "alfa_parcial": 149789,
+    "cores": 97256,
+    "filtro": "linear_mipmaps",
+    "tamanho": "(512, 448)"
+  },
+  "cidade/forja/primavera": {
+    "alfa_parcial": 149661,
+    "cores": 99235,
+    "filtro": "linear_mipmaps",
+    "tamanho": "(512, 448)"
+  },
+  "cidade/forja/verao": {
+    "alfa_parcial": 150446,
+    "cores": 101939,
+    "filtro": "linear_mipmaps",
+    "tamanho": "(512, 448)"
+  },
+  "cidade/mistica/inverno": {
+    "alfa_parcial": 140418,
+    "cores": 97236,
+    "filtro": "linear_mipmaps",
+    "tamanho": "(576, 512)"
+  },
+  "cidade/mistica/outono": {
+    "alfa_parcial": 139296,
+    "cores": 106260,
+    "filtro": "linear_mipmaps",
+    "tamanho": "(576, 512)"
+  },
+  "cidade/mistica/primavera": {
+    "alfa_parcial": 135440,
+    "cores": 104304,
+    "filtro": "linear_mipmaps",
+    "tamanho": "(576, 512)"
+  },
+  "cidade/mistica/verao": {
+    "alfa_parcial": 135828,
+    "cores": 104867,
+    "filtro": "linear_mipmaps",
+    "tamanho": "(576, 512)"
+  },
+  "cidade/pousada/inverno": {
+    "alfa_parcial": 205495,
+    "cores": 87187,
+    "filtro": "linear_mipmaps",
+    "tamanho": "(640, 576)"
+  },
+  "cidade/pousada/outono": {
+    "alfa_parcial": 208769,
+    "cores": 90810,
+    "filtro": "linear_mipmaps",
+    "tamanho": "(640, 576)"
+  },
+  "cidade/pousada/primavera": {
+    "alfa_parcial": 208769,
+    "cores": 91309,
+    "filtro": "linear_mipmaps",
+    "tamanho": "(640, 576)"
+  },
+  "cidade/pousada/verao": {
+    "alfa_parcial": 208769,
+    "cores": 91267,
+    "filtro": "linear_mipmaps",
+    "tamanho": "(640, 576)"
+  },
+  "cidade/sede/inverno": {
+    "alfa_parcial": 227190,
+    "cores": 108681,
+    "filtro": "linear_mipmaps",
+    "tamanho": "(768, 512)"
+  },
+  "cidade/sede/outono": {
+    "alfa_parcial": 229771,
+    "cores": 108780,
+    "filtro": "linear_mipmaps",
+    "tamanho": "(768, 512)"
+  },
+  "cidade/sede/primavera": {
+    "alfa_parcial": 229903,
+    "cores": 110867,
+    "filtro": "linear_mipmaps",
+    "tamanho": "(768, 512)"
+  },
+  "cidade/sede/verao": {
+    "alfa_parcial": 229903,
+    "cores": 109220,
+    "filtro": "linear_mipmaps",
+    "tamanho": "(768, 512)"
+  },
+  "cidade/venda/inverno": {
+    "alfa_parcial": 150155,
+    "cores": 92098,
+    "filtro": "linear_mipmaps",
+    "tamanho": "(512, 448)"
+  },
+  "cidade/venda/outono": {
+    "alfa_parcial": 151269,
+    "cores": 103700,
+    "filtro": "linear_mipmaps",
+    "tamanho": "(512, 448)"
+  },
+  "cidade/venda/primavera": {
+    "alfa_parcial": 150659,
+    "cores": 106616,
+    "filtro": "linear_mipmaps",
+    "tamanho": "(512, 448)"
+  },
+  "cidade/venda/verao": {
+    "alfa_parcial": 151143,
+    "cores": 105599,
+    "filtro": "linear_mipmaps",
+    "tamanho": "(512, 448)"
+  },
+  "fazenda/casa_jogador/inverno": {
+    "alfa_parcial": 121377,
+    "cores": 60528,
+    "filtro": "linear_mipmaps",
+    "tamanho": "(448, 360)"
+  },
+  "fazenda/casa_jogador/outono": {
+    "alfa_parcial": 122596,
+    "cores": 67929,
+    "filtro": "linear_mipmaps",
+    "tamanho": "(448, 360)"
+  },
+  "fazenda/casa_jogador/primavera": {
+    "alfa_parcial": 122596,
+    "cores": 71856,
+    "filtro": "linear_mipmaps",
+    "tamanho": "(448, 360)"
+  },
+  "fazenda/casa_jogador/verao": {
+    "alfa_parcial": 122596,
+    "cores": 66392,
+    "filtro": "linear_mipmaps",
+    "tamanho": "(448, 360)"
+  }
+}

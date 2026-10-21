@@ -30,7 +30,7 @@ class Flores extends Node2D:
 	func _draw() -> void:
 		for celula in celulas:
 			var textura: Texture2D = texturas.get(celulas[celula])
-			if textura != null: draw_texture(textura,Vector2(celula*16))
+			if textura != null: draw_texture_rect(textura,Rect2(Vector2(celula*16),Vector2(16,16)),false)
 
 func configurar(terreno: Node2D, estacoes) -> void:
 	_terreno=terreno
@@ -71,7 +71,7 @@ func configurar(terreno: Node2D, estacoes) -> void:
 	_sprite.texture=_cache.get_texture()
 	add_child(_sprite)
 	_flores=Flores.new()
-	_flores.texture_filter=CanvasItem.TEXTURE_FILTER_NEAREST
+	_flores.texture_filter=CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 	add_child(_flores)
 	_coletar_flores()
 	_montar_rodape()
@@ -140,22 +140,12 @@ func _mascara(indice: int) -> ImageTexture:
 	return textura
 
 func _desenhar_flores() -> void:
-	var folha := LimitePlantio.FOLHAS[estacao].get_image()
-	if folha.is_compressed(): folha.decompress()
-	var paleta := {}
-	for atlas in GRAMAS:
-		for y in 16:
-			for x in 16: paleta[folha.get_pixel(atlas.x*16+x,atlas.y*16+y).to_rgba32()]=true
 	var texturas: Dictionary = _flores.texturas
 	texturas.clear()
 	for atlas in _flores.celulas.values():
 		if texturas.has(atlas): continue
-		var imagem := Image.create(16,16,false,Image.FORMAT_RGBA8)
-		for y in 16:
-			for x in 16:
-				var cor := folha.get_pixel(atlas.x*16+x,atlas.y*16+y)
-				if not paleta.has(cor.to_rgba32()): imagem.set_pixel(x,y,cor)
-		texturas[atlas]=ImageTexture.create_from_image(imagem)
+		var variante := posmod(atlas.x + atlas.y, 2)
+		texturas[atlas]=load("res://assets/cenario/fazenda/acabamento_detalhado/%s/flor_%d.png" % [ESTACOES[estacao],variante])
 	_flores.queue_redraw()
 
 func _substituir_base() -> void:

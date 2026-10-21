@@ -9,34 +9,34 @@
   "quadros": 1,
   "fps": 0,
   "resolucao": 4,
-  "fonte": "res://arte/fontes/cidade/venda.png",
+  "fonte": "res://arte/fontes/cidade/fachadas_padrao_taverna/venda.png",
   "chamine": [
-   -32.7900009155273,
-   -86.71875
+   -39.7200012207031,
+   -84.3125
   ],
   "janelas": [
    [
-    -20.745002746582,
-    -25.125
+    -37.2399978637695,
+    -21.5
    ],
    [
-    29.625,
-    -25.125
+    29.7199935913086,
+    -21.5
    ],
    [
-    -19.6499977111816,
-    -56.1499977111816
+    -23.6000022888184,
+    -53.375
    ]
   ],
   "ancora_fonte": [
-   604.839965820312,
-   1085.65002441406
+   349.620025634766,
+   544.799987792969
   ],
   "area_fonte": [
-   61,
-   97,
-   1133,
-   1014
+   24,
+   9,
+   603,
+   564
   ],
   "canvas_logico": [
    128,
@@ -50,41 +50,41 @@
    "res://assets/cenario/cidade/fachadas_detalhadas/sede/outono.png",
    "res://assets/cenario/cidade/fachadas_detalhadas/sede/inverno.png"
   ],
-  "quadros": 1,
-  "fps": 0,
-  "resolucao": 4,
-  "fonte": "res://arte/fontes/cidade/sede.png",
+  "quadros": 1.0,
+  "fps": 0.0,
+  "resolucao": 4.0,
+  "fonte": "res://arte/fontes/cidade/fachadas_padrao_taverna/sede.png",
   "chamine": [
-   -47.6749992370605,
-   -99.4499969482422
+   -38.3950004577637,
+   -97.9199981689453
   ],
   "janelas": [
    [
-    -56.5499992370605,
+    -57.5899963378906,
     -28.5599975585938
    ],
    [
-    57.0500030517578,
+    54.0899963378906,
     -28.5599975585938
    ],
    [
-    0.25,
+    -1.75,
     -61.2000007629395
    ]
   ],
   "ancora_fonte": [
-   625.499084472656,
-   1091.0
+   325.570007324219,
+   576.0
   ],
   "area_fonte": [
-   39,
-   106,
-   1177,
-   985
+   16.0,
+   20.0,
+   607.0,
+   556.0
   ],
   "canvas_logico": [
-   192,
-   128
+   192.0,
+   128.0
   ]
  },
  "enfermaria": {
@@ -94,37 +94,37 @@
    "res://assets/cenario/cidade/fachadas_detalhadas/enfermaria/outono.png",
    "res://assets/cenario/cidade/fachadas_detalhadas/enfermaria/inverno.png"
   ],
-  "quadros": 1,
-  "fps": 0,
-  "resolucao": 4,
-  "fonte": "res://arte/fontes/cidade/enfermaria.png",
+  "quadros": 1.0,
+  "fps": 0.0,
+  "resolucao": 4.0,
+  "fonte": "res://arte/fontes/cidade/fachadas_padrao_taverna/enfermaria.png",
   "chamine": [
-   -38.9625015258789,
-   -98.4625015258789
+   -30.5625,
+   -97.9700012207031
   ],
   "janelas": [
    [
-    -31.5375003814697,
-    -23.8600006103516
+    -30.5625,
+    -28.2799987792969
    ],
    [
-    34.0499954223633,
-    -23.8600006103516
+    28.3125,
+    -26.2600021362305
    ]
   ],
   "ancora_fonte": [
-   617.75,
-   1109.97497558594
+   339.329986572266,
+   562.0
   ],
   "area_fonte": [
-   60,
-   110,
-   1150,
-   1005
+   42.0,
+   13.0,
+   583.0,
+   549.0
   ],
   "canvas_logico": [
-   128,
-   112
+   128.0,
+   112.0
   ]
  },
  "pousada": {
@@ -134,9 +134,9 @@
    "res://assets/cenario/cidade/fachadas_detalhadas/pousada/outono.png",
    "res://assets/cenario/cidade/fachadas_detalhadas/pousada/inverno.png"
   ],
-  "quadros": 1,
-  "fps": 0,
-  "resolucao": 4,
+  "quadros": 1.0,
+  "fps": 0.0,
+  "resolucao": 4.0,
   "fonte": "res://arte/fontes/cidade/enfeites_detalhados/pousada_frontal.png",
   "chamine": [
    -44.7999992370605,
@@ -169,14 +169,14 @@
    1204.0
   ],
   "area_fonte": [
-   37,
-   14,
-   1117,
-   1190
+   37.0,
+   14.0,
+   1117.0,
+   1190.0
   ],
   "canvas_logico": [
-   160,
-   144
+   160.0,
+   144.0
   ]
  },
  "mistica": {
@@ -186,45 +186,49 @@
    "res://assets/cenario/cidade/fachadas_detalhadas/mistica/outono.png",
    "res://assets/cenario/cidade/fachadas_detalhadas/mistica/inverno.png"
   ],
-  "quadros": 1,
-  "fps": 0,
-  "resolucao": 4,
-  "fonte": "res://arte/fontes/cidade/mistica.png",
+  "quadros": 1.0,
+  "fps": 0.0,
+  "resolucao": 4.0,
+  "fonte": "res://arte/fontes/cidade/fachadas_padrao_taverna/mistica.png",
   "chamine": [
-   5.83750152587891,
-   -94.0800018310547
+   -8.81999969482422,
+   -89.25
   ],
   "janelas": [
    [
-    -37.5774993896484,
-    -48.1599998474121
+    -34.0050010681152,
+    -56.2625007629395
    ],
    [
-    0.125,
-    -49.2799987792969
+    -34.0050010681152,
+    -26.6875
    ],
    [
-    37.8274993896484,
-    -64.9600067138672
+    -0.05999755859375,
+    -49.4375
    ],
    [
-    37.8274993896484,
-    -24.6399993896484
+    26.2200012207031,
+    -55.125
+   ],
+   [
+    32.7900009155273,
+    -27.8249969482422
    ]
   ],
   "ancora_fonte": [
-   656.450988769531,
-   1196.0
+   365.160003662109,
+   594.090026855469
   ],
   "area_fonte": [
-   133,
-   15,
-   1049,
-   1181
+   88.0,
+   9.0,
+   533.0,
+   594.0
   ],
   "canvas_logico": [
-   144,
-   128
+   144.0,
+   128.0
   ]
  },
  "casa_bento": {
@@ -234,41 +238,41 @@
    "res://assets/cenario/cidade/fachadas_detalhadas/casa_bento/outono.png",
    "res://assets/cenario/cidade/fachadas_detalhadas/casa_bento/inverno.png"
   ],
-  "quadros": 1,
-  "fps": 0,
-  "resolucao": 4,
-  "fonte": "res://arte/fontes/cidade/casa_bento.png",
+  "quadros": 1.0,
+  "fps": 0.0,
+  "resolucao": 4.0,
+  "fonte": "res://arte/fontes/cidade/fachadas_padrao_taverna/casa_bento.png",
   "chamine": [
-   -28.7150001525879,
-   -86.7750015258789
+   -32.2250022888184,
+   -86.3150024414062
   ],
   "janelas": [
    [
-    -15.2900009155273,
-    -23.1399993896484
+    -29.2999992370605,
+    -23.6650009155273
    ],
    [
-    31.6975021362305,
-    -23.1399993896484
+    32.125,
+    -23.6650009155273
    ],
    [
-    4.84750366210938,
-    -49.8400001525879
+    2.14375305175781,
+    -47.8299980163574
    ]
   ],
   "ancora_fonte": [
-   556.85595703125,
-   1102.0
+   311.959991455078,
+   567.190002441406
   ],
   "area_fonte": [
-   43,
-   111,
-   1184,
-   991
+   23.0,
+   8.0,
+   602.0,
+   562.0
   ],
   "canvas_logico": [
-   160,
-   112
+   160.0,
+   112.0
   ]
  },
  "casa_jogador": {
@@ -278,37 +282,37 @@
    "res://assets/cenario/cidade/fachadas_detalhadas/casa_jogador/outono.png",
    "res://assets/cenario/cidade/fachadas_detalhadas/casa_jogador/inverno.png"
   ],
-  "quadros": 1,
-  "fps": 0,
-  "resolucao": 4,
-  "fonte": "res://arte/fontes/fazenda/casa_inicial/exterior_original.png",
+  "quadros": 1.0,
+  "fps": 0.0,
+  "resolucao": 4.0,
+  "fonte": "res://arte/fontes/fazenda/acabamento_detalhado/casa.png",
+  "canvas_logico": [
+   112.0,
+   90.0
+  ],
   "chamine": [
-   35.6350021362305,
-   -87.75
+   35.5,
+   -88.0
   ],
   "janelas": [
    [
-    -25.8274993896484,
-    -25.1999969482422
+    -28.0,
+    -25.0
    ],
    [
-    25.5774993896484,
-    -25.1999969482422
+    28.0,
+    -25.0
    ]
   ],
   "ancora_fonte": [
-   656.037963867188,
-   1011.0
+   665.0,
+   1086.0
   ],
   "area_fonte": [
-   136,
-   174,
-   1038,
-   837
-  ],
-  "canvas_logico": [
-   112,
-   90
+   39.0,
+   88.0,
+   1252.0,
+   998.0
   ]
  },
  "forja": {
@@ -321,30 +325,30 @@
   "quadros": 1,
   "fps": 0,
   "resolucao": 4,
-  "fonte": "res://arte/fontes/forja/forja_estacoes.png",
+  "fonte": "res://arte/fontes/cidade/fachadas_padrao_taverna/forja.png",
   "chamine": [
-   -30.2800006866455,
-   -95.5437469482422
+   -31.25,
+   -94.0599975585938
   ],
   "janelas": [
    [
-    2.47999954223633,
-    -55.752498626709
+    0.0,
+    -54.6599998474121
    ],
    [
-    36.5,
-    -27.2599945068359
+    36.25,
+    -31.0199966430664
    ]
   ],
   "ancora_fonte": [
-   310.080017089844,
-   552.93603515625
+   306.720001220703,
+   559.294982910156
   ],
   "area_fonte": [
    12,
-   22,
-   648,
-   532
+   21,
+   614,
+   541
   ],
   "canvas_logico": [
    128,
@@ -358,41 +362,41 @@
    "res://assets/cenario/cidade/fachadas_detalhadas/carpintaria/outono.png",
    "res://assets/cenario/cidade/fachadas_detalhadas/carpintaria/inverno.png"
   ],
-  "quadros": 1,
-  "fps": 0,
-  "resolucao": 4,
-  "fonte": "res://arte/fontes/cidade/carpintaria/estacoes.png",
+  "quadros": 1.0,
+  "fps": 0.0,
+  "resolucao": 4.0,
+  "fonte": "res://arte/fontes/cidade/fachadas_padrao_taverna/carpintaria.png",
   "chamine": [
-   42.5599975585938,
-   -111.150001525879
+   35.3525009155273,
+   -111.720001220703
   ],
   "janelas": [
    [
-    -35.2449989318848,
-    -31.9199981689453
+    -36.2312507629395,
+    -38.7599945068359
    ],
    [
-    5.51000213623047,
-    -72.9599990844727
+    0.00250244140625,
+    -71.8199996948242
    ],
    [
-    37.0025024414062,
-    -31.9199981689453
+    38.8874969482422,
+    -38.7599945068359
    ]
   ],
   "ancora_fonte": [
-   319.809997558594,
-   476.0
+   275.309997558594,
+   580.0
   ],
   "area_fonte": [
-   16,
-   12,
-   741,
-   464
+   10.0,
+   74.0,
+   617.0,
+   506.0
   ],
   "canvas_logico": [
-   192,
-   128
+   192.0,
+   128.0
   ]
  }
 }

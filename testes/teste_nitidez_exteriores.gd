@@ -2,6 +2,7 @@ extends SceneTree
 ## Capturas reais de todas as fachadas, com saves isolados e quatro estações.
 const CASA := "res://codigo/cidade/casa_exterior.gd"
 const ESTACOES := ["primavera","verao","outono","inverno"]
+const PADRAO_TAVERNA := ["venda", "sede", "enfermaria", "mistica", "casa_bento", "forja", "carpintaria"]
 var falhas := 0
 var relatorio := {}
 var pasta: String
@@ -72,6 +73,8 @@ func rodar() -> void:
 				var chave: String = cena+"/"+casa.id+"/"+ESTACOES[e]
 				relatorio[chave] = {"cores":cores.size(),"alfa_parcial":alfa_parcial,"tamanho":str(imagem.get_size()),"filtro":"linear_mipmaps"}
 				var dados: Dictionary = load("res://codigo/cidade/fachadas_detalhadas.gd").dados(casa.id)
+				if casa.id in PADRAO_TAVERNA:
+					conferir("/fachadas_padrao_taverna/" in dados.fonte,"Regeneração preserva a fonte pintada: "+chave)
 				conferir((sprite.texture.get_size()*sprite.scale).is_equal_approx(Vector2(dados.canvas_logico[0],dados.canvas_logico[1])),"Tamanho lógico preservado: "+chave)
 				if casa.id in ["forja","carpintaria"]:
 					conferir(sprite.scale.is_equal_approx(Vector2(.25,.25)),"Escala lógica preservada: "+chave)

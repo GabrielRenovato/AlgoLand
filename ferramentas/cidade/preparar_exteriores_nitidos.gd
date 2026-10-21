@@ -2,30 +2,35 @@ extends SceneTree
 ## Preserva detalhe dos originais em texturas 4x, mantendo a escala lógica do mapa.
 const SAIDA := "res://assets/cenario/cidade/fachadas_detalhadas/"
 const ESTACOES := ["primavera","verao","outono","inverno"]
+const PADRAO_TAVERNA := ["venda", "sede", "enfermaria", "mistica", "casa_bento", "forja", "carpintaria"]
 const FONTES := {
-	"venda":"res://arte/fontes/cidade/venda.png", "sede":"res://arte/fontes/cidade/sede.png",
-	"enfermaria":"res://arte/fontes/cidade/enfermaria.png", "pousada":"res://arte/fontes/cidade/enfeites_detalhados/pousada_frontal.png",
-	"mistica":"res://arte/fontes/cidade/mistica.png", "casa_bento":"res://arte/fontes/cidade/casa_bento.png",
-	"casa_jogador":"res://arte/fontes/fazenda/casa_inicial/exterior_original.png",
-	"forja":"res://arte/fontes/forja/forja_estacoes.png", "carpintaria":"res://arte/fontes/cidade/carpintaria/estacoes.png"
+	"venda":"res://arte/fontes/cidade/fachadas_padrao_taverna/venda.png", "sede":"res://arte/fontes/cidade/fachadas_padrao_taverna/sede.png",
+	"enfermaria":"res://arte/fontes/cidade/fachadas_padrao_taverna/enfermaria.png", "pousada":"res://arte/fontes/cidade/enfeites_detalhados/pousada_frontal.png",
+	"mistica":"res://arte/fontes/cidade/fachadas_padrao_taverna/mistica.png", "casa_bento":"res://arte/fontes/cidade/fachadas_padrao_taverna/casa_bento.png",
+	"casa_jogador":"res://arte/fontes/fazenda/acabamento_detalhado/casa.png",
+	"forja":"res://arte/fontes/cidade/fachadas_padrao_taverna/forja.png", "carpintaria":"res://arte/fontes/cidade/fachadas_padrao_taverna/carpintaria.png"
 }
 const JANELAS := {
-	"venda":[Vector2(.29,.70),Vector2(.75,.70),Vector2(.30,.36)], "sede":[Vector2(.18,.72),Vector2(.82,.72),Vector2(.50,.40)],
-	"enfermaria":[Vector2(.23,.76),Vector2(.76,.76)], "pousada":[Vector2(.22,.40),Vector2(.78,.40),Vector2(.50,.51),Vector2(.22,.76),Vector2(.78,.76)],
-	"mistica":[Vector2(.17,.57),Vector2(.50,.56),Vector2(.83,.42),Vector2(.83,.78)], "casa_bento":[Vector2(.32,.74),Vector2(.67,.74),Vector2(.47,.44)],
-	"casa_jogador":[Vector2(.27,.72),Vector2(.73,.72)], "forja":[Vector2(.48,.43),Vector2(.75,.72)], "carpintaria":[Vector2(.22,.72),Vector2(.44,.36),Vector2(.61,.72)]
+	"venda":[Vector2(.24,.72),Vector2(.78,.72),Vector2(.35,.38)], "sede":[Vector2(.18,.72),Vector2(.82,.72),Vector2(.50,.40)],
+	"enfermaria":[Vector2(.25,.72),Vector2(.75,.74)], "pousada":[Vector2(.22,.40),Vector2(.78,.40),Vector2(.50,.51),Vector2(.22,.76),Vector2(.78,.76)],
+	"mistica":[Vector2(.21,.49),Vector2(.21,.75),Vector2(.52,.55),Vector2(.76,.50),Vector2(.82,.74)], "casa_bento":[Vector2(.28,.73),Vector2(.70,.73),Vector2(.495,.46)],
+	"casa_jogador":[Vector2(.27,.72),Vector2(.73,.72)], "forja":[Vector2(.48,.44),Vector2(.77,.68)], "carpintaria":[Vector2(.225,.66),Vector2(.43,.37),Vector2(.65,.66)]
 }
-const CHAMINES := {"venda":Vector2(.18,.025),"sede":Vector2(.23,.025),"enfermaria":Vector2(.17,.025),"pousada":Vector2(.20,.025),"mistica":Vector2(.55,.16),"casa_bento":Vector2(.22,.025),"casa_jogador":Vector2(.82,.025),"forja":Vector2(.22,.025),"carpintaria":Vector2(.64,.025)}
+const CHAMINES := {"venda":Vector2(.22,.05),"sede":Vector2(.29,.04),"enfermaria":Vector2(.25,.03),"pousada":Vector2(.20,.025),"mistica":Vector2(.44,.20),"casa_bento":Vector2(.26,.03),"casa_jogador":Vector2(.82,.025),"forja":Vector2(.23,.04),"carpintaria":Vector2(.63,.02)}
 ## Soleiras medidas nos originais: vasos, barris e placas não são a porta.
-const SOLEIRAS := {"venda":Vector2(.48,.975),"sede":Vector2(.4983,1),"enfermaria":Vector2(.485,.995),"pousada":Vector2(.529,1),"mistica":Vector2(.499,1),"casa_bento":Vector2(.434,1),"casa_jogador":Vector2(.501,1),"forja":Vector2(.460,.998),"carpintaria":Vector2(.410,1)}
+const SOLEIRAS := {"venda":Vector2(.54,.95),"sede":Vector2(.51,1),"enfermaria":Vector2(.51,1),"pousada":Vector2(.529,1),"mistica":Vector2(.52,.985),"casa_bento":Vector2(.48,.995),"casa_jogador":Vector2(.501,1),"forja":Vector2(.48,.995),"carpintaria":Vector2(.43,1)}
 func _initialize() -> void:
 	var medidas: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://assets/cenario/cidade/casas/exteriores.json"))
-	var manifesto := {}
+	var caminho_manifesto := SAIDA+"manifesto.json"
+	var manifesto: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(caminho_manifesto)) if FileAccess.file_exists(caminho_manifesto) else {}
+	var filtro := OS.get_cmdline_user_args()
 	for id: String in FONTES:
+		if not filtro.is_empty() and id not in filtro: continue
 		var fonte := Image.load_from_file(FONTES[id])
-		var sazonal := id in ["forja","carpintaria"]
+		var sazonal := id in PADRAO_TAVERNA
 		var tamanho: Vector2i = fonte.get_size()/2 if sazonal else fonte.get_size()
 		var primavera := fonte.get_region(Rect2i(Vector2i.ZERO,tamanho))
+		if sazonal: primavera = _limpar_recorte(primavera)
 		var area := _area(primavera)
 		# A soleira é o trecho inferior central, e continua na mesma origem do mapa.
 		var ancora_fonte: Vector2 = Vector2(area.position)+SOLEIRAS[id]*Vector2(area.size)
@@ -43,11 +48,27 @@ func _initialize() -> void:
 		DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(SAIDA+id))
 		for e in 4:
 			var celula := fonte.get_region(Rect2i(Vector2i(e%2,e/2)*tamanho,tamanho)) if sazonal else primavera
-			var recorte := celula.get_region(area)
-			recorte.resize(int(dimensao.x),int(dimensao.y),Image.INTERPOLATE_LANCZOS)
+			if sazonal: celula = _limpar_recorte(celula)
+			var area_quadro := _area(celula) if sazonal else area
+			var recorte := celula.get_region(area_quadro)
+			var dimensao_quadro := dimensao
+			var posicao_quadro := posicao
+			if sazonal:
+				# Alinha a soleira de cada quadro à mesma porta física, mesmo com neve maior.
+				var ancora_quadro: Vector2 = Vector2(area_quadro.position) + SOLEIRAS[id] * Vector2(area_quadro.size)
+				var sx := minf((ancora.x-float(usado[0]))/(ancora_quadro.x-area_quadro.position.x),(float(usado[0]+usado[2])-ancora.x)/(area_quadro.end.x-ancora_quadro.x))
+				var sy := (ancora.y-float(usado[1]))/(ancora_quadro.y-area_quadro.position.y)
+				var escala_quadro := Vector2(sx,sy)*4.0
+				dimensao_quadro = (Vector2(area_quadro.size)*escala_quadro).round()
+				posicao_quadro = (ancora*4.0-(ancora_quadro-Vector2(area_quadro.position))*escala_quadro).round()
+			if id == "casa_jogador" and e == 3:
+				var inverno := Image.load_from_file("res://arte/fontes/fazenda/acabamento_detalhado/casa_inverno.png")
+				inverno = inverno.get_region(Rect2i(0,40,inverno.get_width(),inverno.get_height()-40))
+				recorte = inverno.get_region(_area(inverno))
+			recorte.resize(int(dimensao_quadro.x),int(dimensao_quadro.y),Image.INTERPOLATE_LANCZOS)
 			var imagem := Image.create(canvas.x,canvas.y,false,Image.FORMAT_RGBA8)
-			imagem.blit_rect(recorte,Rect2i(Vector2i.ZERO,recorte.get_size()),Vector2i(posicao))
-			if not sazonal: _estacao(imagem,e,id)
+			imagem.blit_rect(recorte,Rect2i(Vector2i.ZERO,recorte.get_size()),Vector2i(posicao_quadro))
+			if not sazonal and not (id == "casa_jogador" and e == 3): _estacao(imagem,e,id)
 			var caminho: String = SAIDA+id+"/"+ESTACOES[e]+".png"
 			assert(imagem.save_png(caminho)==OK)
 			caminhos.append(caminho)
@@ -68,6 +89,41 @@ func _initialize() -> void:
 	var arquivo := FileAccess.open(SAIDA+"manifesto.json",FileAccess.WRITE)
 	arquivo.store_string(JSON.stringify(manifesto," ",false)+"\n")
 	quit()
+
+func _limpar_recorte(imagem: Image) -> Image:
+	# Extrai a silhueta útil sem levar pontos soltos do espaço entre os quadros.
+	imagem.convert(Image.FORMAT_RGBA8)
+	var largura := imagem.get_width()
+	var altura := imagem.get_height()
+	var dados := imagem.get_data()
+	var vistos := PackedByteArray()
+	vistos.resize(largura*altura)
+	var manter := PackedByteArray()
+	manter.resize(largura*altura)
+	for inicio in largura*altura:
+		if vistos[inicio] or dados[inicio*4+3] < 32: continue
+		var fila := PackedInt32Array([inicio])
+		vistos[inicio] = 1
+		var frente := 0
+		while frente < fila.size():
+			var i := fila[frente]
+			frente += 1
+			for vizinho in [i-1,i+1,i-largura,i+largura]:
+				if vizinho < 0 or vizinho >= largura*altura: continue
+				if absi(vizinho-i) == 1 and vizinho/largura != i/largura: continue
+				if vistos[vizinho] or dados[vizinho*4+3] < 32: continue
+				vistos[vizinho] = 1
+				fila.append(vizinho)
+		if fila.size() < 128: continue
+		for i in fila:
+			manter[i] = 1
+			# Conserva a borda com alfa suave junto à arte válida.
+			for vizinho in [i-1,i+1,i-largura,i+largura]:
+				if vizinho >= 0 and vizinho < manter.size(): manter[vizinho] = 1
+	for i in manter.size():
+		if not manter[i]: dados[i*4+3] = 0
+	return Image.create_from_data(largura,altura,false,Image.FORMAT_RGBA8,dados)
+
 func _area(imagem: Image) -> Rect2i:
 	var minimo := imagem.get_size()
 	var maximo := Vector2i.ZERO

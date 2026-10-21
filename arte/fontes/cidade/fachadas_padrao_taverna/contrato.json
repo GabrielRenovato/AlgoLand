@@ -1,0 +1,108 @@
+{
+  "tipo": "fachadas externas, acabamento pintado no padrão da taverna",
+  "referencia_estilo": "arte/fontes/cidade/enfeites_detalhados/pousada_frontal.png",
+  "dimensoes": {
+    "venda": {
+      "canvas_logico": [
+        128,
+        112
+      ],
+      "canvas_textura": [
+        512,
+        448
+      ],
+      "grade_logica": 16,
+      "pivo": "soleira central da porta existente em casas/exteriores.json",
+      "referencia_identidade": "res://arte/fontes/cidade/venda.png"
+    },
+    "sede": {
+      "canvas_logico": [
+        192,
+        128
+      ],
+      "canvas_textura": [
+        768,
+        512
+      ],
+      "grade_logica": 16,
+      "pivo": "soleira central da porta existente em casas/exteriores.json",
+      "referencia_identidade": "res://arte/fontes/cidade/sede.png"
+    },
+    "enfermaria": {
+      "canvas_logico": [
+        128,
+        112
+      ],
+      "canvas_textura": [
+        512,
+        448
+      ],
+      "grade_logica": 16,
+      "pivo": "soleira central da porta existente em casas/exteriores.json",
+      "referencia_identidade": "res://arte/fontes/cidade/enfermaria.png"
+    },
+    "mistica": {
+      "canvas_logico": [
+        144,
+        128
+      ],
+      "canvas_textura": [
+        576,
+        512
+      ],
+      "grade_logica": 16,
+      "pivo": "soleira central da porta existente em casas/exteriores.json",
+      "referencia_identidade": "res://arte/fontes/cidade/mistica.png"
+    },
+    "casa_bento": {
+      "canvas_logico": [
+        160,
+        112
+      ],
+      "canvas_textura": [
+        640,
+        448
+      ],
+      "grade_logica": 16,
+      "pivo": "soleira central da porta existente em casas/exteriores.json",
+      "referencia_identidade": "res://arte/fontes/cidade/casa_bento.png"
+    },
+    "forja": {
+      "canvas_logico": [
+        128,
+        112
+      ],
+      "canvas_textura": [
+        512,
+        448
+      ],
+      "grade_logica": 16,
+      "pivo": "soleira central da porta existente em casas/exteriores.json",
+      "referencia_identidade": "res://arte/fontes/forja/forja_estacoes.png"
+    },
+    "carpintaria": {
+      "canvas_logico": [
+        192,
+        128
+      ],
+      "canvas_textura": [
+        768,
+        512
+      ],
+      "grade_logica": 16,
+      "pivo": "soleira central da porta existente em casas/exteriores.json",
+      "referencia_identidade": "res://arte/fontes/cidade/carpintaria/estacoes.png"
+    }
+  },
+  "geracao": "image_gen integrada; uma folha sazonal 2×2 por fachada, quadros alinhados",
+  "estacoes": [
+    "primavera",
+    "verao",
+    "outono",
+    "inverno"
+  ],
+  "encaixe": "preservar posição, tamanho lógico, porta, colisões, navegação, base física e profundidade; iluminação nas janelas e saída da chaminé medidas nas fontes",
+  "restricoes": "preservar arquitetura e cores; redesenhar materiais e formas, sem ampliar pixel art nem trocar a identidade pela arquitetura da taverna; fundo transparente e sem chão",
+  "destino": "assets/cenario/cidade/fachadas_detalhadas/<id>/<estacao>.png",
+  "revisao": "testes/teste_nitidez_exteriores.gd: 36 combinações sem falhas funcionais; capturas reais e comparação com taverna nas quatro estações, com saves isolados. Fundos do menu recapturados em 2816×2304 por ferramentas/cidade/capturar_fundos_interface.gd; menu conferido nas quatro estações em 1152×648 e no inverno em 960×540, incluindo margens e quebras dos textos. Evidências em arte/previas/nitidez_exteriores/menu/. O teste de fachadas apresenta avisos de recursos ao encerrar o Godot."
+}

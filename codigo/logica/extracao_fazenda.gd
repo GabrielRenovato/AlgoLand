@@ -236,7 +236,7 @@ func _desenhar_entulho(celula: Vector2i, tipo: String) -> void:
 	sprite.offset = desenho
 	sprite.position = base
 	var natureza := get_parent().get_node_or_null("NaturezaFazenda")
-	if natureza != null and (peca.begins_with("pedra_") or peca=="arvoreta"): natureza.vestir(sprite,peca)
+	if natureza != null and (peca.begins_with("pedra_") or peca.begins_with("mato_") or peca=="arvoreta"): natureza.vestir(sprite,peca)
 	sprite.z_as_relative = false
 	# mato fica no chão; o resto ordena pela base, como os outros objetos
 	sprite.z_index = Profundidade.Z_CHAO + 4 if tipo == "mato" else Profundidade.z_de(base.y)
