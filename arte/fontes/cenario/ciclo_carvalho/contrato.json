@@ -1,0 +1,52 @@
+{
+  "uso": "Crescimento dos carvalhos cortáveis da fazenda e toco coerente com a árvore adulta aprovada",
+  "referencia": "arte/fontes/cenario/algoland_original/revisao_mana/arvores_direcao.png",
+  "quadro": [
+    128,
+    128
+  ],
+  "pivo": [
+    64,
+    127
+  ],
+  "grade": 16,
+  "estagios": {
+    "semente": [
+      10,
+      8
+    ],
+    "broto": [
+      16,
+      20
+    ],
+    "muda": [
+      32,
+      42
+    ],
+    "jovem": [
+      64,
+      78
+    ],
+    "toco": [
+      56,
+      26
+    ]
+  },
+  "estacoes": [
+    "primavera",
+    "verao",
+    "outono",
+    "inverno"
+  ],
+  "colisao": "Semente, broto e muda livres; jovem e adulta usam a base física existente; toco mantém a colisão até ser removido",
+  "ciclo": "Dia 0 semente, dia 1 broto, dia 2 muda, dias 3/4 jovem, dia 5 adulta. O toco bloqueia o reinício; remoção reinicia o prazo.",
+  "integracao": [
+    "codigo/globais/fazenda_dados.gd",
+    "codigo/logica/extracao_fazenda.gd"
+  ],
+  "saida": "assets/cenario/algoland_original/ciclo_carvalho/<estacao>/<estagio>.png",
+  "validacao": "Corte, remoção do toco, crescimento diário, persistência e troca das quatro estações em Godot com save isolado",
+  "geracao": "image_gen integrado; prompts e originais nesta pasta",
+  "arvoreta_entulho": "Versão32x32 da muda, com base e colisão8x5; mesma espécie nas quatro estações.",
+  "clima": "Cobertura de chuva usa a área opaca do estágio e se atualiza quando o sprite cresce ou sai."
+}

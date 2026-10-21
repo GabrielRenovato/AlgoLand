@@ -34,7 +34,10 @@ func _ready() -> void:
 	if not todas is Dictionary or not todas.has(id):
 		push_error("Casa sem medidas em exteriores.json: " + id)
 		return
-	var medidas: Dictionary = todas[id]
+	var medidas: Dictionary = todas[id].duplicate(true)
+	var detalhes := preload("res://codigo/cidade/fachadas_detalhadas.gd").dados(id)
+	if detalhes.has("chamine"): medidas.chamine = detalhes.chamine
+	if detalhes.has("janelas"): medidas.janelas = detalhes.janelas
 	var ancora := _ponto(medidas["ancora"])
 	var usado: Array = medidas["usado"]
 	_area_visual = Rect2(Vector2(usado[0], usado[1]) - ancora, Vector2(usado[2], usado[3]))

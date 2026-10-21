@@ -62,8 +62,10 @@ func aplicar_no(no: Node) -> void:
 		no.material = material_tiles
 	elif no.material is ShaderMaterial and no.material.shader != null and no.material.shader.resource_path == AGUA:
 		var material: ShaderMaterial = no.material
-		material.set_shader_parameter("intensidade_acabamento",1.0 if ativo else 0.0)
-		for referencia in _materiais_agua:
-			if referencia.get_ref() == material:
-				return
-		_materiais_agua.append(weakref(material))
+		registrar_material(material)
+
+func registrar_material(material: ShaderMaterial) -> void:
+	material.set_shader_parameter("intensidade_acabamento",1.0 if ativo else 0.0)
+	for referencia in _materiais_agua:
+		if referencia.get_ref() == material: return
+	_materiais_agua.append(weakref(material))

@@ -1,23 +1,23 @@
-[gd_scene load_steps=121 format=3 uid="uid://y6c4hi6s1u75"]
+[gd_scene load_steps=105 format=3 uid="uid://y6c4hi6s1u75"]
 
-[ext_resource type="Texture2D" uid="uid://dutbynh6yeyky" path="res://assets/personagens/Body_sword_chield/body_attack_sword.png" id="2_240al"]
-[ext_resource type="Texture2D" uid="uid://bj2dckfe0s2an" path="res://assets/personagens/Body/body_1.png" id="2_byhnc"]
+[ext_resource type="Texture2D" path="res://assets/personagens/raven_fantasy/paginas/corpo_0/espada.png" id="2_240al"]
+[ext_resource type="Texture2D" path="res://assets/personagens/raven_fantasy/paginas/corpo_0/andar.png" id="2_byhnc"]
 [ext_resource type="Script" uid="uid://dvsbtqoamhc8m" path="res://codigo/jogador/jogador.gd" id="2_chf58"]
-[ext_resource type="Texture2D" uid="uid://k3won5e66cko" path="res://assets/personagens/Arms/swords/Attack/slash_1.png" id="3_6225j"]
+[ext_resource type="Texture2D" path="res://assets/personagens/raven_fantasy/paginas/ferramentas/espada.png" id="3_6225j"]
 [ext_resource type="Script" uid="uid://cqyuuoock7jud" path="res://codigo/logica/camera_2d.gd" id="3_n2plp"]
-[ext_resource type="Texture2D" uid="uid://b0wjcry5wd3g3" path="res://assets/personagens/Arms/shields/attack/slash_1.png" id="4_itotg"]
-[ext_resource type="Texture2D" uid="uid://bsuewacssgjp5" path="res://assets/personagens/Hair/Attack/slash_1_sword/hair (2).png" id="5_dhdeu"]
-[ext_resource type="Texture2D" uid="uid://mxo6i5b00rqu" path="res://assets/personagens/Outfit/Attack/slash_1_sword/outfit(6).png" id="6_eyb2q"]
-[ext_resource type="Texture2D" uid="uid://eb5l3k8wo8r6" path="res://assets/personagens/body_smithing/char_a_p4_0bas_humn_v00.png" id="8_wosc6"]
-[ext_resource type="Texture2D" uid="uid://bxbxhg818jes0" path="res://assets/personagens/Arms/spears/spear_1.png" id="9_bmu4u"]
-[ext_resource type="Texture2D" uid="uid://clmrtv1b5reav" path="res://assets/personagens/Outfit/outfit (5).png" id="9_g4yop"]
-[ext_resource type="Texture2D" uid="uid://bec6phxxxump4" path="res://assets/personagens/body_smithing/hammer/char_a_p4_6tla_smth_v01.png" id="9_qshsm"]
-[ext_resource type="Texture2D" uid="uid://ned7w30mtbaj" path="res://assets/personagens/body_smithing/Hair/hair (1).png" id="9_tc85l"]
-[ext_resource type="Texture2D" uid="uid://dhrbw3iux6qf2" path="res://assets/personagens/body_smithing/Outfit/outfit (1).png" id="10_4q0f0"]
-[ext_resource type="Texture2D" uid="uid://teb5b4tnci73" path="res://assets/personagens/Body_spear_combat/body_spear_combat.png" id="13_qgqgs"]
-[ext_resource type="Texture2D" uid="uid://dxaq6bttxa75q" path="res://assets/personagens/Hair/Attack/slash_1_spear/hair (2).png" id="14_bm8yk"]
-[ext_resource type="Texture2D" uid="uid://6scvwoi3pqxo" path="res://assets/personagens/Arms/spears/Attack/slash_1.png" id="15_n1wqr"]
-[ext_resource type="Texture2D" uid="uid://cdapg21502ibs" path="res://assets/personagens/Outfit/Attack/slash_1_spear/outfit (4).png" id="16_od6rl"]
+[ext_resource type="Texture2D" path="res://assets/personagens/raven_fantasy/paginas/vazio/espada.png" id="4_itotg"]
+[ext_resource type="Texture2D" path="res://assets/personagens/raven_fantasy/paginas/vazio/espada.png" id="5_dhdeu"]
+[ext_resource type="Texture2D" path="res://assets/personagens/raven_fantasy/paginas/vazio/espada.png" id="6_eyb2q"]
+[ext_resource type="Texture2D" path="res://assets/personagens/raven_fantasy/paginas/corpo_0/forja.png" id="8_wosc6"]
+[ext_resource type="Texture2D" path="res://assets/personagens/raven_fantasy/paginas/ferramentas/lanca.png" id="9_bmu4u"]
+[ext_resource type="Texture2D" path="res://assets/personagens/raven_fantasy/paginas/vazio/andar.png" id="9_g4yop"]
+[ext_resource type="Texture2D" path="res://assets/personagens/raven_fantasy/paginas/ferramentas/forja.png" id="9_qshsm"]
+[ext_resource type="Texture2D" path="res://assets/personagens/raven_fantasy/paginas/vazio/forja.png" id="9_tc85l"]
+[ext_resource type="Texture2D" path="res://assets/personagens/raven_fantasy/paginas/vazio/forja.png" id="10_4q0f0"]
+[ext_resource type="Texture2D" path="res://assets/personagens/raven_fantasy/paginas/corpo_0/lanca.png" id="13_qgqgs"]
+[ext_resource type="Texture2D" path="res://assets/personagens/raven_fantasy/paginas/vazio/lanca.png" id="14_bm8yk"]
+[ext_resource type="Texture2D" path="res://assets/personagens/raven_fantasy/paginas/ferramentas/lanca.png" id="15_n1wqr"]
+[ext_resource type="Texture2D" path="res://assets/personagens/raven_fantasy/paginas/vazio/lanca.png" id="16_od6rl"]
 [ext_resource type="Texture2D" path="res://recursos/luz/luz_radial.tres" id="90_luz"]
 [ext_resource type="Script" path="res://codigo/efeitos/luz_tremulante.gd" id="91_luz"]
 
@@ -8367,6 +8367,7 @@ collision_mask = 96
 script = ExtResource("2_chf58")
 
 [node name="CompositeSprites" type="Node2D" parent="."]
+visible = false
 texture_filter = 1
 position = Vector2(-7.62939e-06, 8.39233e-05)
 

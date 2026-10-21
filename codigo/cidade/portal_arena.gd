@@ -1,12 +1,11 @@
 extends Node2D
 
-## Portal da arena, na cidade: arco de pedra animado (gerado no PixelLab, folha de 9 quadros de 48x64 em
-## assets/cenario/cidade/objetos/portal_arena.png). Interagir (F/Y) abre o desafio, que teleporta o jogador para a arena e
+## Portal da arena: arco frontal4x sazonal, com nove quadros de redemoinho
+## em cidade/complementos/portal/. Interagir (F/Y) abre o desafio, teleporta para a arena e
 ## inicia a onda. A origem do nó é a base do arco: o sprite, o brilho e a colisão se medem a partir dela.
 const Profundidade := preload("res://codigo/globais/profundidade.gd")
 const SombraCidade := preload("res://codigo/cidade/sombra_cidade.gd")
 const InteragivelCidade := preload("res://codigo/logica/interagivel.gd")
-const FOLHA := preload("res://assets/cenario/cidade/objetos/portal_arena.png")
 const QUADROS := 9
 const LARGURA := 48
 const ALTURA := 64
@@ -20,29 +19,18 @@ const COR_BRILHO := Color(0.55, 0.62, 1.0)
 func _ready() -> void:
 	z_index = Profundidade.z_de(global_position.y)
 	_montar_sprite()
-	SombraCidade.projetar(self, "objetos/galinheiro", 38.0, 46.0)
+	SombraCidade.projetar(self, "objetos/portal", 38.0, 46.0)
 	_montar_colisao()
 	_montar_brilho()
 	_montar_interacao()
 
 func _montar_sprite() -> void:
-	var quadros := SpriteFrames.new()
-	quadros.add_animation("girar")
-	quadros.set_animation_speed("girar", QUADROS_POR_SEGUNDO)
-	quadros.set_animation_loop("girar", true)
-	for i in QUADROS:
-		var atlas := AtlasTexture.new()
-		atlas.atlas = FOLHA
-		atlas.region = Rect2(i * LARGURA, 0, LARGURA, ALTURA)
-		quadros.add_frame("girar", atlas)
-	var sprite := AnimatedSprite2D.new()
+	var sprite := Sprite2D.new()
 	sprite.name = "Arco"
-	sprite.sprite_frames = quadros
 	sprite.centered = false
 	sprite.offset = Vector2(-LARGURA / 2.0, -BASE_NA_FOLHA)
-	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	add_child(sprite)
-	sprite.play("girar")
+	preload("res://codigo/cidade/detalhe_ambiente.gd").instalar(self,sprite,preload("res://codigo/cidade/enfeites_detalhados.gd").dados("portal"))
 
 func _montar_colisao() -> void:
 	var corpo := StaticBody2D.new()

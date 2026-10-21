@@ -1,41 +1,43 @@
-[gd_scene load_steps=38 format=3]
+[gd_scene load_steps=39 format=3]
 
-[ext_resource type="Texture2D" path="res://assets/cenario/23.05a - Arctic Woodland 1.1/evergreen trees/evergreen trees (winter, top snow) 80x112.png" id="4_2bynm"]
+[ext_resource type="Texture2D" path="res://assets/cenario/substitutos/natureza/arvore_winter.png" id="4_2bynm"]
 
 [ext_resource type="Script" path="res://codigo/fendas/navegacao_fenda.gd" id="navegacao"]
 
 [ext_resource type="Script" path="res://codigo/cenario/profundidade_grupo.gd" id="prof_grupo"]
 
-[ext_resource type="Texture2D" path="res://assets/cenario/fendas/andar_08/winter.png" id="arena_folha"]
+[ext_resource type="Texture2D" path="res://assets/cenario/substitutos/fendas/andar_08/winter.png" id="arena_folha"]
 
-[ext_resource type="Texture2D" path="res://assets/cenario/Seasonal Forest/seasonal water animations/winter water sparkles B 16x16.png" id="brilho_folha"]
+[ext_resource type="Texture2D" path="res://assets/cenario/substitutos/natureza/brilho_winter.png" id="brilho_folha"]
 
 [ext_resource type="Script" path="res://codigo/cenario/estacoes.gd" id="estacoes_script"]
 
 [ext_resource type="Script" path="res://codigo/logica/passagem.gd" id="passagem_script"]
 
 
-[ext_resource type="Texture2D" path="res://assets/cenario/fendas/andar_08/spring.png" id="fenda_0"]
-[ext_resource type="Texture2D" path="res://assets/cenario/fendas/andar_08/summer.png" id="fenda_1"]
-[ext_resource type="Texture2D" path="res://assets/cenario/fendas/andar_08/autumn.png" id="fenda_2"]
-[ext_resource type="Texture2D" path="res://assets/cenario/fendas/andar_08/winter.png" id="fenda_3"]
+[ext_resource type="Texture2D" path="res://assets/cenario/substitutos/fendas/andar_08/spring.png" id="fenda_0"]
+[ext_resource type="Texture2D" path="res://assets/cenario/substitutos/fendas/andar_08/summer.png" id="fenda_1"]
+[ext_resource type="Texture2D" path="res://assets/cenario/substitutos/fendas/andar_08/autumn.png" id="fenda_2"]
+[ext_resource type="Texture2D" path="res://assets/cenario/substitutos/fendas/andar_08/winter.png" id="fenda_3"]
 
 [ext_resource type="Script" path="res://codigo/fendas/decoracao_sazonal.gd" id="decoracao_script"]
-[ext_resource type="Texture2D" path="res://assets/cenario/fendas/gentle_forest/v03/objetos_spring.png" id="decoracao_spring"]
-[ext_resource type="Texture2D" path="res://assets/cenario/fendas/gentle_forest/v03/objetos_summer.png" id="decoracao_summer"]
-[ext_resource type="Texture2D" path="res://assets/cenario/fendas/gentle_forest/v03/objetos_autumn.png" id="decoracao_autumn"]
-[ext_resource type="Texture2D" path="res://assets/cenario/fendas/gentle_forest/v03/objetos_winter.png" id="decoracao_winter"]
+[ext_resource type="Texture2D" path="res://assets/cenario/substitutos/fendas/florestas/objetos_spring.png" id="decoracao_spring"]
+[ext_resource type="Texture2D" path="res://assets/cenario/substitutos/fendas/florestas/objetos_summer.png" id="decoracao_summer"]
+[ext_resource type="Texture2D" path="res://assets/cenario/substitutos/fendas/florestas/objetos_autumn.png" id="decoracao_autumn"]
+[ext_resource type="Texture2D" path="res://assets/cenario/substitutos/fendas/florestas/objetos_winter.png" id="decoracao_winter"]
 
 [ext_resource type="Script" path="res://codigo/fendas/gentle_sazonal.gd" id="gentle_script"]
-[ext_resource type="Texture2D" path="res://assets/cenario/fendas/gentle_forest/v03/arvores_spring.png" id="gentle_spring"]
-[ext_resource type="Texture2D" path="res://assets/cenario/fendas/gentle_forest/v03/arvores_summer.png" id="gentle_summer"]
-[ext_resource type="Texture2D" path="res://assets/cenario/fendas/gentle_forest/v03/arvores_autumn.png" id="gentle_autumn"]
-[ext_resource type="Texture2D" path="res://assets/cenario/fendas/gentle_forest/v03/arvores_winter.png" id="gentle_winter"]
-[ext_resource type="Texture2D" path="res://assets/cenario/fendas/gentle_forest/v03/brilho.png" id="gentle_brilho"]
+[ext_resource type="Texture2D" path="res://assets/cenario/substitutos/arvores_florestas/v03/spring.png" id="gentle_spring"]
+[ext_resource type="Texture2D" path="res://assets/cenario/substitutos/arvores_florestas/v03/summer.png" id="gentle_summer"]
+[ext_resource type="Texture2D" path="res://assets/cenario/substitutos/arvores_florestas/v03/autumn.png" id="gentle_autumn"]
+[ext_resource type="Texture2D" path="res://assets/cenario/substitutos/arvores_florestas/v03/winter.png" id="gentle_winter"]
+[ext_resource type="Texture2D" path="res://assets/cenario/substitutos/natureza/brilho_spring.png" id="gentle_brilho"]
+[ext_resource type="Script" path="res://codigo/fendas/relevo_original.gd" id="relevo_proprio"]
+
 [sub_resource type="AtlasTexture" id="Atlas_n_1_2"]
 resource_name = "arvore"
 atlas = ExtResource("4_2bynm")
-region = Rect2(96, 245, 48, 86)
+region = Rect2(0, 0, 128, 128)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_arena"]
 texture = ExtResource("arena_folha")
@@ -370,7 +372,7 @@ region = Rect2(32, 128, 32, 32)
 [sub_resource type="AtlasTexture" id="Atlas_arbusto_m"]
 resource_name = "amostra"
 atlas = ExtResource("arena_folha")
-region = Rect2(0, 160, 32, 32)
+region = Rect2(16, 128, 16, 32)
 
 [sub_resource type="AtlasTexture" id="decoracao_8"]
 atlas = ExtResource("decoracao_spring")
@@ -18064,132 +18066,6 @@ offset = Vector2(-40,-95)
 
 metadata/arvore_gentle = true
 
-[node name="ArbustoMargem28" type="Sprite2D" parent="Objetos3D"]
-position = Vector2(-637, -358)
-texture = SubResource("Atlas_arbusto_m")
-centered = false
-offset = Vector2(-16, -31)
-
-[node name="ArbustoMargem34" type="Sprite2D" parent="Objetos3D"]
-position = Vector2(615, -187)
-texture = SubResource("Atlas_arbusto_m")
-centered = false
-offset = Vector2(-16, -31)
-
-[node name="ArbustoMargem43" type="Sprite2D" parent="Objetos3D"]
-position = Vector2(-1369, 128)
-texture = SubResource("Atlas_arbusto_m")
-centered = false
-offset = Vector2(-16, -31)
-
-[node name="ArbustoMargem54" type="Sprite2D" parent="Objetos3D"]
-position = Vector2(837, 251)
-texture = SubResource("Atlas_arbusto_m")
-centered = false
-offset = Vector2(-16, -31)
-
-[node name="ArbustoMargem57" type="Sprite2D" parent="Objetos3D"]
-position = Vector2(113, 19)
-texture = SubResource("Atlas_arbusto_m")
-centered = false
-offset = Vector2(-16, -31)
-
-[node name="ArbustoMargem70" type="Sprite2D" parent="Objetos3D"]
-position = Vector2(1053, 92)
-texture = SubResource("Atlas_arbusto_m")
-centered = false
-offset = Vector2(-16, -31)
-
-[node name="ArbustoMargem77" type="Sprite2D" parent="Objetos3D"]
-position = Vector2(1110, 194)
-texture = SubResource("Atlas_arbusto_m")
-centered = false
-offset = Vector2(-16, -31)
-
-[node name="ArbustoMargem80" type="Sprite2D" parent="Objetos3D"]
-position = Vector2(-1078, -208)
-texture = SubResource("Atlas_arbusto_m")
-centered = false
-offset = Vector2(-16, -31)
-
-[node name="ArbustoMargem83" type="Sprite2D" parent="Objetos3D"]
-position = Vector2(-157, 440)
-texture = SubResource("Atlas_arbusto_m")
-centered = false
-offset = Vector2(-16, -31)
-
-[node name="ArbustoMargem88" type="Sprite2D" parent="Objetos3D"]
-position = Vector2(-994, 162)
-texture = SubResource("Atlas_arbusto_m")
-centered = false
-offset = Vector2(-16, -31)
-
-[node name="ArbustoMargem102" type="Sprite2D" parent="Objetos3D"]
-position = Vector2(-469, 207)
-texture = SubResource("Atlas_arbusto_m")
-centered = false
-offset = Vector2(-16, -31)
-
-[node name="ArbustoMargem108" type="Sprite2D" parent="Objetos3D"]
-position = Vector2(-181, -259)
-texture = SubResource("Atlas_arbusto_m")
-centered = false
-offset = Vector2(-16, -31)
-
-[node name="ArbustoMargem110" type="Sprite2D" parent="Objetos3D"]
-position = Vector2(1118, -48)
-texture = SubResource("Atlas_arbusto_m")
-centered = false
-offset = Vector2(-16, -31)
-
-[node name="ArbustoMargem112" type="Sprite2D" parent="Objetos3D"]
-position = Vector2(-1376, -107)
-texture = SubResource("Atlas_arbusto_m")
-centered = false
-offset = Vector2(-16, -31)
-
-[node name="ArbustoMargem117" type="Sprite2D" parent="Objetos3D"]
-position = Vector2(-1405, 79)
-texture = SubResource("Atlas_arbusto_m")
-centered = false
-offset = Vector2(-16, -31)
-
-[node name="ArbustoMargem118" type="Sprite2D" parent="Objetos3D"]
-position = Vector2(-44, 164)
-texture = SubResource("Atlas_arbusto_m")
-centered = false
-offset = Vector2(-16, -31)
-
-[node name="ArbustoMargem120" type="Sprite2D" parent="Objetos3D"]
-position = Vector2(961, 303)
-texture = SubResource("Atlas_arbusto_m")
-centered = false
-offset = Vector2(-16, -31)
-
-[node name="ArbustoMargem143" type="Sprite2D" parent="Objetos3D"]
-position = Vector2(-1147, 154)
-texture = SubResource("Atlas_arbusto_m")
-centered = false
-offset = Vector2(-16, -31)
-
-[node name="ArbustoMargem156" type="Sprite2D" parent="Objetos3D"]
-position = Vector2(1502, 248)
-texture = SubResource("Atlas_arbusto_m")
-centered = false
-offset = Vector2(-16, -31)
-
-[node name="ArbustoMargem164" type="Sprite2D" parent="Objetos3D"]
-position = Vector2(1031, 99)
-texture = SubResource("Atlas_arbusto_m")
-centered = false
-offset = Vector2(-16, -31)
-
-[node name="ArbustoMargem182" type="Sprite2D" parent="Objetos3D"]
-position = Vector2(-503, -354)
-texture = SubResource("Atlas_arbusto_m")
-centered = false
-offset = Vector2(-16, -31)
-
 [node name="LimiteArena" type="StaticBody2D" parent="."]
 collision_layer = 64
 collision_mask = 0
@@ -18999,90 +18875,6 @@ polygon = PackedVector2Array(-369, 643, -351, 643, -351, 653, -369, 653)
 metadata/sprite_colisao = "AbetoBorda2109"
 polygon = PackedVector2Array(-184, 636, -166, 636, -166, 646, -184, 646)
 
-[node name="Obstaculo201" type="CollisionPolygon2D" parent="Obstaculos"]
-metadata/sprite_colisao = "ArbustoMargem28"
-polygon = PackedVector2Array(-649, -366, -625, -366, -625, -358, -649, -358)
-
-[node name="Obstaculo202" type="CollisionPolygon2D" parent="Obstaculos"]
-metadata/sprite_colisao = "ArbustoMargem34"
-polygon = PackedVector2Array(603, -195, 627, -195, 627, -187, 603, -187)
-
-[node name="Obstaculo203" type="CollisionPolygon2D" parent="Obstaculos"]
-metadata/sprite_colisao = "ArbustoMargem43"
-polygon = PackedVector2Array(-1381, 120, -1357, 120, -1357, 128, -1381, 128)
-
-[node name="Obstaculo204" type="CollisionPolygon2D" parent="Obstaculos"]
-metadata/sprite_colisao = "ArbustoMargem54"
-polygon = PackedVector2Array(825, 243, 849, 243, 849, 251, 825, 251)
-
-[node name="Obstaculo205" type="CollisionPolygon2D" parent="Obstaculos"]
-metadata/sprite_colisao = "ArbustoMargem57"
-polygon = PackedVector2Array(101, 11, 125, 11, 125, 19, 101, 19)
-
-[node name="Obstaculo206" type="CollisionPolygon2D" parent="Obstaculos"]
-metadata/sprite_colisao = "ArbustoMargem70"
-polygon = PackedVector2Array(1041, 84, 1065, 84, 1065, 92, 1041, 92)
-
-[node name="Obstaculo207" type="CollisionPolygon2D" parent="Obstaculos"]
-metadata/sprite_colisao = "ArbustoMargem77"
-polygon = PackedVector2Array(1098, 186, 1122, 186, 1122, 194, 1098, 194)
-
-[node name="Obstaculo208" type="CollisionPolygon2D" parent="Obstaculos"]
-metadata/sprite_colisao = "ArbustoMargem80"
-polygon = PackedVector2Array(-1090, -216, -1066, -216, -1066, -208, -1090, -208)
-
-[node name="Obstaculo209" type="CollisionPolygon2D" parent="Obstaculos"]
-metadata/sprite_colisao = "ArbustoMargem83"
-polygon = PackedVector2Array(-169, 432, -145, 432, -145, 440, -169, 440)
-
-[node name="Obstaculo210" type="CollisionPolygon2D" parent="Obstaculos"]
-metadata/sprite_colisao = "ArbustoMargem88"
-polygon = PackedVector2Array(-1006, 154, -982, 154, -982, 162, -1006, 162)
-
-[node name="Obstaculo211" type="CollisionPolygon2D" parent="Obstaculos"]
-metadata/sprite_colisao = "ArbustoMargem102"
-polygon = PackedVector2Array(-481, 199, -457, 199, -457, 207, -481, 207)
-
-[node name="Obstaculo212" type="CollisionPolygon2D" parent="Obstaculos"]
-metadata/sprite_colisao = "ArbustoMargem108"
-polygon = PackedVector2Array(-193, -267, -169, -267, -169, -259, -193, -259)
-
-[node name="Obstaculo213" type="CollisionPolygon2D" parent="Obstaculos"]
-metadata/sprite_colisao = "ArbustoMargem110"
-polygon = PackedVector2Array(1106, -56, 1130, -56, 1130, -48, 1106, -48)
-
-[node name="Obstaculo214" type="CollisionPolygon2D" parent="Obstaculos"]
-metadata/sprite_colisao = "ArbustoMargem112"
-polygon = PackedVector2Array(-1388, -115, -1364, -115, -1364, -107, -1388, -107)
-
-[node name="Obstaculo215" type="CollisionPolygon2D" parent="Obstaculos"]
-metadata/sprite_colisao = "ArbustoMargem117"
-polygon = PackedVector2Array(-1417, 71, -1393, 71, -1393, 79, -1417, 79)
-
-[node name="Obstaculo216" type="CollisionPolygon2D" parent="Obstaculos"]
-metadata/sprite_colisao = "ArbustoMargem118"
-polygon = PackedVector2Array(-56, 156, -32, 156, -32, 164, -56, 164)
-
-[node name="Obstaculo217" type="CollisionPolygon2D" parent="Obstaculos"]
-metadata/sprite_colisao = "ArbustoMargem120"
-polygon = PackedVector2Array(949, 295, 973, 295, 973, 303, 949, 303)
-
-[node name="Obstaculo218" type="CollisionPolygon2D" parent="Obstaculos"]
-metadata/sprite_colisao = "ArbustoMargem143"
-polygon = PackedVector2Array(-1159, 146, -1135, 146, -1135, 154, -1159, 154)
-
-[node name="Obstaculo219" type="CollisionPolygon2D" parent="Obstaculos"]
-metadata/sprite_colisao = "ArbustoMargem156"
-polygon = PackedVector2Array(1490, 240, 1514, 240, 1514, 248, 1490, 248)
-
-[node name="Obstaculo220" type="CollisionPolygon2D" parent="Obstaculos"]
-metadata/sprite_colisao = "ArbustoMargem164"
-polygon = PackedVector2Array(1019, 91, 1043, 91, 1043, 99, 1019, 99)
-
-[node name="Obstaculo221" type="CollisionPolygon2D" parent="Obstaculos"]
-metadata/sprite_colisao = "ArbustoMargem182"
-polygon = PackedVector2Array(-515, -362, -491, -362, -491, -354, -515, -354)
-
 [node name="Obstaculo222" type="CollisionPolygon2D" parent="Obstaculos"]
 metadata/sprite_colisao = "Marco000"
 polygon = PackedVector2Array(-1723, -283, -1722, -285, -1721, -286, -1683, -286, -1681, -285, -1681, -282, -1682, -281, -1686, -280, -1714, -276, -1715, -276, -1718, -277, -1723, -281)
@@ -19247,6 +19039,10 @@ polygon = PackedVector2Array(1268, -123, 1270, -127, 1277, -132, 1299, -132, 130
 metadata/sprite_colisao = "Marco077"
 polygon = PackedVector2Array(1520, 181, 1522, 177, 1529, 172, 1551, 172, 1552, 173, 1552, 174, 1551, 180, 1542, 182, 1520, 182)
 
+[node name="RelevoOriginal" type="Node2D" parent="."]
+script = ExtResource("relevo_proprio")
+andar = 8
+
 [node name="Navegacao" type="NavigationRegion2D" parent="."]
 script = ExtResource("navegacao")
 folga_adicional = 4.0
@@ -19255,7 +19051,6 @@ folga_adicional = 4.0
 script = ExtResource("estacoes_script")
 estacao_inicial = 3
 seguir_calendario = true
-brilhos_personalizados = Array[Texture2D]([ExtResource("gentle_brilho"),ExtResource("gentle_brilho"),ExtResource("gentle_brilho"),ExtResource("gentle_brilho")])
 folhas_personalizadas = Array[Texture2D]([ExtResource("fenda_0"), ExtResource("fenda_1"), ExtResource("fenda_2"), ExtResource("fenda_3")])
 area_clima_centro = Vector2(0.0, 0.0)
 area_clima_extensao = Vector2(1850.0, 720.0)

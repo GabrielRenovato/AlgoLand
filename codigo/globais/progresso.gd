@@ -453,7 +453,7 @@ func adicionar_materiais_forja(ganhos: Dictionary, inventario: Node = null) -> b
 func aprender_receita(tipo: String, inventario: Node) -> String:
 	if not resolver_mochila_pendente():
 		return "NAO FOI POSSIVEL SALVAR. TENTE NOVAMENTE."
-	if not ForjaArmas.RECEITAS.has(tipo):
+	if not ForjaArmas.RECEITAS.has(tipo) or tipo in ForjaArmas.ARMAS_RETIRADAS:
 		return "RECEITA DESCONHECIDA"
 	if receita_liberada(tipo):
 		return "RECEITA JA APRENDIDA"
@@ -472,7 +472,7 @@ func aprender_receita(tipo: String, inventario: Node) -> String:
 func motivo_fabricar_arma(tipo: String, inventario: Node = null) -> String:
 	if not encomenda_forja.is_empty():
 		return "IVO JA TEM UMA ENCOMENDA"
-	if not ForjaArmas.RECEITAS.has(tipo):
+	if not ForjaArmas.RECEITAS.has(tipo) or tipo in ForjaArmas.ARMAS_RETIRADAS:
 		return "RECEITA DESCONHECIDA"
 	if arma_liberada(tipo):
 		return "MODELO JA FABRICADO"

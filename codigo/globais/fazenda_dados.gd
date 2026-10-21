@@ -122,7 +122,7 @@ const MSG_ENTULHO := {"pedra": "PEDRA NO CAMINHO: USE A PICARETA", "arbusto": "A
 const ENTULHO_INICIAL := 60
 const ENTULHO_POR_NOITE := 4
 const ENTULHO_MAXIMO := 90
-const PESOS_ENTULHO := {"mato": 35, "pedra": 30, "arbusto": 20, "arvoreta": 15}
+const PESOS_ENTULHO := {"mato": 35, "pedra": 30, "arvoreta": 15}
 
 ## Dados das plantas: ficam em codigo/dados/plantas.gd (os nomes antigos continuam valendo aqui)
 const TIRAS := Plantas.TIRAS
@@ -629,6 +629,8 @@ func recurso_removido(chave: String) -> bool:
 	if not removidos.has(chave):
 		return false
 	var item: Dictionary = removidos[chave]
+	if item["tipo"] == "arvore" and bool(item.get("toco", false)):
+		return true
 	if Calendario.dia - int(item["dia"]) >= int(RECRESCER.get(item["tipo"], 3)):
 		removidos.erase(chave)
 		_agendar_salvamento()
@@ -639,14 +641,25 @@ func remover_recurso(chave: String, tipo: String, toco := false) -> void:
 	removidos[chave] = {"dia": Calendario.dia, "tipo": tipo, "toco": toco}
 	_agendar_salvamento()
 
-## A árvore caída ainda tem o toco? (o toco sai com mais golpes de machadinha; a árvore volta inteira depois)
+## O toco permanece até ser arrancado; o crescimento só começa depois disso.
 func tem_toco(chave: String) -> bool:
 	return recurso_removido(chave) and bool(removidos[chave].get("toco", false))
 
 func arrancar_toco(chave: String) -> void:
 	if removidos.has(chave):
 		removidos[chave]["toco"] = false
+		removidos[chave]["dia"] = Calendario.dia
 		_agendar_salvamento()
+
+## 0 semente, 1 broto, 2 muda, 3 jovem, 4 adulta; -1 ainda é toco.
+## Reaproveita o prazo e o formato do save existentes, inclusive partidas antigas.
+func estagio_arvore(chave: String) -> int:
+	if not recurso_removido(chave):
+		return 4
+	var item: Dictionary = removidos[chave]
+	if bool(item.get("toco", false)):
+		return -1
+	return clampi(Calendario.dia - int(item["dia"]), 0, 3)
 
 # --- Ferramenta ativa --------------------------------------------------------------------------------------
 

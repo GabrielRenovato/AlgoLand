@@ -11,7 +11,7 @@ from preparar_grama_mana_seed import mascaras
 def preparar():
     recortes = mascaras()['grama_pedra']
     for estacao in ['primavera', 'verao', 'outono', 'inverno']:
-        origem = Image.open(RAIZ / f'assets/cenario/cidade/terreno/mana_seed/{estacao}/grama_pedra.png').convert('RGBA')
+        origem = Image.open(RAIZ / f'assets/cenario/algoland_original/{estacao}/grama_pedra.png').convert('RGBA')
         for y in range(96):
             for x in range(64):
                 linha, coluna = y // 16, x // 16
@@ -26,7 +26,7 @@ def preparar_vegetacao():
     """Recorta a grama nativa; cantos e juncoes deixam a areia aparecer por baixo."""
     recortes = mascaras()['grama_terra']
     for estacao in ['primavera', 'verao', 'outono', 'inverno']:
-        origem = Image.open(RAIZ / f'assets/cenario/cidade/terreno/mana_seed/{estacao}/grama_terra.png').convert('RGBA')
+        origem = Image.open(RAIZ / f'assets/cenario/algoland_original/{estacao}/grama_terra.png').convert('RGBA')
         for y in range(96):
             for x in range(64):
                 linha, coluna = y // 16, x // 16

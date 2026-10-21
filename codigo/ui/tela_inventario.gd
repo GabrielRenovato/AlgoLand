@@ -4,7 +4,6 @@ const CENA_SLOT := preload("res://cenas/ui/componentes/slot_ui.tscn")
 const IconesItens := preload("res://codigo/ui/icones_itens.gd")
 const FONTE_DICA := preload("res://assets/ui/Planes_ValMore.ttf")
 const LARGURA_TEXTO_INFO := 90
-const GRADE_FOLHA_BONECO := Vector2i(8, 8)
 const NOMES_SLOTS_EQUIPAMENTO := ["SlotCabeca", "SlotCorpo", "SlotLuvas", "SlotBotas", "SlotEscudo", "SlotSecundaria"]
 ## Anéis e colar ainda não existem no jogo: os quadrados aparecem (com o símbolo apagado), mas não recebem foco nem item
 const NOMES_SLOTS_DECORATIVOS := ["SlotAnel1", "SlotAnel2", "SlotColar"]
@@ -38,9 +37,8 @@ var _missoes: ScrollContainer
 var lixeira: Button
 
 @onready var _grade: GridContainer = $Sidebar/Painel/Mochila
-@onready var _corpo: TextureRect = $Sidebar/Painel/Boneco/Corpo
-@onready var _roupa: TextureRect = $Sidebar/Painel/Boneco/Roupa
-@onready var _cabelo: TextureRect = $Sidebar/Painel/Boneco/Cabelo
+@onready var _boneco: Control = $Sidebar/Painel/Boneco
+var _previa: Sprite2D
 @onready var _atributos: GridContainer = $Sidebar/Atributos
 
 func _ready() -> void:
@@ -279,20 +277,15 @@ func _atualizar_boneco() -> void:
 	var jogador := EventosJogo.dono(self)
 	if jogador == null:
 		return
-	_corpo.texture = _quadro(jogador.sprite_corpo.texture, 0)
-	_roupa.texture = _quadro(jogador.sprite_roupa.texture, 0)
-	_cabelo.texture = _quadro(jogador.sprite_cabelo.texture, 0)
-	_cabelo.modulate = jogador.cor_cabelo
-
-func _quadro(textura: Texture2D, indice_quadro: int) -> Texture2D:
-	if textura == null:
-		return null
-	var atlas := AtlasTexture.new()
-	atlas.atlas = textura
-	var tamanho := textura.get_size() / Vector2(GRADE_FOLHA_BONECO)
-	var celula := Vector2(indice_quadro % GRADE_FOLHA_BONECO.x, indice_quadro / GRADE_FOLHA_BONECO.x)
-	atlas.region = Rect2(celula * tamanho, tamanho)
-	return atlas
+	var visual := jogador.get_node_or_null("HeroiRaven")
+	if visual == null:
+		return
+	for nome in ["Corpo","Roupa","Cabelo"]: _boneco.get_node(nome).hide()
+	if is_instance_valid(_previa): _previa.free()
+	_previa = visual.criar_previa()
+	_previa.name = "PreviaRaven"
+	_previa.position = Vector2(58,50)
+	_boneco.add_child(_previa)
 
 # --- Detalhe do item em foco (controle) ---
 

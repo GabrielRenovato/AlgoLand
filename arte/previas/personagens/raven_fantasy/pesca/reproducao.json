@@ -1,0 +1,43 @@
+{
+  "origem": "/tmp/algoland-pesca-previa-final/projeto/arte/previas/pesca_raven",
+  "duracoes_ms": [
+    67,
+    83,
+    83,
+    83,
+    83,
+    67,
+    83,
+    83,
+    83,
+    67,
+    83,
+    83,
+    83,
+    83,
+    67,
+    83,
+    83,
+    83,
+    83,
+    83,
+    67,
+    83,
+    83,
+    83,
+    83,
+    67,
+    83,
+    83,
+    83,
+    83,
+    67,
+    80
+  ],
+  "mudancas": [
+    "sem rastro no arremesso",
+    "boia sai apenas ao soltar a linha",
+    "disputa com haste flexível, sem repetir arremesso"
+  ],
+  "sprite": "Raven original; efeito removido apenas no material da ferramenta"
+}

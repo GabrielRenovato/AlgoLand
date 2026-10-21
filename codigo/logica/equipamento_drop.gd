@@ -86,7 +86,7 @@ static func criar_item(rng: RandomNumberGenerator, onda: int, mutante: bool, che
 	novo.tipo = tipo
 	var familia := Equipamentos.familia_de(tipo)
 	novo.categoria = "escudo" if familia == "escudo" else "arma"
-	novo.duas_maos = familia in ["lanca", "arco"]
+	novo.duas_maos = familia in ["lanca", "arco"] or bool(Equipamentos.ARMAS_ADICIONAIS.get(tipo, {}).get("duas_maos",false))
 	novo.nivel = nivel
 	novo.raridade = raridade
 	var conjunto := Conjuntos.de_tipo(tipo)

@@ -4,10 +4,10 @@ extends RefCounted
 ## A paleta vem dos tiles de terra pura da própria folha, sem estimar por brilho ou matiz.
 const LADO := 16
 const FOLHAS: Array[Texture2D] = [
-	preload("res://assets/cenario/Seasonal Forest/arena/spring.png"),
-	preload("res://assets/cenario/Seasonal Forest/arena/summer.png"),
-	preload("res://assets/cenario/Seasonal Forest/arena/autumn.png"),
-	preload("res://assets/cenario/Seasonal Forest/arena/winter.png"),
+	preload("res://assets/cenario/substitutos/natureza/spring.png"),
+	preload("res://assets/cenario/substitutos/natureza/summer.png"),
+	preload("res://assets/cenario/substitutos/natureza/autumn.png"),
+	preload("res://assets/cenario/substitutos/natureza/winter.png"),
 ]
 const CENTROS: Array[Vector2i] = [Vector2i(2, 1), Vector2i(4, 0), Vector2i(4, 1), Vector2i(4, 2), Vector2i(4, 3), Vector2i(4, 4)]
 static var _imagens: Dictionary = {}

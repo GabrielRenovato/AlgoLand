@@ -1,0 +1,16 @@
+{
+  "origem": "image_gen: revisão de nitidez em arte/fontes/cenario/nitidez/; modelo da árvore escolhido anteriormente preservado como referência",
+  "receita": "ferramentas/cenario/gerar_natureza_original.py",
+  "grade": 16,
+  "estacoes": [
+    "primavera",
+    "verao",
+    "outono",
+    "inverno"
+  ],
+  "arte_preservada": "Guia do calçamento local PixelLab. Mana Seed usado como referência nos prompts; árvores, grama e pedras consomem a revisão nitidez/; arbustos rejeitados foram removidos.",
+  "estudo_nao_usado_como_tile": "direcao_materiais.png",
+  "grama_atual": "arte/fontes/cenario/grama_tufos/quatro_estacoes.png; preparo em ferramentas/cenario/grama_do_topo.py. Síntese pixel a pixel da faixa do morro rejeitada.",
+  "terra_atual": "arte/fontes/cenario/terra_natural/quatro_estacoes.png; preparo em ferramentas/cenario/preparar_terra_natural.py e integração em codigo/cenario/terra_continua.gd.",
+  "arvores_atuais": "arte/fontes/cenario/arvores_nitidas_v2/; preparar_arvores_floresta.py; folhosa e pinheiro nas quatro estações."
+}

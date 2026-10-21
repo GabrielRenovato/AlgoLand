@@ -1,0 +1,27 @@
+{
+  "origem": "Sprite original gerado com image_gen; não pertence ao pacote Raven nem ao Mana Seed.",
+  "funcao": "Projétil do arco do jogador",
+  "referencia": "Paleta sóbria de madeira, marfim e aço do arco Raven",
+  "grade": [
+    32,
+    8
+  ],
+  "conteudo": [
+    20,
+    5
+  ],
+  "pivo": [
+    16,
+    4
+  ],
+  "direcao_nativa": "esquerda",
+  "transformacao": "Recorte por alfa>=192, recuperação da grade20x5 por vizinho mais próximo e alfa binário; translação6,1 em tela32x8. Sem refinamento adicional no motor.",
+  "fonte_recorte": [
+    392,
+    240,
+    1781,
+    491
+  ],
+  "prompt": "Single original tiny pixel art arrow pointing LEFT, wooden shaft, steel triangular arrowhead, ivory fletching, six flat colors, clean transparent background, logical grid, no antialiasing/shadow/glow.",
+  "destino": "codigo/jogador/flecha.gd"
+}

@@ -58,6 +58,26 @@ func rodar() -> void:
 		await quadros()
 		await RenderingServer.frame_post_draw
 		vista.get_texture().get_image().save_png(saida+"detalhe_%02d.png" % andar)
+		if "--detalhes-cenario" in OS.get_cmdline_user_args() and andar in [1,2,5,8]:
+			var pontos := {}
+			if not dados.lago.lobos.is_empty():
+				pontos["lago"]=Vector2(dados.lago.lobos[0][0],dados.lago.lobos[0][1])
+			var penhasco: TileMapLayer=terreno.get_node("Penhasco")
+			for celula in penhasco.get_used_cells():
+				if penhasco.get_cell_atlas_coords(celula)==Vector2i(7,12):
+					pontos["relevo"]=penhasco.map_to_local(celula)+Vector2(16,-24)
+					break
+			if terreno.has_node("RelevoOriginal"):
+				var relevo: Node2D=terreno.get_node("RelevoOriginal")
+				var topo: Array=relevo.formacoes[0].topo
+				pontos["relevo"]=Vector2((topo[5][0]+topo[6][0])*0.5,topo[5][1])
+			for nome in pontos:
+				camera.position=pontos[nome]
+				for estacao in 4:
+					terreno.get_node("Estacoes").definir_estacao(estacao,true)
+					await quadros()
+					await RenderingServer.frame_post_draw
+					vista.get_texture().get_image().save_png(saida+"%s_%02d_%d.png" % [nome,andar,estacao])
 		print("RENDER ANDAR ",andar," quatro estacoes e detalhe")
 		terreno.queue_free()
 		camera.queue_free()

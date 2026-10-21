@@ -12,7 +12,14 @@ const MATERIAIS := {
 	"nucleo": {"nome": "NUCLEO DE GUARDIAO", "origem": "Derrote chefes da arena."},
 }
 const INICIAIS_LIVRES := ["espada_basica", "escudo_basico", "enxada", "regador", "machadinha", "picareta", "vara_pesca"]
+## Modelos antigos permanecem legíveis em saves e encomendas já pagas.
+const ARMAS_RETIRADAS := ["maca", "arco_curvo", "arco_longo"]
+static func receitas_ativas() -> Array:
+	return RECEITAS.keys().filter(func(tipo): return not tipo in ARMAS_RETIRADAS)
+
 const RECEITAS := {
+	"espada_basica": {"ferro": 2, "madeira": 2},
+	"escudo_basico": {"madeira": 4, "ferro": 2},
 	"lanca_basica": {"madeira": 4, "pedra": 2, "fragmento": 2},
 	"aljava_basica": {"fibra": 3, "fragmento": 1},
 	"cabeca_basica": {"fibra": 2, "fragmento": 2},
@@ -40,6 +47,7 @@ const RECEITAS := {
 }
 ## Dias corridos do calendário do jogo; avançar ondas não reduz o prazo.
 const DIAS_FABRICACAO := {
+	"espada_basica": 2, "escudo_basico": 2,
 	"lanca_basica": 2,
 	"aljava_basica": 2,
 	"cabeca_basica": 2,
@@ -97,7 +105,7 @@ static func criar_item(tipo: String):
 	item.id = StringName(tipo)
 	item.tipo = tipo
 	item.categoria = CATEGORIAS.get(tipo,"arma")
-	item.duas_maos = tipo.begins_with("arco_") or tipo=="lanca_basica"
+	item.duas_maos = tipo.begins_with("arco_") or tipo in ["lanca_basica", "espada_gemea", "machado"]
 	var conjunto := Conjuntos.de_tipo(tipo)
 	if conjunto != null:
 		item.categoria = conjunto.TIPOS[tipo]["slot"]

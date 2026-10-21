@@ -109,8 +109,8 @@ def exterior():
         passagem(c,'Porta_'+ident,(bx,by+12),'cidade/'+ident,'entrada')
         c.no('Chegada_'+ident,'Marker2D',props=[f'position = {F.vec(bx,by+42)}'],grupos=['chegada'])
     # O rio só deixa passar na ponte, no fim da rua principal
-    for nome,y0,y1 in [('RioNorte',0,248),('RioSul',296,h)]:
-        ys=range(y0,y1+1,16)
+    for nome,y0,y1 in [('RioNorte',0,TV.PONTE_LIMITE_NORTE),('RioSul',TV.PONTE_LIMITE_SUL,h)]:
+        ys=sorted(set([y0,y1]+list(range(y0,y1+1,16))))
         pontos=[margem_rio(y,-1) for y in ys]+list(reversed([margem_rio(y,1) for y in ys]))
         c.no(nome,'CollisionPolygon2D','Obstaculos',['polygon = '+F.T.poligono(pontos)])
     c.no('Lago','CollisionPolygon2D','Obstaculos',['polygon = '+F.T.poligono(lago)])

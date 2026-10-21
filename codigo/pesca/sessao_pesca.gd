@@ -18,6 +18,8 @@ const ESPERA_MIN := 2.0
 const ESPERA_MAX := 6.0
 const JANELA_BELISCO := 1.5
 const DURACAO_LANCE := 0.55
+const INICIO_ARREMESSO := 0.28
+const FIM_GESTO_ARREMESSO := 0.38
 const ALCANCE := 44.0
 const TEMPO_FORCA := 1.0
 var forca_lancamento := 0.0
@@ -43,7 +45,6 @@ var _visual_visivel := true
 var _ataques_bloqueados := false
 var _tempo_puxao := 0.0
 var _tempo_recolhimento := 0.0
-const QUADROS_RECOLHIMENTO := [3,4,5,4]
 const TEMPO_QUADRO_RECOLHIMENTO := 0.14
 var _tempo_peixe := 0.0
 var _restaurado := false
@@ -196,18 +197,19 @@ func _sacudir_vara() -> void:
 
 func _atualizar_animacao(delta: float) -> void:
 	_tempo_puxao = maxf(0.0,_tempo_puxao-delta)
+	_animacao.tensao = 0.0
 	match estado:
 		Estado.CARREGANDO:
 			_animacao.pose(0)
 		Estado.LANCANDO:
-			_animacao.pose(0 if _tempo < 0.20 else (1 if _tempo < 0.28 else 2))
+			_animacao.pose(0 if _tempo < 0.20 else (1 if _tempo < INICIO_ARREMESSO else (2 if _tempo < FIM_GESTO_ARREMESSO else 3)))
 		Estado.ESPERANDO, Estado.BELISCANDO:
-			_animacao.pose(2)
+			_animacao.pose(2,true)
 		Estado.PUXANDO:
-			# Recolhe continuamente enquanto o peixe resiste; um acerto acelera o puxão.
+			# Mãos e pés apoiados; a vara cede à tensão e recupera após cada puxão.
 			_tempo_recolhimento += delta * (1.6 if _tempo_puxao > 0 else 1.0)
-			var quadro := int(_tempo_recolhimento/TEMPO_QUADRO_RECOLHIMENTO) % QUADROS_RECOLHIMENTO.size()
-			_animacao.pose(QUADROS_RECOLHIMENTO[quadro])
+			_animacao.pose(3,true)
+			_animacao.tensao = clampf(0.25+0.15*sin(_tempo_recolhimento*8.0)+0.65*sin(PI*_tempo_puxao/0.24),0.0,1.0)
 		Estado.PEGOU:
 			_animacao.pose(6 if _tempo < 0.16 else 7)
 
@@ -331,17 +333,26 @@ func _draw() -> void:
 		return
 	if estado == Estado.PEGOU:
 		return
+	# Os dois quadros de preparação já contêm a boia presa à vara.
+	if estado == Estado.LANCANDO and _tempo < INICIO_ARREMESSO:
+		return
 	var ponta: Vector2 = _animacao.ponta() if is_instance_valid(_animacao) else Vector2(0,-12)
-	var progresso := clampf(_tempo / DURACAO_LANCE, 0.0, 1.0) if estado == Estado.LANCANDO else 1.0
-	var boia := ponta.lerp(_alvo, progresso)
-	if estado == Estado.LANCANDO:
-		boia.y -= sin(progresso * PI) * 22.0
-	else:
-		boia.y += roundf(sin(Time.get_ticks_msec() / 320.0))
-		if estado == Estado.BELISCANDO:
-			boia.y += 2.0 + roundf(sin(Time.get_ticks_msec() / 40.0))
+	var boia := posicao_boia()
 	draw_line(ponta, boia, Color(0.95, 0.96, 0.88, 0.7), 1.0)
 	if estado != Estado.LANCANDO:
 		var raio := 3.0 + fmod(Time.get_ticks_msec() / 400.0, 3.0)
 		draw_arc(_alvo + Vector2(0, 2), raio, 0.0, TAU, 14, Color(1, 1, 1, 0.35), 1.0)
 	draw_rect(Rect2(boia - Vector2(1, 1), Vector2(3, 3)), Color("d45548"))
+
+func posicao_boia() -> Vector2:
+	if estado == Estado.LANCANDO:
+		# A boia já saiu da vara: mudar a pose do braço não move sua trajetória.
+		var progresso := clampf((_tempo-INICIO_ARREMESSO)/(DURACAO_LANCE-INICIO_ARREMESSO),0.0,1.0)
+		var origem: Vector2 = _animacao.ponta_arremesso() if is_instance_valid(_animacao) else Vector2(0,-12)
+		var boia := origem.lerp(_alvo,progresso)
+		boia.y -= sin(progresso*PI)*22.0
+		return boia
+	var boia := _alvo+Vector2(0,roundf(sin(Time.get_ticks_msec()/320.0)))
+	if estado == Estado.BELISCANDO:
+		boia.y += 2.0+roundf(sin(Time.get_ticks_msec()/40.0))
+	return boia

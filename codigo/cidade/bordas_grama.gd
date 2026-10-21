@@ -20,7 +20,7 @@ func configurar(terreno: TileMapLayer, agua: TileMapLayer, nova_estacao: int) ->
 	if _terreno == null:
 		_terreno = terreno
 		_agua = agua
-		_mascara_agua = load("res://assets/cenario/cidade/terreno/witchbrook/mascara_agua.png").get_image()
+		_mascara_agua = load("res://assets/cenario/algoland_original/mascara_agua.png").get_image()
 		texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 		z_as_relative = false
 		z_index = -990

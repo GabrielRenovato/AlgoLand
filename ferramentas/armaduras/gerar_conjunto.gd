@@ -19,6 +19,16 @@ var _elmos_rigidos: Array[Image] = []
 var _ancoras_cartola: Array[int] = []
 var _deslocamentos_cranio: Array[int] = []
 
+## Recortes sem alteração de pixels; evita folhas de 9600 px no WebGL.
+func _gravar_paginas_web() -> void:
+	var acoes: Array = JSON.parse_string(FileAccess.get_file_as_string("res://assets/personagens/raven_fantasy/camadas/acoes.json"))
+	for peca in Padrao.PECAS:
+		var caminho: String = _destino+"raven_"+String(peca)
+		var imagem := Image.load_from_file(caminho+".png")
+		DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(caminho))
+		for i in acoes.size():
+			imagem.get_region(Rect2i(0,i*320,320,320)).save_png(caminho+"/"+String(acoes[i])+".png")
+
 func _initialize() -> void:
 	var args := OS.get_cmdline_user_args()
 	var manifesto := args[0] if not args.is_empty() else "res://ferramentas/armaduras/modelos/carrasco.json"
@@ -31,6 +41,10 @@ func _initialize() -> void:
 		return
 	_destino = String(_config["destino"])
 	_paleta = _config["paleta"]
+	if "--somente-web" in args:
+		_gravar_paginas_web()
+		quit(0)
+		return
 	if "--somente-acabamento" in args:
 		quit(0 if Acabamento.compilar_conjunto(_config) else 1)
 		return
@@ -46,46 +60,56 @@ func _initialize() -> void:
 	if not _preparar_pecas():
 		quit(1)
 		return
-	Image.create(512, 512, false, Image.FORMAT_RGBA8).save_png(_destino + "cabelo_oculto.png")
-	for pagina in CORPOS:
-		var corpo: Image = load("res://assets/personagens/" + CORPOS[pagina]).get_image()
-		var corpo_visivel := corpo.duplicate()
-		var cabelo: Image = Aparencia.cabelo(0, pagina).get_image()
-		var roupa: Image = Aparencia.roupa(2, pagina).get_image()
-		var folha := Image.create(512, 512, false, Image.FORMAT_RGBA8)
-		var folhas_pecas := {}
-		for peca in ["elmo", "peitoral", "luvas", "botas"]:
-			folhas_pecas[peca] = Image.create(512, 512, false, Image.FORMAT_RGBA8)
-		var poses := 0
-		for linha in 8:
-			for coluna in 8:
-				var regiao := Rect2i(coluna * 64, linha * 64, 64, 64)
-				var base := corpo.get_region(regiao)
-				var cabeca := cabelo.get_region(regiao).get_used_rect()
-				if base.is_invisible() or cabeca.size == Vector2i.ZERO:
-					continue
-				var vestimenta := roupa.get_region(regiao)
-				if bool(_config.get("substituir_cabeca", false)):
-					var area := Rect2i(regiao.position + cabeca.position, Vector2i(cabeca.size.x, mini(13, 64 - cabeca.position.y)))
-					corpo_visivel.fill_rect(area, Color.TRANSPARENT)
-				var partes := _vestir_tecido(base, vestimenta, cabeca, linha % 4) if _config.get("modo_visual", "armadura") == "tecido" else _vestir(base, vestimenta, cabeca, linha % 4)
-				var quadro := Image.create(64, 64, false, Image.FORMAT_RGBA8)
-				for peca in ["peitoral", "botas", "luvas", "elmo"]:
-					quadro.blend_rect(partes[peca], Rect2i(0, 0, 64, 64), Vector2i.ZERO)
-					folhas_pecas[peca].blit_rect(partes[peca], Rect2i(0, 0, 64, 64), regiao.position)
-				folha.blit_rect(quadro, Rect2i(0, 0, 64, 64), regiao.position)
-				poses += 1
-		if folha.save_png(_destino + pagina + ".png") != OK:
-			quit(1)
-			return
-		if bool(_config.get("substituir_cabeca", false)):
-			DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(_destino + "corpo_sem_cabeca/"))
-			corpo_visivel.save_png(_destino + "corpo_sem_cabeca/" + pagina + ".png")
-		for peca in folhas_pecas:
-			DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(_destino + peca))
-			folhas_pecas[peca].save_png(_destino + peca + "/" + pagina + ".png")
-		print("Conjunto ", _config["id"], ": ", pagina, ", poses: ", poses)
-	quit(0 if _gravar_definicao() and Acabamento.compilar_conjunto(_config) else 1)
+	_gerar_raven()
+	quit(0 if _gravar_definicao() else 1)
+
+## Mesmas quatro peças e manifestos; poses e moldes exclusivamente Raven.
+func _gerar_raven() -> void:
+	var raven := preload("res://codigo/dados/aparencia_raven.gd")
+	var acoes: Array = JSON.parse_string(FileAccess.get_file_as_string(raven.RAIZ+"camadas/acoes.json"))
+	var corpo_atlas: Image = load(raven.RAIZ+"camadas/corpo_0.png").get_image()
+	var cabelo_atlas: Image = load(raven.RAIZ+"camadas/cabelo_1.png").get_image()
+	var roupas: Array[Image] = []
+	for camada in raven.pecas_roupa(1): roupas.append(load(raven.RAIZ+"camadas/"+camada+".png").get_image())
+	var folhas := {}
+	for peca in Padrao.PECAS: folhas[peca]=Image.create(320,320*acoes.size(),false,Image.FORMAT_RGBA8)
+	for i in acoes.size():
+		for d in 4:
+			for q in 4:
+				var pos := Vector2i(q*80+8,i*320+d*80+4)
+				var regiao := Rect2i(pos,Vector2i(64,64))
+				var corpo := corpo_atlas.get_region(regiao)
+				var cabelo := cabelo_atlas.get_region(regiao).get_used_rect()
+				var roupa := Image.create(64,64,false,Image.FORMAT_RGBA8)
+				for origem in roupas: roupa.blend_rect(origem,regiao,Vector2i.ZERO)
+				var direcao: int = [0,2,1,3][d]
+				var partes := _vestir_tecido(corpo,roupa,cabelo,direcao) if _config.get("modo_visual", "armadura")=="tecido" else _vestir(corpo,roupa,cabelo,direcao)
+				# Elmos rígidos e cartolas também deitam com a cabeça na queda lateral.
+				var silhueta := corpo.get_used_rect()
+				if silhueta.size.x > silhueta.size.y * 1.35 and (bool(_config["recortes"].get("elmo_rigido",false)) or _config.get("modo_visual", "armadura")=="tecido"):
+					var recorte: Rect2i = partes.elmo.get_used_rect()
+					var elmo: Image = partes.elmo.get_region(recorte)
+					elmo.rotate_90(CLOCKWISE if direcao==2 else COUNTERCLOCKWISE)
+					partes.elmo.fill(Color.TRANSPARENT)
+					partes.elmo.blit_rect(elmo,Rect2i(Vector2i.ZERO,elmo.get_size()),cabelo.get_center()-elmo.get_size()/2)
+				for peca in folhas: folhas[peca].blit_rect(partes[peca],Rect2i(0,0,64,64),pos)
+	var paginas := {"andar":"correr","fazenda":"enxada","forja":"forjar","sentado":"sentado","espada":"espada","lanca":"lanca","reacao_um_mao":"ferido","reacao_lanca":"ferido","reacao_arco":"ferido","arco_p2":"parado","arco_p3":"arco"}
+	for peca in folhas:
+		DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(_destino+peca))
+		folhas[peca].save_png(_destino+"raven_"+peca+".png")
+	for pagina in paginas:
+		var completo := Image.create(512,512,false,Image.FORMAT_RGBA8)
+		for peca in folhas:
+			var pagina_peca := Image.create(512,512,false,Image.FORMAT_RGBA8)
+			for d in 4:
+				for q in 8:
+					var origem := Rect2i((q%4)*80+8,acoes.find(paginas[pagina])*320+d*80+4,64,64)
+					for bloco in [0,4]: pagina_peca.blit_rect(folhas[peca],origem,Vector2i(q*64,([0,2,1,3][d]+bloco)*64))
+			pagina_peca.save_png(_destino+peca+"/"+pagina+".png")
+			completo.blend_rect(pagina_peca,Rect2i(0,0,512,512),Vector2i.ZERO)
+		completo.save_png(_destino+pagina+".png")
+	_gravar_paginas_web()
+	print("Conjunto Raven ",_config.id,": ",acoes.size()," ações, quatro peças e onze páginas.")
 
 func _gravar_definicao() -> bool:
 	var cadastro := FileAccess.open(_destino + "definicao.gd", FileAccess.WRITE)
@@ -160,7 +184,7 @@ func _preparar_pecas() -> bool:
 		var chapa := elmo.get_region(Rect2i(0, metade, elmo.get_width(), elmo.get_height() - metade)).get_used_rect()
 		_ancoras_elmo.append(chapa.get_center().x)
 		var regiao_idle := Rect2i(0, i * 64, 64, 64)
-		var cabelo_idle := Aparencia.cabelo(0, "andar").get_image().get_region(regiao_idle).get_used_rect()
+		var cabelo_idle := Aparencia.cabelo(1, "andar").get_image().get_region(regiao_idle).get_used_rect()
 		var corpo_idle: Image = load("res://assets/personagens/" + CORPOS["andar"]).get_image().get_region(regiao_idle)
 		var face_idle := corpo_idle.get_region(Rect2i(cabelo_idle.position, Vector2i(cabelo_idle.size.x, 13))).get_used_rect()
 		_deslocamentos_cabeca.append(face_idle.get_center().x - cabelo_idle.size.x / 2)

@@ -71,8 +71,8 @@ def gerar():
         [('res://assets/cenario/praia/vegetacao_orla/primavera.png',4,6,'MARGEM NATURAL DA ENSEADA')], 'VegetacaoOrla')
     grama = c.recurso('TileSet','res://recursos/praia/tileset_vegetacao_orla.tres','grama_orla')
     K.camada(c,'VegetacaoOrla',vegetacao,grama,'Terrains',z=-999)
-    piso_cais = 'res://assets/cenario/Starter Pack/home interiors, timber roof.png'
-    K.recurso_tileset('recursos/praia/tileset_cais.tres', [(piso_cais, 31, 16, 'MADEIRA NATIVA MANA SEED')], 'Cais')
+    piso_cais = 'res://assets/cenario/substitutos/interiores/madeira.png'
+    K.recurso_tileset('recursos/praia/tileset_cais.tres', [(piso_cais, 31, 16, 'MADEIRA PIXELLAB')], 'Cais')
     cais = c.recurso('TileSet', 'res://recursos/praia/tileset_cais.tres', 'cais')
     pier = {}
     for bx, by, largura, altura in layout['cais']:

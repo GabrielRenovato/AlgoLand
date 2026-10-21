@@ -1,8 +1,8 @@
 [gd_resource type="TileSet" load_steps=9 format=3]
-[ext_resource type="Texture2D" path="res://assets/cenario/cidade/terreno/mana_seed/primavera/grama_terra.png" id="0"]
-[ext_resource type="Texture2D" path="res://assets/cenario/cidade/terreno/mana_seed/primavera/grama_pedra.png" id="1"]
-[ext_resource type="Texture2D" path="res://assets/cenario/cidade/terreno/witchbrook/primavera/terra_pedra.png" id="2"]
-[ext_resource type="Texture2D" path="res://assets/cenario/cidade/terreno/mana_seed/primavera/grama_agua.png" id="3"]
+[ext_resource type="Texture2D" path="res://assets/cenario/algoland_original/primavera/grama_terra.png" id="0"]
+[ext_resource type="Texture2D" path="res://assets/cenario/algoland_original/primavera/grama_pedra.png" id="1"]
+[ext_resource type="Texture2D" path="res://assets/cenario/algoland_original/primavera/terra_pedra.png" id="2"]
+[ext_resource type="Texture2D" path="res://assets/cenario/algoland_original/primavera/grama_agua.png" id="3"]
 [sub_resource type="TileSetAtlasSource" id="Fonte0"]
 resource_name = "GRAMA E TERRA"
 texture = ExtResource("0")
@@ -116,7 +116,7 @@ texture_region_size = Vector2i(16, 16)
 2:5/0 = 0
 3:5/0 = 0
 [resource]
-resource_name = "Vila - grama Mana Seed"
+resource_name = "Vila - terrenos locais"
 resource_local_to_scene = true
 tile_size = Vector2i(16, 16)
 sources/0 = SubResource("Fonte0")

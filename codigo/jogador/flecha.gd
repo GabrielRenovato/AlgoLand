@@ -3,8 +3,7 @@ extends Area2D
 # Flecha disparada pelo arco. Os golpes passam pelo jogador (aplicar_golpe)
 # para que dano, crítico, roubo de vida e encantamentos valham também à distância.
 
-const ObjetosRefinados := preload("res://codigo/dados/objetos_refinados.gd")
-const TEXTURA := preload("res://assets/personagens/Arco/flecha.png")
+const TEXTURA := preload("res://assets/personagens/projeteis/flecha_original.png")
 const Profundidade := preload("res://codigo/globais/profundidade.gd")
 const VELOCIDADE := 320.0
 const ALCANCE := 280.0
@@ -27,7 +26,7 @@ func _init() -> void:
 	colisao.shape = forma
 	add_child(colisao)
 	var sprite := Sprite2D.new()
-	ObjetosRefinados.aplicar(sprite, TEXTURA)
+	sprite.texture = TEXTURA
 	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	add_child(sprite)
 	body_entered.connect(_ao_alvo_entrar)

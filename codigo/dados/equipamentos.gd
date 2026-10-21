@@ -22,16 +22,15 @@ const NIVEIS_CUSTO := [0, 200, 500, 1000, 2000]
 const MOEDAS_FORJA_POR_NIVEL := 1
 ## Ouro de cada ascensão de raridade da peça de conjunto no nível 5: comum>incomum, incomum>raro, raro>épico, épico>lendário
 const CUSTOS_ASCENSAO := [2500, 3500, 5000, 7000]
-# Armas compradas na loja. Espadas: sprites em assets/personagens/Arms/<id>/base_N.png e ataque_N.png.
-# Arcos: sprites em assets/personagens/Arco/arcos/<codigo>_N_p2.png (parado/andando) e _p3.png (disparo);
+# Armas e ícones Raven.
 # "tempo_disparo" multiplica a duração da animação de disparo (menor = mais rápido). "flechas" e "abertura_graus": quantas flechas saem de
 # uma vez e o ângulo entre elas (o arco longo atira 3 e é o mais lento). Com a força inicial (5) o dano por segundo de um nível 1 fica em
 # uns 30 (curto), 40 (curvo) e 63 (longo, se as 3 acertam): quanto mais caro o arco, mais ele rende.
 const ARMAS_ADICIONAIS := {
-	"espada_gemea": {"nome": "Espada Gêmea", "dano": [9, 13, 20, 30, 43], "preco": 400},
-	"machado": {"nome": "Machado", "dano": [10, 15, 22, 33, 47], "preco": 600},
+	"espada_gemea": {"nome": "Espada de Duas Mãos", "duas_maos": true, "dano": [9, 13, 20, 30, 43], "preco": 400},
+	"machado": {"nome": "Machado", "duas_maos": true, "dano": [10, 15, 22, 33, 47], "preco": 600},
 	"maca": {"nome": "Maça", "dano": [9, 14, 21, 31, 45], "preco": 500},
-	"arco_curto": {"nome": "Arco Curto", "codigo": "bo02", "duas_maos": true, "tempo_disparo": 0.5, "dano": [10, 15, 22, 33, 47], "preco": 500},
+	"arco_curto": {"nome": "Arco", "codigo": "bo02", "duas_maos": true, "tempo_disparo": 0.5, "dano": [10, 15, 22, 33, 47], "preco": 500},
 	"arco_curvo": {"nome": "Arco Curvo", "codigo": "bo01", "duas_maos": true, "tempo_disparo": 0.6, "dano": [19, 27, 40, 58, 81], "preco": 700},
 	"arco_longo": {"nome": "Arco Longo", "codigo": "bo03", "duas_maos": true, "tempo_disparo": 1.1, "flechas": 3, "abertura_graus": 11.0, "dano": [18, 26, 38, 56, 78], "preco": 900},
 }
@@ -45,36 +44,36 @@ var armas = {
 		"nome": "Espada Básica",
 		"niveis": {
 			1: {
-				"textura": preload("res://assets/personagens/Arms/swords/Sword_1.png"),
-				"textura_ataque": preload("res://assets/personagens/Arms/swords/Attack/slash_1.png"),
+				"textura": preload("res://assets/personagens/raven_fantasy/icones/espada_basica.png"),
+				"textura_ataque": preload("res://assets/personagens/raven_fantasy/icones/espada_basica.png"),
 				"onda_necessaria": 0,
 				"dano": 8,
 				"custo": 0
 			},
 			2: {
-				"textura": preload("res://assets/personagens/Arms/swords/swords_upgraded/2/Sword_1.png"),
-				"textura_ataque": preload("res://assets/personagens/Arms/swords/Attack/swords_upgraded/slash_1/2/slash_1.png"),
+				"textura": preload("res://assets/personagens/raven_fantasy/icones/espada_basica.png"),
+				"textura_ataque": preload("res://assets/personagens/raven_fantasy/icones/espada_basica.png"),
 				"onda_necessaria": 4,
 				"dano": 12,
 				"custo": 200
 			},
 			3: {
-				"textura": preload("res://assets/personagens/Arms/swords/swords_upgraded/3/Sword_1.png"),
-				"textura_ataque": preload("res://assets/personagens/Arms/swords/Attack/swords_upgraded/slash_1/3/slash_1.png"),
+				"textura": preload("res://assets/personagens/raven_fantasy/icones/espada_basica.png"),
+				"textura_ataque": preload("res://assets/personagens/raven_fantasy/icones/espada_basica.png"),
 				"onda_necessaria": 8,
 				"dano": 18,
 				"custo": 500
 			},
 			4: {
-				"textura": preload("res://assets/personagens/Arms/swords/swords_upgraded/4/Sword_1.png"),
-				"textura_ataque": preload("res://assets/personagens/Arms/swords/Attack/swords_upgraded/slash_1/4/slash_1.png"),
+				"textura": preload("res://assets/personagens/raven_fantasy/icones/espada_basica.png"),
+				"textura_ataque": preload("res://assets/personagens/raven_fantasy/icones/espada_basica.png"),
 				"onda_necessaria": 14,
 				"dano": 28,
 				"custo": 1000
 			},
 			5: {
-				"textura": preload("res://assets/personagens/Arms/swords/swords_upgraded/5/Sword_1.png"),
-				"textura_ataque": preload("res://assets/personagens/Arms/swords/Attack/swords_upgraded/slash_1/5/slash_1.png"),
+				"textura": preload("res://assets/personagens/raven_fantasy/icones/espada_basica.png"),
+				"textura_ataque": preload("res://assets/personagens/raven_fantasy/icones/espada_basica.png"),
 				"onda_necessaria": 22,
 				"dano": 40,
 				"custo": 2000
@@ -86,40 +85,40 @@ var armas = {
 		"nome": "Escudo Básico",
 		"niveis": {
 			1: {
-				"textura": preload("res://assets/personagens/Arms/shields/shield_1.png"),
-				"textura_ataque": preload("res://assets/personagens/Arms/shields/attack/slash_1.png"),
+				"textura": preload("res://assets/personagens/raven_fantasy/icones/escudo_basico.png"),
+				"textura_ataque": preload("res://assets/personagens/raven_fantasy/icones/escudo_basico.png"),
 				"onda_necessaria": 0,
 				"bonus_vitalidade": 2,
 				"bonus_defesa": 4,
 				"custo": 0
 			},
 			2: {
-				"textura": preload("res://assets/personagens/Arms/shields/shields_upgraded/2/shield_1.png"),
-				"textura_ataque": preload("res://assets/personagens/Arms/shields/attack/shields_upgraded/slash_1/2/slash_1.png"),
+				"textura": preload("res://assets/personagens/raven_fantasy/icones/escudo_basico.png"),
+				"textura_ataque": preload("res://assets/personagens/raven_fantasy/icones/escudo_basico.png"),
 				"onda_necessaria": 4,
 				"bonus_vitalidade": 4,
 				"bonus_defesa": 8,
 				"custo": 150
 			},
 			3: {
-				"textura": preload("res://assets/personagens/Arms/shields/shields_upgraded/3/shield_1.png"),
-				"textura_ataque": preload("res://assets/personagens/Arms/shields/attack/shields_upgraded/slash_1/3/slash_1.png"),
+				"textura": preload("res://assets/personagens/raven_fantasy/icones/escudo_basico.png"),
+				"textura_ataque": preload("res://assets/personagens/raven_fantasy/icones/escudo_basico.png"),
 				"onda_necessaria": 8,
 				"bonus_vitalidade": 6,
 				"bonus_defesa": 13,
 				"custo": 400
 			},
 			4: {
-				"textura": preload("res://assets/personagens/Arms/shields/shields_upgraded/4/shield_1.png"),
-				"textura_ataque": preload("res://assets/personagens/Arms/shields/attack/shields_upgraded/slash_1/4/slash_1.png"),
+				"textura": preload("res://assets/personagens/raven_fantasy/icones/escudo_basico.png"),
+				"textura_ataque": preload("res://assets/personagens/raven_fantasy/icones/escudo_basico.png"),
 				"onda_necessaria": 14,
 				"bonus_vitalidade": 9,
 				"bonus_defesa": 19,
 				"custo": 800
 			},
 			5: {
-				"textura": preload("res://assets/personagens/Arms/shields/shields_upgraded/5/shield_1.png"),
-				"textura_ataque": preload("res://assets/personagens/Arms/shields/attack/shields_upgraded/slash_1/5/slash_1.png"),
+				"textura": preload("res://assets/personagens/raven_fantasy/icones/escudo_basico.png"),
+				"textura_ataque": preload("res://assets/personagens/raven_fantasy/icones/escudo_basico.png"),
 				"onda_necessaria": 22,
 				"bonus_vitalidade": 12,
 				"bonus_defesa": 26,
@@ -132,36 +131,36 @@ var armas = {
 		"nome": "Lança Básica",
 		"niveis": {
 			1: {
-				"textura": preload("res://assets/personagens/Arms/spears/spear_1.png"),
-				"textura_ataque": preload("res://assets/personagens/Arms/spears/Attack/slash_1.png"),
+				"textura": preload("res://assets/personagens/raven_fantasy/icones/lanca_basica.png"),
+				"textura_ataque": preload("res://assets/personagens/raven_fantasy/icones/lanca_basica.png"),
 				"onda_necessaria": 0,
 				"dano": 11,
 				"custo": 0
 			},
 			2: {
-				"textura": preload("res://assets/personagens/Arms/spears/spears_upgraded/2/spear_1.png"),
-				"textura_ataque": preload("res://assets/personagens/Arms/spears/Attack/spears_upgraded/slash_1/2/slash_1.png"),
+				"textura": preload("res://assets/personagens/raven_fantasy/icones/lanca_basica.png"),
+				"textura_ataque": preload("res://assets/personagens/raven_fantasy/icones/lanca_basica.png"),
 				"onda_necessaria": 4,
 				"dano": 16,
 				"custo": 200
 			},
 			3: {
-				"textura": preload("res://assets/personagens/Arms/spears/spears_upgraded/3/spear_1.png"),
-				"textura_ataque": preload("res://assets/personagens/Arms/spears/Attack/spears_upgraded/slash_1/3/slash_1.png"),
+				"textura": preload("res://assets/personagens/raven_fantasy/icones/lanca_basica.png"),
+				"textura_ataque": preload("res://assets/personagens/raven_fantasy/icones/lanca_basica.png"),
 				"onda_necessaria": 8,
 				"dano": 24,
 				"custo": 500
 			},
 			4: {
-				"textura": preload("res://assets/personagens/Arms/spears/spears_upgraded/4/spear_1.png"),
-				"textura_ataque": preload("res://assets/personagens/Arms/spears/Attack/spears_upgraded/slash_1/4/slash_1.png"),
+				"textura": preload("res://assets/personagens/raven_fantasy/icones/lanca_basica.png"),
+				"textura_ataque": preload("res://assets/personagens/raven_fantasy/icones/lanca_basica.png"),
 				"onda_necessaria": 14,
 				"dano": 37,
 				"custo": 1000
 			},
 			5: {
-				"textura": preload("res://assets/personagens/Arms/spears/spears_upgraded/5/spear_1.png"),
-				"textura_ataque": preload("res://assets/personagens/Arms/spears/Attack/spears_upgraded/slash_1/5/slash_1.png"),
+				"textura": preload("res://assets/personagens/raven_fantasy/icones/lanca_basica.png"),
+				"textura_ataque": preload("res://assets/personagens/raven_fantasy/icones/lanca_basica.png"),
 				"onda_necessaria": 22,
 				"dano": 52,
 				"custo": 2000
@@ -175,31 +174,31 @@ var armaduras = {
 		"nome": "Elmo",
 		"niveis": {
 			1: {
-				"textura": preload("res://assets/personagens/Armors/1/head.png"),
+				"textura": preload("res://assets/personagens/raven_fantasy/icones/cabeca_basica.png"),
 				"onda_necessaria": 0,
 				"bonus_vitalidade": 2,
 				"bonus_defesa": 2
 			},
 			2: {
-				"textura": preload("res://assets/personagens/Armors/2/head.png"),
+				"textura": preload("res://assets/personagens/raven_fantasy/icones/cabeca_basica.png"),
 				"onda_necessaria": 4,
 				"bonus_vitalidade": 3,
 				"bonus_defesa": 4
 			},
 			3: {
-				"textura": preload("res://assets/personagens/Armors/3/head.png"),
+				"textura": preload("res://assets/personagens/raven_fantasy/icones/cabeca_basica.png"),
 				"onda_necessaria": 8,
 				"bonus_vitalidade": 5,
 				"bonus_defesa": 7
 			},
 			4: {
-				"textura": preload("res://assets/personagens/Armors/4/head.png"),
+				"textura": preload("res://assets/personagens/raven_fantasy/icones/cabeca_basica.png"),
 				"onda_necessaria": 14,
 				"bonus_vitalidade": 7,
 				"bonus_defesa": 10
 			},
 			5: {
-				"textura": preload("res://assets/personagens/Armors/5/head.png"),
+				"textura": preload("res://assets/personagens/raven_fantasy/icones/cabeca_basica.png"),
 				"onda_necessaria": 22,
 				"bonus_vitalidade": 9,
 				"bonus_defesa": 14
@@ -210,31 +209,31 @@ var armaduras = {
 		"nome": "Peitoral",
 		"niveis": {
 			1: {
-				"textura": preload("res://assets/personagens/Armors/1/armor.png"),
+				"textura": preload("res://assets/personagens/raven_fantasy/icones/armadura_basica.png"),
 				"onda_necessaria": 0,
 				"bonus_vitalidade": 3,
 				"bonus_defesa": 3
 			},
 			2: {
-				"textura": preload("res://assets/personagens/Armors/2/armor.png"),
+				"textura": preload("res://assets/personagens/raven_fantasy/icones/armadura_basica.png"),
 				"onda_necessaria": 4,
 				"bonus_vitalidade": 5,
 				"bonus_defesa": 6
 			},
 			3: {
-				"textura": preload("res://assets/personagens/Armors/3/armor.png"),
+				"textura": preload("res://assets/personagens/raven_fantasy/icones/armadura_basica.png"),
 				"onda_necessaria": 8,
 				"bonus_vitalidade": 8,
 				"bonus_defesa": 10
 			},
 			4: {
-				"textura": preload("res://assets/personagens/Armors/4/armor.png"),
+				"textura": preload("res://assets/personagens/raven_fantasy/icones/armadura_basica.png"),
 				"onda_necessaria": 14,
 				"bonus_vitalidade": 11,
 				"bonus_defesa": 15
 			},
 			5: {
-				"textura": preload("res://assets/personagens/Armors/5/armor.png"),
+				"textura": preload("res://assets/personagens/raven_fantasy/icones/armadura_basica.png"),
 				"onda_necessaria": 22,
 				"bonus_vitalidade": 15,
 				"bonus_defesa": 20
@@ -245,31 +244,31 @@ var armaduras = {
 		"nome": "Manoplas",
 		"niveis": {
 			1: {
-				"textura": preload("res://assets/personagens/Armors/1/gloves.png"),
+				"textura": preload("res://assets/personagens/raven_fantasy/icones/luvas_basicas.png"),
 				"onda_necessaria": 0,
 				"bonus_vitalidade": 1,
 				"bonus_defesa": 1
 			},
 			2: {
-				"textura": preload("res://assets/personagens/Armors/2/gloves.png"),
+				"textura": preload("res://assets/personagens/raven_fantasy/icones/luvas_basicas.png"),
 				"onda_necessaria": 4,
 				"bonus_vitalidade": 2,
 				"bonus_defesa": 2
 			},
 			3: {
-				"textura": preload("res://assets/personagens/Armors/3/gloves.png"),
+				"textura": preload("res://assets/personagens/raven_fantasy/icones/luvas_basicas.png"),
 				"onda_necessaria": 8,
 				"bonus_vitalidade": 3,
 				"bonus_defesa": 3
 			},
 			4: {
-				"textura": preload("res://assets/personagens/Armors/4/gloves.png"),
+				"textura": preload("res://assets/personagens/raven_fantasy/icones/luvas_basicas.png"),
 				"onda_necessaria": 14,
 				"bonus_vitalidade": 4,
 				"bonus_defesa": 5
 			},
 			5: {
-				"textura": preload("res://assets/personagens/Armors/5/gloves.png"),
+				"textura": preload("res://assets/personagens/raven_fantasy/icones/luvas_basicas.png"),
 				"onda_necessaria": 22,
 				"bonus_vitalidade": 6,
 				"bonus_defesa": 7
@@ -280,31 +279,31 @@ var armaduras = {
 		"nome": "Botas",
 		"niveis": {
 			1: {
-				"textura": preload("res://assets/personagens/Armors/1/boots.png"),
+				"textura": preload("res://assets/personagens/raven_fantasy/icones/botas_basicas.png"),
 				"onda_necessaria": 0,
 				"bonus_vitalidade": 1,
 				"bonus_defesa": 1
 			},
 			2: {
-				"textura": preload("res://assets/personagens/Armors/2/boots.png"),
+				"textura": preload("res://assets/personagens/raven_fantasy/icones/botas_basicas.png"),
 				"onda_necessaria": 4,
 				"bonus_vitalidade": 3,
 				"bonus_defesa": 2
 			},
 			3: {
-				"textura": preload("res://assets/personagens/Armors/3/boots.png"),
+				"textura": preload("res://assets/personagens/raven_fantasy/icones/botas_basicas.png"),
 				"onda_necessaria": 8,
 				"bonus_vitalidade": 4,
 				"bonus_defesa": 4
 			},
 			4: {
-				"textura": preload("res://assets/personagens/Armors/4/boots.png"),
+				"textura": preload("res://assets/personagens/raven_fantasy/icones/botas_basicas.png"),
 				"onda_necessaria": 14,
 				"bonus_vitalidade": 6,
 				"bonus_defesa": 6
 			},
 			5: {
-				"textura": preload("res://assets/personagens/Armors/5/boots.png"),
+				"textura": preload("res://assets/personagens/raven_fantasy/icones/botas_basicas.png"),
 				"onda_necessaria": 22,
 				"bonus_vitalidade": 8,
 				"bonus_defesa": 9
@@ -322,14 +321,10 @@ func _montar_arma_adicional(id: String) -> Dictionary:
 	var niveis := {}
 	var eh_arco: bool = definicao.has("codigo")
 	for i in 5:
-		var caminho_base := "res://assets/personagens/Arms/%s/base_%d.png" % [id, i + 1]
-		var caminho_ataque := "res://assets/personagens/Arms/%s/ataque_%d.png" % [id, i + 1]
-		if eh_arco:
-			caminho_base = "res://assets/personagens/Arco/arcos/%s_%d_p2.png" % [definicao["codigo"], i + 1]
-			caminho_ataque = "res://assets/personagens/Arco/arcos/%s_%d_p3.png" % [definicao["codigo"], i + 1]
-		var textura_carregando: Texture2D = null
-		if eh_arco:
-			textura_carregando = load("res://assets/personagens/Arco/carregando/arco_%s_%d.png" % [definicao["codigo"], i + 1])
+		var caminho_base := "res://assets/personagens/raven_fantasy/icones/%s.png" % id
+		var caminho_ataque := caminho_base
+		var textura_carregando: Texture2D = load(caminho_base) if eh_arco else null
+
 		niveis[i + 1] = {
 			"textura_carregando": textura_carregando,
 			"textura": load(caminho_base),

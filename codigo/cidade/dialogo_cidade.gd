@@ -180,7 +180,9 @@ func _encaixar_respostas() -> void:
 		var moldura_botao := botao.get_theme_stylebox("normal").get_minimum_size()
 		var fonte := botao.get_theme_font("font")
 		var altura_texto := fonte.get_multiline_string_size(botao.text,HORIZONTAL_ALIGNMENT_CENTER,maxf(40.0,largura_botao-moldura_botao.x),botao.get_theme_font_size("font_size")).y
-		altura_linha = maxf(altura_linha,altura_texto+moldura_botao.y)
+		# A altura de uma linha medida na fonte pode ser menor que a altura
+		# mínima do Button (ascendente, descendente e margens da moldura).
+		altura_linha = maxf(altura_linha,maxf(botao.get_minimum_size().y,altura_texto+moldura_botao.y))
 	for botao in _botoes: botao.custom_minimum_size.y = altura_linha
 	var passo := altura_linha+2.0
 	var altura_painel := float((164 if estreito else 148) if _usa_toque() else (144 if estreito else 132))-8.0

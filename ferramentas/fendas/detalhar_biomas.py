@@ -96,7 +96,7 @@ def integrar_objetos(texto,p,pontos):
     ext='[ext_resource type="Script" path="res://codigo/fendas/decoracao_sazonal.gd" id="decoracao_script"]\n'
     for e in ESTACOES:
         import gentle_forest as F
-        caminho=f'res://assets/cenario/fendas/gentle_forest/v{F.PALETAS[p["andar"]]}/objetos_{e}.png' if p['andar'] in F.PALETAS else f'res://assets/cenario/fendas/rpgw_caves/objetos_{e}.png'
+        caminho=f'res://assets/cenario/substitutos/fendas/florestas/objetos_{e}.png' if p['andar'] in F.PALETAS else f'res://assets/cenario/fendas/rpgw_caves/objetos_{e}.png'
         ext+=f'[ext_resource type="Texture2D" path="{caminho}" id="decoracao_{e}"]\n'
     texto=texto.replace('[sub_resource',ext+'\n[sub_resource',1)
     # Um único controlador troca atlas compartilhado, sem sinais/processamento por objeto.
@@ -145,21 +145,18 @@ def paredes(p,B):
     destino=RAIZ/f'assets/cenario/fendas/andar_{p["andar"]:02}/paredes'
     destino.mkdir(parents=True,exist_ok=True)
     for e in ESTACOES:
-        ref=Image.open(RAIZ/f'assets/cenario/Seasonal Forest/seasonal sample ({e}).png').convert('RGBA')
-        # Só face de pedra, sem o topo gramado ou o rodapé verde da folha.
-        amostra=ref.crop((112,64,144,112))
+        import sys
+        sys.path.insert(0,str(RAIZ/'ferramentas/cenario'))
+        import gerar_natureza_original as N
         if p['bioma']=='ruinas':
-            tijolo=ref.crop((48,176,64,192))
+            tijolo=N.material('pedra',ESTACOES.index(e))
             amostra=Image.new('RGBA',(32,48))
             for xx in [0,16]:
-                for yy in [0,16,32]: amostra.paste(tijolo,(xx,yy))
-        if p['bioma'].startswith('caverna'):
-            # Interiores usam pedra protegida, refletindo a luz de cada estação.
-            amostra=Image.open(RAIZ/'assets/cenario/Seasonal Forest/seasonal sample (summer).png').convert('RGBA').crop((112,64,144,112))
-            tons={'spring':(.69,.76,.81),'summer':(.78,.77,.85),'autumn':(.77,.70,.78),'winter':(.65,.73,.88)}[e]
-            canais=list(amostra.split())
-            for i,t in enumerate(tons): canais[i]=canais[i].point(lambda v,t=t:round(v*t))
-            amostra=Image.merge('RGBA',canais)
+                for yy in [0,16,32]:amostra.paste(tijolo,(xx,yy))
+        else:
+            # Face do morro próprio, com pixels nativos e sem amostra comercial.
+            faixa=Image.open(RAIZ/f'assets/cenario/substitutos/penhasco/{e}.png').convert('RGBA')
+            amostra=faixa.crop((32,8,64,56))
         out=Image.new('RGBA',(w,h))
         for x,y,profundidade in faces:
             out.paste(amostra.crop((x%32,profundidade,x%32+passo,profundidade+passo)),(x,y))
@@ -182,45 +179,10 @@ def integrar_paredes(texto,p,origem):
 
 
 def preparar_piso(caminho,p,estacao):
-    """Reutiliza os agrupamentos de pixels do chão nativo, em material mineral.
-
-    Sem trocar desenho, grade ou bordas: só os tiles de miolo usados nas galerias.
-    Interiores não expõem a terra sazonal com neve. As pedras soltas ficam em alpha.
-    """
-    import colorsys
-    folha=Image.open(caminho).convert('RGBA')
-    base=Image.open(RAIZ/'assets/cenario/Seasonal Forest/seasonal sample (summer).png').convert('RGBA')
-    interior=p['bioma'].startswith('caverna')
-    temperaturas={'spring':(.94,.99,1.0),'summer':(1.,.98,.93),'autumn':(.99,.94,.93),'winter':(.88,.94,1.)}
-    tom=temperaturas[estacao]
-    def mineral(pixel):
-        r,g,b,a=pixel
-        _,lum,_=colorsys.rgb_to_hls(r/255,g/255,b/255)
-        if interior:
-            # Ardósia nos andares úmidos; basalto mais escuro no abismo.
-            intensidade=.68 if p['andar']==11 else .85
-            v=lum*intensidade
-            cor=(v*.88,v*.94,v)
-        else:
-            v=lum*.94;cor=(v*1.07,v*.99,v*.84)
-        return tuple(max(0,min(255,round(c*255*t))) for c,t in zip(cor,tom))+(a,)
-    for tx,ty in [(2,1)]+[(4,y) for y in range(5)]:
-        for y in range(16):
-            for x in range(16):folha.putpixel((tx*16+x,ty*16+y),mineral(base.getpixel((tx*16+x,ty*16+y))))
-    # Pedras pequenas da mesma folha: retirar só a grama do fundo, conservando o agrupamento original.
-    for ty in range(6,10):
-        for y in range(16):
-            for x in range(16):
-                px=base.getpixel((64+x,ty*16+y));r,g,b,a=px
-                chao=(g>r*1.02 and g>b*1.05) or a==0
-                folha.putpixel((64+x,ty*16+y),(0,0,0,0) if chao else mineral(px))
-    if interior:
-        # Margens geradas pela arena partem de grama; nas grutas o contato é mineral.
-        for y in range(256,folha.height):
-            for x in range(folha.width):
-                px=folha.getpixel((x,y));r,g,b,a=px
-                if a and g>r*1.08 and g>b*.85: folha.putpixel((x,y),mineral(px))
-    folha.save(caminho)
+    """Atlas auxiliar próprio; as galerias e o piso RPGW seguem independentes."""
+    from preparar_arte_original import atlas,ESTACOES
+    fonte=Image.open(caminho).convert('RGBA')
+    atlas(p['andar'],ESTACOES.index(estacao),fonte).save(caminho)
 
 
 def fragmentos(m,p,B,G):

@@ -33,7 +33,7 @@ func _ready() -> void:
 
 func _guardar(sprite: Sprite2D) -> void:
 	_originais[sprite] = {"texture": sprite.texture, "offset": sprite.offset,
-		"hframes": sprite.hframes, "vframes": sprite.vframes, "frame": sprite.frame}
+		"scale": sprite.scale, "texture_filter": sprite.texture_filter, "hframes": sprite.hframes, "vframes": sprite.vframes, "frame": sprite.frame}
 
 func alternar() -> void:
 	definir_ativo(not ativo)
@@ -41,6 +41,9 @@ func alternar() -> void:
 func definir_ativo(valor: bool) -> void:
 	ativo = valor
 	_terreno.set_meta("visual_tiny", ativo)
+	var chao_detalhado := _terreno.get_node_or_null("ChaoFazenda")
+	if chao_detalhado != null:
+		chao_detalhado.sincronizar()
 	if _detalhe_casa != null:
 		_detalhe_casa.set_process(false if ativo else _processo_detalhe)
 	var estacoes := _terreno.get_node("Estacoes")
@@ -56,6 +59,8 @@ func definir_ativo(valor: bool) -> void:
 		for sprite in _originais:
 			if is_instance_valid(sprite):
 				sprite.texture = _originais[sprite]["texture"]
+				sprite.scale = _originais[sprite]["scale"]
+				sprite.texture_filter = _originais[sprite]["texture_filter"]
 				sprite.offset = _originais[sprite]["offset"]
 				sprite.hframes = _originais[sprite]["hframes"]
 				sprite.vframes = _originais[sprite]["vframes"]
@@ -67,6 +72,8 @@ func definir_ativo(valor: bool) -> void:
 			_detalhe_casa.estacao = -1
 			_detalhe_casa._atualizar_estacao()
 	_atualizar_dinamicos(estacoes.estacao_atual)
+	var natureza := _terreno.get_node_or_null("NaturezaFazenda")
+	if natureza != null: natureza.aplicar(estacoes.estacao_atual)
 
 func _ao_estacao(indice: int) -> void:
 	if ativo:
@@ -96,6 +103,8 @@ func _aplicar(indice: int) -> void:
 				sprite.vframes = 1
 				sprite.frame = 0
 				sprite.offset = Vector2(-44, -100)
+				sprite.scale = Vector2.ONE
+				sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	var casa := _terreno.get_node("Objetos3D/Casa")
 	casa._area_visual = Rect2(-44, -100, 128, 112)
 	var p: Vector2 = casa.position

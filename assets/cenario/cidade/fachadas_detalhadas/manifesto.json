@@ -1,0 +1,398 @@
+{
+ "venda": {
+  "texturas": [
+   "res://assets/cenario/cidade/fachadas_detalhadas/venda/primavera.png",
+   "res://assets/cenario/cidade/fachadas_detalhadas/venda/verao.png",
+   "res://assets/cenario/cidade/fachadas_detalhadas/venda/outono.png",
+   "res://assets/cenario/cidade/fachadas_detalhadas/venda/inverno.png"
+  ],
+  "quadros": 1,
+  "fps": 0,
+  "resolucao": 4,
+  "fonte": "res://arte/fontes/cidade/venda.png",
+  "chamine": [
+   -32.7900009155273,
+   -86.71875
+  ],
+  "janelas": [
+   [
+    -20.745002746582,
+    -25.125
+   ],
+   [
+    29.625,
+    -25.125
+   ],
+   [
+    -19.6499977111816,
+    -56.1499977111816
+   ]
+  ],
+  "ancora_fonte": [
+   604.839965820312,
+   1085.65002441406
+  ],
+  "area_fonte": [
+   61,
+   97,
+   1133,
+   1014
+  ],
+  "canvas_logico": [
+   128,
+   112
+  ]
+ },
+ "sede": {
+  "texturas": [
+   "res://assets/cenario/cidade/fachadas_detalhadas/sede/primavera.png",
+   "res://assets/cenario/cidade/fachadas_detalhadas/sede/verao.png",
+   "res://assets/cenario/cidade/fachadas_detalhadas/sede/outono.png",
+   "res://assets/cenario/cidade/fachadas_detalhadas/sede/inverno.png"
+  ],
+  "quadros": 1,
+  "fps": 0,
+  "resolucao": 4,
+  "fonte": "res://arte/fontes/cidade/sede.png",
+  "chamine": [
+   -47.6749992370605,
+   -99.4499969482422
+  ],
+  "janelas": [
+   [
+    -56.5499992370605,
+    -28.5599975585938
+   ],
+   [
+    57.0500030517578,
+    -28.5599975585938
+   ],
+   [
+    0.25,
+    -61.2000007629395
+   ]
+  ],
+  "ancora_fonte": [
+   625.499084472656,
+   1091.0
+  ],
+  "area_fonte": [
+   39,
+   106,
+   1177,
+   985
+  ],
+  "canvas_logico": [
+   192,
+   128
+  ]
+ },
+ "enfermaria": {
+  "texturas": [
+   "res://assets/cenario/cidade/fachadas_detalhadas/enfermaria/primavera.png",
+   "res://assets/cenario/cidade/fachadas_detalhadas/enfermaria/verao.png",
+   "res://assets/cenario/cidade/fachadas_detalhadas/enfermaria/outono.png",
+   "res://assets/cenario/cidade/fachadas_detalhadas/enfermaria/inverno.png"
+  ],
+  "quadros": 1,
+  "fps": 0,
+  "resolucao": 4,
+  "fonte": "res://arte/fontes/cidade/enfermaria.png",
+  "chamine": [
+   -38.9625015258789,
+   -98.4625015258789
+  ],
+  "janelas": [
+   [
+    -31.5375003814697,
+    -23.8600006103516
+   ],
+   [
+    34.0499954223633,
+    -23.8600006103516
+   ]
+  ],
+  "ancora_fonte": [
+   617.75,
+   1109.97497558594
+  ],
+  "area_fonte": [
+   60,
+   110,
+   1150,
+   1005
+  ],
+  "canvas_logico": [
+   128,
+   112
+  ]
+ },
+ "pousada": {
+  "texturas": [
+   "res://assets/cenario/cidade/fachadas_detalhadas/pousada/primavera.png",
+   "res://assets/cenario/cidade/fachadas_detalhadas/pousada/verao.png",
+   "res://assets/cenario/cidade/fachadas_detalhadas/pousada/outono.png",
+   "res://assets/cenario/cidade/fachadas_detalhadas/pousada/inverno.png"
+  ],
+  "quadros": 1,
+  "fps": 0,
+  "resolucao": 4,
+  "fonte": "res://arte/fontes/cidade/enfeites_detalhados/pousada_frontal.png",
+  "chamine": [
+   -44.7999992370605,
+   -118.949996948242
+  ],
+  "janelas": [
+   [
+    -42.0800018310547,
+    -73.1999969482422
+   ],
+   [
+    34.0799942016602,
+    -73.1999969482422
+   ],
+   [
+    -4.0,
+    -59.7799987792969
+   ],
+   [
+    -42.0800018310547,
+    -29.2799987792969
+   ],
+   [
+    34.0799942016602,
+    -29.2799987792969
+   ]
+  ],
+  "ancora_fonte": [
+   627.893005371094,
+   1204.0
+  ],
+  "area_fonte": [
+   37,
+   14,
+   1117,
+   1190
+  ],
+  "canvas_logico": [
+   160,
+   144
+  ]
+ },
+ "mistica": {
+  "texturas": [
+   "res://assets/cenario/cidade/fachadas_detalhadas/mistica/primavera.png",
+   "res://assets/cenario/cidade/fachadas_detalhadas/mistica/verao.png",
+   "res://assets/cenario/cidade/fachadas_detalhadas/mistica/outono.png",
+   "res://assets/cenario/cidade/fachadas_detalhadas/mistica/inverno.png"
+  ],
+  "quadros": 1,
+  "fps": 0,
+  "resolucao": 4,
+  "fonte": "res://arte/fontes/cidade/mistica.png",
+  "chamine": [
+   5.83750152587891,
+   -94.0800018310547
+  ],
+  "janelas": [
+   [
+    -37.5774993896484,
+    -48.1599998474121
+   ],
+   [
+    0.125,
+    -49.2799987792969
+   ],
+   [
+    37.8274993896484,
+    -64.9600067138672
+   ],
+   [
+    37.8274993896484,
+    -24.6399993896484
+   ]
+  ],
+  "ancora_fonte": [
+   656.450988769531,
+   1196.0
+  ],
+  "area_fonte": [
+   133,
+   15,
+   1049,
+   1181
+  ],
+  "canvas_logico": [
+   144,
+   128
+  ]
+ },
+ "casa_bento": {
+  "texturas": [
+   "res://assets/cenario/cidade/fachadas_detalhadas/casa_bento/primavera.png",
+   "res://assets/cenario/cidade/fachadas_detalhadas/casa_bento/verao.png",
+   "res://assets/cenario/cidade/fachadas_detalhadas/casa_bento/outono.png",
+   "res://assets/cenario/cidade/fachadas_detalhadas/casa_bento/inverno.png"
+  ],
+  "quadros": 1,
+  "fps": 0,
+  "resolucao": 4,
+  "fonte": "res://arte/fontes/cidade/casa_bento.png",
+  "chamine": [
+   -28.7150001525879,
+   -86.7750015258789
+  ],
+  "janelas": [
+   [
+    -15.2900009155273,
+    -23.1399993896484
+   ],
+   [
+    31.6975021362305,
+    -23.1399993896484
+   ],
+   [
+    4.84750366210938,
+    -49.8400001525879
+   ]
+  ],
+  "ancora_fonte": [
+   556.85595703125,
+   1102.0
+  ],
+  "area_fonte": [
+   43,
+   111,
+   1184,
+   991
+  ],
+  "canvas_logico": [
+   160,
+   112
+  ]
+ },
+ "casa_jogador": {
+  "texturas": [
+   "res://assets/cenario/cidade/fachadas_detalhadas/casa_jogador/primavera.png",
+   "res://assets/cenario/cidade/fachadas_detalhadas/casa_jogador/verao.png",
+   "res://assets/cenario/cidade/fachadas_detalhadas/casa_jogador/outono.png",
+   "res://assets/cenario/cidade/fachadas_detalhadas/casa_jogador/inverno.png"
+  ],
+  "quadros": 1,
+  "fps": 0,
+  "resolucao": 4,
+  "fonte": "res://arte/fontes/fazenda/casa_inicial/exterior_original.png",
+  "chamine": [
+   35.6350021362305,
+   -87.75
+  ],
+  "janelas": [
+   [
+    -25.8274993896484,
+    -25.1999969482422
+   ],
+   [
+    25.5774993896484,
+    -25.1999969482422
+   ]
+  ],
+  "ancora_fonte": [
+   656.037963867188,
+   1011.0
+  ],
+  "area_fonte": [
+   136,
+   174,
+   1038,
+   837
+  ],
+  "canvas_logico": [
+   112,
+   90
+  ]
+ },
+ "forja": {
+  "texturas": [
+   "res://assets/cenario/cidade/fachadas_detalhadas/forja/primavera.png",
+   "res://assets/cenario/cidade/fachadas_detalhadas/forja/verao.png",
+   "res://assets/cenario/cidade/fachadas_detalhadas/forja/outono.png",
+   "res://assets/cenario/cidade/fachadas_detalhadas/forja/inverno.png"
+  ],
+  "quadros": 1,
+  "fps": 0,
+  "resolucao": 4,
+  "fonte": "res://arte/fontes/forja/forja_estacoes.png",
+  "chamine": [
+   -30.2800006866455,
+   -95.5437469482422
+  ],
+  "janelas": [
+   [
+    2.47999954223633,
+    -55.752498626709
+   ],
+   [
+    36.5,
+    -27.2599945068359
+   ]
+  ],
+  "ancora_fonte": [
+   310.080017089844,
+   552.93603515625
+  ],
+  "area_fonte": [
+   12,
+   22,
+   648,
+   532
+  ],
+  "canvas_logico": [
+   128,
+   112
+  ]
+ },
+ "carpintaria": {
+  "texturas": [
+   "res://assets/cenario/cidade/fachadas_detalhadas/carpintaria/primavera.png",
+   "res://assets/cenario/cidade/fachadas_detalhadas/carpintaria/verao.png",
+   "res://assets/cenario/cidade/fachadas_detalhadas/carpintaria/outono.png",
+   "res://assets/cenario/cidade/fachadas_detalhadas/carpintaria/inverno.png"
+  ],
+  "quadros": 1,
+  "fps": 0,
+  "resolucao": 4,
+  "fonte": "res://arte/fontes/cidade/carpintaria/estacoes.png",
+  "chamine": [
+   42.5599975585938,
+   -111.150001525879
+  ],
+  "janelas": [
+   [
+    -35.2449989318848,
+    -31.9199981689453
+   ],
+   [
+    5.51000213623047,
+    -72.9599990844727
+   ],
+   [
+    37.0025024414062,
+    -31.9199981689453
+   ]
+  ],
+  "ancora_fonte": [
+   319.809997558594,
+   476.0
+  ],
+  "area_fonte": [
+   16,
+   12,
+   741,
+   464
+  ],
+  "canvas_logico": [
+   192,
+   128
+  ]
+ }
+}

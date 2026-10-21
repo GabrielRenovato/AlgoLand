@@ -1,0 +1,31 @@
+{
+  "origem": "image_gen; desenho original referenciado na segunda captura do usuário",
+  "referencia": "codex-clipboard-653e9bc6-892b-485f-85bf-553ef2337977.png",
+  "funcao": "Paredão rochoso da fazenda e platôs que compartilham o atlas",
+  "grade": 16,
+  "painel_nativo": [
+    96,
+    64
+  ],
+  "pivo": "Mesma origem e células do atlas existente, sem escala no motor",
+  "geometria": "Topografia e colisões existentes preservadas; apenas alfa geométrico da folha antiga",
+  "estacoes": [
+    "primavera",
+    "verao",
+    "outono",
+    "inverno"
+  ],
+  "modulo_repetido": [
+    63,
+    0,
+    95,
+    64
+  ],
+  "integracao": "preparar_penhasco.py e gerar_natureza_original.atlas_compativel; penhasco_original.gd usa a faixa inteira96px na face rochosa, com troca sazonal e restauração ao comparar Tiny",
+  "prompt": "Create an ORIGINAL pixel-art rocky mountain cliff terrain sheet for a cozy top-down farming RPG. Attached image is a STYLE AND GEOLOGY reference only: match the feel of bulky irregular overlapping rock masses, deep dark crevices, moss, selective edge highlights; do not include the fence, trees, UI or flowers from it. Sheet layout: precisely FOUR equally sized rectangular panels in a clean 2 by 2 grid, NO borders or gutters. Top left SPRING, top right SUMMER, bottom left AUTUMN, bottom right WINTER. Identical rock shapes and layout in every panel, only vegetation/season changes. Each panel represents a native 96 pixels wide by 64 pixels high horizontal cliff strip, rendered as large crisp square pixel blocks with a consistent logical pixel grid (nearest neighbor enlargement). In each panel: uppermost 8 logical pixels = irregular grassy rock lip, middle 48 logical pixels = vertical exposed rugged cliff face, bottom 8 pixels = dark rock footing and sparse ground grass. Rock face is big natural faceted boulders, overlapping angular rounded polygon masses 12 to 24 logical pixels wide, with 3 staggered layers, rich depth; olive gray warm rock highlights, cool dark blue-green recesses. Strong silhouettes, medium size pixel clusters, selective 1 pixel highlights. NOT small masonry bricks, NOT cobblestone pavement, NOT striped flat wall. Uniform straight horizontal cliff elevation, no perspective vanishing point. Strip must repeat horizontally with matching outermost edges, and its central 32 logical pixel region should also repeat seamlessly horizontally. Spring fresh moss and a few grass tufts in cracks; summer richer green moss; autumn ochre moss and a few dry leaves; winter same exposed rock structure with shaped white snow on upward facing ledges, dark rock faces still readable. Frame completely filled by terrain, opaque background, no transparency, no text, no labels, no shadows outside terrain, no smooth lighting or gradients or antialiasing. Consistent large visible logical square pixels across all panels, not a detailed illustration.",
+  "modulo_faixa_inteira": [
+    96,
+    64
+  ],
+  "validacao": "Godot gráfico em save isolado: fazenda, terreno da arena e fendas06/10, quatro estações; teste_tiles_substitutos sem falhas, preservação de células e restauração para comparação Tiny. Inspeção da fazenda geral e do detalhe do paredão."
+}

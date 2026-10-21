@@ -35,7 +35,7 @@ var _acoes_atuais: Array = []
 var _selecoes: Dictionary = {}
 const AREAS := {
 	"FAZENDA E VILA": ["OBRA DO OSVALDO", "GALINHEIRO", "FAZENDA E ITENS", "VISUAL DA FAZENDA"],
-	"COMBATE": ["ANDARES", "MINOTAURO", "MEDUSA", "GOBLIN", "DRAGAO", "DROPS"],
+	"COMBATE": ["ANDARES", "MINOTAURO", "MEDUSA", "GOBLIN", "DRAGAO", "ARMAS RAVEN", "DROPS"],
 	"PERSONAGEM": ["PERSONAGEM", "CONJUNTOS", "ANIMACOES"],
 	"MUNDO": ["HORARIO", "CALENDARIO", "CLIMA", "ESTACAO", "TEMPESTADE"],
 }
@@ -112,13 +112,9 @@ func _montar() -> void:
 			["FENO NA MOCHILA", _feno_galinheiro_debug],
 			["VISITAR OSVALDO E FAMILIA", _familia_carpinteiro_debug]],
 		"VISUAL DA FAZENDA": [["ORIGINAL / TINY RPG", _alternar_fazenda_tiny]],
-		"PERSONAGEM": [["MANA SEED REFINADO", _reaplicar_personagem],
-			["BASE VILA: CORRIDA E ESPADA", _ativar_base_vila],
-			["CRAFTPIX (BASE ORIGINAL)", _ativar_heroi_craftpix],
-			["GERADO: ANDAR", _ativar_heroi_gerado.bind(false)],
-			["GERADO: CORRER", _ativar_heroi_gerado.bind(true)],
-			["GERADO: ESPADA", _ativar_espada_gerada],
-			["TINY RPG (TORI) LIGA/DESLIGA", _alternar_heroi_tiny]],
+		"PERSONAGEM": [["RAVEN: REAPLICAR VISUAL", _reaplicar_personagem]],
+		"ARMAS RAVEN": [["RECEBER TODAS (MOCHILA)", _receber_armas_raven],
+			["ALJAVA", _receber_armas_raven.bind("aljava_basica")]],
 		"CONJUNTOS": [
 			["MORDOMO (EQUIPAR)", _equipar_conjunto.bind("cavalheiro")],
 			["CAVALEIRO RUBRO (EQUIPAR)", _equipar_conjunto.bind("cavaleiro_rubro")],
@@ -159,6 +155,8 @@ func _montar() -> void:
 			["COLHEITA", _ao_colheita], ["POCOES", _ao_pocoes],
 			["CRESCER 1 DIA", _ao_crescer], ["REGAR TUDO", _ao_regar_tudo]],
 	}
+	for tipo in preload("res://codigo/ui/icones_itens.gd").ARMAS_RAVEN:
+		_opcoes["ARMAS RAVEN"].append([preload("res://codigo/modelos/dados_item.gd").NOMES[tipo], _receber_armas_raven.bind(tipo)])
 	for i in CLIMAS.size():
 		_opcoes["CLIMA"].append([CLIMAS[i], _ao_clima.bind(i)])
 	for i in ESTACOES.size():
@@ -825,3 +823,17 @@ func _concluir_obra_debug() -> void:
 	while Calendario.dia < pronto: Calendario.dormir()
 	Fazenda.galinheiro_alterado.emit()
 	_horario_obra_debug(9.0)
+
+## Entrega peças nativas para selecionar pela barra; repetir não duplica itens.
+func _receber_armas_raven(tipo: String = "") -> void:
+	var inventario := get_node("/root/InventarioJogador")
+	var tipos: Array = [tipo] if not tipo.is_empty() else preload("res://codigo/ui/icones_itens.gd").ARMAS_RAVEN + ["aljava_basica"]
+	var faltaram := 0
+	for modelo in tipos:
+		if inventario.buscar_por_tipo(modelo) != null:
+			continue
+		var item = preload("res://codigo/dados/forja_armas.gd").criar_item(modelo)
+		if item == null or inventario.adicionar(item) < 0:
+			faltaram += 1
+	inventario.salvar()
+	_aviso.text = "Armas na mochila. Selecione pela barra de itens." if faltaram == 0 else "MOCHILA CHEIA: libere espaco e tente novamente."

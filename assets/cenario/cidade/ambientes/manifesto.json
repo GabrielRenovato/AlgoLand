@@ -6,13 +6,13 @@
    "res://assets/cenario/cidade/ambientes/externo/galinha/outono.png",
    "res://assets/cenario/cidade/ambientes/externo/galinha/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 2,
+  "quadros": 4.0,
+  "fps": 2.0,
   "usado": [
-   0,
-   0,
-   16,
-   15
+   0.0,
+   0.0,
+   16.0,
+   15.0
   ],
   "escala_origem": 1.0
  },
@@ -23,13 +23,13 @@
    "res://assets/cenario/cidade/ambientes/externo/banco/outono.png",
    "res://assets/cenario/cidade/ambientes/externo/banco/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 0,
+  "quadros": 4.0,
+  "fps": 0.0,
   "usado": [
-   0,
-   0,
-   48,
-   28
+   0.0,
+   0.0,
+   48.0,
+   28.0
   ],
   "escala_origem": 1.0,
   "fonte": "res://assets/cenario/cidade/decoracao/mobiliario/topdown/banco.png"
@@ -41,13 +41,13 @@
    "res://assets/cenario/cidade/ambientes/externo/cerca/outono.png",
    "res://assets/cenario/cidade/ambientes/externo/cerca/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 0,
+  "quadros": 4.0,
+  "fps": 0.0,
   "usado": [
-   0,
-   0,
-   54,
-   35
+   0.0,
+   0.0,
+   54.0,
+   35.0
   ],
   "escala_origem": 1.0,
   "fonte": "res://assets/cenario/cidade/decoracao/mobiliario/cerca.png"
@@ -59,13 +59,13 @@
    "res://assets/cenario/cidade/ambientes/externo/galinheiro/outono.png",
    "res://assets/cenario/cidade/ambientes/externo/galinheiro/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 0,
+  "quadros": 4.0,
+  "fps": 0.0,
   "usado": [
-   0,
-   0,
-   38,
-   40
+   0.0,
+   0.0,
+   38.0,
+   40.0
   ],
   "escala_origem": 1.0,
   "fonte": "res://assets/cenario/cidade/decoracao/mobiliario/revisados/galinheiro.png"
@@ -77,13 +77,13 @@
    "res://assets/cenario/cidade/ambientes/externo/feno/outono.png",
    "res://assets/cenario/cidade/ambientes/externo/feno/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 0,
+  "quadros": 4.0,
+  "fps": 0.0,
   "usado": [
-   0,
-   0,
-   53,
-   45
+   0.0,
+   0.0,
+   53.0,
+   45.0
   ],
   "escala_origem": 1.0,
   "fonte": "res://assets/cenario/cidade/decoracao/mobiliario/feno.png"
@@ -95,13 +95,13 @@
    "res://assets/cenario/cidade/ambientes/externo/lenha/outono.png",
    "res://assets/cenario/cidade/ambientes/externo/lenha/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 0,
+  "quadros": 4.0,
+  "fps": 0.0,
   "usado": [
-   0,
-   0,
-   59,
-   47
+   0.0,
+   0.0,
+   59.0,
+   47.0
   ],
   "escala_origem": 1.0,
   "fonte": "res://assets/cenario/cidade/decoracao/mobiliario/lenha.png"
@@ -113,13 +113,13 @@
    "res://assets/cenario/cidade/ambientes/externo/mural/outono.png",
    "res://assets/cenario/cidade/ambientes/externo/mural/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 0,
+  "quadros": 4.0,
+  "fps": 0.0,
   "usado": [
-   0,
-   0,
-   56,
-   57
+   0.0,
+   0.0,
+   56.0,
+   57.0
   ],
   "escala_origem": 1.0,
   "fonte": "res://assets/cenario/cidade/decoracao/mobiliario/mural.png"
@@ -131,13 +131,13 @@
    "res://assets/cenario/cidade/ambientes/externo/poste_luz/outono.png",
    "res://assets/cenario/cidade/ambientes/externo/poste_luz/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 0,
+  "quadros": 4.0,
+  "fps": 0.0,
   "usado": [
-   0,
-   0,
-   29,
-   60
+   0.0,
+   0.0,
+   29.0,
+   60.0
   ],
   "escala_origem": 1.0,
   "fonte": "res://assets/cenario/cidade/decoracao/mobiliario/poste_luz.png"
@@ -149,13 +149,13 @@
    "res://assets/cenario/cidade/ambientes/externo/placa_encruzilhada/outono.png",
    "res://assets/cenario/cidade/ambientes/externo/placa_encruzilhada/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 0,
+  "quadros": 4.0,
+  "fps": 0.0,
   "usado": [
-   0,
-   0,
-   48,
-   61
+   0.0,
+   0.0,
+   48.0,
+   61.0
   ],
   "escala_origem": 1.0,
   "fonte": "res://assets/cenario/cidade/decoracao/mobiliario/placa_encruzilhada.png"
@@ -167,13 +167,13 @@
    "res://assets/cenario/cidade/ambientes/externo/correio/outono.png",
    "res://assets/cenario/cidade/ambientes/externo/correio/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 0,
+  "quadros": 4.0,
+  "fps": 0.0,
   "usado": [
-   0,
-   0,
-   24,
-   38
+   0.0,
+   0.0,
+   24.0,
+   38.0
   ],
   "escala_origem": 1.0,
   "fonte": "res://assets/cenario/cidade/decoracao/mobiliario/correio.png"
@@ -185,13 +185,13 @@
    "res://assets/cenario/cidade/ambientes/externo/coreto/outono.png",
    "res://assets/cenario/cidade/ambientes/externo/coreto/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 0,
+  "quadros": 4.0,
+  "fps": 0.0,
   "usado": [
-   0,
-   0,
-   88,
-   109
+   0.0,
+   0.0,
+   88.0,
+   109.0
   ],
   "escala_origem": 1.0,
   "fonte": "res://assets/cenario/cidade/decoracao/construcoes/coreto.png"
@@ -203,13 +203,13 @@
    "res://assets/cenario/cidade/ambientes/externo/ponte/outono.png",
    "res://assets/cenario/cidade/ambientes/externo/ponte/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 0,
+  "quadros": 4.0,
+  "fps": 0.0,
   "usado": [
-   0,
-   0,
-   80,
-   44
+   0.0,
+   0.0,
+   80.0,
+   44.0
   ],
   "escala_origem": 1.0,
   "fonte": "res://assets/cenario/cidade/decoracao/construcoes/ponte.png"
@@ -221,13 +221,13 @@
    "res://assets/cenario/cidade/ambientes/externo/mesa_piquenique/outono.png",
    "res://assets/cenario/cidade/ambientes/externo/mesa_piquenique/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 0,
+  "quadros": 4.0,
+  "fps": 0.0,
   "usado": [
-   0,
-   0,
-   48,
-   29
+   0.0,
+   0.0,
+   48.0,
+   29.0
   ],
   "escala_origem": 1.0,
   "fonte": "res://assets/cenario/cidade/decoracao/mobiliario/topdown/mesa_media.png"
@@ -239,13 +239,13 @@
    "res://assets/cenario/cidade/ambientes/externo/banco_piquenique_esquerdo/outono.png",
    "res://assets/cenario/cidade/ambientes/externo/banco_piquenique_esquerdo/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 0,
+  "quadros": 4.0,
+  "fps": 0.0,
   "usado": [
-   0,
-   0,
-   16,
-   15
+   0.0,
+   0.0,
+   16.0,
+   15.0
   ],
   "escala_origem": 1.0,
   "fonte": "res://assets/cenario/cidade/decoracao/mobiliario/topdown/banqueta.png"
@@ -257,13 +257,13 @@
    "res://assets/cenario/cidade/ambientes/externo/banco_piquenique_direito/outono.png",
    "res://assets/cenario/cidade/ambientes/externo/banco_piquenique_direito/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 0,
+  "quadros": 4.0,
+  "fps": 0.0,
   "usado": [
-   0,
-   0,
-   16,
-   15
+   0.0,
+   0.0,
+   16.0,
+   15.0
   ],
   "escala_origem": 1.0,
   "fonte": "res://assets/cenario/cidade/decoracao/mobiliario/topdown/banqueta.png"
@@ -275,13 +275,13 @@
    "res://assets/cenario/cidade/ambientes/externo/arvore/outono.png",
    "res://assets/cenario/cidade/ambientes/externo/arvore/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 2,
+  "quadros": 4.0,
+  "fps": 2.0,
   "usado": [
-   0,
-   0,
-   113,
-   109
+   0.0,
+   0.0,
+   113.0,
+   109.0
   ],
   "escala_origem": 1.0
  },
@@ -292,13 +292,13 @@
    "res://assets/cenario/cidade/ambientes/externo/arbusto/outono.png",
    "res://assets/cenario/cidade/ambientes/externo/arbusto/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 2,
+  "quadros": 4.0,
+  "fps": 2.0,
   "usado": [
-   0,
-   0,
-   42,
-   40
+   0.0,
+   0.0,
+   42.0,
+   40.0
   ],
   "escala_origem": 1.0
  },
@@ -309,13 +309,13 @@
    "res://assets/cenario/cidade/ambientes/externo/flores/outono.png",
    "res://assets/cenario/cidade/ambientes/externo/flores/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 2,
+  "quadros": 4.0,
+  "fps": 2.0,
   "usado": [
-   0,
-   0,
-   44,
-   43
+   0.0,
+   0.0,
+   44.0,
+   43.0
   ],
   "escala_origem": 1.0
  },
@@ -326,13 +326,13 @@
    "res://assets/cenario/cidade/ambientes/externo/horta/outono.png",
    "res://assets/cenario/cidade/ambientes/externo/horta/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 2,
+  "quadros": 4.0,
+  "fps": 2.0,
   "usado": [
-   0,
-   0,
-   57,
-   45
+   0.0,
+   0.0,
+   57.0,
+   45.0
   ],
   "escala_origem": 1.0
  },
@@ -343,13 +343,13 @@
    "res://assets/cenario/cidade/ambientes/externo/canteiro/outono.png",
    "res://assets/cenario/cidade/ambientes/externo/canteiro/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 2,
+  "quadros": 4.0,
+  "fps": 2.0,
   "usado": [
-   0,
-   0,
-   58,
-   47
+   0.0,
+   0.0,
+   58.0,
+   47.0
   ],
   "escala_origem": 1.0
  },
@@ -360,13 +360,13 @@
    "res://assets/cenario/cidade/ambientes/interior/casa_bento/balanco/outono.png",
    "res://assets/cenario/cidade/ambientes/interior/casa_bento/balanco/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 0,
+  "quadros": 4.0,
+  "fps": 0.0,
   "usado": [
-   0,
-   0,
-   42,
-   46
+   0.0,
+   0.0,
+   42.0,
+   46.0
   ],
   "escala_origem": 1.0,
   "calor_sazonal": false,
@@ -379,13 +379,13 @@
    "res://assets/cenario/cidade/ambientes/interior/casa_bento/bancada/outono.png",
    "res://assets/cenario/cidade/ambientes/interior/casa_bento/bancada/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 0,
+  "quadros": 4.0,
+  "fps": 0.0,
   "usado": [
-   0,
-   0,
-   73,
-   50
+   0.0,
+   0.0,
+   73.0,
+   50.0
   ],
   "escala_origem": 1.0,
   "calor_sazonal": false,
@@ -398,13 +398,13 @@
    "res://assets/cenario/cidade/ambientes/interior/casa_bento/cama/outono.png",
    "res://assets/cenario/cidade/ambientes/interior/casa_bento/cama/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 0,
+  "quadros": 4.0,
+  "fps": 0.0,
   "usado": [
-   0,
-   0,
-   32,
-   58
+   0.0,
+   0.0,
+   32.0,
+   58.0
   ],
   "escala_origem": 1.0,
   "calor_sazonal": false,
@@ -417,13 +417,13 @@
    "res://assets/cenario/cidade/ambientes/interior/casa_bento/ferramentas/outono.png",
    "res://assets/cenario/cidade/ambientes/interior/casa_bento/ferramentas/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 0,
+  "quadros": 4.0,
+  "fps": 0.0,
   "usado": [
-   0,
-   0,
-   64,
-   45
+   0.0,
+   0.0,
+   64.0,
+   45.0
   ],
   "escala_origem": 1.0,
   "calor_sazonal": false,
@@ -436,13 +436,13 @@
    "res://assets/cenario/cidade/ambientes/interior/casa_bento/lareira/outono.png",
    "res://assets/cenario/cidade/ambientes/interior/casa_bento/lareira/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 4,
+  "quadros": 4.0,
+  "fps": 4.0,
   "usado": [
-   0,
-   0,
-   52,
-   56
+   0.0,
+   0.0,
+   52.0,
+   56.0
   ],
   "escala_origem": 1.0,
   "calor_sazonal": false,
@@ -455,13 +455,13 @@
    "res://assets/cenario/cidade/ambientes/interior/casa_bento/mesa/outono.png",
    "res://assets/cenario/cidade/ambientes/interior/casa_bento/mesa/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 2,
+  "quadros": 4.0,
+  "fps": 2.0,
   "usado": [
-   0,
-   0,
-   48,
-   29
+   0.0,
+   0.0,
+   48.0,
+   29.0
   ],
   "escala_origem": 1.0,
   "calor_sazonal": false,
@@ -474,13 +474,13 @@
    "res://assets/cenario/cidade/ambientes/interior/casa_bento/sacos/outono.png",
    "res://assets/cenario/cidade/ambientes/interior/casa_bento/sacos/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 0,
+  "quadros": 4.0,
+  "fps": 0.0,
   "usado": [
-   0,
-   0,
-   61,
-   33
+   0.0,
+   0.0,
+   61.0,
+   33.0
   ],
   "escala_origem": 1.0,
   "calor_sazonal": false,
@@ -493,13 +493,13 @@
    "res://assets/cenario/cidade/ambientes/interior/casa_bento/tapete/outono.png",
    "res://assets/cenario/cidade/ambientes/interior/casa_bento/tapete/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 0,
+  "quadros": 4.0,
+  "fps": 0.0,
   "usado": [
-   0,
-   0,
-   53,
-   36
+   0.0,
+   0.0,
+   53.0,
+   36.0
   ],
   "escala_origem": 1.0,
   "calor_sazonal": false,
@@ -512,13 +512,13 @@
    "res://assets/cenario/cidade/ambientes/interior/enfermaria/armario/outono.png",
    "res://assets/cenario/cidade/ambientes/interior/enfermaria/armario/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 0,
+  "quadros": 4.0,
+  "fps": 0.0,
   "usado": [
-   0,
-   0,
-   42,
-   46
+   0.0,
+   0.0,
+   42.0,
+   46.0
   ],
   "escala_origem": 1.0,
   "calor_sazonal": false,
@@ -531,13 +531,13 @@
    "res://assets/cenario/cidade/ambientes/interior/enfermaria/biombo/outono.png",
    "res://assets/cenario/cidade/ambientes/interior/enfermaria/biombo/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 0,
+  "quadros": 4.0,
+  "fps": 0.0,
   "usado": [
-   0,
-   0,
-   42,
-   38
+   0.0,
+   0.0,
+   42.0,
+   38.0
   ],
   "escala_origem": 1.0,
   "calor_sazonal": false,
@@ -550,13 +550,13 @@
    "res://assets/cenario/cidade/ambientes/interior/enfermaria/cama/outono.png",
    "res://assets/cenario/cidade/ambientes/interior/enfermaria/cama/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 0,
+  "quadros": 4.0,
+  "fps": 0.0,
   "usado": [
-   0,
-   0,
-   26,
-   42
+   0.0,
+   0.0,
+   26.0,
+   42.0
   ],
   "escala_origem": 1.0,
   "calor_sazonal": false,
@@ -569,13 +569,13 @@
    "res://assets/cenario/cidade/ambientes/interior/enfermaria/ervas/outono.png",
    "res://assets/cenario/cidade/ambientes/interior/enfermaria/ervas/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 2,
+  "quadros": 4.0,
+  "fps": 2.0,
   "usado": [
-   0,
-   0,
-   48,
-   49
+   0.0,
+   0.0,
+   48.0,
+   49.0
   ],
   "escala_origem": 1.0,
   "calor_sazonal": false,
@@ -588,13 +588,13 @@
    "res://assets/cenario/cidade/ambientes/interior/enfermaria/lavatorio/outono.png",
    "res://assets/cenario/cidade/ambientes/interior/enfermaria/lavatorio/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 0,
+  "quadros": 4.0,
+  "fps": 0.0,
   "usado": [
-   0,
-   0,
-   28,
-   39
+   0.0,
+   0.0,
+   28.0,
+   39.0
   ],
   "escala_origem": 1.0,
   "calor_sazonal": false,
@@ -607,13 +607,13 @@
    "res://assets/cenario/cidade/ambientes/interior/enfermaria/mesa/outono.png",
    "res://assets/cenario/cidade/ambientes/interior/enfermaria/mesa/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 0,
+  "quadros": 4.0,
+  "fps": 0.0,
   "usado": [
-   0,
-   0,
-   32,
-   25
+   0.0,
+   0.0,
+   32.0,
+   25.0
   ],
   "escala_origem": 1.0,
   "calor_sazonal": false,
@@ -626,13 +626,13 @@
    "res://assets/cenario/cidade/ambientes/interior/mistica/caldeirao/outono.png",
    "res://assets/cenario/cidade/ambientes/interior/mistica/caldeirao/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 2,
+  "quadros": 4.0,
+  "fps": 2.0,
   "usado": [
-   0,
-   0,
-   26,
-   42
+   0.0,
+   0.0,
+   26.0,
+   42.0
   ],
   "escala_origem": 1.0,
   "calor_sazonal": false,
@@ -645,13 +645,13 @@
    "res://assets/cenario/cidade/ambientes/interior/mistica/espelho/outono.png",
    "res://assets/cenario/cidade/ambientes/interior/mistica/espelho/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 2,
+  "quadros": 4.0,
+  "fps": 2.0,
   "usado": [
-   0,
-   0,
-   29,
-   54
+   0.0,
+   0.0,
+   29.0,
+   54.0
   ],
   "escala_origem": 1.0,
   "calor_sazonal": false,
@@ -664,13 +664,13 @@
    "res://assets/cenario/cidade/ambientes/interior/mistica/estante/outono.png",
    "res://assets/cenario/cidade/ambientes/interior/mistica/estante/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 0,
+  "quadros": 4.0,
+  "fps": 0.0,
   "usado": [
-   0,
-   0,
-   36,
-   61
+   0.0,
+   0.0,
+   36.0,
+   61.0
   ],
   "escala_origem": 1.0,
   "calor_sazonal": false,
@@ -683,13 +683,13 @@
    "res://assets/cenario/cidade/ambientes/interior/mistica/mesa_cristal/outono.png",
    "res://assets/cenario/cidade/ambientes/interior/mistica/mesa_cristal/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 2,
+  "quadros": 4.0,
+  "fps": 2.0,
   "usado": [
-   0,
-   0,
-   42,
-   46
+   0.0,
+   0.0,
+   42.0,
+   46.0
   ],
   "escala_origem": 1.0,
   "calor_sazonal": false,
@@ -702,13 +702,13 @@
    "res://assets/cenario/cidade/ambientes/interior/mistica/pocoes/outono.png",
    "res://assets/cenario/cidade/ambientes/interior/mistica/pocoes/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 2,
+  "quadros": 4.0,
+  "fps": 2.0,
   "usado": [
-   0,
-   0,
-   48,
-   48
+   0.0,
+   0.0,
+   48.0,
+   48.0
   ],
   "escala_origem": 1.0,
   "calor_sazonal": false,
@@ -721,13 +721,13 @@
    "res://assets/cenario/cidade/ambientes/interior/mistica/poltrona/outono.png",
    "res://assets/cenario/cidade/ambientes/interior/mistica/poltrona/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 0,
+  "quadros": 4.0,
+  "fps": 0.0,
   "usado": [
-   0,
-   0,
-   14,
-   24
+   0.0,
+   0.0,
+   14.0,
+   24.0
   ],
   "escala_origem": 1.0,
   "calor_sazonal": false,
@@ -740,13 +740,13 @@
    "res://assets/cenario/cidade/ambientes/interior/mistica/tapete/outono.png",
    "res://assets/cenario/cidade/ambientes/interior/mistica/tapete/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 0,
+  "quadros": 4.0,
+  "fps": 0.0,
   "usado": [
-   0,
-   0,
-   53,
-   54
+   0.0,
+   0.0,
+   53.0,
+   54.0
   ],
   "escala_origem": 1.0,
   "calor_sazonal": false,
@@ -759,13 +759,13 @@
    "res://assets/cenario/cidade/ambientes/interior/mistica/telescopio/outono.png",
    "res://assets/cenario/cidade/ambientes/interior/mistica/telescopio/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 0,
+  "quadros": 4.0,
+  "fps": 0.0,
   "usado": [
-   0,
-   0,
-   44,
-   45
+   0.0,
+   0.0,
+   44.0,
+   45.0
   ],
   "escala_origem": 1.0,
   "calor_sazonal": false,
@@ -778,13 +778,13 @@
    "res://assets/cenario/cidade/ambientes/interior/pousada/balcao/outono.png",
    "res://assets/cenario/cidade/ambientes/interior/pousada/balcao/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 0,
+  "quadros": 4.0,
+  "fps": 0.0,
   "usado": [
-   0,
-   0,
-   102,
-   43
+   0.0,
+   0.0,
+   102.0,
+   43.0
   ],
   "escala_origem": 1.0,
   "calor_sazonal": false,
@@ -797,13 +797,13 @@
    "res://assets/cenario/cidade/ambientes/interior/pousada/barris/outono.png",
    "res://assets/cenario/cidade/ambientes/interior/pousada/barris/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 0,
+  "quadros": 4.0,
+  "fps": 0.0,
   "usado": [
-   0,
-   0,
-   58,
-   33
+   0.0,
+   0.0,
+   58.0,
+   33.0
   ],
   "escala_origem": 1.0,
   "calor_sazonal": false,
@@ -816,13 +816,13 @@
    "res://assets/cenario/cidade/ambientes/interior/pousada/cama/outono.png",
    "res://assets/cenario/cidade/ambientes/interior/pousada/cama/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 0,
+  "quadros": 4.0,
+  "fps": 0.0,
   "usado": [
-   0,
-   0,
-   32,
-   58
+   0.0,
+   0.0,
+   32.0,
+   58.0
   ],
   "escala_origem": 1.0,
   "calor_sazonal": false,
@@ -835,13 +835,13 @@
    "res://assets/cenario/cidade/ambientes/interior/pousada/cardapio/outono.png",
    "res://assets/cenario/cidade/ambientes/interior/pousada/cardapio/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 0,
+  "quadros": 4.0,
+  "fps": 0.0,
   "usado": [
-   0,
-   0,
-   41,
-   52
+   0.0,
+   0.0,
+   41.0,
+   52.0
   ],
   "escala_origem": 1.0,
   "calor_sazonal": false,
@@ -854,13 +854,13 @@
    "res://assets/cenario/cidade/ambientes/interior/pousada/lareira/outono.png",
    "res://assets/cenario/cidade/ambientes/interior/pousada/lareira/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 4,
+  "quadros": 4.0,
+  "fps": 4.0,
   "usado": [
-   0,
-   0,
-   62,
-   60
+   0.0,
+   0.0,
+   62.0,
+   60.0
   ],
   "escala_origem": 1.0,
   "calor_sazonal": true,
@@ -873,13 +873,13 @@
    "res://assets/cenario/cidade/ambientes/interior/pousada/mesa/outono.png",
    "res://assets/cenario/cidade/ambientes/interior/pousada/mesa/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 2,
+  "quadros": 4.0,
+  "fps": 2.0,
   "usado": [
-   0,
-   0,
-   48,
-   29
+   0.0,
+   0.0,
+   48.0,
+   29.0
   ],
   "escala_origem": 1.0,
   "calor_sazonal": false,
@@ -892,13 +892,13 @@
    "res://assets/cenario/cidade/ambientes/interior/pousada/prateleira/outono.png",
    "res://assets/cenario/cidade/ambientes/interior/pousada/prateleira/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 0,
+  "quadros": 4.0,
+  "fps": 0.0,
   "usado": [
-   0,
-   0,
-   46,
-   51
+   0.0,
+   0.0,
+   46.0,
+   51.0
   ],
   "escala_origem": 1.0,
   "calor_sazonal": false,
@@ -911,13 +911,13 @@
    "res://assets/cenario/cidade/ambientes/interior/pousada/tapete/outono.png",
    "res://assets/cenario/cidade/ambientes/interior/pousada/tapete/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 0,
+  "quadros": 4.0,
+  "fps": 0.0,
   "usado": [
-   0,
-   0,
-   39,
-   39
+   0.0,
+   0.0,
+   39.0,
+   39.0
   ],
   "escala_origem": 1.0,
   "calor_sazonal": false,
@@ -930,13 +930,13 @@
    "res://assets/cenario/cidade/ambientes/interior/sede/cadeira/outono.png",
    "res://assets/cenario/cidade/ambientes/interior/sede/cadeira/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 0,
+  "quadros": 4.0,
+  "fps": 0.0,
   "usado": [
-   0,
-   0,
-   14,
-   24
+   0.0,
+   0.0,
+   14.0,
+   24.0
   ],
   "escala_origem": 1.0,
   "calor_sazonal": false,
@@ -949,13 +949,13 @@
    "res://assets/cenario/cidade/ambientes/interior/sede/estandarte/outono.png",
    "res://assets/cenario/cidade/ambientes/interior/sede/estandarte/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 0,
+  "quadros": 4.0,
+  "fps": 0.0,
   "usado": [
-   0,
-   0,
-   37,
-   60
+   0.0,
+   0.0,
+   37.0,
+   60.0
   ],
   "escala_origem": 1.0,
   "calor_sazonal": false,
@@ -968,13 +968,13 @@
    "res://assets/cenario/cidade/ambientes/interior/sede/estante/outono.png",
    "res://assets/cenario/cidade/ambientes/interior/sede/estante/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 0,
+  "quadros": 4.0,
+  "fps": 0.0,
   "usado": [
-   0,
-   0,
-   36,
-   56
+   0.0,
+   0.0,
+   36.0,
+   56.0
   ],
   "escala_origem": 1.0,
   "calor_sazonal": false,
@@ -987,13 +987,13 @@
    "res://assets/cenario/cidade/ambientes/interior/sede/lareira/outono.png",
    "res://assets/cenario/cidade/ambientes/interior/sede/lareira/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 4,
+  "quadros": 4.0,
+  "fps": 4.0,
   "usado": [
-   0,
-   0,
-   41,
-   53
+   0.0,
+   0.0,
+   41.0,
+   53.0
   ],
   "escala_origem": 1.0,
   "calor_sazonal": true,
@@ -1006,13 +1006,13 @@
    "res://assets/cenario/cidade/ambientes/interior/sede/mesa_reuniao/outono.png",
    "res://assets/cenario/cidade/ambientes/interior/sede/mesa_reuniao/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 2,
+  "quadros": 4.0,
+  "fps": 2.0,
   "usado": [
-   0,
-   0,
-   64,
-   37
+   0.0,
+   0.0,
+   64.0,
+   37.0
   ],
   "escala_origem": 1.0,
   "calor_sazonal": false,
@@ -1025,13 +1025,13 @@
    "res://assets/cenario/cidade/ambientes/interior/sede/quadro_avisos/outono.png",
    "res://assets/cenario/cidade/ambientes/interior/sede/quadro_avisos/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 0,
+  "quadros": 4.0,
+  "fps": 0.0,
   "usado": [
-   0,
-   0,
-   50,
-   49
+   0.0,
+   0.0,
+   50.0,
+   49.0
   ],
   "escala_origem": 1.0,
   "calor_sazonal": false,
@@ -1044,13 +1044,13 @@
    "res://assets/cenario/cidade/ambientes/interior/sede/tapete_corredor/outono.png",
    "res://assets/cenario/cidade/ambientes/interior/sede/tapete_corredor/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 0,
+  "quadros": 4.0,
+  "fps": 0.0,
   "usado": [
-   0,
-   0,
-   20,
-   84
+   0.0,
+   0.0,
+   20.0,
+   84.0
   ],
   "escala_origem": 1.0,
   "calor_sazonal": false,
@@ -1063,13 +1063,13 @@
    "res://assets/cenario/cidade/ambientes/interior/sede/banco_reuniao/outono.png",
    "res://assets/cenario/cidade/ambientes/interior/sede/banco_reuniao/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 0,
+  "quadros": 4.0,
+  "fps": 0.0,
   "usado": [
-   0,
-   0,
-   32,
-   15
+   0.0,
+   0.0,
+   32.0,
+   15.0
   ],
   "escala_origem": 1.0,
   "fonte": "res://assets/cenario/cidade/decoracao/mobiliario/topdown/banco_horizontal.png"
@@ -1081,13 +1081,13 @@
    "res://assets/cenario/cidade/ambientes/interior/venda/balcao/outono.png",
    "res://assets/cenario/cidade/ambientes/interior/venda/balcao/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 0,
+  "quadros": 4.0,
+  "fps": 0.0,
   "usado": [
-   0,
-   0,
-   66,
-   41
+   0.0,
+   0.0,
+   66.0,
+   41.0
   ],
   "escala_origem": 1.0,
   "calor_sazonal": false,
@@ -1100,13 +1100,13 @@
    "res://assets/cenario/cidade/ambientes/interior/venda/barris_caixas/outono.png",
    "res://assets/cenario/cidade/ambientes/interior/venda/barris_caixas/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 0,
+  "quadros": 4.0,
+  "fps": 0.0,
   "usado": [
-   0,
-   0,
-   53,
-   45
+   0.0,
+   0.0,
+   53.0,
+   45.0
   ],
   "escala_origem": 1.0,
   "calor_sazonal": false,
@@ -1119,13 +1119,13 @@
    "res://assets/cenario/cidade/ambientes/interior/venda/bau/outono.png",
    "res://assets/cenario/cidade/ambientes/interior/venda/bau/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 0,
+  "quadros": 4.0,
+  "fps": 0.0,
   "usado": [
-   0,
-   0,
-   32,
-   26
+   0.0,
+   0.0,
+   32.0,
+   26.0
   ],
   "escala_origem": 1.0,
   "calor_sazonal": false,
@@ -1138,13 +1138,13 @@
    "res://assets/cenario/cidade/ambientes/interior/venda/cestos/outono.png",
    "res://assets/cenario/cidade/ambientes/interior/venda/cestos/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 0,
+  "quadros": 4.0,
+  "fps": 0.0,
   "usado": [
-   0,
-   0,
-   43,
-   35
+   0.0,
+   0.0,
+   43.0,
+   35.0
   ],
   "escala_origem": 1.0,
   "calor_sazonal": false,
@@ -1157,13 +1157,13 @@
    "res://assets/cenario/cidade/ambientes/interior/venda/mesa_frutas/outono.png",
    "res://assets/cenario/cidade/ambientes/interior/venda/mesa_frutas/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 0,
+  "quadros": 4.0,
+  "fps": 0.0,
   "usado": [
-   0,
-   0,
-   32,
-   38
+   0.0,
+   0.0,
+   32.0,
+   38.0
   ],
   "escala_origem": 1.0,
   "calor_sazonal": false,
@@ -1176,13 +1176,13 @@
    "res://assets/cenario/cidade/ambientes/interior/venda/planta/outono.png",
    "res://assets/cenario/cidade/ambientes/interior/venda/planta/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 2,
+  "quadros": 4.0,
+  "fps": 2.0,
   "usado": [
-   0,
-   0,
-   28,
-   38
+   0.0,
+   0.0,
+   28.0,
+   38.0
   ],
   "escala_origem": 1.0,
   "calor_sazonal": false,
@@ -1195,13 +1195,13 @@
    "res://assets/cenario/cidade/ambientes/interior/venda/prateleira/outono.png",
    "res://assets/cenario/cidade/ambientes/interior/venda/prateleira/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 0,
+  "quadros": 4.0,
+  "fps": 0.0,
   "usado": [
-   0,
-   0,
-   32,
-   46
+   0.0,
+   0.0,
+   32.0,
+   46.0
   ],
   "escala_origem": 1.0,
   "calor_sazonal": false,
@@ -1214,13 +1214,13 @@
    "res://assets/cenario/cidade/ambientes/interior/venda/prateleira_b/outono.png",
    "res://assets/cenario/cidade/ambientes/interior/venda/prateleira_b/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 0,
+  "quadros": 4.0,
+  "fps": 0.0,
   "usado": [
-   0,
-   0,
-   44,
-   45
+   0.0,
+   0.0,
+   44.0,
+   45.0
   ],
   "escala_origem": 1.0,
   "calor_sazonal": false,
@@ -1233,13 +1233,13 @@
    "res://assets/cenario/cidade/ambientes/interior/venda/sacos/outono.png",
    "res://assets/cenario/cidade/ambientes/interior/venda/sacos/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 0,
+  "quadros": 4.0,
+  "fps": 0.0,
   "usado": [
-   0,
-   0,
-   57,
-   44
+   0.0,
+   0.0,
+   57.0,
+   44.0
   ],
   "escala_origem": 1.0,
   "calor_sazonal": false,
@@ -1252,13 +1252,13 @@
    "res://assets/cenario/cidade/ambientes/interior/venda/tapete/outono.png",
    "res://assets/cenario/cidade/ambientes/interior/venda/tapete/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 0,
+  "quadros": 4.0,
+  "fps": 0.0,
   "usado": [
-   0,
-   0,
-   59,
-   31
+   0.0,
+   0.0,
+   59.0,
+   31.0
   ],
   "escala_origem": 1.0,
   "calor_sazonal": false,
@@ -1271,13 +1271,13 @@
    "res://assets/cenario/cidade/ambientes/fachada/casa_bento/outono.png",
    "res://assets/cenario/cidade/ambientes/fachada/casa_bento/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 0,
+  "quadros": 4.0,
+  "fps": 0.0,
   "usado": [
-   0,
-   0,
-   160,
-   112
+   0.0,
+   0.0,
+   160.0,
+   112.0
   ],
   "escala_origem": 1.0
  },
@@ -1288,13 +1288,13 @@
    "res://assets/cenario/cidade/ambientes/fachada/enfermaria/outono.png",
    "res://assets/cenario/cidade/ambientes/fachada/enfermaria/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 0,
+  "quadros": 4.0,
+  "fps": 0.0,
   "usado": [
-   0,
-   0,
-   128,
-   112
+   0.0,
+   0.0,
+   128.0,
+   112.0
   ],
   "escala_origem": 1.0
  },
@@ -1305,13 +1305,13 @@
    "res://assets/cenario/cidade/ambientes/fachada/mistica/outono.png",
    "res://assets/cenario/cidade/ambientes/fachada/mistica/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 0,
+  "quadros": 4.0,
+  "fps": 0.0,
   "usado": [
-   0,
-   0,
-   144,
-   128
+   0.0,
+   0.0,
+   144.0,
+   128.0
   ],
   "escala_origem": 1.0
  },
@@ -1322,13 +1322,13 @@
    "res://assets/cenario/cidade/ambientes/fachada/pousada/outono.png",
    "res://assets/cenario/cidade/ambientes/fachada/pousada/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 0,
+  "quadros": 4.0,
+  "fps": 0.0,
   "usado": [
-   0,
-   0,
-   160,
-   144
+   0.0,
+   0.0,
+   160.0,
+   144.0
   ],
   "escala_origem": 1.0
  },
@@ -1339,13 +1339,13 @@
    "res://assets/cenario/cidade/ambientes/fachada/sede/outono.png",
    "res://assets/cenario/cidade/ambientes/fachada/sede/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 0,
+  "quadros": 4.0,
+  "fps": 0.0,
   "usado": [
-   0,
-   0,
-   192,
-   128
+   0.0,
+   0.0,
+   192.0,
+   128.0
   ],
   "escala_origem": 1.0
  },
@@ -1356,13 +1356,13 @@
    "res://assets/cenario/cidade/ambientes/fachada/venda/outono.png",
    "res://assets/cenario/cidade/ambientes/fachada/venda/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 0,
+  "quadros": 4.0,
+  "fps": 0.0,
   "usado": [
-   0,
-   0,
-   128,
-   112
+   0.0,
+   0.0,
+   128.0,
+   112.0
   ],
   "escala_origem": 1.0
  },
@@ -1373,13 +1373,13 @@
    "res://assets/cenario/cidade/ambientes/interior/pousada/banqueta/outono.png",
    "res://assets/cenario/cidade/ambientes/interior/pousada/banqueta/inverno.png"
   ],
-  "quadros": 4,
-  "fps": 0,
+  "quadros": 4.0,
+  "fps": 0.0,
   "usado": [
-   0,
-   0,
-   16,
-   15
+   0.0,
+   0.0,
+   16.0,
+   15.0
   ],
   "escala_origem": 1.0,
   "calor_sazonal": false,
@@ -1392,15 +1392,15 @@
    "res://assets/cenario/cidade/ambientes/fachada/casa_jogador/outono.png",
    "res://assets/cenario/cidade/ambientes/fachada/casa_jogador/inverno.png"
   ],
-  "quadros": 1,
-  "fps": 0,
+  "quadros": 1.0,
+  "fps": 0.0,
   "usado": [
-   0,
-   0,
-   112,
-   90
+   0.0,
+   0.0,
+   112.0,
+   90.0
   ],
-  "escala_origem": 1
+  "escala_origem": 1.0
  },
  "fachada/forja": {
   "texturas": [
@@ -1412,10 +1412,10 @@
   "quadros": 1,
   "fps": 0,
   "usado": [
-   0,
-   0,
-   128,
-   112
+   0.0,
+   0.0,
+   128.0,
+   112.0
   ],
   "escala_origem": 1.0,
   "fonte": "res://assets/cenario/cidade/casas/exterior/forja.png"
@@ -1430,10 +1430,10 @@
   "quadros": 1,
   "fps": 0,
   "usado": [
-   4,
-   2,
-   186,
-   117
+   4.0,
+   2.0,
+   186.0,
+   117.0
   ],
   "escala_origem": 1.0
  }

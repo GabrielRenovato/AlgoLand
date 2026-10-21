@@ -25,14 +25,12 @@ var _estacao_visual := -1
 ## Materiais do PixelLab por estação e máscaras de transição Wang (ids e colisões são preservados).
 const ESTACOES_TERRENO := ["primavera", "verao", "outono", "inverno"]
 const PARES_TERRENO := ["grama_terra", "grama_pedra", "terra_pedra"]
-const QUADROS_AGUA := 8
-const SEGUNDOS_POR_QUADRO_AGUA := 0.16
-const AGUA_SUPERFICIE := preload("res://codigo/cidade/agua_superficie.gdshader")
 var _material_agua: ShaderMaterial
+var _agua_viva = preload("res://codigo/cenario/agua_viva.gd").new()
 var _camada_agua: TileMapLayer
+var _terra_mascarada = preload("res://codigo/cenario/terra_mascarada.gd").new()
 var _bordas_grama: Node2D
-var _quadro_agua := 0
-var _tempo_agua := 0.0
+var _chao_detalhado: Node2D
 
 func _ready() -> void:
 	if local == "cidade":
@@ -204,7 +202,6 @@ func hora_atual() -> float:
 	return $Iluminacao.hora
 
 func _process(delta: float) -> void:
-	_animar_agua(delta)
 	_atualizar_papo(delta)
 	_tempo_rotina += delta
 	if _tempo_rotina >= 0.5:
@@ -470,17 +467,16 @@ func _montar_decoracao() -> void:
 	add_child(CercasVila.new())
 	add_child(preload("res://codigo/cidade/limites_vila.gd").new())
 
-## Grama original Mana Seed por estação; mantém os demais materiais, a guia e os índices Wang.
+## Terrenos locais por estação; preserva os índices Wang e o acabamento do calçamento.
 func _aplicar_terreno(estacao: int) -> void:
 	var camada := get_node_or_null("Terrains/Terreno") as TileMapLayer
 	if camada == null:
 		return
-	var raiz := "res://assets/cenario/cidade/terreno/witchbrook/"
+	var raiz := "res://assets/cenario/algoland_original/"
 	var pasta: String = raiz + ESTACOES_TERRENO[estacao] + "/"
-	var grama: String = "res://assets/cenario/cidade/terreno/mana_seed/" + ESTACOES_TERRENO[estacao] + "/"
 	for i in PARES_TERRENO.size():
-		(camada.tile_set.get_source(i) as TileSetAtlasSource).texture = load((pasta if i == 2 else grama) + PARES_TERRENO[i] + ".png")
-	(camada.tile_set.get_source(3) as TileSetAtlasSource).texture = load(grama + "grama_agua.png")
+		(camada.tile_set.get_source(i) as TileSetAtlasSource).texture = load(pasta + PARES_TERRENO[i] + ".png")
+	(camada.tile_set.get_source(3) as TileSetAtlasSource).texture = load(pasta + "grama_agua.png")
 	(camada.tile_set.get_source(3) as TileSetAtlasSource).use_texture_padding = false
 	if _camada_agua == null:
 		# A água usa o próprio material; reflexos não alteram grama, terra ou calçamento.
@@ -489,31 +485,29 @@ func _aplicar_terreno(estacao: int) -> void:
 		_camada_agua.tile_set = camada.tile_set
 		_camada_agua.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 		_camada_agua.z_index = camada.z_index
-		_material_agua = ShaderMaterial.new()
-		_material_agua.shader = AGUA_SUPERFICIE
-		_material_agua.set_shader_parameter("mascara_agua", load(raiz + "mascara_agua.png"))
-		_camada_agua.material = _material_agua
 		camada.get_parent().add_child(_camada_agua)
 		for celula in camada.get_used_cells():
 			if camada.get_cell_source_id(celula) == 3:
 				_camada_agua.set_cell(celula, 3, camada.get_cell_atlas_coords(celula))
 				camada.erase_cell(celula)
-	_material_agua.set_shader_parameter("fase_agua", float(_quadro_agua))
-	_material_agua.set_shader_parameter("fundo_pedras", load(pasta + "fundo_agua.png"))
+		_agua_viva.configurar(_camada_agua,load(raiz+"mascara_agua.png"),Vector2(8,3))
+		_material_agua=_agua_viva.material
+	_agua_viva.aplicar(estacao)
 	if _bordas_grama == null:
 		_bordas_grama = BordasGrama.new()
 		_bordas_grama.name = "BordasGrama"
 		camada.get_parent().add_child(_bordas_grama)
 	_bordas_grama.configurar(camada, _camada_agua, estacao)
+	if _terra_mascarada._fontes.is_empty():
+		_terra_mascarada.configurar(camada,{0:"cidade/%s_grama_terra",2:"cidade/%s_terra_pedra"})
+	_terra_mascarada.aplicar(estacao)
+	if _chao_detalhado==null:
+		_chao_detalhado=preload("res://codigo/cidade/chao_detalhado.gd").new()
+		_chao_detalhado.name="ChaoDetalhado"
+		camada.get_parent().add_child(_chao_detalhado)
+		_chao_detalhado.configurar(camada,_camada_agua)
+	_chao_detalhado.aplicar(estacao)
 
-func _animar_agua(delta: float) -> void:
-	if _material_agua == null:
-		return
-	_tempo_agua += delta
-	if _tempo_agua >= SEGUNDOS_POR_QUADRO_AGUA:
-		_tempo_agua = fmod(_tempo_agua, SEGUNDOS_POR_QUADRO_AGUA)
-		_quadro_agua = (_quadro_agua + 1) % QUADROS_AGUA
-		_material_agua.set_shader_parameter("fase_agua", float(_quadro_agua))
 
 ## Estação que está valendo na tela: a do nó Estacoes (que também obedece ao painel F3), senão a do calendário
 func estacao_visual() -> int:

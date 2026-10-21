@@ -680,11 +680,20 @@ func celula_aceita_impacto(celula: Vector2i, neve := false) -> bool:
 	return true
 
 # Retângulos (globais) dos sprites altos do terreno (árvores, caverna): a chuva cai sobre eles, não no chão
+func invalidar_coberturas() -> void:
+	_coberturas_prontas = false
+	_coberturas.clear()
+	_cobertura_nos.clear()
+
 func _coberto(ponto: Vector2) -> bool:
 	if not _coberturas_prontas:
 		_coberturas_prontas = true
 		_coletar_coberturas(_terreno)
-	for i in _coberturas.size():
+	for i in range(_coberturas.size() - 1, -1, -1):
+		if not is_instance_valid(_cobertura_nos[i]):
+			_coberturas.remove_at(i)
+			_cobertura_nos.remove_at(i)
+			continue
 		# as árvores de outra estação etc. ficam escondidas e não cobrem nada
 		if _coberturas[i].has_point(ponto) and _cobertura_nos[i].is_visible_in_tree():
 			return true
@@ -692,9 +701,11 @@ func _coberto(ponto: Vector2) -> bool:
 
 func _coletar_coberturas(no: Node) -> void:
 	for filho in no.get_children():
+		if filho.is_queued_for_deletion():
+			continue
 		var sprite := filho as Sprite2D
 		if sprite != null and sprite.texture != null:
-			var local := sprite.get_rect()
+			var local: Rect2 = sprite.get_meta("area_cobertura_clima", sprite.get_rect())
 			if local.size.y >= ALTURA_MINIMA_COBERTURA:
 				_coberturas.append(sprite.get_global_transform() * local)
 				_cobertura_nos.append(sprite)

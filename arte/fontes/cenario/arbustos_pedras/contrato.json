@@ -1,0 +1,14 @@
+{
+  "uso": "Substituir arbustos e pedras provisórios da fazenda e atlas compatíveis usados na arena e nos andares naturais",
+  "referencias": ["assets/cenario/Seasonal Forest/seasonal sample (spring).png", "arte/fontes/cenario/algoland_original/revisao_mana/arvores_direcao.png"],
+  "direcao": "Referência visual direta Mana Seed, grupos de folhas com volume como as árvores aprovadas; pedra com faces naturais, fissuras e sombra seletiva",
+  "grade": 16,
+  "arbustos": {"grande": {"quadro": [32,32], "pivo": [16,31]}, "pequeno": {"quadro": [16,32], "pivo": [8,31]}},
+  "pedras": {"variantes": 4, "quadro": [16,16], "pivo": [8,15], "contato": "Base estreita no chão, no centro inferior da célula; manter passagens e colisões existentes"},
+  "estacoes": ["primavera","verao","outono","inverno"],
+  "variacao_sazonal": "Mesma forma e base; folhas frescas, maduras, outonais e ramos/neve parcial; rochas com musgo/umidade, folhas no outono e neve apoiada nas faces superiores",
+  "fontes": "arte/fontes/cenario/arbustos_pedras/",
+  "saida": "assets/cenario/algoland_original/arbustos_pedras/ e atlas ativos assets/cenario/substitutos/",
+  "integracao": ["ferramentas/cenario/gerar_natureza_original.py", "ferramentas/cenario/substituir_mana_seed.py", "codigo/logica/extracao_fazenda.gd"],
+  "validacao": "Inspeção real no Godot nas quatro estações, recortes e bases dos atlas; corte de arbusto, mineração e colisões em save isolado"
+}

@@ -113,7 +113,8 @@ static func aplicar(opcoes: Dictionary, lado := 1) -> void:
 	AudioServer.set_bus_volume_db(0, linear_to_db(volume))
 	preload("res://codigo/dados/mixagem_audio.gd").aplicar(opcoes)
 	var modo := DisplayServer.WINDOW_MODE_FULLSCREEN if opcoes.get("tela_cheia", true) else DisplayServer.WINDOW_MODE_WINDOWED
-	if DisplayServer.window_get_mode() != modo:
+	# No navegador, a página controla a tela cheia após um clique explícito.
+	if not OS.has_feature("web") and DisplayServer.window_get_mode() != modo:
 		DisplayServer.window_set_mode(modo)
 	Engine.max_fps = opcoes.get("max_fps", 60)
 	_zoom = float(opcoes.get("zoom", 1.0))

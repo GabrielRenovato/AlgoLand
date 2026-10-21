@@ -61,7 +61,7 @@ def reconstruir(m,p,pontos,B,G):
             largura=12 if tipo=='arbusto_g' or p['andar'] in F.PALETAS else 5
             adicionar([(-largura,-8),(largura,-8),(largura,0),(-largura,0)],x,y,s['nome'])
     R.preparar()
-    pasta=F.DESTINO/f'v{F.PALETAS[p["andar"]]}' if p['andar'] in F.PALETAS else R.DESTINO
+    pasta=R.RAIZ/'assets/cenario/substitutos/fendas/florestas' if p['andar'] in F.PALETAS else R.DESTINO
     atlas=Image.open(pasta/'objetos_spring.png').convert('RGBA')
     for i,(x,y,tipo) in enumerate(pontos):
         # Detalhes baixos são transitáveis, como declara o sprite no jogo.

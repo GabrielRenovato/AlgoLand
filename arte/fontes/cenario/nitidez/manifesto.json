@@ -1,0 +1,72 @@
+{
+  "ferramenta": "image_gen integrado",
+  "fontes_ativas": {
+    "arvores": "arvores.png",
+    "grama": "grama.png",
+    "pedras": "pedras_v2.png",
+    "ciclo": "ciclo.png"
+  },
+  "fontes_descartadas": {
+    "pedras.png": "Variante alta e brilhos fortes rejeitados pelo usuário; não é consumida pelo preparador."
+  },
+  "prompts": [
+    "prompt_arvore.txt",
+    "prompt_grama.txt",
+    "prompt_pedras_v2.txt",
+    "prompt_ciclo.txt"
+  ],
+  "dimensoes_fontes": {
+    "arvores.png": [
+      1254,
+      1254
+    ],
+    "grama.png": [
+      1254,
+      1254
+    ],
+    "pedras_v2.png": [
+      1536,
+      1024
+    ],
+    "ciclo.png": [
+      1402,
+      1122
+    ]
+  },
+  "preparo": "Redesenhos com formas simplificadas, recorte com alpha rígido, paleta limitada sem dithering; quadros/pivôs já usados no jogo. As fontes não obedeceram à ampliação exata solicitada; a revisão considera os recortes nativos e o motor, sem afirmar alinhamento perfeito da grade na fonte.",
+  "recursos": [
+    "assets/cenario/substitutos/natureza/",
+    "assets/cenario/substitutos/entulho/",
+    "assets/cenario/algoland_original/arbustos_pedras/",
+    "assets/cenario/algoland_original/ciclo_carvalho/",
+    "assets/cenario/algoland_original/primavera/",
+    "assets/cenario/algoland_original/verao/",
+    "assets/cenario/algoland_original/outono/",
+    "assets/cenario/algoland_original/inverno/"
+  ],
+  "validacao": {
+    "mapas_estacoes": 32,
+    "falhas_mapas": 0,
+    "ciclo_estacoes": 4,
+    "falhas_ciclo": 0,
+    "referencias_ausentes": 0,
+    "inspecao": "Fazenda nas quatro estações, adulta, muda e toco no Godot, escala de uso e recortes ampliados. Sem aprovação artística presumida.",
+    "avisos": "Avisos já conhecidos de recursos e texturas pendentes ao encerrar o Godot."
+  },
+  "previas": "arte/previas/cenario/nitidez/",
+  "ajuste_toco": {
+    "desenho_anterior": [
+      56,
+      26
+    ],
+    "desenho_atual": [
+      36,
+      17
+    ],
+    "pivo": [
+      64,
+      127
+    ],
+    "validacao": "Ciclo completo, corte e troca das quatro estações: zero falhas; capturas do toco revistas no Godot."
+  }
+}

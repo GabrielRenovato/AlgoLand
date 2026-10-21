@@ -9,6 +9,9 @@ var tempo := 0.0
 var _texturas: Array[Texture2D] = []
 
 static func instalar(pai: Node2D, sprite: Sprite2D, item: Dictionary) -> void:
+	if sprite.name == "Fachada" and sprite.texture != null:
+		var detalhada: Dictionary = preload("res://codigo/cidade/fachadas_detalhadas.gd").dados(sprite.texture.resource_path.get_file().get_basename())
+		if not detalhada.is_empty(): item = detalhada
 	if not item.has("texturas"):
 		return
 	var detalhe := new()
@@ -18,6 +21,11 @@ static func instalar(pai: Node2D, sprite: Sprite2D, item: Dictionary) -> void:
 	pai.add_child(detalhe)
 
 func _ready() -> void:
+	var resolucao := float(dados.get("resolucao",1.0))
+	if resolucao>1.0:
+		imagem.scale /= resolucao
+		imagem.offset *= resolucao
+		imagem.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 	for caminho in dados["texturas"]:
 		_texturas.append(load(caminho))
 	imagem.hframes = int(dados.get("quadros", 1))

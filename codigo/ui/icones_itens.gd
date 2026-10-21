@@ -3,22 +3,15 @@ extends RefCounted
 const Equipamentos := preload("res://codigo/dados/equipamentos.gd")
 const Conjuntos := preload("res://codigo/dados/conjuntos_armadura.gd")
 const IconesFazenda := preload("res://codigo/ui/icones_fazenda.gd")
+const CoresArmas := preload("res://codigo/dados/cores_armas_raven.gd")
 
+const ARMAS_RAVEN := ["espada_basica","espada_gemea","machado","lanca_basica","arco_curto","escudo_basico"]
+const ARMAS_LEGADAS := ["maca","arco_curvo","arco_longo"]
+const ARMAS := {}
 const COLUNAS_ARMAS := 8
 const LINHAS_ARMAS := 8
-const ARMAS := {
-	"espada_basica": {"sprite": "sprite_espada", "frame": 42, "alternativa": "res://assets/personagens/Arms/swords/Sword_1.png"},
-	"espada_gemea": {"frame": 42, "alternativa": "res://assets/personagens/Arms/espada_gemea/base_1.png"},
-	"machado": {"frame": 42, "alternativa": "res://assets/personagens/Arms/machado/base_1.png"},
-	"maca": {"frame": 42, "alternativa": "res://assets/personagens/Arms/maca/base_1.png"},
-	"arco_curto": {"pasta_icone": "res://assets/personagens/Arco/arcos/icone_bo02_%d.png"},
-	"arco_curvo": {"pasta_icone": "res://assets/personagens/Arco/arcos/icone_bo01_%d.png"},
-	"arco_longo": {"pasta_icone": "res://assets/personagens/Arco/arcos/icone_bo03_%d.png"},
-	"lanca_basica": {"sprite": "sprite_lanca", "frame": 13, "alternativa": "res://assets/personagens/Arms/spears/spear_1.png"},
-	"escudo_basico": {"sprite": "sprite_escudo", "frame": 32, "alternativa": "res://assets/personagens/Arms/shields/shield_1.png"},
-}
-const ALJAVA := "res://assets/personagens/Arco/carregando/aljava.png"
-const QUADRO_ALJAVA := Rect2i(0, 64, 64, 64)
+const ALJAVA := "res://assets/personagens/raven_fantasy/icones/aljava_basica.png"
+const QUADRO_ALJAVA := Rect2i(0,0,7,18)
 const ARMADURAS := {
 	"cabeca_basica": "sprite_armadura_cabeca",
 	"armadura_basica": "sprite_armadura_corpo",
@@ -81,12 +74,16 @@ static func obter(item: DadosItem, arvore: SceneTree) -> Texture2D:
 		var peca: String = conjunto.TIPOS[item.tipo]["peca"]
 		return _recortar(load(conjunto.RAIZ_SPRITES + "%s/andar.png" % peca), Rect2i(0, 0, 64, 64))
 	if item.tipo == "aljava_basica":
-		# A folha tem 8x8 quadros de 64px: usa um só (o da aljava de lado) senão o ícone vira a folha inteira encolhida
-		return _recortar(load(ALJAVA), QUADRO_ALJAVA)
+		# Ícone individual do acessório, compartilhado com a camada Raven.
+		return load(ALJAVA)
+	if item.tipo in ARMAS_RAVEN or item.tipo in ARMAS_LEGADAS:
+		return obter_arma(item.tipo, arvore, item.nivel)
 	if ARMAS.get(item.tipo, {}).has("pasta_icone"):
 		return load(ARMAS[item.tipo]["pasta_icone"] % clampi(item.nivel, 1, 5))
 	if ARMAS.has(item.tipo):
 		return obter_arma(item.tipo, arvore, item.nivel)
+	if ARMADURAS.has(item.tipo):
+		return load("res://assets/personagens/raven_fantasy/icones/%s.png" % item.tipo)
 	var jogador := obter_jogador(arvore)
 	if ARMADURAS.has(item.tipo) and jogador != null:
 		var sprite_armadura: Sprite2D = jogador.get(ARMADURAS[item.tipo])
@@ -96,6 +93,8 @@ static func obter(item: DadosItem, arvore: SceneTree) -> Texture2D:
 	return null
 
 static func obter_arma(tipo: String, arvore: SceneTree, nivel: int = 1) -> Texture2D:
+	if tipo in ARMAS_RAVEN or tipo in ARMAS_LEGADAS:
+		return CoresArmas.icone(tipo,nivel)
 	if not ARMAS.has(tipo):
 		return null
 	var definicao: Dictionary = ARMAS[tipo]

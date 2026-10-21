@@ -4,8 +4,9 @@ extends Node2D
 ## são as do mapa). O gerador (ferramentas/fazenda/gerar_fazenda.py) lista os recursos: a chave, o tipo ("arvore",
 ## "arbusto" ou "pedra"), o ponto da base, o sprite (árvores) ou a célula da camada Detalhes (pedras) e o polígono de
 ## colisão. Cada golpe balança e solta lascas; no último, a pedra se desfaz e a colisão sai; o carvalho cai e deixa um toco
-## (ferramentas/fazenda/desenhar_toco.py), que segue bloqueando e sai com mais VIDA_TOCO golpes.
-## O que caiu volta depois de alguns dias (Fazenda.RECRESCER), ao carregar a cena. Materiais caem no chao e ocupam a mochila ao coletar.
+## compatível com a árvore, que segue bloqueando e sai com mais VIDA_TOCO golpes.
+## Após arrancar o toco, a árvore passa por semente, broto, muda e jovem até voltar adulta.
+## O crescimento acompanha os dias e o save. Materiais caem no chão e ocupam a mochila ao coletar.
 ## Também desenha o entulho da área de plantio (Fazenda.entulho, como no Stardew) com os desenhos recortados por
 ## ferramentas/fazenda/recortar_entulho.py (sem o chão da folha, um por estação), com colisão (menos o mato). Pedra, arbusto e arvoreta saem como os recursos fixos,
 ## mas não voltam; o mato sai com a enxada (Fazenda.aplicar).
@@ -19,12 +20,13 @@ const MSG_NADA_QUEBRAR := "NADA PARA QUEBRAR AQUI"
 ## Golpes para derrubar
 const VIDA := {"arvore": 4, "arvoreta": 3, "arbusto": 2, "pedra": 3}
 const VIDA_TOCO := 2
-## Toco: <pasta>/<estação>.png, com a base do carvalho na última linha e o tronco a 24 px da esquerda
-const PASTA_TOCO := "res://assets/cenario/fazenda/toco/"
-const DESENHO_TOCO := Vector2(-24, -25)
+## Ciclo: quadros128x128, com a base do carvalho no pivô64,127.
+const PASTA_CICLO := "res://assets/cenario/algoland_original/ciclo_carvalho/"
+const DESENHO_TOCO := Vector2(-64, -127)
+const ESTAGIOS := ["semente", "broto", "muda", "jovem"]
 ## Queda do carvalho: a copa (o desenho acima do corte) gira a partir do corte, ALTURA_CORTE px acima da base, e cai
 ## para o lado oposto ao do jogador
-const ALTURA_CORTE := 19.0
+const ALTURA_CORTE := 12.0
 const DURACAO_QUEDA := 0.75
 ## Que ferramenta serve para cada tipo
 const ACAO_DO_TIPO := {"arvore": "machado", "arvoreta": "machado", "arbusto": "machado", "pedra": "picareta"}
@@ -39,7 +41,7 @@ const COR_ALVO := Color(1.0, 0.95, 0.55, 0.9)
 @export var recursos: Array = []
 ## Desenhos do entulho: <pasta>/<estação>/<peça>.png (pedra_N, mato_N, arbusto, arvoreta). Arbusto e arvoreta com o
 ## deslocamento do desenho e a colisão relativos à base; a pedra com a colisão relativa ao canto da célula, por variante
-const PASTA_ENTULHO := "res://assets/cenario/fazenda/entulho/"
+const PASTA_ENTULHO := "res://assets/cenario/substitutos/entulho/"
 const NOMES_ESTACAO := ["primavera", "verao", "outono", "inverno"]
 @export var desenho_arbusto := Rect2(-8, -31, 0, 0)
 @export var desenho_arvoreta := Rect2(-16, -31, 0, 0)
@@ -56,17 +58,16 @@ var _entulho: Dictionary = {}
 var _corpo_entulho: StaticBody2D
 ## Tocos à vista: chave do carvalho -> Sprite2D
 var _tocos: Dictionary = {}
+var _crescimentos: Dictionary = {}
 
 func _ready() -> void:
 	z_index = 900
 	for recurso in recursos:
-		if Fazenda.tem_toco(recurso["chave"]):
-			var sprite := _sprite(recurso)
-			if sprite != null:
-				sprite.visible = false
-			_mostrar_toco(recurso)
+		if recurso["tipo"] == "arvore":
+			_sincronizar_arvore(recurso)
 		elif Fazenda.recurso_removido(recurso["chave"]):
 			_sumir(recurso, false)
+	Calendario.dia_passou.connect(func(_dia): _atualizar_crescimento())
 	_corpo_entulho = StaticBody2D.new()
 	_corpo_entulho.name = "ObstaculosEntulho"
 	_corpo_entulho.collision_layer = 64
@@ -89,6 +90,8 @@ func _textura(peca: String) -> Texture2D:
 	var tiny: String = preload("res://codigo/cenario/fazenda_tiny.gd").pasta_do_terreno(get_parent(), _estacao())
 	if not tiny.is_empty():
 		return load(tiny + ("arbusto_m" if peca == "arbusto" else peca) + ".png")
+	if peca == "arvoreta":
+		return load(PASTA_CICLO + NOMES_ESTACAO[_estacao()] + "/arvoreta.png")
 	return load(PASTA_ENTULHO + NOMES_ESTACAO[_estacao()] + "/" + peca + ".png")
 
 ## A estação visual virou: cada entulho troca para o desenho da nova
@@ -98,23 +101,97 @@ func _trocar_estacao() -> void:
 			registro["sprite"].texture = _textura(registro["peca"])
 	for toco in _tocos.values():
 		toco.texture = _textura_toco()
+		toco.offset = _deslocamento_toco()
+		_area_real_do_sprite(toco)
+	_atualizar_crescimento()
 
 func _textura_toco() -> Texture2D:
 	var tiny: String = preload("res://codigo/cenario/fazenda_tiny.gd").pasta_do_terreno(get_parent(), _estacao())
 	if not tiny.is_empty():
 		return load(tiny + "toco.png")
-	return load(PASTA_TOCO + NOMES_ESTACAO[_estacao()] + ".png")
+	return load(PASTA_CICLO + NOMES_ESTACAO[_estacao()] + "/toco.png")
+
+func _deslocamento_toco() -> Vector2:
+	var tiny: String = preload("res://codigo/cenario/fazenda_tiny.gd").pasta_do_terreno(get_parent(), _estacao())
+	return Vector2(-24, -25) if not tiny.is_empty() else DESENHO_TOCO
+
+func _atualizar_crescimento() -> void:
+	for recurso in recursos:
+		if recurso["tipo"] == "arvore":
+			_sincronizar_arvore(recurso)
+	_invalidar_coberturas()
+
+func _invalidar_coberturas() -> void:
+	var estacoes := get_parent().get_node_or_null("Estacoes")
+	if estacoes != null and estacoes.meteorologia != null:
+		estacoes.meteorologia.invalidar_coberturas()
+
+func _area_real_do_sprite(sprite: Sprite2D) -> void:
+	var imagem := sprite.texture.get_image()
+	if imagem.is_compressed():
+		imagem.decompress()
+	var area := Rect2(imagem.get_used_rect())
+	area.position += sprite.offset
+	sprite.set_meta("area_cobertura_clima", area)
+
+func _sincronizar_arvore(recurso: Dictionary) -> void:
+	var chave: String = recurso["chave"]
+	var original := _sprite(recurso) as Sprite2D
+	if original == null:
+		return
+	var estagio: int = Fazenda.estagio_arvore(chave)
+	if estagio != -1 and _tocos.has(chave):
+		_tocos[chave].queue_free()
+		_tocos.erase(chave)
+	var obstaculo := get_parent().get_node_or_null(recurso["obstaculo"]) as CollisionPolygon2D
+	if obstaculo != null:
+		obstaculo.set_deferred("disabled", estagio >= 0 and estagio < 3)
+	original.visible = estagio == 4
+	if estagio == -1 or estagio == 4:
+		_caidos.erase(chave)
+		if _crescimentos.has(chave):
+			_crescimentos[chave].queue_free()
+			_crescimentos.erase(chave)
+		if estagio == -1 and not _tocos.has(chave):
+			_mostrar_toco(recurso)
+		if estagio == 4:
+			original.modulate.a = 1.0
+		return
+	# O tronco adulto fica escondido e sem alvo de extração enquanto cresce.
+	_caidos[chave] = true
+	var jovem: Sprite2D = _crescimentos.get(chave)
+	if jovem == null:
+		jovem = Sprite2D.new()
+		jovem.name = "Crescimento_" + chave
+		jovem.centered = false
+		jovem.offset = Vector2(-64, -127)
+		jovem.position = recurso["pos"]
+		jovem.scale = original.scale
+		jovem.z_as_relative = false
+		jovem.z_index = Profundidade.z_de(recurso["pos"].y)
+		add_child(jovem)
+		_crescimentos[chave] = jovem
+	jovem.texture = load(PASTA_CICLO + NOMES_ESTACAO[_estacao()] + "/" + ESTAGIOS[estagio] + ".png")
+	var natureza := get_parent().get_node_or_null("NaturezaFazenda")
+	if natureza != null and estagio in [2,3]: natureza.vestir(jovem,ESTAGIOS[estagio])
+	elif natureza != null: jovem.material=null
+	_area_real_do_sprite(jovem)
 
 func _mostrar_toco(recurso: Dictionary) -> void:
 	var toco := Sprite2D.new()
 	toco.texture = _textura_toco()
 	toco.centered = false
-	toco.offset = DESENHO_TOCO
+	toco.offset = _deslocamento_toco()
 	toco.position = recurso["pos"]
+	var original := _sprite(recurso) as Sprite2D
+	if original != null:
+		toco.scale = original.scale
 	toco.z_as_relative = false
 	toco.z_index = Profundidade.z_de(recurso["pos"].y)
 	add_child(toco)
 	_tocos[recurso["chave"]] = toco
+	_area_real_do_sprite(toco)
+	_invalidar_coberturas()
 
 # --- Entulho da área de plantio ---------------------------------------------------------------------------
 
@@ -150,13 +227,16 @@ func _desenhar_entulho(celula: Vector2i, tipo: String) -> void:
 			area.position += base
 		"arvoreta":
 			desenho = desenho_arvoreta.position
-			area = colisao_arvoreta
+			var tiny: String = preload("res://codigo/cenario/fazenda_tiny.gd").pasta_do_terreno(get_parent(), _estacao())
+			area = colisao_arvoreta if not tiny.is_empty() else Rect2(-4, -5, 8, 5)
 			area.position += base
 	var sprite := Sprite2D.new()
 	sprite.texture = _textura(peca)
 	sprite.centered = false
 	sprite.offset = desenho
 	sprite.position = base
+	var natureza := get_parent().get_node_or_null("NaturezaFazenda")
+	if natureza != null and (peca.begins_with("pedra_") or peca=="arvoreta"): natureza.vestir(sprite,peca)
 	sprite.z_as_relative = false
 	# mato fica no chão; o resto ordena pela base, como os outros objetos
 	sprite.z_index = Profundidade.Z_CHAO + 4 if tipo == "mato" else Profundidade.z_de(base.y)
@@ -251,7 +331,9 @@ func impacto(acao: String, ponto_global: Vector2, forca := 1) -> void:
 		_tocos.erase(chave)
 		var some := toco.create_tween()
 		some.tween_property(toco, "modulate:a", 0.0, 0.35)
-		some.tween_callback(toco.queue_free)
+		some.tween_callback(func():
+			toco.queue_free()
+			_sincronizar_arvore(recurso))
 		_caidos[chave] = true
 		var obstaculo := get_parent().get_node_or_null(recurso["obstaculo"]) as CollisionPolygon2D
 		if obstaculo != null:
@@ -299,33 +381,46 @@ func _derrubar(recurso: Dictionary, ponto_golpe: Vector2) -> void:
 	var original := _sprite(recurso) as Sprite2D
 	if original == null:
 		return
-	original.visible = false
 	var atlas := original.texture as AtlasTexture
-	if atlas == null:
+	if original.texture == null:
 		return
-	var regiao := atlas.region
+	original.visible = false
+	var regiao := atlas.region if atlas != null else Rect2(Vector2.ZERO, original.texture.get_size())
 	var copa := AtlasTexture.new()
-	copa.atlas = atlas.atlas
+	copa.atlas = atlas.atlas if atlas != null else original.texture
+	var tiny: String = preload("res://codigo/cenario/fazenda_tiny.gd").pasta_do_terreno(get_parent(), _estacao())
+	var altura_corte := ALTURA_CORTE if tiny.is_empty() else 19.0
 	# Só as linhas acima do corte: o desenho começa 'offset.y' px acima da base
-	copa.region = Rect2(regiao.position, Vector2(regiao.size.x, -original.offset.y - ALTURA_CORTE))
-	var corte: Vector2 = recurso["pos"] - Vector2(0, ALTURA_CORTE)
+	copa.region = Rect2(regiao.position, Vector2(regiao.size.x, clampf(-original.offset.y - altura_corte, 1.0, regiao.size.y)))
+	var corte: Vector2 = recurso["pos"] - Vector2(0, altura_corte * original.scale.y)
 	var tronco := Sprite2D.new()
+	tronco.name = "Queda_" + String(recurso["chave"])
 	tronco.texture = copa
+	tronco.material = original.material
 	tronco.centered = false
 	tronco.offset = Vector2(original.offset.x, -copa.region.size.y)
 	tronco.position = corte
+	tronco.scale = original.scale
 	tronco.z_as_relative = false
 	tronco.z_index = Profundidade.z_de(recurso["pos"].y) + 1
 	add_child(tronco)
 	var lado := 1.0 if to_local(ponto_golpe).x <= recurso["pos"].x else -1.0
+	# O contato acompanha o centro da copa recortada e a escala da árvore.
+	# A poeira fica na linha do chão, em vez de flutuar na altura do corte.
+	var imagem := copa.get_image()
+	if imagem.is_compressed():
+		imagem.decompress()
+	var area := imagem.get_used_rect()
+	var alcance := absf(tronco.offset.y + area.get_center().y) * original.scale.y
+	var contato := Vector2(corte.x + lado * alcance, recurso["pos"].y)
 	var queda := tronco.create_tween()
 	queda.tween_property(tronco, "rotation", lado * deg_to_rad(8.0), 0.25).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	queda.tween_property(tronco, "rotation", lado * deg_to_rad(90.0), DURACAO_QUEDA).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
-	queda.tween_callback(func(): _impacto_queda(corte + Vector2(lado * 48.0, 6.0), recurso["tipo"]))
-	queda.tween_property(tronco, "rotation", lado * deg_to_rad(84.0), 0.09).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-	queda.tween_property(tronco, "rotation", lado * deg_to_rad(90.0), 0.12).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
-	queda.tween_interval(0.5)
-	queda.tween_property(tronco, "modulate:a", 0.0, 0.5)
+	queda.tween_callback(func(): _impacto_queda(contato, recurso["tipo"]))
+	queda.tween_property(tronco, "rotation", lado * deg_to_rad(88.0), 0.06).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	queda.tween_property(tronco, "rotation", lado * deg_to_rad(90.0), 0.08).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+	queda.tween_interval(0.18)
+	queda.tween_property(tronco, "modulate:a", 0.0, 0.35)
 	queda.tween_callback(tronco.queue_free)
 
 func _impacto_queda(posicao: Vector2, tipo: String) -> void:

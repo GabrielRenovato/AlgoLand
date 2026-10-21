@@ -1,0 +1,22 @@
+{
+  "modelo": "Raven ativo; corpo/cabelo/roupas originais, células80x80, pivô40,47 e pés no deslocamento atual11.",
+  "escopo": [
+    "Armas e escudo nativos Raven: espada, espada duas mãos, machado, lança, arco e defesa nas quatro direções",
+    "Armas Mana Seed explicitamente fora desta etapa; não migrar seus modelos nem níveis"
+  ],
+  "fontes": [
+    "arte/fontes/personagens/raven_fantasy/base.zip",
+    "arte/fontes/personagens/raven_fantasy/roupa.zip"
+  ],
+  "tecnica": "Reutilizar poses nativas e compor peças existentes com pegada guiada pelas luvas originais; nenhuma anatomia gerada ou redimensionada.",
+  "falhas_confirmadas": [
+    "escudada cai no ramo de espada",
+    "guarda congela na antecipação, quadro0",
+    "camada Shield back ausente",
+    "machado de duas mãos é mostrado com escudo ativo",
+    "arma em mãos e camadas não entram na chave de atualização visual"
+  ],
+  "validacao": "Capturas e movimentos no Godot em saves isolados; arma/escudo sem corpos duplicados; pegada, oclusão, pivô, quatro direções e transições. Testes de combate e inventário proporcionais.",
+  "visibilidade_escudo": "Somente durante guarda/aparo e escudada decorrente do aparo perfeito. Oculto em repouso, corrida e ataques comuns.",
+  "visibilidade_arma": "Seleção permanece na barra de itens; parado e correndo sem arma nas mãos. Peça visível somente no ataque ou aparo com a arma."
+}

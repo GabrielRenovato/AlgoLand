@@ -13,6 +13,8 @@ var _altura := 1.0
 var _tamanho_mascara := Vector2.ONE
 var _iluminacao: Node
 var _clima: Node
+var _mascaras_estacoes: Array[Texture2D] = []
+var _estacao_mascara := -1
 
 static func _material_mascara() -> ShaderMaterial:
 	if _material == null:
@@ -20,13 +22,14 @@ static func _material_mascara() -> ShaderMaterial:
 		_material.shader = SILHUETA
 	return _material
 
-static func projetar(pai: Node2D, chave: String, largura: float, altura: float) -> Node2D:
+static func projetar(pai: Node2D, chave: String, largura: float, altura: float, mascaras: Array[Texture2D] = []) -> Node2D:
 	var sombra := new()
 	sombra.name = "SombraChao"
 	sombra.z_as_relative = false
 	sombra.z_index = -980
 	sombra._largura = largura
 	sombra._altura = altura
+	sombra._mascaras_estacoes = mascaras
 	var textura: Texture2D = load(RAIZ + chave + ".png")
 	if textura == null:
 		push_error("Máscara de sombra ausente: " + chave)
@@ -78,6 +81,14 @@ static func contato(pai: Node2D, largura: float, altura: float, posicao: Vector2
 func _process(_delta: float) -> void:
 	if _imagem == null:
 		return
+	if not _mascaras_estacoes.is_empty():
+		var cena := get_tree().current_scene
+		var estacoes := cena.get_node_or_null("Terrains/Estacoes") if cena != null else null
+		var estacao: int = estacoes.estacao_atual if estacoes != null and estacoes.estacao_atual >= 0 else Calendario.estacao()
+		if estacao != _estacao_mascara:
+			_estacao_mascara = estacao
+			_imagem.texture = _mascaras_estacoes[estacao]
+			(_contato_base as Sprite2D).texture = _imagem.texture
 	if not is_instance_valid(_iluminacao):
 		_iluminacao = get_tree().get_first_node_in_group("iluminacao")
 	if not is_instance_valid(_clima):

@@ -13,7 +13,7 @@ from preparar_testes import preparar
 from testar_coop import ARGUMENTOS_TESTES, ERROS_ESPERADOS, executar
 
 RAIZ = Path(__file__).resolve().parents[2]
-GRAFICOS = {"rotina_aves", "painel_debug", "obra_carpinteiro","atendimento_cidade", "dialogo_cidade", "familia_carpinteiro", "casa_carpinteiro", "galinheiro", "relevo_gentle", "enseada_visual", "mapa_mundi", "fazenda_tiny", "sobreposicao_cais", "pegadas_praia", "heroi_gerado", "rotas_visuais", "barra_energia", "continuidade_caverna"}
+GRAFICOS = {"natureza_fazenda", "acabamento_cidade", "chao_detalhado", "ponte_cidade", "urbanismo_cidade", "enfeites_detalhados", "nitidez_exteriores", "botoes_carta", "cama_raven", "entrada_portal", "f3_equipar_conjuntos", "cores_armas_raven", "previa_inventario_raven", "migracao_raven", "dash_raven", "catalogo_armas_raven", "espera_pesca_raven", "acabamento_raven", "camadas_corrida_raven", "personalizacao_raven", "heroi_raven", "rotina_aves", "painel_debug", "obra_carpinteiro","atendimento_cidade", "dialogo_cidade", "familia_carpinteiro", "casa_carpinteiro", "galinheiro", "relevo_gentle", "enseada_visual", "mapa_mundi", "fazenda_tiny", "sobreposicao_cais", "pegadas_praia", "heroi_gerado", "rotas_visuais", "barra_energia", "continuidade_caverna"}
 
 
 def main():

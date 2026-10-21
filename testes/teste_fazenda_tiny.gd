@@ -61,7 +61,6 @@ func _rodar() -> void:
 	var posicoes := {}
 	for objeto in terreno.get_node("Objetos3D").get_children():
 		posicoes[objeto] = objeto.position
-	var celulas: PackedByteArray = terreno.get_node("Terra").tile_map_data.duplicate()
 	var extracao := terreno.get_node("Extracao")
 	# Canteiro de teste só no save isolado, para inspecionar solo seco, regado e suas junções.
 	for y in range(24, 27):
@@ -76,6 +75,9 @@ func _rodar() -> void:
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(SAIDA))
 	estacoes.definir_estacao(0, true)
 	await _foto("original_geral")
+	# O canteiro de teste atualiza o mapa no redraw; comparar só depois
+	# dessa preparação, para medir exclusivamente a alternância visual.
+	var celulas: Array[Vector2i] = terreno.get_node("Terra").get_used_cells()
 	# Exercita a própria ação do F3, sem mudar o calendário nem gravar a opção.
 	var painel: Node = root.get_node("PainelDebug")
 	painel._alternar_fazenda_tiny()
@@ -89,7 +91,10 @@ func _rodar() -> void:
 			_conferir(objeto.position == posicoes[objeto], "Planta preservada: " + objeto.name)
 			if objeto is Sprite2D:
 				_conferir(objeto.texture.resource_path.begins_with(pasta), "Sprite sazonal Tiny: " + objeto.name)
-		_conferir(terreno.get_node("Terra").tile_map_data == celulas, "Células de plantio intactas")
+		# A comparação troca os índices gráficos dos atlas contínuos pelos
+		# índices Tiny; as posições e os dados de plantio precisam permanecer.
+		var atuais: Array[Vector2i] = terreno.get_node("Terra").get_used_cells()
+		_conferir(atuais.size()==celulas.size() and celulas.all(func(c): return atuais.has(c)), "Células de plantio intactas")
 		_conferir(root.get_node("Fazenda").entulho == entulho_antes, "Entulho persistido intacto")
 		_conferir(root.get_node("Fazenda").solo == solo_antes, "Plantio e rega preservados pela troca")
 		for registro in extracao._entulho.values():
@@ -119,6 +124,7 @@ func _rodar() -> void:
 		else:
 			_conferir(objeto.texture == troca._originais[objeto]["texture"], "Textura original restaurada: " + objeto.name)
 		_conferir(objeto.offset == troca._originais[objeto]["offset"], "Pivô original restaurado: " + objeto.name)
+		_conferir(objeto.scale == troca._originais[objeto]["scale"] and objeto.texture_filter == troca._originais[objeto]["texture_filter"], "Escala e filtro originais restaurados: " + objeto.name)
 	estacoes.definir_estacao(0, true)
 	await _foto("original_restaurado")
 	# A cidade herda fazenda.gd para configurar a câmera, mas não possui a casa deste mapa.

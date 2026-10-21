@@ -84,7 +84,7 @@ func _rodar() -> void:
 		estacoes.definir_estacao(indice, true)
 		await _quadros()
 		_verificar("F3 troca a fachada para " + nomes[indice], sprite.texture.resource_path.ends_with(nomes[indice] + ".png"))
-		_verificar("estação mantém tamanho e âncora", sprite.texture.get_height() == 90 and sprite.offset == Vector2(-56, -90))
+		_verificar("estação mantém tamanho e âncora", is_equal_approx(sprite.texture.get_height()*sprite.scale.y,90.0) and (sprite.offset*sprite.scale).is_equal_approx(Vector2(-56,-90)))
 	# Dormir na última noite do outono deve trocar a casa junto com o terreno.
 	estacoes.definir_estacao(2, true)
 	var calendario: Node = root.get_node("Calendario")

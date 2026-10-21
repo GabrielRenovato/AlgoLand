@@ -1,0 +1,180 @@
+{
+  "origem": "Clockwork Raven, base e Adventurer Set 3.0 + Hairstyles adquiridos pelo usuário",
+  "modelo": "Corpo base original Skin 1, sem roupa, capa ou cabelo; ferramentas originais nas ações correspondentes",
+  "celula_origem": [
+    48,
+    64
+  ],
+  "celula_lanca": [
+    80,
+    80
+  ],
+  "celula_destino": [
+    80,
+    80
+  ],
+  "pivo": [
+    40,
+    47
+  ],
+  "direcoes": [
+    "baixo",
+    "direita",
+    "cima",
+    "esquerda"
+  ],
+  "transformacao": "Translação fixa x=16 nas células 48x64; sem escala, sem recorte pela silhueta",
+  "destino": "Somente Jogador; não alterar Aparencia nem NPCs",
+  "acoes": {
+    "andar": [
+      96,
+      64,
+      null
+    ],
+    "parado": [
+      336,
+      64,
+      null
+    ],
+    "correr": [
+      576,
+      64,
+      null
+    ],
+    "pular": [
+      1056,
+      64,
+      null
+    ],
+    "morrer": [
+      1296,
+      64,
+      null
+    ],
+    "carregar": [
+      96,
+      384,
+      null
+    ],
+    "jogar": [
+      336,
+      384,
+      null
+    ],
+    "empurrar": [
+      576,
+      384,
+      null
+    ],
+    "puxar": [
+      816,
+      384,
+      null
+    ],
+    "esquiva": [
+      1056,
+      384,
+      null
+    ],
+    "espada": [
+      96,
+      704,
+      "Basic Sword.png"
+    ],
+    "espada_2": [
+      336,
+      704,
+      "Basic Sword.png"
+    ],
+    "espada_dupla": [
+      576,
+      704,
+      "Two Handed Sword.png"
+    ],
+    "machado": [
+      96,
+      1024,
+      "Two Handed Axe.png"
+    ],
+    "conjurar": [
+      336,
+      1024,
+      "Conjure.png"
+    ],
+    "magia": [
+      576,
+      1024,
+      "Magic.png"
+    ],
+    "bloquear": [
+      96,
+      1344,
+      "Shield Above.png"
+    ],
+    "andar_escudo": [
+      336,
+      1344,
+      "Shield Above.png"
+    ],
+    "arco": [
+      576,
+      1344,
+      "Bow.png"
+    ],
+    "picareta": [
+      96,
+      1664,
+      "Pickaxe.png"
+    ],
+    "pa": [
+      336,
+      1664,
+      "Shovel.png"
+    ],
+    "enxada": [
+      576,
+      1664,
+      "Hoe.png"
+    ],
+    "regar": [
+      816,
+      1664,
+      "Watering Can.png"
+    ],
+    "pescar": [
+      1056,
+      1664,
+      "Fishing Rod.png"
+    ],
+    "lanca": [
+      880,
+      864,
+      "Spear.png"
+    ],
+    "plantar": [
+      336,
+      384,
+      null
+    ],
+    "colher": [
+      816,
+      384,
+      null
+    ],
+    "forjar": [
+      96,
+      1664,
+      null
+    ],
+    "sentado": [
+      336,
+      64,
+      null
+    ],
+    "ferido": [
+      576,
+      384,
+      null
+    ]
+  }
+}

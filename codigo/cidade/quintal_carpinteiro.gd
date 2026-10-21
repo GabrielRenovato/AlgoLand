@@ -2,7 +2,7 @@ extends Node2D
 
 ## Cercado e aves da família. Não compartilha nem altera o bando da fazenda do jogador.
 const Profundidade := preload("res://codigo/globais/profundidade.gd")
-const CERCA := "res://assets/cenario/fazenda/cerca/"
+const CERCA := "res://assets/cenario/cidade/complementos/cercas/"
 const ESTACOES := ["primavera","verao","outono","inverno"]
 var cercado: Rect2
 var abrigo: Vector2
@@ -37,10 +37,10 @@ func _ready() -> void:
 	var sprite := Sprite2D.new()
 	sprite.name = "Imagem"
 	sprite.centered = false
-	var ambiente: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://assets/cenario/cidade/ambientes/manifesto.json"))["externo/galinheiro"]
-	var usado: Array = ambiente.usado
+	var ambiente: Dictionary = preload("res://codigo/cidade/enfeites_detalhados.gd").dados("mobiliario/galinheiro")
+	var usado: Array = [0,0,38,40]
 	sprite.offset = Vector2(-float(usado[2])/2,-float(usado[3]))
-	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 	casa.add_child(sprite)
 	preload("res://codigo/cidade/detalhe_ambiente.gd").instalar(casa,sprite,ambiente)
 	_colisao(corpo,Rect2(abrigo-Vector2(18,10),Vector2(36,10)))
@@ -77,10 +77,11 @@ func _peca(ponto: Vector2, tipo: String, deslocamento: Vector2) -> void:
 	var sprite := Sprite2D.new()
 	sprite.position = ponto
 	sprite.centered = false
-	sprite.offset = deslocamento
+	sprite.offset = deslocamento*4
+	sprite.scale = Vector2(.25,.25)
 	sprite.z_as_relative = false
 	sprite.z_index = Profundidade.z_de(ponto.y)
-	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 	sprite.set_meta("peca",tipo)
 	add_child(sprite)
 	_pecas.append(sprite)

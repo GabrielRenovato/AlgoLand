@@ -1,0 +1,45 @@
+{
+  "fontes": [
+    "base.zip",
+    "roupa.zip",
+    "cabelos.zip"
+  ],
+  "modelo": "Corpo Raven original em camadas independentes; sem personagem precomposto",
+  "tons_de_pele": 3,
+  "arquivos_cabelo": 28,
+  "opcao_sem_cabelo": true,
+  "roupas": "Oito combinações de duas camisas, duas calças e capa opcional, com botas e luvas; corpo base adicional",
+  "geometria_jogo": {
+    "celula": [
+      80,
+      80
+    ],
+    "pivo": [
+      40,
+      47
+    ],
+    "atlas": [
+      320,
+      8000
+    ],
+    "escala": 1
+  },
+  "geometria_previa": {
+    "celula": [
+      64,
+      64
+    ],
+    "pivo": [
+      32,
+      43
+    ],
+    "translacao_relativa_ao_jogo": [
+      -8,
+      -4
+    ]
+  },
+  "save": "aparencia_raven (versao, pele, cabelo, roupa, cor); IDs antigos preservados",
+  "preparador": "ferramentas/personagem/preparar_camadas_raven.py",
+  "teste": "testes/teste_personalizacao_raven.gd",
+  "escopo": "Jogador; NPCs e armaduras existentes não modificados"
+}

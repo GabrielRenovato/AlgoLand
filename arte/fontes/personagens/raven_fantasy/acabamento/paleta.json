@@ -1,0 +1,27 @@
+{
+  "contrato": {
+    "modelo": "Base Raven Fantasy 3.0 original adquirida pelo usuário",
+    "escopo": "Somente o jogador principal e suas prévias de personalização",
+    "tecnica": "Troca exata de rampas de cor no shader, sem geração de imagens",
+    "invariantes": ["texturas originais", "silhueta e alfa", "poses e proporções", "grade 80x80 e pivô 40/47", "ordem e duração dos quadros", "combo original de dois golpes", "velocidade de deslocamento"],
+    "acabamento": "Sombras levemente frias, luzes quentes, pele menos rosada, tecido e couro com maior separação de valores"
+  },
+  "cores": {
+    "2e1c2c": "302b38",
+    "ac5846": "9e5d53", "d8735e": "cd8c72", "fa947f": "edb393", "ffbaac": "ffdbb2",
+    "c05b45": "bd7b65", "ffccb0": "ffe0b8",
+    "672f2f": "633f3b", "7e443d": "80544a", "9f6152": "aa7960", "b98169": "d39f7b",
+    "af7366": "a77264", "e39180": "dba184", "fab4a6": "f4c3a1", "fdd2ca": "ffe0bf",
+    "715326": "735438", "93803c": "b28a4b", "beac49": "edc774",
+    "283f55": "2c3f58", "3b5b7a": "4a6b88", "668cb1": "86abc4",
+    "601c1f": "63313b", "872026": "a04b4a", "c0151f": "dd8270",
+    "8e4019": "804636", "ac5d19": "b97643", "e08537": "e8ad65",
+    "3b3c44": "3c3b49", "505d64": "646b78", "7e8a91": "a1abb3",
+    "222442": "2c354c", "3b4b82": "597a9b",
+    "34412c": "34493e", "536a45": "789561",
+    "463329": "44323a", "614837": "846047",
+    "30383b": "2e3c48", "365357": "526f7a",
+    "34302f": "343442", "46403f": "565769", "696a6a": "898b9d",
+    "847e87": "8c8f9c", "9badb7": "c3d1d2"
+  }
+}

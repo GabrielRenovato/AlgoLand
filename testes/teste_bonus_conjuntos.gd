@@ -102,7 +102,7 @@ func _rodar() -> void:
 	var coberturas_iguais := true
 	for conjunto in Conjuntos.CONJUNTOS:
 		for pagina in ["andar", "espada", "arco_p3"]:
-			coberturas_iguais = coberturas_iguais and Aparencia._cobertura_das_pecas(pagina, conjunto.RAIZ_SPRITES) == Aparencia.calcular_cobertura(pagina, conjunto.RAIZ_SPRITES)
+			coberturas_iguais = coberturas_iguais and _cobertura_gravada(pagina, conjunto.RAIZ_SPRITES) == Aparencia.calcular_cobertura(pagina, conjunto.RAIZ_SPRITES)
 	_verificar("cobertura gravada igual à calculada nos três conjuntos", coberturas_iguais)
 	# Morte: peças de conjunto (equipadas e na mochila, com nível) e moedas sobrevivem; o resto volta ao kit inicial
 	inv.limpar()
@@ -134,3 +134,12 @@ func _rodar() -> void:
 	_verificar("lendário nível 5 é o máximo", Equipamentos.dados_melhoria_conjunto(5, "lendario").is_empty())
 	print("Falhas: ", _falhas)
 	quit(1 if _falhas > 0 else 0)
+
+func _cobertura_gravada(pagina: String, raiz: String) -> PackedByteArray:
+	var imagem: Image = load(raiz+"cobertura/"+pagina+".png").get_image()
+	imagem.convert(Image.FORMAT_RGBA8)
+	var rgba := imagem.get_data()
+	var cobertura := PackedByteArray()
+	cobertura.resize(512*512)
+	for i in cobertura.size(): cobertura[i]=rgba[i*4]
+	return cobertura

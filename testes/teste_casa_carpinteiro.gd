@@ -71,7 +71,7 @@ func rodar() -> void:
 		await quadros()
 		var textura: Texture2D = vila.get_node("Terrains/Construcoes/Carpintaria/Fachada").texture
 		fotos.append(textura.resource_path)
-		verificar("fachada sazonal e cercas integradas: "+str(estacao),textura.get_size()==Vector2(192,128) and quintal._estacao==estacao)
+		verificar("fachada sazonal e cercas integradas: "+str(estacao),(textura.get_size()*vila.get_node("Terrains/Construcoes/Carpintaria/Fachada").scale).is_equal_approx(Vector2(192,128)) and quintal._estacao==estacao)
 		await foto("cidade-"+str(estacao))
 	verificar("quatro imagens sazonais efetivamente utilizadas",fotos.size()==4 and fotos[0]!=fotos[1] and fotos[1]!=fotos[2] and fotos[2]!=fotos[3])
 	vila.get_node("Terrains/Estacoes").definir_estacao(0,true)

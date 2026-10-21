@@ -1,0 +1,38 @@
+{
+  "ferramenta": "image_gen integrada; geração individual de cada recurso",
+  "referencia_aceita": "arte/previas/exteriores_detalhados/print_cidade.png",
+  "direcao_usuario": "Mesmo acabamento mais definido das fachadas; evitar blocos grandes e pixelização",
+  "prompt_comum": "ONE isolated environment prop for AlgoLand. Cozy detailed hand-painted fantasy farming RPG matching warm terracotta-roof timber houses. Orthographic elevated three-quarter view, tops and front visible, no isometric diamond. Clean clear contours and broad readable shapes, natural colors, no chunky pixelation or photo realism. High resolution source for 4x logical display. Entire single object centered with 8% transparent margin. True transparent background; no scenery, no ground patch or cast shadow beyond base, no text. Spring appearance; fixed base-center pivot.",
+  "assuntos_e_dimensoes": {
+    "fonte": "Fonte circular de arenito;85×90 em canvas96×96; estrutura e superfícies separadas dos jatos. Simulação física contínua das duas bacias, jatos e respingos.",
+    "mural": "Mural de avisos de madeira com cobertura de telhas;56×57",
+    "poste_luz": "Poste de madeira com lampião suspenso à direita;29×60",
+    "placa_encruzilhada": "Placa de madeira com três setas sem texto;48×61",
+    "correio": "Caixa de correio vermelha sobre poste de madeira;24×38",
+    "cerca": "Trecho frontal de cerca com três postes e duas travessas;54×35",
+    "canteiro": "Floreira de madeira com flores rosas, creme e amarelas;58×47",
+    "galinheiro": "Galinheiro elevado com telhado cerâmico e rampa;38×40",
+    "feno": "Dois fardos cilíndricos de palha;53×45",
+    "lenha": "Pilha de lenha sob cobertura de madeira;59×47",
+    "horta": "Canteiro retangular com alfaces e tomates;57×45",
+    "arbusto": "Arbusto arredondado com flores;42×40",
+    "flores": "Tufo rasteiro de flores variadas;44×43",
+    "mesa_piquenique": "Mesa retangular sem bancos, com bule e xícaras;48×29",
+    "banqueta": "Banqueta quadrada de madeira, sem encosto;16×15"
+  },
+  "originais_reutilizados": {
+    "coreto": "arte/fontes/cidade/objetos/coreto.png"
+  },
+  "variantes": "primavera, verão, outono e inverno; vegetação/flores, exposição dos materiais e neve localizada; geometria fixa",
+  "preparo": "ferramentas/cidade/preparar_enfeites_detalhados.gd",
+  "integracao": "codigo/cidade/decoracao_vila.gd + detalhe_ambiente.gd; layout, âncoras, colisões, visibilidade sazonal e assentos preservados",
+  "revisao": "teste_enfeites_detalhados.gd; capturas reais em save isolado",
+  "cercas": "Fonte cerca.png recortada em poste/travessas/trechos verticais4x; usada por CercasJardins, LimitesVila e QuintalCarpinteiro em quatro estações.",
+  "correio": "Removido do layout a pedido do usuário; originais preservados.",
+  "revisoes": [
+    "perspectiva_frontal.json",
+    "fonte_animacao.json",
+    "complementos.json",
+    "revisao_perspectiva.json"
+  ]
+}

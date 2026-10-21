@@ -73,6 +73,7 @@ var layout := "xbox"
 var dispositivo := 0
 
 func _ready() -> void:
+	preload("res://codigo/dados/fontes_interface.gd").preparar()
 	add_child(preload("res://codigo/ui/rolagem_toque.gd").new())
 	usando_toque = OS.has_feature("mobile") or ARGUMENTO_TOQUE in OS.get_cmdline_user_args() or ARGUMENTO_TOQUE in OS.get_cmdline_args()
 	if usando_toque:
@@ -224,7 +225,7 @@ func rotulo_acao(acao: String, no: Node = null) -> String:
 		if evento is InputEventKey:
 			var tecla: Key = evento.keycode
 			if tecla == KEY_NONE:
-				tecla = DisplayServer.keyboard_get_keycode_from_physical(evento.physical_keycode)
+				tecla = evento.physical_keycode if OS.has_feature("web") else DisplayServer.keyboard_get_keycode_from_physical(evento.physical_keycode)
 			return OS.get_keycode_string(tecla).to_upper()
 	return ""
 

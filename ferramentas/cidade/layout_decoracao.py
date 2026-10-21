@@ -29,16 +29,15 @@ BARRACAS_RESERVADAS = [
 # animacao {quadros, fps, largura, altura}, espelhar, sem_col, medida (nome da imagem de onde vêm as medidas)
 ITENS = [
     # A praça mantém livres os eixos de circulação e a frente do mural.
-    ('fonte_anim', 336, 284, {'medida': 'fonte', 'col': [82, 30], 'animacao': {'quadros': 9, 'fps': 7, 'largura': 96, 'altura': 96}}),
-    ('mural', 280, 236, {'col': [34, 8]}),
+    ('fonte_anim', 336, 284, {'medida': 'fonte', 'col': [90, 48], 'animacao': {'quadros': 9, 'fps': 7, 'largura': 96, 'altura': 96}}),
+    ('mural', 384, 346, {'col': [34, 8]}),
     ('poste_luz', 252, 240, {'col': [8, 6], 'luz': [0, -46, LAMPIAO, 1.1, 0.9]}),
     ('poste_luz', 420, 240, {'col': [8, 6], 'luz': [0, -46, LAMPIAO, 1.1, 0.9]}),
     ('poste_luz', 252, 326, {'col': [8, 6], 'luz': [0, -46, LAMPIAO, 1.1, 0.9]}),
     ('poste_luz', 420, 326, {'col': [8, 6], 'luz': [0, -46, LAMPIAO, 1.1, 0.9]}),
     ('placa_encruzilhada', 448, 244, {'col': [10, 6]}),
-    ('ponte', 676, 286, {'z_fixo': -995, 'sem_col': True}),
+    ('ponte', 676, 298, {'z_fixo': -995, 'sem_col': True}),
     # O comércio fica na venda do Tomás; não há barracas sem interação.
-    ('correio', 60, 280, {'col': [10, 6]}),
     # Coreto e área de descanso formam o entorno da pousada.
     ('coreto', 448, 404, {'col': [72, 16]}),
     ('poste_luz', 180, 482, {'col': [8, 6], 'luz': [0, -46, LAMPIAO, 1.1, 0.9]}),
@@ -49,8 +48,8 @@ ITENS = [
     ('galinha', 160, 536, {'sem_col': True, 'estacoes': [0, 1, 2]}),
     ('feno', 196, 538, {'col': [36, 10], 'estacoes': [2]}),
     ('lenha', 272, 496, {'col': [48, 10], 'estacoes': [2, 3]}),
-    ('cerca', 40, 562, {'col': [48, 6]}),
-    ('cerca', 100, 562, {'col': [48, 6]}),
+    # A cerca contínua de LimitesVila já fecha este quintal em y=560.
+    # Peças soltas aqui duplicavam postes e travessas sobre esse mesmo limite.
     # Bancos junto ao lago; a mesa fica no gramado entre o quintal e o parque.
     ('banco', 380, 500, {'col': [38, 8], 'assento': True}),
     # Piquenique a leste do lago: três objetos separados, com espaço entre os pés.

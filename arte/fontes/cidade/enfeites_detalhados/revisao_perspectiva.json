@@ -1,0 +1,25 @@
+{
+  "escopo": "Decoração ativa da cidade, incluindo quintal do carpinteiro. Fachadas existentes conferidas na cena: entradas voltadas ao sul e alinhadas ao mapa.",
+  "camera": "ortográfica elevada, frente voltada ao sul; sem projeção isométrica dos enfeites retangulares",
+  "itens": {
+    "construcoes/coreto": "revisado: construção centrada, simétrica e frontal; volumes laterais pertencem à forma circular/poligonal",
+    "construcoes/fonte_anim": "revisado: construção centrada, simétrica e frontal; volumes laterais pertencem à forma circular/poligonal",
+    "construcoes/ponte": "revisado: tampo/piso visível na câmera elevada, frente alinhada aos eixos do mapa",
+    "mobiliario/banco_piquenique_direito": "revisado: tampo/piso visível na câmera elevada, frente alinhada aos eixos do mapa",
+    "mobiliario/banco_piquenique_esquerdo": "revisado: tampo/piso visível na câmera elevada, frente alinhada aos eixos do mapa",
+    "mobiliario/canteiro": "corrigido para frente: eixo horizontal nivelado, sem yaw lateral",
+    "mobiliario/correio": "removido do mapa a pedido do usuário; arte preservada nas fontes",
+    "mobiliario/feno": "revisado: elemento orgânico/animal sem fachada oblíqua artificial",
+    "mobiliario/galinha": "substituída pela animação canônica de bicar da fazenda",
+    "mobiliario/galinheiro": "corrigido para frente: eixo horizontal nivelado, sem yaw lateral",
+    "mobiliario/horta": "revisado: tampo/piso visível na câmera elevada, frente alinhada aos eixos do mapa",
+    "mobiliario/lenha": "corrigido para frente: eixo horizontal nivelado, sem yaw lateral",
+    "mobiliario/mesa_piquenique": "revisado: tampo/piso visível na câmera elevada, frente alinhada aos eixos do mapa",
+    "mobiliario/mural": "corrigido para frente: eixo horizontal nivelado, sem yaw lateral",
+    "mobiliario/placa_encruzilhada": "revisado: tábuas direcionais pertencem à função da placa; poste frontal",
+    "mobiliario/poste_luz": "revisado: poste vertical, braço e lampião à direita são a forma do objeto",
+    "vegetacao/arbusto": "revisado: elemento orgânico/animal sem fachada oblíqua artificial",
+    "vegetacao/arvore": "revisado: elemento orgânico/animal sem fachada oblíqua artificial",
+    "vegetacao/flores": "revisado: elemento orgânico/animal sem fachada oblíqua artificial"
+  }
+}

@@ -1,0 +1,4 @@
+{
+  "ferramenta": "image_gen integrada",
+  "prompt": "Clean up transparency artifacts in this winter oak sprite. Remove EVERY bright red, orange-red, neon green fringe or matte artifact around the fine twigs and transparent holes. Those red areas must be truly transparent empty space, not foliage or background. Keep only the living brown bark branches, white/blue snow, and completely transparent background. Preserve exact canvas, root pivot, trunk pixels, all legitimate brown branch geometry and snow, framing and size. No red leaves whatsoever; this is bare winter. Make the fine branch edges clean and smooth without any colored matte. No new elements, no floor or shadows."
+}

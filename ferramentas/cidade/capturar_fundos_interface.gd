@@ -16,10 +16,10 @@ func rodar() -> void:
 	root.get_node("Saves").trocar("solo")
 	root.mode = Window.MODE_WINDOWED
 	root.content_scale_size = Vector2i(704,576)
-	root.size = Vector2i(704,576)
+	root.size = Vector2i(2816,2304)
 	DirAccess.make_dir_recursive_absolute("res://assets/ui/fundos_menu")
 	for estacao in 4:
-		root.get_node("Calendario").dia = 1+estacao*30
+		root.get_node("Calendario").dia = 1+estacao*root.get_node("Calendario").DIAS_POR_ESTACAO
 		root.get_node("Transicao").hora_salva = 12
 		change_scene_to_file("res://cenas/cidade.tscn")
 		await quadros(25)

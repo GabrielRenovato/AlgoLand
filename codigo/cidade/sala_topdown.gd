@@ -1,12 +1,12 @@
 extends Node2D
 
-## Planta da casa montada com recortes nativos de 16 px da Mana Seed.
+## Planta da casa montada com recortes nativos de 16 px dos interiores locais PixelLab.
 ## A casa é uma lista de áreas de chão (cômodos e corredores), cada uma com o próprio tom de piso; o que não é
 ## chão fica de fora, escuro. As paredes saem do contorno, numa grade de 8 px: onde o chão não tem nada acima
 ## aparece a face de madeira (32 px) com o topo em corte; nos lados e embaixo, só o topo em corte (8 px). Dois
 ## cômodos lado a lado dividem uma parede de 8 px; um embaixo do outro precisam de 40 px entre si, o espaço da
 ## face. Portas são corredores que atravessam esse espaço. As faixas são recortadas, nunca esticadas.
-const FOLHA := preload("res://assets/cenario/Starter Pack/home interiors, timber roof.png")
+const FOLHA := preload("res://assets/cenario/substitutos/interiores/madeira.png")
 const CELULA := 8
 ## Linhas da folha de cada tom de piso
 const PISOS := {"escuro": [2, 2], "medio": [5, 6], "claro": [9, 10]}
@@ -82,11 +82,11 @@ func _piso(area: Rect2i, tom: String = "medio") -> void:
 
 func _faixa_horizontal(x: int, y: int, largura: int) -> void:
 	for dx in range(0, largura, 16):
-		_recorte(Vector2i(x + dx, y), Vector2i(272 + (dx / 16 % 5) * 16, 224), Vector2i(mini(16, largura - dx), 8))
+		_recorte(Vector2i(x + dx, y), Vector2i(400 + (dx / 16 % 5) * 16, 224), Vector2i(mini(16, largura - dx), 8))
 
 func _faixa_vertical(x: int, y: int, altura: int) -> void:
 	for dy in range(0, altura, 16):
-		_recorte(Vector2i(x, y + dy), Vector2i(272, 240), Vector2i(8, mini(16, altura - dy)))
+		_recorte(Vector2i(x, y + dy), Vector2i(496, 224), Vector2i(8, mini(16, altura - dy)))
 
 ## Face de madeira (duas linhas) entre x0 e x1, com o chão em y
 func _face(x0: int, x1: int, y: int) -> void:

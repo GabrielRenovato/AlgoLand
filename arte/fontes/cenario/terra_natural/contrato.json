@@ -1,0 +1,41 @@
+{
+  "origem": "image_gen pela ferramenta nativa",
+  "fonte": "quatro_estacoes.png",
+  "funcao": "Terra de caminhos e área aberta da fazenda e mapas naturais; combinar com grama_tufos/.",
+  "referencia": "arte/previas/cenario/grama_tufos/fazenda_0.png",
+  "grade": 16,
+  "painel_nativo": [
+    112,
+    90
+  ],
+  "campo": [
+    128,
+    128
+  ],
+  "estacoes": [
+    "primavera",
+    "verao",
+    "outono",
+    "inverno"
+  ],
+  "encaixe": "Mesmas posições e máscaras de centro, oito bordas e quatro cantos internos; fundo transparente expõe grama contínua. Fase espacial módulo8 compartilhada por todas as peças; sem novas colisões.",
+  "preparo": "ferramentas/cenario/preparar_terra_natural.py; cortes mínimos compartilhados com grama_do_topo.py;16 cores e sem dithering.",
+  "entrega": "assets/cenario/substitutos/terra_continua/{spring,summer,autumn,winter}.png;128×1664, treze bancos.",
+  "integracao": [
+    "codigo/cenario/terra_continua.gd",
+    "codigo/cenario/estacoes.gd",
+    "ferramentas/cenario/gerar_natureza_original.py"
+  ],
+  "prompt": "Create a professional pixel-art PACKED EARTH GROUND texture sheet for AlgoLand, a top-down cozy farming RPG. Attached screenshot is reference ONLY for the new green grass palette, pixel scale and overall game style; do not reproduce the scene. Deliver ONLY dirt material, fully opaque, no grass or borders in output. Exactly FOUR panels2x2: spring upper-left, summer upper-right, autumn lower-left, winter lower-right. Each panel a seamless128x128 logical pixel field, uniformly enlarged with crisp square pixels. Natural compacted loam: calm muted warm beige-brown base, soft broad irregular patches of ochre and umber, a FEW tiny embedded flat pebbles2x2px and small worn soil grains, occasional very faint curved compression marks. Around80% quiet base and20% subtle clustered material detail, restrained value contrast. No endlessly repeated single-pixel dashes or confetti. No cracks, stone pavement, rock boulders, footprints, furrows, objects, plants, highlights that look like glitter, fake relief, gradients, blurry painting, antialiasing, text, dividing lines, tiled squares, stripes or symmetry. Top-down flat walkable EARTH, not sand. Must feel like warm forest soil next to fresh green grass, a harmonious supporting material that does not compete with characters. Spring slightly moist medium warm brown; summer slightly drier light warm clay-tan; autumn muted warm umber; winter cool gray-brown compacted damp earth with extremely subtle fine frost shading in sheltered sparse patches, MAINLY exposed dirt for paths, do not blanket in snow. Keep same fine pixel scale and underlying surface character in all seasons. Each panel repeats seamlessly horizontally and vertically with no obvious rectangular patches. Output only four-season dirt sheet.",
+  "integracao_global": {
+    "mascaras": "preparar_terra_mascarada.py: cidade (dois pares Wang) e florestas Gentle1/2/5/8; máscaras por estação, fase global e filtro nearest e enquadramento do atlas preservados.",
+    "consumidores": [
+      "codigo/cenario/terra_mascarada.gd",
+      "codigo/cidade/cidade.gd",
+      "codigo/cenario/lago_fazenda.gd",
+      "codigo/cenario/solo_arado.gd"
+    ],
+    "materiais_distintos": "Areia da praia e piso mineral das cavernas e pedreira conservam sua função e material.",
+    "validacao": "Comparação real antes/depois preserva cada pixel externo às máscaras nos quatro tratamentos sazonais."
+  }
+}

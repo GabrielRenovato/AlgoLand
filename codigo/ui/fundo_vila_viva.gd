@@ -75,6 +75,10 @@ func _ready() -> void:
 
 func _aplicar_estacao(estacao: int) -> void:
 	_fundo.texture = load("res://assets/ui/fundos_menu/%s.png" % ESTACOES[clampi(estacao,0,3)])
+	# O fundo contém as fachadas detalhadas e é capturado na resolução 4x.
+	# Câmera e trajetos continuam nas mesmas coordenadas lógicas.
+	_fundo.scale = Vector2.ONE * 704.0 / _fundo.texture.get_width()
+	_fundo.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS if _fundo.texture.get_width()>704 else CanvasItem.TEXTURE_FILTER_NEAREST
 
 func _ajustar() -> void:
 	if _vista == null: return

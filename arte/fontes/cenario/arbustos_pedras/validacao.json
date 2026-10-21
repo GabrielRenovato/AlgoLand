@@ -1,0 +1,19 @@
+{
+  "mapas_e_estacoes": "32 combinações de mapas/estações carregadas e capturadas no Godot, 0 falhas e sem erros de script",
+  "revisao_visual": "Fazenda nas quatro estações, detalhes dos arbustos e das quatro formas de pedra; atlas dentro dos limites e bases alinhadas",
+  "regressoes": {
+    "forja": "passou",
+    "ligacao_fazenda": "passou"
+  },
+  "referencias": "0 falhas",
+  "captura": "arte/previas/cenario/arbustos_pedras/quatro_estacoes_no_jogo.png",
+  "isolamento": "Projeto e save de testes em /tmp/algoland-substituir-tiles",
+  "arbustos": "Rejeitados pelo usuário; removidos do jogo junto das colisões e do entulho. Fontes arquivadas.",
+  "pedras": "Preservadas; nenhuma aprovação artística do usuário presumida.",
+  "revisao_remocao": {
+    "mapas_estacoes": 32,
+    "falhas": 0,
+    "previas": "arte/previas/cenario/sem_arbustos/",
+    "observacao": "Revisão da fazenda nas quatro estações, preservando pedras e arvoretas."
+  }
+}

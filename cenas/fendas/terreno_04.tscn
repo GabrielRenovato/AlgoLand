@@ -4,19 +4,19 @@
 
 [ext_resource type="Script" path="res://codigo/cenario/profundidade_grupo.gd" id="prof_grupo"]
 
-[ext_resource type="Texture2D" path="res://assets/cenario/fendas/andar_04/winter.png" id="arena_folha"]
+[ext_resource type="Texture2D" path="res://assets/cenario/substitutos/fendas/andar_04/winter.png" id="arena_folha"]
 
-[ext_resource type="Texture2D" path="res://assets/cenario/Seasonal Forest/seasonal water animations/winter water sparkles B 16x16.png" id="brilho_folha"]
+[ext_resource type="Texture2D" path="res://assets/cenario/substitutos/natureza/brilho_winter.png" id="brilho_folha"]
 
 [ext_resource type="Script" path="res://codigo/cenario/estacoes.gd" id="estacoes_script"]
 
 [ext_resource type="Script" path="res://codigo/logica/passagem.gd" id="passagem_script"]
 
 
-[ext_resource type="Texture2D" path="res://assets/cenario/fendas/andar_04/spring.png" id="fenda_0"]
-[ext_resource type="Texture2D" path="res://assets/cenario/fendas/andar_04/summer.png" id="fenda_1"]
-[ext_resource type="Texture2D" path="res://assets/cenario/fendas/andar_04/autumn.png" id="fenda_2"]
-[ext_resource type="Texture2D" path="res://assets/cenario/fendas/andar_04/winter.png" id="fenda_3"]
+[ext_resource type="Texture2D" path="res://assets/cenario/substitutos/fendas/andar_04/spring.png" id="fenda_0"]
+[ext_resource type="Texture2D" path="res://assets/cenario/substitutos/fendas/andar_04/summer.png" id="fenda_1"]
+[ext_resource type="Texture2D" path="res://assets/cenario/substitutos/fendas/andar_04/autumn.png" id="fenda_2"]
+[ext_resource type="Texture2D" path="res://assets/cenario/substitutos/fendas/andar_04/winter.png" id="fenda_3"]
 
 [ext_resource type="Script" path="res://codigo/fendas/decoracao_sazonal.gd" id="decoracao_script"]
 [ext_resource type="Texture2D" path="res://assets/cenario/fendas/rpgw_caves/objetos_spring.png" id="decoracao_spring"]

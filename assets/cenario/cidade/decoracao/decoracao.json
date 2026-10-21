@@ -10,8 +10,8 @@
    90
   ],
   "col": [
-   82,
-   30
+   90,
+   48
   ],
   "animacao": {
    "quadros": 9,
@@ -22,8 +22,8 @@
  },
  {
   "p": "mobiliario/mural",
-  "x": 280,
-  "y": 236,
+  "x": 384,
+  "y": 346,
   "usado": [
    0,
    0,
@@ -201,7 +201,7 @@
  {
   "p": "construcoes/ponte",
   "x": 676,
-  "y": 286,
+  "y": 298,
   "usado": [
    0,
    0,
@@ -219,31 +219,6 @@
   "fps": 0,
   "escala_origem": 1.0,
   "fonte": "res://assets/cenario/cidade/decoracao/construcoes/ponte.png"
- },
- {
-  "p": "mobiliario/correio",
-  "x": 60,
-  "y": 304,
-  "usado": [
-   0,
-   0,
-   24,
-   38
-  ],
-  "col": [
-   10,
-   6
-  ],
-  "texturas": [
-   "res://assets/cenario/cidade/ambientes/externo/correio/primavera.png",
-   "res://assets/cenario/cidade/ambientes/externo/correio/verao.png",
-   "res://assets/cenario/cidade/ambientes/externo/correio/outono.png",
-   "res://assets/cenario/cidade/ambientes/externo/correio/inverno.png"
-  ],
-  "quadros": 4,
-  "fps": 0,
-  "escala_origem": 1.0,
-  "fonte": "res://assets/cenario/cidade/decoracao/mobiliario/correio.png"
  },
  {
   "p": "construcoes/coreto",
@@ -464,56 +439,6 @@
   "fps": 0,
   "escala_origem": 1.0,
   "fonte": "res://assets/cenario/cidade/decoracao/mobiliario/lenha.png"
- },
- {
-  "p": "mobiliario/cerca",
-  "x": 40,
-  "y": 562,
-  "usado": [
-   0,
-   0,
-   54,
-   35
-  ],
-  "col": [
-   48,
-   6
-  ],
-  "texturas": [
-   "res://assets/cenario/cidade/ambientes/externo/cerca/primavera.png",
-   "res://assets/cenario/cidade/ambientes/externo/cerca/verao.png",
-   "res://assets/cenario/cidade/ambientes/externo/cerca/outono.png",
-   "res://assets/cenario/cidade/ambientes/externo/cerca/inverno.png"
-  ],
-  "quadros": 4,
-  "fps": 0,
-  "escala_origem": 1.0,
-  "fonte": "res://assets/cenario/cidade/decoracao/mobiliario/cerca.png"
- },
- {
-  "p": "mobiliario/cerca",
-  "x": 100,
-  "y": 568,
-  "usado": [
-   0,
-   0,
-   54,
-   35
-  ],
-  "col": [
-   48,
-   6
-  ],
-  "texturas": [
-   "res://assets/cenario/cidade/ambientes/externo/cerca/primavera.png",
-   "res://assets/cenario/cidade/ambientes/externo/cerca/verao.png",
-   "res://assets/cenario/cidade/ambientes/externo/cerca/outono.png",
-   "res://assets/cenario/cidade/ambientes/externo/cerca/inverno.png"
-  ],
-  "quadros": 4,
-  "fps": 0,
-  "escala_origem": 1.0,
-  "fonte": "res://assets/cenario/cidade/decoracao/mobiliario/cerca.png"
  },
  {
   "p": "mobiliario/mesa_piquenique",

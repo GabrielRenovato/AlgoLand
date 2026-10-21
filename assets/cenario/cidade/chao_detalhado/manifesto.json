@@ -1,0 +1,28 @@
+{
+  "resolucao": 4,
+  "periodo_logico": 128,
+  "estacoes": [
+    "primavera",
+    "verao",
+    "outono",
+    "inverno"
+  ],
+  "costuras": {
+    "primavera": {
+      "costura_x": 0.8880208333333334,
+      "costura_y": 0.0
+    },
+    "verao": {
+      "costura_x": 2.4244791666666665,
+      "costura_y": 0.0
+    },
+    "outono": {
+      "costura_x": 2.5598958333333335,
+      "costura_y": 0.0
+    },
+    "inverno": {
+      "costura_x": 0.4140625,
+      "costura_y": 0.0
+    }
+  }
+}

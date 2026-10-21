@@ -24,14 +24,14 @@ const ALCANCE_MIRA_ARCO := 260.0
 const COSSENO_CONE_MIRA := 0.42
 ## Inclinação mínima do direcional/joystick para contar como "estou apontando"
 const ZONA_MORTA_MIRA := 0.25
-const ObjetosRefinados := preload("res://codigo/dados/objetos_refinados.gd")
-const TEXTURA_ALJAVA := preload("res://assets/personagens/Arco/carregando/aljava.png")
+
 
 # Preload do banco de dados de armas (nome: banco_dados_armas)
 var banco_dados_armas = preload("res://codigo/dados/equipamentos.gd")
 signal equipamento_alterado
 @onready var estatisticas = preload("res://codigo/jogador/status_do_jogador.gd").new()
 var eh_arma_duas_maos: bool = false
+var aparencia_raven: Dictionary = {}
 @export var cor_cabelo: Color = Color(1, 1, 1)  # Branco como padrão
 var ataques_bloqueados: bool = false
 @export_category("Variáveis")
@@ -366,7 +366,6 @@ func _ready() -> void:
 
 	# Cabelo e roupa de cada animação (andar, golpes, forja...): ver codigo/dados/aparencia.gd
 	_aplicar_aparencia()
-	ObjetosRefinados.aplicar($CompositeSprites/Forja/Arm, $CompositeSprites/Forja/Arm.texture)
 
 	if _arvore_animacao:
 		_maquina_estados = _arvore_animacao.get("parameters/playback")
@@ -400,17 +399,9 @@ func _ready() -> void:
 	_posicao_acampamento = global_position
 	Progresso.melhorias_alteradas.connect(aplicar_melhorias_permanentes)
 	aplicar_melhorias_permanentes()
-	_instalar_base_vila.call_deferred()
+	add_child(preload("res://codigo/jogador/heroi_raven.gd").new())
 
-func _instalar_base_vila() -> void:
-	if not is_inside_tree() or not get_tree().get_meta("visual_base_vila", false):
-		return
-	var cena := Cooperativo.cena_de(self)
-	# Não aplicar à miniatura do título ou à criação de personagem.
-	if cena == null or (cena.get_node_or_null("Jogador") != self and not eh_p2):
-		return
-	if not has_node("HeroiBaseVila"):
-		add_child(preload("res://codigo/jogador/heroi_base_vila.gd").new())
+
 
 func _iniciar_inventario() -> void:
 	if inventario.esta_vazio() and not inventario.carregar():
@@ -544,7 +535,12 @@ func iniciar_dash() -> void:
 	velocity = dir * velocidade_dash
 	_tempo_proximo_rastro = 0.0
 	_direcao_ataque = dir
-	_tocar_pose("esquiva", duracao_dash)
+	var raven := get_node_or_null("HeroiRaven")
+	if raven != null and raven.visible:
+		no_reacao.encerrar()
+		raven._process(0.0)
+	else:
+		_tocar_pose("esquiva", duracao_dash)
 
 	await get_tree().create_timer(duracao_dash).timeout
 	# Sai do dash com parte do impulso, para não parar seco
@@ -591,11 +587,23 @@ func _criar_rastro_dash() -> void:
 	if cena_atual == null:
 		return
 	var rastro := Node2D.new()
+	rastro.add_to_group("rastros_dash")
 	rastro.global_position = $CompositeSprites.global_position
 	rastro.z_index = z_index - 1
 	rastro.modulate = cor_rastro_dash
+	var raven := get_node_or_null("HeroiRaven")
+	if raven != null and raven.is_visible_in_tree():
+		# A pose precisa acompanhar este passo físico antes de fotografar o rastro.
+		raven._process(0.0)
+		rastro.add_child(raven.criar_rastro())
+		cena_atual.add_child(rastro)
+		rastro.global_transform = raven.global_transform
+		var desaparecer := rastro.create_tween()
+		desaparecer.tween_property(rastro, "modulate:a", 0.0, duracao_rastro_dash)
+		desaparecer.tween_callback(rastro.queue_free)
+		return
 	for camada in [$CompositeSprites/BaseSprites, $CompositeSprites/Armaduras, no_arco, no_reacao]:
-		if not camada.visible:
+		if camada == null or not camada.is_visible_in_tree():
 			continue
 		for sprite in camada.get_children():
 			if sprite is Sprite2D and sprite.visible and sprite.texture:
@@ -620,32 +628,9 @@ func _criar_rastro_dash() -> void:
 func bloquear_ataques(bloquear: bool) -> void:
 	ataques_bloqueados = bloquear
 
-func carregar_conjunto_armadura(id_conjunto: int) -> void:
-	var caminho_base := "res://assets/personagens/Armors/%d" % id_conjunto
-
-	var caminho_cabeca   : String = "%s/head.png"   % caminho_base
-	var caminho_corpo   : String = "%s/armor.png"  % caminho_base
-	var caminho_luvas : String = "%s/gloves.png" % caminho_base
-	var caminho_botas  : String = "%s/boots.png"  % caminho_base
-
-	if ResourceLoader.exists(caminho_cabeca):
-		sprite_armadura_cabeca.texture = load(caminho_cabeca)
-	else:
-		push_warning("[carregar_conjunto_armadura] head.png não encontrado em: " + caminho_cabeca)
-
-	if ResourceLoader.exists(caminho_corpo):
-		sprite_armadura_corpo.texture = load(caminho_corpo)
-	else:
-		push_warning("[carregar_conjunto_armadura] armor.png não encontrado em: " + caminho_corpo)
-	if ResourceLoader.exists(caminho_luvas):
-		sprite_armadura_luvas.texture = load(caminho_luvas)
-	else:
-		push_warning("[carregar_conjunto_armadura] gloves.png não encontrado em: " + caminho_luvas)
-
-	if ResourceLoader.exists(caminho_botas):
-		sprite_armadura_botas.texture = load(caminho_botas)
-	else:
-		push_warning("[carregar_conjunto_armadura] boots.png não encontrado em: " + caminho_botas)
+func carregar_conjunto_armadura(_id_conjunto: int) -> void:
+	# Os itens conservam seus bônus; as peças são compostas em HeroiRaven.
+	pass
 
 func conectar_sinal_se_nao_conectado(no: Node, nome_sinal: String, metodo: String) -> void:
 	if not no.is_connected(nome_sinal, Callable(self, metodo)):
@@ -845,8 +830,6 @@ func mover() -> void:
 		# 5) Poção de velocidade multiplica por cima (pode passar do teto enquanto dura)
 		velocidade_final *= 1.0 + efeitos_pocao.bonus("velocidade")
 		# O corpo Tiny em escala nativa pede um deslocamento menor por passada.
-		if has_node("HeroiTiny"):
-			velocidade_final *= HeroiTiny.MULTIPLICADOR_MOVIMENTO
 
 		# Move interpolando a velocidade atual para a velocidade desejada
 		velocity.x = lerp(velocity.x, dir.x * velocidade_final, _aceleracao)
@@ -923,6 +906,11 @@ func curar(quantidade: int) -> void:
 	hp_atual = mini(hp_atual + quantidade, estatisticas.hp_maximo)
 	atualizar_barra_hp()
 
+func _limite_combo_espada() -> int:
+	# O Raven tem dois golpes próprios de espada; outros visuais mantêm seu combo.
+	var raven := get_node_or_null("HeroiRaven") as CanvasItem
+	return 2 if raven != null and raven.visible and id_arma_atual != "machado" else 3
+
 func logica_combo_ataque() -> void:
 	var atacar := _pedido_ataque
 	_pedido_ataque = false
@@ -962,7 +950,7 @@ func logica_combo_ataque() -> void:
 				elif _fase_combo == 1:
 					_fase_combo = 2
 					iniciar_slash_ataque("AtaqueEspadaSlash_2", _tempo_slash_2)
-				elif _fase_combo == 2:
+				elif _fase_combo == 2 and _limite_combo_espada() >= 3:
 					_fase_combo = 3
 					iniciar_slash_ataque("AtaqueEspadaSlash_3", _tempo_slash_3)
 			elif usando_arco:
@@ -1033,7 +1021,7 @@ func _on_temporizador_ataque_timeout() -> void:
 			if _fase_combo == 1:
 				_fase_combo = 2
 				iniciar_slash_ataque("AtaqueEspadaSlash_2", _tempo_slash_2)
-			elif _fase_combo == 2:
+			elif _fase_combo == 2 and _limite_combo_espada() >= 3:
 				_fase_combo = 3
 				iniciar_slash_ataque("AtaqueEspadaSlash_3", _tempo_slash_3)
 			else:
@@ -1281,23 +1269,9 @@ func _armas_nas_costas() -> bool:
 	return ARMAS_NAS_COSTAS
 
 func _aplicar_aparencia() -> void:
-	if sprite_corpo:
-		Aparencia.aplicar_corpo(sprite_corpo, "andar", roupa_atual, pecas_cavaleiro, raizes_armadura)
-	if corpo_espada_escudo_ataque:
-		Aparencia.aplicar_corpo(corpo_espada_escudo_ataque, "espada", roupa_atual, pecas_cavaleiro, raizes_armadura)
-	if corpo_lanca_escudo_ataque:
-		Aparencia.aplicar_corpo(corpo_lanca_escudo_ataque, "lanca", roupa_atual, pecas_cavaleiro, raizes_armadura)
-	Aparencia.aplicar_cabelo(sprite_cabelo, cabelo_atual, "andar", roupa_atual, pecas_cavaleiro, raizes_armadura)
-	Aparencia.aplicar_roupa(sprite_roupa, roupa_atual, "andar", pecas_cavaleiro, raizes_armadura)
-	Aparencia.aplicar_cabelo(cabelo_ataque, cabelo_atual, "espada", roupa_atual, pecas_cavaleiro, raizes_armadura)
-	Aparencia.aplicar_roupa(roupa_ataque, roupa_atual, "espada", pecas_cavaleiro, raizes_armadura)
-	Aparencia.aplicar_cabelo(cabelo_lanca_ataque, cabelo_atual, "lanca", roupa_atual, pecas_cavaleiro, raizes_armadura)
-	Aparencia.aplicar_roupa(roupa_lanca_ataque, roupa_atual, "lanca", pecas_cavaleiro, raizes_armadura)
-	definir_cor_cabelo(cor_cabelo)
-	if sprite_cabelo_forja:
-		aplicar_dados_forja()
-		if esta_sentado:
-			_aplicar_roupa_sentado()
+	if aparencia_raven.is_empty():
+		aparencia_raven = {"pele":0,"cabelo":clampi(cabelo_atual+1,1,28),"roupa":1,"cor":[cor_cabelo.r,cor_cabelo.g,cor_cabelo.b,cor_cabelo.a]}
+	$CompositeSprites.visible = false
 
 func adicionar_moedas(quantidade: int) -> void:
 	DadosJogo.moedas += quantidade
@@ -1500,7 +1474,7 @@ func atualizar_texturas_arco() -> void:
 		no_arco.configurar(dados_nivel["textura"], dados_nivel["textura_ataque"])
 	# Andando, só a aljava aparece: um sprite solto no nó do escudo, movido pela animação.
 	# O arco só é desenhado durante o disparo (no_arco).
-	ObjetosRefinados.aplicar(sprite_escudo, TEXTURA_ALJAVA)
+	sprite_escudo.texture = null
 
 func _iniciar_disparo() -> void:
 	var mira := _mira_do_disparo()
@@ -1993,6 +1967,7 @@ func carregar_de_json() -> Dictionary:
 	return json.get_data()
 
 func aplicar_dados_carregados(dados: Dictionary) -> void:
+	aparencia_raven = dados.get("aparencia_raven", {}).duplicate(true)
 	# Antes de aplicar, zera todos os bônus de armadura/escudo
 	bonus_vitalidade = 0
 	bonus_defesa = 0
@@ -2015,15 +1990,9 @@ func aplicar_dados_carregados(dados: Dictionary) -> void:
 	atualizar_dano_arma()
 
 func aplicar_dados_forja() -> void:
-	if sprite_corpo_forja:
-		Aparencia.aplicar_corpo(sprite_corpo_forja, "forja", roupa_atual, pecas_cavaleiro, raizes_armadura)
-	Aparencia.aplicar_cabelo(sprite_cabelo_forja, cabelo_atual, "forja", roupa_atual, pecas_cavaleiro, raizes_armadura)
-	sprite_cabelo_forja.modulate = cor_cabelo
-	Aparencia.aplicar_roupa(sprite_roupa_forja, roupa_atual, "forja", pecas_cavaleiro, raizes_armadura)
-	Aparencia.aplicar_cartola(sprite_cabelo_forja, sprite_roupa_forja, "forja", roupa_atual, pecas_cavaleiro, raizes_armadura)
+	# O renderizador Raven consulta diretamente o equipamento e o estado.
+	pass
 
-## Senta o jogador na posição `posicao` olhando para `lado` (1 = direita, -1 = esquerda), desenhado no z `z`
-## (acima do encosto da cadeira). Quem pede é o cadeira.gd, que depois o tira com levantar()
 func sentar(posicao: Vector2, lado: int, z: int, frente: int = 0) -> void:
 	if esta_sentado or estaMorto:
 		return
@@ -2052,13 +2021,9 @@ func sentar(posicao: Vector2, lado: int, z: int, frente: int = 0) -> void:
 
 # A roupa que ele está usando, na versão da página 4 (a da forja das roupas antigas é o avental de ferreiro)
 func _aplicar_roupa_sentado() -> void:
-	if sprite_corpo_forja:
-		Aparencia.aplicar_corpo(sprite_corpo_forja, "sentado", roupa_atual, pecas_cavaleiro, raizes_armadura)
-	Aparencia.aplicar_cabelo(sprite_cabelo_forja, cabelo_atual, "sentado", roupa_atual, pecas_cavaleiro, raizes_armadura)
-	Aparencia.aplicar_roupa(sprite_roupa_forja, roupa_atual, "sentado", pecas_cavaleiro, raizes_armadura)
-	Aparencia.aplicar_cartola(sprite_cabelo_forja, sprite_roupa_forja, "sentado", roupa_atual, pecas_cavaleiro, raizes_armadura)
+	# O renderizador Raven consulta diretamente o equipamento e o estado.
+	pass
 
-## Põe o quadro de sentar (olhando para o lado da cadeira) nas camadas da forja
 func definir_quadro_sentado() -> void:
 	var quadro: int = QUADRO_SENTADO_FRENTE[_frente_sentado] if _frente_sentado != 0 else QUADRO_SENTADO[_lado_sentado]
 	for camada in [sprite_corpo_forja, sprite_cabelo_forja, sprite_roupa_forja]:
@@ -2103,30 +2068,8 @@ func _atualizar_sentado(delta: float) -> void:
 		pediu_levantar.emit()
 
 func iniciar_forja(item: DadosItem) -> void:
-	esta_forjando = true
-	var dados_carregados = carregar_de_json()
-	if dados_carregados:
-		if dados_carregados.has("cabelo_atual"):
-			cabelo_atual = dados_carregados["cabelo_atual"]
-		if dados_carregados.has("roupa_atual"):
-			roupa_atual = dados_carregados["roupa_atual"]
-
-	aplicar_dados_forja()
-	movimento_habilitado = false
-	no_forja.visible = true
-	$CompositeSprites/BaseSprites.visible = false
-	no_arco.visible = false
-	no_reacao.visible = false
-
-	if _arvore_animacao and _maquina_estados:
-		_maquina_estados.travel("smithing")
-
-	var temporizador_forja = Timer.new()
-	temporizador_forja.wait_time = 5.0
-	temporizador_forja.one_shot = true
-	add_child(temporizador_forja)
-	temporizador_forja.connect("timeout", Callable(self, "_on_forja_finalizada").bind(item))
-	temporizador_forja.start()
+	# O refino é aplicado ao confirmar; Raven não possui animação de ferraria.
+	_on_forja_finalizada(item)
 
 func _on_forja_finalizada(item: DadosItem) -> void:
 	esta_forjando = false
@@ -2173,82 +2116,16 @@ func _tem_tela_aberta() -> bool:
 # ATUALIZAÇÃO DAS TEXTURAS
 # ---------------------------
 func atualizar_texturas_espada() -> void:
-	var instancia_bd_armas = preload("res://codigo/dados/equipamentos.gd").new()
-	var dados_nivel = instancia_bd_armas.obter_dados_nivel_arma(id_arma_atual, nivel_espada)
-	if dados_nivel.size() > 0 and dados_nivel.has("textura"):
-		ObjetosRefinados.aplicar(sprite_espada, dados_nivel["textura"])
-		if dados_nivel.has("textura_ataque"):
-			ObjetosRefinados.aplicar(braco_espada_ataque, dados_nivel["textura_ataque"])
-	else:
-		if nivel_espada == 1:
-			var caminho_espada_base = "res://assets/personagens/Arms/swords/Sword_1.png"
-			var caminho_ataque_espada = "res://assets/personagens/Arms/swords/Attack/slash_1.png"
-			if ResourceLoader.exists(caminho_espada_base):
-				ObjetosRefinados.aplicar(sprite_espada, load(caminho_espada_base))
-			if ResourceLoader.exists(caminho_ataque_espada):
-				ObjetosRefinados.aplicar(braco_espada_ataque, load(caminho_ataque_espada))
-		else:
-			var caminho_espada_base2 = "res://assets/personagens/Arms/swords/swords_upgraded/%d/Sword_1.png" % nivel_espada
-			var caminho_ataque_espada2 = "res://assets/personagens/Arms/swords/Attack/swords_upgraded/slash_1/%d/slash_1.png" % nivel_espada
-			if ResourceLoader.exists(caminho_espada_base2):
-				ObjetosRefinados.aplicar(sprite_espada, load(caminho_espada_base2))
-			if ResourceLoader.exists(caminho_ataque_espada2):
-				ObjetosRefinados.aplicar(braco_espada_ataque, load(caminho_ataque_espada2))
+	# O renderizador Raven consulta diretamente o equipamento e o estado.
+	pass
 
 func atualizar_texturas_lanca() -> void:
-	var instancia_bd_armas = preload("res://codigo/dados/equipamentos.gd").new()
-	var dados_nivel = instancia_bd_armas.obter_dados_nivel_arma(id_lanca_atual, nivel_lanca)
-	if dados_nivel.size() > 0:
-		if dados_nivel.has("textura") and dados_nivel["textura"] is Texture2D:
-			ObjetosRefinados.aplicar(sprite_lanca, dados_nivel["textura"])
-		if dados_nivel.has("textura_ataque") and dados_nivel["textura_ataque"] is Texture2D:
-			ObjetosRefinados.aplicar(braco_lanca_ataque, dados_nivel["textura_ataque"])
-	else:
-		var caminho_lanca_base = ""
-		var caminho_ataque_lanca = ""
-
-		if nivel_lanca == 1:
-			caminho_lanca_base = "res://assets/personagens/Arms/spears/spear_1.png"
-			caminho_ataque_lanca = "res://assets/personagens/Arms/spears/Attack/slash_1.png"
-		else:
-			caminho_lanca_base = "res://assets/personagens/Arms/spears/spears_upgraded/%d/spear_1.png" % nivel_lanca
-			caminho_ataque_lanca = "res://assets/personagens/Arms/spears/Attack/spears_upgraded/%d/slash_1.png" % nivel_lanca
-
-		if ResourceLoader.exists(caminho_lanca_base):
-			ObjetosRefinados.aplicar(sprite_lanca, load(caminho_lanca_base))
-		else:
-			print("Erro: Textura não encontrada:", caminho_lanca_base)
-
-		if ResourceLoader.exists(caminho_ataque_lanca):
-			ObjetosRefinados.aplicar(braco_lanca_ataque, load(caminho_ataque_lanca))
-		else:
-			print("Erro: Textura não encontrada:", caminho_ataque_lanca)
+	# O renderizador Raven consulta diretamente o equipamento e o estado.
+	pass
 
 func atualizar_texturas_escudo() -> void:
-	# O nó também desenha a aljava: refinar escudo inativo não pode substituí-la.
-	if not usando_escudo:
-		return
-	var instancia_bd_armas = preload("res://codigo/dados/equipamentos.gd").new()
-	var dados_nivel = instancia_bd_armas.obter_dados_nivel_arma(id_escudo_atual, nivel_escudo)
-	if dados_nivel.size() > 0 and dados_nivel.has("textura"):
-		ObjetosRefinados.aplicar(sprite_escudo, dados_nivel["textura"])
-		if dados_nivel.has("textura_ataque"):
-			ObjetosRefinados.aplicar(escudo_ataque, dados_nivel["textura_ataque"])
-	else:
-		if nivel_escudo == 1:
-			var caminho_escudo_base = "res://assets/personagens/Arms/shields/shield_1.png"
-			var caminho_ataque_escudo = "res://assets/personagens/Arms/shields/attack/slash_1.png"
-			if ResourceLoader.exists(caminho_escudo_base):
-				ObjetosRefinados.aplicar(sprite_escudo, load(caminho_escudo_base))
-			if ResourceLoader.exists(caminho_ataque_escudo):
-				ObjetosRefinados.aplicar(escudo_ataque, load(caminho_ataque_escudo))
-		else:
-			var caminho_escudo_base2 = "res://assets/personagens/Arms/shields/upgraded_shields/%d/shield_1.png" % nivel_escudo
-			var caminho_ataque_escudo2 = "res://assets/personagens/Arms/shields/attack/shields_upgrade/slash_1/%d/slash_1.png" % nivel_escudo
-			if ResourceLoader.exists(caminho_escudo_base2):
-				ObjetosRefinados.aplicar(sprite_escudo, load(caminho_escudo_base2))
-			if ResourceLoader.exists(caminho_ataque_escudo2):
-				ObjetosRefinados.aplicar(escudo_ataque, load(caminho_ataque_escudo2))
+	# O renderizador Raven consulta diretamente o equipamento e o estado.
+	pass
 
 func atualizar_aparencia_arma() -> void:
 	if usando_espada:

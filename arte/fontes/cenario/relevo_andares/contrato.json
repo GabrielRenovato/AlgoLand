@@ -1,0 +1,28 @@
+{
+  "producao": "Composição das nossas texturas existentes, sem redesenhar o morro.",
+  "fontes": [
+    "arte/fontes/cenario/penhasco/quatro_estacoes.png",
+    "arte/fontes/cenario/grama_tufos/quatro_estacoes.png"
+  ],
+  "mapas": [
+    1,
+    2,
+    5,
+    6,
+    8,
+    10
+  ],
+  "altura_faces": 64,
+  "layout": "codigo/fendas/relevos/andar_XX.json; polígonos largos irregulares, vegetação mais espaçada no topo e pé desobstruído.",
+  "seguranca": "Seleção fora de setores/trilhas e água; bases criadas antes do bake da navegação; colisões da vegetação escondida removidas.",
+  "estacoes": [
+    "spring",
+    "summer",
+    "autumn",
+    "winter"
+  ],
+  "validacao": [
+    "teste_colisoes_andares.gd",
+    "renderizar_jornada.gd -- --detalhes-cenario"
+  ]
+}

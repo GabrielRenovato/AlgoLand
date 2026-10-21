@@ -2,7 +2,7 @@ extends Node2D
 
 ## Trechos curtos de madeira nos jardins. As entradas ficam abertas e só há cerca em grama pura.
 const Profundidade := preload("res://codigo/globais/profundidade.gd")
-const PASTA := "res://assets/cenario/fazenda/cerca/"
+const PASTA := "res://assets/cenario/cidade/complementos/cercas/"
 const ESTACOES := ["primavera", "verao", "outono", "inverno"]
 # x, y da base, quantidade de travessas. Os vãos entre trechos servem de portões.
 const TRECHOS := [
@@ -51,8 +51,9 @@ func _peca(base: Vector2, tipo: String) -> void:
 	var sprite := Sprite2D.new()
 	sprite.position = base
 	sprite.centered = false
-	sprite.offset = Vector2(-4, -23)
-	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	sprite.offset = Vector2(-16, -92)
+	sprite.scale = Vector2(.25,.25)
+	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 	sprite.z_as_relative = false
 	sprite.z_index = Profundidade.z_de(base.y)
 	sprite.set_meta("peca", tipo)

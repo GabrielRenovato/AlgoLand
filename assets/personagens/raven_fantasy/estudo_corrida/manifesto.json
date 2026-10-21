@@ -1,0 +1,70 @@
+{
+  "estado": "estudo_quatro_direcoes_rejeitado_nao_integrado",
+  "direcoes": [
+    "baixo",
+    "direita",
+    "cima",
+    "esquerda"
+  ],
+  "fonte_frente_costas": "1224605e-eac7-48ea-96fd-395cd9cbd9f5",
+  "celula": [
+    80,
+    80
+  ],
+  "pivo": [
+    40,
+    47
+  ],
+  "quadros": 6,
+  "velocidade_referencia": 114,
+  "ciclo_deslocamento_px": 32,
+  "duracoes_ms": [
+    46.78362573099415,
+    46.78362573099415,
+    46.78362573099415,
+    46.78362573099415,
+    46.78362573099415,
+    46.78362573099415
+  ],
+  "sequencia_origem": [
+    0,
+    0,
+    1,
+    2,
+    2,
+    3
+  ],
+  "cabelos": 28,
+  "peles": 3,
+  "roupas": [
+    "camisa_azul",
+    "camisa_verde",
+    "calca_marrom",
+    "calca_jeans",
+    "botas",
+    "luvas",
+    "capa_atras",
+    "capa_fecho"
+  ],
+  "exemplos": {
+    "azul_sem_capa": [
+      "corpo_0",
+      "calca_marrom",
+      "camisa_azul",
+      "botas",
+      "luvas",
+      "cabelo_1"
+    ],
+    "verde_com_capa": [
+      "capa_atras",
+      "corpo_1",
+      "calca_jeans",
+      "camisa_verde",
+      "botas",
+      "luvas",
+      "capa_fecho",
+      "cabelo_28"
+    ]
+  },
+  "edicao": "Encaixe e recoloração exatos com paletas originais; sem geração de outro personagem e sem escala."
+}

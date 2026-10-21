@@ -29,9 +29,8 @@ def recurso_tileset(caminho,folhas,nome):
 
 def gerar_tileset():
     """TileSet do terreno da vila: quatro folhas 4x6 de tiles 16x16 (primavera; cidade.gd troca a textura por estação)"""
-    base='res://assets/cenario/cidade/terreno/witchbrook/primavera/'
-    grama='res://assets/cenario/cidade/terreno/mana_seed/primavera/'
-    recurso_tileset('recursos/cidade/tileset_terreno.tres',[(grama+'grama_terra.png',4,6,'GRAMA E TERRA'),(grama+'grama_pedra.png',4,6,'GRAMA E PEDRA'),(base+'terra_pedra.png',4,6,'TERRA E PEDRA'),(grama+'grama_agua.png',4,6,'GRAMA E AGUA')],'Vila - grama Mana Seed')
+    base='res://assets/cenario/algoland_original/primavera/'
+    recurso_tileset('recursos/cidade/tileset_terreno.tres',[(base+'grama_terra.png',4,6,'GRAMA E TERRA'),(base+'grama_pedra.png',4,6,'GRAMA E PEDRA'),(base+'terra_pedra.png',4,6,'TERRA E PEDRA'),(base+'grama_agua.png',4,6,'GRAMA E AGUA')],'Vila - terrenos locais')
 
 
 def camada(c,nome,celulas,tileset,pai='.',origem=(0,0),lado=16,altura=None,z=-999,**_):

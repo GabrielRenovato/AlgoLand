@@ -20,15 +20,11 @@ const ORIGEM := Vector2(-16, -58)
 ## A cabeça e o cobertor acompanham a profundidade da cama mesmo quando a planta muda.
 var _z_sobre_a_cama: int
 
-## Cabeça: recorte em unidades de 64 px do quadro 0 (parado de frente). Cada camada converte para sua resolução nativa; a cabeça fica nas linhas 15..26
-## e nas colunas 26..37). O recorte pega o cabelo e a gola e é posto com o topo na linha TOPO_CABECA do sprite da cama.
-const RECORTE_CABECA := Rect2(22, 8, 20, 20)
-const TOPO_CABECA := 4.0
-## Olhos no quadro 0 (linhas 23..24; colunas 29..30 e 33..34): dormindo ficam fechados (pele por cima e uma pálpebra)
-const OLHOS_X := [29, 33]
-const OLHO_LINHA := 23
-const COR_PELE_CLARA := Color("f8d8b8")
-const COR_PALPEBRA := Color("885848")
+## Recorte da pose Raven de frente, na grade nativa de 80 px.
+const RECORTE_CABECA := Rect2(28, 10, 24, 24)
+const TOPO_CABECA := 2.0
+const OLHOS_X := [37, 41]
+const OLHO_LINHA := 27
 ## Região do cobertor (x, y_linha, largura, altura) relativa ao sprite da cama
 const LINHA_COBERTOR := 25
 const ALTURA_COBERTOR := 19
@@ -58,9 +54,9 @@ func deitar(quem: Node2D = null) -> void:
 		return
 	deitado = true
 	_jogador = quem if quem != null else EventosJogo.dono(self)
+	_montar_cabeca()
 	if _jogador != null:
 		_jogador.visible = false
-	_montar_cabeca()
 	if folha != null:
 		# Cobertor por cima das faixas da cama, preso na base (sobe para cima ao respirar)
 		var parte := AtlasTexture.new()
@@ -96,39 +92,40 @@ func _montar_cabeca() -> void:
 	_cabeca.z_as_relative = false
 	_cabeca.z_index = _z_sobre_a_cama
 	add_child(_cabeca)
-	for camada in ["sprite_corpo", "sprite_roupa", "sprite_cabelo"]:
-		var origem := _jogador.get(camada) as Sprite2D
-		if origem == null or origem.texture == null:
+	var raven := _jogador.get_node_or_null("HeroiRaven")
+	if raven == null:
+		return
+	var previa: Sprite2D = raven.criar_previa()
+	var camadas: Array = [previa]
+	camadas.append_array(previa.get_children())
+	for origem: Sprite2D in camadas:
+		# Ferramentas, escudo e aljava ficam fora do travesseiro.
+		if str(origem.name) in ["Camada5", "Camada7", "Camada8", "Camada13"]:
 			continue
 		var parte := Sprite2D.new()
-		parte.name = camada
-		parte.texture = origem.texture
+		parte.name = "sprite_corpo" if origem == previa else origem.name
+		var imagem := origem.texture.get_image().get_region(Rect2i(RECORTE_CABECA))
+		if origem == previa:
+			_fechar_olhos(imagem)
+		parte.texture = ImageTexture.create_from_image(imagem)
 		parte.centered = false
-		parte.region_enabled = true
-		var fator := origem.texture.get_size() / Vector2(origem.hframes, origem.vframes) / 64.0
-		parte.region_rect = Rect2(RECORTE_CABECA.position * fator, RECORTE_CABECA.size * fator)
-		parte.scale = Vector2.ONE / fator
+		parte.z_index = 0 if origem == previa else origem.z_index
 		parte.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 		parte.modulate = origem.modulate
 		parte.self_modulate = origem.self_modulate
 		parte.material = origem.material
 		_cabeca.add_child(parte)
-	_fechar_olhos()
+	previa.free()
 
-# Cobre os olhos abertos do corpo (na cor de pele do jogador) e desenha as pálpebras fechadas
-func _fechar_olhos() -> void:
-	var corpo := _jogador.get("sprite_corpo") as Sprite2D
-	var tom := corpo.modulate * corpo.self_modulate if corpo != null else Color.WHITE
+# Os olhos pertencem ao corpo: cabelo e elmo continuam por cima. Amostrar
+# a própria pele preserva os três tons e o shader de acabamento Raven.
+func _fechar_olhos(imagem: Image) -> void:
+	var pele := imagem.get_pixel(40 - int(RECORTE_CABECA.position.x), 26 - int(RECORTE_CABECA.position.y))
+	var sombra := imagem.get_pixel(36 - int(RECORTE_CABECA.position.x), 28 - int(RECORTE_CABECA.position.y))
 	for x in OLHOS_X:
 		for linha in 2:
-			var pixel := ColorRect.new()
-			pixel.name = "Olho_%d_%d" % [x, linha]
-			pixel.mouse_filter = Control.MOUSE_FILTER_IGNORE
-			pixel.color = COR_PELE_CLARA if linha == 0 else COR_PALPEBRA
-			pixel.modulate = tom
-			pixel.position = Vector2(x - RECORTE_CABECA.position.x, OLHO_LINHA + linha - RECORTE_CABECA.position.y)
-			pixel.size = Vector2(2, 1)
-			_cabeca.add_child(pixel)
+			for coluna in 2:
+				imagem.set_pixel(x + coluna - int(RECORTE_CABECA.position.x), OLHO_LINHA + linha - int(RECORTE_CABECA.position.y), pele if linha == 0 else sombra)
 
 ## Acordou: o jogador volta e a cama fica como era
 func levantar() -> void:

@@ -149,7 +149,7 @@ func _ready() -> void:
 	_grade_receitas.add_theme_constant_override("v_separation",4)
 	_rolagem_receitas.add_child(_grade_receitas)
 	var grupo := ButtonGroup.new()
-	for tipo in Receitas.RECEITAS.keys()+Ferramentas.TIPOS:
+	for tipo in Receitas.receitas_ativas()+Ferramentas.TIPOS:
 		var botao := Button.new()
 		botao.alignment = HORIZONTAL_ALIGNMENT_CENTER
 		var margem := MarginContainer.new()
@@ -315,16 +315,17 @@ func _atualizar() -> void:
 		origens.append(Receitas.MATERIAIS[id]["origem"])
 	_fontes.text = "\n".join(origens)
 	var aprendidas := 0
-	for tipo in Receitas.RECEITAS:
-		if Progresso.receita_liberada(tipo): aprendidas += 1
-	_resumo_receitas.text = "RECEITAS: %d / %d" % [aprendidas,Receitas.RECEITAS.size()]
+	for tipo in Receitas.receitas_ativas():
+		if not tipo in Receitas.INICIAIS_LIVRES and Progresso.receita_liberada(tipo): aprendidas += 1
+	var total_receitas := Receitas.receitas_ativas().filter(func(tipo): return not tipo in Receitas.INICIAIS_LIVRES).size()
+	_resumo_receitas.text = "RECEITAS: %d / %d" % [aprendidas,total_receitas]
 	var fabricada := Progresso.arma_liberada(_tipo)
 	var receita := Progresso.receita_liberada(_tipo)
 	_situacao.text = _mensagem
 	if _mensagem.is_empty():
 		_situacao.text = "MODELO PERMANENTE.\nReceba comum, nivel 1, a cada partida." if fabricada else ("RECEITA APRENDIDA.\nOs materiais serao consumidos da sua mochila." if receita else "ENCONTRE A RECEITA NA ARENA E USE NA MOCHILA.\nA PARTIR DO ANDAR %d." % Receitas.onda_receita(_tipo))
 	var inventario := EventosJogo.inventario_de(self)
-	var falta_entregar: bool = fabricada and not _tipo in inventario.armas_permanentes_entregues
+	var falta_entregar: bool = fabricada and not _tipo in Receitas.INICIAIS_LIVRES and not _tipo in inventario.armas_permanentes_entregues
 	_fabricar.text = "RETIRAR ITEM" if falta_entregar else ("JA FABRICADA" if fabricada else "ENCOMENDAR")
 	_fabricar.disabled = not falta_entregar if fabricada else Progresso.motivo_fabricar_arma(_tipo,EventosJogo.inventario_de(self)) != ""
 	_fabricar.tooltip_text = Progresso.motivo_fabricar_arma(_tipo,EventosJogo.inventario_de(self)) if not fabricada else "Uma copia por jogador e por partida."

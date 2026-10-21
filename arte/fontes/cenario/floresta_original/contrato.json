@@ -1,0 +1,66 @@
+{
+  "origem": "Geração própria com image_gen. Estudos próximos das capturas de referência não foram integrados.",
+  "modelo": "Folhosa assimétrica em dois volumes; conífera de cinco camadas curvas sem galho cortado; tronco cinza-marrom de estrias verticais e três raízes.",
+  "grade": 16,
+  "celula": [
+    128,
+    128
+  ],
+  "pivo": [
+    64,
+    127
+  ],
+  "limite_adulta": [
+    68,
+    112
+  ],
+  "limite_muda": [
+    24,
+    42
+  ],
+  "limite_jovem": [
+    44,
+    78
+  ],
+  "limite_toco": [
+    24,
+    12
+  ],
+  "estacoes": [
+    "primavera",
+    "verao",
+    "outono",
+    "inverno"
+  ],
+  "grama": {
+    "grade": 16,
+    "painel_recuperado": [
+      48,
+      48
+    ],
+    "recorte": [
+      8,
+      8,
+      40,
+      40
+    ],
+    "paleta": 8,
+    "juncoes": "Bordas orgânicas periódicas compartilhadas por todas as variantes, sem criar contorno de cor lisa.",
+    "estado": "Estudo rejeitado; fonte atual grama_tufos/quatro_estacoes.png, contrato em grama_tufos/contrato.json."
+  },
+  "prompts": {
+    "folhosa": "Design an ORIGINAL pixel art tree model for AlgoLand, a top-down cozy fantasy farming RPG. Do not imitate any existing game's tree sprite. Use a distinctive asymmetrical crown: a narrow upright tree with TWO uneven overlapping masses of small rounded leaf fans, taller mass leaning slightly LEFT and lower mass extending a little to the RIGHT, a shallow notch between them. No diamond shaped leaf pattern, no symmetric oval, no wide sprawling branches. Mostly cool subdued emerald and blue-green leaves, gentle sage highlights and slate blue deep shadows. Slender gray-brown trunk with vertical bark ridges, one subtle bend at the base, THREE small uneven roots; branching fork hidden by leaves. No cut limbs or side stump. Adult native silhouette about60x112 pixels in128x128 transparent cell; canopy upper80px, lower trunk32px. Create atlas FOUR COLUMNS for spring/summer/autumn/winter, THREE separate ROWS: adult tree top row, young version same species middle row, matching small cut stump bottom row. Same physical geometry and pivot across seasons, generous blank transparent gutters between every sprite. Young32x64 logical pixels, stump22x12. Spring deep cool green, summer dark emerald, autumn muted copper-olive leaves with subdued ochre, winter leafless fine asymmetric branches with restrained shaped snow on forks; same trunk in all. Crisp true low resolution pixel art enlarged in uniform square blocks, approx16 colors per sprite, no gradient, no blur or antialiasing, no background, ground, cast shadows, labels or text. Coherent original model and proportional young/stump variants. Do not draw a symmetric egg-shaped crown or pine tree.",
+    "conifera": "Design an ORIGINAL evergreen tree sprite for AlgoLand, a top-down fantasy farming RPG. Do not imitate any game's tree sprite. Distinctive silhouette: an upright slim conifer with a slightly bent tip, FIVE unequal soft tiered fans of short drooping needles, a longer lowest branch fan extending RIGHT and a shorter upper fan extending LEFT; overall narrow spire but not a perfect symmetrical Christmas triangle. No diamond leaf pattern and no spikes pointing straight outward. Canopy has compact rounded needle bundles, cool deep teal and forest green with subdued sage green highlights, no neon lime. Slender gray-brown bark with VERTICAL bark grooves and THREE uneven little roots, lower trunk exposed for about25 percent of total height. Absolutely NO cut branches, broken stumps, sawed-off limbs, knots or protruding wood in canopy. FOUR SEASON variants arranged2x2 equal cells: spring upper left, summer upper right, autumn lower left, winter lower right. Same tree geometry, tree height and root pivot in all variants. Spring subtle fresh tips; summer deep evergreen; autumn still green with few muted olive tips; winter soft natural snow cushions on the five upward facing fans, dark evergreen underneath. Full transparent background, complete sprites with blank transparent gutters, no background ground patches or cast shadows. Native silhouette about56x112 in128x128 cell, enlarged as crisp CONSISTENT SQUARE PIXEL BLOCKS. Only16 flat colors per sprite, no painterly brushwork, gradients, blur or antialiasing. Original silhouette, bark pattern and foliage construction. No labels or text.",
+    "grama": "Create an ORIGINAL pixel-art ground grass material for a top-down farming RPG, matching the attached grass crop's exact visual direction: fine low grass blades, COOL emerald green, very subtle grouped turquoise/green highlights, calm uniform mid-green base, no bright lime or yellow-green. This is WALKABLE SHORT GRASS, not bushes or a hedge. Output four equal panels in2x2: spring top-left, summer top-right, autumn bottom-left, winter bottom-right, no borders/gaps/text. Each panel represents a native32x32 pixel terrain texture uniformly enlarged in crisp square blocks. 85 percent of spring/summer panel quiet medium emerald base, occasional small fine slanted tufts2x3 logical pixels, low contrast. Suggested greens #0f5c41 #176b45 #21834d #34965a #53a766; use the darkest sparingly, NO nearly black holes. Spring slightly fresh, summer slightly deep; autumn muted cool olive grass with sparse small ochre dry tips, not a carpet of orange leaves. Winter mostly calm pale snow with a FEW small areas of short grass showing, no repeated disconnected star-shaped holes or large grass clumps. Tiles must repeat seamlessly on ALL four sides and preserve continuity when16x16 quarters are combined in any order. No rocks, trees, shadows, flowers, objects, smooth gradients, antialiasing, labels, frames, checkerboard or decorative lines. Flat ground perspective, coherent scale of detail, restrained texture, no isolated noisy dots. True low resolution pixel art at logical resolution, no illustration details to be shrunk."
+  },
+  "integracao": [
+    "preparar_arvores_floresta.py",
+    "preparar_ciclo_carvalho.py",
+    "preparar_revisao_mana.py",
+    "preparar_grama_penhasco.py",
+    "estacoes.gd"
+  ],
+  "paleta": "Vinte cores para folhagem mais oito tons reservados da casca; exportação não deixa a copa absorver os marrons do tronco.",
+  "validacao": "Godot em save isolado: quatro estações, crescimento/corte e inspeção de ambas as espécies. Testes de encaixe cobrem128 junções; regressão da paleta verifica os oito troncos.",
+  "estado": "Árvores rejeitadas pelo usuário. Modelos atuais e prompts em ../arvores_nitidas_v2/contrato.json."
+}

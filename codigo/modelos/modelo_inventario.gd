@@ -837,6 +837,7 @@ func entregar_armas_liberadas(forcar := false) -> void:
 		return
 	var mudou := false
 	for tipo in preload("res://codigo/dados/forja_armas.gd").RECEITAS:
+		if tipo in preload("res://codigo/dados/forja_armas.gd").INICIAIS_LIVRES: continue
 		if not progresso.arma_liberada(tipo) or tipo in armas_permanentes_entregues:
 			continue
 		if buscar_por_tipo(tipo) == null and not adicionar_arma_nova(tipo):

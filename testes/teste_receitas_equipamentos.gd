@@ -33,7 +33,8 @@ func rodar() -> void:
 	todos.append_array(["aljava_basica","cabeca_basica","armadura_basica","luvas_basicas","botas_basicas",Dados.TIPO_VARA])
 	for conjunto in Conjuntos.CONJUNTOS: todos.append_array(conjunto.TIPOS.keys())
 	verificar("equipamentos de combate exigem receita; kit e ferramentas são livres",todos.all(func(t): return Receitas.RECEITAS.has(t) or t in Receitas.INICIAIS_LIVRES))
-	for tipo in Receitas.RECEITAS:
+	for tipo in Receitas.receitas_ativas():
+		if tipo in Receitas.INICIAIS_LIVRES: continue
 		prog.apagar()
 		for mochila in [inv,inv2]:
 			mochila.limpar()

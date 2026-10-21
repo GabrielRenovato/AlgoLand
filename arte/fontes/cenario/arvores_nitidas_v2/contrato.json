@@ -1,0 +1,60 @@
+{
+  "origem": "image_gen pela ferramenta nativa; modelos novos, sem usar as árvores rejeitadas como referência.",
+  "referencia": "arte/fontes/cenario/grama_tufos/quatro_estacoes.png: verdes naturais e escala dos grupos de pixels.",
+  "modelos": [
+    "Folhosa: copa compacta de três massas assimétricas, tronco curvo marrom e três raízes.",
+    "Abeto: tronco único reto, copa alta estreita e pontuda com agulhas em camadas; fonte pinheiro_v3.png em folha 2×2."
+  ],
+  "grade": 16,
+  "quadro": [
+    128,
+    128
+  ],
+  "pivo": [
+    64,
+    127
+  ],
+  "limites": {
+    "folhosa": [
+      72,
+      104
+    ],
+    "pinheiro": [
+      56,
+      108
+    ],
+    "muda": [
+      24,
+      42
+    ],
+    "jovem": [
+      44,
+      78
+    ],
+    "toco": [
+      24,
+      12
+    ]
+  },
+  "preparo": "preparar_arvores_floresta.py: separação pelas margens transparentes da fonte, escala comum por espécie e estágio, apoio de raiz medido, vizinho mais próximo, alfa binário,12 cores visíveis de copa mais6 tons reservados para a casca. Abeto reserva seis tons selecionando apenas amostras marrons da casca, excluindo agulhas baixas; contorno verde escuro da espécie preservado.",
+  "estacoes": [
+    "primavera",
+    "verao",
+    "outono",
+    "inverno"
+  ],
+  "integracao": {
+    "padrao": "substitutos/natureza/arvore_*.png e arvore_var_*.png; abetos agora apontam para arvore_var.",
+    "florestas": "Dois quadros80×96 para Gentle1/2/5/8, sem mudar bases, posições ou colisões. Paleta02 um pouco mais profunda; paleta03 esfria apenas folhas verdes e preserva o marrom do tronco e a neve.",
+    "cidade_praia": "Duas espécies em telas113×109, quatro quadros estáveis, apoio inteiro, mesmas posições e colisões. Sombras próprias por espécie e estação, incluindo copa sem folhas no inverno.",
+    "crescimento": "Muda, jovem e toco do carvalho usam a mesma espécie; mantém sementes, brotos e lógica de crescimento/queda."
+  },
+  "prompts": {
+    "folhosa": "Production GAME SPRITES for AlgoLand. Attached image is ONLY the accepted grass material, used as PALETTE and PIXEL-SCALE reference. Create an ORIGINAL broadleaf tree species that BELONGS on that grass. Completely replace the old cold teal skinny tree design. TRUE crisp low-resolution pixel art, art-directed clusters, NOT an illustration downscaled later. Hard pixel edges, large deliberate leaf groups4-8 logical pixels, gentle selective dark-green outlines, maximum10 leaf colors plus6 warm BROWN bark colors. No blur, gradients, antialiasing, subpixel dots, stippling, tiny noisy leaves, blue-black shadows or diamond-shaped repeating leaf scales. Leaf palette natural warm greens approximately #245a2d #347b31 #4b9436 #6dad3f #92bd4c, harmonize with grass. Bark visibly brown #61412e #825437 #a37349 #c2935d, NO green trunk. Distinct tree identity: sturdy modestly curved trunk with short hidden fork, THREE broad rounded overlapping canopy lobes, widest lower-left lobe, a small off-center notch on the right; compact rounded canopy, not a symmetric oval or a spire, no imitation of a particular game's tree. Light from upper left, shaded undersides still readable green. Proportions: native adult about68px wide x104px tall on128x128 transparent frame, canopy about70px tall, exposed trunk about28px, trunk about10px thick with3 modest roots. This game uses16px ground tiles and a34px tall player. Produce one TRANSPARENT spritesheet EXACT FOUR COLUMNS and THREE equal-height ROWS (twelve cells), no labels/gutters other than transparent padding. All cells conceptually128x128 with root pivot x64 y120, plenty of empty margins. COLUMNS spring, summer, autumn, winter. TOP ROW full adult same species. MIDDLE ROW sapling of same tree about34x58 logical pixels at same root pivot. BOTTOM ROW matching small cut STUMP about18x9px at same pivot, proportional to trunk, no huge stump; clean brown rings, roots and tiny seasonal accents. Seasonal geometry/pivot stable: spring fresh warm green, summer rich deeper warm green, autumn ochre/copper-orange leaves, winter bare brown branch structure with a FEW snow caps on forks, not fully covered white. For middle row winter also bare matching branches. No grass, ground patches, cast ground shadows, trees cut off, sticks protruding from canopy, acorns, extra objects or typography. Uniform logical square pixels enlarged as crisp blocks, purposeful readable big clusters. Original clean ready-to-use RPG asset sheet.",
+    "pinheiro": "Create the SECOND ORIGINAL TREE SPECIES for AlgoLand. First reference is the new broadleaf sprite sheet, use ONLY its pixel finish, warmth, palette, bark and presentation. Second reference is the accepted grass. Draw a clearly DIFFERENT species: an evergreen PINE with FOUR broad, irregular overlapping fans of short clustered needles, narrow upper tip bending a little to the LEFT, wider lower tier extending slightly RIGHT, naturally asymmetric conical silhouette. Not the broadleaf crown. Crisp deliberate pixel-art clusters2-6 logical pixels, hard square edges and readable shaded fans. NO noisy single-pixel needles, feathered edges, blurry brushwork, gradients or antialiasing. Harmonize with the grass and broadleaf: warm natural deep green/olive/leaf-green highlights, dark GREEN shadows, no cyan/teal/blue-black, no neon. Visible warm BROWN trunk and modest roots (not green), no broken limbs, chopped branch, side stump, knot, log, hanging cone or any protruding wood in canopy. Native mature silhouette about56px wide x108px tall on128x128 cell; canopy about80px tall, lower trunk about24px, trunk9px wide. Root pivot x64,y120. Maximum10 flat needle colors plus6 brown bark colors. Make a transparent spritesheet EXACT FOUR COLUMNS, THREE ROWS, twelve equal128x128 conceptual cells with transparent margins. COLUMNS spring/summer/autumn/winter. TOP ROW mature pine same model and root position. MIDDLE ROW a small young pine of this species about28x58px at SAME root anchor. BOTTOM ROW matching tiny stump about16x9px at SAME root anchor, proportional to mature trunk, clean woody rings, no huge stump. Spring subtle fresh bright needle tips; summer rich natural green; autumn remains evergreen with subdued few olive tips, NOT orange deciduous leaves; winter same evergreen branches under a few purposeful white snow cushions atop each fan. Young trees and stumps get coherent seasonal treatment, preserve geometry and alignment through seasons. Game camera top-down three-quarter view;16px floor tiles and34px player. TRUE logical low-resolution game pixel art enlarged uniformly, not a detailed painting to be crushed to tiny size. No ground, grass base, shadow patch, opaque background, frames or labels. Original clean legible tree design that fits the approved grass.",
+    "pinheiro_v3": "Ver pinheiro_v3_prompt.txt; ferramenta image_gen nativa, única referência: grama aceita."
+  },
+  "rejeitados": {
+    "pinheiro.png": "Rejeitado pelo usuário: repetia tronco bifurcado e massas da folhosa, parecendo apenas uma árvore menor."
+  }
+}

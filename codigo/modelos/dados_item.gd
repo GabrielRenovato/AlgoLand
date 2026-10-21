@@ -11,10 +11,10 @@ const FERRAMENTAS := ["enxada", "regador", "machadinha", "picareta"]
 # Sem acentos: as fontes pixel do projeto não os suportam
 const NOMES := {
 	"espada_basica": "ESPADA",
-	"espada_gemea": "ESPADA GEMEA",
+	"espada_gemea": "ESPADA DE DUAS MAOS",
 	"machado": "MACHADO",
 	"maca": "MACA",
-	"arco_curto": "ARCO CURTO",
+	"arco_curto": "ARCO",
 	"arco_curvo": "ARCO CURVO",
 	"arco_longo": "ARCO LONGO",
 	"lanca_basica": "LANCA",

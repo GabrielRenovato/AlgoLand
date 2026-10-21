@@ -1,0 +1,30 @@
+{
+  "origem": "image_gen integrado pela ferramenta nativa",
+  "fonte": "quatro_estacoes.png",
+  "funcao": "Chão caminhável e topo de platô do AlgoLand; substituir trama rejeitada.",
+  "referencia": "../penhasco/quatro_estacoes.png: grama do topo, somente direção de cor e tufo.",
+  "grade": 16,
+  "painel_nativo": [
+    128,
+    85
+  ],
+  "campo": [
+    128,
+    128
+  ],
+  "pivo": "Célula original; fase espacial módulo8, sem mudar posição, colisões ou navegação.",
+  "preparo": "ferramentas/cenario/grama_do_topo.py: vizinho mais próximo,16 cores sem dithering, recortes64×64 com sobreposição32 e cortes mínimos; fechamento periódico sem espelhamento.",
+  "variantes": [
+    "primavera",
+    "verao",
+    "outono",
+    "inverno"
+  ],
+  "entrega": "assets/cenario/substitutos/grama_continua/{spring,summer,autumn,winter}.png; nove bancos (base e oito flores) em128×1152.",
+  "integracao": [
+    "codigo/cenario/grama_continua.gd",
+    "codigo/cenario/estacoes.gd",
+    "ferramentas/cenario/preparar_grama_penhasco.py"
+  ],
+  "prompt": "Production pixel-art GRASS GROUND MATERIAL for AlgoLand, a top-down farming RPG. Reference image is ONLY a style/palette guide: use the SHORT GRASS on the upper lip of these cliffs. Generate a NEW FLAT WALKABLE FIELD texture, NO cliffs/rocks/trees. Need a clean professional seamless four-season tilesheet, exactly FOUR equal square panels in a 2x2 layout, no borders or gutters. Spring top left, summer top right, autumn bottom left, winter bottom right. Each panel represents precisely 128x128 logical pixels enlarged with consistent square pixels. Internal engine tiles are16x16 but DO NOT DRAW tile boundaries. Main artistic priority: a QUIET green field with readable natural little upright grass TUFTS shaped like clustered V/Y leaves, each tuft about3x4 to5x6 logical pixels, organic staggered placement with irregular quiet negative spaces, NOT wall-to-wall detail. Around70% calm medium green base,20% subtly shaded grassy groups,10% restrained lighter tips. Soft contrast within grass, darkest green extremely rare, NO black holes. Match the actual lip's green and yellow-green family; keep the floor lower contrast than the cliff so characters read. Spring medium natural green, summer slightly deeper green, autumn subdued warm ochre grass, winter continuous soft snow with VERY sparse small dry tufts and subtle snow shading, NOT blue stippled noise. Same scale and coherent placement through seasons. Texture must repeat seamlessly horizontally AND vertically. No checkerboard, lattice, woven fabric, maze, straight streaks, stripes, mirrored symmetry, grid, repeated crosses, isolated single-pixel speckling, tall bushes, flowers, objects, shadows, illustration, gradients, blur, antialiasing or labels. TRUE purposeful low-resolution pixel art, broad calm clusters and distinct tiny blades, uniform pixel size. Deliver only the opaque texture sheet."
+}

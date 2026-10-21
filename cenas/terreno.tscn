@@ -1,10 +1,10 @@
 [gd_scene load_steps=63 format=3 uid="uid://dtphjwfloo87l"]
 
-[ext_resource type="Texture2D" uid="uid://dculgfvuqr31p" path="res://assets/cenario/23.05a - Arctic Woodland 1.1/arctic woodland v1.png" id="1_quwo3"]
+[ext_resource type="Texture2D" path="res://assets/cenario/substitutos/natureza/spring.png" id="1_quwo3"]
 
-[ext_resource type="Texture2D" uid="uid://bt4hgjf7sfbqq" path="res://assets/cenario/23.05a - Arctic Woodland 1.1/evergreen trees/evergreen trees (autumn) 80x112.png" id="3_vvqsm"]
+[ext_resource type="Texture2D" path="res://assets/cenario/substitutos/natureza/arvore_autumn.png" id="3_vvqsm"]
 
-[ext_resource type="Texture2D" uid="uid://cp7nvvaw6ostj" path="res://assets/cenario/23.05a - Arctic Woodland 1.1/evergreen trees/evergreen trees (winter, top snow) 80x112.png" id="4_2bynm"]
+[ext_resource type="Texture2D" path="res://assets/cenario/substitutos/natureza/arvore_winter.png" id="4_2bynm"]
 
 [ext_resource type="Texture2D" uid="uid://1cvispaam4is" path="res://assets/cenario/20.03a - Traveler's Camp 2.0/travelers camp 32x32.png" id="6_w7rf3"]
 
@@ -26,9 +26,9 @@
 
 [ext_resource type="Script" path="res://codigo/logica/interagivel.gd" id="interagivel_fogueira"]
 
-[ext_resource type="Texture2D" path="res://assets/cenario/Seasonal Forest/arena/winter.png" id="arena_folha"]
+[ext_resource type="Texture2D" path="res://assets/cenario/substitutos/natureza/winter.png" id="arena_folha"]
 
-[ext_resource type="Texture2D" path="res://assets/cenario/Seasonal Forest/seasonal water animations/winter water sparkles B 16x16.png" id="brilho_folha"]
+[ext_resource type="Texture2D" path="res://assets/cenario/substitutos/natureza/brilho_winter.png" id="brilho_folha"]
 
 [ext_resource type="Script" path="res://codigo/cenario/estacoes.gd" id="estacoes_script"]
 
@@ -79,147 +79,152 @@ animations = [{
 [sub_resource type="AtlasTexture" id="Atlas_n_0_0"]
 resource_name = "arvore"
 atlas = ExtResource("4_2bynm")
-region = Rect2(1, 0, 79, 112)
+region = Rect2(0, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="Atlas_n_1_0"]
 resource_name = "arvore"
 atlas = ExtResource("4_2bynm")
-region = Rect2(81, 0, 79, 112)
+region = Rect2(0, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="Atlas_n_0_2"]
 resource_name = "arvore"
 atlas = ExtResource("4_2bynm")
-region = Rect2(16, 245, 48, 91)
+region = Rect2(0, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="Atlas_o_0_1"]
 resource_name = "arvore_var"
 atlas = ExtResource("3_vvqsm")
-region = Rect2(6, 114, 69, 109)
+region = Rect2(0, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="Atlas_n_0_1"]
 resource_name = "arvore"
 atlas = ExtResource("4_2bynm")
-region = Rect2(6, 114, 69, 109)
+region = Rect2(0, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="Atlas_n_1_3"]
 resource_name = "arvore"
 atlas = ExtResource("4_2bynm")
-region = Rect2(96, 368, 48, 80)
+region = Rect2(0, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="Atlas_n_3_1"]
 resource_name = "arvore"
 atlas = ExtResource("4_2bynm")
-region = Rect2(246, 114, 69, 101)
+region = Rect2(0, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="Atlas_n_1_2"]
 resource_name = "arvore"
 atlas = ExtResource("4_2bynm")
-region = Rect2(96, 245, 48, 86)
+region = Rect2(0, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="Atlas_n_0_3"]
 resource_name = "arvore"
 atlas = ExtResource("4_2bynm")
-region = Rect2(16, 368, 48, 80)
+region = Rect2(0, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="Atlas_n_1_1"]
 resource_name = "arvore"
 atlas = ExtResource("4_2bynm")
-region = Rect2(86, 114, 69, 109)
+region = Rect2(0, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="Atlas_n_3_2"]
 resource_name = "arvore"
 atlas = ExtResource("4_2bynm")
-region = Rect2(256, 245, 48, 80)
+region = Rect2(0, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="Atlas_n_3_0"]
 resource_name = "arvore"
 atlas = ExtResource("4_2bynm")
-region = Rect2(241, 0, 79, 97)
+region = Rect2(0, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="Atlas_o_3_1"]
 resource_name = "arvore_var"
 atlas = ExtResource("3_vvqsm")
-region = Rect2(246, 114, 69, 101)
+region = Rect2(0, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="Atlas_o_1_3"]
 resource_name = "arvore_var"
 atlas = ExtResource("3_vvqsm")
-region = Rect2(96, 369, 48, 79)
+region = Rect2(0, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="Atlas_o_1_1"]
 resource_name = "arvore_var"
 atlas = ExtResource("3_vvqsm")
-region = Rect2(86, 114, 69, 109)
+region = Rect2(0, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="Atlas_o_3_2"]
 resource_name = "arvore_var"
 atlas = ExtResource("3_vvqsm")
-region = Rect2(256, 246, 48, 79)
+region = Rect2(0, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="Atlas_o_0_0"]
 resource_name = "arvore_var"
 atlas = ExtResource("3_vvqsm")
-region = Rect2(1, 0, 79, 112)
+region = Rect2(0, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="Atlas_o_0_2"]
 resource_name = "arvore_var"
 atlas = ExtResource("3_vvqsm")
-region = Rect2(16, 246, 48, 90)
+region = Rect2(0, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="Atlas_o_1_0"]
 resource_name = "arvore_var"
 atlas = ExtResource("3_vvqsm")
-region = Rect2(81, 0, 79, 112)
+region = Rect2(0, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="Atlas_o_3_0"]
 resource_name = "arvore_var"
 atlas = ExtResource("3_vvqsm")
-region = Rect2(241, 0, 79, 97)
+region = Rect2(0, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="Atlas_o_1_2"]
 resource_name = "arvore_var"
 atlas = ExtResource("3_vvqsm")
-region = Rect2(96, 246, 48, 85)
+region = Rect2(0, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="Atlas_n_4_0"]
 resource_name = "arvore"
 atlas = ExtResource("4_2bynm")
-region = Rect2(340, 79, 40, 33)
+region = Rect2(0, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="Atlas_n_6_0"]
 resource_name = "arvore"
 atlas = ExtResource("4_2bynm")
-region = Rect2(492, 78, 59, 33)
+region = Rect2(0, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="Atlas_n_5_0"]
 resource_name = "arvore"
 atlas = ExtResource("4_2bynm")
-region = Rect2(420, 79, 40, 33)
+region = Rect2(0, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="Atlas_n_6_1"]
 resource_name = "arvore"
 atlas = ExtResource("4_2bynm")
-region = Rect2(496, 198, 48, 23)
+region = Rect2(0, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="Atlas_flor_0_14"]
+resource_name = "amostra"
 atlas = ExtResource("1_quwo3")
-region = Rect2(0, 224, 16, 16)
+region = Rect2(0, 144, 16, 16)
 
 [sub_resource type="AtlasTexture" id="Atlas_flor_0_12"]
+resource_name = "amostra"
 atlas = ExtResource("1_quwo3")
-region = Rect2(0, 192, 16, 16)
+region = Rect2(0, 144, 16, 16)
 
 [sub_resource type="AtlasTexture" id="Atlas_flor_0_13"]
+resource_name = "amostra"
 atlas = ExtResource("1_quwo3")
-region = Rect2(0, 208, 16, 16)
+region = Rect2(0, 128, 16, 16)
 
 [sub_resource type="AtlasTexture" id="Atlas_flor_0_15"]
+resource_name = "amostra"
 atlas = ExtResource("1_quwo3")
-region = Rect2(0, 240, 16, 16)
+region = Rect2(0, 128, 16, 16)
 
 [sub_resource type="AtlasTexture" id="Atlas_boneco"]
+resource_name = "amostra"
 atlas = ExtResource("1_quwo3")
-region = Rect2(48, 224, 32, 16)
+region = Rect2(32, 128, 32, 32)
 
 [sub_resource type="AtlasTexture" id="Atlas_item_2_0"]
 atlas = ExtResource("7_ku353")
@@ -593,2959 +598,2959 @@ script = ExtResource("prof_grupo")
 position = Vector2(792, 317)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0002" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(53, 503)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0003" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-139, 94)
 texture = SubResource("Atlas_n_0_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0004" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(659, 449)
 texture = SubResource("Atlas_o_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0005" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(178, -227)
 texture = SubResource("Atlas_o_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0006" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(687, -10)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0007" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-139, 365)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0008" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(238, 502)
 texture = SubResource("Atlas_n_1_3")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0009" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(15, -177)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0010" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(430, -198)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0011" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-65, -110)
 texture = SubResource("Atlas_n_0_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0012" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(713, 76)
 texture = SubResource("Atlas_n_3_1")
 centered = false
-offset = Vector2(-34, -100)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0013" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(51, -214)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0014" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-138, 263)
 texture = SubResource("Atlas_n_1_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0015" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(328, -210)
 texture = SubResource("Atlas_n_0_3")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0016" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(617, -75)
 texture = SubResource("Atlas_n_1_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0017" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(295, -221)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0018" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-133, -40)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0019" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(409, 489)
 texture = SubResource("Atlas_n_0_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0020" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(274, 498)
 texture = SubResource("Atlas_n_0_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0021" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-146, 213)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0022" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(568, -132)
 texture = SubResource("Atlas_n_3_1")
 centered = false
-offset = Vector2(-34, -100)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0023" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-138, 9)
 texture = SubResource("Atlas_n_3_2")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0024" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(244, -230)
 texture = SubResource("Atlas_n_1_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0025" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-141, -77)
 texture = SubResource("Atlas_n_0_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0026" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-144, 333)
 texture = SubResource("Atlas_o_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0027" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(736, 92)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0028" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(658, -35)
 texture = SubResource("Atlas_n_1_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0029" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(140, -230)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0030" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(805, 247)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0031" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(191, 492)
 texture = SubResource("Atlas_n_3_0")
 centered = false
-offset = Vector2(-39, -96)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0032" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-123, 62)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0033" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(463, -178)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0034" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(750, 161)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0035" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(326, 483)
 texture = SubResource("Atlas_o_3_1")
 centered = false
-offset = Vector2(-34, -100)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0036" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-81, 489)
 texture = SubResource("Atlas_n_3_2")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0037" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(495, -156)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0038" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(774, 179)
 texture = SubResource("Atlas_n_0_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0039" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(20, 509)
 texture = SubResource("Atlas_n_1_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0040" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(119, 501)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0041" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(544, 479)
 texture = SubResource("Atlas_n_1_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0042" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-129, 421)
 texture = SubResource("Atlas_n_1_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0043" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(493, 487)
 texture = SubResource("Atlas_n_3_2")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0044" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(310, -238)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0045" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(99, -204)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0046" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(792, 229)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0047" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(169, 505)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0048" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(345, -231)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0049" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(691, 62)
 texture = SubResource("Atlas_n_0_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0050" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-135, 313)
 texture = SubResource("Atlas_n_0_3")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0051" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-139, 178)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0052" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-147, 196)
 texture = SubResource("Atlas_n_0_3")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0053" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(188, -247)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0054" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(342, 497)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0055" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(743, 110)
 texture = SubResource("Atlas_n_1_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0056" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(361, -212)
 texture = SubResource("Atlas_o_1_3")
 centered = false
-offset = Vector2(-24, -78)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0057" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-42, -135)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0058" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(717, 411)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0059" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(758, 365)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0060" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(629, 462)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0061" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-143, 247)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0062" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-146, 282)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0063" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-127, 293)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0064" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(592, -103)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0065" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-95, -90)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0066" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(792, 298)
 texture = SubResource("Atlas_n_1_3")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0067" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-23, 504)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0068" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(378, 507)
 texture = SubResource("Atlas_n_0_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0069" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(593, 466)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0070" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(107, -220)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0071" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(772, 210)
 texture = SubResource("Atlas_n_0_3")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0072" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-20, -162)
 texture = SubResource("Atlas_n_1_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0073" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-139, 43)
 texture = SubResource("Atlas_n_1_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0074" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(534, -148)
 texture = SubResource("Atlas_o_1_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0075" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(676, 421)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0076" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-111, 450)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0077" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(757, 145)
 texture = SubResource("Atlas_n_0_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0078" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-119, 128)
 texture = SubResource("Atlas_n_1_3")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0079" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(586, -73)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0080" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-133, -23)
 texture = SubResource("Atlas_n_3_0")
 centered = false
-offset = Vector2(-39, -96)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0081" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(638, -45)
 texture = SubResource("Atlas_n_1_3")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0082" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-114, 473)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0083" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(740, 378)
 texture = SubResource("Atlas_n_1_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0084" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-120, 79)
 texture = SubResource("Atlas_o_3_2")
 centered = false
-offset = Vector2(-24, -78)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0085" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(703, 22)
 texture = SubResource("Atlas_n_1_3")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0086" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(460, 493)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0087" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(227, 481)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0088" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(394, -199)
 texture = SubResource("Atlas_n_1_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0089" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1141, 18)
 texture = SubResource("Atlas_n_3_1")
 centered = false
-offset = Vector2(-34, -100)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0090" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(922, -319)
 texture = SubResource("Atlas_n_3_2")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0091" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1057, -185)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0092" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-229, -198)
 texture = SubResource("Atlas_n_0_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0093" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-150, 612)
 texture = SubResource("Atlas_n_1_3")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0094" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-428, -278)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0095" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-440, 268)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0096" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-43, 553)
 texture = SubResource("Atlas_n_0_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0097" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-454, -76)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0098" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(824, -185)
 texture = SubResource("Atlas_n_3_1")
 centered = false
-offset = Vector2(-34, -100)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0099" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-344, 475)
 texture = SubResource("Atlas_n_1_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0100" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(711, -216)
 texture = SubResource("Atlas_n_1_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0101" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1019, 306)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0102" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-347, -16)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0103" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(974, -266)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0104" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-405, 736)
 texture = SubResource("Atlas_n_1_3")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0105" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-258, 401)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0106" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(997, -140)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0107" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-326, -177)
 texture = SubResource("Atlas_n_3_0")
 centered = false
-offset = Vector2(-39, -96)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0108" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-318, -264)
 texture = SubResource("Atlas_n_3_1")
 centered = false
-offset = Vector2(-34, -100)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0109" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-313, 668)
 texture = SubResource("Atlas_o_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0110" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1104, 748)
 texture = SubResource("Atlas_n_0_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0111" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1172, -131)
 texture = SubResource("Atlas_n_1_3")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0112" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(11, 561)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0113" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(883, 750)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0114" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(988, 771)
 texture = SubResource("Atlas_n_0_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0115" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-173, -205)
 texture = SubResource("Atlas_n_3_0")
 centered = false
-offset = Vector2(-39, -96)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0116" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-390, -338)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0117" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(846, 253)
 texture = SubResource("Atlas_n_1_3")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0118" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-394, 415)
 texture = SubResource("Atlas_n_3_2")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0119" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(405, 767)
 texture = SubResource("Atlas_n_3_0")
 centered = false
-offset = Vector2(-39, -96)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0120" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(938, 700)
 texture = SubResource("Atlas_n_1_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0121" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(934, -90)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0122" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1019, -218)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0123" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-247, 753)
 texture = SubResource("Atlas_n_1_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0124" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1006, 390)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0125" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-360, 540)
 texture = SubResource("Atlas_n_3_1")
 centered = false
-offset = Vector2(-34, -100)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0126" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-446, -117)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0127" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-498, 271)
 texture = SubResource("Atlas_n_1_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0128" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-353, 306)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0129" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(785, -118)
 texture = SubResource("Atlas_n_3_2")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0130" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(500, -201)
 texture = SubResource("Atlas_o_0_2")
 centered = false
-offset = Vector2(-24, -84)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0131" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(169, 747)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0132" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1129, 298)
 texture = SubResource("Atlas_n_0_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0133" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(896, 499)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0134" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1049, 184)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0135" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(856, 167)
 texture = SubResource("Atlas_n_1_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0136" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(587, 522)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0137" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(288, 702)
 texture = SubResource("Atlas_n_3_1")
 centered = false
-offset = Vector2(-34, -100)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0138" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(40, -242)
 texture = SubResource("Atlas_n_3_2")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0139" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-323, 341)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0140" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-258, 651)
 texture = SubResource("Atlas_n_3_1")
 centered = false
-offset = Vector2(-34, -100)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0141" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1103, 120)
 texture = SubResource("Atlas_n_0_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0142" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(534, 699)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0143" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-158, -333)
 texture = SubResource("Atlas_n_1_3")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0144" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(206, 719)
 texture = SubResource("Atlas_n_3_0")
 centered = false
-offset = Vector2(-39, -96)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0145" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(55, 534)
 texture = SubResource("Atlas_n_0_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0146" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-239, 259)
 texture = SubResource("Atlas_n_3_2")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0147" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(513, -278)
 texture = SubResource("Atlas_n_3_0")
 centered = false
-offset = Vector2(-39, -96)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0148" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-339, -137)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0149" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-151, -293)
 texture = SubResource("Atlas_n_0_3")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0150" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1139, 245)
 texture = SubResource("Atlas_o_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0151" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-34, -317)
 texture = SubResource("Atlas_o_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0152" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-279, 204)
 texture = SubResource("Atlas_n_1_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0153" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(480, -322)
 texture = SubResource("Atlas_o_3_0")
 centered = false
-offset = Vector2(-39, -96)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0154" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1105, -122)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0155" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-220, 477)
 texture = SubResource("Atlas_n_0_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0156" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-132, -171)
 texture = SubResource("Atlas_n_1_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0157" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-174, 687)
 texture = SubResource("Atlas_o_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0158" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-320, 52)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0159" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-409, -31)
 texture = SubResource("Atlas_o_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0160" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(661, -72)
 texture = SubResource("Atlas_n_3_1")
 centered = false
-offset = Vector2(-34, -100)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0161" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(778, 546)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0162" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(958, 274)
 texture = SubResource("Atlas_n_1_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0163" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-192, 399)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0164" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(816, 207)
 texture = SubResource("Atlas_n_1_3")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0165" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-193, 625)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0166" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-499, -101)
 texture = SubResource("Atlas_n_3_2")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0167" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(904, 101)
 texture = SubResource("Atlas_n_3_0")
 centered = false
-offset = Vector2(-39, -96)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0168" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(583, -183)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0169" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-166, -103)
 texture = SubResource("Atlas_n_0_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0170" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-296, -393)
 texture = SubResource("Atlas_n_1_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0171" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-245, -113)
 texture = SubResource("Atlas_o_1_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0172" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-231, -61)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0173" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-210, 215)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0174" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(951, 548)
 texture = SubResource("Atlas_n_1_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0175" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(560, -316)
 texture = SubResource("Atlas_n_0_3")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0176" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(238, -268)
 texture = SubResource("Atlas_n_3_0")
 centered = false
-offset = Vector2(-39, -96)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0177" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(808, -66)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0178" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(406, 593)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0179" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-168, 479)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0180" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-490, 377)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0181" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-327, 181)
 texture = SubResource("Atlas_n_3_1")
 centered = false
-offset = Vector2(-34, -100)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0182" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-261, 302)
 texture = SubResource("Atlas_n_0_3")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0183" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(505, 575)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0184" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-87, -254)
 texture = SubResource("Atlas_n_0_3")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0185" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1019, 74)
 texture = SubResource("Atlas_n_1_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0186" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(952, 198)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0187" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(984, -67)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0188" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(233, 759)
 texture = SubResource("Atlas_n_0_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0189" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(938, -165)
 texture = SubResource("Atlas_o_3_0")
 centered = false
-offset = Vector2(-39, -96)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0190" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(811, 354)
 texture = SubResource("Atlas_n_1_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0191" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-333, 117)
 texture = SubResource("Atlas_o_3_1")
 centered = false
-offset = Vector2(-34, -100)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0192" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(990, -183)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0193" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(927, -371)
 texture = SubResource("Atlas_n_0_3")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0194" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-362, 622)
 texture = SubResource("Atlas_n_3_0")
 centered = false
-offset = Vector2(-39, -96)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0195" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(513, 533)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0196" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1182, -15)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0197" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(492, 775)
 texture = SubResource("Atlas_n_0_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0198" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-407, 91)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0199" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1183, -219)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0200" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(678, -113)
 texture = SubResource("Atlas_n_3_1")
 centered = false
-offset = Vector2(-34, -100)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0201" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(987, -365)
 texture = SubResource("Atlas_n_0_3")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0202" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1100, 214)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0203" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(923, -35)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0204" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(872, -282)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0205" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(757, 441)
 texture = SubResource("Atlas_n_1_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0206" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-266, 507)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0207" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(467, 727)
 texture = SubResource("Atlas_n_0_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0208" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-386, 216)
 texture = SubResource("Atlas_n_1_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0209" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-196, -16)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0210" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(738, -397)
 texture = SubResource("Atlas_n_0_3")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0211" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-118, -379)
 texture = SubResource("Atlas_n_3_1")
 centered = false
-offset = Vector2(-34, -100)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0212" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1008, -323)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0213" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(406, -348)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0214" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(318, 523)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0215" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1004, 721)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0216" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(656, -231)
 texture = SubResource("Atlas_n_1_3")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0217" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1063, 344)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0218" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(724, 464)
 texture = SubResource("Atlas_o_3_0")
 centered = false
-offset = Vector2(-39, -96)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0219" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(370, 627)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0220" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(433, 557)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0221" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(436, -263)
 texture = SubResource("Atlas_n_0_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0222" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-329, 422)
 texture = SubResource("Atlas_n_1_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0223" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-305, 619)
 texture = SubResource("Atlas_n_1_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0224" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1055, -253)
 texture = SubResource("Atlas_n_1_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0225" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(787, -311)
 texture = SubResource("Atlas_n_3_1")
 centered = false
-offset = Vector2(-34, -100)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0226" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(916, 340)
 texture = SubResource("Atlas_n_1_3")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0227" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-101, -319)
 texture = SubResource("Atlas_o_1_3")
 centered = false
-offset = Vector2(-24, -78)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0228" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-243, -285)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0229" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-490, -145)
 texture = SubResource("Atlas_o_1_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0230" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-262, -229)
 texture = SubResource("Atlas_n_1_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0231" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-194, -383)
 texture = SubResource("Atlas_n_1_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0232" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1161, 344)
 texture = SubResource("Atlas_n_3_1")
 centered = false
-offset = Vector2(-34, -100)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0233" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(673, 534)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0234" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-371, 261)
 texture = SubResource("Atlas_n_1_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0235" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1110, -237)
 texture = SubResource("Atlas_n_3_0")
 centered = false
-offset = Vector2(-39, -96)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0236" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(912, -219)
 texture = SubResource("Atlas_n_3_1")
 centered = false
-offset = Vector2(-34, -100)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0237" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(966, 331)
 texture = SubResource("Atlas_n_1_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0238" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(812, 431)
 texture = SubResource("Atlas_o_1_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0239" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(897, 277)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0240" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-211, -162)
 texture = SubResource("Atlas_n_1_3")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0241" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(252, -310)
 texture = SubResource("Atlas_n_0_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0242" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(817, 474)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0243" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(637, 520)
 texture = SubResource("Atlas_o_1_2")
 centered = false
-offset = Vector2(-24, -84)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0244" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(856, -395)
 texture = SubResource("Atlas_n_1_3")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0245" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-183, 575)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0246" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-430, 656)
 texture = SubResource("Atlas_n_3_2")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0247" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-69, -350)
 texture = SubResource("Atlas_n_0_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0248" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(862, 556)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0249" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(159, 542)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0250" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(892, 189)
 texture = SubResource("Atlas_n_1_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0251" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-186, 762)
 texture = SubResource("Atlas_n_0_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0252" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(826, 389)
 texture = SubResource("Atlas_n_0_3")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0253" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-140, 572)
 texture = SubResource("Atlas_n_3_0")
 centered = false
-offset = Vector2(-39, -96)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0254" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-237, -333)
 texture = SubResource("Atlas_n_3_2")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0255" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1057, 31)
 texture = SubResource("Atlas_n_3_1")
 centered = false
-offset = Vector2(-34, -100)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0256" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(808, 161)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0257" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(462, 602)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0258" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(751, 57)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0259" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-180, 58)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0260" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(953, 54)
 texture = SubResource("Atlas_n_0_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0261" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-432, 315)
 texture = SubResource("Atlas_n_3_2")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0262" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(413, 718)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0263" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(283, 652)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0264" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(957, 503)
 texture = SubResource("Atlas_o_3_0")
 centered = false
-offset = Vector2(-39, -96)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0265" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-279, -38)
 texture = SubResource("Atlas_n_1_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0266" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-449, 768)
 texture = SubResource("Atlas_n_0_3")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0267" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(548, 544)
 texture = SubResource("Atlas_o_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0268" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(919, 140)
 texture = SubResource("Atlas_n_1_3")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0269" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(888, 22)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0270" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(859, -220)
 texture = SubResource("Atlas_o_0_2")
 centered = false
-offset = Vector2(-24, -84)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0271" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-386, -218)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0272" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(351, 770)
 texture = SubResource("Atlas_n_1_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0273" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-358, 762)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0274" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-40, -226)
 texture = SubResource("Atlas_n_0_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0275" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1151, -177)
 texture = SubResource("Atlas_o_3_0")
 centered = false
-offset = Vector2(-39, -96)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0276" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(427, -313)
 texture = SubResource("Atlas_n_1_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0277" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-300, 770)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0278" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-359, -299)
 texture = SubResource("Atlas_n_1_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0279" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(866, -103)
 texture = SubResource("Atlas_n_3_2")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0280" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1000, 6)
 texture = SubResource("Atlas_n_3_2")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0281" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(387, -271)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0282" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-66, -196)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0283" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-480, -13)
 texture = SubResource("Atlas_n_0_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0284" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(312, 571)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0285" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(735, 543)
 texture = SubResource("Atlas_n_0_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0286" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1044, -98)
 texture = SubResource("Atlas_n_0_3")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0287" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1017, 264)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0288" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1007, 474)
 texture = SubResource("Atlas_n_0_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0289" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-306, -321)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0290" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(482, 670)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0291" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(880, 412)
 texture = SubResource("Atlas_n_3_0")
 centered = false
-offset = Vector2(-39, -96)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0292" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1180, -73)
 texture = SubResource("Atlas_n_3_2")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0293" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(828, -256)
 texture = SubResource("Atlas_n_1_3")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0294" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(906, 242)
 texture = SubResource("Atlas_n_1_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0295" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1066, -14)
 texture = SubResource("Atlas_n_3_0")
 centered = false
-offset = Vector2(-39, -96)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0296" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-425, 461)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0297" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(849, 297)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0298" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(689, -306)
 texture = SubResource("Atlas_n_3_0")
 centered = false
-offset = Vector2(-39, -96)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0299" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(928, 428)
 texture = SubResource("Atlas_n_1_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0300" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-283, 460)
 texture = SubResource("Atlas_o_1_3")
 centered = false
-offset = Vector2(-24, -78)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0301" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1158, 746)
 texture = SubResource("Atlas_n_1_3")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0302" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-384, -162)
 texture = SubResource("Atlas_n_3_2")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0303" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-217, 17)
 texture = SubResource("Atlas_n_1_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0304" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(878, -170)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0305" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-194, 348)
 texture = SubResource("Atlas_n_0_3")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0306" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(742, -179)
 texture = SubResource("Atlas_n_3_1")
 centered = false
-offset = Vector2(-34, -100)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0307" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-96, -156)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0308" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(787, -373)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0309" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(773, -225)
 texture = SubResource("Atlas_n_0_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0310" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(850, -333)
 texture = SubResource("Atlas_n_1_3")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0311" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(142, -263)
 texture = SubResource("Atlas_n_1_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0312" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(657, -173)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0313" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-135, -249)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0314" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(410, -239)
 texture = SubResource("Atlas_n_1_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0315" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(929, 382)
 texture = SubResource("Atlas_n_0_3")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0316" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(805, 513)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0317" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-231, 586)
 texture = SubResource("Atlas_n_3_0")
 centered = false
-offset = Vector2(-39, -96)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0318" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(176, -278)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0319" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-230, 542)
 texture = SubResource("Atlas_n_0_3")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0320" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(858, -33)
 texture = SubResource("Atlas_n_0_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0321" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(754, 490)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0322" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-183, 236)
 texture = SubResource("Atlas_n_1_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0323" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-456, -207)
 texture = SubResource("Atlas_n_1_3")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0324" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(981, 230)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0325" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1063, 442)
 texture = SubResource("Atlas_n_1_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0326" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(341, 676)
 texture = SubResource("Atlas_n_3_2")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0327" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-290, 256)
 texture = SubResource("Atlas_n_3_1")
 centered = false
-offset = Vector2(-34, -100)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0328" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-390, 15)
 texture = SubResource("Atlas_n_1_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0329" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-192, -60)
 texture = SubResource("Atlas_n_3_0")
 centered = false
-offset = Vector2(-39, -96)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0330" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-520, 336)
 texture = SubResource("Atlas_n_0_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0331" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(534, 606)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0332" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(870, 77)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0333" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(456, 524)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0334" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(960, -405)
 texture = SubResource("Atlas_n_3_1")
 centered = false
-offset = Vector2(-34, -100)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0335" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1045, 765)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0336" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(865, 451)
 texture = SubResource("Atlas_n_1_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0337" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-317, 565)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0338" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(570, 780)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0339" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1086, 67)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0340" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-139, 652)
 texture = SubResource("Atlas_n_1_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0341" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-14, -258)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0342" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-95, 563)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0343" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(77, -248)
 texture = SubResource("Atlas_n_1_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0344" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-388, 583)
 texture = SubResource("Atlas_n_3_0")
 centered = false
-offset = Vector2(-39, -96)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0345" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1108, -45)
 texture = SubResource("Atlas_n_3_2")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0346" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(112, 528)
 texture = SubResource("Atlas_n_0_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0347" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(314, -267)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0348" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(386, 559)
 texture = SubResource("Atlas_n_1_3")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0349" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(202, 524)
 texture = SubResource("Atlas_n_0_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0350" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-206, 305)
 texture = SubResource("Atlas_n_3_2")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0351" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(843, 117)
 texture = SubResource("Atlas_n_1_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0352" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1081, 264)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0353" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(613, 491)
 texture = SubResource("Atlas_n_1_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0354" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-166, 156)
 texture = SubResource("Atlas_n_0_3")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0355" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1014, 120)
 texture = SubResource("Atlas_n_0_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0356" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(354, 537)
 texture = SubResource("Atlas_n_1_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0357" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(524, 652)
 texture = SubResource("Atlas_n_0_3")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0358" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(827, -137)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0359" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(635, -327)
 texture = SubResource("Atlas_n_0_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0360" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(658, 476)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0361" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(853, 198)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0362" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-335, 223)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0363" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(531, -176)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0364" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(639, -107)
 texture = SubResource("Atlas_n_1_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0365" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-106, -116)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0366" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(264, 525)
 texture = SubResource("Atlas_n_1_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0367" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-333, -60)
 texture = SubResource("Atlas_n_3_2")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0368" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-342, 709)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0369" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1073, 395)
 texture = SubResource("Atlas_n_1_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0370" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-116, -213)
 texture = SubResource("Atlas_o_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0371" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-375, 673)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0372" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(726, 512)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0373" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(699, -353)
 texture = SubResource("Atlas_n_0_3")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0374" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-453, 416)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0375" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(439, 645)
 texture = SubResource("Atlas_n_1_3")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0376" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-415, 502)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0377" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(539, 505)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0378" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(871, 351)
 texture = SubResource("Atlas_n_1_3")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0379" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(602, -213)
 texture = SubResource("Atlas_n_1_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0380" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-508, -229)
 texture = SubResource("Atlas_n_0_3")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0381" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-141, -140)
 texture = SubResource("Atlas_n_3_2")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0382" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(538, -244)
 texture = SubResource("Atlas_n_0_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0383" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(774, 414)
 texture = SubResource("Atlas_n_0_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0384" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-140, 520)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0385" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(598, -288)
 texture = SubResource("Atlas_n_1_3")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0386" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(754, -91)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0387" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(984, 159)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0388" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(704, -37)
 texture = SubResource("Atlas_n_0_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0389" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(584, -244)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0390" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(480, -250)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0391" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(789, 112)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0392" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-190, 505)
 texture = SubResource("Atlas_n_3_0")
 centered = false
-offset = Vector2(-39, -96)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0393" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-351, -371)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0394" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-404, 372)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0395" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(303, 605)
 texture = SubResource("Atlas_n_1_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0396" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-267, 65)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0397" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(305, -327)
 texture = SubResource("Atlas_n_3_1")
 centered = false
-offset = Vector2(-34, -100)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0398" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(663, -274)
 texture = SubResource("Atlas_n_0_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0399" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(688, 503)
 texture = SubResource("Atlas_n_3_0")
 centered = false
-offset = Vector2(-39, -96)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0400" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(459, -226)
 texture = SubResource("Atlas_n_1_3")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0401" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(353, 593)
 texture = SubResource("Atlas_n_0_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0402" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-207, -244)
 texture = SubResource("Atlas_o_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0403" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(357, -334)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0404" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-263, 11)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0405" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-171, 430)
 texture = SubResource("Atlas_n_0_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0406" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(577, 493)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0407" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(982, 435)
 texture = SubResource("Atlas_n_1_3")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0408" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-385, 172)
 texture = SubResource("Atlas_n_0_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0409" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(699, 443)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0410" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-379, -85)
 texture = SubResource("Atlas_n_3_0")
 centered = false
-offset = Vector2(-39, -96)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0411" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-201, 274)
 texture = SubResource("Atlas_n_3_1")
 centered = false
-offset = Vector2(-34, -100)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0412" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1138, 392)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0413" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(286, -295)
 texture = SubResource("Atlas_o_3_1")
 centered = false
-offset = Vector2(-34, -100)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0414" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(722, -137)
 texture = SubResource("Atlas_n_3_2")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0415" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-297, -90)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0416" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-209, 444)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0417" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(647, -144)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0418" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-44, -280)
 texture = SubResource("Atlas_n_1_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0419" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(270, -253)
 texture = SubResource("Atlas_n_3_0")
 centered = false
-offset = Vector2(-39, -96)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0420" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-529, -175)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0421" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-276, -141)
 texture = SubResource("Atlas_n_3_0")
 centered = false
-offset = Vector2(-39, -96)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0422" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-238, 370)
 texture = SubResource("Atlas_n_1_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0423" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-512, 755)
 texture = SubResource("Atlas_n_0_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0424" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(353, 716)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0425" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-524, 27)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0426" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-155, 131)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0427" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(741, -257)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0428" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(831, 324)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0429" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-455, 62)
 texture = SubResource("Atlas_n_0_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0430" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-441, 704)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0431" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-181, 185)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0432" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(3, -227)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0433" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(382, -307)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0434" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(345, -285)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0435" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(811, 774)
 texture = SubResource("Atlas_n_0_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0436" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(293, 743)
 texture = SubResource("Atlas_n_0_3")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0437" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-235, 695)
 texture = SubResource("Atlas_n_3_0")
 centered = false
-offset = Vector2(-39, -96)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0438" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-58, -167)
 texture = SubResource("Atlas_n_1_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0439" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-134, 396)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0440" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(704, -91)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0441" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(887, 314)
 texture = SubResource("Atlas_n_3_0")
 centered = false
-offset = Vector2(-39, -96)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0442" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-528, -40)
 texture = SubResource("Atlas_o_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0443" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-235, -411)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0444" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-126, 783)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0445" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-178, 103)
 texture = SubResource("Atlas_o_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0446" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-337, 381)
 texture = SubResource("Atlas_n_0_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0447" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-450, 220)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0448" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(596, -156)
 texture = SubResource("Atlas_o_1_2")
 centered = false
-offset = Vector2(-24, -84)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0449" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(544, -204)
 texture = SubResource("Atlas_o_0_2")
 centered = false
-offset = Vector2(-24, -84)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0450" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(731, 1)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0451" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(414, 680)
 texture = SubResource("Atlas_n_1_3")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0452" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-147, 733)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0453" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(459, -293)
 texture = SubResource("Atlas_n_0_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0454" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-15, -199)
 texture = SubResource("Atlas_o_1_2")
 centered = false
-offset = Vector2(-24, -84)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0455" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-75, 531)
 texture = SubResource("Atlas_n_0_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0456" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1100, 162)
 texture = SubResource("Atlas_n_1_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0457" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-173, 31)
 texture = SubResource("Atlas_n_0_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0458" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(787, 267)
 texture = SubResource("Atlas_o_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0459" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(568, 737)
 texture = SubResource("Atlas_n_0_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0460" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-39, 527)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0461" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(953, 111)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0462" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(415, 522)
 texture = SubResource("Atlas_n_0_3")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0463" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(86, 493)
 texture = SubResource("Atlas_n_0_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0464" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-175, 372)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0465" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(788, -415)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0466" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-261, 335)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0467" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-313, 11)
 texture = SubResource("Atlas_n_0_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0468" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-237, 190)
 texture = SubResource("Atlas_n_1_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0469" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1044, -56)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0470" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(819, 281)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0471" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-204, -128)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0472" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1150, 61)
 texture = SubResource("Atlas_n_1_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0473" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-82, -412)
 texture = SubResource("Atlas_n_0_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0474" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(612, -131)
 texture = SubResource("Atlas_n_0_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0475" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-274, -184)
 texture = SubResource("Atlas_n_1_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0476" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1082, 710)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0477" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(945, 744)
 texture = SubResource("Atlas_n_3_0")
 centered = false
-offset = Vector2(-39, -96)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0478" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-289, 723)
 texture = SubResource("Atlas_n_1_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0479" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-331, -219)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0480" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-286, 369)
 texture = SubResource("Atlas_n_0_3")
 centered = false
-offset = Vector2(-24, -79)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0481" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-133, 151)
 texture = SubResource("Atlas_n_1_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0482" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-170, 306)
 texture = SubResource("Atlas_o_0_2")
 centered = false
-offset = Vector2(-24, -84)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0483" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(278, 782)
 texture = SubResource("Atlas_n_1_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0484" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1014, 519)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="Arvore0485" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-205, -95)
 texture = SubResource("Atlas_n_0_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="ArvoreSolo1" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(6, 387)
 texture = SubResource("Atlas_n_0_0")
 centered = false
-offset = Vector2(-39, -111)
+offset = Vector2(-64, -127)
 
 [node name="ArvoreSolo3" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(454, -45)
 texture = SubResource("Atlas_n_0_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="ArvoreSolo4" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(-26, 211)
 texture = SubResource("Atlas_n_1_1")
 centered = false
-offset = Vector2(-34, -108)
+offset = Vector2(-64, -127)
 
 [node name="Adereco1" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(406, 73)
 texture = SubResource("Atlas_n_4_0")
 centered = false
-offset = Vector2(-20, -32)
+offset = Vector2(-64, -127)
 
 [node name="Adereco2" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(646, 313)
 texture = SubResource("Atlas_n_6_0")
 centered = false
-offset = Vector2(-28, -32)
+offset = Vector2(-64, -127)
 
 [node name="Adereco3" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(166, 345)
 texture = SubResource("Atlas_n_5_0")
 centered = false
-offset = Vector2(-20, -32)
+offset = Vector2(-64, -127)
 
 [node name="Adereco5" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(294, 9)
 texture = SubResource("Atlas_n_6_1")
 centered = false
-offset = Vector2(-24, -22)
+offset = Vector2(-64, -127)
 
 [node name="Adereco6" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(614, 41)
 texture = SubResource("Atlas_n_4_0")
 centered = false
-offset = Vector2(-20, -32)
+offset = Vector2(-64, -127)
 
 [node name="Arbusto497" type="Sprite2D" parent="Objetos3D" groups=["nao_inverno"]]
 position = Vector2(430, 154)
@@ -3557,7 +3562,7 @@ offset = Vector2(0, -15)
 position = Vector2(446, 251)
 texture = SubResource("Atlas_flor_0_12")
 centered = false
-offset = Vector2(0, -16)
+offset = Vector2(0, -15)
 
 [node name="Arbusto499" type="Sprite2D" parent="Objetos3D" groups=["nao_inverno"]]
 position = Vector2(654, 170)
@@ -3569,7 +3574,7 @@ offset = Vector2(0, -15)
 position = Vector2(638, 251)
 texture = SubResource("Atlas_flor_0_12")
 centered = false
-offset = Vector2(0, -16)
+offset = Vector2(0, -15)
 
 [node name="Arbusto501" type="Sprite2D" parent="Objetos3D" groups=["nao_inverno"]]
 position = Vector2(318, 234)
@@ -3577,23 +3582,17 @@ texture = SubResource("Atlas_flor_0_15")
 centered = false
 offset = Vector2(0, -15)
 
-[node name="BonecoDeNeve" type="Sprite2D" parent="Objetos3D" groups=["so_inverno"]]
-position = Vector2(654, 283)
-texture = SubResource("Atlas_boneco")
-centered = false
-offset = Vector2(-16, -32)
-
 [node name="AbetoCaverna1" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(222, -112)
 texture = SubResource("Atlas_n_1_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoCaverna2" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(306, -116)
 texture = SubResource("Atlas_n_1_2")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Carvalho01" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(410, 374)
@@ -3624,54 +3623,6 @@ position = Vector2(93, 290)
 texture = SubResource("Atlas_carvalho")
 centered = false
 offset = Vector2(-40, -111)
-
-[node name="ArbustoSazonal01" type="Sprite2D" parent="Objetos3D"]
-position = Vector2(-61, -24)
-texture = SubResource("Atlas_arbusto_g")
-centered = false
-offset = Vector2(-16, -31)
-
-[node name="ArbustoSazonal02" type="Sprite2D" parent="Objetos3D"]
-position = Vector2(443, 33)
-texture = SubResource("Atlas_arbusto_m")
-centered = false
-offset = Vector2(-8, -31)
-
-[node name="ArbustoSazonal03" type="Sprite2D" parent="Objetos3D"]
-position = Vector2(240, 236)
-texture = SubResource("Atlas_arbusto_g")
-centered = false
-offset = Vector2(-16, -31)
-
-[node name="ArbustoSazonal04" type="Sprite2D" parent="Objetos3D"]
-position = Vector2(53, 439)
-texture = SubResource("Atlas_arbusto_m")
-centered = false
-offset = Vector2(-8, -31)
-
-[node name="ArbustoSazonal05" type="Sprite2D" parent="Objetos3D"]
-position = Vector2(353, 63)
-texture = SubResource("Atlas_arbusto_g")
-centered = false
-offset = Vector2(-16, -31)
-
-[node name="ArbustoSazonal06" type="Sprite2D" parent="Objetos3D"]
-position = Vector2(205, 3)
-texture = SubResource("Atlas_arbusto_m")
-centered = false
-offset = Vector2(-8, -31)
-
-[node name="ArbustoSazonal07" type="Sprite2D" parent="Objetos3D"]
-position = Vector2(502, 26)
-texture = SubResource("Atlas_arbusto_g")
-centered = false
-offset = Vector2(-16, -31)
-
-[node name="ArbustoSazonal08" type="Sprite2D" parent="Objetos3D"]
-position = Vector2(163, 437)
-texture = SubResource("Atlas_arbusto_m")
-centered = false
-offset = Vector2(-8, -31)
 
 [node name="LimiteArena" type="StaticBody2D" parent="."]
 collision_layer = 64
@@ -4035,30 +3986,6 @@ polygon = PackedVector2Array(336, -100, 354, -100, 354, -92, 336, -92)
 
 [node name="Obstaculo117" type="CollisionPolygon2D" parent="Obstaculos"]
 polygon = PackedVector2Array(84, 282, 102, 282, 102, 290, 84, 290)
-
-[node name="Obstaculo118" type="CollisionPolygon2D" parent="Obstaculos"]
-polygon = PackedVector2Array(-74, -32, -48, -32, -48, -24, -74, -24)
-
-[node name="Obstaculo119" type="CollisionPolygon2D" parent="Obstaculos"]
-polygon = PackedVector2Array(438, 25, 448, 25, 448, 33, 438, 33)
-
-[node name="Obstaculo120" type="CollisionPolygon2D" parent="Obstaculos"]
-polygon = PackedVector2Array(227, 228, 253, 228, 253, 236, 227, 236)
-
-[node name="Obstaculo121" type="CollisionPolygon2D" parent="Obstaculos"]
-polygon = PackedVector2Array(48, 431, 58, 431, 58, 439, 48, 439)
-
-[node name="Obstaculo122" type="CollisionPolygon2D" parent="Obstaculos"]
-polygon = PackedVector2Array(340, 55, 366, 55, 366, 63, 340, 63)
-
-[node name="Obstaculo123" type="CollisionPolygon2D" parent="Obstaculos"]
-polygon = PackedVector2Array(200, -5, 210, -5, 210, 3, 200, 3)
-
-[node name="Obstaculo124" type="CollisionPolygon2D" parent="Obstaculos"]
-polygon = PackedVector2Array(489, 18, 515, 18, 515, 26, 489, 26)
-
-[node name="Obstaculo125" type="CollisionPolygon2D" parent="Obstaculos"]
-polygon = PackedVector2Array(158, 429, 168, 429, 168, 437, 158, 437)
 
 [node name="Obstaculo126" type="CollisionPolygon2D" parent="Obstaculos"]
 polygon = PackedVector2Array(128, 391, 143, 391, 143, 399, 128, 399)

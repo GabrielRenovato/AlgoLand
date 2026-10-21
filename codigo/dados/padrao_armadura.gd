@@ -11,13 +11,17 @@ const PECAS := {
 	"botas": {"slot": "botas", "bit": 8},
 }
 const CORPOS := {
-	"andar": "Body/body_1.png", "fazenda": "Fazenda/corpo.png",
-	"forja": "body_smithing/char_a_p4_0bas_humn_v00.png",
-	"sentado": "body_smithing/char_a_p4_0bas_humn_v00.png",
-	"espada": "Body_sword_chield/body_attack_sword.png",
-	"lanca": "Body_spear_combat/body_spear_combat.png",
-	"reacao_um_mao": "Reacao/um_mao/corpo.png", "reacao_lanca": "Reacao/lanca/corpo.png",
-	"reacao_arco": "Reacao/arco/corpo.png", "arco_p2": "Arco/corpo_p2.png", "arco_p3": "Arco/corpo_p3.png",
+	"andar": "raven_fantasy/paginas/corpo_0/andar.png",
+	"fazenda": "raven_fantasy/paginas/corpo_0/fazenda.png",
+	"forja": "raven_fantasy/paginas/corpo_0/forja.png",
+	"sentado": "raven_fantasy/paginas/corpo_0/sentado.png",
+	"espada": "raven_fantasy/paginas/corpo_0/espada.png",
+	"lanca": "raven_fantasy/paginas/corpo_0/lanca.png",
+	"reacao_um_mao": "raven_fantasy/paginas/corpo_0/reacao_um_mao.png",
+	"reacao_lanca": "raven_fantasy/paginas/corpo_0/reacao_lanca.png",
+	"reacao_arco": "raven_fantasy/paginas/corpo_0/reacao_arco.png",
+	"arco_p2": "raven_fantasy/paginas/corpo_0/arco_p2.png",
+	"arco_p3": "raven_fantasy/paginas/corpo_0/arco_p3.png",
 }
 
 static func carregar(caminho: String) -> Dictionary:

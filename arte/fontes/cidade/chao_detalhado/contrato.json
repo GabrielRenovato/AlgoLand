@@ -1,0 +1,34 @@
+{
+  "tipo": "Materiais contínuos de grama e calçamento da cidade",
+  "referencia": "arte/previas/enfeites_detalhados/praca-0.png",
+  "direcao": "Acabamento detalhado das casas/enfeites aprovado pelo usuário; evitar aparência pixelada.",
+  "dimensoes": "Texturas512×512, período128×128 lógico, grade física16px preservada.",
+  "encaixe": "Máscara Wang4x montada das células reais. Camada visual emz=-999, sob objetos e sobre o terreno; água preservada. Sem alterar colisões, portas, ids e coordenadas.",
+  "variantes": "Quatro estações: folhagem e neve geradas; pedra com umidade/exposição e neve nas juntas.",
+  "originais": "arte/fontes/cidade/chao_detalhado/",
+  "preparo": "ferramentas/cidade/preparar_chao_detalhado.py",
+  "integracao": "codigo/cidade/chao_detalhado.gd e .gdshader",
+  "ferramenta": "image_gen integrada; grama base e pedra geradas; variantes da grama editadas da mesma referência.",
+  "prompts": [
+    {
+      "id": "primavera",
+      "prompt": "ONE seamless repeating square terrain texture for AlgoLand, an elegant cozy hand-painted fantasy farming RPG with detailed warm timber houses and carved stone fountain. DIRECT TOP-DOWN flat grass ground material, spring. Soft natural meadow green, restrained warm sage and olive, gently overlapping small grass blades in loose broad quiet clusters, clean detailed brush shapes, sparse tiny clover leaves. Low contrast restful background for colorful buildings, NOT neon lime, no yellow noise, no flowers, no stones, no dirt holes, no shadows or vignette. NOT chunky pixel art, not photographic, not 3D. A high definition source covering 128x128 logical world pixels; approximately 20 broad tuft clusters across texture, fine contour definition at 4x detail. Completely opaque full-bleed square, perfect tileable opposing edges, uniform scale and lighting across entire field, no borders, no objects, no perspective."
+    },
+    {
+      "id": "verao",
+      "prompt": "Edit this AlgoLand seamless grass ground texture to SUMMER. Keep the same top-down view, scale, fine hand-painted style, exact placement and silhouette of each tuft and clover, and the same matching tileable edges. Summer foliage a slightly deeper rich natural green, a few dry straw tips, no lime neon yellow. Quiet low contrast full-bleed opaque texture, no shadows, no objects, no border, no text. Preserve high definition, no pixelation."
+    },
+    {
+      "id": "outono",
+      "prompt": "Edit this AlgoLand seamless grass ground texture to AUTUMN. Keep exact placement and silhouettes of tufts and clover, scale, orthographic top-down camera, crisp hand-painted fine detail and seamless opposite edges. Autumn grass muted ochre, warm straw, olive with some dull green still present, a FEW small scattered terracotta brown fallen leaves, no bright yellow noise. Quiet low contrast full-bleed opaque texture, no shadows or vignette, no objects, no borders or text. Preserve high definition, no pixelation."
+    },
+    {
+      "id": "inverno",
+      "prompt": "Edit this AlgoLand seamless grass ground material to WINTER. Same exact orthographic top-down field and scale, fine hand-painted farming RPG style. Grass and clover now nearly completely buried under clean soft settled snow, broad very subtle snowdrift undulations, restrained pale blue-grey shading, tiny sparse dull straw tips visible through snow. Texture mostly calm ivory snow, NOT white recoloring of the grass leaves, no distinct footprints or bright sparkles. Preserve opposite-edge seamless repeat. Full-bleed opaque square, no objects, no borders, no shadows or vignette, no text, no chunky pixelation."
+    },
+    {
+      "id": "pedra",
+      "prompt": "ONE seamless square ground material texture for AlgoLand cozy detailed hand-painted fantasy farming RPG. Direct orthographic TOP-DOWN view of an old village cobblestone plaza, warm grey limestone and muted beige sandstone, irregular rounded rectangular flat paving stones fitted closely, varied medium stone sizes, fine recessed narrow earth-filled joints, subtly beveled edges, softly worn clean surfaces. Approximately 14 to 18 stones across full image width. Readable attractive crafted shapes, restrained low contrast, consistent diffuse lighting, no deep black cracks, no moss patches, no flowers or leaves. Detailed drawn game illustration matching warm timber houses and sandstone fountain, NOT chunky pixels, no photographic grain, no 3D or perspective. Full-bleed opaque square seamless tiling material, matching opposite edges, no perimeter border, no vignette, no objects. Source represents 128x128 logical world pixels shown at 4x detail."
+    }
+  ]
+}

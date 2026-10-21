@@ -360,7 +360,7 @@ def escrever_terreno(m):
     c.sub_recurso("TileSet", "TileSet_fazenda", ['sources/0 = SubResource("Fonte_fazenda")'])
     # texturas das arvores: "arvore" (Estacoes troca a folha evergreen), "amostra" (folha sazonal)
     r = G.ABETO["regiao"]
-    c.sub_recurso("AtlasTexture", "Atlas_abeto", ['resource_name = "arvore"', 'atlas = ExtResource("%s")' % ev_inverno,
+    c.sub_recurso("AtlasTexture", "Atlas_abeto", ['resource_name = "arvore_var"', 'atlas = ExtResource("%s")' % ev_inverno,
                                                    "region = Rect2(%d, %d, %d, %d)" % r])
     for ident, cfg in (("Atlas_carvalho", G.CARVALHO), ("Atlas_arbusto_g", G.ARBUSTO_G), ("Atlas_arbusto_m", G.ARBUSTO_M)):
         rg = cfg["regiao"]

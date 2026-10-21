@@ -1,7 +1,7 @@
 [gd_scene load_steps=28 format=3]
 
-[ext_resource type="Texture2D" path="res://assets/cenario/Seasonal Forest/arena/spring.png" id="arena_folha"]
-[ext_resource type="Texture2D" path="res://assets/cenario/23.05a - Arctic Woodland 1.1/evergreen trees/evergreen trees (winter, top snow) 80x112.png" id="evergreen_inverno"]
+[ext_resource type="Texture2D" path="res://assets/cenario/substitutos/natureza/spring.png" id="arena_folha"]
+[ext_resource type="Texture2D" path="res://assets/cenario/substitutos/natureza/arvore_winter.png" id="evergreen_inverno"]
 [ext_resource type="Script" path="res://codigo/cidade/casa_exterior.gd" id="casa_fachada"]
 [ext_resource type="Script" path="res://codigo/logica/plantio.gd" id="plantio_script"]
 [ext_resource type="Script" path="res://codigo/logica/interagivel.gd" id="interagivel_script"]
@@ -249,14 +249,14 @@ texture = ExtResource("arena_folha")
 sources/0 = SubResource("Fonte_fazenda")
 
 [sub_resource type="AtlasTexture" id="Atlas_abeto"]
-resource_name = "arvore"
+resource_name = "arvore_var"
 atlas = ExtResource("evergreen_inverno")
-region = Rect2(96, 245, 48, 86)
+region = Rect2(0, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="Atlas_carvalho"]
-resource_name = "amostra"
-atlas = ExtResource("arena_folha")
-region = Rect2(176, 0, 80, 112)
+resource_name = "arvore"
+atlas = ExtResource("evergreen_inverno")
+region = Rect2(0, 0, 128, 128)
 
 [sub_resource type="AtlasTexture" id="Atlas_arbusto_g"]
 resource_name = "amostra"
@@ -335,1693 +335,1621 @@ metadata/nivel_casa = 1
 position = Vector2(1114, 10)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda17" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(278, 11)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda23" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(463, 11)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda26" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(545, 11)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda34" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(793, 11)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda09" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(41, 12)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda20" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(369, 12)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda41" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(995, 12)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda22" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(426, 13)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda14" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(193, 14)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda40" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(966, 14)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda16" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(250, 15)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda18" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(309, 15)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda19" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(338, 15)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda27" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(576, 15)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda29" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(637, 15)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda33" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(760, 15)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda38" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(909, 15)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda44" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1092, 15)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda46" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1154, 15)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda15" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(221, 16)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda24" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(489, 16)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda35" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(821, 16)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda11" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(98, 17)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda28" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(610, 17)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda30" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(666, 17)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda42" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1029, 17)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda08" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(10, 18)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda12" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(132, 18)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda25" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(519, 18)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda36" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(848, 18)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda10" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(71, 19)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda31" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(700, 19)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda32" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(727, 19)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda37" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(878, 19)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda43" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1062, 19)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda13" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(157, 20)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda21" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(398, 20)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda39" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(937, 20)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda47" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(8, 42)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda48" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1143, 42)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda157" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(31, 49)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda158" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1121, 49)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda49" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(9, 61)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda50" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1140, 61)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda159" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(30, 75)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda160" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1121, 75)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda51" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(8, 84)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda52" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1142, 84)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda161" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(34, 94)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda162" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1121, 94)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda53" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(8, 108)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda54" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1141, 108)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda163" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(31, 116)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda164" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1121, 116)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda55" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(9, 127)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda56" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1144, 127)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
-
-[node name="Arbusto08" type="Sprite2D" parent="Objetos3D"]
-position = Vector2(879, 132)
-texture = SubResource("Atlas_arbusto_m")
-centered = false
-offset = Vector2(-8, -31)
-
-[node name="Arbusto03" type="Sprite2D" parent="Objetos3D"]
-position = Vector2(121, 136)
-texture = SubResource("Atlas_arbusto_g")
-centered = false
-offset = Vector2(-16, -31)
-
-[node name="Arbusto10" type="Sprite2D" parent="Objetos3D"]
-position = Vector2(821, 136)
-texture = SubResource("Atlas_arbusto_m")
-centered = false
-offset = Vector2(-8, -31)
-
-[node name="Arbusto06" type="Sprite2D" parent="Objetos3D"]
-position = Vector2(242, 139)
-texture = SubResource("Atlas_arbusto_m")
-centered = false
-offset = Vector2(-8, -31)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda165" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(33, 140)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda166" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1122, 140)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda57" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(11, 151)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda58" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1140, 151)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda167" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(30, 159)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda168" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1120, 159)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda59" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(9, 173)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda60" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1142, 173)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Carvalho09" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(506, 178)
 texture = SubResource("Atlas_carvalho")
 centered = false
-offset = Vector2(-40, -111)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda169" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(32, 182)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Carvalho08" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(996, 182)
 texture = SubResource("Atlas_carvalho")
 centered = false
-offset = Vector2(-40, -111)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda170" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1121, 182)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Carvalho10" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(760, 195)
 texture = SubResource("Atlas_carvalho")
 centered = false
-offset = Vector2(-40, -111)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda61" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(10, 196)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda62" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1141, 196)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda171" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(31, 206)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda172" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1119, 206)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
-
-[node name="Arbusto09" type="Sprite2D" parent="Objetos3D"]
-position = Vector2(892, 210)
-texture = SubResource("Atlas_arbusto_g")
-centered = false
-offset = Vector2(-16, -31)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda63" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(12, 217)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda64" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1141, 217)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda173" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(33, 229)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda174" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1119, 229)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda65" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(9, 238)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda66" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1141, 238)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda175" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(33, 250)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda67" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(10, 261)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
-
-[node name="Arbusto01" type="Sprite2D" parent="Objetos3D"]
-position = Vector2(228, 268)
-texture = SubResource("Atlas_arbusto_g")
-centered = false
-offset = Vector2(-16, -31)
-
-[node name="Arbusto02" type="Sprite2D" parent="Objetos3D"]
-position = Vector2(476, 268)
-texture = SubResource("Atlas_arbusto_m")
-centered = false
-offset = Vector2(-8, -31)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda176" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(32, 269)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda68" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(11, 281)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda177" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(34, 291)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda69" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(9, 303)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda178" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(30, 313)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda70" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(10, 325)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda179" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(33, 339)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda71" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(11, 350)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda180" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(32, 361)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda181" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1122, 361)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda72" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(8, 370)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda73" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1143, 370)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda182" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(32, 382)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda183" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1119, 382)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
-
-[node name="Arbusto05" type="Sprite2D" parent="Objetos3D"]
-position = Vector2(678, 385)
-texture = SubResource("Atlas_arbusto_g")
-centered = false
-offset = Vector2(-16, -31)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda74" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(10, 392)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda75" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1142, 392)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda184" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(33, 403)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda185" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1120, 403)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Carvalho11" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(998, 406)
 texture = SubResource("Atlas_carvalho")
 centered = false
-offset = Vector2(-40, -111)
-
-[node name="Arbusto04" type="Sprite2D" parent="Objetos3D"]
-position = Vector2(801, 413)
-texture = SubResource("Atlas_arbusto_m")
-centered = false
-offset = Vector2(-8, -31)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda76" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(10, 414)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda77" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1143, 414)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda186" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(34, 426)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda187" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1119, 426)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda78" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(9, 436)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda79" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1142, 436)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda188" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(32, 446)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda189" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1121, 446)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda80" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(10, 456)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda81" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1142, 456)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda190" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(30, 470)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda191" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1120, 470)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda82" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(9, 480)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda83" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1140, 480)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Carvalho02" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(848, 488)
 texture = SubResource("Atlas_carvalho")
 centered = false
-offset = Vector2(-40, -111)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda192" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(32, 491)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda193" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1121, 491)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Carvalho04" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1056, 492)
 texture = SubResource("Atlas_carvalho")
 centered = false
-offset = Vector2(-40, -111)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda84" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(11, 500)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda85" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1141, 500)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda194" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(32, 515)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda195" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1119, 515)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Carvalho01" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(744, 516)
 texture = SubResource("Atlas_carvalho")
 centered = false
-offset = Vector2(-40, -111)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda86" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(11, 524)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda87" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1142, 524)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Carvalho03" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(952, 528)
 texture = SubResource("Atlas_carvalho")
 centered = false
-offset = Vector2(-40, -111)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda196" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(31, 535)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda197" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1118, 535)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
-
-[node name="Arbusto11" type="Sprite2D" parent="Objetos3D"]
-position = Vector2(678, 541)
-texture = SubResource("Atlas_arbusto_g")
-centered = false
-offset = Vector2(-16, -31)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda88" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(9, 546)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda89" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1140, 546)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda198" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(32, 556)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda199" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1120, 556)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
-
-[node name="Arbusto12" type="Sprite2D" parent="Objetos3D"]
-position = Vector2(847, 564)
-texture = SubResource("Atlas_arbusto_m")
-centered = false
-offset = Vector2(-8, -31)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda90" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(9, 568)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda91" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1144, 568)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda200" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(32, 579)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda201" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1118, 579)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda92" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(12, 590)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda93" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1144, 590)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
-
-[node name="Arbusto07" type="Sprite2D" parent="Objetos3D"]
-position = Vector2(683, 600)
-texture = SubResource("Atlas_arbusto_g")
-centered = false
-offset = Vector2(-16, -31)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda202" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(33, 602)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda203" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1119, 602)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Carvalho07" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1016, 604)
 texture = SubResource("Atlas_carvalho")
 centered = false
-offset = Vector2(-40, -111)
+offset = Vector2(-64, -127)
 
 [node name="Carvalho05" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(792, 612)
 texture = SubResource("Atlas_carvalho")
 centered = false
-offset = Vector2(-40, -111)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda94" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(12, 613)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda95" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1144, 613)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda204" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(30, 621)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda205" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1120, 621)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Carvalho06" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(904, 626)
 texture = SubResource("Atlas_carvalho")
 centered = false
-offset = Vector2(-40, -111)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda96" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(10, 636)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda97" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1143, 636)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda206" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(31, 645)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda207" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1121, 645)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda98" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(8, 656)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda99" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1141, 656)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda208" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(33, 667)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda209" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1122, 667)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda100" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(9, 676)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda101" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1140, 676)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda210" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(32, 689)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda211" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1120, 689)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda102" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(11, 699)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda103" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1142, 699)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda212" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(33, 710)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda213" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1121, 710)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda104" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(10, 724)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda105" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1141, 724)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda214" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(30, 731)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda215" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1122, 731)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda231" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(340, 742)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda249" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(739, 742)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda106" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(12, 743)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda218" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(55, 743)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda220" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(97, 743)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda228" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(273, 743)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda235" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(429, 743)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda238" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(494, 743)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda240" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(540, 743)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda243" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(607, 743)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda254" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(848, 743)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda256" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(893, 743)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda257" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(912, 743)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda261" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1001, 743)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda107" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1142, 743)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda219" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(79, 744)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda223" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(166, 744)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda225" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(208, 744)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda227" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(252, 744)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda229" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(296, 744)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda230" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(319, 744)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda233" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(385, 744)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda239" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(516, 744)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda241" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(561, 744)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda244" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(627, 744)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda245" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(651, 744)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda259" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(955, 744)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda260" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(978, 744)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda265" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1088, 744)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda266" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1110, 744)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda221" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(121, 745)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda222" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(144, 745)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda226" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(229, 745)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda232" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(361, 745)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda234" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(405, 745)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda236" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(450, 745)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda237" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(474, 745)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda252" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(803, 745)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda253" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(825, 745)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda258" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(935, 745)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda262" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1023, 745)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda263" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1046, 745)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda224" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(187, 746)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda242" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(582, 746)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda246" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(672, 746)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda247" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(692, 746)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda248" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(715, 746)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda250" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(759, 746)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda251" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(781, 746)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda255" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(869, 746)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda264" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1069, 746)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda216" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(34, 754)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda217" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1119, 754)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda114" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(175, 764)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda120" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(307, 764)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda141" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(771, 764)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda144" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(835, 764)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda154" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1056, 764)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda109" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(67, 765)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda111" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(108, 765)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda116" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(222, 765)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda117" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(241, 765)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda122" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(352, 765)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda126" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(439, 765)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda127" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(461, 765)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda131" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(551, 765)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda134" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(615, 765)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda136" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(659, 765)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda137" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(681, 765)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda145" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(858, 765)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda146" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(880, 765)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda147" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(903, 765)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda148" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(923, 765)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda108" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(45, 766)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda112" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(132, 766)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda113" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(153, 766)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda115" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(196, 766)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda119" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(284, 766)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda123" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(374, 766)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda124" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(398, 766)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda125" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(418, 766)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda129" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(505, 766)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda138" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(702, 766)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda143" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(815, 766)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda149" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(947, 766)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda152" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1013, 766)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda153" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1035, 766)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda155" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1080, 766)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda156" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(1098, 766)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda121" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(329, 767)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda128" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(483, 767)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda130" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(527, 767)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda132" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(572, 767)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda135" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(639, 767)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda139" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(725, 767)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda140" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(748, 767)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda150" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(968, 767)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda110" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(89, 768)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda118" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(262, 768)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda133" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(594, 768)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda142" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(790, 768)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="AbetoBorda151" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(989, 768)
 texture = SubResource("Atlas_abeto")
 centered = false
-offset = Vector2(-24, -85)
+offset = Vector2(-64, -127)
 
 [node name="Cerca001" type="Sprite2D" parent="Objetos3D" groups=["cerca"]]
 position = Vector2(64, 88)
@@ -3639,42 +3567,6 @@ polygon = PackedVector2Array(751, 187, 769, 187, 769, 195, 751, 195)
 [node name="Obstaculo276" type="CollisionPolygon2D" parent="Obstaculos"]
 polygon = PackedVector2Array(989, 398, 1007, 398, 1007, 406, 989, 406)
 
-[node name="Obstaculo277" type="CollisionPolygon2D" parent="Obstaculos"]
-polygon = PackedVector2Array(215, 260, 241, 260, 241, 268, 215, 268)
-
-[node name="Obstaculo278" type="CollisionPolygon2D" parent="Obstaculos"]
-polygon = PackedVector2Array(471, 260, 481, 260, 481, 268, 471, 268)
-
-[node name="Obstaculo279" type="CollisionPolygon2D" parent="Obstaculos"]
-polygon = PackedVector2Array(108, 128, 134, 128, 134, 136, 108, 136)
-
-[node name="Obstaculo280" type="CollisionPolygon2D" parent="Obstaculos"]
-polygon = PackedVector2Array(796, 405, 806, 405, 806, 413, 796, 413)
-
-[node name="Obstaculo281" type="CollisionPolygon2D" parent="Obstaculos"]
-polygon = PackedVector2Array(665, 377, 691, 377, 691, 385, 665, 385)
-
-[node name="Obstaculo282" type="CollisionPolygon2D" parent="Obstaculos"]
-polygon = PackedVector2Array(237, 131, 247, 131, 247, 139, 237, 139)
-
-[node name="Obstaculo283" type="CollisionPolygon2D" parent="Obstaculos"]
-polygon = PackedVector2Array(670, 592, 696, 592, 696, 600, 670, 600)
-
-[node name="Obstaculo284" type="CollisionPolygon2D" parent="Obstaculos"]
-polygon = PackedVector2Array(874, 124, 884, 124, 884, 132, 874, 132)
-
-[node name="Obstaculo285" type="CollisionPolygon2D" parent="Obstaculos"]
-polygon = PackedVector2Array(879, 202, 905, 202, 905, 210, 879, 210)
-
-[node name="Obstaculo286" type="CollisionPolygon2D" parent="Obstaculos"]
-polygon = PackedVector2Array(816, 128, 826, 128, 826, 136, 816, 136)
-
-[node name="Obstaculo287" type="CollisionPolygon2D" parent="Obstaculos"]
-polygon = PackedVector2Array(665, 533, 691, 533, 691, 541, 665, 541)
-
-[node name="Obstaculo288" type="CollisionPolygon2D" parent="Obstaculos"]
-polygon = PackedVector2Array(842, 556, 852, 556, 852, 564, 842, 564)
-
 [node name="Obstaculo289" type="CollisionPolygon2D" parent="Obstaculos"]
 polygon = PackedVector2Array(928, 120, 944, 120, 944, 128, 928, 128)
 
@@ -3773,7 +3665,7 @@ script = ExtResource("plantio_script")
 
 [node name="Extracao" type="Node2D" parent="."]
 script = ExtResource("extracao_script")
-recursos = [{"chave": "Carvalho01", "tipo": "arvore", "pos": Vector2(744, 516), "obstaculo": NodePath("Obstaculos/Obstaculo7"), "no": NodePath("Objetos3D/Carvalho01")}, {"chave": "Carvalho02", "tipo": "arvore", "pos": Vector2(848, 488), "obstaculo": NodePath("Obstaculos/Obstaculo8"), "no": NodePath("Objetos3D/Carvalho02")}, {"chave": "Carvalho03", "tipo": "arvore", "pos": Vector2(952, 528), "obstaculo": NodePath("Obstaculos/Obstaculo9"), "no": NodePath("Objetos3D/Carvalho03")}, {"chave": "Carvalho04", "tipo": "arvore", "pos": Vector2(1056, 492), "obstaculo": NodePath("Obstaculos/Obstaculo10"), "no": NodePath("Objetos3D/Carvalho04")}, {"chave": "Carvalho05", "tipo": "arvore", "pos": Vector2(792, 612), "obstaculo": NodePath("Obstaculos/Obstaculo11"), "no": NodePath("Objetos3D/Carvalho05")}, {"chave": "Carvalho06", "tipo": "arvore", "pos": Vector2(904, 626), "obstaculo": NodePath("Obstaculos/Obstaculo12"), "no": NodePath("Objetos3D/Carvalho06")}, {"chave": "Carvalho07", "tipo": "arvore", "pos": Vector2(1016, 604), "obstaculo": NodePath("Obstaculos/Obstaculo13"), "no": NodePath("Objetos3D/Carvalho07")}, {"chave": "Carvalho08", "tipo": "arvore", "pos": Vector2(996, 182), "obstaculo": NodePath("Obstaculos/Obstaculo273"), "no": NodePath("Objetos3D/Carvalho08")}, {"chave": "Carvalho09", "tipo": "arvore", "pos": Vector2(506, 178), "obstaculo": NodePath("Obstaculos/Obstaculo274"), "no": NodePath("Objetos3D/Carvalho09")}, {"chave": "Carvalho10", "tipo": "arvore", "pos": Vector2(760, 195), "obstaculo": NodePath("Obstaculos/Obstaculo275"), "no": NodePath("Objetos3D/Carvalho10")}, {"chave": "Carvalho11", "tipo": "arvore", "pos": Vector2(998, 406), "obstaculo": NodePath("Obstaculos/Obstaculo276"), "no": NodePath("Objetos3D/Carvalho11")}, {"chave": "Arbusto01", "tipo": "arbusto", "pos": Vector2(228, 268), "obstaculo": NodePath("Obstaculos/Obstaculo277"), "no": NodePath("Objetos3D/Arbusto01")}, {"chave": "Arbusto02", "tipo": "arbusto", "pos": Vector2(476, 268), "obstaculo": NodePath("Obstaculos/Obstaculo278"), "no": NodePath("Objetos3D/Arbusto02")}, {"chave": "Arbusto03", "tipo": "arbusto", "pos": Vector2(121, 136), "obstaculo": NodePath("Obstaculos/Obstaculo279"), "no": NodePath("Objetos3D/Arbusto03")}, {"chave": "Arbusto04", "tipo": "arbusto", "pos": Vector2(801, 413), "obstaculo": NodePath("Obstaculos/Obstaculo280"), "no": NodePath("Objetos3D/Arbusto04")}, {"chave": "Arbusto05", "tipo": "arbusto", "pos": Vector2(678, 385), "obstaculo": NodePath("Obstaculos/Obstaculo281"), "no": NodePath("Objetos3D/Arbusto05")}, {"chave": "Arbusto06", "tipo": "arbusto", "pos": Vector2(242, 139), "obstaculo": NodePath("Obstaculos/Obstaculo282"), "no": NodePath("Objetos3D/Arbusto06")}, {"chave": "Arbusto07", "tipo": "arbusto", "pos": Vector2(683, 600), "obstaculo": NodePath("Obstaculos/Obstaculo283"), "no": NodePath("Objetos3D/Arbusto07")}, {"chave": "Arbusto08", "tipo": "arbusto", "pos": Vector2(879, 132), "obstaculo": NodePath("Obstaculos/Obstaculo284"), "no": NodePath("Objetos3D/Arbusto08")}, {"chave": "Arbusto09", "tipo": "arbusto", "pos": Vector2(892, 210), "obstaculo": NodePath("Obstaculos/Obstaculo285"), "no": NodePath("Objetos3D/Arbusto09")}, {"chave": "Arbusto10", "tipo": "arbusto", "pos": Vector2(821, 136), "obstaculo": NodePath("Obstaculos/Obstaculo286"), "no": NodePath("Objetos3D/Arbusto10")}, {"chave": "Arbusto11", "tipo": "arbusto", "pos": Vector2(678, 541), "obstaculo": NodePath("Obstaculos/Obstaculo287"), "no": NodePath("Objetos3D/Arbusto11")}, {"chave": "Arbusto12", "tipo": "arbusto", "pos": Vector2(847, 564), "obstaculo": NodePath("Obstaculos/Obstaculo288"), "no": NodePath("Objetos3D/Arbusto12")}, {"chave": "Pedra_58_7", "tipo": "pedra", "pos": Vector2(936, 128), "obstaculo": NodePath("Obstaculos/Obstaculo289"), "celula": Vector2i(58, 7)}, {"chave": "Pedra_57_9", "tipo": "pedra", "pos": Vector2(920, 160), "obstaculo": NodePath("Obstaculos/Obstaculo290"), "celula": Vector2i(57, 9)}, {"chave": "Pedra_52_11", "tipo": "pedra", "pos": Vector2(840, 191), "obstaculo": NodePath("Obstaculos/Obstaculo291"), "celula": Vector2i(52, 11)}, {"chave": "Pedra_57_11", "tipo": "pedra", "pos": Vector2(920, 192), "obstaculo": NodePath("Obstaculos/Obstaculo292"), "celula": Vector2i(57, 11)}, {"chave": "Pedra_63_7", "tipo": "pedra", "pos": Vector2(1016, 128), "obstaculo": NodePath("Obstaculos/Obstaculo293"), "celula": Vector2i(63, 7)}, {"chave": "Pedra_47_28", "tipo": "pedra", "pos": Vector2(760, 464), "obstaculo": NodePath("Obstaculos/Obstaculo294"), "celula": Vector2i(47, 28)}, {"chave": "Pedra_12_13", "tipo": "pedra", "pos": Vector2(200, 223), "obstaculo": NodePath("Obstaculos/Obstaculo295"), "celula": Vector2i(12, 13)}, {"chave": "Pedra_41_30", "tipo": "pedra", "pos": Vector2(664, 496), "obstaculo": NodePath("Obstaculos/Obstaculo296"), "celula": Vector2i(41, 30)}, {"chave": "Pedra_13_11", "tipo": "pedra", "pos": Vector2(216, 191), "obstaculo": NodePath("Obstaculos/Obstaculo297"), "celula": Vector2i(13, 11)}, {"chave": "Pedra_40_14", "tipo": "pedra", "pos": Vector2(648, 240), "obstaculo": NodePath("Obstaculos/Obstaculo298"), "celula": Vector2i(40, 14)}, {"chave": "Pedra_45_25", "tipo": "pedra", "pos": Vector2(728, 415), "obstaculo": NodePath("Obstaculos/Obstaculo299"), "celula": Vector2i(45, 25)}]
+recursos = [{"chave": "Carvalho01", "tipo": "arvore", "pos": Vector2(744, 516), "obstaculo": NodePath("Obstaculos/Obstaculo7"), "no": NodePath("Objetos3D/Carvalho01")}, {"chave": "Carvalho02", "tipo": "arvore", "pos": Vector2(848, 488), "obstaculo": NodePath("Obstaculos/Obstaculo8"), "no": NodePath("Objetos3D/Carvalho02")}, {"chave": "Carvalho03", "tipo": "arvore", "pos": Vector2(952, 528), "obstaculo": NodePath("Obstaculos/Obstaculo9"), "no": NodePath("Objetos3D/Carvalho03")}, {"chave": "Carvalho04", "tipo": "arvore", "pos": Vector2(1056, 492), "obstaculo": NodePath("Obstaculos/Obstaculo10"), "no": NodePath("Objetos3D/Carvalho04")}, {"chave": "Carvalho05", "tipo": "arvore", "pos": Vector2(792, 612), "obstaculo": NodePath("Obstaculos/Obstaculo11"), "no": NodePath("Objetos3D/Carvalho05")}, {"chave": "Carvalho06", "tipo": "arvore", "pos": Vector2(904, 626), "obstaculo": NodePath("Obstaculos/Obstaculo12"), "no": NodePath("Objetos3D/Carvalho06")}, {"chave": "Carvalho07", "tipo": "arvore", "pos": Vector2(1016, 604), "obstaculo": NodePath("Obstaculos/Obstaculo13"), "no": NodePath("Objetos3D/Carvalho07")}, {"chave": "Carvalho08", "tipo": "arvore", "pos": Vector2(996, 182), "obstaculo": NodePath("Obstaculos/Obstaculo273"), "no": NodePath("Objetos3D/Carvalho08")}, {"chave": "Carvalho09", "tipo": "arvore", "pos": Vector2(506, 178), "obstaculo": NodePath("Obstaculos/Obstaculo274"), "no": NodePath("Objetos3D/Carvalho09")}, {"chave": "Carvalho10", "tipo": "arvore", "pos": Vector2(760, 195), "obstaculo": NodePath("Obstaculos/Obstaculo275"), "no": NodePath("Objetos3D/Carvalho10")}, {"chave": "Carvalho11", "tipo": "arvore", "pos": Vector2(998, 406), "obstaculo": NodePath("Obstaculos/Obstaculo276"), "no": NodePath("Objetos3D/Carvalho11")}, {"chave": "Pedra_58_7", "tipo": "pedra", "pos": Vector2(936, 128), "obstaculo": NodePath("Obstaculos/Obstaculo289"), "celula": Vector2i(58, 7)}, {"chave": "Pedra_57_9", "tipo": "pedra", "pos": Vector2(920, 160), "obstaculo": NodePath("Obstaculos/Obstaculo290"), "celula": Vector2i(57, 9)}, {"chave": "Pedra_52_11", "tipo": "pedra", "pos": Vector2(840, 191), "obstaculo": NodePath("Obstaculos/Obstaculo291"), "celula": Vector2i(52, 11)}, {"chave": "Pedra_57_11", "tipo": "pedra", "pos": Vector2(920, 192), "obstaculo": NodePath("Obstaculos/Obstaculo292"), "celula": Vector2i(57, 11)}, {"chave": "Pedra_63_7", "tipo": "pedra", "pos": Vector2(1016, 128), "obstaculo": NodePath("Obstaculos/Obstaculo293"), "celula": Vector2i(63, 7)}, {"chave": "Pedra_47_28", "tipo": "pedra", "pos": Vector2(760, 464), "obstaculo": NodePath("Obstaculos/Obstaculo294"), "celula": Vector2i(47, 28)}, {"chave": "Pedra_12_13", "tipo": "pedra", "pos": Vector2(200, 223), "obstaculo": NodePath("Obstaculos/Obstaculo295"), "celula": Vector2i(12, 13)}, {"chave": "Pedra_41_30", "tipo": "pedra", "pos": Vector2(664, 496), "obstaculo": NodePath("Obstaculos/Obstaculo296"), "celula": Vector2i(41, 30)}, {"chave": "Pedra_13_11", "tipo": "pedra", "pos": Vector2(216, 191), "obstaculo": NodePath("Obstaculos/Obstaculo297"), "celula": Vector2i(13, 11)}, {"chave": "Pedra_40_14", "tipo": "pedra", "pos": Vector2(648, 240), "obstaculo": NodePath("Obstaculos/Obstaculo298"), "celula": Vector2i(40, 14)}, {"chave": "Pedra_45_25", "tipo": "pedra", "pos": Vector2(728, 415), "obstaculo": NodePath("Obstaculos/Obstaculo299"), "celula": Vector2i(45, 25)}]
 desenho_arbusto = Rect2(-8, -31, 0, 0)
 desenho_arvoreta = Rect2(-16, -31, 0, 0)
 colisao_arbusto = Rect2(-5, -8, 10, 8)

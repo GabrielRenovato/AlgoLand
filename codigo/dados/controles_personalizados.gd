@@ -8,6 +8,10 @@ static func preparar() -> void:
 	if not _padroes.is_empty(): return
 	for acao in ACOES:
 		_padroes[acao] = InputMap.action_get_events(acao).duplicate(true)
+		if OS.has_feature("web") and acao == "aparar":
+			for evento in _padroes[acao]:
+				if evento is InputEventKey and evento.physical_keycode == KEY_CTRL:
+					evento.physical_keycode = KEY_C
 
 static func _secao(lado: int, controle: bool) -> String:
 	return "controle_p%d" % lado if controle else "teclado"
@@ -17,12 +21,16 @@ static func _mesmo(a: InputEvent, b: InputEvent, controle: bool) -> bool:
 	if a is InputEventJoypadButton and b is InputEventJoypadButton: return a.button_index == b.button_index
 	return a is InputEventJoypadMotion and b is InputEventJoypadMotion and a.axis == b.axis and signf(a.axis_value) == signf(b.axis_value)
 
+static func _reservada_na_web(evento: InputEvent) -> bool:
+	return OS.has_feature("web") and evento is InputEventKey and (evento.physical_keycode in [KEY_CTRL, KEY_ALT, KEY_META] or evento.ctrl_pressed or evento.alt_pressed or evento.meta_pressed)
+
 static func alterar(acao: String, evento: InputEvent, lado := 1, controle := false) -> String:
 	preparar()
 	if not ACOES.has(acao): return "ACAO DESCONHECIDA"
 	var nome: String = "p2_"+acao if lado == 2 else acao
 	if not InputMap.has_action(nome): return "JOGADOR INDISPONIVEL"
 	if not controle and (not evento is InputEventKey or evento.physical_keycode == 0): return "ESCOLHA UMA TECLA"
+	if not controle and _reservada_na_web(evento): return "NO NAVEGADOR, USE TECLA SEM CTRL, ALT OU META"
 	if controle and not (evento is InputEventJoypadButton or evento is InputEventJoypadMotion): return "ESCOLHA UM BOTAO OU EIXO"
 	for outra in ACOES:
 		if outra == acao: continue
@@ -52,6 +60,9 @@ static func aplicar() -> void:
 				for atual in InputMap.action_get_events(nome):
 					if atual is InputEventJoypadButton or atual is InputEventJoypadMotion: device = atual.device
 				var personalizados: Dictionary = config.get_value(_secao(lado,controle),acao,{})
+				# Desfaz vínculos antigos com modificadores reservados pelo navegador.
+				if OS.has_feature("web") and int(personalizados.get("tecla",0)) in [KEY_CTRL, KEY_ALT, KEY_META]:
+					personalizados = {}
 				var eventos: Array = []
 				if personalizados.is_empty():
 					for padrao in _padroes[acao]:

@@ -40,7 +40,7 @@ func _initialize() -> void:
 		var cobertura_exigida := corpo.duplicate()
 		if config.get("modo_visual", "armadura") == "tecido":
 			# A face exposta continua no corpo original. Validar a vestimenta abaixo dela.
-			var cabelo_tecido := Aparencia.cabelo(0, pagina).get_image()
+			var cabelo_tecido := Aparencia.cabelo(1, pagina).get_image()
 			for linha in 8:
 				for coluna in 8:
 					var regiao := Rect2i(coluna * 64, linha * 64, 64, 64)

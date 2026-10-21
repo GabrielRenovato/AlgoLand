@@ -17,30 +17,30 @@ const Profundidade := preload("res://codigo/globais/profundidade.gd")
 const ClimaScript := preload("res://codigo/cenario/clima.gd")
 
 const FOLHAS: Array[Texture2D] = [
-	preload("res://assets/cenario/Seasonal Forest/arena/spring.png"),
-	preload("res://assets/cenario/Seasonal Forest/arena/summer.png"),
-	preload("res://assets/cenario/Seasonal Forest/arena/autumn.png"),
-	preload("res://assets/cenario/Seasonal Forest/arena/winter.png"),
+	preload("res://assets/cenario/substitutos/natureza/spring.png"),
+	preload("res://assets/cenario/substitutos/natureza/summer.png"),
+	preload("res://assets/cenario/substitutos/natureza/autumn.png"),
+	preload("res://assets/cenario/substitutos/natureza/winter.png"),
 ]
 const BRILHOS: Array[Texture2D] = [
-	preload("res://assets/cenario/Seasonal Forest/seasonal water animations/spring water sparkles B.png"),
-	preload("res://assets/cenario/Seasonal Forest/seasonal water animations/summer water sparkles B 16x16.png"),
-	preload("res://assets/cenario/Seasonal Forest/seasonal water animations/autumn water sparkles B 16x16.png"),
-	preload("res://assets/cenario/Seasonal Forest/seasonal water animations/winter water sparkles B 16x16.png"),
+	preload("res://assets/cenario/substitutos/natureza/brilho_spring.png"),
+	preload("res://assets/cenario/substitutos/natureza/brilho_summer.png"),
+	preload("res://assets/cenario/substitutos/natureza/brilho_autumn.png"),
+	preload("res://assets/cenario/substitutos/natureza/brilho_winter.png"),
 ]
-## Árvores evergreen: mesmo layout (80x112) nas 4 estações. `ARVORES_VARIACAO` é a segunda família de árvores
-## do mapa (no inverno sem neve no topo, para quebrar a uniformidade)
+## Árvores originais AlgoLand: quadros 128x128 da geração detalhada.
+## O pivô continua na base do quadro 128x128 nas quatro estações.
 const ARVORES: Array[Texture2D] = [
-	preload("res://assets/cenario/23.05a - Arctic Woodland 1.1/evergreen trees/evergreen trees (spring) 80x112.png"),
-	preload("res://assets/cenario/23.05a - Arctic Woodland 1.1/evergreen trees/evergreen trees (summer) 80x112.png"),
-	preload("res://assets/cenario/23.05a - Arctic Woodland 1.1/evergreen trees/evergreen trees (autumn) 80x112.png"),
-	preload("res://assets/cenario/23.05a - Arctic Woodland 1.1/evergreen trees/evergreen trees (winter, top snow) 80x112.png"),
+	preload("res://assets/cenario/substitutos/natureza/arvore_spring.png"),
+	preload("res://assets/cenario/substitutos/natureza/arvore_summer.png"),
+	preload("res://assets/cenario/substitutos/natureza/arvore_autumn.png"),
+	preload("res://assets/cenario/substitutos/natureza/arvore_winter.png"),
 ]
 const ARVORES_VARIACAO: Array[Texture2D] = [
-	preload("res://assets/cenario/23.05a - Arctic Woodland 1.1/evergreen trees/evergreen trees (spring) 80x112.png"),
-	preload("res://assets/cenario/23.05a - Arctic Woodland 1.1/evergreen trees/evergreen trees (summer) 80x112.png"),
-	preload("res://assets/cenario/23.05a - Arctic Woodland 1.1/evergreen trees/evergreen trees (autumn) 80x112.png"),
-	preload("res://assets/cenario/23.05a - Arctic Woodland 1.1/evergreen trees/evergreen trees (winter, no snow) 80x112.png"),
+	preload("res://assets/cenario/substitutos/natureza/arvore_var_spring.png"),
+	preload("res://assets/cenario/substitutos/natureza/arvore_var_summer.png"),
+	preload("res://assets/cenario/substitutos/natureza/arvore_var_autumn.png"),
+	preload("res://assets/cenario/substitutos/natureza/arvore_var_winter.png"),
 ]
 
 ## Multiplicador leve aplicado por cima do ciclo dia/noite (Iluminacao.tom_estacao)
@@ -81,6 +81,9 @@ const AREA_CLIMA_EXTENSAO := Vector2(470, 380)
 var estacao_atual := -1
 
 var _terreno: Node2D
+var _terra_continua = preload("res://codigo/cenario/terra_continua.gd").new()
+var _grama_continua = preload("res://codigo/cenario/grama_continua.gd").new()
+var _penhasco_original = preload("res://codigo/cenario/penhasco_original.gd").new()
 var _fonte_chao: TileSetAtlasSource
 var _fonte_brilho: TileSetAtlasSource
 var _atlas_arvores: Array[AtlasTexture] = []
@@ -98,6 +101,7 @@ var _tween_fade: Tween
 var _tween_tom: Tween
 var _id_troca := 0
 var _calendario_ligado := false
+var _agua_viva = preload("res://codigo/cenario/agua_viva.gd").new()
 
 func _ready() -> void:
 	_terreno = get_parent() as Node2D
@@ -107,6 +111,11 @@ func _ready() -> void:
 	var brilho := _terreno.get_node_or_null("Brilho") as TileMapLayer
 	if brilho and brilho.tile_set:
 		_fonte_brilho = brilho.tile_set.get_source(0) as TileSetAtlasSource
+	_terra_continua.configurar(_terreno)
+	_grama_continua.configurar(_terreno)
+	_penhasco_original.configurar(_terreno)
+	var agua := _terreno.get_node_or_null("Agua") as TileMapLayer
+	if agua:_agua_viva.configurar(agua)
 	_coletar_atlas()
 	_criar_clima()
 	_criar_fade()
@@ -141,12 +150,19 @@ func definir_estacao(indice: int, imediato := false) -> void:
 	_tween_fade.tween_property(_painel_fade, "color:a", 0.0, DURACAO_FADE_ENTRADA)
 
 func _aplicar(indice: int, imediato: bool) -> void:
+	_terra_continua.aplicar(indice, not _terreno.get_meta("visual_tiny",false))
+	_grama_continua.aplicar(indice, not _terreno.get_meta("visual_tiny",false))
+	_penhasco_original.aplicar(indice, not _terreno.get_meta("visual_tiny",false))
 	var anterior := estacao_atual
 	estacao_atual = indice
 	if _fonte_chao:
 		_fonte_chao.texture = _folha_da_estacao(indice)
 	if _fonte_brilho:
 		_fonte_brilho.texture = brilhos_personalizados[indice] if brilhos_personalizados.size() == 4 else BRILHOS[indice]
+	var agua_ativa: bool=not _terreno.get_meta("visual_tiny",false)
+	_agua_viva.aplicar(indice,ambiente_interno,agua_ativa)
+	if _agua_viva.material != null:
+		_terreno.get_node("Brilho").visible=not agua_ativa
 	for t in _atlas_arvores:
 		t.atlas = ARVORES[indice]
 	for t in _atlas_variacao:

@@ -19,8 +19,9 @@ func _ready() -> void:
 	z_index = preload("res://codigo/globais/profundidade.gd").z_de(global_position.y)
 	_imagem = Sprite2D.new()
 	_imagem.centered = false
-	_imagem.offset = Vector2(-16,-38)
-	_imagem.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	_imagem.offset = Vector2(-64,-152)
+	_imagem.scale=Vector2(.25,.25)
+	_imagem.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 	_imagem.flip_h = texto == "FAZENDA"
 	add_child(_imagem)
 	_atualizar_estacao()
@@ -35,7 +36,7 @@ func _ready() -> void:
 	_balao.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	var fundo := StyleBoxFlat.new()
 	fundo.bg_color = Color(0.10, 0.09, 0.14, 0.94)
-	fundo.set_content_margin_all(3)
+	fundo.set_content_margin_all(6)
 	fundo.set_corner_radius_all(4)
 	_balao.add_theme_stylebox_override("normal", fundo)
 	_balao.z_as_relative = false
@@ -47,7 +48,7 @@ func _ready() -> void:
 	_centralizar()
 
 func _centralizar() -> void:
-	_balao.position = Vector2(-_balao.size.x / 2.0, -34.0 - _balao.size.y)
+	_balao.position = Vector2(-_balao.size.x / 2.0, -42.0 - _balao.size.y)
 
 func _process(_delta: float) -> void:
 	_atualizar_estacao()
@@ -74,4 +75,4 @@ func _atualizar_estacao() -> void:
 	if atual == _estacao:
 		return
 	_estacao = atual
-	_imagem.texture = load("res://assets/cenario/cidade/placas/" + ["primavera","verao","outono","inverno"][atual] + ".png")
+	_imagem.texture = load("res://assets/cenario/cidade/complementos/placa_saida/" + ["primavera","verao","outono","inverno"][atual] + ".png")

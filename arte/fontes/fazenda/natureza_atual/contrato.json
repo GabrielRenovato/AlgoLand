@@ -1,0 +1,75 @@
+{
+  "ferramenta": "image_gen integrada",
+  "referencias": [
+    "arte/previas/cidade_revisada/cidade.png",
+    "arte/fontes/cidade/chao_detalhado/primavera.png"
+  ],
+  "uso": "Barranco norte, carvalhos, pinheiros, pedras e terra da fazenda",
+  "grade_logica": 16,
+  "resolucao": 4,
+  "arvores": {
+    "canvas": [
+      512,
+      512
+    ],
+    "pivo": [
+      256,
+      508
+    ],
+    "folhosa": [
+      72,
+      104
+    ],
+    "conifera": [
+      56,
+      108
+    ]
+  },
+  "barranco": {
+    "canvas": [
+      768,
+      256
+    ],
+    "modulo_logico": [
+      192,
+      64
+    ],
+    "preservar": "células, contorno alfa, obstáculos e caverna"
+  },
+  "pedras": {
+    "canvas": [
+      64,
+      64
+    ],
+    "limite_logico": [
+      15,
+      10
+    ],
+    "base": "retângulo original de cada variante"
+  },
+  "terra": {
+    "canvas": [
+      512,
+      512
+    ],
+    "periodo_logico": 128,
+    "mascara": "LimitePlantio original"
+  },
+  "estacoes": [
+    "primavera",
+    "verao",
+    "outono",
+    "inverno"
+  ],
+  "variantes": "Geometria comum; carvalho de inverno editado sem folhas; verão mais seco, outono dourado, neve nos apoios expostos. Materiais em assets/cenario/fazenda/natureza_detalhada.",
+  "prompts": {
+    "carvalho": "Create a production game environmental sprite for AlgoLand, one mature oak tree only, isolated on genuine transparent background. Stylized hand-painted crisp fantasy farming RPG illustration, refined detailed leaves and warm brown bark, matching the detailed cozy medieval houses and grass in the reference screenshot. Elevated orthographic top down three-quarter FRONT view, trunk upright, roots resting on one flat ground line, no isometric yaw. Rich natural spring green canopy, asymmetrical organic lobes, readable branches, soft selective contours, light from upper left. Entire tree in frame with generous transparent margins, no cast shadow outside the roots, no ground patch, no grass base, no text or UI, no other objects. The target is a 512x512 pixel canvas rendered at 4x for a logical 128x128 sprite, visible tree about 72 logical pixels wide by104 high, root pivot at center x256,y508. Preserve clean high resolution leaf shapes, NOT low resolution pixel art, no blur, no neon green. This spring model will have summer autumn winter variants at the identical pivot and silhouette.",
+    "pinheiro": "Production asset for AlgoLand: ONE evergreen fir tree, full tree isolated with genuine transparent background, no ground, no grass patch, no cast shadow. Match the crisp hand-painted refined fantasy farming RPG oak shown as reference, detailed clean needles in natural deep green, warm brown trunk with roots resting on a flat ground line. Elevated orthographic three-quarter FRONT camera, no isometric yaw. Tall slender tiered conical canopy, organic branch clumps, visible lower trunk, no cut branches or stumps in crown, light upper left. Centered full tree with transparent margin, base centered. Target canvas512x512 at4x, logical128x128 with visible tree56wide108high, rootpivot256,508. No lowresolution pixel art, no blur, no text, no other assets. Spring version; seasonal variants preserve trunk silhouette/pivot.",
+    "barranco": "Create one seamless horizontally repeating rocky farm embankment strip for AlgoLand. A production environment material in a cozy fantasy farming RPG, crisp refined hand-painted illustration matching the natural grass and warm stone reference, NOT pixel art or blurry. Orthographic elevated camera looking straight at the FRONT vertical face of a low cliff; long level horizontal edge, no isometric side view, no diagonal horizon. A continuous rock wall of irregular weathered grey warm beige slabs, crevices, a little moss and roots, natural exposed earth in fissures. Thin spring grassy lip along the TOP edge only, lower edge meets ground without drawing a floor patch. Fill entire wide rectangular image with this rock wall (roughly3:1 width:height), no separate objects, no text, no cave or waterfall. Broad coherent rock faces with readable texture, moderately dark seams but no black holes, light from upper left. Left and right sides must continue seamlessly, uniform light across the strip. Target logical96x64 at4x, canvas384x256; rock face occupies y0..240, bottom16pixels can be rock root/grass contact. Seasonal variants preserve every rock and geometry.",
+    "terra": "Production ground texture for AlgoLand farming RPG: ONE seamless tileable square field of natural cultivated brown earth viewed straight TOP DOWN. Crisp hand-painted fantasy illustration, same refinement as the game's new grass and stone floor. Fine granular warm medium-brown loam, subtle small uneven clods, tiny pebbles, slight organic color variation, readable material without strong dark spots or stripe patterns. Flat even upper-left ambient light, uniform exposure, NO perspective, no horizon, no objects, no grass, no plants, no leaves, no furrows, no footprints, no grid, no big rocks, no text. All four edges repeat seamlessly with matching scale and illumination. This is the dry spring ground material below the farm paths and tillable area. Target512x512 used over128x128logical pixels at4x. It must feel smooth detailed earth, NOT lowresolution pixel art or blurred noise.",
+    "pedra": "One game environmental sprite for AlgoLand, a LOW squat natural grey warm beige field rock, genuine transparent background. Match the crisp refined hand-painted farming RPG embankment and houses, upper-left lighting. Elevated orthographic TOP DOWN three-quarter FRONT view. Rock broad and low with irregular faceted top and short shaded front face, a few cracks and tiny subtle moss patches; clearly a collectable quarry stone, not a gemstone or mountain. Entire isolated single rock with small transparent margin, no ground patch, grass, cast shadow, text, or other objects. Final visible logical size15x10 pixels but rendered at4x in64x64 canvas, so prioritize a readable broad silhouette and clear larger planes rather than microtexture. Bottom base on one level ground line, no blur and no chunky pixel art. The stone must read naturally on both bare dirt and grass. Spring base, seasonal moisture and snow will preserve this geometry.",
+    "carvalho_inverno": "Edit this exact oak game sprite into its WINTER seasonal version. Remove ALL green foliage to expose the same living oak's complete branching structure, adding plausible finer bare twigs where the leaves hid them. Preserve EXACT image dimensions, trunk, root shape and position, main branch geometry, tree height, framing and center root pivot. Keep the warm brown detailed bark and crisp hand-painted fantasy game style, same elevated front orthographic camera and upper left lighting. Small physically supported patches of white snow on upper surfaces of branches and roots only, no solid white canopy. Entire isolated tree on genuine transparent background, no floor, no cast shadow, no grass, no text. Do not move or resize the trunk or roots. Keep all visible lower trunk pixels unchanged except a few snow patches on upper root surfaces. This is the seasonal variant used on the same logical128x128 grid at4x."
+  },
+  "continuidade_grama": "Topo e pé usam a mesma textura sazonal do chão e fase mundial de128px; nunca UV local de tile.",
+  "revisao_carvalho": "revisao_carvalho/contrato.json"
+}

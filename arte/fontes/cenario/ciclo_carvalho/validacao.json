@@ -1,0 +1,17 @@
+{
+  "ciclo": "Teste funcional e renderização gráfica dos seis estados nas quatro estações em projeto isolado; sem falhas de asserção ou erro de script na conferência final.",
+  "capturas": "arte/previas/cenario/ciclo_carvalho/ciclo_no_jogo.png",
+  "regressoes": {
+    "fazenda_tiny": "passou",
+    "forja": "passou",
+    "ligacao_fazenda": "passou"
+  },
+  "clima_geral": {
+    "resultado": "falha no teste legado da tela de título",
+    "erro": "Node not found: Cenario/Estacoes, em InicioDoJogo",
+    "local": "testes/teste_clima.gd:806",
+    "observacao": "Os testes anteriores de chuva, neve, camadas, impactos e tempestade passaram; a tela atual usa Vinheta e não a antiga cena Cenario."
+  },
+  "referencias": "0 falhas",
+  "gerador": "image_gen integrado, prompts e fontes preservados nesta pasta"
+}

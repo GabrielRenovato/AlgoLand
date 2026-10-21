@@ -8,7 +8,8 @@ static func soltar_material(id: String, quantidade: int, onde: Vector2, pai: Nod
 	return Drop.soltar_item(Item.de_coletavel("material",id,quantidade),onde,pai,RandomNumberGenerator.new())
 
 static func receita_pendente(onda: int, arvore: SceneTree) -> String:
-	for tipo in Receitas.RECEITAS:
+	for tipo in Receitas.receitas_ativas():
+		if tipo in Receitas.INICIAIS_LIVRES: continue
 		if onda < Receitas.onda_receita(tipo) or Progresso.receita_liberada(tipo):
 			continue
 		var id: String = "receita:"+tipo

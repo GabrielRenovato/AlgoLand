@@ -11,9 +11,12 @@ extends Node2D
 
 func _ready() -> void:
 	if comparar_visual_fazenda:
+		var natureza := preload("res://codigo/cenario/natureza_fazenda.gd").new()
+		natureza.configurar(get_node("Terrains"))
 		var comparacao := preload("res://codigo/cenario/fazenda_tiny.gd").new()
 		comparacao.name = "ComparacaoTiny"
 		add_child(comparacao)
+		_montar_chao_detalhado()
 		_montar_pesca_lago()
 		var galinheiro := preload("res://codigo/fazenda/galinheiro_exterior.gd").new()
 		galinheiro.position = Vector2(176,224)
@@ -56,6 +59,14 @@ func _retomar_comercio() -> void:
 		if jogador != null:
 			jogador.global_position = Vector2(520, 310)
 			EventosJogo.abrir_tela_para(jogador, "comercio")
+
+## Grama e terra no acabamento da cidade, trocadas junto com a estação.
+func _montar_chao_detalhado() -> void:
+	var estacoes := get_node("Terrains/Estacoes")
+	var chao := preload("res://codigo/cenario/chao_fazenda.gd").new()
+	chao.configurar(get_node("Terrains"),estacoes)
+	estacoes.estacao_mudou.connect(chao.aplicar)
+	chao.aplicar(maxi(estacoes.estacao_atual,0))
 
 ## O lago existente também fornece as espécies de água doce do catálogo do Nilo.
 func _montar_pesca_lago() -> void:

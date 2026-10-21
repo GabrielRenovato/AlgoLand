@@ -1,0 +1,152 @@
+{
+  "andar": {
+    "folha": "res://assets/personagens/raven_fantasy/andar.png",
+    "quadros": 4,
+    "duracao": 0.6
+  },
+  "parado": {
+    "folha": "res://assets/personagens/raven_fantasy/parado.png",
+    "quadros": 4,
+    "duracao": 0.8
+  },
+  "correr": {
+    "folha": "res://assets/personagens/raven_fantasy/correr.png",
+    "quadros": 4,
+    "duracao": 0.6
+  },
+  "pular": {
+    "folha": "res://assets/personagens/raven_fantasy/pular.png",
+    "quadros": 4,
+    "duracao": 0.8
+  },
+  "morrer": {
+    "folha": "res://assets/personagens/raven_fantasy/morrer.png",
+    "quadros": 4,
+    "duracao": 0.8
+  },
+  "carregar": {
+    "folha": "res://assets/personagens/raven_fantasy/carregar.png",
+    "quadros": 4,
+    "duracao": 0.8
+  },
+  "jogar": {
+    "folha": "res://assets/personagens/raven_fantasy/jogar.png",
+    "quadros": 4,
+    "duracao": 0.8
+  },
+  "empurrar": {
+    "folha": "res://assets/personagens/raven_fantasy/empurrar.png",
+    "quadros": 4,
+    "duracao": 0.8
+  },
+  "puxar": {
+    "folha": "res://assets/personagens/raven_fantasy/puxar.png",
+    "quadros": 4,
+    "duracao": 0.8
+  },
+  "esquiva": {
+    "folha": "res://assets/personagens/raven_fantasy/esquiva.png",
+    "quadros": 4,
+    "duracao": 0.8
+  },
+  "espada": {
+    "folha": "res://assets/personagens/raven_fantasy/espada.png",
+    "quadros": 4,
+    "duracao": 0.8
+  },
+  "espada_2": {
+    "folha": "res://assets/personagens/raven_fantasy/espada_2.png",
+    "quadros": 4,
+    "duracao": 0.8
+  },
+  "espada_dupla": {
+    "folha": "res://assets/personagens/raven_fantasy/espada_dupla.png",
+    "quadros": 4,
+    "duracao": 0.8
+  },
+  "machado": {
+    "folha": "res://assets/personagens/raven_fantasy/machado.png",
+    "quadros": 4,
+    "duracao": 0.8
+  },
+  "conjurar": {
+    "folha": "res://assets/personagens/raven_fantasy/conjurar.png",
+    "quadros": 4,
+    "duracao": 0.8
+  },
+  "magia": {
+    "folha": "res://assets/personagens/raven_fantasy/magia.png",
+    "quadros": 4,
+    "duracao": 0.8
+  },
+  "bloquear": {
+    "folha": "res://assets/personagens/raven_fantasy/bloquear.png",
+    "quadros": 4,
+    "duracao": 0.8
+  },
+  "andar_escudo": {
+    "folha": "res://assets/personagens/raven_fantasy/andar_escudo.png",
+    "quadros": 4,
+    "duracao": 0.6
+  },
+  "arco": {
+    "folha": "res://assets/personagens/raven_fantasy/arco.png",
+    "quadros": 4,
+    "duracao": 0.8
+  },
+  "picareta": {
+    "folha": "res://assets/personagens/raven_fantasy/picareta.png",
+    "quadros": 4,
+    "duracao": 0.8
+  },
+  "pa": {
+    "folha": "res://assets/personagens/raven_fantasy/pa.png",
+    "quadros": 4,
+    "duracao": 0.8
+  },
+  "enxada": {
+    "folha": "res://assets/personagens/raven_fantasy/enxada.png",
+    "quadros": 4,
+    "duracao": 0.8
+  },
+  "regar": {
+    "folha": "res://assets/personagens/raven_fantasy/regar.png",
+    "quadros": 4,
+    "duracao": 0.8
+  },
+  "pescar": {
+    "folha": "res://assets/personagens/raven_fantasy/pescar.png",
+    "quadros": 4,
+    "duracao": 0.8
+  },
+  "lanca": {
+    "folha": "res://assets/personagens/raven_fantasy/lanca.png",
+    "quadros": 4,
+    "duracao": 0.8
+  },
+  "plantar": {
+    "folha": "res://assets/personagens/raven_fantasy/plantar.png",
+    "quadros": 4,
+    "duracao": 0.8
+  },
+  "colher": {
+    "folha": "res://assets/personagens/raven_fantasy/colher.png",
+    "quadros": 4,
+    "duracao": 0.8
+  },
+  "forjar": {
+    "folha": "res://assets/personagens/raven_fantasy/forjar.png",
+    "quadros": 4,
+    "duracao": 0.8
+  },
+  "sentado": {
+    "folha": "res://assets/personagens/raven_fantasy/sentado.png",
+    "quadros": 4,
+    "duracao": 0.8
+  },
+  "ferido": {
+    "folha": "res://assets/personagens/raven_fantasy/ferido.png",
+    "quadros": 4,
+    "duracao": 0.8
+  }
+}

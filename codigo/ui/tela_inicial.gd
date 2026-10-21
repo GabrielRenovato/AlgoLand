@@ -2,7 +2,7 @@ extends Node2D
 
 # preload em vez de class_name: classe global nova pode nao estar no cache fora do editor
 const Opcoes := preload("res://codigo/globais/opcoes_jogo.gd")
-const SpritesCompostos := preload("res://codigo/jogador/sprites_compostos.gd")
+const Raven := preload("res://codigo/dados/aparencia_raven.gd")
 const Aparencia := preload("res://codigo/dados/aparencia.gd")
 
 const CENA_JOGO := "res://cenas/cidade.tscn"
@@ -662,24 +662,23 @@ func _animar_respiracao() -> void:
 	tween.tween_property(personagem, "scale:y", 1.0, 1.2)
 
 func _montar_personagem() -> void:
-	var cabelo := 0
-	var roupa := 0
-	var cor := Color.WHITE
+	var visual := {"pele":0,"cabelo":0,"roupa":1,"cor":[1,1,1,1]}
 	if FileAccess.file_exists(caminho_save_personagem):
 		var dados = JSON.parse_string(FileAccess.get_file_as_string(caminho_save_personagem))
 		if dados is Dictionary:
-			cabelo = int(dados.get("cabelo_atual", 0))
-			roupa = int(dados.get("roupa_atual", 0))
-			var dict_cor = dados.get("cor_cabelo")
-			if dict_cor is Dictionary:
-				cor = Color(dict_cor.get("r", 1.0), dict_cor.get("g", 1.0), dict_cor.get("b", 1.0), dict_cor.get("a", 1.0))
-	var compostos = SpritesCompostos.new()
-	sprite_corpo.texture = compostos.folha_sprite_corpo[0]
-	sprite_corpo.scale = Vector2.ONE * (512.0 / sprite_corpo.texture.get_width())
-	sprite_corpo.material = Aparencia.material_corpo()
-	sprite_cabelo.texture = compostos.folha_sprite_cabelo.get(cabelo, compostos.folha_sprite_cabelo[0])
-	sprite_cabelo.scale = Vector2.ONE * (512.0 / sprite_cabelo.texture.get_width())
-	sprite_roupa.texture = compostos.folha_sprite_roupa.get(roupa, compostos.folha_sprite_roupa[0])
-	sprite_roupa.scale = Vector2.ONE * (512.0 / sprite_roupa.texture.get_width())
-	compostos.free()
-	sprite_cabelo.modulate = cor
+			var anterior: Dictionary = dados.get("cor_cabelo",{})
+			visual = dados.get("aparencia_raven",{
+				"pele":0,"cabelo":clampi(int(dados.get("cabelo_atual",0))+1,1,28),"roupa":1,
+				"cor":[anterior.get("r",1.0),anterior.get("g",1.0),anterior.get("b",1.0),anterior.get("a",1.0)]})
+	var pele := clampi(int(visual.get("pele",0)),0,2)
+	var cabelo := Raven.indice_cabelo(int(visual.get("cabelo",0)))
+	var roupa := Raven.indice_roupa(int(visual.get("roupa",1)))
+	sprite_corpo.texture = Raven.carregar(Raven.RAIZ+"paginas/corpo_%d/andar.png" % pele)
+	sprite_corpo.material = Raven.material_corpo()
+	sprite_cabelo.texture = Aparencia.cabelo(cabelo,"andar")
+	sprite_cabelo.material = Raven.material_cabelo()
+	sprite_roupa.texture = Aparencia.roupa_refinada(roupa,"andar")
+	sprite_roupa.material = Raven.material_corpo()
+	for sprite in [sprite_corpo,sprite_cabelo,sprite_roupa]: sprite.scale=Vector2.ONE
+	var cor: Array = visual.get("cor",[1,1,1,1])
+	sprite_cabelo.modulate = Color(cor[0],cor[1],cor[2],cor[3])

@@ -1,0 +1,76 @@
+{
+  "objetivo": "Refazer a leitura nativa das árvores escolhidas, grama e quatro pedras, sem recuperar arbustos rejeitados.",
+  "referencias": [
+    "arte/fontes/cenario/algoland_original/revisao_mana/arvores_direcao.png",
+    "arte/fontes/cenario/algoland_original/revisao_mana/grama_gerada.png",
+    "arte/fontes/cenario/arbustos_pedras/pedras_geradas.png"
+  ],
+  "arvore": {
+    "quadro": [
+      128,
+      128
+    ],
+    "desenho": [
+      112,
+      112
+    ],
+    "pivo": [
+      64,
+      127
+    ],
+    "folha": "2x2 estações; desenho concebido em grade lógica128 por quadro"
+  },
+  "grama": {
+    "tile": [
+      16,
+      16
+    ],
+    "amostra_sazonal": [
+      32,
+      32
+    ],
+    "repeticao": "sem bordas ou linhas; contraste contido e grupos legíveis"
+  },
+  "pedras": {
+    "quadro": [
+      16,
+      16
+    ],
+    "variantes": 4,
+    "base": [
+      8,
+      15
+    ],
+    "faces": "Baixas e largas; variante alta e brilhos fortes rejeitados pelo usuário, substituídos em pedras_v2.png.",
+    "desenho": [
+      15,
+      10
+    ]
+  },
+  "estacoes": [
+    "primavera",
+    "verao",
+    "outono",
+    "inverno"
+  ],
+  "integracao": "Preparadores existentes e atlas compatíveis, preservando geometria e colisões. Fontes novas separadas das antigas; revisão real no Godot e capturas isoladas.",
+  "ciclo": {
+    "fonte": "ciclo.png",
+    "quadros": [
+      128,
+      128
+    ],
+    "pivo": [
+      64,
+      127
+    ],
+    "preparador": "ferramentas/cenario/preparar_ciclo_carvalho.py",
+    "toco": {
+      "desenho_maximo": [
+        36,
+        17
+      ],
+      "ajuste": "Reduzido para acompanhar a largura do tronco adulto; quadro128x128 e pivô64,127 preservados."
+    }
+  }
+}

@@ -239,9 +239,14 @@ func avaliar_terreno(acao: String, celula: Vector2i, semente := "") -> String:
 	var terra := get_parent().get_node_or_null("Terra") as TileMapLayer
 	if terra == null or terra.get_cell_source_id(celula) < 0:
 		return Fazenda.MSG_FORA
-	if not LimitePlantio.cobre_pixel(_estacao_visual(), terra.get_cell_atlas_coords(celula), 8, 8):
+	if not LimitePlantio.cobre_pixel(_estacao_visual(), _atlas_da_terra(terra, celula), 8, 8):
 		return Fazenda.MSG_FORA
 	return ""
+
+func _atlas_da_terra(terra: TileMapLayer, celula: Vector2i) -> Vector2i:
+	if _estacoes != null and _estacoes._terra_continua._fonte != null:
+		return _estacoes._terra_continua.atlas_original(celula)
+	return terra.get_cell_atlas_coords(celula)
 
 func _estacao_visual() -> int:
 	return _estacoes.estacao_atual if _estacoes != null and _estacoes.estacao_atual >= 0 else Calendario.estacao()
@@ -476,13 +481,16 @@ func _draw() -> void:
 	for celula in Fazenda.solo:
 		if terra == null or terra.get_cell_source_id(celula) < 0:
 			continue
-		var atlas := terra.get_cell_atlas_coords(celula)
+		var atlas := _atlas_da_terra(terra, celula)
 		var origem := Vector2(celula) * Fazenda.LADO
 		var molhado := Fazenda.esta_molhado(celula)
 		var ligacoes := SoloArado.vizinhos(Fazenda.solo, celula)
 		var regadas := SoloArado.vizinhos(Fazenda.solo, celula, true) if molhado else 0
 		var tiny := bool(get_parent().get_meta("visual_tiny", false))
-		draw_texture(SoloArado.textura(estacao, molhado, celula, ligacoes, regadas, atlas, tiny), origem)
+		if not tiny and get_parent().has_node("NaturezaFazenda"):
+			draw_texture_rect(SoloArado.textura_detalhada(estacao,molhado,celula,ligacoes,regadas,atlas),Rect2(origem,Vector2(16,16)),false)
+		else:
+			draw_texture(SoloArado.textura(estacao, molhado, celula, ligacoes, regadas, atlas, tiny), origem)
 	if _cursor_visivel:
 		_desenhar_cursor(Vector2(_celula_cursor) * Fazenda.LADO)
 

@@ -1,6 +1,6 @@
 [gd_scene load_steps=35 format=3]
 
-[ext_resource type="Texture2D" path="res://assets/cenario/Starter Pack/cozy furnishings sampler.png" id="moveis"]
+[ext_resource type="Texture2D" path="res://assets/cenario/substitutos/interiores/moveis.png" id="moveis"]
 [ext_resource type="Script" path="res://codigo/cenario/profundidade_grupo.gd" id="prof_grupo"]
 [ext_resource type="Script" path="res://codigo/cidade/passagem_cidade.gd" id="passagem_script"]
 [ext_resource type="Script" path="res://codigo/logica/interagivel.gd" id="interagivel_script"]
@@ -14,7 +14,7 @@
 
 [sub_resource type="AtlasTexture" id="Atlas_Bau"]
 atlas = ExtResource("moveis")
-region = Rect2(96, 32, 32, 16)
+region = Rect2(96, 32, 32, 26)
 
 [sub_resource type="AtlasTexture" id="Atlas_Estante"]
 atlas = ExtResource("moveis")
@@ -181,7 +181,7 @@ offset = Vector2(-16, -48)
 position = Vector2(40, 78)
 texture = SubResource("Atlas_Bau")
 centered = false
-offset = Vector2(-16, -16)
+offset = Vector2(-16, -26)
 
 [node name="CadeiraE" type="Sprite2D" parent="Objetos3D"]
 position = Vector2(61, 140)
@@ -203,11 +203,11 @@ centered = false
 offset = Vector2(-17, -42)
 
 [node name="Cafe_E" type="Sprite2D" parent="Objetos3D/Mesa"]
-position = Vector2(-9, -22)
+position = Vector2(-9, -15)
 texture = SubResource("Atlas_Cafe")
 
 [node name="Cafe_D" type="Sprite2D" parent="Objetos3D/Mesa"]
-position = Vector2(9, -22)
+position = Vector2(9, -15)
 texture = SubResource("Atlas_Cafe")
 
 [node name="Colisoes" type="StaticBody2D" parent="."]

@@ -113,7 +113,7 @@ def calcamento(texto,p):
             if mask==0: continue
             ax,ay=(0,5) if mask==15 else (mask%4,mask//4)
             celulas.append((cx,cy,0,ax,ay,0))
-    ext='[ext_resource type="Texture2D" path="res://assets/cenario/cidade/terreno/mana_seed/inverno/grama_pedra.png" id="pedra_vila"]\n[ext_resource type="Script" path="res://codigo/fendas/calcamento_sazonal.gd" id="pedra_script"]\n'
+    ext='[ext_resource type="Texture2D" path="res://assets/cenario/algoland_original/inverno/grama_pedra.png" id="pedra_vila"]\n[ext_resource type="Script" path="res://codigo/fendas/calcamento_sazonal.gd" id="pedra_script"]\n'
     texto=texto.replace('[sub_resource',ext+'\n[sub_resource',1)
     sub='[sub_resource type="TileSetAtlasSource" id="fonte_calcamento"]\ntexture = ExtResource("pedra_vila")\n'
     for y in range(6):
@@ -153,7 +153,7 @@ def gerar(p):
         m.sprites_novos=[]
         m.detalhes={}
         m.terra={}
-        # Chão mineral e paredes de rocha usam os pixels nativos do penhasco Mana Seed.
+        # Chão auxiliar próprio; galerias preservam o piso e as paredes RPGW.
         # Parede e colisão compartilham o contorno da planta, sem obstáculos invisíveis no piso.
         for cel in m.chao:
             m.chao[cel]=G.RNG.choice(G.CENTRO_TERRA)
@@ -179,6 +179,9 @@ def gerar(p):
     G.PASTA_FOLHAS=str(pasta)
     for e in G.ESTACOES:
         G.gerar_folha_estacao(e,m.tiles_margem)
+        if p['andar'] not in [3,4,7,11]:
+            from preparar_arte_original import guardar_margens
+            guardar_margens(p['andar'],m.tiles_margem)
         if p['andar'] in F.PALETAS:F.preparar_folha(pasta/f'{e}.png',p,e,m,G)
         elif bioma.startswith('caverna'): C.preparar_margens(pasta/f'{e}.png',m.tiles_margem,G,e)
         elif rochoso: D.preparar_piso(pasta/f'{e}.png',p,e)
@@ -239,3 +242,8 @@ if __name__=='__main__':
     else:
         for p in PLANTAS:
             if args.andar is None or args.andar==p['andar']: gerar(p)
+        sys.path.insert(0,str(RAIZ/'ferramentas/cenario'))
+        from preparar_terra_mascarada import preparar as preparar_mascaras_terra
+        preparar_mascaras_terra()
+        from preparar_arte_original import preparar as integrar_arte_original
+        integrar_arte_original([args.andar] if args.andar else None)

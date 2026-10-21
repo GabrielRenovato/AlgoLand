@@ -1,0 +1,44 @@
+{
+  "modelo": "assets/cenario/substitutos/natureza/arvore_<estacao>.png; toco36x17 no quadro128x128",
+  "tecnica": "Transformação do sprite existente no Godot, sem geração de arte nova.",
+  "consumidor": "codigo/logica/extracao_fazenda.gd::_derrubar",
+  "corte_acima_da_base_px": 12,
+  "pivo": "Centro do tronco na altura do corte; fixo durante a queda. Copa e toco herdam a escala da adulta.",
+  "fases": [
+    {
+      "angulo": 8,
+      "segundos": 0.25,
+      "curva": "seno, saída"
+    },
+    {
+      "angulo": 90,
+      "segundos": 0.75,
+      "curva": "quadrática, entrada"
+    },
+    {
+      "angulo": 88,
+      "segundos": 0.06
+    },
+    {
+      "angulo": 90,
+      "segundos": 0.08
+    },
+    {
+      "repouso": 0.18
+    },
+    {
+      "desaparecer": 0.35
+    }
+  ],
+  "direcao": "Oposta ao ponto do golpe, nos dois lados.",
+  "impacto": "Centro da copa recortada, projetado na linha do chão; acompanha escala.",
+  "validacao": {
+    "teste": "testes/teste_queda_carvalho.gd",
+    "casos": 8,
+    "falhas": 0,
+    "regressao": "testes/teste_ciclo_carvalho.gd: zero falhas",
+    "inspecao": "Quadros renderizados no Godot e trajetórias medidas; giro em ambos os sentidos, apoio fixo, chegada ao chão e desaparecimento.",
+    "previas": "arte/previas/cenario/queda_carvalho/",
+    "duracoes_gif": "Intervalos reais entre as capturas, registrados em trajetoria.json; não se presume24fps constantes."
+  }
+}

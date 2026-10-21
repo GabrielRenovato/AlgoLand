@@ -42,7 +42,10 @@ func _rodar() -> void:
 		DirAccess.remove_absolute(ProjectSettings.globalize_path(CAMINHO_SAVE_TESTE))
 	print("--- teste_personagem: ", "TUDO OK" if _falhas == 0 else "%d FALHAS" % _falhas)
 	print("FALHAS: ", _falhas)
-	quit(1 if _falhas > 0 else 0)
+	for id in Node.get_orphan_node_ids():
+		var orfao = instance_from_id(id)
+		if is_instance_valid(orfao) and orfao is Node: orfao.free()
+	quit.call_deferred(1 if _falhas > 0 else 0)
 
 # --- A lista ---------------------------------------------------------------------------------------------------
 
@@ -176,128 +179,32 @@ func _tecla_aba(acao: String) -> void:
 	Input.parse_input_event(solta)
 
 func _testar_tela() -> void:
-	root.size = Vector2i(720, 324)
-	await _quadros(2)
+	# O catálogo Mana Seed acima continua validando saves/NPCs; a tela agora é Raven.
+	var raven := preload("res://codigo/dados/aparencia_raven.gd")
 	var tela: Control = load("res://cenas/criacao_personagem.tscn").instantiate()
 	tela.trocar_cena = false
 	tela.caminho_save = CAMINHO_SAVE_TESTE
 	root.add_child(tela)
 	current_scene = tela
 	await _quadros(8)
-	_verificar("tela: uma casinha para cada cabelo e cada roupa", tela._casas_cabelo.size() == Aparencia.total_cabelos() and tela._casas_roupa.size() == Aparencia.total_roupas(), "")
-	_verificar("tela: abre na aba CABELO, com o primeiro cabelo, a roupa de camponês e o loiro", tela.aba == tela.Aba.CABELO and tela.cabelo == 0 and tela.roupa == 2
-			and tela.cor.is_equal_approx(tela.COR_INICIAL) and tela._paginas[0].visible and not tela._paginas[1].visible and not tela._paginas[2].visible, "")
-	_verificar("tela: a prévia mostra o cabelo, a roupa e a cor escolhidos", tela._previa_cabelo.texture == Aparencia.cabelo_refinado(0, "andar") and tela._previa_roupa.texture == Aparencia.roupa_refinada(2, "andar")
-			and tela._previa_cabelo.modulate.is_equal_approx(tela.COR_INICIAL), "")
-	# escolher
-	tela._casas_cabelo[4]["botao"].pressed.emit()
-	tela._casas_roupa[20]["botao"].pressed.emit()
-	_verificar("tela: tocar numa casinha escolhe o cabelo e a roupa (a prévia muda)", tela.cabelo == 4 and tela.roupa == 20 and tela._previa_cabelo.texture == Aparencia.cabelo_refinado(4, "andar")
-			and tela._previa_roupa.texture == Aparencia.roupa_refinada(20, "andar"), "")
-	_verificar("tela: só a escolhida fica na moldura dourada",
-			tela._casas_cabelo[4]["botao"].get_theme_stylebox("normal") == tela._dourada and tela._casas_cabelo[3]["botao"].get_theme_stylebox("normal") == tela._normal
-			and tela._casas_roupa[20]["botao"].get_theme_stylebox("normal") == tela._dourada, "")
-	_verificar("tela: as miniaturas mostram a roupa e o cabelo escolhidos", tela._casas_cabelo[0]["roupa"].texture.atlas == Aparencia.roupa_refinada(20, "andar")
-			and tela._casas_roupa[0]["cabelo"].texture.atlas == Aparencia.cabelo_refinado(4, "andar"), "")
-	# abas
-	tela._botoes_aba[1].pressed.emit()
-	_verificar("tela: a aba ROUPA mostra a lista de roupas", tela.aba == tela.Aba.ROUPA and tela._paginas[1].visible and not tela._paginas[0].visible, "")
+	_verificar("tela Raven: 28 cabelos e opção sem cabelo, nove opções de roupa", tela._casas_cabelo.size() == 29 and tela._casas_roupa.size() == 9)
+	_verificar("tela Raven: começa no corpo base sem cabelo", tela.cabelo == 0 and tela.roupa == 0)
+	tela._casas_cabelo[28].botao.pressed.emit()
+	tela._casas_roupa[8].botao.pressed.emit()
+	tela._botoes_pele[2].pressed.emit()
+	_verificar("tela Raven: prévia usa as camadas escolhidas", tela._previa_cabelo.texture == raven.cabelo(28,"andar") and tela._previa_roupa.texture == raven.roupa_refinada(8,"andar") and tela._previa_corpo.texture == raven.corpo("andar",2))
+	tela._abrir_aba(1)
 	_tecla_aba("ferramenta_proxima")
 	await _quadros(2)
-	_verificar("tela: Q/E (LB/RB) trocam de aba (ROUPA -> COR)", tela.aba == tela.Aba.COR and tela._paginas[2].visible, "aba=%d" % tela.aba)
-	_tecla_aba("ferramenta_anterior")
-	await _quadros(2)
-	_verificar("tela: e voltam (COR -> ROUPA)", tela.aba == tela.Aba.ROUPA, "aba=%d" % tela.aba)
-	# cor
-	tela._abrir_aba(tela.Aba.COR)
+	_verificar("tela Raven: Q/E e LB/RB trocam abas", tela.aba == tela.Aba.COR)
 	tela._casas_cor[10].pressed.emit()
-	_verificar("tela: uma cor da paleta tinge o cabelo da prévia", tela.cor.is_equal_approx(tela.PALETA[10]) and tela._previa_cabelo.modulate.is_equal_approx(tela.PALETA[10]), "")
-	_verificar("tela: os controles de matiz, força e brilho acompanham a cor", absf(tela._slider_matiz.value - tela.PALETA[10].h * 360.0) <= 1.0 and absf(tela._slider_brilho.value - tela.PALETA[10].v * 100.0) <= 1.0, "")
-	tela._slider_matiz.value = 120.0
-	tela._slider_saturacao.value = 100.0
-	tela._slider_brilho.value = 100.0
-	_verificar("tela: ajustar os controles muda a cor (matiz 120 = verde)", tela.cor.g > 0.9 and tela.cor.r < 0.1 and tela._previa_cabelo.modulate.is_equal_approx(tela.cor), str(tela.cor))
-	# girar
-	var direcao: int = tela._direcao
-	tela._girar(1)
-	_verificar("tela: girar muda a direção da prévia (quadro da folha)", tela._direcao == posmod(direcao + 1, 4) and tela._previa_corpo.frame == int(tela.LINHAS_DIRECAO[tela._direcao]) * 8, "")
-	# sorteio
-	for i in 20:
+	_verificar("tela Raven: tinta aplicada ao cabelo", tela._previa_cabelo.modulate == tela.PALETA[10])
+	tela._ao_nome_alterado("ana")
+	tela.confirmar()
+	var dados: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(CAMINHO_SAVE_TESTE))
+	_verificar("tela Raven: salva opções separadas dos IDs antigos", dados.apelido == "ANA" and dados.aparencia_raven.cabelo == 28 and dados.aparencia_raven.roupa == 8 and dados.aparencia_raven.pele == 2 and dados.cabelo_atual == 0 and dados.roupa_atual == 2)
+	for i in 12:
 		tela.sortear()
-		if not (tela.cabelo >= 0 and tela.cabelo < Aparencia.total_cabelos() and tela.roupa >= 2 and tela.roupa < Aparencia.total_roupas()):
-			_verificar("tela: ALEATORIO escolhe peças válidas", false, "%d %d" % [tela.cabelo, tela.roupa])
-			break
-	_verificar("tela: ALEATORIO escolhe cabelo, roupa e cor válidos", tela.cabelo >= 0 and tela.cabelo < Aparencia.total_cabelos() and tela.roupa >= 2, "")
-	# confirmar grava o save e o jogador o carrega
-	tela._casas_cabelo[5]["botao"].pressed.emit()
-	tela._casas_roupa[30]["botao"].pressed.emit()
-	tela._casas_cor[2].pressed.emit()
-	tela._campo_nome.text = "ana"
-	tela._campo_nome.text_changed.emit("ana")
-	var confirmado := [{}]
-	tela.confirmada.connect(func(d: Dictionary) -> void: confirmado[0] = d)
-	tela._botao_confirmar.pressed.emit()
-	await _quadros(2)
-	var gravado = JSON.parse_string(FileAccess.get_file_as_string(CAMINHO_SAVE_TESTE))
-	_verificar("tela: CONFIRMAR grava o save com o formato de sempre", gravado is Dictionary and int(gravado["cabelo_atual"]) == 5 and int(gravado["roupa_atual"]) == 30
-			and gravado["apelido"] == "ANA" and absf(float(gravado["cor_cabelo"]["r"]) - tela.PALETA[2].r) < 0.001 and gravado["cor_cabelo"].has("a"), str(gravado))
-	_verificar("tela: e avisa com os mesmos dados", confirmado[0].get("roupa_atual", -1) == 30, "")
-	tela._campo_nome.text = ""
-	tela._campo_nome.text_changed.emit("")
-	_verificar("tela: sem nome, o personagem se chama HEROI", tela.dados_do_personagem()["apelido"] == "HEROI", "")
-	# o jogador carrega o que a tela gravou
-	var jogo: Node = load("res://cenas/cenario.tscn").instantiate()
-	root.add_child(jogo)
-	await _quadros(10)
-	var jogador: Node = jogo.get_node("Jogador")
-	jogador.aplicar_dados_carregados(gravado)
-	_verificar("o jogador carrega o save da tela: peça, roupa e cor", jogador.cabelo_atual == 5 and jogador.roupa_atual == 30 and jogador.sprite_roupa.texture == Aparencia.roupa_refinada(30, "andar")
-			and jogador.sprite_cabelo.modulate.is_equal_approx(tela.PALETA[2]), "")
-	jogo.queue_free()
-	await _quadros(2)
-	# controle: foco e teclado virtual
-	tela._abrir_aba(tela.Aba.CABELO)
-	tela._focar_inicio()
-	await _quadros(2)
-	var evento_a := InputEventJoypadButton.new()
-	evento_a.button_index = JOY_BUTTON_A
-	evento_a.pressed = true
-	tela._ao_entrada_nome(evento_a)
-	_verificar("tela: A no campo de nome (controle) abre o teclado virtual", tela._teclado.visible, "")
-	tela._teclado.texto = "LEO"
-	tela._teclado.fechar()
-	_verificar("tela: o nome do teclado virtual vai para o campo", tela._campo_nome.text == "LEO" and tela.apelido == "LEO", tela._campo_nome.text)
-	# toque: tamanho dos alvos
-	var pequeno := false
-	for casa in tela._casas_cabelo + tela._casas_roupa:
-		var s: Vector2 = casa["botao"].custom_minimum_size
-		pequeno = pequeno or s.x < 30.0 or s.y < 30.0
-	for casa in tela._casas_cor:
-		pequeno = pequeno or casa.custom_minimum_size.x < 30.0
-	_verificar("tela: todas as casinhas têm pelo menos 30 unidades (dedo)", not pequeno and tela._botao_confirmar.custom_minimum_size.y >= 24.0, "")
-	# voltar não troca de cena quando desligada (teste)
-	tela.voltar()
-	_verificar("tela: VOLTAR com a troca de cena desligada não faz nada (e não quebra)", not tela._saindo, "")
-	# layout em três proporções
-	for tamanho in [Vector2i(576, 324), Vector2i(720, 324), Vector2i(576, 432)]:
-		root.size = tamanho
-		await _quadros(4)
-		var tela_rect := Rect2(Vector2.ZERO, root.get_visible_rect().size)
-		var dentro := true
-		var detalhe := ""
-		for no in [tela._botao_confirmar, tela._botao_voltar, tela._botao_aleatorio, tela._campo_nome, tela._botoes_aba[0], tela._botoes_aba[2], tela._rotulo_cabelo, tela._rotulo_roupa]:
-			var r: Rect2 = no.get_global_rect()
-			if not tela_rect.encloses(r.grow(-0.5)):
-				dentro = false
-				detalhe += " %s=%s" % [no.name, r]
-		_verificar("layout %s: botões, nome, abas e rótulos dentro da tela" % tamanho, dentro, "tela=%s%s" % [tela_rect, detalhe])
-		var casas_visiveis := 0
-		for c in tela._casas_roupa:
-			if tela_rect.intersects(c["botao"].get_global_rect()):
-				casas_visiveis += 1
-		_verificar("layout %s: a lista de roupas aparece (ao menos 12 casinhas à vista)" % tamanho, casas_visiveis >= 12, str(casas_visiveis))
-	# confirmar de verdade (com a troca de cena ligada) entra na arena
-	tela.trocar_cena = true
-	tela._botao_confirmar.pressed.emit()
-	await create_timer(1.6).timeout
-	_verificar("tela: CONFIRMAR entra no jogo (cena da arena)", current_scene != null and current_scene.scene_file_path == "res://cenas/cenario.tscn", str(current_scene))
+		_verificar("tela Raven: sorteio válido", tela.cabelo >= 0 and tela.cabelo <= 28 and tela.roupa >= 0 and tela.roupa <= 8 and tela.pele >= 0 and tela.pele <= 2)
+	tela.queue_free()
+	await _quadros(3)

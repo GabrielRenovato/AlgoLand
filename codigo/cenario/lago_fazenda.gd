@@ -1,13 +1,12 @@
 extends Node2D
 
-## Laguinho da fazenda (pedido de 2026-10-15, estilo Harvest Moon): o regador só enche aqui. Usar o regador virado para a
-## água enche (plantio.gd). Desenhado em código: contorno irregular fixo, cheio com o tile de água da folha da estação
-## (a mesma da arena), margem de terra, brilho na borda e alguns reflexos piscando. No inverno a água vira gelo claro,
-## mas o regador continua enchendo (o jogador quebra o gelo).
+## Lago de abastecimento do regador: mantém contorno e interação existentes.
+## A superfície usa AguaViva com profundidade, ondulação e gelo nas margens;
+## a comparação Tiny conserva o desenho legado. A água continua utilizável no inverno.
 
 const RAIO := Vector2(38, 28)
 const PONTOS := 28
-const FOLHA_ESTACAO := "res://assets/cenario/Seasonal Forest/arena/%s.png"
+const FOLHA_ESTACAO := "res://assets/cenario/substitutos/natureza/%s.png"
 const ESTACOES := ["spring", "summer", "autumn", "winter"]
 ## Tiles de água cheia na folha (colunas 11 a 13 da linha 13, que emendam entre si): repetir 48 px quebra o quadriculado
 const REGIAO_AGUA := Rect2i(176, 208, 48, 16)
@@ -18,9 +17,12 @@ const COR_BRILHO := Color(0.75, 0.92, 1.0, 0.55)
 const FOLGA_INTERACAO := 8.0
 
 var poligono := PackedVector2Array()
+var _textura_terra: Texture2D
 var _textura_agua: Texture2D
 var _tempo := 0.0
 var _reflexos: Array[Vector2] = []
+var _agua_viva = preload("res://codigo/cenario/agua_viva.gd").new()
+var _superficie: Polygon2D
 
 func _ready() -> void:
 	add_to_group("lago_fazenda")
@@ -29,6 +31,12 @@ func _ready() -> void:
 	texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED
 	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	poligono = _contorno(0.0)
+	_agua_viva.configurar_poligono(self,poligono)
+	_superficie=Polygon2D.new()
+	_superficie.name="SuperficieAgua"
+	_superficie.polygon=poligono
+	_superficie.material=_agua_viva.material
+	add_child(_superficie)
 	var corpo := StaticBody2D.new()
 	corpo.name = "Colisao"
 	corpo.collision_layer = 64
@@ -59,6 +67,9 @@ func _contorno(margem: float) -> PackedVector2Array:
 	return pontos
 
 func _aplicar_estacao(estacao: int) -> void:
+	_agua_viva.aplicar(estacao)
+	_superficie.visible=not bool(get_parent().get_meta("visual_tiny",false))
+	_textura_terra = load("res://assets/cenario/substitutos/terra_continua/campo_%s.png" % ESTACOES[clampi(estacao,0,3)])
 	var tiny: String = preload("res://codigo/cenario/fazenda_tiny.gd").pasta_do_terreno(get_parent(), estacao)
 	if not tiny.is_empty():
 		_textura_agua = load(tiny + "agua.png")
@@ -79,7 +90,14 @@ func _process(delta: float) -> void:
 
 func _draw() -> void:
 	draw_colored_polygon(_contorno(4.0), COR_MARGEM_ESCURA)
-	draw_colored_polygon(_contorno(2.0), COR_MARGEM)
+	var margem := _contorno(2.0)
+	var uvs_terra := PackedVector2Array()
+	for p in margem: uvs_terra.append((global_position+p)/128.0)
+	if bool(get_parent().get_meta("visual_tiny",false)):
+		draw_colored_polygon(margem,COR_MARGEM)
+	else:
+		draw_colored_polygon(margem,Color.WHITE,uvs_terra,_textura_terra)
+	if _superficie.visible:return
 	var uvs := PackedVector2Array()
 	for p in poligono:
 		uvs.append(p / Vector2(REGIAO_AGUA.size))

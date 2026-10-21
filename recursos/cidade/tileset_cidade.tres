@@ -1,6 +1,6 @@
 [gd_resource type="TileSet" load_steps=5 format=3]
-[ext_resource type="Texture2D" path="res://assets/cenario/Seasonal Forest/arena/spring.png" id="0"]
-[ext_resource type="Texture2D" path="res://assets/cenario/Starter Pack/home interiors, timber roof.png" id="1"]
+[ext_resource type="Texture2D" path="res://assets/cenario/substitutos/natureza/spring.png" id="0"]
+[ext_resource type="Texture2D" path="res://assets/cenario/substitutos/interiores/madeira.png" id="1"]
 [sub_resource type="TileSetAtlasSource" id="Fonte0"]
 resource_name = "FLORESTA MANA SEED"
 texture = ExtResource("0")

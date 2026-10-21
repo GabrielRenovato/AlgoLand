@@ -5,12 +5,12 @@ extends Control
 ## (BotaoSlot) com a escolhida na moldura dourada, abas (BotaoAba) e o botão verde (BotaoPrimario) para CONFIRMAR.
 ## Funciona com mouse, teclado, controle (foco nas casinhas; Q/E ou LB/RB trocam de aba; o nome abre o teclado virtual) e toque (casinhas
 ## grandes, lista com rolagem por arrasto, sem depender de passar o mouse).
-## As peças vêm de codigo/dados/aparencia.gd. Ao confirmar grava user://configuracao_jogador.json (índices de cabelo e roupa,
-## apelido e cor do cabelo, o formato de sempre) e entra no jogo.
+## As peças vêm de aparencia_raven.gd. Ao confirmar grava aparencia_raven no arquivo do jogador,
+## preservando os campos antigos para compatibilidade, e entra no jogo.
 
 signal confirmada(dados: Dictionary)
 
-const Aparencia := preload("res://codigo/dados/aparencia.gd")
+const Aparencia := preload("res://codigo/dados/aparencia_raven.gd")
 const TecladoVirtual := preload("res://codigo/ui/teclado_virtual.gd")
 const TEMA := preload("res://recursos/ui/tema_sidebar.tres")
 const TILEMAP := preload("res://assets/ui/bosque/paineis.png")
@@ -35,12 +35,12 @@ const PALETA: Array[Color] = [
 	Color(0.35, 0.60, 1.00), Color(0.25, 0.35, 0.80), Color(0.40, 0.85, 0.45), Color(0.30, 0.85, 0.80), Color(1.00, 0.55, 0.75),
 	Color(0.65, 0.40, 0.95), Color(0.85, 0.30, 0.70), Color(1.00, 0.65, 0.20), Color(0.50, 0.15, 0.30), Color(0.60, 0.70, 0.30),
 ]
-const COR_INICIAL := Color(1.00, 0.86, 0.39)
+const COR_INICIAL := Color.WHITE
 
 ## Casinhas: quadro do personagem parado de frente (folha 8x8 de 64 px; ele ocupa mais ou menos x 24-40 e y 13-44) recortado em volta da
 ## cabeça (cabelos) ou do corpo todo (roupas)
-const REGIAO_CABELO := Rect2(18, 12, 28, 26)
-const REGIAO_ROUPA := Rect2(16, 12, 32, 34)
+const REGIAO_CABELO := Rect2(8, 0, 48, 52)
+const REGIAO_ROUPA := Rect2(8, 0, 48, 52)
 const MOLDURA_CASA := 3
 const FOLGA_PREVIA_CASA := 6
 const ESPACO_CASAS := 3
@@ -64,7 +64,9 @@ var trocar_cena := true
 var caminho_save := CAMINHO_SAVE
 
 var cabelo := 0
-var roupa := 2
+var roupa := 0
+var pele := 0
+var _tempo_animacao := 0.0
 var cor: Color = COR_INICIAL
 var apelido := ""
 var aba: Aba = Aba.CABELO
@@ -83,6 +85,7 @@ var _modelo: Node2D
 var _rotulo_cabelo: Label
 var _rotulo_roupa: Label
 var _botoes_aba: Array[Button] = []
+var _botoes_pele: Array[Button] = []
 var _paginas: Array[Control] = []
 var _casas_cabelo: Array[Dictionary] = []
 var _casas_roupa: Array[Dictionary] = []
@@ -95,6 +98,8 @@ var _amostra_cor: ColorRect
 var _colunas: BoxContainer
 var _painel_previa: Control
 var _painel_edicao: Control
+var _grade_cores: GridContainer
+var _conteudo: Control
 var _palco: Control
 var _campo_nome: LineEdit
 var _botao_confirmar: Button
@@ -172,10 +177,15 @@ func _ajustar_layout() -> void:
 		return
 	var estreito := size.x < 420 or size.y < 270
 	_colunas.vertical = estreito
-	_painel_previa.custom_minimum_size = Vector2(0, 154) if estreito else Vector2(150, 0)
+	_painel_previa.custom_minimum_size = Vector2(0, 188) if estreito else Vector2(150, 0)
 	_painel_edicao.custom_minimum_size = Vector2(0, 280) if estreito else Vector2.ZERO
 	_palco.custom_minimum_size.y = 80 if estreito else 150
 	_modelo.scale = Vector2.ONE * (2.0 if estreito else ESCALA_PREVIA)
+	if _grade_cores != null:
+		var largura := size.x - (56.0 if estreito else 210.0)
+		_grade_cores.columns = clampi(int((largura + ESPACO_CASAS)/(30.0 + ESPACO_CASAS)),1,10)
+	if _conteudo != null and not _paginas.is_empty():
+		_conteudo.custom_minimum_size.y = maxf(110.0,_paginas[int(aba)].get_combined_minimum_size().y)
 
 func _novo_painel(titulo: String) -> Array:
 	var painel := PanelContainer.new()
@@ -241,7 +251,33 @@ func _montar_painel_previa() -> Control:
 	linhas.add_child(_rotulo_cabelo)
 	_rotulo_roupa = _rotulo_centro(COR_DESCRICAO)
 	linhas.add_child(_rotulo_roupa)
+	var tons := HBoxContainer.new()
+	tons.alignment = BoxContainer.ALIGNMENT_CENTER
+	tons.add_theme_constant_override("separation",6)
+	linhas.add_child(tons)
+	var rotulo_pele := Label.new()
+	rotulo_pele.text = "PELE"
+	tons.add_child(rotulo_pele)
+	var grupo_pele := ButtonGroup.new()
+	for i in 3:
+		var tom := Button.new()
+		tom.text = "%d" % (i+1)
+		tom.tooltip_text = "Tom de pele %d" % (i+1)
+		tom.custom_minimum_size = Vector2(30,26)
+		tom.toggle_mode = true
+		tom.button_group = grupo_pele
+		tom.set_pressed_no_signal(i == pele)
+		_botoes_pele.append(tom)
+		tom.pressed.connect(_escolher_pele.bind(i))
+		tons.add_child(tom)
 	return painel
+
+func _escolher_pele(indice: int) -> void:
+	pele = clampi(indice,0,2)
+	for i in _botoes_pele.size(): _botoes_pele[i].set_pressed_no_signal(i == pele)
+	_textura_corpo = Aparencia.corpo("andar",pele)
+	_previa_corpo.texture = _textura_corpo
+	_atualizar_tudo()
 
 func _nova_camada(textura: Texture2D) -> Sprite2D:
 	var camada := Sprite2D.new()
@@ -256,7 +292,8 @@ func _rotulo_centro(cor_texto: Color) -> Label:
 	var rotulo := Label.new()
 	rotulo.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	rotulo.add_theme_color_override("font_color", cor_texto)
-	rotulo.custom_minimum_size = Vector2(130, 0)
+	rotulo.custom_minimum_size = Vector2(0, 0)
+	rotulo.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	return rotulo
 
 func _botao_seta(icone: Texture2D, passo: int) -> Button:
@@ -293,6 +330,7 @@ func _montar_painel_edicao() -> Control:
 		abas.add_child(botao)
 		_botoes_aba.append(botao)
 	var conteudo := Control.new()
+	_conteudo = conteudo
 	conteudo.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	conteudo.custom_minimum_size = Vector2(0, 110)
 	linhas.add_child(conteudo)
@@ -404,7 +442,9 @@ func _nova_casa(regiao: Rect2, escala: int) -> Dictionary:
 		imagem.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		botao.add_child(imagem)
 		camadas[nome] = imagem
+	camadas["cabelo"].material = Aparencia.material_cabelo()
 	camadas["corpo"].material = Aparencia.material_corpo()
+	camadas["roupa"].material = Aparencia.material_corpo()
 	camadas["corpo"].texture = _recorte(_textura_corpo, Rect2(regiao.position * (_textura_corpo.get_width() / 512.0), regiao.size * (_textura_corpo.get_width() / 512.0)))
 	return {"botao": botao, "corpo": camadas["corpo"], "roupa": camadas["roupa"], "cabelo": camadas["cabelo"], "regiao": regiao}
 
@@ -452,6 +492,7 @@ func _montar_cores() -> Control:
 	var coluna := VBoxContainer.new()
 	coluna.add_theme_constant_override("separation", 5)
 	var grade := GridContainer.new()
+	_grade_cores = grade
 	grade.columns = 10
 	grade.add_theme_constant_override("h_separation", ESPACO_CASAS)
 	grade.add_theme_constant_override("v_separation", ESPACO_CASAS)
@@ -515,12 +556,13 @@ func _cor_vista(tinta: Color) -> Color:
 # --- Estado e atualização -------------------------------------------------------------------------------------
 
 func _atualizar_tudo() -> void:
+	for i in _botoes_pele.size(): _botoes_pele[i].set_pressed_no_signal(i == pele)
 	_atualizar_previa()
 	_atualizar_casas()
 	_atualizar_sliders()
 
 func _atualizar_previa() -> void:
-	var quadro: int = int(LINHAS_DIRECAO[_direcao]) * 8
+	var quadro: int = int(LINHAS_DIRECAO[_direcao]) * 8 + int(fmod(_tempo_animacao,0.8)/0.2)
 	_previa_corpo.frame = quadro
 	Aparencia.aplicar_roupa(_previa_roupa, roupa, "andar")
 	_previa_roupa.frame = quadro
@@ -590,6 +632,7 @@ func _abrir_aba(nova: Aba) -> void:
 		_paginas[i].visible = i == int(nova)
 	for i in _botoes_aba.size():
 		_botoes_aba[i].set_pressed_no_signal(i == int(nova))
+	_ajustar_layout.call_deferred()
 
 # --- Girar o personagem ---------------------------------------------------------------------------------------
 
@@ -598,8 +641,9 @@ func _process(delta: float) -> void:
 	if _tempo_giro >= TEMPO_GIRO:
 		_tempo_giro = 0.0
 		_girar(1)
-	# Respiração: sobe e desce um pouquinho
-	_modelo.scale.y = ESCALA_PREVIA * (1.0 + 0.012 * sin(Time.get_ticks_msec() / 400.0))
+	_tempo_animacao += delta
+	var quadro: int = int(LINHAS_DIRECAO[_direcao])*8 + int(fmod(_tempo_animacao,0.8)/0.2)
+	for camada in [_previa_corpo,_previa_roupa,_previa_cabelo]: camada.frame = quadro
 
 func _girar(passo: int) -> void:
 	_direcao = posmod(_direcao + passo, LINHAS_DIRECAO.size())
@@ -629,14 +673,18 @@ func sortear() -> void:
 	cabelo = Aparencia.cabelo_aleatorio(sorteio)
 	roupa = Aparencia.roupa_aleatoria(sorteio)
 	cor = PALETA[sorteio.randi_range(0, PALETA.size() - 1)]
+	pele = sorteio.randi_range(0,2)
+	_textura_corpo = Aparencia.corpo("andar",pele)
+	_previa_corpo.texture = _textura_corpo
 	_atualizar_tudo()
 
 func dados_do_personagem() -> Dictionary:
 	return {
-		"cabelo_atual": cabelo,
-		"roupa_atual": roupa,
+		"cabelo_atual": 0,
+		"roupa_atual": 2,
 		"apelido": apelido if apelido != "" else NOME_PADRAO,
-		"cor_cabelo": {"r": cor.r, "g": cor.g, "b": cor.b, "a": cor.a},
+		"cor_cabelo": {"r": 1.0, "g": 1.0, "b": 1.0, "a": 1.0},
+		"aparencia_raven": {"versao":1,"pele":pele,"cabelo":cabelo,"roupa":roupa,"cor":[cor.r,cor.g,cor.b,cor.a]},
 	}
 
 ## Grava o personagem e entra no jogo

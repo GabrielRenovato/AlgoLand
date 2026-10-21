@@ -1,0 +1,88 @@
+{
+  "uso": "Substituição dos terrenos Mana Seed e Gentle Forest na fazenda e na vila do AlgoLand",
+  "referencias": [
+    "assets/cenario/cidade/decoracao/mobiliario/caixas_legumes.png",
+    "assets/cenario/cidade/terreno/witchbrook/primavera/grama_terra.png"
+  ],
+  "direcao": "Referência visual direta Mana Seed: primeira geração detalhada de árvores aprovada e grama gerada a partir das amostras sazonais originais.",
+  "grade": [
+    16,
+    16
+  ],
+  "atlas_wang": [
+    64,
+    96
+  ],
+  "ordem_mascaras": "NO*8+NE*4+SO*2+SE",
+  "pivo": "origem superior esquerda da célula, sem alteração de posições/colisões",
+  "materiais": [
+    "grama",
+    "terra",
+    "pedra",
+    "agua"
+  ],
+  "estacoes": [
+    "primavera",
+    "verao",
+    "outono",
+    "inverno"
+  ],
+  "integracao": [
+    "codigo/cidade/cidade.gd",
+    "codigo/cenario/estacoes.gd",
+    "ferramentas/cenario/substituir_mana_seed.py"
+  ],
+  "revisao": "Renderização real nas quatro estações em save isolado; detalhes de bordas, cantos, água e pedra",
+  "objetos": {
+    "arvores": {
+      "tela": [
+        128,
+        128
+      ],
+      "desenho_aparente": [
+        112,
+        112
+      ],
+      "pivo": [
+        64,
+        127
+      ]
+    },
+    "arbustos": {
+      "tela": [
+        32,
+        32
+      ],
+      "pivo": [
+        16,
+        31
+      ]
+    },
+    "pedras": {
+      "telas": [
+        [
+          16,
+          16
+        ],
+        [
+          32,
+          32
+        ]
+      ],
+      "base": "centro inferior"
+    },
+    "flores": {
+      "tela": [
+        16,
+        16
+      ],
+      "base": [
+        8,
+        15
+      ]
+    }
+  },
+  "mascaras_margens": "Geometria binária das margens existentes; não contém pixels de arte dos pacotes.",
+  "escopo_preservado": "Gentle Forest das demais fendas autorizado anteriormente; personagens, ícones e pacotes de outras origens.",
+  "geracao": "Ferramenta integrada image_gen, prompts e arquivos em revisao_mana/; sem CLI/API externa."
+}

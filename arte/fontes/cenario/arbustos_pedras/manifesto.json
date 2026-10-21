@@ -1,0 +1,23 @@
+{
+  "gerador": "image_gen integrado; revisão das faces para leitura em16x16, fontes em arte/fontes/cenario/nitidez/",
+  "preparador": "ferramentas/cenario/preparar_arbustos_pedras.py",
+  "estacoes": [
+    "primavera",
+    "verao",
+    "outono",
+    "inverno"
+  ],
+  "escala": "fixa por modelo entre estações; alpha rígido e vizinho mais próximo",
+  "arbustos": "rejeitados pelo usuário; fontes arquivadas, sem exportação ou uso no jogo",
+  "quadros": {
+    "pedras": [
+      16,
+      16
+    ],
+    "pedras_grandes": [
+      32,
+      32
+    ]
+  },
+  "saida": "assets/cenario/algoland_original/arbustos_pedras"
+}

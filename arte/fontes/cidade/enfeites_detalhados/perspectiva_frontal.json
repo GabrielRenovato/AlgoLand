@@ -1,0 +1,26 @@
+{
+  "direcao_usuario": "Frente alinhada aos eixos do mapa, vista elevada top-down; sem yaw isométrico.",
+  "ferramenta": "image_gen integrada; edição individual dos originais.",
+  "prompts": [
+    {
+      "id": "mural",
+      "prompt": "Correct the camera of THIS village noticeboard game asset. Keep terracotta roof, two timber legs, iron foot bindings and parchment notices, same cozy detailed hand-painted style and natural palette. CRITICAL: face straight toward viewer, no yaw or isometric angle. Orthographic elevated top-down RPG camera looking north toward FRONT. Front board rectangle has EXACTLY HORIZONTAL top and bottom edges, two upright posts have IDENTICAL height and their feet on EXACT SAME HORIZONTAL line. Roof ridge and eaves EXACTLY HORIZONTAL, roof centered symmetrically; see roof top due camera elevation, but NO visible side wall. No skewed or diagonal board. Entire single prop with8% transparent padding, true alpha background, no scenery, shadow, grass or text. Logical56x57, high definition4x detail, no chunky pixels."
+    },
+    {
+      "id": "galinheiro",
+      "prompt": "Correct ONLY the camera of this wooden chicken coop with centered doorway, roof and ramp pointing straight DOWN toward viewer for AlgoLand. Same identity, materials, fine detailed hand-painted style and palette. CRITICAL front-facing orthographic elevated RPG top-down view, NO isometric yaw. Front face exactly parallel to image plane: all horizontal structural edges level, feet on a common horizontal baseline, vertical posts upright. See TOP surfaces due camera elevation, but no angled left/right wall. Symmetrical front projection, no diagonal footprint. Entire prop on transparent background with8% margins, no ground patch or shadows, no text. Preserve logical footprint38x40, source4x detail, no pixelation."
+    },
+    {
+      "id": "correio",
+      "prompt": "Correct ONLY the camera of this rural red wooden mailbox on timber post, arched front door aimed directly toward viewer, red flag at right, no visible long side wall for AlgoLand. Same identity, materials, fine detailed hand-painted style and palette. CRITICAL front-facing orthographic elevated RPG top-down view, NO isometric yaw. Front face exactly parallel to image plane: all horizontal structural edges level, feet on a common horizontal baseline, vertical posts upright. See TOP surfaces due camera elevation, but no angled left/right wall. Symmetrical front projection, no diagonal footprint. Entire prop on transparent background with8% margins, no ground patch or shadows, no text. Preserve logical footprint24x38, source4x detail, no pixelation."
+    },
+    {
+      "id": "canteiro",
+      "prompt": "Correct camera of this rectangular wooden flower box full of pink cream yellow flowers and green leaves; broad FRONT wall horizontal, only top and front visible, NO right or left side panel for AlgoLand. Preserve identity, materials and fine clear hand-painted fantasy farming RPG finish. CRITICAL front-facing orthographic elevated top-down RPG view looking straight north, NOT isometric, no yaw. All front horizontal timber edges EXACTLY HORIZONTAL. Left/right legs feet on SAME baseline. See TOP surfaces due camera elevation, no angled lateral walls or diagonal footprint. Keep full object centered with8% transparent padding, true alpha, no ground patch or cast shadow or text. Logical58x47, high resolution for4x display, no pixelation."
+    },
+    {
+      "id": "lenha",
+      "prompt": "Correct camera of this compact firewood storage lean-to with two equally tall posts, roof, stacked circular cut log ends facing directly forward; chopping stump and axe at right for AlgoLand. Preserve identity, materials and fine clear hand-painted fantasy farming RPG finish. CRITICAL front-facing orthographic elevated top-down RPG view looking straight north, NOT isometric, no yaw. All front horizontal timber edges EXACTLY HORIZONTAL. Left/right legs feet on SAME baseline. See TOP surfaces due camera elevation, no angled lateral walls or diagonal footprint. Keep full object centered with8% transparent padding, true alpha, no ground patch or cast shadow or text. Logical59x47, high resolution for4x display, no pixelation."
+    }
+  ]
+}

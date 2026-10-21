@@ -18,7 +18,7 @@ func quadros() -> void:
 		await process_frame
 
 func _rodar() -> void:
-	if ProjectSettings.get_setting("application/config/name") != "AlgoLand testes Carrasco":
+	if not OS.get_user_data_dir().get_file().begins_with("AlgoLand testes"):
 		quit(1)
 		return
 	await process_frame
@@ -49,13 +49,20 @@ func _rodar() -> void:
 	var terra: TileMapLayer = cena.get_node("Terrains/Terra")
 	var fora := Vector2i(6, 21)
 	var dentro := Vector2i(7, 22)
-	verificar("reprodução usa o canto misto real da fazenda", terra.get_cell_atlas_coords(fora) == Vector2i(1, 0))
+	verificar("reprodução usa o canto misto real da fazenda", plantio._atlas_da_terra(terra, fora) == Vector2i(1, 0))
+	# A borda atual tem terra no centro; testa a recusa com um centro realmente
+	# coberto de grama, sem depender do recorte de um pacote antigo.
+	var id_original := terra.get_cell_source_id(fora)
+	var atlas_visual := terra.get_cell_atlas_coords(fora)
+	var alternativa := terra.get_cell_alternative_tile(fora)
+	terra.set_cell(fora,0,Vector2i(0,1))
 	verificar("enxada recusa centro com grama", plantio.avaliar_terreno("enxada", fora) == fazenda.MSG_FORA)
 	plantio._ao_impacto("enxada", Vector2(fora) * 16 + Vector2(8, 8))
 	verificar("impacto inválido não altera o solo", not fazenda.solo.has(fora))
 	verificar("enxada aceita terra pura", plantio.avaliar_terreno("enxada", dentro) == "")
 	plantio._ao_impacto("enxada", Vector2(dentro) * 16 + Vector2(8, 8))
 	verificar("impacto válido ara uma única célula", fazenda.solo.size() == 1 and fazenda.solo.has(dentro))
+	terra.set_cell(fora,id_original,atlas_visual,alternativa)
 	# Um save antigo pode ter canteiro na borda: corrigir só o desenho, sem apagar solo ou colheita.
 	fazenda.solo[fora] = {"molhado": false, "planta": "", "dias": 0, "murcha": false}
 	verificar("canteiro antigo continua regável", plantio.avaliar_terreno("regar", fora) == "")

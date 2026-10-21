@@ -45,6 +45,21 @@ func _ready() -> void:
 		_montar_item(corpo, item)
 
 func _montar_item(corpo: StaticBody2D, item: Dictionary) -> void:
+	var detalhado := preload("res://codigo/cidade/enfeites_detalhados.gd").dados(item["p"])
+	if not detalhado.is_empty():
+		item = item.duplicate(true)
+		item.merge(detalhado, true)
+		# A fonte usa a mesma sequência no controlador sazonal de Sprite2D.
+		item.erase("animacao")
+		item.erase("sazonal")
+	var especie_arvore := ""
+	if item["p"] == "vegetacao/arvore":
+		item = item.duplicate(true)
+		item["usado"] = [0,0,112,109]  # apoio inteiro, sem meio pixel na base
+		especie_arvore = "pinheiro" if (floori(float(item["x"])/16.0)+floori(float(item["y"])/16.0))%3 == 0 else "folhosa"
+		item["texturas"] = []
+		for e in ["spring","summer","autumn","winter"]:
+			item["texturas"].append("res://assets/cenario/substitutos/arvores_cidade/%s/%s.png" % [especie_arvore,e])
 	var base := Vector2(item["x"], item["y"])
 	var usado: Array = item["usado"]
 	var no := Node2D.new()
@@ -87,6 +102,11 @@ func _montar_item(corpo: StaticBody2D, item: Dictionary) -> void:
 		sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 		no.add_child(sprite)
 		DetalheAmbiente.instalar(no, sprite, item)
+		if item.get("simulacao_agua",false):
+			var agua_fonte:=preload("res://codigo/cidade/agua_fonte.gd").new()
+			agua_fonte.name="AguaFonte"
+			agua_fonte.imagem=sprite
+			no.add_child(agua_fonte)
 		if item.get("sazonal", false):
 			_sazonais.append({"sprite": sprite, "p": item["p"]})
 	if item.has("estacoes"):
@@ -103,7 +123,12 @@ func _montar_item(corpo: StaticBody2D, item: Dictionary) -> void:
 		if nome_peca in ["poste_luz", "placa_encruzilhada", "correio"]:
 			largura_sombra *= 0.45
 			altura_sombra = float(usado[3])
-		SombraCidade.projetar(no, "objetos/" + MASCARAS_SOMBRA[nome_peca], largura_sombra, altura_sombra)
+		var mascara: String = "arvore_"+especie_arvore if not especie_arvore.is_empty() else MASCARAS_SOMBRA[nome_peca]
+		var sombras_sazonais: Array[Texture2D] = []
+		if not especie_arvore.is_empty():
+			for e in ["spring","summer","autumn","winter"]:
+				sombras_sazonais.append(load("res://assets/cenario/cidade/sombras/objetos/arvore_%s_%s.png" % [especie_arvore,e]))
+		SombraCidade.projetar(no, "objetos/" + mascara, largura_sombra, altura_sombra, sombras_sazonais)
 	if item.has("col"):
 		var col: Array = item["col"]
 		var forma := CollisionShape2D.new()

@@ -8,4 +8,4 @@ func _ready() -> void:
 
 func _trocar(indice: int) -> void:
 	var fonte := tile_set.get_source(0) as TileSetAtlasSource
-	fonte.texture = load("res://assets/cenario/cidade/terreno/mana_seed/%s/grama_pedra.png" % ESTACOES[clampi(indice,0,3)])
+	fonte.texture = load("res://assets/cenario/algoland_original/%s/grama_pedra.png" % ESTACOES[clampi(indice,0,3)])

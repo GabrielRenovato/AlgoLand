@@ -1,0 +1,41 @@
+{
+  "origem": "Recursos próprios existentes do AlgoLand; sem geração nova.",
+  "andares": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+  ],
+  "estacoes": [
+    "spring",
+    "summer",
+    "autumn",
+    "winter"
+  ],
+  "grade": 16,
+  "materiais": [
+    "grama_tufos",
+    "terra_natural",
+    "penhasco",
+    "nitidez/pedras",
+    "arvores_nitidas_v2"
+  ],
+  "preservado": "Geometria, colisões, navegação, entradas, combate e peças RPGW.",
+  "margens": "Máscaras recuperadas pela geometria da lagoa e células reais; nenhum RGB comercial. Platô conserva apenas a silhueta alfa para manter seu apoio.",
+  "regenerar": "python ferramentas/fendas/preparar_arte_original.py",
+  "validacao": {
+    "mapas": 11,
+    "estacoes": 4,
+    "texturas_proprias_auditadas": 63,
+    "amostras_margens": 16640,
+    "verificacoes_colisao": 55,
+    "previas": "arte/previas/cenario/andares_originais/"
+  }
+}

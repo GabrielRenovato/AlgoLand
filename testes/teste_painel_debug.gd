@@ -24,7 +24,7 @@ func rodar() -> void:
 	calendario.dia = 1
 	change_scene_to_file("res://cenas/fazenda.tscn")
 	await quadros(40)
-	verificar("quatro areas curtas preservam todas as categorias", painel.AREAS.size() == 4 and painel._opcoes.size() == 18)
+	verificar("quatro areas curtas preservam todas as categorias", painel.AREAS.size() == 4 and painel._opcoes.size() == 19)
 	var categorias := []
 	for area in painel.AREAS:
 		for categoria in painel.AREAS[area]: categorias.append(categoria)
@@ -43,6 +43,22 @@ func rodar() -> void:
 	painel._area.select(0)
 	painel._area.select(0)
 	painel._selecionar_area(0)
+	var inv := root.get_node("InventarioJogador")
+	inv.limpar()
+	inv.criar_itens_iniciais()
+	painel._receber_armas_raven()
+	for tipo in preload("res://codigo/ui/icones_itens.gd").ARMAS_RAVEN:
+		verificar("F3 entrega "+tipo, inv.buscar_por_tipo(tipo) != null)
+	verificar("F3 entrega aljava junto das armas",inv.buscar_por_tipo("aljava_basica") != null)
+	var antes: Array = inv.fotografar_mochila()
+	painel._receber_armas_raven()
+	painel._receber_armas_raven("aljava_basica")
+	verificar("repetir não duplica armas ou aljava",inv.fotografar_mochila() == antes)
+	painel._area.select(1)
+	painel._selecionar_area(1)
+	var indice_armas: int = painel.AREAS["COMBATE"].find("ARMAS RAVEN")
+	painel._categoria.select(indice_armas)
+	painel._selecionar_categoria(indice_armas)
 	painel._painel.show()
 	for tamanho in [Vector2i(576,324), Vector2i(480,270), Vector2i(288,512), Vector2i(320,324)]:
 		root.content_scale_size = tamanho
@@ -62,6 +78,8 @@ func rodar() -> void:
 		painel._acao.get_popup().hide()
 	root.content_scale_size = Vector2i(576,324)
 	root.size = Vector2i(1152,648)
+	painel._area.select(0)
+	painel._selecionar_area(0)
 	var jogador := current_scene.get_node("Jogador")
 	jogador.inventario.limpar()
 	await painel._executar_selecao()

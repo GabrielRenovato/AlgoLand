@@ -1,0 +1,31 @@
+{
+  "objetivo": "Mais definição e menos blocos de pixels aparentes, conforme correção do usuário. Usar os originais maiores do projeto; não quantizar nem ampliar sprites pequenos.",
+  "fachadas": [
+    "venda",
+    "sede",
+    "enfermaria",
+    "pousada",
+    "mistica",
+    "casa_bento",
+    "casa_jogador",
+    "forja",
+    "carpintaria"
+  ],
+  "resolucao": 4,
+  "integracao": "codigo/cidade/fachadas_detalhadas.gd e detalhe_ambiente.gd; canvas e pivô divididos por4 na apresentação, mantendo tamanhos e colisões lógicas. Amostragem linear com mipmaps restrita às fachadas detalhadas.",
+  "fontes": {
+    "venda": "res://arte/fontes/cidade/venda.png",
+    "sede": "res://arte/fontes/cidade/sede.png",
+    "enfermaria": "res://arte/fontes/cidade/enfermaria.png",
+    "pousada": "res://arte/fontes/cidade/pousada.png",
+    "mistica": "res://arte/fontes/cidade/mistica.png",
+    "casa_bento": "res://arte/fontes/cidade/casa_bento.png",
+    "casa_jogador": "res://arte/fontes/fazenda/casa_inicial/exterior_original.png",
+    "forja": "res://arte/fontes/forja/forja_estacoes.png",
+    "carpintaria": "res://arte/fontes/cidade/carpintaria/estacoes.png"
+  },
+  "estacoes": "Quatro variantes registradas por fachada; forja e carpintaria usam folhas sazonais originais. Demais fachadas preservam arquitetura e alteram somente vegetação, flores e neve sobre superfícies expostas.",
+  "preparo": "flatpak run org.godotengine.Godot --headless --path . --script res://ferramentas/cidade/preparar_exteriores_nitidos.gd",
+  "revisao": "teste_nitidez_exteriores.gd em save isolado: cidade, fazenda, praia, 36 combinações fachada/estação, tamanhos lógicos e comparação antes/depois.",
+  "descartados": "Os dois estudo_pixelado_rejeitado.png são referências de tentativa rejeitada por excesso de pixelização; não são consumidos pelo jogo."
+}

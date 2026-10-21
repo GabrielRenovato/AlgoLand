@@ -109,7 +109,7 @@ func _rodar() -> void:
 		var interior := cena.get_node("Interior")
 		var sala := interior.get_node("Sala")
 		verificar("sala em perspectiva ortogonal, sem fundo frontal: " + id, sala.get_script().resource_path == "res://codigo/cidade/sala_topdown.gd" and sala.scale == Vector2.ONE)
-		verificar("sala montada com tiles nativos da Mana Seed: " + id, sala.FOLHA.resource_path == "res://assets/cenario/Starter Pack/home interiors, timber roof.png")
+		verificar("sala usa o atlas compartilhado de madeira: " + id, sala.FOLHA.resource_path == "res://assets/cenario/substitutos/interiores/madeira.png")
 		var detalhes := interior.find_children("DetalheAmbiente", "Node", true, false)
 		verificar("móveis preparados em escala nativa: " + id, not detalhes.is_empty())
 		for estacao in 4:

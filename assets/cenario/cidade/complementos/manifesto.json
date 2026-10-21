@@ -1,0 +1,36 @@
+{
+  "placa_saida": {
+    "texturas": [
+      "res://assets/cenario/cidade/complementos/placa_saida/primavera.png",
+      "res://assets/cenario/cidade/complementos/placa_saida/verao.png",
+      "res://assets/cenario/cidade/complementos/placa_saida/outono.png",
+      "res://assets/cenario/cidade/complementos/placa_saida/inverno.png"
+    ],
+    "resolucao": 4,
+    "quadros": 1,
+    "fps": 0
+  },
+  "portal": {
+    "texturas": [
+      "res://assets/cenario/cidade/complementos/portal/primavera.png",
+      "res://assets/cenario/cidade/complementos/portal/verao.png",
+      "res://assets/cenario/cidade/complementos/portal/outono.png",
+      "res://assets/cenario/cidade/complementos/portal/inverno.png"
+    ],
+    "resolucao": 4,
+    "quadros": 9,
+    "fps": 8
+  },
+  "mobiliario/galinha": {
+    "texturas": [
+      "res://assets/cenario/cidade/complementos/aves/galinha_bento.png",
+      "res://assets/cenario/cidade/complementos/aves/galinha_bento.png",
+      "res://assets/cenario/cidade/complementos/aves/galinha_bento.png",
+      "res://assets/cenario/cidade/complementos/aves/galinha_bento.png"
+    ],
+    "resolucao": 1,
+    "quadros": 4,
+    "fps": 3.57,
+    "fonte": "res://assets/cenario/fazenda/galinheiro/galinha_white.png"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "resolucao": 4,
+  "estacoes": [
+    "primavera",
+    "verao",
+    "outono",
+    "inverno"
+  ],
+  "canvas_arvore": [
+    512,
+    512
+  ],
+  "pivo_arvore": [
+    256,
+    508
+  ],
+  "grade_fisica": 16
+}

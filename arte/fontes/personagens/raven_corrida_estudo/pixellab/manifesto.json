@@ -1,0 +1,42 @@
+{
+  "estado": "estudo_nao_integrado",
+  "ferramenta": "PixelLab pixelart_workbench (edição exata, sem geração por IA)",
+  "origem": "assets/personagens/raven_fantasy/correr.png, direção direita",
+  "sequencia": [
+    0,
+    "abertura A",
+    1,
+    2,
+    "abertura B",
+    3
+  ],
+  "duracoes_ms": [
+    100,
+    100,
+    100,
+    100,
+    100,
+    100
+  ],
+  "celula": [
+    80,
+    80
+  ],
+  "pivo": [
+    40,
+    47
+  ],
+  "garantia": "Quatro poses originais preservadas, com recoloração da cueca autorizada; cabeça, tronco e braços dos intermediários copiados da base, edição só abaixo de y=41.",
+  "limitacao": "Estudo lateral. Não altera a corrida ativa nem as camadas de roupas/cabelo.",
+  "pixellab_id": "b096768c-c5f8-40ba-a2df-9af3987a56db",
+  "revisao_bracos": {
+    "folha": "frames_bracos_v2.png",
+    "pixellab_id": "f9d473d4-6b4e-464d-b351-3edef6fe612c",
+    "quadros_alterados": [
+      2,
+      5
+    ],
+    "preservados": "Cabeça, quadril/cueca, pernas e quatro poses originais",
+    "alteracao": "Braço próximo atrás no quadro 2 e à frente no quadro 5, em oposição à perna próxima. Somente estudo lateral."
+  }
+}

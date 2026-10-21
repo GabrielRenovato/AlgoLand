@@ -1,0 +1,53 @@
+{
+  "origens": [
+    "AlgoLand original: ferramentas/cenario/gerar_natureza_original.py",
+    "PixelLab local: sala da casa Bento",
+    "PixelLab local: mobiliário",
+    "image_gen: arte/fontes/cenario/arbustos_pedras/"
+  ],
+  "grade": 16,
+  "escala_no_motor": 1,
+  "adaptacoes": {
+    "arvores": "128x128; desenho112x112 e pivô64,127",
+    "pedras": "quatro formas baixas e largas; quadros16x16, desenho15x10, base alinhada",
+    "arbustos": "rejeitados pelo usuário; retirados junto das colisões"
+  },
+  "estacoes": [
+    "primavera",
+    "verao",
+    "outono",
+    "inverno"
+  ],
+  "preservar": [
+    "ids",
+    "células",
+    "pivôs",
+    "colisões",
+    "recursos de outras origens"
+  ],
+  "substituicoes": {
+    "res://assets/cenario/Seasonal Forest/arena/spring.png": "res://assets/cenario/substitutos/natureza/spring.png",
+    "res://assets/cenario/Seasonal Forest/arena/summer.png": "res://assets/cenario/substitutos/natureza/summer.png",
+    "res://assets/cenario/Seasonal Forest/arena/autumn.png": "res://assets/cenario/substitutos/natureza/autumn.png",
+    "res://assets/cenario/Seasonal Forest/arena/winter.png": "res://assets/cenario/substitutos/natureza/winter.png",
+    "res://assets/cenario/fenda_bosque/spring.png": "res://assets/cenario/substitutos/fenda_bosque/spring.png",
+    "res://assets/cenario/fenda_bosque/summer.png": "res://assets/cenario/substitutos/fenda_bosque/summer.png",
+    "res://assets/cenario/fenda_bosque/autumn.png": "res://assets/cenario/substitutos/fenda_bosque/autumn.png",
+    "res://assets/cenario/fenda_bosque/winter.png": "res://assets/cenario/substitutos/fenda_bosque/winter.png",
+    "res://assets/cenario/fendas/andar_06/spring.png": "res://assets/cenario/substitutos/fendas/andar_06/spring.png",
+    "res://assets/cenario/fendas/andar_06/summer.png": "res://assets/cenario/substitutos/fendas/andar_06/summer.png",
+    "res://assets/cenario/fendas/andar_06/autumn.png": "res://assets/cenario/substitutos/fendas/andar_06/autumn.png",
+    "res://assets/cenario/fendas/andar_06/winter.png": "res://assets/cenario/substitutos/fendas/andar_06/winter.png",
+    "res://assets/cenario/fendas/andar_10/spring.png": "res://assets/cenario/substitutos/fendas/andar_10/spring.png",
+    "res://assets/cenario/fendas/andar_10/summer.png": "res://assets/cenario/substitutos/fendas/andar_10/summer.png",
+    "res://assets/cenario/fendas/andar_10/autumn.png": "res://assets/cenario/substitutos/fendas/andar_10/autumn.png",
+    "res://assets/cenario/fendas/andar_10/winter.png": "res://assets/cenario/substitutos/fendas/andar_10/winter.png",
+    "res://assets/cenario/Seasonal Forest/seasonal water animations/spring water sparkles B.png": "res://assets/cenario/substitutos/natureza/brilho_spring.png",
+    "res://assets/cenario/Seasonal Forest/seasonal water animations/summer water sparkles B 16x16.png": "res://assets/cenario/substitutos/natureza/brilho_summer.png",
+    "res://assets/cenario/Seasonal Forest/seasonal water animations/autumn water sparkles B 16x16.png": "res://assets/cenario/substitutos/natureza/brilho_autumn.png",
+    "res://assets/cenario/Seasonal Forest/seasonal water animations/winter water sparkles B 16x16.png": "res://assets/cenario/substitutos/natureza/brilho_winter.png",
+    "res://assets/cenario/Starter Pack/home interiors, timber roof.png": "res://assets/cenario/substitutos/interiores/madeira.png",
+    "res://assets/cenario/Starter Pack/cozy furnishings sampler.png": "res://assets/cenario/substitutos/interiores/moveis.png",
+    "res://assets/cenario/fazenda/entulho/": "res://assets/cenario/substitutos/entulho/"
+  }
+}

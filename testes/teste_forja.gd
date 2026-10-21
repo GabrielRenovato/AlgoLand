@@ -59,7 +59,7 @@ func _rodar() -> void:
 	slot._equipar_ou_desequipar()
 	verificar("usar pela interface consome pergaminho e aprende", prog.receita_liberada("arco_curto") and inv.quantidade_tipo("receita:arco_curto") == 0 and not prog.arma_liberada("arco_curto"))
 	slot.queue_free()
-	verificar("nao usa receita ausente", prog.aprender_receita("maca",inv) == "RECEITA NAO ESTA NA MOCHILA")
+	verificar("nao usa receita ausente", prog.aprender_receita("machado",inv) == "RECEITA NAO ESTA NA MOCHILA")
 	verificar("aprender receita ainda exige materiais fisicos", prog.fabricar_arma("arco_curto") == "FALTAM MATERIAIS NA MOCHILA")
 	verificar("materiais entram na mochila do segundo jogador", prog.adicionar_materiais_forja(Receitas.RECEITAS["arco_curto"],inv2) and inv2.quantidade_tipo("material:madeira") == 4)
 	verificar("fabricacao nao usa materiais do outro jogador", prog.fabricar_arma("arco_curto",inv) == "FALTAM MATERIAIS NA MOCHILA" and inv2.quantidade_tipo("material:madeira") == 4)
@@ -210,25 +210,25 @@ func _vila() -> void:
 	zona.abrir_tela_p2()
 	await quadros(8)
 	var tela: Control = ui._telas["forja"]
-	verificar("oficina abre receitas custos e retirada", tela.visible and tela._botoes.size() == Receitas.RECEITAS.size()+4 and tela._custos.find_children("*", "Label", true, false).any(func(rotulo): return rotulo.text.contains("MADEIRA")))
-	inv2.adicionar_coletavel("receita","maca")
-	prog.aprender_receita("maca",inv2)
-	prog.adicionar_materiais_forja(Receitas.RECEITAS["maca"],inv2)
-	tela._selecionar("maca")
+	verificar("oficina abre receitas custos e retirada", tela.visible and tela._botoes.size() == Receitas.receitas_ativas().size()+4 and tela._custos.find_children("*", "Label", true, false).any(func(rotulo): return rotulo.text.contains("MADEIRA")))
+	inv2.adicionar_coletavel("receita","lanca_basica")
+	prog.aprender_receita("lanca_basica",inv2)
+	prog.adicionar_materiais_forja(Receitas.RECEITAS["lanca_basica"],inv2)
+	tela._selecionar("lanca_basica")
 	tela._fabricar.pressed.emit()
 	var trabalho: Node = current_scene.get_node("Bigorna/TrabalhoFerreiro")
 	var limite := Time.get_ticks_msec()+30000
 	while trabalho.ocupado() and Time.get_ticks_msec()<limite:
 		await physics_frame
 	await quadros()
-	verificar("fabricacao no coop fica encomendada sem liberar antes do prazo",not prog.arma_liberada("maca") and not prog.encomenda_forja.is_empty())
+	verificar("fabricacao no coop fica encomendada sem liberar antes do prazo",not prog.arma_liberada("lanca_basica") and not prog.encomenda_forja.is_empty())
 	calendario.dia = 4  # Dois dias de prazo; na quarta o Ivo está de folga.
 	root.get_node("Cidade").trajetos_moradores.erase("ferreiro")
 	current_scene.moradores["ferreiro"]._saindo = false
 	current_scene.moradores["ferreiro"].atualizar_rotina(true)
 	tela._ao_fabricar()
 	await quadros()
-	verificar("botao do Ivo fabrica no coop e atualiza a tela", prog.arma_liberada("maca") and inv2.buscar_por_tipo("maca") != null and tela._fabricar.text == "JA FABRICADA")
+	verificar("botao do Ivo fabrica no coop e atualiza a tela", prog.arma_liberada("lanca_basica") and inv2.buscar_por_tipo("lanca_basica") != null and tela._fabricar.text == "JA FABRICADA")
 	verificar("Ivo tem retrato animado no dialogo", ResourceLoader.exists("res://assets/npcs/retratos/ivo.png"))
 	if "--capturar" in OS.get_cmdline_user_args():
 		await _capturas(tela, ui)

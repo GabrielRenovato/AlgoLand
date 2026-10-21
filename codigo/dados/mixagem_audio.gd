@@ -3,7 +3,8 @@ const BUSES := {"Musica":"volume_musica", "Efeitos":"volume_efeitos", "Ambiente"
 static func preparar() -> void:
 	for nome in BUSES:
 		if AudioServer.get_bus_index(nome) < 0:
-			AudioServer.add_bus()
+			# add_bus(-1) desliga o Master no backend Web Sample do Godot 4.7.2.
+			AudioServer.bus_count += 1
 			var indice := AudioServer.bus_count - 1
 			AudioServer.set_bus_name(indice,nome)
 			AudioServer.set_bus_send(indice,"Master")

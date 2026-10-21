@@ -189,10 +189,9 @@ func _rodar() -> void:
 	cama.deitar(jogador)
 	await quadros()
 	var cabeca: Sprite2D = cama.get_node("Cabeca/sprite_corpo")
-	var celula: Vector2 = jogador.sprite_corpo.texture.get_size() / Vector2(jogador.sprite_corpo.hframes, jogador.sprite_corpo.vframes)
-	verificar("recorte da cabeca acompanha resolucao refinada", cabeca.region_rect.size.is_equal_approx(cama.RECORTE_CABECA.size * celula / 64.0))
-	verificar("cabeca mantem tamanho fisico ao dormir", (cabeca.region_rect.size * cabeca.scale).is_equal_approx(cama.RECORTE_CABECA.size))
-	var imagem := cabeca.texture.get_image().get_region(cabeca.region_rect)
+	verificar("recorte da cabeca usa grade Raven", cabeca.texture.get_size().is_equal_approx(cama.RECORTE_CABECA.size))
+	verificar("cabeca mantem tamanho fisico ao dormir", cabeca.scale == Vector2.ONE)
+	var imagem := cabeca.texture.get_image()
 	var opacos := 0
 	for y in imagem.get_height():
 		for x in imagem.get_width():

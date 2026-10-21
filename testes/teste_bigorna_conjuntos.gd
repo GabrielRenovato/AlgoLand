@@ -75,12 +75,20 @@ func _rodar() -> void:
 	_inv.limpar()
 	_inv.adicionar_moedas_forja(0)
 	_verificar("sem moeda de forja o upgrade fica bloqueado", not mercante._dados_upgrade().get("forja_ok", true) or mercante._dados_upgrade().is_empty())
-	# Reequipa e liquida a forja direto no jogador (a animação de 5 s é do jogador)
+	# Reequipa e confirma o refino sem animação nem temporizador.
 	for categoria in pecas:
 		_inv.adicionar(pecas[categoria])
 		_inv.equipar(pecas[categoria])
 	await _quadros(3)
-	_jogador._on_forja_finalizada(pecas["corpo"])
+	var temporizadores_antes := _jogador.get_children().filter(func(no): return no is Timer).size()
+	var conclusoes := [0]
+	_jogador.forja_finalizada.connect(func(): conclusoes[0]+=1)
+	_jogador.iniciar_forja(pecas["corpo"])
+	_verificar("refino imediato e concluído uma vez", pecas["corpo"].nivel==2 and conclusoes[0]==1)
+	_verificar("refino não cria espera nem bloqueia movimento", not _jogador.esta_forjando and _jogador.movimento_habilitado and _jogador.get_children().filter(func(no): return no is Timer).size()==temporizadores_antes)
+	var visual := _jogador.get_node("HeroiRaven")
+	visual._process(0.0)
+	_verificar("refino não reproduz martelada", visual._animacao!="forjar" and not _jogador.no_forja.visible)
 	await _quadros(3)
 	_verificar("o nível sobe só na peça forjada", pecas["corpo"].nivel == 2 and pecas["cabeca"].nivel == 1)
 	_verificar("o nível do conjunto continua o da peça mais fraca", is_equal_approx(_jogador.estatisticas.bonus_defesa_conjunto, 0.1), str(_jogador.estatisticas.bonus_defesa_conjunto))

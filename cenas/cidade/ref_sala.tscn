@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" path="res://cenas/ui/interface.tscn" id="interface"]
 [ext_resource type="Script" path="res://codigo/efeitos/iluminacao.gd" id="luz"]
 [ext_resource type="PackedScene" path="res://cenas/efeitos/vinheta.tscn" id="vinheta"]
-[ext_resource type="Texture2D" path="res://assets/cenario/Starter Pack/home interiors, timber roof.png" id="interiores"]
+[ext_resource type="Texture2D" path="res://assets/cenario/substitutos/interiores/madeira.png" id="interiores"]
 
 [sub_resource type="TileSetAtlasSource" id="Fonte"]
 texture = ExtResource("interiores")

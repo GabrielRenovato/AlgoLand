@@ -1,0 +1,47 @@
+{
+  "origem": "Pixels da faixa superior de quatro_estacoes.png, sintetizados por vizinhança sem novas cores.",
+  "fonte": "quatro_estacoes.png",
+  "recorte_nativo": "Painéis96×64; faixa96×4 do topo; inverno usa y=2.",
+  "campo": [
+    128,
+    128
+  ],
+  "grade": 16,
+  "continuidade": "Posição dos recortes fixada por coordenadas do mapa módulo8; campo periódico, sem molduras16px.",
+  "variantes": "Quatro estações; nove bancos alinhados (base e oito flores).",
+  "integracao": [
+    "ferramentas/cenario/grama_do_topo.py",
+    "ferramentas/cenario/preparar_grama_penhasco.py",
+    "codigo/cenario/grama_continua.gd",
+    "codigo/cenario/estacoes.gd"
+  ],
+  "margens": "Terra e água expõem o chão contínuo no lado da grama por transparência.",
+  "estudo_rejeitado": {
+    "origem": "image_gen: extensão da própria grama do paredão, sem usar a grama fria anterior",
+    "fonte": "grama_topo.png",
+    "referencia": "quatro_estacoes.png; faixa superior do painel de cada estação",
+    "paleta": "Oito tons obtidos diretamente da faixa96x4 do topo do morro, aplicada ao chão.",
+    "grade": 16,
+    "painel_recuperado": [
+      48,
+      32
+    ],
+    "recorte": [
+      8,
+      0,
+      40,
+      32
+    ],
+    "continuidade": "Bordas orgânicas compartilhadas pelas quatro variantes16x16, compatíveis em qualquer ordem.",
+    "estacoes": [
+      "primavera",
+      "verao",
+      "outono",
+      "inverno"
+    ],
+    "integracao": "preparar_grama_penhasco.py e preparar_revisao_mana.py; atualiza atlas, margens e Wang, preservando árvores/colisões/células.",
+    "prompt": "Make a seamless flat GRASS GROUND tilesheet by expanding the EXACT GRASS MATERIAL ON THE TOP EDGE of the attached rocky cliff atlas over a whole field. This is a material extension, NOT a new grass design or a different palette. Copy the visual vocabulary of that lip: dense compact interlocking short chunky grass blades, upright little V shaped tufts in layered clusters, warm medium greens and yellow-green tips in spring, deeper green in summer, rich GOLDEN YELLOW / amber grass in autumn, pale snow winter. In particular AUTUMN MUST match the bright golden orange cliff lip in the reference, NOT olive green or brown flat lawn. Preserve the same visible square pixel scale and shape of the existing grass clusters. The floor should look like a carpet made from that very same grass. No rocks, cliffs, exposed dirt, trees or objects. Full opaque texture atlas in EXACTLY2x2 equal panels with no borders: spring top-left, summer top-right, autumn bottom-left, winter bottom-right, matching the reference seasons. Each panel native32x32 logical pixels, enlarged as uniform crisp square blocks, about8 colors per panel. Short dense grass with medium contrast and small light blade tips, no tall bush clumps, no fine noisy speckling or nearly black holes. Flat top-down ground, no horizon or perspective depth. Each panel must TILE SEAMLESSLY on all sides, with no visible rectangular patch boundaries. No horizontal stripes, no checkerboard, no regular spaced motifs. Winter: continuous light snow and a few short exposed straw tufts, no repeating large disconnected star-shaped holes. Match the actual grass color families from the reference instead of the previous cool teal lawn. No text, watermarks, shadows, antialiasing, blur or smooth gradients.",
+    "escala_tufos": "Amostragem por vizinho mais próximo em metade da grade da fonte ampliada: tufos curtos de2–3px no chão."
+  },
+  "estado": "Rejeitado: síntese pixel a pixel produziu trama; substituído por ../grama_tufos/contrato.json."
+}

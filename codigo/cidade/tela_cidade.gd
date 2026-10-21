@@ -188,12 +188,10 @@ func _atualizar() -> void:
 		mapa.preparar(maxi(Progresso.recorde_onda,Progresso.onda_maxima),_onda_do_portal())
 		papel.add_child(mapa)
 		var jogador := EventosJogo.dono(self)
-		var armado: bool = jogador != null and (jogador.usando_espada or jogador.usando_lanca or jogador.usando_arco)
 		_texto("Explore o bosque. Derrote grupos para completar a barra e invocar o guardiao. Elites valem mais progresso.")
 		_entrada_portal.text = "ENTRAR / ANDAR %d" % _onda_do_portal()
-		_entrada_portal.disabled = not armado
+		_entrada_portal.disabled = jogador == null
 		_botoes.append(_entrada_portal)
-		if not armado: _texto("EQUIPE UMA ARMA NA MOCHILA PARA ENTRAR.")
 		Sons.ligar_botoes(self)
 		return
 	if modo_mural:
@@ -361,7 +359,7 @@ func _onda_do_portal() -> int:
 
 func _iniciar_desafio() -> void:
 	var jogador := EventosJogo.dono(self)
-	if jogador == null or not (jogador.usando_espada or jogador.usando_lanca or jogador.usando_arco):
+	if jogador == null:
 		return
 	_fechar()
 	Transicao.entrar_na_arena()

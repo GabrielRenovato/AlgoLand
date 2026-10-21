@@ -30,7 +30,10 @@ func calçamento_conectado(terreno: TileMapLayer, origem: Vector2) -> Dictionary
 				continue
 			var fonte := terreno.get_cell_source_id(vizinho)
 			var atlas := terreno.get_cell_atlas_coords(vizinho)
-			if fonte in [1, 2] and atlas.y != 4:
+			# A carpintaria fica na margem leste; a ponte é um sprite sobre
+			# tiles de água. A rede de acessos inclui seu piso caminhável.
+			var piso_ponte := Rect2(636,268,80,18).has_point(terreno.map_to_local(vizinho))
+			if (fonte in [1, 2] and atlas.y != 4) or piso_ponte:
 				visitados[vizinho] = true
 				fila.append(vizinho)
 	return visitados
@@ -126,11 +129,9 @@ func _rodar() -> void:
 	for celula in agua.get_used_cells():
 		separacao_correta = separacao_correta and agua.get_cell_source_id(celula) == 3 and terreno.get_cell_source_id(celula) == -1
 	verificar("reflexos só na camada da água, sem sobrepor outro chão", separacao_correta)
-	var fundo: Texture2D = agua.material.get_shader_parameter("fundo_pedras")
-	verificar("leito de pedras usa textura própria de 64 pixels", fundo != null and fundo.get_width() == 64 and fundo.get_height() == 64)
-	var antes: float = agua.material.get_shader_parameter("fase_agua")
-	vila._animar_agua(0.17)
-	verificar("reflexos animam sem trocar o fundo de pedras", agua.material.get_shader_parameter("fase_agua") != antes and agua.material.get_shader_parameter("fundo_pedras") == fundo)
+	var contorno: Texture2D = agua.material.get_shader_parameter("contorno")
+	verificar("rio usa máscara contínua no mundo", contorno != null and contorno.get_width()>64)
+	verificar("rio tem correnteza e animação temporal", agua.material.shader.resource_path.ends_with("agua_viva.gdshader") and agua.material.get_shader_parameter("corrente").length()>4.0)
 	var nuvens: Node = get_first_node_in_group("clima").get_node("Mundo/Nuvens/Cobertura")
 	verificar("nuvens da cidade usam sombra suave", nuvens.material != null)
 	var fonte_grama: TileSetAtlasSource = terreno.tile_set.get_source(0)

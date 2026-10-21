@@ -1,0 +1,22 @@
+{
+  "producao": "Shader próprio e máscaras geométricas no Godot; sem nova geração raster.",
+  "consumidores": [
+    "estacoes.gd",
+    "lago_fazenda.gd",
+    "cidade.gd"
+  ],
+  "grade": 16,
+  "pixel": 1,
+  "mascara": "R mantém contorno exato; G distância à terra em meia resolução para profundidade.",
+  "integracao": "Lagos, rios, arena e andares; mar da praia mantém seu sistema próprio.",
+  "animacao": "12 atualizações visuais/s, ondulação contínua no mundo, correnteza, luz refratada, reflexos e espuma discreta.",
+  "estacoes": "Margens usam nossa terra sazonal; inverno com gelo nas margens externas, cavernas protegidas sem gelo.",
+  "fontes": [
+    "codigo/cenario/agua_viva.gdshader",
+    "codigo/cenario/agua_viva.gd"
+  ],
+  "validacao": [
+    "teste_agua_viva.gd",
+    "teste_tiles_substitutos.gd"
+  ]
+}

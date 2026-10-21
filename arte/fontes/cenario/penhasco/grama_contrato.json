@@ -1,0 +1,33 @@
+{
+  "origem": "image_gen; grama original acompanhando o penhasco",
+  "referencia": "quatro_estacoes.png",
+  "fonte": "grama_quatro_estacoes_v2.png",
+  "grade": 16,
+  "painel_recuperado": [
+    96,
+    64
+  ],
+  "recorte": [
+    32,
+    16,
+    64,
+    48
+  ],
+  "paleta": "8 cores por estação, sem dithering",
+  "integracao": "preparar_grama_penhasco.py, nativo também chamado por preparar_revisao_mana.py",
+  "preservar": [
+    "células",
+    "colisões",
+    "navegação",
+    "pivôs",
+    "escala1"
+  ],
+  "estacoes": [
+    "primavera",
+    "verao",
+    "outono",
+    "inverno"
+  ],
+  "prompt": "Original pixel art ground grass tilesheet for the same top down cozy fantasy farming RPG as the attached rocky cliff reference. The cliff is STYLE AND PALETTE reference only; output ONLY flat walkable GRASS terrain, no rocks, cliff, trees, UI, water, buildings, or words. Exact layout 2 by 2 equal panels without gaps or borders: spring upper left, summer upper right, autumn lower left, winter lower right. Each panel logical 32 by 32 native pixels, uniformly enlarged as clean square pixel blocks, nearest-neighbor pixel art, absolutely no gradients or antialiasing. Dense but calm rich grass, contiguous overlapping small leaf/grass clusters 2 to 5 logical pixels, clumps with clear volume from dark recessed base to warm green blade highlights. Match reference rich deep green and olive moss: dark blue-green recesses, medium forest green, fresh yellow-green small highlights, five or six colors per season. NO regular dotted pattern, no evenly spaced single pixel speckles, no checkerboard; irregular natural clustered blades with readable darker negative spaces. Flat ground perspective seen from above. Every panel must tile seamlessly on all four edges AND each 16 by 16 quadrant should make usable seamless variations within that season. Spring fresh vivid green but moderate saturation; summer deeper slightly warmer green; autumn olive ochre warm dry grass with occasional rust leaf clusters; winter low grass partly covered in coherent patches of pale snow, a cool desaturated base and a few exposed grass tufts, no uniformly white recolor. Equal pixel scale across all 4 seasons, same overall density and ground height. Fill all panels fully opaque. This is final native pixel art game ground, not a realistic lawn photo or a high resolution illustration.",
+  "estado": "Estudo anterior; a grama atual usa arte/fontes/cenario/floresta_original/grama.png e seu contrato."
+}
