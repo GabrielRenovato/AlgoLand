@@ -45,6 +45,12 @@ func _ready() -> void:
 		_montar_item(corpo, item)
 
 func _montar_item(corpo: StaticBody2D, item: Dictionary) -> void:
+	if item["p"] == "construcoes/ponte":
+		var ponte := preload("res://codigo/cidade/ponte_cidade.gd").new()
+		ponte.name = "ponte_%d_%d" % [int(item["x"]), int(item["y"])]
+		ponte.position = Vector2(item["x"], item["y"])
+		add_child(ponte)
+		return
 	var detalhado := preload("res://codigo/cidade/enfeites_detalhados.gd").dados(item["p"])
 	if not detalhado.is_empty():
 		item = item.duplicate(true)
