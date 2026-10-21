@@ -7,15 +7,26 @@ const DetalheAmbiente := preload("res://codigo/cidade/detalhe_ambiente.gd")
 const RAIZ := "res://assets/cenario/cidade/ponte_detalhada/"
 const ESTACOES := ["primavera", "verao", "outono", "inverno"]
 const RESOLUCAO := 4.0
-const PISO := Rect2(-40, -37, 80, 27)
-const CORRIMAO_NORTE := Rect2(-40, -41, 80, 4)
-const CORRIMAO_SUL := Rect2(-40, -10, 80, 4)
+const PISO := Rect2(-40, -46, 80, 40)
+const CORRIMAO_NORTE := Rect2(-40, -50, 80, 4)
+const CORRIMAO_SUL := Rect2(-40, -6, 80, 4)
+const ORIGEM_APOIOS := Vector2(-19.25, -6)
 
 func _ready() -> void:
-	_camada("Apoios", "apoios", Vector2(-40, -12), -996)
-	_camada("Piso", "piso", PISO.position, -995)
-	_camada("CorrimaoNorte", "corrimao", Vector2(-40, -49), Profundidade.z_de(global_position.y - 37) + 7)
-	_camada("CorrimaoSul", "corrimao", Vector2(-40, -22), Profundidade.z_de(global_position.y - 10) + 7)
+	_camada("Apoios", "apoios", ORIGEM_APOIOS, -991)
+	# Os tufos das margens estão em -990: ficam sob o piso, sem atravessar
+	# as cabeceiras de pedra, mas ainda podem esconder apoios atrás da margem.
+	_camada("Piso", "piso", PISO.position, -989)
+	_camada("CorrimaoNorte", "corrimao", Vector2(-40, -58), Profundidade.z_de(global_position.y + PISO.position.y) + 7)
+	_camada("CorrimaoSul", "corrimao", Vector2(-40, -18), Profundidade.z_de(global_position.y + PISO.end.y) + 7)
+	var contato := preload("res://codigo/cidade/contato_estacas.gd").new()
+	contato.name = "ContatoAgua"
+	contato.z_as_relative = false
+	contato.z_index = -992
+	var manifesto: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(RAIZ + "geometria.json"))
+	for ponto in manifesto["contatos_apoios"]:
+		contato.pontos.append(ORIGEM_APOIOS + Vector2(ponto[0], ponto[1]))
+	add_child(contato)
 	var corpo := StaticBody2D.new()
 	corpo.name = "Obstaculos"
 	corpo.collision_layer = 64

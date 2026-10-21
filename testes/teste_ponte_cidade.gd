@@ -1,5 +1,6 @@
 extends SceneTree
 const Profundidade := preload("res://codigo/globais/profundidade.gd")
+const Ponte := preload("res://codigo/cidade/ponte_cidade.gd")
 var falhas:=0
 func _initialize() -> void:rodar.call_deferred()
 func esperar(n:=4) -> void:
@@ -31,9 +32,20 @@ func rodar() -> void:
 		quit(1)
 		return
 	verificar(ponte.get_node("Apoios").z_index < ponte.get_node("Piso").z_index, "Apoios ficam sob o piso")
+	verificar(ponte.get_node("Piso").z_index > vila._bordas_grama.z_index, "Tufos da margem não atravessam as cabeceiras nem o piso")
 	verificar(ponte.get_node("CorrimaoNorte").z_index < Profundidade.z_de(275), "Corrimão norte atrás de quem atravessa")
 	verificar(ponte.get_node("CorrimaoSul").z_index > Profundidade.z_de(281) + 6, "Corrimão sul cobre todas as camadas do personagem")
 	verificar(ponte.get_node("CorrimaoSul").z_index < Profundidade.z_de(304), "Personagem na margem sul passa à frente")
+	var piso := Rect2(ponte.position + Ponte.PISO.position, Ponte.PISO.size)
+	var contato: Node2D = ponte.get_node("ContatoAgua")
+	verificar(contato.z_index < ponte.get_node("Apoios").z_index, "Ondas ficam sob as estacas")
+	verificar(contato.pontos.size() == 2, "Duas estacas encontram a água")
+	var rio: CollisionPolygon2D = vila.get_node("Obstaculos/RioSul")
+	for ponto: Vector2 in contato.pontos:
+		var mundo: Vector2 = contato.to_global(ponto)
+		verificar(mundo.y - piso.end.y >= 28, "Estaca desce até a água abaixo do tablado")
+		verificar(Geometry2D.is_point_in_polygon(rio.to_local(mundo), rio.polygon), "Pé da estaca fica dentro do rio")
+		verificar(minf(absf(mundo.x - 663.125), absf(mundo.x - 688.375)) < 0.5, "Estaca alinha com um poste interno do corrimão")
 	jogador.aparencia_raven={"versao":1,"pele":0,"roupa":1,"cabelo":1,"cor":[0.25,0.3,0.4,1.0]}
 	jogador.collision_mask=64
 	DirAccess.make_dir_recursive_absolute("/tmp/algoland-ponte-cidade")
@@ -55,6 +67,18 @@ func rodar() -> void:
 		for camada in ["Piso", "Apoios", "CorrimaoNorte", "CorrimaoSul"]:
 			var imagem: Sprite2D = ponte.get_node(camada + "/Imagem")
 			verificar(imagem.texture.resource_path.contains(["primavera", "verao", "outono", "inverno"][e]), "Camada acompanha estação visual: " + camada)
+		var madeira: Image = ponte.get_node("Apoios/Imagem").texture.get_image()
+		for ponto: Vector2 in contato.pontos:
+			var pixel := Vector2i((ponto - Ponte.ORIGEM_APOIOS) * Ponte.RESOLUCAO)
+			verificar(madeira.get_pixelv(pixel).a > 0.5, "A imagem da estaca realmente alcança a linha de água")
+			verificar(madeira.get_pixelv(pixel + Vector2i(5, 0)).a > 0.5, "Estaca mantém espessura até a água")
+		var tablado: Image = ponte.get_node("Piso/Imagem").texture.get_image()
+		var pedra: Image = load("res://assets/cenario/cidade/chao_detalhado/pedra_%s.png" % ["primavera", "verao", "outono", "inverno"][e]).get_image()
+		for pixel: Vector2i in [Vector2i(32, 96), Vector2i(304, 96)]:
+			var mundo := Vector2i(piso.position * 4) + pixel
+			var referencia := pedra.get_pixel(posmod(mundo.x, 512), posmod(mundo.y, 512))
+			var real := tablado.get_pixelv(pixel)
+			verificar(absf(real.r - referencia.r) + absf(real.g - referencia.g) + absf(real.b - referencia.b) < 0.02, "Cabeceira continua o material e a fase da rua")
 		jogador.position=Vector2(628,264)
 		var leste:=jogador.move_and_collide(Vector2(96,0))
 		verificar(leste==null,"Travessia oeste-leste livre")
@@ -62,23 +86,27 @@ func rodar() -> void:
 		verificar(oeste==null,"Travessia leste-oeste livre")
 		jogador.position=Vector2(676,264)
 		var sul:=jogador.move_and_collide(Vector2(0,70))
-		verificar(sul!=null and jogador.position.y+11<=285.1,"Beirada sul segura os pés sobre o piso")
+		verificar(sul!=null and jogador.position.y+11<=piso.end.y,"Beirada sul segura os pés sobre o piso")
 		jogador.position=Vector2(676,264)
 		var norte:=jogador.move_and_collide(Vector2(0,-70))
-		verificar(norte!=null and jogador.position.y+11>=267.9,"Beirada norte segura os pés sobre o piso")
+		verificar(norte!=null and jogador.position.y+11>=piso.position.y,"Beirada norte segura os pés sobre o piso")
 		# As pontas dos corrimãos estão em terra; não podem depender da colisão
 		# do rio, senão seria possível atravessar os postes pelas cabeceiras.
 		for x in [640, 712]:
 			jogador.position = Vector2(x, 264)
-			verificar(jogador.move_and_collide(Vector2(0, 70)) != null and jogador.position.y + 11 <= 288, "Corrimão sul bloqueia na cabeceira %d" % x)
+			verificar(jogador.move_and_collide(Vector2(0, 70)) != null and jogador.position.y + 11 <= piso.end.y, "Corrimão sul bloqueia na cabeceira %d" % x)
 			jogador.position = Vector2(x, 264)
-			verificar(jogador.move_and_collide(Vector2(0, -70)) != null and jogador.position.y + 11 >= 261, "Corrimão norte bloqueia na cabeceira %d" % x)
-		helena.position = Vector2(628, 264)
-		verificar(helena.move_and_collide(Vector2(96, 0)) == null, "Cadeira real atravessa oeste-leste")
-		verificar(helena.move_and_collide(Vector2(-96, 0)) == null, "Cadeira real atravessa leste-oeste")
+			verificar(jogador.move_and_collide(Vector2(0, -70)) != null and jogador.position.y + 11 >= piso.position.y, "Corrimão norte bloqueia na cabeceira %d" % x)
+		for y in [252, 264, 273]:
+			jogador.position = Vector2(628, y)
+			verificar(jogador.move_and_collide(Vector2(96, 0)) == null, "Toda a largura do tablado serve à travessia")
+		for y in [254, 264, 272]:
+			helena.position = Vector2(628, y)
+			verificar(helena.move_and_collide(Vector2(96, 0)) == null, "Cadeira real atravessa oeste-leste")
+			verificar(helena.move_and_collide(Vector2(-96, 0)) == null, "Cadeira real atravessa leste-oeste")
 		var rota: PackedVector2Array=vila.caminho_entre(Vector2(628,264),Vector2(724,264),vila._navegacao_cadeira)
 		verificar(not rota.is_empty() and rota[-1].distance_to(Vector2(724,264))<24,"Navegação da cadeira atravessa a ponte")
-		jogador.position=Vector2(676,270)
+		jogador.position=Vector2(676,274)
 		jogador.z_index = Profundidade.z_de(jogador.position.y + 11)
 		jogador._direcao_ataque=Vector2.DOWN
 		jogador.get_node("HeroiRaven")._process(0.0)
@@ -90,7 +118,7 @@ func rodar() -> void:
 	vila._aplicar_terreno(0)
 	await esperar(3)
 	verificar(ponte.get_node("Piso/Imagem").texture.resource_path.contains("primavera"), "Prévia visual prevalece sobre calendário de inverno")
-	for pose in [{"nome":"atras_norte", "ponto":Vector2(640, 243)}, {"nome":"na_ponte", "ponto":Vector2(676, 264)}, {"nome":"frente_sul", "ponto":Vector2(640, 295)}]:
+	for pose in [{"nome":"atras_norte", "ponto":Vector2(640, 233)}, {"nome":"na_ponte", "ponto":Vector2(676, 264)}, {"nome":"frente_sul", "ponto":Vector2(640, 295)}]:
 		jogador.position = pose.ponto
 		jogador.z_index = Profundidade.z_de(jogador.position.y + 11)
 		await esperar(3)

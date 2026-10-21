@@ -32,7 +32,7 @@ func calçamento_conectado(terreno: TileMapLayer, origem: Vector2) -> Dictionary
 			var atlas := terreno.get_cell_atlas_coords(vizinho)
 			# A carpintaria fica na margem leste; a ponte é um sprite sobre
 			# tiles de água. A rede de acessos inclui seu piso caminhável.
-			var piso_ponte := Rect2(636,268,80,18).has_point(terreno.map_to_local(vizinho))
+			var piso_ponte := Rect2(636,252,80,40).has_point(terreno.map_to_local(vizinho))
 			if (fonte in [1, 2] and atlas.y != 4) or piso_ponte:
 				visitados[vizinho] = true
 				fila.append(vizinho)

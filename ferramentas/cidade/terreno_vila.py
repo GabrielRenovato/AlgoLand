@@ -19,10 +19,10 @@ RAIO_PRACA = (88, 60)
 LAGO = (440, 530)
 RAIO_LAGO = (66, 34)
 MEIA_LARGURA_RIO = 20
-# Ponte80×44: piso em y268..285; abertura considera pés e raio dos atores.
+# Ponte alinhada à rua: piso em y252..292; os corrimãos fecham suas laterais.
 PONTE_APOIO_Y = 298
-PONTE_LIMITE_NORTE = 261
-PONTE_LIMITE_SUL = 288
+PONTE_LIMITE_NORTE = 252
+PONTE_LIMITE_SUL = 292
 RUAS = [((0, 272), (676, 272), 22),      # rua principal: entrada da fazenda até a ponte
         ((336, 168), (336, 576), 20),     # rua da sede até a saída sul da praia
         ((64, 448), (608, 448), 18),      # rua de baixo, das portas da pousada, do Bento e da mística
