@@ -14,7 +14,7 @@ func _ready() -> void:
 		{"retangulo": [24, 56, 272, 136], "piso": "claro"},
 		{"retangulo": [128, 192, 64, 32], "piso": "claro"}]}, "palafita")
 	var manifesto: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://assets/cenario/cidade/ambientes/manifesto.json"))
-	for dado in [["cama", 272, 105], ["mesa", 272, 158], ["lareira", 50, 75], ["bancada", 58, 145], ["ferramentas", 164, 52]]:
+	for dado in [["cama", 272, 105], ["mesa", 272, 158], ["lareira", 50, 75]]:
 		var item: Dictionary = Biblioteca.preparar(manifesto["interior/casa_bento/" + dado[0]])
 		var sprite := Sprite2D.new()
 		sprite.name = dado[0].capitalize()
@@ -28,20 +28,20 @@ func _ready() -> void:
 		add_child(sprite)
 		Detalhe.instalar(sprite, sprite, item)
 
-	# Balcão frontal; corredor lateral livre para a rotina até o quarto.
-	for x in [128,192]:
-		var item: Dictionary = Biblioteca.preparar(manifesto["interior/venda/balcao"])
-		var balcao := Sprite2D.new()
-		balcao.name = "Balcao%d" % x
-		balcao.texture = load(item["texturas"][0])
-		balcao.hframes = int(item["quadros"])
-		balcao.centered = false
-		balcao.position = Vector2(x,128)
-		balcao.offset = Vector2(-33,-41)
-		balcao.z_index = Profundidade.z_de(128)
-		balcao.texture_filter = TEXTURE_FILTER_NEAREST
-		add_child(balcao)
-		Detalhe.instalar(balcao, balcao, item)
+	# Um balcão contínuo, sem emenda; os dois corredores e a base130×12 ficam iguais.
+	for dado in [["loja_balcao","BalcaoLoja",160,128], ["loja_reparos","BancadaReparos",58,145],
+			["loja_varas","ExpositorVaras",164,52], ["loja_tapete","TapeteLoja",160,183]]:
+		var item: Dictionary=Biblioteca.dados("palafita/"+dado[0])
+		var sprite:=Sprite2D.new()
+		sprite.name=dado[1]
+		sprite.texture=load(item.texturas[0])
+		sprite.centered=false
+		sprite.position=Vector2(dado[2],dado[3])
+		var tela: Array=item.canvas_logico
+		sprite.offset=Vector2(-float(tela[0])/2,-float(tela[1]))
+		sprite.z_index=-996 if dado[0]=="loja_tapete" else Profundidade.z_de(dado[3])
+		add_child(sprite)
+		Detalhe.instalar(sprite,sprite,item)
 	preload("res://codigo/pesca/mobiliario_cais.gd").montar(self,[["caixas_peixes",64,174],["equipamento_pesca",224,174]], true)
 
 	load("res://codigo/cidade/atendimento_cidade.gd").montar(self,"palafita")

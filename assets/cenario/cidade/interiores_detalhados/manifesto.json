@@ -942,5 +942,69 @@
    46
   ],
   "fonte": "arte/fontes/cidade/interiores_detalhados/equipamento_pesca.png"
+ },
+ "palafita/loja_balcao": {
+  "texturas": [
+   "res://assets/cenario/cidade/interiores_detalhados/moveis/palafita/loja_balcao/primavera.png",
+   "res://assets/cenario/cidade/interiores_detalhados/moveis/palafita/loja_balcao/verao.png",
+   "res://assets/cenario/cidade/interiores_detalhados/moveis/palafita/loja_balcao/outono.png",
+   "res://assets/cenario/cidade/interiores_detalhados/moveis/palafita/loja_balcao/inverno.png"
+  ],
+  "resolucao": 4,
+  "quadros": 1,
+  "fps": 0,
+  "canvas_logico": [
+   130,
+   41
+  ],
+  "fonte": "arte/fontes/cidade/interiores_detalhados/loja_balcao.png"
+ },
+ "palafita/loja_reparos": {
+  "texturas": [
+   "res://assets/cenario/cidade/interiores_detalhados/moveis/palafita/loja_reparos/primavera.png",
+   "res://assets/cenario/cidade/interiores_detalhados/moveis/palafita/loja_reparos/verao.png",
+   "res://assets/cenario/cidade/interiores_detalhados/moveis/palafita/loja_reparos/outono.png",
+   "res://assets/cenario/cidade/interiores_detalhados/moveis/palafita/loja_reparos/inverno.png"
+  ],
+  "resolucao": 4,
+  "quadros": 1,
+  "fps": 0,
+  "canvas_logico": [
+   73,
+   50
+  ],
+  "fonte": "arte/fontes/cidade/interiores_detalhados/loja_reparos.png"
+ },
+ "palafita/loja_varas": {
+  "texturas": [
+   "res://assets/cenario/cidade/interiores_detalhados/moveis/palafita/loja_varas/primavera.png",
+   "res://assets/cenario/cidade/interiores_detalhados/moveis/palafita/loja_varas/verao.png",
+   "res://assets/cenario/cidade/interiores_detalhados/moveis/palafita/loja_varas/outono.png",
+   "res://assets/cenario/cidade/interiores_detalhados/moveis/palafita/loja_varas/inverno.png"
+  ],
+  "resolucao": 4,
+  "quadros": 1,
+  "fps": 0,
+  "canvas_logico": [
+   64,
+   45
+  ],
+  "fonte": "arte/fontes/cidade/interiores_detalhados/loja_varas.png"
+ },
+ "palafita/loja_tapete": {
+  "texturas": [
+   "res://assets/cenario/cidade/interiores_detalhados/moveis/palafita/loja_tapete/primavera.png",
+   "res://assets/cenario/cidade/interiores_detalhados/moveis/palafita/loja_tapete/verao.png",
+   "res://assets/cenario/cidade/interiores_detalhados/moveis/palafita/loja_tapete/outono.png",
+   "res://assets/cenario/cidade/interiores_detalhados/moveis/palafita/loja_tapete/inverno.png"
+  ],
+  "resolucao": 4,
+  "quadros": 1,
+  "fps": 0,
+  "canvas_logico": [
+   64,
+   32
+  ],
+  "fonte": "arte/fontes/cidade/interiores_detalhados/loja_tapete.png"
  }
 }

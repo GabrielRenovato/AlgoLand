@@ -63,6 +63,12 @@ def nove_faixas(im, tamanho, borda=12):
 
 
 def ajustar(original, tamanho, nome):
+    if nome == 'loja_varas':
+        # Parede começa em y20, base em52: pontas inteiras dentro da casa.
+        im=original.copy();im.thumbnail((tamanho[0]-4,32*4),Image.Resampling.LANCZOS)
+        out=Image.new('RGBA',tamanho)
+        out.alpha_composite(im,((tamanho[0]-im.width)//2,tamanho[1]-im.height))
+        return out
     if nome in ['tapete', 'tapete_corredor']:
         base = original.resize((224, 160), Image.Resampling.LANCZOS)
         return nove_faixas(base, tamanho)
@@ -192,6 +198,9 @@ def preparar():
         itens['casa_inicial/' + nome] = {'p': nome, 'usado': [0, 0, w, h]}
     itens['acessorios/vela'] = {'p': 'vela', 'usado': [0, 0, 6, 12]}
     for nome, w, h in [('caixas_peixes', 61, 44), ('equipamento_pesca', 45, 46)]:
+        itens['palafita/' + nome] = {'p': nome, 'usado': [0, 0, w, h]}
+    for nome, w, h in [('loja_balcao',130,41), ('loja_reparos',73,50),
+                        ('loja_varas',64,45), ('loja_tapete',64,32)]:
         itens['palafita/' + nome] = {'p': nome, 'usado': [0, 0, w, h]}
     manifesto = {}
     for chave, item in itens.items():

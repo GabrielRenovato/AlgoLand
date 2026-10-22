@@ -407,6 +407,46 @@
       "transparente": true,
       "referencia": "lareira.png",
       "pedido_arquivo": "pedido_chamas_lareira.json"
+    },
+    {
+      "id": "loja_balcao",
+      "logico": [
+        130,
+        41
+      ],
+      "pedido": "Create ONE isolated production raster game asset for AlgoLand's fishing shop interior. Reference tavern is used ONLY for accepted hand-painted finish, natural warm wood/plaster palette and defined soft outlines. Calm detailed2D farming fantasy RPG, no chunky pixels, no photorealistic3D, no shiny plastic or noisy microtexture. Camera orthographic FRONT from south and elevated, no isometric diagonal or vanishing point; rug is overhead. True transparent background, whole silhouette with margins. Keep intended logical canvas, pivots and physical base explicit. Four sheltered indoor season variants later use subtle lighting with exact same canvas, geometry and pivot, no indoor snow. No characters, scenery, background, UI or text. One continuous very wide FRONT-FACING fishing shop counter, width:height3.17:1. One uninterrupted warm oak countertop with rounded edges and a restrained muted teal painted front inset, sturdy carved oak legs/endposts all on SAME bottom baseline. Only a SMALL shallow tray of colorful fishing bobbers and a coiled fishing line on the BACK LEFT of the countertop, leaving center and right clear for serving. No stone, no glass, no individual disconnected segments, no text/signs, no floor or shadow. Elevated view shows tabletop. Exact intended logical130x41, stored4x; preserve full continuous silhouette.",
+      "transparente": true,
+      "referencia": "arte/fontes/cidade/enfeites_detalhados/pousada_frontal.png"
+    },
+    {
+      "id": "loja_reparos",
+      "logico": [
+        73,
+        50
+      ],
+      "pedido": "Create ONE isolated production raster game asset for AlgoLand's fishing shop interior. Reference tavern is used ONLY for accepted hand-painted finish, natural warm wood/plaster palette and defined soft outlines. Calm detailed2D farming fantasy RPG, no chunky pixels, no photorealistic3D, no shiny plastic or noisy microtexture. Camera orthographic FRONT from south and elevated, no isometric diagonal or vanishing point; rug is overhead. True transparent background, whole silhouette with margins. Keep intended logical canvas, pivots and physical base explicit. Four sheltered indoor season variants later use subtle lighting with exact same canvas, geometry and pivot, no indoor snow. No characters, scenery, background, UI or text. One fishing rod REPAIR WORKBENCH front-facing elevated south view, broad warm oak tabletop and two sturdy leg frames, a partly assembled fishing reel and one short rod resting diagonally ON the tabletop, a modest spool of cord and small fishing pliers contained on right corner, spare rolled net on lower shelf. This is a fisherman's repair desk, NO axe, hammer, saw, carpentry tools or vegetables. All feet on same baseline. Logical73x50; ratio1.46:1. No ground or cast shadow.",
+      "transparente": true,
+      "referencia": "arte/fontes/cidade/enfeites_detalhados/pousada_frontal.png"
+    },
+    {
+      "id": "loja_varas",
+      "logico": [
+        64,
+        45
+      ],
+      "pedido": "Create ONE isolated production raster game asset for AlgoLand's fishing shop interior. Reference tavern is used ONLY for accepted hand-painted finish, natural warm wood/plaster palette and defined soft outlines. Calm detailed2D farming fantasy RPG, no chunky pixels, no photorealistic3D, no shiny plastic or noisy microtexture. Camera orthographic FRONT from south and elevated, no isometric diagonal or vanishing point; rug is overhead. True transparent background, whole silhouette with margins. Keep intended logical canvas, pivots and physical base explicit. Four sheltered indoor season variants later use subtle lighting with exact same canvas, geometry and pivot, no indoor snow. No characters, scenery, background, UI or text. One compact WALL-MOUNTED horizontal oak display for fishing gear: two distinct long slender fishing rods angled upright in fixed sockets, each with simple reel, and one small round landing net hanging at right from a hook, few cork fishing floats suspended on left. No floor-standing legs, no ground, no roof, no carpentry tools, no lettering or sign. Balanced rectangular silhouette within64x45logical canvas. Rods thick enough to read at game scale. Orthographic front elevated view, top edge of wood slightly visible.",
+      "transparente": true,
+      "referencia": "arte/fontes/cidade/enfeites_detalhados/pousada_frontal.png"
+    },
+    {
+      "id": "loja_tapete",
+      "logico": [
+        64,
+        32
+      ],
+      "pedido": "Create ONE isolated production raster game asset for AlgoLand's fishing shop interior. Reference tavern is used ONLY for accepted hand-painted finish, natural warm wood/plaster palette and defined soft outlines. Calm detailed2D farming fantasy RPG, no chunky pixels, no photorealistic3D, no shiny plastic or noisy microtexture. Camera orthographic FRONT from south and elevated, no isometric diagonal or vanishing point; rug is overhead. True transparent background, whole silhouette with margins. Keep intended logical canvas, pivots and physical base explicit. Four sheltered indoor season variants later use subtle lighting with exact same canvas, geometry and pivot, no indoor snow. No characters, scenery, background, UI or text. One flat rectangular woven doormat for a fishing shop, exactly overhead, muted desaturated teal-blue center, cream rope-pattern double border, one simple central cream fish woven into fabric. Width:height2:1. No lettering, no perspective, no folds, no cast shadow. Logical64x32 stored4x, broad legible decoration, restrained colors.",
+      "transparente": true,
+      "referencia": "arte/fontes/cidade/enfeites_detalhados/pousada_frontal.png"
     }
   ]
 }

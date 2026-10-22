@@ -125,6 +125,20 @@ func rodar() -> void:
 				var pixel := Vector2i(bigorna.to_local(trabalho.PONTO_IMPACTO) - bigorna.offset)
 				verificar(bigorna.texture.get_image().get_pixelv(pixel).a > 0.9, "Martelo e centelhas encontram a bigorna real, sem trabalhar no ar")
 		if id == "palafita":
+			verificar(interior.has_node("BalcaoLoja") and not interior.has_node("Balcao128") and not interior.has_node("Balcao192"), "Loja tem um balcão contínuo, sem dois módulos emendados")
+			verificar(interior.has_node("BancadaReparos") and interior.has_node("ExpositorVaras"), "Oficina exibe equipamentos de pesca")
+			var balcao: Sprite2D=interior.get_node("BalcaoLoja")
+			verificar((balcao.get_rect().size*balcao.scale).is_equal_approx(Vector2(130,41)), "Balcão novo conserva a largura da base física")
+			var im_balcao:=balcao.texture.get_image()
+			var topo:=0
+			while topo<im_balcao.get_height() and im_balcao.get_pixel(im_balcao.get_width()/2,topo).a<0.8:
+				topo+=1
+			verificar(balcao.position.y+(balcao.offset.y+topo)*balcao.scale.y>=100, "Tampo não esconde o rosto do Nilo no posto de atendimento")
+			var expositor: Sprite2D=interior.get_node("ExpositorVaras")
+			var recorte:=expositor.texture.get_image().get_used_rect()
+			verificar(expositor.position.y+(expositor.offset.y+recorte.position.y)*expositor.scale.y>=20, "Pontas das varas cabem abaixo da viga superior")
+			verificar(cena.get_node("Obstaculos/BalcaoLoja").shape.size==Vector2(130,12), "Base do balcão preservada")
+			verificar(interior.get_node("TapeteLoja").z_index<0, "Tapete fica sob personagens e não bloqueia o acesso")
 			for movel in interior.get_node("MobiliarioCais").get_children():
 				if movel is Sprite2D:
 					verificar(movel.texture.resource_path.begins_with(Biblioteca.RAIZ), "Equipamentos de pesca também usam a arte nova")
