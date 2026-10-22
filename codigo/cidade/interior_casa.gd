@@ -1,6 +1,6 @@
 extends Node2D
 
-## Interior da vila: sala ortogonal com tiles nativos da Mana Seed e móveis
+## Interior da vila: sala ortogonal com materiais pintados4× e móveis
 ## postos pelo layout de interiores.json. A origem é o canto superior esquerdo do
 ## recorte da sala, que é o espaço em que a cena, os moradores e a câmera trabalham. Cada móvel é ancorado pela base-centro
 ## do retângulo com pixels e tem colisão só no pé dele, na camada dos obstáculos; a profundidade vem da base, como no resto
@@ -8,6 +8,7 @@ extends Node2D
 const Profundidade := preload("res://codigo/globais/profundidade.gd")
 const DetalheAmbiente := preload("res://codigo/cidade/detalhe_ambiente.gd")
 const SalaTopdown := preload("res://codigo/cidade/sala_topdown.gd")
+const InterioresDetalhados := preload("res://codigo/cidade/interiores_detalhados.gd")
 const LAYOUT := "res://assets/cenario/cidade/interiores/interiores.json"
 const RAIZ_IMAGENS := "res://assets/cenario/cidade/interiores/"
 ## Mesma camada dos obstáculos da cidade (cenas/cidade.tscn, Obstaculos)
@@ -31,7 +32,7 @@ static var _cache: Dictionary = {}
 
 @export var id := ""
 
-## Layout inteiro (as seis casas, cada uma com a própria geometria), lido uma vez
+## Plantas das casas, cada uma com a própria geometria, lidas uma vez
 static func dados() -> Dictionary:
 	if _cache.is_empty():
 		_cache = JSON.parse_string(FileAccess.get_file_as_string(LAYOUT))
@@ -76,6 +77,10 @@ func _ready() -> void:
 	for item in _itens_da_casa:
 		_montar_item(corpo, item)
 	load("res://codigo/cidade/atendimento_cidade.gd").montar(self,id)
+	if id == "casa_jogador":
+		var mobilia := preload("res://codigo/cidade/mobilia_casa_detalhada.gd").new()
+		mobilia.name = "MobiliaDetalhada"
+		add_child(mobilia)
 
 func _montar_sala(geometria: Dictionary) -> void:
 	var sala := SalaTopdown.new()
@@ -105,6 +110,7 @@ func _retangulo(corpo: StaticBody2D, nome: String, area: Rect2) -> void:
 	corpo.add_child(forma)
 
 func _montar_item(corpo: StaticBody2D, item: Dictionary) -> void:
+	item = InterioresDetalhados.preparar(item)
 	var base := Vector2(item["x"], item["y"])
 	var usado: Array = item["usado"]
 	var no := Node2D.new()
@@ -127,7 +133,13 @@ func _montar_item(corpo: StaticBody2D, item: Dictionary) -> void:
 		var col: Array = item["col"]
 		_retangulo(corpo, no.name, Rect2(base.x - col[0] / 2.0, base.y - col[1], col[0], col[1]))
 	for luz in item.get("luzes", []):
+		if String(item["p"]) in ["mesa", "mesa_reuniao"] and luz[2] == "#ffc46b" and usado[3] >= 28:
+			luz = luz.duplicate()
+			# Atrás da área reservada às travessas, com chama e luz alinhadas.
+			luz[1] = -usado[3] - 10
 		_montar_luz(no, luz)
+		if String(item["p"]) in SUPERFICIES and luz[2] in ["#ffc46b", "#ffd488"]:
+			_montar_vela(no, luz)
 	if item.get("fumaca") != null:
 		_montar_vapor(no, Vector2(item["fumaca"][0], item["fumaca"][1]), item["p"])
 	DetalheAmbiente.instalar(no, sprite, item)
@@ -136,6 +148,25 @@ func _montar_item(corpo: StaticBody2D, item: Dictionary) -> void:
 
 var _itens_da_casa: Array = []
 const SUPERFICIES := ["mesa", "mesa_reuniao", "mesa_cristal", "mesa_frutas", "balcao", "bancada"]
+
+func _montar_vela(no: Node2D, luz: Array) -> void:
+	var item := InterioresDetalhados.dados("acessorios/vela")
+	if item.is_empty():
+		return
+	var suporte := Node2D.new()
+	suporte.name = "Candelabro"
+	# A chama fica junto da luz já existente. O pé está dentro do tampo;
+	# posição e colisão da mesa não mudam.
+	suporte.position = Vector2(luz[0], luz[1] + 11)
+	suporte.z_index = 1
+	var imagem := Sprite2D.new()
+	imagem.name = "Imagem"
+	imagem.centered = false
+	imagem.offset = Vector2(-3, -12)
+	imagem.texture = load(item.texturas[0])
+	suporte.add_child(imagem)
+	DetalheAmbiente.instalar(suporte, imagem, item)
+	no.add_child(suporte)
 
 ## A mesa (ou balcão) mais próxima do assento, até 48 px; vazio se não tem
 func _mesa_perto(assento: Dictionary, itens: Array) -> Dictionary:

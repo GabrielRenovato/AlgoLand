@@ -3,7 +3,9 @@ extends Node2D
 const Dados := preload("res://codigo/cidade/dados_cidade.gd")
 const Profundidade := preload("res://codigo/globais/profundidade.gd")
 const PONTO_FORNALHA := Vector2(385,74)
-const PONTO_BIGORNA := Vector2(476,70)
+const PONTO_BIGORNA := Vector2(476,74)
+## Tampo da bigorna pintada: peça, martelo e centelhas compartilham o contato.
+const PONTO_IMPACTO := Vector2(462,67)
 const TEMPOS_MARTELO := [0.10,0.10,0.14,0.12,0.06,0.14]
 const CICLO_MARTELO := 0.66
 var etapa := ""
@@ -130,7 +132,7 @@ func _physics_process(delta: float) -> void:
 		var ciclo := int(_tempo/CICLO_MARTELO)
 		if quadro == 4 and ciclo != _impacto_anterior:
 			_impacto_anterior = ciclo
-			_centelhas.append({"tempo":0.0,"ponto":Vector2(462,63)})
+			_centelhas.append({"tempo":0.0,"ponto":PONTO_IMPACTO})
 			Sons.tocar("bloqueio",0.04,-8.0)
 		if _tempo >= CICLO_MARTELO*4:
 			_concluir("")
@@ -193,7 +195,7 @@ func _exit_tree() -> void:
 
 func _draw() -> void:
 	if etapa == "martelando":
-		draw_rect(Rect2(to_local(Vector2(455,62)),Vector2(10,1)),Color("eaa55d"))
+		draw_rect(Rect2(to_local(PONTO_IMPACTO + Vector2(-7, -1)),Vector2(10,1)),Color("eaa55d"))
 	for centelha in _centelhas:
 		var t: float = centelha["tempo"]
 		var ponto: Vector2 = to_local(centelha["ponto"])

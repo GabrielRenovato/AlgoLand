@@ -365,7 +365,10 @@ func _deitar() -> void:
 	var base: Vector2 = agenda["cama"]
 	var altura: float = agenda["altura_cama"]
 	_pe_da_cama = base + Vector2(0, 12)
-	position = base + Vector2(0, -altura + 4) + Vector2(agenda.get("ajuste_travesseiro",Vector2.ZERO))
+	# O travesseiro da cama pintada fica no primeiro quarto do colchão.
+	# Ajustes próprios de personagens (como Osvaldo) continuam explícitos.
+	var ajuste: Vector2 = agenda.get("ajuste_travesseiro", Vector2(0, maxf(8.0, altura * 0.25) - 4))
+	position = base + Vector2(0, -altura + 4) + ajuste
 	_escondidos.clear()
 	for filho in get_children():
 		if filho is CanvasItem and filho != _cabeca and filho != _zzz and filho != _balao and filho.visible:

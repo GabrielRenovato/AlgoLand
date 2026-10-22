@@ -33,12 +33,7 @@ func _ready() -> void:
 	_atualizar_estacao()
 
 func _atualizar_estacao() -> void:
-	var atual := int(get_tree().root.get_node("Calendario").estacao())
-	var cena := get_tree().current_scene
-	if cena != null:
-		var terreno := cena.get_node_or_null("Terrains/Estacoes")
-		if terreno != null and terreno.estacao_atual >= 0:
-			atual = terreno.estacao_atual
+	var atual := preload("res://codigo/cidade/interiores_detalhados.gd").estacao(self)
 	if atual != estacao:
 		estacao = atual
 		imagem.texture = _texturas[estacao]

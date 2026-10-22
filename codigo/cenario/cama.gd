@@ -1,6 +1,6 @@
 extends Node2D
 
-## Ocupação da cama da casa (cozy furnishings sampler.png do Mana Seed, 32x58). O desenho da cama em si são faixas
+## Ocupação da cama da casa (32×58 lógicos, com arte4× aplicada pela biblioteca de interiores). O desenho da cama em si são faixas
 ## horizontais de Sprite2D ("Cama_f0"...) irmãs deste nó, cada uma com a própria profundidade (gerar_fazenda.py), para o
 ## jogador poder encostar de lado sem ser cortado. Este nó fica na base-centro da cama e cuida do sono: na hora de dormir o jogador some (o Character Base não
 ## tem pose deitada) e a cama fica "ocupada": a CABEÇA do personagem aparece no travesseiro (recortada do quadro parado de
@@ -16,6 +16,8 @@ const Profundidade := preload("res://codigo/globais/profundidade.gd")
 ## ao nó (base-centro) é ORIGEM
 @export var folha: Texture2D
 @export var regiao := Rect2(208, 6, 32, 58)
+## Os recortes são definidos em pixels lógicos, inclusive para a arte4×.
+var resolucao := 1.0
 const ORIGEM := Vector2(-16, -58)
 ## A cabeça e o cobertor acompanham a profundidade da cama mesmo quando a planta muda.
 var _z_sobre_a_cama: int
@@ -61,19 +63,22 @@ func deitar(quem: Node2D = null) -> void:
 		# Cobertor por cima das faixas da cama, preso na base (sobe para cima ao respirar)
 		var parte := AtlasTexture.new()
 		parte.atlas = folha
-		parte.region = Rect2(regiao.position.x, regiao.position.y + LINHA_COBERTOR, regiao.size.x, ALTURA_COBERTOR)
+		parte.region = Rect2(regiao.position.x * resolucao, (regiao.position.y + LINHA_COBERTOR) * resolucao, regiao.size.x * resolucao, ALTURA_COBERTOR * resolucao)
 		_cobertor = Sprite2D.new()
 		_cobertor.name = "Cobertor"
 		_cobertor.texture = parte
 		_cobertor.centered = false
-		_cobertor.offset = Vector2(ORIGEM.x, -ALTURA_COBERTOR)
+		_cobertor.offset = Vector2(ORIGEM.x, -ALTURA_COBERTOR) * resolucao
+		_cobertor.scale = Vector2.ONE / resolucao
+		if resolucao > 1:
+			_cobertor.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 		_cobertor.position = Vector2(0, ORIGEM.y + LINHA_COBERTOR + ALTURA_COBERTOR)
 		_cobertor.z_as_relative = false
 		_cobertor.z_index = _z_sobre_a_cama + 1
 		add_child(_cobertor)
 		_respiro = create_tween().set_loops()
-		_respiro.tween_property(_cobertor, "scale:y", SUBIDA, TEMPO_RESPIRO).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-		_respiro.tween_property(_cobertor, "scale:y", 1.0, TEMPO_RESPIRO).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+		_respiro.tween_property(_cobertor, "scale:y", SUBIDA / resolucao, TEMPO_RESPIRO).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+		_respiro.tween_property(_cobertor, "scale:y", 1.0 / resolucao, TEMPO_RESPIRO).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	_relogio_z = Timer.new()
 	_relogio_z.wait_time = INTERVALO_Z
 	_relogio_z.timeout.connect(_soltar_z)
@@ -88,7 +93,7 @@ func _montar_cabeca() -> void:
 		return
 	_cabeca = Node2D.new()
 	_cabeca.name = "Cabeca"
-	_cabeca.position = Vector2(ORIGEM.x + regiao.size.x / 2.0 - RECORTE_CABECA.size.x / 2.0, ORIGEM.y + TOPO_CABECA)
+	_cabeca.position = Vector2(ORIGEM.x + regiao.size.x / 2.0 - RECORTE_CABECA.size.x / 2.0, ORIGEM.y + (8.0 if resolucao > 1 else TOPO_CABECA))
 	_cabeca.z_as_relative = false
 	_cabeca.z_index = _z_sobre_a_cama
 	add_child(_cabeca)

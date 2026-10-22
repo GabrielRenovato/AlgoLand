@@ -109,16 +109,16 @@ func _rodar() -> void:
 		var interior := cena.get_node("Interior")
 		var sala := interior.get_node("Sala")
 		verificar("sala em perspectiva ortogonal, sem fundo frontal: " + id, sala.get_script().resource_path == "res://codigo/cidade/sala_topdown.gd" and sala.scale == Vector2.ONE)
-		verificar("sala usa o atlas compartilhado de madeira: " + id, sala.FOLHA.resource_path == "res://assets/cenario/substitutos/interiores/madeira.png")
+		verificar("sala usa materiais pintados compartilhados: " + id, sala.FOLHA.resource_path.begins_with("res://assets/cenario/cidade/interiores_detalhados/materiais/"))
 		var detalhes := interior.find_children("DetalheAmbiente", "Node", true, false)
-		verificar("móveis preparados em escala nativa: " + id, not detalhes.is_empty())
+		verificar("móveis detalhados integrados: " + id, not detalhes.is_empty())
 		for estacao in 4:
 			root.get_node("Calendario").dia = estacao * 30 + 1
 			await quadros()
 			var corretos := true
 			for detalhe in detalhes:
-				corretos = corretos and detalhe.estacao == estacao and detalhe.imagem.scale == Vector2.ONE
-			verificar("interior segue calendário, sem esticar sprites: %s/%d" % [id, estacao], corretos)
+				corretos = corretos and detalhe.estacao == estacao and detalhe.imagem.scale == Vector2(0.25, 0.25) and detalhe.imagem.texture.resource_path.begins_with("res://assets/cenario/cidade/interiores_detalhados/")
+			verificar("interior segue calendário com arte4× e escala lógica preservada: %s/%d" % [id, estacao], corretos)
 		var origem: Vector2 = cena.get_node("Chegada_entrada").position
 		var dados: Dictionary = interior.dados()["casas"][id]
 		for chave in dados["pontos"]:

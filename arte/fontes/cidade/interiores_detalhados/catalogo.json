@@ -1,0 +1,385 @@
+{
+  "referencias": [
+    "arte/fontes/cidade/enfeites_detalhados/pousada_frontal.png"
+  ],
+  "escala": 4,
+  "pivo": "base-centro preservado do layout",
+  "estacoes": [
+    "primavera",
+    "verao",
+    "outono",
+    "inverno"
+  ],
+  "recursos": [
+    {
+      "id": "piso",
+      "logico": [
+        128,
+        128
+      ],
+      "pedido": "A seamless repeating square overhead material of medium warm oak plank flooring. About 10 broad horizontal planks over the height, staggered end joints, large calm wood grain, honey walnut brown, no objects, no wall, no borders, no perspective, evenly lit full-bleed texture. Must TILE continuously both axes, avoid any overall vignette or gradient.",
+      "transparente": false,
+      "pedido_completo": "Create ONE production game asset for AlgoLand. Reference image is the accepted exterior tavern style, used ONLY for painterly finish, wood/stone palette and clean soft outlines, not to include a building. Hand-painted illustrated 2D fantasy farming RPG finish, crisp detailed but calm surfaces, warm natural medium oak/walnut, cream stone, restrained saturation; no chunky pixelation, no photorealism, no glossy plastic, no orange oversaturation. Camera for furniture: orthographic FRONT-facing elevated RPG view from south, top face visible, left and right balanced, no isometric/diagonal facing, no perspective vanishing. Ground objects anchored at base-center and ALL feet on horizontal baseline. Standalone silhouette, generous transparent padding, no floor plane or cast shadow outside the asset, no text, no labels, no UI, no watermark. No seasonal snow: sheltered indoors. Simple clear design readable at 128x128 logical pixels (stored at 4x). A seamless repeating square overhead material of medium warm oak plank flooring. About 10 broad horizontal planks over the height, staggered end joints, large calm wood grain, honey walnut brown, no objects, no wall, no borders, no perspective, evenly lit full-bleed texture. Must TILE continuously both axes, avoid any overall vignette or gradient."
+    },
+    {
+      "id": "parede",
+      "logico": [
+        64,
+        32
+      ],
+      "pedido": "A modular interior wall face strip, straight front elevation, wide ratio 2:1. Cream warm plaster panel in a dark honey oak timber frame, narrow oak skirting along bottom, stout flat horizontal oak crown beam along top, a half upright timber stud at each left/right edge. No floor, no window, no door, no decor, no perspective angle, no shadow outside, full-bleed flat rectangular wall panel. Intended to repeat horizontally at matching edges.",
+      "transparente": false,
+      "pedido_completo": "Create ONE production game asset for AlgoLand. Reference image is the accepted exterior tavern style, used ONLY for painterly finish, wood/stone palette and clean soft outlines, not to include a building. Hand-painted illustrated 2D fantasy farming RPG finish, crisp detailed but calm surfaces, warm natural medium oak/walnut, cream stone, restrained saturation; no chunky pixelation, no photorealism, no glossy plastic, no orange oversaturation. Camera for furniture: orthographic FRONT-facing elevated RPG view from south, top face visible, left and right balanced, no isometric/diagonal facing, no perspective vanishing. Ground objects anchored at base-center and ALL feet on horizontal baseline. Standalone silhouette, generous transparent padding, no floor plane or cast shadow outside the asset, no text, no labels, no UI, no watermark. No seasonal snow: sheltered indoors. Simple clear design readable at 64x32 logical pixels (stored at 4x). A modular interior wall face strip, straight front elevation, wide ratio 2:1. Cream warm plaster panel in a dark honey oak timber frame, narrow oak skirting along bottom, stout flat horizontal oak crown beam along top, a half upright timber stud at each left/right edge. No floor, no window, no door, no decor, no perspective angle, no shadow outside, full-bleed flat rectangular wall panel. Intended to repeat horizontally at matching edges."
+    },
+    {
+      "id": "janela",
+      "logico": [
+        32,
+        32
+      ],
+      "pedido": "One compact square wooden cottage window, seen straight from inside, simple honey oak frame and cross muntins, pale blue glass with a soft daylight reflection, small wooden sill, no wall around it, no curtains beyond its outline. Square ratio.",
+      "transparente": true,
+      "pedido_completo": "Create ONE production game asset for AlgoLand. Reference image is the accepted exterior tavern style, used ONLY for painterly finish, wood/stone palette and clean soft outlines, not to include a building. Hand-painted illustrated 2D fantasy farming RPG finish, crisp detailed but calm surfaces, warm natural medium oak/walnut, cream stone, restrained saturation; no chunky pixelation, no photorealism, no glossy plastic, no orange oversaturation. Camera for furniture: orthographic FRONT-facing elevated RPG view from south, top face visible, left and right balanced, no isometric/diagonal facing, no perspective vanishing. Ground objects anchored at base-center and ALL feet on horizontal baseline. Standalone silhouette, generous transparent padding, no floor plane or cast shadow outside the asset, no text, no labels, no UI, no watermark. No seasonal snow: sheltered indoors. Simple clear design readable at 32x32 logical pixels (stored at 4x). One compact square wooden cottage window, seen straight from inside, simple honey oak frame and cross muntins, pale blue glass with a soft daylight reflection, small wooden sill, no wall around it, no curtains beyond its outline. Square ratio."
+    },
+    {
+      "id": "cama",
+      "logico": [
+        32,
+        58
+      ],
+      "pedido": "One single bed pointing north, footboard at the bottom, tall rectangular footprint about width:height 0.55. Oak headboard across the top, cream pillow in upper quarter, muted teal quilt in middle/lower part, modest wooden footboard and short feet at bottom. View from directly south and above, see mattress surface, symmetric outline. No person.",
+      "transparente": true,
+      "pedido_completo": "Create ONE production game asset for AlgoLand. Reference image is the accepted exterior tavern style, used ONLY for painterly finish, wood/stone palette and clean soft outlines, not to include a building. Hand-painted illustrated 2D fantasy farming RPG finish, crisp detailed but calm surfaces, warm natural medium oak/walnut, cream stone, restrained saturation; no chunky pixelation, no photorealism, no glossy plastic, no orange oversaturation. Camera for furniture: orthographic FRONT-facing elevated RPG view from south, top face visible, left and right balanced, no isometric/diagonal facing, no perspective vanishing. Ground objects anchored at base-center and ALL feet on horizontal baseline. Standalone silhouette, generous transparent padding, no floor plane or cast shadow outside the asset, no text, no labels, no UI, no watermark. No seasonal snow: sheltered indoors. Simple clear design readable at 32x58 logical pixels (stored at 4x). One single bed pointing north, footboard at the bottom, tall rectangular footprint about width:height 0.55. Oak headboard across the top, cream pillow in upper quarter, muted teal quilt in middle/lower part, modest wooden footboard and short feet at bottom. View from directly south and above, see mattress surface, symmetric outline. No person."
+    },
+    {
+      "id": "cadeira",
+      "logico": [
+        14,
+        24
+      ],
+      "pedido": "One simple solid oak dining chair, backrest at the top/north, square seat visible from above, four short legs, narrow tall ratio 0.6, plain comfortable horizontal back slats. Centered frontal elevated view, no angle toward left or right.",
+      "transparente": true,
+      "pedido_completo": "Create ONE production game asset for AlgoLand. Reference image is the accepted exterior tavern style, used ONLY for painterly finish, wood/stone palette and clean soft outlines, not to include a building. Hand-painted illustrated 2D fantasy farming RPG finish, crisp detailed but calm surfaces, warm natural medium oak/walnut, cream stone, restrained saturation; no chunky pixelation, no photorealism, no glossy plastic, no orange oversaturation. Camera for furniture: orthographic FRONT-facing elevated RPG view from south, top face visible, left and right balanced, no isometric/diagonal facing, no perspective vanishing. Ground objects anchored at base-center and ALL feet on horizontal baseline. Standalone silhouette, generous transparent padding, no floor plane or cast shadow outside the asset, no text, no labels, no UI, no watermark. No seasonal snow: sheltered indoors. Simple clear design readable at 14x24 logical pixels (stored at 4x). One simple solid oak dining chair, backrest at the top/north, square seat visible from above, four short legs, narrow tall ratio 0.6, plain comfortable horizontal back slats. Centered frontal elevated view, no angle toward left or right."
+    },
+    {
+      "id": "mesa",
+      "logico": [
+        48,
+        29
+      ],
+      "pedido": "One small empty rectangular oak dining table. Broad top visible from above, smoothly worn edges, four short sturdy legs, wide low silhouette about 1.65:1. No chairs, cups, food, cloth or surrounding items. Straight horizontal front edge, not diamond shaped.",
+      "transparente": true,
+      "pedido_completo": "Create ONE production game asset for AlgoLand. Reference image is the accepted exterior tavern style, used ONLY for painterly finish, wood/stone palette and clean soft outlines, not to include a building. Hand-painted illustrated 2D fantasy farming RPG finish, crisp detailed but calm surfaces, warm natural medium oak/walnut, cream stone, restrained saturation; no chunky pixelation, no photorealism, no glossy plastic, no orange oversaturation. Camera for furniture: orthographic FRONT-facing elevated RPG view from south, top face visible, left and right balanced, no isometric/diagonal facing, no perspective vanishing. Ground objects anchored at base-center and ALL feet on horizontal baseline. Standalone silhouette, generous transparent padding, no floor plane or cast shadow outside the asset, no text, no labels, no UI, no watermark. No seasonal snow: sheltered indoors. Simple clear design readable at 48x29 logical pixels (stored at 4x). One small empty rectangular oak dining table. Broad top visible from above, smoothly worn edges, four short sturdy legs, wide low silhouette about 1.65:1. No chairs, cups, food, cloth or surrounding items. Straight horizontal front edge, not diamond shaped."
+    },
+    {
+      "id": "balcao",
+      "logico": [
+        66,
+        41
+      ],
+      "pedido": "One shop service counter, wide ratio 1.6:1, cream stone slab counter top clearly visible, warm oak paneled front with restrained iron corner fittings, counter stands directly on its solid lower plinth. No bottles or people on top, no tall shelves behind, no text.",
+      "transparente": true,
+      "pedido_completo": "Create ONE production game asset for AlgoLand. Reference image is the accepted exterior tavern style, used ONLY for painterly finish, wood/stone palette and clean soft outlines, not to include a building. Hand-painted illustrated 2D fantasy farming RPG finish, crisp detailed but calm surfaces, warm natural medium oak/walnut, cream stone, restrained saturation; no chunky pixelation, no photorealism, no glossy plastic, no orange oversaturation. Camera for furniture: orthographic FRONT-facing elevated RPG view from south, top face visible, left and right balanced, no isometric/diagonal facing, no perspective vanishing. Ground objects anchored at base-center and ALL feet on horizontal baseline. Standalone silhouette, generous transparent padding, no floor plane or cast shadow outside the asset, no text, no labels, no UI, no watermark. No seasonal snow: sheltered indoors. Simple clear design readable at 66x41 logical pixels (stored at 4x). One shop service counter, wide ratio 1.6:1, cream stone slab counter top clearly visible, warm oak paneled front with restrained iron corner fittings, counter stands directly on its solid lower plinth. No bottles or people on top, no tall shelves behind, no text."
+    },
+    {
+      "id": "prateleira",
+      "logico": [
+        42,
+        48
+      ],
+      "pedido": "One standing pantry display shelf/cupboard, front-facing with top visible, oak frame, three shelves containing orderly small ceramic jars, sacks, folded cloth and a few green glass bottles. No tiny labels or readable lettering. Rectangular nearly square silhouette, lower closed cupboard base, feet on baseline.",
+      "transparente": true,
+      "pedido_completo": "Create ONE production game asset for AlgoLand. Reference image is the accepted exterior tavern style, used ONLY for painterly finish, wood/stone palette and clean soft outlines, not to include a building. Hand-painted illustrated 2D fantasy farming RPG finish, crisp detailed but calm surfaces, warm natural medium oak/walnut, cream stone, restrained saturation; no chunky pixelation, no photorealism, no glossy plastic, no orange oversaturation. Camera for furniture: orthographic FRONT-facing elevated RPG view from south, top face visible, left and right balanced, no isometric/diagonal facing, no perspective vanishing. Ground objects anchored at base-center and ALL feet on horizontal baseline. Standalone silhouette, generous transparent padding, no floor plane or cast shadow outside the asset, no text, no labels, no UI, no watermark. No seasonal snow: sheltered indoors. Simple clear design readable at 42x48 logical pixels (stored at 4x). One standing pantry display shelf/cupboard, front-facing with top visible, oak frame, three shelves containing orderly small ceramic jars, sacks, folded cloth and a few green glass bottles. No tiny labels or readable lettering. Rectangular nearly square silhouette, lower closed cupboard base, feet on baseline."
+    },
+    {
+      "id": "armario",
+      "logico": [
+        42,
+        46
+      ],
+      "pedido": "One closed oak wardrobe cabinet, two paneled wooden doors, iron handles, small top molding, four short feet, no objects on top, rectangular nearly square outline, front-facing. Broad clear panels.",
+      "transparente": true,
+      "pedido_completo": "Create ONE production game asset for AlgoLand. Reference image is the accepted exterior tavern style, used ONLY for painterly finish, wood/stone palette and clean soft outlines, not to include a building. Hand-painted illustrated 2D fantasy farming RPG finish, crisp detailed but calm surfaces, warm natural medium oak/walnut, cream stone, restrained saturation; no chunky pixelation, no photorealism, no glossy plastic, no orange oversaturation. Camera for furniture: orthographic FRONT-facing elevated RPG view from south, top face visible, left and right balanced, no isometric/diagonal facing, no perspective vanishing. Ground objects anchored at base-center and ALL feet on horizontal baseline. Standalone silhouette, generous transparent padding, no floor plane or cast shadow outside the asset, no text, no labels, no UI, no watermark. No seasonal snow: sheltered indoors. Simple clear design readable at 42x46 logical pixels (stored at 4x). One closed oak wardrobe cabinet, two paneled wooden doors, iron handles, small top molding, four short feet, no objects on top, rectangular nearly square outline, front-facing. Broad clear panels."
+    },
+    {
+      "id": "estante",
+      "logico": [
+        36,
+        56
+      ],
+      "pedido": "One tall narrow oak bookcase with three shelves of neatly grouped red, teal and cream books, a few rolled scrolls, two closed drawers at the bottom, short feet. No text on book spines. Frontal elevated view.",
+      "transparente": true,
+      "pedido_completo": "Create ONE production game asset for AlgoLand. Reference image is the accepted exterior tavern style, used ONLY for painterly finish, wood/stone palette and clean soft outlines, not to include a building. Hand-painted illustrated 2D fantasy farming RPG finish, crisp detailed but calm surfaces, warm natural medium oak/walnut, cream stone, restrained saturation; no chunky pixelation, no photorealism, no glossy plastic, no orange oversaturation. Camera for furniture: orthographic FRONT-facing elevated RPG view from south, top face visible, left and right balanced, no isometric/diagonal facing, no perspective vanishing. Ground objects anchored at base-center and ALL feet on horizontal baseline. Standalone silhouette, generous transparent padding, no floor plane or cast shadow outside the asset, no text, no labels, no UI, no watermark. No seasonal snow: sheltered indoors. Simple clear design readable at 36x56 logical pixels (stored at 4x). One tall narrow oak bookcase with three shelves of neatly grouped red, teal and cream books, a few rolled scrolls, two closed drawers at the bottom, short feet. No text on book spines. Frontal elevated view."
+    },
+    {
+      "id": "bau",
+      "logico": [
+        32,
+        26
+      ],
+      "pedido": "One small closed wooden storage chest with a gently arched lid, two black iron bands and a central latch, front panel visible, compact ratio 1.25:1, four tiny feet, no coins, no glow.",
+      "transparente": true,
+      "pedido_completo": "Create ONE production game asset for AlgoLand. Reference image is the accepted exterior tavern style, used ONLY for painterly finish, wood/stone palette and clean soft outlines, not to include a building. Hand-painted illustrated 2D fantasy farming RPG finish, crisp detailed but calm surfaces, warm natural medium oak/walnut, cream stone, restrained saturation; no chunky pixelation, no photorealism, no glossy plastic, no orange oversaturation. Camera for furniture: orthographic FRONT-facing elevated RPG view from south, top face visible, left and right balanced, no isometric/diagonal facing, no perspective vanishing. Ground objects anchored at base-center and ALL feet on horizontal baseline. Standalone silhouette, generous transparent padding, no floor plane or cast shadow outside the asset, no text, no labels, no UI, no watermark. No seasonal snow: sheltered indoors. Simple clear design readable at 32x26 logical pixels (stored at 4x). One small closed wooden storage chest with a gently arched lid, two black iron bands and a central latch, front panel visible, compact ratio 1.25:1, four tiny feet, no coins, no glow."
+    },
+    {
+      "id": "lareira",
+      "logico": [
+        52,
+        56
+      ],
+      "pedido": "One cozy cottage fireplace, cream-grey fieldstone surround, oak mantel, short stone chimney above, an open dark firebox with small orange flames and stacked burning logs, broad stable masonry base, no external light halo, no hanging tools outside its outline, nearly square front-facing silhouette.",
+      "transparente": true,
+      "pedido_completo": "Create ONE production game asset for AlgoLand. Reference image is the accepted exterior tavern style, used ONLY for painterly finish, wood/stone palette and clean soft outlines, not to include a building. Hand-painted illustrated 2D fantasy farming RPG finish, crisp detailed but calm surfaces, warm natural medium oak/walnut, cream stone, restrained saturation; no chunky pixelation, no photorealism, no glossy plastic, no orange oversaturation. Camera for furniture: orthographic FRONT-facing elevated RPG view from south, top face visible, left and right balanced, no isometric/diagonal facing, no perspective vanishing. Ground objects anchored at base-center and ALL feet on horizontal baseline. Standalone silhouette, generous transparent padding, no floor plane or cast shadow outside the asset, no text, no labels, no UI, no watermark. No seasonal snow: sheltered indoors. Simple clear design readable at 52x56 logical pixels (stored at 4x). One cozy cottage fireplace, cream-grey fieldstone surround, oak mantel, short stone chimney above, an open dark firebox with small orange flames and stacked burning logs, broad stable masonry base, no external light halo, no hanging tools outside its outline, nearly square front-facing silhouette."
+    },
+    {
+      "id": "barris",
+      "logico": [
+        58,
+        36
+      ],
+      "pedido": "One compact storage stack consisting of TWO sturdy oak barrels beside one low wooden crate, all tightly touching as ONE coherent store-room prop. Top faces visible, dark iron hoops, no spills, no bottle, no ground plane. Wide low silhouette ratio 1.6:1, feet/bases rest on one horizontal baseline.",
+      "transparente": true,
+      "pedido_completo": "Create ONE production game asset for AlgoLand. Reference image is the accepted exterior tavern style, used ONLY for painterly finish, wood/stone palette and clean soft outlines, not to include a building. Hand-painted illustrated 2D fantasy farming RPG finish, crisp detailed but calm surfaces, warm natural medium oak/walnut, cream stone, restrained saturation; no chunky pixelation, no photorealism, no glossy plastic, no orange oversaturation. Camera for furniture: orthographic FRONT-facing elevated RPG view from south, top face visible, left and right balanced, no isometric/diagonal facing, no perspective vanishing. Ground objects anchored at base-center and ALL feet on horizontal baseline. Standalone silhouette, generous transparent padding, no floor plane or cast shadow outside the asset, no text, no labels, no UI, no watermark. No seasonal snow: sheltered indoors. Simple clear design readable at 58x36 logical pixels (stored at 4x). One compact storage stack consisting of TWO sturdy oak barrels beside one low wooden crate, all tightly touching as ONE coherent store-room prop. Top faces visible, dark iron hoops, no spills, no bottle, no ground plane. Wide low silhouette ratio 1.6:1, feet/bases rest on one horizontal baseline."
+    },
+    {
+      "id": "sacos",
+      "logico": [
+        58,
+        35
+      ],
+      "pedido": "One compact coherent store-room cluster of three tied burlap grain sacks resting beside one open sack containing golden grain, natural cream linen, no labels, all bags on one baseline. Wide low ratio 1.7:1, top-down frontal elevated view.",
+      "transparente": true,
+      "pedido_completo": "Create ONE production game asset for AlgoLand. Reference image is the accepted exterior tavern style, used ONLY for painterly finish, wood/stone palette and clean soft outlines, not to include a building. Hand-painted illustrated 2D fantasy farming RPG finish, crisp detailed but calm surfaces, warm natural medium oak/walnut, cream stone, restrained saturation; no chunky pixelation, no photorealism, no glossy plastic, no orange oversaturation. Camera for furniture: orthographic FRONT-facing elevated RPG view from south, top face visible, left and right balanced, no isometric/diagonal facing, no perspective vanishing. Ground objects anchored at base-center and ALL feet on horizontal baseline. Standalone silhouette, generous transparent padding, no floor plane or cast shadow outside the asset, no text, no labels, no UI, no watermark. No seasonal snow: sheltered indoors. Simple clear design readable at 58x35 logical pixels (stored at 4x). One compact coherent store-room cluster of three tied burlap grain sacks resting beside one open sack containing golden grain, natural cream linen, no labels, all bags on one baseline. Wide low ratio 1.7:1, top-down frontal elevated view."
+    },
+    {
+      "id": "cestos",
+      "logico": [
+        43,
+        35
+      ],
+      "pedido": "One pair of woven wicker baskets together as one shop display: a low basket of red apples beside a slightly taller basket of green vegetables, produce visibly contained behind front basket rim. Warm straw wicker, compact wide ratio 1.25:1, no ground.",
+      "transparente": true,
+      "pedido_completo": "Create ONE production game asset for AlgoLand. Reference image is the accepted exterior tavern style, used ONLY for painterly finish, wood/stone palette and clean soft outlines, not to include a building. Hand-painted illustrated 2D fantasy farming RPG finish, crisp detailed but calm surfaces, warm natural medium oak/walnut, cream stone, restrained saturation; no chunky pixelation, no photorealism, no glossy plastic, no orange oversaturation. Camera for furniture: orthographic FRONT-facing elevated RPG view from south, top face visible, left and right balanced, no isometric/diagonal facing, no perspective vanishing. Ground objects anchored at base-center and ALL feet on horizontal baseline. Standalone silhouette, generous transparent padding, no floor plane or cast shadow outside the asset, no text, no labels, no UI, no watermark. No seasonal snow: sheltered indoors. Simple clear design readable at 43x35 logical pixels (stored at 4x). One pair of woven wicker baskets together as one shop display: a low basket of red apples beside a slightly taller basket of green vegetables, produce visibly contained behind front basket rim. Warm straw wicker, compact wide ratio 1.25:1, no ground."
+    },
+    {
+      "id": "mesa_frutas",
+      "logico": [
+        32,
+        38
+      ],
+      "pedido": "One small market produce stand with a wooden raised tray supported on short oak legs. A tidy display of red apples, yellow pears and a few leafy vegetables INSIDE the tray, front wooden lip in front of produce, no awning, no signs. Tall compact ratio 0.85:1.",
+      "transparente": true,
+      "pedido_completo": "Create ONE production game asset for AlgoLand. Reference image is the accepted exterior tavern style, used ONLY for painterly finish, wood/stone palette and clean soft outlines, not to include a building. Hand-painted illustrated 2D fantasy farming RPG finish, crisp detailed but calm surfaces, warm natural medium oak/walnut, cream stone, restrained saturation; no chunky pixelation, no photorealism, no glossy plastic, no orange oversaturation. Camera for furniture: orthographic FRONT-facing elevated RPG view from south, top face visible, left and right balanced, no isometric/diagonal facing, no perspective vanishing. Ground objects anchored at base-center and ALL feet on horizontal baseline. Standalone silhouette, generous transparent padding, no floor plane or cast shadow outside the asset, no text, no labels, no UI, no watermark. No seasonal snow: sheltered indoors. Simple clear design readable at 32x38 logical pixels (stored at 4x). One small market produce stand with a wooden raised tray supported on short oak legs. A tidy display of red apples, yellow pears and a few leafy vegetables INSIDE the tray, front wooden lip in front of produce, no awning, no signs. Tall compact ratio 0.85:1."
+    },
+    {
+      "id": "planta",
+      "logico": [
+        28,
+        38
+      ],
+      "pedido": "One healthy compact broad-leaved indoor green plant in a round terracotta pot, a few arching large leaves, plain pot fully visible at bottom, no flowers and no ground. Tall ratio 0.75:1, frontal view slightly from above.",
+      "transparente": true,
+      "pedido_completo": "Create ONE production game asset for AlgoLand. Reference image is the accepted exterior tavern style, used ONLY for painterly finish, wood/stone palette and clean soft outlines, not to include a building. Hand-painted illustrated 2D fantasy farming RPG finish, crisp detailed but calm surfaces, warm natural medium oak/walnut, cream stone, restrained saturation; no chunky pixelation, no photorealism, no glossy plastic, no orange oversaturation. Camera for furniture: orthographic FRONT-facing elevated RPG view from south, top face visible, left and right balanced, no isometric/diagonal facing, no perspective vanishing. Ground objects anchored at base-center and ALL feet on horizontal baseline. Standalone silhouette, generous transparent padding, no floor plane or cast shadow outside the asset, no text, no labels, no UI, no watermark. No seasonal snow: sheltered indoors. Simple clear design readable at 28x38 logical pixels (stored at 4x). One healthy compact broad-leaved indoor green plant in a round terracotta pot, a few arching large leaves, plain pot fully visible at bottom, no flowers and no ground. Tall ratio 0.75:1, frontal view slightly from above."
+    },
+    {
+      "id": "bancada",
+      "logico": [
+        73,
+        50
+      ],
+      "pedido": "One carpenter's workbench with wide oak work surface visible from above, simple sturdy legs and a lower shelf, one small vise on right edge, a hand plane and two wood offcuts resting naturally on top. No tool wall behind, no surrounding floor, wide ratio 1.5:1.",
+      "transparente": true,
+      "pedido_completo": "Create ONE production game asset for AlgoLand. Reference image is the accepted exterior tavern style, used ONLY for painterly finish, wood/stone palette and clean soft outlines, not to include a building. Hand-painted illustrated 2D fantasy farming RPG finish, crisp detailed but calm surfaces, warm natural medium oak/walnut, cream stone, restrained saturation; no chunky pixelation, no photorealism, no glossy plastic, no orange oversaturation. Camera for furniture: orthographic FRONT-facing elevated RPG view from south, top face visible, left and right balanced, no isometric/diagonal facing, no perspective vanishing. Ground objects anchored at base-center and ALL feet on horizontal baseline. Standalone silhouette, generous transparent padding, no floor plane or cast shadow outside the asset, no text, no labels, no UI, no watermark. No seasonal snow: sheltered indoors. Simple clear design readable at 73x50 logical pixels (stored at 4x). One carpenter's workbench with wide oak work surface visible from above, simple sturdy legs and a lower shelf, one small vise on right edge, a hand plane and two wood offcuts resting naturally on top. No tool wall behind, no surrounding floor, wide ratio 1.5:1."
+    },
+    {
+      "id": "ferramentas",
+      "logico": [
+        64,
+        45
+      ],
+      "pedido": "One rectangular wall-mounted wooden tool rack holding a hand saw, small hatchet, mallet and carpenter's square, tools hanging neatly within the rack outline, dark steel and oak handles, front-facing. No detached objects, no wall background, width:height 1.45:1.",
+      "transparente": true,
+      "pedido_completo": "Create ONE production game asset for AlgoLand. Reference image is the accepted exterior tavern style, used ONLY for painterly finish, wood/stone palette and clean soft outlines, not to include a building. Hand-painted illustrated 2D fantasy farming RPG finish, crisp detailed but calm surfaces, warm natural medium oak/walnut, cream stone, restrained saturation; no chunky pixelation, no photorealism, no glossy plastic, no orange oversaturation. Camera for furniture: orthographic FRONT-facing elevated RPG view from south, top face visible, left and right balanced, no isometric/diagonal facing, no perspective vanishing. Ground objects anchored at base-center and ALL feet on horizontal baseline. Standalone silhouette, generous transparent padding, no floor plane or cast shadow outside the asset, no text, no labels, no UI, no watermark. No seasonal snow: sheltered indoors. Simple clear design readable at 64x45 logical pixels (stored at 4x). One rectangular wall-mounted wooden tool rack holding a hand saw, small hatchet, mallet and carpenter's square, tools hanging neatly within the rack outline, dark steel and oak handles, front-facing. No detached objects, no wall background, width:height 1.45:1."
+    },
+    {
+      "id": "balanco",
+      "logico": [
+        42,
+        46
+      ],
+      "pedido": "One cozy wooden rocking chair with muted beige cushion, curved wooden runners touching baseline, elevated FRONTAL view from south, both runners and armrests visible symmetrically. No person. Nearly square silhouette.",
+      "transparente": true,
+      "pedido_completo": "Create ONE production game asset for AlgoLand. Reference image is the accepted exterior tavern style, used ONLY for painterly finish, wood/stone palette and clean soft outlines, not to include a building. Hand-painted illustrated 2D fantasy farming RPG finish, crisp detailed but calm surfaces, warm natural medium oak/walnut, cream stone, restrained saturation; no chunky pixelation, no photorealism, no glossy plastic, no orange oversaturation. Camera for furniture: orthographic FRONT-facing elevated RPG view from south, top face visible, left and right balanced, no isometric/diagonal facing, no perspective vanishing. Ground objects anchored at base-center and ALL feet on horizontal baseline. Standalone silhouette, generous transparent padding, no floor plane or cast shadow outside the asset, no text, no labels, no UI, no watermark. No seasonal snow: sheltered indoors. Simple clear design readable at 42x46 logical pixels (stored at 4x). One cozy wooden rocking chair with muted beige cushion, curved wooden runners touching baseline, elevated FRONTAL view from south, both runners and armrests visible symmetrically. No person. Nearly square silhouette."
+    },
+    {
+      "id": "lavatorio",
+      "logico": [
+        28,
+        39
+      ],
+      "pedido": "One small cottage washstand: cream ceramic washbasin sitting naturally on a narrow oak vanity with two cabinet doors, a simple dark metal faucet, no mirror and no wall behind. Tall ratio 0.72:1, top of basin visible from above.",
+      "transparente": true,
+      "pedido_completo": "Create ONE production game asset for AlgoLand. Reference image is the accepted exterior tavern style, used ONLY for painterly finish, wood/stone palette and clean soft outlines, not to include a building. Hand-painted illustrated 2D fantasy farming RPG finish, crisp detailed but calm surfaces, warm natural medium oak/walnut, cream stone, restrained saturation; no chunky pixelation, no photorealism, no glossy plastic, no orange oversaturation. Camera for furniture: orthographic FRONT-facing elevated RPG view from south, top face visible, left and right balanced, no isometric/diagonal facing, no perspective vanishing. Ground objects anchored at base-center and ALL feet on horizontal baseline. Standalone silhouette, generous transparent padding, no floor plane or cast shadow outside the asset, no text, no labels, no UI, no watermark. No seasonal snow: sheltered indoors. Simple clear design readable at 28x39 logical pixels (stored at 4x). One small cottage washstand: cream ceramic washbasin sitting naturally on a narrow oak vanity with two cabinet doors, a simple dark metal faucet, no mirror and no wall behind. Tall ratio 0.72:1, top of basin visible from above."
+    },
+    {
+      "id": "biombo",
+      "logico": [
+        42,
+        38
+      ],
+      "pedido": "One three-panel folding medical privacy screen standing in a shallow straight arc, simple oak frame with clean cream cloth stretched INSIDE each frame, four small feet, no pattern, no scene, wide nearly square silhouette ratio 1.1:1. Front-facing, no people.",
+      "transparente": true,
+      "pedido_completo": "Create ONE production game asset for AlgoLand. Reference image is the accepted exterior tavern style, used ONLY for painterly finish, wood/stone palette and clean soft outlines, not to include a building. Hand-painted illustrated 2D fantasy farming RPG finish, crisp detailed but calm surfaces, warm natural medium oak/walnut, cream stone, restrained saturation; no chunky pixelation, no photorealism, no glossy plastic, no orange oversaturation. Camera for furniture: orthographic FRONT-facing elevated RPG view from south, top face visible, left and right balanced, no isometric/diagonal facing, no perspective vanishing. Ground objects anchored at base-center and ALL feet on horizontal baseline. Standalone silhouette, generous transparent padding, no floor plane or cast shadow outside the asset, no text, no labels, no UI, no watermark. No seasonal snow: sheltered indoors. Simple clear design readable at 42x38 logical pixels (stored at 4x). One three-panel folding medical privacy screen standing in a shallow straight arc, simple oak frame with clean cream cloth stretched INSIDE each frame, four small feet, no pattern, no scene, wide nearly square silhouette ratio 1.1:1. Front-facing, no people."
+    },
+    {
+      "id": "ervas",
+      "logico": [
+        48,
+        49
+      ],
+      "pedido": "One compact hanging herb organizer: rectangular oak wall rack with three small bundles of green drying herbs tied to upper hooks and two ceramic herb jars sitting on its integral bottom shelf. All objects hang naturally from rack and stay inside its outline. Nearly square, no wall, no labels.",
+      "transparente": true,
+      "pedido_completo": "Create ONE production game asset for AlgoLand. Reference image is the accepted exterior tavern style, used ONLY for painterly finish, wood/stone palette and clean soft outlines, not to include a building. Hand-painted illustrated 2D fantasy farming RPG finish, crisp detailed but calm surfaces, warm natural medium oak/walnut, cream stone, restrained saturation; no chunky pixelation, no photorealism, no glossy plastic, no orange oversaturation. Camera for furniture: orthographic FRONT-facing elevated RPG view from south, top face visible, left and right balanced, no isometric/diagonal facing, no perspective vanishing. Ground objects anchored at base-center and ALL feet on horizontal baseline. Standalone silhouette, generous transparent padding, no floor plane or cast shadow outside the asset, no text, no labels, no UI, no watermark. No seasonal snow: sheltered indoors. Simple clear design readable at 48x49 logical pixels (stored at 4x). One compact hanging herb organizer: rectangular oak wall rack with three small bundles of green drying herbs tied to upper hooks and two ceramic herb jars sitting on its integral bottom shelf. All objects hang naturally from rack and stay inside its outline. Nearly square, no wall, no labels."
+    },
+    {
+      "id": "pocoes",
+      "logico": [
+        48,
+        48
+      ],
+      "pedido": "One small alchemist's display cabinet, square oak frame with two open shelves containing a few grouped round glass potion bottles, muted violet, teal and amber liquids, round cork stoppers, subtle internal glow, no floating bottles, no letters, no large light halo.",
+      "transparente": true,
+      "pedido_completo": "Create ONE production game asset for AlgoLand. Reference image is the accepted exterior tavern style, used ONLY for painterly finish, wood/stone palette and clean soft outlines, not to include a building. Hand-painted illustrated 2D fantasy farming RPG finish, crisp detailed but calm surfaces, warm natural medium oak/walnut, cream stone, restrained saturation; no chunky pixelation, no photorealism, no glossy plastic, no orange oversaturation. Camera for furniture: orthographic FRONT-facing elevated RPG view from south, top face visible, left and right balanced, no isometric/diagonal facing, no perspective vanishing. Ground objects anchored at base-center and ALL feet on horizontal baseline. Standalone silhouette, generous transparent padding, no floor plane or cast shadow outside the asset, no text, no labels, no UI, no watermark. No seasonal snow: sheltered indoors. Simple clear design readable at 48x48 logical pixels (stored at 4x). One small alchemist's display cabinet, square oak frame with two open shelves containing a few grouped round glass potion bottles, muted violet, teal and amber liquids, round cork stoppers, subtle internal glow, no floating bottles, no letters, no large light halo."
+    },
+    {
+      "id": "caldeirao",
+      "logico": [
+        26,
+        42
+      ],
+      "pedido": "One cast-iron alchemy cauldron on three short feet, oval opening clearly visible from above containing muted violet liquid, two small handles within silhouette, a small stone base with a few glowing coals beneath. Tall compact outline about 0.62:1, no steam baked into the image, no external glow.",
+      "transparente": true,
+      "pedido_completo": "Create ONE production game asset for AlgoLand. Reference image is the accepted exterior tavern style, used ONLY for painterly finish, wood/stone palette and clean soft outlines, not to include a building. Hand-painted illustrated 2D fantasy farming RPG finish, crisp detailed but calm surfaces, warm natural medium oak/walnut, cream stone, restrained saturation; no chunky pixelation, no photorealism, no glossy plastic, no orange oversaturation. Camera for furniture: orthographic FRONT-facing elevated RPG view from south, top face visible, left and right balanced, no isometric/diagonal facing, no perspective vanishing. Ground objects anchored at base-center and ALL feet on horizontal baseline. Standalone silhouette, generous transparent padding, no floor plane or cast shadow outside the asset, no text, no labels, no UI, no watermark. No seasonal snow: sheltered indoors. Simple clear design readable at 26x42 logical pixels (stored at 4x). One cast-iron alchemy cauldron on three short feet, oval opening clearly visible from above containing muted violet liquid, two small handles within silhouette, a small stone base with a few glowing coals beneath. Tall compact outline about 0.62:1, no steam baked into the image, no external glow."
+    },
+    {
+      "id": "mesa_cristal",
+      "logico": [
+        42,
+        46
+      ],
+      "pedido": "One compact round oak divination table with violet velvet tablecloth, a small violet crystal cluster resting physically in a dark bronze shallow bowl at center, a closed spell book beside it. Table rim in front of contents; low subtle glow only in crystal. Ratio 0.92:1, frontal elevated view, short sturdy table feet on baseline.",
+      "transparente": true,
+      "pedido_completo": "Create ONE production game asset for AlgoLand. Reference image is the accepted exterior tavern style, used ONLY for painterly finish, wood/stone palette and clean soft outlines, not to include a building. Hand-painted illustrated 2D fantasy farming RPG finish, crisp detailed but calm surfaces, warm natural medium oak/walnut, cream stone, restrained saturation; no chunky pixelation, no photorealism, no glossy plastic, no orange oversaturation. Camera for furniture: orthographic FRONT-facing elevated RPG view from south, top face visible, left and right balanced, no isometric/diagonal facing, no perspective vanishing. Ground objects anchored at base-center and ALL feet on horizontal baseline. Standalone silhouette, generous transparent padding, no floor plane or cast shadow outside the asset, no text, no labels, no UI, no watermark. No seasonal snow: sheltered indoors. Simple clear design readable at 42x46 logical pixels (stored at 4x). One compact round oak divination table with violet velvet tablecloth, a small violet crystal cluster resting physically in a dark bronze shallow bowl at center, a closed spell book beside it. Table rim in front of contents; low subtle glow only in crystal. Ratio 0.92:1, frontal elevated view, short sturdy table feet on baseline."
+    },
+    {
+      "id": "telescopio",
+      "logico": [
+        44,
+        45
+      ],
+      "pedido": "One small brass astronomical telescope angled gently upward, on a stable dark wooden tripod with three feet on the baseline, subtle brass patina, no environment or stars. Instrument centered, almost square outline. Frontal elevated game prop view.",
+      "transparente": true,
+      "pedido_completo": "Create ONE production game asset for AlgoLand. Reference image is the accepted exterior tavern style, used ONLY for painterly finish, wood/stone palette and clean soft outlines, not to include a building. Hand-painted illustrated 2D fantasy farming RPG finish, crisp detailed but calm surfaces, warm natural medium oak/walnut, cream stone, restrained saturation; no chunky pixelation, no photorealism, no glossy plastic, no orange oversaturation. Camera for furniture: orthographic FRONT-facing elevated RPG view from south, top face visible, left and right balanced, no isometric/diagonal facing, no perspective vanishing. Ground objects anchored at base-center and ALL feet on horizontal baseline. Standalone silhouette, generous transparent padding, no floor plane or cast shadow outside the asset, no text, no labels, no UI, no watermark. No seasonal snow: sheltered indoors. Simple clear design readable at 44x45 logical pixels (stored at 4x). One small brass astronomical telescope angled gently upward, on a stable dark wooden tripod with three feet on the baseline, subtle brass patina, no environment or stars. Instrument centered, almost square outline. Frontal elevated game prop view."
+    },
+    {
+      "id": "espelho",
+      "logico": [
+        29,
+        54
+      ],
+      "pedido": "One tall oval standing mirror with carved honey oak frame, two side supports and small stable base, soft pale blue reflective glass with a restrained diagonal highlight, no reflected scene, no people. Tall ratio 0.54:1, symmetric front view.",
+      "transparente": true,
+      "pedido_completo": "Create ONE production game asset for AlgoLand. Reference image is the accepted exterior tavern style, used ONLY for painterly finish, wood/stone palette and clean soft outlines, not to include a building. Hand-painted illustrated 2D fantasy farming RPG finish, crisp detailed but calm surfaces, warm natural medium oak/walnut, cream stone, restrained saturation; no chunky pixelation, no photorealism, no glossy plastic, no orange oversaturation. Camera for furniture: orthographic FRONT-facing elevated RPG view from south, top face visible, left and right balanced, no isometric/diagonal facing, no perspective vanishing. Ground objects anchored at base-center and ALL feet on horizontal baseline. Standalone silhouette, generous transparent padding, no floor plane or cast shadow outside the asset, no text, no labels, no UI, no watermark. No seasonal snow: sheltered indoors. Simple clear design readable at 29x54 logical pixels (stored at 4x). One tall oval standing mirror with carved honey oak frame, two side supports and small stable base, soft pale blue reflective glass with a restrained diagonal highlight, no reflected scene, no people. Tall ratio 0.54:1, symmetric front view."
+    },
+    {
+      "id": "poltrona",
+      "logico": [
+        22,
+        28
+      ],
+      "pedido": "One cozy compact armchair upholstered in muted dusty plum fabric, low oak legs and small exposed oak arm trim, backrest at top, seat visible from above, front-facing symmetric outline ratio 0.8:1. No person, no pillow outside silhouette.",
+      "transparente": true,
+      "pedido_completo": "Create ONE production game asset for AlgoLand. Reference image is the accepted exterior tavern style, used ONLY for painterly finish, wood/stone palette and clean soft outlines, not to include a building. Hand-painted illustrated 2D fantasy farming RPG finish, crisp detailed but calm surfaces, warm natural medium oak/walnut, cream stone, restrained saturation; no chunky pixelation, no photorealism, no glossy plastic, no orange oversaturation. Camera for furniture: orthographic FRONT-facing elevated RPG view from south, top face visible, left and right balanced, no isometric/diagonal facing, no perspective vanishing. Ground objects anchored at base-center and ALL feet on horizontal baseline. Standalone silhouette, generous transparent padding, no floor plane or cast shadow outside the asset, no text, no labels, no UI, no watermark. No seasonal snow: sheltered indoors. Simple clear design readable at 22x28 logical pixels (stored at 4x). One cozy compact armchair upholstered in muted dusty plum fabric, low oak legs and small exposed oak arm trim, backrest at top, seat visible from above, front-facing symmetric outline ratio 0.8:1. No person, no pillow outside silhouette."
+    },
+    {
+      "id": "estandarte",
+      "logico": [
+        37,
+        60
+      ],
+      "pedido": "One hanging medieval village banner on a straight oak rod, deep muted teal cloth with a simple golden wheat emblem, cream-gold border and one pointed bottom tip, no letters, no coat-of-arms words, no dangling objects. Frontal vertical cloth, ratio 0.62:1.",
+      "transparente": true,
+      "pedido_completo": "Create ONE production game asset for AlgoLand. Reference image is the accepted exterior tavern style, used ONLY for painterly finish, wood/stone palette and clean soft outlines, not to include a building. Hand-painted illustrated 2D fantasy farming RPG finish, crisp detailed but calm surfaces, warm natural medium oak/walnut, cream stone, restrained saturation; no chunky pixelation, no photorealism, no glossy plastic, no orange oversaturation. Camera for furniture: orthographic FRONT-facing elevated RPG view from south, top face visible, left and right balanced, no isometric/diagonal facing, no perspective vanishing. Ground objects anchored at base-center and ALL feet on horizontal baseline. Standalone silhouette, generous transparent padding, no floor plane or cast shadow outside the asset, no text, no labels, no UI, no watermark. No seasonal snow: sheltered indoors. Simple clear design readable at 37x60 logical pixels (stored at 4x). One hanging medieval village banner on a straight oak rod, deep muted teal cloth with a simple golden wheat emblem, cream-gold border and one pointed bottom tip, no letters, no coat-of-arms words, no dangling objects. Frontal vertical cloth, ratio 0.62:1."
+    },
+    {
+      "id": "quadro_avisos",
+      "logico": [
+        50,
+        49
+      ],
+      "pedido": "One SQUARE indoor noticeboard with stout oak frame, dark wood back panel, five blank cream parchment sheets pinned neatly inside frame with tiny dark nails, no roof, no legs, no writing, no labels, no wall. Straight-on frontal view, subtle edge bevel.",
+      "transparente": true,
+      "pedido_completo": "Create ONE production game asset for AlgoLand. Reference image is the accepted exterior tavern style, used ONLY for painterly finish, wood/stone palette and clean soft outlines, not to include a building. Hand-painted illustrated 2D fantasy farming RPG finish, crisp detailed but calm surfaces, warm natural medium oak/walnut, cream stone, restrained saturation; no chunky pixelation, no photorealism, no glossy plastic, no orange oversaturation. Camera for furniture: orthographic FRONT-facing elevated RPG view from south, top face visible, left and right balanced, no isometric/diagonal facing, no perspective vanishing. Ground objects anchored at base-center and ALL feet on horizontal baseline. Standalone silhouette, generous transparent padding, no floor plane or cast shadow outside the asset, no text, no labels, no UI, no watermark. No seasonal snow: sheltered indoors. Simple clear design readable at 50x49 logical pixels (stored at 4x). One SQUARE indoor noticeboard with stout oak frame, dark wood back panel, five blank cream parchment sheets pinned neatly inside frame with tiny dark nails, no roof, no legs, no writing, no labels, no wall. Straight-on frontal view, subtle edge bevel."
+    },
+    {
+      "id": "tapete",
+      "logico": [
+        56,
+        40
+      ],
+      "pedido": "One flat rectangular woven rug viewed exactly from overhead, muted burgundy central field, warm cream and dusty teal double border, understated four corner diamonds, simple quiet center pattern. Clear rectangular corners, no folds, no tasseled fringe, no shadow, no perspective. Width:height 1.4:1.",
+      "transparente": true,
+      "pedido_completo": "Create ONE production game asset for AlgoLand. Reference image is the accepted exterior tavern style, used ONLY for painterly finish, wood/stone palette and clean soft outlines, not to include a building. Hand-painted illustrated 2D fantasy farming RPG finish, crisp detailed but calm surfaces, warm natural medium oak/walnut, cream stone, restrained saturation; no chunky pixelation, no photorealism, no glossy plastic, no orange oversaturation. Camera for furniture: orthographic FRONT-facing elevated RPG view from south, top face visible, left and right balanced, no isometric/diagonal facing, no perspective vanishing. Ground objects anchored at base-center and ALL feet on horizontal baseline. Standalone silhouette, generous transparent padding, no floor plane or cast shadow outside the asset, no text, no labels, no UI, no watermark. No seasonal snow: sheltered indoors. Simple clear design readable at 56x40 logical pixels (stored at 4x). One flat rectangular woven rug viewed exactly from overhead, muted burgundy central field, warm cream and dusty teal double border, understated four corner diamonds, simple quiet center pattern. Clear rectangular corners, no folds, no tasseled fringe, no shadow, no perspective. Width:height 1.4:1."
+    },
+    {
+      "id": "fornalha",
+      "logico": [
+        80,
+        56
+      ],
+      "pedido": "One blacksmith hearth and anvil work station as one coherent prop: LEFT two-thirds sturdy grey fieldstone forge with a dark iron chimney hood, orange fire and coals inside, RIGHT one dark steel anvil resting firmly on an oak stump at the same ground baseline. Frontal elevated view, warm stone and wood matching the village, wide silhouette ratio 1.43:1. No ground, no large glow halo, no loose tools around.",
+      "transparente": true,
+      "pedido_completo": "Create ONE production game asset for AlgoLand. Reference image is the accepted exterior tavern style, used ONLY for painterly finish, wood/stone palette and clean soft outlines, not to include a building. Hand-painted illustrated 2D fantasy farming RPG finish, crisp detailed but calm surfaces, warm natural medium oak/walnut, cream stone, restrained saturation; no chunky pixelation, no photorealism, no glossy plastic, no orange oversaturation. Camera for furniture: orthographic FRONT-facing elevated RPG view from south, top face visible, left and right balanced, no isometric/diagonal facing, no perspective vanishing. Ground objects anchored at base-center and ALL feet on horizontal baseline. Standalone silhouette, generous transparent padding, no floor plane or cast shadow outside the asset, no text, no labels, no UI, no watermark. No seasonal snow: sheltered indoors. Simple clear design readable at 80x56 logical pixels (stored at 4x). One blacksmith hearth and anvil work station as one coherent prop: LEFT two-thirds sturdy grey fieldstone forge with a dark iron chimney hood, orange fire and coals inside, RIGHT one dark steel anvil resting firmly on an oak stump at the same ground baseline. Frontal elevated view, warm stone and wood matching the village, wide silhouette ratio 1.43:1. No ground, no large glow halo, no loose tools around."
+    },
+    {
+      "id": "cafe",
+      "logico": [
+        10,
+        8
+      ],
+      "pedido": "Create one tiny production game prop for AlgoLand: a single cream ceramic cup of dark coffee on a little matching saucer, seen from above and directly south in an orthographic elevated RPG view. Small handle to the right, plain ceramic, natural brown coffee surface, no steam baked into the image. Hand-painted detailed 2D fantasy village style matching the reference tavern, softly shaded warm palette and crisp contour, no pixelation. Transparent background, no ground or shadows beyond the saucer, no writing. Compact width-to-height ratio 10:8, legible at logical10x8 game pixels, prepared at4x. Centered isolated prop with transparent padding.",
+      "transparente": true,
+      "pedido_completo": "Create one tiny production game prop for AlgoLand: a single cream ceramic cup of dark coffee on a little matching saucer, seen from above and directly south in an orthographic elevated RPG view. Small handle to the right, plain ceramic, natural brown coffee surface, no steam baked into the image. Hand-painted detailed 2D fantasy village style matching the reference tavern, softly shaded warm palette and crisp contour, no pixelation. Transparent background, no ground or shadows beyond the saucer, no writing. Compact width-to-height ratio 10:8, legible at logical10x8 game pixels, prepared at4x. Centered isolated prop with transparent padding."
+    },
+    {
+      "id": "vela",
+      "logico": [
+        6,
+        12
+      ],
+      "pedido": "One isolated production game prop for AlgoLand: a single short cream wax candle with a small warm orange flame, standing in a small simple bronze candlestick with a round foot. Elevated front-facing orthographic RPG view, hand-painted fantasy village style matching the reference, soft dark outlines and warm muted natural colors, no pixelation. Tiny simple silhouette readable at logical6x12 pixels, stored at4x, height twice width. No drip clutter, no glow halo or ground shadow beyond the object, no surrounding scene, no labels or text. Transparent background with generous padding.",
+      "transparente": true,
+      "pedido_completo": "One isolated production game prop for AlgoLand: a single short cream wax candle with a small warm orange flame, standing in a small simple bronze candlestick with a round foot. Elevated front-facing orthographic RPG view, hand-painted fantasy village style matching the reference, soft dark outlines and warm muted natural colors, no pixelation. Tiny simple silhouette readable at logical6x12 pixels, stored at4x, height twice width. No drip clutter, no glow halo or ground shadow beyond the object, no surrounding scene, no labels or text. Transparent background with generous padding."
+    },
+    {
+      "id": "caixas_peixes",
+      "logico": [
+        64,
+        48
+      ],
+      "pedido": "One compact fisherman's work area as a single coherent grounded prop: low oak sorting crate with three small silver grey fish lying flat INSIDE it, the front wooden rim visibly IN FRONT of their lower bodies. Behind the crate one short covered oak barrel with a folded tan net draped naturally over its side, a tight rope coil at the foot. No fish outside the crate, no inventory icons, no loose ground objects. Wide low overall ratio4:3.",
+      "transparente": true,
+      "pedido_completo": "Create ONE isolated interior game prop for AlgoLand, matching the reference tavern's HAND-PAINTED detailed fantasy village finish, natural medium oak, cream neutral accents, soft dark outlines. Not coarse pixel art, no photorealism or glossy plastic. Orthographic elevated front-facing RPG view from directly south, top faces visible, not isometric or diagonal-facing. One compact fisherman's work area as a single coherent grounded prop: low oak sorting crate with three small silver grey fish lying flat INSIDE it, the front wooden rim visibly IN FRONT of their lower bodies. Behind the crate one short covered oak barrel with a folded tan net draped naturally over its side, a tight rope coil at the foot. No fish outside the crate, no inventory icons, no loose ground objects. Wide low overall ratio4:3. Logical64x48 pixels, prepared4x, clear simple silhouette readable at game scale, grounded base-center and level feet. Transparent background with padding, no floor plane, no external cast shadow, no text, labels or watermarks."
+    },
+    {
+      "id": "equipamento_pesca",
+      "logico": [
+        48,
+        48
+      ],
+      "pedido": "One compact fishing gear stand: sturdy oak rack with two brown fishing rods seated firmly upright in real slots on its integral base, handles and small grey reels visible; a short metal bait pail and a small tight rope coil resting beside the rack ON its base. All gear supported, top/bottom contact coherent, no thin floating lines or decorative clutter. Nearly square silhouette.",
+      "transparente": true,
+      "pedido_completo": "Create ONE isolated interior game prop for AlgoLand, matching the reference tavern's HAND-PAINTED detailed fantasy village finish, natural medium oak, cream neutral accents, soft dark outlines. Not coarse pixel art, no photorealism or glossy plastic. Orthographic elevated front-facing RPG view from directly south, top faces visible, not isometric or diagonal-facing. One compact fishing gear stand: sturdy oak rack with two brown fishing rods seated firmly upright in real slots on its integral base, handles and small grey reels visible; a short metal bait pail and a small tight rope coil resting beside the rack ON its base. All gear supported, top/bottom contact coherent, no thin floating lines or decorative clutter. Nearly square silhouette. Logical48x48 pixels, prepared4x, clear simple silhouette readable at game scale, grounded base-center and level feet. Transparent background with padding, no floor plane, no external cast shadow, no text, labels or watermarks."
+    }
+  ]
+}

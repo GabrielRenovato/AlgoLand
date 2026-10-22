@@ -78,25 +78,26 @@ func rodar() -> void:
 	var prog: Node = root.get_node("Progresso")
 	inv.limpar()
 	inv.criar_itens_iniciais()
-	inv.adicionar_coletavel("receita","maca")
-	prog.aprender_receita("maca",inv)
-	prog.adicionar_materiais_forja(load("res://codigo/dados/forja_armas.gd").RECEITAS["maca"],inv)
+	inv.adicionar_coletavel("receita","espada_gemea")
+	prog.aprender_receita("espada_gemea",inv)
+	prog.adicionar_materiais_forja(load("res://codigo/dados/forja_armas.gd").RECEITAS["espada_gemea"],inv)
+	verificar("receita do teste pertence ao catalogo ativo",load("res://codigo/dados/forja_armas.gd").receitas_ativas().has("espada_gemea"))
 	var antes: Array = inv.fotografar_mochila()
 	var ui: Node = current_scene.get_node("Interface")
 	ui._abrir_tela("forja")
 	await quadros()
 	var tela: Control = ui._telas["forja"]
-	tela._selecionar("maca")
+	tela._selecionar("espada_gemea")
 	verificar("servico aberto com Ivo presente",not tela._fabricar.disabled)
 	ivo.visible = false
 	tela._atualizar()
 	verificar("sem Ivo na oficina nao fabrica",tela._fabricar.disabled and Dados.atendimento_forja(current_scene,0) == "AGUARDE IVO CHEGAR A OFICINA")
 	ivo.visible = true
 	tela._ao_fabricar()
-	verificar("pedido recebe materiais mas nao entrega antecipadamente",oficina.ocupado() and ivo.ocupado_na_forja and not prog.arma_liberada("maca") and inv.quantidade_tipo("material:ferro") == 0 and inv.fotografar_mochila() != antes)
-	verificar("maca tem prazo de dois dias corridos",int(prog.encomenda_forja.get("dia_pronto",0)) == 3)
+	verificar("pedido recebe materiais mas nao entrega antecipadamente",oficina.ocupado() and ivo.ocupado_na_forja and not prog.arma_liberada("espada_gemea") and inv.quantidade_tipo("material:ferro") == 0 and inv.fotografar_mochila() != antes)
+	verificar("espada de duas maos tem prazo de dois dias corridos",int(prog.encomenda_forja.get("dia_pronto",0)) == 3)
 	verificar("interface libera a visao do trabalho",not tela.visible)
-	verificar("segundo jogador nao inicia pedido paralelo",oficina.iniciar("maca",root.get_node("InventarioJogador2")) == "IVO JA ESTA TRABALHANDO EM UM PEDIDO")
+	verificar("segundo jogador nao inicia pedido paralelo",oficina.iniciar("espada_gemea",root.get_node("InventarioJogador2")) == "IVO JA ESTA TRABALHANDO EM UM PEDIDO")
 	var etapas := {}
 	var quadros_animados := {}
 	var limite := Time.get_ticks_msec()+30000
@@ -123,7 +124,7 @@ func rodar() -> void:
 				await foto("forja_impacto")
 	verificar("metal passa pela fornalha e pela bigorna",etapas.has("aquecendo") and etapas.has("martelando"))
 	verificar("animacoes usam varios quadros",quadros_animados.size() >= 8)
-	verificar("animacao nao antecipa o prazo do calendario",not oficina.ocupado() and not prog.arma_liberada("maca") and inv.buscar_por_tipo("maca") == null)
+	verificar("animacao nao antecipa o prazo do calendario",not oficina.ocupado() and not prog.arma_liberada("espada_gemea") and inv.buscar_por_tipo("espada_gemea") == null)
 	verificar("ciclo visual nao cobra os materiais novamente",inv.quantidade_tipo("material:ferro") == 0 and inv.quantidade_tipo("material:madeira") == 0)
 	verificar("restaura corpo e rotina depois do trabalho",not ivo.ocupado_na_forja and ivo.sprite.hframes == 7 and ivo.sprite.vframes == 4)
 	ui._abrir_tela("forja")
@@ -132,13 +133,13 @@ func rodar() -> void:
 	luz.definir_hora(18)
 	await create_timer(0.35).timeout
 	verificar("fechamento atualiza a tela aberta",tela._fabricar.disabled and tela._situacao.text.contains("FECHOU"))
-	verificar("pedido existente impede encomenda paralela mesmo fora da forja",oficina.iniciar("maca",inv) == "IVO JA ESTA TRABALHANDO EM UM PEDIDO")
+	verificar("pedido existente impede encomenda paralela mesmo fora da forja",oficina.iniciar("espada_gemea",inv) == "IVO JA ESTA TRABALHANDO EM UM PEDIDO")
 	root.get_node("Calendario").dia = 3
 	luz.definir_hora(12)
 	await create_timer(0.35).timeout
 	verificar("folga atualiza a tela aberta",tela._fabricar.disabled and tela._situacao.text.contains("FOLGA HOJE"))
 	tela._ao_fabricar()
-	verificar("na folga nao retira encomenda pronta",prog.encomenda_forja_pronta() and not prog.arma_liberada("maca"))
+	verificar("na folga nao retira encomenda pronta",prog.encomenda_forja_pronta() and not prog.arma_liberada("espada_gemea"))
 	ui._fechar_tela("forja")
 	# Na quinta a encomenda pronta é retirada sem cobrar de novo.
 	root.get_node("Calendario").dia = 4
@@ -152,10 +153,10 @@ func rodar() -> void:
 	verificar("botao libera retirada apos o prazo",tela._fabricar.text == "RETIRAR ENCOMENDA" and not tela._fabricar.disabled)
 	await foto("encomenda_pronta")
 	tela._ao_fabricar()
-	verificar("retirada libera e entrega sem nova cobranca",prog.encomenda_forja.is_empty() and prog.arma_liberada("maca") and inv.buscar_por_tipo("maca") != null and inv.quantidade_tipo("material:ferro") == 0)
-	var copias: int = inv.quantidade_tipo("maca")
+	verificar("retirada libera e entrega sem nova cobranca",prog.encomenda_forja.is_empty() and prog.arma_liberada("espada_gemea") and inv.buscar_por_tipo("espada_gemea") != null and inv.quantidade_tipo("material:ferro") == 0)
+	var copias: int = inv.quantidade_tipo("espada_gemea")
 	tela._ao_fabricar()
-	verificar("repetir retirada nao duplica equipamento",inv.quantidade_tipo("maca") == copias)
+	verificar("repetir retirada nao duplica equipamento",inv.quantidade_tipo("espada_gemea") == copias)
 	ui._fechar_tela("forja")
 	var inv2: Node = root.get_node("InventarioJogador2")
 	inv2.limpar()
