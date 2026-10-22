@@ -106,7 +106,7 @@ CASAS = {
             ('lareira', 272, 58, {'col': [34, 12], 'luzes': [[0, -20, FOGO, 0.9, 0.9, 'fogo']]}),
             ('estandarte', 208, 62, {'col': [24, 10]}),
             ('estandarte', 336, 62, {'col': [24, 10], 'espelhar': True}),
-            ('banco_reuniao', 272, 112, {'col': [30, 8]}),
+            ('banco_reuniao', 224, 112, {'col': [30, 8]}),
             ('mesa_reuniao', 272, 152, {'col': [60, 28], 'luzes': [[-6, -24, VELA, 0.45, 0.5, 'fogo']]}),
             ('banco_reuniao', 272, 176, {'col': [30, 8]}),
             ('quadro_avisos', 344, 250, {'col': [40, 10], 'id': 'Mural'}),

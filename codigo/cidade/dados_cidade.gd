@@ -86,7 +86,7 @@ const CAMAS := {"mercador": ["venda", 0], "curandeira": ["enfermaria", 0], "bard
 const FOLGAS := {"mercador": 6, "curandeira": 2, "bardo": 0, "mistica": 4, "lia": 5, "bento": 3, "ferreiro": 2}
 ## [abre, fecha] do serviço de cada um
 ## A loja só fica aberta enquanto o dono está nela (a rotina de trabalho cobre esse horário)
-const HORARIOS := {"nilo":[8,17],"mercador": [8, 17], "curandeira": [8, 18], "mistica": [8, 18], "lia": [6, 19], "bento": [6, 19], "ferreiro": [8, 18]}
+const HORARIOS := {"nilo":[8,17],"osvaldo":[8,17],"mercador": [8, 17], "curandeira": [8, 18], "mistica": [8, 18], "lia": [6, 19], "bento": [6, 19], "ferreiro": [8, 18]}
 
 ## Taverna noturna; o intervalo atravessa a meia-noite. A porta abre todos os dias.
 const HORARIO_TAVERNA := [18, 2]
@@ -212,10 +212,13 @@ static func agenda(id: String, hora: float, estacao: int, clima: int = -1, dia_s
 			return {"local": leito_festa["local"], "ponto": leito_festa["base"] + Vector2(0, 12), "atividade": "Indo dormir depois da festa", "dormindo": true,
 				"cama": leito_festa["base"], "altura_cama": leito_festa["altura"]}
 		if id == "bardo":
-			return {"local": "pousada", "ponto": InteriorCasa.ponto("pousada", "balcao"), "atividade": "Servindo os pedidos da festa", "festa": true}
+			var posto_festa:=preload("res://codigo/cidade/postos_comerciais.gd").agenda(id)
+			posto_festa["atividade"]="Servindo os pedidos da festa"
+			posto_festa["festa"]=true
+			return posto_festa
 		return {"local": "pousada", "ponto": LUGARES_FESTA[id], "atividade": "Festejando com os vizinhos na taverna", "festa": true}
 	if id == "bardo" and taverna_aberta(hora, dia_semana):
-		return {"local": "pousada", "ponto": InteriorCasa.ponto("pousada", "balcao"), "atividade": "Atendendo no balcao da taverna"}
+		return preload("res://codigo/cidade/postos_comerciais.gd").agenda(id)
 	# Dormindo (o temporal não acorda ninguém)
 	if hora >= HORA_DORMIR or hora < 6.0:
 		var leito := cama(id)
@@ -225,6 +228,10 @@ static func agenda(id: String, hora: float, estacao: int, clima: int = -1, dia_s
 	# Temporal tem prioridade sobre trabalho, encontros e o abrigo coletivo do inverno.
 	if clima == EstadosClima.Estado.TEMPESTADE:
 		return {"local": dados["casa"], "ponto": InteriorCasa.ponto(dados["casa"], "passeio"), "atividade": "Esperando o temporal passar em casa"}
+	# Durante o expediente aberto, o atendimento tem prioridade sobre passeios.
+	# Bento não tem comércio: conserva a horta e sua rotina de agricultor.
+	if preload("res://codigo/cidade/postos_comerciais.gd").POSTOS.has(id) and HORARIOS.has(id) and servico_fechado(id,hora,dia_semana)=="":
+		return preload("res://codigo/cidade/postos_comerciais.gd").agenda(id)
 	var praia := visita_praia(id, hora, estacao, clima, dia_semana)
 	if not praia.is_empty():
 		return praia

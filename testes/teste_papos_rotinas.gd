@@ -176,7 +176,10 @@ func _rodar() -> void:
 	var baloes_legiveis := visiveis(vila) == 1
 	for npc in [a, b]:
 		if npc._balao.visible:
-			baloes_legiveis = baloes_legiveis and npc._balao.size.x > 0 and npc._balao.size.x <= 144.0 and npc._balao.size.y < 100.0
+			# Conferir margens no viewport e espaço para todo o texto.
+			var area: Rect2=npc._balao.get_global_transform_with_canvas()*Rect2(Vector2.ZERO,npc._balao.size)
+			baloes_legiveis = baloes_legiveis and npc._balao.size.x > 0 and npc._balao.size.x <= 144.0 \
+				and npc._balao.size.y>=npc._balao.get_combined_minimum_size().y and vila.get_viewport_rect().grow(-8).encloses(area)
 	verificar("encontro real mantem uma fala legivel apos varios quadros", baloes_legiveis)
 	if "--capturar" in OS.get_cmdline_user_args():
 		await RenderingServer.frame_post_draw

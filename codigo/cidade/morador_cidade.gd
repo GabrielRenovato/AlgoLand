@@ -295,7 +295,7 @@ func _physics_process(delta: float) -> void:
 	while not caminho.is_empty() and position.distance_to(caminho[0]) <= 1.0:
 		caminho.remove_at(0)
 	var andando := false
-	if (perto and not _saindo) or conversando:
+	if (perto and not _saindo and (not agenda.get("comercial",false) or caminho.is_empty())) or conversando:
 		_linha = _direcao(jogador.position - position)
 	elif not caminho.is_empty():
 		var diferenca := caminho[0] - position
@@ -322,6 +322,8 @@ func _physics_process(delta: float) -> void:
 	elif agenda.get("dormindo", false) and not conversando:
 		_deitar()
 		return
+	elif agenda.get("comercial",false) and not atendendo_mesas:
+		_linha=_direcao(Vector2.DOWN)
 	z_index = Profundidade.z_de(position.y + 9)
 	sprite.frame = _linha * _colunas + (1 + int(_tempo * 8 * ritmo()) % _quadros_andar if andando else 0)
 	if id == "helena" and vila.apoio_helena != null:

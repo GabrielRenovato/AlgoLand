@@ -8,6 +8,8 @@ static func agenda(id: String, hora: float, estacao: int, clima: int) -> Diction
 		return {"local":"fazenda","ponto":ponto_obra,"atividade":"Construindo o galinheiro na fazenda","construindo":true}
 	if id == "osvaldo" and (hora >= 22 or hora < 6):
 		return {"local":"carpintaria","ponto":Vector2(64,124),"atividade":"Dormindo em casa","dormindo":true,"cama":Vector2(64,112),"altura_cama":58.0,"ajuste_travesseiro":Vector2(0,14)}
+	if id=="osvaldo" and hora>=8 and hora<17:
+		return preload("res://codigo/cidade/postos_comerciais.gd").agenda(id)
 	var pontos := {"osvaldo":Vector2(264,400),"helena":Vector2(76,450),"clara":Vector2(112,450)}
 	var atividade := "Descansando em familia"
 	var ponto: Vector2 = pontos[id]

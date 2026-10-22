@@ -138,7 +138,7 @@ func _physics_process(delta: float) -> void:
 	var perto := jogador != null and (position.distance_to(jogador.position) < 32 or Cidade.em_conversa(id))
 	if not perto: passeio.atualizar(self,delta)
 	var andando := false
-	if perto and (not _saindo or not jogador.movimento_habilitado):
+	if perto and (not _saindo or not jogador.movimento_habilitado) and (not agenda.get("comercial",false) or caminho.is_empty() or Cidade.em_conversa(id)):
 		_olhar(jogador.position - position)
 	elif not caminho.is_empty():
 		var diferenca := caminho[0] - position
@@ -159,6 +159,8 @@ func _physics_process(delta: float) -> void:
 		_atualizar_colisao()
 	elif agenda.get("dormindo", false):
 		_definir_sono(true)
+	elif agenda.get("comercial",false):
+		_olhar(Vector2.DOWN)
 	z_index = Profundidade.z_de(position.y + 9)
 	_pesca.visible = visible and not dormindo and not _saindo and caminho.is_empty() and not perto and agenda.get("atividade", "") == "Pescando no pier"
 	if andando:
