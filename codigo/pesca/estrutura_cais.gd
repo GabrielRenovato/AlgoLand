@@ -2,9 +2,14 @@ extends Node2D
 
 ## Apoios sob as faces inferiores; a máscara impede invadir qualquer célula caminhável do cais.
 var _estacao := 0
+var _viga: Texture2D
+var _pilar: Texture2D
 
 func aplicar_estacao(estacao: int) -> void:
 	_estacao = estacao
+	var pasta: String = "res://assets/cenario/praia/detalhada/estrutura/"+["primavera","verao","outono","inverno"][estacao]+"/"
+	_viga=load(pasta+"viga.png")
+	_pilar=load(pasta+"estaca.png")
 	queue_redraw()
 var _celulas: Dictionary = {}
 var _costa_base := 300.0
@@ -14,7 +19,7 @@ func configurar(layout: Dictionary) -> void:
 	name = "EstruturaCais"
 	z_as_relative = false
 	z_index = -1000
-	texture_filter = TEXTURE_FILTER_NEAREST
+	texture_filter = TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 	_costa_base = layout["costa_base"]
 	var curvas: Array = layout["curvas_costa"]
 	_curvas = Vector4(curvas[0], curvas[1], curvas[2], curvas[3])
@@ -42,6 +47,7 @@ func _sobre_agua(p: Vector2) -> bool:
 	return p.y > costa + 6
 
 func _draw() -> void:
+	if _viga == null or _pilar == null: return
 	var frentes := {}
 	for celula: Vector2i in _celulas:
 		var frente := Vector2(celula * 16) + Vector2(0, 16)
@@ -73,19 +79,12 @@ func _frente(inicio: int, fim: int, y: int) -> void:
 	for x in apoios:
 		_estaca(Vector2(x, y + 2))
 	# A viga cobre o topo dos apoios, sempre a partir da borda inferior do piso.
-	draw_rect(Rect2(inicio, y, fim - inicio, 4), Color("795437"))
-	draw_line(Vector2(inicio, y), Vector2(fim, y), Color("b7824c"), 1)
-	draw_line(Vector2(inicio, y + 4), Vector2(fim, y + 4), Color("493529"), 1)
+	for x in range(inicio,fim,16):
+		draw_texture_rect(_viga,Rect2(x,y,min(16,fim-x),3.75),false)
 
 func _estaca(ponto: Vector2) -> void:
-	var canto := ponto - Vector2(3, 0)
-	var altura := 18.0
-	draw_rect(Rect2(canto - Vector2(1, 0), Vector2(8, altura)), Color("49382b"))
-	var madeira: Color = [Color("976b3e"),Color("a67946"),Color("83603e"),Color("75644d")][_estacao]
-	draw_rect(Rect2(canto, Vector2(6, altura)), madeira)
-	draw_line(canto+Vector2(1,1), canto+Vector2(1,altura-4), madeira.lightened(0.14))
-	draw_line(canto+Vector2(4,4), canto+Vector2(4,altura-2), madeira.darkened(0.23))
-	draw_rect(Rect2(canto + Vector2(0, altura - 5), Vector2(6, 5)), Color(0.08, 0.25, 0.23, 0.48))
+	var altura := 29.0
+	draw_texture_rect(_pilar,Rect2(ponto-Vector2(3,0),Vector2(6,altura)),false)
 	var agua := ponto + Vector2(0, altura)
 	draw_polyline(PackedVector2Array([agua + Vector2(-5, -1), agua + Vector2(-3, 1),
 		agua + Vector2(3, 1), agua + Vector2(5, -1)]), Color(0.45, 0.70, 0.68, 0.38), 1)

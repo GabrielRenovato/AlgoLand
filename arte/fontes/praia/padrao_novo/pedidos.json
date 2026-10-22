@@ -1,0 +1,42 @@
+{
+  "ferramenta": "image_gen integrada",
+  "referencia": "arte/fontes/cidade/enfeites_detalhados/pousada_frontal.png",
+  "recursos": [
+    {
+      "id": "coqueiro_a",
+      "prompt": "Create ONE production raster game asset for AlgoLand. Reference only for accepted finish and palette: hand-painted 2D fantasy farming RPG, crisp calm shapes, subtle soft outlines, warm natural materials, no chunky pixelation, no glossy 3D, no photorealism, no microtexture noise. Camera elevated orthographic from south, no isometric diagonal. Standalone prop on true transparent background unless explicitly a texture. Frame full object with transparent padding, no text, no UI, no scenery. Four seasons later derived preserving exact canvas and root pivot; evergreen palm remains evergreen. One coconut palm tree, gently curved trunk whose ROOT BASE is at horizontal60% of the whole silhouette, crown balanced overhead, broad thick green fronds and three small natural coconuts. Logical65x88. Roots at ground baseline, no sand patch or shadow. Ratio.74:1."
+    },
+    {
+      "id": "coqueiro_b",
+      "prompt": "Create ONE production raster game asset for AlgoLand. Reference only for accepted finish and palette: hand-painted 2D fantasy farming RPG, crisp calm shapes, subtle soft outlines, warm natural materials, no chunky pixelation, no glossy 3D, no photorealism, no microtexture noise. Camera elevated orthographic from south, no isometric diagonal. Standalone prop on true transparent background unless explicitly a texture. Frame full object with transparent padding, no text, no UI, no scenery. Four seasons later derived preserving exact canvas and root pivot; evergreen palm remains evergreen. One coconut palm tree leaning strongly to the right, ROOT BASE at horizontal22% of whole silhouette, long curved ringed brown trunk reaching crown at60% width, broad lush green fronds. Logical63x84. No shadow, no sand patch. All roots at same bottom baseline. Ratio.75:1."
+    },
+    {
+      "id": "pedras",
+      "prompt": "Create ONE production raster game asset for AlgoLand. Reference only for accepted finish and palette: hand-painted 2D fantasy farming RPG, crisp calm shapes, subtle soft outlines, warm natural materials, no chunky pixelation, no glossy 3D, no photorealism, no microtexture noise. Camera elevated orthographic from south, no isometric diagonal. Standalone prop on true transparent background unless explicitly a texture. Frame full object with transparent padding, no text, no UI, no scenery. Four seasons later derived preserving exact canvas and root pivot; evergreen palm remains evergreen. One low cluster of three rounded coastal granite boulders, broad base25logical pixels across, largest stone behind two small ones, warm gray beige with a little desaturated moss at foot. Front elevated view, silhouette width33 height24 logical. No sand plane, no cast shadow."
+    },
+    {
+      "id": "madeira",
+      "prompt": "Create ONE production raster game asset for AlgoLand. Reference only for accepted finish and palette: hand-painted 2D fantasy farming RPG, crisp calm shapes, subtle soft outlines, warm natural materials, no chunky pixelation, no glossy 3D, no photorealism, no microtexture noise. Camera elevated orthographic from south, no isometric diagonal. Standalone prop on true transparent background unless explicitly a texture. Frame full object with transparent padding, no text, no UI, no scenery. Four seasons later derived preserving exact canvas and root pivot; evergreen palm remains evergreen. One piece of sunbleached driftwood lying low on sand, a thick smoothly weathered irregular branch with one broken fork and two knots, gray brown, horizontal24x15logical canvas. No sand or ground, no shadow."
+    },
+    {
+      "id": "capim",
+      "prompt": "Create ONE production raster game asset for AlgoLand. Reference only for accepted finish and palette: hand-painted 2D fantasy farming RPG, crisp calm shapes, subtle soft outlines, warm natural materials, no chunky pixelation, no glossy 3D, no photorealism, no microtexture noise. Camera elevated orthographic from south, no isometric diagonal. Standalone prop on true transparent background unless explicitly a texture. Frame full object with transparent padding, no text, no UI, no scenery. Four seasons later derived preserving exact canvas and root pivot; evergreen palm remains evergreen. One small low tuft of coastal dune grass, broad grouped curved blades, olive green and straw tips, grounded narrow root base, clear readable foliage not thin hair.25x20logical."
+    },
+    {
+      "id": "areia",
+      "prompt": "Create ONE production raster game asset for AlgoLand. Reference only for accepted finish and palette: hand-painted 2D fantasy farming RPG, crisp calm shapes, subtle soft outlines, warm natural materials, no chunky pixelation, no glossy 3D, no photorealism, no microtexture noise. Camera elevated orthographic from south, no isometric diagonal. Standalone prop on true transparent background unless explicitly a texture. Frame full object with transparent padding, no text, no UI, no scenery. Four seasons later derived preserving exact canvas and root pivot; evergreen palm remains evergreen. Square seamless tiling texture of clean pale honey cream coastal sand, viewed exactly overhead, subtle broad wind ripples and delicate calm grains; no shells, no stones, no footprints, no border, no lighting gradient or vignetting, no macro dunes. Low contrast so characters and props remain clear. Intended to tile128x128logical stored512x512. Full opaque flat texture."
+    },
+    {
+      "id": "banco",
+      "prompt": "Create ONE production raster asset for AlgoLand. Match the attached accepted tavern finish: detailed calm hand-painted2D fantasy farming RPG, warm oak, natural restrained colors and defined soft outlines. Not chunky pixels or photorealistic3D. Camera elevated orthographic from south, no diagonal vanishing point. Props isolated with true transparent background and full silhouette margin; texture is flat opaque and seamless. No text/labels/UI. All seasonal variants later preserve same geometry, pivots and collisions. One wide public bench, front-facing elevated view, horizontal oak slatted seat, modest low backrest, dark iron legs. Exactly TWO feet, no armrests, no ground or shadow. Logical44x26; seat surface at8 logical pixels above bottom foot baseline, backrest16pixels above base. Calm warm brown, believable construction."
+    },
+    {
+      "id": "vasos",
+      "prompt": "Create ONE production raster asset for AlgoLand. Match the attached accepted tavern finish: detailed calm hand-painted2D fantasy farming RPG, warm oak, natural restrained colors and defined soft outlines. Not chunky pixels or photorealistic3D. Camera elevated orthographic from south, no diagonal vanishing point. Props isolated with true transparent background and full silhouette margin; texture is flat opaque and seamless. No text/labels/UI. All seasonal variants later preserve same geometry, pivots and collisions. One small round terracotta flower pot with compact geranium leaves and a few red cream blossoms. Round top soil visible, wide stable base, no shadow or ground. Logical16x22; perspective same as tavern."
+    },
+    {
+      "id": "madeira_cais",
+      "prompt": "Create ONE production raster asset for AlgoLand. Match the attached accepted tavern finish: detailed calm hand-painted2D fantasy farming RPG, warm oak, natural restrained colors and defined soft outlines. Not chunky pixels or photorealistic3D. Camera elevated orthographic from south, no diagonal vanishing point. Props isolated with true transparent background and full silhouette margin; texture is flat opaque and seamless. No text/labels/UI. All seasonal variants later preserve same geometry, pivots and collisions. Seamless square full-frame weathered oak dock DECK texture seen exactly overhead, broad horizontal planks, long staggered joints, rich medium warm brown wood grain, subtle nail heads. No trim or border, no piers or railing, no scene, no cast shadows.128x128logical stored512x512, broad planks16logical tall, low contrast calm painted detail. Opaque."
+    }
+  ]
+}

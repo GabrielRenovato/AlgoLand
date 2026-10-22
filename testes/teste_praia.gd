@@ -273,6 +273,8 @@ func _rodar() -> void:
 		var nilo_interior: Node2D = casa.get_node("Nilo")
 		verificar("Nilo está passeando na vila às 18h, sem cópias na praia ou palafita", not nilo_casa.visible and not nilo_interior.visible)
 		if nilo_casa.visible or nilo_interior.visible: print("Nilo18 praia=",nilo_casa.visible," agenda=",nilo_casa.agenda," interior=",nilo_interior.visible," agenda=",nilo_interior.agenda," hora=",casa.get_node("Iluminacao").hora)
+		# O cooperativo sincroniza a casa pela hora do ambiente de P1.
+		current_scene.get_node("Iluminacao").definir_hora(19)
 		casa.get_node("Iluminacao").definir_hora(19)
 		nilo_interior.atualizar_rotina()
 		await quadros(20)

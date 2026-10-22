@@ -30,7 +30,7 @@ static func projetar(pai: Node2D, chave: String, largura: float, altura: float, 
 	sombra._largura = largura
 	sombra._altura = altura
 	sombra._mascaras_estacoes = mascaras
-	var textura: Texture2D = load(RAIZ + chave + ".png")
+	var textura: Texture2D = mascaras[0] if not mascaras.is_empty() else load(RAIZ + chave + ".png")
 	if textura == null:
 		push_error("Máscara de sombra ausente: " + chave)
 		sombra.free()
@@ -82,9 +82,7 @@ func _process(_delta: float) -> void:
 	if _imagem == null:
 		return
 	if not _mascaras_estacoes.is_empty():
-		var cena := get_tree().current_scene
-		var estacoes := cena.get_node_or_null("Terrains/Estacoes") if cena != null else null
-		var estacao: int = estacoes.estacao_atual if estacoes != null and estacoes.estacao_atual >= 0 else Calendario.estacao()
+		var estacao: int = preload("res://codigo/cidade/interiores_detalhados.gd").estacao(self)
 		if estacao != _estacao_mascara:
 			_estacao_mascara = estacao
 			_imagem.texture = _mascaras_estacoes[estacao]

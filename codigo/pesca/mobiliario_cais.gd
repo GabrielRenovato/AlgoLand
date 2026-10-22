@@ -23,11 +23,13 @@ static func montar(praia: Node2D, itens: Array, interior_detalhado := false) -> 
 		objeto.position = Vector2(item[1], item[2])
 		objeto.z_index = Profundidade.z_de(item[2])
 		grupo.add_child(objeto)
-		if interior_detalhado and MOVEIS_PESCA.has(tipo):
+		if not interior_detalhado:
+			preload("res://codigo/pesca/arte_praia.gd").aplicar(objeto,tipo,objeto)
+		elif MOVEIS_PESCA.has(tipo):
 			var dados_movel: Dictionary = preload("res://codigo/cidade/interiores_detalhados.gd").dados("palafita/" + tipo)
 			objeto.texture = load(dados_movel.texturas[0])
 			preload("res://codigo/cidade/detalhe_ambiente.gd").instalar(objeto, objeto, dados_movel)
-		if tipo == "vasos":
+		if tipo == "vasos" and interior_detalhado:
 			var atualizar := func(_estacao: int):
 				objeto.texture = load("res://assets/cenario/praia/vasos/" + ["primavera","verao","outono","inverno"][praia.estacao_visual()] + ".png")
 			praia.get_node("/root/Calendario").estacao_mudou.connect(atualizar)

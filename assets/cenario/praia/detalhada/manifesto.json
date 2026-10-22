@@ -1,0 +1,242 @@
+{
+  "coqueiro_a": {
+    "texturas": [
+      "res://assets/cenario/praia/detalhada/adornos/coqueiro_a/primavera.png",
+      "res://assets/cenario/praia/detalhada/adornos/coqueiro_a/verao.png",
+      "res://assets/cenario/praia/detalhada/adornos/coqueiro_a/outono.png",
+      "res://assets/cenario/praia/detalhada/adornos/coqueiro_a/inverno.png"
+    ],
+    "resolucao": 4,
+    "quadros": 1,
+    "fps": 0,
+    "canvas_logico": [
+      65,
+      88
+    ],
+    "offset": [
+      -32.5,
+      -88
+    ],
+    "fonte": "arte/fontes/praia/padrao_novo/coqueiro_a.png"
+  },
+  "coqueiro_b": {
+    "texturas": [
+      "res://assets/cenario/praia/detalhada/adornos/coqueiro_b/primavera.png",
+      "res://assets/cenario/praia/detalhada/adornos/coqueiro_b/verao.png",
+      "res://assets/cenario/praia/detalhada/adornos/coqueiro_b/outono.png",
+      "res://assets/cenario/praia/detalhada/adornos/coqueiro_b/inverno.png"
+    ],
+    "resolucao": 4,
+    "quadros": 1,
+    "fps": 0,
+    "canvas_logico": [
+      63,
+      84
+    ],
+    "offset": [
+      -31.5,
+      -84
+    ],
+    "fonte": "arte/fontes/praia/padrao_novo/coqueiro_b.png"
+  },
+  "pedras": {
+    "texturas": [
+      "res://assets/cenario/praia/detalhada/adornos/pedras/primavera.png",
+      "res://assets/cenario/praia/detalhada/adornos/pedras/verao.png",
+      "res://assets/cenario/praia/detalhada/adornos/pedras/outono.png",
+      "res://assets/cenario/praia/detalhada/adornos/pedras/inverno.png"
+    ],
+    "resolucao": 4,
+    "quadros": 1,
+    "fps": 0,
+    "canvas_logico": [
+      33,
+      24
+    ],
+    "offset": [
+      -16.5,
+      -24
+    ],
+    "fonte": "arte/fontes/praia/padrao_novo/pedras.png"
+  },
+  "madeira": {
+    "texturas": [
+      "res://assets/cenario/praia/detalhada/adornos/madeira/primavera.png",
+      "res://assets/cenario/praia/detalhada/adornos/madeira/verao.png",
+      "res://assets/cenario/praia/detalhada/adornos/madeira/outono.png",
+      "res://assets/cenario/praia/detalhada/adornos/madeira/inverno.png"
+    ],
+    "resolucao": 4,
+    "quadros": 1,
+    "fps": 0,
+    "canvas_logico": [
+      24,
+      15
+    ],
+    "offset": [
+      -12.0,
+      -15
+    ],
+    "fonte": "arte/fontes/praia/padrao_novo/madeira.png"
+  },
+  "capim": {
+    "texturas": [
+      "res://assets/cenario/praia/detalhada/adornos/capim/primavera.png",
+      "res://assets/cenario/praia/detalhada/adornos/capim/verao.png",
+      "res://assets/cenario/praia/detalhada/adornos/capim/outono.png",
+      "res://assets/cenario/praia/detalhada/adornos/capim/inverno.png"
+    ],
+    "resolucao": 4,
+    "quadros": 1,
+    "fps": 0,
+    "canvas_logico": [
+      25,
+      20
+    ],
+    "offset": [
+      -12.5,
+      -20
+    ],
+    "fonte": "arte/fontes/praia/padrao_novo/capim.png"
+  },
+  "banco": {
+    "texturas": [
+      "res://assets/cenario/praia/detalhada/adornos/banco/primavera.png",
+      "res://assets/cenario/praia/detalhada/adornos/banco/verao.png",
+      "res://assets/cenario/praia/detalhada/adornos/banco/outono.png",
+      "res://assets/cenario/praia/detalhada/adornos/banco/inverno.png"
+    ],
+    "resolucao": 4,
+    "quadros": 1,
+    "fps": 0,
+    "canvas_logico": [
+      44,
+      26
+    ],
+    "offset": [
+      -22.0,
+      -26
+    ],
+    "fonte": "arte/fontes/praia/padrao_novo/banco.png"
+  },
+  "vasos": {
+    "texturas": [
+      "res://assets/cenario/praia/detalhada/adornos/vasos/primavera.png",
+      "res://assets/cenario/praia/detalhada/adornos/vasos/verao.png",
+      "res://assets/cenario/praia/detalhada/adornos/vasos/outono.png",
+      "res://assets/cenario/praia/detalhada/adornos/vasos/inverno.png"
+    ],
+    "resolucao": 4,
+    "quadros": 1,
+    "fps": 0,
+    "canvas_logico": [
+      16,
+      22
+    ],
+    "offset": [
+      -8.0,
+      -22
+    ],
+    "fonte": "arte/fontes/praia/padrao_novo/vasos.png"
+  },
+  "estrela_mar": {
+    "texturas": [
+      "res://assets/cenario/praia/detalhada/adornos/estrela_mar/primavera.png",
+      "res://assets/cenario/praia/detalhada/adornos/estrela_mar/verao.png",
+      "res://assets/cenario/praia/detalhada/adornos/estrela_mar/outono.png",
+      "res://assets/cenario/praia/detalhada/adornos/estrela_mar/inverno.png"
+    ],
+    "resolucao": 4,
+    "quadros": 1,
+    "fps": 0,
+    "canvas_logico": [
+      16,
+      16
+    ],
+    "offset": [
+      -8.0,
+      -16
+    ],
+    "fonte": "arte/fontes/praia/padrao_novo/estrela_mar.png"
+  },
+  "canteiro": {
+    "texturas": [
+      "res://assets/cenario/praia/detalhada/adornos/canteiro/primavera.png",
+      "res://assets/cenario/praia/detalhada/adornos/canteiro/verao.png",
+      "res://assets/cenario/praia/detalhada/adornos/canteiro/outono.png",
+      "res://assets/cenario/praia/detalhada/adornos/canteiro/inverno.png"
+    ],
+    "resolucao": 4,
+    "quadros": 1,
+    "fps": 0,
+    "canvas_logico": [
+      64,
+      48
+    ],
+    "offset": [
+      -32.0,
+      -48
+    ],
+    "fonte": "res://arte/fontes/cidade/enfeites_detalhados/canteiro.png"
+  },
+  "caixas_peixes": {
+    "texturas": [
+      "res://assets/cenario/praia/detalhada/adornos/caixas_peixes/primavera.png",
+      "res://assets/cenario/praia/detalhada/adornos/caixas_peixes/verao.png",
+      "res://assets/cenario/praia/detalhada/adornos/caixas_peixes/outono.png",
+      "res://assets/cenario/praia/detalhada/adornos/caixas_peixes/inverno.png"
+    ],
+    "resolucao": 4,
+    "quadros": 1,
+    "fps": 0,
+    "canvas_logico": [
+      61,
+      44
+    ],
+    "fonte": "arte/fontes/cidade/interiores_detalhados/caixas_peixes.png",
+    "offset": [
+      -30,
+      -44
+    ]
+  },
+  "equipamento_pesca": {
+    "texturas": [
+      "res://assets/cenario/praia/detalhada/adornos/equipamento_pesca/primavera.png",
+      "res://assets/cenario/praia/detalhada/adornos/equipamento_pesca/verao.png",
+      "res://assets/cenario/praia/detalhada/adornos/equipamento_pesca/outono.png",
+      "res://assets/cenario/praia/detalhada/adornos/equipamento_pesca/inverno.png"
+    ],
+    "resolucao": 4,
+    "quadros": 1,
+    "fps": 0,
+    "canvas_logico": [
+      45,
+      46
+    ],
+    "fonte": "arte/fontes/cidade/interiores_detalhados/equipamento_pesca.png",
+    "offset": [
+      -22,
+      -46
+    ]
+  },
+  "palafita": {
+    "texturas": [
+      "res://assets/cenario/praia/detalhada/palafita/primavera.png",
+      "res://assets/cenario/praia/detalhada/palafita/verao.png",
+      "res://assets/cenario/praia/detalhada/palafita/outono.png",
+      "res://assets/cenario/praia/detalhada/palafita/inverno.png"
+    ],
+    "resolucao": 4,
+    "quadros": 1,
+    "fps": 0,
+    "canvas_logico": [
+      160,
+      160
+    ],
+    "offset": [
+      0,
+      0
+    ],
+    "fonte": "arte/fontes/praia/padrao_novo/palafita.png"
+  }
+}

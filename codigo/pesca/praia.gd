@@ -25,6 +25,7 @@ func _ready() -> void:
 	$Terrains/Pier.material = madeira
 	preload("res://codigo/pesca/decoracao_praia.gd").montar(self, layout["adornos"])
 	preload("res://codigo/pesca/mobiliario_cais.gd").montar(self, layout["mobiliario"])
+	preload("res://codigo/pesca/arte_praia.gd").aplicar($Palafita,"palafita",self)
 	_montar_pontos_pesca(layout)
 	add_child(preload("res://codigo/pesca/vegetacao_orla.gd").new())
 	super._ready()
@@ -83,8 +84,21 @@ func _aplicar_terreno(estacao: int) -> void:
 		grama.tile_set = grama.tile_set.duplicate(true)
 		(grama.tile_set.get_source(0) as TileSetAtlasSource).texture = load("res://assets/cenario/praia/vegetacao_orla/"+ESTACOES_TERRENO[estacao]+".png")
 	if material_mar != null: material_mar.set_shader_parameter("estacao",estacao)
+	if material_mar != null:
+		material_mar.set_shader_parameter("areia_detalhada",load("res://assets/cenario/praia/detalhada/materiais/"+ESTACOES_TERRENO[estacao]+"/areia.png"))
+		material_mar.set_shader_parameter("rochas",load("res://assets/cenario/praia/detalhada/adornos/pedras/"+ESTACOES_TERRENO[estacao]+".png"))
 	if $Terrains/Pier.material != null:
 		$Terrains/Pier.material.set_shader_parameter("estacao",estacao)
+		$Terrains/Pier.material.set_shader_parameter("arte",load("res://assets/cenario/praia/detalhada/materiais/"+ESTACOES_TERRENO[estacao]+"/madeira.png"))
+	for dados in [["CalcadaOrla", "pedra"], ["VegetacaoOrla", "grama"]]:
+		var piso := get_node_or_null("Terrains/"+dados[0]) as TileMapLayer
+		if piso == null: continue
+		if piso.material == null:
+			var acabamento := ShaderMaterial.new()
+			acabamento.shader = preload("res://codigo/pesca/superficie_orla.gdshader")
+			acabamento.set_shader_parameter("pedra",dados[1]=="pedra")
+			piso.material=acabamento
+		piso.material.set_shader_parameter("arte",load("res://assets/cenario/cidade/chao_detalhado/%s_%s.png" % [dados[1],ESTACOES_TERRENO[estacao]]))
 	for nome in ["EstruturaCais", "AcabamentoCais"]:
 		var parte := get_node_or_null(nome)
 		if parte != null: parte.aplicar_estacao(estacao)

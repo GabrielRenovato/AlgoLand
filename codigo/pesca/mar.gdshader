@@ -1,5 +1,6 @@
 shader_type canvas_item;
 uniform sampler2D atlas : source_color, filter_nearest, repeat_disable;
+uniform sampler2D areia_detalhada : source_color, filter_linear_mipmap, repeat_enable;
 
 uniform sampler2D rochas : source_color, filter_nearest, repeat_disable;
 uniform int estacao = 0;
@@ -19,12 +20,11 @@ vec3 amostra(vec2 origem, vec2 pixel) {
 }
 
 void fragment() {
-	vec2 p = floor(mundo);
+	vec2 p = mundo;
 	float costa = costa_base + curvas_costa.x * sin(p.x * curvas_costa.y) + curvas_costa.z * sin(p.x * curvas_costa.w);
 	float profundidade = p.y - costa;
-	vec3 areia = amostra(vec2(0.0), p);
-	areia = mix(areia, vec3(0.91, 0.75, 0.48), 0.18);
-	vec3 molhada = amostra(vec2(32.0, 0.0), p);
+	vec3 areia = texture(areia_detalhada,p/128.0).rgb;
+	vec3 molhada = areia * vec3(0.77,0.80,0.82);
 	// Trilha discreta de areia pisada e pegadas alternadas da entrada até o píer.
 	float trilha_x = 336.0 + 8.0 * sin(p.y * 0.02);
 	float trilha = (1.0 - smoothstep(14.0, 30.0, abs(p.x - trilha_x))) * step(40.0, p.y) * (1.0 - step(250.0, p.y));

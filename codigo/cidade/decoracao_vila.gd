@@ -61,11 +61,17 @@ func _montar_item(corpo: StaticBody2D, item: Dictionary) -> void:
 	var especie_arvore := ""
 	if item["p"] == "vegetacao/arvore":
 		item = item.duplicate(true)
-		item["usado"] = [0,0,112,109]  # apoio inteiro, sem meio pixel na base
+		# Mesma arte4× da fazenda, com raiz no pivô64,127.
+		item["usado"] = [0,-1,128,128]
 		especie_arvore = "pinheiro" if (floori(float(item["x"])/16.0)+floori(float(item["y"])/16.0))%3 == 0 else "folhosa"
+		item["resolucao"] = 4
+		item["quadros"] = 1
+		item["fps"] = 0
+		item.erase("animacao")
+		item.erase("sazonal")
 		item["texturas"] = []
-		for e in ["spring","summer","autumn","winter"]:
-			item["texturas"].append("res://assets/cenario/substitutos/arvores_cidade/%s/%s.png" % [especie_arvore,e])
+		for e in ESTACOES:
+			item["texturas"].append("res://assets/cenario/fazenda/natureza_detalhada/%s/%s.png" % [e,"carvalho" if especie_arvore == "folhosa" else "pinheiro"])
 	var base := Vector2(item["x"], item["y"])
 	var usado: Array = item["usado"]
 	var no := Node2D.new()
@@ -132,8 +138,8 @@ func _montar_item(corpo: StaticBody2D, item: Dictionary) -> void:
 		var mascara: String = "arvore_"+especie_arvore if not especie_arvore.is_empty() else MASCARAS_SOMBRA[nome_peca]
 		var sombras_sazonais: Array[Texture2D] = []
 		if not especie_arvore.is_empty():
-			for e in ["spring","summer","autumn","winter"]:
-				sombras_sazonais.append(load("res://assets/cenario/cidade/sombras/objetos/arvore_%s_%s.png" % [especie_arvore,e]))
+			for caminho in item["texturas"]:
+				sombras_sazonais.append(load(caminho))
 		SombraCidade.projetar(no, "objetos/" + mascara, largura_sombra, altura_sombra, sombras_sazonais)
 	if item.has("col"):
 		var col: Array = item["col"]

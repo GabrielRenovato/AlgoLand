@@ -4,12 +4,13 @@ extends Node2D
 var _celulas: Dictionary = {}
 var _estacao := 0
 var _layout: Dictionary
+var _cabeco: Texture2D
 
 func configurar(layout: Dictionary) -> void:
 	name = "AcabamentoCais"
 	z_as_relative = false
 	z_index = -998
-	texture_filter = TEXTURE_FILTER_NEAREST
+	texture_filter = TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 	_layout = layout
 	for area: Array in layout["cais"]:
 		for y in range(int(area[1])/16, (int(area[1])+int(area[3]))/16):
@@ -18,6 +19,7 @@ func configurar(layout: Dictionary) -> void:
 
 func aplicar_estacao(estacao: int) -> void:
 	_estacao = estacao
+	_cabeco=load("res://assets/cenario/praia/detalhada/estrutura/"+["primavera","verao","outono","inverno"][estacao]+"/cabeco.png")
 	queue_redraw()
 
 func _draw() -> void:
@@ -37,10 +39,5 @@ func _draw() -> void:
 
 	# Cabeços fora da faixa central de circulação, nos cantos expostos.
 	for p: Vector2 in [Vector2(115,343),Vector2(157,343),Vector2(115,507),Vector2(381,507),Vector2(451,443),Vector2(637,443),Vector2(637,307)]:
-		draw_rect(Rect2(p-Vector2(3,5),Vector2(7,9)),sombra)
-		draw_rect(Rect2(p-Vector2(2,5),Vector2(5,7)),Color("936539"))
-		draw_rect(Rect2(p-Vector2(3,6),Vector2(7,2)),luz)
-		draw_rect(Rect2(p-Vector2(2,7),Vector2(5,4)),luz)
-		draw_line(p+Vector2(-1,-6),p+Vector2(2,-6),sombra)
-		if _estacao == 3:
-			draw_rect(Rect2(p-Vector2(3,8),Vector2(7,2)),Color("e2ece9"))
+		if _cabeco != null:
+			draw_texture_rect(_cabeco,Rect2(p-Vector2(3,9),Vector2(6,12)),false)
