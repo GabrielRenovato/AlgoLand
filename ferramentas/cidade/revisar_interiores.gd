@@ -22,7 +22,10 @@ func rodar() -> void:
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(pasta))
 	var casas: Dictionary = load("res://codigo/cidade/interior_casa.gd").dados()["casas"].duplicate(true)
 	casas["palafita"] = {"geometria": {"recorte": [0, 0, 320, 224]}}
+	var filtros := Array(OS.get_cmdline_user_args()).filter(func(arg): return arg.begins_with("--casa="))
 	for id: String in casas:
+		if not filtros.is_empty() and not filtros.has("--casa=" + id):
+			continue
 		var caminho := "res://cenas/casa.tscn" if id == "casa_jogador" else "res://cenas/cidade/" + id + ".tscn"
 		if id == "palafita":
 			caminho = "res://cenas/palafita.tscn"
@@ -56,6 +59,22 @@ func rodar() -> void:
 			await quadros(8)
 			await RenderingServer.frame_post_draw
 			vp.get_texture().get_image().save_png(pasta + id + "_%d.png" % estacao)
+		if OS.get_cmdline_user_args().has("--fogo"):
+			root.get_node("Calendario").dia = 1
+			await quadros(8)
+			for detalhe in current_scene.get_node("Interior").find_children("DetalheAmbiente", "Node", true, false):
+				var sprite: Sprite2D = detalhe.imagem
+				if not "/lareira/" in sprite.texture.resource_path:
+					continue
+				detalhe.set_process(false)
+				for q in sprite.hframes:
+					sprite.frame = q
+					await quadros(2)
+					await RenderingServer.frame_post_draw
+					var area := Rect2i(Vector2i(sprite.to_global(sprite.get_rect().position) * 2), Vector2i(sprite.get_rect().size * sprite.scale * 2))
+					vp.get_texture().get_image().get_region(area).save_png(pasta + id + "_fogo_%d.png" % q)
+				detalhe.set_process(true)
+				break
 		if not antes and id == "casa_jogador":
 			root.get_node("Calendario").dia = 1
 			var cama := current_scene.get_node("Objetos3D/CamaDormindo")

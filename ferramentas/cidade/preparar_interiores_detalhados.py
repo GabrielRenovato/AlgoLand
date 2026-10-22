@@ -6,7 +6,7 @@ Não modifica interiores.json, colisões, pontos de atendimento nem assentos.
 from pathlib import Path
 import json
 import math
-from PIL import Image, ImageChops, ImageEnhance
+from PIL import Image, ImageChops, ImageDraw, ImageEnhance
 from preparar_chao_detalhado import periodizar
 from preparar_complementos import salvar
 
@@ -98,9 +98,9 @@ def ajustar(original, tamanho, nome):
     return out
 
 
-def quadro(base, nome, q, e, aquecimento):
+def quadro(base, nome, q):
     im = base.copy()
-    if nome not in ['lareira', 'vela', 'planta', 'ervas', 'pocoes', 'mesa_cristal', 'caldeirao', 'espelho']:
+    if nome not in ['vela', 'planta', 'ervas', 'pocoes', 'mesa_cristal', 'caldeirao', 'espelho']:
         return im
     pix = im.load()
     fase = q * math.tau / 4
@@ -109,16 +109,47 @@ def quadro(base, nome, q, e, aquecimento):
             r, g, b, a = base.getpixel((x, y))
             if a < 64:
                 continue
-            fogo = ((nome == 'lareira' and y > im.height*.4) or (nome == 'vela' and y < im.height*.4)) and r > 190 and r > g*1.25 and g > b*1.7
+            fogo = nome == 'vela' and y < im.height*.4 and r > 190 and r > g*1.25 and g > b*1.7
             brilho = nome in ['pocoes', 'mesa_cristal', 'caldeirao', 'espelho'] and b > r*1.12 and b > g*.9
             folha = nome in ['planta', 'ervas'] and g > r*1.15 and g > b*1.15
             if fogo or brilho or folha:
                 f = .92 + .08 * math.sin(fase + x*.06 + y*.12)
-                if fogo and aquecimento and e == 1:
-                    pix[x, y] = (round(r*.14), round(g*.16), round(b*.18), a)
-                else:
-                    pix[x, y] = (round(r*f), round(g*f), round(b*f), a)
+                pix[x, y] = (round(r*f), round(g*f), round(b*f), a)
     return im
+
+
+def quadros_lareira(tamanho):
+    """Seis silhuetas pintadas; pedra, lenha e grade ficam imóveis à frente."""
+    base = Image.open(FONTES / 'lareira_apagada.png').convert('RGBA')
+    assert base.size == (1254, 1254), 'Rever encaixe da boca ao trocar a fonte'
+    folha = Image.open(FONTES / 'chamas_lareira.png').convert('RGBA')
+    assert folha.size == (2172, 724), 'Rever a grade e o recorte comum das chamas'
+    largura = folha.width / 6
+    # Recorte comum da folha: mantém pivô, base e variação real de altura.
+    bbox = base.getchannel('A').point(lambda a: 255 if a > 127 else 0).getbbox()
+    mascara = Image.new('L', base.size)
+    desenho = ImageDraw.Draw(mascara)
+    desenho.polygon([(425, 733), (477, 684), (777, 684), (830, 735),
+                     (836, 1020), (412, 1020)], fill=255)
+    # A lenha oblíqua e toda a grade ocluem a chama, sem mexer com a pedra.
+    desenho.polygon([(486, 969), (490, 932), (530, 904), (565, 858),
+                     (772, 946), (779, 978), (740, 1008), (512, 1005)], fill=0)
+    desenho.rectangle((400, 965, 850, 1040), fill=0)
+    for caixa in [(443, 882, 486, 1025), (543, 932, 577, 1025),
+                  (678, 932, 713, 1025), (770, 882, 815, 1025)]:
+        desenho.rectangle(caixa, fill=0)
+    resultado = []
+    for q in range(6):
+        # Não recortar cada chama pelo seu alpha: isso anularia o movimento.
+        chama = folha.crop((round(q*largura), 160, round((q+1)*largura), 570))
+        chama = chama.resize((340, 300), Image.Resampling.LANCZOS)
+        camada = Image.new('RGBA', base.size)
+        camada.alpha_composite(chama, (454, 690))
+        camada.putalpha(ImageChops.multiply(camada.getchannel('A'), mascara))
+        acesa = Image.alpha_composite(base, camada).crop(bbox)
+        resultado.append(ajustar(acesa, tamanho, 'lareira'))
+    apagada = ajustar(base.crop(bbox), tamanho, 'lareira')
+    return resultado, apagada
 
 
 def materiais():
@@ -166,6 +197,8 @@ def preparar():
     for chave, item in itens.items():
         nome = item['p']
         canonico = ALIASES.get(nome, nome)
+        if nome == 'lareira':
+            canonico = 'lareira_apagada'
         origem = FONTES / (canonico + '.png')
         if canonico == 'banqueta':
             origem = RAIZ / 'arte/fontes/cidade/enfeites_detalhados/banqueta.png'
@@ -173,20 +206,32 @@ def preparar():
         usado = item['usado']
         tamanho = (int(usado[2])*4, int(usado[3])*4)
         base = ajustar(original, tamanho, nome)
+        if nome == 'quadro_avisos':
+            # O mesmo mural com telhado e pés da praça, abrigado no interior.
+            # Reutilizar o canvas inteiro: sem esticar ou recortar os postes.
+            origem = RAIZ / 'assets/cenario/cidade/enfeites_detalhados/mural/primavera.png'
+            base = Image.open(origem).convert('RGBA')
+            tamanho = base.size
         quadros = 4 if nome in ['lareira', 'vela', 'planta', 'ervas', 'pocoes', 'mesa_cristal', 'caldeirao', 'espelho'] else 1
+        if nome == 'lareira':
+            chamas, apagada = quadros_lareira(tamanho)
+            quadros = len(chamas)
         caminhos = []
         for e, estacao in enumerate(ESTACOES):
             sazonal = tom(base, e)
             folha = Image.new('RGBA', (tamanho[0]*quadros, tamanho[1]))
             for q in range(quadros):
-                frame = quadro(sazonal, nome, q, e, item.get('calor_sazonal', False))
+                if nome == 'lareira':
+                    frame = tom(apagada if e == 1 and item.get('calor_sazonal', False) else chamas[q], e)
+                else:
+                    frame = quadro(sazonal, nome, q)
                 folha.alpha_composite(frame, (q*tamanho[0], 0))
             caminho = SAIDA / 'moveis' / chave / (estacao + '.png')
             salvar(folha, caminho)
             caminhos.append('res://' + str(caminho.relative_to(RAIZ)))
         manifesto[chave] = {'texturas': caminhos, 'resolucao': 4, 'quadros': quadros,
-                            'fps': 4 if nome == 'lareira' else (2 if quadros > 1 else 0),
-                            'canvas_logico': list(usado[2:4]), 'fonte': str(origem.relative_to(RAIZ))}
+                            'fps': 9 if nome == 'lareira' else (2 if quadros > 1 else 0),
+                            'canvas_logico': [tamanho[0]//4, tamanho[1]//4], 'fonte': str(origem.relative_to(RAIZ))}
     (SAIDA / 'manifesto.json').write_text(json.dumps(manifesto, ensure_ascii=False, indent=1) + '\n')
     print(f'Interiores: {len(manifesto)} móveis4×, sete materiais, quatro estações; plantas preservadas.')
 

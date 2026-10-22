@@ -17,6 +17,11 @@ static func preparar(item: Dictionary) -> Dictionary:
 		var detalhado := dados(chave)
 		if not detalhado.is_empty():
 			novo.merge(detalhado, true)
+			if item.get("p", "") == "quadro_avisos":
+				# Mesmo mural da praça: tela inteira e pés apoiados na base.
+				# O campo col continua vindo do layout físico da sede.
+				var tela: Array = detalhado["canvas_logico"]
+				novo["usado"] = [0, 0, tela[0], tela[1]]
 	return novo
 
 static func estacao(no: Node) -> int:

@@ -199,13 +199,13 @@
    "res://assets/cenario/cidade/interiores_detalhados/moveis/interior/casa_bento/lareira/inverno.png"
   ],
   "resolucao": 4,
-  "quadros": 4,
-  "fps": 4,
+  "quadros": 6,
+  "fps": 9,
   "canvas_logico": [
    52,
    56
   ],
-  "fonte": "arte/fontes/cidade/interiores_detalhados/lareira.png"
+  "fonte": "arte/fontes/cidade/interiores_detalhados/lareira_apagada.png"
  },
  "interior/sede/cadeira": {
   "texturas": [
@@ -295,13 +295,13 @@
    "res://assets/cenario/cidade/interiores_detalhados/moveis/interior/sede/lareira/inverno.png"
   ],
   "resolucao": 4,
-  "quadros": 4,
-  "fps": 4,
+  "quadros": 6,
+  "fps": 9,
   "canvas_logico": [
    41,
    53
   ],
-  "fonte": "arte/fontes/cidade/interiores_detalhados/lareira.png"
+  "fonte": "arte/fontes/cidade/interiores_detalhados/lareira_apagada.png"
  },
  "interior/sede/estandarte": {
   "texturas": [
@@ -362,10 +362,10 @@
   "quadros": 1,
   "fps": 0,
   "canvas_logico": [
-   50,
-   49
+   56,
+   57
   ],
-  "fonte": "arte/fontes/cidade/interiores_detalhados/quadro_avisos.png"
+  "fonte": "assets/cenario/cidade/enfeites_detalhados/mural/primavera.png"
  },
  "interior/sede/estante": {
   "texturas": [
@@ -551,13 +551,13 @@
    "res://assets/cenario/cidade/interiores_detalhados/moveis/interior/pousada/lareira/inverno.png"
   ],
   "resolucao": 4,
-  "quadros": 4,
-  "fps": 4,
+  "quadros": 6,
+  "fps": 9,
   "canvas_logico": [
    62,
    60
   ],
-  "fonte": "arte/fontes/cidade/interiores_detalhados/lareira.png"
+  "fonte": "arte/fontes/cidade/interiores_detalhados/lareira_apagada.png"
  },
  "interior/pousada/tapete": {
   "texturas": [

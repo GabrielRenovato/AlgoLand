@@ -27,6 +27,30 @@ func assinatura(cena: Node) -> String:
 				caixas.append([str(forma.global_position), str(forma.shape.size), forma.disabled])
 	return JSON.stringify(caixas)
 
+func verificar_chamas(detalhe: Node) -> void:
+	var sprite: Sprite2D = detalhe.imagem
+	var textura := sprite.texture.get_image()
+	var w := textura.get_width() / sprite.hframes
+	var h := textura.get_height()
+	var mudou_forma := 0
+	var estrutura_imovel := true
+	for y in h:
+		for x in w:
+			var a := textura.get_pixel(x, y)
+			var b := textura.get_pixel(x + w, y)
+			if y < h * 0.54:
+				estrutura_imovel = estrutura_imovel and a == b
+			# A silhueta quente muda; só variar o brilho não satisfaz o teste.
+			var quente_a := a.r > a.g * 1.12 and a.g > a.b * 1.5 and a.r > 0.7
+			var quente_b := b.r > b.g * 1.12 and b.g > b.b * 1.5 and b.r > 0.7
+			if quente_a != quente_b:
+				mudou_forma += 1
+	verificar(mudou_forma > 20, "Chamas mudam de silhueta, não apenas de brilho")
+	verificar(estrutura_imovel, "Pedra, viga e decoração não se movem com o fogo")
+	var anterior := sprite.frame
+	detalhe._process(1.0 / float(detalhe.dados.fps))
+	verificar(sprite.frame != anterior, "A animação avança durante a execução")
+
 func contexto_separado() -> void:
 	var mundos := []
 	for e in [1, 3]:
@@ -78,6 +102,8 @@ func rodar() -> void:
 				verificar(detalhe.estacao == e and imagem.scale == Vector2(0.25, 0.25), "Móvel4× segue a estação sem alterar escala lógica: " + id)
 				var canvas: Array = detalhe.dados["canvas_logico"]
 				verificar((imagem.get_rect().size * imagem.scale).is_equal_approx(Vector2(canvas[0], canvas[1])), "Canvas e âncora preservados: " + id)
+				if "/lareira/" in imagem.texture.resource_path and e == 0:
+					verificar_chamas(detalhe)
 				if id == "pousada" and "/pousada/mesa/" in imagem.texture.resource_path:
 					verificar(imagem.get_parent().get_node("Candelabro").position.y <= -28, "Vela fica atrás da área servida da mesa")
 					var tampo := imagem.texture.get_image()
@@ -86,6 +112,13 @@ func rodar() -> void:
 							var pixel := Vector2i((Vector2(x, y) - imagem.offset * imagem.scale) / imagem.scale)
 							verificar(tampo.get_pixelv(pixel).a > 0.8, "Travessa e caneca servidas cabem inteiras no tampo")
 			verificar(assinatura(cena) == original, "Trocar estação não altera colisões: " + id)
+			if id == "sede":
+				verificar(cena.get_node("MuralPedidos").nome_tela == "mural_cidade", "Quadro de tarefas mantém a interação de missões")
+				var mural: Sprite2D = interior.get_node("Mural/Imagem")
+				verificar(mural.get_rect().size * mural.scale == Vector2(56, 57), "Mural conserva os postes e a proporção do quadro da praça")
+				if e == 0:
+					var externo: Texture2D = load("res://assets/cenario/cidade/enfeites_detalhados/mural/primavera.png")
+					verificar(mural.texture.get_image().get_data() == externo.get_image().get_data(), "Sede usa exatamente o sprite do quadro externo")
 			if id == "forja":
 				var bigorna: Sprite2D = interior.get_node("Fornalha/Imagem")
 				var trabalho: GDScript = load("res://codigo/cidade/trabalho_ferreiro.gd")

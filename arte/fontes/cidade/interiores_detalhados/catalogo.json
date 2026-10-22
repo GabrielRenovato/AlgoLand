@@ -380,6 +380,33 @@
       "pedido": "One compact fishing gear stand: sturdy oak rack with two brown fishing rods seated firmly upright in real slots on its integral base, handles and small grey reels visible; a short metal bait pail and a small tight rope coil resting beside the rack ON its base. All gear supported, top/bottom contact coherent, no thin floating lines or decorative clutter. Nearly square silhouette.",
       "transparente": true,
       "pedido_completo": "Create ONE isolated interior game prop for AlgoLand, matching the reference tavern's HAND-PAINTED detailed fantasy village finish, natural medium oak, cream neutral accents, soft dark outlines. Not coarse pixel art, no photorealism or glossy plastic. Orthographic elevated front-facing RPG view from directly south, top faces visible, not isometric or diagonal-facing. One compact fishing gear stand: sturdy oak rack with two brown fishing rods seated firmly upright in real slots on its integral base, handles and small grey reels visible; a short metal bait pail and a small tight rope coil resting beside the rack ON its base. All gear supported, top/bottom contact coherent, no thin floating lines or decorative clutter. Nearly square silhouette. Logical48x48 pixels, prepared4x, clear simple silhouette readable at game scale, grounded base-center and level feet. Transparent background with padding, no floor plane, no external cast shadow, no text, labels or watermarks."
+    },
+    {
+      "id": "lareira_apagada",
+      "logico": [
+        52,
+        56
+      ],
+      "pedido": "Estrutura imóvel da lareira; boca apagada, lenha e grade preservadas.",
+      "transparente": true,
+      "referencia": "lareira.png",
+      "pedido_arquivo": "pedido_lareira_apagada.json"
+    },
+    {
+      "id": "chamas_lareira",
+      "logico": [
+        18,
+        20
+      ],
+      "grade": [
+        6,
+        1
+      ],
+      "fps": 9,
+      "pedido": "Seis silhuetas de chamas pintadas com pivô comum, para compor atrás da lenha e da grade.",
+      "transparente": true,
+      "referencia": "lareira.png",
+      "pedido_arquivo": "pedido_chamas_lareira.json"
     }
   ]
 }

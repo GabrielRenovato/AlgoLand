@@ -29,9 +29,16 @@ colisões, assentos, lugares dos moradores nem pontos de atendimento.
   dimensão física da planta muda. Cortes de parede usam madeira sólida, sem
   recortes de reboco ou margem quadriculada da apresentação do original.
 - Quatro estações, sempre abrigadas: exposição e luz ambiente sutis, sem neve
-  sobre madeira, colchões, tecidos ou ervas. Fogo, folhas e líquidos têm quatro
-  quadros de variação localizada; madeira e bases não se movem. O aquecimento
-  sazonal das lareiras preserva o comportamento do layout.
+  sobre madeira, colchões, tecidos ou ervas. Folhas e líquidos têm quatro
+  quadros de variação localizada; madeira e bases não se movem. Lareiras usam
+  seis silhuetas pintadas de chama a9fps, compostas sobre a boca apagada, atrás
+  da lenha e da grade. A pedra permanece idêntica em todos os quadros. O
+  aquecimento sazonal usa a boca realmente apagada no verão, conforme o layout.
+- O mural da sede reutiliza o mesmo sprite da praça: telhado, painel e postes,
+  canvas56×57 completo e pés na base física original. A primavera é idêntica ao
+  recurso externo; as demais estações usam sua mesma geometria com exposição
+  interna, sem neve dentro da sede. Colisão e interação conservam o layout.
+  O cardápio da pousada mantém sua fonte própria.
 - Velas ficam sobre os tampos, com luz e chama alinhadas. Na taverna, ficam
   atrás da região das travessas. Xícaras e vapor ficam acima do novo tampo.
 
@@ -68,5 +75,7 @@ colisões, área servida das mesas, ordem das xícaras, cama em faixas e sono.
 estações, sono do jogador e do Bento e uso da cadeira. Saída em
 `arte/previas/cidade/interiores_detalhados/`. A opção `-- --antes` grava somente a
 primeira estação em `/tmp/algoland-interiores-antes/` para comparação.
+`-- --casa=sede --fogo` limita a revisão à sede e registra também os seis
+quadros da lareira renderizados no motor; `--casa=` pode ser repetido.
 Capturas não substituem os testes de casa inicial, acessibilidade da carpintaria,
 atendimento e trabalho do ferreiro.

@@ -1,0 +1,5 @@
+{
+  "ferramenta": "image_gen integrada",
+  "referencia": "lareira.png",
+  "prompt": "Use case: precise-object-edit. Edit this fireplace game asset by extinguishing ONLY the large fire inside the lower arched hearth. Replace yellow/orange flames, floating embers and orange glow on back bricks with the dark unlit brick hearth behind them. Keep firewood logs, iron grate, hearth base, ALL stone geometry, timber mantel, plant, books, candle and candle flame EXACTLY as source. Same canvas, same scale and positions, silhouette, padding, camera, warm hand-painted 2D RPG finish. True transparent background. No other edits. This provides the stationary fireplace for a separate animated flame overlay."
+}
