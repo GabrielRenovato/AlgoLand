@@ -476,15 +476,13 @@ func migrar_sementes_antigas() -> void:
 func motivo_para_nao_fazer(id: String, quem: Node = null) -> String:
 	if not Pocoes.POCOES.has(id):
 		return "POCAO INVALIDA"
-	var estacao := Pocoes.estacao_de(id)
-	if estacao >= 0 and estacao != Calendario.estacao():
-		return ("SO NA " if estacao == 0 else "SO NO ") + Calendario.NOMES[estacao]
+	var formula := Pocoes.receita_da_estacao(id,Calendario.estacao())
 	var mochila := mochila_pesca(quem)
-	for planta in Pocoes.POCOES[id]["receita"]:
-		if mochila.quantidade_tipo("colheita:"+planta) < int(Pocoes.POCOES[id]["receita"][planta]):
+	for planta in formula["receita"]:
+		if mochila.quantidade_tipo("colheita:"+planta) < int(formula["receita"][planta]):
 			return MSG_FALTA_INGREDIENTE
-	for peixe in Pocoes.POCOES[id].get("peixes",{}):
-		if quantidade_peixes(peixe,quem) < int(Pocoes.POCOES[id]["peixes"][peixe]):
+	for peixe in formula["peixes"]:
+		if quantidade_peixes(peixe,quem) < int(formula["peixes"][peixe]):
 			return MSG_FALTA_INGREDIENTE
 	return ""
 
@@ -493,13 +491,14 @@ func fazer_pocao(id: String, quem: Node = null) -> String:
 	var motivo := motivo_para_nao_fazer(id,quem)
 	if motivo != "":
 		return motivo
-	var receita: Dictionary = Pocoes.POCOES[id]["receita"]
+	var formula := Pocoes.receita_da_estacao(id,Calendario.estacao())
+	var receita: Dictionary = formula["receita"]
 	var destino := mochila_pesca(quem)
 	var antes: Array = destino.fotografar_mochila()
 	for planta in receita:
 		destino.gastar_tipo("colheita:"+planta,int(receita[planta]))
-	for peixe in Pocoes.POCOES[id].get("peixes",{}):
-		destino.gastar_peixes(peixe,int(Pocoes.POCOES[id]["peixes"][peixe]))
+	for peixe in formula["peixes"]:
+		destino.gastar_peixes(peixe,int(formula["peixes"][peixe]))
 	if not destino.adicionar_coletavel("pocao",id):
 		destino.restaurar_mochila(antes)
 		return "MOCHILA CHEIA"

@@ -1,6 +1,5 @@
 extends SceneTree
-# Rodar com save isolado (AlgoLand testes...): as poções seguem a estação do calendário. Duas por estação, o caldeirão só faz as da
-# época, o inverno usa peixes no lugar de plantas e os efeitos novos (regeneração e crítico) funcionam.
+# Save isolado: oito poções nas quatro estações, ingredientes disponíveis, consumo e transição sem perda.
 
 var falhas := 0
 func v(nome: String, ok: bool, det := "") -> void:
@@ -20,29 +19,40 @@ func _rodar() -> void:
 	var fazenda: Node = root.get_node("Fazenda"); fazenda.caminho_save = "user://teste_pe_fazenda.json"; fazenda.apagar()
 	var cal: Node = root.get_node("Calendario"); cal.caminho_save = "user://teste_pe_calendario.json"
 	var inv: Node = root.get_node("InventarioJogador"); inv.limpar(); inv.criar_itens_iniciais()
-	# Duas poções por estação
+	var Plantas := load("res://codigo/dados/plantas.gd")
+	var Peixes := load("res://codigo/pesca/peixes.gd")
 	for estacao in 4:
-		var da_estacao: Array = Pocoes.ORDEM.filter(func(id): return Pocoes.estacao_de(id) == estacao)
-		v("estação %d tem duas poções" % estacao, da_estacao.size() == 2, str(da_estacao))
-	v("toda poção tem estação e ordem", Pocoes.ORDEM.size() == 8 and Pocoes.ORDEM.all(func(id): return Pocoes.estacao_de(id) >= 0))
-	# Verão x primavera: com os ingredientes de verão no inventário
-	cal.dia = 1 + cal.DIAS_POR_ESTACAO          # verão
-	for item in [["tomate",2],["melancia",1],["cenoura",2],["morango",1]]:
-		inv.adicionar_coletavel("colheita", item[0], item[1])
-	v("verão faz força", fazenda.motivo_para_nao_fazer("forca") == "", fazenda.motivo_para_nao_fazer("forca"))
-	v("verão não faz cura, mesmo com os ingredientes", fazenda.motivo_para_nao_fazer("cura") == "SO NA PRIMAVERA", fazenda.motivo_para_nao_fazer("cura"))
-	v("verão não faz poção de inverno", fazenda.motivo_para_nao_fazer("regeneracao") == "SO NO INVERNO", fazenda.motivo_para_nao_fazer("regeneracao"))
-	v("fazer fora de época é recusado", fazenda.fazer_pocao("cura") == "SO NA PRIMAVERA" and fazenda.quantidade_colhida("cenoura") == 2)
-	v("fazer força consome as plantas", fazenda.fazer_pocao("forca") == "" and fazenda.quantidade_pocoes("forca") == 1 and fazenda.quantidade_colhida("tomate") == 0)
-	# Inverno: peixes
-	cal.dia = 1 + cal.DIAS_POR_ESTACAO * 3
-	v("inverno sem peixes não faz", fazenda.motivo_para_nao_fazer("regeneracao") == fazenda.MSG_FALTA_INGREDIENTE)
-	inv.adicionar_peixe("truta", 0, 2); inv.adicionar_peixe("tainha", 0, 1)
-	inv.adicionar_peixe("linguado", 0, 2); inv.adicionar_peixe("sargo", 0, 1)
-	v("inverno com peixes faz regeneração", fazenda.motivo_para_nao_fazer("regeneracao") == "")
-	v("fazer regeneração gasta os peixes", fazenda.fazer_pocao("regeneracao") == "" and fazenda.quantidade_pocoes("regeneracao") == 1 and fazenda.quantidade_peixes("truta") == 0 and fazenda.quantidade_peixes("tainha") == 0)
-	v("peixes da outra receita ficam", fazenda.quantidade_peixes("linguado") == 2 and fazenda.motivo_para_nao_fazer("precisao") == "")
-	v("no inverno a força de verão fica fora de época", fazenda.motivo_para_nao_fazer("forca") == "SO NO VERAO")
+		cal.dia = 1 + cal.DIAS_POR_ESTACAO * estacao
+		for id in Pocoes.ORDEM:
+			inv.limpar()
+			var formula: Dictionary = Pocoes.receita_da_estacao(id,estacao)
+			v("falta ingrediente: %s / %d" % [id,estacao], fazenda.motivo_para_nao_fazer(id) == fazenda.MSG_FALTA_INGREDIENTE)
+			for planta in formula.receita:
+				v("planta disponível: %s / %d" % [planta,estacao], int(Plantas.PLANTAS[planta].estacao) == estacao)
+				inv.adicionar_coletavel("colheita",planta,int(formula.receita[planta]))
+			for peixe in formula.peixes:
+				var epocas: Array = Peixes.DADOS[peixe].estacoes
+				v("peixe disponível: %s / %d" % [peixe,estacao], epocas.is_empty() or estacao in epocas)
+				inv.adicionar_peixe(peixe,0,int(formula.peixes[peixe]))
+			v("prepara %s / %d" % [id,estacao], fazenda.fazer_pocao(id) == "" and fazenda.quantidade_pocoes(id) == 1)
+			for planta in formula.receita:
+				v("consumo exato %s" % planta, fazenda.quantidade_colhida(planta) == 0)
+			for peixe in formula.peixes:
+				v("consumo exato %s" % peixe, fazenda.quantidade_peixes(peixe) == 0)
+			v("não fabrica sem os ingredientes novamente",fazenda.fazer_pocao(id) == fazenda.MSG_FALTA_INGREDIENTE and fazenda.quantidade_pocoes(id) == 1)
+	# A virada da estação muda a receita sem apagar o estoque de poções/colheita.
+	inv.limpar();cal.dia=1
+	inv.adicionar_coletavel("colheita","cenoura",2);inv.adicionar_coletavel("colheita","morango",1)
+	cal.dia=1+cal.DIAS_POR_ESTACAO
+	var antes_receita: Array=inv.fotografar_mochila()
+	v("troca de estação recusa receita antiga sem gastar",fazenda.fazer_pocao("cura") == fazenda.MSG_FALTA_INGREDIENTE and inv.fotografar_mochila() == antes_receita)
+	inv.adicionar_coletavel("colheita","milho",2);inv.adicionar_coletavel("colheita","girassol",1)
+	v("cura disponível no verão",fazenda.fazer_pocao("cura") == "" and fazenda.quantidade_pocoes("cura") == 1)
+	v("colheita da primavera preservada",fazenda.quantidade_colhida("cenoura") == 2 and fazenda.quantidade_colhida("morango") == 1)
+	cal.dia=1+cal.DIAS_POR_ESTACAO*3
+	inv.adicionar_peixe("sardinha",0,2);inv.adicionar_peixe("carpa",0,1)
+	v("cura disponível no inverno e mesma pilha",fazenda.fazer_pocao("cura") == "" and fazenda.quantidade_pocoes("cura") == 2)
+	v("ids inválidos rejeitados",fazenda.fazer_pocao("invalida") == "POCAO INVALIDA" and Pocoes.receita_da_estacao("cura",4).is_empty())
 	# Efeitos dos novos tipos
 	root.get_node("Introducao").pular_prologo()
 	root.get_node("Transicao").hora_salva = 12.0

@@ -1,6 +1,6 @@
 extends Control
 
-## Caldeirão da fazenda: transforma a bolsa de colheita em poções (receitas fixas de codigo/dados/pocoes.gd).
+## Caldeirão da fazenda: transforma a bolsa de colheita em poções (receitas sazonais de codigo/dados/pocoes.gd).
 ## Mesmo visual da mochila e da loja do mercante (tema_sidebar.tres, moldura do TileMap.png, título escuro no alto e o
 ## X de fechar), na lateral direita (desliza da borda). Inspirado na mesa de poções do Hogwarts Legacy:
 ##  - a grade de frascos (casas BotaoSlot como os itens da loja; a escolhida fica com a moldura dourada; frasco apagado =
@@ -64,11 +64,8 @@ func focar_inicio(preferida := "") -> void:
 	selecionar(id)
 	Controle.focar(casas[id])
 
-## As receitas da estação atual vêm primeiro: é o que o caldeirão faz agora
+## Cura é acessível em qualquer estação; o foco prioriza o que já pode ser preparado.
 func _primeira_da_estacao() -> String:
-	for id in Pocoes.ORDEM:
-		if Pocoes.estacao_de(id) == Calendario.estacao():
-			return id
 	return Pocoes.ORDEM[0]
 
 func selecionar(id: String) -> void:
@@ -155,18 +152,18 @@ func _atualizar_detalhe() -> void:
 		return
 	var dados := Pocoes.dados(selecionada)
 	_nome.text = String(dados["nome"])
-	_texto.text = String(dados["texto"])
+	var estacao := Calendario.estacao()
+	var formula := Pocoes.receita_da_estacao(selecionada,estacao)
+	_texto.text = "CALDO DE PEIXES DA ESTACAO, PREPARADO NO CALDEIRAO." if estacao == 3 else "PREPARADA COM A COLHEITA DA ESTACAO."
 	_efeito.text = Pocoes.texto_efeito(selecionada) + ("" if float(dados["duracao"]) > 0.0 else " NA HORA")
-	var estacao := Pocoes.estacao_de(selecionada)
-	var da_epoca := estacao < 0 or estacao == Calendario.estacao()
-	_info.text = "TEM %d | RECEITA DE %s%s" % [Fazenda.quantidade_pocoes(selecionada,EventosJogo.dono(self)), Calendario.NOMES[estacao] if estacao >= 0 else "QUALQUER EPOCA", "" if da_epoca else " (FORA DE EPOCA)"]
+	_info.text = "TEM %d | %s" % [Fazenda.quantidade_pocoes(selecionada,EventosJogo.dono(self)), Calendario.NOMES[estacao]]
 	for filho in _ingredientes.get_children():
 		_ingredientes.remove_child(filho)
 		filho.queue_free()
-	var receita: Dictionary = dados["receita"]
+	var receita: Dictionary = formula["receita"]
 	for planta in receita:
 		_ingredientes.add_child(_linha_ingrediente(planta, int(receita[planta])))
-	var peixes: Dictionary = dados.get("peixes", {})
+	var peixes: Dictionary = formula["peixes"]
 	for peixe in peixes:
 		_ingredientes.add_child(_linha_peixe(peixe, int(peixes[peixe])))
 	botao_fazer.disabled = Fazenda.motivo_para_nao_fazer(selecionada,EventosJogo.dono(self)) != ""

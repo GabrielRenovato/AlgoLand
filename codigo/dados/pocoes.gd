@@ -1,8 +1,7 @@
 extends RefCounted
 
-## Poções do caldeirão da fazenda: a colheita vira poção (receita fixa) e a poção é bebida na arena pelo cinto do HUD
-## (Q/E trocam, R ou X no controle bebe). Duas receitas por estação, que o caldeirão só deixa fazer na estação delas:
-## primavera, verão e outono com plantas da própria estação; inverno, sem plantio, com os peixes da estação (campo "peixes").
+## Poções do caldeirão: todas podem ser preparadas o ano inteiro.
+## A receita acompanha o calendário; no inverno usa peixes disponíveis nessa estação.
 ##
 ## texto: a descrição da tela do caldeirão; efeito: o que a poção faz (codigo/jogador/efeitos_pocao.gd); valor: fração do efeito (0,3 = +30%);
 ## duracao: segundos (0 = instantânea). icone: célula (coluna, linha) de 16x16 em assets/ui/fazenda/pocoes.png
@@ -46,17 +45,54 @@ const POCOES := {
 		"descricao": "+20% DE CHANCE DE CRITICO", "receita": {}, "peixes": {"linguado": 2, "sargo": 1},
 		"icone": Vector2i(4, 4), "cor": Color(0.7, 0.85, 1)},
 }
-## Ordem de exibição (caldeirão e cinto): pela estação em que se fazem
+## Cada par rende uma poção: duas unidades do primeiro ingrediente e uma do segundo.
+## Os efeitos, ids e estoques são os mesmos em todas as estações.
+const INGREDIENTES_POR_ESTACAO := [
+	{
+		"cura": ["cenoura", "morango"], "folego": ["batata", "couve_flor"],
+		"forca": ["batata", "morango"], "velocidade": ["cenoura", "batata"],
+		"pedra": ["couve_flor", "batata"], "vampiro": ["morango", "cenoura"],
+		"regeneracao": ["couve_flor", "morango"], "precisao": ["morango", "couve_flor"],
+	},
+	{
+		"cura": ["milho", "girassol"], "folego": ["girassol", "tomate"],
+		"forca": ["tomate", "melancia"], "velocidade": ["girassol", "milho"],
+		"pedra": ["milho", "tomate"], "vampiro": ["tomate", "girassol"],
+		"regeneracao": ["melancia", "milho"], "precisao": ["girassol", "melancia"],
+	},
+	{
+		"cura": ["beterraba", "abobora"], "folego": ["beterraba", "uva"],
+		"forca": ["abobora", "uva"], "velocidade": ["beterraba", "berinjela"],
+		"pedra": ["abobora", "beterraba"], "vampiro": ["uva", "berinjela"],
+		"regeneracao": ["abobora", "berinjela"], "precisao": ["uva", "beterraba"],
+	},
+	{
+		"cura": ["sardinha", "carpa"], "folego": ["carpa", "bagre"],
+		"forca": ["truta", "carpa"], "velocidade": ["anchova", "sardinha"],
+		"pedra": ["bagre", "tainha"], "vampiro": ["tainha", "sardinha"],
+		"regeneracao": ["truta", "tainha"], "precisao": ["linguado", "sargo"],
+	},
+]
+
+## Mesma ordem no caldeirão e no cinto; cura permanece a primeira opção.
 const ORDEM: Array[String] = ["cura", "folego", "forca", "velocidade", "pedra", "vampiro", "regeneracao", "precisao"]
 
 static var _icones: Dictionary = {}
 
-## Estação (0 a 3) em que o caldeirão faz a poção
+## Estação de origem da fórmula clássica; não limita a fabricação.
 static func estacao_de(id: String) -> int:
 	return int(dados(id).get("estacao", -1))
 
 static func dados(id: String) -> Dictionary:
 	return POCOES.get(id, {})
+
+## Única fonte dos ingredientes exibidos e consumidos, sem depender da estação do mapa.
+static func receita_da_estacao(id: String, estacao: int) -> Dictionary:
+	if not POCOES.has(id) or estacao < 0 or estacao >= INGREDIENTES_POR_ESTACAO.size():
+		return {}
+	var par: Array = INGREDIENTES_POR_ESTACAO[estacao][id]
+	var ingredientes := {String(par[0]): 2, String(par[1]): 1}
+	return {"receita": ingredientes if estacao != 3 else {}, "peixes": ingredientes if estacao == 3 else {}}
 
 ## Texto do efeito com a duração ("+30% DE DANO (30S)"); a instantânea fica só com a descrição
 static func texto_efeito(id: String) -> String:
