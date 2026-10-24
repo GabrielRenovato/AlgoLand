@@ -30,8 +30,6 @@ const FATOR_MOVIMENTO_NO_GOLPE := 0.4
 const FRACAO_GOLPE_CANCELAVEL := 0.5
 ## Esquiva e ataque pedidos um instante cedo demais ficam guardados por esta janela
 const JANELA_BUFFER_MS := 150
-## Passo à frente a cada golpe corpo a corpo (px/s; com a fricção dá uns 8 px)
-const IMPULSO_GOLPE := 140.0
 ## Parada de impacto no acerto (ms reais): golpe comum, crítico e golpe final
 const PARADA_ACERTO_MS := 35
 const PARADA_CRITICO_MS := 65
@@ -538,12 +536,6 @@ func _on_onda_completada(_onda: int) -> void:
 	hp_atual = estatisticas.hp_maximo
 	atualizar_barra_hp()
 	inventario.salvar()
-
-## Cada golpe empurra o jogador um passo na direção em que ele aponta: dá peso ao golpe e aproxima do alvo
-func _avancar_no_golpe() -> void:
-	if modo_fazenda or esta_em_dash:
-		return
-	velocity = _direcao_ataque * IMPULSO_GOLPE
 
 ## Sensação de impacto: congela o jogo por um instante e treme a câmera (mais forte no crítico e no golpe final)
 func _sentir_impacto(critico: bool, abate: bool) -> void:
@@ -1055,7 +1047,6 @@ func iniciar_slash_ataque_lanca(nome_anim: String, tempo_slash: float) -> void:
 	# Ajusta a velocidade da animação se necessário (pode ser removido se não for desejado)
 	reprodutor_anim.speed_scale = 0.2
 	_apontar_golpe()
-	_avancar_no_golpe()
 	_flash_golpe()
 	Sons.tocar("golpe_lanca")
 	acao_visual.emit("ataque", tempo_slash, _fase_combo)
@@ -1076,7 +1067,6 @@ func iniciar_slash_ataque(nome_anim: String, tempo_slash: float) -> void:
 	Ranking.registrar_uso(self,id_arma_atual)
 	_alvos_area_golpe.clear()
 	_apontar_golpe()
-	_avancar_no_golpe()
 	_flash_golpe()
 	Sons.tocar("golpe_espada")
 	acao_visual.emit("ataque", tempo_slash, _fase_combo)
