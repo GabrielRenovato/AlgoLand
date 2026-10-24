@@ -82,6 +82,20 @@ para o aviso Android. Atualizar o núcleo fixo requer distribuir o instalador.
 
 ## Validação
 
+Antes de publicar, confira a preservação da mochila em um projeto com save isolado:
+
+```bash
+python3 ferramentas/projeto/preparar_testes.py /tmp/algoland-validacao-save
+flatpak run --filesystem=/tmp org.godotengine.Godot --headless --path /tmp/algoland-validacao-save --script testes/teste_save_menu_inventario.gd
+```
+
+O teste abre processos novos, pausa/fecha no menu antes de carregar a mochila e
+confere minérios, níveis das quatro ferramentas, P2 e checkpoint do prólogo.
+Também confirma que uma mochila carregada continua gravando mudanças e pode ser
+esvaziada intencionalmente. Falha nessa regressão impede a publicação. Nunca
+execute esses cenários na partida real ou aumente a versão do save para corrigir
+uma perda de itens.
+
 ```bash
 python3 testes/teste_pacotes_atualizacao.py
 python3 testes/teste_pacotes_atualizacao.py --preparar-motor /tmp/algoland-pacotes-motor
