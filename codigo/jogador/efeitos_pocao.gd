@@ -9,6 +9,8 @@ extends Node
 ##   "folego"     -> regeneração de estamina x (1 + valor), sem a espera depois de gastar
 ##   "vampiro"    -> fração do dano do golpe que volta como vida
 ##   "cura"       -> instantânea: o Jogador cura valor x vida máxima na hora
+##   "regeneracao"-> cura valor x vida máxima por segundo enquanto durar (aplicada aqui mesmo)
+##   "critico"    -> soma valor à chance de crítico dos golpes e das flechas
 ## Beber de novo um efeito que já está ativo renova o tempo (não soma). Morrer ou sair da arena limpa tudo.
 
 const Pocoes := preload("res://codigo/dados/pocoes.gd")
@@ -33,6 +35,7 @@ var ativos: Dictionary = {}
 var selecionada: String = ""
 
 var _espera := 0.0
+var _regenerado := 0.0
 
 func _ready() -> void:
 	Fazenda.bolsas_alteradas.connect(_validar_selecao)
@@ -41,7 +44,16 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	_espera = maxf(_espera - delta, 0.0)
 	if ativos.is_empty():
+		_regenerado = 0.0
 		return
+	if ativos.has("regeneracao"):
+		var jogador := get_parent()
+		if jogador != null and jogador.has_method("curar") and "estatisticas" in jogador:
+			_regenerado += bonus("regeneracao") * jogador.estatisticas.hp_maximo * delta
+			var inteiro := int(_regenerado)
+			if inteiro > 0:
+				jogador.curar(inteiro)
+				_regenerado -= inteiro
 	var acabou := false
 	for efeito in ativos.keys():
 		ativos[efeito]["restante"] = float(ativos[efeito]["restante"]) - delta

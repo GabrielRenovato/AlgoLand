@@ -1252,7 +1252,7 @@ func aplicar_golpe(alvo: Node, direcao_knockback: Vector2, mult_dano: float = 1.
 		return
 	if "esta_morto" in alvo and alvo.esta_morto:
 		return
-	var golpe: Dictionary = disparo.get("golpe", estatisticas.calcular_dano_golpe()).duplicate()
+	var golpe: Dictionary = disparo.get("golpe", estatisticas.calcular_dano_golpe(efeitos_pocao.bonus("critico"))).duplicate()
 	var tipo: String = disparo.get("tipo", inventario.equipados.arma.tipo if inventario.equipados.arma != null else "")
 	var distancia: float = disparo.get("distancia", global_position.distance_to(alvo.global_position))
 	var golpe_comum := mult_dano == 1.0 and disparo.is_empty()

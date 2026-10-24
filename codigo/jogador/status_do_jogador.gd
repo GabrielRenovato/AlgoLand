@@ -60,8 +60,9 @@ func reducao_dano() -> float:
 	var armadura := maxf(0,float(defesa))/(maxf(0,float(defesa))+K_DEFESA)
 	return minf(1.0-(1.0-armadura)*(1.0-Progresso.bonus("couraca")),REDUCAO_MAXIMA)
 
-func calcular_dano_golpe() -> Dictionary:
-	var critico: bool = randf() < chance_critico
+## extra_critico: bônus de chance de crítico de fora dos atributos (poção de precisão)
+func calcular_dano_golpe(extra_critico: float = 0.0) -> Dictionary:
+	var critico: bool = randf() < minf(chance_critico + extra_critico, 0.8)
 	var valor: float = float(dano_ataque) * randf_range(0.9, 1.1)
 	if critico:
 		valor *= dano_critico

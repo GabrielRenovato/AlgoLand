@@ -34,7 +34,7 @@ func _init() -> void:
 
 func iniciar(jogador: Node, direcao: Vector2) -> void:
 	_jogador = jogador
-	_disparo = {"tipo":jogador.id_arco_atual, "golpe":jogador.estatisticas.calcular_dano_golpe(), "forca":jogador.efeitos_pocao.bonus("forca")}
+	_disparo = {"tipo":jogador.id_arco_atual, "golpe":jogador.estatisticas.calcular_dano_golpe(jogador.efeitos_pocao.bonus("critico")), "forca":jogador.efeitos_pocao.bonus("forca")}
 	_direcao = direcao.normalized()
 	# O sprite da flecha aponta para a esquerda
 	rotation = _direcao.angle() + PI

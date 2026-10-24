@@ -11,6 +11,7 @@ extends Control
 
 const IconesFazenda := preload("res://codigo/ui/icones_fazenda.gd")
 const Pocoes := preload("res://codigo/dados/pocoes.gd")
+const Peixes := preload("res://codigo/pesca/peixes.gd")
 
 const COR_TEXTO := Color(0.93, 0.9, 0.85)
 const COR_TEM := Color(0.6, 1, 0.5)
@@ -48,20 +49,27 @@ func _ao_visibilidade_alterada() -> void:
 	if visible:
 		_avisar("", COR_FEITO)
 		if selecionada == "":
-			selecionada = Pocoes.ORDEM[0]
+			selecionada = _primeira_da_estacao()
 		_atualizar()
 
 ## Chamado pela Interface ao abrir a tela: o foco vai para o frasco escolhido (o primeiro que dá para fazer)
 func focar_inicio(preferida := "") -> void:
 	var id := preferida
 	if not casas.has(id):
-		id = Pocoes.ORDEM[0]
+		id = _primeira_da_estacao()
 		for outra in Pocoes.ORDEM:
 			if Fazenda.motivo_para_nao_fazer(outra,EventosJogo.dono(self)) == "":
 				id = outra
 				break
 	selecionar(id)
 	Controle.focar(casas[id])
+
+## As receitas da estação atual vêm primeiro: é o que o caldeirão faz agora
+func _primeira_da_estacao() -> String:
+	for id in Pocoes.ORDEM:
+		if Pocoes.estacao_de(id) == Calendario.estacao():
+			return id
+	return Pocoes.ORDEM[0]
 
 func selecionar(id: String) -> void:
 	if not Pocoes.POCOES.has(id):
@@ -149,34 +157,46 @@ func _atualizar_detalhe() -> void:
 	_nome.text = String(dados["nome"])
 	_texto.text = String(dados["texto"])
 	_efeito.text = Pocoes.texto_efeito(selecionada) + ("" if float(dados["duracao"]) > 0.0 else " NA HORA")
-	_info.text = "TEM %d" % Fazenda.quantidade_pocoes(selecionada,EventosJogo.dono(self))
+	var estacao := Pocoes.estacao_de(selecionada)
+	var da_epoca := estacao < 0 or estacao == Calendario.estacao()
+	_info.text = "TEM %d | RECEITA DE %s%s" % [Fazenda.quantidade_pocoes(selecionada,EventosJogo.dono(self)), Calendario.NOMES[estacao] if estacao >= 0 else "QUALQUER EPOCA", "" if da_epoca else " (FORA DE EPOCA)"]
 	for filho in _ingredientes.get_children():
 		_ingredientes.remove_child(filho)
 		filho.queue_free()
 	var receita: Dictionary = dados["receita"]
 	for planta in receita:
 		_ingredientes.add_child(_linha_ingrediente(planta, int(receita[planta])))
+	var peixes: Dictionary = dados.get("peixes", {})
+	for peixe in peixes:
+		_ingredientes.add_child(_linha_peixe(peixe, int(peixes[peixe])))
 	botao_fazer.disabled = Fazenda.motivo_para_nao_fazer(selecionada,EventosJogo.dono(self)) != ""
 
 ## Ícone da planta numa casinha (a mesma moldura de slot), o nome e "tem / precisa" (verde quando dá, vermelho quando falta)
 func _linha_ingrediente(planta: String, precisa: int) -> Control:
+	return _linha("Ingrediente_" + planta, IconesFazenda.item_colhido(planta), String(Fazenda.PLANTAS[planta]["nome"]),
+		Fazenda.quantidade_colhida(planta,EventosJogo.dono(self)), precisa)
+
+## O peixe do inverno: mesmo desenho do ingrediente de planta
+func _linha_peixe(peixe: String, precisa: int) -> Control:
+	return _linha("Ingrediente_" + peixe, Peixes.icone(peixe), Peixes.nome(peixe), Fazenda.quantidade_peixes(peixe,EventosJogo.dono(self)), precisa)
+
+func _linha(nome_no: String, textura: Texture2D, titulo: String, tem: int, precisa: int) -> Control:
 	var linha := HBoxContainer.new()
-	linha.name = "Ingrediente_" + planta
+	linha.name = nome_no
 	linha.add_theme_constant_override("separation", 4)
 	var casinha := PanelContainer.new()
 	casinha.custom_minimum_size = Vector2(LADO_INGREDIENTE, LADO_INGREDIENTE)
 	casinha.add_theme_stylebox_override("panel", get_theme_stylebox("normal", &"BotaoSlot"))
 	var icone := TextureRect.new()
-	icone.texture = IconesFazenda.item_colhido(planta)
+	icone.texture = textura
 	icone.stretch_mode = TextureRect.STRETCH_KEEP_CENTERED
 	casinha.add_child(icone)
 	linha.add_child(casinha)
 	var nome := Label.new()
-	nome.text = String(Fazenda.PLANTAS[planta]["nome"])
+	nome.text = titulo
 	nome.custom_minimum_size = Vector2(76, 0)
 	nome.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	linha.add_child(nome)
-	var tem := Fazenda.quantidade_colhida(planta,EventosJogo.dono(self))
 	var contagem := Label.new()
 	contagem.name = "Contagem"
 	contagem.text = "%d / %d" % [tem, precisa]

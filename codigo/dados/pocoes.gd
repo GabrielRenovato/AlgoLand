@@ -1,8 +1,8 @@
 extends RefCounted
 
 ## Poções do caldeirão da fazenda: a colheita vira poção (receita fixa) e a poção é bebida na arena pelo cinto do HUD
-## (Q/E trocam, R ou X no controle bebe). Duas receitas por estação, cada uma com plantas da própria estação, para
-## que toda estação de plantio dê pelo menos duas poções. Inverno não tem plantio (nem receita nova).
+## (Q/E trocam, R ou X no controle bebe). Duas receitas por estação, que o caldeirão só deixa fazer na estação delas:
+## primavera, verão e outono com plantas da própria estação; inverno, sem plantio, com os peixes da estação (campo "peixes").
 ##
 ## texto: a descrição da tela do caldeirão; efeito: o que a poção faz (codigo/jogador/efeitos_pocao.gd); valor: fração do efeito (0,3 = +30%);
 ## duracao: segundos (0 = instantânea). icone: célula (coluna, linha) de 16x16 em assets/ui/fazenda/pocoes.png
@@ -13,35 +13,47 @@ const FOLHA := preload("res://assets/ui/fazenda/pocoes.png")
 const LADO := 16
 
 const POCOES := {
-	"cura": {"nome": "POCAO DE CURA", "efeito": "cura", "valor": 0.4, "duracao": 0.0,
+	"cura": {"nome": "POCAO DE CURA", "efeito": "cura", "valor": 0.4, "duracao": 0.0, "estacao": 0,
 		"texto": "UM GOLE QUENTE DE CENOURA COM MORANGO QUE FECHA AS FERIDAS NA HORA.",
 		"descricao": "CURA 40% DA VIDA", "receita": {"cenoura": 2, "morango": 1},
 		"icone": Vector2i(2, 2), "cor": Color(1, 0.45, 0.45)},
-	"folego": {"nome": "POCAO DE FOLEGO", "efeito": "folego", "valor": 2.0, "duracao": 30.0,
+	"folego": {"nome": "POCAO DE FOLEGO", "efeito": "folego", "valor": 2.0, "duracao": 30.0, "estacao": 0,
 		"texto": "CALDO DE BATATA COM COUVE-FLOR: O FOLEGO VOLTA ANTES DE ACABAR.",
 		"descricao": "ESTAMINA 3X MAIS RAPIDA", "receita": {"batata": 2, "couve_flor": 1},
 		"icone": Vector2i(1, 3), "cor": Color(0.55, 0.95, 0.45)},
-	"forca": {"nome": "POCAO DE FORCA", "efeito": "forca", "valor": 0.3, "duracao": 30.0,
+	"forca": {"nome": "POCAO DE FORCA", "efeito": "forca", "valor": 0.3, "duracao": 30.0, "estacao": 1,
 		"texto": "SUCO DE TOMATE COM MELANCIA QUE DEIXA CADA GOLPE MAIS PESADO.",
 		"descricao": "+30% DE DANO", "receita": {"tomate": 2, "melancia": 1},
 		"icone": Vector2i(3, 4), "cor": Color(0.8, 0.55, 1)},
-	"velocidade": {"nome": "POCAO DE VELOCIDADE", "efeito": "velocidade", "valor": 0.25, "duracao": 30.0,
+	"velocidade": {"nome": "POCAO DE VELOCIDADE", "efeito": "velocidade", "valor": 0.25, "duracao": 30.0, "estacao": 1,
 		"texto": "ESSENCIA DE GIRASSOL E MILHO: AS PERNAS FICAM LEVES COMO PLUMA.",
 		"descricao": "+25% DE VELOCIDADE", "receita": {"girassol": 2, "milho": 1},
 		"icone": Vector2i(4, 3), "cor": Color(0.45, 0.75, 1)},
-	"pedra": {"nome": "POCAO DE PEDRA", "efeito": "pedra", "valor": 0.15, "duracao": 30.0,
+	"pedra": {"nome": "POCAO DE PEDRA", "efeito": "pedra", "valor": 0.15, "duracao": 30.0, "estacao": 2,
 		"texto": "A CASCA DA ABOBORA ENDURECE A PELE DE QUEM BEBE.",
 		"descricao": "+15% PROTECAO; LIMITE TOTAL 70%", "receita": {"abobora": 2, "beterraba": 1},
 		"icone": Vector2i(4, 5), "cor": Color(0.6, 0.8, 0.95)},
-	"vampiro": {"nome": "POCAO VAMPIRICA", "efeito": "vampiro", "valor": 0.06, "duracao": 30.0,
+	"vampiro": {"nome": "POCAO VAMPIRICA", "efeito": "vampiro", "valor": 0.06, "duracao": 30.0, "estacao": 2,
 		"texto": "UVA E BERINJELA FERMENTADAS: O SANGUE DO INIMIGO VIRA O SEU.",
 		"descricao": "6% DO DANO REAL VIRA VIDA; CURA LIMITADA", "receita": {"uva": 2, "berinjela": 1},
 		"icone": Vector2i(2, 5), "cor": Color(1, 0.35, 0.5)},
+	"regeneracao": {"nome": "POCAO DE REGENERACAO", "efeito": "regeneracao", "valor": 0.02, "duracao": 15.0, "estacao": 3,
+		"texto": "CALDO DE TRUTA E TAINHA: O CORPO SE REMENDA SOZINHO NO MEIO DA LUTA.",
+		"descricao": "RECUPERA 2% DA VIDA POR SEGUNDO", "receita": {}, "peixes": {"truta": 2, "tainha": 1},
+		"icone": Vector2i(4, 2), "cor": Color(0.5, 0.9, 1)},
+	"precisao": {"nome": "POCAO DE PRECISAO", "efeito": "critico", "valor": 0.2, "duracao": 30.0, "estacao": 3,
+		"texto": "LINGUADO E SARGO EM GELO: O OLHAR FICA AFIADO E OS GOLPES ACHAM O PONTO FRACO.",
+		"descricao": "+20% DE CHANCE DE CRITICO", "receita": {}, "peixes": {"linguado": 2, "sargo": 1},
+		"icone": Vector2i(4, 4), "cor": Color(0.7, 0.85, 1)},
 }
-## Ordem de exibição (caldeirão e cinto): pela estação das plantas
-const ORDEM: Array[String] = ["cura", "folego", "forca", "velocidade", "pedra", "vampiro"]
+## Ordem de exibição (caldeirão e cinto): pela estação em que se fazem
+const ORDEM: Array[String] = ["cura", "folego", "forca", "velocidade", "pedra", "vampiro", "regeneracao", "precisao"]
 
 static var _icones: Dictionary = {}
+
+## Estação (0 a 3) em que o caldeirão faz a poção
+static func estacao_de(id: String) -> int:
+	return int(dados(id).get("estacao", -1))
 
 static func dados(id: String) -> Dictionary:
 	return POCOES.get(id, {})
