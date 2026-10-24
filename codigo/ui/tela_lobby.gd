@@ -10,6 +10,7 @@ var _campo: LineEdit
 var _enviar: Button
 var _fechar: Button
 var _botao_hud: Button
+var _contador_novas: Label
 var _teclado: CanvasLayer
 var _falas: Control
 var _historico: PanelContainer
@@ -115,6 +116,26 @@ func _ready() -> void:
  _botao_hud.size = Vector2(32,32)
  _botao_hud.pressed.connect(func() -> void: EventosJogo.abrir_tela_de(self,"lobby"))
  get_parent().add_child(_botao_hud)
+ _contador_novas = Label.new()
+ _contador_novas.name = "MensagensNaoLidas"
+ _contador_novas.mouse_filter = MOUSE_FILTER_IGNORE
+ _contador_novas.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+ _contador_novas.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+ _contador_novas.add_theme_font_size_override("font_size",8)
+ _contador_novas.add_theme_color_override("font_color",Color.WHITE)
+ _contador_novas.add_theme_color_override("font_shadow_color",Color.TRANSPARENT)
+ var selo := StyleBoxFlat.new()
+ selo.bg_color = Color("bd302a")
+ selo.border_color = Color("f5cf7a")
+ selo.set_border_width_all(1)
+ selo.set_corner_radius_all(8)
+ selo.content_margin_left = 3
+ selo.content_margin_right = 3
+ selo.content_margin_top = 1
+ selo.content_margin_bottom = 1
+ _contador_novas.add_theme_stylebox_override("normal",selo)
+ _contador_novas.visible = false
+ _botao_hud.add_child(_contador_novas)
  _historico = PanelContainer.new()
  _historico.name = "HistoricoChat"
  _historico.mouse_filter = MOUSE_FILTER_IGNORE
@@ -205,6 +226,9 @@ func _process(_delta: float) -> void:
  _historico_campo.visible = escrevendo
  if not escrevendo and _historico_campo.has_focus(): _historico_campo.release_focus()
  _botao_hud.visible = _sessao!=null and Controle.usando_toque and get_parent()._telas_abertas.is_empty() and not Introducao.cinematica
+ _contador_novas.size = Vector2(maxf(16,_contador_novas.get_combined_minimum_size().x),16)
+ # Mantém a notificação sobre o próprio botão, com folga do botão MAPA.
+ _contador_novas.position = Vector2(_botao_hud.size.x-_contador_novas.size.x+2,-4).round()
  if not _aviso.is_empty() and Time.get_ticks_msec()>_aviso_ate: _aviso=""; _atualizar()
 
 func _evitar_barra_de_itens() -> void:
@@ -231,6 +255,10 @@ func _evitar_barra_de_itens() -> void:
 func _atualizar() -> void:
  if _estado==null: return
  var ativo: bool = is_instance_valid(_sessao) and _sessao.online
+ if is_visible_in_tree() and is_instance_valid(_sessao): _sessao.mensagens_nao_lidas = 0
+ var novas: int = _sessao.mensagens_nao_lidas if ativo else 0
+ _contador_novas.text = "99+" if novas>99 else str(novas)
+ _contador_novas.visible = novas>0
  _alternar.text = "FICAR OFFLINE" if ativo else "FICAR ONLINE"
  _alternar.disabled = not is_instance_valid(_sessao)
  _campo.editable = ativo and _sessao.conectado

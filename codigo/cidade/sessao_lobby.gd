@@ -12,6 +12,8 @@ var estado := "CHAT GLOBAL OFFLINE"
 var eu := ""
 var participantes := {}
 var mensagens: Array = []
+var mensagens_nao_lidas := 0
+var _historico_recebido := false
 var geracao := ""
 var _conhecidos := {}
 var _visuais := {}
@@ -81,6 +83,8 @@ func definir_online(valor: bool, salvar := true) -> void:
   _ultimo_visual = ""
   _depois = 0
   mensagens.clear()
+  mensagens_nao_lidas = 0
+  _historico_recebido = false
   estado = "CONECTANDO AO CHAT GLOBAL..."
   _tempo = 0.0
  alterada.emit()
@@ -160,9 +164,12 @@ func _receber(_resultado: int, codigo: int, _cabecalhos_resposta: PackedStringAr
   var numero := int(item.get("id",0))
   if numero<=_depois: continue
   _depois = numero
+  # O histórico inicial e as próprias falas não geram notificações.
+  if _historico_recebido and str(item.get("jogador",""))!=eu: mensagens_nao_lidas += 1
   if conectado: fala_recebida.emit(str(item.get("jogador","")),str(item.texto).left(160))
   mensagens.append({"id":numero,"jogador":str(item.get("jogador","")),"apelido":str(item.apelido).left(16),"texto":str(item.texto).left(160)})
  while mensagens.size()>80: mensagens.pop_front()
+ _historico_recebido = true
  if not _envio.is_empty() and dados.get("confirmado")==_envio:
   var texto := _mensagem
   _envio = ""
