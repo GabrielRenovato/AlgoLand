@@ -1,0 +1,17 @@
+# Serviço de usuário do servidor do lobby (sobe no login e reinicia sozinho). Instalar:
+#   mkdir -p ~/.config/systemd/user && cp algoland-lobby.service ~/.config/systemd/user/
+#   (ajuste o caminho do node em ExecStart, se preciso) systemctl --user daemon-reload && systemctl --user enable --now algoland-lobby
+# Para subir sem precisar entrar na sessão: sudo loginctl enable-linger $USER
+[Unit]
+Description=AlgoLand lobby (presença por mapa e chat)
+After=network-online.target
+
+[Service]
+WorkingDirectory=%h/AlgoLand/ferramentas/lobby/servidor
+Environment=PORTA=8787
+ExecStart=%h/.var/app/com.visualstudio.code/config/nvm/versions/node/v24.19.0/bin/node servidor.mjs
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=default.target

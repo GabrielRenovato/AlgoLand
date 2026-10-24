@@ -121,8 +121,13 @@ func definir_online(valor: bool, salvar := true) -> void:
   _ws_assinatura = ""
  alterada.emit()
 
+## Servidor próprio fora do ar (3 tentativas sem entrar): usa o canal reserva (banco) por 2 minutos antes de tentar de novo
+const PAUSA_SERVIDOR_FORA := 120.0
+var _ws_falhas := 0
+var _ws_suspenso_ate := 0.0
+
 func usa_ws() -> bool:
- return not _url_ws.is_empty()
+ return not _url_ws.is_empty() and Time.get_ticks_msec()/1000.0>=_ws_suspenso_ate
 
 ## Endereço do servidor próprio: --lobby-ws= (testes locais), opcoes.cfg [lobby] servidor, ou o padrão do jogo.
 ## Só aceita wss:// (o código secreto do perfil viaja na entrada) ou ws:// local.
@@ -132,6 +137,8 @@ func _endereco_ws() -> String:
  preferencias.load("user://opcoes.cfg")
  var salvo := str(preferencias.get_value("lobby","servidor",""))
  if not salvo.is_empty(): candidato = salvo
+ # Scripts e saves de teste só falam com o servidor local passado por argumento, nunca com o padrão do jogo
+ if "--script" in OS.get_cmdline_args() or OS.get_user_data_dir().get_file().begins_with("AlgoLand testes"): candidato = ""
  for argumento in OS.get_cmdline_user_args():
   if argumento.begins_with("--lobby-ws="): candidato = argumento.trim_prefix("--lobby-ws=")
  return candidato if candidato.begins_with("wss://") or candidato.begins_with("ws://127.0.0.1:") or candidato.begins_with("ws://localhost:") else ""
@@ -169,8 +176,21 @@ func _processar_ws(delta: float) -> void:
     if _ws_reenvio<=0: _enviar_mensagem_ws()
   WebSocketPeer.STATE_CLOSED:
    var motivo := _ws.get_close_reason()
+   var tinha_entrado := _ws_entrou
    _ws = null
    _ws_entrou = false
+   if tinha_entrado: _ws_falhas = 0
+   elif motivo!="substituida":
+    _ws_falhas += 1
+    if _ws_falhas>=3 and not _url.is_empty() and not _chave.is_empty():
+     _ws_falhas = 0
+     _ws_suspenso_ate = Time.get_ticks_msec()/1000.0+PAUSA_SERVIDOR_FORA
+     conectado = false
+     participantes.clear()
+     estado = "SERVIDOR PROPRIO FORA DO AR - USANDO O CANAL RESERVA"
+     _tempo = 0.0
+     alterada.emit()
+     return
    if motivo=="substituida":
     # O mesmo perfil entrou em outro lugar: não disputa a vaga em loop
     _falhar("PERFIL ONLINE EM OUTRO LUGAR",30.0)
@@ -196,6 +216,7 @@ func _entrar_ws() -> void:
  _ws.send_text(JSON.stringify({"t":"entrar","codigo":_codigo,"geracao":geracao,"depois":_depois,"estado":montado.conteudo}))
  _ultimo_visual = montado.retrato
  _ws_entrou = true
+ _ws_falhas = 0
  _ws_tempo_estado = INTERVALO_ESTADO_WS
  _ws_ultimo_envio = Time.get_ticks_msec()/1000.0
  if not _envio.is_empty(): _enviar_mensagem_ws()

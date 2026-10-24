@@ -46,6 +46,9 @@ def main():
     servidor=ThreadingHTTPServer(('127.0.0.1',0),Servidor);threading.Thread(target=servidor.serve_forever,daemon=True).start()
     # --ws: os clientes falam WebSocket com o servidor próprio (ferramentas/lobby/servidor) em vez do servidor HTTP falso
     sys=__import__('sys');ws_url=None;no=None
+    if '--ws-morto' in sys.argv:
+        # Servidor próprio fora do ar: os clientes devem cair no canal reserva (servidor HTTP falso) e seguir funcionando
+        ws_url='ws://127.0.0.1:1'
     if '--ws' in sys.argv:
         import os,shutil,socket,urllib.request
         sock=socket.socket();sock.bind(('127.0.0.1',0));porta=sock.getsockname()[1];sock.close()
