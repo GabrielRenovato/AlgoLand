@@ -1,6 +1,6 @@
 extends Control
 const EscalaInterface := preload("res://codigo/ui/escala_interface.gd")
-## Chat opcional da cidade, na interface do dono (P1/P2), sem dados técnicos na tela.
+## Chat global opcional, na interface do dono (P1/P2), sem dados técnicos na tela.
 var painel: PanelContainer
 var _alternar: Button
 var _estado: Label
@@ -41,7 +41,7 @@ func _ready() -> void:
  cabecalho.add_theme_constant_override("separation",8)
  coluna.add_child(cabecalho)
  var titulo := Label.new()
- titulo.text = "CIDADE"
+ titulo.text = "CHAT GLOBAL"
  titulo.size_flags_horizontal = SIZE_EXPAND_FILL
  titulo.add_theme_font_size_override("font_size",10)
  cabecalho.add_child(titulo)
@@ -73,6 +73,7 @@ func _ready() -> void:
  _campo.placeholder_text = "MENSAGEM..."
  _campo.max_length = 160
  _campo.add_theme_font_size_override("font_size",8)
+ _reservar_margens_campo(_campo)
  _campo.size_flags_horizontal = SIZE_EXPAND_FILL
  _campo.focus_entered.connect(func() -> void: Controle.digitando=true)
  _campo.focus_exited.connect(func() -> void: Controle.digitando=false)
@@ -141,13 +142,7 @@ func _ready() -> void:
  _historico_campo.placeholder_text = "ENTER PARA ESCREVER"
  _historico_campo.max_length = 160
  _historico_campo.add_theme_font_size_override("font_size",8)
- for estado in ["normal","read_only","focus"]:
-  var estilo_campo := _historico_campo.get_theme_stylebox(estado).duplicate() as StyleBox
-  estilo_campo.set_content_margin(SIDE_LEFT,12)
-  estilo_campo.set_content_margin(SIDE_RIGHT,12)
-  estilo_campo.set_content_margin(SIDE_TOP,5)
-  estilo_campo.set_content_margin(SIDE_BOTTOM,5)
-  _historico_campo.add_theme_stylebox_override(estado,estilo_campo)
+ _reservar_margens_campo(_historico_campo)
  _historico_campo.focus_entered.connect(func() -> void: Controle.digitando=true)
  _historico_campo.focus_exited.connect(func() -> void: Controle.digitando=false)
  _historico_campo.text_submitted.connect(_enviar_do_canto)
@@ -168,12 +163,18 @@ func _ready() -> void:
  _ajustar()
  _atualizar()
 
+func _reservar_margens_campo(campo: LineEdit) -> void:
+ for estado in ["normal","read_only","focus"]:
+  var estilo := campo.get_theme_stylebox(estado).duplicate() as StyleBox
+  estilo.set_content_margin(SIDE_LEFT,12)
+  estilo.set_content_margin(SIDE_RIGHT,12)
+  estilo.set_content_margin(SIDE_TOP,5)
+  estilo.set_content_margin(SIDE_BOTTOM,5)
+  campo.add_theme_stylebox_override(estado,estilo)
+
 func _localizar_sessao() -> Node:
  var dono := EventosJogo.dono(self)
- for lobby in get_tree().get_nodes_in_group("lobby_cidade"):
-  var sessao: Node = lobby.sessao_de(dono)
-  if sessao!=null: return sessao
- return null
+ return Cooperativo.sessao_chat_de(dono)
 
 func _process(_delta: float) -> void:
  var nova := _localizar_sessao()
@@ -234,8 +235,8 @@ func _atualizar() -> void:
  _alternar.disabled = not is_instance_valid(_sessao)
  _campo.editable = ativo and _sessao.conectado
  _enviar.disabled = not ativo or not _sessao.conectado or not _sessao._envio.is_empty()
- _estado.text = _aviso if not _aviso.is_empty() else (_sessao.estado if is_instance_valid(_sessao) else "DISPONIVEL NA CIDADE PRINCIPAL")
- _botao_hud.tooltip_text = "CHAT DA CIDADE · %d / 8" % _sessao.participantes.size() if ativo and _sessao.conectado else "LOBBY - AGUARDE" if ativo else "CIDADE OFFLINE"
+ _estado.text = _aviso if not _aviso.is_empty() else (_sessao.estado if is_instance_valid(_sessao) else "CHAT GLOBAL")
+ _botao_hud.tooltip_text = "CHAT GLOBAL ONLINE" if ativo and _sessao.conectado else "CHAT - AGUARDE" if ativo else "CHAT GLOBAL OFFLINE"
  var ultimo: int = _sessao._depois if is_instance_valid(_sessao) else 0
  _montar_historico()
  if ultimo==_ultimo_chat: return
@@ -253,7 +254,7 @@ func _atualizar() -> void:
    _lista.add_child(rotulo)
  else:
   var ajuda := Label.new()
-  ajuda.text = "Fique online para encontrar outros jogadores e conversar." if not ativo else "Voce chegou a cidade. Diga um oi!"
+  ajuda.text = "Fique online para encontrar outros jogadores e conversar." if not ativo else "Converse com jogadores de qualquer mapa."
   ajuda.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
   ajuda.add_theme_font_size_override("font_size",8)
   _lista.add_child(ajuda)

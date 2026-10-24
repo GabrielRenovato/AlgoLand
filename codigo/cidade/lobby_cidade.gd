@@ -14,12 +14,10 @@ func _ready() -> void:
 func sessao_de(jogador: Node2D) -> Node:
  if jogador==null or Cooperativo.cena_de(jogador)!=get_parent(): return null
  var lado := 2 if jogador.eh_p2 else 1
- if not sessoes.has(lado):
-  var sessao := Sessao.new()
-  sessao.jogador = jogador
-  sessao.cidade = get_parent()
+ if not sessoes.has(lado) or not is_instance_valid(sessoes[lado]):
+  var sessao: Node = Cooperativo.sessao_chat_de(jogador)
+  if sessao == null: return null
   sessoes[lado] = sessao
-  add_child(sessao)
   sessao.alterada.connect(_atualizar_remotos.bind(sessao))
  return sessoes[lado]
 
@@ -27,11 +25,11 @@ func _process(_delta: float) -> void:
  for jogador in [Cooperativo._jogador1(),Cooperativo.jogador2()]:
   if jogador!=null and Cooperativo.cena_de(jogador)==get_parent(): sessao_de(jogador)
  for lado in sessoes.keys():
-  var sessao: Node = sessoes[lado]
-  if not is_instance_valid(sessao.jogador) or Cooperativo.cena_de(sessao.jogador)!=get_parent():
+  var sessao = sessoes[lado]
+  if not is_instance_valid(sessao) or not is_instance_valid(sessao.jogador) or Cooperativo.cena_de(sessao.jogador)!=get_parent():
    sessoes.erase(lado)
-   remove_child(sessao)
-   sessao.queue_free()
+   if is_instance_valid(sessao) and sessao.alterada.is_connected(_atualizar_remotos.bind(sessao)):
+    sessao.alterada.disconnect(_atualizar_remotos.bind(sessao))
  if not sessoes.values().any(func(sessao: Node) -> bool: return sessao.online and sessao.conectado): _limpar_remotos()
  _encaixar_nomes()
 

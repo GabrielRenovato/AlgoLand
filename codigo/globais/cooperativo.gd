@@ -47,6 +47,15 @@ var totens_p2: Array = []
 var _reviver := {}
 const LARGURA_TELA := 576.0
 const ALTURA_TELA := 324.0
+var chat_global: Node
+
+func sessao_chat_de(jogador: Node2D) -> Node:
+	if jogador == null: return null
+	if not is_instance_valid(chat_global):
+		chat_global = load("res://codigo/globais/chat_global.gd").new()
+		chat_global.name = "ChatGlobal"
+		add_child(chat_global)
+	return chat_global.sessao_de(jogador)
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS

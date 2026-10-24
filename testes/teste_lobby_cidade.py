@@ -17,7 +17,7 @@ def main():
                 pedidos.append((codigo,self.path,time.monotonic()))
                 if self.path.endswith('/lobby_cidade_sair'):
                     encerradas.add((codigo,geracao));dados.pop(codigo,None);resultado=None
-                elif self.path.endswith('/lobby_cidade'):
+                elif self.path.endswith(('/lobby_cidade','/chat_global')):
                     if (codigo,geracao) in encerradas:resultado={'erro':'sessao_encerrada'}
                     elif codigo in dados and time.time()-dados[codigo]['instante']<0.5:resultado={'erro':'aguarde'}
                     else:
@@ -25,12 +25,14 @@ def main():
                         s['instante']=time.time()
                         if estado.get('aparencia') and estado['aparencia']!=s.get('aparencia'):s['aparencia']=estado['aparencia'];s['revisao']+=1
                         for k in ['x','y','direcao','andando','apelido']:s[k]=estado[k]
+                        s['cidade']=estado.get('cidade',True)
                         confirmado=None
                         if p.get('p_mensagem'):
                             if not any(m['envio']==p['p_envio'] for m in chat):chat.append({'id':len(chat)+1,'jogador':s['id'],'apelido':s['apelido'],'texto':p['p_mensagem'],'envio':p['p_envio']})
                             confirmado=p['p_envio']
                         pessoas=[]
                         for v in dados.values():
+                            if not estado.get('cidade',True) or not v.get('cidade',True):continue
                             v=v.copy()
                             if p['p_conhecidos'].get(v['id'])==v['revisao']:v['aparencia']=None
                             pessoas.append(v)
@@ -50,7 +52,7 @@ def main():
             papel,p=item
             log=Path('/tmp/algoland-lobby-rede-'+papel+'.log')
             with log.open('w') as saida:
-                r=subprocess.run(['flatpak','run','--filesystem=/tmp','org.godotengine.Godot','--display-driver','x11','--disable-vsync','--max-fps','60','--path',str(p),'--script','res://testes/teste_lobby_cidade.gd','--','--papel='+papel,'--lobby-url=http://127.0.0.1:'+str(servidor.server_port)],stdout=saida,stderr=subprocess.STDOUT,text=True,timeout=120)
+                r=subprocess.run(['flatpak','run','--filesystem=/tmp','org.godotengine.Godot','--display-driver','x11','--disable-vsync','--max-fps','60','--path',str(p),'--script','res://testes/'+('teste_chat_global.gd' if '--global' in __import__('sys').argv else 'teste_lobby_cidade.gd'),'--','--papel='+papel,'--lobby-url=http://127.0.0.1:'+str(servidor.server_port)],stdout=saida,stderr=subprocess.STDOUT,text=True,timeout=120)
             texto=log.read_text()
             linhas=[l for l in texto.splitlines() if l.startswith(('LOBBY ','FALHA '))]
             print('\n'.join(linhas),flush=True)

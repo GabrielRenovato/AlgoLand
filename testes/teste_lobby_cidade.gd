@@ -226,7 +226,8 @@ func rodar() -> void:
   await esperar(func(): return sessao.conectado,"reconecta antes de sair da cidade")
   change_scene_to_file("res://cenas/inicio_do_jogo.tscn")
   await quadros(30)
-  conferir(get_nodes_in_group("lobby_cidade").is_empty(),"sair da cidade remove sessão e avatares")
+  await create_timer(3.3).timeout
+  conferir(get_nodes_in_group("lobby_cidade").is_empty(),"voltar ao menu remove os avatares da cidade")
  else:
   await esperar(func(): return sessao.mensagens.size()>=3,"A avisa que vai sair",60)
   await esperar(func(): return sessao.participantes.size()==1 and lobby.remotos.is_empty(),"saída de A é refletida no outro cliente")

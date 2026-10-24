@@ -1,5 +1,5 @@
 extends Node
-## Uma sessão por jogador local, só enquanto ele escolheu ficar online na cidade.
+## Uma sessão global por jogador local, preservada nas trocas de mapa.
 signal fala_recebida(jogador_id: String, texto: String)
 signal alterada
 signal mensagem_confirmada(texto: String, erro: String)
@@ -8,7 +8,7 @@ var jogador: Node2D
 var cidade: Node2D
 var online := false
 var conectado := false
-var estado := "CIDADE OFFLINE"
+var estado := "CHAT GLOBAL OFFLINE"
 var eu := ""
 var participantes := {}
 var mensagens: Array = []
@@ -31,6 +31,11 @@ var _permitido := true
 ## Conta desde o início do pedido: a latência da rede não acrescenta outra espera.
 ## O servidor recusa menos de 0,5 s entre atualizações.
 const INTERVALO_CONSULTA := 0.55
+const INTERVALO_GLOBAL := 3.0
+var _intervalo_pedido := INTERVALO_CONSULTA
+
+func na_cidade() -> bool:
+ return is_instance_valid(cidade) and cidade.has_node("LobbyCidade")
 
 
 func _ready() -> void:
@@ -67,7 +72,7 @@ func definir_online(valor: bool, salvar := true) -> void:
   if preferencias.save("user://opcoes.cfg") != OK: estado = "NAO FOI POSSIVEL SALVAR A PREFERENCIA"
  if not online:
   _sair()
-  estado = "CIDADE OFFLINE"
+  estado = "CHAT GLOBAL OFFLINE"
  else:
   geracao = Crypto.new().generate_random_bytes(16).hex_encode()
   eu = ""
@@ -76,7 +81,7 @@ func definir_online(valor: bool, salvar := true) -> void:
   _ultimo_visual = ""
   _depois = 0
   mensagens.clear()
-  estado = "CONECTANDO A CIDADE..."
+  estado = "CONECTANDO AO CHAT GLOBAL..."
   _tempo = 0.0
  alterada.emit()
 
@@ -90,27 +95,29 @@ func _sincronizar() -> void:
  # Scripts de testes nunca entram no servidor real, mesmo com preferência antiga ligada.
  var teste := "--script" in OS.get_cmdline_args() or OS.get_user_data_dir().get_file().begins_with("AlgoLand testes")
  if (_url.is_empty() or _chave.is_empty()) or (teste and not _url.begins_with("http://127.0.0.1:")):
-  estado = "CIDADE OFFLINE"
+  estado = "CHAT GLOBAL OFFLINE"
   _tempo = 60
   alterada.emit()
   return
- if not is_instance_valid(jogador): return
- var posicao := cidade.to_local(jogador.global_position)
+ if not is_instance_valid(jogador) or not jogador.is_inside_tree() or not is_instance_valid(cidade): return
+ var posicao := cidade.to_local(jogador.global_position) if na_cidade() else Vector2.ZERO
  var raven := jogador.get_node_or_null("HeroiRaven")
  var visual := Visual.do_jogador(jogador)
  var arma = jogador.inventario.equipados.get("arma")
  if arma != null:
   visual.arma_mais_usada = preload("res://codigo/dados/armas_ranking.gd").validar(arma.tipo)
   visual.nivel_arma = clampi(arma.nivel,1,99)
- var conteudo := {"x":clampf(posicao.x,0,1024),"y":clampf(posicao.y,0,576),"direcao":raven._direcao if raven!=null else 0,
+ var conteudo := {"cidade":na_cidade(),"x":clampf(posicao.x,0,1024),"y":clampf(posicao.y,0,576),"direcao":raven._direcao if raven!=null else 0,
   "andando":posicao.distance_to(_ultima_posicao)>1,"apelido":Ranking.apelido_personagem(jogador.apelido)}
  _ultima_posicao = posicao
  var retrato := JSON.stringify(visual)
  if retrato!=_ultimo_visual: conteudo.aparencia = visual
  var dados := {"p_codigo":_codigo,"p_geracao":geracao,"p_estado":conteudo,"p_conhecidos":_conhecidos,"p_depois":_depois,"p_mensagem":_mensagem,"p_envio":_envio}
  _ocupado = true
- _tempo = INTERVALO_CONSULTA
- var erro := _http.request(_url+"/rest/v1/rpc/lobby_cidade",_cabecalhos(),HTTPClient.METHOD_POST,JSON.stringify(dados))
+ _intervalo_pedido = INTERVALO_CONSULTA if na_cidade() else INTERVALO_GLOBAL
+ _tempo = _intervalo_pedido
+ _http.set_meta("cidade",na_cidade())
+ var erro := _http.request(_url+"/rest/v1/rpc/chat_global",_cabecalhos(),HTTPClient.METHOD_POST,JSON.stringify(dados))
  if erro!=OK:
   _ocupado = false
   _falhar("SEM CONEXAO - TENTANDO NOVAMENTE",5.0)
@@ -126,15 +133,16 @@ func _receber(_resultado: int, codigo: int, _cabecalhos_resposta: PackedStringAr
  var erro := str(dados.get("erro",""))
  if not erro.is_empty():
   if erro=="aguarde": _tempo=0.8; return
-  _falhar("CIDADE CHEIA - TENTANDO NOVAMENTE" if erro=="cidade_cheia" else "LIMITE GRATUITO DO LOBBY ATINGIDO" if erro=="limite_gratuito" else "RECONECTANDO A CIDADE...",30.0 if erro=="limite_gratuito" else 8.0)
+  _falhar("LIMITE GRATUITO DO CHAT ATINGIDO" if erro=="limite_gratuito" else "RECONECTANDO AO CHAT GLOBAL...",30.0 if erro=="limite_gratuito" else 8.0)
   return
  if not dados.get("eu") is String or str(dados.get("eu","")).length()!=36 or not dados.get("jogadores") is Array or not dados.get("mensagens") is Array:
-  _falhar("RESPOSTA INVALIDA DO LOBBY",8.0)
+  _falhar("RESPOSTA INVALIDA DO CHAT",8.0)
   return
  eu = str(dados.get("eu",""))
  _ultimo_visual = str(_http.get_meta("retrato",""))
  var novos := {}
- for item in dados.jogadores.slice(0,8):
+ var presencas: Array = dados.jogadores if na_cidade() and bool(_http.get_meta("cidade",false)) else []
+ for item in presencas.slice(0,8):
   if not item is Dictionary or not _estado_valido(item): continue
   var id := str(item.id)
   var visual := Visual.normalizar(item.get("aparencia"))
@@ -161,16 +169,18 @@ func _receber(_resultado: int, codigo: int, _cabecalhos_resposta: PackedStringAr
   _mensagem = ""
   mensagem_confirmada.emit(texto,"MENSAGEM NAO PERMITIDA" if dados.get("aviso")=="mensagem_recusada" else "")
  conectado = true
- estado = "CIDADE ONLINE - %d / 8 JOGADORES" % participantes.size()
+ estado = "CHAT GLOBAL ONLINE"
  alterada.emit()
 
 func enviar_mensagem(texto: String) -> String:
- if not online or not conectado: return "ATIVE A CIDADE ONLINE E AGUARDE A CONEXAO"
+ if not online or not conectado: return "ATIVE O CHAT GLOBAL E AGUARDE A CONEXAO"
  if not _envio.is_empty(): return "AGUARDE O ENVIO DA MENSAGEM ANTERIOR"
  var limpo := RegEx.create_from_string("[[:cntrl:]]").sub(texto," ",true).strip_edges().left(160)
  if limpo.is_empty(): return "DIGITE UMA MENSAGEM"
  _mensagem = limpo
  _envio = Crypto.new().generate_random_bytes(16).hex_encode()
+ # O repouso fora da cidade economiza tráfego, mas não atrasa uma nova fala.
+ _tempo = minf(_tempo,maxf(0,INTERVALO_CONSULTA-(_intervalo_pedido-_tempo)))
  # Respeita só o restante do intervalo do pedido anterior. Se ele ainda está
  # em trânsito, sua resposta não pode adiar a mensagem por mais um ciclo.
  if not _ocupado and _tempo<=0: _sincronizar()

@@ -41,6 +41,12 @@ func rodar() -> void:
  conferir(sessao.enviar_mensagem("Próxima") == "" and sessao.pedidos == 2,"próxima mensagem respeita apenas intervalo restante")
  sessao._process(0.36)
  conferir(sessao.pedidos == 3,"nova mensagem não espera outro ciclo completo")
+ sessao._envio = ""
+ sessao._mensagem = ""
+ sessao._ocupado = false
+ sessao._intervalo_pedido = 3.0
+ sessao._tempo = 0.2
+ conferir(sessao.enviar_mensagem("Fala após repouso global").is_empty() and sessao.pedidos == 4,"repouso fora da cidade não acrescenta três segundos ao envio")
  sessao.online = false
  sessao.queue_free()
 

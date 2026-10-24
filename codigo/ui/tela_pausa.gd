@@ -48,7 +48,7 @@ func _ready() -> void:
 	_menu.move_child(mapa, _botao_continuar.get_index()+1)
 	var cidade_online := Button.new()
 	cidade_online.name = "BotaoLobbyCidade"
-	cidade_online.text = "CIDADE ONLINE / OFFLINE"
+	cidade_online.text = "CHAT GLOBAL / ONLINE"
 	cidade_online.pressed.connect(func():
 		EventosJogo.fechar_tela_de(self,"pausa")
 		EventosJogo.abrir_tela_de(self,"lobby"))
@@ -91,11 +91,8 @@ func _exit_tree() -> void:
 func _ao_visibilidade_alterada() -> void:
 	get_tree().paused = visible
 	if visible:
-		var na_cidade := false
 		var dono := EventosJogo.dono(self)
-		for lobby in get_tree().get_nodes_in_group("lobby_cidade"):
-			if dono!=null and Cooperativo.cena_de(dono)==lobby.get_parent(): na_cidade=true
-		_menu.get_node("BotaoLobbyCidade").visible=na_cidade
+		_menu.get_node("BotaoLobbyCidade").visible=dono!=null
 		_opcoes = Opcoes.carregar(_lado())
 		_atualizar_linhas()
 		_mostrar(Vista.MENU)

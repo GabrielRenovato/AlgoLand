@@ -39,10 +39,7 @@ func limpar() -> void:
 
 func _alvo(id: String) -> Node2D:
  if not is_instance_valid(sessao): return null
- var lobby: Node = sessao.get_parent()
- for outra in lobby.sessoes.values():
-  if outra.eu==id and is_instance_valid(outra.jogador): return outra.jogador
- return lobby.remotos.get(id)
+ return sessao.get_parent().alvo_da_fala(id, get_viewport().world_2d)
 
 func _process(delta: float) -> void:
  if not is_instance_valid(sessao) or not sessao.online or not sessao.conectado:
