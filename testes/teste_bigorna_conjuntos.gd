@@ -114,5 +114,68 @@ func _rodar() -> void:
 	_verificar("bigorna mostra máximo no lendário", mercante._dados_upgrade()["proximo"].is_empty())
 	var copia := DadosItemScript.de_dict(peito.para_dict())
 	_verificar("save mantém a raridade e os bônus ganhos", copia.raridade == "lendario" and copia.afixos == peito.afixos)
+	await _testar_toque_bigorna(mercante, pecas)
+	_testar_dica_moeda()
 	print("Falhas: ", _falhas)
 	quit(_falhas)
+
+## Sem arrastar (celular e controle): tocar na bigorna alterna arma, escudo e as peças de conjunto vestidas
+func _testar_toque_bigorna(mercante: Control, pecas: Dictionary) -> void:
+	var slot: Control = mercante._slot_bigorna
+	slot.limpar()
+	mercante._ultimo_da_bigorna = null
+	_inv.limpar()
+	_inv.criar_itens_iniciais()
+	for categoria in pecas:
+		_inv.adicionar(pecas[categoria])
+		_inv.equipar(pecas[categoria])
+	await _quadros(3)
+	var vistos: Array = []
+	for i in 8:
+		mercante._alternar_item_bigorna()
+		vistos.append(slot.item_atual.obter_tipo_item() if slot.item_atual != null else "")
+	_verificar("o toque começa pela arma da mão", not Rubro.TIPOS.has(vistos[0]) and vistos[0] != "", str(vistos))
+	_verificar("o toque chega às quatro peças vestidas", Rubro.TIPOS.keys().all(func(t): return vistos.has(t)), str(vistos))
+	# Controle: confirmar esvazia a bigorna e o próximo toque segue para o item seguinte
+	var antes: Control = slot.item_atual
+	slot.limpar()
+	mercante._alternar_item_bigorna()
+	_verificar("depois de esvaziar, o toque passa ao próximo item", slot.item_atual != null and slot.item_atual != antes)
+	# Toque de verdade no slot: parado troca; arrastar para fora não troca; encher não troca no mesmo toque
+	antes = slot.item_atual
+	slot._ao_entrada(_clique(Vector2(5, 5), true))
+	slot._ao_entrada(_clique(Vector2(5, 5), false))
+	_verificar("tocar na bigorna ocupada troca o item", slot.item_atual != null and slot.item_atual != antes)
+	antes = slot.item_atual
+	slot._ao_entrada(_clique(Vector2(5, 5), true))
+	slot._ao_entrada(_clique(Vector2(40, 5), false))
+	_verificar("soltar depois de arrastar não troca", slot.item_atual == antes)
+	slot.limpar()
+	slot._ao_entrada(_clique(Vector2(5, 5), true))
+	var posto: Control = slot.item_atual
+	slot._ao_entrada(_clique(Vector2(5, 5), false))
+	_verificar("o toque que enche a bigorna vazia não troca ao soltar", posto != null and slot.item_atual == posto)
+	slot.limpar()
+
+func _clique(posicao: Vector2, apertado: bool) -> InputEventMouseButton:
+	var evento := InputEventMouseButton.new()
+	evento.button_index = MOUSE_BUTTON_LEFT
+	evento.pressed = apertado
+	evento.position = posicao
+	return evento
+
+## A dica da moeda de forja diz onde ela é gasta, não só de onde vem
+func _testar_dica_moeda() -> void:
+	var casa: Control = load("res://cenas/ui/componentes/item_ui.tscn").instantiate()
+	root.add_child(casa)
+	casa.exibir(DadosItemScript.de_coletavel("material", "moeda_forja", 1))
+	var textos: Array = []
+	var pendentes: Array = [casa.tooltip_do_item()]
+	while not pendentes.is_empty():
+		var no: Node = pendentes.pop_back()
+		if no is Label:
+			textos.append(no.text)
+		pendentes.append_array(no.get_children())
+	var juntos := " | ".join(textos)
+	_verificar("a dica da moeda de forja cita a bigorna e as peças de conjunto", "BIGORNA" in juntos and "CONJUNTO" in juntos, juntos)
+	casa.queue_free()

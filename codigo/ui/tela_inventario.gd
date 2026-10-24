@@ -383,6 +383,25 @@ func item_equipado_que_serve(destino: Control) -> Control:
 			return slot.item_ui()
 	return null
 
+## Tudo o que o slot do ferreiro aceita, na ordem em que o toque na bigorna alterna: arma da mão, escudo,
+## armadura vestida e o resto da mochila. O item que já está no próprio destino entra, para a vez seguir dele
+func itens_que_servem(destino: Control) -> Array[Control]:
+	var inv = EventosJogo.inventario_de(self)
+	var casa: int = inv.casa_da_mao(inv.equipados.get("arma"))
+	var slots: Array = [_slots_mochila[casa] if casa >= 0 else _slots_equipamento.get("arma")]
+	for categoria in ["escudo", "cabeca", "corpo", "luvas", "botas"]:
+		slots.append(_slots_equipamento.get(categoria))
+	slots.append_array(_slots_mochila)
+	var lista: Array[Control] = []
+	for slot in slots:
+		if slot == null or slot.item_atual == null:
+			continue
+		var item: Control = slot.item_ui()
+		if (item.em_uso and item != destino.item_atual) or lista.has(item) or not destino.aceita_item(item):
+			continue
+		lista.append(item)
+	return lista
+
 ## Primeiro slot da mochila com um item que o slot do ferreiro aceita; null se não há
 func primeiro_slot_que_serve(destino: Control) -> Control:
 	for slot in _slots_mochila:

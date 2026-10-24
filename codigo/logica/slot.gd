@@ -3,6 +3,8 @@ extends Control
 signal item_alterado(tem_item: bool)
 ## Confirmar (controle) ou clicar (mouse) num slot vazio: quem usa o slot decide de onde vem a arma
 signal pediu_item
+## Tocar ou clicar no slot já ocupado: quem usa o slot pode trocar pelo próximo item que serve
+signal pediu_troca
 
 @export var tipos_aceitos: Array[String] = []
 ## Só aceita item que está na mochila (o slot de venda não leva o que está equipado)
@@ -20,6 +22,7 @@ var item_atual: Node = null
 var _arrasto_valido: bool = false
 var _mouse_em_cima: bool = false
 var _arrastando_daqui: bool = false
+var _toque_em := Vector2.INF
 var _moldura: Control
 
 @onready var icone: Sprite2D = $Icone
@@ -137,9 +140,18 @@ func _ao_entrada(evento: InputEvent) -> void:
 		else:
 			pediu_item.emit()
 		accept_event()
-	elif item_atual == null and evento is InputEventMouseButton and evento.pressed and evento.button_index == MOUSE_BUTTON_LEFT:
-		pediu_item.emit()
-		accept_event()
+	elif evento is InputEventMouseButton and evento.button_index == MOUSE_BUTTON_LEFT:
+		if evento.pressed:
+			_toque_em = evento.position
+			if item_atual == null:
+				# Este toque já pôs o item: soltar o mesmo toque não pode trocá-lo em seguida
+				_toque_em = Vector2.INF
+				pediu_item.emit()
+				accept_event()
+		# A troca vale só no toque parado: soltar depois de arrastar o item para fora não troca nada
+		elif item_atual != null and evento.position.distance_to(_toque_em) < 4.0 and not pediu_troca.get_connections().is_empty():
+			pediu_troca.emit()
+			accept_event()
 
 func _desenhar_moldura() -> void:
 	if has_focus():

@@ -30,6 +30,8 @@ var _dica_abas: Label
 ## Aberta de dentro da arena (entre as ondas, sozinha ao vencer uma onda ou pelo portal da arena): abas MELHORIAS (os totens, só eles),
 ## BIGORNA e ENCANTAR, e um rodapé pequeno com PROXIMA ONDA e CIDADE. Na cidade é o ferreiro de sempre (loja, bigorna, encantar, vender)
 var _modo_arena := false
+## Último item que o toque pôs na bigorna: no controle, confirmar esvazia o slot e o toque seguinte continua dele
+var _ultimo_da_bigorna: Control = null
 var _conversa_guia: HBoxContainer
 var _linha_abas_loja: Control
 var _linha_arena: HBoxContainer
@@ -111,6 +113,7 @@ func _ready() -> void:
 	_slot_bigorna.tipos_aceitos = aceitos
 	_slot_encantar.pediu_item.connect(_ao_slot_vazio_confirmado.bind(_slot_encantar))
 	_slot_bigorna.pediu_item.connect(_ao_slot_vazio_confirmado.bind(_slot_bigorna))
+	_slot_bigorna.pediu_troca.connect(_alternar_item_bigorna)
 	visibility_changed.connect(_ao_visibilidade_alterada)
 	_montar_opcoes_encantamento()
 	_montar_loja()
@@ -145,6 +148,7 @@ func _process(_delta: float) -> void:
 func _ao_visibilidade_alterada() -> void:
 	set_process(visible)
 	if visible:
+		_ultimo_da_bigorna = null
 		var cena := Cooperativo.cena_de(self)
 		var gerenciador := get_tree().get_first_node_in_group("gerenciador_ondas")
 		_modo_arena = gerenciador != null and cena != null and cena.is_ancestor_of(gerenciador)
@@ -224,6 +228,10 @@ func _ao_slot_vazio_confirmado(slot: Control) -> void:
 	var inventario := EventosJogo.painel_do_grupo(self, "tela_inventario")
 	if inventario == null:
 		return
+	# Na bigorna o toque também alcança a armadura vestida e a mochila (peças de conjunto sobem com moeda de forja)
+	if slot == _slot_bigorna:
+		_alternar_item_bigorna()
+		return
 	var equipado: Control = inventario.item_equipado_que_serve(slot)
 	if equipado != null:
 		slot.colocar_item(equipado)
@@ -238,6 +246,22 @@ func _ao_slot_vazio_confirmado(slot: Control) -> void:
 		mostrar_mensagem("ESCOLHA A ARMA E APERTE %s" % Controle.rotulo_acao("ui_accept", self))
 	else:
 		mostrar_mensagem("ARRASTE UMA ARMA DO INVENTARIO")
+
+## Toque na bigorna: põe o próximo item que serve, depois do que está nela (ou o primeiro, com ela vazia).
+## Assim, quem não arrasta (celular, controle) chega à arma, ao escudo, às peças de conjunto e à mochila
+func _alternar_item_bigorna() -> void:
+	var inventario := EventosJogo.painel_do_grupo(self, "tela_inventario")
+	if inventario == null:
+		return
+	var itens: Array[Control] = inventario.itens_que_servem(_slot_bigorna)
+	if itens.is_empty():
+		mostrar_mensagem("VOCE NAO TEM ARMA NEM PECA DE CONJUNTO PARA MELHORAR")
+		return
+	var atual: Control = _slot_bigorna.item_atual if _slot_bigorna.item_atual != null else _ultimo_da_bigorna
+	var proximo: Control = itens[(itens.find(atual) + 1) % itens.size()]
+	_ultimo_da_bigorna = proximo
+	if proximo != _slot_bigorna.item_atual:
+		_slot_bigorna.colocar_item(proximo)
 
 func mostrar_mensagem(texto: String) -> void:
 	if _mensagem == null:
@@ -340,10 +364,10 @@ func _atualizar_dicas() -> void:
 	var confirmar := Controle.rotulo_acao("ui_accept", self)
 	if Controle.usando_controle_de(self):
 		_rotulo_arraste_encantar.text = "NO INVENTARIO, APERTE %s NA ARMA PARA ENCANTAR" % confirmar
-		_rotulo_arraste.text = "NO INVENTARIO, APERTE %s NA ARMA PARA COLOCAR NA BIGORNA" % confirmar
+		_rotulo_arraste.text = "APERTE %s NA BIGORNA PARA TROCAR ENTRE ARMA, ESCUDO E PECAS DE CONJUNTO" % confirmar
 	else:
 		_rotulo_arraste_encantar.text = "ARRASTE UMA ARMA DO INVENTARIO PARA ENCANTAR"
-		_rotulo_arraste.text = "ARRASTE UMA ARMA DO INVENTARIO PARA A BIGORNA"
+		_rotulo_arraste.text = "TOQUE NA BIGORNA OU ARRASTE UMA ARMA, ESCUDO OU PECA DE CONJUNTO"
 	_dica_abas.visible = Controle.usando_controle_de(self)
 	_dica_abas.text = "%s / %s  ABAS  |  %s NA ULTIMA: MOCHILA" % [Controle.rotulo_acao("ferramenta_anterior", self), Controle.rotulo_acao("ferramenta_proxima", self), Controle.rotulo_acao("ferramenta_proxima", self)]
 

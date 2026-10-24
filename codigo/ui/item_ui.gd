@@ -118,7 +118,11 @@ func tooltip_do_item(largura := 170.0) -> Control:
 			linhas.add_child(linha_dica("CONFIRMAR / BOTAO DIREITO / TOQUE DUPLO: APRENDER", COR_DICA_DETALHE))
 			linhas.add_child(linha_dica("APRENDER LIBERA O CRAFT NO IVO E CONSOME UMA RECEITA", COR_DICA_DETALHE))
 		elif dados.categoria == "material":
-			linhas.add_child(linha_dica(preload("res://codigo/dados/forja_armas.gd").MATERIAIS.get(dados.conteudo(),{}).get("origem",""),COR_DICA_DETALHE))
+			var material: Dictionary = preload("res://codigo/dados/forja_armas.gd").MATERIAIS.get(dados.conteudo(),{})
+			linhas.add_child(linha_dica(material.get("origem",""),COR_DICA_DETALHE))
+			# Materiais que não vão para receitas do Ivo dizem onde são gastos
+			if material.has("uso"):
+				linhas.add_child(linha_dica(material["uso"],COR_DICA_DETALHE))
 		elif dados.categoria == "produto":
 			linhas.add_child(linha_dica("SELECIONE NA BARRA E USE ATAQUE PERTO DO COMEDOURO PARA JOGAR." if dados.conteudo() == "feno" else "DO GALINHEIRO. CAIO PREPARA OMELETE COM 2 OVOS E 1 CENOURA.",COR_DICA_DETALHE))
 		return _dimensionar_dica(linhas,largura)

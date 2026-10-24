@@ -2,7 +2,8 @@ extends RefCounted
 
 ## Materiais são pilhas físicas na mochila. O Ivo consome os itens de quem fabrica.
 const MATERIAIS := {
-	"moeda_forja": {"nome": "MOEDA DE FORJA", "origem": "Pode cair dos chefes da arena."},
+	"moeda_forja": {"nome": "MOEDA DE FORJA", "origem": "Pode cair dos chefes da arena.",
+			"uso": "MELHORA PECAS DE CONJUNTO NA BIGORNA DO ORION, DEPOIS DE VENCER UM ANDAR: 1 MOEDA POR NIVEL."},
 	"pedra_vara": {"nome": "PEDRA DA VARA", "origem": "Pode ser encontrada pescando."},
 	"madeira": {"nome": "MADEIRA", "origem": "Corte arvores e arranque os tocos na fazenda."},
 	"pedra": {"nome": "PEDRA", "origem": "Quebre pedras na fazenda com a picareta."},

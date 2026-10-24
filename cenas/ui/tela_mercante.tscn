@@ -292,7 +292,7 @@ tipos_aceitos = Array[String](["espada_basica", "espada_gemea", "machado", "maca
 unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
-text = "ARRASTE UMA ARMA DO INVENTARIO PARA A BIGORNA"
+text = "TOQUE NA BIGORNA OU ARRASTE UMA ARMA, ESCUDO OU PECA DE CONJUNTO"
 horizontal_alignment = 1
 autowrap_mode = 2
 
