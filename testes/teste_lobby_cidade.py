@@ -54,7 +54,7 @@ def main():
         sock=socket.socket();sock.bind(('127.0.0.1',0));porta=sock.getsockname()[1];sock.close()
         node=shutil.which('node') or next(iter(sorted(Path.home().glob('.var/app/com.visualstudio.code/config/nvm/versions/node/*/bin/node'))),None)
         assert node,'node não encontrado'
-        no=subprocess.Popen([str(node),'servidor.mjs'],cwd=R/'ferramentas/lobby/servidor',env={**os.environ,'PORTA':str(porta),'EXPIRA_MS':'20000'},stdout=subprocess.DEVNULL,stderr=subprocess.STDOUT)
+        no=subprocess.Popen([str(node),'servidor.mjs'],cwd=R/'ferramentas/lobby/servidor',env={**os.environ,'PORTA':str(porta),'EXPIRA_MS':'20000','ADMIN_PORTA':'0'},stdout=subprocess.DEVNULL,stderr=subprocess.STDOUT)
         for _ in range(50):
             try:urllib.request.urlopen(f'http://127.0.0.1:{porta}/saude',timeout=1);break
             except Exception:time.sleep(0.1)

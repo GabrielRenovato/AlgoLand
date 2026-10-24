@@ -124,9 +124,14 @@ func definir_online(valor: bool, salvar := true) -> void:
   _ws_assinatura = ""
  alterada.emit()
 
-## Servidor próprio fora do ar (3 tentativas sem entrar): usa o canal reserva (banco) por 2 minutos antes de tentar de novo
-const PAUSA_SERVIDOR_FORA := 120.0
+## Servidor próprio fora do ar (PC desligado ou sem rede): usa o canal reserva (banco do Supabase) por 1 minuto antes de tentar o servidor de novo
+const PAUSA_SERVIDOR_FORA := 60.0
+## Servidor que nunca atendeu nesta sessão (PC desligado): duas tentativas e já cai no canal reserva; queda no meio do jogo tolera três
+const FALHAS_SEM_NUNCA_ENTRAR := 2
+const FALHAS_APOS_ENTRAR := 3
+const TEMPO_MAXIMO_CONEXAO := 5.0
 var _ws_falhas := 0
+var _ws_ja_entrou := false
 var _ws_suspenso_ate := 0.0
 
 func usa_ws() -> bool:
@@ -168,7 +173,7 @@ func _processar_ws(delta: float) -> void:
  match _ws.get_ready_state():
   WebSocketPeer.STATE_CONNECTING:
    _ws_tempo_conexao += delta
-   if _ws_tempo_conexao>8.0: _ws.close()
+   if _ws_tempo_conexao>TEMPO_MAXIMO_CONEXAO: _ws.close()
   WebSocketPeer.STATE_OPEN:
    if not _ws_entrou: _entrar_ws()
    while _ws != null and _ws.get_available_packet_count()>0: _receber_ws(_ws.get_packet().get_string_from_utf8())
@@ -186,7 +191,7 @@ func _processar_ws(delta: float) -> void:
    if tinha_entrado: _ws_falhas = 0
    elif motivo!="substituida":
     _ws_falhas += 1
-    if _ws_falhas>=3 and not _url.is_empty() and not _chave.is_empty():
+    if _ws_falhas>=(FALHAS_APOS_ENTRAR if _ws_ja_entrou else FALHAS_SEM_NUNCA_ENTRAR) and not _url.is_empty() and not _chave.is_empty():
      _ws_falhas = 0
      _ws_suspenso_ate = Time.get_ticks_msec()/1000.0+PAUSA_SERVIDOR_FORA
      conectado = false
@@ -237,6 +242,7 @@ func _entrar_ws() -> void:
  _ultimo_visual = montado.retrato
  _ws_entrou = true
  _ws_falhas = 0
+ _ws_ja_entrou = true
  _ws_tempo_estado = INTERVALO_ESTADO_WS
  _ws_ultimo_envio = Time.get_ticks_msec()/1000.0
  if not _envio.is_empty(): _enviar_mensagem_ws()
