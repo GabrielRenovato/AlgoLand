@@ -15,6 +15,7 @@ const PASSO_ROLAGEM_CREDITOS := 24
 const COR_TITULO_CREDITOS := Color(1.0, 0.82, 0.3)
 const COR_LINK_CREDITOS := Color(0.65, 0.8, 1.0)
 const FONTE_CREDITOS := preload("res://assets/ui/Planes_ValMore.ttf")
+const LOGO := preload("res://assets/ui/identidade/logo_algoland.png")
 # Textos em ASCII maiusculo (a fonte nao tem acentos). Cada bloco: titulo, link opcional e linhas de descricao.
 # Origem de cada informacao: leia os arquivos de licenca/readme das pastas de assets (Mana Seed, Farm RPG, craftpix, PixyMoon).
 const CREDITOS := [
@@ -71,6 +72,7 @@ var _menu_centro: CenterContainer
 var _cartao_jornada: Control
 var _moldura_coop: PanelContainer
 var _layout_pendente := false
+var _logo: TextureRect
 
 func _ready() -> void:
 	# Voltando de um mundo cooperativo para o título: o menu principal é o do jogo solo
@@ -79,12 +81,12 @@ func _ready() -> void:
 	_opcoes = Opcoes.carregar()
 	Opcoes.aplicar(_opcoes)
 	_montar_personagem()
-	_animar_titulo()
 	_animar_respiracao()
 	_montar_opcoes()
 	_montar_creditos()
 	_montar_menu()
 	_montar_layout_flex()
+	_animar_titulo()
 	_fade_entrada()
 	# Fogo no máximo: a tela inicial é sempre crepúsculo
 	get_tree().call_group("luzes_noturnas", "set", "multiplicador_noite", 1.0)
@@ -128,17 +130,20 @@ func _montar_layout_flex() -> void:
 	var coluna := VBoxContainer.new()
 	coluna.add_theme_constant_override("separation",6)
 	_menu_painel.add_child(coluna)
-	titulo.reparent(coluna)
-	titulo.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
-	titulo.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	titulo.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	titulo.label_settings = titulo.label_settings.duplicate()
-	titulo.label_settings.font = EstiloInicio.FONTE_TITULO
-	titulo.label_settings.font_size = 25
-	titulo.label_settings.font_color = Color("f2d48d")
-	titulo.label_settings.outline_size = 0
-	titulo.label_settings.outline_color = Color("402b24")
-	titulo.label_settings.shadow_offset = Vector2(0,1)
+	titulo.hide()
+	_logo = TextureRect.new()
+	_logo.name = "LogoAlgoLand"
+	var recorte := AtlasTexture.new()
+	recorte.atlas = LOGO
+	# Remove apenas as margens externas; preserva a silhueta inteira da logo.
+	recorte.region = Rect2(0,144,1536,720)
+	recorte.filter_clip = true
+	_logo.texture = recorte
+	_logo.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_logo.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	_logo.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
+	_logo.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	coluna.add_child(_logo)
 	var legenda := Label.new()
 	legenda.text = "CULTIVE. EXPLORE. ENFRENTE."
 	legenda.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -248,7 +253,7 @@ func _ajustar_layout_flex() -> void:
 	var medida := ($Interface/Raiz as Control).size
 	var compacto := medida.x < 480 or medida.y < 300
 	menu.columns = 2 if compacto else 1
-	titulo.label_settings.font_size = 18 if compacto else 25
+	_logo.custom_minimum_size.y = 24 if medida.y < 240 else 48
 	(_rolagem_menu.get_parent() as VBoxContainer).add_theme_constant_override("separation",4 if compacto else 6)
 	_menu_centro.size_flags_horizontal = Control.SIZE_EXPAND_FILL if compacto else Control.SIZE_SHRINK_BEGIN
 	_menu_painel.custom_minimum_size = Vector2(minf(288,medida.x-32) if compacto else 216,minf(292,medida.y-32))
@@ -674,8 +679,8 @@ func _fade_entrada() -> void:
 func _animar_titulo() -> void:
 	var tween := create_tween().set_loops()
 	tween.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-	tween.tween_property(titulo,"modulate",Color(1.12,1.05,0.90),1.8)
-	tween.tween_property(titulo,"modulate",Color.WHITE,1.8)
+	tween.tween_property(_logo,"modulate",Color(1.06,1.03,0.97),1.8)
+	tween.tween_property(_logo,"modulate",Color.WHITE,1.8)
 
 func _animar_respiracao() -> void:
 	var tween := create_tween().set_loops()

@@ -34,7 +34,8 @@ func rodar() -> void:
 		root.size = tamanho*2
 		await quadros(15)
 		verificar("menu dentro das margens %s" % str(tamanho), Rect2(Vector2.ZERO,raiz.size).grow(-12).encloses(inicio._menu_painel.get_global_rect()))
-		verificar("titulo separado do menu %s" % str(tamanho),inicio.titulo.get_global_rect().end.y+4 <= inicio.menu.get_global_rect().position.y)
+		verificar("logo separado do menu %s" % str(tamanho),inicio._logo.get_global_rect().end.y+4 <= inicio.menu.get_global_rect().position.y)
+		verificar("logo dentro da moldura %s" % str(tamanho),inicio._menu_painel.get_global_rect().grow(-10).encloses(inicio._logo.get_global_rect()))
 		for botao: Button in inicio.menu.get_children():
 			if not botao.visible: continue
 			var texto := botao.get_theme_font("font").get_string_size(botao.text,HORIZONTAL_ALIGNMENT_LEFT,-1,botao.get_theme_font_size("font_size"))

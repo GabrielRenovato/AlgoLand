@@ -73,7 +73,7 @@ func rodar() -> void:
 				await create_timer(0.1).timeout
 				await RenderingServer.frame_post_draw
 				root.get_texture().get_image().save_png("/tmp/algoland-vila-animada/%03d.png" % quadro)
-	verificar("titulo separado dos botoes",inicio.titulo.get_global_rect().end.y+4 <= inicio.menu.get_global_rect().position.y)
+	verificar("titulo separado dos botoes",inicio._logo.get_global_rect().end.y+4 <= inicio.menu.get_global_rect().position.y)
 	verificar("menu PC preserva margem",Rect2(Vector2.ZERO,inicio.get_node("Interface/Raiz").size).grow(-12).encloses(inicio._menu_painel.get_global_rect()))
 	inicio.botao_opcoes.pressed.emit()
 	await foto("inicio_opcoes_pc")
