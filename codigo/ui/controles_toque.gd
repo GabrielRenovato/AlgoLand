@@ -81,7 +81,7 @@ func _ready() -> void:
 	add_to_group("controles_toque")
 	# Abaixo das telas (camada 10 da Interface)
 	layer = 9
-	_modo_mouse = not OS.has_feature("mobile")
+	_modo_mouse = not Controle.celular()
 	_tela = Control.new()
 	_tela.name = "Tela"
 	_tela.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -345,7 +345,7 @@ func _apertar_botao(botao: Dictionary) -> void:
 	botao["apertado"] = true
 	_atualizar_icones()
 	_enviar(botao["acao"], true)
-	if OS.has_feature("mobile") and Controle.vibracao_ligada:
+	if Controle.celular() and Controle.vibracao_ligada:
 		Input.vibrate_handheld(12)
 	_redesenhar()
 
