@@ -24,6 +24,10 @@ const ALCANCE_MIRA_ARCO := 260.0
 const COSSENO_CONE_MIRA := 0.42
 ## Inclinação mínima do direcional/joystick para contar como "estou apontando"
 const ZONA_MORTA_MIRA := 0.25
+## Durante um golpe corpo a corpo o jogador anda nesta fração da velocidade (antes ficava preso ao chão)
+const FATOR_MOVIMENTO_NO_GOLPE := 0.4
+## A esquiva cancela o golpe a partir desta fração da duração dele
+const FRACAO_GOLPE_CANCELAVEL := 0.5
 
 
 # Preload do banco de dados de armas (nome: banco_dados_armas)
@@ -229,7 +233,7 @@ var temporizador_invul: float = 0.0
 
 @export var duracao_dash: float = 0.15
 @export var velocidade_dash: float = 380.0
-@export var recarga_dash: float = 0.6
+@export var recarga_dash: float = 0.35
 @export var intervalo_rastro_dash: float = 0.025
 @export var duracao_rastro_dash: float = 0.25
 # Tom azulado das "sombras" deixadas pelo dash
@@ -521,6 +525,22 @@ func _on_onda_completada(_onda: int) -> void:
 	atualizar_barra_hp()
 	inventario.salvar()
 
+## Golpe corpo a corpo (o temporizador só roda nos golpes de espada e lança) já na metade final: a esquiva pode cortá-lo
+func _golpe_cancelavel() -> bool:
+	return not _temporizador.is_stopped() and _temporizador.time_left <= _temporizador.wait_time * FRACAO_GOLPE_CANCELAVEL
+
+## Encerra o golpe sem enfileirar o próximo (mesmo fim do _on_temporizador_ataque_timeout sem fila)
+func _cancelar_golpe() -> void:
+	_temporizador.stop()
+	_esta_atacando = false
+	ataque_enfileirado = false
+	_pedido_ataque = false
+	_fase_combo = 0
+	$AreaAtaque.monitoring = false
+	$AreaAtaque.monitorable = false
+	definir_sprites_visiveis(false)
+	reprodutor_anim.speed_scale = 1.0
+
 func iniciar_dash() -> void:
 	var dir = _vetor_movimento()
 	if dir == Vector2.ZERO:
@@ -701,10 +721,11 @@ func _physics_process(delta: float) -> void:
 		_atualizar_dash(delta)
 		return
 
-	if Input.is_action_just_pressed(acao("rolar")) and _dash_disponivel and not _esta_atacando and not esta_forjando \
+	if Input.is_action_just_pressed(acao("rolar")) and _dash_disponivel and (not _esta_atacando or _golpe_cancelavel()) and not esta_forjando \
 			and Time.get_ticks_msec() >= _sem_acao_ate_ms:
 		if stamina >= custo_stamina_dash:
 			defesa.cancelar()
+			if _esta_atacando: _cancelar_golpe()
 			iniciar_dash()
 			return
 		get_tree().call_group(grupo_hud(), "avisar_stamina_insuficiente")
@@ -804,11 +825,14 @@ func mover() -> void:
 	var apontando := _vetor_movimento()
 	if apontando.length() >= ZONA_MORTA_MIRA:
 		_direcao_ataque = apontando.normalized()
-	# Se o jogador está no meio de um ataque, não movimenta
+	# Arco, escudada e outras ações seguem presas ao chão; o golpe de espada/lança permite andar devagar
+	var fator_golpe := 1.0
 	if _esta_atacando:
-		velocity.x = lerp(velocity.x, 0.0, _friccao)
-		velocity.y = lerp(velocity.y, 0.0, _friccao)
-		return
+		if _temporizador.is_stopped():
+			velocity.x = lerp(velocity.x, 0.0, _friccao)
+			velocity.y = lerp(velocity.y, 0.0, _friccao)
+			return
+		fator_golpe = FATOR_MOVIMENTO_NO_GOLPE
 
 	# Lê o input de movimento (teclas de andar)
 	var dir = _vetor_movimento()
@@ -837,6 +861,7 @@ func mover() -> void:
 		var velocidade_final = min(velocidade_base + bonus_velocidade_item + bonus_agilidade, estatisticas.VELOCIDADE_MAXIMA)
 		# 5) Poção de velocidade multiplica por cima (pode passar do teto enquanto dura)
 		velocidade_final *= 1.0 + efeitos_pocao.bonus("velocidade")
+		velocidade_final *= fator_golpe
 		# O corpo Tiny em escala nativa pede um deslocamento menor por passada.
 
 		# Move interpolando a velocidade atual para a velocidade desejada
@@ -1036,7 +1061,9 @@ func _on_temporizador_ataque_timeout() -> void:
 				_fase_combo = 3
 				iniciar_slash_ataque("AtaqueEspadaSlash_3", _tempo_slash_3)
 			else:
-				_fase_combo = 0  # Caso tenha chegado ao final ou algum erro, reinicia
+				# Fim do combo com toque na fila: recomeça no primeiro golpe, sem perder o comando
+				_fase_combo = 1
+				iniciar_slash_ataque("AtaqueEspadaSlash_1", _tempo_slash_1)
 		elif usando_lanca:
 			# Lógica para lança (se necessário)
 			if _fase_combo == 1:
@@ -1046,7 +1073,8 @@ func _on_temporizador_ataque_timeout() -> void:
 				_fase_combo = 3
 				iniciar_slash_ataque_lanca("AtaqueLancaSlash_1", _tempo_slash_lanca_1)
 			else:
-				_fase_combo = 0
+				_fase_combo = 1
+				iniciar_slash_ataque_lanca("AtaqueLancaSlash_2", _tempo_slash_lanca_2)
 		return
 
 	# Se não houver ataque enfileirado, reinicia o combo
@@ -1188,7 +1216,9 @@ func aplicar_golpe(alvo: Node, direcao_knockback: Vector2, mult_dano: float = 1.
 	var tipo: String = disparo.get("tipo", inventario.equipados.arma.tipo if inventario.equipados.arma != null else "")
 	var distancia: float = disparo.get("distancia", global_position.distance_to(alvo.global_position))
 	var contra: bool = tipo == "espada_basica" and Time.get_ticks_msec() < contragolpe_ate_ms and mult_dano == 1.0
-	var estilo := preload("res://codigo/dados/estilos_arma.gd").efeito(tipo, _fase_combo, distancia, contra) if mult_dano == 1.0 else {"dano":1.0,"empurrao":1.0,"atordoar":0.0}
+	# O Raven tem combo de 2 golpes: o último golpe dele ativa as especialidades do "terceiro" (espada de duas mãos e maça)
+	var combo_estilo := 3 if tipo in ["espada_gemea", "maca"] and _fase_combo >= _limite_combo_espada() else _fase_combo
+	var estilo := preload("res://codigo/dados/estilos_arma.gd").efeito(tipo, combo_estilo, distancia, contra) if mult_dano == 1.0 else {"dano":1.0,"empurrao":1.0,"atordoar":0.0}
 	if contra: contragolpe_ate_ms = 0
 	mult_dano *= float(estilo.dano)
 	mult_empurrao *= float(estilo.empurrao)

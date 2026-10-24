@@ -3,9 +3,9 @@ extends RefCounted
 ## Especialidades fazem parte do modelo da arma, não somam atributos permanentes.
 const DESCRICOES := {
 	"espada_basica":"CONTRAGOLPE: APOS APARO PERFEITO, PROXIMO GOLPE +50% (3S)",
-	"espada_gemea":"RITMO: TERCEIRO GOLPE DO COMBO CAUSA +25% DANO",
+	"espada_gemea":"RITMO: ULTIMO GOLPE DO COMBO CAUSA +25% DANO",
 	"machado":"ABERTURA: PRIMEIRO GOLPE DO COMBO CAUSA +25% DANO",
-	"maca":"IMPACTO: +50% EMPURRAO; TERCEIRO GOLPE ATORDOA POR 0,35S",
+	"maca":"IMPACTO: +50% EMPURRAO; ULTIMO GOLPE DO COMBO ATORDOA POR 0,35S",
 	"lanca_basica":"PONTA: +25% DANO AO ACERTAR A MAIS DE 32 PX",
 	"arco_curto":"REFLEXO: +20% DANO ATE 90 PX",
 	"arco_curvo":"PRECISAO: +20% DANO ENTRE 90 E 180 PX",
