@@ -35,3 +35,7 @@ Distribuição por patch cumulativo da base 2026.10.23.1 e exportação Web pró
 
 Validação: `teste_lobby_mapas.sql` (e os testes SQL anteriores) contra um Postgres isolado, por exemplo `podman run -d --rm --name lobbydb -e POSTGRES_PASSWORD=x postgres:17-alpine`, criando os papéis `anon` e `authenticated` e uma `apelido_proibido` de teste antes das migrações; `python3 testes/teste_chat_global.py` confere dois clientes se encontrando na floresta e na praia.
 
+## Servidor próprio (WebSocket)
+
+`ferramentas/lobby/servidor/` substitui as consultas HTTP ao banco por uma conexão WebSocket quando existe `LOBBY_WS` (`ranking_config.gd`), `[lobby] servidor` em `opcoes.cfg` ou `--lobby-ws=`. Sem endereço, o jogo continua usando o RPC `chat_global` (e a migração `20261024140000_lobby_mapas.sql` só é necessária nesse caminho). A presença deixa de gastar a cota do Supabase, as amostras chegam a 4 Hz e o limite sobe de 8 para 24 avatares por mapa. `sessao_lobby.gd` mantém um único `_processar` para as duas formas de resposta. Detalhes, execução e túnel de teste em `servidor/README.md`. `python3 testes/teste_chat_global.py --ws` (e `teste_lobby_cidade.py --ws`) sobem o servidor e dois jogos reais.
+

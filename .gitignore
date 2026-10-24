@@ -21,3 +21,5 @@ supabase/.temp/
 # Quadros intermediários regeneráveis; manter GIFs e imagens finais
 arte/previas/**/quadro_*.png
 arte/previas/**/quadro_*.png.import
+
+ferramentas/lobby/servidor/node_modules/

@@ -1,0 +1,11 @@
+{
+  "name": "algoland-lobby",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Servidor WebSocket de presença por mapa e chat global do AlgoLand",
+  "type": "module",
+  "main": "servidor.mjs",
+  "scripts": { "start": "node servidor.mjs", "test": "node teste.mjs" },
+  "engines": { "node": ">=20" },
+  "dependencies": { "ws": "^8.18.0" }
+}

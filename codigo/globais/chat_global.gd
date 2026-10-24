@@ -28,6 +28,7 @@ func sessao_de(jogador: Node2D) -> Node:
 		atual.participantes.clear()
 		atual._ultimo_visual = ""
 		atual._tempo = minf(atual._tempo, 0.55)
+		atual._ws_tempo_estado = 0.0
 	return atual
 
 func _process(delta: float) -> void:

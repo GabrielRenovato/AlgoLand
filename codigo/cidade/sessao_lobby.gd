@@ -35,6 +35,20 @@ var _permitido := true
 const INTERVALO_CONSULTA := 0.55
 const INTERVALO_GLOBAL := 3.0
 var _intervalo_pedido := INTERVALO_CONSULTA
+## Transporte WebSocket (servidor próprio em ferramentas/lobby/servidor): quando há endereço, substitui as consultas HTTP ao banco
+const Config := preload("res://codigo/dados/ranking_config.gd")
+const INTERVALO_ESTADO_WS := 0.25
+const INTERVALO_OCIOSO_WS := 4.0
+const MAXIMO_AVATARES_WS := 24
+var _url_ws := ""
+var _ws: WebSocketPeer
+var _ws_entrou := false
+var _ws_espera := 0.0
+var _ws_tempo_conexao := 0.0
+var _ws_tempo_estado := 0.0
+var _ws_ultimo_envio := 0.0
+var _ws_assinatura := ""
+var _ws_reenvio := 0.0
 
 ## Envelope que o servidor aceita; cada mapa é escalado para ele (a cidade, 1024x576, passa sem mudança)
 const ENVELOPE := Vector2(1024,576)
@@ -63,6 +77,7 @@ func _ready() -> void:
   if argumento.begins_with("--lobby-url=http://127.0.0.1:"):
    _url = argumento.trim_prefix("--lobby-url=")
    _chave = "teste_local"
+ _url_ws = _endereco_ws()
  _http = HTTPRequest.new()
  _http.timeout = 8.0
  add_child(_http)
@@ -70,7 +85,8 @@ func _ready() -> void:
  var preferencias := ConfigFile.new()
  preferencias.load("user://opcoes.cfg")
  var escolhido := bool(preferencias.get_value("lobby","online_p2" if jogador.eh_p2 else "online_p1",false))
- _permitido = not(("--script" in OS.get_cmdline_args() or OS.get_user_data_dir().get_file().begins_with("AlgoLand testes")) and not _url.begins_with("http://127.0.0.1:"))
+ _permitido = not(("--script" in OS.get_cmdline_args() or OS.get_user_data_dir().get_file().begins_with("AlgoLand testes")) \
+  and not (_url.begins_with("http://127.0.0.1:") or _url_ws.begins_with("ws://127.0.0.1:")))
  if not _permitido: escolhido=false
  definir_online(escolhido,false)
 
@@ -100,13 +116,116 @@ func definir_online(valor: bool, salvar := true) -> void:
   _historico_recebido = false
   estado = "CONECTANDO AO CHAT GLOBAL..."
   _tempo = 0.0
+  _ws_entrou = false
+  _ws_espera = 0.0
+  _ws_assinatura = ""
  alterada.emit()
+
+func usa_ws() -> bool:
+ return not _url_ws.is_empty()
+
+## Endereço do servidor próprio: --lobby-ws= (testes locais), opcoes.cfg [lobby] servidor, ou o padrão do jogo.
+## Só aceita wss:// (o código secreto do perfil viaja na entrada) ou ws:// local.
+func _endereco_ws() -> String:
+ var candidato: String = Config.LOBBY_WS
+ var preferencias := ConfigFile.new()
+ preferencias.load("user://opcoes.cfg")
+ var salvo := str(preferencias.get_value("lobby","servidor",""))
+ if not salvo.is_empty(): candidato = salvo
+ for argumento in OS.get_cmdline_user_args():
+  if argumento.begins_with("--lobby-ws="): candidato = argumento.trim_prefix("--lobby-ws=")
+ return candidato if candidato.begins_with("wss://") or candidato.begins_with("ws://127.0.0.1:") or candidato.begins_with("ws://localhost:") else ""
+
+func _maximo_avatares() -> int:
+ return MAXIMO_AVATARES_WS if usa_ws() else 8
 
 func _process(delta: float) -> void:
  if not online: return
+ if usa_ws():
+  _processar_ws(delta)
+  return
  _tempo -= delta
  if _ocupado: return
  if _tempo<=0: _sincronizar()
+
+func _processar_ws(delta: float) -> void:
+ if _ws == null:
+  _ws_espera -= delta
+  if _ws_espera<=0: _conectar_ws()
+  return
+ _ws.poll()
+ match _ws.get_ready_state():
+  WebSocketPeer.STATE_CONNECTING:
+   _ws_tempo_conexao += delta
+   if _ws_tempo_conexao>8.0: _ws.close()
+  WebSocketPeer.STATE_OPEN:
+   if not _ws_entrou: _entrar_ws()
+   while _ws != null and _ws.get_available_packet_count()>0: _receber_ws(_ws.get_packet().get_string_from_utf8())
+   if _ws == null or not _ws_entrou: return
+   _ws_tempo_estado -= delta
+   if _ws_tempo_estado<=0: _enviar_estado_ws()
+   if not _envio.is_empty():
+    _ws_reenvio -= delta
+    if _ws_reenvio<=0: _enviar_mensagem_ws()
+  WebSocketPeer.STATE_CLOSED:
+   var motivo := _ws.get_close_reason()
+   _ws = null
+   _ws_entrou = false
+   if motivo=="substituida":
+    # O mesmo perfil entrou em outro lugar: não disputa a vaga em loop
+    _falhar("PERFIL ONLINE EM OUTRO LUGAR",30.0)
+    _ws_espera = 30.0
+   else:
+    _falhar("SEM CONEXAO - TENTANDO NOVAMENTE",3.0)
+    _ws_espera = 3.0
+
+func _conectar_ws() -> void:
+ if not is_instance_valid(jogador) or not jogador.is_inside_tree(): return
+ _ws = WebSocketPeer.new()
+ _ws.heartbeat_interval = 15.0
+ _ws_entrou = false
+ _ws_tempo_conexao = 0.0
+ if _ws.connect_to_url(_url_ws)!=OK:
+  _ws = null
+  _falhar("SEM CONEXAO - TENTANDO NOVAMENTE",5.0)
+  _ws_espera = 5.0
+
+func _entrar_ws() -> void:
+ var montado := _montar_estado(true)
+ if montado.is_empty(): return
+ _ws.send_text(JSON.stringify({"t":"entrar","codigo":_codigo,"geracao":geracao,"depois":_depois,"estado":montado.conteudo}))
+ _ultimo_visual = montado.retrato
+ _ws_entrou = true
+ _ws_tempo_estado = INTERVALO_ESTADO_WS
+ _ws_ultimo_envio = Time.get_ticks_msec()/1000.0
+ if not _envio.is_empty(): _enviar_mensagem_ws()
+
+func _enviar_estado_ws() -> void:
+ var montado := _montar_estado()
+ if montado.is_empty(): return
+ var conteudo: Dictionary = montado.conteudo
+ _ws_tempo_estado = INTERVALO_ESTADO_WS if int(montado.mapa)>0 else INTERVALO_OCIOSO_WS
+ # Parado e sem novidade só repete de tempos em tempos, para o servidor saber que está vivo
+ var assinatura := "%d|%d|%d|%d|%s|%s|%s" % [int(montado.mapa),roundi(conteudo.x),roundi(conteudo.y),int(conteudo.direcao),str(conteudo.andando),str(conteudo.apelido),str(conteudo.has("aparencia"))]
+ var agora := Time.get_ticks_msec()/1000.0
+ if assinatura==_ws_assinatura and agora-_ws_ultimo_envio<2.0: return
+ _ws_assinatura = assinatura
+ _ws_ultimo_envio = agora
+ _ws.send_text(JSON.stringify({"t":"estado","estado":conteudo}))
+ if conteudo.has("aparencia"): _ultimo_visual = montado.retrato
+
+func _enviar_mensagem_ws() -> void:
+ if _ws == null or not _ws_entrou or _envio.is_empty(): return
+ _ws.send_text(JSON.stringify({"t":"msg","texto":_mensagem,"envio":_envio}))
+ _ws_reenvio = 2.0
+
+func _receber_ws(texto: String) -> void:
+ var dados = JSON.parse_string(texto)
+ if not dados is Dictionary:
+  _falhar("RESPOSTA INVALIDA DO CHAT",5.0)
+  return
+ if str(dados.get("aviso",""))=="aguarde_mensagem": _ws_reenvio = 0.6
+ _processar(dados,int(dados.get("mapa",0)),_ultimo_visual)
 
 func _sincronizar() -> void:
  # Scripts de testes nunca entram no servidor real, mesmo com preferência antiga ligada.
@@ -116,7 +235,24 @@ func _sincronizar() -> void:
   _tempo = 60
   alterada.emit()
   return
- if not is_instance_valid(jogador) or not jogador.is_inside_tree() or not is_instance_valid(cidade): return
+ var montado := _montar_estado()
+ if montado.is_empty(): return
+ var mapa: int = montado.mapa
+ var retrato: String = montado.retrato
+ var dados := {"p_codigo":_codigo,"p_geracao":geracao,"p_estado":montado.conteudo,"p_conhecidos":_conhecidos,"p_depois":_depois,"p_mensagem":_mensagem,"p_envio":_envio}
+ _ocupado = true
+ _intervalo_pedido = INTERVALO_CONSULTA if mapa>0 else INTERVALO_GLOBAL
+ _tempo = _intervalo_pedido
+ _http.set_meta("mapa",mapa)
+ var erro := _http.request(_url+"/rest/v1/rpc/chat_global",_cabecalhos(),HTTPClient.METHOD_POST,JSON.stringify(dados))
+ if erro!=OK:
+  _ocupado = false
+  _falhar("SEM CONEXAO - TENTANDO NOVAMENTE",5.0)
+ else: _http.set_meta("retrato",retrato)
+
+## Estado do jogador para o servidor ({} se ele ainda não está pronto): "conteudo" é o que vai na rede, "retrato" a aparência serializada
+func _montar_estado(incluir_aparencia := false) -> Dictionary:
+ if not is_instance_valid(jogador) or not jogador.is_inside_tree() or not is_instance_valid(cidade): return {}
  var mapa := mapa_id()
  var posicao := cidade.to_local(jogador.global_position) if mapa>0 else Vector2.ZERO
  var retangulo := _retangulo_do_mapa()
@@ -132,17 +268,8 @@ func _sincronizar() -> void:
   "andando":posicao.distance_to(_ultima_posicao)>1,"apelido":Ranking.apelido_personagem(jogador.apelido)}
  _ultima_posicao = posicao
  var retrato := JSON.stringify(visual)
- if retrato!=_ultimo_visual: conteudo.aparencia = visual
- var dados := {"p_codigo":_codigo,"p_geracao":geracao,"p_estado":conteudo,"p_conhecidos":_conhecidos,"p_depois":_depois,"p_mensagem":_mensagem,"p_envio":_envio}
- _ocupado = true
- _intervalo_pedido = INTERVALO_CONSULTA if mapa>0 else INTERVALO_GLOBAL
- _tempo = _intervalo_pedido
- _http.set_meta("mapa",mapa)
- var erro := _http.request(_url+"/rest/v1/rpc/chat_global",_cabecalhos(),HTTPClient.METHOD_POST,JSON.stringify(dados))
- if erro!=OK:
-  _ocupado = false
-  _falhar("SEM CONEXAO - TENTANDO NOVAMENTE",5.0)
- else: _http.set_meta("retrato",retrato)
+ if incluir_aparencia or retrato!=_ultimo_visual: conteudo.aparencia = visual
+ return {"conteudo":conteudo,"retrato":retrato,"mapa":mapa}
 
 func _receber(_resultado: int, codigo: int, _cabecalhos_resposta: PackedStringArray, corpo: PackedByteArray) -> void:
  _ocupado = false
@@ -151,6 +278,11 @@ func _receber(_resultado: int, codigo: int, _cabecalhos_resposta: PackedStringAr
  if codigo<200 or codigo>=300 or not dados is Dictionary:
   _falhar("SEM CONEXAO - TENTANDO NOVAMENTE",5.0)
   return
+ _processar(dados,int(_http.get_meta("mapa",0)),str(_http.get_meta("retrato","")))
+
+## Resposta do servidor (RPC ou WebSocket, mesmo formato): atualiza participantes, mensagens e confirmações
+func _processar(dados: Dictionary, mapa_pedido: int, retrato: String) -> void:
+ if not online: return
  var erro := str(dados.get("erro",""))
  if not erro.is_empty():
   if erro=="aguarde": _tempo=0.8; return
@@ -160,11 +292,10 @@ func _receber(_resultado: int, codigo: int, _cabecalhos_resposta: PackedStringAr
   _falhar("RESPOSTA INVALIDA DO CHAT",8.0)
   return
  eu = str(dados.get("eu",""))
- _ultimo_visual = str(_http.get_meta("retrato",""))
+ _ultimo_visual = retrato
  var novos := {}
- var mapa_pedido := int(_http.get_meta("mapa",0))
  var presencas: Array = dados.jogadores if mapa_pedido>0 and mapa_id()==mapa_pedido else []
- for item in presencas.slice(0,8):
+ for item in presencas.slice(0,_maximo_avatares()):
   if not item is Dictionary or not _estado_valido(item): continue
   # Servidores com mapa informam onde cada um está; quem está em outro mapa não aparece aqui
   if item.has("mapa") and int(item.mapa)!=mapa_pedido: continue
@@ -206,6 +337,9 @@ func enviar_mensagem(texto: String) -> String:
  if limpo.is_empty(): return "DIGITE UMA MENSAGEM"
  _mensagem = limpo
  _envio = Crypto.new().generate_random_bytes(16).hex_encode()
+ if usa_ws():
+  _enviar_mensagem_ws()
+  return ""
  # O repouso fora da cidade economiza tráfego, mas não atrasa uma nova fala.
  _tempo = minf(_tempo,maxf(0,INTERVALO_CONSULTA-(_intervalo_pedido-_tempo)))
  # Respeita só o restante do intervalo do pedido anterior. Se ele ainda está
@@ -241,6 +375,16 @@ func _sair() -> void:
  if not _envio.is_empty(): mensagem_confirmada.emit(_mensagem,"MENSAGEM NAO ENVIADA: VOCE SAIU DO LOBBY")
  _mensagem = ""
  _envio = ""
+ if _ws != null:
+  if _ws.get_ready_state()==WebSocketPeer.STATE_OPEN:
+   _ws.send_text(JSON.stringify({"t":"sair"}))
+   _ws.close(1000,"saiu")
+   _ws.poll()
+  _ws = null
+ _ws_entrou = false
+ if usa_ws():
+  geracao = ""
+  return
  if not _permitido or geracao.is_empty() or _url.is_empty(): return
  var saida := HTTPRequest.new()
  saida.process_mode = Node.PROCESS_MODE_ALWAYS

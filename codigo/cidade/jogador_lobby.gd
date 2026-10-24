@@ -17,7 +17,8 @@ var _ultima_amostra := -1.0
 var _ultima_recepcao := -1.0
 ## Trechos curtos não passam pelo centro das células da grade: o avatar parado não pode "andar" até ele e voltar a cada consulta
 const TRECHO_DIRETO := 14.0
-const INTERVALO_CONSULTA_REMOTO := 0.55
+## Menor intervalo entre amostras (o servidor próprio envia a 4 Hz; o banco, a cada 0,55 s)
+const INTERVALO_CONSULTA_REMOTO := 0.2
 
 class Corpo extends "res://codigo/jogador/heroi_raven.gd":
  var aparencia := {}
