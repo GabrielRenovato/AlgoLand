@@ -28,3 +28,10 @@ Distribuição por patch cumulativo da base 2026.10.23.1 e exportação Web pró
 `20261024090000_chat_global.sql` adiciona o RPC `chat_global`, reutilizando o histórico, nonce, filtros e orçamento existentes. A flag `cidade` publica presença visual somente na praça; os demais mapas não enviam posições do mundo nem geram avatares na cidade. As oito vagas continuam limitando a presença visual, sem impedir mensagens globais quando ocupadas. Os RPCs antigos continuam disponíveis e compartilham o mesmo histórico. Não há novo autoload nem alteração no núcleo do aplicativo.
 
 `python3 testes/teste_chat_global.py` testa dois clientes em mapas diferentes, viagem fenda→floresta, histórico, ausência de avatares fantasmas e interface móvel. `teste_chat_global.sql` roda em banco isolado e usa rollback; nunca executar os testes de mensagens no servidor dos jogadores.
+
+## Presença por mapa (cidade, floresta e praia)
+
+`20261024140000_lobby_mapas.sql` acrescenta `mapa` (0 a 3) às sessões e redefine `chat_global` e `lobby_cidade_sair`. O cliente envia `mapa` (1 cidade, 2 floresta, 3 praia) e mantém `cidade` verdadeiro só na praça, então servidores sem a migração continuam funcionando: a floresta e a praia apenas não mostram avatares até aplicá-la. Cada jogador recebe somente quem está no mesmo mapa; as oito vagas valem para todos os mapas juntos e quem está online sem mapa (RPC antigo) conta como cidade. Sair zera o mapa na hora. `lobby_cidade.gd` é criado por `cidade.gd` (cidade e praia, `local`) e por `floresta.gd`, com `mapa` próprio; as posições viajam no envelope 1024×576 e cada mapa as escala pelos próprios `limites` (cidade 1024×576, praia 704×576, floresta 1408×864). A floresta não tem grade de navegação: o avatar remoto anda em linha reta entre as amostras.
+
+Validação: `teste_lobby_mapas.sql` (e os testes SQL anteriores) contra um Postgres isolado, por exemplo `podman run -d --rm --name lobbydb -e POSTGRES_PASSWORD=x postgres:17-alpine`, criando os papéis `anon` e `authenticated` e uma `apelido_proibido` de teste antes das migrações; `python3 testes/teste_chat_global.py` confere dois clientes se encontrando na floresta e na praia.
+

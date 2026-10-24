@@ -8,10 +8,15 @@ func conferir(ok: bool, descricao: String) -> void:
 	print("OK " if ok else "FALHA ", papel, " ", descricao)
 	if not ok: falhas += 1
 
-func esperar(condicao: Callable) -> void:
-	var limite := Time.get_ticks_msec()+15000
+func esperar(condicao: Callable, limite_ms := 15000) -> void:
+	var limite := Time.get_ticks_msec()+limite_ms
 	while not condicao.call() and Time.get_ticks_msec()<limite:
 		await create_timer(0.05).timeout
+
+## Avatares remotos do mapa atual (sem o próprio jogador)
+func remotos_de_agora() -> Dictionary:
+	var lobby := current_scene.get_node_or_null("LobbyCidade")
+	return lobby.remotos if lobby != null else {}
 
 func preparar_jogador() -> void:
 	for i in 35: await process_frame
@@ -51,15 +56,33 @@ func rodar() -> void:
 		var nova: Node = cooperativo.sessao_chat_de(current_scene.get_node("Jogador"))
 		conferir(nova == sessao and nova.eu == identidade and nova.geracao == geracao, "viagem preserva sessão e identidade")
 		conferir(nova.mensagens.size() >= 2 and nova.online and nova.conectado, "viagem preserva histórico e conexão")
-		conferir(nova.participantes.is_empty(), "jogadores da cidade não aparecem na floresta")
+		conferir(nova.participantes.keys().all(func(id: String) -> bool: return id == nova.eu), "jogadores da cidade não aparecem na floresta")
 		conferir(nova.enviar_mensagem("VIAJEI E CONTINUEI").is_empty(), "continua enviando depois de trocar de mapa")
 		await esperar(func(): return nova.mensagens.size() >= 3)
 		conferir(nova.mensagens_nao_lidas==nao_lidas, "viagem preserva contador e mensagem própria não acrescenta notificação")
+		conferir(current_scene.has_node("LobbyCidade"), "floresta tem presença visual")
+		await esperar(func(): return not remotos_de_agora().is_empty(), 40000)
+		conferir(remotos_de_agora().size() == 1, "floresta mostra quem entra no mesmo mapa")
+		for remoto in remotos_de_agora().values():
+			conferir(Rect2(Vector2.ZERO, Vector2(1408, 864)).has_point(remoto.position), "avatar da floresta usa as coordenadas do mapa")
 	else:
 		await esperar(func(): return sessao.mensagens.size() >= 3)
 		conferir(sessao.mensagens.any(func(m: Dictionary) -> bool: return m.texto == "VIAJEI E CONTINUEI"), "recebe mensagem de outro mapa após viagem")
 		conferir(sessao.mensagens_nao_lidas>=1, "nova mensagem de outro jogador gera notificação")
 		conferir(current_scene.get_node("LobbyCidade").remotos.is_empty(), "não cria avatar fantasma de quem está fora da cidade")
+		# Mesmo mapa: encontra quem está na floresta; quando ele segue para a praia, sai da floresta e se reencontram lá
+		change_scene_to_file("res://cenas/floresta.tscn")
+		await preparar_jogador()
+		await esperar(func(): return not remotos_de_agora().is_empty(), 40000)
+		conferir(remotos_de_agora().size() == 1, "floresta mostra o jogador que já estava lá")
+		await esperar(func(): return remotos_de_agora().is_empty(), 90000)
+		conferir(remotos_de_agora().is_empty(), "quem vai para a praia sai da floresta")
+		change_scene_to_file("res://cenas/praia.tscn")
+		await preparar_jogador()
+		await esperar(func(): return not remotos_de_agora().is_empty(), 60000)
+		conferir(remotos_de_agora().size() == 1, "praia mostra o reencontro")
+		for remoto in remotos_de_agora().values():
+			conferir(Rect2(Vector2.ZERO, Vector2(704, 576)).has_point(remoto.position), "avatar da praia usa as coordenadas do mapa")
 	await RenderingServer.frame_post_draw
 	root.get_texture().get_image().save_png("/tmp/algoland-chat-global-"+papel+".png")
 	if papel == "A":
@@ -113,6 +136,12 @@ func rodar() -> void:
 		var resposta := {"eu":sessao.eu,"jogadores":[],"mensagens":[{"id":sessao._depois+1,"jogador":"outro_jogador","apelido":"Teste","texto":"Depois de reconectar"}]}
 		sessao._receber(0,200,PackedStringArray(),JSON.stringify(resposta).to_utf8_buffer())
 		conferir(sessao.mensagens_nao_lidas==1, "reconexão mantém a notificação de mensagens novas")
+	if papel == "A":
+		change_scene_to_file("res://cenas/praia.tscn")
+		await preparar_jogador()
+		await esperar(func(): return not remotos_de_agora().is_empty(), 60000)
+		conferir(remotos_de_agora().size() == 1, "praia mostra quem chega depois")
+		await create_timer(1.5).timeout
 	sessao.definir_online(false)
 	await create_timer(0.7).timeout
 	print("LOBBY ",papel,": ",falhas," falhas")

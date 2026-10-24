@@ -36,8 +36,21 @@ const INTERVALO_CONSULTA := 0.55
 const INTERVALO_GLOBAL := 3.0
 var _intervalo_pedido := INTERVALO_CONSULTA
 
-func na_cidade() -> bool:
- return is_instance_valid(cidade) and cidade.has_node("LobbyCidade")
+## Envelope que o servidor aceita; cada mapa é escalado para ele (a cidade, 1024x576, passa sem mudança)
+const ENVELOPE := Vector2(1024,576)
+
+## 0 = mapa sem presença visual; 1 cidade, 2 floresta, 3 praia (definido pelo nó LobbyCidade do mapa)
+func mapa_id() -> int:
+ if not is_instance_valid(cidade): return 0
+ var lobby := cidade.get_node_or_null("LobbyCidade")
+ return int(lobby.mapa) if lobby != null else 0
+
+func tem_presenca() -> bool:
+ return mapa_id()>0
+
+func _retangulo_do_mapa() -> Rect2:
+ var limites = cidade.get("limites") if is_instance_valid(cidade) else null
+ return limites if limites is Rect2 and limites.size.x>0 and limites.size.y>0 else Rect2(Vector2.ZERO,ENVELOPE)
 
 
 func _ready() -> void:
@@ -104,23 +117,27 @@ func _sincronizar() -> void:
   alterada.emit()
   return
  if not is_instance_valid(jogador) or not jogador.is_inside_tree() or not is_instance_valid(cidade): return
- var posicao := cidade.to_local(jogador.global_position) if na_cidade() else Vector2.ZERO
+ var mapa := mapa_id()
+ var posicao := cidade.to_local(jogador.global_position) if mapa>0 else Vector2.ZERO
+ var retangulo := _retangulo_do_mapa()
+ var normalizada := (posicao-retangulo.position)/retangulo.size*ENVELOPE if mapa>0 else Vector2.ZERO
  var raven := jogador.get_node_or_null("HeroiRaven")
  var visual := Visual.do_jogador(jogador)
  var arma = jogador.inventario.equipados.get("arma")
  if arma != null:
   visual.arma_mais_usada = preload("res://codigo/dados/armas_ranking.gd").validar(arma.tipo)
   visual.nivel_arma = clampi(arma.nivel,1,99)
- var conteudo := {"cidade":na_cidade(),"x":clampf(posicao.x,0,1024),"y":clampf(posicao.y,0,576),"direcao":raven._direcao if raven!=null else 0,
+ # "cidade" continua indicando a praça para servidores e clientes antigos; "mapa" distingue cidade, floresta e praia
+ var conteudo := {"cidade":mapa==1,"mapa":mapa,"x":clampf(normalizada.x,0,1024),"y":clampf(normalizada.y,0,576),"direcao":raven._direcao if raven!=null else 0,
   "andando":posicao.distance_to(_ultima_posicao)>1,"apelido":Ranking.apelido_personagem(jogador.apelido)}
  _ultima_posicao = posicao
  var retrato := JSON.stringify(visual)
  if retrato!=_ultimo_visual: conteudo.aparencia = visual
  var dados := {"p_codigo":_codigo,"p_geracao":geracao,"p_estado":conteudo,"p_conhecidos":_conhecidos,"p_depois":_depois,"p_mensagem":_mensagem,"p_envio":_envio}
  _ocupado = true
- _intervalo_pedido = INTERVALO_CONSULTA if na_cidade() else INTERVALO_GLOBAL
+ _intervalo_pedido = INTERVALO_CONSULTA if mapa>0 else INTERVALO_GLOBAL
  _tempo = _intervalo_pedido
- _http.set_meta("cidade",na_cidade())
+ _http.set_meta("mapa",mapa)
  var erro := _http.request(_url+"/rest/v1/rpc/chat_global",_cabecalhos(),HTTPClient.METHOD_POST,JSON.stringify(dados))
  if erro!=OK:
   _ocupado = false
@@ -145,9 +162,12 @@ func _receber(_resultado: int, codigo: int, _cabecalhos_resposta: PackedStringAr
  eu = str(dados.get("eu",""))
  _ultimo_visual = str(_http.get_meta("retrato",""))
  var novos := {}
- var presencas: Array = dados.jogadores if na_cidade() and bool(_http.get_meta("cidade",false)) else []
+ var mapa_pedido := int(_http.get_meta("mapa",0))
+ var presencas: Array = dados.jogadores if mapa_pedido>0 and mapa_id()==mapa_pedido else []
  for item in presencas.slice(0,8):
   if not item is Dictionary or not _estado_valido(item): continue
+  # Servidores com mapa informam onde cada um está; quem está em outro mapa não aparece aqui
+  if item.has("mapa") and int(item.mapa)!=mapa_pedido: continue
   var id := str(item.id)
   var visual := Visual.normalizar(item.get("aparencia"))
   if not visual.is_empty():

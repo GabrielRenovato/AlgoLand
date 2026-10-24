@@ -2,6 +2,8 @@ extends Node2D
 ## A cidade continua sendo o mundo do jogador; este nó compartilha somente avatares e conversa.
 const Sessao := preload("res://codigo/cidade/sessao_lobby.gd")
 const Remoto := preload("res://codigo/cidade/jogador_lobby.gd")
+## 1 cidade, 2 floresta, 3 praia: o servidor só mostra quem está no mesmo mapa
+var mapa := 1
 var sessoes := {}
 var remotos := {}
 var _meus_ids := {}
@@ -43,13 +45,22 @@ func _atualizar_remotos(sessao: Node) -> void:
    remove_child(remotos[id]); remotos[id].queue_free(); remotos.erase(id)
  for id: String in sessao.participantes:
   if _meus_ids.has(id): continue
-  var dados: Dictionary = sessao.participantes[id]
+  var dados: Dictionary = sessao.participantes[id].duplicate()
+  var ponto := _do_envelope(Vector2(float(dados.x),float(dados.y)))
+  dados.x = ponto.x
+  dados.y = ponto.y
   var inicial := not remotos.has(id)
   if inicial:
    var remoto := Remoto.new()
    remotos[id] = remoto
    add_child(remoto)
   remotos[id].atualizar(dados,dados.aparencia,inicial)
+
+## O servidor guarda posições no envelope 1024x576; cada mapa as devolve para o próprio tamanho
+func _do_envelope(ponto: Vector2) -> Vector2:
+ var limites = get_parent().get("limites")
+ if not limites is Rect2 or limites.size.x<=0 or limites.size.y<=0: return ponto
+ return limites.position+ponto/Sessao.ENVELOPE*limites.size
 
 func _limpar_remotos() -> void:
  for remoto in remotos.values(): remove_child(remoto); remoto.queue_free()

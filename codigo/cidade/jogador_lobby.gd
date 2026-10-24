@@ -92,7 +92,8 @@ func atualizar(dados: Dictionary, visual: Dictionary, inicial := false) -> void:
   _velocidade = position.distance_to(destino)/intervalo
  else:
   var cidade := get_parent().get_parent()
-  _rota = cidade.caminho_entre(position,destino)
+  # Cidade e praia têm grade de navegação; na floresta o avatar segue em linha reta até a nova posição
+  _rota = cidade.caminho_entre(position,destino) if cidade.has_method("caminho_entre") else PackedVector2Array([destino])
   var comprimento := 0.0
   var anterior := position
   for ponto in _rota: comprimento+=anterior.distance_to(ponto); anterior=ponto

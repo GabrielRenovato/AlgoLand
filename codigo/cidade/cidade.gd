@@ -100,7 +100,10 @@ func _ready() -> void:
 	if meteorologia != null:
 		meteorologia.clima_mudou.connect(_ao_clima_mudou)
 	Fazenda.clima_do_dia_mudou.connect(_ao_clima_mudou)
-	if local == "cidade": add_child(preload("res://codigo/cidade/lobby_cidade.gd").new())
+	if local in ["cidade","praia"]:
+		var lobby := preload("res://codigo/cidade/lobby_cidade.gd").new()
+		lobby.mapa = 1 if local == "cidade" else 3
+		add_child(lobby)
 	_montar_mural()
 	Calendario.estacao_mudou.connect(_ao_estacao)
 	var estacoes_cidade := get_node_or_null("Terrains/Estacoes")

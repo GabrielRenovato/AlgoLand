@@ -8,6 +8,10 @@ extends Node2D
 @export var limites: Rect2 = Rect2(0, 0, 1408, 864)
 
 func _ready() -> void:
+	# Presença visual de outros jogadores online (o servidor separa por mapa)
+	var lobby := preload("res://codigo/cidade/lobby_cidade.gd").new()
+	lobby.mapa = 2
+	add_child(lobby)
 	var terreno := get_node("Terrains")
 	var natureza := preload("res://codigo/cenario/natureza_fazenda.gd").new()
 	natureza.configurar(terreno)
