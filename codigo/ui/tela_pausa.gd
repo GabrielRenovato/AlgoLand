@@ -5,14 +5,17 @@ extends Control
 ## os dois últimos pedem confirmação. A Interface abre e fecha a tela (nome "pausa") e cuida de Esc/B para fechar.
 
 const EstiloInicio := preload("res://codigo/ui/estilo_inicio_detalhado.gd")
+const TecladoVirtual := preload("res://codigo/ui/teclado_virtual.gd")
 const Opcoes := preload("res://codigo/globais/opcoes_jogo.gd")
 const CENA_MENU := "res://cenas/inicio_do_jogo.tscn"
 const VALORES_FPS := [30, 60, 120, 0]
 const ROTULOS_FPS := ["30", "60", "120", "SEM LIMITE"]
 const COR_NOME_OPCAO := Color(0.75, 0.7, 0.62)
 const COR_AVISO := Color(1, 0.7, 0.55)
+## Mesmo limite da criação do personagem
+const MAX_APELIDO := 12
 
-enum Vista { MENU, OPCOES, CONFIRMAR }
+enum Vista { MENU, OPCOES, CONFIRMAR, APELIDO }
 
 @onready var _titulo: Label = %Titulo
 @onready var _detalhe: Label = %Detalhe
@@ -35,6 +38,10 @@ var _rolagem_opcoes: ScrollContainer
 ## O que o SIM da confirmação faz: "menu" ou "sair"
 var _pedido := ""
 var _saindo := false
+var _vista_apelido: VBoxContainer
+var _campo_apelido: LineEdit
+var _botao_salvar_apelido: Button
+var _teclado: CanvasLayer
 
 func _ready() -> void:
 	_botao_continuar.pressed.connect(_continuar)
@@ -53,6 +60,12 @@ func _ready() -> void:
 		EventosJogo.fechar_tela_de(self,"pausa")
 		EventosJogo.abrir_tela_de(self,"lobby"))
 	_menu.add_child(cidade_online)
+	var apelido := Button.new()
+	apelido.name = "BotaoApelido"
+	apelido.text = "APELIDO"
+	apelido.pressed.connect(_mostrar.bind(Vista.APELIDO))
+	_menu.add_child(apelido)
+	_montar_vista_apelido()
 	%BotaoFechar.pressed.connect(_continuar)
 	_botao_opcoes.pressed.connect(_mostrar.bind(Vista.OPCOES))
 	_botao_salvar.pressed.connect(_salvar_pelo_menu)
@@ -93,6 +106,7 @@ func _ao_visibilidade_alterada() -> void:
 	if visible:
 		var dono := EventosJogo.dono(self)
 		_menu.get_node("BotaoLobbyCidade").visible=dono!=null
+		_menu.get_node("BotaoApelido").visible = dono != null
 		_opcoes = Opcoes.carregar(_lado())
 		_atualizar_linhas()
 		_mostrar(Vista.MENU)
@@ -119,6 +133,7 @@ func _mostrar(vista: Vista) -> void:
 	_rolagem_opcoes.visible = vista == Vista.OPCOES
 	_ajustar_altura_opcoes()
 	_confirmar.visible = vista == Vista.CONFIRMAR
+	_vista_apelido.visible = vista == Vista.APELIDO
 	_detalhe.visible = vista != Vista.OPCOES and _detalhe.text != ""
 	match vista:
 		Vista.MENU:
@@ -130,6 +145,13 @@ func _mostrar(vista: Vista) -> void:
 			_linhas[0]["menos"].grab_focus()
 		Vista.CONFIRMAR:
 			_botao_nao.grab_focus()
+		Vista.APELIDO:
+			_titulo.text = "APELIDO"
+			_detalhe.text = "COMO VOCE APARECE NO CHAT E NO RANKING"
+			_detalhe.visible = true
+			var jogador := EventosJogo.dono(self)
+			_campo_apelido.text = str(jogador.apelido) if jogador != null and str(jogador.apelido) != "sem apelido" else ""
+			_campo_apelido.grab_focus()
 
 ## Onde o jogador está e quanto tem a perder: na onda em andamento, voltar ao menu descarta o progresso dela
 func _texto_estado() -> String:
@@ -177,6 +199,84 @@ func _salvar_pelo_menu() -> void:
 	_detalhe.text = "JOGO SALVO"
 	_detalhe.visible = true
 	_botao_salvar.grab_focus()
+
+# --- Apelido ---------------------------------------------------------------------------------------------------------
+
+func _montar_vista_apelido() -> void:
+	_vista_apelido = VBoxContainer.new()
+	_vista_apelido.add_theme_constant_override("separation", 6)
+	_vista_apelido.hide()
+	_menu.get_parent().add_child(_vista_apelido)
+	_campo_apelido = LineEdit.new()
+	_campo_apelido.placeholder_text = "sem apelido"
+	_campo_apelido.max_length = MAX_APELIDO
+	_campo_apelido.custom_minimum_size = Vector2(0, 22)
+	_campo_apelido.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	EstiloInicio.campo(_campo_apelido)
+	_campo_apelido.text_submitted.connect(func(_texto: String): _salvar_apelido())
+	_campo_apelido.gui_input.connect(_ao_entrada_apelido)
+	_vista_apelido.add_child(_campo_apelido)
+	var linha := HBoxContainer.new()
+	linha.add_theme_constant_override("separation", 6)
+	_vista_apelido.add_child(linha)
+	_botao_salvar_apelido = Button.new()
+	_botao_salvar_apelido.text = "SALVAR"
+	_botao_salvar_apelido.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_botao_salvar_apelido.pressed.connect(_salvar_apelido)
+	linha.add_child(_botao_salvar_apelido)
+	var cancelar := Button.new()
+	cancelar.text = "CANCELAR"
+	cancelar.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	cancelar.pressed.connect(_mostrar.bind(Vista.MENU))
+	linha.add_child(cancelar)
+	_teclado = TecladoVirtual.new()
+	add_child(_teclado)
+	_teclado.confirmado.connect(func(texto: String):
+		_campo_apelido.text = texto
+		_botao_salvar_apelido.grab_focus())
+
+func _ao_entrada_apelido(evento: InputEvent) -> void:
+	# No controle, confirmar (A) no campo abre o teclado virtual, como na criação do personagem
+	if evento is InputEventJoypadButton and evento.is_action_pressed("ui_accept"):
+		_teclado.abrir(_campo_apelido.text, MAX_APELIDO)
+		_campo_apelido.accept_event()
+
+## Troca o apelido do jogador (chat, ranking e mapa leem dele) e grava no save do personagem
+func _salvar_apelido() -> void:
+	var jogador := EventosJogo.dono(self)
+	var texto := _campo_apelido.text.strip_edges()
+	if jogador == null:
+		return
+	if texto.is_empty():
+		_detalhe.text = "ESCREVA UM APELIDO"
+		_detalhe.visible = true
+		Sons.tocar("erro", 0.0)
+		return
+	var novo := Ranking.apelido_personagem(texto.to_upper()).left(MAX_APELIDO)
+	jogador.definir_apelido(novo)
+	_gravar_apelido_no_personagem(jogador, novo)
+	Ranking.capturar_jogador(jogador)
+	Sons.tocar("moeda", 0.0)
+	_mostrar(Vista.MENU)
+	_detalhe.text = "APELIDO: " + novo
+	_detalhe.visible = true
+
+func _gravar_apelido_no_personagem(jogador: Node2D, novo: String) -> void:
+	var caminho := Saves.caminho_personagem(bool(jogador.get("eh_p2")))
+	var dados := {}
+	var leitura := FileAccess.open(caminho, FileAccess.READ)
+	if leitura != null:
+		var lido = JSON.parse_string(leitura.get_as_text())
+		if lido is Dictionary:
+			dados = lido
+		leitura.close()
+	dados["apelido"] = novo
+	var escrita := FileAccess.open(caminho, FileAccess.WRITE)
+	if escrita == null:
+		push_error("Apelido: não consegui gravar " + caminho)
+		return
+	escrita.store_string(JSON.stringify(dados))
+	escrita.close()
 
 # --- Opcoes ----------------------------------------------------------------------------------------------------------
 
