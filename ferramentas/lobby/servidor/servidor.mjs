@@ -10,9 +10,6 @@ export const CONFIG = {
   porta: Number(process.env.PORTA ?? 8787),
   // Painel de administração: só em 127.0.0.1 e em outra porta, que o Funnel/túnel não publica
   portaAdmin: Number(process.env.ADMIN_PORTA ?? 8788),
-  // Ativação por socket (systemd): o socket já está aberto no descritor 3 e o servidor pode dormir quando ninguém está online
-  socketAtivado: Number(process.env.LISTEN_FDS ?? 0) >= 1 && Number(process.env.LISTEN_PID ?? 0) === process.pid,
-  ociosoMs: Number(process.env.OCIOSO_MS ?? 600000),
   maxConexoes: Number(process.env.MAX_CONEXOES ?? 200),
   maxPorMapa: Number(process.env.MAX_POR_MAPA ?? 24),
   tickMs: Number(process.env.TICK_MS ?? 100),
@@ -255,7 +252,7 @@ export function criarServidor(config = CONFIG) {
   });
 
   return {
-    iniciar: () => new Promise((resolve) => servidorHttp.listen(config.socketAtivado ? { fd: 3 } : config.porta, () => {
+    iniciar: () => new Promise((resolve) => servidorHttp.listen(config.porta, () => {
       if (config.portaAdmin > 0) servidorAdmin.listen(config.portaAdmin, '127.0.0.1');
       resolve(servidorHttp.address().port);
     })),
@@ -277,13 +274,4 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   const encerrar = async () => { await servidor.parar(); process.exit(0); };
   process.on('SIGINT', encerrar);
   process.on('SIGTERM', encerrar);
-  // Com ativação por socket, sai sozinho depois de OCIOSO_MS sem ninguém online; a próxima conexão o acorda (o systemd segura o socket)
-  if (CONFIG.socketAtivado && CONFIG.ociosoMs > 0) {
-    console.log(`Ativado por socket: dorme depois de ${Math.round(CONFIG.ociosoMs / 1000)} s sem jogadores`);
-    let vazioDesde = Date.now();
-    setInterval(async () => {
-      if (servidor.jogadores.size > 0) { vazioDesde = Date.now(); return; }
-      if (Date.now() - vazioDesde >= CONFIG.ociosoMs) { console.log('Sem jogadores: dormindo até a próxima conexão'); await encerrar(); }
-    }, Math.min(5000, Math.max(200, CONFIG.ociosoMs / 4))).unref?.();
-  }
 }

@@ -36,15 +36,3 @@ Lotação: `MAX_POR_MAPA` avatares por mapa; quem não cabe fica conectado e con
 
 `./abrir_painel.sh` abre `http://127.0.0.1:8790`: liga, desliga e reinicia o serviço `algoland-lobby`, libera ou bloqueia o acesso pela internet (Tailscale Funnel) e mostra jogadores online (apelido, mapa, há quanto tempo), contagem por mapa, pico, conexões, mensagens recentes e recusadas, ações, memória e o registro do serviço, atualizando a cada 2 s. O servidor expõe esses dados em `127.0.0.1:8788/estado` (porta administrativa, em outra porta que o Funnel nunca publica; sem códigos secretos). O painel só aceita `127.0.0.1`/`localhost`, as ações exigem o token que a página recebe e recusam outra origem. Para subir sempre com a sessão: `cp painel/algoland-painel.service ~/.config/systemd/user/ && systemctl --user daemon-reload && systemctl --user enable --now algoland-painel`.
 
-## Dormir quando vazio (ativação por socket)
-
-Com `socket/algoland-lobby.socket` e `socket/algoland-lobby.service`, o systemd mantém a porta 8787 aberta (só em `127.0.0.1`, para onde o Funnel entrega) e **só sobe o servidor quando alguém conecta**. Depois de `OCIOSO_MS` (padrão 10 min) sem nenhum jogador online, ele encerra sozinho e libera a memória; a conexão seguinte o acorda em uma fração de segundo (o systemd segura a conexão até ele estar pronto). Os contadores do painel zeram a cada despertar. O painel mostra "Dormindo", e **Desligar** fecha também a porta, para nada acordar o servidor. Isso economiza só uns 20 MB de memória: o gasto real é o computador ligado.
-
-Trocar o serviço sempre ligado por este modo:
-
-```bash
-cd ~/AlgoLand/ferramentas/lobby/servidor && systemctl --user disable --now algoland-lobby && cp socket/algoland-lobby.service socket/algoland-lobby.socket ~/.config/systemd/user/ && systemctl --user daemon-reload && systemctl --user enable --now algoland-lobby.socket
-```
-
-Voltar ao modo sempre ligado: `systemctl --user disable --now algoland-lobby.socket algoland-lobby.service`, copiar `algoland-lobby.service` desta pasta e `systemctl --user enable --now algoland-lobby`.
-
