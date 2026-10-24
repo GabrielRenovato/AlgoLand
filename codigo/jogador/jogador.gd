@@ -94,6 +94,8 @@ var bonus_defesa: int = 0               # Soma de todos os bônus de defesa
 # >>> Escudo controlado separadamente <<<
 @export var usando_escudo: bool = false
 var ataque_enfileirado: bool = false
+## Golpe, disparo ou esquiva que outros jogadores online precisam ver (acao: "ataque", "arco" ou "dash")
+signal acao_visual(acao: String, duracao: float, combo: int)
 var _buffer_ataque_ate_ms := 0
 var _buffer_dash_ate_ms := 0
 var _tween_tremor: Tween
@@ -590,6 +592,7 @@ func iniciar_dash() -> void:
 	velocity = dir * velocidade_dash
 	_tempo_proximo_rastro = 0.0
 	_direcao_ataque = dir
+	acao_visual.emit("dash", duracao_dash, 0)
 	var raven := get_node_or_null("HeroiRaven")
 	if raven != null and raven.visible:
 		no_reacao.encerrar()
@@ -1055,6 +1058,7 @@ func iniciar_slash_ataque_lanca(nome_anim: String, tempo_slash: float) -> void:
 	_avancar_no_golpe()
 	_flash_golpe()
 	Sons.tocar("golpe_lanca")
+	acao_visual.emit("ataque", tempo_slash, _fase_combo)
 	_esta_atacando = true
 	$AreaAtaque.monitoring = true
 	$AreaAtaque.monitorable = true
@@ -1075,6 +1079,7 @@ func iniciar_slash_ataque(nome_anim: String, tempo_slash: float) -> void:
 	_avancar_no_golpe()
 	_flash_golpe()
 	Sons.tocar("golpe_espada")
+	acao_visual.emit("ataque", tempo_slash, _fase_combo)
 	_esta_atacando = true
 	$AreaAtaque.monitoring = true
 	$AreaAtaque.monitorable = true
@@ -1573,6 +1578,7 @@ func _iniciar_disparo() -> void:
 	_esta_atacando = true
 	var tempo: float = status_armas.armas[id_arco_atual].get("tempo_disparo", 0.65)
 	no_arco.disparar(mira, tempo)
+	acao_visual.emit("arco", tempo, 0)
 	_atualizar_visual_arco()
 
 # Mira no inimigo vivo mais próximo ao alcance; sem alvo, segue a última direção de movimento

@@ -21,6 +21,7 @@ func sessao_de(jogador: Node2D) -> Node:
   if sessao == null: return null
   sessoes[lado] = sessao
   sessao.alterada.connect(_atualizar_remotos.bind(sessao))
+  sessao.acao_remota.connect(_ao_acao_remota)
  return sessoes[lado]
 
 func _process(_delta: float) -> void:
@@ -61,6 +62,9 @@ func _do_envelope(ponto: Vector2) -> Vector2:
  var limites = get_parent().get("limites")
  if not limites is Rect2 or limites.size.x<=0 or limites.size.y<=0: return ponto
  return limites.position+ponto/Sessao.ENVELOPE*limites.size
+
+func _ao_acao_remota(jogador_id: String, dados: Dictionary) -> void:
+ if remotos.has(jogador_id): remotos[jogador_id].iniciar_acao(dados)
 
 func _limpar_remotos() -> void:
  for remoto in remotos.values(): remove_child(remoto); remoto.queue_free()

@@ -10,14 +10,17 @@ export const CONFIG = {
   porta: Number(process.env.PORTA ?? 8787),
   maxConexoes: Number(process.env.MAX_CONEXOES ?? 200),
   maxPorMapa: Number(process.env.MAX_POR_MAPA ?? 24),
-  tickMs: Number(process.env.TICK_MS ?? 200),
+  tickMs: Number(process.env.TICK_MS ?? 100),
   expiraMs: Number(process.env.EXPIRA_MS ?? 20000),
   historico: 500,
+  acoesGuardadas: 200,
+  idadeAcaoMs: 2000,
   retencaoMs: 3600000,
   origens: (process.env.ORIGENS_PERMITIDAS ?? '').split(',').map((o) => o.trim()).filter(Boolean),
 };
 const ENVELOPE = { x: 1024, y: 576 };
 const REGEX_HEX = /^[a-f0-9]{24,64}$/;
+const ACOES = new Set(['ataque', 'arco', 'dash']);
 
 export function criarServidor(config = CONFIG) {
   /** @type {Map<string, any>} id -> jogador */
@@ -25,6 +28,9 @@ export function criarServidor(config = CONFIG) {
   const porHash = new Map();
   const mensagens = [];
   let proximaMensagem = 1;
+  // Ações de uma vez só (golpe, disparo, esquiva): cada vizinho do mesmo mapa recebe cada uma uma única vez
+  const acoes = [];
+  let proximaAcao = 1;
   const inicio = Date.now();
 
   const servidorHttp = http.createServer((req, res) => {
@@ -85,6 +91,7 @@ export function criarServidor(config = CONFIG) {
     jogador.y = estado.y;
     jogador.direcao = Number.isInteger(estado.direcao) ? Math.max(0, Math.min(3, estado.direcao)) : 0;
     jogador.andando = mapa > 0 && estado.andando === true;
+    jogador.pesca = mapa > 0 && Number.isInteger(estado.pesca) && estado.pesca >= 0 && estado.pesca <= 3 ? estado.pesca : -1;
     jogador.instante = agora / 1000;
     jogador.vistoEm = agora;
     return '';
@@ -108,7 +115,7 @@ export function criarServidor(config = CONFIG) {
     if (jogador.mapa > 0) {
       for (const p of jogadores.values()) {
         if (p.mapa !== jogador.mapa) continue;
-        const item = { id: p.id, apelido: p.apelido, x: p.x, y: p.y, direcao: p.direcao, andando: p.andando, revisao: p.revisao,
+        const item = { id: p.id, apelido: p.apelido, x: p.x, y: p.y, direcao: p.direcao, andando: p.andando, pesca: p.pesca, revisao: p.revisao,
           mapa: p.mapa, instante: p.instante };
         item.aparencia = jogador.conhecidos.get(p.id) === p.revisao ? null : p.aparencia;
         lista.push(item);
@@ -117,13 +124,20 @@ export function criarServidor(config = CONFIG) {
     }
     const novas = mensagens.filter((m) => m.id > jogador.depois).slice(-40)
       .map((m) => ({ id: m.id, jogador: m.jogador, apelido: m.apelido, texto: m.texto }));
-    const assinatura = JSON.stringify([lista.map((i) => [i.id, i.x, i.y, i.direcao, i.andando, i.revisao, i.instante]), novas.length]);
-    const mudou = forcar || assinatura !== jogador.ultimaAssinatura || jogador.confirmado !== null || jogador.aviso !== '';
+    const assinatura = JSON.stringify([lista.map((i) => [i.id, i.x, i.y, i.direcao, i.andando, i.pesca, i.revisao, i.instante]), novas.length]);
+    // Ações de outros no mesmo mapa que este cliente ainda não recebeu
+    const limite = Date.now() - config.idadeAcaoMs;
+    const novasAcoes = jogador.mapa > 0
+      ? acoes.filter((a) => a.n > jogador.ultimaAcao && a.mapa === jogador.mapa && a.jogador !== jogador.id && a.em >= limite)
+        .map((a) => ({ jogador: a.jogador, acao: a.acao, duracao: a.duracao, combo: a.combo, direcao: a.direcao }))
+      : [];
+    jogador.ultimaAcao = proximaAcao - 1;
+    const mudou = forcar || assinatura !== jogador.ultimaAssinatura || jogador.confirmado !== null || jogador.aviso !== '' || novasAcoes.length > 0;
     if (!mudou) return null;
     jogador.ultimaAssinatura = assinatura;
     jogador.conhecidos = new Map(lista.map((i) => [i.id, i.aparencia === null ? jogador.conhecidos.get(i.id) : i.revisao]));
     if (novas.length) jogador.depois = novas[novas.length - 1].id;
-    const resposta = { eu: jogador.id, mapa: jogador.mapa, jogadores: lista, mensagens: novas, confirmado: jogador.confirmado, aviso: jogador.aviso, limite: config.maxPorMapa };
+    const resposta = { eu: jogador.id, mapa: jogador.mapa, jogadores: lista, mensagens: novas, acoes: novasAcoes, confirmado: jogador.confirmado, aviso: jogador.aviso, limite: config.maxPorMapa };
     jogador.confirmado = null;
     jogador.aviso = '';
     return resposta;
@@ -151,6 +165,15 @@ export function criarServidor(config = CONFIG) {
         jogador.aviso = aviso;
         break;
       }
+      case 'acao': {
+        if (jogador.mapa === 0 || !ACOES.has(dados.acao)) break;
+        const duracao = Number.isFinite(dados.duracao) ? Math.max(0.05, Math.min(2, dados.duracao)) : 0.3;
+        const combo = Number.isInteger(dados.combo) ? Math.max(0, Math.min(3, dados.combo)) : 0;
+        const direcao = Number.isInteger(dados.direcao) ? Math.max(0, Math.min(3, dados.direcao)) : jogador.direcao;
+        acoes.push({ n: proximaAcao++, jogador: jogador.id, mapa: jogador.mapa, acao: dados.acao, duracao, combo, direcao, em: agora });
+        while (acoes.length > config.acoesGuardadas) acoes.shift();
+        break;
+      }
       case 'sair':
         remover(jogador, 'saiu');
         break;
@@ -175,7 +198,7 @@ export function criarServidor(config = CONFIG) {
       const id = anterior?.id ?? randomUUID();
       if (anterior) { jogadores.delete(anterior.id); porHash.delete(hash); anterior.ws.close(1000, 'substituida'); }
       jogador = { id, hash, ws, geracao: dados.geracao, apelido: 'sem apelido', aparencia: anterior?.aparencia ?? null, revisao: anterior?.revisao ?? 1,
-        mapa: 0, x: 0, y: 0, direcao: 0, andando: false, instante: Date.now() / 1000, vistoEm: Date.now(), ultimaMensagem: 0,
+        mapa: 0, x: 0, y: 0, direcao: 0, andando: false, pesca: -1, ultimaAcao: proximaAcao - 1, instante: Date.now() / 1000, vistoEm: Date.now(), ultimaMensagem: 0,
         envios: anterior?.envios ?? new Set(), janela: [], conhecidos: new Map(), depois: Number.isInteger(dados.depois) ? Math.max(0, dados.depois) : 0,
         confirmado: null, aviso: '', ultimaAssinatura: '' };
       jogadores.set(id, jogador);

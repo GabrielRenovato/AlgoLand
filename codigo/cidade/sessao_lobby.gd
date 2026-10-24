@@ -3,6 +3,8 @@ extends Node
 signal fala_recebida(jogador_id: String, texto: String)
 signal alterada
 signal mensagem_confirmada(texto: String, erro: String)
+## Golpe, disparo ou esquiva de outro jogador do mesmo mapa (só com o servidor próprio)
+signal acao_remota(jogador_id: String, dados: Dictionary)
 const Visual := preload("res://codigo/dados/visual_ranking.gd")
 var jogador: Node2D
 var cidade: Node2D
@@ -49,6 +51,7 @@ var _ws_tempo_estado := 0.0
 var _ws_ultimo_envio := 0.0
 var _ws_assinatura := ""
 var _ws_reenvio := 0.0
+var _jogador_ligado: Node2D
 
 ## Envelope que o servidor aceita; cada mapa é escalado para ele (a cidade, 1024x576, passa sem mudança)
 const ENVELOPE := Vector2(1024,576)
@@ -156,6 +159,7 @@ func _process(delta: float) -> void:
  if _tempo<=0: _sincronizar()
 
 func _processar_ws(delta: float) -> void:
+ _ligar_jogador()
  if _ws == null:
   _ws_espera -= delta
   if _ws_espera<=0: _conectar_ws()
@@ -199,6 +203,22 @@ func _processar_ws(delta: float) -> void:
     _falhar("SEM CONEXAO - TENTANDO NOVAMENTE",3.0)
     _ws_espera = 3.0
 
+## Cada mapa traz um Jogador novo: escuta os golpes, disparos e esquivas dele para mostrá-los aos outros
+func _ligar_jogador() -> void:
+ if jogador == _jogador_ligado or not is_instance_valid(jogador): return
+ if is_instance_valid(_jogador_ligado) and _jogador_ligado.acao_visual.is_connected(_ao_acao_visual):
+  _jogador_ligado.acao_visual.disconnect(_ao_acao_visual)
+ _jogador_ligado = jogador
+ jogador.acao_visual.connect(_ao_acao_visual)
+
+func _ao_acao_visual(acao: String, duracao: float, combo: int) -> void:
+ if _ws == null or not _ws_entrou or _ws.get_ready_state()!=WebSocketPeer.STATE_OPEN or mapa_id()==0: return
+ var vetor: Vector2 = jogador._direcao_ataque
+ var direcao := 0
+ if absf(vetor.x)>absf(vetor.y): direcao = 3 if vetor.x<0 else 1
+ elif vetor.y<0: direcao = 2
+ _ws.send_text(JSON.stringify({"t":"acao","acao":acao,"duracao":duracao,"combo":combo,"direcao":direcao}))
+
 func _conectar_ws() -> void:
  if not is_instance_valid(jogador) or not jogador.is_inside_tree(): return
  _ws = WebSocketPeer.new()
@@ -227,7 +247,7 @@ func _enviar_estado_ws() -> void:
  var conteudo: Dictionary = montado.conteudo
  _ws_tempo_estado = INTERVALO_ESTADO_WS if int(montado.mapa)>0 else INTERVALO_OCIOSO_WS
  # Parado e sem novidade só repete de tempos em tempos, para o servidor saber que está vivo
- var assinatura := "%d|%d|%d|%d|%s|%s|%s" % [int(montado.mapa),roundi(conteudo.x),roundi(conteudo.y),int(conteudo.direcao),str(conteudo.andando),str(conteudo.apelido),str(conteudo.has("aparencia"))]
+ var assinatura := "%d|%d|%d|%d|%s|%s|%s|%d" % [int(montado.mapa),roundi(conteudo.x),roundi(conteudo.y),int(conteudo.direcao),str(conteudo.andando),str(conteudo.apelido),str(conteudo.has("aparencia")),int(conteudo.get("pesca",-1))]
  var agora := Time.get_ticks_msec()/1000.0
  if assinatura==_ws_assinatura and agora-_ws_ultimo_envio<2.0: return
  _ws_assinatura = assinatura
@@ -271,6 +291,12 @@ func _sincronizar() -> void:
   _falhar("SEM CONEXAO - TENTANDO NOVAMENTE",5.0)
  else: _http.set_meta("retrato",retrato)
 
+## Quadro 0 a 3 da pose de pesca enquanto o jogador pesca; -1 fora dela
+func _quadro_de_pesca(raven: Node) -> int:
+ var pesca := jogador.get_node_or_null("AnimacaoPesca")
+ if pesca == null or raven == null or not raven.has_method("quadro_pesca"): return -1
+ return clampi(int(raven.quadro_pesca(int(pesca._pose))),0,3)
+
 ## Estado do jogador para o servidor ({} se ele ainda não está pronto): "conteudo" é o que vai na rede, "retrato" a aparência serializada
 func _montar_estado(incluir_aparencia := false) -> Dictionary:
  if not is_instance_valid(jogador) or not jogador.is_inside_tree() or not is_instance_valid(cidade): return {}
@@ -286,7 +312,7 @@ func _montar_estado(incluir_aparencia := false) -> Dictionary:
   visual.nivel_arma = clampi(arma.nivel,1,99)
  # "cidade" continua indicando a praça para servidores e clientes antigos; "mapa" distingue cidade, floresta e praia
  var conteudo := {"cidade":mapa==1,"mapa":mapa,"x":clampf(normalizada.x,0,1024),"y":clampf(normalizada.y,0,576),"direcao":raven._direcao if raven!=null else 0,
-  "andando":posicao.distance_to(_ultima_posicao)>1,"apelido":Ranking.apelido_personagem(jogador.apelido)}
+  "andando":posicao.distance_to(_ultima_posicao)>1,"apelido":Ranking.apelido_personagem(jogador.apelido),"pesca":_quadro_de_pesca(raven)}
  _ultima_posicao = posicao
  var retrato := JSON.stringify(visual)
  if incluir_aparencia or retrato!=_ultimo_visual: conteudo.aparencia = visual
@@ -329,6 +355,10 @@ func _processar(dados: Dictionary, mapa_pedido: int, retrato: String) -> void:
    item["aparencia"] = _visuais[id]
    novos[id] = item
  participantes = novos
+ if mapa_pedido>0 and mapa_id()==mapa_pedido and dados.get("acoes") is Array:
+  for acao in dados.acoes.slice(0,16):
+   if acao is Dictionary and str(acao.get("jogador","")).length()==36 and str(acao.get("acao","")) in ["ataque","arco","dash"]:
+    acao_remota.emit(str(acao.jogador),acao)
  for id in _visuais.keys():
   if not novos.has(id): _visuais.erase(id); _conhecidos.erase(id)
  for item in dados.mensagens.slice(0,40):
@@ -348,7 +378,8 @@ func _processar(dados: Dictionary, mapa_pedido: int, retrato: String) -> void:
   _mensagem = ""
   mensagem_confirmada.emit(texto,"MENSAGEM NAO PERMITIDA" if dados.get("aviso")=="mensagem_recusada" else "")
  conectado = true
- estado = "CHAT GLOBAL ONLINE"
+ # Mostra qual canal está em uso: servidor próprio (todos se enxergam) ou canal reserva do banco
+ estado = "CHAT GLOBAL ONLINE" + (" (SERVIDOR PROPRIO)" if usa_ws() else (" (CANAL RESERVA)" if not _url_ws.is_empty() else ""))
  alterada.emit()
 
 func enviar_mensagem(texto: String) -> String:

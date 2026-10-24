@@ -65,6 +65,16 @@ func rodar() -> void:
 		conferir(remotos_de_agora().size() == 1, "floresta mostra quem entra no mesmo mapa")
 		for remoto in remotos_de_agora().values():
 			conferir(Rect2(Vector2.ZERO, Vector2(1408, 864)).has_point(remoto.position), "avatar da floresta usa as coordenadas do mapa")
+		if sessao.usa_ws():
+			# Com o servidor próprio, golpe, esquiva, disparo e pesca do outro jogador chegam ao avatar dele
+			var vistas := {}
+			var ligacao := func(_id: String, dados: Dictionary) -> void: vistas[dados.acao] = true
+			sessao.acao_remota.connect(ligacao)
+			await esperar(func(): return vistas.size() >= 3, 60000)
+			conferir(vistas.has("ataque") and vistas.has("dash") and vistas.has("arco"), "floresta mostra golpe, esquiva e disparo do outro jogador " + str(vistas.keys()))
+			sessao.acao_remota.disconnect(ligacao)
+			await esperar(func(): return remotos_de_agora().values().any(func(r): return r._pesca == 3), 30000)
+			conferir(remotos_de_agora().values().any(func(r): return r._pesca == 3), "floresta mostra o outro jogador pescando")
 	else:
 		await esperar(func(): return sessao.mensagens.size() >= 3)
 		conferir(sessao.mensagens.any(func(m: Dictionary) -> bool: return m.texto == "VIAJEI E CONTINUEI"), "recebe mensagem de outro mapa após viagem")
@@ -75,6 +85,19 @@ func rodar() -> void:
 		await preparar_jogador()
 		await esperar(func(): return not remotos_de_agora().is_empty(), 40000)
 		conferir(remotos_de_agora().size() == 1, "floresta mostra o jogador que já estava lá")
+		if sessao.usa_ws():
+			var jogador_b: Node2D = current_scene.get_node("Jogador")
+			for i in 12:
+				for acao in ["ataque", "dash", "arco"]:
+					jogador_b.acao_visual.emit(acao, 0.3, 1)
+					await create_timer(0.35).timeout
+			var pesca := Node2D.new()
+			pesca.set_script(preload("res://codigo/pesca/animacao_pesca.gd"))
+			pesca.name = "AnimacaoPesca"
+			jogador_b.add_child(pesca)
+			pesca.pose(3, false)
+			await create_timer(5.0).timeout
+			pesca.queue_free()
 		await esperar(func(): return remotos_de_agora().is_empty(), 90000)
 		conferir(remotos_de_agora().is_empty(), "quem vai para a praia sai da floresta")
 		change_scene_to_file("res://cenas/praia.tscn")

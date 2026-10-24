@@ -67,6 +67,25 @@ sc = await c.esperarSnapshot((s) => s.jogadores.length === 2);
 conferir(sa.jogadores.length === 1 && sc.jogadores.length === 2, 'quem muda de mapa sai de um e aparece no outro');
 conferir(sc.jogadores.find((p) => p.apelido === 'BETO')?.aparencia?.versao === 1, 'reentrada reenvia a aparência');
 
+// Ações visuais: ataque, esquiva e disparo chegam uma vez aos vizinhos do mesmo mapa; pesca vai no estado
+c.estado({ x: 300, y: 300, mapa: 1, apelido: 'CIDA' });
+b.estado({ x: 300, y: 300, mapa: 1, apelido: 'BETO', pesca: 2 });
+sc = await c.esperarSnapshot((s) => s.jogadores.some((p) => p.apelido === 'BETO' && p.pesca === 2));
+conferir(sc.jogadores.find((p) => p.apelido === 'BETO')?.pesca === 2, 'pesca vai no estado do jogador');
+c.ultimo = null;
+b.ws.send(JSON.stringify({ t: 'acao', acao: 'ataque', duracao: 0.3, combo: 2, direcao: 1 }));
+b.ws.send(JSON.stringify({ t: 'acao', acao: 'dash', duracao: 0.2, direcao: 3 }));
+b.ws.send(JSON.stringify({ t: 'acao', acao: 'voar', duracao: 0.2 }));
+await esperar(300);
+const recebidas = c.msgs.flatMap((s) => s.acoes ?? []);
+conferir(recebidas.length === 2 && recebidas[0].acao === 'ataque' && recebidas[0].combo === 2 && recebidas[1].acao === 'dash' && recebidas[1].direcao === 3, 'ações do mesmo mapa chegam em ordem e a inválida é ignorada', JSON.stringify(recebidas));
+conferir(recebidas.every((x) => x.jogador === b.ultimo.eu), 'ação traz quem a fez');
+await esperar(300);
+conferir(c.msgs.flatMap((s) => s.acoes ?? []).length === 2, 'cada ação chega uma única vez');
+conferir(!sa.acoes?.length && !a.msgs.flatMap((s) => s.acoes ?? []).length, 'outro mapa não recebe ações');
+conferir(!b.msgs.flatMap((s) => s.acoes ?? []).some((x) => x.jogador === b.ultimo.eu), 'quem agiu não recebe a própria ação');
+b.estado({ x: 300, y: 300, mapa: 1, apelido: 'BETO', pesca: -1 });
+
 // Chat global, mesmo em mapa sem presença
 a.estado({ x: 100, y: 100, mapa: 0, apelido: 'ANA' });
 const envio = a.msg('olá mundo');

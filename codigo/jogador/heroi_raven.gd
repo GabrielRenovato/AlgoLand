@@ -40,8 +40,13 @@ func _ready() -> void:
 	vframes = 4
 	_pontas = JSON.parse_string(FileAccess.get_file_as_string("res://assets/personagens/raven_fantasy/pontas_pesca.json"))
 	_montar_camadas()
-	# Haste com pegada e comprimento medidos no quarto quadro nativo.
-	# A ponta flexiona na disputa sem repetir o gesto de arremessar.
+	_montar_vara_pesca()
+	_montar_poeira()
+	_process(0.0)
+
+## Haste com pegada e comprimento medidos no quarto quadro nativo.
+## A ponta flexiona na disputa sem repetir o gesto de arremessar.
+func _montar_vara_pesca() -> void:
 	_vara_pesca = Line2D.new()
 	_vara_pesca.width = 2.0
 	var espessura := Curve.new()
@@ -52,8 +57,6 @@ func _ready() -> void:
 	_vara_pesca.antialiased = false
 	_vara_pesca.visible = false
 	add_child(_vara_pesca)
-	_montar_poeira()
-	_process(0.0)
 
 ## Compositor compartilhado pelo jogador e pelas representações visuais do ranking.
 func _montar_camadas() -> void:
