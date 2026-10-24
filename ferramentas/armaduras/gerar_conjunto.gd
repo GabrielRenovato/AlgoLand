@@ -225,7 +225,7 @@ func _preparar_elmos_rigidos() -> void:
 		var fonte := _elmos[d]
 		var imagem := Image.create(64, 64, false, Image.FORMAT_RGBA8)
 		var deslocamentos: Array = _config["recortes"].get("deslocamento_vertical_elmo", [0, 0, 0, 0])
-		var posicao := Vector2i(32 + _deslocamentos_cabeca[d] - _ancoras_elmo[d], 33 - fonte.get_height() + int(deslocamentos[d]))
+		var posicao := Vector2i(32 - _ancoras_elmo[d], 33 - fonte.get_height() + int(deslocamentos[d]))
 		if int(_config["recortes"].get("borda_calota", 0)) == 1:
 			# Espessura do contorno das chapas, calculada uma vez. Não altera o visor.
 			for y in range(fonte.get_height() / 3, fonte.get_height()):
@@ -260,7 +260,9 @@ func _vestir_tecido(corpo: Image, roupa: Image, cabeca: Rect2i, direcao: int) ->
 	var partes := {}
 	for peca in Padrao.PECAS:
 		partes[peca] = Image.create(64, 64, false, Image.FORMAT_RGBA8)
-	var centro := cabeca.get_center().x
+	var ancora := ancora_cabeca_raven(corpo, cabeca)
+	var centro := ancora.x
+	# Preserva o recorte entre face exposta, gola e mangas do traje existente.
 	var topo := cabeca.position.y + 13
 	var fundo := topo + 10
 	var peito := _peitorais[direcao]
@@ -300,7 +302,7 @@ func _vestir_tecido(corpo: Image, roupa: Image, cabeca: Rect2i, direcao: int) ->
 			partes[peca].set_pixel(x, y, cor)
 	var cartola := _elmos[direcao]
 	var encaixe := int(_config["recortes"].get("encaixe_cartola", 4))
-	var posicao := Vector2i(centro + _deslocamentos_cranio[direcao] - _ancoras_cartola[direcao], cabeca.position.y + encaixe - cartola.get_height())
+	var posicao := Vector2i(centro - _ancoras_cartola[direcao], ancora.y - 13 + encaixe - cartola.get_height())
 	partes["elmo"].blend_rect(cartola, Rect2i(Vector2i.ZERO, cartola.get_size()), posicao)
 	for y in 64:
 		for x in 64:
@@ -309,12 +311,21 @@ func _vestir_tecido(corpo: Image, roupa: Image, cabeca: Rect2i, direcao: int) ->
 					partes[peca].set_pixel(x, y, Color.TRANSPARENT)
 	return partes
 
+## O cabelo localiza a região, mas franjas e volume lateral não são o crânio.
+## Mede a parte superior da cabeça no corpo; braços e nariz ficam abaixo dela.
+static func ancora_cabeca_raven(corpo: Image, cabelo: Rect2i) -> Vector2i:
+	var regiao := Rect2i(cabelo.position, Vector2i(cabelo.size.x, mini(7, cabelo.size.y)))
+	var cranio := corpo.get_region(regiao).get_used_rect()
+	assert(cranio.has_area(), "Cabeça Raven sem referência anatômica")
+	return Vector2i(regiao.position.x + cranio.get_center().x, regiao.position.y + cranio.position.y + 10)
+
 func _vestir(corpo: Image, roupa: Image, cabeca: Rect2i, direcao: int) -> Dictionary:
 	var partes := {}
 	for peca in ["elmo", "peitoral", "luvas", "botas"]:
 		partes[peca] = Image.create(64, 64, false, Image.FORMAT_RGBA8)
-	var centro := cabeca.position.x + cabeca.size.x / 2
-	var topo := cabeca.position.y + 13
+	var ancora := ancora_cabeca_raven(corpo, cabeca)
+	var centro := ancora.x
+	var topo := ancora.y
 	var fundo := topo + 10
 	var peito := _peitorais[direcao]
 	var pernas := _grevas[direcao]
@@ -360,7 +371,7 @@ func _vestir(corpo: Image, roupa: Image, cabeca: Rect2i, direcao: int) -> Dictio
 			partes[peca].set_pixel(x, y, cor)
 	# O elmo acompanha o deslocamento da cabeça (inclusive o balanço da corrida).
 	var elmo: Image = _elmos[direcao].duplicate()
-	var posicao := Vector2i(centro - elmo.get_width() / 2, topo + 1 - elmo.get_height())
+	var posicao := Vector2i(centro - _ancoras_elmo[direcao], topo + 1 - elmo.get_height())
 	# Chifres assimétricos deslocam o centro do recorte nos perfis. Alinha pela
 	# calota na metade inferior, não pela largura total dos enfeites.
 	var rigido := bool(_config["recortes"].get("elmo_rigido", false))
