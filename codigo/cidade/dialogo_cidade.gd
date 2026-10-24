@@ -290,8 +290,9 @@ func _preparar_leitura() -> void:
 	_ajustar_conversa.call_deferred()
 
 func _sincronizar_conteudo() -> void:
-	_resumo_servico.visible = _atendimento != "" and _menu_assuntos.visible
-	_resumo_servico.text = {
+	var encomenda_forja := _submenu == "encomenda_forja"
+	_resumo_servico.visible = (_atendimento != "" or encomenda_forja) and _menu_assuntos.visible
+	_resumo_servico.text = _fala.text if encomenda_forja else {
 		"cozinha":"Escolha um prato para a proxima exploracao.",
 		"carpintaria":"Construcoes e aves para sua fazenda.",
 		"peixes":"Venda os peixes da sua mochila.",
@@ -406,6 +407,12 @@ func _abrir_conversa() -> void:
 				if Dados.MISSOES[chave].dono == id and not Cidade.missoes.has(chave) and Cidade.memoria.get("pedido_adiado:"+chave,-1) != Calendario.dia and Dados.missao_na_estacao(chave,Calendario.estacao()):
 					_pedido = chave
 					break
+	# Encomenda no ferreiro: a conversa abre direto no andamento dela e, pronta, oferece a retirada com ele
+	if id == "ferreiro" and _pedido == "" and not Progresso.encomenda_forja.is_empty():
+		_submenu = "encomenda_forja"
+		_atualizar()
+		focar_inicio()
+		return
 	if id == "osvaldo" and int(Fazenda.galinheiro.obra) > 0 and bool(cena.get("comparar_visual_fazenda")):
 		_falar((primeira+" " if primeira != "" else "")+"Estou cuidando da sua obra. Trabalho das 8h as 17h e termino no dia %d. Depois vou para casa descansar com a familia." % Fazenda.galinheiro.pronto_dia)
 	elif primeira != "":
@@ -503,6 +510,8 @@ func _atualizar() -> void:
 	elif _atendimento != "" and Atendimento.impedimento(Cooperativo.cena_de(self),id,_atendimento) != "":
 		_fala.text = Atendimento.impedimento(Cooperativo.cena_de(self),id,_atendimento)
 		_submenu = ""
+	elif _submenu == "encomenda_forja":
+		_mostrar_encomenda_forja()
 	elif _submenu == "servicos":
 		_fala.text = "Como posso ajudar?"
 		_montar_servicos(id,morador)
@@ -572,6 +581,41 @@ func _servico_dialogo(id: String, morador: Dictionary) -> void:
 			_botao("POCOES", _abrir_servico.bind("caldeirao"))
 	if not contratado and not _botoes.is_empty():
 		_botoes[0].tooltip_text = "Use a mesa da sede para contratar este apoio."
+
+## Andamento da encomenda do jogador no ferreiro; pronta e no horário de atendimento, ele a entrega na hora
+func _mostrar_encomenda_forja() -> void:
+	var pedido: Dictionary = Progresso.encomenda_forja
+	if pedido.is_empty():
+		_submenu = ""
+		_fala.text = _fala_atual
+		return
+	var nome: String = preload("res://codigo/dados/forja_armas.gd").nome(str(pedido["tipo"]))
+	var luz := Cooperativo.cena_de(self).get_node_or_null("Iluminacao")
+	var fechado := Dados.servico_fechado("ferreiro", luz.hora if luz != null else 12.0, Calendario.dia_da_semana())
+	if Progresso.encomenda_forja_pronta():
+		if fechado == "":
+			_fala.text = "Sua encomenda esta pronta: %s! Quer retirar agora?" % nome
+			_botao("RETIRAR: " + nome, _retirar_encomenda_forja)
+		else:
+			_fala.text = "Sua encomenda esta pronta: %s. Mas agora nao estou atendendo (%s). Volte no meu horario e eu entrego." % [nome,fechado.to_lower()]
+	else:
+		var faltam := maxi(1,int(pedido["dia_pronto"])-Calendario.dia)
+		_fala.text = "Estou fabricando o seu pedido: %s. Fica pronto em %d dia%s." % [nome,faltam,"" if faltam == 1 else "s"]
+	_botao("CONVERSAR",_assunto.bind("papo"))
+	_botao("FECHAR",_fechar)
+
+func _retirar_encomenda_forja() -> void:
+	var inventario := EventosJogo.inventario_de(self)
+	var tipo := str(Progresso.encomenda_forja.get("tipo",""))
+	var nome: String = preload("res://codigo/dados/forja_armas.gd").nome(tipo)
+	var erro := Progresso.retirar_encomenda_forja(inventario)
+	if erro != "":
+		_aviso = erro
+	else:
+		Sons.tocar("compra", 0.0)
+		_aviso = "Aqui esta: %s! O modelo agora e seu para sempre." % nome if tipo in inventario.armas_permanentes_entregues else "Pronto, mas sua mochila esta cheia. Libere espaco e retire sem custo na bigorna."
+	_submenu = ""
+	_atualizar()
 
 func _mostrar_pedido() -> void:
 	var dados: Dictionary = Dados.MISSOES[_pedido]

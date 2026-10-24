@@ -316,6 +316,12 @@ func _rotulo(pai: Node, tamanho: int) -> Label:
 func _ao_visibilidade() -> void:
 	if visible:
 		_mensagem = ""
+		# Com encomenda em andamento, a tela abre na arma pedida: é nela que aparece o prazo e o botão de retirar
+		var pedida := str(Progresso.encomenda_forja.get("tipo",""))
+		if not _modo_ferramentas and _botoes.has(pedida) and _tipo != pedida:
+			_tipo = pedida
+			_pagina = maxi(0,_tipos_catalogo().find(pedida)) / _por_pagina
+			_atualizar_pagina()
 		_atualizar()
 
 func _selecionar(tipo: String) -> void:

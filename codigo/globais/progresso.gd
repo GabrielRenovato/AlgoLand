@@ -568,7 +568,7 @@ func texto_encomenda_forja() -> String:
 		return ""
 	var nome: String = ForjaArmas.nome(str(encomenda_forja["tipo"]))
 	if encomenda_forja_pronta():
-		return "PRONTA PARA RETIRAR: %s.\nVOLTE A BIGORNA NO HORARIO DE ATENDIMENTO." % nome
+		return "PRONTA PARA RETIRAR: %s.\nFALE COM O IVO (OU RETIRE NA BIGORNA) NO HORARIO DE ATENDIMENTO." % nome
 	var dia := int(encomenda_forja["dia_pronto"])
 	var faltam := maxi(0,dia-Calendario.dia)
 	var data := "%s, DIA %d" % [Calendario.NOMES[Calendario.estacao(dia)],(dia-1)%Calendario.DIAS_POR_ESTACAO+1]

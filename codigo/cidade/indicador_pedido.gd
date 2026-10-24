@@ -6,6 +6,9 @@ const Jornada := preload("res://codigo/cidade/jornada_limiar.gd")
 var principal := false
 var pronto := false
 var _rotulo: Label
+var _icone_encomenda: TextureRect
+var _estilo: StyleBoxFlat
+var _tipo_do_icone := ""
 var _circulo: Panel
 var _espera := 0.0
 
@@ -24,6 +27,7 @@ func _ready() -> void:
 	estilo.set_border_width_all(1)
 	estilo.set_corner_radius_all(9)
 	_circulo.add_theme_stylebox_override("panel",estilo)
+	_estilo = estilo
 	add_child(_circulo)
 	_rotulo = Label.new()
 	_rotulo.text = "?"
@@ -36,7 +40,19 @@ func _ready() -> void:
 	_rotulo.add_theme_constant_override("outline_size",1)
 	_rotulo.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_rotulo)
+	# Encomenda pronta no ferreiro: o ícone da arma pedida no lugar do símbolo, com borda verde
+	_icone_encomenda = TextureRect.new()
+	_icone_encomenda.name = "IconeEncomenda"
+	_icone_encomenda.position = Vector2(2,2)
+	_icone_encomenda.size = Vector2(14,14)
+	_icone_encomenda.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_icone_encomenda.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	_icone_encomenda.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	_icone_encomenda.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_icone_encomenda.visible = false
+	add_child(_icone_encomenda)
 	Cidade.alterado.connect(_atualizar)
+	Progresso.materiais_forja_alterados.connect(_atualizar)
 	Fazenda.bolsas_alteradas.connect(_atualizar)
 	Progresso.checkpoint_alterado.connect(_atualizar)
 	_atualizar()
@@ -81,6 +97,8 @@ func _atualizar(_valor: Variant = null) -> void:
 	var disponivel := false
 	pronto = false
 	var id: String = get_parent().id
+	var encomenda_pronta: bool = id == "ferreiro" and Progresso.encomenda_forja_pronta()
+	_mostrar_encomenda(encomenda_pronta)
 	for missao in Dados.MISSOES:
 		if Dados.MISSOES[missao]["dono"] != id: continue
 		var estado: String = Cidade.missoes.get(missao,{}).get("estado","")
@@ -95,7 +113,7 @@ func _atualizar(_valor: Variant = null) -> void:
 		if p2 != null:
 			progresso = Cidade.progresso_missao(missao,p2)
 			if progresso.x>=progresso.y: pronto = true
-	visible = ativo or disponivel
+	visible = ativo or disponivel or encomenda_pronta
 	# Entrega pronta tem prioridade, mesmo que o morador ofereça outro pedido.
 	_rotulo.text = "?" if pronto or not disponivel else "!"
 	_centralizar_simbolo()
@@ -104,6 +122,17 @@ func _atualizar(_valor: Variant = null) -> void:
 	principal = objetivo.dono == id and not Introducao.ativa()
 	if principal:
 		visible = true
+
+## Troca o símbolo pelo ícone da arma encomendada quando o Ivo já pode entregá-la
+func _mostrar_encomenda(ligado: bool) -> void:
+	_icone_encomenda.visible = ligado
+	_rotulo.visible = not ligado
+	_estilo.border_color = Color("7bd88f") if ligado else Color("e4bd72")
+	if ligado:
+		var tipo := str(Progresso.encomenda_forja.get("tipo",""))
+		if tipo != _tipo_do_icone:
+			_tipo_do_icone = tipo
+			_icone_encomenda.texture = preload("res://codigo/ui/icones_itens.gd").obter_arma(tipo,get_tree(),1)
 
 func _centralizar_simbolo() -> void:
 	# Plane's 9px: compensa o avanço lateral e a caixa de linha maior que o glifo.
