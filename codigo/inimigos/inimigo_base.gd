@@ -417,6 +417,7 @@ func receber_dano(quantidade_dano: int, forca_knockback: Vector2 = Vector2.ZERO)
 		return
 
 	Sons.tocar("acerto", 0.12, -2.0 if eh_chefe else 0.0)
+	_flash_acerto()
 	if not esta_atacando:
 		definir_animacao("run")
 
@@ -541,6 +542,16 @@ func _atualizar_efeitos(delta: float) -> void:
 	elif _atordoado > 0.0:
 		tom = COR_ATORDOADO
 	sprite.modulate = Color(tom, sprite.modulate.a)
+
+## Clareia o sprite por um instante no acerto (volta ao tom anterior, que pode ser o do gelo)
+func _flash_acerto() -> void:
+	if sprite == null or sprite.modulate.r > 1.2:
+		return
+	var tom: Color = sprite.modulate
+	sprite.modulate = Color(2.5, 2.5, 2.5, tom.a)
+	await get_tree().create_timer(0.07, true, false, true).timeout
+	if is_instance_valid(sprite) and sprite.modulate.r > 1.2:
+		sprite.modulate = Color(tom.r, tom.g, tom.b, sprite.modulate.a)
 
 func piscar_dano() -> void:
 	for i in range(5):

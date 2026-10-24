@@ -28,6 +28,15 @@ const ZONA_MORTA_MIRA := 0.25
 const FATOR_MOVIMENTO_NO_GOLPE := 0.4
 ## A esquiva cancela o golpe a partir desta fração da duração dele
 const FRACAO_GOLPE_CANCELAVEL := 0.5
+## Esquiva e ataque pedidos um instante cedo demais ficam guardados por esta janela
+const JANELA_BUFFER_MS := 150
+## Passo à frente a cada golpe corpo a corpo (px/s; com a fricção dá uns 8 px)
+const IMPULSO_GOLPE := 140.0
+## Parada de impacto no acerto (ms reais): golpe comum, crítico e golpe final
+const PARADA_ACERTO_MS := 35
+const PARADA_CRITICO_MS := 65
+const PARADA_ABATE_MS := 60
+const ParadaImpacto := preload("res://codigo/efeitos/parada_impacto.gd")
 
 
 # Preload do banco de dados de armas (nome: banco_dados_armas)
@@ -85,6 +94,9 @@ var bonus_defesa: int = 0               # Soma de todos os bônus de defesa
 # >>> Escudo controlado separadamente <<<
 @export var usando_escudo: bool = false
 var ataque_enfileirado: bool = false
+var _buffer_ataque_ate_ms := 0
+var _buffer_dash_ate_ms := 0
+var _tween_tremor: Tween
 # Variável que controla o nível da arma (espada)
 var nivel_espada: int:
 	get: return _nivel_no_modelo(id_arma_atual)
@@ -525,6 +537,28 @@ func _on_onda_completada(_onda: int) -> void:
 	atualizar_barra_hp()
 	inventario.salvar()
 
+## Cada golpe empurra o jogador um passo na direção em que ele aponta: dá peso ao golpe e aproxima do alvo
+func _avancar_no_golpe() -> void:
+	if modo_fazenda or esta_em_dash:
+		return
+	velocity = _direcao_ataque * IMPULSO_GOLPE
+
+## Sensação de impacto: congela o jogo por um instante e treme a câmera (mais forte no crítico e no golpe final)
+func _sentir_impacto(critico: bool, abate: bool) -> void:
+	var parada := PARADA_ABATE_MS if abate else (PARADA_CRITICO_MS if critico else PARADA_ACERTO_MS)
+	ParadaImpacto.pedir(get_tree(), parada)
+	_tremer_camera(3.0 if (critico or abate) else 1.2, 0.14)
+
+func _tremer_camera(forca: float, duracao: float) -> void:
+	if camera == null or not camera.enabled:
+		return
+	if _tween_tremor != null and _tween_tremor.is_valid():
+		_tween_tremor.kill()
+	_tween_tremor = create_tween().set_ignore_time_scale(true)
+	for i in 3:
+		_tween_tremor.tween_property(camera, "offset", Vector2.from_angle(randf() * TAU) * forca * (1.0 - i / 3.0), duracao / 4.0)
+	_tween_tremor.tween_property(camera, "offset", Vector2.ZERO, duracao / 4.0)
+
 ## Golpe corpo a corpo (o temporizador só roda nos golpes de espada e lança) já na metade final: a esquiva pode cortá-lo
 func _golpe_cancelavel() -> bool:
 	return not _temporizador.is_stopped() and _temporizador.time_left <= _temporizador.wait_time * FRACAO_GOLPE_CANCELAVEL
@@ -721,8 +755,12 @@ func _physics_process(delta: float) -> void:
 		_atualizar_dash(delta)
 		return
 
-	if Input.is_action_just_pressed(acao("rolar")) and _dash_disponivel and (not _esta_atacando or _golpe_cancelavel()) and not esta_forjando \
+	var apertou_esquiva := Input.is_action_just_pressed(acao("rolar"))
+	if apertou_esquiva:
+		_buffer_dash_ate_ms = Time.get_ticks_msec() + JANELA_BUFFER_MS
+	if Time.get_ticks_msec() < _buffer_dash_ate_ms and _dash_disponivel and (not _esta_atacando or _golpe_cancelavel()) and not esta_forjando \
 			and Time.get_ticks_msec() >= _sem_acao_ate_ms:
+		_buffer_dash_ate_ms = 0
 		if stamina >= custo_stamina_dash:
 			defesa.cancelar()
 			if _esta_atacando: _cancelar_golpe()
@@ -968,9 +1006,14 @@ func logica_combo_ataque() -> void:
 					mineracao.pedir_golpe(self)
 					break
 		return
-	# Durante a pose (sacar, esquiva, ferido) o jogador não ataca
+	# Durante a pose (sacar, esquiva, ferido) o jogador não ataca; o toque fica guardado por um instante
 	if no_reacao.visible:
+		if atacar:
+			_buffer_ataque_ate_ms = Time.get_ticks_msec() + JANELA_BUFFER_MS
 		return
+	if not atacar and Time.get_ticks_msec() < _buffer_ataque_ate_ms:
+		atacar = true
+	_buffer_ataque_ate_ms = 0
 
 	if atacar:
 		if _esta_atacando:
@@ -1009,6 +1052,7 @@ func iniciar_slash_ataque_lanca(nome_anim: String, tempo_slash: float) -> void:
 	# Ajusta a velocidade da animação se necessário (pode ser removido se não for desejado)
 	reprodutor_anim.speed_scale = 0.2
 	_apontar_golpe()
+	_avancar_no_golpe()
 	_flash_golpe()
 	Sons.tocar("golpe_lanca")
 	_esta_atacando = true
@@ -1028,6 +1072,7 @@ func iniciar_slash_ataque(nome_anim: String, tempo_slash: float) -> void:
 	Ranking.registrar_uso(self,id_arma_atual)
 	_alvos_area_golpe.clear()
 	_apontar_golpe()
+	_avancar_no_golpe()
 	_flash_golpe()
 	Sons.tocar("golpe_espada")
 	_esta_atacando = true
@@ -1215,6 +1260,7 @@ func aplicar_golpe(alvo: Node, direcao_knockback: Vector2, mult_dano: float = 1.
 	var golpe: Dictionary = disparo.get("golpe", estatisticas.calcular_dano_golpe()).duplicate()
 	var tipo: String = disparo.get("tipo", inventario.equipados.arma.tipo if inventario.equipados.arma != null else "")
 	var distancia: float = disparo.get("distancia", global_position.distance_to(alvo.global_position))
+	var golpe_comum := mult_dano == 1.0 and disparo.is_empty()
 	var contra: bool = tipo == "espada_basica" and Time.get_ticks_msec() < contragolpe_ate_ms and mult_dano == 1.0
 	# O Raven tem combo de 2 golpes: o último golpe dele ativa as especialidades do "terceiro" (espada de duas mãos e maça)
 	var combo_estilo := 3 if tipo in ["espada_gemea", "maca"] and _fase_combo >= _limite_combo_espada() else _fase_combo
@@ -1231,6 +1277,9 @@ func aplicar_golpe(alvo: Node, direcao_knockback: Vector2, mult_dano: float = 1.
 	var dano_efetivo := maxi(0,vida_antes-vida_depois)
 	if is_instance_valid(alvo) and float(estilo.atordoar) > 0 and alvo.has_method("atordoar"):
 		alvo.atordoar(float(estilo.atordoar))
+	# Flechas e golpes especiais não congelam o jogo; o acerto corpo a corpo sim
+	if golpe_comum:
+		_sentir_impacto(golpe["critico"], not is_instance_valid(alvo) or vida_depois <= 0)
 	# Toque leve a cada acerto; o crítico pesa mais
 	Controle.vibrar(0.0, 0.5 if golpe["critico"] else 0.2, 0.07, self)
 	_aplicar_encantamento(alvo, golpe["dano"])
