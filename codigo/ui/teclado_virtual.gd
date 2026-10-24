@@ -13,6 +13,7 @@ const CAMADA := 50
 const LADO_TECLA := Vector2(18, 16)
 const COR_FUNDO := Color(0, 0, 0, 0.6)
 
+var titulo_texto := "NOME DO PERSONAGEM"
 var texto := ""
 var max_caracteres := 12
 
@@ -59,7 +60,7 @@ func _montar() -> void:
 	painel.add_child(coluna)
 
 	var titulo := Label.new()
-	titulo.text = "NOME DO PERSONAGEM"
+	titulo.text = titulo_texto
 	titulo.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	coluna.add_child(titulo)
 	_rotulo = Label.new()
@@ -130,4 +131,4 @@ func _apagar() -> void:
 	_atualizar_rotulo()
 
 func _atualizar_rotulo() -> void:
-	_rotulo.text = texto + ("_" if texto.length() < max_caracteres else "")
+	_rotulo.text = (("..."+texto.right(24)) if texto.length()>24 else texto) + ("_" if texto.length() < max_caracteres else "")

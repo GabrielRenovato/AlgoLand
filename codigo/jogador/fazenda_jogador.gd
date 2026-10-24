@@ -21,11 +21,11 @@ const ACOES := {
 	"picareta": {"ferramenta": "picareta", "linha_base": 0, "quadro_impacto": 2,
 		"quadros": [[0, 0.22], [1, 0.08], [2, 0.12], [3, 0.26]]},
 	"plantar": {"ferramenta": "fazenda", "linha_base": 0, "quadro_impacto": 1,
-		"quadros": [[4, 0.12], [5, 0.18], [6, 0.14], [7, 0.24]]},
+		"quadros": [[4, 0.30], [5, 0.10], [6, 0.10], [7, 0.10]]},
 	"regar": {"ferramenta": "fazenda", "linha_base": 4, "quadro_impacto": 2,
-		"quadros": [[0, 0.16], [1, 0.16], [2, 0.22], [3, 0.22], [2, 0.22], [3, 0.26]]},
+		"quadros": [[0, 0.09], [1, 0.09], [2, 0.12], [3, 0.12], [2, 0.12], [3, 0.16]]},
 	"colher": {"ferramenta": "fazenda", "linha_base": 4, "quadro_impacto": 2,
-		"quadros": [[4, 0.18], [5, 0.22], [6, 0.16], [7, 0.34]]},
+		"quadros": [[4, 0.40], [5, 0.24], [6, 0.18], [7, 0.30]]},
 }
 
 var jogador = null

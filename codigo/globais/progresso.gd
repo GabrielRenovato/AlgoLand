@@ -26,7 +26,8 @@ var _carregando := false
 
 const CAMINHO_SAVE := "user://progresso.json"
 const NIVEL_MAXIMO := 5
-const CUSTOS_MELHORIA := [10, 20, 35, 55, 80]
+const CUSTOS_MELHORIA := [25, 60, 120, 220, 360]
+const ANDARES_MELHORIA := [0, 5, 10, 20, 30]
 # Brasas por onda concluída, por chefe e por estágio bônus
 const BRASAS_POR_ONDA := 2
 const BRASAS_POR_CHEFE := 15
@@ -41,12 +42,12 @@ const INVULNERABILIDADE_REVIVER := 2.0
 # por_nivel: fração (vigor, forca, couraca, folego, saque) ou ouro (bolsa) somado a cada nível
 const ORDEM_MELHORIAS := ["vigor", "forca", "couraca", "folego", "bolsa", "saque"]
 const MELHORIAS := {
-	"vigor": {"nome": "VIGOR", "descricao": "+8% VIDA MAXIMA", "por_nivel": 0.08},
-	"forca": {"nome": "FORCA", "descricao": "+6% DANO", "por_nivel": 0.06},
-	"couraca": {"nome": "COURACA", "descricao": "+4% REDUCAO DE DANO", "por_nivel": 0.04},
-	"folego": {"nome": "FOLEGO", "descricao": "+10% ESTAMINA MAXIMA", "por_nivel": 0.10},
-	"bolsa": {"nome": "BOLSA", "descricao": "+40 OURO INICIAL", "por_nivel": 40.0},
-	"saque": {"nome": "SAQUE", "descricao": "+10% OURO POR ABATE", "por_nivel": 0.10},
+	"vigor": {"nome": "VIGOR", "descricao": "+3% VIDA MAXIMA", "por_nivel": 0.03},
+	"forca": {"nome": "FORCA", "descricao": "+2% DANO", "por_nivel": 0.02},
+	"couraca": {"nome": "COURACA", "descricao": "+1% PROTECAO", "por_nivel": 0.01},
+	"folego": {"nome": "FOLEGO", "descricao": "+4% ESTAMINA MAXIMA", "por_nivel": 0.04},
+	"bolsa": {"nome": "BOLSA", "descricao": "+20 OURO INICIAL", "por_nivel": 20.0},
+	"saque": {"nome": "SAQUE", "descricao": "+4% OURO POR ABATE", "por_nivel": 0.04},
 }
 
 const ORDEM_MORADORES := ["curandeira", "bardo", "mistica"]
@@ -135,6 +136,10 @@ func registrar_ouro(quantidade: int) -> void:
 func registrar_onda_iniciada(onda: int) -> void:
 	if not partida_ativa:
 		return
+	if not onda_comecou and is_inside_tree():
+		get_tree().root.get_node("Ranking").iniciar_partida(onda)
+		var parceiro := get_tree().root.get_node("Cooperativo").jogador2() as Node2D
+		if parceiro != null: get_tree().root.get_node("Ranking").para_jogador(parceiro).iniciar_partida(onda)
 	onda_comecou = true
 	onda_maxima = maxi(onda_maxima, onda)
 
@@ -152,6 +157,7 @@ func registrar_onda_concluida(onda: int, chefe: bool, bonus: bool) -> void:
 			onda_vencida_alterada.emit(maior_onda_vencida)
 	if chefe:
 		registrar_chefe(onda)
+	_atualizar_ranking(onda_maxima)
 
 ## Chamado na morte do chefe e na conclusão da onda dele; conta uma vez só por onda
 func registrar_chefe(onda: int) -> void:
@@ -163,6 +169,17 @@ func registrar_chefe(onda: int) -> void:
 		checkpoint_max = onda
 		salvar()
 
+## Vitória envia imediatamente; morte reutiliza o retrato feito antes de reiniciar os itens.
+func _atualizar_ranking(andar: int, capturar := true) -> void:
+	if not is_inside_tree() or andar <= 0: return
+	var coop: Node = get_tree().root.get_node("Cooperativo")
+	var ranking: Node = get_tree().root.get_node("Ranking")
+	for jogador in [coop._jogador1(),coop.jogador2()]:
+		if jogador == null: continue
+		var perfil: Node = ranking.para_jogador(jogador)
+		if capturar: perfil.registrar_resultado(jogador,andar)
+		else: perfil.enviar(andar)
+
 func calcular_brasas_base() -> int:
 	return BRASAS_POR_ONDA * ondas_concluidas + BRASAS_POR_CHEFE * chefes + BRASAS_POR_BONUS * bonus_concluidos
 
@@ -170,6 +187,12 @@ func calcular_brasas_base() -> int:
 func encerrar_partida() -> Dictionary:
 	if not partida_ativa:
 		return ultimo_resultado
+	# O equipamento da arena é reiniciado abaixo; fotografa o visual antes disso.
+	if is_inside_tree():
+		var jogador := get_tree().root.get_node("Cooperativo")._jogador1() as Node2D
+		get_tree().root.get_node("Ranking").capturar_jogador(jogador)
+		var parceiro := get_tree().root.get_node("Cooperativo").jogador2() as Node2D
+		if parceiro != null: get_tree().root.get_node("Ranking").para_jogador(parceiro).capturar_jogador(parceiro)
 	partida_ativa = false
 	if is_inside_tree():
 		get_tree().root.get_node("BauCasa").reiniciar_equipamento_da_partida()
@@ -196,6 +219,7 @@ func encerrar_partida() -> Dictionary:
 		"novo_recorde": novo_recorde,
 		"recorde": recorde_onda,
 	}
+	_atualizar_ranking(onda_maxima, false)
 	salvar()
 	brasas_alteradas.emit(brasas)
 	return ultimo_resultado
@@ -213,14 +237,19 @@ func custo_proximo(id: String) -> int:
 
 func pode_comprar_melhoria(id: String) -> bool:
 	var custo := custo_proximo(id)
-	return custo != -1 and brasas >= custo
+	return custo != -1 and brasas >= custo and maior_onda_vencida >= ANDARES_MELHORIA[nivel(id)]
 
 func comprar_melhoria(id: String) -> bool:
 	if not pode_comprar_melhoria(id):
 		return false
-	brasas -= custo_proximo(id)
-	melhorias[id] = nivel(id) + 1
-	salvar()
+	var custo := custo_proximo(id)
+	var anterior := nivel(id)
+	brasas -= custo
+	melhorias[id] = anterior + 1
+	if not salvar():
+		brasas += custo
+		melhorias[id] = anterior
+		return false
 	brasas_alteradas.emit(brasas)
 	melhorias_alteradas.emit()
 	onda_vencida_alterada.emit(maior_onda_vencida)
@@ -239,6 +268,21 @@ func bonus_melhoria(id: String) -> float:
 	return float(MELHORIAS[id]["por_nivel"]) * nivel(id)
 
 # --- Refeição ---
+
+func comer_da_mochila(item: DadosItem, inventario: Node) -> String:
+	if refeicao != "": return "VOCE JA TEM UMA REFEICAO ATIVA"
+	if Refeicoes.dados(item.conteudo()).is_empty(): return "COMIDA DESCONHECIDA"
+	if not resolver_mochila_pendente(): return "NAO FOI POSSIVEL SALVAR"
+	var antes: Array = inventario.fotografar_mochila()
+	if not inventario.gastar_tipo(item.tipo,1): return "COMIDA NAO ESTA NA MOCHILA"
+	refeicao = item.conteudo()
+	if not _confirmar_mochila(inventario):
+		refeicao = ""
+		inventario.restaurar_mochila(antes)
+		return "NAO FOI POSSIVEL SALVAR"
+	refeicao_alterada.emit(refeicao)
+	melhorias_alteradas.emit()
+	return ""
 
 ## Come o prato (o Caio já gastou a colheita): vale até o fim da próxima partida. false se já tem um prato
 func comer(id: String) -> bool:
@@ -397,6 +441,13 @@ func carregar() -> bool:
 			encomenda_forja = {"tipo":tipo, "dia_inicio":inicio,
 				"dia_pronto":maxi(inicio+1,int(encomenda.get("dia_pronto",inicio+ForjaArmas.dias_fabricacao(tipo)))),
 				"jogador":clampi(int(encomenda.get("jogador",1)),1,2)}
+			# Pedidos antigos não têm fotografia dos custos e seguem pagos.
+			if encomenda.get("materiais") is Dictionary:
+				var materiais := {}
+				for id in encomenda.materiais:
+					if ForjaArmas.MATERIAIS.has(id) and int(encomenda.materiais[id]) > 0:
+						materiais[id] = int(encomenda.materiais[id])
+				encomenda_forja["materiais"] = materiais
 	materiais_forja_alterados.emit()
 	brasas_alteradas.emit(brasas)
 	melhorias_alteradas.emit()
@@ -478,6 +529,9 @@ func motivo_fabricar_arma(tipo: String, inventario: Node = null) -> String:
 		return "MODELO JA FABRICADO"
 	if not receita_liberada(tipo):
 		return "ENCONTRE E USE A RECEITA NA MOCHILA"
+	var andar := ForjaArmas.onda_receita(tipo)
+	if maior_onda_vencida < andar:
+		return "VENCA O ANDAR %d PARA FABRICAR" % andar
 	for id in ForjaArmas.RECEITAS[tipo]:
 		if quantidade_material_forja(id, inventario) < int(ForjaArmas.RECEITAS[tipo][id]):
 			return "FALTAM MATERIAIS NA MOCHILA"
@@ -494,6 +548,7 @@ func encomendar_arma(tipo: String, inventario: Node) -> String:
 	var antes: Array = inventario.fotografar_mochila()
 	encomenda_forja = {"tipo":tipo, "dia_inicio":Calendario.dia,
 		"dia_pronto":Calendario.dia+ForjaArmas.dias_fabricacao(tipo),
+		"materiais":ForjaArmas.RECEITAS[tipo].duplicate(),
 		"jogador":2 if inventario == InventarioJogador2 else 1}
 	for id in ForjaArmas.RECEITAS[tipo]:
 		inventario.gastar_tipo("material:"+id,int(ForjaArmas.RECEITAS[tipo][id]))

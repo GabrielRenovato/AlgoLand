@@ -2,6 +2,7 @@
   "andar": 8,
   "nome": "Floresta ao Luar",
   "bioma": "bosque",
+  "estacao": 3,
   "grade": 16,
   "limites": [
     -1850,

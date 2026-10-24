@@ -7,6 +7,7 @@ func _ready() -> void:
 
 # Reconstruir os rótulos todo frame (com load de fonte) enquanto a tecla estava segurada pesava à toa
 func _unhandled_input(evento: InputEvent) -> void:
+	if Controle.digitando and evento is InputEventKey: return
 	if evento.is_action_pressed("show_stats") and not evento.is_echo():
 		$InformacaoPersonagem.visible = true
 		atualizar_menu()

@@ -1,0 +1,86 @@
+{
+  "tipo": "Reparo exato da corrida modular Raven",
+  "referencia": "assets/personagens/raven_fantasy/camadas/capa.png",
+  "celula": [
+    80,
+    80
+  ],
+  "folha": [
+    480,
+    320
+  ],
+  "pivo": [
+    40,
+    47
+  ],
+  "direcoes": [
+    "baixo",
+    "direita",
+    "cima",
+    "esquerda"
+  ],
+  "duracoes_ms": [
+    100,
+    60,
+    140,
+    100,
+    60,
+    140
+  ],
+  "metodo": "PixelLab pixelart_workbench: inspeção e patch_pixels, sem geração IA ou troca do personagem. Restaura 48 pixels no centro da capa de costas. Roupas projetadas apenas nas regiões do corpo correspondentes e camisas limitadas à gola.",
+  "pixellab_origem": "d3f57fa1-d3ce-4e4f-a228-52d4dcf92749",
+  "pixellab_reparo": "b5d59bee-8851-41e9-9781-221b642517e6",
+  "reproducao": "preparar_corrida_raven.gd -- --somente-camadas",
+  "revisao": "revisar_corrida_colheita_raven.gd -- --somente-corrida; teste_corrida_mana_seed_raven.gd, em save isolado",
+  "revisao_capa_cima": {
+    "metodo": "Substitui o reparo estático de 48 pixels por tecido contínuo, inclinação até o quadril, dobra e oscilação da barra. Originais PixelLab preservados como histórico, não reaplicados sobre as novas poses.",
+    "comprimento_projetado": [
+      14,
+      13,
+      12,
+      14,
+      13,
+      12
+    ],
+    "oscilacao_barra": [
+      0,
+      1,
+      1,
+      0,
+      -1,
+      -1
+    ],
+    "inspecao": "Godot em save isolado, seis poses, pernas visíveis e dorso contínuo; prévia sem armas para observar o pano."
+  },
+  "revisao_pes_ombreira": {
+    "ombreira": "Região nativa [30,28,5,6], metal com 12 pixels, transferida sem deformação pelo ombro esquerdo, camada capa_fecho.",
+    "calcanhares_dobrados": {
+      "0": [
+        42,
+        37,
+        5,
+        4
+      ],
+      "2": [
+        35,
+        34,
+        4,
+        3
+      ],
+      "3": [
+        33,
+        37,
+        5,
+        4
+      ],
+      "5": [
+        41,
+        34,
+        4,
+        3
+      ]
+    },
+    "oclusao": "Botas à frente do tecido na corrida para cima. Teste verifica os dois pés separadamente em cada pose e a contagem estável do metal.",
+    "previa": "arte/previas/personagens/corrida_mana_seed_raven/corrida_pes_ombreira.gif"
+  }
+}

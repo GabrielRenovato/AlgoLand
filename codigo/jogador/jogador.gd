@@ -115,7 +115,8 @@ var picareta_arena_ativa := false
 ## Poções bebidas e o cinto (efeitos_pocao.gd). Só se bebe na arena: Q/E (LB/RB) trocam a poção, R (X) bebe
 var efeitos_pocao: EfeitosPocao = null
 ## Teto da redução de dano somando a poção de pedra (a da defesa sozinha para em REDUCAO_MAXIMA)
-const REDUCAO_MAXIMA_COM_POCAO := 0.85
+const REDUCAO_MAXIMA_COM_POCAO := 0.70
+var sustento_combate = preload("res://codigo/jogador/sustento_combate.gd").new()
 ## Distância à frente dos pés onde a ação de fazenda acontece (o tile que a enxada acerta)
 const ALCANCE_ACAO_FAZENDA := 14.0
 var _inventario_pronto: bool = false
@@ -637,6 +638,7 @@ func conectar_sinal_se_nao_conectado(no: Node, nome_sinal: String, metodo: Strin
 		no.connect(nome_sinal, Callable(self, metodo))
 
 func _physics_process(delta: float) -> void:
+	sustento_combate.avancar(delta)
 	if _interacao_bloqueada:
 		pode_iniciar_interacao()
 	_recarga_carrasco = maxf(_recarga_carrasco - delta, 0.0)
@@ -660,6 +662,12 @@ func _physics_process(delta: float) -> void:
 		return
 	# Mesma escala de profundidade de inimigos, árvores e objetos (ver Profundidade)
 	z_index = Profundidade.z_de(global_position.y + Profundidade.PES_JOGADOR)
+	if not eh_p2 and Controle.digitando:
+		_pedido_ataque = false
+		defesa.cancelar()
+		velocity = Vector2.ZERO
+		if not esta_forjando: animar()
+		return
 	if seguindo_introducao and movimento_habilitado:
 		_pedido_ataque = false
 		defesa.cancelar()
@@ -850,6 +858,7 @@ func acao_evento(nome: String) -> String:
 	return nome if eh_p2 and get_viewport().has_meta("dono") else acao(nome)
 
 func _unhandled_input(evento: InputEvent) -> void:
+	if Controle.digitando and evento is InputEventKey: return
 	if evento.is_action_pressed(acao_evento("attack")):
 		if Time.get_ticks_msec() >= _sem_acao_ate_ms:
 			_pedido_ataque = true
@@ -970,6 +979,7 @@ func logica_combo_ataque() -> void:
 var _alvos_area_golpe := {}
 
 func iniciar_slash_ataque_lanca(nome_anim: String, tempo_slash: float) -> void:
+	Ranking.registrar_uso(self,id_lanca_atual)
 	_alvos_area_golpe.clear()
 	# Ajusta a velocidade da animação se necessário (pode ser removido se não for desejado)
 	reprodutor_anim.speed_scale = 0.2
@@ -990,6 +1000,7 @@ func _flash_golpe() -> void:
 			Color(1, 0.95, 0.8), 0.9, 0.7, 0.15)
 
 func iniciar_slash_ataque(nome_anim: String, tempo_slash: float) -> void:
+	Ranking.registrar_uso(self,id_arma_atual)
 	_alvos_area_golpe.clear()
 	_apontar_golpe()
 	_flash_golpe()
@@ -1184,7 +1195,10 @@ func aplicar_golpe(alvo: Node, direcao_knockback: Vector2, mult_dano: float = 1.
 	# Poção de força
 	golpe["dano"] = maxi(1, roundi(golpe["dano"] * (1.0 + float(disparo.get("forca", efeitos_pocao.bonus("forca")))) * mult_dano))
 	var forca = (225.0 if golpe["critico"] else 150.0) * mult_empurrao
+	var vida_antes := maxi(0,int(alvo.vida)) if "vida" in alvo else 0
 	alvo.receber_dano(golpe["dano"], direcao_knockback * forca)
+	var vida_depois := maxi(0,int(alvo.vida)) if is_instance_valid(alvo) and "vida" in alvo else 0
+	var dano_efetivo := maxi(0,vida_antes-vida_depois)
 	if is_instance_valid(alvo) and float(estilo.atordoar) > 0 and alvo.has_method("atordoar"):
 		alvo.atordoar(float(estilo.atordoar))
 	# Toque leve a cada acerto; o crítico pesa mais
@@ -1192,15 +1206,10 @@ func aplicar_golpe(alvo: Node, direcao_knockback: Vector2, mult_dano: float = 1.
 	_aplicar_encantamento(alvo, golpe["dano"])
 	_tentar_raio_carrasco(alvo, golpe["dano"])
 	_tentar_congelamento_mordomo(alvo)
-	if estatisticas.roubo_vida > 0:
-		var percentual = min(estatisticas.roubo_vida, estatisticas.ROUBO_VIDA_MAXIMO) / 100.0
-		var cura = max(1, int(round(golpe["dano"] * percentual)))
-		hp_atual = min(hp_atual + cura, estatisticas.hp_maximo)
-		atualizar_barra_hp()
-	# Poção vampírica: soma por fora do roubo de vida dos itens
-	var vampiro := efeitos_pocao.bonus("vampiro")
-	if vampiro > 0.0:
-		curar(maxi(1, roundi(golpe["dano"] * vampiro)))
+	if not estaMorto and hp_atual < estatisticas.hp_maximo:
+		var percentual := minf(estatisticas.roubo_vida,estatisticas.ROUBO_VIDA_MAXIMO)/100.0 + efeitos_pocao.bonus("vampiro")
+		var recuperado: int = sustento_combate.recuperar(dano_efetivo,percentual)
+		if recuperado > 0: curar(recuperado)
 
 # ---------------------------
 # Visibilidade dos sprites
@@ -1508,6 +1517,7 @@ func _mira_do_disparo() -> Vector2:
 	return mira
 
 func _ao_disparo_liberado(direcao: Vector2) -> void:
+	Ranking.registrar_uso(self,id_arco_atual)
 	# Arcos de várias flechas (o longo atira 3): saem em leque, centradas na mira
 	var dados_arco: Dictionary = status_armas.armas.get(id_arco_atual, {})
 	var quantidade: int = maxi(int(dados_arco.get("flechas", 1)), 1)
@@ -1708,6 +1718,7 @@ func receber_dano(dano: int, forca_knockback: Vector2 = Vector2.ZERO) -> void:
 	# Poção de pedra soma na redução da defesa
 	var reducao := minf(estatisticas.reducao_dano() + efeitos_pocao.bonus("pedra"), REDUCAO_MAXIMA_COM_POCAO)
 	var dano_final = max(1, int(round(dano * (1.0 - reducao))))
+	sustento_combate.ferido()
 	hp_atual = max(hp_atual - dano_final, 0)
 	invulneravel = true
 	temporizador_invul = tempo_invul
@@ -2137,6 +2148,7 @@ func atualizar_aparencia_arma() -> void:
 
 ## Confirmar/fechar uma tela não pode interagir com a porta novamente no mesmo toque.
 func pode_iniciar_interacao() -> bool:
+	if not eh_p2 and Controle.digitando: return false
 	if _interacao_bloqueada:
 		var nome := acao("open_menu")
 		if Engine.get_process_frames() <= _quadro_bloqueio_interacao or (InputMap.has_action(nome) and Input.is_action_pressed(nome)):

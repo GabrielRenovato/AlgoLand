@@ -55,6 +55,9 @@ var _vida_baixa := false
 var _gerenciador: Node
 ## A barra de baixo (primeira linha da mochila): na arena troca a arma; na fazenda (meta "barra_ferramentas" da cena), a ferramenta
 var barra_armas: Control = null
+var _botao_mapa_toque: Button
+var _layout_toque := -1
+var _resumo_toque: Label
 ## Só na arena (cena com ondas): as poções do jogador
 var cinto_pocoes: Control = null
 
@@ -147,6 +150,10 @@ func _conectar_gerenciador() -> void:
 		barra_inimigos.custom_minimum_size.x = 64
 		gerenciador.progresso_andar_alterado.connect(_atualizar_andar)
 		_atualizar_andar()
+		# Automapa do andar com neblina de exploração (M / R3 segurado / botão do toque o abre grande)
+		var minimapa := preload("res://codigo/ui/minimapa_andar.gd").new()
+		minimapa.gerente = gerenciador
+		add_child(minimapa)
 	else:
 		rotulo_onda.text = "ANDAR %d" % gerenciador.onda_atual
 
@@ -204,7 +211,7 @@ func _atualizar_relogio() -> void:
 	_avisar_cansaco(hora)
 
 ## Depois da meia-noite o relógio fica laranja e, a partir da 01:00, pisca em vermelho: às 02:00 o jogador desmaia de
-## cansaço e acorda na casa da fazenda (Transicao.desmaiar). Na arena o mundo está parado: sem aviso
+## cansaço e acorda na casa da fazenda (Transicao.desmaiar). Nos andares da fenda o tempo passa, mas ninguém desmaia lá: sem aviso
 var _tween_cansaco: Tween
 var _avisou_meia_noite := false
 var _avisou_uma_hora := false
@@ -416,7 +423,7 @@ func atualizar_brasas(quantidade: int) -> void:
 func atualizar_rotulo_onda(onda: int) -> void:
 	rotulo_onda.text = "ANDAR %d" % onda
 
-## Banner no centro da tela para avisos de outros sistemas (reviver, estações, eventos)
+## Avisos compactos junto à borda inferior, acima da barra de ações.
 func anunciar(texto: String, subtitulo := "", tempo_visivel := 1.5) -> void:
 	_mostrar_banner(texto, subtitulo, tempo_visivel)
 
@@ -493,17 +500,18 @@ func _mostrar_banner(texto: String, subtitulo := "", tempo_visivel := 1.5) -> vo
 	subtitulo_banner.visible = subtitulo != ""
 	if _tween_banner:
 		_tween_banner.kill()
+	faixa_banner.z_index = 110
 	faixa_banner.show()
 	faixa_banner.modulate.a = 0.0
-	faixa_banner.add_theme_stylebox_override("panel",preload("res://codigo/ui/estilo_interface.gd").painel(true,12.0))
-	faixa_banner.get_node("Textos").add_theme_constant_override("separation",6)
+	faixa_banner.add_theme_stylebox_override("panel",preload("res://codigo/ui/estilo_interface.gd").painel(true,10.0))
+	faixa_banner.get_node("Textos").add_theme_constant_override("separation",4)
 	for rotulo in [rotulo_banner,subtitulo_banner]:
 		rotulo.label_settings = rotulo.label_settings.duplicate()
 		rotulo.label_settings.font_color = Color("493629")
 		rotulo.label_settings.outline_size = 0
 		rotulo.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	rotulo_banner.label_settings.font_size = 16
-	subtitulo_banner.label_settings.font_size = 10
+	rotulo_banner.label_settings.font_size = 10
+	subtitulo_banner.label_settings.font_size = 8
 	faixa_banner.scale = Vector2.ONE
 	_ajustar_faixa_banner()
 	if is_inside_tree() and get_tree(): await get_tree().process_frame
@@ -565,6 +573,24 @@ func _atualizar_andar() -> void:
 	rotulo_evento.modulate = Color("e7c884")
 
 func _process(_delta: float) -> void:
+	if Controle.usando_toque and _botao_mapa_toque == null:
+		_montar_botao_mapa()
+	if _layout_toque != int(Controle.usando_toque):
+		_layout_toque = int(Controle.usando_toque)
+		_compactar_topo_toque()
+	if _botao_mapa_toque != null:
+		_botao_mapa_toque.visible = Controle.usando_toque
+		if Controle.usando_toque:
+			var escala := preload("res://codigo/ui/escala_interface.gd").fator(self)
+			var tela_mapa := get_viewport().get_visible_rect().size
+			var margens := Controle.margens_seguras() * escala
+			$CantoDireito.offset_top = (50 + margens.y) / escala
+			# Uma única fileira com mochila e pausa, no espaço já reservado ao topo.
+			_botao_mapa_toque.position = (Vector2(tela_mapa.x - 138 - margens.z, 10 + margens.y) / escala).round()
+			_botao_mapa_toque.scale = Vector2.ONE / escala
+			_botao_mapa_toque.custom_minimum_size = Vector2(46,32)
+			_botao_mapa_toque.size = _botao_mapa_toque.custom_minimum_size
+	if Controle.usando_toque: _atualizar_resumo_toque()
 	if faixa_banner.visible: _ajustar_faixa_banner()
 	if _eh_andar() and is_instance_valid(_gerenciador.tesouro) and _gerenciador.tesouro.ativo: return
 	if not _eh_andar() or _gerenciador.etapa not in [2, 3]: return
@@ -579,28 +605,76 @@ func _process(_delta: float) -> void:
 		rumo = nomes[posmod(roundi(direcao.angle() / (PI / 4)), 8)]
 	rotulo_evento.text = "GUARDIAO: " + rumo
 
+## Mantém calendário e estado do andar juntos, abaixo dos acessos do celular.
+func _compactar_topo_toque() -> void:
+	var canto: VBoxContainer = $CantoDireito
+	if _resumo_toque == null:
+		_resumo_toque = Label.new()
+		_resumo_toque.name = "ResumoToque"
+		_resumo_toque.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_resumo_toque.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+		_resumo_toque.label_settings = rotulo_data.label_settings.duplicate()
+		_resumo_toque.label_settings.font_size = 8
+		canto.add_child(_resumo_toque)
+	_resumo_toque.visible = Controle.usando_toque
+	canto.get_node("PainelTempo").visible = not Controle.usando_toque
+	painel_onda.visible = not Controle.usando_toque and is_instance_valid(_gerenciador)
+	canto.offset_top = (48.0 if Controle.usando_toque else 6.0) + Controle.margens_seguras().y
+	canto.reset_size()
+	atualizar_data()
+
+func _atualizar_resumo_toque() -> void:
+	var linhas := PackedStringArray()
+	if is_instance_valid(_gerenciador):
+		var estado := rotulo_inimigos.text if linha_inimigos.visible else rotulo_espera.text
+		linhas.append(rotulo_onda.text + " - " + estado)
+		if rotulo_evento.visible: linhas.append(rotulo_evento.text)
+	var data := "%s %s %d" % [Calendario.nome_dia_semana(), Calendario.nome_estacao(), Calendario.dia_na_estacao()]
+	if rotulo_hora.visible: data += " | " + rotulo_hora.text
+	linhas.append(data)
+	_resumo_toque.text = "\n".join(linhas)
+
 ## Reacomoda também um aviso que já estava aberto ao girar/redimensionar a tela.
 func _ajustar_faixa_banner() -> void:
 	var tela := preload("res://codigo/ui/escala_interface.gd").tamanho_logico(self)
-	var largura := minf(400, tela.x - 24)
+	var largura := minf(180, tela.x - 24)
 	# A posição já usa o tamanho lógico: âncoras relativas aplicariam a escala
 	# novamente, acumulando deslocamento ao arredondar o Y a cada quadro.
 	faixa_banner.set_anchors_preset(Control.PRESET_TOP_LEFT)
-	faixa_banner.get_node("Textos").custom_minimum_size.x = largura - 24
+	faixa_banner.get_node("Textos").custom_minimum_size.x = largura - 20
 	faixa_banner.custom_minimum_size.x = largura
 	faixa_banner.size.x = largura
 	faixa_banner.size.y = faixa_banner.get_combined_minimum_size().y
-	faixa_banner.position = Vector2(floorf((tela.x-faixa_banner.size.x)/2),floorf(tela.y*0.3))
+	# Reserva a barra de ações e mantém livre o centro usado pelo personagem.
+	var limite_inferior := tela.y - 48.0 - Controle.margens_seguras().w
+	if is_instance_valid(barra_armas) and barra_armas.is_visible_in_tree():
+		var painel: Control = barra_armas._painel
+		var area := painel.get_global_rect()
+		if area.position.y >= tela.y * 0.5:
+			limite_inferior = minf(limite_inferior, area.position.y - 6)
+	faixa_banner.position = Vector2(floorf((tela.x - faixa_banner.size.x) / 2), floorf(limite_inferior - faixa_banner.size.y))
+	if is_instance_valid(barra_armas):
+		var area_barra: Rect2 = barra_armas._painel.get_global_rect()
+		if faixa_banner.get_global_rect().intersects(area_barra.grow(6)):
+			var abaixo := area_barra.end.y + 6
+			faixa_banner.position.y = floorf(abaixo if abaixo + faixa_banner.size.y <= tela.y - 6 else maxf(6, area_barra.position.y - faixa_banner.size.y - 6))
 
 ## Acesso ao mapa também no celular, fora da área do joystick.
 func _montar_botao_mapa() -> void:
 	var botao := Button.new()
 	botao.name = "BotaoMapaMundi"
+	botao.focus_mode = Control.FOCUS_NONE
 	botao.text = "MAPA"
 	botao.tooltip_text = "Mapa de AlgoLand (M)"
 	botao.theme = preload("res://recursos/ui/tema_sidebar.tres")
 	botao.add_theme_font_size_override("font_size",8)
-	botao.custom_minimum_size = Vector2(46,22)
+	botao.custom_minimum_size = Vector2(46,32)
+	botao.add_to_group("toque_hud")
 	botao.size_flags_horizontal = Control.SIZE_SHRINK_END
-	botao.pressed.connect(func(): EventosJogo.abrir_tela_de(self,"mapa_mundi"))
-	$CantoDireito.add_child(botao)
+	# Dentro de um andar da fenda o botão alterna o automapa do andar; fora dele abre a carta do mundo
+	botao.pressed.connect(func():
+		var minimapa := get_node_or_null("MinimapaAndar")
+		if minimapa != null: minimapa.alternar()
+		else: EventosJogo.abrir_tela_de(self,"mapa_mundi"))
+	_botao_mapa_toque = botao
+	add_child(botao)

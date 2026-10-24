@@ -284,7 +284,7 @@ size = Vector2(94, 928)
 size = Vector2(94, 928)
 
 [sub_resource type="RectangleShape2D" id="Forma_cidade"]
-size = Vector2(28, 32)
+size = Vector2(44, 60)
 
 [node name="Terrains" type="Node2D"]
 texture_filter = 1
@@ -3623,7 +3623,7 @@ shape = SubResource("Forma_limite_Leste")
 [node name="PassagemCidade" type="Area2D" parent="."]
 position = Vector2(1112, 296)
 script = ExtResource("passagem_script")
-cena_destino = "res://cenas/cidade.tscn"
+cena_destino = "res://cenas/floresta.tscn"
 ponto_chegada = "fazenda"
 so_entre_ondas = false
 direcao_saida = Vector2(1, 0)

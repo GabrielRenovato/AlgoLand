@@ -3,7 +3,9 @@ extends RefCounted
 const TIPOS := ["enxada","regador","machadinha","picareta"]
 const POR_ACAO := {"enxada":"enxada","regar":"regador","machado":"machadinha","picareta":"picareta"}
 const NOMES := ["MADEIRA","REFORCADA","FERRO"]
-const CUSTOS := {2:{"madeira":8,"pedra":6,"ferro":2},3:{"madeira":6,"ferro":8,"fibra":2}}
+## O primeiro reforço usa duas extrações de ferro; o último é um investimento maior.
+const CUSTOS := {2:{"madeira":16,"pedra":12,"ferro":2,"fibra":6},
+	3:{"madeira":28,"pedra":20,"ferro":10,"fibra":12}}
 
 static func nivel(inventario: Node, tipo: String) -> int:
 	var item = inventario.buscar_por_tipo(tipo) if inventario!=null else null

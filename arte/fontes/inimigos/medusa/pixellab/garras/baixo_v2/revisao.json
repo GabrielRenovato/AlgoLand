@@ -1,0 +1,13 @@
+{
+  "integrar": false,
+  "motivo": "Gesto curto demais e muitos quadros quase iguais. Não melhora o alcance o suficiente para substituir a sequência frontal selecionada.",
+  "pedido": {
+    "content": [
+      {
+        "type": "text",
+        "text": "id: f2982306-5b68-4f39-a8d1-f2652ee48a4c\njob_id: f2982306-5b68-4f39-a8d1-f2652ee48a4c\ndescription: ONE LOW forward claw reach toward BOTTOM of screen, then recover. Target is a small person BELOW the coils at pixel(128,216). Wind up briefly, then fold upper torso very DEEPLY DOWN over tail and LOWER head and shoulder toward ground. Shoulder must descend near pixel(128,170), claw fingers reach(128,216), well BELOW tail bottom184. Keep hand centered128, not swinging rightward. Natural arm length, deep bow rather than stretched arm. Coils anchored(128,184). Hips stay anchored; only upper torso bends. Return to exact starting guard. Only opaque character pixels, clean empty transparent space, no trails or speed marks. No camera change, no body scaling, no jumping.\nframes: 8\nsize: 256x256px\ntransparent: True\nlast_frame: yes (animating toward it)\nseed: 20261103\ncost: 1 generation\nstatus: processing (~1-5 min)\n\nhint: get_image(job_id=\"f2982306-5b68-4f39-a8d1-f2652ee48a4c\")\nasset_id: b5a2da92-ef23-58ee-9d8b-38612ddfb68d\nasset_status: pending (saved to your gallery when generation completes)"
+      }
+    ],
+    "isError": false
+  }
+}

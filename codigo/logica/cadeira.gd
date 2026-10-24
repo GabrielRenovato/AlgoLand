@@ -2,8 +2,7 @@ extends "res://codigo/logica/interagivel.gd"
 
 ## Cadeira da casa: F/Y senta o jogador (pose de sentar da página 4 do Character Base, com a roupa dele; Jogador.sentar),
 ## olhando para a mesa, e ele fica sentado até pedir para levantar (F/Y, B/Esc ou andar), quando volta de pé atrás da
-## cadeira. O Character Base não tem animação de beber sentado, então a xícara de café fica na mesa (com fumacinha) e
-## não é usada. Não abre tela: reaproveita o aviso e a lógica de "o mais próximo" do interagivel.gd.
+## cadeira. Não abre tela: reaproveita o aviso e a lógica de "o mais próximo" do interagivel.gd.
 
 const Profundidade := preload("res://codigo/globais/profundidade.gd")
 
@@ -16,8 +15,6 @@ const Profundidade := preload("res://codigo/globais/profundidade.gd")
 ## parede leste, então só ali tem espaço livre para os pés (círculo de 5 px)
 @export var assento := Vector2(1, -9)
 @export var saida := Vector2(0, -20)
-## A xícara de café desta cadeira na mesa (Sprite2D): só enfeite, ganha a fumacinha
-@export var cafe: NodePath
 ## A mesa (Sprite2D): as pernas do jogador sentado passam POR BAIXO dela. A mesa e a cadeira têm a base na mesma faixa de
 ## 8 px (mesmo z), então a mesa sobe uma faixa e o jogador sentado fica entre os dois: acima da cadeira, abaixo da mesa
 @export var mesa: NodePath
@@ -29,9 +26,6 @@ var _jogador: Node2D
 func _ready() -> void:
 	add_to_group("assentos")
 	super._ready()
-	var xicara := get_node_or_null(cafe) as Sprite2D
-	if xicara != null:
-		xicara.add_child(_novo_vapor())
 	var tampo := get_node_or_null(mesa) as Sprite2D
 	if tampo != null:
 		tampo.z_index = maxi(tampo.z_index, z_da_cadeira() + Profundidade.NIVEIS)
@@ -133,26 +127,3 @@ func _vizinhos(quem: Node2D) -> Array:
 			perto.append([distancia, morador.id])
 	perto.sort_custom(func(a, b): return a[0] < b[0])
 	return perto.map(func(par): return par[1])
-
-# Fumacinha: pontinhos claros que sobem devagar da xícara
-func _novo_vapor() -> CPUParticles2D:
-	var vapor := CPUParticles2D.new()
-	vapor.name = "Vapor"
-	vapor.position = Vector2(0, -2)
-	vapor.amount = 4
-	vapor.lifetime = 1.2
-	vapor.direction = Vector2.UP
-	vapor.spread = 20.0
-	vapor.gravity = Vector2.ZERO
-	vapor.initial_velocity_min = 5.0
-	vapor.initial_velocity_max = 9.0
-	vapor.scale_amount_min = 1.0
-	vapor.scale_amount_max = 1.0
-	vapor.color = Color(1, 1, 1, 0.7)
-	var some := Gradient.new()
-	some.set_color(0, Color(1, 1, 1, 1))
-	some.set_color(1, Color(1, 1, 1, 0))
-	vapor.color_ramp = some
-	vapor.z_as_relative = false
-	vapor.z_index = 890
-	return vapor

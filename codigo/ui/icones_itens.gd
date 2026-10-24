@@ -52,6 +52,8 @@ static func icone_vara(nivel: int) -> Texture2D:
 static func obter(item: DadosItem, arvore: SceneTree) -> Texture2D:
 	if item == null:
 		return null
+	if item.categoria == "comida":
+		return preload("res://codigo/dados/refeicoes.gd").icone(item.conteudo())
 	if item.categoria == "receita":
 		return load("res://assets/ui/coletaveis/receita.png")
 	if item.categoria == "produto":

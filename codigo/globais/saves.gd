@@ -11,6 +11,7 @@ const SOLO := "solo"
 const COOP := "coop"
 const PASTAS := {SOLO: "user://", COOP: "user://coop/"}
 const VersaoSave := preload("res://codigo/dados/versao_save.gd")
+const ReequilibrioSave := preload("res://codigo/dados/reequilibrio_save.gd")
 
 var mundo := SOLO
 
@@ -28,6 +29,7 @@ func _notification(aviso: int) -> void:
 		if get_node_or_null("/root/Fazenda") != null: salvar_tudo()
 
 func salvar_tudo() -> void:
+	Ranking.gravar_perfis()
 	_guardar_local()
 	InventarioJogador.salvar()
 	if Cooperativo.ativo:
@@ -42,6 +44,8 @@ func _enter_tree() -> void:
 	# Este autoload é o primeiro: nenhum sistema deve carregar o progresso anterior.
 	for qual in [SOLO, COOP]:
 		var erro := VersaoSave.preparar(PASTAS[qual])
+		if erro == OK:
+			erro = ReequilibrioSave.preparar(PASTAS[qual])
 		if erro != OK:
 			push_error("Não foi possível preparar o save %s: %s" % [qual, error_string(erro)])
 			get_tree().quit(1)
@@ -98,7 +102,7 @@ func trocar(qual: String) -> void:
 # Só cenas permanentes podem ser retomadas; arenas e destinos desconhecidos voltam à cidade.
 const CIDADE := "res://cenas/cidade.tscn"
 const LOCAIS := [CIDADE, "res://cenas/fazenda.tscn", "res://cenas/casa.tscn", "res://cenas/galinheiro.tscn", "res://cenas/cidade/carpintaria.tscn",
-	"res://cenas/praia.tscn", "res://cenas/palafita.tscn",
+	"res://cenas/praia.tscn", "res://cenas/palafita.tscn", "res://cenas/floresta.tscn",
 	"res://cenas/cidade/forja.tscn", "res://cenas/cidade/casa_bento.tscn",
 	"res://cenas/cidade/mistica.tscn", "res://cenas/cidade/pousada.tscn",
 	"res://cenas/cidade/enfermaria.tscn", "res://cenas/cidade/sede.tscn", "res://cenas/cidade/venda.tscn"]

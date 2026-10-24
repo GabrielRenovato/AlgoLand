@@ -155,30 +155,6 @@
                   ]
                 ],
                 "color": "aco_luz"
-              },
-              {
-                "op": "rect",
-                "box": [
-                  49,
-                  30,
-                  53,
-                  32
-                ],
-                "color": "brasa"
-              },
-              {
-                "op": "path",
-                "points": [
-                  [
-                    50,
-                    30
-                  ],
-                  [
-                    52,
-                    30
-                  ]
-                ],
-                "color": "brasa_luz"
               }
             ]
           }

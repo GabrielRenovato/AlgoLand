@@ -2,6 +2,7 @@
   "andar": 6,
   "nome": "Ruinas do Vale",
   "bioma": "ruinas",
+  "estacao": 2,
   "grade": 16,
   "limites": [
     -1550,

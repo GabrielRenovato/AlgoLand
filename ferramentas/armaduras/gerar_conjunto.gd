@@ -28,6 +28,10 @@ func _gravar_paginas_web() -> void:
 		DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(caminho))
 		for i in acoes.size():
 			imagem.get_region(Rect2i(0,i*320,320,320)).save_png(caminho+"/"+String(acoes[i])+".png")
+	if FileAccess.file_exists("res://assets/personagens/raven_fantasy/acoes_fazenda/colher/corpo_0.png"):
+		preload("res://ferramentas/personagem/encaixe_acoes_fazenda_raven.gd").preparar_conjunto(_destino)
+	if FileAccess.file_exists("res://assets/personagens/raven_fantasy/corrida_mana_seed/corpo_0.png"):
+		preload("res://ferramentas/personagem/encaixe_corrida_raven.gd").preparar_conjunto(_destino)
 
 func _initialize() -> void:
 	var args := OS.get_cmdline_user_args()
@@ -41,6 +45,15 @@ func _initialize() -> void:
 		return
 	_destino = String(_config["destino"])
 	_paleta = _config["paleta"]
+	if "--somente-corrida" in args:
+		preload("res://ferramentas/personagem/encaixe_corrida_raven.gd").preparar_conjunto(_destino)
+		quit()
+		return
+	if "--somente-acoes-fazenda" in args:
+		preload("res://ferramentas/personagem/encaixe_acoes_fazenda_raven.gd").preparar_conjunto(_destino)
+		print("OK novas poses de fazenda nas quatro peças: ",_config.id)
+		quit()
+		return
 	if "--somente-web" in args:
 		_gravar_paginas_web()
 		quit(0)

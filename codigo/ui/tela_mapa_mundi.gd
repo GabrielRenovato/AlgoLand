@@ -1,6 +1,7 @@
 extends Control
 
 ## Carta dos lugares permanentes. É uma ilustração de consulta, sem viagem rápida.
+const EstiloInicio := preload("res://codigo/ui/estilo_inicio_detalhado.gd")
 const DadosMapa := preload("res://codigo/ui/dados_mapa_mundi.gd")
 const Moradores := preload("res://codigo/cidade/dados_cidade.gd")
 const IconeServico := preload("res://codigo/ui/icone_servico_mapa.gd")
@@ -27,7 +28,7 @@ func _ready() -> void:
 	mouse_filter = MOUSE_FILTER_IGNORE
 	theme = preload("res://recursos/ui/tema_sidebar.tres")
 	painel = PanelContainer.new()
-	painel.add_theme_stylebox_override("panel", preload("res://codigo/ui/estilo_interface.gd").painel(false,8.0))
+	EstiloInicio.painel(painel,false,8,true)
 	add_child(painel)
 	var coluna := VBoxContainer.new()
 	coluna.add_theme_constant_override("separation", 4)
@@ -42,12 +43,14 @@ func _ready() -> void:
 	for texto in ["-", "+", "1:1"]:
 		var botao := Button.new()
 		botao.text = texto
+		EstiloInicio.botao(botao,false,16.0)
 		botao.custom_minimum_size = Vector2(24,24)
 		botao.add_theme_font_size_override("font_size",8)
 		botao.pressed.connect(_alterar_zoom.bind(texto))
 		cabecalho.add_child(botao)
 	_fechar = Button.new()
 	_fechar.text = "X"
+	EstiloInicio.botao(_fechar,false,16.0)
 	_fechar.custom_minimum_size = Vector2(24,24)
 	_fechar.pressed.connect(func(): EventosJogo.fechar_tela_de(self,"mapa_mundi"))
 	cabecalho.add_child(_fechar)
@@ -101,7 +104,7 @@ func regiao_atual() -> String:
 	var cena := Cooperativo.cena_de(jogador) if jogador != null else null
 	if cena == null: return ""
 	var caminho: String = cena.scene_file_path
-	if caminho in ["res://cenas/fazenda.tscn", "res://cenas/casa.tscn"]: return "fazenda"
+	if caminho in ["res://cenas/fazenda.tscn", "res://cenas/casa.tscn", "res://cenas/floresta.tscn"]: return "fazenda"
 	if caminho == "res://cenas/cidade.tscn" or caminho.begins_with("res://cenas/cidade/"): return "cidade"
 	if caminho == "res://cenas/praia.tscn": return "praia"
 	if caminho == "res://cenas/palafita.tscn": return "palafita"

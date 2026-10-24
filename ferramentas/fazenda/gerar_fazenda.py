@@ -14,8 +14,8 @@ Saida:
     profundidade (Objetos3D + profundidade_grupo.gd) e colisoes medidas por pixel
   - cenas/fazenda.tscn : o terreno + Jogador, luz, HUD, Interface e vinheta (sem inimigos nem ondas)
   - (Etapa B) o no Plantio (solo arado, plantas e clima do dia) e a meta "barra_ferramentas" (o HUD mostra a barra da ferramenta ativa)
-  - cenas/casa.tscn : o interior (piso, parede com janela, cama, bau, estante, mesa e cadeiras do Mana Seed; duas xicaras de
-    cafe na mesa e as zonas das cadeiras: F senta e toma um cafezinho, ver codigo/logica/cadeira.gd)
+  - cenas/casa.tscn : o interior (piso, parede com janela, cama, bau, estante, mesa e cadeiras do Mana Seed;
+    as zonas das cadeiras: F senta para descansar, ver codigo/logica/cadeira.gd)
 
 Reaproveita de ferramentas/arena/gerar_arena.py as folhas sazonais, a terra em autotile (blob 3x3) e as medidas
 de colisao por pixel das arvores.
@@ -415,10 +415,10 @@ def escrever_terreno(m):
             "position = %s" % vec((ax + bx) / 2, (ay + by) / 2), 'shape = SubResource("Forma_limite_%s")' % nome])
 
     # passagens: a estrada para a vila (leste) e a porta da casa
-    c.sub_recurso("RectangleShape2D", "Forma_cidade", ["size = Vector2(28, 32)"])
+    c.sub_recurso("RectangleShape2D", "Forma_cidade", ["size = Vector2(44, 60)"])
     c.no("PassagemCidade", "Area2D", props=["position = %s" % vec(*PORTAO_CIDADE), 'script = ExtResource("%s")' % s_passagem,
-                                           'cena_destino = "res://cenas/cidade.tscn"', 'ponto_chegada = "fazenda"',
-                                           'so_entre_ondas = false', 'deslocamento_aviso = Vector2(0, -30)'])
+                                           'cena_destino = "res://cenas/floresta.tscn"', 'ponto_chegada = "fazenda"',
+                                           'so_entre_ondas = false', 'direcao_saida = Vector2(1, 0)', 'deslocamento_aviso = Vector2(0, -30)'])
     c.no("Forma", "CollisionShape2D", "PassagemCidade", ['shape = SubResource("Forma_cidade")'])
     c.no("PlacaCidade", "Label", props=['offset_left = %d.0' % (CERCA_LESTE - 96), 'offset_top = %d.0' % (ESTRADA_Y - 40),
                                        'offset_right = %d.0' % (CERCA_LESTE - 16), 'offset_bottom = %d.0' % (ESTRADA_Y - 22),
@@ -492,7 +492,7 @@ def escrever_fazenda():
 # ---------------------------------------------------------------- interior da casa
 # Planta inicial de um cômodo no layout dos interiores da vila, casa "casa_jogador"
 # (ferramentas/cidade/layout_interiores.py, montada por codigo/cidade/interior_casa.gd). Aqui ficam os moveis do Mana Seed
-# que tem comportamento: a cama (o sono animado, cama.gd), o bau, a estante, a mesa e as cadeiras do cafezinho (cadeira.gd).
+# que tem comportamento: a cama (o sono animado, cama.gd), o bau, a estante, a mesa e as cadeiras (cadeira.gd).
 # Casa inicial de um cômodo. Posição da base-centro de cada móvel na planta; as colisoes sao relativas a base (x0, y0, x1, y1)
 MOVEIS_CASA = {"Cama": (216, 120), "Bau": (40, 78), "Estante": (104, 66), "Mesa": (88, 142), "CadeiraE": (61, 140), "CadeiraD": (115, 140)}
 COLISOES_CASA = {"Cama": (-16, -50, 16, 0), "Bau": (-16, -10, 16, 0), "Estante": (-16, -12, 16, 0), "Mesa": (-16, -18, 16, 0),
@@ -537,8 +537,6 @@ def escrever_casa():
     s_cama = c.recurso("Script", "res://codigo/cenario/cama.gd", "cama_script")
     c.sub_recurso("RectangleShape2D", "Forma_saida", ["size = Vector2(40, 16)"])
     c.sub_recurso("RectangleShape2D", "Forma_cama", ["size = Vector2(84, 76)"])
-    # xicara de cafe (cozy furnishings sampler: x 177, y 68, 10x8) e a zona de cada cadeira
-    c.sub_recurso("AtlasTexture", "Atlas_Cafe", ['atlas = ExtResource("%s")' % sheet_mov, "region = Rect2(177, 68, 10, 8)"])
     c.sub_recurso("CircleShape2D", "Forma_cadeira", ["radius = 15.0"])
     s_cadeira = c.recurso("Script", "res://codigo/logica/cadeira.gd", "cadeira_script")
 
@@ -568,10 +566,6 @@ def escrever_casa():
         if espelhos[nome]:
             props.append("flip_h = true")
         c.no(nome, "Sprite2D", "Objetos3D", props)
-    # as xicaras de cafe sao filhas da mesa (desenham logo acima dela)
-    for nome_xicara, dx in (("Cafe_E", -9), ("Cafe_D", 9)):
-        c.no(nome_xicara, "Sprite2D", "Objetos3D/Mesa", ["position = %s" % vec(dx, -22), 'texture = SubResource("Atlas_Cafe")'])
-
     # colisoes dos moveis do Mana Seed (as paredes sao do Interior). A da cama tem a largura exata do desenho: o jogador
     # encosta de lado e e desenhado por cima (a cama e fatiada em faixas, cada uma com a sua profundidade)
     c.no("Colisoes", "StaticBody2D", props=["collision_layer = 64", "collision_mask = 0"])
@@ -590,11 +584,11 @@ def escrever_casa():
     c.no("Forma", "CollisionShape2D", "Cama", ['shape = SubResource("Forma_cama")'])
     # cadeiras: a esquerda olha para a direita e a direita (espelhada) para a esquerda, as duas para a mesa
     mesa_x, mesa_y = MOVEIS_CASA["Mesa"]
-    for nome_cad, dx, lado, cafe in (("CadeiraE", -24, 1, "Cafe_E"), ("CadeiraD", 24, -1, "Cafe_D")):
+    for nome_cad, dx, lado in (("CadeiraE", -24, 1), ("CadeiraD", 24, -1)):
         c.no("Zona" + nome_cad, "Area2D", props=["position = %s" % vec(mesa_x + dx, mesa_y - 8), 'script = ExtResource("%s")' % s_cadeira,
                                                   "so_entre_ondas = false", "deslocamento_aviso = Vector2(0, -34)", "lado = %d" % lado,
                                                   "assento = %s" % vec(1 * lado, -9), "saida = %s" % vec(0, -20),
-                                                  'cafe = NodePath("../Objetos3D/Mesa/%s")' % cafe, 'mesa = NodePath("../Objetos3D/Mesa")'])
+                                                  'mesa = NodePath("../Objetos3D/Mesa")'])
         c.no("Forma", "CollisionShape2D", "Zona" + nome_cad, ['shape = SubResource("Forma_cadeira")'])
     c.no("Chegada_entrada", "Marker2D", ".", ["position = %s" % vec(*geo["chegada"])], grupos=["chegada"])
     # ao acordar, o jogador aparece ao lado da cama (do lado do quarto, a esquerda dela)

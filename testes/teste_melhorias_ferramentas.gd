@@ -54,7 +54,7 @@ func rodar() -> void:
 	var ui: Node=get_first_node_in_group("interface")
 	var tela: Control=ui._telas["forja"]
 	tela._mudar_categoria(true)
-	verificar("aba com quatro ferramentas e niveis reais",tela._botoes.values().filter(func(b): return b.visible).size()==4 and tela._fabricar.text=="NIVEL MAXIMO")
+	verificar("aba com quatro ferramentas e niveis reais",tela._tipos_catalogo()==Melhorias.TIPOS and tela._fabricar.text=="NIVEL MAXIMO")
 	current_scene.queue_free()
 	await quadros()
 	quit(1 if falhas else 0)

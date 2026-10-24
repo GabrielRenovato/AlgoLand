@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3]
+[gd_scene load_steps=34 format=3]
 
 [ext_resource type="Texture2D" path="res://assets/cenario/substitutos/interiores/moveis.png" id="moveis"]
 [ext_resource type="Script" path="res://codigo/cenario/profundidade_grupo.gd" id="prof_grupo"]
@@ -69,10 +69,6 @@ size = Vector2(40, 16)
 
 [sub_resource type="RectangleShape2D" id="Forma_cama"]
 size = Vector2(84, 76)
-
-[sub_resource type="AtlasTexture" id="Atlas_Cafe"]
-atlas = ExtResource("moveis")
-region = Rect2(177, 68, 10, 8)
 
 [sub_resource type="CircleShape2D" id="Forma_cadeira"]
 radius = 15.0
@@ -202,14 +198,6 @@ texture = SubResource("Atlas_Mesa")
 centered = false
 offset = Vector2(-17, -42)
 
-[node name="Cafe_E" type="Sprite2D" parent="Objetos3D/Mesa"]
-position = Vector2(-9, -15)
-texture = SubResource("Atlas_Cafe")
-
-[node name="Cafe_D" type="Sprite2D" parent="Objetos3D/Mesa"]
-position = Vector2(9, -15)
-texture = SubResource("Atlas_Cafe")
-
 [node name="Colisoes" type="StaticBody2D" parent="."]
 collision_layer = 64
 collision_mask = 0
@@ -265,9 +253,9 @@ script = ExtResource("cadeira_script")
 so_entre_ondas = false
 deslocamento_aviso = Vector2(0, -34)
 lado = 1
-assento = Vector2(1, -9)
-saida = Vector2(0, -20)
-cafe = NodePath("../Objetos3D/Mesa/Cafe_E")
+frente = 1
+assento = Vector2(0, -9)
+saida = Vector2(0, 20)
 mesa = NodePath("../Objetos3D/Mesa")
 
 [node name="Forma" type="CollisionShape2D" parent="ZonaCadeiraE"]
@@ -279,9 +267,9 @@ script = ExtResource("cadeira_script")
 so_entre_ondas = false
 deslocamento_aviso = Vector2(0, -34)
 lado = -1
-assento = Vector2(-1, -9)
-saida = Vector2(0, -20)
-cafe = NodePath("../Objetos3D/Mesa/Cafe_D")
+frente = 1
+assento = Vector2(0, -9)
+saida = Vector2(0, 20)
 mesa = NodePath("../Objetos3D/Mesa")
 
 [node name="Forma" type="CollisionShape2D" parent="ZonaCadeiraD"]

@@ -50,6 +50,21 @@ func _abrir_janela_entre_ondas() -> void:
 func _ready() -> void:
 	add_to_group("gerenciador_andar")
 	super()
+	_aplicar_estacao_do_andar.call_deferred()
+
+## Cada andar tem a sua estação (campo "estacao" da planta); o Calendario, a vila e a fazenda não são tocados. O clima do
+## andar acompanha essa estação (o Estacoes avisa o Clima) e é sorteado por onda, sem passar para o clima do mundo
+func _aplicar_estacao_do_andar() -> void:
+	var raiz := get_parent().get_parent()
+	var estacoes := raiz.get_node_or_null("Terrains/Estacoes")
+	var planta: Dictionary = Catalogo.PLANTAS[clampi(int(raiz.get_meta("planta_andar", Catalogo.indice(onda_atual))) - 1, 0, 10)].data
+	if estacoes != null and planta.has("estacao"):
+		estacoes.fixar_estacao(int(planta["estacao"]))
+
+## A estação que vale neste andar (a da planta, ou a do calendário se a planta não define)
+func estacao_do_andar() -> int:
+	var estacoes := get_parent().get_parent().get_node_or_null("Terrains/Estacoes")
+	return int(estacoes.estacao_atual) if estacoes != null and estacoes.estacao_atual >= 0 else Calendario.estacao()
 
 func iniciar_onda(ignorar_checkpoint: bool = false) -> void:
 	if is_instance_valid(tesouro) and tesouro.ativo:
@@ -69,7 +84,7 @@ func iniciar_onda(ignorar_checkpoint: bool = false) -> void:
 	# Modificadores compatíveis com a população fixa dos mapas; horda/elite ficam na arena antiga.
 	var chave_evento := str(onda_atual)
 	var anterior: String = Progresso.eventos_andares.get(str(onda_atual-1), "")
-	var candidatos: Array = EVENTOS.filter(func(e): return not e.id in ["horda", "elite", anterior] and not (Calendario.estacao() == 3 and e.get("nao_no_inverno",false)))
+	var candidatos: Array = EVENTOS.filter(func(e): return not e.id in ["horda", "elite", anterior] and not (estacao_do_andar() == 3 and e.get("nao_no_inverno",false)))
 	if not Progresso.eventos_andares.has(chave_evento):
 		Progresso.eventos_andares[chave_evento] = candidatos[_rng.randi_range(0,candidatos.size()-1)].id if onda_atual >= 4 and _rng.randf() < chance_evento else ""
 	var id_evento: String = Progresso.eventos_andares[chave_evento]

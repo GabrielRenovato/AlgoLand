@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3]
+[gd_scene load_steps=9 format=3]
 
 [ext_resource type="Script" path="res://codigo/ui/tela_acampamento.gd" id="1_tela"]
 [ext_resource type="Theme" path="res://recursos/ui/tema_sidebar.tres" id="2_tema"]
@@ -7,8 +7,6 @@
 [ext_resource type="Texture2D" path="res://assets/ui/sem org/3 Icons/Icons_37.png" id="5_icone_fechar"]
 
 [ext_resource type="Texture2D" path="res://assets/ui/icone_brasa.png" id="6_brasa"]
-
-[ext_resource type="Script" path="res://codigo/ui/layout_flex.gd" id="layout_flex"]
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_abas"]
 
@@ -63,7 +61,7 @@ mouse_filter = 2
 
 [node name="Titulo" type="Label" parent="Painel/Linhas/Cabecalho"]
 layout_mode = 2
-text = "COMUNIDADE"
+text = "BRASAS - COMUNIDADE"
 label_settings = SubResource("LabelSettings_titulo")
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -149,8 +147,3 @@ size_flags_vertical = 10
 theme_override_colors/font_color = Color(0.75, 0.7, 0.62, 1)
 text = "RECORDE: ANDAR 0"
 horizontal_alignment = 1
-
-[node name="LayoutFlex" type="Node" parent="."]
-script = ExtResource("layout_flex")
-caminho_painel = NodePath("../Painel")
-central = false

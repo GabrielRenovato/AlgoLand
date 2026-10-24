@@ -3,9 +3,11 @@ extends Sprite2D
 ## Único renderizador do jogador: nenhuma ação restaura camadas de outro pacote.
 ## A lógica de combate/ferramentas permanece dona dos tempos e impactos.
 const AparenciaRaven := preload("res://codigo/dados/aparencia_raven.gd")
+const PorteArmas := preload("res://codigo/dados/porte_armas_raven.gd")
+var _arma_costas: Sprite2D
 const CoresArmas := preload("res://codigo/dados/cores_armas_raven.gd")
 var _camadas: Array[Sprite2D] = []
-var _chave_aparencia := ""
+var _chave_aparencia := -1
 const Profundidade := preload("res://codigo/globais/profundidade.gd")
 var _jogador: Node2D
 var _texturas: Dictionary = {}
@@ -18,6 +20,10 @@ var _vara_pesca: Line2D
 var _porte_arma := ""
 var _escudo_ativo := false
 const POSES_PESCA := [0,1,2,3,3,3,3,3]
+const Corrida := preload("res://codigo/dados/corrida_raven.gd")
+const VELOCIDADE_POEIRA := 70.0
+var _poeira: CPUParticles2D
+var _coluna_corrida := -1
 const PEGADAS_VARAS := [Vector2(-4,-9),Vector2(6,-11),Vector2(3,-13),Vector2(-7,-11)]
 const PONTAS_VARAS := [Vector2(-7,7),Vector2(22,-15),Vector2(10,-29),Vector2(-23,-15)]
 
@@ -33,7 +39,25 @@ func _ready() -> void:
 	hframes = 4
 	vframes = 4
 	_pontas = JSON.parse_string(FileAccess.get_file_as_string("res://assets/personagens/raven_fantasy/pontas_pesca.json"))
-	for i in 14:
+	_montar_camadas()
+	# Haste com pegada e comprimento medidos no quarto quadro nativo.
+	# A ponta flexiona na disputa sem repetir o gesto de arremessar.
+	_vara_pesca = Line2D.new()
+	_vara_pesca.width = 2.0
+	var espessura := Curve.new()
+	espessura.add_point(Vector2(0,1))
+	espessura.add_point(Vector2(1,0.5))
+	_vara_pesca.width_curve = espessura
+	_vara_pesca.default_color = Color("745c42")
+	_vara_pesca.antialiased = false
+	_vara_pesca.visible = false
+	add_child(_vara_pesca)
+	_montar_poeira()
+	_process(0.0)
+
+## Compositor compartilhado pelo jogador e pelas representações visuais do ranking.
+func _montar_camadas() -> void:
+	for i in 15:
 		var camada := Sprite2D.new()
 		camada.name = "Camada%d" % i
 		camada.texture_filter = TEXTURE_FILTER_NEAREST
@@ -50,19 +74,52 @@ func _ready() -> void:
 	_camadas[11].z_index = 2 # Luvas.
 	_camadas[12].z_index = 2 # Botas.
 	_camadas[13].z_index = -2 # Aljava nas costas.
-	# Haste com pegada e comprimento medidos no quarto quadro nativo.
-	# A ponta flexiona na disputa sem repetir o gesto de arremessar.
-	_vara_pesca = Line2D.new()
-	_vara_pesca.width = 2.0
-	var espessura := Curve.new()
-	espessura.add_point(Vector2(0,1))
-	espessura.add_point(Vector2(1,0.5))
-	_vara_pesca.width_curve = espessura
-	_vara_pesca.default_color = Color("745c42")
-	_vara_pesca.antialiased = false
-	_vara_pesca.visible = false
-	add_child(_vara_pesca)
-	_process(0.0)
+	_arma_costas = Sprite2D.new()
+	_arma_costas.name = "ArmaNasCostas"
+	_arma_costas.texture_filter = TEXTURE_FILTER_NEAREST
+	_arma_costas.visible = false
+	add_child(_arma_costas)
+
+## Poeirinha nos pés a cada passada; fica no mundo (não acompanha o jogador) e some rápido
+func _montar_poeira() -> void:
+	_poeira = CPUParticles2D.new()
+	_poeira.name = "PoeiraCorrida"
+	_poeira.top_level = false
+	_poeira.local_coords = false
+	_poeira.one_shot = true
+	_poeira.emitting = false
+	_poeira.amount = 4
+	_poeira.lifetime = 0.3
+	_poeira.explosiveness = 1.0
+	_poeira.direction = Vector2(0, -1)
+	_poeira.spread = 70.0
+	_poeira.gravity = Vector2.ZERO
+	_poeira.initial_velocity_min = 8.0
+	_poeira.initial_velocity_max = 20.0
+	_poeira.damping_min = 30.0
+	_poeira.damping_max = 40.0
+	_poeira.scale_amount_min = 1.0
+	_poeira.scale_amount_max = 2.0
+	var rampa := Gradient.new()
+	rampa.offsets = PackedFloat32Array([0.0, 1.0])
+	rampa.colors = PackedColorArray([Color(0.86, 0.8, 0.68, 0.55), Color(0.86, 0.8, 0.68, 0.0)])
+	_poeira.color_ramp = rampa
+	_poeira.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	_poeira.z_index = -1
+	_poeira.position = Vector2(-1, 0)
+	add_child(_poeira)
+
+## Aplica o balanço e a poeira da corrida; fora dela o sprite volta à altura dos pés
+func _animar_corrida(nome: String, coluna: int) -> void:
+	if nome == "correr" and _jogador.velocity.length() > 2.0:
+		if coluna != _coluna_corrida and (coluna == 0 or coluna == 3) and _jogador.velocity.length() > VELOCIDADE_POEIRA:
+			_poeira.global_position = _jogador.global_position + Vector2(0, Profundidade.PES_JOGADOR)
+			_poeira.restart()
+		_coluna_corrida = coluna
+	else:
+		_coluna_corrida = -1
+	# A altura já está desenhada nas poses; não somar outro salto sobre elas.
+	position.y = Profundidade.PES_JOGADOR
 
 func _exit_tree() -> void:
 	if is_instance_valid(_jogador):
@@ -144,15 +201,42 @@ func _process(delta: float) -> void:
 	_tempo += delta
 	if coluna < 0:
 		var instante := fmod(_tempo,duracao) if repetir else minf(_tempo,duracao-0.0001)
-		coluna = clampi(int(instante / duracao * 4.0),0,3)
+		coluna = Corrida.quadro(instante,duracao) if nome == "correr" else clampi(int(instante / duracao * 4.0),0,3)
+	var quantidade := Corrida.QUADROS if nome == "correr" else 4
+	_definir_grade(quantidade)
 	_aplicar_aparencia(nome)
 	_vara_pesca.visible = nome == "pescar" and coluna == 3
 	if _vara_pesca.visible:
 		_vara_pesca.points = pontos_vara(direcao,pesca.tensao)
 		_vara_pesca.z_index = -1 if direcao==2 else 0
 	_camadas[5].visible = not _vara_pesca.visible
-	frame = direcao*4 + clampi(coluna,0,3)
+	frame = direcao*quantidade + clampi(coluna,0,quantidade-1)
 	for camada in _camadas: camada.frame = frame
+	_atualizar_arma_costas(nome,direcao,coluna)
+	_animar_corrida(nome,coluna)
+
+func _atualizar_arma_costas(acao: String, direcao: int, quadro: int) -> void:
+	var tipo := _tipo_armamento()
+	# Cada arma deixa as costas ao iniciar a ação; o golpe usa sua camada nativa.
+	_arma_costas.visible = acao in ["parado","correr"] and tipo in ["espada","espada_dupla","lanca"] and _jogador.id_arma_atual != "maca"
+	_camadas[6].z_index = 3 if _arma_costas.visible else 0
+	if not _arma_costas.visible: return
+	var pose := PorteArmas.pose(tipo,acao,direcao,quadro)
+	_arma_costas.texture = PorteArmas.textura(tipo)
+	_arma_costas.position = Vector2(pose.posicao[0],pose.posicao[1])
+	_arma_costas.rotation = pose.rotacao
+	_arma_costas.z_index = int(pose.z)
+	var arma = _jogador.inventario.equipados.get("arma")
+	var id: String = arma.tipo if arma != null else (_jogador.id_lanca_atual if tipo=="lanca" else _jogador.id_arma_atual)
+	_arma_costas.material = CoresArmas.material(id,arma.nivel if arma != null else 1)
+
+func _definir_grade(quantidade: int) -> void:
+	if hframes == quantidade: return
+	frame = 0
+	hframes = quantidade
+	for camada in _camadas:
+		camada.frame = 0
+		camada.hframes = quantidade
 
 func criar_previa() -> Sprite2D:
 	# Usa o mesmo compositor do mundo em pose neutra, restaurando o estado
@@ -161,18 +245,24 @@ func criar_previa() -> Sprite2D:
 	var escudo_anterior := _escudo_ativo
 	var porte_anterior := _porte_arma
 	var quadro_anterior := frame
+	var colunas_anteriores := hframes
 	_direcao = 0
 	_escudo_ativo = false
 	_porte_arma = ""
+	_definir_grade(4)
 	_aplicar_aparencia("parado")
 	frame = 0
 	for camada in _camadas: camada.frame = 0
+	var porte_visivel := _arma_costas.visible
+	_arma_costas.visible = false
 	var previa := criar_rastro()
+	_arma_costas.visible = porte_visivel
 	previa.modulate = Color.WHITE
 	previa.self_modulate = Color.WHITE
 	_direcao = direcao_anterior
 	_escudo_ativo = escudo_anterior
 	_porte_arma = porte_anterior
+	_definir_grade(colunas_anteriores)
 	_aplicar_aparencia(_animacao if not _animacao.is_empty() else "parado")
 	frame = quadro_anterior
 	for camada in _camadas: camada.frame = quadro_anterior
@@ -186,6 +276,7 @@ func criar_rastro() -> Sprite2D:
 	for camada in _camadas:
 		if camada.is_visible_in_tree() and camada.texture != null:
 			copia.add_child(_copiar_sprite(camada))
+	if _arma_costas.visible: copia.add_child(_copiar_sprite(_arma_costas))
 	return copia
 
 func _copiar_sprite(origem: Sprite2D) -> Sprite2D:
@@ -244,6 +335,21 @@ func pontos_vara(direcao: int, tensao: float) -> PackedVector2Array:
 
 func _aplicar_aparencia(acao: String) -> void:
 	var dados: Dictionary = _jogador.aparencia_raven
+	var equipados: Dictionary = _jogador.inventario.equipados
+	var arma = equipados.get("arma")
+	var escudo = equipados.get("escudo")
+	var nivel_arma: int = arma.nivel if arma != null else 1
+	var nivel_escudo: int = escudo.nivel if escudo != null else 1
+	var tipo_arma: String = arma.tipo if arma != null else _jogador.id_arma_atual
+	# Chave barata (hash do conteúdo) em vez de JSON: roda todo quadro e pesava no celular
+	var tipos_pecas := []
+	for slot in ["cabeca","corpo","luvas","botas"]:
+		var peca_equipada = equipados.get(slot)
+		tipos_pecas.append([peca_equipada.tipo,peca_equipada.categoria] if peca_equipada != null else "")
+	# raizes_armadura e pecas_cavaleiro são getters caros que derivam disso (equipados, roupa e o teste do F3), então ficam fora da chave
+	var chave := hash([acao,dados,_jogador.roupa_atual,_jogador._pecas_cavaleiro_debug,tipos_pecas,_direcao,_escudo_ativo,_jogador.usando_arco,_jogador.id_arma_atual,tipo_arma,nivel_arma,nivel_escudo,_jogador.esta_em_acao_fazenda])
+	if chave == _chave_aparencia: return
+	_chave_aparencia = chave
 	var raizes: Dictionary = _jogador.raizes_armadura.duplicate()
 	var visual: String = preload("res://codigo/dados/aparencia.gd").raiz_armadura_visual(_jogador.roupa_atual)
 	if not visual.is_empty():
@@ -251,16 +357,8 @@ func _aplicar_aparencia(acao: String) -> void:
 			if _jogador.pecas_cavaleiro & preload("res://codigo/dados/aparencia.gd").PECAS_CAVALEIRO[peca]: raizes[peca]=visual
 	var basicas := {}
 	for par in [["cabeca","elmo","cabeca_basica"],["corpo","peitoral","armadura_basica"],["luvas","luvas","luvas_basicas"],["botas","botas","botas_basicas"]]:
-		var item = _jogador.inventario.equipados.get(par[0])
+		var item = equipados.get(par[0])
 		if item != null and item.tipo == par[2] and not raizes.has(par[1]): basicas[par[1]]=true
-	var arma = _jogador.inventario.equipados.get("arma")
-	var escudo = _jogador.inventario.equipados.get("escudo")
-	var nivel_arma: int = arma.nivel if arma != null else 1
-	var nivel_escudo: int = escudo.nivel if escudo != null else 1
-	var tipo_arma: String = arma.tipo if arma != null else _jogador.id_arma_atual
-	var chave: String = acao+JSON.stringify(dados)+JSON.stringify(raizes)+JSON.stringify(basicas)+str(_direcao)+str(_escudo_ativo)+str(_jogador.usando_arco)+_jogador.id_arma_atual+JSON.stringify([tipo_arma,nivel_arma,nivel_escudo,_jogador.esta_em_acao_fazenda])
-	if chave == _chave_aparencia: return
-	_chave_aparencia = chave
 	var pele := clampi(int(dados.get("pele",0)),0,2)
 	var cabelo := AparenciaRaven.indice_cabelo(int(dados.get("cabelo",0)))
 	var roupa := AparenciaRaven.indice_roupa(int(dados.get("roupa",0)))
@@ -269,6 +367,11 @@ func _aplicar_aparencia(acao: String) -> void:
 	var pecas := AparenciaRaven.pecas_roupa(roupa)
 	for i in 5:
 		_camadas[i].texture = AparenciaRaven.folha(pecas[i] if i < pecas.size() else "vazio",acao)
+		# As folhas das ações recortam braços e cabeça na capa; o tecido precisa
+		# continuar sobre o dorso, como no repouso, inclusive de costas.
+		_camadas[i].z_index = 0
+		if acao == "correr" and i < pecas.size() and pecas[i] == "capa":
+			_camadas[i].z_index = 0 if _direcao==2 else -1
 		_camadas[i].material = AparenciaRaven.material_pose(false,acao=="sentado",_direcao)
 	_camadas[5].texture = AparenciaRaven.folha("ferramentas",acao)
 	if not _porte_arma.is_empty():
@@ -305,5 +408,7 @@ func _aplicar_aparencia(acao: String) -> void:
 	_camadas[13].texture = AparenciaRaven.folha("aljava" if _jogador.usando_arco else "vazio",acao)
 	_camadas[13].z_index = 2 if _direcao==2 else -2
 	_camadas[13].material = AparenciaRaven.material_pose(false,acao=="sentado",_direcao,false)
+	_camadas[14].texture = AparenciaRaven.folha("capa_fecho",acao) if acao=="correr" and pecas.has("capa") and not cobertas.has("peitoral") else AparenciaRaven.folha("vazio",acao)
+	_camadas[14].material = AparenciaRaven.material_pose(false,false,_direcao)
 	if _jogador.id_arma_atual=="maca" and acao in ["espada","espada_2"]:
 		_camadas[5].texture=AparenciaRaven.folha("marreta_"+acao,acao)

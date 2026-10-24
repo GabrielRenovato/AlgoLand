@@ -1,0 +1,7 @@
+{
+  "servico": "PixelLab",
+  "job_id": "861b90f7-0f62-47ed-8e67-ab182aa1960b",
+  "quadros": 17,
+  "download": "https://api.pixellab.ai/mcp/images/861b90f7-0f62-47ed-8e67-ab182aa1960b/download?index=INDICE",
+  "alteracao_pixels": false
+}

@@ -5,6 +5,7 @@ posto pela base-centro (x, y em pixels da sala); a medida do retângulo com pixe
 (ferramentas/interiores/medir.gd). Uso: python3 ferramentas/cidade/layout_interiores.py
 """
 from pathlib import Path
+import argparse
 import json
 
 RAIZ = Path(__file__).resolve().parents[2]
@@ -106,9 +107,8 @@ CASAS = {
             ('lareira', 272, 58, {'col': [34, 12], 'luzes': [[0, -20, FOGO, 0.9, 0.9, 'fogo']]}),
             ('estandarte', 208, 62, {'col': [24, 10]}),
             ('estandarte', 336, 62, {'col': [24, 10], 'espelhar': True}),
-            ('banco_reuniao', 224, 112, {'col': [30, 8]}),
-            ('mesa_reuniao', 272, 152, {'col': [60, 28], 'luzes': [[-6, -24, VELA, 0.45, 0.5, 'fogo']]}),
-            ('banco_reuniao', 272, 176, {'col': [30, 8]}),
+            # Recepção: Lia atrás do balcão e acesso frontal livre desde a entrada.
+            ('balcao', 272, 152, {'de': 'pousada', 'col': [102, 14], 'id': 'BalcaoAtendimento', 'luzes': [[-26, -39, LAMPIAO, 0.45, 0.5, 'fixa']]}),
             ('quadro_avisos', 344, 250, {'col': [40, 10], 'id': 'Mural'}),
             ('cadeira', 192, 250, {'col': [12, 8]}),
             # Arquivo
@@ -194,11 +194,9 @@ CASAS = {
             ('banqueta', 270, 162, {'col': [12, 6]}),
             ('banqueta', 302, 162, {'col': [12, 6]}),
             ('banqueta', 334, 162, {'col': [12, 6]}),
-            # Canto da lareira: tapete redondo na frente e uma poltrona de cada lado
+            # Canto da lareira: tapete redondo na frente
             ('lareira', 430, 64, {'col': [52, 12], 'luzes': [[0, -22, FOGO, 1.0, 1.0, 'fogo']]}),
             ('tapete', 430, 102, {'chao': True}),
-            ('poltrona', 392, 96, {'de': 'mistica', 'col': [12, 8]}),
-            ('poltrona', 468, 96, {'de': 'mistica', 'col': [12, 8], 'espelhar': True}),
             # Palco do bardo, encostado na parede da direita
             ('tapete', 474, 236, {'de': 'venda', 'chao': True}),
             # Seis mesas de banco corrido em grade (duas colunas à esquerda, uma à direita), com o corredor
@@ -223,7 +221,7 @@ CASAS = {
             ('banco_reuniao', 400, 320, {'de': 'sede', 'col': [30, 8], 'variante': 'cerejeira'}),
             # Entrada: cardápio ao lado da porta, planta e estoque nos cantos
             ('cardapio', 362, 324, {'col': [30, 10]}),
-            ('planta', 160, 324, {'de': 'venda', 'col': [14, 8]}),
+            ('planta', 146, 324, {'de': 'venda', 'col': [14, 8]}),
             ('barris_caixas', 488, 322, {'de': 'venda', 'col': [48, 16]}),
             # Cozinha
             ('lareira', 48, 60, {'de': 'casa_bento', 'col': [44, 12], 'luzes': [[0, -20, FOGO, 0.9, 0.9, 'fogo']]}),
@@ -264,9 +262,7 @@ CASAS = {
             ('ervas', 104, 212, {'de': 'enfermaria', 'luzes': [[0, -22, ERVA, 0.5, 0.35, 'pulso']]}),
             # Sala de leitura
             ('tapete', 264, 240, {'chao': True}),
-            ('poltrona', 184, 196, {'col': [12, 8]}),
             ('mesa', 212, 200, {'de': 'enfermaria', 'col': [28, 14], 'luzes': [[6, -20, VELA, 0.4, 0.45, 'fogo']]}),
-            ('poltrona', 336, 196, {'col': [12, 8]}),
             ('planta', 356, 272, {'de': 'venda', 'col': [14, 8]}),
             # Quarto
             ('cama', 408, 164, {'de': 'casa_bento', 'col': [28, 48]}),
@@ -383,8 +379,14 @@ def variar(casa, itens):
 
 
 def main():
-    saida = {'casas': {}}
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--casa', choices=CASAS, help='Regenera somente esta casa, preservando as demais.')
+    args = parser.parse_args()
+    # Casas de outros preparadores, como a forja, não pertencem a este gerador.
+    saida = json.loads(SAIDA.read_text()) if SAIDA.exists() else {'casas': {}}
     for casa, dados in CASAS.items():
+        if args.casa and casa != args.casa:
+            continue
         geometria = dict(dados['geometria'])
         geometria['perspectiva'] = 'topdown_comodos'
         entrada = {

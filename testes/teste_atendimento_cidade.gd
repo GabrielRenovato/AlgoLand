@@ -68,6 +68,9 @@ func rodar() -> void:
 		verificar(local+": atendimento não aumenta amizade",cidade.amizade.get(posto.id,0) == amizade and not cidade.conversas.has(posto.id))
 		verificar(local+": painel e textos cabem",Rect2(Vector2.ZERO,tela.size).encloses(tela.painel.get_global_rect()))
 		verificar(local+": instrução com margem dentro do painel",tela.painel.get_global_rect().grow(-8).encloses(tela._resumo_servico.get_global_rect()) and tela._resumo_servico.size.y >= tela._resumo_servico.get_minimum_size().y)
+		if local == "venda":
+			verificar("venda: botoes compactos",tela._botoes.all(func(b): return b.size.y <= 32))
+			verificar("venda: duas opcoes sem rolagem ou setas",tela._botoes.size() == 2 and not tela._subir_respostas.get_parent().visible and tela._rolagem.get_global_rect().encloses(tela._opcoes.get_global_rect()))
 		await foto("balcao-"+local)
 		if local == "carpintaria":
 			for tamanho in [Vector2i(288,512),Vector2i(320,324)]:

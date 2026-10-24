@@ -34,7 +34,7 @@ func rodar() -> void:
 		var quantidade := 0
 		var somente_receitas := true
 		for i in caso.n:
-			var objeto: Node2D = drop.soltar_de(inimigo,palco,rng,1,caso.chefe)
+			var objeto: Node2D = drop.soltar_de(inimigo,palco,rng,3,caso.chefe)
 			if objeto == null: continue
 			quantidade += 1
 			somente_receitas = somente_receitas and objeto.item.categoria == "receita"

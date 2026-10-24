@@ -24,9 +24,11 @@ var SementeDrop: GDScript
 # Alvo de golpe: só anota o dano recebido
 class Alvo extends Node2D:
 	var esta_morto := false
+	var vida := 10000
 	var danos: Array[int] = []
 	func receber_dano(dano: int, _kb: Vector2 = Vector2.ZERO) -> void:
 		danos.append(dano)
+		vida = maxi(0,vida-dano)
 
 func _initialize() -> void:
 	_rodar()
@@ -122,18 +124,18 @@ func _testar_sorteio() -> void:
 		for id in a:
 			contagem[id] = int(contagem.get(id, 0)) + 1
 	var taxa := func(id: String) -> float: return float(contagem.get(id, 0)) / n
-	_verificar("mob normal: comum ~1% por abate (girassol)", absf(taxa.call("girassol") - 0.01) < 0.0015, "%.4f" % taxa.call("girassol"))
-	_verificar("mob normal: incomum ~0,4% (milho)", absf(taxa.call("milho") - 0.004) < 0.001, "%.4f" % taxa.call("milho"))
-	_verificar("mob normal: raro ~0,12% (tomate)", absf(taxa.call("tomate") - 0.0012) < 0.0005, "%.4f" % taxa.call("tomate"))
-	_verificar("mob normal: epico ~0,04% (melancia), bem mais raro que o raro", taxa.call("melancia") < 0.0008 and taxa.call("melancia") < taxa.call("tomate") / 1.5, "%.5f" % taxa.call("melancia"))
-	_verificar("mob normal: quase sempre nada (mais de 98% dos abates sem semente)", float(com_drop) / n < 0.02, "%.4f" % (float(com_drop) / n))
+	_verificar("mob normal: comum ~0,4% por abate (girassol)", absf(taxa.call("girassol") - 0.004) < 0.0010, "%.4f" % taxa.call("girassol"))
+	_verificar("mob normal: incomum ~0,16% (milho)", absf(taxa.call("milho") - 0.0016) < 0.0006, "%.4f" % taxa.call("milho"))
+	_verificar("mob normal: raro ~0,05% (tomate)", absf(taxa.call("tomate") - 0.0005) < 0.0003, "%.4f" % taxa.call("tomate"))
+	_verificar("mob normal: epico ~0,016% (melancia), bem mais raro que o raro", taxa.call("melancia") < 0.0008 and taxa.call("melancia") < taxa.call("tomate") / 1.5, "%.5f" % taxa.call("melancia"))
+	_verificar("mob normal: quase sempre nada (mais de 99% dos abates sem semente)", float(com_drop) / n < 0.01, "%.4f" % (float(com_drop) / n))
 	_verificar("so sementes de verao no verao", contagem.keys().all(func(id): return int(_f.PLANTAS[id]["estacao"]) == 1), str(contagem))
 	# mutante: x3
 	var cenouras := 0
 	for i in 40000:
 		cenouras += SementeDrop.sortear(0, true, false, rng).count("cenoura")
-	_verificar("mutante: chance x3 (cenoura ~3%)", absf(float(cenouras) / 40000.0 - 0.03) < 0.005, "%.4f" % (float(cenouras) / 40000.0))
-	# chefe: sempre pelo menos 2; comuns mais que épicas
+	_verificar("mutante: chance x3 (cenoura ~1,2%)", absf(float(cenouras) / 40000.0 - 0.012) < 0.003, "%.4f" % (float(cenouras) / 40000.0))
+	# chefe: sempre pelo menos 1; comuns mais que épicas
 	var minimo := 99
 	var total_chefe := {}
 	for i in 4000:
@@ -141,7 +143,7 @@ func _testar_sorteio() -> void:
 		minimo = mini(minimo, a.size())
 		for id in a:
 			total_chefe[id] = int(total_chefe.get(id, 0)) + 1
-	_verificar("chefe: sempre solta pelo menos 2 sementes", minimo >= SementeDrop.QTD_GARANTIDA_CHEFE, "minimo=%d" % minimo)
+	_verificar("chefe: sempre solta pelo menos a garantida", minimo >= SementeDrop.QTD_GARANTIDA_CHEFE, "minimo=%d" % minimo)
 	_verificar("chefe: a comum cai mais que a epica (beterraba > berinjela), mas a epica cai", int(total_chefe.get("beterraba", 0)) > 4 * int(total_chefe.get("berinjela", 0))
 			and int(total_chefe.get("berinjela", 0)) > 0, str(total_chefe))
 	var estacoes_ok := true
@@ -247,7 +249,7 @@ func _testar_efeitos() -> void:
 	_jogador.hp_atual = 10
 	_verificar("cura ferido: +40% da vida maxima na hora", _jogador.usar_pocao() == "" and _jogador.hp_atual == 10 + roundi(_jogador.estatisticas.hp_maximo * 0.4)
 			and not efeitos.esta_ativo("cura") and _f.quantidade_pocoes("cura") == 0, "hp=%d" % _jogador.hp_atual)
-	# pedra: -25% de dano recebido (somado à defesa)
+	# Pedra: proteção adicional respeitando o teto total.
 	_f.pocoes = {"pedra": 1, "velocidade": 1, "folego": 1, "vampiro": 1}
 	_f.bolsas_alteradas.emit()
 	var reducao: float = est.reducao_dano()
@@ -262,7 +264,7 @@ func _testar_efeitos() -> void:
 	var antes: int = _jogador.hp_atual
 	_jogador.receber_dano(100)
 	var com_pedra: int = antes - _jogador.hp_atual
-	_verificar("pedra: o dano recebido cai 25 pontos de reducao", sem_pedra == roundi(100 * (1.0 - reducao)) and com_pedra == roundi(100 * (1.0 - minf(reducao + 0.25, _jogador.REDUCAO_MAXIMA_COM_POCAO))),
+	_verificar("pedra: proteção respeita teto total", sem_pedra == roundi(100 * (1.0 - reducao)) and com_pedra == roundi(100 * (1.0 - minf(reducao + 0.15, _jogador.REDUCAO_MAXIMA_COM_POCAO))),
 			"sem=%d com=%d reducao=%.2f" % [sem_pedra, com_pedra, reducao])
 	_jogador.invulneravel = true
 	_jogador.temporizador_invul = 9999.0
@@ -281,10 +283,13 @@ func _testar_efeitos() -> void:
 	await create_timer(efeitos.ESPERA_ENTRE_GOLES + 0.05).timeout
 	efeitos.beber("vampiro")
 	_jogador.hp_atual = 50
+	_jogador.sustento_combate=load("res://codigo/jogador/sustento_combate.gd").new()
+	alvo.vida = 10000
 	alvo.danos.clear()
 	_jogador.aplicar_golpe(alvo, Vector2.RIGHT)
-	var esperado := 50 + maxi(1, roundi(alvo.danos[0] * 0.12)) + (maxi(1, roundi(alvo.danos[0] * minf(est.roubo_vida, est.ROUBO_VIDA_MAXIMO) / 100.0)) if est.roubo_vida > 0 else 0)
-	_verificar("vampiro: 12% do dano do golpe volta como vida", _jogador.hp_atual == esperado, "hp=%d esperado=%d dano=%d" % [_jogador.hp_atual, esperado, alvo.danos[0]])
+	var percentual := minf(0.08,0.06+minf(est.roubo_vida,est.ROUBO_VIDA_MAXIMO)/100.0)
+	var esperado := 50+mini(3,floori(alvo.danos[0]*percentual))
+	_verificar("vampiro: cura compartilha teto com os itens",_jogador.hp_atual==esperado,"hp=%d esperado=%d"%[_jogador.hp_atual,esperado])
 	# velocidade: andando para a direita
 	var v_sem := await _velocidade_andando()
 	await create_timer(efeitos.ESPERA_ENTRE_GOLES + 0.05).timeout
@@ -342,11 +347,11 @@ func _testar_saquinhos() -> void:
 	var criados: Array = SementeDrop.soltar_de(falso, _cena, rng)
 	await _quadros(2)
 	var qtd := criados.size()
-	_verificar("chefe solta os saquinhos na cena (pelo menos 2, no grupo semente_drop)", qtd >= 2 and get_nodes_in_group("semente_drop").size() == qtd, "%d" % qtd)
+	_verificar("chefe solta os saquinhos na cena (pelo menos a garantida, no grupo semente_drop)", qtd >= SementeDrop.QTD_GARANTIDA_CHEFE and get_nodes_in_group("semente_drop").size() == qtd, "%d" % qtd)
 	await create_timer(SementeDrop.DURACAO_PULO + 0.1).timeout
 	var espalhados := true
 	for d in criados:
-		espalhados = espalhados and is_instance_valid(d) and (d as Node2D).global_position.distance_to(falso.global_position) >= 9.0
+		espalhados = espalhados and is_instance_valid(d) and (qtd < 2 or (d as Node2D).global_position.distance_to(falso.global_position) >= 9.0)
 	_verificar("os saquinhos pulam e se espalham em volta", espalhados, "")
 	_verificar("longe do jogador: ficam no chao", _total_sementes() == 0 and get_nodes_in_group("semente_drop").size() == qtd, str(_total_sementes()))
 	# o jogador chega perto: o ímã puxa e recolhe

@@ -107,7 +107,7 @@ func _montar_confirmacao() -> void:
 	centro.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	_cobertura.add_child(centro)
 	var painel := PanelContainer.new()
-	painel.add_theme_stylebox_override("panel",preload("res://codigo/ui/estilo_interface.gd").painel(false,10))
+	preload("res://codigo/ui/estilo_inicio_detalhado.gd").painel(painel,false,10)
 	centro.add_child(painel)
 	var linhas := VBoxContainer.new()
 	linhas.add_theme_constant_override("separation",8)
@@ -124,6 +124,7 @@ func _montar_confirmacao() -> void:
 	for titulo in ["CANCELAR","EXCLUIR"]:
 		var botao := Button.new()
 		botao.text = titulo
+		preload("res://codigo/ui/estilo_inicio_detalhado.gd").botao(botao,titulo == "EXCLUIR",16.0)
 		botao.custom_minimum_size.y = 32
 		botao.size_flags_horizontal = SIZE_EXPAND_FILL
 		botoes.add_child(botao)

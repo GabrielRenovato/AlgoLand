@@ -52,6 +52,12 @@ var _restaurado := false
 static func em_andamento(quem: Node) -> bool:
 	return quem != null and quem.has_node("SessaoPesca")
 
+static func alvo_mar(quem: Node2D, frente: Vector2, alcance: float) -> Vector2:
+	var cena: Node = quem.get_node("/root/Cooperativo").cena_de(quem)
+	if cena == null or not cena.has_method("alvo_pesca_mar"):
+		return Vector2.INF
+	return cena.alvo_pesca_mar(quem.to_global(Vector2(0, 14)), frente.normalized(), alcance)
+
 func iniciar(quem: CharacterBody2D, direcao: Vector2, ambiente_agua: String, carregar := false) -> void:
 	name = "SessaoPesca"
 	jogador = quem
@@ -62,6 +68,12 @@ func iniciar(quem: CharacterBody2D, direcao: Vector2, ambiente_agua: String, car
 	z_as_relative = true
 	z_index = 0
 	_alvo = Vector2(0, 14) + direcao * ALCANCE
+	if ambiente == "mar":
+		var destino := alvo_mar(quem, direcao, ALCANCE)
+		if not destino.is_finite():
+			queue_free()
+			return
+		_alvo = quem.to_local(destino)
 	quem.add_child(self)
 	_tinha_movimento = quem.movimento_habilitado
 	quem.movimento_habilitado = false
@@ -134,6 +146,12 @@ func _lancar() -> void:
 	var alcance_maximo := 64.0 if ambiente == "rio" else 120.0
 	var alcance := lerpf(28.0,alcance_maximo,forca_lancamento)
 	_alvo = Vector2(0,14) + _frente * alcance
+	if ambiente == "mar":
+		var destino := alvo_mar(jogador, _frente, alcance)
+		if not destino.is_finite():
+			_terminar()
+			return
+		_alvo = jogador.to_local(destino)
 	# O lago pequeno limita a linha à água real, sem lançar a boia sobre a margem oposta.
 	if ambiente == "rio":
 		for lago in get_tree().get_nodes_in_group("lago_fazenda"):

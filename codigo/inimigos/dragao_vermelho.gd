@@ -222,7 +222,8 @@ func _registrar_especiais() -> void:
 			_especiais_pendentes += 1
 
 func _iniciar_especial() -> bool:
-	var contorno := get_tree().current_scene.get_node_or_null("Terrains/LimiteArena/Contorno") as CollisionPolygon2D
+	var cena := Cooperativo.cena_de(self)
+	var contorno := cena.get_node_or_null("Terrains/LimiteArena/Contorno") as CollisionPolygon2D if cena != null else null
 	if contorno == null or contorno.polygon.size() < 3:
 		return false
 	var mapa := PackedVector2Array()

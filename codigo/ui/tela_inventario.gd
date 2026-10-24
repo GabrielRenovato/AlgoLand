@@ -1,5 +1,6 @@
 extends Control
 
+const EstiloInicio := preload("res://codigo/ui/estilo_inicio_detalhado.gd")
 const CENA_SLOT := preload("res://cenas/ui/componentes/slot_ui.tscn")
 const IconesItens := preload("res://codigo/ui/icones_itens.gd")
 const FONTE_DICA := preload("res://assets/ui/Planes_ValMore.ttf")
@@ -49,13 +50,16 @@ func _ready() -> void:
 		slot.tipo_slot = "mochila"
 		slot.indice = i
 		_grade.add_child(slot)
+		slot.aplicar_acabamento_detalhado()
 		_slots_mochila.append(slot)
 	for nome in NOMES_SLOTS_EQUIPAMENTO:
 		var slot: Control = get_node("Sidebar/Painel/" + nome)
+		slot.aplicar_acabamento_detalhado()
 		_slots_equipamento[slot.tipo_slot] = slot
 
 	for nome in NOMES_SLOTS_DECORATIVOS:
 		var decorativo: Control = get_node("Sidebar/Painel/" + nome)
+		decorativo.aplicar_acabamento_detalhado()
 		decorativo.focus_mode = Control.FOCUS_NONE
 		decorativo.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_montar_info_item()
@@ -160,9 +164,8 @@ func _montar_rolagem() -> void:
 	_titulo = $Sidebar/Titulo
 	_separador = $Sidebar/Separador
 	var fundo := $Sidebar/Fundo as NinePatchRect
-	fundo.texture = preload("res://assets/ui/bosque/painel.png")
-	fundo.region_rect = Rect2(0,0,48,48)
-	for lado in [SIDE_LEFT,SIDE_TOP,SIDE_RIGHT,SIDE_BOTTOM]: fundo.set_patch_margin(lado,8)
+	fundo.hide()
+	EstiloInicio.fundo($Sidebar,Vector2i.ZERO,8.0,true)
 	var margem := MarginContainer.new()
 	margem.name = "MargemSegura"
 	$Sidebar.add_child(margem)
@@ -183,6 +186,7 @@ func _montar_rolagem() -> void:
 	fechar.reparent(cabecalho)
 	fechar.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
 	fechar.custom_minimum_size = Vector2(28,28)
+	EstiloInicio.botao(fechar,false,16.0)
 	var abas := $Sidebar/Abas as Container
 	abas.reparent(coluna)
 	abas.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
@@ -222,9 +226,11 @@ func _montar_rolagem() -> void:
 	lixeira.tela = self
 	lixeira.ajuda = ajuda_lixeira
 	linha_lixeira.add_child(lixeira)
+	EstiloInicio.botao(lixeira,false,16.0)
 	linha_lixeira.add_child(ajuda_lixeira)
 	_separador.reparent(itens)
 	_separador.custom_minimum_size.y = 1
+	_separador.color = Color("89613a")
 	_atributos.reparent(itens)
 	_atributos.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
 	for pagina in [_missoes,_desafios,_pesca]:
@@ -294,7 +300,7 @@ func _atualizar_boneco() -> void:
 func _montar_info_item() -> void:
 	_info_item = PanelContainer.new()
 	_info_item.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_info_item.add_theme_stylebox_override("panel", get_theme_stylebox("panel", "TooltipPanel"))
+	EstiloInicio.painel(_info_item,false,10)
 	_info_item.visible = false
 	$Sidebar.add_child(_info_item)
 	# Colada embaixo e crescendo para cima, com a altura que o texto pedir
@@ -358,6 +364,8 @@ func _verbo_do_item(slot: Control) -> String:
 		var destino: String = mercante.destino_do_item(slot.item_ui())
 		if destino != "":
 			return "COLOCAR " + destino
+	if slot.item_atual.categoria == "comida" and slot.tipo_slot == "mochila":
+		return "COMER"
 	if not slot.item_atual.categoria in ["arma", "escudo", "secundaria", "cabeca", "corpo", "luvas", "botas"]:
 		return ""
 	if slot.item_atual.categoria == "arma":
@@ -408,6 +416,7 @@ func _montar_abas() -> void:
 		icone.position = Vector2(-5, -5)
 		icone.size = Vector2(10, 10)
 		botao.theme_type_variation = &"BotaoAba"
+		EstiloInicio.botao(botao,false,16.0)
 		botao.toggle_mode = true
 		botao.button_group = grupo
 		botao.button_pressed = i == 0

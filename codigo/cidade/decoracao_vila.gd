@@ -200,6 +200,7 @@ func _montar_luz(pai: Node2D, luz: Array) -> void:
 	ponto.color = Color(luz[2])
 	ponto.texture_scale = luz[3]
 	ponto.energy = 0.0
+	ponto.visible = false
 	ponto.position = Vector2(luz[0], luz[1])
 	pai.add_child(ponto)
 	_luzes.append({"luz": ponto, "energia": float(luz[4])})
@@ -258,3 +259,4 @@ func _process(delta: float) -> void:
 	for entrada in _luzes:
 		var ponto: PointLight2D = entrada["luz"]
 		ponto.energy = move_toward(ponto.energy, entrada["energia"] if _noite else 0.0, delta * 1.2)
+		ponto.visible = ponto.energy > 0.0

@@ -106,6 +106,7 @@ func _como(quem: Node, funcao: Callable) -> void:
 # --- Entrada ----------------------------------------------------------------------------------------------
 
 func _unhandled_input(evento: InputEvent) -> void:
+	if Controle.digitando and evento is InputEventKey: return
 	if Introducao.acompanhando:
 		return
 	for outro in _outros:
@@ -233,6 +234,9 @@ func _motivo_da_ferramenta(celula: Vector2i) -> String:
 ## A área lógica inclui os tiles de transição; a enxada só começa um canteiro onde o centro é terra.
 ## Canteiros e plantas antigos continuam utilizáveis; limpar entulho também permanece permitido.
 func avaliar_terreno(acao: String, celula: Vector2i, semente := "") -> String:
+	# A floresta usa o mesmo Plantio só para as ferramentas de corte, o regador e o lago: sem solo para arar
+	if bool(get_parent().get_meta("sem_plantio", false)) and acao != "regar":
+		return Fazenda.MSG_FORA
 	var motivo := Fazenda.avaliar(acao, celula, semente, _lado())
 	if motivo != "" or acao != "enxada" or Fazenda.esta_arado(celula) or Fazenda.entulho.has(celula):
 		return motivo
@@ -344,15 +348,25 @@ func _avisar(texto: String) -> void:
 
 # --- Plantas ----------------------------------------------------------------------------------------------
 
+## Mapas sem horta (a floresta) reaproveitam este nó só para as ferramentas de corte e o regador: o solo arado e as
+## plantas do save são das células da fazenda e não podem aparecer em outro mapa
+func _sem_horta() -> bool:
+	return bool(get_parent().get_meta("sem_plantio", false))
+
 func _reconstruir_plantas() -> void:
 	for sprite in _sprites.values():
 		sprite.queue_free()
 	_sprites.clear()
+	if _sem_horta():
+		queue_redraw()
+		return
 	for celula in Fazenda.celulas_com_planta():
 		_atualizar_planta(celula)
 	queue_redraw()
 
 func _ao_solo_alterado(celula: Vector2i) -> void:
+	if _sem_horta():
+		return
 	_atualizar_planta(celula)
 	queue_redraw()
 
@@ -427,12 +441,14 @@ func _montar_aviso_colher() -> void:
 	Interagivel.aplicar_cores_aviso(_tecla_colher)
 	_tecla_colher.pressed.connect(pedir_coleta)
 	_aviso_colher.add_child(_tecla_colher)
+	Interagivel.aplicar_circulo_aviso(_aviso_colher,_tecla_colher)
 	Controle.dicas_alteradas.connect(_atualizar_tecla_colher)
 	_atualizar_tecla_colher()
 
 func _atualizar_tecla_colher() -> void:
 	_tecla_colher.text = Controle.rotulo_acao("colher")
-	_tecla_colher.add_theme_font_size_override("font_size", 12 if _tecla_colher.text.length() <= 2 else 7)
+	_tecla_colher.add_theme_font_size_override("font_size", 9 if _tecla_colher.text.length() <= 2 else 6)
+	_tecla_colher.size = Vector2(18,18)
 
 ## Mostra o balão só quando dá para colher a planta do tile à frente; fica logo acima da arte da planta.
 func _atualizar_aviso_colher() -> void:
@@ -478,7 +494,8 @@ func _atualizar_cursor() -> void:
 func _draw() -> void:
 	var estacao := _estacao_visual()
 	var terra := get_parent().get_node_or_null("Terra") as TileMapLayer
-	for celula in Fazenda.solo:
+	var celulas_arado: Dictionary = {} if _sem_horta() else Fazenda.solo
+	for celula in celulas_arado:
 		if terra == null or terra.get_cell_source_id(celula) < 0:
 			continue
 		var atlas := _atlas_da_terra(terra, celula)

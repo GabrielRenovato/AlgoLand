@@ -38,7 +38,7 @@ func rodar() -> void:
 		var tela := preload("res://codigo/ui/escala_interface.gd").tamanho_logico(hud)
 		verificar("objetivo compacto cabe na metade de P%d" % lado,objetivo.size.y < 60 and Rect2(Vector2.ZERO,tela).encloses(objetivo.get_global_rect()))
 		var area := objetivo.get_global_rect().grow(-9.5)
-		verificar("textos mantêm folga nas bordas para P%d" % lado,area.encloses(objetivo._titulo.get_global_rect()) and area.encloses(objetivo._texto.get_global_rect()))
+		verificar("textos mantêm folga nas bordas para P%d" % lado,area.encloses(objetivo._titulo.get_global_rect()) and (not objetivo._texto.visible or area.encloses(objetivo._texto.get_global_rect())))
 	for quem in [p1,p2]:
 		quem.invulneravel = true
 		quem.hp_atual = 1

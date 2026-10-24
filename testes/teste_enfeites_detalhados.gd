@@ -74,6 +74,9 @@ func rodar() -> void:
 	var fonte: Sprite2D=decoracao.get_node("fonte_anim_336_284/Imagem")
 	conferir(fonte.hframes==1,"Estrutura da fonte separada da simulação")
 	var agua_fonte=fonte.get_parent().get_node("AguaFonte")
+	# A simulação pausa fora da tela: trazer a fonte de volta do enquadramento do piquenique.
+	camera.global_position=Vector2(336,236)
+	await esperar(8)
 	var quadro: PackedFloat32Array=agua_fonte.altura.duplicate()
 	var passos: int=agua_fonte.passos
 	var impactos: int=agua_fonte.impactos

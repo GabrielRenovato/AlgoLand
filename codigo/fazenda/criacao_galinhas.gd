@@ -1,10 +1,13 @@
 extends RefCounted
 
-const PRAZOS := [0,2,3,4]
+const PRAZOS := [0,4,6,8]
 const CAPACIDADES := [0,4,8,12]
-const CUSTOS := [{},{"madeira":12,"pedra":8},{"madeira":24,"pedra":16,"ferro":4},{"madeira":40,"pedra":24,"ferro":8}]
+## Construção de longo prazo: primeira obra só com recursos da fazenda; ampliações exigem ferro.
+const CUSTOS := [{},{"madeira":500,"pedra":300,"fibra":150},
+	{"madeira":1200,"pedra":800,"ferro":100,"fibra":400},
+	{"madeira":2500,"pedra":1600,"ferro":250,"fibra":800}]
 const NOMES := ["Pipoca","Farofa","Canela","Pacoca","Pena","Nuvem","Aurora","Pintinha","Mel","Neve","Cacau","Luna"]
-const PRECO_GALINHA := 25
+const PRECO_GALINHA := 250
 const MAX_OVOS := 7
 
 static func inicial() -> Dictionary:

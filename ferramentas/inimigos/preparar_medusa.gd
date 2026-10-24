@@ -8,6 +8,20 @@ const LINHAS := [0, 1, 3, 2] # Fontes: frente, costas, esquerda, direita; jogo: 
 func _initialize() -> void:
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path("res://assets/inimigos/medusa"))
 	for pagina in PAGINAS:
+		var fonte_cidade: String = "res://arte/fontes/inimigos/medusa/revisao_cidade/" + pagina + ".png"
+		if FileAccess.file_exists(fonte_cidade):
+			var original := Image.load_from_file(fonte_cidade)
+			if original.get_size() != Vector2i(1536, 1024):
+				push_error("Grade inesperada na Medusa: " + pagina)
+				quit(1)
+				return
+			# Transformação única para a folha inteira: mantém raiz, gesto e balanço.
+			original.convert(Image.FORMAT_RGBA8)
+			if pagina == "bote":
+				_compor_chaves_bote(original)
+			_preparar_cidade(original).save_png("res://assets/inimigos/medusa/" + pagina + ".png")
+			print("Medusa cidade: ", pagina, " / grade fixa 160px, sem recentralizar poses")
+			continue
 		var revisada: String = "res://arte/fontes/inimigos/medusa/revisao_nitidez/"+pagina+".png"
 		if FileAccess.file_exists(revisada):
 			var fonte_nova := Image.load_from_file(revisada)
@@ -88,3 +102,41 @@ func _initialize() -> void:
 		folha.save_png("res://assets/inimigos/medusa/" + pagina + ".png")
 		print("Medusa: ", pagina, " / ", folha.get_size(), " / 24 poses completas")
 	quit()
+
+func _compor_chaves_bote(folha: Image) -> void:
+	# O estudo dirigido contém só impacto/continuação; demais poses ficam na folha.
+	# Registro por direção, comum aos dois quadros. Sem normalização por silhueta.
+	var chaves := Image.load_from_file("res://arte/fontes/inimigos/medusa/revisao_cidade/bote_chaves.png")
+	chaves.convert(Image.FORMAT_RGBA8)
+	var limites := [0, 350, 745, 1100, 1536]
+	var bases := [344, 390, 349, 377]
+	for linha in 4:
+		for coluna in 2:
+			var recorte := chaves.get_region(Rect2i(coluna * 512, limites[linha], 512, limites[linha + 1] - limites[linha]))
+			recorte.resize(328, roundi(recorte.get_height() * 0.64), Image.INTERPOLATE_NEAREST)
+			var celula := Image.create(256, 256, false, Image.FORMAT_RGBA8)
+			celula.blit_rect(recorte, Rect2i(Vector2i.ZERO, recorte.get_size()), Vector2i(-36, 240 - roundi(bases[linha] * 0.64)))
+			folha.blit_rect(celula, Rect2i(0, 0, 256, 256), Vector2i((coluna + 3) * 256, linha * 256))
+
+func _preparar_cidade(fonte: Image) -> Image:
+	var folha := Image.create(960, 640, false, Image.FORMAT_RGBA8)
+	for linha in 4:
+		for coluna in 6:
+			# Margem de leitura recupera cobras/mãos que cruzaram a grade da fonte.
+			# A transformação é idêntica nas120 poses; não alinha pela caixa da silhueta.
+			var area := Rect2i(coluna * 256 - 40, linha * 256 - 40, 336, 336)
+			var intersecao := area.intersection(Rect2i(Vector2i.ZERO, fonte.get_size()))
+			var quadro := Image.create(336, 336, false, Image.FORMAT_RGBA8)
+			quadro.blit_rect(fonte, intersecao, intersecao.position - area.position)
+			quadro.resize(155, 155, Image.INTERPOLATE_NEAREST)
+			for y in 155:
+				for x in 155:
+					var pixel := quadro.get_pixel(x, y)
+					pixel.a = 1.0 if pixel.a >= 0.5 else 0.0
+					quadro.set_pixel(x, y, pixel if pixel.a > 0 else Color.TRANSPARENT)
+			quadro = Recorte.extrair_silhueta(quadro)
+			# Margem uniforme16px permite estender as mãos sem cortar o golpe.
+			var celula := Image.create(160, 160, false, Image.FORMAT_RGBA8)
+			celula.blit_rect(quadro, Rect2i(0, 0, 155, 155), Vector2i(3, 8))
+			folha.blit_rect(celula, Rect2i(0, 0, 160, 160), Vector2i(coluna * 160, linha * 160))
+	return folha

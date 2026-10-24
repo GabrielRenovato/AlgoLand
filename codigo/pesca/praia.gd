@@ -65,6 +65,36 @@ func _montar_pontos_pesca(layout: Dictionary) -> void:
 			ponto.add_child(colisao)
 			raiz.add_child(ponto)
 
+## Usa a mesma costa do shader e exclui os pisos que cobrem a água.
+func agua_mar_no_ponto(ponto_global: Vector2) -> bool:
+	var ponto := to_local(ponto_global)
+	if not limites.has_point(ponto): return false
+	var costa: float = material_mar.get_shader_parameter("costa_base")
+	var curvas: Vector4 = material_mar.get_shader_parameter("curvas_costa")
+	costa += curvas.x * sin(ponto.x * curvas.y) + curvas.z * sin(ponto.x * curvas.w)
+	# Fora da faixa de espuma, mesmo no avanço máximo da maré animada.
+	if ponto.y <= costa + 8.0: return false
+	for caminho in ["Terrains/Pier", "Terrains/CalcadaOrla", "Terrains/VegetacaoOrla"]:
+		var piso := get_node(caminho) as TileMapLayer
+		if piso.get_cell_source_id(piso.local_to_map(piso.to_local(ponto_global))) >= 0:
+			return false
+	return true
+
+## Ajusta a distância à água visível. INF indica direção sem destino válido.
+func alvo_pesca_mar(origem_global: Vector2, direcao: Vector2, alcance: float) -> Vector2:
+	var alvo := Vector2.INF
+	var distancia := INF
+	for passo in range(28, 121):
+		var ponto := origem_global + direcao * passo
+		if absf(passo - alcance) >= distancia: continue
+		# Reserva espaço para a boia ao lado dos arremates do piso.
+		if agua_mar_no_ponto(ponto) and agua_mar_no_ponto(ponto + Vector2(4,0)) \
+				and agua_mar_no_ponto(ponto - Vector2(4,0)) and agua_mar_no_ponto(ponto + Vector2(0,4)) \
+				and agua_mar_no_ponto(ponto - Vector2(0,4)):
+			alvo = ponto
+			distancia = absf(passo - alcance)
+	return alvo
+
 func _process(delta: float) -> void:
 	super._process(delta)
 	_tempo += delta

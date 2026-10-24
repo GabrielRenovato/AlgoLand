@@ -91,15 +91,18 @@ func deitar(quem: Node2D = null) -> void:
 func _montar_cabeca() -> void:
 	if _jogador == null:
 		return
-	_cabeca = Node2D.new()
+	_cabeca = criar_cabeca(_jogador,true)
 	_cabeca.name = "Cabeca"
-	_cabeca.position = Vector2(ORIGEM.x + regiao.size.x / 2.0 - RECORTE_CABECA.size.x / 2.0, ORIGEM.y + (8.0 if resolucao > 1 else TOPO_CABECA))
+	_cabeca.position = Vector2(ORIGEM.x + regiao.size.x / 2.0 - RECORTE_CABECA.size.x / 2.0, ORIGEM.y + (0.0 if resolucao > 1 else TOPO_CABECA))
 	_cabeca.z_as_relative = false
 	_cabeca.z_index = _z_sobre_a_cama
 	add_child(_cabeca)
-	var raven := _jogador.get_node_or_null("HeroiRaven")
+
+static func criar_cabeca(jogador: Node2D, olhos_fechados := false) -> Node2D:
+	var cabeca := Node2D.new()
+	var raven := jogador.get_node_or_null("HeroiRaven")
 	if raven == null:
-		return
+		return cabeca
 	var previa: Sprite2D = raven.criar_previa()
 	var camadas: Array = [previa]
 	camadas.append_array(previa.get_children())
@@ -110,7 +113,7 @@ func _montar_cabeca() -> void:
 		var parte := Sprite2D.new()
 		parte.name = "sprite_corpo" if origem == previa else origem.name
 		var imagem := origem.texture.get_image().get_region(Rect2i(RECORTE_CABECA))
-		if origem == previa:
+		if origem == previa and olhos_fechados:
 			_fechar_olhos(imagem)
 		parte.texture = ImageTexture.create_from_image(imagem)
 		parte.centered = false
@@ -119,18 +122,21 @@ func _montar_cabeca() -> void:
 		parte.modulate = origem.modulate
 		parte.self_modulate = origem.self_modulate
 		parte.material = origem.material
-		_cabeca.add_child(parte)
+		cabeca.add_child(parte)
 	previa.free()
+	return cabeca
 
 # Os olhos pertencem ao corpo: cabelo e elmo continuam por cima. Amostrar
 # a própria pele preserva os três tons e o shader de acabamento Raven.
-func _fechar_olhos(imagem: Image) -> void:
-	var pele := imagem.get_pixel(40 - int(RECORTE_CABECA.position.x), 26 - int(RECORTE_CABECA.position.y))
-	var sombra := imagem.get_pixel(36 - int(RECORTE_CABECA.position.x), 28 - int(RECORTE_CABECA.position.y))
+static func _fechar_olhos(imagem: Image) -> void:
+	var pele := imagem.get_pixel(38 - int(RECORTE_CABECA.position.x),24 - int(RECORTE_CABECA.position.y))
+	var contorno := imagem.get_pixel(35 - int(RECORTE_CABECA.position.x),23 - int(RECORTE_CABECA.position.y))
+	# Os olhos Raven ocupam três linhas: pele acima e pálpebra escura embaixo.
+	# Amostrar a borda do olho como pele apagava a leitura do rosto.
 	for x in OLHOS_X:
-		for linha in 2:
+		for linha in 3:
 			for coluna in 2:
-				imagem.set_pixel(x + coluna - int(RECORTE_CABECA.position.x), OLHO_LINHA + linha - int(RECORTE_CABECA.position.y), pele if linha == 0 else sombra)
+				imagem.set_pixel(x+coluna-int(RECORTE_CABECA.position.x),OLHO_LINHA-1+linha-int(RECORTE_CABECA.position.y),contorno if linha == 2 else pele)
 
 ## Acordou: o jogador volta e a cama fica como era
 func levantar() -> void:

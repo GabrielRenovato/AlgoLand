@@ -2,7 +2,7 @@ extends Control
 
 ## Fogueira: gasta Brasas em melhorias permanentes e contrata os moradores do acampamento.
 ## Mesmo visual da mochila, da loja e do caldeirão (tema_sidebar.tres, moldura do TileMap.png, título escuro no alto e o X de fechar),
-## na lateral direita. Cada linha tem o nome e o nível, a descrição embaixo (quebra de linha) e o botão com o custo em Brasas.
+## em janela central. Cada linha tem o nome e o nível, a descrição embaixo (quebra de linha) e o botão com o custo em Brasas.
 
 const COR_BRASAS := Color(1, 0.7, 0.25)
 const COR_SEM_BRASAS := Color(1, 0.45, 0.45)
@@ -36,6 +36,24 @@ func _ready() -> void:
 	Progresso.melhorias_alteradas.connect(_atualizar)
 	visibility_changed.connect(_ao_visibilidade_alterada)
 	_atualizar()
+	resized.connect(_ajustar)
+	_ajustar.call_deferred()
+
+func _ajustar() -> void:
+	var painel: Control = $Painel
+	var compacto := size.x < 540 or size.y < 280
+	for rotulo in painel.find_children("*","Label",true,false):
+		if rotulo.label_settings == null:
+			rotulo.add_theme_font_size_override("font_size", 8 if compacto else 10)
+	for botao in [_aba_melhorias,_aba_moradores]+_botoes_moradores.values():
+		botao.add_theme_font_size_override("font_size", 8 if compacto else 10)
+	for linha in _linhas_melhorias.values():
+		linha.botao.add_theme_font_size_override("font_size", 8 if compacto else 10)
+	var medida := Vector2(minf(420,size.x-16),minf(340,size.y-16))
+	painel.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
+	painel.custom_minimum_size = medida
+	painel.size = medida
+	painel.position = ((size-medida)/2).round()
 
 func _ao_visibilidade_alterada() -> void:
 	if visible:
@@ -158,7 +176,11 @@ func _atualizar() -> void:
 		linha["nivel"].text = "NV %d/%d" % [nivel, Progresso.NIVEL_MAXIMO]
 		var botao: Button = linha["botao"]
 		var custo := Progresso.custo_proximo(id)
-		botao.disabled = custo == -1
+		var andar: int = Progresso.ANDARES_MELHORIA[nivel] if custo!=-1 else 0
+		var bloqueado: bool = custo!=-1 and Progresso.maior_onda_vencida<andar
+		if bloqueado: linha["nivel"].text += "\nANDAR %d"%andar
+		botao.tooltip_text = "VENCA O ANDAR %d PARA ESTE NIVEL"%andar if bloqueado else "MELHORIA PERMANENTE"
+		botao.disabled = custo == -1 or bloqueado
 		botao.text = "MAX" if custo == -1 else str(custo)
 		botao.icon = null if custo == -1 else TEXTURA_BRASA
 		_colorir_custo(botao, custo)

@@ -19,7 +19,7 @@ extends Node
 
 signal mudou(ativo: bool)
 
-const CENA_JOGADOR := preload("res://cenas/jogador.tscn")
+const CENA_JOGADOR := "res://cenas/jogador.tscn"
 const DISTANCIA_REVIVER := 26.0
 const TEMPO_REVIVER := 2.0
 ## Sem controle no teclado: as ações do jogador 1 vão para um device que não existe
@@ -170,9 +170,9 @@ func vetor_p2() -> Vector2:
 # Cada vista renderiza nos pixels físicos da metade da janela. A resolução lógica só organiza a interface;
 # o stretch interno do viewport rasteriza fontes e sprites na resolução final, como o canvas_items do solo.
 
-const VistaJogador := preload("res://codigo/ui/vista_jogador.gd")
-const CENA_HUD := preload("res://cenas/ui.tscn")
-const CENA_INTERFACE := preload("res://cenas/ui/interface.tscn")
+const VistaJogador := "res://codigo/ui/vista_jogador.gd"
+const CENA_HUD := "res://cenas/ui.tscn"
+const CENA_INTERFACE := "res://cenas/ui/interface.tscn"
 var _vistas := {}
 var _cameras := {}
 var _interface_p2: Node
@@ -227,7 +227,7 @@ func _montar_tela_dividida(cena: Node, p1: Node2D, p2: Node2D) -> void:
 	cena.add_child(camada)
 	cena.move_child(camada, 0)
 	for lado in [1, 2]:
-		var moldura := VistaJogador.new()
+		var moldura: SubViewportContainer = load(VistaJogador).new()
 		moldura.name = "Vista%d" % lado
 		moldura.repassar_entrada = lado == 1
 		# A metade precisa repassar a entrada também com o jogo pausado: senão o START do jogador 1 abria a pausa e não
@@ -260,10 +260,10 @@ func _montar_tela_dividida(cena: Node, p1: Node2D, p2: Node2D) -> void:
 			no.remove_from_group("interface")
 			no.queue_free()
 	for lado in [1, 2]:
-		var hud: Node = CENA_HUD.instantiate()
+		var hud: Node = (load(CENA_HUD) as PackedScene).instantiate()
 		hud.process_mode = Node.PROCESS_MODE_PAUSABLE
 		_vistas[lado].add_child(hud)
-		var interface: Node = CENA_INTERFACE.instantiate()
+		var interface: Node = (load(CENA_INTERFACE) as PackedScene).instantiate()
 		interface.name = "Interface" if lado == 1 else "InterfaceP2"
 		_vistas[lado].add_child(interface)
 		if lado == 2:
@@ -345,7 +345,7 @@ func _acompanhar_cena(delta: float) -> void:
 	_cuidar_dos_caidos(p1, p2, delta)
 
 func _criar_p2(p1: Node2D) -> Node2D:
-	var p2: Node2D = CENA_JOGADOR.instantiate()
+	var p2: Node2D = (load(CENA_JOGADOR) as PackedScene).instantiate()
 	p2.name = "Jogador2"
 	p2.eh_p2 = true
 	p2.modo_fazenda = p1.modo_fazenda

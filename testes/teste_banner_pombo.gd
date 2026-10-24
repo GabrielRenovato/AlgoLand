@@ -20,6 +20,13 @@ func conferir(jogador: Node2D, nome: String) -> void:
 	verificar("pombo anuncia a carta: " + nome,hud.rotulo_banner.text == "POMBO-CORREIO!" and faixa.visible)
 	verificar("aviso permanece parado: " + nome,estavel)
 	verificar("aviso permanece dentro da tela: " + nome,dentro)
+	var tela := preload("res://codigo/ui/escala_interface.gd").tamanho_logico(hud)
+	verificar("aviso compacto fora do centro: " + nome, faixa.size.x <= 180 and faixa.position.y >= 0 and faixa.get_rect().end.y <= tela.y - 6)
+	verificar("aviso separado da barra: " + nome, not faixa.get_global_rect().intersects(hud.barra_armas._painel.get_global_rect()))
+	var interior := faixa.get_global_rect().grow(-10)
+	verificar("textos preservam margens: " + nome, interior.encloses(hud.rotulo_banner.get_global_rect()) and interior.encloses(hud.subtitulo_banner.get_global_rect()))
+	verificar("titulo e remetente separados: " + nome, hud.subtitulo_banner.get_global_rect().end.y + 4 <= hud.rotulo_banner.get_global_rect().position.y)
+
 	if DisplayServer.get_name() != "headless":
 		await RenderingServer.frame_post_draw
 		root.get_texture().get_image().save_png("/tmp/algoland-banner-pombo-"+nome+".png")

@@ -120,10 +120,12 @@ func rodar() -> void:
 					var externo: Texture2D = load("res://assets/cenario/cidade/enfeites_detalhados/mural/primavera.png")
 					verificar(mural.texture.get_image().get_data() == externo.get_image().get_data(), "Sede usa exatamente o sprite do quadro externo")
 			if id == "forja":
-				var bigorna: Sprite2D = interior.get_node("Fornalha/Imagem")
+				var bigorna: Sprite2D = interior.get_node("Bigorna/Imagem")
 				var trabalho: GDScript = load("res://codigo/cidade/trabalho_ferreiro.gd")
 				var pixel := Vector2i(bigorna.to_local(trabalho.PONTO_IMPACTO) - bigorna.offset)
-				verificar(bigorna.texture.get_image().get_pixelv(pixel).a > 0.9, "Martelo e centelhas encontram a bigorna real, sem trabalhar no ar")
+				var superficie := bigorna.texture.get_image()
+				var dentro := Rect2i(Vector2i.ZERO,superficie.get_size()).has_point(pixel)
+				verificar(dentro and superficie.get_pixelv(pixel).a > 0.9, "Martelo e centelhas encontram a bigorna real, sem trabalhar no ar")
 		if id == "palafita":
 			verificar(interior.has_node("BalcaoLoja") and not interior.has_node("Balcao128") and not interior.has_node("Balcao192"), "Loja tem um balcão contínuo, sem dois módulos emendados")
 			verificar(interior.has_node("BancadaReparos") and interior.has_node("ExpositorVaras"), "Oficina exibe equipamentos de pesca")
@@ -145,7 +147,7 @@ func rodar() -> void:
 		if id == "casa_jogador":
 			var objetos := cena.get_node("Objetos3D")
 			for lado in ["E", "D"]:
-				verificar(objetos.get_node("Mesa/Cafe_" + lado).z_index > objetos.get_node("Mesa/ImagemDetalhada").z_index, "Xícara e vapor ficam acima do tampo")
+				verificar(not objetos.has_node("Mesa/Cafe_" + lado), "Mesa sem xicaras decorativas")
 			var faixas := 0
 			for filho in objetos.get_children():
 				if str(filho.name).begins_with("Cama_f"):

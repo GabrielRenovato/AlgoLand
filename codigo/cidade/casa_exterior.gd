@@ -116,6 +116,7 @@ func _montar_luz(posicao: Vector2) -> void:
 	luz.texture = _luz_radial()
 	luz.color = COR_LUZ
 	luz.energy = 0.0
+	luz.visible = false
 	luz.texture_scale = 0.45
 	luz.position = posicao
 	add_child(luz)
@@ -171,6 +172,8 @@ func _process(delta: float) -> void:
 		_noite = luz != null and "hora" in luz and (luz.hora >= 18.0 or luz.hora < 6.0)
 	for janela in _luzes:
 		janela.energy = move_toward(janela.energy, ENERGIA_NOITE if _noite else 0.0, delta * 1.2)
+		# Luz apagada sai da renderização: no Compatibility cada luz ativa redesenha os itens ao redor.
+		janela.visible = janela.energy > 0.0
 	# Meio transparente quando o jogador passa atrás da casa, para ele não sumir
 	var jogador := Cooperativo.jogador_no_ambiente(self)
 	if jogador == null:

@@ -1,0 +1,15 @@
+{
+  "algoritmo": "OpenCV DIS medium; campos bidirecionais",
+  "versao_opencv": "5.0.0",
+  "celula": 160,
+  "celula_campo": 80,
+  "codificacao": "(byte-128)*64/127 pixels",
+  "amostragem": "pixel original mais próximo, sem crossfade",
+  "fontes_sha256": {
+    "movimento": "09eaba9338e3b670d2c112ab83dd73e82bf0989fcb5200c9c04945e44266b64a",
+    "garras": "0b752f5961b9a7a66cf5416e38a59b86e9de072c36c1d2908dbebf3beda24935",
+    "cauda": "bb1a960e44f07112b0101de40dfd0c4d9171e399d1c64b246654e8b17a0ad1b9",
+    "bote": "30241597200fcc0cf161ca97fcb4cdb8f2b9cb300f32e58de8ae2fde5e810533",
+    "olhar": "47c18c6f3e96ca1a24f051fe3d73acd177d7e11064fd6d78ef6c4d9c9e700ec1"
+  }
+}

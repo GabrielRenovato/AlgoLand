@@ -13,6 +13,11 @@ builds/
 *.tmp
 *.TMP
 
+# Estado local das ferramentas e anexos recebidos no chat
+.codex-attachments/
+.claude/launch.json
+supabase/.temp/
+
 # Quadros intermediários regeneráveis; manter GIFs e imagens finais
 arte/previas/**/quadro_*.png
 arte/previas/**/quadro_*.png.import

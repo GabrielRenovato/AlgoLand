@@ -35,14 +35,15 @@ func rodar() -> void:
 	var jogador = current_scene.get_node("Jogador")
 	verificar("save novo conserva fazenda sem construção",fazenda.galinheiro == Criacao.inicial())
 	verificar("obra exige materiais reais",Criacao.executar(fazenda,jogador,"construir") != "")
-	for material in ["madeira","pedra","ferro","fibra"]: inv.adicionar_coletavel("material",material,100)
-	verificar("encomenda leva dois dias e consome materiais",Criacao.executar(fazenda,jogador,"construir") == "" and inv.quantidade_tipo("material:madeira") == 88)
-	verificar("obra não cobra duas vezes",Criacao.executar(fazenda,jogador,"construir") != "" and inv.quantidade_tipo("material:madeira") == 88)
+	for material in ["madeira","pedra","ferro","fibra"]: inv.adicionar_coletavel("material",material,10000)
+	verificar("encomenda leva quatro dias e consome materiais",Criacao.executar(fazenda,jogador,"construir") == "" and inv.quantidade_tipo("material:madeira") == 10000-Criacao.CUSTOS[1].madeira)
+	verificar("obra não cobra duas vezes",Criacao.executar(fazenda,jogador,"construir") != "" and inv.quantidade_tipo("material:madeira") == 10000-Criacao.CUSTOS[1].madeira)
 	calendario.dia += 1
 	fazenda.avancar_dia(0)
 	verificar("obra continua após a primeira noite",fazenda.galinheiro.nivel == 0 and fazenda.galinheiro.obra == 1)
-	calendario.dia += 1
-	fazenda.avancar_dia(0)
+	for noite in range(1,Criacao.PRAZOS[1]):
+		calendario.dia += 1
+		fazenda.avancar_dia(0)
 	verificar("abrigo entrega duas galinhas e um galo sem feno automático",fazenda.galinheiro.aves.size() == 3 and Criacao.tem_galo(fazenda.galinheiro,calendario.dia) and fazenda.galinheiro.racao == 0)
 	verificar("preparar feno produz item e não enche comedouro",Criacao.executar(fazenda,jogador,"preparar_feno") == "" and inv.quantidade_tipo("produto:feno") == 14 and fazenda.galinheiro.racao == 0)
 	verificar("feno é selecionável na barra",fazenda.ferramentas().has("produto:feno"))
@@ -89,7 +90,17 @@ func rodar() -> void:
 	jogador.camera.zoom = Vector2.ONE
 	for nivel in [1,2,3]:
 		if nivel > 1:
-			verificar("ampliação tem custo real",Criacao.executar(fazenda,jogador,"construir") == "")
+			inv.limpar()
+			var incompleto: Dictionary = Criacao.CUSTOS[nivel].duplicate()
+			incompleto.fibra -= 1
+			inv.receber_materiais(incompleto)
+			var mochila_antes: Array = inv.fotografar_mochila()
+			verificar("ampliação %d sem material não cobra parcialmente" % nivel,Criacao.executar(fazenda,jogador,"construir") != "" and inv.fotografar_mochila()==mochila_antes and fazenda.galinheiro.obra==0)
+			inv.adicionar_coletavel("material","fibra",1)
+			verificar("ampliação %d cabe na mochila e inicia" % nivel,Criacao.executar(fazenda,jogador,"construir") == "")
+			for material in Criacao.CUSTOS[nivel]:
+				verificar("ampliação %d cobra quantidade exata de %s" % [nivel,material],inv.quantidade_tipo("material:"+material)==0)
+			verificar("ampliação %d usa prazo correto e não cobra de novo" % nivel,fazenda.galinheiro.pronto_dia==calendario.dia+Criacao.PRAZOS[nivel] and Criacao.executar(fazenda,jogador,"construir")!="")
 			for dia in Criacao.PRAZOS[nivel]:
 				calendario.dia += 1
 				fazenda.avancar_dia(0)
@@ -97,6 +108,7 @@ func rodar() -> void:
 			current_scene.get_node("Terrains/Estacoes").definir_estacao(estacao,true)
 			await verificar_cobertura_externa(nivel,estacao,current_scene.get_node("Galinheiro"))
 			await foto("nivel-%d-estacao-%d" % [nivel,estacao])
+	inv.adicionar_coletavel("produto","feno",20)
 	bando.avancar(0,6,0)
 	bando.set_process(true)
 	change_scene_to_file("res://cenas/galinheiro.tscn")
@@ -141,6 +153,19 @@ func rodar() -> void:
 	var deposito = current_scene.get_node("Interior/DepositoFeno")
 	verificar("depósito descreve o cuidado no cenário",deposito._descricao.visible and deposito._descricao.text.contains("2 FIBRAS"))
 	await foto("deposito-feno")
+	var criacao_antes_compra: Dictionary = fazenda.galinheiro.duplicate(true)
+	# Compra cara respeita saldo insuficiente, débito exato e capacidade; incubar continua alternativa.
+	fazenda.galinheiro = Criacao.inicial()
+	fazenda.galinheiro.nivel = 1
+	var progresso = root.get_node("Progresso")
+	progresso.brasas = Criacao.PRECO_GALINHA-1
+	verificar("ave exige o preço completo sem consumir saldo",Criacao.executar(fazenda,jogador,"comprar")!="" and progresso.brasas==Criacao.PRECO_GALINHA-1 and fazenda.galinheiro.aves.is_empty())
+	for acao in ["comprar","comprar_galo"]:
+		progresso.brasas = Criacao.PRECO_GALINHA
+		var quantidade: int = fazenda.galinheiro.aves.size()
+		verificar("compra %s cobra preço exato" % acao,Criacao.executar(fazenda,jogador,acao)=="" and progresso.brasas==0 and fazenda.galinheiro.aves.size()==quantidade+1)
+	verificar("compra distingue galinha e galo",fazenda.galinheiro.aves[0].sexo=="galinha" and fazenda.galinheiro.aves[1].sexo=="galo")
+	fazenda.galinheiro = criacao_antes_compra
 	await testar_familia()
 	await testar_cooperativo()
 	print("FALHAS: ",falhas)
@@ -219,9 +244,12 @@ func testar_familia() -> void:
 	jogador.position = current_scene.moradores.osvaldo.position+Vector2(0,28)
 	current_scene.get_node("Interior/Atendimento").abrir_tela()
 	await quadros()
-	var tela = current_scene.get_node("Interface")._telas.conversa_cidade
+	var interface = current_scene.get_node("Interface")
+	verificar("bancada oferece construção",interface._telas_abertas.has("carpintaria") and interface._telas.carpintaria._botoes.has("galinheiro_1"))
+	interface._fechar_tela("carpintaria")
+	root.get_node("Cidade").atender("osvaldo","carpintaria",jogador)
 	await quadros()
-	verificar("bancada oferece construção",tela._submenu == "carpintaria" and tela._botoes.size() > 1)
+	var tela = interface._telas.conversa_cidade
 	await foto("carpinteiro-dialogo")
 	verificar("diálogo de construção continua compacto",tela.painel.size.y <= 156)
 	validar_respostas(tela,"computador")

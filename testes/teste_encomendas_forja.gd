@@ -21,6 +21,7 @@ func rodar() -> void:
 	var inv2: Node = root.get_node("InventarioJogador2")
 	var receitas: GDScript = load("res://codigo/dados/forja_armas.gd")
 	prog.apagar()
+	prog.maior_onda_vencida=20
 	cal.apagar()
 	for tipo in receitas.RECEITAS:
 		verificar("prazo definido para "+tipo,receitas.DIAS_FABRICACAO.has(tipo) and receitas.dias_fabricacao(tipo) in [1,2,3])
@@ -56,6 +57,7 @@ func rodar() -> void:
 	verificar("retirada repetida nao duplica arma",prog.retirar_encomenda_forja(inv) == "NENHUMA ENCOMENDA PARA RETIRAR" and inv.quantidade_tipo("espada_gemea") == copias)
 	# Prazo mais longo, virada de ano e mochila cheia do segundo jogador.
 	prog.apagar()
+	prog.maior_onda_vencida=20
 	inv2.limpar()
 	inv2.criar_itens_iniciais()
 	inv2.adicionar_coletavel("receita","machado")

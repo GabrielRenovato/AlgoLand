@@ -65,6 +65,7 @@ func _ready() -> void:
 		_montar_portal()
 		# A decoração entra antes da navegação, para os moradores contornarem barracas, bancos e árvores
 		_montar_decoracao()
+		add_child(preload("res://codigo/cidade/podio_ranking.gd").new())
 		var quintal := preload("res://codigo/cidade/quintal_carpinteiro.gd").new()
 		add_child(quintal)
 		var selo := preload("res://codigo/cidade/selo_limiar.gd").new()
@@ -99,6 +100,7 @@ func _ready() -> void:
 	if meteorologia != null:
 		meteorologia.clima_mudou.connect(_ao_clima_mudou)
 	Fazenda.clima_do_dia_mudou.connect(_ao_clima_mudou)
+	if local == "cidade": add_child(preload("res://codigo/cidade/lobby_cidade.gd").new())
 	_montar_mural()
 	Calendario.estacao_mudou.connect(_ao_estacao)
 	var estacoes_cidade := get_node_or_null("Terrains/Estacoes")
@@ -116,7 +118,7 @@ const FALAS_ENFERMARIA := [
 	["Pronto, pronto. Febre baixou e os cortes fecharam.", "Voce esta curado, mas eu nao quero te ver neste leito tao cedo. Cuidado!"],
 ]
 
-## Leito onde o jogador acorda (o segundo da enfermaria; o primeiro é a cama da Rosa) e quanto do topo é travesseiro
+## Leito do paciente, separado do quarto da Rosa; recorte do travesseiro em pixels lógicos.
 const LEITO_FERIDO := Vector2(372, 96)
 const TRAVESSEIRO := 13
 
@@ -126,6 +128,7 @@ func _rosa_cuida_do_ferido() -> void:
 	while Transicao.retornando:
 		await get_tree().process_frame
 	var cobertor := _deitar_no_leito(jogador)
+	jogador.set_physics_process(false)
 	if Transicao.ocupada:
 		await Transicao.troca_concluida
 	await get_tree().create_timer(0.6).timeout
@@ -141,7 +144,14 @@ func _rosa_cuida_do_ferido() -> void:
 	if is_instance_valid(cobertor):
 		cobertor.queue_free()
 	if is_instance_valid(jogador):
+		jogador.show()
 		jogador.levantar(LEITO_FERIDO + Vector2(0, 26))
+		jogador.set_physics_process(true)
+	var rosa: Node2D = moradores.get("curandeira")
+	if is_instance_valid(rosa):
+		rosa.cuidando_de_paciente = false
+		rosa._agenda_base.clear()
+		rosa.atualizar_rotina()
 
 ## A Rosa fica de pé ao lado do leito, olhando para o jogador (acordada, mesmo que a rotina dela fosse outra; depois
 ## ela volta a andar pela própria agenda)
@@ -149,6 +159,7 @@ func _rosa_ao_lado_do_leito(jogador: Node2D) -> void:
 	var rosa: Node2D = moradores.get("curandeira")
 	if rosa == null:
 		return
+	rosa.cuidando_de_paciente = true
 	if rosa.dormindo:
 		rosa._acordar()
 	rosa.visible = true
@@ -158,8 +169,8 @@ func _rosa_ao_lado_do_leito(jogador: Node2D) -> void:
 	rosa._atualizar_colisao()
 	rosa.olhar_para(jogador.position)
 
-## Deita o jogador no leito: a pose sentada de frente fica sob um cobertor (a parte de baixo do desenho da própria
-## cama, por cima dele), e só a cabeça aparece no travesseiro. Devolve o cobertor (ou null sem cama)
+## Deita o jogador no leito: conserva o estado de repouso e mostra a cabeça Raven
+## sob o cobertor recortado na escala da cama. Devolve a representação para remover ao levantar.
 func _deitar_no_leito(jogador: Node2D) -> Node2D:
 	var cama: Node2D = null
 	for no in $Interior.get_children():
@@ -171,21 +182,31 @@ func _deitar_no_leito(jogador: Node2D) -> Node2D:
 	# A imagem da cama é uma folha com quadros (estações/variações): recorta só o quadro em uso
 	var quadro := Vector2(imagem.texture.get_width() / imagem.hframes, imagem.texture.get_height() / imagem.vframes)
 	var canto := Vector2(imagem.frame % imagem.hframes, imagem.frame / imagem.hframes) * quadro
-	var altura: float = quadro.y
-	jogador.sentar(LEITO_FERIDO + Vector2(0, -altura + 15), 1, cama.z_index + 1, 1)
+	var altura := quadro.y * absf(imagem.scale.y)
+	var corte := TRAVESSEIRO / absf(imagem.scale.y)
+	jogador.sentar(LEITO_FERIDO + Vector2(0,12),1,cama.z_index+1,1)
+	var paciente := Node2D.new()
+	paciente.name = "PacienteNoLeito"
+	cama.add_child(paciente)
+	var cabeca := preload("res://codigo/cenario/cama.gd").criar_cabeca(jogador)
+	jogador.hide()
+	cabeca.name = "Cabeca"
+	cabeca.position = Vector2(-12,-altura-6)
+	cabeca.z_as_relative = false
+	cabeca.z_index = cama.z_index + 1
+	paciente.add_child(cabeca)
 	var cobertor: Sprite2D = imagem.duplicate()
 	cobertor.name = "Cobertor"
 	cobertor.hframes = 1
 	cobertor.vframes = 1
 	cobertor.frame = 0
 	cobertor.region_enabled = true
-	cobertor.region_rect = Rect2(canto + Vector2(0, TRAVESSEIRO), Vector2(quadro.x, altura - TRAVESSEIRO))
-	cobertor.offset.y += TRAVESSEIRO
-	# As partes do jogador usam z relativo de 0 a 6: o cobertor vai para a faixa de cima (Profundidade.NIVEIS)
+	cobertor.region_rect = Rect2(canto + Vector2(0,corte),Vector2(quadro.x,quadro.y-corte))
+	cobertor.offset.y += corte
 	cobertor.z_as_relative = false
 	cobertor.z_index = cama.z_index + 1 + Profundidade.NIVEIS
-	cama.add_child(cobertor)
-	return cobertor
+	paciente.add_child(cobertor)
+	return paciente
 
 ## Na rua usa o clima exibido (inclusive F3); dentro das casas usa o tempo compartilhado do mundo.
 func clima_atual() -> int:
@@ -296,7 +317,7 @@ func _atualizar_papo(delta: float) -> void:
 	var fala: Dictionary = _falas_papo[_indice_papo]
 	var quem: Node2D = _participantes[0] if _participantes[0].id == fala["dono"] else _participantes[1]
 	_tempo_fala = Papos.duracao(fala["texto"]) + 0.35
-	quem.dizer(DadosCidade.MORADORES[quem.id]["nome"] + ":\n" + fala["texto"], _tempo_fala - 0.35)
+	quem.dizer(DadosCidade.MORADORES[quem.id]["nome"] + ": " + fala["texto"], _tempo_fala - 0.35)
 	_indice_papo += 1
 
 func _encerrar_papo() -> void:

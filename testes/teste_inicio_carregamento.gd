@@ -90,7 +90,7 @@ func rodar() -> void:
 		await quadros(15)
 		print("LAYOUT ",tamanho," raiz=",inicio.get_node("Interface/Raiz").size," painel=",inicio._menu_painel.get_global_rect())
 		verificar("inicio responsivo "+str(tamanho),Rect2(Vector2.ZERO,inicio.get_node("Interface/Raiz").size).grow(-12).encloses(inicio._menu_painel.get_global_rect()))
-		verificar("grade adapta menu "+str(tamanho),inicio.menu.columns==(2 if tamanho.x<480 or tamanho.y<270 else 1))
+		verificar("grade adapta menu "+str(tamanho),inicio.menu.columns==(2 if tamanho.x<480 or tamanho.y<300 else 1))
 		if tamanho.x == 288: await foto("inicio_vila_mobile")
 		transicao._carregador.iniciar("res://cenas/cenario.tscn","VILA DAS FLORES")
 		transicao._carregador.atualizar(0.42)

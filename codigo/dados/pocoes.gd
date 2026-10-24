@@ -29,13 +29,13 @@ const POCOES := {
 		"texto": "ESSENCIA DE GIRASSOL E MILHO: AS PERNAS FICAM LEVES COMO PLUMA.",
 		"descricao": "+25% DE VELOCIDADE", "receita": {"girassol": 2, "milho": 1},
 		"icone": Vector2i(4, 3), "cor": Color(0.45, 0.75, 1)},
-	"pedra": {"nome": "POCAO DE PEDRA", "efeito": "pedra", "valor": 0.25, "duracao": 30.0,
+	"pedra": {"nome": "POCAO DE PEDRA", "efeito": "pedra", "valor": 0.15, "duracao": 30.0,
 		"texto": "A CASCA DA ABOBORA ENDURECE A PELE DE QUEM BEBE.",
-		"descricao": "-25% DE DANO RECEBIDO", "receita": {"abobora": 2, "beterraba": 1},
+		"descricao": "+15% PROTECAO; LIMITE TOTAL 70%", "receita": {"abobora": 2, "beterraba": 1},
 		"icone": Vector2i(4, 5), "cor": Color(0.6, 0.8, 0.95)},
-	"vampiro": {"nome": "POCAO VAMPIRICA", "efeito": "vampiro", "valor": 0.12, "duracao": 30.0,
+	"vampiro": {"nome": "POCAO VAMPIRICA", "efeito": "vampiro", "valor": 0.06, "duracao": 30.0,
 		"texto": "UVA E BERINJELA FERMENTADAS: O SANGUE DO INIMIGO VIRA O SEU.",
-		"descricao": "12% DO DANO VIRA VIDA", "receita": {"uva": 2, "berinjela": 1},
+		"descricao": "6% DO DANO REAL VIRA VIDA; CURA LIMITADA", "receita": {"uva": 2, "berinjela": 1},
 		"icone": Vector2i(2, 5), "cor": Color(1, 0.35, 0.5)},
 }
 ## Ordem de exibição (caldeirão e cinto): pela estação das plantas

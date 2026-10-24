@@ -2,6 +2,7 @@
   "andar": 9,
   "nome": "Desfiladeiro Partido",
   "bioma": "pedreira",
+  "estacao": 1,
   "grade": 16,
   "limites": [
     -2000,

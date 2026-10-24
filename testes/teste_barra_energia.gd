@@ -55,7 +55,7 @@ func _rodar() -> void:
 			var cor := imagem.get_pixelv(Vector2i(ponto))
 			var preenchido := cor.g > cor.r and cor.g > cor.b if valor == 100 else cor.r > cor.g and cor.r > cor.b
 			if valor == 0:
-				var vazia: Color = barra.DesenhoBarra.VAZIA[0].get_image().get_pixel(5,3)
+				var vazia: Color = barra.DesenhoBarra.COR_FUNDO
 				preenchido = cor.is_equal_approx(vazia)
 			_verificar("preenchimento renderizado %s energia %d" % [tamanho,valor], preenchido)
 			if capturar: imagem.save_png("%s/mobile_%dx%d_%d.png" % [pasta,tamanho.x,tamanho.y,valor])

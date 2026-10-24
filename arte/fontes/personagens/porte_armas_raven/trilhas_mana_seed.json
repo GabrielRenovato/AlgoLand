@@ -1,0 +1,1684 @@
+{
+  "idle_down": {
+    "BaseSprites/Braco:flip_h": [
+      [
+        0.0,
+        "false"
+      ]
+    ],
+    "BaseSprites/Braco:flip_v": [
+      [
+        0.0,
+        "false"
+      ]
+    ],
+    "BaseSprites/Braco:frame": [
+      [
+        0.0,
+        "34"
+      ]
+    ],
+    "BaseSprites/Braco:position": [
+      [
+        0.0,
+        "(3.0, -15.0001)"
+      ]
+    ],
+    "BaseSprites/Braco:rotation": [
+      [
+        0.0,
+        "0.673605"
+      ]
+    ],
+    "BaseSprites/Braco:z_index": [
+      [
+        0.0,
+        "2"
+      ]
+    ],
+    "BaseSprites/Cabelo:flip_h": [
+      [
+        0.0,
+        "false"
+      ]
+    ],
+    "BaseSprites/Cabelo:frame": [
+      [
+        0.0,
+        "0"
+      ]
+    ],
+    "BaseSprites/Cabelo:z_index": [
+      [
+        0.0,
+        "4"
+      ]
+    ],
+    "BaseSprites/Corpo:frame": [
+      [
+        0.0,
+        "0"
+      ]
+    ],
+    "BaseSprites/Corpo:z_index": [
+      [
+        0.0,
+        "3"
+      ]
+    ],
+    "BaseSprites/Escudo:flip_h": [
+      [
+        0.0,
+        "false"
+      ]
+    ],
+    "BaseSprites/Escudo:frame": [
+      [
+        0.0,
+        "17"
+      ]
+    ],
+    "BaseSprites/Escudo:position": [
+      [
+        0.0,
+        "(-8.0, -4.00009)"
+      ]
+    ],
+    "BaseSprites/Escudo:rotation": [
+      [
+        0.0,
+        "0.0"
+      ]
+    ],
+    "BaseSprites/Escudo:z_index": [
+      [
+        0.0,
+        "0"
+      ]
+    ],
+    "BaseSprites/Lanca:frame": [
+      [
+        0.0,
+        "19"
+      ]
+    ],
+    "BaseSprites/Lanca:position": [
+      [
+        0.0,
+        "(-5.0, 6.99991)"
+      ]
+    ],
+    "BaseSprites/Lanca:rotation": [
+      [
+        0.0,
+        "-0.161688"
+      ]
+    ],
+    "BaseSprites/Lanca:z_index": [
+      [
+        0.0,
+        "0"
+      ]
+    ],
+    "BaseSprites/Roupa:frame": [
+      [
+        0.0,
+        "0"
+      ]
+    ],
+    "BaseSprites/Roupa:z_index": [
+      [
+        0.0,
+        "4"
+      ]
+    ]
+  },
+  "idle_left": {
+    "BaseSprites/Braco:flip_h": [
+      [
+        0.0,
+        "false"
+      ]
+    ],
+    "BaseSprites/Braco:flip_v": [
+      [
+        0.0,
+        "false"
+      ]
+    ],
+    "BaseSprites/Braco:frame": [
+      [
+        0.0,
+        "34"
+      ]
+    ],
+    "BaseSprites/Braco:position": [
+      [
+        0.0,
+        "(3.0, -13.0001)"
+      ]
+    ],
+    "BaseSprites/Braco:rotation": [
+      [
+        0.0,
+        "0.760855"
+      ]
+    ],
+    "BaseSprites/Braco:z_index": [
+      [
+        0.0,
+        "2"
+      ]
+    ],
+    "BaseSprites/Cabelo:flip_h": [
+      [
+        0.0,
+        "false"
+      ]
+    ],
+    "BaseSprites/Cabelo:frame": [
+      [
+        0.0,
+        "24"
+      ]
+    ],
+    "BaseSprites/Cabelo:z_index": [
+      [
+        0.0,
+        "4"
+      ]
+    ],
+    "BaseSprites/Corpo:frame": [
+      [
+        0.0,
+        "24"
+      ]
+    ],
+    "BaseSprites/Corpo:z_index": [
+      [
+        0.0,
+        "3"
+      ]
+    ],
+    "BaseSprites/Escudo:flip_h": [
+      [
+        0.0,
+        "false"
+      ]
+    ],
+    "BaseSprites/Escudo:frame": [
+      [
+        0.0,
+        "15"
+      ]
+    ],
+    "BaseSprites/Escudo:position": [
+      [
+        0.0,
+        "(-6.0, 0.999908)"
+      ]
+    ],
+    "BaseSprites/Escudo:rotation": [
+      [
+        0.0,
+        "0.0"
+      ]
+    ],
+    "BaseSprites/Escudo:z_index": [
+      [
+        0.0,
+        "0"
+      ]
+    ],
+    "BaseSprites/Lanca:frame": [
+      [
+        0.0,
+        "19"
+      ]
+    ],
+    "BaseSprites/Lanca:position": [
+      [
+        0.0,
+        "(-5.0, 5.99991)"
+      ]
+    ],
+    "BaseSprites/Lanca:rotation": [
+      [
+        0.0,
+        "-0.161688"
+      ]
+    ],
+    "BaseSprites/Lanca:z_index": [
+      [
+        0.0,
+        "0"
+      ]
+    ],
+    "BaseSprites/Roupa:frame": [
+      [
+        0.0,
+        "24"
+      ]
+    ],
+    "BaseSprites/Roupa:z_index": [
+      [
+        0.0,
+        "4"
+      ]
+    ]
+  },
+  "idle_right": {
+    "BaseSprites/Braco:flip_h": [
+      [
+        0.0,
+        "false"
+      ]
+    ],
+    "BaseSprites/Braco:flip_v": [
+      [
+        0.0,
+        "false"
+      ]
+    ],
+    "BaseSprites/Braco:frame": [
+      [
+        0.0,
+        "34"
+      ]
+    ],
+    "BaseSprites/Braco:position": [
+      [
+        0.0,
+        "(-12.0, -4.00009)"
+      ]
+    ],
+    "BaseSprites/Braco:rotation": [
+      [
+        0.0,
+        "-0.837706"
+      ]
+    ],
+    "BaseSprites/Braco:z_index": [
+      [
+        0.0,
+        "2"
+      ]
+    ],
+    "BaseSprites/Cabelo:flip_h": [
+      [
+        0.0,
+        "false"
+      ]
+    ],
+    "BaseSprites/Cabelo:frame": [
+      [
+        0.0,
+        "16"
+      ]
+    ],
+    "BaseSprites/Cabelo:z_index": [
+      [
+        0.0,
+        "4"
+      ]
+    ],
+    "BaseSprites/Corpo:flip_h": [
+      [
+        0.0,
+        "false"
+      ]
+    ],
+    "BaseSprites/Corpo:frame": [
+      [
+        0.0,
+        "16"
+      ]
+    ],
+    "BaseSprites/Corpo:z_index": [
+      [
+        0.0,
+        "3"
+      ]
+    ],
+    "BaseSprites/Escudo:flip_h": [
+      [
+        0.0,
+        "true"
+      ]
+    ],
+    "BaseSprites/Escudo:frame": [
+      [
+        0.0,
+        "15"
+      ]
+    ],
+    "BaseSprites/Escudo:position": [
+      [
+        0.0,
+        "(5.0, -0.000092)"
+      ]
+    ],
+    "BaseSprites/Escudo:rotation": [
+      [
+        0.0,
+        "0.0"
+      ]
+    ],
+    "BaseSprites/Escudo:z_index": [
+      [
+        0.0,
+        "0"
+      ]
+    ],
+    "BaseSprites/Lanca:frame": [
+      [
+        0.0,
+        "19"
+      ]
+    ],
+    "BaseSprites/Lanca:position": [
+      [
+        0.0,
+        "(-12.0, -5.00012)"
+      ]
+    ],
+    "BaseSprites/Lanca:rotation": [
+      [
+        0.0,
+        "0.93114"
+      ]
+    ],
+    "BaseSprites/Lanca:z_index": [
+      [
+        0.0,
+        "0"
+      ]
+    ],
+    "BaseSprites/Roupa:frame": [
+      [
+        0.0,
+        "16"
+      ]
+    ],
+    "BaseSprites/Roupa:z_index": [
+      [
+        0.0,
+        "4"
+      ]
+    ]
+  },
+  "idle_up": {
+    "BaseSprites/Braco:flip_h": [
+      [
+        0.0,
+        "false"
+      ]
+    ],
+    "BaseSprites/Braco:flip_v": [
+      [
+        0.0,
+        "false"
+      ]
+    ],
+    "BaseSprites/Braco:frame": [
+      [
+        0.0,
+        "34"
+      ]
+    ],
+    "BaseSprites/Braco:position": [
+      [
+        0.0,
+        "(-14.0, -2.00009)"
+      ]
+    ],
+    "BaseSprites/Braco:rotation": [
+      [
+        0.0,
+        "-0.913461"
+      ]
+    ],
+    "BaseSprites/Braco:z_index": [
+      [
+        0.0,
+        "2"
+      ]
+    ],
+    "BaseSprites/Cabelo:flip_h": [
+      [
+        0.0,
+        "false"
+      ]
+    ],
+    "BaseSprites/Cabelo:frame": [
+      [
+        0.0,
+        "9"
+      ]
+    ],
+    "BaseSprites/Cabelo:z_index": [
+      [
+        0.0,
+        "2"
+      ]
+    ],
+    "BaseSprites/Corpo:frame": [
+      [
+        0.0,
+        "8"
+      ]
+    ],
+    "BaseSprites/Corpo:z_index": [
+      [
+        0.0,
+        "0"
+      ]
+    ],
+    "BaseSprites/Escudo:flip_h": [
+      [
+        0.0,
+        "false"
+      ]
+    ],
+    "BaseSprites/Escudo:frame": [
+      [
+        0.0,
+        "32"
+      ]
+    ],
+    "BaseSprites/Escudo:position": [
+      [
+        0.0,
+        "(-1.0, -4.00009)"
+      ]
+    ],
+    "BaseSprites/Escudo:rotation": [
+      [
+        0.0,
+        "0.0"
+      ]
+    ],
+    "BaseSprites/Escudo:z_index": [
+      [
+        0.0,
+        "3"
+      ]
+    ],
+    "BaseSprites/Lanca:frame": [
+      [
+        0.0,
+        "19"
+      ]
+    ],
+    "BaseSprites/Lanca:position": [
+      [
+        0.0,
+        "(-5.0, 5.99991)"
+      ]
+    ],
+    "BaseSprites/Lanca:rotation": [
+      [
+        0.0,
+        "-0.161688"
+      ]
+    ],
+    "BaseSprites/Lanca:z_index": [
+      [
+        0.0,
+        "4"
+      ]
+    ],
+    "BaseSprites/Roupa:frame": [
+      [
+        0.0,
+        "8"
+      ]
+    ],
+    "BaseSprites/Roupa:z_index": [
+      [
+        0.0,
+        "1"
+      ]
+    ]
+  },
+  "running_down": {
+    "BaseSprites/Braco:flip_v": [
+      [
+        0.0,
+        "false"
+      ]
+    ],
+    "BaseSprites/Braco:frame": [
+      [
+        0.0,
+        "34"
+      ]
+    ],
+    "BaseSprites/Braco:position": [
+      [
+        0.0,
+        "(4.0, -15.0001)"
+      ],
+      [
+        0.100000001490116,
+        "(6.0, -19.0001)"
+      ],
+      [
+        0.200000002980232,
+        "(4.0, -15.0001)"
+      ],
+      [
+        0.300000011920929,
+        "(4.0, -18.0001)"
+      ]
+    ],
+    "BaseSprites/Braco:rotation": [
+      [
+        0.0,
+        "0.746964"
+      ]
+    ],
+    "BaseSprites/Braco:z_index": [
+      [
+        0.0,
+        "2"
+      ]
+    ],
+    "BaseSprites/Cabelo:flip_h": [
+      [
+        0.0,
+        "false"
+      ]
+    ],
+    "BaseSprites/Cabelo:frame": [
+      [
+        0.0,
+        "37"
+      ],
+      [
+        0.100000001490116,
+        "38"
+      ],
+      [
+        0.200000002980232,
+        "37"
+      ],
+      [
+        0.300000011920929,
+        "39"
+      ]
+    ],
+    "BaseSprites/Cabelo:z_index": [
+      [
+        0.0,
+        "4"
+      ],
+      [
+        0.0753239989280701,
+        "4"
+      ]
+    ],
+    "BaseSprites/Corpo:frame": [
+      [
+        0.0,
+        "37"
+      ],
+      [
+        0.100000001490116,
+        "38"
+      ],
+      [
+        0.200000002980232,
+        "37"
+      ],
+      [
+        0.300000011920929,
+        "39"
+      ]
+    ],
+    "BaseSprites/Corpo:z_index": [
+      [
+        0.0,
+        "3"
+      ]
+    ],
+    "BaseSprites/Escudo:flip_h": [
+      [
+        0.0,
+        "false"
+      ]
+    ],
+    "BaseSprites/Escudo:frame": [
+      [
+        0.0,
+        "7"
+      ],
+      [
+        0.100000001490116,
+        "7"
+      ],
+      [
+        0.200000002980232,
+        "8"
+      ]
+    ],
+    "BaseSprites/Escudo:position": [
+      [
+        0.0,
+        "(3.0, -6.0)"
+      ],
+      [
+        0.100000001490116,
+        "(3.0, -9.0)"
+      ],
+      [
+        0.200000002980232,
+        "(-4.0, -3.00009)"
+      ],
+      [
+        0.300000011920929,
+        "(-4.0, -6.00009)"
+      ]
+    ],
+    "BaseSprites/Escudo:rotation": [
+      [
+        0.0,
+        "0.0"
+      ]
+    ],
+    "BaseSprites/Escudo:z_index": [
+      [
+        0.0,
+        "0"
+      ]
+    ],
+    "BaseSprites/Lanca:frame": [
+      [
+        0.0,
+        "19"
+      ]
+    ],
+    "BaseSprites/Lanca:hframes": [
+      [
+        0.0,
+        "8"
+      ]
+    ],
+    "BaseSprites/Lanca:position": [
+      [
+        0.0,
+        "(-6.0, 7.99991)"
+      ],
+      [
+        0.100000001490116,
+        "(-5.0, 2.99991)"
+      ],
+      [
+        0.200000002980232,
+        "(-6.33332, 6.66652)"
+      ],
+      [
+        0.300000011920929,
+        "(-7.16667, 1.33318)"
+      ]
+    ],
+    "BaseSprites/Lanca:rotation": [
+      [
+        0.0,
+        "-0.161688"
+      ],
+      [
+        0.100000001490116,
+        "-0.161688"
+      ],
+      [
+        0.200000002980232,
+        "-0.161688"
+      ],
+      [
+        0.300000011920929,
+        "-0.161688"
+      ]
+    ],
+    "BaseSprites/Lanca:vframes": [
+      [
+        0.0,
+        "8"
+      ]
+    ],
+    "BaseSprites/Lanca:z_index": [
+      [
+        0.0,
+        "1"
+      ]
+    ],
+    "BaseSprites/Roupa:flip_h": [
+      [
+        0.0,
+        "false"
+      ]
+    ],
+    "BaseSprites/Roupa:frame": [
+      [
+        0.0,
+        "37"
+      ],
+      [
+        0.100000001490116,
+        "38"
+      ],
+      [
+        0.200000002980232,
+        "37"
+      ],
+      [
+        0.300000011920929,
+        "39"
+      ]
+    ],
+    "BaseSprites/Roupa:z_index": [
+      [
+        0.0,
+        "4"
+      ]
+    ]
+  },
+  "running_left": {
+    "BaseSprites/Braco:flip_h": [
+      [
+        0.0,
+        "false"
+      ]
+    ],
+    "BaseSprites/Braco:flip_v": [
+      [
+        0.0,
+        "false"
+      ]
+    ],
+    "BaseSprites/Braco:frame": [
+      [
+        0.0,
+        "34"
+      ],
+      [
+        0.100000001490116,
+        "34"
+      ]
+    ],
+    "BaseSprites/Braco:position": [
+      [
+        0.0,
+        "(-9.0, -5.00009)"
+      ],
+      [
+        0.100000001490116,
+        "(-11.0, -9.00009)"
+      ],
+      [
+        0.200000002980232,
+        "(4.66664, -15.6668)"
+      ],
+      [
+        0.300000011920929,
+        "(3.83366, -18.3337)"
+      ]
+    ],
+    "BaseSprites/Braco:rotation": [
+      [
+        0.0,
+        "-0.881138"
+      ],
+      [
+        0.100000001490116,
+        "-0.881138"
+      ],
+      [
+        0.200000002980232,
+        "0.835974"
+      ],
+      [
+        0.300000011920929,
+        "0.825442"
+      ]
+    ],
+    "BaseSprites/Cabelo:flip_h": [
+      [
+        0.0,
+        "true"
+      ]
+    ],
+    "BaseSprites/Cabelo:frame": [
+      [
+        0.0,
+        "49"
+      ],
+      [
+        0.100000001490116,
+        "54"
+      ],
+      [
+        0.200000002980232,
+        "49"
+      ],
+      [
+        0.300000011920929,
+        "55"
+      ]
+    ],
+    "BaseSprites/Cabelo:z_index": [
+      [
+        0.0,
+        "2"
+      ],
+      [
+        0.200000002980232,
+        "4"
+      ],
+      [
+        0.300000011920929,
+        "4"
+      ]
+    ],
+    "BaseSprites/Corpo:flip_h": [
+      [
+        0.0,
+        "true"
+      ]
+    ],
+    "BaseSprites/Corpo:frame": [
+      [
+        0.0,
+        "49"
+      ],
+      [
+        0.100000001490116,
+        "54"
+      ],
+      [
+        0.200000002980232,
+        "49"
+      ],
+      [
+        0.300000011920929,
+        "55"
+      ]
+    ],
+    "BaseSprites/Corpo:z_index": [
+      [
+        0.0,
+        "1"
+      ],
+      [
+        0.200000002980232,
+        "3"
+      ],
+      [
+        0.300000011920929,
+        "3"
+      ]
+    ],
+    "BaseSprites/Escudo:flip_h": [
+      [
+        0.0,
+        "true"
+      ],
+      [
+        0.100000001490116,
+        "true"
+      ],
+      [
+        0.200000002980232,
+        "false"
+      ]
+    ],
+    "BaseSprites/Escudo:frame": [
+      [
+        0.0,
+        "34"
+      ],
+      [
+        0.100000001490116,
+        "34"
+      ],
+      [
+        0.200000002980232,
+        "48"
+      ],
+      [
+        0.300000011920929,
+        "48"
+      ]
+    ],
+    "BaseSprites/Escudo:position": [
+      [
+        0.0,
+        "(-6.0, -4.00009)"
+      ],
+      [
+        0.100000001490116,
+        "(-7.0, -7.00009)"
+      ],
+      [
+        0.200000002980232,
+        "(-1.99998, -2.00009)"
+      ],
+      [
+        0.300000011920929,
+        "(-0.166737, -6.33346)"
+      ]
+    ],
+    "BaseSprites/Escudo:rotation": [
+      [
+        0.0,
+        "0.0"
+      ]
+    ],
+    "BaseSprites/Escudo:z_index": [
+      [
+        0.0,
+        "3"
+      ],
+      [
+        0.200000002980232,
+        "0"
+      ],
+      [
+        0.300000011920929,
+        "0"
+      ]
+    ],
+    "BaseSprites/Lanca:frame": [
+      [
+        0.0,
+        "19"
+      ]
+    ],
+    "BaseSprites/Lanca:position": [
+      [
+        0.0,
+        "(-2.99997, 5.99991)"
+      ],
+      [
+        0.100000001490116,
+        "(2.00003, 5.99991)"
+      ],
+      [
+        0.200000002980232,
+        "(-2.99997, 5.99991)"
+      ],
+      [
+        0.300000011920929,
+        "(-1.99997, 2.99991)"
+      ]
+    ],
+    "BaseSprites/Lanca:rotation": [
+      [
+        0.0,
+        "-0.232186"
+      ],
+      [
+        0.100000001490116,
+        "-0.446553"
+      ],
+      [
+        0.200000002980232,
+        "-0.282963"
+      ],
+      [
+        0.300000011920929,
+        "-0.407699"
+      ]
+    ],
+    "BaseSprites/Lanca:z_index": [
+      [
+        0.0,
+        "0"
+      ],
+      [
+        0.100000001490116,
+        "4"
+      ],
+      [
+        0.200000002980232,
+        "0"
+      ],
+      [
+        0.300000011920929,
+        "0"
+      ]
+    ],
+    "BaseSprites/Roupa:flip_h": [
+      [
+        0.0,
+        "true"
+      ]
+    ],
+    "BaseSprites/Roupa:frame": [
+      [
+        0.0,
+        "49"
+      ],
+      [
+        0.100000001490116,
+        "54"
+      ],
+      [
+        0.200000002980232,
+        "49"
+      ],
+      [
+        0.300000011920929,
+        "55"
+      ]
+    ],
+    "BaseSprites/Roupa:z_index": [
+      [
+        0.200000002980232,
+        "3"
+      ],
+      [
+        0.300000011920929,
+        "3"
+      ]
+    ]
+  },
+  "running_right": {
+    "BaseSprites/Braco:flip_h": [
+      [
+        0.0,
+        "false"
+      ]
+    ],
+    "BaseSprites/Braco:flip_v": [
+      [
+        0.0,
+        "false"
+      ]
+    ],
+    "BaseSprites/Braco:frame": [
+      [
+        0.0,
+        "34"
+      ],
+      [
+        0.100000001490116,
+        "34"
+      ]
+    ],
+    "BaseSprites/Braco:position": [
+      [
+        0.0,
+        "(-3.0, -14.0001)"
+      ],
+      [
+        0.100000001490116,
+        "(-3.0, -18.0001)"
+      ],
+      [
+        0.200000002980232,
+        "(-13.0, -4.00009)"
+      ],
+      [
+        0.300000011920929,
+        "(-13.0, -8.00009)"
+      ]
+    ],
+    "BaseSprites/Braco:rotation": [
+      [
+        0.0,
+        "0.545079"
+      ],
+      [
+        0.100000001490116,
+        "0.526661"
+      ],
+      [
+        0.200000002980232,
+        "-0.881138"
+      ]
+    ],
+    "BaseSprites/Braco:z_index": [
+      [
+        0.0,
+        "2"
+      ],
+      [
+        0.100000001490116,
+        "2"
+      ],
+      [
+        0.200000002980232,
+        "2"
+      ]
+    ],
+    "BaseSprites/Cabelo:flip_h": [
+      [
+        0.0,
+        "false"
+      ]
+    ],
+    "BaseSprites/Cabelo:frame": [
+      [
+        0.0,
+        "49"
+      ],
+      [
+        0.100000001490116,
+        "54"
+      ],
+      [
+        0.200000002980232,
+        "49"
+      ],
+      [
+        0.300000011920929,
+        "55"
+      ]
+    ],
+    "BaseSprites/Cabelo:z_index": [
+      [
+        0.0,
+        "2"
+      ],
+      [
+        0.200000002980232,
+        "4"
+      ],
+      [
+        0.300000011920929,
+        "4"
+      ]
+    ],
+    "BaseSprites/Corpo:flip_h": [
+      [
+        0.0,
+        "false"
+      ]
+    ],
+    "BaseSprites/Corpo:frame": [
+      [
+        0.0,
+        "49"
+      ],
+      [
+        0.100000001490116,
+        "54"
+      ],
+      [
+        0.200000002980232,
+        "49"
+      ],
+      [
+        0.300000011920929,
+        "55"
+      ]
+    ],
+    "BaseSprites/Corpo:z_index": [
+      [
+        0.0,
+        "1"
+      ],
+      [
+        0.100000001490116,
+        "1"
+      ],
+      [
+        0.200000002980232,
+        "3"
+      ]
+    ],
+    "BaseSprites/Escudo:flip_h": [
+      [
+        0.0,
+        "false"
+      ]
+    ],
+    "BaseSprites/Escudo:frame": [
+      [
+        0.0,
+        "7"
+      ],
+      [
+        0.100000001490116,
+        "7"
+      ],
+      [
+        0.200000002980232,
+        "56"
+      ],
+      [
+        0.300000011920929,
+        "56"
+      ]
+    ],
+    "BaseSprites/Escudo:position": [
+      [
+        0.0,
+        "(2.0, -6.0)"
+      ],
+      [
+        0.100000001490116,
+        "(4.0, -9.0)"
+      ],
+      [
+        0.200000002980232,
+        "(3.0, -5.33339)"
+      ],
+      [
+        0.300000011920929,
+        "(2.0, -6.66668)"
+      ]
+    ],
+    "BaseSprites/Escudo:rotation": [
+      [
+        0.0,
+        "0.0"
+      ]
+    ],
+    "BaseSprites/Escudo:z_index": [
+      [
+        0.0,
+        "3"
+      ],
+      [
+        0.100000001490116,
+        "3"
+      ],
+      [
+        0.200000002980232,
+        "0"
+      ],
+      [
+        0.300000011920929,
+        "0"
+      ]
+    ],
+    "BaseSprites/Lanca:frame": [
+      [
+        0.0,
+        "19"
+      ]
+    ],
+    "BaseSprites/Lanca:position": [
+      [
+        0.0,
+        "(-11.0, -7.00012)"
+      ],
+      [
+        0.100000001490116,
+        "(-12.0, -9.00012)"
+      ],
+      [
+        0.200000002980232,
+        "(-10.6666, -6.3335)"
+      ],
+      [
+        0.300000011920929,
+        "(-11.8333, -8.66681)"
+      ]
+    ],
+    "BaseSprites/Lanca:rotation": [
+      [
+        0.0,
+        "1.03739"
+      ],
+      [
+        0.100000001490116,
+        "1.03739"
+      ],
+      [
+        0.200000002980232,
+        "1.03739"
+      ],
+      [
+        0.300000011920929,
+        "1.03739"
+      ]
+    ],
+    "BaseSprites/Lanca:z_index": [
+      [
+        0.0,
+        "0"
+      ],
+      [
+        0.100000001490116,
+        "4"
+      ],
+      [
+        0.200000002980232,
+        "0"
+      ],
+      [
+        0.300000011920929,
+        "0"
+      ]
+    ],
+    "BaseSprites/Roupa:flip_h": [
+      [
+        0.0,
+        "false"
+      ]
+    ],
+    "BaseSprites/Roupa:frame": [
+      [
+        0.0,
+        "49"
+      ],
+      [
+        0.100000001490116,
+        "54"
+      ],
+      [
+        0.200000002980232,
+        "49"
+      ],
+      [
+        0.300000011920929,
+        "55"
+      ]
+    ],
+    "BaseSprites/Roupa:z_index": [
+      [
+        0.0,
+        "2"
+      ],
+      [
+        0.200000002980232,
+        "4"
+      ],
+      [
+        0.300000011920929,
+        "3"
+      ]
+    ]
+  },
+  "running_up": {
+    "BaseSprites/Braco:flip_h": [
+      [
+        0.0,
+        "false"
+      ]
+    ],
+    "BaseSprites/Braco:flip_v": [
+      [
+        0.0,
+        "false"
+      ]
+    ],
+    "BaseSprites/Braco:frame": [
+      [
+        0.0,
+        "15"
+      ]
+    ],
+    "BaseSprites/Braco:position": [
+      [
+        0.0,
+        "(-11.0, -4.00012)"
+      ],
+      [
+        0.100000001490116,
+        "(-12.0, -7.00012)"
+      ],
+      [
+        0.200000002980232,
+        "(-12.0, -4.00012)"
+      ],
+      [
+        0.300000011920929,
+        "(-11.0, -7.00012)"
+      ]
+    ],
+    "BaseSprites/Braco:rotation": [
+      [
+        0.0,
+        "2.38587"
+      ],
+      [
+        0.100000001490116,
+        "2.35716"
+      ],
+      [
+        0.200000002980232,
+        "2.31043"
+      ],
+      [
+        0.300000011920929,
+        "2.30383"
+      ]
+    ],
+    "BaseSprites/Braco:z_index": [
+      [
+        0.0,
+        "3"
+      ],
+      [
+        0.100000001490116,
+        "3"
+      ],
+      [
+        0.200000002980232,
+        "3"
+      ],
+      [
+        0.300000011920929,
+        "3"
+      ]
+    ],
+    "BaseSprites/Cabelo:flip_h": [
+      [
+        0.0,
+        "false"
+      ]
+    ],
+    "BaseSprites/Cabelo:frame": [
+      [
+        0.0,
+        "42"
+      ],
+      [
+        0.100000001490116,
+        "46"
+      ],
+      [
+        0.200000002980232,
+        "45"
+      ],
+      [
+        0.300000011920929,
+        "47"
+      ]
+    ],
+    "BaseSprites/Cabelo:z_index": [
+      [
+        0.0,
+        "2"
+      ],
+      [
+        0.100000001490116,
+        "2"
+      ],
+      [
+        0.200000002980232,
+        "2"
+      ],
+      [
+        0.300000011920929,
+        "2"
+      ]
+    ],
+    "BaseSprites/Corpo:frame": [
+      [
+        0.0,
+        "42"
+      ],
+      [
+        0.100000001490116,
+        "46"
+      ],
+      [
+        0.200000002980232,
+        "45"
+      ],
+      [
+        0.300000011920929,
+        "47"
+      ]
+    ],
+    "BaseSprites/Corpo:z_index": [
+      [
+        0.0,
+        "0"
+      ]
+    ],
+    "BaseSprites/Escudo:flip_h": [
+      [
+        0.0,
+        "true"
+      ],
+      [
+        0.100000001490116,
+        "true"
+      ],
+      [
+        0.200000002980232,
+        "false"
+      ],
+      [
+        0.300000011920929,
+        "false"
+      ]
+    ],
+    "BaseSprites/Escudo:frame": [
+      [
+        0.0,
+        "32"
+      ],
+      [
+        0.100000001490116,
+        "7"
+      ],
+      [
+        0.200000002980232,
+        "32"
+      ],
+      [
+        0.300000011920929,
+        "7"
+      ]
+    ],
+    "BaseSprites/Escudo:position": [
+      [
+        0.0,
+        "(1.0, -7.00009)"
+      ],
+      [
+        0.082991898059845,
+        "(-1.0, -6.00009)"
+      ],
+      [
+        0.100000001490116,
+        "(-6.0, -8.00009)"
+      ],
+      [
+        0.200000002980232,
+        "(0.0, -7.00009)"
+      ],
+      [
+        0.300000011920929,
+        "(6.0, -8.00009)"
+      ]
+    ],
+    "BaseSprites/Escudo:rotation": [
+      [
+        0.0,
+        "0.0"
+      ]
+    ],
+    "BaseSprites/Escudo:z_index": [
+      [
+        0.0,
+        "3"
+      ]
+    ],
+    "BaseSprites/Lanca:frame": [
+      [
+        0.0,
+        "19"
+      ]
+    ],
+    "BaseSprites/Lanca:position": [
+      [
+        0.0,
+        "(-6.0, 7.99991)"
+      ],
+      [
+        0.100000001490116,
+        "(-6.0, 3.99991)"
+      ],
+      [
+        0.200000002980232,
+        "(-5.0, 6.3332)"
+      ],
+      [
+        0.300000011920929,
+        "(-5.49998, 3.16651)"
+      ]
+    ],
+    "BaseSprites/Lanca:rotation": [
+      [
+        0.0,
+        "-0.161688"
+      ],
+      [
+        0.100000001490116,
+        "-0.161688"
+      ],
+      [
+        0.200000002980232,
+        "-0.161688"
+      ],
+      [
+        0.300000011920929,
+        "-0.161688"
+      ]
+    ],
+    "BaseSprites/Lanca:z_index": [
+      [
+        0.0,
+        "4"
+      ]
+    ],
+    "BaseSprites/Roupa:flip_h": [
+      [
+        0.0,
+        "false"
+      ]
+    ],
+    "BaseSprites/Roupa:frame": [
+      [
+        0.0,
+        "42"
+      ],
+      [
+        0.100000001490116,
+        "46"
+      ],
+      [
+        0.200000002980232,
+        "45"
+      ],
+      [
+        0.300000011920929,
+        "47"
+      ]
+    ],
+    "BaseSprites/Roupa:z_index": [
+      [
+        0.0,
+        "2"
+      ]
+    ]
+  }
+}

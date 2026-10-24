@@ -5,6 +5,8 @@ const AvisoAtaque := preload("res://codigo/efeitos/aviso_ataque.gd")
 var _aviso: Node2D
 const AVISO := 3.0
 const DURACAO := 3.0
+## Alcance fixo: o tamanho da caverna não pode aumentar a distância necessária para escapar.
+const RAIO_ZONA := 96.0
 var zona := PackedVector2Array()
 var tempo := 0.0
 var ativo := false
@@ -94,30 +96,20 @@ static func metade_mapa(contorno: PackedVector2Array, vertical: bool, menor: boo
 	return _recortar(contorno, vertical, (inicio + fim) * 0.5, menor)
 
 static func zona_centrada(contorno: PackedVector2Array, centro: Vector2) -> PackedVector2Array:
-	var minimo := 0.0
-	var maximo := 1.0
-	for ponto in contorno:
-		maximo = maxf(maximo, ponto.distance_to(centro) + 1)
-	var alvo := area_poligono(contorno) * 0.5
-	var zona_circular := PackedVector2Array()
-	for tentativa in 26:
-		var raio := (minimo + maximo) * 0.5
-		var circulo := PackedVector2Array()
-		for i in 96:
-			circulo.append(centro + Vector2.from_angle(TAU * i / 96.0) * raio)
-		var partes := Geometry2D.intersect_polygons(contorno, circulo)
-		var maior_area := 0.0
-		zona_circular = PackedVector2Array()
-		for parte in partes:
-			var area := area_poligono(parte)
-			if area > maior_area:
-				maior_area = area
-				zona_circular = parte
-		if maior_area < alvo:
-			minimo = raio
-		else:
-			maximo = raio
-	return zona_circular
+	var circulo := PackedVector2Array()
+	for i in 64:
+		circulo.append(centro + Vector2.from_angle(TAU * i / 64.0) * RAIO_ZONA)
+	var partes := Geometry2D.intersect_polygons(contorno, circulo)
+	var escolhida := PackedVector2Array()
+	var maior_area := 0.0
+	for parte in partes:
+		# Em contornos côncavos preserva a região que contém o alvo marcado.
+		if Geometry2D.is_point_in_polygon(centro, parte): return parte
+		var area := area_poligono(parte)
+		if area > maior_area:
+			maior_area = area
+			escolhida = parte
+	return escolhida
 
 static func _recortar(contorno: PackedVector2Array, vertical: bool, corte: float, menor: bool) -> PackedVector2Array:
 	var resultado := PackedVector2Array()

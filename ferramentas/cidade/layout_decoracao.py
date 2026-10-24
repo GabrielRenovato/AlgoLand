@@ -30,12 +30,12 @@ BARRACAS_RESERVADAS = [
 ITENS = [
     # A praça mantém livres os eixos de circulação e a frente do mural.
     ('fonte_anim', 336, 284, {'medida': 'fonte', 'col': [90, 48], 'animacao': {'quadros': 9, 'fps': 7, 'largura': 96, 'altura': 96}}),
-    ('mural', 384, 346, {'col': [34, 8]}),
-    ('poste_luz', 252, 240, {'col': [8, 6], 'luz': [0, -46, LAMPIAO, 1.1, 0.9]}),
-    ('poste_luz', 420, 240, {'col': [8, 6], 'luz': [0, -46, LAMPIAO, 1.1, 0.9]}),
-    ('poste_luz', 252, 326, {'col': [8, 6], 'luz': [0, -46, LAMPIAO, 1.1, 0.9]}),
-    ('poste_luz', 420, 326, {'col': [8, 6], 'luz': [0, -46, LAMPIAO, 1.1, 0.9]}),
-    ('placa_encruzilhada', 448, 244, {'col': [10, 6]}),
+    ('mural', 352, 360, {'col': [34, 8]}),
+    ('poste_luz', 208, 240, {'col': [8, 6], 'luz': [0, -46, LAMPIAO, 1.1, 0.9]}),
+    ('poste_luz', 528, 240, {'col': [8, 6], 'luz': [0, -46, LAMPIAO, 1.1, 0.9]}),
+    ('poste_luz', 208, 352, {'col': [8, 6], 'luz': [0, -46, LAMPIAO, 1.1, 0.9]}),
+    ('poste_luz', 400, 392, {'col': [8, 6], 'luz': [0, -46, LAMPIAO, 1.1, 0.9]}),
+    ('placa_encruzilhada', 616, 302, {'col': [10, 6]}),
     ('ponte', 676, 298, {'z_fixo': -995, 'sem_col': True}),
     # O comércio fica na venda do Tomás; não há barracas sem interação.
     # Coreto e área de descanso formam o entorno da pousada.

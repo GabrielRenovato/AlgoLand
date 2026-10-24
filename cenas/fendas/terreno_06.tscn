@@ -28,6 +28,7 @@
 
 [ext_resource type="Script" path="res://codigo/fendas/relevo_original.gd" id="relevo_proprio"]
 
+[ext_resource type="Script" path="res://codigo/fendas/instalar_floresta_detalhada.gd" id="florestadetalhada_script"]
 [sub_resource type="AtlasTexture" id="Atlas_n_1_2"]
 resource_name = "arvore"
 atlas = ExtResource("4_2bynm")
@@ -11027,3 +11028,6 @@ offset = Vector2(-32, -60)
 metadata/decoracao_fenda = true
 metadata/base_externa = true
 metadata/passavel = false
+
+[node name="InstaladorFlorestaDetalhada" type="Node" parent="."]
+script = ExtResource("florestadetalhada_script")

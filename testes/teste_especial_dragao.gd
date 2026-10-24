@@ -21,7 +21,7 @@ func verificar(nome: String, condicao: bool) -> void:
 
 func _rodar() -> void:
 	await process_frame
-	if not OS.get_user_data_dir().ends_with("AlgoLand testes Carrasco"):
+	if not OS.get_user_data_dir().get_file().begins_with("AlgoLand testes"):
 		push_error("Teste requer saves isolados.")
 		quit(1)
 		return
@@ -49,7 +49,14 @@ func _rodar() -> void:
 			verificar("especial ocupa exatamente metade do contorno %s/%s" % [vertical, menor], absf(Chuva.area_poligono(metade) / Chuva.area_poligono(poligono) - 0.5) < 0.00001)
 	for centro in [Vector2(100, 100), Vector2(350, 200), Vector2(680, 300), Vector2(0, -100)]:
 		var circular := Chuva.zona_centrada(poligono, centro)
-		verificar("círculo centrado em %s cobre 50%% e contém o jogador" % centro, absf(Chuva.area_poligono(circular) / Chuva.area_poligono(poligono) - 0.5) < 0.0001 and Geometry2D.is_point_in_polygon(centro, circular))
+		var limitado := true
+		for ponto in circular: limitado = limitado and ponto.distance_to(centro) <= Chuva.RAIO_ZONA + 0.1
+		verificar("zona em %s contém jogador e respeita raio de fuga" % centro, limitado and Geometry2D.is_point_in_polygon(centro,circular))
+	# Aumentar muito o contorno não aumenta a zona, nem o caminho até sair dela.
+	var gigante := PackedVector2Array([Vector2(-5000,-5000),Vector2(5000,-5000),Vector2(5000,5000),Vector2(-5000,5000)])
+	var zona_grande := Chuva.zona_centrada(gigante,Vector2.ZERO)
+	verificar("caverna gigante mantém zona local",Chuva.limites_poligono(zona_grande).size.x <= Chuva.RAIO_ZONA * 2 + 0.1)
+	verificar("aviso permite fuga andando a 50 pixels por segundo",Chuva.RAIO_ZONA + 16 < 50 * Chuva.AVISO)
 	var jogador := JogadorTeste.new()
 	jogador.name = "Jogador"
 	jogador.position = Vector2(100, 100)

@@ -22,6 +22,15 @@ func _initialize() -> void:
 		quit(1)
 		return
 	var raiz: String = config["destino"]
+	if "--corrida" in args:
+		_validar_acoes_fazenda(raiz,true)
+		print("Falhas: ",_falhas)
+		quit(_falhas)
+		return
+	if "--acoes-fazenda" in args:
+		_validar_acoes_fazenda(raiz)
+		quit(_falhas)
+		return
 	var cores := {}
 	for html in config["paleta"]:
 		cores[String(html).to_lower()] = true
@@ -129,11 +138,51 @@ func _initialize() -> void:
 	print("Falhas: ", _falhas)
 	quit(_falhas)
 
-func _ler(caminho: String) -> Image:
+func _ler(caminho: String, tamanho: Vector2i=Padrao.TAMANHO_FOLHA) -> Image:
 	if not FileAccess.file_exists(caminho):
 		_verificar("arquivo existe: " + caminho, false)
 		return null
 	var imagem := Image.load_from_file(caminho)
-	var valido := imagem != null and imagem.get_size() == Padrao.TAMANHO_FOLHA
-	_verificar("grade 512x512: " + caminho, valido)
+	var valido := imagem != null and imagem.get_size() == tamanho
+	_verificar("grade %dx%d: " % [tamanho.x,tamanho.y] + caminho, valido)
 	return imagem if valido else null
+
+## As folhas compactas novas preservam as quatro peças do mesmo manifesto.
+func _validar_acoes_fazenda(raiz: String, corrida := false) -> void:
+	var encaixe=preload("res://ferramentas/personagem/encaixe_acoes_fazenda_raven.gd")
+	var guias=encaixe.carregar_guias()
+	var poses=guias.acoes
+	var acoes: Array = encaixe.PELES.keys()
+	var quantidade=4
+	if corrida:
+		acoes=["correr"]
+		quantidade=6
+		poses={"correr":preload("res://ferramentas/personagem/encaixe_corrida_raven.gd").contrato().guias}
+	var tamanho=Vector2i(quantidade*80,320)
+	for acao in acoes:
+		var imagens=[]
+		for peca in Padrao.PECAS:
+			var imagem=_ler(raiz+"raven_"+String(peca)+"/"+acao+".png",tamanho)
+			_verificar(acao+": grade da peça "+String(peca),imagem!=null and imagem.get_size()==tamanho)
+			imagens.append(imagem)
+		if imagens.has(null):continue
+		var caminho_corpo=preload("res://codigo/dados/corrida_raven.gd").RAIZ+"corpo_0.png" if corrida else encaixe.DESTINO+acao+"/corpo_0.png"
+		var corpo=Image.load_from_file(caminho_corpo)
+		var sobrepostos=0
+		var descobertos=0
+		var suavizados=0
+		for d in 4:
+			for q in quantidade:
+				for y in 80:
+					for x in 80:
+						var p=Vector2i(q*80+x,d*80+y)
+						var n=0
+						for imagem in imagens:
+							var alfa=imagem.get_pixelv(p).a
+							if alfa>0.5:n+=1
+							if alfa>0 and alfa<1:suavizados+=1
+						if n>1:sobrepostos+=1
+						if n==0 and corpo.get_pixelv(p).a>0.5 and encaixe.parte(Vector2(x,y),poses[acao][d][q])!="cabeca":descobertos+=1
+		_verificar(acao+": quatro peças exclusivas",sobrepostos==0)
+		_verificar(acao+": corpo vestido sem vazamentos",descobertos==0)
+		_verificar(acao+": alfa binário",suavizados==0)

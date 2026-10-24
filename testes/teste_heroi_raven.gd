@@ -50,7 +50,7 @@ func rodar() -> void:
 				jogador.no_arco.disparar(direcao,1.0)
 			visual._process(0.1)
 			verificar(visual._animacao == nome,"Estado Raven: "+nome)
-			var quantidade := 4
+			var quantidade := 6 if nome == "correr" else 4
 			verificar(visual.hframes == quantidade and visual.frame >= 0 and visual.frame < quantidade*4,"Quadro fora da folha: "+nome)
 			for camada in visual._camadas:
 				verificar(camada.hframes == quantidade and camada.frame == visual.frame,"Camada dessincronizada: "+nome)

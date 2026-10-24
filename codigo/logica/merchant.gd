@@ -12,6 +12,7 @@ func _ready() -> void:
 	add_to_group("merchant")
 	# Dispute o F com a fogueira (zonas sobrepostas): só o mais próximo do jogador responde
 	add_to_group("interagiveis")
+	Interagivel.aplicar_circulo_aviso(icon,_rotulo_tecla)
 	icon.visible = false
 	Controle.dicas_alteradas.connect(_atualizar_tecla)
 	_atualizar_tecla()
@@ -20,11 +21,8 @@ func _atualizar_tecla() -> void:
 	# Planes_ValMore: o Y da fonte do aviso parece um "y" minúsculo
 	_rotulo_tecla.add_theme_font_override("font", FONTE_TECLA)
 	_rotulo_tecla.text = Controle.rotulo_acao("open_menu")
-	# Texto de toque ("AGIR") é mais comprido que uma tecla: fonte menor para caber no botão
-	if _rotulo_tecla.text.length() > 2:
-		_rotulo_tecla.add_theme_font_size_override("font_size", 7)
-	else:
-		_rotulo_tecla.remove_theme_font_size_override("font_size")
+	_rotulo_tecla.add_theme_font_size_override("font_size",9 if _rotulo_tecla.text.length() <= 2 else 6)
+	_rotulo_tecla.size = Vector2(18,18)
 
 func _process(_delta: float) -> void:
 	icon.visible = player_in_range and visible and Interagivel.eh_o_mais_proximo(self)

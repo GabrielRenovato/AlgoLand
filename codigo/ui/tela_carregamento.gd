@@ -106,7 +106,7 @@ func _rotulo(pai: Node, texto: String, tamanho: int, cor: Color) -> Label:
 	return label
 
 static func nome_do_destino(caminho: String) -> String:
-	var nomes := {"cidade":"VILA DAS FLORES","cenario":"ARENA","andar_fenda":"FENDA DO BOSQUE","fazenda":"SUA FAZENDA","casa":"LAR, DOCE LAR","palafita":"CAIS DO NILO","criacao_personagem":"SEU PERSONAGEM","inicio_do_jogo":"INICIO","enfermaria":"ENFERMARIA","forja":"FORJA DO IVO"}
+	var nomes := {"cidade":"VILA DAS FLORES","cenario":"ARENA","andar_fenda":"FENDA DO BOSQUE","fazenda":"SUA FAZENDA","floresta":"FLORESTA DO CAMINHO","casa":"LAR, DOCE LAR","palafita":"CAIS DO NILO","criacao_personagem":"SEU PERSONAGEM","inicio_do_jogo":"INICIO","enfermaria":"ENFERMARIA","forja":"FORJA DO IVO"}
 	var id := caminho.get_file().get_basename()
 	return nomes.get(id,id.replace("_"," ").to_upper())
 

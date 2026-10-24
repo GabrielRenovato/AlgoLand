@@ -41,6 +41,8 @@ var _painel: PanelContainer
 var _linha: HBoxContainer
 var _casas: Array[Control] = []
 var _tween_nome: Tween
+## A aproximação usa sempre o lugar original da barra, com folga maior para voltar.
+var _no_topo := false
 
 func _ready() -> void:
 	theme = TEMA
@@ -53,27 +55,23 @@ func _ready() -> void:
 	EventosJogo.inventario_de(self).equipamento_alterado.connect(_ao_equipamento_alterado)
 	EventosJogo.inventario_de(self).item_alterado.connect(_ao_item_alterado)
 	if modo_fazenda:
-		Fazenda.ferramenta_alterada.connect(func(_f: String) -> void: _atualizar(); _nome_fixo())
+		Fazenda.ferramenta_alterada.connect(func(_f: String) -> void: _atualizar(); _mostrar_ferramenta_selecionada())
 		Calendario.estacao_mudou.connect(func(_e: int) -> void: _atualizar())
-		Fazenda.agua_regador_alterada.connect(func(_q: int) -> void: _atualizar(); _nome_fixo())
+		Fazenda.agua_regador_alterada.connect(func(_q: int) -> void: _atualizar())
 	_atualizar()
-	_nome_fixo()
+	_mostrar_ferramenta_selecionada()
 
-## Na fazenda o nome da ferramenta ativa fica sempre acima da barra (no celular é a descrição da semente: o tempo de crescimento)
-func _nome_fixo() -> void:
-	if not modo_fazenda or not is_node_ready():
-		return
-	if _tween_nome != null and _tween_nome.is_valid():
-		return   # um aviso está na tela: ele mesmo volta ao nome
+## A seleção da fazenda usa o mesmo aviso temporário das armas.
+func _mostrar_ferramenta_selecionada() -> void:
+	if not modo_fazenda or not is_node_ready(): return
+	var texto := ""
 	if EventosJogo.inventario_de(self).vara_na_mao:
-		_nome.text = "VARA - SEGURE ATAQUE E SOLTE PARA LANCAR"
-		_nome.modulate.a = 1.0
-		return
-	_nome.text = nome_da_ferramenta(Fazenda.ferramenta_de(_lado())) if Fazenda.ferramenta_de(_lado()) != "" else ""
-	if Fazenda.ferramenta_de(_lado()) == "regador":
-		_nome.text += "  %d/%d" % [Fazenda.agua_regador, Fazenda.REGADOR_CAPACIDADE]
-	_nome.add_theme_color_override("font_color", COR_NOME)
-	_nome.modulate.a = 1.0
+		texto = "VARA - SEGURE ATAQUE E SOLTE PARA LANCAR"
+	else:
+		var ferramenta := Fazenda.ferramenta_de(_lado())
+		if ferramenta != "": texto = nome_da_ferramenta(ferramenta)
+		if ferramenta == "regador": texto += "  %d/%d" % [Fazenda.agua_regador, Fazenda.REGADOR_CAPACIDADE]
+	if texto != "": _mostrar_nome(texto,COR_NOME)
 
 func _montar() -> void:
 	_coluna = VBoxContainer.new()
@@ -92,6 +90,7 @@ func _montar() -> void:
 	_coluna.resized.connect(_posicionar_coluna)
 	_nome = _novo_rotulo(COR_NOME, 10)
 	_nome.modulate.a = 0.0
+	_nome.hide()
 	_coluna.add_child(_nome)
 	# A moldura do inventário, recortada da mesma folha de interface, sem a faixa de título (ver EstiloSlot.moldura_barra)
 	_painel = PanelContainer.new()
@@ -128,7 +127,8 @@ func _ajustar_paginacao() -> void:
 		var escala := preload("res://codigo/ui/escala_interface.gd").fator(self)
 		var lado := LADO_SLOT * ESCALA_TOQUE
 		# Mantém uma fileira embaixo, com espaço para os polegares e o botão de página.
-		var disponivel := size.x - 288 / escala - 16 - lado - ESPACO_ENTRE_CASAS
+		var combate := preload("res://codigo/ui/escala_interface.gd").escala_combate(get_viewport().get_visible_rect().size)
+		var disponivel := size.x - 290 * combate / escala - 16 - lado - ESPACO_ENTRE_CASAS
 		quantidade = clampi(floori((disponivel + ESPACO_ENTRE_CASAS) / (lado + ESPACO_ENTRE_CASAS)), 1, _casas.size())
 	if quantidade != _casas_por_pagina:
 		_casas_por_pagina = quantidade
@@ -136,9 +136,38 @@ func _ajustar_paginacao() -> void:
 		_atualizar.call_deferred()
 	_posicionar_coluna.call_deferred()
 
+func _process(_delta: float) -> void:
+	if _coluna != null: _posicionar_coluna()
+
 func _posicionar_coluna() -> void:
 	if not is_inside_tree(): return
-	_coluna.position = Vector2(floorf((size.x - _coluna.size.x) / 2.0), size.y - _coluna.size.y - 5)
+	# O nome temporário aumenta o mínimo da coluna; ao sumir, os itens voltam
+	# a ocupar só sua altura, sem conservar espaço vazio abaixo da moldura.
+	_coluna.reset_size()
+	var centro := size.x / 2.0
+	if Controle.usando_toque:
+		var escala := preload("res://codigo/ui/escala_interface.gd").fator(self)
+		var combate := preload("res://codigo/ui/escala_interface.gd").escala_combate(get_viewport().get_visible_rect().size)
+		centro -= 40 * combate / escala
+	var margens := Controle.margens_seguras()
+	var base := Vector2(floorf(centro - _coluna.size.x / 2.0), size.y - _coluna.size.y - 5 - margens.w)
+	var jogador := EventosJogo.dono(self) as Node2D
+	if jogador != null:
+		# Mundo e HUD têm escalas diferentes: compara na mesma coordenada local da barra.
+		var pes := jogador.get_global_transform_with_canvas().origin
+		var corpo: Rect2 = get_global_transform_with_canvas().affine_inverse() * Rect2(pes + Vector2(-14,-34), Vector2(28,44))
+		var alcance := Rect2(base,_coluna.size).grow(42 if _no_topo else 18)
+		_no_topo = alcance.intersects(corpo)
+	else:
+		_no_topo = false
+	if _no_topo:
+		base.y = 6 + margens.y
+		# Reserva os blocos fixos do HUD e suas molduras, inclusive objetivos longos e chefe.
+		for nome in ["Status","CantoDireito","ObjetivoPrincipal","PainelChefe"]:
+			var bloco := get_parent().get_node_or_null(nome) as Control
+			if bloco != null and bloco.is_visible_in_tree():
+				base.y = maxf(base.y, bloco.position.y + bloco.size.y + 6)
+	_coluna.position = base.round()
 
 func _paginas_por_fileira() -> int:
 	return maxi(1,ceili(float(_casas.size()) / maxi(_casas_por_pagina,1)))
@@ -268,7 +297,7 @@ func _atualizar() -> void:
 				_marcar(casa,_celula(i) == _celula_sem_arma,false)
 			# Armas indisponiveis e sementes ficam apagadas; a picareta tambem pode ser usada na arena.
 			pode = item == null or em_uso or (item.categoria == "vara") or (not de_fazenda and EventosJogo.inventario_de(self).pode_equipar(item))
-		pode = pode or (item != null and (item.categoria == "receita" or item.tipo == "produto:feno"))
+		pode = pode or (item != null and (item.categoria in ["receita","comida"] or item.tipo == "produto:feno"))
 		if not modo_fazenda and item != null and item.tipo=="picareta":
 			var dono := EventosJogo.dono(self)
 			pode = dono != null and get_tree().get_nodes_in_group("mineracao_arena").any(func(no): return no.get_world_2d()==dono.get_world_2d())
@@ -330,6 +359,7 @@ func _ao_casa_tocada(evento: InputEvent, indice: int) -> void:
 		accept_event()
 
 func _unhandled_input(evento: InputEvent) -> void:
+	if Controle.digitando and evento is InputEventKey: return
 	if not _pode_trocar():
 		return
 	if evento is InputEventKey and evento.pressed and not evento.echo and not evento.is_command_or_control_pressed():
@@ -368,6 +398,11 @@ func escolher(indice: int) -> bool:
 	dono_item.set_meta("item_uso", "produto:feno" if item != null and item.tipo == "produto:feno" else "")
 	if item == null:
 		return _selecionar_sem_arma(indice) if not modo_fazenda else false
+	if item.categoria == "comida":
+		var mensagem: String = EventosJogo.inventario_de(self).usar_comida(item)
+		Sons.tocar("menu_confirmar" if mensagem.is_empty() else "erro",0.0)
+		_mostrar_nome("REFEICAO ATIVA" if mensagem.is_empty() else mensagem,COR_NOME)
+		return mensagem.is_empty()
 	if item.categoria == "receita":
 		var mensagem: String = EventosJogo.inventario_de(self).usar_receita(item)
 		Sons.tocar("menu_confirmar" if mensagem == "" else "erro", 0.0)
@@ -509,6 +544,7 @@ func trocar(passo: int) -> bool:
 	return escolher(casas_de_arma[destino])
 
 func _mostrar_nome(texto: String, cor: Color) -> void:
+	_nome.show()
 	_nome.text = texto
 	_nome.add_theme_color_override("font_color", cor)
 	if _tween_nome != null and _tween_nome.is_valid():
@@ -516,11 +552,8 @@ func _mostrar_nome(texto: String, cor: Color) -> void:
 	_nome.modulate.a = 1.0
 	_tween_nome = create_tween()
 	_tween_nome.tween_interval(DURACAO_NOME)
-	if modo_fazenda:
-		# o aviso some e volta o nome da ferramenta ativa
-		_tween_nome.tween_callback(func() -> void: _tween_nome = null; _nome_fixo())
-		return
 	_tween_nome.tween_property(_nome, "modulate:a", 0.0, 0.4)
+	_tween_nome.tween_callback(func() -> void: _nome.hide(); _tween_nome = null)
 
 ## 1 = jogador 1, 2 = jogador 2 do cooperativo (cada um com a própria ferramenta)
 func _lado() -> int:

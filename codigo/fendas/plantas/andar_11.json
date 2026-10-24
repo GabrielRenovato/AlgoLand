@@ -2,6 +2,7 @@
   "andar": 11,
   "nome": "Abismo das Profundezas",
   "bioma": "caverna",
+  "estacao": 3,
   "grade": 16,
   "limites": [
     -2400,

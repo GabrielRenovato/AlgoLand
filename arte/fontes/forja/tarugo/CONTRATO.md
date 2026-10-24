@@ -1,0 +1,5 @@
+# Tarugo de ferro quente
+
+Desenho nativo PixelLab pixelart_workbench6828d9a8-3301-4f3d-889b-4f705cc4de5d. Tela16×16, silhueta10×7, sem redução de ilustração. Face superior laranja, frente vermelha e lateral/contorno escuros, perspectiva de três quartos. Receita exata em receita.json; uso como peça manipulada na tenaz, transporte e bigorna, sem colisão própria. metal_aquecido.gdshader passa de aço cinza a vermelho-alaranjado sem alterar o contorno. Sprite independente, nenhuma máscara no corpo do Ivo. Pivô(8,8) e pontos de contato sincronizados em trabalho_ferreiro.gd. Substitui os riscos amarelos desenhados por retângulos.
+
+Tenaz sem metal amarelo embutido: PixelLab f9989c78-af52-47b8-a32c-2231a93e9396, quatro poses completas preservadas, removidos apenas os dois comandos da barra amarela. Fonte/receita/perfil atualizados. A própria peça muda de cinza para vermelho-alaranjado; posições do transporte seguem os oito pontos medidos na folha de caminhada. Na bigorna, o tarugo fica acima do tampo e abaixo do martelo.

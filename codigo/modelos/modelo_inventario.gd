@@ -134,7 +134,7 @@ func guardar_para_nova_partida() -> Dictionary:
 		if item != null and Conjuntos.de_tipo(item.tipo) != null:
 			pecas.append({"item": item, "equipado": true})
 	for item in mochila:
-		if item != null and (Conjuntos.de_tipo(item.tipo) != null or item.categoria in ["ferramenta","semente","peixe","vara","material","receita","colheita","pocao","produto"]):
+		if item != null and (Conjuntos.de_tipo(item.tipo) != null or item.categoria in ["ferramenta","semente","peixe","vara","material","receita","colheita","pocao","produto","comida"]):
 			pecas.append({"item": item, "equipado": false})
 	return {"pecas": pecas, "moedas_forja": moedas_forja}
 
@@ -319,6 +319,11 @@ func usar_receita(item: DadosItem) -> String:
 	if item == null or item.categoria != "receita" or indice_de(item) < 0:
 		return "RECEITA NAO ESTA NA MOCHILA"
 	return get_node("/root/Progresso").aprender_receita(item.conteudo(), self)
+
+func usar_comida(item: DadosItem) -> String:
+	if item == null or item.categoria != "comida" or indice_de(item)<0:
+		return "COMIDA NAO ESTA NA MOCHILA"
+	return get_node("/root/Progresso").comer_da_mochila(item,self)
 
 func gastar_tipo(tipo: String, quantidade: int) -> bool:
 	if quantidade <= 0 or quantidade_tipo(tipo) < quantidade:

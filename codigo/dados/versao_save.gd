@@ -1,14 +1,14 @@
 extends RefCounted
 
-## A primeira versão inicia a nova progressão da forja sem importar partidas antigas.
+## Versão2: reinício geral autorizado para a estreia do ranking e do novo custo das construções.
 ## Subir este número exige uma decisão explícita de reiniciar a progressão dos jogadores.
-const ATUAL := 1
+const ATUAL := 2
 const MARCADOR := "versao_save.json"
 const ARQUIVOS := [
 	"progresso.json", "calendario.json", "cidade.json", "fazenda.json",
 	"introducao.json", "bau.json", "comercio.json", "inventario.json",
 	"inventario_p2.json", "configuracao_jogador.json", "configuracao_jogador_p2.json",
-	"inventario_introducao_checkpoint.json",
+	"inventario_introducao_checkpoint.json", "ranking.json", "ranking_p2.json",
 ]
 
 ## Executar antes de qualquer autoload carregar ou salvar o mundo. Nunca remove opções

@@ -2,7 +2,7 @@ extends SceneTree
 
 # Rodar: godot --headless --path . --script res://testes/teste_cadeira.gd
 # Cadeiras da casa (codigo/logica/cadeira.gd): F senta o jogador (pose de sentar da pagina 4, com a roupa dele, olhando para a
-# mesa) e ele fica sentado; F/B/andar levanta de volta atras da cadeira. As xicaras de cafe so enfeitam a mesa.
+# mesa) e ele fica sentado; F/B/andar levanta de volta atras da cadeira. A mesa fica livre de xicaras decorativas.
 # Usa arquivos de teste para Progresso e Fazenda (nao toca nos saves reais).
 
 const CAMINHO_PROGRESSO := "user://teste_cadeira_progresso.json"
@@ -57,11 +57,7 @@ func _rodar() -> void:
 	_verificar("duas zonas de cadeira, uma olha para a direita e a outra para a esquerda (as duas para a mesa)",
 			zonas["E"].lado == 1 and zonas["D"].lado == -1 and zonas["E"].global_position.x < mesa.global_position.x and zonas["D"].global_position.x > mesa.global_position.x, "")
 	var Prof := preload("res://codigo/globais/profundidade.gd")
-	var cafe := {"E": mesa.get_node_or_null("Cafe_E"), "D": mesa.get_node_or_null("Cafe_D")}
-	_verificar("duas xicaras de cafe em cima da mesa (filhas da mesa, visiveis, com fumacinha)", cafe["E"] != null and cafe["D"] != null and cafe["E"].visible and cafe["D"].visible
-			and cafe["E"].get_node_or_null("Vapor") != null and cafe["E"].texture.region == Rect2(177, 68, 10, 8), "")
-	var tampo_y: float = mesa.global_position.y - 42.0
-	_verificar("as xicaras ficam em cima do tampo (entre y 64 e 94)", cafe["E"].global_position.y > tampo_y and cafe["E"].global_position.y < mesa.global_position.y - 8.0, "")
+	_verificar("mesa sem xicaras decorativas",not mesa.has_node("Cafe_E") and not mesa.has_node("Cafe_D"), "")
 
 	var todas_existem := true
 	for i in range(1, 13):
@@ -102,7 +98,7 @@ func _rodar() -> void:
 				is_equal_approx(casa.get_node("Objetos3D/Cadeira" + chave).modulate.a, 1.0) and is_equal_approx(mesa.modulate.a, 1.0),
 				"cadeira=%.2f mesa=%.2f" % [casa.get_node("Objetos3D/Cadeira" + chave).modulate.a, mesa.modulate.a])
 		_verificar("%s: segue sentado, no mesmo quadro, e a xicara fica na mesa (nao e usada)" % chave, jogador.esta_sentado and zona.ocupada
-				and jogador.sprite_corpo_forja.frame == (51 if lado > 0 else 59) and cafe[chave].visible, "frame=%d" % jogador.sprite_corpo_forja.frame)
+				and jogador.sprite_corpo_forja.frame == (51 if lado > 0 else 59) and not mesa.has_node("Cafe_"+chave), "frame=%d" % jogador.sprite_corpo_forja.frame)
 		# --- levantar: F/Y (aqui o sinal que o jogador emite)
 		Input.action_press("open_menu")
 		await _quadros(3)
@@ -116,7 +112,7 @@ func _rodar() -> void:
 		await _fisica(6)
 		Input.action_release("move_down")
 		_verificar("%s: depois de levantar ele se move (nao ficou travado)" % chave, jogador.velocity.length() > 1.0 or jogador.global_position.y > (zona.global_position + zona.saida).y + 0.2, "vel=%s" % jogador.velocity)
-		_verificar("%s: a xicara de cafe segue na mesa" % chave, cafe[chave].visible, "")
+		_verificar("%s: mesa continua livre de xicaras" % chave, not mesa.has_node("Cafe_"+chave), "")
 
 	# --- o ponto onde levanta esta livre (nada de parede ou movel empurrando o jogador)
 	var espaco: PhysicsDirectSpaceState2D = root.get_world_2d().direct_space_state

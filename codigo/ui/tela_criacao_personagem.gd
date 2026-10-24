@@ -1,10 +1,9 @@
 extends Control
 
-## Criação do personagem (novo jogo): escolhe o cabelo, a roupa, a cor do cabelo e o nome, vendo o personagem de corpo inteiro girar.
-## Mesmo visual da mochila, da loja e do caldeirão: tema_sidebar.tres e sprites Bosque, com título na faixa de pergaminho e casinhas
-## (BotaoSlot) com a escolhida na moldura dourada, abas (BotaoAba) e o botão verde (BotaoPrimario) para CONFIRMAR.
-## Funciona com mouse, teclado, controle (foco nas casinhas; Q/E ou LB/RB trocam de aba; o nome abre o teclado virtual) e toque (casinhas
-## grandes, lista com rolagem por arrasto, sem depender de passar o mouse).
+## Criação do personagem (novo jogo): escolhe o cabelo, a roupa, a cor do cabelo e o nome, com prévia de corpo inteiro e giro manual.
+## Acabamento pintado da tela inicial, fontes pixeladas e seleção com moldura dourada.
+## Personagem e miniaturas preservam seus sprites e filtro nativo.
+## Funciona com mouse, teclado, controle (foco nas casinhas; Q/E ou LB/RB trocam de aba; o nome abre o teclado virtual) e toque, com catálogo paginado e sem depender de passar o mouse.
 ## As peças vêm de aparencia_raven.gd. Ao confirmar grava aparencia_raven no arquivo do jogador,
 ## preservando os campos antigos para compatibilidade, e entra no jogo.
 
@@ -12,8 +11,8 @@ signal confirmada(dados: Dictionary)
 
 const Aparencia := preload("res://codigo/dados/aparencia_raven.gd")
 const TecladoVirtual := preload("res://codigo/ui/teclado_virtual.gd")
+const EstiloInicio := preload("res://codigo/ui/estilo_inicio_detalhado.gd")
 const TEMA := preload("res://recursos/ui/tema_sidebar.tres")
-const TILEMAP := preload("res://assets/ui/bosque/paineis.png")
 const FONTE_TITULO := preload("res://assets/ui/craftpix-net-775352-game-user-interface-pixel-art/6 Font/CraftPixNet Survival Kit.otf")
 const SETA_ESQUERDA := preload("res://assets/ui/sem org/3 Icons/Icons_14.png")
 const SETA_DIREITA := preload("res://assets/ui/sem org/3 Icons/Icons_15.png")
@@ -25,7 +24,7 @@ const CAMINHO_SAVE := "user://configuracao_jogador.json"
 const CENA_CRIACAO := "res://cenas/criacao_personagem.tscn"
 ## Mundo cooperativo novo: 1 = criando o jogador 1, 2 = criando o jogador 2 (depois entra no jogo); 0 = jogo solo
 static var etapa_coop := 0
-const NOME_PADRAO := "HEROI"
+const NOME_PADRAO := "sem apelido"
 const MAX_APELIDO := 12
 
 ## Cores de cabelo prontas: a cor que multiplica a folha cinza do cabelo (as folhas v00 são em tons de cinza)
@@ -46,8 +45,7 @@ const FOLGA_PREVIA_CASA := 6
 const ESPACO_CASAS := 3
 ## Linha da folha de andar de cada direção, na ordem em que o personagem gira: baixo, direita, cima, esquerda
 const LINHAS_DIRECAO := [0, 2, 1, 3]
-const TEMPO_GIRO := 1.4
-const ESCALA_PREVIA := 4.0
+const ESCALA_PREVIA := 3.0
 ## As casinhas dos cabelos mostram a cabeça em 2x (são poucas e o detalhe do penteado importa); as das roupas, o corpo todo em 1x
 const ESCALA_CASA_CABELO := 2
 const ESCALA_CASA_ROUPA := 1
@@ -71,10 +69,7 @@ var cor: Color = COR_INICIAL
 var apelido := ""
 var aba: Aba = Aba.CABELO
 
-var _dourada: StyleBox
-var _normal: StyleBox
 var _direcao := 0
-var _tempo_giro := 0.0
 var _saindo := false
 var _atualizando_sliders := false
 
@@ -106,6 +101,16 @@ var _botao_confirmar: Button
 var _botao_voltar: Button
 var _botao_aleatorio: Button
 var _teclado: CanvasLayer
+var _catalogos: Array[Dictionary] = []
+var _botoes_estrutura: Array[Button] = []
+var _linhas_previa: VBoxContainer
+var _linhas_edicao: VBoxContainer
+var _rotulo_girar: Label
+var _rotulo_pele: Label
+var _rotulo_nome: Label
+var _titulo_cor: Label
+var _compacto := false
+var _minimo := false
 var _cortina: ColorRect
 
 func _ready() -> void:
@@ -114,8 +119,6 @@ func _ready() -> void:
 	# O arquivo do personagem fica na pasta do mundo (solo ou cooperativo); no co-op, um para cada jogador
 	if trocar_cena:
 		caminho_save = Saves.caminho_personagem(etapa_coop == 2)
-	_dourada = _moldura_casa(get_theme_stylebox("hover", &"BotaoSlot"))
-	_normal = _moldura_casa(get_theme_stylebox("normal", &"BotaoSlot"))
 	_montar()
 	_atualizar_tudo()
 	_abrir_aba(Aba.CABELO)
@@ -146,8 +149,7 @@ func _ready() -> void:
 # --- Montagem da tela --------------------------------------------------------------------------------------------
 
 func _montar() -> void:
-	var fundo := ColorRect.new()
-	fundo.color = Color("201a16")
+	var fundo := preload("res://codigo/ui/fundo_vila_viva.gd").new()
 	fundo.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	fundo.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(fundo)
@@ -155,16 +157,13 @@ func _montar() -> void:
 	margem.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	for lado in ["left", "top", "right", "bottom"]:
 		margem.add_theme_constant_override("margin_" + lado, 8)
+	if etapa_coop > 0: margem.add_theme_constant_override("margin_top",32)
 	add_child(margem)
-	var rolagem := ScrollContainer.new()
-	rolagem.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	rolagem.follow_focus = true
-	margem.add_child(rolagem)
 	_colunas = BoxContainer.new()
 	_colunas.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_colunas.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	_colunas.add_theme_constant_override("separation", 8)
-	rolagem.add_child(_colunas)
+	_colunas.add_theme_constant_override("separation",6)
+	margem.add_child(_colunas)
 	_painel_previa = _montar_painel_previa()
 	_painel_edicao = _montar_painel_edicao()
 	_colunas.add_child(_painel_previa)
@@ -175,22 +174,103 @@ func _montar() -> void:
 func _ajustar_layout() -> void:
 	if _colunas == null:
 		return
-	var estreito := size.x < 420 or size.y < 270
-	_colunas.vertical = estreito
-	_painel_previa.custom_minimum_size = Vector2(0, 188) if estreito else Vector2(150, 0)
-	_painel_edicao.custom_minimum_size = Vector2(0, 280) if estreito else Vector2.ZERO
-	_palco.custom_minimum_size.y = 80 if estreito else 150
-	_modelo.scale = Vector2.ONE * (2.0 if estreito else ESCALA_PREVIA)
-	if _grade_cores != null:
-		var largura := size.x - (56.0 if estreito else 210.0)
-		_grade_cores.columns = clampi(int((largura + ESPACO_CASAS)/(30.0 + ESPACO_CASAS)),1,10)
-	if _conteudo != null and not _paginas.is_empty():
-		_conteudo.custom_minimum_size.y = maxf(110.0,_paginas[int(aba)].get_combined_minimum_size().y)
+	_compacto = size.x < 500 or size.y < 300
+	var retrato := size.y >= 360 and size.y > size.x*1.2
+	_minimo = _compacto and not retrato and size.x < 360
+	_colunas.vertical = retrato
+	_painel_previa.custom_minimum_size = Vector2(0,150) if retrato else Vector2(80 if _minimo else (120 if _compacto else 150),0)
+	_painel_previa.size_flags_vertical = Control.SIZE_FILL if retrato else Control.SIZE_EXPAND_FILL
+	_painel_edicao.custom_minimum_size = Vector2.ZERO
+	_palco.custom_minimum_size.y = 80 if retrato else (60 if _minimo else 80)
+	_centralizar_previa.call_deferred()
+	_rotulo_cabelo.visible = not _minimo
+	_rotulo_roupa.visible = not _minimo
+	_rotulo_girar.visible = not _minimo
+	_rotulo_pele.visible = not _minimo
+	_rotulo_nome.visible = not _minimo
+	_titulo_cor.visible = not _minimo
+	for linhas in [_linhas_previa,_linhas_edicao]:
+		linhas.add_theme_constant_override("separation",2 if _compacto else 4)
+		var titulo: Label = linhas.get_child(0)
+		titulo.label_settings.font_size = (8 if _minimo else 10) if _compacto else 14
+	for painel in [_painel_previa,_painel_edicao]:
+		painel.add_theme_stylebox_override("panel",EstiloInicio.espaco(8 if _compacto else 12))
+	for botao in _botoes_estrutura:
+		botao.add_theme_font_size_override("font_size",8 if _compacto else 9)
+		botao.custom_minimum_size = Vector2(18,18) if _compacto else Vector2(26,22)
+		for estado in ["normal","hover","pressed","hover_pressed","disabled"]:
+			var estilo := EstiloInicio.espaco(4 if _compacto else 8)
+			estilo.content_margin_top = 0
+			estilo.content_margin_bottom = 0
+			botao.add_theme_stylebox_override(estado,estilo)
+	for rotulo in [_rotulo_cabelo,_rotulo_roupa,_rotulo_girar,_rotulo_pele,_rotulo_nome,_titulo_cor]:
+		rotulo.add_theme_font_size_override("font_size",8 if _compacto else 9)
+	_campo_nome.custom_minimum_size.y = 18 if _compacto else 22
+	_campo_nome.add_theme_font_size_override("font_size",8 if _compacto else 10)
+	_conteudo.custom_minimum_size = Vector2.ZERO
+	_ajustar_paginas.call_deferred()
+
+func _ajustar_paginas() -> void:
+	if _conteudo == null: return
+	for catalogo in _catalogos:
+		var largura := maxf(40,_conteudo.size.x)
+		var altura := maxf(28,_conteudo.size.y-22)
+		var alvo := 36.0 if _minimo else (44.0 if _compacto else 52.0)
+		var colunas := maxi(1,floori((largura+3)/(alvo+3)))
+		var celula := minf(alvo,(largura-(colunas-1)*3)/colunas)
+		var linhas := maxi(1,floori((altura+3)/(celula+3)))
+		celula = minf(celula,(altura-(linhas-1)*3)/linhas)
+		catalogo.grade.columns = colunas
+		var quantidade_anterior: int = catalogo.por_pagina
+		catalogo.por_pagina = colunas*linhas
+		if quantidade_anterior != catalogo.por_pagina:
+			var selecionado: Button = _casas_cabelo[cabelo].botao if catalogo.eh_cabelo else _casas_roupa[roupa].botao
+			catalogo.pagina = maxi(0,catalogo.itens.find(selecionado))/catalogo.por_pagina
+		var paginas := maxi(1,ceili(catalogo.itens.size()/float(catalogo.por_pagina)))
+		catalogo.pagina = clampi(catalogo.pagina,0,paginas-1)
+		for i in catalogo.itens.size():
+			var botao: Button = catalogo.itens[i]
+			botao.custom_minimum_size = Vector2(floorf((largura-(colunas-1)*3)/colunas),celula)
+			botao.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			botao.visible = i/catalogo.por_pagina == catalogo.pagina
+		catalogo.rotulo.text = "%d / %d" % [catalogo.pagina+1,paginas]
+		catalogo.anterior.disabled = catalogo.pagina == 0
+		catalogo.proxima.disabled = catalogo.pagina == paginas-1
+	var lado := 14.0 if _minimo else (22.0 if _compacto else 24.0)
+	_grade_cores.columns = mini(10,maxi(1,floori((_conteudo.size.x+2)/(lado+2))))
+	_grade_cores.add_theme_constant_override("h_separation",2)
+	_grade_cores.add_theme_constant_override("v_separation",2)
+	for botao in _casas_cor:
+		botao.custom_minimum_size = Vector2(lado,lado)
+		botao.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	for slider in [_slider_matiz,_slider_saturacao,_slider_brilho]:
+		slider.custom_minimum_size.y = 12 if _minimo else 16
+		var rotulo: Label = slider.get_parent().get_child(0)
+		rotulo.custom_minimum_size.x = 32 if _compacto else 44
+		rotulo.add_theme_font_size_override("font_size",8 if _compacto else 9)
+
+## A mesma caixa do recorte nativo inclui cabelo, corpo e sombra, sem cortar a prévia.
+func _centralizar_previa() -> void:
+	if _palco == null or _modelo == null: return
+	var escala := minf(2.0 if _compacto else ESCALA_PREVIA,minf((_palco.size.x-10)/48.0,(_palco.size.y-10)/52.0))
+	escala = maxf(0.5,escala)
+	_modelo.scale = Vector2.ONE*escala
+	_modelo.position = (_palco.size/2.0 + Vector2(0,6)*escala).round()
+
+func _revelar_selecoes() -> void:
+	for catalogo in _catalogos:
+		var selecionado: Button = _casas_cabelo[cabelo].botao if catalogo.eh_cabelo else _casas_roupa[roupa].botao
+		catalogo.pagina = maxi(0,catalogo.itens.find(selecionado))/catalogo.por_pagina
+	_ajustar_paginas()
+
+func _mudar_pagina(passo: int, catalogo: Dictionary) -> void:
+	catalogo.pagina += passo
+	_ajustar_paginas()
 
 func _novo_painel(titulo: String) -> Array:
 	var painel := PanelContainer.new()
 	painel.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-	painel.add_theme_stylebox_override("panel", preload("res://codigo/ui/estilo_interface.gd").painel(false,10.0))
+	EstiloInicio.painel(painel,false,14)
 	var linhas := VBoxContainer.new()
 	linhas.add_theme_constant_override("separation", 6)
 	painel.add_child(linhas)
@@ -212,6 +292,7 @@ func _montar_painel_previa() -> Control:
 	var par := _novo_painel("PERSONAGEM")
 	var painel: PanelContainer = par[0]
 	var linhas: VBoxContainer = par[1]
+	_linhas_previa = linhas
 	painel.custom_minimum_size = Vector2(150, 0)
 	painel.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	var palco := Control.new()
@@ -224,7 +305,7 @@ func _montar_painel_previa() -> Control:
 	_modelo.scale = Vector2(ESCALA_PREVIA, ESCALA_PREVIA)
 	palco.add_child(_modelo)
 	# O personagem fica no meio do palco, qualquer que seja o tamanho da tela
-	palco.resized.connect(func() -> void: _modelo.position = palco.size / 2.0 + Vector2(0, 4))
+	palco.resized.connect(_centralizar_previa)
 	var sombra := Polygon2D.new()
 	var pontos := PackedVector2Array()
 	for i in 24:
@@ -244,6 +325,7 @@ func _montar_painel_previa() -> Control:
 	linhas.add_child(girar)
 	girar.add_child(_botao_seta(SETA_ESQUERDA, -1))
 	var texto_girar := Label.new()
+	_rotulo_girar = texto_girar
 	texto_girar.text = "GIRAR"
 	girar.add_child(texto_girar)
 	girar.add_child(_botao_seta(SETA_DIREITA, 1))
@@ -256,12 +338,15 @@ func _montar_painel_previa() -> Control:
 	tons.add_theme_constant_override("separation",6)
 	linhas.add_child(tons)
 	var rotulo_pele := Label.new()
+	_rotulo_pele = rotulo_pele
 	rotulo_pele.text = "PELE"
 	tons.add_child(rotulo_pele)
 	var grupo_pele := ButtonGroup.new()
 	for i in 3:
 		var tom := Button.new()
 		tom.text = "%d" % (i+1)
+		EstiloInicio.botao(tom,false,16.0)
+		_botoes_estrutura.append(tom)
 		tom.tooltip_text = "Tom de pele %d" % (i+1)
 		tom.custom_minimum_size = Vector2(30,26)
 		tom.toggle_mode = true
@@ -300,9 +385,14 @@ func _botao_seta(icone: Texture2D, passo: int) -> Button:
 	var botao := Button.new()
 	botao.theme_type_variation = &"BotaoAba"
 	botao.custom_minimum_size = Vector2(30, 22)
+	EstiloInicio.botao(botao,false,16.0)
+	_botoes_estrutura.append(botao)
 	botao.icon = icone
-	botao.expand_icon = false
+	botao.expand_icon = true
 	botao.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	botao.add_theme_constant_override("icon_max_width",8)
+	for estado in ["icon_normal_color","icon_hover_color","icon_focus_color","icon_pressed_color"]:
+		botao.add_theme_color_override(estado,Color("49321e"))
 	botao.set_meta(Sons.META_SOM_PROPRIO, false)
 	botao.pressed.connect(_girar.bind(passo))
 	return botao
@@ -312,6 +402,7 @@ func _montar_painel_edicao() -> Control:
 	var par := _novo_painel("CRIAR PERSONAGEM")
 	var painel: PanelContainer = par[0]
 	var linhas: VBoxContainer = par[1]
+	_linhas_edicao = linhas
 	painel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	painel.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	var abas := HBoxContainer.new()
@@ -324,6 +415,8 @@ func _montar_painel_edicao() -> Control:
 		botao.toggle_mode = true
 		botao.button_group = grupo
 		botao.text = entrada[0]
+		EstiloInicio.botao(botao,false,16.0)
+		_botoes_estrutura.append(botao)
 		botao.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		botao.custom_minimum_size = Vector2(0, 22)
 		botao.pressed.connect(_abrir_aba.bind(entrada[1]))
@@ -332,7 +425,8 @@ func _montar_painel_edicao() -> Control:
 	var conteudo := Control.new()
 	_conteudo = conteudo
 	conteudo.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	conteudo.custom_minimum_size = Vector2(0, 110)
+	conteudo.custom_minimum_size = Vector2.ZERO
+	conteudo.resized.connect(func(): _ajustar_paginas.call_deferred())
 	linhas.add_child(conteudo)
 	_paginas = [
 		_montar_lista(Aparencia.cabelos(), true),
@@ -347,10 +441,12 @@ func _montar_painel_edicao() -> Control:
 	linha_nome.add_theme_constant_override("separation", 6)
 	linhas.add_child(linha_nome)
 	var rotulo_nome := Label.new()
+	_rotulo_nome = rotulo_nome
 	rotulo_nome.text = "NOME"
 	linha_nome.add_child(rotulo_nome)
 	_campo_nome = LineEdit.new()
 	_campo_nome.placeholder_text = NOME_PADRAO
+	EstiloInicio.campo(_campo_nome)
 	_campo_nome.max_length = MAX_APELIDO
 	_campo_nome.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_campo_nome.custom_minimum_size = Vector2(0, 22)
@@ -376,32 +472,38 @@ func _montar_painel_edicao() -> Control:
 func _botao_rodape(texto: String, variacao: StringName) -> Button:
 	var botao := Button.new()
 	botao.text = texto
+	EstiloInicio.botao(botao,variacao == &"BotaoPrimario",16.0)
+	_botoes_estrutura.append(botao)
 	if variacao != &"":
 		botao.theme_type_variation = variacao
 	botao.custom_minimum_size = Vector2(70, 24)
 	return botao
 
 # Grade de casinhas (cabelos ou roupas) com rolagem
-func _moldura_casa(estilo: StyleBox) -> StyleBox:
-	var moldura: StyleBoxTexture = estilo.duplicate()
-	# O mesmo recorte nativo é usado nas casas de cabelo e roupa.
-	moldura.region_rect = Rect2(0, 0, 24, 24)
-	moldura.texture_margin_left = 2
-	moldura.texture_margin_top = 2
-	moldura.texture_margin_right = 2
-	moldura.texture_margin_bottom = 2
-	return moldura
-
 func _montar_lista(itens: Array[Dictionary], eh_cabelo: bool) -> Control:
-	var rolagem := ScrollContainer.new()
-	rolagem.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	rolagem.follow_focus = true
-	# As casinhas quebram de linha sozinhas conforme a largura da tela
-	var grade := HFlowContainer.new()
-	grade.add_theme_constant_override("h_separation", ESPACO_CASAS)
-	grade.add_theme_constant_override("v_separation", ESPACO_CASAS)
+	var coluna := VBoxContainer.new()
+	coluna.add_theme_constant_override("separation",3)
+	var grade := GridContainer.new()
+	grade.add_theme_constant_override("h_separation",3)
+	grade.add_theme_constant_override("v_separation",3)
 	grade.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	rolagem.add_child(grade)
+	coluna.add_child(grade)
+	var navegacao := HBoxContainer.new()
+	navegacao.alignment = BoxContainer.ALIGNMENT_CENTER
+	coluna.add_child(navegacao)
+	var anterior := _botao_rodape("<",&"")
+	var rotulo := Label.new()
+	rotulo.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	rotulo.custom_minimum_size.x = 44
+	rotulo.add_theme_font_size_override("font_size",8)
+	var proxima := _botao_rodape(">",&"")
+	navegacao.add_child(anterior)
+	navegacao.add_child(rotulo)
+	navegacao.add_child(proxima)
+	var catalogo := {"grade":grade,"itens":[],"eh_cabelo":eh_cabelo,"pagina":0,"por_pagina":1,"rotulo":rotulo,"anterior":anterior,"proxima":proxima}
+	_catalogos.append(catalogo)
+	anterior.pressed.connect(_mudar_pagina.bind(-1,catalogo))
+	proxima.pressed.connect(_mudar_pagina.bind(1,catalogo))
 	var regiao := REGIAO_CABELO if eh_cabelo else REGIAO_ROUPA
 	var escala := ESCALA_CASA_CABELO if eh_cabelo else ESCALA_CASA_ROUPA
 	for i in itens.size():
@@ -412,18 +514,19 @@ func _montar_lista(itens: Array[Dictionary], eh_cabelo: bool) -> Control:
 		grade.add_child(casa.botao)
 		if not eh_cabelo and (itens[i]["grupo"] == "ARMADURA" or not Aparencia.roupa_completa(i)):
 			casa.botao.visible = false
+		else:
+			catalogo.itens.append(casa.botao)
 		if eh_cabelo:
 			_casas_cabelo.append(casa)
 		else:
 			_casas_roupa.append(casa)
-	return rolagem
+	return coluna
 
 # Uma casinha: o corpo, a roupa e o cabelo empilhados e recortados no quadro 0 (parado, de frente)
 func _nova_casa(regiao: Rect2, escala: int) -> Dictionary:
 	var botao := Button.new()
 	botao.theme_type_variation = &"BotaoSlot"
-	for estado in ["normal", "hover", "pressed", "hover_pressed"]:
-		botao.add_theme_stylebox_override(estado, _normal if estado == "normal" else _dourada)
+	EstiloInicio.casa(botao)
 	botao.focus_mode = Control.FOCUS_ALL
 	botao.custom_minimum_size = regiao.size * escala + Vector2(MOLDURA_CASA * 2, MOLDURA_CASA * 2)
 	botao.clip_contents = true
@@ -490,7 +593,7 @@ func _centralizar_casa(casa: Dictionary, folha_roupa: Texture2D, folha_cabelo: T
 # Aba COR: paleta pronta e os três controles (matiz, saturação e brilho) para a cor que quiser
 func _montar_cores() -> Control:
 	var coluna := VBoxContainer.new()
-	coluna.add_theme_constant_override("separation", 5)
+	coluna.add_theme_constant_override("separation", 2)
 	var grade := GridContainer.new()
 	_grade_cores = grade
 	grade.columns = 10
@@ -500,21 +603,23 @@ func _montar_cores() -> Control:
 	for i in PALETA.size():
 		var casa := Button.new()
 		casa.theme_type_variation = &"BotaoSlot"
+		EstiloInicio.casa(casa)
 		casa.custom_minimum_size = Vector2(30, 30)
 		casa.tooltip_text = "COR %d" % (i + 1)
 		var miolo := ColorRect.new()
 		miolo.color = _cor_vista(PALETA[i])
 		miolo.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		miolo.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-		miolo.offset_left = 3
-		miolo.offset_top = 3
-		miolo.offset_right = -3
-		miolo.offset_bottom = -3
+		miolo.offset_left = 4
+		miolo.offset_top = 4
+		miolo.offset_right = -4
+		miolo.offset_bottom = -4
 		casa.add_child(miolo)
 		casa.pressed.connect(_escolher_cor.bind(PALETA[i]))
 		grade.add_child(casa)
 		_casas_cor.append(casa)
 	var titulo := Label.new()
+	_titulo_cor = titulo
 	titulo.text = "OU AJUSTE A COR"
 	titulo.add_theme_color_override("font_color", COR_DESCRICAO)
 	coluna.add_child(titulo)
@@ -538,6 +643,7 @@ func _novo_slider(pai: Control, nome: String, maximo: float) -> HSlider:
 	slider.min_value = 0.0
 	slider.max_value = maximo
 	slider.step = 1.0
+	EstiloInicio.slider(slider)
 	slider.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	slider.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	slider.custom_minimum_size = Vector2(0, 18)
@@ -560,6 +666,7 @@ func _atualizar_tudo() -> void:
 	_atualizar_previa()
 	_atualizar_casas()
 	_atualizar_sliders()
+	_revelar_selecoes()
 
 func _atualizar_previa() -> void:
 	var quadro: int = int(LINHAS_DIRECAO[_direcao]) * 8 + int(fmod(_tempo_animacao,0.8)/0.2)
@@ -587,9 +694,9 @@ func _atualizar_casas() -> void:
 	for i in _casas_cor.size():
 		_marcar(_casas_cor[i], PALETA[i].is_equal_approx(cor))
 
-# A escolhida usa a moldura dourada do BotaoSlot (a do mouse em cima), mesmo sem o mouse
+# A escolhida mantém a moldura dourada mesmo sem foco ou mouse.
 func _marcar(botao: Button, escolhida: bool) -> void:
-	botao.add_theme_stylebox_override("normal", _dourada if escolhida else _normal)
+	botao.add_theme_stylebox_override("normal", EstiloInicio.borda_casa(escolhida))
 
 func _atualizar_sliders() -> void:
 	_atualizando_sliders = true
@@ -637,17 +744,12 @@ func _abrir_aba(nova: Aba) -> void:
 # --- Girar o personagem ---------------------------------------------------------------------------------------
 
 func _process(delta: float) -> void:
-	_tempo_giro += delta
-	if _tempo_giro >= TEMPO_GIRO:
-		_tempo_giro = 0.0
-		_girar(1)
 	_tempo_animacao += delta
 	var quadro: int = int(LINHAS_DIRECAO[_direcao])*8 + int(fmod(_tempo_animacao,0.8)/0.2)
 	for camada in [_previa_corpo,_previa_roupa,_previa_cabelo]: camada.frame = quadro
 
 func _girar(passo: int) -> void:
 	_direcao = posmod(_direcao + passo, LINHAS_DIRECAO.size())
-	_tempo_giro = -1.2   # quem girou à mão tem um tempo para olhar antes de o giro automático seguir
 	_atualizar_previa()
 
 # --- Nome, sorteio, confirmar e voltar --------------------------------------------------------------------------
@@ -760,6 +862,7 @@ func _ao_modo_controle(usando_controle: bool) -> void:
 
 # O foco começa na peça escolhida da aba aberta (ou na primeira cor)
 func _focar_inicio() -> void:
+	_revelar_selecoes()
 	match aba:
 		Aba.CABELO:
 			Controle.focar(_casas_cabelo[cabelo]["botao"])

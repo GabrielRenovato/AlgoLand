@@ -56,9 +56,9 @@ func rodar() -> void:
 	var inv: Node = jogador.inventario
 	inv.limpar()
 	verificar("sem materiais não começa obra",Criacao.executar(fazenda,jogador,"construir") != "" and fazenda.galinheiro.obra == 0)
-	for material in ["madeira","pedra","ferro"]: inv.adicionar_coletavel("material",material,100)
-	verificar("contrato retira materiais e registra prazo de dois dias",Criacao.executar(fazenda,jogador,"construir") == "" and fazenda.galinheiro.pronto_dia == 3 and inv.quantidade_tipo("material:madeira") == 88)
-	verificar("nova tentativa não cobra novamente",Criacao.executar(fazenda,jogador,"construir") != "" and inv.quantidade_tipo("material:madeira") == 88)
+	for material in ["madeira","pedra","ferro","fibra"]: inv.adicionar_coletavel("material",material,10000)
+	verificar("contrato retira materiais e registra prazo de quatro dias",Criacao.executar(fazenda,jogador,"construir") == "" and fazenda.galinheiro.pronto_dia == 5 and inv.quantidade_tipo("material:madeira") == 10000-Criacao.CUSTOS[1].madeira)
+	verificar("nova tentativa não cobra novamente",Criacao.executar(fazenda,jogador,"construir") != "" and inv.quantidade_tipo("material:madeira") == 10000-Criacao.CUSTOS[1].madeira)
 	npc.atualizar_rotina()
 	verificar("contratação faz Osvaldo sair da oficina rumo à fazenda",npc.agenda.local == "fazenda" and npc._saindo and not npc.caminho.is_empty())
 	npc.set_physics_process(false)

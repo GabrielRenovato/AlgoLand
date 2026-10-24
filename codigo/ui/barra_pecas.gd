@@ -2,7 +2,7 @@ extends Control
 
 const DesenhoBarra := preload("res://codigo/ui/desenho_barra.gd")
 
-## Branco mantém o vermelho do pack; outra cor tinge as peças (ex.: amarelo da stamina)
+## Branco mantém o vermelho da vida; outra cor define o preenchimento (ex.: amarelo da stamina)
 @export var cor := Color.WHITE
 
 var _fracao := 1.0

@@ -41,12 +41,13 @@ func rodar() -> void:
 	var hud = get_first_node_in_group("hud_p1")
 	var objetivo = hud.get_node("ObjetivoPrincipal")
 	verificar("HUD destaca primeiro contato da missão principal",objetivo._texto.text.contains("LIA") and objetivo.visible)
-	verificar("objetivo ocupa cartão compacto",objetivo.size.y < 60)
+	verificar("objetivo alinhado à esquerda do HUD",is_equal_approx(objetivo.position.x,hud.get_node("Status").position.x))
+	verificar("objetivo ocupa cartão compacto",objetivo.size.y < 60 and objetivo.size.x <= 148)
 	verificar("textos alinhados com folga em todas as bordas",margens_do_objetivo(objetivo))
 	var lia = get_nodes_in_group("moradores_cidade").filter(func(n): return n.id == "lia")[0]
 	verificar("morador da missão principal tem marcador próprio",lia.get_node("IndicadorPedido").principal)
 	var indicador = lia.get_node("IndicadorPedido")
-	verificar("missão principal reutiliza balão existente",indicador._sprite.visible and indicador._sprite.texture == load("res://assets/ui/baloes/pedido_amarelo.png") and not indicador._rotulo.visible)
+	verificar("missão principal disponível usa exclamação",indicador._rotulo.visible and indicador._rotulo.text == "!")
 	if capturar:
 		var posicao_anterior: Vector2 = lia.global_position
 		var visivel_anterior: bool = lia.visible

@@ -15,6 +15,9 @@ var _agua: TileMapLayer
 var _mascara_agua: Image
 var _tempo := 0.0
 var _fase := 0
+## O mapa é estável: compõe o ciclo uma vez, em vez de consultar os tiles a cada rajada.
+var _quadros: Array[ArrayMesh] = []
+var _tufos_preparados := -1
 
 func configurar(terreno: TileMapLayer, agua: TileMapLayer, nova_estacao: int) -> void:
 	if _terreno == null:
@@ -26,6 +29,7 @@ func configurar(terreno: TileMapLayer, agua: TileMapLayer, nova_estacao: int) ->
 		z_index = -990
 		_montar_margens()
 	estacao = nova_estacao
+	_quadros.clear()
 	queue_redraw()
 
 func eh_grama(ponto: Vector2i) -> bool:
@@ -77,13 +81,16 @@ func _montar_margens() -> void:
 					break
 
 func pixels_visiveis() -> Dictionary:
+	return _pixels_da_fase(_fase)
+
+func _pixels_da_fase(fase: int) -> Dictionary:
 	var pixels: Dictionary = {}
 	if estacao == 3:
 		return pixels  # O gramado fica inteiramente coberto pela neve.
 	for tufo in tufos:
 		var semente: int = tufo["semente"]
 		var raiz: Vector2i = tufo["raiz"]
-		var vento: int = [0, 0, 1, 1, 0, 0, -1, -1][(_fase + semente) % 8]
+		var vento: int = [0, 0, 1, 1, 0, 0, -1, -1][(fase + semente) % 8]
 		for lamina in range(3):
 			var altura := 2 + (semente + lamina) % 3
 			for h in range(altura + 1):
@@ -93,7 +100,35 @@ func pixels_visiveis() -> Dictionary:
 					pixels[p] = PALETAS[estacao][2 if h == altura else 0 if h == 0 else 1]
 	return pixels
 
+func _preparar_quadros() -> void:
+	_quadros.clear()
+	_tufos_preparados = tufos.size()
+	if estacao == 3:
+		return
+	for fase in 8:
+		var vertices := PackedVector2Array()
+		var cores := PackedColorArray()
+		var indices := PackedInt32Array()
+		var pixels := _pixels_da_fase(fase)
+		for ponto: Vector2i in pixels:
+			var inicio := vertices.size()
+			var p := Vector2(ponto)
+			vertices.append_array(PackedVector2Array([p, p + Vector2.RIGHT, p + Vector2.ONE, p + Vector2.DOWN]))
+			for i in 4: cores.append(pixels[ponto])
+			indices.append_array(PackedInt32Array([inicio, inicio + 1, inicio + 2, inicio, inicio + 2, inicio + 3]))
+		var malha := ArrayMesh.new()
+		if not vertices.is_empty():
+			var dados := []
+			dados.resize(Mesh.ARRAY_MAX)
+			dados[Mesh.ARRAY_VERTEX] = vertices
+			dados[Mesh.ARRAY_COLOR] = cores
+			dados[Mesh.ARRAY_INDEX] = indices
+			malha.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, dados)
+		_quadros.append(malha)
+
 func _process(delta: float) -> void:
+	if estacao == 3:
+		return
 	_tempo += delta
 	if _tempo >= 0.28:
 		_tempo = fmod(_tempo, 0.28)
@@ -103,6 +138,7 @@ func _process(delta: float) -> void:
 func _draw() -> void:
 	if _terreno == null:
 		return
-	var pixels := pixels_visiveis()
-	for ponto in pixels:
-		draw_rect(Rect2(Vector2(ponto), Vector2.ONE), pixels[ponto])
+	if _quadros.is_empty() or _tufos_preparados != tufos.size():
+		_preparar_quadros()
+	if not _quadros.is_empty() and _quadros[_fase].get_surface_count() > 0:
+		draw_mesh(_quadros[_fase], null)

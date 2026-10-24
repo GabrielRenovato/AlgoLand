@@ -45,6 +45,7 @@ func _nova_grade() -> GridContainer:
 	_lista.add_child(_paginacao)
 	_anterior = Button.new()
 	_anterior.text = "ANT."
+	preload("res://codigo/ui/estilo_inicio_detalhado.gd").botao(_anterior,false,16.0)
 	_anterior.custom_minimum_size = Vector2(32,32)
 	_anterior.pressed.connect(_trocar_pagina.bind(-1))
 	_paginacao.add_child(_anterior)
@@ -54,6 +55,7 @@ func _nova_grade() -> GridContainer:
 	_paginacao.add_child(_pagina_texto)
 	_proxima = Button.new()
 	_proxima.text = "PROX."
+	preload("res://codigo/ui/estilo_inicio_detalhado.gd").botao(_proxima,false,16.0)
 	_proxima.custom_minimum_size = Vector2(32,32)
 	_proxima.pressed.connect(_trocar_pagina.bind(1))
 	_paginacao.add_child(_proxima)
@@ -67,10 +69,7 @@ func _adicionar_item(id: String, textura: Texture2D, descoberto: bool, detalhes:
 	slot.set_meta("detalhes",detalhes)
 	slot.custom_minimum_size = Vector2(32,32)
 	slot.size_flags_horizontal = Control.SIZE_EXPAND | Control.SIZE_SHRINK_CENTER
-	var estilo := preload("res://codigo/ui/estilo_slot.gd").caixa()
-	slot.add_theme_stylebox_override("normal",estilo)
-	var realce := preload("res://codigo/ui/estilo_slot.gd").caixa(Color("ffe0a0"))
-	for estado in ["hover","pressed","focus"]: slot.add_theme_stylebox_override(estado,realce)
+	preload("res://codigo/ui/estilo_inicio_detalhado.gd").casa(slot)
 	_grade_catalogo.add_child(slot)
 	var icone := TextureRect.new()
 	icone.name = "Icone"
@@ -148,7 +147,7 @@ func _montar_dica() -> void:
 	_dica.name = "TooltipCatalogo"
 	_dica.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_dica.z_index = 30
-	_dica.add_theme_stylebox_override("panel",preload("res://codigo/ui/estilo_interface.gd").painel(true,10.0))
+	preload("res://codigo/ui/estilo_inicio_detalhado.gd").painel(_dica,true,10)
 	_area_dica.add_child(_dica)
 	_rolagem_dica = ScrollContainer.new()
 	_rolagem_dica.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED

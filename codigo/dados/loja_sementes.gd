@@ -20,3 +20,19 @@ static func comprar(planta: String, inventario: Node, progresso: Node, estacao: 
 	progresso.salvar()
 	progresso.brasas_alteradas.emit(progresso.brasas)
 	return ""
+
+## Recompra a pilha por metade do preço de compra, inclusive fora da estação.
+static func valor_venda(item: DadosItem) -> int:
+	if item == null or not item.eh_semente() or not Plantas.PLANTAS.has(item.planta()) or item.quantidade <= 0:
+		return 0
+	return maxi(1, preco(item.planta()) / 2) * item.quantidade
+
+static func vender(item: DadosItem, inventario: Node, progresso: Node) -> int:
+	var ganho := valor_venda(item)
+	if ganho == 0 or not inventario.remover_da_mochila(item):
+		return 0
+	progresso.brasas += ganho
+	inventario.salvar()
+	progresso.salvar()
+	progresso.brasas_alteradas.emit(progresso.brasas)
+	return ganho

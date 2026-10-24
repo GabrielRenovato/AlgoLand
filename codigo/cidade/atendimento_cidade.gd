@@ -65,12 +65,6 @@ func _ready() -> void:
 
 func _montar_aviso() -> void:
 	super._montar_aviso()
-	_aviso.texture = preload("res://assets/ui/bosque/slot.png")
-	_aviso.scale = Vector2.ONE
-	_rotulo_tecla.position = Vector2(-12,-12)
-	_rotulo_tecla.size = Vector2(24,24)
-	_icone_tecla.position = Vector2(2,2)
-	_icone_tecla.size = Vector2(20,20)
 	var texto := Label.new()
 	texto.text = legenda
 	texto.position = Vector2(-65,14)
@@ -87,10 +81,18 @@ func prioridade_interacao() -> int:
 	return 1
 
 func abrir_tela() -> void:
-	if pode_interagir_para(Cooperativo._jogador1()): Cidade.atender(id,modo,Cooperativo._jogador1())
+	_atender(Cooperativo._jogador1())
 
 func abrir_tela_p2() -> void:
-	if pode_interagir_para(Cooperativo.jogador2()): Cidade.atender(id,modo,Cooperativo.jogador2())
+	_atender(Cooperativo.jogador2())
+
+## O balcão da carpintaria abre o catálogo de obras (como a bigorna do Ivo abre a forja); os outros postos abrem a conversa
+func _atender(quem: Node2D) -> void:
+	if not pode_interagir_para(quem): return
+	if modo == "carpintaria":
+		EventosJogo.abrir_tela_para(quem,"carpintaria")
+	else:
+		Cidade.atender(id,modo,quem)
 
 func _ao_corpo_saiu(corpo: Node2D) -> void:
 	# Sair de uma zona vizinha não fecha a conversa iniciada com o personagem.

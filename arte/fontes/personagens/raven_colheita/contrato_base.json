@@ -1,0 +1,104 @@
+{
+  "tipo": "Animação de colheita no corpo base Raven",
+  "modelo": "Personagem adulto Raven com short opaco neutro até meia coxa; cabeça sem cabelo, camisa e equipamentos separados",
+  "referencias": [
+    "molde_corpo_base.png: modelo canônico original",
+    "guia_poses_base.png: quadros20–23 do GIF oficial farming sample.gif, Character Base2.5c",
+    "guides/using this base.txt: Pulling up400/240/180/300ms"
+  ],
+  "camera": "Três quartos superior original do jogo",
+  "grade_geracao": {
+    "tela_pedida": [
+      1024,
+      1024
+    ],
+    "celula": 256,
+    "pixel_logico": 4,
+    "colunas": 4,
+    "linhas": 4
+  },
+  "grade_final": {
+    "tela": [
+      320,
+      320
+    ],
+    "celula": [
+      80,
+      80
+    ],
+    "direcoes": [
+      "baixo",
+      "direita",
+      "cima",
+      "esquerda"
+    ],
+    "pivo": [
+      40,
+      47
+    ]
+  },
+  "fases": [
+    "agachar e agarrar no chão",
+    "puxar mantendo agachamento",
+    "levantar e erguer braços acima da cabeça",
+    "manter braços acima da cabeça"
+  ],
+  "duracoes_ms": [
+    400,
+    240,
+    180,
+    300
+  ],
+  "repeticao": false,
+  "maos": "Duas mãos participam da puxada; seguir posições e oclusões observadas no GIF original",
+  "invariantes": [
+    "identidade e volume do modelo canônico",
+    "apoio dos pés e raiz comuns",
+    "costas sem rosto/olhos",
+    "Corpo com short neutro; camisa, cabelo, equipamento, planta e efeitos separados",
+    "paletas nativas e mesmas máscaras nas três peles"
+  ],
+  "metodo": "Geração por IA usando modelo canônico e referência de poses efetiva; extração regular e composição de camadas independentes",
+  "entrega": "Fontes, prompt, folhas nativas e GIF de comparação renderizado no Godot isolado",
+  "integracao": "Estudo de corpo base, como no plantio; nenhuma ativação no jogador sem roupas/cabelos/equipamentos compatíveis",
+  "estado": "Base e camadas adaptadas integradas no jogador; não publicadas como patch",
+  "validacao_realizada": "Quadros de agachamento, puxada, braços erguidos e sustentação inspecionados na fazenda isolada; quatro direções sincronizadas com Mana Seed em400/240/180/300ms. Checados margem, alfa e paleta, short em todas as poses, três peles com a mesma máscara e pose final sem oscilação.",
+  "pendencias": [],
+  "preferencia_confirmada_usuario": "Usuário autorizou explicitamente short neutro na base; roupa externa será colocada por cima",
+  "normalizacao": {
+    "tela": [
+      1254,
+      1254
+    ],
+    "pixel_fonte": 6.5,
+    "chao_fonte": [
+      276,
+      277,
+      276,
+      251
+    ],
+    "raiz_x": "centro da célula",
+    "nota": "Uma escala para toda a folha e uma raiz fixa por direção; nenhuma pose reenquadrada por silhueta. A última linha veio deslocada na geração."
+  },
+  "arquivo_selecionado": "geracao_base_short.png",
+  "prompt_selecionado": "prompt_base_short.txt",
+  "efeitos": "Folha separada, extraída das colunas4–7 e linhas4–7 da camada char_a_p2_6tla_farm_v01.png; planta/colheita não incorporada ao corpo",
+  "previsualizacao": {
+    "gif": "arte/previas/personagens/raven_colheita/colheita_corpo_base.gif",
+    "fps": 50,
+    "acao_ms": 1120,
+    "pausa_final_ms": 600,
+    "loop": "Somente demonstrativo; a ação não repete no motor",
+    "save_isolado": "AlgoLand testes colheita base",
+    "limite": "Inspecionados os quadros e a sequência renderizada pelo motor; não afirmada reprodução assistida em visualizador GIF"
+  },
+  "tentativa_anterior_bloqueada": {
+    "origem": "image_gen",
+    "codigo": "moderation_blocked",
+    "estagio": "output",
+    "categoria_informada": "other",
+    "request_id": "c8a55944-7497-4f74-9b84-1252a08367ef",
+    "motivo_especifico": "Não informado pela ferramenta"
+  },
+  "integracao_atual": "Ativo no jogador com roupas,28 cabelos e peças dos três conjuntos adaptados. Contrato completo e revisão em ../acoes_fazenda_raven/contrato.json."
+}

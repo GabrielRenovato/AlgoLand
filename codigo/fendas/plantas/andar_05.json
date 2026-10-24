@@ -2,6 +2,7 @@
   "andar": 5,
   "nome": "Brejo da Ilusao",
   "bioma": "brejo",
+  "estacao": 1,
   "grade": 16,
   "limites": [
     -1400,

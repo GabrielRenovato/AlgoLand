@@ -1,6 +1,7 @@
 extends Node2D
 
 # preload em vez de class_name: classe global nova pode nao estar no cache fora do editor
+const EstiloInicio := preload("res://codigo/ui/estilo_inicio_detalhado.gd")
 const Opcoes := preload("res://codigo/globais/opcoes_jogo.gd")
 const Raven := preload("res://codigo/dados/aparencia_raven.gd")
 const Aparencia := preload("res://codigo/dados/aparencia.gd")
@@ -121,25 +122,27 @@ func _montar_layout_flex() -> void:
 	_menu_centro.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	linha.add_child(_menu_centro)
 	_menu_painel = PanelContainer.new()
-	_menu_painel.add_theme_stylebox_override("panel",preload("res://codigo/ui/estilo_interface.gd").painel(false,12))
+	EstiloInicio.painel(_menu_painel)
 	_menu_centro.add_child(_menu_painel)
 	_menu_painel.minimum_size_changed.connect(_agendar_layout_inicio)
 	var coluna := VBoxContainer.new()
-	coluna.add_theme_constant_override("separation",8)
+	coluna.add_theme_constant_override("separation",6)
 	_menu_painel.add_child(coluna)
 	titulo.reparent(coluna)
 	titulo.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
 	titulo.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	titulo.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	titulo.label_settings = titulo.label_settings.duplicate()
-	titulo.label_settings.font_size = 26
+	titulo.label_settings.font = EstiloInicio.FONTE_TITULO
+	titulo.label_settings.font_size = 25
 	titulo.label_settings.font_color = Color("f2d48d")
-	titulo.label_settings.outline_size = 1
+	titulo.label_settings.outline_size = 0
 	titulo.label_settings.outline_color = Color("402b24")
-	titulo.label_settings.shadow_offset = Vector2(1,2)
+	titulo.label_settings.shadow_offset = Vector2(0,1)
 	var legenda := Label.new()
 	legenda.text = "CULTIVE. EXPLORE. ENFRENTE."
 	legenda.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	legenda.add_theme_font_override("font",EstiloInicio.FONTE)
 	legenda.add_theme_font_size_override("font_size",8)
 	legenda.add_theme_color_override("font_color",Color("d2b88e"))
 	coluna.add_child(legenda)
@@ -157,10 +160,12 @@ func _montar_layout_flex() -> void:
 		botao.custom_minimum_size = Vector2(0,24)
 		botao.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		botao.alignment = HORIZONTAL_ALIGNMENT_CENTER
+		EstiloInicio.botao(botao,botao == (botao_continuar if botao_continuar.visible else botao_novo_jogo))
 	(botao_continuar if botao_continuar.visible else botao_novo_jogo).theme_type_variation = &"BotaoPrimario"
 	var rodape := Label.new()
 	rodape.text = "TECLADO / CONTROLE / TOQUE"
 	rodape.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	rodape.add_theme_font_override("font",EstiloInicio.FONTE)
 	rodape.add_theme_font_size_override("font_size",8)
 	rodape.add_theme_color_override("font_color",Color("a7977f"))
 	coluna.add_child(rodape)
@@ -174,7 +179,7 @@ func _montar_layout_flex() -> void:
 	espaco.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	direita.add_child(espaco)
 	var papel := PanelContainer.new()
-	papel.add_theme_stylebox_override("panel",preload("res://codigo/ui/estilo_interface.gd").painel(true,10))
+	EstiloInicio.painel(papel,true,14)
 	direita.add_child(papel)
 	var resumo := HBoxContainer.new()
 	resumo.add_theme_constant_override("separation",8)
@@ -196,12 +201,15 @@ func _montar_layout_flex() -> void:
 		var texto := Label.new()
 		texto.text = entrada[0]
 		texto.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		texto.add_theme_font_override("font",EstiloInicio.FONTE)
 		texto.add_theme_font_size_override("font_size",entrada[1])
 		texto.add_theme_color_override("font_color",Color("694a32"))
 		boas_vindas.add_child(texto)
 	direita.move_child(espaco,direita.get_child_count()-1)
 	for painel in [painel_opcoes,painel_creditos,confirmar_novo_jogo]:
-		painel.add_theme_stylebox_override("panel",preload("res://codigo/ui/estilo_interface.gd").painel(false,12.0))
+		EstiloInicio.painel(painel,false,14)
+		EstiloInicio.botoes_do_painel(painel)
+		EstiloInicio.textos_do_painel(painel)
 		var conteudo := painel.get_child(0) as Container
 		var rolagem := ScrollContainer.new()
 		rolagem.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
@@ -213,13 +221,19 @@ func _montar_layout_flex() -> void:
 		cabecalho.reparent(coluna_painel)
 		cabecalho.label_settings = cabecalho.label_settings.duplicate()
 		cabecalho.label_settings.font_color = Color("efdab2")
+		cabecalho.label_settings.font = EstiloInicio.FONTE_TITULO
+		cabecalho.label_settings.font_size = 12
 		coluna_painel.add_child(rolagem)
 		rolagem.size_flags_vertical = Control.SIZE_EXPAND_FILL
 		conteudo.reparent(rolagem)
 		conteudo.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		_rolagens_paineis[painel] = conteudo
+		conteudo.minimum_size_changed.connect(_agendar_layout_inicio)
+		cabecalho.minimum_size_changed.connect(_agendar_layout_inicio)
 	_moldura_coop = PanelContainer.new()
-	_moldura_coop.add_theme_stylebox_override("panel",preload("res://codigo/ui/estilo_interface.gd").painel(false,12))
+	EstiloInicio.painel(_moldura_coop)
+	EstiloInicio.botoes_do_painel(_painel_coop)
+	EstiloInicio.textos_do_painel(_painel_coop)
 	raiz.add_child(_moldura_coop)
 	raiz.move_child(_moldura_coop,transicao.get_index())
 	_painel_coop.reparent(_moldura_coop)
@@ -232,14 +246,22 @@ func _montar_layout_flex() -> void:
 
 func _ajustar_layout_flex() -> void:
 	var medida := ($Interface/Raiz as Control).size
-	var compacto := medida.x < 480 or medida.y < 270
+	var compacto := medida.x < 480 or medida.y < 300
 	menu.columns = 2 if compacto else 1
+	titulo.label_settings.font_size = 18 if compacto else 25
+	(_rolagem_menu.get_parent() as VBoxContainer).add_theme_constant_override("separation",4 if compacto else 6)
 	_menu_centro.size_flags_horizontal = Control.SIZE_EXPAND_FILL if compacto else Control.SIZE_SHRINK_BEGIN
 	_menu_painel.custom_minimum_size = Vector2(minf(288,medida.x-32) if compacto else 216,minf(292,medida.y-32))
 	_cartao_jornada.visible = not compacto
 	for painel in _rolagens_paineis:
 		var largura := minf(340,medida.x-24)
-		var altura := minf(_rolagens_paineis[painel].get_combined_minimum_size().y+48,medida.y-24)
+		var conteudo: Control = _rolagens_paineis[painel]
+		var coluna: VBoxContainer = conteudo.get_parent().get_parent()
+		var cabecalho: Control = coluna.get_child(0)
+		var moldura: Vector2 = painel.get_theme_stylebox("panel").get_minimum_size()
+		# O título fica fora da rolagem: reservar sua altura e a moldura inteira.
+		var altura_conteudo := conteudo.get_combined_minimum_size().y + cabecalho.get_combined_minimum_size().y
+		var altura := minf(ceilf(altura_conteudo + coluna.get_theme_constant("separation") + moldura.y),medida.y-24)
 		painel.custom_minimum_size = Vector2(largura,altura)
 		painel.size = Vector2(largura,altura)
 		painel.position = ((medida-painel.size)/2).round()

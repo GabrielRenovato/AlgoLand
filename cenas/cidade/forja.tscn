@@ -67,11 +67,11 @@ layer = 1
 [node name="Interface" parent="." instance=ExtResource("interface")]
 
 [node name="Bigorna" type="Area2D" parent="."]
-position = Vector2(454, 108)
+position = Vector2(474, 108)
 script = ExtResource("bigorna")
 nome_tela = "forja"
 so_entre_ondas = false
-deslocamento_aviso = Vector2(0, -64)
+deslocamento_aviso = Vector2(0, -34)
 
 [node name="Forma" type="CollisionShape2D" parent="Bigorna"]
 shape = SubResource("Forma_bigorna")

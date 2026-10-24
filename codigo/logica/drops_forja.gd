@@ -8,6 +8,11 @@ static func soltar_material(id: String, quantidade: int, onde: Vector2, pai: Nod
 	return Drop.soltar_item(Item.de_coletavel("material",id,quantidade),onde,pai,RandomNumberGenerator.new())
 
 static func receita_pendente(onda: int, arvore: SceneTree) -> String:
+	var tipos := receitas_pendentes(onda,arvore)
+	return "" if tipos.is_empty() else str(tipos[0])
+
+static func receitas_pendentes(onda: int, arvore: SceneTree) -> Array[String]:
+	var tipos: Array[String] = []
 	for tipo in Receitas.receitas_ativas():
 		if tipo in Receitas.INICIAIS_LIVRES: continue
 		if onda < Receitas.onda_receita(tipo) or Progresso.receita_liberada(tipo):
@@ -21,8 +26,8 @@ static func receita_pendente(onda: int, arvore: SceneTree) -> String:
 			continue
 		if arvore.get_nodes_in_group("equipamento_drop").any(func(drop): return is_instance_valid(drop) and drop.item.tipo == id and not drop._pego):
 			continue
-		return tipo
-	return ""
+		tipos.append(tipo)
+	return tipos
 
 ## Após vencer o sorteio de drop, cria um projeto elegível ainda não aprendido/guardado.
 ## Coletar o pergaminho nunca aprende a receita: o jogador precisa usá-lo na mochila.

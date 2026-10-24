@@ -1,0 +1,65 @@
+{
+  "estado": "Integrado no jogador",
+  "bases": {
+    "plantar": "assets/personagens/raven_fantasy/estudo_plantio/base/",
+    "colher": "assets/personagens/raven_fantasy/estudo_colheita/base/"
+  },
+  "saida": "assets/personagens/raven_fantasy/acoes_fazenda/<acao>/",
+  "grade": {
+    "celula": [
+      80,
+      80
+    ],
+    "folha": [
+      320,
+      320
+    ],
+    "pivo": [
+      40,
+      47
+    ],
+    "direcoes": [
+      "baixo",
+      "direita",
+      "cima",
+      "esquerda"
+    ]
+  },
+  "fontes": "Camadas nativas Raven na pose parado; cores e desenho de cabelo/elmo preservados",
+  "metodo": "Composição por articulações com contorno do corpo preservado sob o tecido. Capa reconstruída a partir das partes reveladas nas poses nativas, acompanhando a inclinação do dorso e com recortes de cabeça e braços. O tecido fica sobre as costas, sem esticar quando o tronco sobe.",
+  "guia": "encaixes.json: cabeça, pescoço, quadril, ombros/cotovelos/punhos e quadris/joelhos/pés por direção e quadro",
+  "variantes": "28 cabelos, duas camisas, duas calças, botas, luvas, capa, aljava, três peles, quatro peças independentes dos três conjuntos",
+  "integracao": [
+    "aparencia_raven.gd roteia somente plantar/colher para folhas compactas",
+    "fazenda_jogador.gd mantém impacto por ação nos quadros1 e2 e usa os tempos originais",
+    "heroi_raven.gd mantém a capa sobre o dorso; oclusões dos braços estão nas folhas",
+    "gerar_conjunto.gd usa os manifestos e quatro peças; flag --somente-acoes-fazenda",
+    "validar_conjunto.gd --acoes-fazenda confere cobertura, exclusividade e alfa binário"
+  ],
+  "tempos_ms": {
+    "plantar": [
+      300,
+      100,
+      100,
+      100
+    ],
+    "colher": [
+      400,
+      240,
+      180,
+      300
+    ]
+  },
+  "repeticao": false,
+  "validacao": {
+    "teste_acoes_fazenda_raven": "1021 verificações, zero falhas; inclui diferença real de renderização com e sem capa nas poses de braços erguidos",
+    "teste_heroi_raven": "zero falhas nas ações existentes, combo, ferramentas e pesca",
+    "validador_compartilhado": "três manifestos aprovados com --acoes-fazenda",
+    "teste_plantio_antigo": "nove falhas e erro de nó de UI preexistentes; comparados com código anterior e resultado idêntico",
+    "visual": "Revisão de 23/10: contorno preservado nas roupas, capa contínua de frente/perfil/costas, usando tecido recuperado de poses nativas. Capturas em revisao_20261023/.",
+    "isolamento": "AlgoLand testes colheita base",
+    "gif": "arte/previas/personagens/acoes_fazenda_raven/plantio_colheita.gif",
+    "limitacao_previa": "Quadros renderizados no motor inspecionados; não afirmada reprodução assistida do GIF num visualizador animado"
+  },
+  "publicacao": "Integração inicial no conteúdo7; correções desta revisão ainda locais"
+}

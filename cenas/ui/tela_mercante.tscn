@@ -371,7 +371,7 @@ somente_mochila = true
 unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
-text = "ARRASTE UMA ARMA DA MOCHILA PARA VENDER"
+text = "ARRASTE UMA PILHA DE SEMENTES DA MOCHILA PARA VENDER"
 horizontal_alignment = 1
 autowrap_mode = 2
 
@@ -384,8 +384,9 @@ theme_override_constants/separation = 3
 [node name="TituloVenda" type="Label" parent="Painel/Linhas/Rolagem/Conteudo/Conteudo/Vender/InfoVenda"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "ESPADA NV 1"
+text = "SEMENTES"
 horizontal_alignment = 1
+autowrap_mode = 2
 
 [node name="DetalheVenda" type="Label" parent="Painel/Linhas/Rolagem/Conteudo/Conteudo/Vender/InfoVenda"]
 unique_name_in_owner = true
@@ -398,7 +399,7 @@ autowrap_mode = 2
 [node name="ValorVenda" type="Label" parent="Painel/Linhas/Rolagem/Conteudo/Conteudo/Vender/InfoVenda"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "VALE 0 MOEDAS"
+text = "VALE 0 BRASAS"
 horizontal_alignment = 1
 
 [node name="BotaoVender" type="Button" parent="Painel/Linhas/Rolagem/Conteudo/Conteudo/Vender"]

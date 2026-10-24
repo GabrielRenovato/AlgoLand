@@ -213,7 +213,7 @@ func _avisar_recusa(origem: Control) -> void:
 	if _painel_bigorna.visible:
 		mostrar_mensagem("SO ARMAS, ESCUDO E PECAS DE CONJUNTO VAO NA BIGORNA")
 	elif _painel_vender.visible:
-		mostrar_mensagem("SO EQUIPAMENTO DA MOCHILA SE VENDE" if EventosJogo.inventario_de(self).indice_de(origem.dados) == -1 else "ISSO NAO SE VENDE")
+		mostrar_mensagem("SO SEMENTES DA MOCHILA SE VENDEM")
 	elif _painel_encantar.visible:
 		var escudo: bool = origem.obter_tipo_item() == "escudo_basico"
 		mostrar_mensagem("ESCUDO NAO PODE SER ENCANTADO" if escudo else "SO ARMAS DE ATAQUE PODEM SER ENCANTADAS")
@@ -347,11 +347,10 @@ func _atualizar_dicas() -> void:
 	_dica_abas.visible = Controle.usando_controle_de(self)
 	_dica_abas.text = "%s / %s  ABAS  |  %s NA ULTIMA: MOCHILA" % [Controle.rotulo_acao("ferramenta_anterior", self), Controle.rotulo_acao("ferramenta_proxima", self), Controle.rotulo_acao("ferramenta_proxima", self)]
 
-## Modo arena: abas na ordem MELHORIAS, BIGORNA, ENCANTAR (a loja só mostra os totens e a venda some); no ferreiro da cidade a ordem
-## é a de sempre e a venda só tem sementes
+## Arena: MELHORIAS, BIGORNA e ENCANTAR. Na cidade, compra e venda de sementes.
 func _aplicar_modo() -> void:
 	var abas := _aba_encantar.get_parent()
-	abas.columns = 3 if _modo_arena else 1
+	abas.columns = 3 if _modo_arena else 2
 	for aba in [_aba_loja, _aba_bigorna, _aba_encantar]:
 		aba.custom_minimum_size = Vector2(64 if _modo_arena else 0, 24)
 		aba.add_theme_font_size_override("font_size", 8 if _modo_arena else 10)
@@ -379,8 +378,11 @@ func _aplicar_modo() -> void:
 	_aba_encantar.visible = _modo_arena
 	_aba_bigorna.visible = _modo_arena
 	_aba_loja.visible = true
-	_aba_vender.visible = false
-	_aba_vender.disabled = true
+	_aba_vender.visible = not _modo_arena
+	_aba_vender.disabled = _modo_arena
+	_slot_venda.tipos_aceitos.clear()
+	for planta in Fazenda.PLANTAS:
+		_slot_venda.tipos_aceitos.append(PREFIXO_SEMENTE + planta)
 	# Os totens só valem dentro da partida (ouro da onda): na cidade a loja vende sementes da estação, sem as abas TOTENS/ARMAS
 	_linha_abas_loja.visible = false
 	_mostrar_categoria_loja("totens" if _modo_arena else "sementes")
@@ -830,9 +832,7 @@ func _valor_do_item_venda() -> int:
 	var item: Node = _slot_venda.item_atual
 	if item == null or item.dados == null:
 		return 0
-	# Mesma régua do saque da partida (pela raridade e pela maior onda já vencida, não pelo tipo e nível do item), um pouco
-	# melhor na loja: o preço antigo (30% do investimento) deixava o jogador rico vendendo o saque na cidade
-	return roundi(Saque.preco_na_partida(item.dados.raridade, maxi(Progresso.maior_onda_vencida, 1)) * PREMIO_VENDA_LOJA)
+	return LojaSementes.valor_venda(item.dados)
 
 func _atualizar_venda() -> void:
 	var item: Node = _slot_venda.item_atual
@@ -842,23 +842,20 @@ func _atualizar_venda() -> void:
 	if item == null:
 		return
 	var dados: DadosItem = item.dados
-	_titulo_venda.text = "%s NV %d" % [dados.nome(), dados.nivel]
+	_titulo_venda.text = dados.nome()
 	_titulo_venda.add_theme_color_override("font_color", dados.cor_raridade())
-	var detalhe := dados.nome_raridade()
-	for id in dados.afixos:
-		detalhe += "  " + Raridades.texto_afixo(id, dados.afixos[id])
+	var detalhe := "%d SEMENTE(S) NA PILHA" % dados.quantidade
 	_detalhe_venda.text = detalhe
-	_valor_venda.text = "VALE %d MOEDAS" % _valor_do_item_venda()
+	_valor_venda.text = "VALE %d BRASAS" % _valor_do_item_venda()
 
 func _ao_vender_pressionado() -> void:
 	var item: Node = _slot_venda.item_atual
-	if item == null or item.dados == null or not EventosJogo.inventario_de(self).remover_da_mochila(item.dados):
-		Sons.tocar("erro", 0.0)
+	if _modo_arena or item == null or item.dados == null:
 		return
-	var valor := _valor_do_item_venda()
+	var dados: DadosItem = item.dados
 	_slot_venda.limpar()
-	DadosJogo.adicionar_de(EventosJogo.dono(self), valor)
-	EventosJogo.inventario_de(self).salvar()
+	if LojaSementes.vender(dados, EventosJogo.inventario_de(self), Progresso) == 0:
+		Sons.tocar("erro", 0.0)
 	atualizar_exibicao_moedas()
 	_atualizar_venda()
 
@@ -961,6 +958,3 @@ func _ao_encantar_pressionado() -> void:
 	EventosJogo.inventario_de(self).salvar()
 	atualizar_exibicao_moedas()
 	atualizar_painel_encantar()
-
-## Margem da loja da cidade em relação ao preço base de venda.
-const PREMIO_VENDA_LOJA := 1.5

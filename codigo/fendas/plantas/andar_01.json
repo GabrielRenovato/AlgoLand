@@ -2,6 +2,7 @@
   "andar": 1,
   "nome": "Entrada do Bosque",
   "bioma": "bosque",
+  "estacao": 0,
   "grade": 16,
   "limites": [
     -640,

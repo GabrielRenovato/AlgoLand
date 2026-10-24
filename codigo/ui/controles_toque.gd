@@ -44,7 +44,7 @@ const ZONA_MORTA := 0.18
 const FOLGA_TOQUE := 8.0
 const MARGEM := 16.0
 ## Distância e ângulo (graus, 180 = esquerda, 270 = cima) das habilidades em torno do botão de ataque
-const RAIO_ARCO := 78.0
+const RAIO_ARCO := 88.0
 const OPACIDADE := 0.5
 const OPACIDADE_APERTADO := 0.9
 
@@ -62,6 +62,9 @@ var _tela: Control
 ## Por cima dos ícones (os textos que ficam sobre eles)
 var _sobre: Control
 var _tamanho := Vector2(576, 324)
+var _escala_combate := 1.0
+var _raio_joystick := RAIO_JOYSTICK
+
 ## Os botões aparecem (nenhuma tela aberta)
 var _ativo := true
 var _telas_abertas: Dictionary = {}
@@ -75,6 +78,7 @@ var _base_joystick := Vector2.ZERO
 var _haste_joystick := Vector2.ZERO
 
 func _ready() -> void:
+	add_to_group("controles_toque")
 	# Abaixo das telas (camada 10 da Interface)
 	layer = 9
 	_modo_mouse = not OS.has_feature("mobile")
@@ -106,10 +110,11 @@ func _criar_botoes() -> void:
 		{"acao": &"colher", "rotulo": "COLHER", "raio": RAIO_HABILIDADE, "cor": COR_AGIR, "onde": "fazenda", "angulo": 252.0, "segura": false},
 		{"acao": &"open_menu", "rotulo": "", "raio": RAIO_HABILIDADE, "cor": COR_AGIR, "onde": "", "angulo": 286.0, "segura": false, "textura": _glifo(GLIFO_AGIR), "lado": LADO_MIOLO},
 		{"acao": &"open_inventory", "rotulo": "ITENS", "raio": RAIO_MOCHILA, "cor": COR_NEUTRA, "onde": "", "canto": true, "segura": false, "textura": _glifo(GLIFO_ITENS), "lado": LADO_MIOLO},
-		# Pausa (opções, voltar ao menu, sair): logo abaixo do botão de itens, sem ícone (o texto "II" é desenhado)
+		# Pausa e mochila compartilham a fileira superior com MAPA, sem cobrir calendário ou mundo.
 		{"acao": &"pausar", "rotulo": "II", "raio": RAIO_MOCHILA * 0.8, "cor": COR_NEUTRA, "onde": "", "canto": true, "canto_abaixo": 1, "segura": false},
 	]
 	for botao in _botoes:
+		botao["raio_base"] = botao["raio"]
 		botao["centro"] = Vector2.ZERO
 		botao["apertado"] = false
 		botao["visivel"] = true
@@ -139,10 +144,10 @@ func _atualizar_icones() -> void:
 		if icone == null:
 			continue
 		icone.visible = _ativo and botao["visivel"]
-		var lado: float = float(botao["lado"])
+		var lado: float = float(botao["lado"]) * (1.0 if botao.get("canto", false) else _escala_combate)
 		icone.size = Vector2(lado, lado)
 		icone.pivot_offset = icone.size / 2.0
-		# Posição inteira e sem escala: pixel art só fica nítida em pixels inteiros
+		# Arredonda a posição e mantém filtro nearest também nos viewports menores.
 		icone.position = (botao["centro"] - icone.size / 2.0).round()
 		var cor := Color.WHITE
 		if botao["acao"] == &"usar_pocao" and int(botao["quantidade"]) == 0:
@@ -154,25 +159,28 @@ func _organizar() -> void:
 	_tamanho = get_viewport().get_visible_rect().size
 	# Recorte da câmera e cantos arredondados (esquerda, cima, direita, baixo)
 	var margens: Vector4 = Controle.margens_seguras() * preload("res://codigo/ui/escala_interface.gd").fator(self)
-	var ataque := Vector2(_tamanho.x - MARGEM - RAIO_ATAQUE - 6.0 - margens.z, _tamanho.y - MARGEM - RAIO_ATAQUE - 4.0 - margens.w)
+	_escala_combate = preload("res://codigo/ui/escala_interface.gd").escala_combate(_tamanho)
+	_raio_joystick = RAIO_JOYSTICK * _escala_combate
+	var ataque := _tamanho - Vector2(56,54) * _escala_combate - Vector2(margens.z,margens.w)
 	for botao in _botoes:
+		botao["raio"] = float(botao["raio_base"]) * (1.0 if botao.get("canto", false) else _escala_combate)
 		if botao.has("angulo"):
-			botao["centro"] = ataque + Vector2.from_angle(deg_to_rad(botao["angulo"])) * RAIO_ARCO
+			botao["centro"] = ataque + Vector2.from_angle(deg_to_rad(botao["angulo"])) * RAIO_ARCO * _escala_combate
 		elif botao.has("desloc"):
 			botao["centro"] = ataque + botao["desloc"]
 		elif botao.get("canto", false):
-			botao["centro"] = Vector2(_tamanho.x - MARGEM - RAIO_MOCHILA - margens.z, 96.0 + margens.y + int(botao.get("canto_abaixo", 0)) * (RAIO_MOCHILA * 2.0 + 8.0))
+			botao["centro"] = Vector2(_tamanho.x - (22.0 if botao["acao"] == &"pausar" else 64.0) - margens.z, 26.0 + margens.y)
 		else:
 			botao["centro"] = ataque
 	_atualizar_icones()
 	_redesenhar()
 
 func _process(delta: float) -> void:
+	_definir_ativo(_telas_abertas.is_empty() and not Introducao.acompanhando and not get_tree().paused and not _mapa_aberto())
 	_tempo_conferir -= delta
 	if _tempo_conferir > 0.0:
 		return
 	_tempo_conferir = 0.2
-	_definir_ativo(_telas_abertas.is_empty() and not Introducao.acompanhando and not get_tree().paused)
 	var jogador := EventosJogo.dono(self)
 	var na_fazenda: bool = jogador != null and bool(jogador.get("modo_fazenda"))
 	for botao in _botoes:
@@ -224,7 +232,7 @@ func _ao_tela_fechada(nome: String) -> void:
 	if interface != null and interface._telas_abertas.has(nome):
 		return
 	_telas_abertas.erase(nome)
-	_definir_ativo(_telas_abertas.is_empty() and not Introducao.acompanhando and not get_tree().paused)
+	_definir_ativo(_telas_abertas.is_empty() and not Introducao.acompanhando and not get_tree().paused and not _mapa_aberto())
 	_redesenhar()
 
 func _definir_ativo(ativo: bool) -> void:
@@ -252,8 +260,13 @@ func _soltar_tudo() -> void:
 
 # --- Entrada ---
 
+func _mapa_aberto() -> bool:
+	var grupo := "minimapa_p2" if EventosJogo.eh_do_p2(self) else "minimapa_p1"
+	var mapa := get_tree().get_first_node_in_group(grupo)
+	return mapa != null and mapa.get_viewport() == get_viewport() and bool(mapa.get("_grande"))
+
 func _input(evento: InputEvent) -> void:
-	if not _ativo:
+	if not _ativo or _mapa_aberto():
 		return
 	if evento is InputEventScreenTouch:
 		_toque(evento.index, transform.affine_inverse() * evento.position, evento.pressed)
@@ -295,8 +308,8 @@ func _arrastar(dedo: int, posicao: Vector2) -> void:
 	_haste_joystick = posicao
 	# Se o dedo passa do círculo, a base vai atrás (o polegar nunca "sai" do joystick)
 	var desvio := _haste_joystick - _base_joystick
-	if desvio.length() > RAIO_JOYSTICK:
-		_base_joystick = _haste_joystick - desvio.normalized() * RAIO_JOYSTICK
+	if desvio.length() > _raio_joystick:
+		_base_joystick = _haste_joystick - desvio.normalized() * _raio_joystick
 	_atualizar_joystick()
 
 func _soltar_dedo(dedo: int) -> void:
@@ -310,7 +323,7 @@ func _soltar_dedo(dedo: int) -> void:
 	_redesenhar()
 
 func _atualizar_joystick() -> void:
-	var vetor := (_haste_joystick - _base_joystick) / RAIO_JOYSTICK
+	var vetor := (_haste_joystick - _base_joystick) / _raio_joystick
 	Controle.vetor_toque = Vector2.ZERO if vetor.length() < ZONA_MORTA else vetor.limit_length(1.0)
 	_redesenhar()
 
@@ -356,10 +369,10 @@ func _enviar(acao: StringName, apertada: bool) -> void:
 func _desenhar() -> void:
 	# Joystick: a base nasce onde o dedo encosta; sem dedo, uma sombra no lugar de sempre mostra onde tocar
 	if _dedo_joystick != -1:
-		_circulo(_base_joystick, RAIO_JOYSTICK, COR_NEUTRA, OPACIDADE * 0.7)
-		_circulo(_base_joystick + (_haste_joystick - _base_joystick).limit_length(RAIO_JOYSTICK), RAIO_HASTE, Color.WHITE, OPACIDADE_APERTADO)
+		_circulo(_base_joystick, _raio_joystick, COR_NEUTRA, OPACIDADE * 0.7)
+		_circulo(_base_joystick + (_haste_joystick - _base_joystick).limit_length(_raio_joystick), RAIO_HASTE * _escala_combate, Color.WHITE, OPACIDADE_APERTADO)
 	else:
-		_circulo(Vector2(MARGEM + RAIO_JOYSTICK + 16.0 + Controle.margens_seguras().x * preload("res://codigo/ui/escala_interface.gd").fator(self), _tamanho.y - MARGEM - RAIO_JOYSTICK - 8.0), RAIO_JOYSTICK, COR_NEUTRA, 0.18)
+		_circulo(Vector2(48, -64) * _escala_combate + Vector2(Controle.margens_seguras().x * preload("res://codigo/ui/escala_interface.gd").fator(self), _tamanho.y - Controle.margens_seguras().w * preload("res://codigo/ui/escala_interface.gd").fator(self)), _raio_joystick, COR_NEUTRA, 0.18)
 	for botao in _botoes:
 		if not botao["visivel"]:
 			continue
@@ -375,7 +388,7 @@ func _desenhar_sobre() -> void:
 		return
 	var pocao := _botao_da_acao(&"usar_pocao")
 	if not pocao.is_empty() and pocao["visivel"] and int(pocao["quantidade"]) >= 0:
-		_rotulo(pocao["centro"] + Vector2(RAIO_HABILIDADE * 0.62, RAIO_HABILIDADE * 0.7), str(pocao["quantidade"]), 8, 0.0, _sobre)
+		_rotulo(pocao["centro"] + Vector2(RAIO_HABILIDADE * 0.62, RAIO_HABILIDADE * 0.7) * _escala_combate, str(pocao["quantidade"]), 8, 0.0, _sobre)
 
 func _circulo(centro: Vector2, raio: float, cor: Color, opacidade: float) -> void:
 	_tela.draw_circle(centro, raio, Color(cor, opacidade * 0.55))

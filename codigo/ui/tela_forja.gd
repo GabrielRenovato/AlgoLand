@@ -3,6 +3,7 @@ extends Control
 const Receitas := preload("res://codigo/dados/forja_armas.gd")
 const Desafios := preload("res://codigo/dados/desafios_armas.gd")
 const DadosCidade := preload("res://codigo/cidade/dados_cidade.gd")
+const Acabamento := preload("res://codigo/ui/estilo_inicio_detalhado.gd")
 const Estilo := preload("res://codigo/ui/estilo_interface.gd")
 const Equipamentos := preload("res://codigo/dados/equipamentos.gd")
 const Icones := preload("res://codigo/ui/icones_itens.gd")
@@ -16,6 +17,8 @@ var _receitas_coluna: VBoxContainer
 var _papel: PanelContainer
 var _abas: HBoxContainer
 var _aba_detalhes := false
+var _info_compacta := false
+var _ajuda: Button
 var _legenda: Label
 var _bigorna: TextureRect
 var _coluna: VBoxContainer
@@ -24,7 +27,13 @@ var _icone_previa: TextureRect
 var _dados_arma: Label
 var _resumo_receitas: Label
 var _fontes: Label
-var _rolagem_receitas: ScrollContainer
+var _catalogo: VBoxContainer
+var _paginacao: HBoxContainer
+var _pagina_rotulo: Label
+var _anterior: Button
+var _proxima: Button
+var _pagina := 0
+var _por_pagina := 6
 var _grade_receitas: GridContainer
 var _situacao: Label
 var _fabricar: Button
@@ -120,14 +129,17 @@ func _ready() -> void:
 		_categorias.add_child(categoria)
 	_abas = HBoxContainer.new()
 	coluna.add_child(_abas)
-	for entrada in [["RECEITAS",false],["ITEM E MATERIAIS",true]]:
+	for entrada in [["RECEITAS",false],["MATERIAIS",true],["INFO",true]]:
 		var aba := Button.new()
 		aba.text = entrada[0]
 		aba.size_flags_horizontal = SIZE_EXPAND_FILL
 		aba.custom_minimum_size.y = 28
 		aba.theme_type_variation = &"BotaoAba"
 		aba.toggle_mode = true
-		aba.pressed.connect(_mostrar_detalhes.bind(entrada[1]))
+		var indice_aba := _abas.get_child_count()
+		aba.pressed.connect(func():
+			_info_compacta = indice_aba == 2
+			_mostrar_detalhes(indice_aba != 0))
 		_abas.add_child(aba)
 	var corpo := HBoxContainer.new()
 	corpo.size_flags_vertical = SIZE_EXPAND_FILL
@@ -138,16 +150,33 @@ func _ready() -> void:
 	corpo.add_child(_receitas_coluna)
 	_resumo_receitas = _rotulo(_receitas_coluna,8)
 	_resumo_receitas.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_rolagem_receitas = ScrollContainer.new()
-	_rolagem_receitas.size_flags_vertical = SIZE_EXPAND_FILL
-	_rolagem_receitas.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	_rolagem_receitas.follow_focus = true
-	_receitas_coluna.add_child(_rolagem_receitas)
+	_catalogo = VBoxContainer.new()
+	_catalogo.size_flags_vertical = SIZE_EXPAND_FILL
+	_receitas_coluna.add_child(_catalogo)
 	_grade_receitas = GridContainer.new()
 	_grade_receitas.size_flags_horizontal = SIZE_EXPAND_FILL
 	_grade_receitas.add_theme_constant_override("h_separation",4)
 	_grade_receitas.add_theme_constant_override("v_separation",4)
-	_rolagem_receitas.add_child(_grade_receitas)
+	_catalogo.add_child(_grade_receitas)
+	var espaco := Control.new()
+	espaco.size_flags_vertical = SIZE_EXPAND_FILL
+	_catalogo.add_child(espaco)
+	_paginacao = HBoxContainer.new()
+	_paginacao.alignment = BoxContainer.ALIGNMENT_CENTER
+	_catalogo.add_child(_paginacao)
+	_anterior = Button.new()
+	_anterior.text = "<"
+	_anterior.custom_minimum_size = Vector2(24,20)
+	_anterior.pressed.connect(func(): _trocar_pagina(-1))
+	_paginacao.add_child(_anterior)
+	_pagina_rotulo = _rotulo(_paginacao,8)
+	_pagina_rotulo.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_pagina_rotulo.custom_minimum_size.x = 42
+	_proxima = Button.new()
+	_proxima.text = ">"
+	_proxima.custom_minimum_size = Vector2(24,20)
+	_proxima.pressed.connect(func(): _trocar_pagina(1))
+	_paginacao.add_child(_proxima)
 	var grupo := ButtonGroup.new()
 	for tipo in Receitas.receitas_ativas()+Ferramentas.TIPOS:
 		var botao := Button.new()
@@ -157,27 +186,46 @@ func _ready() -> void:
 		margem.mouse_filter = MOUSE_FILTER_IGNORE
 		botao.add_child(margem)
 		margem.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-		for lado in ["left","right","top","bottom"]: margem.add_theme_constant_override("margin_"+lado,8)
-		var conteudo := VBoxContainer.new()
+		for lado in ["left","right","top","bottom"]: margem.add_theme_constant_override("margin_"+lado,5)
+		var conteudo := HBoxContainer.new()
 		conteudo.mouse_filter = MOUSE_FILTER_IGNORE
-		conteudo.add_theme_constant_override("separation",2)
+		conteudo.add_theme_constant_override("separation",4)
 		margem.add_child(conteudo)
 		var icone := TextureRect.new()
 		icone.name = "Icone"
 		icone.texture = Icones.obter(Receitas.criar_item(tipo),get_tree())
 		icone.custom_minimum_size = Vector2(16,16)
+		icone.size_flags_horizontal = SIZE_SHRINK_CENTER
+		icone.size_flags_vertical = SIZE_SHRINK_CENTER
 		icone.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		icone.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		icone.mouse_filter = MOUSE_FILTER_IGNORE
 		conteudo.add_child(icone)
-		var nome := _rotulo(conteudo,8)
+		var textos := VBoxContainer.new()
+		textos.size_flags_horizontal = SIZE_EXPAND_FILL
+		textos.size_flags_vertical = SIZE_SHRINK_CENTER
+		textos.add_theme_constant_override("separation",2)
+		textos.mouse_filter = MOUSE_FILTER_IGNORE
+		conteudo.add_child(textos)
+		var nome := _rotulo(textos,7)
 		nome.name = "Nome"
-		nome.text = Receitas.nome(tipo)
+		nome.add_theme_constant_override("line_spacing",-3)
+		nome.max_lines_visible = 2
+		nome.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+		botao.tooltip_text = Receitas.nome(tipo)
+		nome.text = Receitas.nome(tipo).replace(" DO "," ").replace(" DE "," ").replace("CAVALEIRO RUBRO","RUBRO")
 		nome.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		nome.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		nome.size_flags_vertical = SIZE_EXPAND_FILL
 		nome.add_theme_color_override("font_color",Color("34292c"))
 		nome.mouse_filter = MOUSE_FILTER_IGNORE
+		var bloqueio := _rotulo(textos,6)
+		bloqueio.name = "Bloqueio"
+		bloqueio.text = "BLOQUEADO"
+		bloqueio.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		bloqueio.add_theme_color_override("font_color",Color("9a3d32"))
+		bloqueio.mouse_filter = MOUSE_FILTER_IGNORE
+		bloqueio.visible = not tipo in Ferramentas.TIPOS and not _receita_visivel(tipo)
 		botao.toggle_mode = true
 		botao.button_group = grupo
 		botao.theme_type_variation = &"BotaoAba"
@@ -196,7 +244,7 @@ func _ready() -> void:
 	_papel.add_child(detalhes_scroll)
 	var detalhes := VBoxContainer.new()
 	detalhes.size_flags_horizontal = SIZE_EXPAND_FILL
-	detalhes.add_theme_constant_override("separation",5)
+	detalhes.add_theme_constant_override("separation",2)
 	detalhes_scroll.add_child(detalhes)
 	var previa := HBoxContainer.new()
 	previa.add_theme_constant_override("separation",6)
@@ -206,6 +254,7 @@ func _ready() -> void:
 	previa.add_child(moldura)
 	_icone_previa = TextureRect.new()
 	_icone_previa.custom_minimum_size = Vector2(36,36)
+	_icone_previa.size_flags_vertical = SIZE_SHRINK_CENTER
 	_icone_previa.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	_icone_previa.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	moldura.add_child(_icone_previa)
@@ -227,10 +276,11 @@ func _ready() -> void:
 	_situacao = _rotulo(detalhes,8)
 	_situacao.add_theme_color_override("font_color",Color("65472f"))
 	var ajuda := Button.new()
+	_ajuda = ajuda
 	ajuda.text = "ONDE CONSEGUIR"
 	ajuda.alignment = HORIZONTAL_ALIGNMENT_CENTER
 	ajuda.toggle_mode = true
-	ajuda.custom_minimum_size.y = 24
+	ajuda.custom_minimum_size.y = 20
 	ajuda.add_theme_font_size_override("font_size",8)
 	detalhes.add_child(ajuda)
 	_fontes = _rotulo(detalhes,8)
@@ -243,6 +293,9 @@ func _ready() -> void:
 	_fabricar.custom_minimum_size.y = 32
 	_fabricar.pressed.connect(_ao_fabricar)
 	coluna.add_child(_fabricar)
+	for botao in [_anterior,_proxima,_fechar,_fabricar] + _categorias.get_children() + _abas.get_children():
+		Acabamento.botao(botao,botao == _fabricar,16)
+		botao.add_theme_font_size_override("font_size",8)
 	Progresso.materiais_forja_alterados.connect(_atualizar)
 	Progresso.armas_liberadas_alteradas.connect(_atualizar)
 	EventosJogo.inventario_de(self).mochila_alterada.connect(_atualizar)
@@ -267,6 +320,9 @@ func _ao_visibilidade() -> void:
 
 func _selecionar(tipo: String) -> void:
 	_tipo = tipo
+	_info_compacta = false
+	_pagina = maxi(0,_tipos_catalogo().find(tipo)) / _por_pagina
+	_atualizar_pagina()
 	_botoes[tipo].grab_focus()
 	_mostrar_detalhes(true)
 	_mensagem = ""
@@ -281,16 +337,18 @@ func _atualizar() -> void:
 	_nome.text = Receitas.nome(_tipo)
 	_icone_previa.material=null
 	_icone_previa.texture = Icones.obter(Receitas.criar_item(_tipo),get_tree())
+	_icone_previa.self_modulate = Color.WHITE if _receita_visivel(_tipo) else Color.BLACK
 	var item = Receitas.criar_item(_tipo)
 	var prazo := Receitas.dias_fabricacao(_tipo)
 	_dados_arma.text = "%s - NIVEL 1\nPRAZO: %d DIA%s DO JOGO" % [item.categoria.to_upper(),prazo,"S" if prazo != 1 else ""]
 	var encomendada := str(Progresso.encomenda_forja.get("tipo","")) == _tipo
-	_material_titulo.text = "MATERIAIS ENTREGUES" if encomendada else "MATERIAIS NECESSARIOS"
+	var custos: Dictionary = Progresso.encomenda_forja.get("materiais",{}) if encomendada else Receitas.RECEITAS[_tipo]
+	_material_titulo.text = ("MATERIAIS ENTREGUES" if not custos.is_empty() else "PAGAMENTO CONFIRMADO") if encomendada else "MATERIAIS NECESSARIOS"
 	for filho in _custos.get_children():
 		filho.free()
-	for id in Receitas.RECEITAS[_tipo]:
+	for id in custos:
 		var tem := Progresso.quantidade_material_forja(id,EventosJogo.inventario_de(self))
-		var precisa: int = Receitas.RECEITAS[_tipo][id]
+		var precisa: int = custos[id]
 		if encomendada: tem = precisa
 		var linha := HBoxContainer.new()
 		linha.add_theme_constant_override("separation",6)
@@ -311,7 +369,7 @@ func _atualizar() -> void:
 		quantidade.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 		linha.add_child(quantidade)
 	var origens: Array[String] = []
-	for id in Receitas.RECEITAS[_tipo]:
+	for id in custos:
 		origens.append(Receitas.MATERIAIS[id]["origem"])
 	_fontes.text = "\n".join(origens)
 	var aprendidas := 0
@@ -324,9 +382,12 @@ func _atualizar() -> void:
 	_situacao.text = _mensagem
 	if _mensagem.is_empty():
 		_situacao.text = "MODELO PERMANENTE.\nReceba comum, nivel 1, a cada partida." if fabricada else ("RECEITA APRENDIDA.\nOs materiais serao consumidos da sua mochila." if receita else "ENCONTRE A RECEITA NA ARENA E USE NA MOCHILA.\nA PARTIR DO ANDAR %d." % Receitas.onda_receita(_tipo))
+	if _mensagem.is_empty() and receita and not fabricada and Progresso.maior_onda_vencida < Receitas.onda_receita(_tipo) and not encomendada:
+		_situacao.text = "RECEITA APRENDIDA.\nVENCA O ANDAR %d PARA FABRICAR." % Receitas.onda_receita(_tipo)
 	var inventario := EventosJogo.inventario_de(self)
 	var falta_entregar: bool = fabricada and not _tipo in Receitas.INICIAIS_LIVRES and not _tipo in inventario.armas_permanentes_entregues
 	_fabricar.text = "RETIRAR ITEM" if falta_entregar else ("JA FABRICADA" if fabricada else "ENCOMENDAR")
+	if not receita and not fabricada: _fabricar.text = "SEM RECEITA"
 	_fabricar.disabled = not falta_entregar if fabricada else Progresso.motivo_fabricar_arma(_tipo,EventosJogo.inventario_de(self)) != ""
 	_fabricar.tooltip_text = Progresso.motivo_fabricar_arma(_tipo,EventosJogo.inventario_de(self)) if not fabricada else "Uma copia por jogador e por partida."
 	if not Progresso.encomenda_forja.is_empty():
@@ -336,7 +397,7 @@ func _atualizar() -> void:
 	var fechado := DadosCidade.atendimento_forja(Cooperativo.cena_de(self), Calendario.dia_da_semana())
 	_estado_atendimento = _situacao_atendimento()
 	if not fechado.is_empty():
-		_situacao.text = fechado + ".\nATENDIMENTO: 8H AS 18H. FOLGA: QUARTA."
+		_situacao.text = fechado + "."
 		_fabricar.disabled = true
 		_fabricar.tooltip_text = fechado
 	var oficina := _oficina()
@@ -351,7 +412,14 @@ func _atualizar() -> void:
 	for tipo in _botoes:
 		if tipo in Ferramentas.TIPOS: continue
 		_botoes[tipo].set_pressed_no_signal(tipo == _tipo)
-		_botoes[tipo].tooltip_text = "RECEITA APRENDIDA" if Progresso.receita_liberada(tipo) else "RECEITA A PARTIR DO ANDAR %d" % Receitas.onda_receita(tipo)
+		var icone: TextureRect = _botoes[tipo].find_child("Icone",true,false)
+		icone.self_modulate = Color.WHITE if _receita_visivel(tipo) else Color.BLACK
+		var bloqueio: Label = _botoes[tipo].find_child("Bloqueio",true,false)
+		bloqueio.visible = not _receita_visivel(tipo)
+		_botoes[tipo].tooltip_text = Receitas.nome(tipo) + "\n" + ("RECEITA APRENDIDA" if Progresso.receita_liberada(tipo) else "BLOQUEADO: ENCONTRE A RECEITA A PARTIR DO ANDAR %d E USE NA MOCHILA." % Receitas.onda_receita(tipo))
+
+func _receita_visivel(tipo: String) -> bool:
+	return tipo in Receitas.INICIAIS_LIVRES or Progresso.receita_liberada(tipo)
 
 func _ao_fabricar() -> void:
 	var cena := Cooperativo.cena_de(self)
@@ -397,15 +465,22 @@ func _mostrar_detalhes(aberto: bool) -> void:
 	_receitas_coluna.visible = not _compacto or not aberto
 	_papel.visible = not _compacto or aberto
 	_fabricar.visible = not _compacto or aberto
+	_categorias.visible = not (_compacto and aberto)
+	_dados_arma.visible = not _compacto or _info_compacta
+	_custos.visible = not _compacto or not _info_compacta
+	_situacao.visible = not _compacto or _info_compacta
+	_ajuda.visible = not _compacto or _info_compacta
+	if _compacto and not _info_compacta: _fontes.hide()
 	for i in _abas.get_child_count():
-		_abas.get_child(i).set_pressed_no_signal(aberto == (i == 1))
+		_abas.get_child(i).set_pressed_no_signal(i == (0 if not aberto else (2 if _info_compacta else 1)))
 
 func _mudar_categoria(ferramentas: bool) -> void:
+	_pagina = 0
 	_modo_ferramentas=ferramentas
 	for i in _categorias.get_child_count(): _categorias.get_child(i).set_pressed_no_signal(ferramentas==(i==1))
 	_tipo=Ferramentas.TIPOS[0] if ferramentas else "arco_curto"
 	_mensagem=""
-	for tipo in _botoes: _botoes[tipo].visible=(tipo in Ferramentas.TIPOS)==ferramentas
+	_atualizar_pagina()
 	_mostrar_detalhes(false)
 	_atualizar()
 	_agendar_ajuste()
@@ -416,6 +491,7 @@ func _atualizar_ferramenta() -> void:
 	var proximo := mini(3,grau+1)
 	_nome.text=Receitas.nome(_tipo)
 	_icone_previa.texture=Icones.obter(Receitas.criar_item(_tipo),get_tree())
+	_icone_previa.self_modulate=Color.WHITE
 	_icone_previa.material=preload("res://codigo/dados/ferramentas_madeira.gd").do_tipo(_tipo,grau)
 	_dados_arma.text="%s > %s\n%s" % [Ferramentas.NOMES[grau-1],Ferramentas.NOMES[proximo-1],Ferramentas.descricao(_tipo,proximo)]
 	_resumo_receitas.text="FERRAMENTAS - MELHORIA IMEDIATA"
@@ -428,7 +504,7 @@ func _atualizar_ferramenta() -> void:
 			_custos.add_child(linha)
 			var icone:=TextureRect.new()
 			icone.texture=load("res://assets/ui/coletaveis/%s.png" % id)
-			icone.custom_minimum_size=Vector2(16,16)
+			icone.custom_minimum_size=Vector2(12,12) if _compacto else Vector2(16,16)
 			icone.expand_mode=TextureRect.EXPAND_IGNORE_SIZE
 			icone.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 			linha.add_child(icone)
@@ -464,15 +540,28 @@ func _ajustar() -> void:
 	_coluna.add_theme_constant_override("separation",4 if _compacto else 5)
 	painel.add_theme_stylebox_override("panel",Estilo.painel(false,8 if _compacto else 10))
 	_papel.add_theme_stylebox_override("panel",Estilo.painel(true,8 if _compacto else 10))
-	for aba in _abas.get_children(): aba.custom_minimum_size.y = 24
+	for aba in _abas.get_children(): aba.custom_minimum_size.y = 22
+	for categoria in _categorias.get_children(): categoria.custom_minimum_size.y = 22 if _compacto else 26
+	_custos.add_theme_constant_override("separation",0 if _compacto else 3)
 	for linha in _custos.get_children(): linha.get_child(0).custom_minimum_size = Vector2(12,12) if _compacto else Vector2(16,16)
-	_grade_receitas.columns = 3 if _compacto else 2
-	_rolagem_receitas.custom_minimum_size.x = 0
+	_resumo_receitas.visible = not _compacto
+	_grade_receitas.columns = 3
+	# A quantidade acompanha o espaço da vista de receitas, mesmo quando oculta.
+	var medida := Vector2(minf(600,size.x-16),minf(340,size.y-16))
+	var altura_catalogo := medida.y - (16 if _compacto else 20)
+	altura_catalogo -= 24 if _compacto else 32 # Cabeçalho.
+	altura_catalogo -= 22 if _compacto else 26 # Categorias.
+	altura_catalogo -= 22 if _compacto else 32 # Abas ou fabricação.
+	altura_catalogo -= 12 if _compacto else 15 # Espaçamento da coluna.
+	if not _compacto: altura_catalogo -= _resumo_receitas.get_combined_minimum_size().y + 4
+	var linhas := maxi(1,floori((altura_catalogo - 24 + 4) / 52))
+	_por_pagina = _grade_receitas.columns * linhas
 	for botao in _botoes.values():
 		botao.size_flags_horizontal = SIZE_EXPAND_FILL
-		botao.custom_minimum_size = Vector2(0,80 if _compacto else 72)
-	_icone_previa.custom_minimum_size = Vector2(20,20)
-	var medida := Vector2(minf(600,size.x-16),minf(340,size.y-16))
+		botao.custom_minimum_size = Vector2(0,48)
+	_nome.add_theme_font_size_override("font_size",8 if _compacto else 10)
+	_icone_previa.custom_minimum_size = Vector2(12,12) if _compacto else Vector2(20,20)
+	_atualizar_pagina()
 	painel.custom_minimum_size = medida
 	painel.size = medida
 	painel.position = ((size-medida)/2).round()
@@ -491,3 +580,22 @@ func _ajustar_apos_layout() -> void:
 func focar_inicio() -> void:
 	_atualizar()
 	_botoes[_tipo].grab_focus()
+
+func _tipos_catalogo() -> Array:
+	return Ferramentas.TIPOS if _modo_ferramentas else Receitas.receitas_ativas()
+
+func _trocar_pagina(direcao: int) -> void:
+	_pagina += direcao
+	_atualizar_pagina()
+
+func _atualizar_pagina() -> void:
+	var tipos := _tipos_catalogo()
+	var paginas := maxi(1,ceili(float(tipos.size()) / _por_pagina))
+	_pagina = clampi(_pagina,0,paginas-1)
+	for tipo in _botoes:
+		var indice := tipos.find(tipo)
+		_botoes[tipo].visible = indice >= _pagina * _por_pagina and indice < (_pagina+1) * _por_pagina
+	_pagina_rotulo.text = "%d / %d" % [_pagina+1,paginas]
+	_anterior.disabled = _pagina == 0
+	_proxima.disabled = _pagina == paginas-1
+	_paginacao.visible = paginas > 1

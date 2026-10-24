@@ -204,6 +204,10 @@ def gerar(p):
     for nome,pos in [('Chegada_portal',p['entrada']),('ClareiraGuardiao',p['guardiao'])]:
         grupo=' groups=["chegada"]' if nome=='Chegada_portal' else ''
         texto+=f'\n[node name="{nome}" type="Marker2D" parent="."{grupo}]\nposition = Vector2({pos[0]}, {pos[1]})\n'
+    if bioma=='ruinas':
+        # Sem árvores "gentle": veste o mapa com o acabamento detalhado dos bosques (instalar_floresta_detalhada.gd)
+        texto=texto.replace('[sub_resource','[ext_resource type="Script" path="res://codigo/fendas/instalar_floresta_detalhada.gd" id="florestadetalhada_script"]\n[sub_resource',1)
+        texto+='\n[node name="InstaladorFlorestaDetalhada" type="Node" parent="."]\nscript = ExtResource("florestadetalhada_script")\n'
     texto+='\n[node name="Setores" type="Node2D" parent="."]\n'
     for s in p['setores']:
         texto+=f'\n[node name="{s["id"]}" type="Marker2D" parent="Setores"]\nposition = Vector2({s["centro"][0]}, {s["centro"][1]})\nmetadata/grupos = {s["grupos"]}\n'

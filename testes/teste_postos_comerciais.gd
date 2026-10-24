@@ -30,6 +30,8 @@ func rodar() -> void:
 	var pasta:="res://arte/previas/cidade/postos_comerciais/"
 	if capturar:DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(pasta))
 	for id: String in Postos.POSTOS:
+		var filtros := Array(OS.get_cmdline_user_args()).filter(func(arg): return arg.begins_with("--morador="))
+		if not filtros.is_empty() and not filtros.has("--morador="+id): continue
 		var posto: Array=Postos.POSTOS[id]
 		var hora:=19.0 if id=="bardo" else 12.0
 		for e in 4:
@@ -48,6 +50,12 @@ func rodar() -> void:
 		change_scene_to_file(caminho)
 		await quadros(32)
 		var cena:=current_scene
+		if id == "lia":
+			verificar(cena.has_node("Interior/BalcaoAtendimento"),"Lia atende em um balcão real")
+			var vela: Node2D = cena.get_node("Interior/BalcaoAtendimento/Candelabro")
+			verificar(Rect2(-44,-38,88,13).has_point(vela.position),"Base da vela apoiada dentro do tampo do balcão")
+			var itens: Array = load("res://codigo/cidade/interior_casa.gd").dados().casas.sede.itens
+			verificar(not itens.any(func(item): return item.p in ["mesa_reuniao","banco_reuniao"]),"Recepção livre da mesa e dos bancos")
 		cena.set_process(false)
 		cena.get_node("Iluminacao").set_process(false)
 		cena.get_node("Iluminacao").definir_hora(hora)

@@ -45,6 +45,9 @@ shape = SubResource("Forma_porta")
 [node name="Chegada_entrada" type="Marker2D" parent="." groups=["chegada"]]
 position = Vector2(144, 246)
 
+[node name="Chegada_leito" type="Marker2D" parent="." groups=["chegada"]]
+position = Vector2(372, 122)
+
 [node name="Jogador" parent="." instance=ExtResource("jogador")]
 position = Vector2(144, 246)
 collision_mask = 96

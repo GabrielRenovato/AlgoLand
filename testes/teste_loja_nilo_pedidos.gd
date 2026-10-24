@@ -24,7 +24,7 @@ func _rodar() -> void:
 	for hora in [6.0,7.0,7.99]:
 		verificar("Nilo fica dentro antes de abrir %.2f" % hora,rotina.agenda(hora,0)["local"]=="palafita")
 	for hora in [8.0,12.0,16.99]:
-		verificar("Nilo atende durante expediente %.2f" % hora,rotina.agenda(hora,0)["atividade"]=="Atendendo na loja de pesca")
+		verificar("Nilo atende durante expediente %.2f" % hora,rotina.agenda(hora,0).get("comercial",false))
 	verificar("Nilo passeia depois de fechar",rotina.agenda(17.5,0)["local"]=="cidade")
 	root.get_node("Transicao").hora_salva = 7
 	change_scene_to_file("res://cenas/praia.tscn")
@@ -47,22 +47,22 @@ func _rodar() -> void:
 		if current_scene != null and current_scene.scene_file_path.ends_with("palafita.tscn"): break
 	await quadros(15)
 	verificar("loja abre a partir das 8h",current_scene.local=="palafita")
-	verificar("balcão e equipamento de pesca integrados",current_scene.has_node("Interior/Balcao128") and current_scene.has_node("Interior/MobiliarioCais"))
+	verificar("balcão e equipamento de pesca integrados",current_scene.has_node("Interior/BalcaoLoja") and current_scene.has_node("Interior/MobiliarioCais"))
 	root.get_node("Transicao").hora_salva = 12
 	change_scene_to_file("res://cenas/cidade.tscn")
 	await quadros(40)
 	var bento: Node2D = current_scene.moradores["bento"]
 	var indicador: Node2D = bento.get_node("IndicadorPedido")
-	verificar("sem pedido aceito não mostra balão",not indicador.visible)
+	verificar("pedido disponível mostra exclamação",indicador.visible and indicador._rotulo.text=="!")
 	cidade.aceitar("horta")
 	await quadros()
-	verificar("pedido aceito mostra interrogação cinza",indicador.visible and not indicador.pronto and indicador._rotulo.text=="?")
+	verificar("outras ofertas continuam indicadas após aceitar pedido",indicador.visible and not indicador.pronto and indicador._rotulo.text=="!")
 	bento.dizer("O mural tem pedidos novos. Passe la quando puder!",10)
 	await quadros()
 	var fala: Label = bento._balao
 	verificar("fala quebra linhas em largura limitada",fala.size.x<=144 and fala.size.y>16)
 	verificar("marcador fica ao lado sem sobrepor fala",not Rect2(fala.position,fala.size).intersects(Rect2(indicador.position,Vector2(16,16))))
-	verificar("balões usam os sprites do pacote",indicador._sprite.texture!=null and fala.get_theme_stylebox("normal") is StyleBoxTexture)
+	verificar("símbolo legível e fala mantém a moldura",indicador._rotulo.visible and indicador._rotulo.get_theme_constant("outline_size")>=2 and fala.get_theme_stylebox("normal") is StyleBoxTexture)
 	bento.calar()
 	await quadros()
 	var inicio: Vector2 = indicador.global_position
@@ -72,6 +72,6 @@ func _rodar() -> void:
 	fazenda.bolsas_alteradas.emit()
 	verificar("objetivo completo muda balão para amarelo",indicador.visible and indicador.pronto and indicador._rotulo.get_theme_color("font_color")==Color("ffe07a"))
 	cidade.concluir("horta","bento")
-	verificar("entregar todos os pedidos remove o balão",not indicador.visible)
+	verificar("entregar um pedido mantém a indicação das outras ofertas",indicador.visible and not indicador.pronto and indicador._rotulo.text=="!")
 	print("FALHAS: ",falhas)
 	quit(1 if falhas else 0)

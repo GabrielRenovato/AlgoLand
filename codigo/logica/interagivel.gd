@@ -38,13 +38,13 @@ func _ready() -> void:
 # Mesma moldura e escala do aviso do mercador
 func _montar_aviso() -> void:
 	_aviso = Sprite2D.new()
-	_aviso.texture = TEXTURA_AVISO
+	_aviso.texture = null
 	_aviso.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	# Sempre acima do jogador e dos objetos (que ordenam por z pela altura dos pés)
 	_aviso.z_as_relative = false
 	_aviso.z_index = 900
 	_aviso.position = deslocamento_aviso
-	_aviso.scale = Vector2(0.538463, 0.519231)
+	_aviso.scale = Vector2.ONE
 	_aviso.visible = false
 	add_child(_aviso)
 	_rotulo_tecla = Button.new()
@@ -65,19 +65,40 @@ func _montar_aviso() -> void:
 	_icone_tecla.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	_icone_tecla.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_rotulo_tecla.add_child(_icone_tecla)
+	aplicar_circulo_aviso(_aviso,_rotulo_tecla,_icone_tecla)
 
-## Fundo escuro: usar o dourado do mercador sem herdar o texto marrom dos menus.
+## Indicador compartilhado por moradores, móveis, coleta e mercador.
+static func aplicar_circulo_aviso(aviso: Sprite2D, botao: Button, icone: TextureRect = null) -> void:
+	aviso.texture = null
+	aviso.scale = Vector2.ONE
+	botao.flat = false
+	botao.add_theme_font_override("font",FONTE_AVISO)
+	botao.add_theme_font_size_override("font_size",9)
+	botao.position = Vector2(-9,-9)
+	botao.size = Vector2(18,18)
+	botao.alignment = HORIZONTAL_ALIGNMENT_CENTER
+	var circulo := StyleBoxFlat.new()
+	circulo.bg_color = Color("30241b")
+	circulo.border_color = Color("e4bd72")
+	circulo.set_border_width_all(1)
+	circulo.set_corner_radius_all(9)
+	for estado in ["normal","hover","pressed","hover_pressed","disabled","focus"]:
+		botao.add_theme_stylebox_override(estado,circulo)
+	aplicar_cores_aviso(botao)
+	if icone != null:
+		icone.position = Vector2(3,3)
+		icone.size = Vector2(12,12)
+
 static func aplicar_cores_aviso(botao: Button) -> void:
-	botao.add_theme_color_override("font_color", Color(1, 0.85, 0.2))
-	botao.add_theme_color_override("font_hover_color", Color(1, 0.95, 0.5))
-	botao.add_theme_color_override("font_pressed_color", Color(1, 0.95, 0.5))
-	botao.add_theme_color_override("font_focus_color", Color(1, 0.85, 0.2))
+	for estado in ["font_color","font_hover_color","font_pressed_color","font_focus_color"]:
+		botao.add_theme_color_override(estado,Color("fff4d6"))
 
 # F no teclado; no controle, o botão como está escrito nele (Y no Xbox, X no 8BitDo)
 func _atualizar_tecla() -> void:
 	_icone_tecla.visible = Controle.usando_toque
 	_rotulo_tecla.text = "" if Controle.usando_toque else Controle.rotulo_acao("open_menu")
-	_rotulo_tecla.add_theme_font_size_override("font_size",12)
+	_rotulo_tecla.add_theme_font_size_override("font_size",9 if _rotulo_tecla.text.length() <= 2 else 6)
+	_rotulo_tecla.size = Vector2(18,18)
 
 func _process(_delta: float) -> void:
 	var p1 := Cooperativo._jogador1()

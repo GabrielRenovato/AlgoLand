@@ -2,6 +2,7 @@
   "andar": 10,
   "nome": "Santuario Esquecido",
   "bioma": "ruinas",
+  "estacao": 0,
   "grade": 16,
   "limites": [
     -2200,

@@ -70,7 +70,7 @@ func _rodar() -> void:
 	root.content_scale_size = Vector2i(288,216)
 	root.size = Vector2i(864,648)
 	await quadros(20)
-	verificar("criacao mobile usa coluna sem corte horizontal", criacao._colunas.vertical and criacao._colunas.size.x <= criacao.size.x)
+	verificar("criacao mobile cabe sem rolagem", criacao._colunas.size.x <= criacao.size.x and criacao.find_children("*","ScrollContainer",true,false).is_empty())
 	await foto("criacao_mobile")
 	criacao._botao_confirmar.grab_focus()
 	await foto("criacao_mobile_rodape")

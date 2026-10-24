@@ -1,4 +1,6 @@
 extends SceneTree
+var _medusa: GDScript
+var _poses := preload("res://codigo/inimigos/poses_medusa.gd").new()
 
 const PAGINAS := ["movimento", "garras", "cauda", "bote", "olhar"]
 const NOMES := ["Deslizamento", "Garras", "Varrida de cauda", "Bote", "Olhar petrificante"]
@@ -10,6 +12,8 @@ func _initialize() -> void:
 	_rodar()
 
 func _rodar() -> void:
+	await process_frame
+	_medusa = load("res://codigo/inimigos/medusa.gd")
 	var vp := SubViewport.new()
 	vp.size = Vector2i(720, 1020)
 	vp.render_target_update_mode = SubViewport.UPDATE_ALWAYS
@@ -20,6 +24,7 @@ func _rodar() -> void:
 	fundo.color = Color("242a2d")
 	vp.add_child(fundo)
 	var corpos: Array[Sprite2D] = []
+	var animadores: Array = []
 	for i in PAGINAS.size():
 		var titulo := Label.new()
 		titulo.text = NOMES[i]
@@ -29,12 +34,13 @@ func _rodar() -> void:
 		for direcao in 4:
 			var sprite := Sprite2D.new()
 			sprite.texture = load("res://assets/inimigos/medusa/" + PAGINAS[i] + ".png")
-			sprite.hframes = 6
+			sprite.hframes = sprite.texture.get_width() / 160
 			sprite.vframes = 4
 			sprite.scale = Vector2.ONE
-			sprite.position = Vector2(100 + direcao * 172, i * 172 + 90)
+			sprite.position = Vector2(100 + direcao * 172, i * 172 + 100)
 			vp.add_child(sprite)
 			corpos.append(sprite)
+			animadores.append(load("res://codigo/inimigos/animacao_fluida_medusa.gd").new())
 	var efeitos: Array[Sprite2D] = []
 	for i in 5:
 		var nome: String = ["garras", "cauda", "bote", "olhar", "petrificacao"][i]
@@ -53,12 +59,24 @@ func _rodar() -> void:
 	for quadro in 60:
 		var tempo := quadro * 0.05
 		for i in 5:
-			var indice := int(tempo / 0.12) % 6
+			# Movimento nominal: 78px/s, uma pose a cada 7px percorridos.
+			var indice := fposmod(tempo / (7.0 / 78.0), 6.0)
 			if i > 0:
-				var ciclo := fposmod(tempo, float(AVISOS[i]) + float(DURACOES[i]) + 0.5)
-				indice = mini(2, int(ciclo / float(AVISOS[i]) * 3)) if ciclo < float(AVISOS[i]) else (mini(4, 3 + int((ciclo - float(AVISOS[i])) / float(DURACOES[i]) * 2)) if ciclo < float(AVISOS[i]) + float(DURACOES[i]) else 5)
+				var recuperacao: float = _medusa.RECUPERACOES[PAGINAS[i]]
+				var ciclo := fposmod(tempo, float(AVISOS[i]) + float(DURACOES[i]) + recuperacao)
+				indice = _medusa.quadro_preparo(ciclo / float(AVISOS[i])) if ciclo < float(AVISOS[i]) else (_medusa.quadro_golpe((ciclo - float(AVISOS[i])) / float(DURACOES[i])) if ciclo < float(AVISOS[i]) + float(DURACOES[i]) else _medusa.quadro_recuperacao((ciclo - float(AVISOS[i]) - float(DURACOES[i])) / recuperacao))
+			if _poses.possui(PAGINAS[i]):
+				var recuperacao: float = _medusa.RECUPERACOES[PAGINAS[i]]
+				var ciclo := fposmod(tempo, float(AVISOS[i]) + float(DURACOES[i]) + recuperacao)
+				indice = _poses.preparo(ciclo / float(AVISOS[i])) if ciclo < float(AVISOS[i]) else (_poses.golpe((ciclo - float(AVISOS[i])) / float(DURACOES[i])) if ciclo < float(AVISOS[i]) + float(DURACOES[i]) else _poses.recuperacao((ciclo - float(AVISOS[i]) - float(DURACOES[i])) / recuperacao))
+			indice = fposmod(indice, 6.0)
 			for direcao in 4:
-				corpos[i * 4 + direcao].frame = direcao * 6 + indice
+				if _poses.possui(PAGINAS[i]):
+					_poses.aplicar(corpos[i * 4 + direcao], PAGINAS[i], direcao, indice)
+					continue
+				var colunas := corpos[i * 4 + direcao].texture.get_width() / 160
+				corpos[i * 4 + direcao].frame = direcao * colunas + mini(colunas - 1, int(indice * colunas / 6.0))
+				animadores[i * 4 + direcao].aplicar(corpos[i * 4 + direcao], PAGINAS[i], fposmod(indice, 1.0))
 		for efeito in efeitos:
 			efeito.frame = int(tempo * 10) % 6
 		await process_frame

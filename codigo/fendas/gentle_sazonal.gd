@@ -21,9 +21,17 @@ func _ready() -> void:
 	var estacoes: Node = get_parent().get_node("Estacoes")
 	estacoes.estacao_mudou.connect(_trocar)
 	_trocar(estacoes.estacao_atual)
+	_instalar_detalhes.call_deferred()
 
 func _trocar(indice: int) -> void:
 	var paleta: String = str(get_meta("paleta","01"))
 	folhas_arvores[indice] = load("res://assets/cenario/substitutos/arvores_florestas/v%s/%s.png" % [paleta,["spring","summer","autumn","winter"][indice]])
 	for atlas in _atlas: atlas.atlas = folhas_arvores[clampi(indice,0,3)]
 	_brilho.texture = get_parent().get_node("Estacoes").BRILHOS[indice]
+
+func _instalar_detalhes() -> void:
+	var terreno := get_parent()
+	if terreno.has_node("FlorestaDetalhada"): return
+	var detalhes := preload("res://codigo/fendas/floresta_detalhada.gd").new()
+	detalhes.name = "FlorestaDetalhada"
+	terreno.add_child(detalhes)

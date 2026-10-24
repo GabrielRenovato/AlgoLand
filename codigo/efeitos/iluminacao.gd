@@ -47,14 +47,10 @@ var _dormindo := false
 var _vinheta: Node
 var _gradiente := Gradient.new()
 var _ultimo_minuto := -1
-## Na arena o mundo fica parado: o relógio do dia (e do Calendario) só anda fora dela. A arena tem a hora própria de
-## cada onda (amanhecer na 1, noite no chefe da 10) e, na saída, a Transicao guarda a hora do MUNDO (hora_do_mundo)
+## Dentro da arena e dos andares da fenda (há um gerenciador de ondas) o tempo passa como no resto do jogo: o mesmo relógio,
+## a mesma luz do dia e o mesmo cansaço da madrugada. A flag só avisa o resto do jogo que o jogador está lutando (o pombo
+## e a agenda da vila não valem lá); a Transicao guarda a hora corrente ao sair e a cena seguinte continua dela.
 var em_arena := false
-var _hora_mundo := 0.0
-var _tween_hora: Tween
-## Hora da arena em cada onda do ciclo de 10 (onda 1 = 06:00 ... onda 10 = 22:12)
-const HORA_ARENA_INICIAL := 6.0
-const HORAS_POR_ONDA_ARENA := 1.8
 
 func _ready() -> void:
 	add_to_group("iluminacao")
@@ -70,40 +66,21 @@ func _ready() -> void:
 
 ## O gerenciador de ondas entra no grupo no próprio _ready: confere depois que a cena inteira montou
 func _ligar_arena() -> void:
-	var gerenciador := get_tree().get_first_node_in_group("gerenciador_ondas")
-	if gerenciador == null or Introducao.ativa():
+	if get_tree().get_first_node_in_group("gerenciador_ondas") == null or Introducao.ativa():
 		return
 	em_arena = true
-	_hora_mundo = hora
-	gerenciador.onda_iniciada.connect(_ao_onda_da_arena)
-	_ao_onda_da_arena(int(gerenciador.onda_atual), true)
 
-static func hora_da_onda(onda: int) -> float:
-	return HORA_ARENA_INICIAL + float((maxi(onda, 1) - 1) % 10) * HORAS_POR_ONDA_ARENA
-
-## A cada onda a luz da arena caminha (para a frente, passando da meia-noite se precisar) até a hora daquela onda
-func _ao_onda_da_arena(onda: int, imediato := false) -> void:
-	var alvo := hora_da_onda(onda)
-	if _tween_hora:
-		_tween_hora.kill()
-	if imediato or not is_inside_tree():
-		hora = alvo
-		return
-	var destino := alvo if alvo >= hora else alvo + 24.0
-	_tween_hora = create_tween()
-	_tween_hora.tween_method(func(h: float) -> void: hora = fposmod(h, 24.0), hora, destino, 3.0)
-
-## A hora que vale para o mundo (Calendario, portas, relógio da cidade): na arena, a de quando o jogador entrou
+## A hora que vale para o mundo (Calendario, portas, relógio da cidade): é a do relógio, na arena também
 func hora_do_mundo() -> float:
-	return _hora_mundo if em_arena else hora
+	return hora
 
 func _process(delta: float) -> void:
 	# O prólogo não consome o primeiro dia enquanto o jogador aprende.
-	if Introducao.ativa() or em_arena or Comercio.em_viagem:
+	if Introducao.ativa() or Comercio.em_viagem:
 		_aplicar()
 		return
-	# O relógio nunca para. Passando das 02:00 o jogador apaga assim que der (se estiver numa onda, o relógio segue
-	# rolando e ele só apaga quando a onda acaba, para não desmaiar no meio do combate)
+	# O relógio nunca para, nem nos andares. Passando das 02:00 o jogador apaga assim que der (se estiver numa onda, o
+	# relógio segue rolando e ele só apaga quando a onda acaba, para não desmaiar no meio do combate)
 	horas_decorridas += delta / segundos_reais_por_hora
 	hora = fposmod(HORA_DESPERTAR + horas_decorridas, 24.0)
 	if horas_decorridas >= DURACAO_DIA_H:
@@ -123,8 +100,15 @@ func _tentar_fim_do_dia() -> void:
 	var jogador: Node = get_tree().get_first_node_in_group("character")
 	if jogador == null or not jogador is CharacterBody2D:
 		return
-	var gerenciador := get_tree().get_first_node_in_group("gerenciador_ondas")
-	if gerenciador != null and gerenciador.get("onda_em_andamento"):
+	# Dentro da arena e dos andares da fenda ninguém desmaia: a corrida longa não é cortada. O cansaço cobra na saída
+	# (a Transicao leva o jogador para a vila à 00:00)
+	if em_arena:
+		return
+	for grupo in ["gerenciador_ondas", "gerenciador_andar"]:
+		var gerenciador := get_tree().get_first_node_in_group(grupo)
+		if gerenciador != null and gerenciador.get("onda_em_andamento"):
+			return
+	if bool(jogador.get("estaMorto")):
 		return
 	_dormindo = true
 	fim_do_dia.emit()

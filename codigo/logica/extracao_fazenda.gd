@@ -49,6 +49,8 @@ const NOMES_ESTACAO := ["primavera", "verao", "outono", "inverno"]
 @export var colisao_arvoreta := Rect2(-13, -8, 26, 8)
 @export var colisoes_pedra: Array[Rect2] = []
 @export var variantes_mato := 2
+## Só a fazenda tem horta com entulho (Fazenda.entulho, em células dela): a floresta corta árvores e quebra pedras sem isso
+@export var usa_entulho := true
 
 var _vida: Dictionary = {}
 var _caidos: Dictionary = {}
@@ -197,6 +199,8 @@ func _mostrar_toco(recurso: Dictionary) -> void:
 
 ## Desenha o que entrou e apaga o que saiu de Fazenda.entulho
 func _sincronizar_entulho() -> void:
+	if not usa_entulho:
+		return
 	for celula in _entulho.keys():
 		if Fazenda.entulho.get(celula, "") != _entulho[celula]["recurso"]["tipo"]:
 			_apagar_entulho(celula)

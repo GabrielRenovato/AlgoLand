@@ -1,6 +1,6 @@
 extends Control
 
-## Energia da fazenda: moldura em pixel art e preenchimento de baixo para cima.
+## Energia da fazenda: moldura de madeira detalhada e preenchimento de baixo para cima.
 ## No toque fica abaixo do Status, fora da região do joystick e da barra de ferramentas.
 const DesenhoBarra := preload("res://codigo/ui/desenho_barra.gd")
 const ICONE := preload("res://assets/ui/craftpix-net-420010-pixel-game-user-interface-for-platformer/3 Icons/Icon_49.png")

@@ -26,18 +26,34 @@ func rodar() -> void:
 	root.size = Vector2i(1152,648)
 	root.content_scale_size = Vector2i(576,324)
 	var premios = load("res://codigo/fendas/premios_tesouro.gd")
+	root.get_node("Progresso").apagar()
+	root.get_node("InventarioJogador").limpar()
+	root.get_node("BauCasa")._limpar()
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 70419
 	var raros := 0
 	var validos := true
 	var tipos := {}
+	var categorias := {}
 	for i in 20000:
-		var item: DadosItem = premios.sortear_premio(rng, 1)
+		var item: DadosItem = premios.sortear_premio(rng, 20)
 		if item != null:
-			raros += 1
-			tipos[item.tipo] = true
-			validos = validos and item.raridade == "lendario" and item.nivel == 5 and load("res://codigo/dados/conjuntos_armadura.gd").de_tipo(item.tipo) != null
-	verificar("sorteio de 5 por cento produz apenas peças lendárias existentes (%d/20000)" % raros, raros > 850 and raros < 1150 and validos and tipos.size() == 12)
+			categorias[item.categoria]=true
+			validos = validos and item.categoria in ["receita","pocao","comida","material"] and item.quantidade==1
+			if item.categoria=="material": validos = validos and item.conteudo()=="moeda_forja"
+			if item.categoria == "receita":
+				raros += 1
+				tipos[item.tipo] = true
+				validos = validos and load("res://codigo/dados/conjuntos_armadura.gd").de_tipo(item.conteudo()) != null
+	verificar("sorteio de 5 por cento produz apenas receitas de conjunto (%d/20000)" % raros, raros > 850 and raros < 1150 and validos and tipos.size() == 12)
+	verificar("tesouro varia entre receitas, poções, comida e moedas",categorias.size()==4)
+	var portais := 0
+	for i in 20000:
+		if rng.randf()<premios.CHANCE_PORTAL: portais+=1
+	verificar("portal raro aparece perto de 2 por cento",portais>320 and portais<480)
+	var prematuro := false
+	for i in 1000: prematuro = prematuro or premios.sortear_premio(rng,1).categoria=="receita"
+	verificar("andar inicial não adianta receitas de conjunto",not prematuro)
 	var progresso := root.get_node("Progresso")
 	root.get_node("Introducao").pular_prologo()
 	root.get_node("Introducao").aula_arena = false
@@ -129,9 +145,11 @@ func rodar() -> void:
 	verificar("mímico dá cinco vezes o ouro comum", root.get_node("DadosJogo").moedas - ouro == gerente.ouro_por_abate(andar) * 5)
 	var ouro_depois: int = root.get_node("DadosJogo").moedas
 	verificar("recompensa não se repete", root.get_node("DadosJogo").moedas == ouro_depois)
+	# Exercita a recompensa elegível sem alterar a população carregada pelo teste.
+	tesouro._andar = 20
 	for semente in 100:
 		rng.seed = semente
-		if premios.sortear_premio(rng, andar) != null:
+		if premios.sortear_premio(rng, 20).categoria == "receita":
 			tesouro._rng.seed = semente
 			break
 	gigante.receber_dano(999999)
@@ -140,8 +158,9 @@ func rodar() -> void:
 	var premio_no_chao: Node
 	for drop in get_nodes_in_group("equipamento_drop"):
 		if tesouro.sala.is_ancestor_of(drop): premio_no_chao = drop
-	verificar("acertar os 5 por cento solta um item real no chão", is_instance_valid(premio_no_chao) and premio_no_chao.item.raridade == "lendario")
+	verificar("acertar os 5 por cento solta pergaminho no chão", is_instance_valid(premio_no_chao) and premio_no_chao.item.categoria == "receita")
 	if is_instance_valid(premio_no_chao): premio_no_chao.set_process(false)
+	tesouro._andar = andar
 	await tesouro.sair()
 	await quadros()
 	verificar("retorno preserva andar, população e progresso", gerente.onda_atual == andar and gerente.pontos == pontos and gerente.inimigos_vivos == vivos and progresso.ondas_concluidas == concluidas)

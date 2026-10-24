@@ -4,8 +4,6 @@ extends Node2D
 ## A superfície usa AguaViva com profundidade, ondulação e gelo nas margens;
 ## a comparação Tiny conserva o desenho legado. A água continua utilizável no inverno.
 
-const RAIO := Vector2(38, 28)
-const PONTOS := 28
 const FOLHA_ESTACAO := "res://assets/cenario/substitutos/natureza/%s.png"
 const ESTACOES := ["spring", "summer", "autumn", "winter"]
 ## Tiles de água cheia na folha (colunas 11 a 13 da linha 13, que emendam entre si): repetir 48 px quebra o quadriculado
@@ -16,6 +14,9 @@ const COR_BRILHO := Color(0.75, 0.92, 1.0, 0.55)
 ## Folga em volta da água que ainda conta como "virado para o lago" (o ponto da ferramenta fica uns 10 px à frente)
 const FOLGA_INTERACAO := 8.0
 
+## Tamanho do lago (elipse com ondulações): o laguinho do regador tem o padrão; a floresta usa um lago grande para pescar
+@export var raio := Vector2(38, 28)
+@export var pontos := 28
 var poligono := PackedVector2Array()
 var _textura_terra: Texture2D
 var _textura_agua: Texture2D
@@ -47,8 +48,8 @@ func _ready() -> void:
 	add_child(corpo)
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 7
-	while _reflexos.size() < 6:
-		var p := Vector2(rng.randf_range(-RAIO.x, RAIO.x), rng.randf_range(-RAIO.y, RAIO.y)) * 0.7
+	while _reflexos.size() < roundi(6.0 * raio.x * raio.y / (38.0 * 28.0)):
+		var p := Vector2(rng.randf_range(-raio.x, raio.x), rng.randf_range(-raio.y, raio.y)) * 0.7
 		if Geometry2D.is_point_in_polygon(p, poligono):
 			_reflexos.append(p.round())
 	var estacoes := get_parent().get_node_or_null("Estacoes")
@@ -58,13 +59,13 @@ func _ready() -> void:
 
 ## Contorno fixo (mesmo formato em todo jogo): elipse com ondulações, pontos em pixel inteiro. `margem` cresce/encolhe
 func _contorno(margem: float) -> PackedVector2Array:
-	var pontos := PackedVector2Array()
-	for i in PONTOS:
-		var angulo := TAU * i / PONTOS
+	var lista := PackedVector2Array()
+	for i in pontos:
+		var angulo := TAU * i / pontos
 		var onda := 1.0 + 0.08 * sin(angulo * 3.0 + 0.6) + 0.05 * sin(angulo * 5.0 + 1.9)
-		var raio := RAIO * onda + Vector2(margem, margem)
-		pontos.append((Vector2(cos(angulo), sin(angulo)) * raio).round())
-	return pontos
+		var tamanho := raio * onda + Vector2(margem, margem)
+		lista.append((Vector2(cos(angulo), sin(angulo)) * tamanho).round())
+	return lista
 
 func _aplicar_estacao(estacao: int) -> void:
 	_agua_viva.aplicar(estacao)
@@ -85,6 +86,9 @@ func contem(ponto_global: Vector2) -> bool:
 	return Geometry2D.is_point_in_polygon(to_local(ponto_global), _contorno(FOLGA_INTERACAO))
 
 func _process(delta: float) -> void:
+	# Só o desenho legado (Tiny) anima reflexos; a água viva é um Polygon2D com shader e o resto é estático
+	if _superficie.visible:
+		return
 	_tempo += delta
 	queue_redraw()
 
@@ -103,10 +107,10 @@ func _draw() -> void:
 		uvs.append(p / Vector2(REGIAO_AGUA.size))
 	draw_colored_polygon(poligono, Color.WHITE, uvs, _textura_agua)
 	# Sombra da margem na metade de cima e brilho na de baixo
-	var metade := PONTOS / 2
+	var metade := pontos / 2
 	var cima := PackedVector2Array()
-	for i in range(metade, PONTOS + 1):
-		cima.append(poligono[i % PONTOS] + Vector2(0, 1))
+	for i in range(metade, pontos + 1):
+		cima.append(poligono[i % pontos] + Vector2(0, 1))
 	draw_polyline(cima, Color(0, 0, 0, 0.25), 2.0)
 	var baixo := PackedVector2Array()
 	for i in range(0, metade + 1):

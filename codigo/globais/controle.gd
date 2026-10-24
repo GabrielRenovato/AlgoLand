@@ -95,8 +95,19 @@ func _tirar_mouse_das_acoes() -> void:
 			if evento is InputEventMouseButton:
 				InputMap.action_erase_event(acao, evento)
 
+## Campos de texto ficam com as teclas, inclusive os campos fora do chat do canto.
+var _digitando_chat := false
+var digitando: bool:
+	get:
+		var foco := get_viewport().gui_get_focus_owner()
+		return _digitando_chat or (foco is LineEdit and foco.editable) or (foco is TextEdit and foco.editable)
+	set(valor):
+		_digitando_chat = valor
+
 ## Para onde o jogador quer andar: o joystick da tela, ou o teclado/analógico (vetor de até tamanho 1, não normalizado)
 func vetor_movimento() -> Vector2:
+	if digitando:
+		return Vector2.ZERO
 	if vetor_toque != Vector2.ZERO:
 		return vetor_toque
 	return Vector2(Input.get_axis("move_left", "move_right"), Input.get_axis("move_up", "move_down"))

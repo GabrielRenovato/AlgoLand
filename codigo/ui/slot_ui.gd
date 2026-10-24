@@ -19,6 +19,8 @@ var item_atual: DadosItem
 var trancado: bool = false
 var _cadeado: TextureRect = null
 
+var _acabamento_detalhado := false
+
 var _arrasto_valido: bool = false
 var _mouse_em_cima: bool = false
 var _moldura: Control
@@ -58,6 +60,28 @@ func exibir(item: DadosItem) -> void:
 	_item_ui.visible = item != null
 	_icone_vazio.visible = item == null and icone_vazio != null
 	_item_ui.exibir(item)
+	if _acabamento_detalhado: _atualizar_acabamento()
+
+## Ativação local pelo inventário: barras, baús e demais telas mantêm seus próprios estilos.
+func aplicar_acabamento_detalhado() -> void:
+	if _acabamento_detalhado: return
+	_acabamento_detalhado = true
+	var estilo := preload("res://codigo/ui/estilo_inicio_detalhado.gd")
+	_fundo.add_theme_stylebox_override("panel",estilo.espaco(0))
+	estilo.fundo(_fundo,Vector2i(1,1),32.0)
+	_icone_vazio.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	_item_ui.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	_item_ui.icone.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	_atualizar_acabamento()
+
+func _atualizar_acabamento() -> void:
+	var borda := StyleBoxFlat.new()
+	borda.draw_center = false
+	borda.set_border_width_all(1)
+	borda.set_corner_radius_all(1)
+	borda.border_color = item_atual.cor_raridade().lightened(0.12) if item_atual != null and item_atual.raridade != "comum" else Color("ad8250")
+	for lado in [SIDE_LEFT,SIDE_TOP,SIDE_RIGHT,SIDE_BOTTOM]: borda.set_expand_margin(lado,-1)
+	_item_ui.moldura.add_theme_stylebox_override("panel",borda)
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_DRAG_BEGIN:
@@ -243,6 +267,11 @@ func equipar_com_botao_direito() -> void:
 	_equipar_ou_desequipar()
 
 func _equipar_ou_desequipar() -> void:
+	if item_atual.categoria == "comida" and tipo_slot == "mochila":
+		var mensagem: String = EventosJogo.inventario_de(self).usar_comida(item_atual)
+		Sons.tocar("compra" if mensagem.is_empty() else "erro",0.0)
+		get_tree().call_group("hud_p2" if EventosJogo.eh_do_p2(self) else "hud_p1","anunciar","REFEICAO ATIVA" if mensagem.is_empty() else mensagem,"UMA REFEICAO POR PARTIDA" if mensagem.is_empty() else "",2.0)
+		return
 	if item_atual.categoria == "receita" and tipo_slot == "mochila":
 		var mensagem: String = EventosJogo.inventario_de(self).usar_receita(item_atual)
 		Sons.tocar("compra" if mensagem.is_empty() else "erro", 0.0)

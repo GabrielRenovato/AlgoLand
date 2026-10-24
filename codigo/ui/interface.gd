@@ -13,7 +13,7 @@ const TELAS_ACOMPANHANTES := {"mercante": ["inventario"], "bau": ["inventario"]}
 # fechar, senão o A que fechou a conversa já abriria outra)
 const ACOES_DO_JOGADOR := ["rolar", "attack", "open_menu"]
 # Telas no centro da tela: em vez de deslizar de uma borda, aparecem com fade
-const TELAS_CENTRAIS := ["fim_partida", "dormir", "pausa", "conversa_cidade", "mural_cidade", "desafio_arena", "introducao", "guia_pesca", "comercio", "forja", "oficina_vara", "mapa_mundi"]
+const TELAS_CENTRAIS := ["acampamento", "fim_partida", "dormir", "pausa", "conversa_cidade", "mural_cidade", "desafio_arena", "introducao", "guia_pesca", "comercio", "forja", "carpintaria", "oficina_vara", "mapa_mundi", "ranking", "lobby"]
 # Só se fecha pelo próprio botão (B/Esc e o atalho do inventário são ignorados)
 const TELAS_OBRIGATORIAS := ["fim_partida", "introducao"]
 
@@ -56,6 +56,18 @@ const ACOES_NAVEGACAO := ["ui_up", "ui_down", "ui_left", "ui_right", "ui_accept"
 
 func _ready() -> void:
 	Introducao.preparar_cena(get_parent())
+	var ranking := preload("res://codigo/ui/tela_ranking.gd").new()
+	ranking.name = "TelaRanking"
+	add_child(ranking)
+	_telas["ranking"] = ranking
+	_paineis["ranking"] = ranking.painel
+	ranking.hide()
+	var lobby := preload("res://codigo/ui/tela_lobby.gd").new()
+	lobby.name = "TelaLobby"
+	add_child(lobby)
+	_telas["lobby"] = lobby
+	_paineis["lobby"] = lobby.painel
+	lobby.hide()
 	var mapa := preload("res://codigo/ui/tela_mapa_mundi.gd").new()
 	mapa.name = "MapaMundi"
 	add_child(mapa)
@@ -66,6 +78,11 @@ func _ready() -> void:
 	add_child(forja)
 	_telas["forja"] = forja
 	_paineis["forja"] = forja.painel
+	var carpintaria := preload("res://codigo/ui/tela_carpintaria.gd").new()
+	carpintaria.name = "TelaCarpintaria"
+	add_child(carpintaria)
+	_telas["carpintaria"] = carpintaria
+	_paineis["carpintaria"] = carpintaria.painel
 	var introducao := DialogoIntroducao.new()
 	introducao.name = "DialogoIntroducao"
 	add_child(introducao)
@@ -111,6 +128,7 @@ func _ready() -> void:
 		EventosJogo.fechar_tela.connect(_fechar_tela)
 	Controle.modo_alterado.connect(_ao_modo_controle)
 	get_viewport().gui_focus_changed.connect(_ao_foco_mudou)
+	Transicao.troca_concluida.connect(_ao_chegar_no_andar)
 	# Celular: joystick e botões na tela (somem enquanto uma tela está aberta)
 	if Controle.usando_toque:
 		# No coop o toque pertence ao P1; o parceiro usa o próprio controle.
@@ -119,7 +137,7 @@ func _ready() -> void:
 	_troca_companheira = Button.new()
 	_troca_companheira.name = "TrocarLojaMochila"
 	_troca_companheira.theme = preload("res://recursos/ui/tema_sidebar.tres")
-	_troca_companheira.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_troca_companheira.autowrap_mode = TextServer.AUTOWRAP_OFF
 	_troca_companheira.add_theme_font_size_override("font_size",8)
 	_troca_companheira.pressed.connect(func():
 		_companheira_mochila = not _companheira_mochila
@@ -154,6 +172,12 @@ func _organizar_companheiras() -> void:
 	_troca_companheira.text = ("BAU" if par == "bau" else "LOJA") if _companheira_mochila else "MOCHILA"
 	var painel: Control = _paineis["inventario" if _companheira_mochila else par]
 	var largura := minf(68,medida.x-painel.size.x-24)
+	var fonte := _troca_companheira.get_theme_font("font")
+	var espaco_texto := largura - _troca_companheira.get_theme_stylebox("normal").get_minimum_size().x - 4
+	var tamanho_fonte := 8
+	while tamanho_fonte > 4 and fonte.get_string_size(_troca_companheira.text,HORIZONTAL_ALIGNMENT_LEFT,-1,tamanho_fonte).x > espaco_texto:
+		tamanho_fonte -= 1
+	_troca_companheira.add_theme_font_size_override("font_size",tamanho_fonte)
 	_troca_companheira.size = Vector2(largura,44)
 	_troca_companheira.position = Vector2(8 if _companheira_mochila else medida.x-largura-8, (medida.y-44)/2)
 
@@ -163,6 +187,22 @@ func definir_carregado(item: DadosItem) -> void:
 		return
 	item_carregado = item
 	carregado_alterado.emit()
+
+## Entrar no andar precisa deixar o mesmo estado de ações de fechar a mochila.
+## Não libera menus, cenas guiadas, forja ou o parceiro que está em outro mapa.
+func _ao_chegar_no_andar(caminho: String) -> void:
+	if not caminho.begins_with("res://cenas/fendas/andar_") or not _telas_abertas.is_empty() or Introducao.ativa() or Introducao.cinematica or Introducao.acompanhando:
+		return
+	var jogador := EventosJogo.dono(self)
+	if jogador == null or jogador.estaMorto or jogador.esta_forjando:
+		return
+	var cena := Cooperativo.cena_de(jogador)
+	if cena == null or cena.scene_file_path != caminho: return
+	get_viewport().gui_release_focus()
+	_foco_logico = null
+	jogador.desabilitar_todas_acoes(false)
+	for filho in get_children():
+		if filho.get_script() == ControlesToque: filho._soltar_tudo()
 
 func _ao_foco_mudou(no: Control) -> void:
 	_foco_logico = no
@@ -179,8 +219,29 @@ func foco_atual() -> Control:
 ## No co-op o foco do Godot é único por janela: se o parceiro focou algo, devolve o foco desta metade antes de o comando navegar
 func _input(evento: InputEvent) -> void:
 	if get_tree().get_first_node_in_group("remapeando_controles") != null: return
+	# Escrevendo no chat do canto: M, I e as outras teclas são letras, não atalhos
+	if Controle.digitando and evento is InputEventKey: return
 	var jogador := EventosJogo.dono(self)
 	var acao_mapa: String = jogador.acao("open_map") if jogador != null else "open_map"
+	# Dentro de um andar da fenda "MAPA" alterna o automapa do andar, não a carta do mundo
+	var minimapa := _minimapa_do_andar()
+	if minimapa != null and not Introducao.ativa() and not Comercio.em_viagem and _telas_abertas.is_empty():
+		if evento is InputEventJoypadButton and evento.is_action(acao_mapa):
+			if evento.pressed:
+				_mapa_aguardando = true
+				_mapa_pedido += 1
+				_alternar_minimapa_se_segurou(_mapa_pedido, minimapa)
+			elif _mapa_aguardando:
+				_mapa_aguardando = false
+				# R3 curto continua trocando a arma; segurar reserva o mesmo botao para o mapa
+				for hud in get_tree().get_nodes_in_group("hud_p2" if EventosJogo.eh_do_p2(self) else "hud_p1"):
+					if hud.barra_armas != null and not hud.barra_armas.modo_fazenda: hud.barra_armas.trocar(1)
+			get_viewport().set_input_as_handled()
+			return
+		if evento.is_action_pressed(acao_mapa) and not evento.is_echo():
+			minimapa.alternar()
+			get_viewport().set_input_as_handled()
+			return
 	if evento.is_action(acao_mapa) and evento is InputEventJoypadButton:
 		if evento.pressed and not Introducao.ativa() and not Comercio.em_viagem:
 			if "mapa_mundi" in _telas_abertas:
@@ -213,6 +274,9 @@ func _input(evento: InputEvent) -> void:
 
 func _unhandled_input(evento: InputEvent) -> void:
 	if get_tree().get_first_node_in_group("remapeando_controles") != null: return
+	if Controle.digitando and evento is InputEventKey:
+		get_viewport().set_input_as_handled()
+		return
 	if Comercio.em_viagem and not Comercio.em_combate:
 		get_viewport().set_input_as_handled()
 		return
@@ -358,6 +422,20 @@ func _definir_acoes_do_jogador_desabilitadas(desabilitar: bool) -> void:
 	var jogador := EventosJogo.dono(self)
 	if jogador != null:
 		jogador.desabilitar_todas_acoes(desabilitar or Introducao.cinematica)
+
+## O minimapa do andar deste jogador (existe só dentro de um andar da fenda)
+func _minimapa_do_andar() -> Control:
+	for no in get_tree().get_nodes_in_group("minimapa_p2" if EventosJogo.eh_do_p2(self) else "minimapa_p1"):
+		if no is Control and is_instance_valid(no) and no.is_inside_tree():
+			return no
+	return null
+
+func _alternar_minimapa_se_segurou(pedido: int, minimapa: Control) -> void:
+	await get_tree().create_timer(0.4).timeout
+	if not _mapa_aguardando or pedido != _mapa_pedido: return
+	_mapa_aguardando = false
+	if is_instance_valid(minimapa):
+		minimapa.alternar()
 
 func _abrir_mapa_se_segurou(pedido: int) -> void:
 	await get_tree().create_timer(0.4).timeout

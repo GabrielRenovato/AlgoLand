@@ -1,0 +1,44 @@
+{
+  "canvas_logico": [
+    192,
+    72
+  ],
+  "resolucao": 4,
+  "pivo": [
+    96,
+    72
+  ],
+  "pes": [
+    [
+      -54,
+      -43
+    ],
+    [
+      0,
+      -57
+    ],
+    [
+      56,
+      -35
+    ]
+  ],
+  "medalhoes": [
+    [
+      -54,
+      -20
+    ],
+    [
+      0,
+      -27
+    ],
+    [
+      56,
+      -17
+    ]
+  ],
+  "colisao": [
+    170,
+    30
+  ],
+  "fonte": "arte/fontes/cidade/podio_ranking/original.png"
+}

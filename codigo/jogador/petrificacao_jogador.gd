@@ -14,6 +14,10 @@ var _rotulo: Label
 var _fatal := false
 var _esfarelando := false
 var _tempo_esfarelar := 0.0
+var corpo_esfarelado := false
+var _raven: CanvasItem
+var _raven_processava := true
+var _raven_visivel := true
 
 func aplicar(duracao: float, fatal: bool = false) -> bool:
 	var jogador := get_parent()
@@ -31,6 +35,11 @@ func aplicar(duracao: float, fatal: bool = false) -> bool:
 	jogador.no_reacao.hide()
 	jogador._cancelar_acoes_em_andamento()
 	jogador.animar()
+	_raven = jogador.get_node_or_null("HeroiRaven")
+	if is_instance_valid(_raven):
+		_raven_processava = _raven.is_processing()
+		_raven_visivel = _raven.visible
+		_raven.set_process(false)
 	_arvore_ativa = jogador._arvore_animacao.active
 	jogador._arvore_animacao.active = false
 	var material_pedra := ShaderMaterial.new()
@@ -80,7 +89,11 @@ func atualizar(delta: float) -> bool:
 			_casca.frame = mini(1, int(_tempo_casca * 10)) if _tempo_casca < 0.2 else 2 + int(_tempo_casca * 4) % 2
 		if restante <= 0:
 			if _fatal:
+				corpo_esfarelado = true
 				get_parent().get_node("CompositeSprites").hide()
+				var raven := get_parent().get_node_or_null("HeroiRaven")
+				if raven != null:
+					raven.hide()
 				_esfarelando = true
 				_tempo_esfarelar = 0
 				_casca.texture = load("res://assets/efeitos/medusa/cascalho.png")
@@ -109,6 +122,8 @@ func liberar() -> void:
 		if is_instance_valid(camada):
 			camada.material = _materiais[camada]
 	_materiais.clear()
+	if not corpo_esfarelado:
+		_restaurar_raven()
 	if is_instance_valid(jogador) and is_instance_valid(jogador._arvore_animacao):
 		jogador._arvore_animacao.active = _arvore_ativa
 		jogador.velocity = Vector2.ZERO
@@ -132,6 +147,8 @@ func _exit_tree() -> void:
 
 func limpar() -> void:
 	liberar()
+	corpo_esfarelado = false
+	_restaurar_raven()
 	if is_instance_valid(_casca):
 		_casca.queue_free()
 	_casca = null
@@ -140,3 +157,8 @@ func limpar() -> void:
 	_rotulo = null
 	imunidade = 0
 	_quebrando = false
+
+func _restaurar_raven() -> void:
+	if is_instance_valid(_raven):
+		_raven.set_process(_raven_processava)
+		_raven.visible = _raven_visivel

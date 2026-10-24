@@ -1,0 +1,71 @@
+{
+  "tipo": "Estudo de animação de colheita Raven com referência de movimento Mana Seed",
+  "modelo": "Raven original31px de altura com cabelo: corpo_0, cabelo_1, camisa_azul, calca_marrom, botas e luvas",
+  "referencia": "referencias.png: primeira linha identidade e direções Raven; segunda gesto atual; terceira colheita Mana Seed de perfil",
+  "camera": "três quartos superior do jogo, sem perspectiva frontal de ilustração",
+  "grade_geracao": {
+    "tela": [
+      1536,
+      1024
+    ],
+    "colunas": 3,
+    "linhas": 2,
+    "celula": [
+      512,
+      512
+    ],
+    "pixel_logico": 8
+  },
+  "grade_exportacao": {
+    "celula": [
+      80,
+      80
+    ],
+    "direcoes": [
+      "direita"
+    ],
+    "quadros": 6,
+    "pivo": [
+      40,
+      57
+    ]
+  },
+  "fases": [
+    "preparar",
+    "abaixar",
+    "segurar no chão",
+    "puxar",
+    "levantar",
+    "recuperar"
+  ],
+  "duracoes_ms": [
+    120,
+    140,
+    180,
+    120,
+    160,
+    180
+  ],
+  "repeticao": false,
+  "mao": "duas mãos; ombros e quadril acompanham, pés mantêm apoio",
+  "invariantes": [
+    "mesma identidade, tamanho e roupa",
+    "pés ancorados",
+    "costas sem face",
+    "sem ferramenta ou colheita fixa",
+    "alfa transparente"
+  ],
+  "entrega": "Prévia e folha de sprites em estudo_colheita; não substituir camadas ativas nem aparência personalizável com uma folha vestida",
+  "destino": "arte/previas/personagens/raven_colheita e assets/personagens/raven_fantasy/estudo_colheita",
+  "metodo": "geração IA integrada para estudo; recorte regular e reprodução no Godot isolado",
+  "estado": "Estudo lateral renderizado no Godot; não integrado ao jogador ativo",
+  "arquivo_selecionado": "geracao_perfil.png",
+  "arquivos_rejeitados": {
+    "estudo_inicial.png": "Escala e detalhes divergentes do Raven original",
+    "estudo_escala_rejeitada.png": "A correção por texto repetiu o problema; produção reduzida ao perfil com molde original"
+  },
+  "limitacoes": [
+    "Estudo com roupa fixa; ainda faltam camadas personalizáveis e as outras três direções para uso no jogador ativo",
+    "O movimento usa referência Mana Seed, não transferência literal de poses"
+  ]
+}

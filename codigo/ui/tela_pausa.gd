@@ -4,6 +4,7 @@ extends Control
 ## CONTINUAR, OPCOES (as mesmas da tela inicial: volume, tela cheia, FPS, vibração e desenho dos botões), VOLTAR AO MENU e SAIR DO JOGO;
 ## os dois últimos pedem confirmação. A Interface abre e fecha a tela (nome "pausa") e cuida de Esc/B para fechar.
 
+const EstiloInicio := preload("res://codigo/ui/estilo_inicio_detalhado.gd")
 const Opcoes := preload("res://codigo/globais/opcoes_jogo.gd")
 const CENA_MENU := "res://cenas/inicio_do_jogo.tscn"
 const VALORES_FPS := [30, 60, 120, 0]
@@ -15,7 +16,7 @@ enum Vista { MENU, OPCOES, CONFIRMAR }
 
 @onready var _titulo: Label = %Titulo
 @onready var _detalhe: Label = %Detalhe
-@onready var _menu: VBoxContainer = %Menu
+@onready var _menu: GridContainer = %Menu
 @onready var _vista_opcoes: VBoxContainer = %Opcoes
 @onready var _confirmar: HBoxContainer = %Confirmar
 @onready var _botao_continuar: Button = %BotaoContinuar
@@ -45,6 +46,13 @@ func _ready() -> void:
 		EventosJogo.abrir_tela_de(self,"mapa_mundi"))
 	_menu.add_child(mapa)
 	_menu.move_child(mapa, _botao_continuar.get_index()+1)
+	var cidade_online := Button.new()
+	cidade_online.name = "BotaoLobbyCidade"
+	cidade_online.text = "CIDADE ONLINE / OFFLINE"
+	cidade_online.pressed.connect(func():
+		EventosJogo.fechar_tela_de(self,"pausa")
+		EventosJogo.abrir_tela_de(self,"lobby"))
+	_menu.add_child(cidade_online)
 	%BotaoFechar.pressed.connect(_continuar)
 	_botao_opcoes.pressed.connect(_mostrar.bind(Vista.OPCOES))
 	_botao_salvar.pressed.connect(_salvar_pelo_menu)
@@ -53,6 +61,10 @@ func _ready() -> void:
 	_botao_sim.pressed.connect(_ao_sim)
 	_botao_nao.pressed.connect(_mostrar.bind(Vista.MENU))
 	_montar_opcoes()
+	EstiloInicio.painel($Centro/Painel,false,10,true)
+	for botao: Button in $Centro/Painel.find_children("*","Button",true,false):
+		EstiloInicio.botao(botao,botao == _botao_continuar,16.0)
+	for botao: Button in _menu.get_children(): botao.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_rolagem_opcoes = ScrollContainer.new()
 	_rolagem_opcoes.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	_rolagem_opcoes.follow_focus = true
@@ -68,6 +80,7 @@ func _ready() -> void:
 	visibility_changed.connect(_ao_visibilidade_alterada)
 
 func _ajustar_altura_opcoes() -> void:
+	_menu.columns = 2 if size.y < 270 else 1
 	_rolagem_opcoes.custom_minimum_size.y = minf(_vista_opcoes.get_combined_minimum_size().y, maxf(size.y - 112, 40))
 
 func _exit_tree() -> void:
@@ -78,6 +91,11 @@ func _exit_tree() -> void:
 func _ao_visibilidade_alterada() -> void:
 	get_tree().paused = visible
 	if visible:
+		var na_cidade := false
+		var dono := EventosJogo.dono(self)
+		for lobby in get_tree().get_nodes_in_group("lobby_cidade"):
+			if dono!=null and Cooperativo.cena_de(dono)==lobby.get_parent(): na_cidade=true
+		_menu.get_node("BotaoLobbyCidade").visible=na_cidade
 		_opcoes = Opcoes.carregar(_lado())
 		_atualizar_linhas()
 		_mostrar(Vista.MENU)

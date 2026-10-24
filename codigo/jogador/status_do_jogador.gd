@@ -42,8 +42,8 @@ var defesa: int:
 var dano_arma: int = 0
 
 const K_DEFESA: float = 50.0
-const REDUCAO_MAXIMA: float = 0.75
-const ROUBO_VIDA_MAXIMO: int = 30
+const REDUCAO_MAXIMA: float = 0.60
+const ROUBO_VIDA_MAXIMO: int = 6
 const VELOCIDADE_MAXIMA: float = 180.0
 
 func calcular_estatisticas_derivadas(_arma_equipada: bool = false):
@@ -56,8 +56,9 @@ func calcular_estatisticas_derivadas(_arma_equipada: bool = false):
 	# defesa não é recalculada aqui: vem de Jogador.bonus_defesa (armaduras/escudo/loja)
 
 func reducao_dano() -> float:
-	# A couraça (Progresso) soma por fora da fórmula de defesa
-	return min(float(defesa) / (float(defesa) + K_DEFESA) + Progresso.bonus("couraca"), REDUCAO_MAXIMA)
+	# As proteções se combinam sem somar pontos que anulam o dano restante.
+	var armadura := maxf(0,float(defesa))/(maxf(0,float(defesa))+K_DEFESA)
+	return minf(1.0-(1.0-armadura)*(1.0-Progresso.bonus("couraca")),REDUCAO_MAXIMA)
 
 func calcular_dano_golpe() -> Dictionary:
 	var critico: bool = randf() < chance_critico

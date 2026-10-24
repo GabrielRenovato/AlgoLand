@@ -38,6 +38,8 @@ static func rastreio(cidade: Node, quem: Node = null) -> Dictionary:
 		var fase := "aceitar"
 		var texto := "Fale com %s na vila" % nome
 		var alvo: String = dados.dono
+		# Só a etapa "derrote o guardião do andar N" tem a ver com a fenda; falar com a vila ou colher na horta não tem
+		var nos_andares := false
 		if estado == "aceita":
 			var progresso: Vector2i = cidade.progresso_missao(id,quem)
 			if progresso.x >= progresso.y:
@@ -47,8 +49,9 @@ static func rastreio(cidade: Node, quem: Node = null) -> Dictionary:
 				fase = "cumprir"
 				alvo = ""
 				texto = "Fazenda: colheitas da estacao %d/2" % progresso.x if dados.tipo == "colheita" else "Fenda: derrote o guardiao do andar %d" % dados.quantidade
-		return {"id":id,"fase":fase,"texto":texto,"alvo":alvo,"dono":dados.dono,"titulo":dados.nome}
-	return {"id":"","fase":"concluida","texto":"Selo restaurado! Use a fonte da vila.","alvo":"","dono":"","titulo":"LIMIAR CONCLUIDO"}
+				nos_andares = dados.tipo == "chefe"
+		return {"id":id,"fase":fase,"texto":texto,"alvo":alvo,"dono":dados.dono,"titulo":dados.nome,"andares":nos_andares}
+	return {"id":"","fase":"concluida","texto":"Selo restaurado! Use a fonte da vila.","alvo":"","dono":"","titulo":"LIMIAR CONCLUIDO","andares":false}
 
 const ENTREGAS := {
 	"limiar_vigilia":"Voce voltou. Entao ainda temos tempo. Aprendi com o antigo guarda a desenhar esta lanca: leve o projeto ao Ivo. Agora procure Bento; o selo precisa de raizes vivas.",

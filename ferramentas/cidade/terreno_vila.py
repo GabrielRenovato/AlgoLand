@@ -14,8 +14,10 @@ G = F.G
 LARGURA, ALTURA = 1024, 576
 # Traçado da vila: rua principal leste-oeste (da fazenda à ponte), rua norte-sul (da sede ao parque), rua sul para a fileira
 # de baixo, a praça no cruzamento e o lago no parque. Cada rua é (início, fim, meia largura)
-PRACA = (336, 272)
-RAIO_PRACA = (88, 60)
+LAYOUT = json.loads((RAIZ / "codigo/cidade/layout_vila.json").read_text())
+PRACA = tuple(LAYOUT["praca_piso"]["centro"])
+RAIO_PRACA = tuple(LAYOUT["praca_piso"]["raios"])
+RAIO_CANTO_PRACA = LAYOUT["praca_piso"]["raio_canto"]
 LAGO = (440, 530)
 RAIO_LAGO = (66, 34)
 MEIA_LARGURA_RIO = 20
@@ -29,7 +31,7 @@ RUAS = [((0, 272), (676, 272), 22),      # rua principal: entrada da fazenda at�
         ((488, 120), (488, 272), 16)]
 # Acessos das portas usam o mesmo calçamento das ruas e da praça.
 PORTAS = 24
-QUINTAL = json.loads((RAIZ / "codigo/cidade/layout_vila.json").read_text())["quintal_carpinteiro"]
+QUINTAL = LAYOUT["quintal_carpinteiro"]
 def margem_rio(y):
     return 676 + 6 * math.sin(y / 80)
 
@@ -57,9 +59,12 @@ def terreno(x, y, predios):
         return 'agua'
     # Praça com cantos arredondados e braços pavimentados: as ruas entram no mesmo piso.
     px, py = abs(x - PRACA[0]), abs(y - PRACA[1])
-    canto_x, canto_y = max(px - 64, 0), max(py - 36, 0)
-    praca = px < 88 and py < 60 and canto_x * canto_x + canto_y * canto_y < 24 * 24
-    acesso = (px < 112 and py < 18) or (px < 18 and 168 < y < 350)
+    canto_x = max(px - (RAIO_PRACA[0] - RAIO_CANTO_PRACA), 0)
+    canto_y = max(py - (RAIO_PRACA[1] - RAIO_CANTO_PRACA), 0)
+    praca = (px < RAIO_PRACA[0] and py < RAIO_PRACA[1]
+             and canto_x * canto_x + canto_y * canto_y < RAIO_CANTO_PRACA ** 2)
+    # Os braços continuam alinhados à fonte e às ruas existentes.
+    acesso = (abs(x - 336) < 112 and abs(y - 272) < 18) or (abs(x - 336) < 18 and 168 < y < 350)
     # Terminação reta alinhada à grade; a ponta circular criava uma língua de um tile.
     rua_leste = 676 <= x <= 960 and abs(y - 272) < 18
     if praca or acesso or rua_leste or any(G.dist_segmento((x, y), a, b) < meia for a, b, meia in caminhos_pedra(predios)):

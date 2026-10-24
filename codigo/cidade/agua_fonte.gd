@@ -5,6 +5,7 @@ const SHADER := preload("res://codigo/cidade/agua_fonte.gdshader")
 const N := 96
 const PASSO := 1.0/30.0
 const GRAVIDADE := 190.0
+const LARGURAS_JATO := [0.7, 0.9, 1.1, 1.3, 1.5, 1.7]
 var imagem: Sprite2D
 var altura := PackedFloat32Array()
 var anterior := PackedFloat32Array()
@@ -20,9 +21,16 @@ var tempo := 0.0
 var _acumulado := 0.0
 var _emissao := 0.0
 var _campo: Image
+var _bytes := PackedByteArray()
+## Só simula e desenha com a fonte na tela: no celular a simulação em GDScript pesava na cidade inteira
+var _aviso: VisibleOnScreenNotifier2D
 var _textura: ImageTexture
 var _material: ShaderMaterial
 var _aleatorio := RandomNumberGenerator.new()
+var _trajetos: Array[Dictionary] = []
+var _circulo := PackedVector2Array()
+## Um lote por espessura mantém as curvas, sem centenas de comandos individuais.
+var lotes_desenho := 0
 
 func _ready() -> void:
 	_aleatorio.seed=336284
@@ -50,6 +58,7 @@ func _ready() -> void:
 			if quantidade>=3:
 				molhado[y*N+x]=1
 				ativos.append(y*N+x)
+	_bytes=_campo.get_data()
 	_textura=ImageTexture.create_from_image(_campo)
 	_material=ShaderMaterial.new()
 	_material.shader=SHADER
@@ -62,12 +71,19 @@ func _ready() -> void:
 	for lado in [-1,1]:
 		var duracao: float=(26.0+sqrt(676.0+2.0*GRAVIDADE*8.5))/GRAVIDADE
 		emissores.append({"origem":Vector2(47.5,9),"velocidade":Vector2(lado*8.5,-26),"g":GRAVIDADE,"duracao":duracao,"alvo_y":17.5})
+	_preparar_trajetos()
+	for i in 29:
+		var a := float(i) * TAU / 28.0
+		_circulo.append(Vector2(cos(a), sin(a) * .38))
 	# O estado inicial já contém ondas nas bacias; os impactos as mantêm.
 	_impacto(Vector2(42,17),.30)
 	_impacto(Vector2(27,54),.25)
 	_impacto(Vector2(67,54),.25)
 	for i in 35: _onda()
 	_atualizar_textura()
+	_aviso=VisibleOnScreenNotifier2D.new()
+	_aviso.rect=Rect2(imagem.offset,imagem.texture.get_size()).grow(8.0)
+	imagem.add_child(_aviso)
 
 func _emissor(origem: Vector2,alvo: Vector2) -> void:
 	var duracao:=sqrt(2.0*(alvo.y-origem.y)/GRAVIDADE)
@@ -92,10 +108,9 @@ func _impacto(p: Vector2,forca: float) -> void:
 			ondas.append({"p":Vector2(melhor%N,melhor/N),"t":0.0})
 func _onda() -> void:
 	for i in ativos:
-		var vizinhos:=0.0
-		for d in [-1,1,-N,N]:
-			vizinhos+=altura[i+d] if molhado[i+d] else altura[i]
-		proxima[i]=clampf((2.0*altura[i]-anterior[i]+.19*(vizinhos-4.0*altura[i]))*.988,-.95,.95)
+		var h:=altura[i]
+		var vizinhos:=(altura[i-1] if molhado[i-1] else h)+(altura[i+1] if molhado[i+1] else h)+(altura[i-N] if molhado[i-N] else h)+(altura[i+N] if molhado[i+N] else h)
+		proxima[i]=clampf((2.0*h-anterior[i]+.19*(vizinhos-4.0*h))*.988,-.95,.95)
 	var velha:=anterior
 	anterior=altura
 	altura=proxima
@@ -103,11 +118,15 @@ func _onda() -> void:
 	passos+=1
 func _atualizar_textura() -> void:
 	for i in ativos:
-		var h:=.5+altura[i]*.45
-		_campo.set_pixel(i%N,i/N,Color(h,h,h,1))
+		var cinza:=int(clampf(.5+altura[i]*.45,0.0,1.0)*255.0+.5)
+		var o:=i*4
+		_bytes[o]=cinza
+		_bytes[o+1]=cinza
+		_bytes[o+2]=cinza
+	_campo.set_data(N,N,false,Image.FORMAT_RGBA8,_bytes)
 	_textura.update(_campo)
 func _process(delta: float) -> void:
-	if not is_visible_in_tree(): return
+	if not is_visible_in_tree() or not _aviso.is_on_screen(): return
 	var dt:=minf(delta,.10)
 	tempo+=dt
 	for i in range(ondas.size()-1,-1,-1):
@@ -143,34 +162,85 @@ func _process(delta: float) -> void:
 		atualizou=true
 	if atualizou: _atualizar_textura()
 	queue_redraw()
-func _draw() -> void:
+func _preparar_trajetos() -> void:
 	for e in emissores:
-		for i in 32:
-			var a:=float(i)/32.0
-			var b:=float(i+1)/32.0
-			var p0:=_posicao(e,a*float(e.duracao))
-			var p1:=_posicao(e,b*float(e.duracao))
-			var velocidade: float=absf(e.velocidade.y+e.g*a*e.duracao)
-			var largura:=clampf(1.6/sqrt(1.0+velocidade*.011),.75,1.6)
-			largura*=1.0+.10*sin(a*24.0-tempo*19.0)
-			p0.x+=.08*sin(a*39.0-tempo*21.0)
-			p1.x+=.08*sin(b*39.0-tempo*21.0)
-			var reflexo:=.5+.5*sin(a*32.0-tempo*22.0)
-			draw_line(p0,p1,Color(.37,.72,.91,.55),largura,true)
-			draw_line(p0+Vector2(-.16,0),p1+Vector2(-.16,0),Color(.87,.97,1.0,.40+reflexo*.45),largura*.40,true)
+		var pontos := PackedVector2Array()
+		var larguras := PackedFloat32Array()
+		for i in 17:
+			var a := float(i) / 16.0
+			pontos.append(_posicao(e, a * float(e.duracao)))
+			var velocidade: float = absf(e.velocidade.y + e.g * a * e.duracao)
+			larguras.append(clampf(1.6 / sqrt(1.0 + velocidade * .011), .75, 1.6))
+		_trajetos.append({"pontos": pontos, "larguras": larguras})
+
+func _draw() -> void:
+	lotes_desenho = 0
+	var pontos_jato: Array[PackedVector2Array] = []
+	var pontos_brilho: Array[PackedVector2Array] = []
+	var cores_brilho: Array[PackedColorArray] = []
+	for _i in LARGURAS_JATO.size():
+		pontos_jato.append(PackedVector2Array())
+		pontos_brilho.append(PackedVector2Array())
+		cores_brilho.append(PackedColorArray())
+	for trajeto in _trajetos:
+		for i in 16:
+			var a := float(i) / 16.0
+			var b := float(i + 1) / 16.0
+			var p0: Vector2 = trajeto.pontos[i]
+			var p1: Vector2 = trajeto.pontos[i + 1]
+			var largura: float = trajeto.larguras[i] * (1.0 + .10 * sin(a * 24.0 - tempo * 19.0))
+			var grupo := clampi(roundi((largura - .7) / .2), 0, LARGURAS_JATO.size() - 1)
+			p0.x += .08 * sin(a * 39.0 - tempo * 21.0)
+			p1.x += .08 * sin(b * 39.0 - tempo * 21.0)
+			var reflexo := .5 + .5 * sin(a * 32.0 - tempo * 22.0)
+			pontos_jato[grupo].append(p0)
+			pontos_jato[grupo].append(p1)
+			pontos_brilho[grupo].append(p0 + Vector2(-.16, 0))
+			pontos_brilho[grupo].append(p1 + Vector2(-.16, 0))
+			cores_brilho[grupo].append(Color(.87, .97, 1.0, .40 + reflexo * .45))
+	for grupo in LARGURAS_JATO.size():
+		if pontos_jato[grupo].is_empty(): continue
+		draw_multiline(pontos_jato[grupo], Color(.37, .72, .91, .55), LARGURAS_JATO[grupo], true)
+		draw_multiline_colors(pontos_brilho[grupo], cores_brilho[grupo], LARGURAS_JATO[grupo] * .40, true)
+		lotes_desenho += 2
+	var pontos_ondas := PackedVector2Array()
+	var cores_ondas := PackedColorArray()
 	for onda in ondas:
-		var t: float=onda.t/.55
-		var raio:=.35+t*3.0
+		var t: float = onda.t / .55
+		var raio := .35 + t * 3.0
+		var cor := Color(.82, .96, 1.0, (1.0 - t) * .55)
 		for i in 28:
-			var a:=float(i)*TAU/28.0
-			var b:=float(i+1)*TAU/28.0
-			var p0: Vector2=onda.p+Vector2(cos(a)*raio,sin(a)*raio*.38)
-			var p1: Vector2=onda.p+Vector2(cos(b)*raio,sin(b)*raio*.38)
+			var p0: Vector2 = onda.p + _circulo[i] * raio
+			var p1: Vector2 = onda.p + _circulo[i + 1] * raio
 			if _na_agua(p0) and _na_agua(p1):
-				draw_line(p0,p1,Color(.82,.96,1.0,(1.0-t)*.55),.16,true)
+				pontos_ondas.append(p0)
+				pontos_ondas.append(p1)
+				cores_ondas.append(cor)
+	if not pontos_ondas.is_empty():
+		draw_multiline_colors(pontos_ondas, cores_ondas, .16, true)
+		lotes_desenho += 1
+	var pontos_gotas := PackedVector2Array()
+	var cores_gotas := PackedColorArray()
+	var pontos_respingos := PackedVector2Array()
+	var cores_respingos := PackedColorArray()
 	for gota in gotas:
-		var opacidade: float=1.0-float(gota.t)/.28 if gota.respingo else .9
-		draw_circle(gota.p,.17 if gota.respingo else .20,Color(.78,.95,1,opacidade),true,-1,true)
+		var opacidade: float = 1.0 - float(gota.t) / .28 if gota.respingo else .9
+		var cor := Color(.78, .95, 1, opacidade)
+		# Segmentos curtos e arredondados mantêm o tamanho subpixel das gotas.
+		if gota.respingo:
+			pontos_respingos.append(gota.p - Vector2(0, .02))
+			pontos_respingos.append(gota.p + Vector2(0, .02))
+			cores_respingos.append(cor)
+		else:
+			pontos_gotas.append(gota.p - Vector2(0, .02))
+			pontos_gotas.append(gota.p + Vector2(0, .02))
+			cores_gotas.append(cor)
+	if not pontos_gotas.is_empty():
+		draw_multiline_colors(pontos_gotas, cores_gotas, .40, true)
+		lotes_desenho += 1
+	if not pontos_respingos.is_empty():
+		draw_multiline_colors(pontos_respingos, cores_respingos, .34, true)
+		lotes_desenho += 1
 func _na_agua(p: Vector2) -> bool:
 	var x:=int(p.x)
 	var y:=int(p.y)

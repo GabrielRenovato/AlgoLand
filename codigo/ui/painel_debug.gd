@@ -62,6 +62,7 @@ func _process(_delta: float) -> void:
 		_atualizar_estado()
 
 func _unhandled_key_input(evento: InputEvent) -> void:
+	if Controle.digitando: return
 	if evento is InputEventKey and evento.pressed and not evento.echo and evento.keycode == KEY_F3:
 		_painel.visible = not _painel.visible
 		if _painel.visible:

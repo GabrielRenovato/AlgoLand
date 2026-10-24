@@ -10,11 +10,11 @@ extends Node2D
 ## (Fazenda.PLANTAS[id]["raridade"]). As plantas das melhores poções (força e vampírica) são as raras e épicas.
 ## Mobs normais e mutantes soltam semente muito raramente; a fonte principal é o chefe (a cada 10 ondas).
 ##
-##   raridade   mob normal (por abate)   mutante (x3)   chefe: chance extra de cada (x20)
-##   comum      1%    (1 em 100)         3%             20%
-##   incomum    0,4%  (1 em 250)         1,2%           8%
-##   raro       0,12% (1 em ~830)        0,36%          2,4%
-##   epico      0,04% (1 em 2500)        0,12%          0,8%
+##   raridade   mob normal (por abate)   mutante (x3)   chefe: chance extra de cada (x10)
+##   comum      0,4%   (1 em 250)        1,2%           4%
+##   incomum    0,16%  (1 em 625)        0,48%          1,6%
+##   raro       0,05%  (1 em 2000)       0,15%          0,5%
+##   epico      0,016% (1 em 6250)       0,048%         0,16%
 ##
 ## Além das chances extras, o chefe sempre solta QTD_GARANTIDA_CHEFE sementes sorteadas pelos pesos de PESO_CHEFE.
 ## Nas fendas, as chances extras caem para 25% desta tabela e cada guardião garante uma semente da estação.
@@ -26,10 +26,10 @@ const IconesFazenda := preload("res://codigo/ui/icones_fazenda.gd")
 ## Este script (soltar_de é estático e não tem `self` para instanciar)
 const ROTEIRO := "res://codigo/logica/semente_drop.gd"
 
-const CHANCE_POR_RARIDADE := {"comum": 0.01, "incomum": 0.004, "raro": 0.0012, "epico": 0.0004}
+const CHANCE_POR_RARIDADE := {"comum": 0.004, "incomum": 0.0016, "raro": 0.0005, "epico": 0.00016}
 const MULT_MUTANTE := 3.0
-const MULT_CHEFE := 20.0
-const QTD_GARANTIDA_CHEFE := 2
+const MULT_CHEFE := 10.0
+const QTD_GARANTIDA_CHEFE := 1
 ## Andares têm mais inimigos e um guardião em cada mapa, em vez de um chefe a cada dez ondas.
 const MULT_CHANCE_ANDAR := 0.25
 const QTD_GARANTIDA_GUARDIAO := 1

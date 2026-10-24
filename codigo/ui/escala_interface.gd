@@ -10,6 +10,10 @@ var _camada: CanvasLayer
 var _controles := {}
 var _ultimo_fator := -1.0
 
+## Reserva os cantos inferiores conforme o espaço físico, independentemente da escala do HUD.
+static func escala_combate(tamanho: Vector2) -> float:
+	return clampf(minf(tamanho.x / 390.0, tamanho.y / 300.0), 0.7, 1.0)
+
 static func fator(no: Node) -> float:
 	var eventos := no.get_node_or_null("/root/EventosJogo")
 	var lado := 2 if eventos != null and eventos.eh_do_p2(no) else 1

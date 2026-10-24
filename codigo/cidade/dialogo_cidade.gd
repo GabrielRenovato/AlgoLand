@@ -2,6 +2,7 @@ extends "res://codigo/cidade/tela_cidade.gd"
 
 ## Caixa de diálogo de RPG: fala, retrato e assuntos. O que cada morador diz vem de conversa_moradores.gd
 ## (personalidade, dicas pelo estado do jogo, histórias pela amizade, opinião sobre os vizinhos); um pedido por vez.
+const Acabamento := preload("res://codigo/ui/estilo_inicio_detalhado.gd")
 const Conversa := preload("res://codigo/cidade/conversa_moradores.gd")
 ## Letras por segundo do texto aparecendo
 const VELOCIDADE_TEXTO := 70.0
@@ -134,16 +135,17 @@ func _ready() -> void:
 	linha_respostas.add_child(_rolagem)
 	_menu_assuntos.resized.connect(_encaixar_respostas.call_deferred)
 	var setas := VBoxContainer.new()
+	setas.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	setas.add_theme_constant_override("separation",2)
 	linha_respostas.add_child(setas)
 	for sentido in [-1,1]:
 		var seta := Button.new()
 		seta.text = "▲" if sentido < 0 else "▼"
-		seta.custom_minimum_size = Vector2(44,32)
-		seta.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		seta.custom_minimum_size = Vector2(24,24)
+		seta.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 		_estilizar_opcao(seta)
 		seta.alignment = HORIZONTAL_ALIGNMENT_CENTER
-		seta.add_theme_font_size_override("font_size",20)
+		seta.add_theme_font_size_override("font_size",9)
 		seta.pressed.connect(func(): _rolagem.scroll_vertical += sentido * maxf(1.0,_rolagem.get_v_scroll_bar().step))
 		setas.add_child(seta)
 		if sentido < 0: _subir_respostas = seta
@@ -152,6 +154,7 @@ func _ready() -> void:
 	_rolagem.get_v_scroll_bar().value_changed.connect(_atualizar_setas_respostas)
 	_opcoes = GridContainer.new()
 	_opcoes.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_opcoes.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
 	_opcoes.add_theme_constant_override("h_separation",8)
 	_opcoes.add_theme_constant_override("v_separation",2)
 	_rolagem.add_child(_opcoes)
@@ -171,18 +174,19 @@ func _atualizar_setas_respostas(_valor := 0.0) -> void:
 
 func _encaixar_respostas() -> void:
 	if not is_inside_tree() or not _menu_assuntos.visible: return
-	var altura_linha := 32.0 if _usa_toque() else 19.0
+	var altura_linha := 30.0 if _usa_toque() else 24.0
 	var estreito := size.x < 360
 	var largura_painel := size.x-16.0 if estreito else minf(440.0,size.x-24.0)
-	var largura_lista := largura_painel-20.0-(46.0 if estreito else 66.0)-(6.0 if estreito else 12.0)-(48.0 if _subir_respostas.get_parent().visible else 0.0)
+	var largura_lista := largura_painel-20.0-(46.0 if estreito else 66.0)-(6.0 if estreito else 12.0)-(28.0 if _subir_respostas.get_parent().visible else 0.0)
 	var largura_botao := (largura_lista-8.0*(_opcoes.columns-1))/_opcoes.columns
 	for botao in _botoes:
 		var moldura_botao := botao.get_theme_stylebox("normal").get_minimum_size()
 		var fonte := botao.get_theme_font("font")
 		var altura_texto := fonte.get_multiline_string_size(botao.text,HORIZONTAL_ALIGNMENT_CENTER,maxf(40.0,largura_botao-moldura_botao.x),botao.get_theme_font_size("font_size")).y
-		# A altura de uma linha medida na fonte pode ser menor que a altura
-		# mínima do Button (ascendente, descendente e margens da moldura).
-		altura_linha = maxf(altura_linha,maxf(botao.get_minimum_size().y,altura_texto+moldura_botao.y))
+		# Medir pela largura final: o mínimo do Button antes do layout pode
+		# conter uma quebra por letra e perpetuar uma altura enorme.
+		var altura_fonte := fonte.get_height(botao.get_theme_font_size("font_size"))
+		altura_linha = maxf(altura_linha,ceilf(maxf(altura_fonte,altura_texto)+moldura_botao.y))
 	for botao in _botoes: botao.custom_minimum_size.y = altura_linha
 	var passo := altura_linha+2.0
 	var altura_painel := float((164 if estreito else 148) if _usa_toque() else (144 if estreito else 132))-8.0
@@ -199,14 +203,13 @@ func _estilo_conversa() -> StyleBoxTexture:
 	return preload("res://codigo/ui/estilo_interface.gd").painel(true)
 
 func _estilizar_opcao(botao: Button) -> void:
+	Acabamento.botao(botao,false,16)
 	botao.alignment = HORIZONTAL_ALIGNMENT_CENTER
 	botao.add_theme_font_size_override("font_size",9)
 	botao.add_theme_color_override("font_color",Color("62422c"))
 	botao.add_theme_color_override("font_hover_color",Color("372418"))
 	botao.add_theme_color_override("font_focus_color",Color("372418"))
 	botao.add_theme_color_override("font_disabled_color",Color("a49172"))
-	for estado in ["normal","hover","pressed","hover_pressed","focus","disabled"]:
-		botao.add_theme_stylebox_override(estado, preload("res://codigo/ui/estilo_interface.gd").botao(estado))
 
 func _ajustar_conversa() -> void:
 	if painel == null:
@@ -515,7 +518,6 @@ func _atualizar() -> void:
 		_mostrar_pedido()
 	else:
 		_fala.text = _fala_atual
-	if _atendimento != "" and _submenu != "": _botao("FECHAR",_fechar)
 	if _aviso != "":
 		_fala.text = _aviso
 	_preparar_leitura()
@@ -588,7 +590,13 @@ func _mostrar_pedido() -> void:
 ## A carta do pombo-correio: quem pede, o pedido e a recompensa. Aceitar daqui vale o mesmo que pelo morador ou pelo mural
 func _mostrar_carta() -> void:
 	if not Dados.MISSOES.has(_pedido):
-		_mostrar_carta_misteriosa()
+		if not Cidade.carta_misteriosa(_pedido).is_empty():
+			_mostrar_carta_misteriosa()
+		else:
+			_titulo.text = "CARTA INDISPONIVEL"
+			_fala.text = "Este pedido nao esta mais disponivel."
+			_fala.visible_ratio = 1.0
+			_botao("FECHAR",_fechar)
 		return
 	var dados: Dictionary = Dados.MISSOES[_pedido]
 	var dono: String = dados["dono"]
@@ -797,6 +805,13 @@ func _vender_peixe(id: String) -> void:
 
 func _aceitar(id: String) -> void:
 	if not Cidade.aceitar(id): return
+	if _carta:
+		# A confirmação continua sendo a mesma carta até fechar e registrar sua leitura.
+		_pedido = id
+		_aviso = "Pedido aceito! O pedido ficou no seu diario."
+		_atualizar()
+		focar_inicio()
+		return
 	_pedido = ""
 	_falar("Combinado! O pedido ficou no seu diario. Volte para falar comigo quando terminar.")
 

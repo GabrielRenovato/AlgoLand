@@ -39,19 +39,25 @@ func _ready() -> void:
 ## Botão direito no item: o slot dono dele equipa (mochila) ou desequipa (slot de equipamento) na hora.
 ## Toque duplo (o celular não tem botão direito; o toque vira clique do mouse) faz o mesmo.
 func _ao_entrada(evento: InputEvent) -> void:
-	if evento is InputEventMouseButton and evento.button_index == MOUSE_BUTTON_LEFT and evento.pressed:
+	var toque: bool = evento is InputEventScreenTouch or (evento is InputEventMouseButton and evento.button_index==MOUSE_BUTTON_LEFT)
+	if toque and evento.pressed:
 		_inicio_toque = evento.position
-	if evento is InputEventMouseButton and evento.button_index == MOUSE_BUTTON_LEFT and not evento.pressed and evento.position.distance_to(_inicio_toque) < 6:
+	if toque and not evento.pressed and evento.position.distance_to(_inicio_toque) < 6:
 		var interface := EventosJogo.interface_de(self)
 		if interface != null and interface._telas["inventario"].tentar_excluir_item(dados):
 			accept_event()
 			return
+		if Controle.usando_toque and dados!=null and not _arrastando:
+			preload("res://codigo/ui/dica_item_toque.gd").mostrar(self)
 	if evento is InputEventMouseButton and evento.pressed and (evento.button_index == MOUSE_BUTTON_RIGHT \
 			or (evento.button_index == MOUSE_BUTTON_LEFT and evento.double_click)):
 		var slot := get_parent()
 		if slot != null and slot.has_method("equipar_com_botao_direito"):
 			slot.equipar_com_botao_direito()
 			accept_event()
+
+func _get_tooltip(_at_position: Vector2) -> String:
+	return "" if Controle.usando_toque else tooltip_text
 
 func exibir(item: DadosItem) -> void:
 	dados = item
@@ -105,18 +111,32 @@ func _make_custom_tooltip(_texto: String) -> Object:
 	return tooltip_do_item(minf(220,preload("res://codigo/ui/escala_interface.gd").tamanho_logico(self).x-40))
 
 ## O mesmo desenho da dica do mouse, para quem mostra o detalhe sem o mouse (o controle)
-func tooltip_do_item(largura := 170.0) -> Control:
+func tooltip_do_item(largura := 170.0, tamanho := 10) -> Control:
 	if dados == null:
 		return null
 	var linhas := VBoxContainer.new()
+	linhas.set_meta("tamanho_dica",tamanho)
 	linhas.custom_minimum_size.x = largura
-	linhas.add_theme_constant_override("separation", 4)
+	linhas.add_theme_constant_override("separation", 2 if tamanho<10 else 4)
 	linhas.add_child(linha_dica(dados.nome(), dados.cor_raridade()))
-	if dados.categoria in ["receita", "material", "colheita", "pocao", "produto"]:
-		linhas.add_child(linha_dica("x%d  OCUPA ESPACO NA MOCHILA" % dados.quantidade, COR_DICA_DETALHE))
+	if dados.categoria in ["receita", "material", "colheita", "pocao", "produto", "comida"]:
+		linhas.add_child(linha_dica(("x%d  COMIDA" if dados.categoria=="comida" else "x%d  OCUPA ESPACO NA MOCHILA") % dados.quantidade, COR_DICA_DETALHE))
 		if dados.categoria == "receita":
 			linhas.add_child(linha_dica("CONFIRMAR / BOTAO DIREITO / TOQUE DUPLO: APRENDER", COR_DICA_DETALHE))
 			linhas.add_child(linha_dica("APRENDER LIBERA O CRAFT NO IVO E CONSOME UMA RECEITA", COR_DICA_DETALHE))
+		elif dados.categoria == "comida":
+			linhas.add_child(linha_dica(preload("res://codigo/dados/refeicoes.gd").texto_bonus(dados.conteudo()),COR_DICA_DETALHE))
+			linhas.add_child(linha_dica("CONFIRMAR / TOQUE DUPLO: COMER",COR_DICA_DETALHE))
+			linhas.add_child(linha_dica("UMA REFEICAO POR PARTIDA",COR_DICA_DETALHE))
+		elif dados.categoria == "pocao":
+			linhas.add_child(linha_dica(preload("res://codigo/dados/pocoes.gd").texto_efeito(dados.conteudo()),COR_AFIXO))
+			linhas.add_child(linha_dica("USE PELO CINTO DE POCOES",COR_DICA_DETALHE))
+			linhas.add_child(linha_dica("RENOVAR NAO SOMA O EFEITO",COR_DICA_DETALHE))
+			if dados.conteudo()=="vampiro":
+				linhas.add_child(linha_dica("MAX. 3 VIDA/S; PAUSA AO SOFRER DANO",COR_DICA_DETALHE))
+		elif dados.categoria == "colheita":
+			linhas.add_child(linha_dica("INGREDIENTE PARA COMIDAS E POCOES",COR_DICA_DETALHE))
+			linhas.add_child(linha_dica("LEVE AO CAIO OU AO CALDEIRAO",COR_DICA_DETALHE))
 		elif dados.categoria == "material":
 			linhas.add_child(linha_dica(preload("res://codigo/dados/forja_armas.gd").MATERIAIS.get(dados.conteudo(),{}).get("origem",""),COR_DICA_DETALHE))
 		elif dados.categoria == "produto":
@@ -179,13 +199,17 @@ func tooltip_do_item(largura := 170.0) -> Control:
 ## O Popup mede o conteudo antes do primeiro layout. Fixar a largura antes da altura evita uma letra por linha.
 static func _dimensionar_dica(linhas: VBoxContainer, largura: float) -> Control:
 	var altura := 0.0
+	var tamanho: int = linhas.get_meta("tamanho_dica",10)
 	for rotulo: Label in linhas.get_children():
+		rotulo.add_theme_font_size_override("font_size",tamanho)
 		rotulo.size.x = largura
 		rotulo.custom_minimum_size.x = largura
-		var medida := FONTE_DICA.get_multiline_string_size(rotulo.text,HORIZONTAL_ALIGNMENT_LEFT,largura,10)
-		rotulo.custom_minimum_size.y = ceilf(medida.y)
-		rotulo.size = Vector2(largura,ceilf(medida.y))
-		altura += ceilf(medida.y)
+		var medida := FONTE_DICA.get_multiline_string_size(rotulo.text,HORIZONTAL_ALIGNMENT_LEFT,largura,tamanho)
+		# O Label inclui métricas/entrelinhas do tema que a medição da fonte ignora.
+		var altura_linha := ceilf(maxf(medida.y,rotulo.get_minimum_size().y))
+		rotulo.custom_minimum_size.y = altura_linha
+		rotulo.size = Vector2(largura,altura_linha)
+		altura += altura_linha
 	altura += maxi(0,linhas.get_child_count()-1)*linhas.get_theme_constant("separation")
 	var caixa := Control.new()
 	caixa.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -193,6 +217,11 @@ static func _dimensionar_dica(linhas: VBoxContainer, largura: float) -> Control:
 	caixa.size = caixa.custom_minimum_size
 	caixa.add_child(linhas)
 	linhas.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	# A quebra efetiva depende do tema herdado depois de entrar na árvore.
+	# Repassa a altura real ao ScrollContainer, para a última linha ser alcançável.
+	linhas.minimum_size_changed.connect(func():
+		caixa.custom_minimum_size.y=maxf(altura,linhas.get_combined_minimum_size().y)
+	)
 	return caixa
 
 static func linha_dica(texto: String, cor: Color) -> Label:

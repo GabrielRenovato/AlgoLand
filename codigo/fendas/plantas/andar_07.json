@@ -2,6 +2,7 @@
   "andar": 7,
   "nome": "Galerias Inundadas",
   "bioma": "caverna_agua",
+  "estacao": 0,
   "grade": 16,
   "limites": [
     -1700,

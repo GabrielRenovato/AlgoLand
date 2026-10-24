@@ -16,6 +16,7 @@ func _atualizar() -> void:
 	_rotulo(_lista,"PEDRAS: %d | ESPECIES: %d / %d" % [Varas.pedras(jogador),Fazenda.peixes_pescados.size(),Peixes.DADOS.size()])
 	var trocar := Button.new()
 	trocar.text = "VER CATALOGO" if _desafios_pesca else "VER DESAFIOS"
+	preload("res://codigo/ui/estilo_inicio_detalhado.gd").botao(trocar,false,16.0)
 	trocar.custom_minimum_size.y = 32
 	# O botão está na lista que _limpar_catalogo libera: refazer a lista dentro do próprio sinal travava o jogo
 	trocar.pressed.connect(func():
@@ -45,6 +46,7 @@ func _mostrar_desafios() -> void:
 		_rotulo(cartao,"%s\n%d / %d | %d BRASAS" % [dados["nome"],mini(progresso,int(dados["meta"])),dados["meta"],dados["brasas"]])
 		var resgatar := Button.new()
 		resgatar.text = "CONCLUIDO" if concluido else "RESGATAR"
+		preload("res://codigo/ui/estilo_inicio_detalhado.gd").botao(resgatar,false,16.0)
 		resgatar.custom_minimum_size.y = 32
 		resgatar.disabled = concluido or progresso < int(dados["meta"])
 		resgatar.pressed.connect(func():

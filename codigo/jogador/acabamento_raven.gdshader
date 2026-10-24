@@ -27,6 +27,10 @@ void fragment() {
 		amostra = (pixel + deslocamento + vec2(0.5)) * TEXTURE_PIXEL_SIZE;
 	}
 	vec4 original = texture(TEXTURE, amostra);
+	// De costas as pernas ficam à frente do banco e parecem de pé: o corpo termina na altura do assento
+	if (sentado && direcao_sentado == 2 && mod(floor(UV.y / TEXTURE_PIXEL_SIZE.y), 80.0) >= 42.0) {
+		original.a = 0.0;
+	}
 	// O terceiro quadro da ferramenta mistura a haste e um efeito de arco.
 	// Mantém os pixels originais de madeira; não altera a boia da preparação.
 	if (sem_rastro_pesca && mod(floor(UV.x / TEXTURE_PIXEL_SIZE.x / 80.0), 4.0) == 2.0) {

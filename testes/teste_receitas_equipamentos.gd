@@ -61,6 +61,7 @@ func rodar() -> void:
 		objeto.queue_free()
 		verificar("coletar não aprende: "+tipo,not prog.receita_liberada(tipo) and inv.quantidade_tipo("receita:"+tipo)==1)
 		verificar("uso consome a receita: "+tipo,prog.aprender_receita(tipo,inv)=="" and inv.quantidade_tipo("receita:"+tipo)==0)
+		prog.maior_onda_vencida=Receitas.onda_receita(tipo)
 		prog.adicionar_materiais_forja(Receitas.RECEITAS[tipo],inv)
 		inv2.receber_materiais({"madeira":11,"ferro":13,"fibra":19,"fragmento":17})
 		var antes2 := {}

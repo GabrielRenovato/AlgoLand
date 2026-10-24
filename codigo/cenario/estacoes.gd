@@ -101,6 +101,8 @@ var _tween_fade: Tween
 var _tween_tom: Tween
 var _id_troca := 0
 var _calendario_ligado := false
+## Estação própria deste mapa (andares da fenda): -1 segue o calendário; 0 a 3 ignora o calendário e só vale neste mapa
+var estacao_do_mapa := -1
 var _agua_viva = preload("res://codigo/cenario/agua_viva.gd").new()
 
 func _ready() -> void:
@@ -351,9 +353,15 @@ func _criar_fade() -> void:
 	_camada_fade.add_child(_painel_fade)
 	add_child(_camada_fade)
 
+## Fixa a estação deste mapa, sem mexer no Calendario: cada andar da fenda pode ter a sua (a vila, a fazenda e o resto
+## do mundo seguem a estação certa do calendário; o clima do mapa acompanha a estação dele)
+func fixar_estacao(indice: int) -> void:
+	estacao_do_mapa = clampi(indice, 0, NOMES.size() - 1)
+	definir_estacao(estacao_do_mapa, true)
+
 ## O calendário virou de estação (dormiu no último dia): troca com fade e avisa no HUD
 func _ao_calendario_estacao_mudou(alvo: int) -> void:
-	if alvo == estacao_atual:
+	if estacao_do_mapa >= 0 or alvo == estacao_atual:
 		return
 	definir_estacao(alvo)
 	var id := _id_troca  # definir_estacao já o incrementou: outra troca no meio cancela o aviso

@@ -2,6 +2,7 @@
   "andar": 3,
   "nome": "Mina Abandonada",
   "bioma": "caverna_mina",
+  "estacao": 2,
   "grade": 16,
   "limites": [
     -1100,

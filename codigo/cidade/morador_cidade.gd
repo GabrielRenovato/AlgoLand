@@ -22,6 +22,8 @@ var sprite: Sprite2D
 var usando_capa_chuva := false
 ## Um pedido aceito termina antes de o ferreiro retomar a agenda comercial.
 var ocupado_na_forja := false
+## Durante a recuperação na enfermaria, Rosa permanece ao lado do paciente.
+var cuidando_de_paciente := false
 var interacao: Area2D
 var caminho := PackedVector2Array()
 var _alvo := Vector2.ZERO
@@ -40,6 +42,8 @@ var _cauda_balao: Polygon2D
 var _balao: Label
 var _espera_balao := 3.0
 var _animacao_balao: Tween
+var _inicio_fala := 0
+var _duracao_fala := DURACAO_BALAO
 var assento := preload("res://codigo/cidade/assento_morador.gd").new()
 var passeando_taverna := false
 var atendendo_mesas := false
@@ -60,6 +64,8 @@ var _pe_da_cama := Vector2.ZERO
 var _escondidos: Array[CanvasItem] = []
 
 func _ready() -> void:
+	# Posiciona a fala depois da câmera, no quadro desenhado, inclusive durante a corrida.
+	process_priority = 100
 	add_to_group("moradores_cidade")
 	add_child(preload("res://codigo/cidade/indicador_pedido.gd").new())
 	collision_layer = 32
@@ -102,7 +108,7 @@ func _ready() -> void:
 	atualizar_rotina(true)
 
 func atualizar_rotina(inicial := false) -> void:
-	if ocupado_na_forja:
+	if ocupado_na_forja or cuidando_de_paciente:
 		return
 	var clima: int = vila.clima_atual()
 	# Atualiza mesmo quando a agenda é igual: começar/parar de chover só troca o traje.
@@ -169,11 +175,15 @@ func _montar_balao() -> void:
 	_balao.name = "Balao"
 	_balao.add_theme_font_override("font", FONTE)
 	_balao.add_theme_font_size_override("font_size", 8)
-	_balao.add_theme_color_override("font_color", Color("302332"))
+	_balao.add_theme_color_override("font_color", Color("493629"))
+	_balao.add_theme_constant_override("line_spacing",-5)
+	var material_fala := CanvasItemMaterial.new()
+	material_fala.light_mode = CanvasItemMaterial.LIGHT_MODE_UNSHADED
+	_balao.material = material_fala
 	_balao.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_balao.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_balao.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var fundo := preload("res://codigo/ui/estilo_interface.gd").painel(true, 8.0)
+	var fundo := preload("res://codigo/ui/estilo_interface.gd").painel(true, 10.0)
 	_balao.add_theme_stylebox_override("normal", fundo)
 	_balao.position = Vector2(-80, -34)
 	_balao.z_as_relative = false
@@ -195,7 +205,6 @@ func _talvez_falar(delta: float, distancia: float, conversando: bool) -> void:
 	if Cidade.dialogo_aberto_no_ambiente(self):
 		calar()
 		return
-	if _balao.visible: _ajustar_balao()
 	_espera_balao -= delta
 	var agora := Time.get_ticks_msec() / 1000.0
 	if conversando:
@@ -217,6 +226,10 @@ func dizer(texto: String, duracao := DURACAO_BALAO) -> void:
 		npc.calar()
 	_espera_balao = INTERVALO_BALAO
 	_proximo_balao_global = Time.get_ticks_msec() / 1000.0 + duracao + 0.5
+	_balao.max_lines_visible = -1
+	_balao.lines_skipped = 0
+	_inicio_fala = Time.get_ticks_msec()
+	_duracao_fala = duracao
 	_balao.text = texto
 	_ajustar_balao()
 	# O Label conclui a quebra de linhas após receber a largura.
@@ -235,7 +248,7 @@ func calar() -> void:
 	_balao.visible = false
 
 func pode_continuar_papo() -> bool:
-	return visible and not dormindo and not _saindo and not interacao._tela_aberta and not Cidade.em_conversa(id)
+	return visible and not dormindo and not _saindo and not cuidando_de_paciente and not interacao._tela_aberta and not Cidade.em_conversa(id)
 
 ## Pode parar durante um passeio; o trajeto continua depois da despedida.
 func livre_para_papo() -> bool:
@@ -255,8 +268,12 @@ func _ir_ate(ponto: Vector2) -> void:
 	_alvo = ponto
 	caminho = vila.caminho_morador(position, ponto,id)
 
+func _process(_delta: float) -> void:
+	if _balao != null and _balao.visible and visible:
+		_ajustar_balao()
+
 func _physics_process(delta: float) -> void:
-	if ocupado_na_forja:
+	if ocupado_na_forja or cuidando_de_paciente:
 		return
 	Trajeto.sincronizar(self)
 	if vila.apoio_helena != null and vila.apoio_helena.antes_de_mover(self,delta):
@@ -283,8 +300,6 @@ func _physics_process(delta: float) -> void:
 		_talvez_falar(delta, distancia, conversando)
 		return
 	if is_instance_valid(parceiro_papo) and not conversando and not _saindo:
-		# Papo: o balão não passa pelo _talvez_falar, e o Label só acerta a altura depois de quebrar o texto na largura nova
-		if _balao.visible: _ajustar_balao()
 		olhar_para(parceiro_papo.position)
 		return
 	_talvez_falar(delta, distancia, conversando or _saindo or agenda.get("construindo",false))
@@ -439,18 +454,18 @@ func _direcao(vetor: Vector2) -> int:
 		return 1 if vetor.x > 0 else 3
 	return 0 if vetor.y >= 0 else 2
 
-## Mede no viewport deste ambiente, inclusive nas telas divididas do cooperativo.
+## A fala pertence ao morador no mundo. A câmera nunca reposiciona o balão na tela.
 func _ajustar_balao() -> void:
-	var transformacao := get_global_transform_with_canvas()
-	var escala := maxf(transformacao.get_scale().x,0.01)
-	var tela := get_viewport_rect().size / escala
-	var origem := transformacao.origin / escala
-	var largura := clampf(tela.x-16,60,144)
-	var medida := FONTE.get_string_size(_balao.text,HORIZONTAL_ALIGNMENT_LEFT,-1,8).x+16
-	# Não zerar a altura junto da largura: o Label pode calcular a quebra usando
-	# a largura mínima transitória e conservar uma caixa muito alta.
-	_balao.size.x = minf(largura,medida)
+	var medida := FONTE.get_string_size(_balao.text,HORIZONTAL_ALIGNMENT_LEFT,-1,8).x+20
+	_balao.scale = Vector2.ONE
+	_balao.size.x = minf(136,medida)
+	_balao.max_lines_visible = 3
+	var linhas := maxi(1,_balao.get_line_count())
+	var paginas := maxi(1,ceili(linhas/3.0))
+	var decorrido := (Time.get_ticks_msec()-_inicio_fala)/1000.0
+	_balao.lines_skipped = mini(paginas-1,int(decorrido/maxf(_duracao_fala/paginas,0.1)))*3
 	_balao.size.y = _balao.get_combined_minimum_size().y
-	_balao.position = Vector2(clampf(-_balao.size.x/2,8-origem.x,tela.x-origem.x-_balao.size.x-8),-38-_balao.size.y)
-	_balao.position.y = maxf(_balao.position.y,8-origem.y)
-	_cauda_balao.position = Vector2(clampf(-_balao.position.x-4,8,_balao.size.x-16),_balao.size.y-1)
+	_balao.position = Vector2(floorf(-_balao.size.x/2),-30-_balao.size.y)
+	_cauda_balao.scale = Vector2.ONE
+	_cauda_balao.position = Vector2(floorf(_balao.size.x/2)-4,_balao.size.y-1)
+	_cauda_balao.visible = true

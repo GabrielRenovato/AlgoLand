@@ -33,7 +33,7 @@ const NOMES := {
 
 @export var id: StringName = &""
 @export var tipo: String = "espada_basica"
-@export_enum("arma", "escudo", "secundaria", "cabeca", "corpo", "luvas", "botas", "ferramenta", "semente", "peixe", "vara", "material", "receita", "colheita", "pocao", "produto") var categoria: String = "arma"
+@export_enum("arma", "escudo", "secundaria", "cabeca", "corpo", "luvas", "botas", "ferramenta", "semente", "peixe", "vara", "material", "receita", "colheita", "pocao", "produto", "comida") var categoria: String = "arma"
 @export var nivel: int = 1
 @export_enum("comum", "incomum", "raro", "epico", "lendario") var raridade: String = "comum"
 @export var icone: Texture2D
@@ -88,6 +88,8 @@ func aplicar_nivel_vara(nivel_vara: int) -> void:
 	raridade = Raridades.ORDEM[nivel - 1]
 
 func nome() -> String:
+	if categoria == "comida":
+		return String(preload("res://codigo/dados/refeicoes.gd").dados(conteudo()).get("nome","COMIDA"))
 	if categoria == "receita":
 		return "RECEITA: " + preload("res://codigo/dados/forja_armas.gd").nome(conteudo())
 	if categoria == "material":
@@ -113,7 +115,7 @@ func conteudo() -> String:
 	return tipo.get_slice(":", 1)
 
 func empilhavel() -> bool:
-	return categoria in ["semente", "peixe", "material", "receita", "colheita", "pocao", "produto"]
+	return categoria in ["semente", "peixe", "material", "receita", "colheita", "pocao", "produto", "comida"]
 
 static func de_coletavel(categoria_item: String, conteudo_item: String, quantos := 1) -> DadosItem:
 	var item := DadosItem.new()

@@ -33,6 +33,10 @@ var retornando := false
 var estado: Dictionary = {}
 ## Hora do ciclo dia/noite, para o dia não "voltar para as 6h" a cada porta; -1 = sem valor
 var hora_salva := -1.0
+## Ao sair da arena (os andares da fenda) para qualquer lugar fora dela, o jogador chega à vila às 23:00 e
+## tem três horas para dormir antes de desmaiar às 02:00. Dentro dos andares o cansaço não o interrompe (iluminacao.gd)
+const HORA_SAIDA_ARENA := 23.0
+var _destino_atual := ""
 var ocupada := false
 
 var _painel: ColorRect
@@ -114,6 +118,7 @@ func ir_para(caminho: String, ponto := "", clarear_no_fim := true) -> void:
 	if jogador != null:
 		jogador.desabilitar_todas_acoes(true)
 	await escurecer()
+	_destino_atual = caminho
 	_guardar_estado()
 	retornando = true
 	var erro := await carregar_cena(caminho)
@@ -395,6 +400,9 @@ func _guardar_estado() -> void:
 	var luz := get_tree().get_first_node_in_group("iluminacao")
 	if luz != null and "hora" in luz:
 		hora_salva = luz.hora_do_mundo() if luz.has_method("hora_do_mundo") else luz.hora
+	# Saindo da arena (de um andar para fora da fenda): chega às 23:00.
+	if gerenciador != null and not _destino_atual.begins_with("res://cenas/fendas/andar_") and _destino_atual != ARENA_ORIGINAL:
+		hora_salva = HORA_SAIDA_ARENA
 	if _esquecer_onda:
 		novo.erase("onda_atual")
 		_esquecer_onda = false

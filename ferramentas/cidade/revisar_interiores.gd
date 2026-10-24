@@ -43,6 +43,10 @@ func rodar() -> void:
 		for morador in current_scene.get("moradores").values() if current_scene.get("moradores") is Dictionary else []:
 			morador.set_physics_process(false)
 			morador.hide()
+		if id == "forja" and "--forja-fraca-forte" in OS.get_cmdline_user_args():
+			var trabalho: Node = current_scene.get_node("Bigorna/TrabalhoFerreiro")
+			if trabalho.ocupado(): trabalho._concluir("")
+			trabalho.set_physics_process(false)
 		var tamanho := Vector2(casas[id]["geometria"]["recorte"][2], casas[id]["geometria"]["recorte"][3])
 		var vp := SubViewport.new()
 		vp.size = Vector2i(tamanho * 2)
@@ -59,6 +63,15 @@ func rodar() -> void:
 			await quadros(8)
 			await RenderingServer.frame_post_draw
 			vp.get_texture().get_image().save_png(pasta + id + "_%d.png" % estacao)
+			if id == "forja" and "--forja-fraca-forte" in OS.get_cmdline_user_args():
+				var combustao: Node = current_scene.get_node("Interior/Fornalha/DetalheAmbiente")
+				for forte in [false,true]:
+					combustao.vigor = 1.0 if forte else 0.06
+					combustao.impulso = 1.0 if forte else 0.0
+					await quadros(12)
+					await RenderingServer.frame_post_draw
+					vp.get_texture().get_image().save_png(pasta+"forja_%d_%s.png" % [estacao,"forte" if forte else "fraca"])
+
 		if OS.get_cmdline_user_args().has("--fogo"):
 			root.get_node("Calendario").dia = 1
 			await quadros(8)

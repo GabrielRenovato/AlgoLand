@@ -76,6 +76,10 @@ func _ready() -> void:
 	_itens_da_casa = todos["casas"][id]["itens"]
 	for item in _itens_da_casa:
 		_montar_item(corpo, item)
+	if id == "forja":
+		var fole := preload("res://codigo/cidade/fole_ferreiro.gd").new()
+		fole.name = "Fole"
+		add_child(fole)
 	load("res://codigo/cidade/atendimento_cidade.gd").montar(self,id)
 	if id == "casa_jogador":
 		var mobilia := preload("res://codigo/cidade/mobilia_casa_detalhada.gd").new()
@@ -135,8 +139,8 @@ func _montar_item(corpo: StaticBody2D, item: Dictionary) -> void:
 	for luz in item.get("luzes", []):
 		if String(item["p"]) in ["mesa", "mesa_reuniao"] and luz[2] == "#ffc46b" and usado[3] >= 28:
 			luz = luz.duplicate()
-			# Atrás da área reservada às travessas, com chama e luz alinhadas.
-			luz[1] = -usado[3] - 10
+			# O pé da vela fica dentro do tampo (cerca de dois terços da altura do móvel), com chama e luz alinhadas.
+			luz[1] = -roundf(usado[3] * 0.65) - 11
 		_montar_luz(no, luz)
 		if String(item["p"]) in SUPERFICIES and luz[2] in ["#ffc46b", "#ffd488"]:
 			_montar_vela(no, luz)
@@ -273,8 +277,11 @@ static func _luz_radial() -> GradientTexture2D:
 ## Vapor subindo do caldeirão: quadradinhos que crescem e somem
 func _montar_vapor(pai: Node2D, posicao: Vector2, prop: String) -> void:
 	var vapor := CPUParticles2D.new()
-	vapor.name = "Vapor"
+	vapor.name = "FumacaChamine" if prop == "fornalha" else "Vapor"
 	vapor.position = posicao
+	if prop == "fornalha":
+		vapor.z_as_relative = false
+		vapor.z_index = 900
 	vapor.local_coords = false
 	vapor.amount = 9
 	vapor.lifetime = 2.6
@@ -298,4 +305,29 @@ func _montar_vapor(pai: Node2D, posicao: Vector2, prop: String) -> void:
 	rampa.offsets = PackedFloat32Array([0.0, 0.25, 1.0])
 	rampa.colors = PackedColorArray([Color(cor, 0.0), Color(cor, 0.6), Color(cor, 0.0)])
 	vapor.color_ramp = rampa
+	if prop == "fornalha":
+		vapor.texture = _luz_radial()
+		vapor.scale_amount_min = 0.025
+		vapor.scale_amount_max = 0.055
+		vapor.amount = 24
+		vapor.emitting = false
+		var braseiro := CPUParticles2D.new()
+		braseiro.name = "FumacaBraseiro"
+		braseiro.position = Vector2(0,-22)
+		braseiro.z_as_relative = false
+		braseiro.z_index = Profundidade.z_de(pai.global_position.y)+4
+		braseiro.texture = _luz_radial()
+		braseiro.amount = 12
+		braseiro.lifetime = 0.45
+		braseiro.emitting = false
+		braseiro.direction = Vector2.UP
+		braseiro.spread = 12
+		braseiro.gravity = Vector2.ZERO
+		braseiro.initial_velocity_min = 9
+		braseiro.initial_velocity_max = 14
+		braseiro.scale_amount_min = 0.02
+		braseiro.scale_amount_max = 0.045
+		braseiro.color = Color(0.65,0.62,0.58,0.6)
+		braseiro.color_ramp = rampa
+		pai.add_child(braseiro)
 	pai.add_child(vapor)

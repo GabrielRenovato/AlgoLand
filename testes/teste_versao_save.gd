@@ -75,7 +75,11 @@ func _reiniciar(argumento: String) -> int:
 func _verificar_inicio() -> void:
 	for pasta in ["user://", "user://coop/"]:
 		for nome in Versao.ARQUIVOS:
-			verificar("remove legado " + pasta + nome, not FileAccess.file_exists(pasta + nome))
+			if nome=="ranking.json" and pasta=="user://":
+				var perfil = JSON.parse_string(FileAccess.get_file_as_string(pasta+nome))
+				verificar("ranking inicia zerado na temporada nova",perfil is Dictionary and perfil.get("pendente")==0 and perfil.get("armas_usadas")=={} and perfil.get("temporada")==1 and not perfil.has("legado"))
+			else:
+				verificar("remove legado " + pasta + nome, not FileAccess.file_exists(pasta + nome))
 		var dados = JSON.parse_string(FileAccess.get_file_as_string(pasta + Versao.MARCADOR))
 		verificar("marca versao em " + pasta, dados is Dictionary and dados.get("versao") == Versao.ATUAL)
 		verificar("preserva opcoes em " + pasta, FileAccess.get_file_as_string(pasta + "opcoes.cfg") == OPCOES)

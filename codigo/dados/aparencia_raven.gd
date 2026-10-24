@@ -2,6 +2,8 @@ extends RefCounted
 ## Catálogo único do personagem Raven: camadas, ações e prévias.
 const RAIZ := "res://assets/personagens/raven_fantasy/"
 const PaletaRaven := preload("res://codigo/dados/paleta_raven.gd")
+const ACOES_FAZENDA := ["plantar","colher"]
+const Corrida := preload("res://codigo/dados/corrida_raven.gd")
 const PECAS := ["calca_marrom","calca_jeans","camisa_azul","camisa_verde","botas","luvas","capa"]
 static var _cache: Dictionary = {}
 static var _acoes: Array = []
@@ -76,6 +78,10 @@ static func roupa_refinada(i: int, _pagina: String) -> Texture2D:
 	return _cache[chave]
 
 static func folha(camada: String, acao: String) -> Texture2D:
+	if acao == "correr":
+		return carregar(Corrida.RAIZ+camada+".png")
+	if acao in ACOES_FAZENDA:
+		return carregar(RAIZ+"acoes_fazenda/"+acao+"/"+camada+".png")
 	var chave := camada+":"+acao
 	if not _cache.has(chave):
 		if OS.has_feature("web"):
@@ -115,6 +121,8 @@ static func material_pose(tingir: bool, sentado: bool, direcao: int, acabamento:
 	return _cache[chave]
 
 static func folha_arquivo(caminho: String, acao: String) -> Texture2D:
+	if acao in ACOES_FAZENDA or acao == "correr":
+		return carregar(caminho.get_basename()+"/"+acao+".png")
 	var chave := caminho+":"+acao
 	if not _cache.has(chave):
 		if OS.has_feature("web"):

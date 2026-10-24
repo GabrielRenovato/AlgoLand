@@ -64,12 +64,12 @@ func rodar() -> void:
 	var jogador: Node2D = current_scene.get_node("Jogador")
 	jogador.set_physics_process(false)
 	jogador.position = Vector2(430,140)
-	jogador.camera.zoom = Vector2(2.5,2.5)
+	jogador.camera.zoom = Vector2(1.6,1.6)
 	jogador.camera.offset = Vector2(0,-45)
 	jogador.camera.position_smoothing_enabled = false
 	# Interiores usam câmera fixa independente do jogador.
-	jogador.camera.global_position = Vector2(434,125)
-	jogador.camera.offset = Vector2(0,-30)
+	jogador.camera.global_position = Vector2(420,100)
+	jogador.camera.offset = Vector2(0,-20)
 	jogador.camera.force_update_scroll()
 	if capturar:
 		DirAccess.make_dir_recursive_absolute("res://arte/previas/npcs_base")
@@ -82,6 +82,9 @@ func rodar() -> void:
 	prog.aprender_receita("espada_gemea",inv)
 	prog.adicionar_materiais_forja(load("res://codigo/dados/forja_armas.gd").RECEITAS["espada_gemea"],inv)
 	verificar("receita do teste pertence ao catalogo ativo",load("res://codigo/dados/forja_armas.gd").receitas_ativas().has("espada_gemea"))
+	var combustao: Node = current_scene.get_node("Interior/Fornalha/DetalheAmbiente")
+	var fuma: Node = current_scene.get_node("Interior/Fornalha/FumacaChamine")
+	verificar("fornalha comeca com brasas fracas",combustao.vigor < 0.15 and not fuma.emitting)
 	var antes: Array = inv.fotografar_mochila()
 	var ui: Node = current_scene.get_node("Interface")
 	ui._abrir_tela("forja")
@@ -98,18 +101,39 @@ func rodar() -> void:
 	verificar("espada de duas maos tem prazo de dois dias corridos",int(prog.encomenda_forja.get("dia_pronto",0)) == 3)
 	verificar("interface libera a visao do trabalho",not tela.visible)
 	verificar("segundo jogador nao inicia pedido paralelo",oficina.iniciar("espada_gemea",root.get_node("InventarioJogador2")) == "IVO JA ESTA TRABALHANDO EM UM PEDIDO")
+	verificar("tarugo tem volume e contorno",oficina._peca.texture.get_image().get_used_rect().size.y >= 5)
 	var etapas := {}
 	var quadros_animados := {}
-	var limite := Time.get_ticks_msec()+30000
+	var limite := Time.get_ticks_msec()+65000
 	var numero_foto := 0
 	var intervalo_foto := 0
+	var pressoes := {}
+	var corpo_inteiro := true
+	var maior_fogo := 0.0
+	var fumaca_ao_soprar := false
+	var contorno_fole := true
+	var aqueceu_pela_direita := false
 	while oficina.ocupado() and Time.get_ticks_msec()<limite:
 		await physics_frame
 		var etapa: String = oficina.etapa
+		maior_fogo = maxf(maior_fogo,combustao.vigor)
+		if etapa == "acionando_fole" and fuma.emitting and combustao.impulso > 0.2: fumaca_ao_soprar = true
+		if etapa == "indo_fornalha":
+			for ponto in ivo.caminho:
+				if ponto.x > 370 and ponto.x < 400 and ponto.y < 88: contorno_fole = false
 		if not etapas.has(etapa):
 			print("ETAPA ",etapa," pos=",ivo.position," caminho=",ivo.caminho)
 			etapas[etapa] = true
 			await foto("forja_"+etapa)
+		if etapa == "acionando_fole":
+			pressoes[int(oficina._fole.pressao*10)] = true
+			corpo_inteiro = corpo_inteiro and ivo.sprite.material == null and ivo.sprite.hframes == 9 and ivo.sprite.texture.get_height() == 64
+			if capturar:
+				for alvo in [0.0,0.3,0.6,0.9]:
+					if absf(oficina._tempo-alvo) < 0.03: await foto("fole_%s" % alvo)
+		if etapa == "aquecendo":
+			aqueceu_pela_direita = ivo.position.x > 476 and ivo.sprite.flip_h
+			if oficina._tempo > 0.9: await foto("forja_ferro_quente")
 		if etapa in ["aquecendo","martelando"]:
 			quadros_animados[etapa+str(ivo.sprite.frame)] = true
 			if capturar and etapa == "martelando" and numero_foto < 16:
@@ -122,6 +146,13 @@ func rodar() -> void:
 				await foto("forja_martelo_erguido")
 			if etapa == "martelando" and ivo.sprite.frame == 4:
 				await foto("forja_impacto")
+	verificar("sopradas aumentam o fogo e emitem fumaca",maior_fogo > 0.65 and fumaca_ao_soprar)
+	verificar("ferreiro contorna o fole sem cruzar o objeto",contorno_fole)
+	verificar("aquecimento ocorre pela direita da fornalha",aqueceu_pela_direita)
+	verificar("trabalho termina sem caminho bloqueado",oficina.resultado.is_empty() and not oficina.ocupado())
+	if not oficina.resultado.is_empty(): print("MOTIVO: ",oficina.resultado)
+	verificar("fole usa poses completas sem recorte do corpo",corpo_inteiro)
+	verificar("Ivo aciona o fole antes de aquecer", etapas.has("acionando_fole") and pressoes.size() >= 3)
 	verificar("metal passa pela fornalha e pela bigorna",etapas.has("aquecendo") and etapas.has("martelando"))
 	verificar("animacoes usam varios quadros",quadros_animados.size() >= 8)
 	verificar("animacao nao antecipa o prazo do calendario",not oficina.ocupado() and not prog.arma_liberada("espada_gemea") and inv.buscar_por_tipo("espada_gemea") == null)

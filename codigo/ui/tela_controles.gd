@@ -1,5 +1,6 @@
 extends CanvasLayer
 
+const EstiloInicio := preload("res://codigo/ui/estilo_inicio_detalhado.gd")
 const Controles := preload("res://codigo/dados/controles_personalizados.gd")
 var lado := 1
 var controle := false
@@ -7,6 +8,8 @@ var _capturando := ""
 var _botoes := {}
 var _aviso: Label
 var _raiz: Control
+var _painel: PanelContainer
+var _coluna: VBoxContainer
 var _origem: Control
 
 func abrir(origem: Control, jogador := 1) -> void:
@@ -28,9 +31,15 @@ func abrir(origem: Control, jogador := 1) -> void:
 	margem.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	for borda in ["left","right","top","bottom"]: margem.add_theme_constant_override("margin_"+borda,12)
 	_raiz.add_child(margem)
+	var centro := CenterContainer.new()
+	margem.add_child(centro)
+	_painel = PanelContainer.new()
+	EstiloInicio.painel(_painel,false,10,true)
+	centro.add_child(_painel)
 	var coluna := VBoxContainer.new()
+	_coluna = coluna
 	coluna.theme = preload("res://recursos/ui/tema_sidebar.tres")
-	margem.add_child(coluna)
+	_painel.add_child(coluna)
 	_aviso = Label.new()
 	_aviso.text = "CONTROLES P%d - ESC CANCELA A CAPTURA" % lado
 	_aviso.add_theme_font_size_override("font_size",10)
@@ -65,9 +74,21 @@ func abrir(origem: Control, jogador := 1) -> void:
 	voltar.text = "VOLTAR"
 	voltar.pressed.connect(_fechar)
 	coluna.add_child(voltar)
+	EstiloInicio.botoes_do_painel(_painel)
+	_raiz.resized.connect(_ajustar_layout)
+	_ajustar_layout()
 	_atualizar()
 	if lado == 2: _botoes.values()[0].grab_focus()
 	else: modo.grab_focus()
+
+func _ajustar_layout() -> void:
+	_painel.custom_minimum_size = Vector2(minf(440,_raiz.size.x-24),_raiz.size.y-24)
+	var compacto := _raiz.size.y < 300 or _raiz.size.x < 400
+	_coluna.add_theme_constant_override("separation",3 if compacto else 6)
+	_aviso.add_theme_font_size_override("font_size",8 if compacto else 10)
+	for botao: Button in _painel.find_children("*","Button",true,false):
+		botao.add_theme_font_size_override("font_size",8 if compacto else 9)
+		botao.custom_minimum_size.y = 20 if compacto else 26
 
 func _atualizar() -> void:
 	for acao in _botoes:

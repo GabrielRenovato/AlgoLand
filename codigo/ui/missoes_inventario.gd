@@ -43,6 +43,7 @@ func _atualizar() -> void:
 	_rotulo(_lista,objetivo.texto,Color("f6d879"))
 	if objetivo.id != "":
 		var principal := preload("res://codigo/ui/cartao_pedido.gd").criar(objetivo.id,Cidade,EventosJogo.dono(self))
+		preload("res://codigo/ui/estilo_inicio_detalhado.gd").painel(principal,true,10)
 		principal.name = "MissaoPrincipal"
 		principal.focus_mode = Control.FOCUS_ALL
 		principal.draw.connect(func(): principal.draw_rect(Rect2(Vector2.ZERO,principal.size),Color("f6d879"),false,1))
@@ -56,6 +57,7 @@ func _atualizar() -> void:
 			continue
 		pedidos += 1
 		var cartao := preload("res://codigo/ui/cartao_pedido.gd").criar(id,Cidade,EventosJogo.dono(self))
+		preload("res://codigo/ui/estilo_inicio_detalhado.gd").painel(cartao,true,10)
 		cartao.set_meta("missao", id)
 		cartao.focus_mode = Control.FOCUS_ALL
 		cartao.draw.connect(func():

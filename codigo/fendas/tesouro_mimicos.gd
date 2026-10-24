@@ -184,7 +184,7 @@ func _premiar(inimigo: Node2D, gigante: bool) -> void:
 		var premio := Premios.sortear_premio(_rng, _andar)
 		if premio != null:
 			Drop.soltar_item(premio, inimigo.global_position, sala, _rng)
-			get_tree().call_group("hud", "anunciar", "TESOURO LENDARIO", "O BAU REVELOU UMA PECA DE CONJUNTO", 3.0)
+			get_tree().call_group("hud", "anunciar", "TESOURO ENCONTRADO", premio.nome(), 3.0)
 	if vivos.is_empty():
 		Progresso.bonus_concluidos += 1
 		get_tree().call_group("hud", "anunciar", "TESOURO CONCLUIDO", "VOLTE PELO PORTAL AZUL", 3.0)

@@ -11,9 +11,9 @@ def planta_carpintaria(geo):
         ('bau',584,70,{'de':'venda','col':[26,12]}),
         ('mesa',568,144,{'de':'casa_bento','col':[40,14]}),
         # A sala mantém livre o eixo entre entrada, quartos e cozinha.
-        ('poltrona',64,370,{'de':'mistica','col':[26,12]}),
+        ('cadeira',84,426,{'de':'sede','col':[12,8]}),
         ('mesa',124,414,{'de':'casa_bento','col':[42,14]}),
-        ('cadeira',164,430,{'de':'sede','col':[12,8]}),
+        ('cadeira',164,426,{'de':'sede','col':[12,8],'espelhar':True}),
         ('tapete',264,524,{'de':'venda','chao':True}),
         ('ferramentas',264,330,{'de':'casa_bento','col':[48,8]}),
         ('bancada',264,370,{'de':'casa_bento','col':[66,16]}),

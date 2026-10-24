@@ -20,13 +20,20 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 [application]
 
 config/name="top down"
-run/main_scene="res://cenas/inicio_do_jogo.tscn"
+run/main_scene="res://cenas/atualizacao.tscn"
+config/version="2026.10.23.1"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 run/max_fps=60
 config/icon="res://assets/icone/icone.png"
 
+[algoland]
+
+; URL da pasta com versao.json e os patches (ex.: https://seu-site/jogar/atualizacao/). Vazio desliga a atualização de conteúdo.
+url_atualizacao="https://wikialgoland.netlify.app/jogar/atualizacao/"
+
 [autoload]
 
+InicializacaoPatches="*res://codigo/globais/inicializacao_patches.gd"
 Saves="*res://codigo/globais/saves.gd"
 DadosDosItems="*res://codigo/dados/dados_dos_items_loja.gd"
 DadosJogo="*res://codigo/dados/dados_do_jogo.gd"
@@ -50,6 +57,8 @@ Cooperativo="*res://codigo/globais/cooperativo.gd"
 Saque="*res://codigo/globais/saque_partida.gd"
 AgendaVila="*res://codigo/globais/agenda_vila.gd"
 Comercio="*res://codigo/comercio/comercio.gd"
+Ranking="*res://codigo/globais/ranking.gd"
+AcabamentoInterface="*res://codigo/ui/acabamento_interface.gd"
 
 [display]
 

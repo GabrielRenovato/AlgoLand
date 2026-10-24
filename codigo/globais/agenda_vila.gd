@@ -9,7 +9,7 @@ extends Node
 const Dados := preload("res://codigo/cidade/dados_cidade.gd")
 const PomboCorreio := preload("res://codigo/cidade/pombo_correio.gd")
 ## Onde o pombo pode pousar (os interiores e a casa da fazenda não)
-const CENAS_AO_AR_LIVRE := ["res://cenas/cidade.tscn", "res://cenas/fazenda.tscn", "res://cenas/praia.tscn"]
+const CENAS_AO_AR_LIVRE := ["res://cenas/cidade.tscn", "res://cenas/fazenda.tscn", "res://cenas/floresta.tscn", "res://cenas/praia.tscn"]
 const TEMPO_BANNER := 3.0
 const INTERVALO := 0.5
 

@@ -1,0 +1,220 @@
+{
+  "modelo": "Medusa anterior, adulta, pele clara sálvia, serpentes jade, armadura ouro, tecido ameixa, cauda jade/ocre; preservar identidade e escala",
+  "referencia": "modelo_direita.png, recorte da pose atual; estudo de movimento novo, sem copiar os gestos rejeitados",
+  "uso": "Garras, depois demais ataques; quatro direções em fendas",
+  "celula_logica": [
+    160,
+    160
+  ],
+  "raiz": [
+    80,
+    136
+  ],
+  "base_mundo": 2,
+  "sprite_posicao": [
+    0,
+    -54
+  ],
+  "estudo": "seis poses novas da direção direita, grade3×2, célula640px ampliada4× da grade160; transformação comum",
+  "direcoes_finais": [
+    "baixo",
+    "cima",
+    "direita",
+    "esquerda"
+  ],
+  "mao_dominante": "direita anatômica; mão oposta protege/equilibra",
+  "guia_garras_direita": [
+    {
+      "fase": "guarda",
+      "cabeca": [
+        108,
+        52
+      ],
+      "ombro": [
+        91,
+        74
+      ],
+      "quadril": [
+        80,
+        110
+      ],
+      "cotovelo": [
+        94,
+        89
+      ],
+      "mao": [
+        112,
+        84
+      ],
+      "cotovelo_oposto": [
+        100,
+        80
+      ],
+      "mao_oposta": [
+        115,
+        73
+      ]
+    },
+    {
+      "fase": "recuo",
+      "cabeca": [
+        100,
+        55
+      ],
+      "ombro": [
+        89,
+        78
+      ],
+      "quadril": [
+        80,
+        112
+      ],
+      "cotovelo": [
+        70,
+        82
+      ],
+      "mao": [
+        75,
+        61
+      ],
+      "cotovelo_oposto": [
+        105,
+        85
+      ],
+      "mao_oposta": [
+        108,
+        100
+      ]
+    },
+    {
+      "fase": "compressao",
+      "cabeca": [
+        96,
+        61
+      ],
+      "ombro": [
+        84,
+        84
+      ],
+      "quadril": [
+        78,
+        113
+      ],
+      "cotovelo": [
+        64,
+        82
+      ],
+      "mao": [
+        72,
+        58
+      ],
+      "cotovelo_oposto": [
+        100,
+        92
+      ],
+      "mao_oposta": [
+        108,
+        99
+      ]
+    },
+    {
+      "fase": "impacto",
+      "cabeca": [
+        115,
+        58
+      ],
+      "ombro": [
+        100,
+        82
+      ],
+      "quadril": [
+        84,
+        111
+      ],
+      "cotovelo": [
+        123,
+        101
+      ],
+      "mao": [
+        143,
+        118
+      ],
+      "cotovelo_oposto": [
+        96,
+        97
+      ],
+      "mao_oposta": [
+        109,
+        92
+      ]
+    },
+    {
+      "fase": "continuacao",
+      "cabeca": [
+        119,
+        65
+      ],
+      "ombro": [
+        103,
+        88
+      ],
+      "quadril": [
+        84,
+        112
+      ],
+      "cotovelo": [
+        123,
+        119
+      ],
+      "mao": [
+        139,
+        139
+      ],
+      "cotovelo_oposto": [
+        91,
+        99
+      ],
+      "mao_oposta": [
+        85,
+        98
+      ]
+    },
+    {
+      "fase": "recomposicao",
+      "cabeca": [
+        110,
+        55
+      ],
+      "ombro": [
+        94,
+        77
+      ],
+      "quadril": [
+        81,
+        110
+      ],
+      "cotovelo": [
+        100,
+        94
+      ],
+      "mao": [
+        112,
+        93
+      ],
+      "cotovelo_oposto": [
+        101,
+        85
+      ],
+      "mao_oposta": [
+        113,
+        78
+      ]
+    }
+  ],
+  "tempos_combate": "preservar AVISOS, DURACOES e RECUPERACOES; impacto visual coincide com dano aos30% da etapa ATACANDO",
+  "ferramenta": "imagegen integrada, edição dirigida por modelo e guia de poses; sem usar interpolação como substituto do novo desenho",
+  "destino": "fontes nesta pasta, exportados em assets/inimigos/medusa, capturas em arte/previas/inimigos/medusa/poses_20261024",
+  "validacao": "identidade, anatomia, apoio da cauda, articulações, arco da mão, raiz e fechamento; renderização Godot em save isolado",
+  "estacoes": "não se aplica a chefe",
+  "correcao_estudo": "Impacto deve cruzar altura da cabeça do jogador: mão y118 nativa, seguida de y139. O gesto horizontal y83 passava alto demais no cenário."
+}

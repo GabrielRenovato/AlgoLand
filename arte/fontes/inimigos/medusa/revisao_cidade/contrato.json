@@ -1,0 +1,224 @@
+{
+  "uso": "Redesenho da Medusa e canalização da Ruína, comparado à linguagem de materiais da cidade",
+  "ferramenta": "imagegen integrada; modelo canônico movimento, edições dirigidas por ação",
+  "referencias": [
+    "assets/cenario/cidade/decoracao/mobiliario/caixas_legumes.png",
+    "arte/previas/entregas/medusa_especial.png"
+  ],
+  "modelo": "Pele sálvia, serpentes jade com olhos coral, armadura dourada antiga, tecido ameixa, cauda jade com ventre ocre",
+  "camera": "Perspectiva elevada em três quartos; frente, costas e dois perfis",
+  "folha_fonte": [
+    1536,
+    1024
+  ],
+  "grade": [
+    6,
+    4
+  ],
+  "celula_fonte": [
+    256,
+    256
+  ],
+  "celula_exportada": [
+    160,
+    160
+  ],
+  "direcoes": [
+    "baixo",
+    "cima",
+    "direita",
+    "esquerda"
+  ],
+  "raiz_logica": [
+    80,
+    136
+  ],
+  "preparo": "Margem de leitura40px na fonte; amostragem comum336→155px; extrair só a silhueta principal; margem final16px em todos os lados. Sem normalizar ou alinhar cada pose pelo contorno. Destino960×640, células160px. Pivô mantém base no mundo em y2 com sprite em(0,-54).",
+  "destino": "assets/inimigos/medusa/*.png; sprite escala 1, posição (0,-54)",
+  "movimento": "6 poses por 42px percorridos; 7px por pose; velocidade nominal78px/s; cauda contrai/estende, mãos alternam, cobras acompanham cabeça",
+  "ataques": {
+    "garras": {
+      "aviso": 0.45,
+      "duracao": 0.4,
+      "recuperacao": 0.95
+    },
+    "cauda": {
+      "aviso": 0.7,
+      "duracao": 0.5,
+      "recuperacao": 1.25
+    },
+    "bote": {
+      "aviso": 0.8,
+      "duracao": 0.65,
+      "recuperacao": 1.15
+    },
+    "olhar": {
+      "aviso": 1.2,
+      "duracao": 0.45,
+      "recuperacao": 1.3
+    },
+    "ruina": {
+      "aviso": 2.5,
+      "duracao": 0.65,
+      "recuperacao": 1.7
+    }
+  },
+  "fases": "Quadros0/1/2 em terços do aviso; quadro3 em65% do ataque; quadro4 nos35% restantes; quadro5 na recuperação",
+  "ruina": "Semente percorre olhos→centro em0.45s; marca cresce no chão nos0.65s seguintes; raio perigoso180 fixo desde o início. Onda chega à borda aos30% do impacto, na janela do dano.",
+  "integracao": [
+    "ferramentas/inimigos/preparar_medusa.gd",
+    "codigo/inimigos/medusa.gd",
+    "codigo/efeitos/canal_medusa.gd",
+    "recursos/personagens/ruina_medusa.gdshader"
+  ],
+  "validacao": [
+    "testes/teste_medusa.gd",
+    "ferramentas/inimigos/revisar_medusa_arte.gd",
+    "ferramentas/inimigos/previa_medusa.gd"
+  ],
+  "estacoes": "Não se aplica: chefe e efeitos, sem novos recursos de cenário",
+  "chaves_bote": {
+    "fonte": [
+      1024,
+      1536
+    ],
+    "grade": [
+      2,
+      4
+    ],
+    "limites_linhas": [
+      0,
+      350,
+      745,
+      1100,
+      1536
+    ],
+    "bases_linhas": [
+      344,
+      390,
+      349,
+      377
+    ],
+    "escala_comum": 0.64,
+    "registro": "Uma transformação por direção, compartilhada entre impacto e continuação. Substitui só colunas3/4; demais fases vêm de bote.png."
+  },
+  "olhos_por_quadro": [
+    [
+      84,
+      59
+    ],
+    [
+      80,
+      59
+    ],
+    [
+      80,
+      60
+    ],
+    [
+      82,
+      58
+    ],
+    [
+      81,
+      59
+    ],
+    [
+      80,
+      59
+    ],
+    [
+      80,
+      52
+    ],
+    [
+      80,
+      52
+    ],
+    [
+      80,
+      52
+    ],
+    [
+      80,
+      52
+    ],
+    [
+      80,
+      52
+    ],
+    [
+      80,
+      52
+    ],
+    [
+      109,
+      50
+    ],
+    [
+      107,
+      51
+    ],
+    [
+      107,
+      51
+    ],
+    [
+      109,
+      50
+    ],
+    [
+      112,
+      50
+    ],
+    [
+      106,
+      50
+    ],
+    [
+      58,
+      48
+    ],
+    [
+      60,
+      48
+    ],
+    [
+      58,
+      48
+    ],
+    [
+      55,
+      48
+    ],
+    [
+      62,
+      48
+    ],
+    [
+      62,
+      48
+    ]
+  ],
+  "combate": {
+    "fases_vida": [
+      1.0,
+      0.6,
+      0.25
+    ],
+    "combo_maximo": 3,
+    "intervalos_combo": [
+      0.24,
+      0.22,
+      0.2
+    ],
+    "mira": "Acompanha posição somente nos55% iniciais do aviso; trava para permitir esquiva. Cada continuação tem novo aviso.",
+    "finalizador_cauda_retardado": 0.95,
+    "dano_exposta": 1.25,
+    "dano_ruina": 2.25,
+    "petrificacao_olhar": 0.85,
+    "ruina": "Uma por transição, dano normal sem hit kill, respeita guarda, esquiva e invulnerabilidade.",
+    "cooperativo": "Alvo e dano apenas a jogadores vivos/de pé no mesmoWorld2D; cada jogador recebe no máximo um acerto por golpe.",
+    "revisao": "revisar_medusa_arte.gd -- --combate [--coop]; capturas e tempos reais em arte/previas/inimigos/medusa/combate*/"
+  }
+}

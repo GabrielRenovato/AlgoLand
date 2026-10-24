@@ -38,7 +38,8 @@ static func tentar_lancar(jogador: Node2D) -> bool:
 func pode_interagir_para(jogador: Node2D) -> bool:
 	return jogador != null and jogador.get_world_2d() == get_world_2d() and jogador.movimento_habilitado \
 		and not bool(jogador.get("esta_sentado")) and not Sessao.em_andamento(jogador) and not Transicao.ocupada \
-		and Introducao.permite_interacao(self) and EventosJogo.inventario_de(jogador).tem_espaco()
+		and Introducao.permite_interacao(self) and EventosJogo.inventario_de(jogador).tem_espaco() \
+		and (ambiente != "mar" or Sessao.alvo_mar(jogador, direcao, 44.0).is_finite())
 
 func pode_interagir() -> bool:
 	var jogador := Cooperativo.jogador_no_ambiente(self)

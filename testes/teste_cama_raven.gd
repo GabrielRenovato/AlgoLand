@@ -29,11 +29,26 @@ func rodar() -> void:
 		var cabeca = cama.get_node("Cabeca")
 		conferir(cabeca.get_child_count()==11,"Sono inclui corpo, roupa, cabelo e quatro peças")
 		conferir(cabeca.get_node("Camada6").modulate.is_equal_approx(Color(0.35,0.6,1,1)),"Tintura preservada")
+		var corpo: Sprite2D = cabeca.get_node("sprite_corpo")
+		var imagem_rosto := corpo.texture.get_image()
+		var palpebra := imagem_rosto.get_pixel(9,18)
+		conferir(palpebra.get_luminance() < imagem_rosto.get_pixel(9,17).get_luminance(),"Palpebras legiveis na pele %d" % pele)
+		# Inclui a parte mais alta do cobertor durante toda a respiração.
+		var topo_cobertor: float = cama.ORIGEM.y + cama.LINHA_COBERTOR - cama.ALTURA_COBERTOR * (cama.SUBIDA-1.0)
+		var fim_rosto: float = cabeca.position.y + cama.OLHO_LINHA + 4 - cama.RECORTE_CABECA.position.y
+		conferir(fim_rosto < topo_cobertor,"Rosto acima do cobertor durante a respiracao")
 		await RenderingServer.frame_post_draw
 		root.get_texture().get_image().save_png(saida+"/pele%d.png" % pele)
 		cama.levantar()
 		await esperar(3)
 		conferir(jogador.visible and jogador.aparencia_raven==dados,"Acordar preserva aparência")
+	jogador.set_physics_process(true)
+	var calendario = root.get_node("Calendario")
+	var dia_anterior: int = calendario.dia
+	await root.get_node("Transicao").dormir("cama",jogador)
+	await esperar(3)
+	conferir(calendario.dia == dia_anterior + 1,"Dormir passa exatamente um dia")
+	conferir(jogador.visible and jogador.movimento_habilitado and not cama.deitado,"Manha devolve personagem e movimento")
 	for fonte: FontFile in [preload("res://assets/ui/Planes_ValMore.ttf"), preload("res://assets/ui/craftpix-net-775352-game-user-interface-pixel-art/6 Font/CraftPixNet Survival Kit.otf")]:
 		for caractere in "áãçÇÃ·▲▼": conferir(fonte.has_char(caractere.unicode_at(0)),"Fonte contém "+caractere)
 	print("CAMA RAVEN: ", falhas, " falhas")

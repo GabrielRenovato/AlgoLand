@@ -3,7 +3,7 @@ extends SceneTree
 # Rodar: godot --headless --path . --script res://testes/teste_progresso.gd
 # Usa instâncias isoladas do Progresso e do modelo de inventário (sem tocar nos saves reais)
 
-const ScriptProgresso := preload("res://codigo/globais/progresso.gd")
+var ScriptProgresso: GDScript
 var ScriptModelo: GDScript
 
 const CAMINHO_TESTE := "user://teste_progresso.json"
@@ -15,6 +15,7 @@ func _initialize() -> void:
 
 func _rodar() -> void:
 	await process_frame
+	ScriptProgresso=load("res://codigo/globais/progresso.gd")
 	ScriptModelo = load("res://codigo/modelos/modelo_inventario.gd")
 	_testar_comprar_melhoria()
 	_testar_custos_e_maximo()
@@ -50,19 +51,20 @@ func _testar_comprar_melhoria() -> void:
 	var progresso = _novo()
 	progresso.brasas = 50
 	_verificar("comprar melhoria sobe o nivel", progresso.comprar_melhoria("vigor") and progresso.nivel("vigor") == 1, "nivel=%d" % progresso.nivel("vigor"))
-	_verificar("comprar melhoria desconta o custo do nivel 1", progresso.brasas == 40, "brasas=%d" % progresso.brasas)
-	_verificar("id inexistente nao compra", not progresso.comprar_melhoria("inexistente") and progresso.brasas == 40, "brasas=%d" % progresso.brasas)
+	_verificar("comprar melhoria desconta o custo do nivel 1", progresso.brasas == 25, "brasas=%d" % progresso.brasas)
+	_verificar("id inexistente nao compra", not progresso.comprar_melhoria("inexistente") and progresso.brasas == 25, "brasas=%d" % progresso.brasas)
 	progresso.free()
 
 func _testar_custos_e_maximo() -> void:
 	var progresso = _novo()
 	progresso.brasas = 1000
+	progresso.maior_onda_vencida = 30
 	var gastos: Array[int] = []
 	for i in 5:
 		var antes: int = progresso.brasas
 		var comprou: bool = progresso.comprar_melhoria("forca")
 		gastos.append(antes - progresso.brasas if comprou else -1)
-	_verificar("custos 10/20/35/55/80", gastos == [10, 20, 35, 55, 80], str(gastos))
+	_verificar("custos 25/60/120/220/360", gastos == [25, 60, 120, 220, 360], str(gastos))
 	_verificar("nivel maximo 5", progresso.nivel("forca") == 5, "nivel=%d" % progresso.nivel("forca"))
 	var brasas_antes: int = progresso.brasas
 	_verificar("nao compra acima do maximo", not progresso.comprar_melhoria("forca") and progresso.nivel("forca") == 5 and progresso.brasas == brasas_antes, "nivel=%d brasas=%d" % [progresso.nivel("forca"), progresso.brasas])
@@ -71,22 +73,22 @@ func _testar_custos_e_maximo() -> void:
 
 func _testar_brasas_insuficientes() -> void:
 	var progresso = _novo()
-	progresso.brasas = 9
-	_verificar("brasas insuficientes nao compra", not progresso.comprar_melhoria("couraca") and progresso.nivel("couraca") == 0 and progresso.brasas == 9, "nivel=%d brasas=%d" % [progresso.nivel("couraca"), progresso.brasas])
-	progresso.brasas = 10
+	progresso.brasas = 24
+	_verificar("brasas insuficientes nao compra", not progresso.comprar_melhoria("couraca") and progresso.nivel("couraca") == 0 and progresso.brasas == 24, "nivel=%d brasas=%d" % [progresso.nivel("couraca"), progresso.brasas])
+	progresso.brasas = 25
 	_verificar("brasas exatas compram", progresso.comprar_melhoria("couraca") and progresso.brasas == 0, "brasas=%d" % progresso.brasas)
-	progresso.brasas = 19
-	_verificar("nivel 2 custa 20 (19 nao basta)", not progresso.comprar_melhoria("couraca") and progresso.nivel("couraca") == 1, "nivel=%d" % progresso.nivel("couraca"))
+	progresso.brasas = 59
+	_verificar("nivel 2 exige mais Brasas e exploração", not progresso.comprar_melhoria("couraca") and progresso.nivel("couraca") == 1, "nivel=%d" % progresso.nivel("couraca"))
 	progresso.free()
 
 func _testar_bonus() -> void:
 	var progresso = _novo()
 	progresso.melhorias = {"vigor": 3, "forca": 2, "couraca": 5, "folego": 1, "bolsa": 4, "saque": 5}
-	var ok: bool = is_equal_approx(progresso.bonus("vigor"), 0.24) and is_equal_approx(progresso.bonus("forca"), 0.12) \
-			and is_equal_approx(progresso.bonus("couraca"), 0.20) and is_equal_approx(progresso.bonus("folego"), 0.10) \
-			and is_equal_approx(progresso.bonus("bolsa"), 160.0) and is_equal_approx(progresso.bonus("saque"), 0.50)
-	_verificar("bonus por nivel (vigor 8%, forca 6%, couraca 4%, folego 10%, bolsa 40, saque 10%)", ok, "vigor=%f bolsa=%f" % [progresso.bonus("vigor"), progresso.bonus("bolsa")])
-	_verificar("ouro inicial vem da bolsa", progresso.ouro_inicial() == 160, str(progresso.ouro_inicial()))
+	var ok: bool = is_equal_approx(progresso.bonus("vigor"), 0.09) and is_equal_approx(progresso.bonus("forca"), 0.04) \
+			and is_equal_approx(progresso.bonus("couraca"), 0.05) and is_equal_approx(progresso.bonus("folego"), 0.04) \
+			and is_equal_approx(progresso.bonus("bolsa"), 80.0) and is_equal_approx(progresso.bonus("saque"), 0.20)
+	_verificar("bonus limitados por nivel", ok, "vigor=%f bolsa=%f" % [progresso.bonus("vigor"), progresso.bonus("bolsa")])
+	_verificar("ouro inicial vem da bolsa", progresso.ouro_inicial() == 80, str(progresso.ouro_inicial()))
 	_verificar("bonus de id inexistente e 0", progresso.bonus("xyz") == 0.0, "")
 	progresso.free()
 
@@ -232,18 +234,18 @@ func _testar_reset_do_inventario() -> void:
 	modelo.limpar()
 	modelo.criar_itens_iniciais()
 	var kit_ok: bool = modelo.equipados["arma"] != null and modelo.equipados["arma"].tipo == "espada_basica" and modelo.equipados["escudo"] != null \
-			and modelo.equipados["cabeca"] != null and modelo.equipados["corpo"] != null \
-			and modelo.equipados["luvas"] != null and modelo.equipados["botas"] != null and modelo.equipados["secundaria"] != null
-	_verificar("reset: armadura, espada e escudo equipados", kit_ok, str(modelo.equipados))
-	var na_mochila: bool = modelo.indice_de(modelo.buscar_por_tipo("lanca_basica")) != -1 and modelo.indice_de(modelo.buscar_por_tipo("enxada")) != -1 \
+			and modelo.equipados["cabeca"] == null and modelo.equipados["corpo"] == null \
+			and modelo.equipados["luvas"] == null and modelo.equipados["botas"] == null and modelo.equipados["secundaria"] == null
+	_verificar("reset: espada e escudo sem liberar armaduras", kit_ok, str(modelo.equipados))
+	var na_mochila: bool = modelo.buscar_por_tipo("lanca_basica") == null and modelo.indice_de(modelo.buscar_por_tipo("enxada")) != -1 \
 			and modelo.indice_de(modelo.buscar_por_tipo("regador")) != -1 and modelo.indice_de(modelo.buscar_por_tipo("machadinha")) != -1 and modelo.indice_de(modelo.buscar_por_tipo("picareta")) != -1 and modelo.buscar_por_tipo("vara_pesca") != null
-	_verificar("reset: lanca e ferramentas da fazenda na mochila", na_mochila, "")
+	_verificar("reset: ferramentas na mochila; lança depende de fabricação", na_mochila, "")
 	_verificar("reset: itens voltam ao nivel 1 e sem extras", modelo.buscar_por_tipo("espada_basica").nivel == 1 and modelo.buscar_por_tipo("machado") == null, "")
 	var contagem := 0
 	for item in modelo.mochila:
 		if item != null:
 			contagem += 1
-	_verificar("reset: mochila com lança, quatro ferramentas e vara", contagem == 6, "itens=%d" % contagem)
+	_verificar("reset: mochila com quatro ferramentas e vara", contagem == 5, "itens=%d" % contagem)
 	modelo.free()
 
 func _testar_reviver_da_curandeira() -> void:

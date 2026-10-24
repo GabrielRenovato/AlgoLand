@@ -1,6 +1,6 @@
 extends Node
 
-## Preserva os nós usados por sono, café e assentos. A cama continua em faixas
+## Preserva os nós usados por sono e assentos. A cama continua em faixas
 ## com profundidades independentes, inclusive quando a cena é regenerada.
 const Biblioteca := preload("res://codigo/cidade/interiores_detalhados.gd")
 const Detalhe := preload("res://codigo/cidade/detalhe_ambiente.gd")
@@ -13,12 +13,9 @@ func _ready() -> void:
 
 func instalar() -> void:
 	var objetos := get_parent().get_parent().get_node("Objetos3D")
-	for nome in ["Estante", "Bau", "CadeiraE", "CadeiraD", "Mesa", "Mesa/Cafe_E", "Mesa/Cafe_D"]:
+	for nome in ["Estante", "Bau", "CadeiraE", "CadeiraD", "Mesa"]:
 		var original: Sprite2D = objetos.get_node(nome)
-		if "/Cafe_" in nome:
-			original.position.y = -11
-			original.z_index = 1
-		var id: String = "cafe" if "/Cafe_" in nome else ("cadeira" if nome.begins_with("Cadeira") else nome.to_lower())
+		var id: String = "cadeira" if nome.begins_with("Cadeira") else nome.to_lower()
 		var item := Biblioteca.dados("casa_inicial/" + id)
 		var imagem := Sprite2D.new()
 		imagem.name = "ImagemDetalhada"
@@ -26,8 +23,7 @@ func instalar() -> void:
 		imagem.flip_h = original.flip_h
 		imagem.texture = load(item.texturas[0])
 		imagem.offset = original.offset
-		# self_modulate só esconde o atlas antigo: filhos como as xícaras e
-		# o vapor continuam em coordenadas lógicas e conservam suas funções.
+		# Esconde somente a imagem antiga, preservando o nó físico do móvel.
 		original.self_modulate.a = 0.0
 		original.add_child(imagem)
 		Detalhe.instalar(original, imagem, item)
