@@ -27,6 +27,8 @@ var _slots_mochila: Array[Control] = []
 ## Casas que exibem a arma selecionada, guardada internamente no estado da mão.
 var _fantasmas: Array[Control] = []
 var _slots_equipamento: Dictionary = {}
+const CATEGORIAS_PARA_FERREIRO := ["arma", "escudo", "cabeca", "corpo", "luvas", "botas"]
+var _categoria_puxada := ""
 var _info_item: PanelContainer
 var _info_linhas: VBoxContainer
 var _aba_missoes := false
@@ -374,15 +376,23 @@ func _verbo_do_item(slot: Control) -> String:
 
 # --- Ajuda para o ferreiro (BIGORNA/ENCANTAR) ---
 
-## Item (nó do slot) equipado que o slot do ferreiro aceita: arma primeiro, depois escudo; null se não há
+## Item (nó do slot) equipado que o slot do ferreiro aceita, passando a cada chamada para o próximo (arma, escudo, peças); null se não há
 func item_equipado_que_serve(destino: Control) -> Control:
-	for categoria in ["arma", "escudo"]:
-		var inv = EventosJogo.inventario_de(self)
+	# A cada toque no slot vazio vem o próximo equipado que serve (arma, escudo e as quatro peças), para dar acesso à armadura
+	var inv = EventosJogo.inventario_de(self)
+	var inicio := CATEGORIAS_PARA_FERREIRO.find(_categoria_puxada) + 1
+	for i in CATEGORIAS_PARA_FERREIRO.size():
+		var categoria: String = CATEGORIAS_PARA_FERREIRO[(inicio + i) % CATEGORIAS_PARA_FERREIRO.size()]
 		var casa: int = inv.casa_da_mao(inv.equipados.get("arma"))
 		var slot: Control = _slots_mochila[casa] if categoria == "arma" and casa >= 0 else _slots_equipamento.get(categoria)
 		if slot != null and slot.item_atual != null and not slot.item_ui().em_uso and destino.aceita_item(slot.item_ui()):
+			_categoria_puxada = categoria
 			return slot.item_ui()
 	return null
+
+## Depois de refinar, o próximo toque no slot vazio volta a começar pela arma
+func esquecer_item_puxado() -> void:
+	_categoria_puxada = ""
 
 ## Primeiro slot da mochila com um item que o slot do ferreiro aceita; null se não há
 func primeiro_slot_que_serve(destino: Control) -> Control:

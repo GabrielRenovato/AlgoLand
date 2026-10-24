@@ -218,7 +218,8 @@ func _avisar_recusa(origem: Control) -> void:
 		var escudo: bool = origem.obter_tipo_item() == "escudo_basico"
 		mostrar_mensagem("ESCUDO NAO PODE SER ENCANTADO" if escudo else "SO ARMAS DE ATAQUE PODEM SER ENCANTADAS")
 
-## Confirmar (controle) ou clicar (mouse) no slot vazio da BIGORNA/ENCANTAR: coloca a arma equipada que serve;
+## Confirmar (controle) ou clicar (mouse) no slot vazio da BIGORNA/ENCANTAR: coloca o equipado que serve (cada toque passa para o
+## próximo: arma, escudo, elmo, peitoral, luvas, botas);
 ## sem ela, leva o foco para a primeira arma que serve na mochila (ou avisa que não há nenhuma)
 func _ao_slot_vazio_confirmado(slot: Control) -> void:
 	var inventario := EventosJogo.painel_do_grupo(self, "tela_inventario")
@@ -821,6 +822,9 @@ func _ao_melhorar_pressionado() -> void:
 	if dados["moedas_forja"] > 0 and not EventosJogo.inventario_de(self).gastar_moeda_forja(dados["moedas_forja"]):
 		Sons.tocar("erro", 0.0)
 		return
+	var inventario_ui := EventosJogo.painel_do_grupo(self, "tela_inventario")
+	if inventario_ui != null:
+		inventario_ui.esquecer_item_puxado()
 	jogador.gastar_moedas(dados["custo"])
 	Sons.tocar("melhoria", 0.0)
 	atualizar_exibicao_moedas()
