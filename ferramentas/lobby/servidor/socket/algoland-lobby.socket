@@ -1,0 +1,10 @@
+# Porta do lobby aberta pelo systemd só em 127.0.0.1 (o Tailscale Funnel entrega aqui). A primeira conexão acorda o servidor.
+# Instalar (troca o serviço sempre ligado): ver a seção "Dormir quando vazio" do README.
+[Unit]
+Description=AlgoLand lobby (porta 8787, acorda o servidor quando alguém conecta)
+
+[Socket]
+ListenStream=127.0.0.1:8787
+
+[Install]
+WantedBy=sockets.target

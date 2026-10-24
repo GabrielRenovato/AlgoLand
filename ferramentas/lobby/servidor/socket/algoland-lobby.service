@@ -1,0 +1,15 @@
+# Servidor do lobby ativado por socket: sobe na primeira conexão e dorme depois de OCIOSO_MS sem jogadores online.
+[Unit]
+Description=AlgoLand lobby (presença por mapa e chat)
+Requires=algoland-lobby.socket
+After=algoland-lobby.socket
+
+[Service]
+WorkingDirectory=%h/AlgoLand/ferramentas/lobby/servidor
+Environment=OCIOSO_MS=600000
+ExecStart=%h/.var/app/com.visualstudio.code/config/nvm/versions/node/v24.19.0/bin/node servidor.mjs
+# Só reinicia se cair; a saída por ociosidade é normal e o socket acorda de novo
+Restart=on-failure
+RestartSec=3
+NoNewPrivileges=yes
+PrivateTmp=yes

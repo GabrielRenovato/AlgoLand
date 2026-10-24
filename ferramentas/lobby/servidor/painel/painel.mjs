@@ -31,7 +31,7 @@ async function servidor() {
 }
 
 async function estado() {
-  const [ativo, detalhes, habilitado, funnel, tailscale, logs, lobby] = await Promise.all([
+  const [ativo, detalhes, habilitado, funnel, tailscale, logs, lobby, socket, socketAtivo] = await Promise.all([
     rodar('systemctl', ['--user', 'is-active', UNIDADE]),
     rodar('systemctl', ['--user', 'show', UNIDADE, '-p', 'ActiveEnterTimestamp', '-p', 'MainPID', '-p', 'MemoryCurrent', '-p', 'NRestarts']),
     rodar('systemctl', ['--user', 'is-enabled', UNIDADE]),
@@ -39,13 +39,15 @@ async function estado() {
     rodar('tailscale', ['status', '--json']),
     rodar('journalctl', ['--user', '-u', UNIDADE, '-n', '40', '--no-pager', '-o', 'short-iso']),
     servidor(),
+    rodar('systemctl', ['--user', 'cat', `${UNIDADE}.socket`]),
+    rodar('systemctl', ['--user', 'is-active', `${UNIDADE}.socket`]),
   ]);
   const propriedades = Object.fromEntries(detalhes.saida.split('\n').map((l) => l.split(/=(.*)/s).slice(0, 2)));
   let tailscaleOnline = null; let tailscaleNome = '';
   try { const j = JSON.parse(tailscale.saida); tailscaleOnline = j.BackendState === 'Running'; tailscaleNome = (j.Self?.DNSName ?? '').replace(/\.$/, ''); } catch {}
   const url = /https:\/\/\S+/.exec(funnel.saida)?.[0] ?? '';
   return {
-    servico: { estado: ativo.saida || 'desconhecido', habilitado: habilitado.saida === 'enabled', desde: propriedades.ActiveEnterTimestamp ?? '', pid: Number(propriedades.MainPID ?? 0),
+    servico: { estado: ativo.saida || 'desconhecido', socketInstalado: socket.ok, socketAtivo: socketAtivo.saida === 'active', habilitado: habilitado.saida === 'enabled' || socketAtivo.saida === 'active', desde: propriedades.ActiveEnterTimestamp ?? '', pid: Number(propriedades.MainPID ?? 0),
       memoriaMB: propriedades.MemoryCurrent && /^\d+$/.test(propriedades.MemoryCurrent) ? Math.round(Number(propriedades.MemoryCurrent) / 1048576) : null, reinicios: Number(propriedades.NRestarts ?? 0) },
     lobby,
     acessoPublico: { ligado: /Funnel on/.test(funnel.saida), url, wss: url.replace('https://', 'wss://').replace(/\/$/, ''), tailscaleOnline, maquina: tailscaleNome },
@@ -55,8 +57,11 @@ async function estado() {
 }
 
 const ACOES = {
-  iniciar: () => rodar('systemctl', ['--user', 'start', UNIDADE]),
-  parar: () => rodar('systemctl', ['--user', 'stop', UNIDADE]),
+  // Com socket instalado, ligar abre também a porta e desligar a fecha (senão a próxima conexão acordaria o servidor)
+  iniciar: async () => (await rodar('systemctl', ['--user', 'cat', `${UNIDADE}.socket`])).ok
+    ? rodar('systemctl', ['--user', 'start', `${UNIDADE}.socket`, `${UNIDADE}.service`]) : rodar('systemctl', ['--user', 'start', UNIDADE]),
+  parar: async () => (await rodar('systemctl', ['--user', 'cat', `${UNIDADE}.socket`])).ok
+    ? rodar('systemctl', ['--user', 'stop', `${UNIDADE}.socket`, `${UNIDADE}.service`]) : rodar('systemctl', ['--user', 'stop', UNIDADE]),
   reiniciar: () => rodar('systemctl', ['--user', 'restart', UNIDADE]),
   funnel_ligar: () => rodar('tailscale', ['funnel', '--bg', PORTA_LOBBY], 20000),
   funnel_desligar: () => rodar('tailscale', ['funnel', '--https=443', 'off'], 20000),

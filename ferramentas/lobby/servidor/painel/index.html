@@ -59,12 +59,13 @@ async function acao(nome){
 for(const [id,a] of [['b-iniciar','iniciar'],['b-parar','parar'],['b-reiniciar','reiniciar'],['b-funnel-ligar','funnel_ligar'],['b-funnel-desligar','funnel_desligar']])$(id).onclick=()=>acao(a);
 function desenhar(e){
   ultimo=e;const s=e.servico,l=e.lobby,f=e.acessoPublico,ativo=s.estado==='active';
-  $('ponto').className='ponto '+(ativo&&l?'ok':ativo?'aviso':'erro');
-  $('p-servico').className='ponto '+(ativo?'ok':s.estado==='failed'?'erro':'aviso');
-  $('t-servico').textContent=ativo?(l?'No ar':'Iniciando...'):s.estado==='inactive'?'Desligado':s.estado;
-  $('d-servico').textContent=ativo?`desde ${s.desde||'?'} · PID ${s.pid}${s.memoriaMB!=null?` · ${s.memoriaMB} MB`:''} · reinícios automáticos: ${s.reinicios}`:'O servidor não está rodando; ninguém consegue usar o canal próprio.';
-  $('d-habilitado').textContent=s.habilitado?'Sobe sozinho quando você entra na sessão.':'Não sobe sozinho ao entrar na sessão (serviço não habilitado).';
-  $('b-iniciar').disabled=ativo;$('b-parar').disabled=!ativo;$('b-reiniciar').disabled=!ativo;
+  $('ponto').className='ponto '+(ativo&&l?'ok':ativo||s.socketAtivo?'aviso':'erro');
+  const dormindo=!ativo&&s.socketAtivo;
+  $('p-servico').className='ponto '+(ativo?'ok':dormindo?'aviso':s.estado==='failed'?'erro':'aviso');
+  $('t-servico').textContent=ativo?(l?'No ar':'Iniciando...'):dormindo?'Dormindo':s.estado==='inactive'?'Desligado':s.estado;
+  $('d-servico').textContent=ativo?`desde ${s.desde||'?'} · PID ${s.pid}${s.memoriaMB!=null?` · ${s.memoriaMB} MB`:''} · reinícios automáticos: ${s.reinicios}`:dormindo?'Sem jogadores: o servidor dorme e acorda sozinho na primeira conexão.':'O servidor não está rodando; ninguém consegue usar o canal próprio.';
+  $('d-habilitado').textContent=s.socketAtivo?'Modo economia: dorme quando ninguém está online e acorda quando alguém conecta.':s.habilitado?'Fica sempre ligado e sobe sozinho quando você entra na sessão.':'Não sobe sozinho ao entrar na sessão (serviço não habilitado).';
+  $('b-iniciar').disabled=ativo&&!s.socketInstalado||(ativo&&s.socketAtivo);$('b-parar').disabled=!ativo&&!s.socketAtivo;$('b-reiniciar').disabled=!ativo;
   $('p-funnel').className='ponto '+(f.ligado?'ok':'aviso');
   $('t-funnel').textContent=f.ligado?'Liberado':'Bloqueado';
   $('d-funnel').textContent=(f.ligado?f.wss:'')+(f.tailscaleOnline===false?'\nTailscale desconectado':'')+(f.maquina&&!f.ligado?`\n${f.maquina}`:'');
