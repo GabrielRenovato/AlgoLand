@@ -58,10 +58,13 @@ func _process(_delta: float) -> void:
 			if filho is CanvasItem:filho.hide()
 	botao.text = "X"
 	if not botao.is_visible_in_tree(): return
-	var diametro := maxf(24,botao.custom_minimum_size.y)
+	# No toque: alvo maior e afastado das bordas da tela (o iPhone reserva a borda de cima para gestos do sistema)
+	var toque: bool = botao.get_node_or_null("/root/Controle") != null and botao.get_node("/root/Controle").usando_toque
+	var diametro := maxf(30 if toque else 24,botao.custom_minimum_size.y)
+	var margem := 14.0 if toque else 2.0
 	botao.custom_minimum_size = Vector2.ONE*diametro
 	botao.size = Vector2.ONE*diametro
 	var rect := painel.get_global_rect()
 	var limite := Escala.tamanho_logico(botao)
 	var alvo := Vector2(rect.end.x-diametro*0.5-4,rect.position.y-diametro*0.5+4)
-	botao.global_position = alvo.clamp(Vector2(2,2),limite-botao.size-Vector2(2,2)).round()
+	botao.global_position = alvo.clamp(Vector2(margem,margem),limite-botao.size-Vector2(margem,margem)).round()

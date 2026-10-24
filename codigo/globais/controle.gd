@@ -75,6 +75,8 @@ var dispositivo := 0
 func _ready() -> void:
 	preload("res://codigo/dados/fontes_interface.gd").preparar()
 	add_child(preload("res://codigo/ui/rolagem_toque.gd").new())
+	if "--desempenho" in OS.get_cmdline_args() or "--desempenho" in OS.get_cmdline_user_args():
+		add_child(preload("res://codigo/ui/desempenho_web.gd").new())
 	usando_toque = celular() or ARGUMENTO_TOQUE in OS.get_cmdline_user_args() or ARGUMENTO_TOQUE in OS.get_cmdline_args()
 	if usando_toque:
 		_tirar_mouse_das_acoes()
@@ -88,15 +90,9 @@ func _ready() -> void:
 	_atualizar_layout()
 	preload("res://codigo/dados/controles_personalizados.gd").aplicar()
 
-## Aparelho de toque de verdade: Android/iOS nativos ou o jogo aberto no navegador de um celular/tablet (iPhone, iPad, Android).
-## No navegador, quem decide é o dedo como ponteiro principal (pointer: coarse); notebook com tela de toque e mouse não conta
+## Aparelho de toque de verdade (ver dispositivo.gd)
 static func celular() -> bool:
-	if OS.has_feature("mobile") or OS.has_feature("web_ios") or OS.has_feature("web_android"):
-		return true
-	if OS.has_feature("web"):
-		var resposta = JavaScriptBridge.eval("window.matchMedia('(pointer: coarse) and (hover: none)').matches", true)
-		return resposta == true
-	return false
+	return preload("res://codigo/globais/dispositivo.gd").celular()
 
 # O toque vira clique do mouse (para os menus), e o clique é "attack"/"aparar": sem isso, tocar num botão de menu atacaria
 func _tirar_mouse_das_acoes() -> void:

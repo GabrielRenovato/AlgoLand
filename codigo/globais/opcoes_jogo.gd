@@ -43,8 +43,12 @@ static func carregar(lado := 1) -> Dictionary:
 			opcoes[chave] = proprias[chave]
 	return opcoes
 
+## Navegador de celular (iPhone, Android): 30 quadros por segundo, que o aparelho sustenta sem travadas; vale até o jogador escolher outro valor
+static func fps_padrao() -> int:
+	return 30 if OS.has_feature("web") and preload("res://codigo/globais/dispositivo.gd").celular() else 60
+
 static func _carregar_secao(secao: String) -> Dictionary:
-	var opcoes := {"volume_musica":0.6, "volume_efeitos":1.0, "volume_ambiente":1.0, "volume": 1.0, "tela_cheia": true, "max_fps": 60, "layout_controle": "auto", "vibracao": true, "zoom": 1.0, "escala_interface": 1.0}
+	var opcoes := {"volume_musica":0.6, "volume_efeitos":1.0, "volume_ambiente":1.0, "volume": 1.0, "tela_cheia": true, "max_fps": fps_padrao(), "layout_controle": "auto", "vibracao": true, "zoom": 1.0, "escala_interface": 1.0}
 	var config := ConfigFile.new()
 	if config.load(CAMINHO) != OK:
 		return opcoes
@@ -52,7 +56,7 @@ static func _carregar_secao(secao: String) -> Dictionary:
 		opcoes[chave] = clampf(float(config.get_value(secao, chave,0.6 if chave == "volume_musica" else 1.0)),0,1)
 	opcoes["volume"] = clampf(float(config.get_value(secao, "volume", 1.0)), 0.0, 1.0)
 	opcoes["tela_cheia"] = bool(config.get_value(secao, "tela_cheia", true))
-	opcoes["max_fps"] = maxi(int(config.get_value(secao, "max_fps", 60)), 0)
+	opcoes["max_fps"] = maxi(int(config.get_value(secao, "max_fps", fps_padrao())), 0)
 	var layout := str(config.get_value(secao, "layout_controle", "auto"))
 	opcoes["layout_controle"] = layout if layout in LAYOUTS_CONTROLE else "auto"
 	opcoes["vibracao"] = bool(config.get_value(secao, "vibracao", true))

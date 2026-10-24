@@ -92,6 +92,16 @@ func _ready() -> void:
 	_detalhe.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_detalhe.custom_minimum_size.y = 28
 	coluna.add_child(_detalhe)
+	# No toque o X redondo fica no canto da janela; um VOLTAR largo embaixo (texto fora de X/FECHAR, que o acabamento
+	# transformaria em outro X redondo) fecha o mapa com o polegar
+	if Controle.usando_toque:
+		var voltar := Button.new()
+		voltar.name = "BotaoVoltarMapa"
+		voltar.text = "VOLTAR"
+		EstiloInicio.botao(voltar,false,16.0)
+		voltar.custom_minimum_size = Vector2(0,30)
+		voltar.pressed.connect(func(): EventosJogo.fechar_tela_de(self,"mapa_mundi"))
+		coluna.add_child(voltar)
 	resized.connect(_ajustar)
 	# A quebra de linha muda a altura mínima depois que os containers recebem largura.
 	painel.minimum_size_changed.connect(_ajustar.call_deferred)
