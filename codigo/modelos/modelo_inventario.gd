@@ -574,9 +574,13 @@ func excluir_item(item) -> bool:
 	return true
 
 func subir_nivel(item) -> void:
-	# Peça de conjunto no nível 5: a bigorna sobe a raridade (e soma um bônus) em vez do nível; lendária já está no máximo
+	# Peça de conjunto, arma ou escudo no nível 5: a bigorna sobe a raridade (e soma um bônus) em vez do nível; lendário já está no máximo
 	if Conjuntos.de_tipo(item.tipo) != null and item.nivel >= Conjuntos.NIVEL_ASCENSAO:
 		if not Conjuntos.ascender(item, _rng_ascensao):
+			return
+	elif Equipamentos.FAMILIAS.has(item.tipo) and item.nivel >= Conjuntos.NIVEL_ASCENSAO:
+		# Armas e escudos no nível 5 também sobem de raridade em vez de ficarem parados
+		if not Conjuntos.ascender_equipamento(item, _rng_ascensao):
 			return
 	else:
 		item.nivel += 1

@@ -33,6 +33,17 @@ static func ascender(item, rng: RandomNumberGenerator) -> bool:
 		item.afixos[id] = extra[id]
 	return true
 
+## Arma ou escudo no nível máximo: a bigorna também sobe a raridade, com um bônus que a categoria aceita.
+## Quem chama confere o nível e se o tipo é de equipamento
+static func ascender_equipamento(item, rng: RandomNumberGenerator) -> bool:
+	if item == null or Raridades.indice(item.raridade) >= Raridades.ORDEM.size() - 1:
+		return false
+	item.raridade = Raridades.ORDEM[Raridades.indice(item.raridade) + 1]
+	var extra := Raridades.sortear_afixo_extra(rng, item.afixos, item.raridade, item.categoria)
+	for id in extra:
+		item.afixos[id] = extra[id]
+	return true
+
 static func raizes(equipados: Dictionary) -> Dictionary:
 	var resultado := {}
 	for slot in ["cabeca", "corpo", "luvas", "botas"]:

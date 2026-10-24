@@ -730,6 +730,9 @@ func _dados_upgrade() -> Dictionary:
 	var nivel: int = item.dados.nivel
 	var raridade: String = item.dados.raridade
 	var proximo: Dictionary = Equipamentos.dados_melhoria_conjunto(nivel, raridade) if peca_conjunto else _equipamentos.obter_dados_nivel_arma(tipo_item, nivel + 1)
+	# Arma ou escudo no último nível: segue com a ascensão de raridade, como as peças de conjunto
+	if proximo.is_empty() and not peca_conjunto and nivel >= Equipamentos.NIVEIS_CUSTO.size():
+		proximo = Equipamentos.dados_melhoria_conjunto(nivel, raridade)
 	var gerenciador_ondas := get_tree().get_first_node_in_group("gerenciador_ondas")
 	var onda_atual: int = gerenciador_ondas.onda_atual if gerenciador_ondas != null else int(Transicao.estado.get("onda_atual", Progresso.onda_inicial))
 	var custo: int = proximo.get("custo", 0)
@@ -776,13 +779,17 @@ func atualizar_painel_upgrade() -> void:
 		return
 
 	_titulo_upgrade.text = "%s NV %d > %d" % [nome, nivel, nivel + 1]
-	if dados["conjunto"] and proximo.get("ascensao", false):
+	if proximo.get("ascensao", false):
 		# Nível 5: sobe a raridade, os status ganham o multiplicador dela e entra um bônus aleatório novo
 		var nova: String = proximo["raridade_nova"]
 		_titulo_upgrade.text = "%s: %s > %s" % [nome, Raridades.nome(raridade), Raridades.nome(nova)]
-		_atributos_upgrade.text = "DEF %d > %d  VIT %d > %d\n+1 BONUS ALEATORIO" % [
-			Raridades.escalar(atual.get("bonus_defesa", 0), raridade), Raridades.escalar(atual.get("bonus_defesa", 0), nova),
-			Raridades.escalar(atual.get("bonus_vitalidade", 0), raridade), Raridades.escalar(atual.get("bonus_vitalidade", 0), nova)]
+		if dados["conjunto"] or dados["tipo_item"] == "escudo_basico":
+			_atributos_upgrade.text = "DEF %d > %d  VIT %d > %d\n+1 BONUS ALEATORIO" % [
+				Raridades.escalar(atual.get("bonus_defesa", 0), raridade), Raridades.escalar(atual.get("bonus_defesa", 0), nova),
+				Raridades.escalar(atual.get("bonus_vitalidade", 0), raridade), Raridades.escalar(atual.get("bonus_vitalidade", 0), nova)]
+		else:
+			_atributos_upgrade.text = "DANO %d > %d\n+1 BONUS ALEATORIO" % [
+				Raridades.escalar(atual.get("dano", 0), raridade), Raridades.escalar(atual.get("dano", 0), nova)]
 	elif dados["conjunto"]:
 		var proximo_nivel: Dictionary = _equipamentos.obter_dados_nivel_armadura(dados["tipo_item"], nivel + 1)
 		_atributos_upgrade.text = "DEF %d > %d  VIT %d > %d" % [
@@ -796,7 +803,7 @@ func atualizar_painel_upgrade() -> void:
 		_atributos_upgrade.text = "DANO %d > %d" % [Raridades.escalar(atual.get("dano", 0), raridade), Raridades.escalar(proximo.get("dano", 0), raridade)]
 
 	_requisitos_upgrade.text = "CUSTO %d MOEDAS" % dados["custo"]
-	if dados["conjunto"]:
+	if dados["moedas_forja"] > 0:
 		_requisitos_upgrade.text += "\n+ %d MOEDA DE FORJA (TEM %d)" % [dados["moedas_forja"], EventosJogo.inventario_de(self).moedas_forja]
 	_requisitos_upgrade.modulate = COR_TEXTO_OK if dados["moedas_ok"] and dados["forja_ok"] else COR_TEXTO_BLOQUEADO
 	_bloqueio_upgrade.visible = not dados["onda_ok"]

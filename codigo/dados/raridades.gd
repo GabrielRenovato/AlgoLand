@@ -137,11 +137,12 @@ static func valor_afixo(rng: RandomNumberGenerator, id: String, raridade: String
 	return snappedf(bruto, 0.01) if def["pct"] else float(maxi(roundi(bruto), 1))
 
 ## Um afixo novo (que o item ainda não tem), de qualquer tipo, no valor da raridade: {id: valor}; vazio se já tem todos.
-## Usado na ascensão das peças de conjunto na bigorna (cada raridade acima da comum soma um bônus)
-static func sortear_afixo_extra(rng: RandomNumberGenerator, existentes: Dictionary, raridade: String) -> Dictionary:
+## Usado na ascensão das peças de conjunto, armas e escudos na bigorna (cada raridade acima da comum soma um bônus)
+static func sortear_afixo_extra(rng: RandomNumberGenerator, existentes: Dictionary, raridade: String, categoria: String = "") -> Dictionary:
 	var candidatos: Array = []
 	for id in AFIXOS:
-		if not existentes.has(id):
+		# Com categoria (arma, escudo), só afixos que podem sair nela; sem ela, qualquer um (peças de conjunto)
+		if not existentes.has(id) and (categoria == "" or categoria in AFIXOS[id]["slots"]):
 			candidatos.append(id)
 	if candidatos.is_empty():
 		return {}
