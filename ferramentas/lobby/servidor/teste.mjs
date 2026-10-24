@@ -29,10 +29,16 @@ class Cliente {
   fechar() { this.ws.close(); }
 }
 
-const servidor = criarServidor({ ...CONFIG, porta: 0, tickMs: 50, expiraMs: 60000, maxPorMapa: 3 });
+const servidor = criarServidor({ ...CONFIG, porta: 0, portaAdmin: 0, tickMs: 50, expiraMs: 60000, maxPorMapa: 3 });
 const porta = await servidor.iniciar();
 const url = `ws://127.0.0.1:${porta}`;
 const cod = (n) => `codigo_secreto_de_teste_numero_${n}_abcdefghij`;
+
+// Painel administrativo (estado em memória; sem porta própria nos testes)
+{
+  const adm = servidor.estadoAdmin();
+  conferir(adm.ok && Array.isArray(adm.jogadores) && adm.contadores.pico >= 0 && !('codigo' in (adm.jogadores[0] ?? {})) && !JSON.stringify(adm).includes('codigo_secreto'), 'estado administrativo não vaza o código secreto');
+}
 
 // Filtro
 conferir(proibido('fuck') && proibido('p0rra') && proibido('cu') && proibido('f0der') && !proibido('Cuca') && !proibido('Ana'), 'filtro de palavras igual ao do banco');
@@ -147,7 +153,7 @@ for (const cl of [a, c2, d, ...e, f]) try { cl.fechar(); } catch {}
 await servidor.parar();
 
 // Expiração: quem para de enviar estado some (servidor próprio, com prazo curto)
-const curto = criarServidor({ ...CONFIG, porta: 0, tickMs: 50, expiraMs: 400 });
+const curto = criarServidor({ ...CONFIG, porta: 0, portaAdmin: 0, tickMs: 50, expiraMs: 400 });
 const portaCurta = await curto.iniciar();
 const g = new Cliente(`ws://127.0.0.1:${portaCurta}`, cod(10));
 await g.conectar({ x: 1, y: 1, mapa: 1, apelido: 'SUMIDO', aparencia });

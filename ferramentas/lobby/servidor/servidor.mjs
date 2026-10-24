@@ -8,6 +8,8 @@ import { limparApelido, limparTexto, proibido } from './filtro.mjs';
 
 export const CONFIG = {
   porta: Number(process.env.PORTA ?? 8787),
+  // Painel de administração: só em 127.0.0.1 e em outra porta, que o Funnel/túnel não publica
+  portaAdmin: Number(process.env.ADMIN_PORTA ?? 8788),
   maxConexoes: Number(process.env.MAX_CONEXOES ?? 200),
   maxPorMapa: Number(process.env.MAX_POR_MAPA ?? 24),
   tickMs: Number(process.env.TICK_MS ?? 100),
@@ -32,6 +34,7 @@ export function criarServidor(config = CONFIG) {
   const acoes = [];
   let proximaAcao = 1;
   const inicio = Date.now();
+  const contadores = { conexoes: 0, mensagens: 0, acoes: 0, recusadas: 0, pico: 0 };
 
   const servidorHttp = http.createServer((req, res) => {
     if (req.url === '/saude') {
@@ -103,8 +106,9 @@ export function criarServidor(config = CONFIG) {
     const limpo = limparTexto(texto);
     jogador.envios.add(envio);
     if (jogador.envios.size > 32) jogador.envios.delete(jogador.envios.values().next().value);
-    if (limpo === '' || proibido(limpo)) return { confirmado: envio, aviso: 'mensagem_recusada' };
+    if (limpo === '' || proibido(limpo)) { contadores.recusadas += 1; return { confirmado: envio, aviso: 'mensagem_recusada' }; }
     jogador.ultimaMensagem = agora;
+    contadores.mensagens += 1;
     mensagens.push({ id: proximaMensagem++, jogador: jogador.id, apelido: jogador.apelido, texto: limpo, criadoEm: agora });
     while (mensagens.length > config.historico) mensagens.shift();
     return { confirmado: envio, aviso: '' };
@@ -170,6 +174,7 @@ export function criarServidor(config = CONFIG) {
         const duracao = Number.isFinite(dados.duracao) ? Math.max(0.05, Math.min(2, dados.duracao)) : 0.3;
         const combo = Number.isInteger(dados.combo) ? Math.max(0, Math.min(3, dados.combo)) : 0;
         const direcao = Number.isInteger(dados.direcao) ? Math.max(0, Math.min(3, dados.direcao)) : jogador.direcao;
+        contadores.acoes += 1;
         acoes.push({ n: proximaAcao++, jogador: jogador.id, mapa: jogador.mapa, acao: dados.acao, duracao, combo, direcao, em: agora });
         while (acoes.length > config.acoesGuardadas) acoes.shift();
         break;
@@ -198,11 +203,13 @@ export function criarServidor(config = CONFIG) {
       const id = anterior?.id ?? randomUUID();
       if (anterior) { jogadores.delete(anterior.id); porHash.delete(hash); anterior.ws.close(1000, 'substituida'); }
       jogador = { id, hash, ws, geracao: dados.geracao, apelido: 'sem apelido', aparencia: anterior?.aparencia ?? null, revisao: anterior?.revisao ?? 1,
-        mapa: 0, x: 0, y: 0, direcao: 0, andando: false, pesca: -1, ultimaAcao: proximaAcao - 1, instante: Date.now() / 1000, vistoEm: Date.now(), ultimaMensagem: 0,
+        entrouEm: Date.now(), mapa: 0, x: 0, y: 0, direcao: 0, andando: false, pesca: -1, ultimaAcao: proximaAcao - 1, instante: Date.now() / 1000, vistoEm: Date.now(), ultimaMensagem: 0,
         envios: anterior?.envios ?? new Set(), janela: [], conhecidos: new Map(), depois: Number.isInteger(dados.depois) ? Math.max(0, dados.depois) : 0,
         confirmado: null, aviso: '', ultimaAssinatura: '' };
       jogadores.set(id, jogador);
       porHash.set(hash, jogador);
+      contadores.conexoes += 1;
+      contadores.pico = Math.max(contadores.pico, jogadores.size);
       const erro = aplicarEstado(jogador, dados.estado, Date.now());
       if (erro) { enviar(jogador, { erro }); remover(jogador, 'invalido'); return; }
       enviar(jogador, montarSnapshot(jogador, true));
@@ -221,11 +228,39 @@ export function criarServidor(config = CONFIG) {
     }
   }, config.tickMs);
 
+  function estadoAdmin() {
+    const agora = Date.now();
+    const porMapa = { 0: 0, 1: 0, 2: 0, 3: 0 };
+    const lista = [...jogadores.values()].map((p) => {
+      porMapa[p.mapa] += 1;
+      return { id: p.id.slice(0, 8), apelido: p.apelido, mapa: p.mapa, desdeSeg: Math.round((agora - p.entrouEm) / 1000),
+        vistoHaMs: agora - p.vistoEm, x: Math.round(p.x), y: Math.round(p.y), pesca: p.pesca >= 0 };
+    }).sort((a, b) => a.mapa - b.mapa || a.apelido.localeCompare(b.apelido));
+    return { ok: true, ativoHa: Math.round((agora - inicio) / 1000), jogadores: lista, porMapa, contadores: { ...contadores },
+      mensagens: mensagens.slice(-40).map((m) => ({ id: m.id, apelido: m.apelido, texto: m.texto, criadoEm: m.criadoEm })),
+      memoriaMB: Math.round(process.memoryUsage().rss / 1048576), node: process.version,
+      limites: { maxConexoes: config.maxConexoes, maxPorMapa: config.maxPorMapa, expiraMs: config.expiraMs, tickMs: config.tickMs } };
+  }
+  const servidorAdmin = http.createServer((req, res) => {
+    if (req.url === '/estado' && req.method === 'GET') {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(estadoAdmin()));
+      return;
+    }
+    res.writeHead(404);
+    res.end();
+  });
+
   return {
-    iniciar: () => new Promise((resolve) => servidorHttp.listen(config.porta, () => resolve(servidorHttp.address().port))),
+    iniciar: () => new Promise((resolve) => servidorHttp.listen(config.porta, () => {
+      if (config.portaAdmin > 0) servidorAdmin.listen(config.portaAdmin, '127.0.0.1');
+      resolve(servidorHttp.address().port);
+    })),
+    estadoAdmin,
     parar: () => new Promise((resolve) => {
       clearInterval(relogio);
       for (const cliente of wss.clients) cliente.terminate();
+      if (servidorAdmin.listening) servidorAdmin.close();
       wss.close(() => servidorHttp.close(() => resolve()));
     }),
     jogadores,

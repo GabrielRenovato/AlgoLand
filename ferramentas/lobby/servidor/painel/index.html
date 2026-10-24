@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Painel do Lobby</title>
+<style>
+:root{--fundo:#14171c;--card:#1d2229;--borda:#2c343e;--texto:#e6e9ee;--suave:#98a2b0;--ok:#4cc38a;--erro:#ef6b6b;--aviso:#e8b04a;--azul:#6aa9ff}
+*{box-sizing:border-box}body{margin:0;background:var(--fundo);color:var(--texto);font:14px/1.45 system-ui,sans-serif}
+header{display:flex;align-items:center;gap:12px;padding:14px 20px;border-bottom:1px solid var(--borda);position:sticky;top:0;background:var(--fundo);z-index:2}
+h1{font-size:18px;margin:0;flex:1}h2{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--suave);margin:0 0 10px}
+main{display:grid;gap:14px;padding:16px 20px;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));max-width:1400px;margin:0 auto}
+.card{background:var(--card);border:1px solid var(--borda);border-radius:10px;padding:14px 16px}.largo{grid-column:1/-1}
+.linha{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.espaco{flex:1}
+.ponto{width:11px;height:11px;border-radius:50%;background:var(--suave);display:inline-block}.ok{background:var(--ok)}.erro{background:var(--erro)}.aviso{background:var(--aviso)}
+button{font:inherit;color:var(--texto);background:#2a323c;border:1px solid var(--borda);border-radius:7px;padding:7px 13px;cursor:pointer}button:hover:not(:disabled){background:#35404c}button:disabled{opacity:.4;cursor:default}
+button.verde{background:#235a43;border-color:#2e7a59}button.vermelho{background:#6a2b2b;border-color:#8a3a3a}
+.grande{font-size:26px;font-weight:600}.suave{color:var(--suave)}.mono{font-family:ui-monospace,monospace;font-size:12px}
+table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:5px 8px;border-bottom:1px solid var(--borda)}th{color:var(--suave);font-weight:500;font-size:12px}
+.caixas{display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:8px}.caixa{background:#161a20;border-radius:8px;padding:8px 10px}.caixa b{display:block;font-size:20px}
+pre{margin:0;max-height:260px;overflow:auto;background:#0f1217;border-radius:8px;padding:10px;font-size:12px;white-space:pre-wrap;word-break:break-word}
+.msg{padding:3px 0;border-bottom:1px solid var(--borda)}.msg b{color:var(--azul)}#aviso{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:#2a323c;border:1px solid var(--borda);padding:9px 16px;border-radius:8px;display:none}
+</style>
+</head>
+<body>
+<header><span id="ponto" class="ponto"></span><h1>Painel do Lobby AlgoLand</h1><span id="atualizado" class="suave"></span></header>
+<main>
+<section class="card"><h2>Servidor</h2>
+ <div class="linha"><span id="p-servico" class="ponto"></span><span id="t-servico" class="grande">...</span></div>
+ <p class="suave" id="d-servico"></p>
+ <div class="linha"><button id="b-iniciar" class="verde">Ligar</button><button id="b-parar" class="vermelho">Desligar</button><button id="b-reiniciar">Reiniciar</button></div>
+ <p class="suave" id="d-habilitado"></p></section>
+<section class="card"><h2>Acesso pela internet (Tailscale Funnel)</h2>
+ <div class="linha"><span id="p-funnel" class="ponto"></span><span id="t-funnel" class="grande">...</span></div>
+ <p class="mono" id="d-funnel"></p>
+ <div class="linha"><button id="b-funnel-ligar" class="verde">Liberar acesso</button><button id="b-funnel-desligar" class="vermelho">Bloquear acesso</button></div>
+ <p class="suave">Bloqueando o acesso, só quem está na sua rede Tailscale conecta; os outros caem no canal reserva do jogo.</p></section>
+<section class="card largo"><h2>Agora</h2><div class="caixas" id="caixas"></div></section>
+<section class="card"><h2>Jogadores online</h2><table><thead><tr><th>Apelido</th><th>Mapa</th><th>Há</th><th>Visto</th><th></th></tr></thead><tbody id="jogadores"></tbody></table><p class="suave" id="vazio-jogadores"></p></section>
+<section class="card"><h2>Mensagens recentes</h2><div id="mensagens"></div></section>
+<section class="card largo"><h2>Registro do serviço</h2><pre id="logs"></pre></section>
+</main>
+<div id="aviso"></div>
+<script>
+const TOKEN='__TOKEN__';
+const MAPAS={0:'sem avatar',1:'cidade',2:'floresta',3:'praia'};
+const $=id=>document.getElementById(id);
+let ultimo=null;
+const fmt=s=>{s=Math.round(s);const d=Math.floor(s/86400),h=Math.floor(s%86400/3600),m=Math.floor(s%3600/60);return d?`${d}d ${h}h`:h?`${h}h ${m}min`:m?`${m}min ${s%60}s`:`${s}s`};
+const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function aviso(t){const e=$('aviso');e.textContent=t;e.style.display='block';clearTimeout(aviso.t);aviso.t=setTimeout(()=>e.style.display='none',4000)}
+async function acao(nome){
+  if(nome==='parar'||nome==='reiniciar'){const n=ultimo?.lobby?.jogadores?.length||0;if(n&&!confirm(`Há ${n} jogador(es) online. ${nome==='parar'?'Desligar':'Reiniciar'} mesmo?`))return}
+  if(nome==='funnel_desligar'&&!confirm('Bloquear o acesso pela internet? Só a sua rede Tailscale continua conectando.'))return;
+  document.querySelectorAll('button').forEach(b=>b.disabled=true);
+  try{const r=await fetch('/api/acao/'+nome,{method:'POST',headers:{'x-painel-token':TOKEN}});const j=await r.json();aviso(j.ok?'Feito.':'Falhou: '+(j.saida||r.status))}catch(e){aviso('Erro: '+e.message)}
+  await atualizar();
+}
+for(const [id,a] of [['b-iniciar','iniciar'],['b-parar','parar'],['b-reiniciar','reiniciar'],['b-funnel-ligar','funnel_ligar'],['b-funnel-desligar','funnel_desligar']])$(id).onclick=()=>acao(a);
+function desenhar(e){
+  ultimo=e;const s=e.servico,l=e.lobby,f=e.acessoPublico,ativo=s.estado==='active';
+  $('ponto').className='ponto '+(ativo&&l?'ok':ativo?'aviso':'erro');
+  $('p-servico').className='ponto '+(ativo?'ok':s.estado==='failed'?'erro':'aviso');
+  $('t-servico').textContent=ativo?(l?'No ar':'Iniciando...'):s.estado==='inactive'?'Desligado':s.estado;
+  $('d-servico').textContent=ativo?`desde ${s.desde||'?'} · PID ${s.pid}${s.memoriaMB!=null?` · ${s.memoriaMB} MB`:''} · reinícios automáticos: ${s.reinicios}`:'O servidor não está rodando; ninguém consegue usar o canal próprio.';
+  $('d-habilitado').textContent=s.habilitado?'Sobe sozinho quando você entra na sessão.':'Não sobe sozinho ao entrar na sessão (serviço não habilitado).';
+  $('b-iniciar').disabled=ativo;$('b-parar').disabled=!ativo;$('b-reiniciar').disabled=!ativo;
+  $('p-funnel').className='ponto '+(f.ligado?'ok':'aviso');
+  $('t-funnel').textContent=f.ligado?'Liberado':'Bloqueado';
+  $('d-funnel').textContent=(f.ligado?f.wss:'')+(f.tailscaleOnline===false?'\nTailscale desconectado':'')+(f.maquina&&!f.ligado?`\n${f.maquina}`:'');
+  $('b-funnel-ligar').disabled=f.ligado;$('b-funnel-desligar').disabled=!f.ligado;
+  const c=l?.contadores,pm=l?.porMapa;
+  $('caixas').innerHTML=l?[['Online',l.jogadores.length],['Cidade',pm[1]],['Floresta',pm[2]],['Praia',pm[3]],['Sem avatar',pm[0]],['Pico',c.pico],['Conexões',c.conexoes],['Mensagens',c.mensagens],['Recusadas',c.recusadas],['Ações',c.acoes],['Ativo há',fmt(l.ativoHa)],['Memória',l.memoriaMB+' MB']].map(([n,v])=>`<div class="caixa"><span class="suave">${n}</span><b>${esc(v)}</b></div>`).join(''):'<span class="suave">Servidor desligado.</span>';
+  $('jogadores').innerHTML=(l?.jogadores||[]).map(j=>`<tr><td>${esc(j.apelido)}</td><td>${MAPAS[j.mapa]}</td><td>${fmt(j.desdeSeg)}</td><td class="suave">${(j.vistoHaMs/1000).toFixed(1)}s</td><td>${j.pesca?'🎣':''}</td></tr>`).join('');
+  $('vazio-jogadores').textContent=l&&!l.jogadores.length?'Ninguém conectado agora.':'';
+  $('mensagens').innerHTML=(l?.mensagens||[]).slice().reverse().map(m=>`<div class="msg"><span class="suave mono">${new Date(m.criadoEm).toLocaleTimeString('pt-BR')}</span> <b>${esc(m.apelido)}</b>: ${esc(m.texto)}</div>`).join('')||'<span class="suave">Sem mensagens.</span>';
+  const logs=$('logs'),fim=logs.scrollTop+logs.clientHeight>=logs.scrollHeight-8;logs.textContent=e.logs.join('\n');if(fim)logs.scrollTop=logs.scrollHeight;
+  $('atualizado').textContent='atualizado '+new Date(e.agora).toLocaleTimeString('pt-BR');
+}
+async function atualizar(){try{desenhar(await (await fetch('/api/estado')).json())}catch(e){$('ponto').className='ponto erro';$('atualizado').textContent='painel sem resposta';document.querySelectorAll('button').forEach(b=>b.disabled=false)}}
+atualizar();setInterval(atualizar,2000);
+</script>
+</body>
+</html>

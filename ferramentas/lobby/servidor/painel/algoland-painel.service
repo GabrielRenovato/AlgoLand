@@ -1,0 +1,14 @@
+# Painel local do lobby (http://127.0.0.1:8790), sobe no login como o servidor. Instalar:
+#   cp algoland-painel.service ~/.config/systemd/user/ && systemctl --user daemon-reload && systemctl --user enable --now algoland-painel
+[Unit]
+Description=AlgoLand painel do lobby
+After=network-online.target
+
+[Service]
+WorkingDirectory=%h/AlgoLand/ferramentas/lobby/servidor/painel
+ExecStart=%h/.var/app/com.visualstudio.code/config/nvm/versions/node/v24.19.0/bin/node painel.mjs
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=default.target
