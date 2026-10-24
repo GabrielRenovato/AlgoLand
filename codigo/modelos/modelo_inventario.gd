@@ -72,6 +72,12 @@ var _sincronizando: bool = false
 var _pendente_mochila: bool = false
 var _pendentes_slots: Array[String] = []
 var _pendentes_itens: Array = []
+## O inventário começa vazio na memória; isso não representa o save do jogador.
+## Guarda o caminho também para não confundir os mundos solo e cooperativo.
+var _caminho_inicializado := ""
+
+func estado_pronto_para_salvar() -> bool:
+	return _caminho_inicializado == caminho_save
 
 func _init() -> void:
 	_rng_ascensao.randomize()
@@ -608,6 +614,7 @@ func esta_vazio() -> bool:
 
 # O kit inicial entrega espada, escudo e ferramentas.
 func criar_itens_iniciais(para_introducao := false) -> void:
+	_caminho_inicializado = caminho_save
 	_sincronizando = true
 	for definicao in DEFINICOES_INICIAIS:
 		if not definicao["tipo"] in preload("res://codigo/dados/forja_armas.gd").INICIAIS_LIVRES:
@@ -662,7 +669,10 @@ func salvar(caminho: String = "") -> bool:
 		progresso.mochila_pendente["dados"] = dados
 		if not progresso.salvar():
 			return false
-	return gravar_dados(caminho, dados)
+	var gravado := gravar_dados(caminho, dados)
+	if gravado:
+		_caminho_inicializado = caminho_save
+	return gravado
 
 func carregar(caminho: String = "") -> bool:
 	if caminho == "":
@@ -701,6 +711,9 @@ func carregar(caminho: String = "") -> bool:
 	_avisar_mochila()
 	for slot in SLOTS:
 		_avisar_slot(slot)
+	# Checkpoints do prólogo podem vir de outro arquivo, mas passam a compor
+	# a mochila do mundo atual e também precisam ser salvos ao suspender.
+	_caminho_inicializado = caminho_save
 	return true
 
 ## Save antigo (ou gravado no meio do prólogo) pode vir sem nenhuma arma ou escudo: fora do prólogo, quem não tem NENHUMA arma

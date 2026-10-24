@@ -31,8 +31,11 @@ func _notification(aviso: int) -> void:
 func salvar_tudo() -> void:
 	Ranking.gravar_perfis()
 	_guardar_local()
-	InventarioJogador.salvar()
-	if Cooperativo.ativo:
+	# Menu e atualizador ainda não carregaram as mochilas. Gravar seu estado
+	# vazio nesse momento apagava os itens e recriava ferramentas no nível 1.
+	if InventarioJogador.estado_pronto_para_salvar():
+		InventarioJogador.salvar()
+	if Cooperativo.ativo and InventarioJogador2.estado_pronto_para_salvar():
 		InventarioJogador2.salvar()
 	Progresso.salvar()
 	Calendario.salvar()
