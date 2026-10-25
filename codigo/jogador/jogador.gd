@@ -18,7 +18,7 @@ const Profundidade := preload("res://codigo/globais/profundidade.gd")
 const PetrificacaoJogador := preload("res://codigo/jogador/petrificacao_jogador.gd")
 var petrificacao: Node = null
 const Raridades := preload("res://codigo/dados/raridades.gd")
-const ALCANCE_MIRA_ARCO := 260.0
+const ALCANCE_MIRA_ARCO := 200.0
 ## Mira assistida do arco: com o jogador apontando uma direção, só inimigos dentro deste cone (cosseno do ângulo, uns 65 graus para cada
 ## lado) atraem a flecha; sem alvo no cone ela vai para onde ele aponta
 const COSSENO_CONE_MIRA := 0.42
@@ -418,6 +418,8 @@ func _ready() -> void:
 	Progresso.melhorias_alteradas.connect(aplicar_melhorias_permanentes)
 	aplicar_melhorias_permanentes()
 	add_child(preload("res://codigo/jogador/heroi_raven.gd").new())
+	if get_tree().get_meta("visual_cartoon_p2" if eh_p2 else "visual_cartoon_p1", false):
+		add_child(preload("res://codigo/jogador/heroi_cartoon.gd").new())
 
 
 
@@ -898,7 +900,9 @@ func mover() -> void:
 		# 5) Poção de velocidade multiplica por cima (pode passar do teto enquanto dura)
 		velocidade_final *= 1.0 + efeitos_pocao.bonus("velocidade")
 		velocidade_final *= fator_golpe
-		# O corpo Tiny em escala nativa pede um deslocamento menor por passada.
+		var visual_cartoon := get_node_or_null("HeroiCartoon")
+		if visual_cartoon != null:
+			velocidade_final *= visual_cartoon.fator_velocidade_movimento()
 
 		# Move interpolando a velocidade atual para a velocidade desejada
 		velocity.x = lerp(velocity.x, dir.x * velocidade_final, _aceleracao)
@@ -977,6 +981,9 @@ func curar(quantidade: int) -> void:
 	atualizar_barra_hp()
 
 func _limite_combo_espada() -> int:
+	var cartoon := get_node_or_null("HeroiCartoon")
+	if cartoon != null and cartoon.usa_combo_espada():
+		return 2
 	# O Raven tem dois golpes próprios de espada; outros visuais mantêm seu combo.
 	var raven := get_node_or_null("HeroiRaven") as CanvasItem
 	return 2 if raven != null and raven.visible and id_arma_atual != "machado" else 3
@@ -995,7 +1002,11 @@ func logica_combo_ataque() -> void:
 	# Na fazenda o ataque vira "usar ferramenta" (quem decide e toca a animação é o Plantio)
 	if modo_fazenda:
 		if atacar and not esta_em_acao_fazenda:
-			ferramenta_pedida.emit()
+			var cartoon := get_node_or_null("HeroiCartoon")
+			if cartoon != null and cartoon.visible:
+				cartoon.pedir_golpe_na_fazenda()
+			else:
+				ferramenta_pedida.emit()
 		return
 	if picareta_arena_ativa:
 		if atacar:
@@ -1067,6 +1078,9 @@ func _flash_golpe() -> void:
 			Color(1, 0.95, 0.8), 0.9, 0.7, 0.15)
 
 func iniciar_slash_ataque(nome_anim: String, tempo_slash: float) -> void:
+	var cartoon := get_node_or_null("HeroiCartoon")
+	if cartoon != null and cartoon.usa_combo_espada():
+		tempo_slash = cartoon.DURACAO_GOLPE
 	Ranking.registrar_uso(self,id_arma_atual)
 	_alvos_area_golpe.clear()
 	_apontar_golpe()

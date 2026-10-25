@@ -31,7 +31,8 @@ const MOEDAS_FORJA_POR_NIVEL := 1
 const CUSTOS_ASCENSAO := [2500, 3500, 5000, 7000]
 # Armas e ícones Raven.
 # "tempo_disparo" multiplica a duração da animação de disparo (menor = mais rápido). "flechas" e "abertura_graus": quantas flechas saem de
-# uma vez e o ângulo entre elas (o arco longo atira 3 e é o mais lento). Com a força inicial (5) o dano por segundo de um nível 1 fica em
+# uma vez e o ângulo entre elas (o arco longo atira 3 e é o mais lento). Arco curto em 0,65 (0,70 s por flecha) desde 25/10/2026:
+# atirar de longe sem risco rendia demais. Com a força inicial (5) o dano por segundo de um nível 1 fica em
 # uns 30 (curto), 40 (curvo) e 63 (longo, se as 3 acertam): quanto mais caro o arco, mais ele rende.
 const ARMAS_ADICIONAIS := {
 	"montante_ferro": Montantes.MODELOS.montante_ferro,
@@ -43,7 +44,7 @@ const ARMAS_ADICIONAIS := {
 	"espada_gemea": {"nome": "Espada de Duas Mãos", "duas_maos": true, "dano": [9, 13, 20, 30, 43], "preco": 400},
 	"machado": {"nome": "Machado", "duas_maos": true, "dano": [10, 15, 22, 33, 47], "preco": 600},
 	"maca": {"nome": "Maça", "dano": [9, 14, 21, 31, 45], "preco": 500},
-	"arco_curto": {"nome": "Arco", "codigo": "bo02", "duas_maos": true, "tempo_disparo": 0.5, "dano": [10, 15, 22, 33, 47], "preco": 500},
+	"arco_curto": {"nome": "Arco", "codigo": "bo02", "duas_maos": true, "tempo_disparo": 0.65, "dano": [10, 15, 22, 33, 47], "preco": 500},
 	"arco_curvo": {"nome": "Arco Curvo", "codigo": "bo01", "duas_maos": true, "tempo_disparo": 0.6, "dano": [19, 27, 40, 58, 81], "preco": 700},
 	"arco_longo": {"nome": "Arco Longo", "codigo": "bo03", "duas_maos": true, "tempo_disparo": 1.1, "flechas": 3, "abertura_graus": 11.0, "dano": [18, 26, 38, 56, 78], "preco": 900},
 }
