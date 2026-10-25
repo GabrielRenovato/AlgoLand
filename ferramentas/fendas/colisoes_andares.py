@@ -53,7 +53,7 @@ def reconstruir(m,p,pontos,B,G):
         tipo=s['tipo'];x,y=s['x'],s['y']
         if tipo in ['abeto','carvalho']:
             # Troncos além da primeira fileira já ficam atrás do limite externo.
-            if p['andar'] not in [6,10] and B.distancia_caminhavel(x,y)>70:
+            if p['bioma']!='ruinas' and B.distancia_caminhavel(x,y)>70:
                 continue
             largura=9 if p['andar'] in F.PALETAS else 7
             adicionar([(-largura,-10),(largura,-10),(largura,0),(-largura,0)],x,y,s['nome'])

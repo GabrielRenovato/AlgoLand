@@ -22,7 +22,7 @@ func rodar() -> void:
 	root.get_node("Fazenda").definir_clima_hoje(0)
 	var ultima_meta := 0
 	var ultima_largura := 0
-	for andar in range(1,12):
+	for andar in range(1,22):
 		var dados: Dictionary = Catalogo.dados(andar)
 		verificar("tamanho e meta crescem %d" % andar, int(dados.limites[2]) > ultima_largura and int(dados.combate.meta) > ultima_meta)
 		ultima_meta = int(dados.combate.meta)
@@ -168,7 +168,7 @@ func rodar() -> void:
 	verificar("F3 carrega a mina e ignora clique duplicado",current_scene.scene_file_path==Catalogo.cena(3) and current_scene.get_node("Terrains").has_node("Caverna") and current_scene.get_node("enemySpawner/GerenciadorOndas").onda_atual==3)
 	verificar("pular andar preserva vida ouro e nao premia",current_scene.get_node("Jogador").hp_atual==77 and root.get_node("DadosJogo").moedas==123 and progresso.abates==abates_antes and progresso.ondas_concluidas==vitorias_antes)
 	current_scene.get_node("enemySpawner/GerenciadorOndas").parar_ondas()
-	verificar("circuito depois do onze usa os dez mapas avancados",Catalogo.indice(12)==2 and Catalogo.indice(21)==11 and Catalogo.indice(22)==2)
+	verificar("circuito depois do vinte e um repete os mapas 2 a 21",Catalogo.indice(12)==12 and Catalogo.indice(21)==21 and Catalogo.indice(22)==2 and Catalogo.indice(41)==21 and Catalogo.indice(42)==2)
 	current_scene.queue_free()
 	await quadros()
 	print("Jornada fendas: %d falhas" % falhas)

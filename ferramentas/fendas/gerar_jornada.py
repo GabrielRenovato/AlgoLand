@@ -145,7 +145,7 @@ def gerar(p):
     original=G.Lagoa
     G.Lagoa=LagoOpcional
     florestal=not (p['bioma']=='pedreira' or p['bioma'].startswith('caverna'))
-    m=B.construir(folga_limite=48 if florestal else 0,limite_retangular=p['andar'] in [6,10])
+    m=B.construir(folga_limite=48 if florestal else 0,limite_retangular=p['bioma']=='ruinas')
     G.Lagoa=original
     bioma=p['bioma']
     rochoso=bioma=='pedreira' or bioma.startswith('caverna')
@@ -174,12 +174,12 @@ def gerar(p):
     elif bioma not in ['pedreira','ruinas']: D.relevo_nativo(m,p,B,G)
     m.colisoes_terreno_finais=list(m.obstaculos)
     pontos_decoracao=P.ambientar(m,p,B,G) if bioma in ['pedreira','caverna_mina'] else C.ambientar(m,p,B,G) if bioma.startswith('caverna') else D.objetos(p,B,m)
-    if p['andar'] in [6,10]: K.fechar_mata_externa(m,p)
+    if p['bioma']=='ruinas': K.fechar_mata_externa(m,p)
     pasta=RAIZ/f'assets/cenario/fendas/andar_{p["andar"]:02}'
     G.PASTA_FOLHAS=str(pasta)
     for e in G.ESTACOES:
         G.gerar_folha_estacao(e,m.tiles_margem)
-        if p['andar'] not in [3,4,7,11]:
+        if not bioma.startswith('caverna'):
             from preparar_arte_original import guardar_margens
             guardar_margens(p['andar'],m.tiles_margem)
         if p['andar'] in F.PALETAS:F.preparar_folha(pasta/f'{e}.png',p,e,m,G)

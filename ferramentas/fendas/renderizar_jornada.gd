@@ -21,12 +21,12 @@ func rodar() -> void:
 	vista.canvas_item_default_texture_filter=Viewport.DEFAULT_CANVAS_ITEM_TEXTURE_FILTER_NEAREST
 	root.add_child(vista)
 	var andares: Array[int] = []
-	for n in range(1,12): andares.append(n)
+	for n in range(1,22): andares.append(n)
 	for argumento in OS.get_cmdline_user_args():
 		if argumento.begins_with("--andares="):
 			andares.clear()
 			for numero in argumento.trim_prefix("--andares=").split(","):
-				if numero.to_int()<1 or numero.to_int()>11:
+				if numero.to_int()<1 or numero.to_int()>21:
 					quit(1)
 					return
 				andares.append(numero.to_int())

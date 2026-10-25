@@ -1,0 +1,502 @@
+{
+  "andar": 14,
+  "nome": "Cidadela Soterrada",
+  "bioma": "ruinas",
+  "estacao": 3,
+  "grade": 16,
+  "limites": [
+    -2896,
+    -720,
+    5792,
+    1440
+  ],
+  "entrada": [
+    -2576,
+    448
+  ],
+  "guardiao": [
+    2576,
+    -160
+  ],
+  "setores": [
+    {
+      "id": "entrada",
+      "nome": "Portal",
+      "centro": [
+        -2576,
+        448
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 0,
+      "formato": "patio"
+    },
+    {
+      "id": "area_1",
+      "nome": "Clareira 1",
+      "centro": [
+        -2192,
+        -80
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 2,
+      "formato": "patio"
+    },
+    {
+      "id": "area_2",
+      "nome": "Clareira 2",
+      "centro": [
+        -1792,
+        224
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 1,
+      "formato": "patio"
+    },
+    {
+      "id": "area_3",
+      "nome": "Clareira 3",
+      "centro": [
+        -1472,
+        -496
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 2,
+      "formato": "patio"
+    },
+    {
+      "id": "area_4",
+      "nome": "Clareira 4",
+      "centro": [
+        -1088,
+        -224
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 1,
+      "formato": "patio"
+    },
+    {
+      "id": "area_5",
+      "nome": "Clareira 5",
+      "centro": [
+        -688,
+        160
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 2,
+      "formato": "patio"
+    },
+    {
+      "id": "area_6",
+      "nome": "Clareira 6",
+      "centro": [
+        -368,
+        448
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 1,
+      "formato": "patio"
+    },
+    {
+      "id": "area_7",
+      "nome": "Clareira 7",
+      "centro": [
+        -48,
+        -352
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 2,
+      "formato": "patio"
+    },
+    {
+      "id": "area_8",
+      "nome": "Clareira 8",
+      "centro": [
+        352,
+        224
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 1,
+      "formato": "patio"
+    },
+    {
+      "id": "area_9",
+      "nome": "Clareira 9",
+      "centro": [
+        768,
+        -80
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 2,
+      "formato": "patio"
+    },
+    {
+      "id": "area_10",
+      "nome": "Clareira 10",
+      "centro": [
+        1104,
+        416
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 1,
+      "formato": "patio"
+    },
+    {
+      "id": "area_11",
+      "nome": "Clareira 11",
+      "centro": [
+        1520,
+        -32
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 2,
+      "formato": "patio"
+    },
+    {
+      "id": "area_12",
+      "nome": "Clareira 12",
+      "centro": [
+        1840,
+        336
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 1,
+      "formato": "patio"
+    },
+    {
+      "id": "area_13",
+      "nome": "Clareira 13",
+      "centro": [
+        2208,
+        -352
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 2,
+      "formato": "patio"
+    },
+    {
+      "id": "guardiao",
+      "nome": "Guardiao",
+      "centro": [
+        2576,
+        -160
+      ],
+      "raios": [
+        176,
+        144
+      ],
+      "grupos": 0,
+      "formato": "patio"
+    }
+  ],
+  "trilhas": [
+    {
+      "pontos": [
+        [
+          -2576,
+          448
+        ],
+        [
+          -2192,
+          -80
+        ]
+      ],
+      "raio": 88
+    },
+    {
+      "pontos": [
+        [
+          -2192,
+          -80
+        ],
+        [
+          -1792,
+          224
+        ]
+      ],
+      "raio": 88
+    },
+    {
+      "pontos": [
+        [
+          -2192,
+          -80
+        ],
+        [
+          -1472,
+          -496
+        ]
+      ],
+      "raio": 88
+    },
+    {
+      "pontos": [
+        [
+          -1792,
+          224
+        ],
+        [
+          -1472,
+          -496
+        ]
+      ],
+      "raio": 88
+    },
+    {
+      "pontos": [
+        [
+          -1472,
+          -496
+        ],
+        [
+          -1088,
+          -224
+        ]
+      ],
+      "raio": 88
+    },
+    {
+      "pontos": [
+        [
+          -1088,
+          -224
+        ],
+        [
+          -688,
+          160
+        ]
+      ],
+      "raio": 88
+    },
+    {
+      "pontos": [
+        [
+          -1088,
+          -224
+        ],
+        [
+          -368,
+          448
+        ]
+      ],
+      "raio": 88
+    },
+    {
+      "pontos": [
+        [
+          -688,
+          160
+        ],
+        [
+          -368,
+          448
+        ]
+      ],
+      "raio": 88
+    },
+    {
+      "pontos": [
+        [
+          -368,
+          448
+        ],
+        [
+          -48,
+          -352
+        ]
+      ],
+      "raio": 88
+    },
+    {
+      "pontos": [
+        [
+          -48,
+          -352
+        ],
+        [
+          352,
+          224
+        ]
+      ],
+      "raio": 88
+    },
+    {
+      "pontos": [
+        [
+          -48,
+          -352
+        ],
+        [
+          768,
+          -80
+        ]
+      ],
+      "raio": 88
+    },
+    {
+      "pontos": [
+        [
+          352,
+          224
+        ],
+        [
+          768,
+          -80
+        ]
+      ],
+      "raio": 88
+    },
+    {
+      "pontos": [
+        [
+          768,
+          -80
+        ],
+        [
+          1104,
+          416
+        ]
+      ],
+      "raio": 88
+    },
+    {
+      "pontos": [
+        [
+          1104,
+          416
+        ],
+        [
+          1520,
+          -32
+        ]
+      ],
+      "raio": 88
+    },
+    {
+      "pontos": [
+        [
+          1104,
+          416
+        ],
+        [
+          1840,
+          336
+        ]
+      ],
+      "raio": 88
+    },
+    {
+      "pontos": [
+        [
+          1520,
+          -32
+        ],
+        [
+          1840,
+          336
+        ]
+      ],
+      "raio": 88
+    },
+    {
+      "pontos": [
+        [
+          1840,
+          336
+        ],
+        [
+          2208,
+          -352
+        ]
+      ],
+      "raio": 88
+    },
+    {
+      "pontos": [
+        [
+          1840,
+          336
+        ],
+        [
+          2576,
+          -160
+        ]
+      ],
+      "raio": 88
+    },
+    {
+      "pontos": [
+        [
+          2208,
+          -352
+        ],
+        [
+          2576,
+          -160
+        ]
+      ],
+      "raio": 88
+    }
+  ],
+  "lago": {
+    "lobos": [],
+    "folga": 28
+  },
+  "combate": {
+    "comuns_por_grupo": 9,
+    "elites": 6,
+    "meta": 541,
+    "pontos_comum": 3,
+    "pontos_elite": 9,
+    "fracao_exigida": 0.911
+  },
+  "guardiao_id": "goblin_maromba",
+  "contrato_visual": {
+    "referencia": "Seasonal Forest, Arctic Woodland e terrenos Mana Seed da vila",
+    "grade": "16x16, escala nativa",
+    "estacoes": "quatro folhas privadas e calendario",
+    "encaixe": "pisos com bordas nativas; limites e navegacao derivados da mesma planta"
+  },
+  "direcao_ambiental": "Patios de pedra chanfrados, arcos quebrados, colunas e fundacoes com vegetacao esparsa"
+}

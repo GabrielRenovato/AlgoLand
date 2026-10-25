@@ -1,0 +1,603 @@
+{
+  "andar": 21,
+  "nome": "Coracao do Abismo",
+  "bioma": "caverna",
+  "estacao": 3,
+  "grade": 16,
+  "limites": [
+    -3840,
+    -720,
+    7680,
+    1440
+  ],
+  "entrada": [
+    -3520,
+    -32
+  ],
+  "guardiao": [
+    3520,
+    -160
+  ],
+  "setores": [
+    {
+      "id": "entrada",
+      "nome": "Portal",
+      "centro": [
+        -3520,
+        -32
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 0
+    },
+    {
+      "id": "area_1",
+      "nome": "Camara 1",
+      "centro": [
+        -3184,
+        416
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 2
+    },
+    {
+      "id": "area_2",
+      "nome": "Camara 2",
+      "centro": [
+        -2704,
+        -496
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 1
+    },
+    {
+      "id": "area_3",
+      "nome": "Camara 3",
+      "centro": [
+        -2336,
+        32
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 2
+    },
+    {
+      "id": "area_4",
+      "nome": "Camara 4",
+      "centro": [
+        -1984,
+        -224
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 1
+    },
+    {
+      "id": "area_5",
+      "nome": "Camara 5",
+      "centro": [
+        -1616,
+        160
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 2
+    },
+    {
+      "id": "area_6",
+      "nome": "Camara 6",
+      "centro": [
+        -1200,
+        -80
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 1
+    },
+    {
+      "id": "area_7",
+      "nome": "Camara 7",
+      "centro": [
+        -784,
+        -496
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 2
+    },
+    {
+      "id": "area_8",
+      "nome": "Camara 8",
+      "centro": [
+        -336,
+        224
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 1
+    },
+    {
+      "id": "area_9",
+      "nome": "Camara 9",
+      "centro": [
+        16,
+        448
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 2
+    },
+    {
+      "id": "area_10",
+      "nome": "Camara 10",
+      "centro": [
+        432,
+        -160
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 1
+    },
+    {
+      "id": "area_11",
+      "nome": "Camara 11",
+      "centro": [
+        832,
+        416
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 2
+    },
+    {
+      "id": "area_12",
+      "nome": "Camara 12",
+      "centro": [
+        1168,
+        32
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 1
+    },
+    {
+      "id": "area_13",
+      "nome": "Camara 13",
+      "centro": [
+        1520,
+        448
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 2
+    },
+    {
+      "id": "area_14",
+      "nome": "Camara 14",
+      "centro": [
+        1952,
+        -32
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 1
+    },
+    {
+      "id": "area_15",
+      "nome": "Camara 15",
+      "centro": [
+        2384,
+        -352
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 2
+    },
+    {
+      "id": "area_16",
+      "nome": "Camara 16",
+      "centro": [
+        2784,
+        -80
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 1
+    },
+    {
+      "id": "area_17",
+      "nome": "Camara 17",
+      "centro": [
+        3104,
+        -496
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 2
+    },
+    {
+      "id": "guardiao",
+      "nome": "Guardiao",
+      "centro": [
+        3520,
+        -160
+      ],
+      "raios": [
+        176,
+        144
+      ],
+      "grupos": 0
+    }
+  ],
+  "trilhas": [
+    {
+      "pontos": [
+        [
+          -3520,
+          -32
+        ],
+        [
+          -3184,
+          416
+        ]
+      ],
+      "raio": 80
+    },
+    {
+      "pontos": [
+        [
+          -3184,
+          416
+        ],
+        [
+          -2704,
+          -496
+        ]
+      ],
+      "raio": 80
+    },
+    {
+      "pontos": [
+        [
+          -3184,
+          416
+        ],
+        [
+          -2336,
+          32
+        ]
+      ],
+      "raio": 80
+    },
+    {
+      "pontos": [
+        [
+          -2704,
+          -496
+        ],
+        [
+          -2336,
+          32
+        ]
+      ],
+      "raio": 80
+    },
+    {
+      "pontos": [
+        [
+          -2336,
+          32
+        ],
+        [
+          -1984,
+          -224
+        ]
+      ],
+      "raio": 80
+    },
+    {
+      "pontos": [
+        [
+          -1984,
+          -224
+        ],
+        [
+          -1616,
+          160
+        ]
+      ],
+      "raio": 80
+    },
+    {
+      "pontos": [
+        [
+          -1984,
+          -224
+        ],
+        [
+          -1200,
+          -80
+        ]
+      ],
+      "raio": 80
+    },
+    {
+      "pontos": [
+        [
+          -1616,
+          160
+        ],
+        [
+          -1200,
+          -80
+        ]
+      ],
+      "raio": 80
+    },
+    {
+      "pontos": [
+        [
+          -1200,
+          -80
+        ],
+        [
+          -784,
+          -496
+        ]
+      ],
+      "raio": 80
+    },
+    {
+      "pontos": [
+        [
+          -784,
+          -496
+        ],
+        [
+          -336,
+          224
+        ]
+      ],
+      "raio": 80
+    },
+    {
+      "pontos": [
+        [
+          -784,
+          -496
+        ],
+        [
+          16,
+          448
+        ]
+      ],
+      "raio": 80
+    },
+    {
+      "pontos": [
+        [
+          -336,
+          224
+        ],
+        [
+          16,
+          448
+        ]
+      ],
+      "raio": 80
+    },
+    {
+      "pontos": [
+        [
+          16,
+          448
+        ],
+        [
+          432,
+          -160
+        ]
+      ],
+      "raio": 80
+    },
+    {
+      "pontos": [
+        [
+          432,
+          -160
+        ],
+        [
+          832,
+          416
+        ]
+      ],
+      "raio": 80
+    },
+    {
+      "pontos": [
+        [
+          432,
+          -160
+        ],
+        [
+          1168,
+          32
+        ]
+      ],
+      "raio": 80
+    },
+    {
+      "pontos": [
+        [
+          832,
+          416
+        ],
+        [
+          1168,
+          32
+        ]
+      ],
+      "raio": 80
+    },
+    {
+      "pontos": [
+        [
+          1168,
+          32
+        ],
+        [
+          1520,
+          448
+        ]
+      ],
+      "raio": 80
+    },
+    {
+      "pontos": [
+        [
+          1520,
+          448
+        ],
+        [
+          1952,
+          -32
+        ]
+      ],
+      "raio": 80
+    },
+    {
+      "pontos": [
+        [
+          1520,
+          448
+        ],
+        [
+          2384,
+          -352
+        ]
+      ],
+      "raio": 80
+    },
+    {
+      "pontos": [
+        [
+          1952,
+          -32
+        ],
+        [
+          2384,
+          -352
+        ]
+      ],
+      "raio": 80
+    },
+    {
+      "pontos": [
+        [
+          2384,
+          -352
+        ],
+        [
+          2784,
+          -80
+        ]
+      ],
+      "raio": 80
+    },
+    {
+      "pontos": [
+        [
+          2784,
+          -80
+        ],
+        [
+          3104,
+          -496
+        ]
+      ],
+      "raio": 80
+    },
+    {
+      "pontos": [
+        [
+          2784,
+          -80
+        ],
+        [
+          3520,
+          -160
+        ]
+      ],
+      "raio": 80
+    },
+    {
+      "pontos": [
+        [
+          3104,
+          -496
+        ],
+        [
+          3520,
+          -160
+        ]
+      ],
+      "raio": 80
+    }
+  ],
+  "lago": {
+    "lobos": [],
+    "folga": 28
+  },
+  "combate": {
+    "comuns_por_grupo": 11,
+    "elites": 10,
+    "meta": 882,
+    "pontos_comum": 3,
+    "pontos_elite": 9,
+    "fracao_exigida": 0.93
+  },
+  "guardiao_id": "dragao_vermelho",
+  "contrato_visual": {
+    "referencia": "RPGW_Caves_v2.1: MainLev2.0.png e decorative.png",
+    "grade": "Peças32x32 originais subdivididas na grade16x16, sem escala",
+    "estacoes": "quatro folhas privadas e calendario",
+    "encaixe": "Contexto das peças originais e bordas nativas; colisão derivada da transparência"
+  }
+}

@@ -1,0 +1,569 @@
+{
+  "andar": 19,
+  "nome": "Fortaleza Partida",
+  "bioma": "ruinas",
+  "estacao": 1,
+  "grade": 16,
+  "limites": [
+    -3568,
+    -720,
+    7136,
+    1440
+  ],
+  "entrada": [
+    -3248,
+    32
+  ],
+  "guardiao": [
+    3248,
+    -96
+  ],
+  "setores": [
+    {
+      "id": "entrada",
+      "nome": "Portal",
+      "centro": [
+        -3248,
+        32
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 0,
+      "formato": "patio"
+    },
+    {
+      "id": "area_1",
+      "nome": "Clareira 1",
+      "centro": [
+        -2896,
+        -496
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 2,
+      "formato": "patio"
+    },
+    {
+      "id": "area_2",
+      "nome": "Clareira 2",
+      "centro": [
+        -2400,
+        -160
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 1,
+      "formato": "patio"
+    },
+    {
+      "id": "area_3",
+      "nome": "Clareira 3",
+      "centro": [
+        -2080,
+        496
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 2,
+      "formato": "patio"
+    },
+    {
+      "id": "area_4",
+      "nome": "Clareira 4",
+      "centro": [
+        -1664,
+        -352
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 1,
+      "formato": "patio"
+    },
+    {
+      "id": "area_5",
+      "nome": "Clareira 5",
+      "centro": [
+        -1248,
+        448
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 2,
+      "formato": "patio"
+    },
+    {
+      "id": "area_6",
+      "nome": "Clareira 6",
+      "centro": [
+        -784,
+        32
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 1,
+      "formato": "patio"
+    },
+    {
+      "id": "area_7",
+      "nome": "Clareira 7",
+      "centro": [
+        -448,
+        -448
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 2,
+      "formato": "patio"
+    },
+    {
+      "id": "area_8",
+      "nome": "Clareira 8",
+      "centro": [
+        0,
+        336
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 1,
+      "formato": "patio"
+    },
+    {
+      "id": "area_9",
+      "nome": "Clareira 9",
+      "centro": [
+        400,
+        -496
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 2,
+      "formato": "patio"
+    },
+    {
+      "id": "area_10",
+      "nome": "Clareira 10",
+      "centro": [
+        848,
+        -160
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 1,
+      "formato": "patio"
+    },
+    {
+      "id": "area_11",
+      "nome": "Clareira 11",
+      "centro": [
+        1200,
+        224
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 2,
+      "formato": "patio"
+    },
+    {
+      "id": "area_12",
+      "nome": "Clareira 12",
+      "centro": [
+        1664,
+        448
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 1,
+      "formato": "patio"
+    },
+    {
+      "id": "area_13",
+      "nome": "Clareira 13",
+      "centro": [
+        2032,
+        32
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 2,
+      "formato": "patio"
+    },
+    {
+      "id": "area_14",
+      "nome": "Clareira 14",
+      "centro": [
+        2432,
+        -224
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 1,
+      "formato": "patio"
+    },
+    {
+      "id": "area_15",
+      "nome": "Clareira 15",
+      "centro": [
+        2816,
+        496
+      ],
+      "raios": [
+        136,
+        112
+      ],
+      "grupos": 2,
+      "formato": "patio"
+    },
+    {
+      "id": "guardiao",
+      "nome": "Guardiao",
+      "centro": [
+        3248,
+        -96
+      ],
+      "raios": [
+        176,
+        144
+      ],
+      "grupos": 0,
+      "formato": "patio"
+    }
+  ],
+  "trilhas": [
+    {
+      "pontos": [
+        [
+          -3248,
+          32
+        ],
+        [
+          -2896,
+          -496
+        ]
+      ],
+      "raio": 88
+    },
+    {
+      "pontos": [
+        [
+          -2896,
+          -496
+        ],
+        [
+          -2400,
+          -160
+        ]
+      ],
+      "raio": 88
+    },
+    {
+      "pontos": [
+        [
+          -2896,
+          -496
+        ],
+        [
+          -2080,
+          496
+        ]
+      ],
+      "raio": 88
+    },
+    {
+      "pontos": [
+        [
+          -2400,
+          -160
+        ],
+        [
+          -2080,
+          496
+        ]
+      ],
+      "raio": 88
+    },
+    {
+      "pontos": [
+        [
+          -2080,
+          496
+        ],
+        [
+          -1664,
+          -352
+        ]
+      ],
+      "raio": 88
+    },
+    {
+      "pontos": [
+        [
+          -1664,
+          -352
+        ],
+        [
+          -1248,
+          448
+        ]
+      ],
+      "raio": 88
+    },
+    {
+      "pontos": [
+        [
+          -1664,
+          -352
+        ],
+        [
+          -784,
+          32
+        ]
+      ],
+      "raio": 88
+    },
+    {
+      "pontos": [
+        [
+          -1248,
+          448
+        ],
+        [
+          -784,
+          32
+        ]
+      ],
+      "raio": 88
+    },
+    {
+      "pontos": [
+        [
+          -784,
+          32
+        ],
+        [
+          -448,
+          -448
+        ]
+      ],
+      "raio": 88
+    },
+    {
+      "pontos": [
+        [
+          -448,
+          -448
+        ],
+        [
+          0,
+          336
+        ]
+      ],
+      "raio": 88
+    },
+    {
+      "pontos": [
+        [
+          -448,
+          -448
+        ],
+        [
+          400,
+          -496
+        ]
+      ],
+      "raio": 88
+    },
+    {
+      "pontos": [
+        [
+          0,
+          336
+        ],
+        [
+          400,
+          -496
+        ]
+      ],
+      "raio": 88
+    },
+    {
+      "pontos": [
+        [
+          400,
+          -496
+        ],
+        [
+          848,
+          -160
+        ]
+      ],
+      "raio": 88
+    },
+    {
+      "pontos": [
+        [
+          848,
+          -160
+        ],
+        [
+          1200,
+          224
+        ]
+      ],
+      "raio": 88
+    },
+    {
+      "pontos": [
+        [
+          848,
+          -160
+        ],
+        [
+          1664,
+          448
+        ]
+      ],
+      "raio": 88
+    },
+    {
+      "pontos": [
+        [
+          1200,
+          224
+        ],
+        [
+          1664,
+          448
+        ]
+      ],
+      "raio": 88
+    },
+    {
+      "pontos": [
+        [
+          1664,
+          448
+        ],
+        [
+          2032,
+          32
+        ]
+      ],
+      "raio": 88
+    },
+    {
+      "pontos": [
+        [
+          2032,
+          32
+        ],
+        [
+          2432,
+          -224
+        ]
+      ],
+      "raio": 88
+    },
+    {
+      "pontos": [
+        [
+          2032,
+          32
+        ],
+        [
+          2816,
+          496
+        ]
+      ],
+      "raio": 88
+    },
+    {
+      "pontos": [
+        [
+          2432,
+          -224
+        ],
+        [
+          2816,
+          496
+        ]
+      ],
+      "raio": 88
+    },
+    {
+      "pontos": [
+        [
+          2432,
+          -224
+        ],
+        [
+          3248,
+          -96
+        ]
+      ],
+      "raio": 88
+    },
+    {
+      "pontos": [
+        [
+          2816,
+          496
+        ],
+        [
+          3248,
+          -96
+        ]
+      ],
+      "raio": 88
+    }
+  ],
+  "lago": {
+    "lobos": [],
+    "folga": 28
+  },
+  "combate": {
+    "comuns_por_grupo": 11,
+    "elites": 9,
+    "meta": 781,
+    "pontos_comum": 3,
+    "pontos_elite": 9,
+    "fracao_exigida": 0.93
+  },
+  "guardiao_id": "goblin_maromba",
+  "contrato_visual": {
+    "referencia": "Seasonal Forest, Arctic Woodland e terrenos Mana Seed da vila",
+    "grade": "16x16, escala nativa",
+    "estacoes": "quatro folhas privadas e calendario",
+    "encaixe": "pisos com bordas nativas; limites e navegacao derivados da mesma planta"
+  },
+  "direcao_ambiental": "Patios de pedra chanfrados, arcos quebrados, colunas e fundacoes com vegetacao esparsa"
+}

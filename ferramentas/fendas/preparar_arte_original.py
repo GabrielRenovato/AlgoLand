@@ -17,7 +17,7 @@ import gerar_arena as G
 
 ESTACOES=['spring','summer','autumn','winter']
 FLORESTAS={1:'01',2:'02',5:'02',8:'03'}
-CAVERNAS={3,4,7,11}
+CAVERNAS={int(a['andar']) for a in map(lambda f:json.loads(f.read_text()),sorted((RAIZ/'codigo/fendas/plantas').glob('andar_*.json'))) if a['bioma'].startswith('caverna')}
 SAIDA=RAIZ/'assets/cenario/substitutos/fendas'
 MASCARAS=RAIZ/'arte/fontes/cenario/andares_originais/margens'
 
@@ -100,7 +100,7 @@ def objetos(e):
 
 
 def preparar(andares=None):
-    andares=list(andares or range(1,12))
+    andares=list(andares or range(1,len(list((RAIZ/'codigo/fendas/plantas').glob('andar_*.json')))+1))
     for andar in andares:
         for e,nome in enumerate(ESTACOES):
             origem=Image.open(RAIZ/f'assets/cenario/fendas/andar_{andar:02}/{nome}.png').convert('RGBA')

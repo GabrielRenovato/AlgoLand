@@ -63,7 +63,7 @@ func _rodar() -> void:
 	_verificar("Rubro 2/4 dá 5%", is_equal_approx(rubro2["defesa"], 0.05) and is_equal_approx(rubro2["vitalidade"], 0.05))
 	_verificar("Rubro 4/4 dá 10%", is_equal_approx(rubro4["defesa"], 0.1))
 	_verificar("Rubro 4/4 nível 5 dá 20%", is_equal_approx(rubro4_nv5["defesa"], 0.2) and is_equal_approx(rubro4_nv5["vitalidade"], 0.2))
-	# Moeda de forja: só chefe, 5%
+	# Moeda de forja: só chefe, sempre
 	var rng_moeda := RandomNumberGenerator.new()
 	rng_moeda.seed = 77
 	var chefe := 0
@@ -71,7 +71,7 @@ func _rodar() -> void:
 	for i in 20000:
 		chefe += 1 if Drop.sortear_moeda_forja(rng_moeda, true) else 0
 		comum += 1 if Drop.sortear_moeda_forja(rng_moeda, false) else 0
-	_verificar("moeda de forja cai em ~5% dos chefes e nunca dos demais", chefe > 850 and chefe < 1150 and comum == 0)
+	_verificar("moeda de forja cai de todo chefe e nunca dos demais", chefe == 20000 and comum == 0)
 	var inv := root.get_node("InventarioJogador")
 	inv.limpar()
 	inv.adicionar_moedas_forja(2)

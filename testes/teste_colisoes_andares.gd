@@ -18,7 +18,7 @@ func rodar() -> void:
 	var catalogo = load("res://codigo/fendas/catalogo_andares.gd")
 	root.get_node("Introducao").pular_prologo()
 	root.get_node("Progresso").iniciar_partida()
-	for andar in range(1,12):
+	for andar in range(1,22):
 		var transicao: Node = root.get_node("Transicao")
 		transicao.retornando = true
 		transicao.estado = {"onda_atual":andar}

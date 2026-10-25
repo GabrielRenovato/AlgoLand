@@ -57,7 +57,7 @@ func _ready() -> void:
 func _aplicar_estacao_do_andar() -> void:
 	var raiz := get_parent().get_parent()
 	var estacoes := raiz.get_node_or_null("Terrains/Estacoes")
-	var planta: Dictionary = Catalogo.PLANTAS[clampi(int(raiz.get_meta("planta_andar", Catalogo.indice(onda_atual))) - 1, 0, 10)].data
+	var planta: Dictionary = Catalogo.PLANTAS[clampi(int(raiz.get_meta("planta_andar", Catalogo.indice(onda_atual))) - 1, 0, Catalogo.PLANTAS.size() - 1)].data
 	if estacoes != null and planta.has("estacao"):
 		estacoes.fixar_estacao(int(planta["estacao"]))
 

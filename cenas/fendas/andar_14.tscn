@@ -1,0 +1,50 @@
+[gd_scene load_steps=13 format=3]
+
+[ext_resource type="Script" path="res://codigo/fendas/cenario_andar.gd" id="1_xi8ta"]
+[ext_resource type="PackedScene" path="res://cenas/fendas/terreno_14.tscn" id="2_rmsv3"]
+[ext_resource type="PackedScene" path="res://cenas/jogador.tscn" id="5_4qs78"]
+[ext_resource type="PackedScene" path="res://cenas/gerar_slime.tscn" id="5_jwhcr"]
+[ext_resource type="PackedScene" path="res://cenas/gerenciador_de_ondas.tscn" id="6_j85rw"]
+[ext_resource type="PackedScene" path="res://cenas/ui.tscn" id="8_js8mk"]
+[ext_resource type="PackedScene" path="res://cenas/ui/interface.tscn" id="9_interface"]
+[ext_resource type="PackedScene" path="res://cenas/efeitos/vinheta.tscn" id="10_vinheta"]
+[ext_resource type="Script" path="res://codigo/efeitos/iluminacao.gd" id="11_iluminacao"]
+
+[ext_resource type="Script" path="res://codigo/fendas/gerenciador_andar.gd" id="fenda_gerente"]
+[ext_resource type="Script" path="res://codigo/fendas/gerador_encontros.gd" id="fenda_gerador"]
+
+[node name="cenario" type="Node2D"]
+metadata/andar_fenda = true
+metadata/planta_andar = 14
+metadata/bioma = "ruinas"
+position = Vector2(6, 0)
+script = ExtResource("1_xi8ta")
+
+[node name="enemySpawner" parent="." instance=ExtResource("5_jwhcr")]
+position = Vector2(215, 176)
+script = ExtResource("fenda_gerador")
+
+[node name="GerenciadorOndas" parent="enemySpawner" instance=ExtResource("6_j85rw")]
+
+script = ExtResource("fenda_gerente")
+
+[node name="Terrains" parent="." instance=ExtResource("2_rmsv3")]
+position = Vector2(-10, 14)
+
+[node name="Jogador" parent="." instance=ExtResource("5_4qs78")]
+z_index = 1
+position = Vector2(-2586, 462)
+collision_mask = 96
+
+[node name="Vinheta" parent="." instance=ExtResource("10_vinheta")]
+layer = 1
+
+[node name="Iluminacao" type="Node" parent="."]
+script = ExtResource("11_iluminacao")
+
+[node name="CanvasModulate" type="CanvasModulate" parent="Iluminacao"]
+color = Color(0.86, 0.88, 1, 1)
+
+[node name="assets/ui" parent="." instance=ExtResource("8_js8mk")]
+
+[node name="Interface" parent="." instance=ExtResource("9_interface")]

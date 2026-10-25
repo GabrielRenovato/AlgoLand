@@ -54,7 +54,7 @@ func _ready() -> void:
 		return
 	var raiz := gerente.get_parent().get_parent()
 	andar_indice = int(raiz.get_meta("planta_andar", Catalogo.indice(int(gerente.onda_atual))))
-	_planta = Catalogo.PLANTAS[clampi(andar_indice - 1, 0, 10)].data
+	_planta = Catalogo.PLANTAS[clampi(andar_indice - 1, 0, Catalogo.PLANTAS.size() - 1)].data
 	var limites: Array = _planta["limites"]
 	_origem = Vector2(limites[0], limites[1])
 	_tamanho_mundo = Vector2(limites[2], limites[3])

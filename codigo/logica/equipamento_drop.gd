@@ -105,8 +105,9 @@ static func criar_item(rng: RandomNumberGenerator, onda: int, mutante: bool, che
 	novo.afixos = afixos
 	return novo
 
-## Qualquer chefe tem esta chance de soltar a moeda de forja, que vai direto para a bolsa (InventarioJogador.moedas_forja)
-const CHANCE_MOEDA_FORJA_CHEFE := 0.05
+## Todo guardião de andar solta uma moeda de forja, que vai direto para a bolsa (InventarioJogador.moedas_forja).
+## Com 5% (antes) quase ninguém conseguia subir as peças de conjunto na bigorna: cada nível custa uma moeda
+const CHANCE_MOEDA_FORJA_CHEFE := 1.0
 static func sortear_moeda_forja(rng: RandomNumberGenerator, chefe: bool) -> bool:
 	return chefe and rng.randf() < CHANCE_MOEDA_FORJA_CHEFE
 

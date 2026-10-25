@@ -37,7 +37,8 @@ def preparar():
  # Fonte nativa de cada chão; as coordenadas são registradas no manifesto.
  pisos=[base_piso,im.crop((96,1120,128,1152)),im.crop((544,1072,576,1104)),im.crop((1312,1072,1344,1104))]
  # Um atlas por material de chão, todos com exatamente as mesmas peças e colisão.
- for andar,material in [(3,3),(4,0),(7,2),(9,0),(11,1)]:
+ # Andares 12 a 21: mesmos quatro materiais de chão, combinados de outro jeito para cada cenário
+ for andar,material in [(3,3),(4,0),(7,2),(9,0),(11,1),(12,0),(13,2),(15,3),(16,1),(17,3),(18,1),(20,0),(21,2)]:
   atlas=Image.new('RGBA',(512,math.ceil(len(pecas)/16)*32),(10,9,9,255))
   for i,p in enumerate(pecas):
    bloco=pisos[material].copy()
