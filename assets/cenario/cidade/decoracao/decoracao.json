@@ -1,26 +1,5 @@
 [
  {
-  "p": "construcoes/fonte_anim",
-  "x": 336,
-  "y": 284,
-  "usado": [
-   5,
-   3,
-   85,
-   90
-  ],
-  "col": [
-   90,
-   48
-  ],
-  "animacao": {
-   "quadros": 9,
-   "fps": 7,
-   "largura": 96,
-   "altura": 96
-  }
- },
- {
   "p": "mobiliario/mural",
   "x": 352,
   "y": 360,

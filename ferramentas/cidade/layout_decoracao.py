@@ -29,7 +29,6 @@ BARRACAS_RESERVADAS = [
 # animacao {quadros, fps, largura, altura}, espelhar, sem_col, medida (nome da imagem de onde vêm as medidas)
 ITENS = [
     # A praça mantém livres os eixos de circulação e a frente do mural.
-    ('fonte_anim', 336, 284, {'medida': 'fonte', 'col': [90, 48], 'animacao': {'quadros': 9, 'fps': 7, 'largura': 96, 'altura': 96}}),
     ('mural', 352, 360, {'col': [34, 8]}),
     ('poste_luz', 208, 240, {'col': [8, 6], 'luz': [0, -46, LAMPIAO, 1.1, 0.9]}),
     ('poste_luz', 528, 240, {'col': [8, 6], 'luz': [0, -46, LAMPIAO, 1.1, 0.9]}),
@@ -65,7 +64,7 @@ ITENS = [
 CATEGORIAS = {
     'vegetacao': ['arvore', 'arbusto', 'flores', 'pedras', 'tufos', 'folhas', 'pedras_trilha', 'chao_grama_escura', 'chao_grama_clara',
                   'chao_tufos_altos', 'chao_trevos', 'chao_terra_marcada', 'chao_pedrinhas'],
-    'construcoes': ['coreto', 'ponte', 'fonte', 'fonte_anim'],
+    'construcoes': ['coreto', 'ponte'],
 }
 
 
@@ -148,7 +147,7 @@ def _casas():
     return retangulos
 
 
-FIXOS = {'fonte_anim', 'coreto', 'placa_encruzilhada', 'mural', 'ponte', 'poste_luz'}
+FIXOS = {'coreto', 'placa_encruzilhada', 'mural', 'ponte', 'poste_luz'}
 FOLGA = 5
 
 
