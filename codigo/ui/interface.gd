@@ -13,7 +13,7 @@ const TELAS_ACOMPANHANTES := {"mercante": ["inventario"], "bau": ["inventario"]}
 # fechar, senão o A que fechou a conversa já abriria outra)
 const ACOES_DO_JOGADOR := ["rolar", "attack", "open_menu"]
 # Telas no centro da tela: em vez de deslizar de uma borda, aparecem com fade
-const TELAS_CENTRAIS := ["acampamento", "fim_partida", "dormir", "pausa", "conversa_cidade", "mural_cidade", "desafio_arena", "introducao", "guia_pesca", "comercio", "forja", "carpintaria", "oficina_vara", "mapa_mundi", "ranking", "lobby"]
+const TELAS_CENTRAIS := ["acampamento", "fim_partida", "dormir", "pausa", "conversa_cidade", "mural_cidade", "desafio_arena", "introducao", "guia_pesca", "comercio", "forja", "carpintaria", "oficina_vara", "mapa_mundi", "ranking", "lobby", "mercado"]
 # Só se fecha pelo próprio botão (B/Esc e o atalho do inventário são ignorados)
 const TELAS_OBRIGATORIAS := ["fim_partida", "introducao"]
 
@@ -62,6 +62,12 @@ func _ready() -> void:
 	_telas["ranking"] = ranking
 	_paineis["ranking"] = ranking.painel
 	ranking.hide()
+	var mercado := preload("res://codigo/mercado/tela_mercado.gd").new()
+	mercado.name = "TelaMercado"
+	add_child(mercado)
+	_telas["mercado"] = mercado
+	_paineis["mercado"] = mercado.painel
+	mercado.hide()
 	var lobby := preload("res://codigo/ui/tela_lobby.gd").new()
 	lobby.name = "TelaLobby"
 	add_child(lobby)

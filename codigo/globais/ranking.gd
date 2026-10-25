@@ -74,6 +74,13 @@ func gravar_perfis() -> void:
 	_gravar()
 	if is_instance_valid(_perfil_p2): _perfil_p2._gravar()
 
+## O mesmo código secreto identifica o jogador no mercado (o banco só guarda o hash)
+func codigo_secreto() -> String:
+	return _codigo
+
+func cabecalhos_servico() -> PackedStringArray:
+	return _cabecalhos()
+
 func ocupado() -> bool:
 	return _ocupado
 

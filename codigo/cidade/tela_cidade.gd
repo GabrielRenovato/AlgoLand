@@ -58,9 +58,9 @@ func _ready() -> void:
 		abas.add_theme_constant_override("separation",4)
 		coluna.add_child(abas)
 		var grupo := ButtonGroup.new()
-		for indice in 2:
+		for indice in 3:
 			var aba := Button.new()
-			aba.text = "PEDIDOS" if indice == 0 else "HOJE NA VILA"
+			aba.text = ["PEDIDOS", "HOJE NA VILA", "MERCADO"][indice]
 			aba.theme_type_variation = &"BotaoAba"
 			aba.toggle_mode = true
 			aba.button_group = grupo
@@ -225,6 +225,13 @@ func _atualizar() -> void:
 	Sons.ligar_botoes(self)
 
 func _trocar_aba_mural(indice: int) -> void:
+	# O mercado entre jogadores tem tela própria: o mural fecha e ela abre na mesma interface
+	if indice == 2:
+		_abas_mural[2].set_pressed_no_signal(false)
+		_abas_mural[_aba_mural].set_pressed_no_signal(true)
+		_fechar()
+		EventosJogo.abrir_tela_de.call_deferred(self, "mercado")
+		return
 	_aba_mural = indice
 	for i in _abas_mural.size():
 		_abas_mural[i].set_pressed_no_signal(i == indice)

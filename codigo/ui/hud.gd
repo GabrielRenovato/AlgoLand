@@ -302,6 +302,12 @@ func avisar_moeda_forja() -> void:
 	if cinto_pocoes != null:
 		cinto_pocoes.avisar_equipamento("+ MOEDA DE FORJA (TEM %d)" % EventosJogo.inventario_de(self).moedas_forja, Color(1, 0.8, 0.35))
 
+## Entregas do mercado entre jogadores esperando no correio
+func avisar_mercado(texto: String) -> void:
+	if cinto_pocoes != null:
+		cinto_pocoes.avisar_equipamento(texto, Color(1, 0.8, 0.35))
+		Sons.tocar("melhoria", 0.0)
+
 func avisar_equipamento_cheio(texto := "MOCHILA CHEIA") -> void:
 	if cinto_pocoes != null:
 		cinto_pocoes.avisar_equipamento(texto, Color(1, 0.6, 0.5))

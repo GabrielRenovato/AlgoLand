@@ -351,6 +351,19 @@ func gastar_tipo(tipo: String, quantidade: int) -> bool:
 	_avisar_mochila()
 	return true
 
+## Tira `quantidade` desta pilha (não de outras do mesmo tipo); a pilha some ao zerar. Usado ao anunciar parte de uma pilha no mercado
+func retirar_da_pilha(item, quantidade: int) -> bool:
+	var indice := mochila.find(item)
+	if indice == -1 or quantidade <= 0 or quantidade > item.quantidade:
+		return false
+	item.quantidade -= quantidade
+	if item.quantidade == 0:
+		mochila[indice] = null
+	else:
+		_avisar_item(item)
+	_avisar_mochila()
+	return true
+
 func indice_de(item) -> int:
 	return mochila.find(item)
 
