@@ -292,7 +292,9 @@ func _atualizar() -> void:
   ajuda.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
   ajuda.add_theme_font_size_override("font_size",8)
   _lista.add_child(ajuda)
- if no_fim: _ir_ao_fim.call_deferred()
+ # A própria mensagem sempre leva ao fim, mesmo que a leitura estivesse mais acima
+ var minha_ultima: bool = _sessao!=null and not _sessao.mensagens.is_empty() and _sessao.mensagens[-1].jogador==_sessao.eu
+ if no_fim or minha_ultima: _ir_ao_fim_depois()
 
 ## Registro fixo no canto da tela (só no PC), como nos MMORPGs; o chat completo continua no painel central.
 ## No toque o ícone do chat fica na fileira do topo, logo à esquerda do botão MAPA (que usa a escala própria do HUD)
@@ -347,6 +349,13 @@ func _exit_tree() -> void:
 
 func _ir_ao_fim() -> void:
  _rolagem.scroll_vertical = int(_rolagem.get_v_scroll_bar().max_value)
+
+## O tamanho do conteúdo só se acerta depois do layout; rola de novo quando ele já cresceu
+func _ir_ao_fim_depois() -> void:
+ for _i in 2:
+  await get_tree().process_frame
+  if not is_instance_valid(_rolagem): return
+  _ir_ao_fim()
 
 func _trocar_modo() -> void:
  if _sessao!=null:
