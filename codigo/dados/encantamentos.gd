@@ -2,8 +2,8 @@ extends RefCounted
 
 const NIVEL_MAXIMO := 3
 const CUSTO_POR_NIVEL := 120
-# Só armas de ataque: o escudo não acerta inimigos
-const TIPOS_ENCANTAVEIS: Array[String] = ["montante_ferro","montante_sentinela","montante_geada","montante_trovao","montante_astral","espada_basica", "espada_gemea", "machado", "maca", "arco_curto", "arco_curvo", "arco_longo", "lanca_basica"]
+# Só armas de ataque corpo a corpo: o escudo não acerta inimigos e o arco ficava fácil demais com efeito à distância (25/10/2026)
+const TIPOS_ENCANTAVEIS: Array[String] = ["montante_ferro","montante_sentinela","montante_geada","montante_trovao","montante_astral","espada_basica", "espada_gemea", "machado", "maca", "lanca_basica"]
 
 ## O antigo "vampirico" (roubo de vida) saiu por ser forte demais; armas salvas com ele viram "eletrico" (dados_item.gd)
 const TIPOS := {

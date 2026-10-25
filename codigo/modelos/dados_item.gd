@@ -177,6 +177,10 @@ static func de_dict(d: Dictionary) -> DadosItem:
 	if item.encantamento == "vampirico":
 		item.encantamento = "eletrico"
 	item.nivel_encantamento = int(d.get("nivel_encantamento", 0))
+	# Arcos perderam os encantamentos (25/10/2026): os já encantados voltam a ser arcos comuns de efeito
+	if item.tipo.begins_with("arco_"):
+		item.encantamento = ""
+		item.nivel_encantamento = 0
 	item.quantidade = maxi(int(d.get("quantidade", 1)), 1)
 	item.qualidade = clampi(int(d.get("qualidade",0)),0,3)
 	# Raridade desconhecida (save de outra versão) cai em comum; afixos só valem como dicionário de números

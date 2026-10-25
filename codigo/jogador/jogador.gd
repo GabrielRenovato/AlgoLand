@@ -1229,7 +1229,7 @@ func _on_area_entrou_area_ataque(area: Area2D) -> void:
 
 func _aplicar_encantamento(alvo: Node, dano_golpe: int) -> void:
 	var arma = inventario.equipados.get("arma")
-	if arma == null or arma.encantamento == "" or not is_instance_valid(alvo):
+	if arma == null or arma.encantamento == "" or not is_instance_valid(alvo) or not arma.tipo in Encantamentos.TIPOS_ENCANTAVEIS:
 		return
 	var tipo: String = arma.encantamento
 	var efeito := Encantamentos.efeito(tipo, arma.nivel_encantamento)

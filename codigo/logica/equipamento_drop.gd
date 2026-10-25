@@ -105,10 +105,14 @@ static func criar_item(rng: RandomNumberGenerator, onda: int, mutante: bool, che
 		raridade = novo.raridade
 	var afixos := Raridades.sortear_afixos(rng, novo.categoria, raridade)
 	if afixos.has("encantamento"):
-		if novo.encantamento.is_empty():
+		var encantavel: bool = tipo in preload("res://codigo/dados/encantamentos.gd").TIPOS_ENCANTAVEIS
+		if novo.encantamento.is_empty() and encantavel:
 			novo.encantamento = String(afixos["encantamento"])
 			novo.nivel_encantamento = 1
 		afixos.erase("encantamento")
+		# Arma que não aceita encantamento (o arco) recebe outro afixo no lugar
+		if not encantavel:
+			afixos.merge(Raridades.sortear_afixo_extra(rng, afixos, raridade, novo.categoria))
 	novo.afixos = afixos
 	return novo
 
