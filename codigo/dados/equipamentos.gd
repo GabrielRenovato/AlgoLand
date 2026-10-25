@@ -5,7 +5,14 @@ const Conjuntos := preload("res://codigo/dados/conjuntos_armadura.gd")
 const ARMADURAS_ITENS := {"cabeca_basica": "armadura_cabeca", "armadura_basica": "armadura_corpo", "luvas_basicas": "armadura_luvas", "botas_basicas": "armadura_botas"}
 
 # Familia define qual conjunto de animacoes a arma usa (espada = uma mao, lanca = duas maos)
+const Montantes := preload("res://codigo/dados/armas_montantes.gd")
 const FAMILIAS := {
+	"montante_ferro": "espada",
+	"montante_sentinela": "espada",
+	"montante_geada": "espada",
+	"montante_trovao": "espada",
+	"montante_astral": "espada",
+
 	"espada_basica": "espada",
 	"espada_gemea": "espada",
 	"machado": "espada",
@@ -27,6 +34,12 @@ const CUSTOS_ASCENSAO := [2500, 3500, 5000, 7000]
 # uma vez e o ângulo entre elas (o arco longo atira 3 e é o mais lento). Com a força inicial (5) o dano por segundo de um nível 1 fica em
 # uns 30 (curto), 40 (curvo) e 63 (longo, se as 3 acertam): quanto mais caro o arco, mais ele rende.
 const ARMAS_ADICIONAIS := {
+	"montante_ferro": Montantes.MODELOS.montante_ferro,
+	"montante_sentinela": Montantes.MODELOS.montante_sentinela,
+	"montante_geada": Montantes.MODELOS.montante_geada,
+	"montante_trovao": Montantes.MODELOS.montante_trovao,
+	"montante_astral": Montantes.MODELOS.montante_astral,
+
 	"espada_gemea": {"nome": "Espada de Duas Mãos", "duas_maos": true, "dano": [9, 13, 20, 30, 43], "preco": 400},
 	"machado": {"nome": "Machado", "duas_maos": true, "dano": [10, 15, 22, 33, 47], "preco": 600},
 	"maca": {"nome": "Maça", "dano": [9, 14, 21, 31, 45], "preco": 500},
@@ -342,7 +355,7 @@ static func familia_de(tipo: String) -> String:
 ## Preço de loja das armas que não se compram (o kit inicial); serve de base para vender
 const PRECO_BASICOS := {"espada_basica": 150, "lanca_basica": 250, "escudo_basico": 300}
 ## Armas e escudo que podem cair dos inimigos (equipamento com raridade)
-const TIPOS_DROP: Array[String] = ["espada_basica", "espada_gemea", "machado", "maca", "lanca_basica", "arco_curto", "arco_curvo", "arco_longo", "escudo_basico"]
+const TIPOS_DROP: Array[String] = ["montante_ferro","montante_sentinela","montante_geada","montante_trovao","montante_astral","espada_basica", "espada_gemea", "machado", "maca", "lanca_basica", "arco_curto", "arco_curvo", "arco_longo", "escudo_basico"]
 ## Quanto do que o item custou (preço de loja + melhorias na bigorna) o mercador paga, antes do multiplicador da raridade
 const FRACAO_VENDA := 0.3
 

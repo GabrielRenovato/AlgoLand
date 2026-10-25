@@ -2,6 +2,12 @@ extends RefCounted
 
 ## Especialidades fazem parte do modelo da arma, não somam atributos permanentes.
 const DESCRICOES := {
+	"montante_ferro":"RITMO: ULTIMO GOLPE DO COMBO CAUSA +25% DANO",
+	"montante_sentinela":"RITMO: ULTIMO GOLPE DO COMBO CAUSA +25% DANO",
+	"montante_geada":"RITMO: ULTIMO GOLPE DO COMBO CAUSA +25% DANO",
+	"montante_trovao":"RITMO: ULTIMO GOLPE DO COMBO CAUSA +25% DANO",
+	"montante_astral":"RITMO: ULTIMO GOLPE DO COMBO CAUSA +25% DANO",
+
 	"espada_basica":"CONTRAGOLPE: APOS APARO PERFEITO, PROXIMO GOLPE +50% (3S)",
 	"espada_gemea":"RITMO: ULTIMO GOLPE DO COMBO CAUSA +25% DANO",
 	"machado":"ABERTURA: PRIMEIRO GOLPE DO COMBO CAUSA +25% DANO",
@@ -14,6 +20,7 @@ const DESCRICOES := {
 
 static func efeito(tipo: String, combo: int, distancia: float, contra: bool = false) -> Dictionary:
 	var resultado := {"dano":1.0, "empurrao":1.0, "atordoar":0.0}
+	if preload("res://codigo/dados/armas_montantes.gd").MODELOS.has(tipo): tipo = "espada_gemea"
 	match tipo:
 		"espada_basica":
 			if contra: resultado.dano = 1.5

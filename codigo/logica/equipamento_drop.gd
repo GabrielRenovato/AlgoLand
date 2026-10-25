@@ -97,10 +97,17 @@ static func criar_item(rng: RandomNumberGenerator, onda: int, mutante: bool, che
 		# Peça de conjunto cai sempre no nível 1: evolui na bigorna com a moeda de forja
 		novo.nivel = 1
 		raridade = novo.raridade
+	var montante: Dictionary = preload("res://codigo/dados/armas_montantes.gd").MODELOS.get(tipo,{})
+	if not montante.is_empty():
+		novo.raridade = montante.raridade
+		novo.encantamento = montante.get("encantamento", "")
+		novo.nivel_encantamento = int(montante.get("nivel_encantamento", 0))
+		raridade = novo.raridade
 	var afixos := Raridades.sortear_afixos(rng, novo.categoria, raridade)
 	if afixos.has("encantamento"):
-		novo.encantamento = String(afixos["encantamento"])
-		novo.nivel_encantamento = 1
+		if novo.encantamento.is_empty():
+			novo.encantamento = String(afixos["encantamento"])
+			novo.nivel_encantamento = 1
 		afixos.erase("encantamento")
 	novo.afixos = afixos
 	return novo

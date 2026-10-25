@@ -7,6 +7,7 @@ const ARMAS := {
 const LIMITE := 1000000000
 
 static func validar(valor: Variant) -> String:
+	if valor is String and preload("res://codigo/dados/armas_montantes.gd").MODELOS.has(valor): return "espada_gemea"
 	return valor if valor is String and ARMAS.has(valor) else ""
 
 static func normalizar(valor: Variant) -> Dictionary:

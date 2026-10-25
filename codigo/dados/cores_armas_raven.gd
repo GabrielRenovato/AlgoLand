@@ -27,7 +27,7 @@ static func paleta(tipo: String, nivel: int) -> Dictionary:
 
 static func material(tipo: String, nivel: int) -> ShaderMaterial:
 	var n := clampi(nivel,1,5)
-	if n==1: return Raven.material_corpo()
+	if n==1 or preload("res://codigo/dados/armas_montantes.gd").MODELOS.has(tipo): return Raven.material_corpo()
 	var chave := tipo+":"+str(n)
 	if not _materiais.has(chave):
 		var cores: Dictionary = Paleta.CORES.duplicate()
@@ -47,7 +47,7 @@ static func material(tipo: String, nivel: int) -> ShaderMaterial:
 static func icone(tipo: String, nivel: int) -> Texture2D:
 	var n := clampi(nivel,1,5)
 	var textura := Raven.carregar(Raven.RAIZ+"icones/"+tipo+".png")
-	if n==1: return textura
+	if n==1 or preload("res://codigo/dados/armas_montantes.gd").MODELOS.has(tipo): return textura
 	var chave := tipo+":"+str(n)
 	if not _icones.has(chave):
 		var imagem: Image = textura.get_image()

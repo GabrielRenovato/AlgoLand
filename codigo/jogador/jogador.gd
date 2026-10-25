@@ -1278,7 +1278,7 @@ func aplicar_golpe(alvo: Node, direcao_knockback: Vector2, mult_dano: float = 1.
 	var golpe_comum := mult_dano == 1.0 and disparo.is_empty()
 	var contra: bool = tipo == "espada_basica" and Time.get_ticks_msec() < contragolpe_ate_ms and mult_dano == 1.0
 	# O Raven tem combo de 2 golpes: o último golpe dele ativa as especialidades do "terceiro" (espada de duas mãos e maça)
-	var combo_estilo := 3 if tipo in ["espada_gemea", "maca"] and _fase_combo >= _limite_combo_espada() else _fase_combo
+	var combo_estilo := 3 if (tipo in ["espada_gemea", "maca"] or preload("res://codigo/dados/armas_montantes.gd").MODELOS.has(tipo)) and _fase_combo >= _limite_combo_espada() else _fase_combo
 	var estilo := preload("res://codigo/dados/estilos_arma.gd").efeito(tipo, combo_estilo, distancia, contra) if mult_dano == 1.0 else {"dano":1.0,"empurrao":1.0,"atordoar":0.0}
 	if contra: contragolpe_ate_ms = 0
 	mult_dano *= float(estilo.dano)

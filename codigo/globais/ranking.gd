@@ -63,7 +63,8 @@ func para_jogador(jogador: Node) -> Node:
 	return _perfil_p2
 
 func registrar_uso(jogador: Node, tipo: String) -> void:
-	if Armas.validar(tipo).is_empty(): return
+	tipo = Armas.validar(tipo)
+	if tipo.is_empty(): return
 	var perfil := para_jogador(jogador)
 	perfil.armas_usadas[tipo] = mini(Armas.LIMITE,int(perfil.armas_usadas.get(tipo,0))+1)
 	# Só grava localmente. A rede recebe uma fotografia agregada, nunca uma chamada por golpe.

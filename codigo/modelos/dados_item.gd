@@ -10,6 +10,12 @@ const FERRAMENTAS := ["enxada", "regador", "machadinha", "picareta"]
 
 # Sem acentos: as fontes pixel do projeto não os suportam
 const NOMES := {
+	"montante_ferro": "MONTANTE DE FERRO",
+	"montante_sentinela": "MONTANTE DA SENTINELA",
+	"montante_geada": "MONTANTE DA GEADA",
+	"montante_trovao": "MONTANTE DO TROVAO",
+	"montante_astral": "MONTANTE ASTRAL",
+
 	"espada_basica": "ESPADA",
 	"espada_gemea": "ESPADA DE DUAS MAOS",
 	"machado": "MACHADO",

@@ -11,6 +11,7 @@ const MATERIAIS := {
 	"fragmento": {"nome": "FRAGMENTO DA ARENA", "origem": "Receba um ao concluir cada andar da arena."},
 	"nucleo": {"nome": "NUCLEO DE GUARDIAO", "origem": "Derrote chefes da arena."},
 }
+const Montantes := preload("res://codigo/dados/armas_montantes.gd")
 const INICIAIS_LIVRES := ["espada_basica", "escudo_basico", "enxada", "regador", "machadinha", "picareta", "vara_pesca"]
 ## Modelos antigos permanecem legíveis em saves e encomendas já pagas.
 const ARMAS_RETIRADAS := ["maca", "arco_curvo", "arco_longo"]
@@ -91,6 +92,8 @@ static var RECEITAS: Dictionary = _montar_receitas()
 ## Novos conjuntos usam o mesmo contrato de quatro peças, com custo por raridade.
 static func _montar_receitas() -> Dictionary:
 	var resultado := RECEITAS_BASE.duplicate(true)
+	for tipo in Montantes.MODELOS:
+		resultado[tipo] = Montantes.MODELOS[tipo].materiais.duplicate()
 	for conjunto in Conjuntos.CONJUNTOS:
 		var fator := 1 + Raridades.indice(conjunto.RARIDADE)
 		for tipo in conjunto.TIPOS:
@@ -112,6 +115,7 @@ const CATEGORIAS := {"escudo_basico":"escudo", "aljava_basica":"secundaria",
 	"cabeca_basica":"cabeca", "armadura_basica":"corpo", "luvas_basicas":"luvas", "botas_basicas":"botas"}
 
 static func onda_receita(tipo: String) -> int:
+	if Montantes.MODELOS.has(tipo): return int(Montantes.MODELOS[tipo].andar)
 	if Desafios.DESAFIOS.has(tipo):
 		return int(Desafios.DESAFIOS[tipo]["meta"])
 	var conjunto := Conjuntos.de_tipo(tipo)
@@ -128,7 +132,12 @@ static func criar_item(tipo: String):
 	item.id = StringName(tipo)
 	item.tipo = tipo
 	item.categoria = CATEGORIAS.get(tipo,"arma")
-	item.duas_maos = tipo.begins_with("arco_") or tipo in ["lanca_basica", "espada_gemea", "machado"]
+	item.duas_maos = tipo.begins_with("arco_") or tipo in ["lanca_basica", "espada_gemea", "machado"] or Montantes.MODELOS.has(tipo)
+	if Montantes.MODELOS.has(tipo):
+		var modelo: Dictionary = Montantes.MODELOS[tipo]
+		item.raridade = modelo.raridade
+		item.encantamento = modelo.get("encantamento", "")
+		item.nivel_encantamento = int(modelo.get("nivel_encantamento", 0))
 	var conjunto := Conjuntos.de_tipo(tipo)
 	if conjunto != null:
 		item.categoria = conjunto.TIPOS[tipo]["slot"]

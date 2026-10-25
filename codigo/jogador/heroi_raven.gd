@@ -236,19 +236,20 @@ func _atualizar_arma_costas(acao: String, direcao: int, quadro: int) -> void:
 	_cabo_arma_costas.visible = false
 	if not _arma_costas.visible: return
 	var pose := PorteArmas.pose(tipo,acao,direcao,quadro)
-	_arma_costas.texture = PorteArmas.textura(tipo)
+	var arma = _jogador.inventario.equipados.get("arma")
+	var id_modelo: String = arma.tipo if arma != null else (_jogador.id_lanca_atual if tipo=="lanca" else _jogador.id_arma_atual)
+	var montante := tipo=="espada_dupla" and preload("res://codigo/dados/armas_montantes.gd").MODELOS.has(id_modelo)
+	_arma_costas.texture = preload("res://codigo/dados/armas_montantes.gd").porte(id_modelo) if montante else PorteArmas.textura(tipo)
 	_arma_costas.position = Vector2(pose.posicao[0],pose.posicao[1])
 	_arma_costas.rotation = pose.rotacao
 	_arma_costas.z_index = int(pose.z)
 	# O cabo passa diante da nuca, mas a lâmina conserva o porte nas costas.
 	# Filho da arma, acompanha sua posição e rotação sem outro encaixe.
 	if acao == "correr" and direcao == 2 and tipo in ["espada","espada_dupla"]:
-		_cabo_arma_costas.texture = PorteArmas.textura_cabo(tipo)
+		_cabo_arma_costas.texture = preload("res://codigo/dados/armas_montantes.gd").porte(id_modelo,true) if montante else PorteArmas.textura_cabo(tipo)
 		_cabo_arma_costas.z_index = _camadas[9].z_index+1-_arma_costas.z_index
 		_cabo_arma_costas.visible = true
-	var arma = _jogador.inventario.equipados.get("arma")
-	var id: String = arma.tipo if arma != null else (_jogador.id_lanca_atual if tipo=="lanca" else _jogador.id_arma_atual)
-	_arma_costas.material = CoresArmas.material(id,arma.nivel if arma != null else 1)
+	_arma_costas.material = CoresArmas.material(id_modelo,arma.nivel if arma != null else 1)
 	_cabo_arma_costas.material = _arma_costas.material
 
 func _definir_grade(quantidade: int) -> void:
@@ -413,6 +414,8 @@ func _aplicar_aparencia(acao: String) -> void:
 	_camadas[5].material = AparenciaRaven.material_pose(false,acao=="sentado",_direcao,true,acao=="pescar")
 	if not _jogador.esta_em_acao_fazenda and acao in ["espada","espada_2","espada_dupla","machado","lanca","arco"]:
 		_camadas[5].material = CoresArmas.material(tipo_arma,nivel_arma)
+		if acao == "espada_dupla" and preload("res://codigo/dados/armas_montantes.gd").MODELOS.has(tipo_arma):
+			_camadas[5].texture = preload("res://codigo/dados/armas_montantes.gd").folha(tipo_arma)
 	_camadas[6].texture = AparenciaRaven.folha("vazio" if cabelo == 0 else "cabelo_%d" % cabelo,acao)
 	var cor: Array = dados.get("cor",[1,1,1,1])
 	_camadas[6].material = AparenciaRaven.material_pose(true,acao=="sentado",_direcao)

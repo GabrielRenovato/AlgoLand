@@ -35,7 +35,7 @@ var _acoes_atuais: Array = []
 var _selecoes: Dictionary = {}
 const AREAS := {
 	"FAZENDA E VILA": ["OBRA DO OSVALDO", "GALINHEIRO", "FAZENDA E ITENS", "VISUAL DA FAZENDA"],
-	"COMBATE": ["ANDARES", "MINOTAURO", "MEDUSA", "GOBLIN", "DRAGAO", "ARMAS RAVEN", "DROPS"],
+	"COMBATE": ["ANDARES", "MINOTAURO", "MEDUSA", "GOBLIN", "DRAGAO", "ARMAS RAVEN", "MONTANTES", "DROPS"],
 	"PERSONAGEM": ["PERSONAGEM", "CONJUNTOS", "ANIMACOES"],
 	"MUNDO": ["HORARIO", "CALENDARIO", "CLIMA", "ESTACAO", "TEMPESTADE"],
 }
@@ -162,6 +162,9 @@ func _montar() -> void:
 				[conjunto.NOME+" (EQUIPAR)", _equipar_conjunto.bind(conjunto.ID)])
 		if not conjunto.ID in ["carrasco", "cavaleiro_rubro"]:
 			_opcoes["DROPS"].append([conjunto.NOME+" (4 PECAS)", _ao_drop_conjunto.bind(conjunto.ID)])
+	_opcoes["MONTANTES"] = [["RECEBER CINCO (MOCHILA)", _receber_montantes]]
+	for tipo in preload("res://codigo/dados/armas_montantes.gd").MODELOS:
+		_opcoes["MONTANTES"].append([preload("res://codigo/modelos/dados_item.gd").NOMES[tipo], _receber_armas_raven.bind(tipo)])
 	for tipo in preload("res://codigo/ui/icones_itens.gd").ARMAS_RAVEN:
 		_opcoes["ARMAS RAVEN"].append([preload("res://codigo/modelos/dados_item.gd").NOMES[tipo], _receber_armas_raven.bind(tipo)])
 	for i in CLIMAS.size():
@@ -831,8 +834,14 @@ func _concluir_obra_debug() -> void:
 
 ## Entrega peças nativas para selecionar pela barra; repetir não duplica itens.
 func _receber_armas_raven(tipo: String = "") -> void:
-	var inventario := get_node("/root/InventarioJogador")
 	var tipos: Array = [tipo] if not tipo.is_empty() else preload("res://codigo/ui/icones_itens.gd").ARMAS_RAVEN + ["aljava_basica"]
+	_receber_modelos_armas(tipos)
+
+func _receber_montantes() -> void:
+	_receber_modelos_armas(preload("res://codigo/dados/armas_montantes.gd").MODELOS.keys())
+
+func _receber_modelos_armas(tipos: Array) -> void:
+	var inventario := get_node("/root/InventarioJogador")
 	var faltaram := 0
 	for modelo in tipos:
 		if inventario.buscar_por_tipo(modelo) != null:

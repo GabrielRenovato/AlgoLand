@@ -5,7 +5,7 @@ const Conjuntos := preload("res://codigo/dados/conjuntos_armadura.gd")
 const IconesFazenda := preload("res://codigo/ui/icones_fazenda.gd")
 const CoresArmas := preload("res://codigo/dados/cores_armas_raven.gd")
 
-const ARMAS_RAVEN := ["espada_basica","espada_gemea","machado","lanca_basica","arco_curto","escudo_basico"]
+const ARMAS_RAVEN := ["montante_ferro","montante_sentinela","montante_geada","montante_trovao","montante_astral","espada_basica","espada_gemea","machado","lanca_basica","arco_curto","escudo_basico"]
 const ARMAS_LEGADAS := ["maca","arco_curvo","arco_longo"]
 const ARMAS := {}
 const COLUNAS_ARMAS := 8
