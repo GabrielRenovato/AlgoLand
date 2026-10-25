@@ -3,12 +3,12 @@ extends "inimigo_base.gd"
 const AreaDanoChefe := preload("res://codigo/inimigos/area_dano_chefe.gd")
 const Aviso := preload("res://codigo/efeitos/aviso_ataque.gd")
 const TIPOS := ["investida", "pisao", "machado", "pisao_furia"]
-const TEMPOS_AVISO := {"investida": 0.9, "pisao": 0.7, "machado": 0.45, "pisao_furia": 0.75}
+const TEMPOS_AVISO := {"investida": 0.75, "pisao": 0.58, "machado": 0.38, "pisao_furia": 0.65}
 const TEMPOS_GOLPE := {"investida": 0.7, "pisao": 0.4, "machado": 0.35, "pisao_furia": 0.5}
 const RAIOS := {"pisao": 90.0, "machado": 65.0, "pisao_furia": 125.0}
 ## Buff (2026-10-15, estava fraco demais): golpes mais pesados, menos respiro entre eles e fúria mais cedo
 const MULTIPLICADORES := {"investida": 1.7, "pisao": 1.4, "machado": 1.25, "pisao_furia": 2.2}
-const RECARGA_ENTRE_GOLPES := 0.45
+const RECARGA_ENTRE_GOLPES := 0.2
 const VIDA_FURIA := 0.5
 const BASE_PATAS := [2.0, 0.0, -4.0, -6.0]
 enum Estado { LIVRE, PREPARANDO, ATACANDO, RECUPERANDO, RUGINDO }
@@ -138,7 +138,7 @@ func _physics_process(delta: float) -> void:
 				_recuperar()
 		Estado.RECUPERANDO:
 			_tocar(pagina, 5)
-			if _tempo >= (0.15 if _furia_ativa else 0.3):
+			if _tempo >= (0.15 if _furia_ativa else 0.18):
 				if _furia_ativa:
 					_executar_furia()
 				else:

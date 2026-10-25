@@ -125,6 +125,10 @@ func _pode_manter() -> bool:
 
 func _iniciar() -> void:
 	estado = Estado.GUARDA
+	if jogador._esta_atacando:
+		jogador._cancelar_golpe()
+	if jogador.usando_arco and jogador.no_arco != null and jogador.no_arco.esta_disparando():
+		jogador.no_arco.parar_disparo()
 	_inicio_guarda_ms = Time.get_ticks_msec()
 	jogador._gastar_stamina(CUSTO_INICIAL)
 	jogador._pedido_ataque = false

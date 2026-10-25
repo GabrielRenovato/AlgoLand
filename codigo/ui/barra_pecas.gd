@@ -14,6 +14,13 @@ func _ready() -> void:
 
 func definir(atual: float, maximo: float, animar_rastro := true) -> void:
 	var nova := clampf(atual / maxf(maximo, 1.0), 0.0, 1.0)
+	# Cura (poção de regeneração, a cada segundo) não interrompe o rastro do dano que ainda está descendo:
+	# cortá-lo a cada tick fazia o trecho claro da barra piscar durante a luta
+	if nova >= _fracao and _tween_rastro != null and _tween_rastro.is_running():
+		_fracao = nova
+		_fracao_rastro = maxf(_fracao_rastro, nova)
+		queue_redraw()
+		return
 	if _tween_rastro:
 		_tween_rastro.kill()
 	if animar_rastro and nova < _fracao:

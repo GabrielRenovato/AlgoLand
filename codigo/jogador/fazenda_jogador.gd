@@ -24,12 +24,17 @@ const ACOES := {
 		"quadros": [[4, 0.30], [5, 0.10], [6, 0.10], [7, 0.10]]},
 	"regar": {"ferramenta": "fazenda", "linha_base": 4, "quadro_impacto": 2,
 		"quadros": [[0, 0.09], [1, 0.09], [2, 0.12], [3, 0.12], [2, 0.12], [3, 0.16]]},
+	# Encher no lago usa a folha do regador, mas só no quadro de segurar a lata: sem o jato que despeja água fora
+	"encher": {"ferramenta": "fazenda", "linha_base": 4, "quadro_impacto": 2, "folha": "regar",
+		"quadros": [[0, 0.22], [0, 0.20], [0, 0.16]]},
 	"colher": {"ferramenta": "fazenda", "linha_base": 4, "quadro_impacto": 2,
 		"quadros": [[4, 0.29], [5, 0.17], [6, 0.13], [7, 0.21]]},
 }
 
 var jogador = null
 var acao_atual := ""
+## Nome da folha de sprites da ação em curso (encher usa a do regador)
+var folha_atual := ""
 
 var _quadros: Array = []
 var _indice := 0
@@ -66,6 +71,7 @@ func tocar(acao: String, direcao: Vector2) -> bool:
 		return false
 	var dados: Dictionary = ACOES[acao]
 	acao_atual = acao
+	folha_atual = str(dados.get("folha", acao))
 	_quadros = dados["quadros"]
 	_linha = int(dados["linha_base"]) + ArcoJogador.linha_da_direcao(direcao)
 	_indice = 0

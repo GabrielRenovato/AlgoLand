@@ -82,9 +82,27 @@ func _levantar() -> void:
 		return
 	ocupada = false
 	if is_instance_valid(_jogador):
-		_jogador.levantar(global_position + saida)
+		_jogador.levantar(_ponto_de_saida(_jogador))
 		_jogador.set("assento_atual", null)
 	_jogador = null
+
+## Onde ficar de pé: a saída configurada se houver espaço; senão o ponto livre mais perto ao redor do banco (bancos
+## costas com costas e bancos junto da parede não deixam espaço no lado da saída e prendiam o jogador no móvel)
+func _ponto_de_saida(quem: Node2D) -> Vector2:
+	var padrao := global_position + saida
+	if not quem is CharacterBody2D:
+		return padrao
+	var corpo := quem as CharacterBody2D
+	if not corpo.test_move(Transform2D(0.0, padrao), Vector2.ZERO):
+		return padrao
+	var direcao := saida.normalized() if saida != Vector2.ZERO else Vector2.DOWN
+	for raio: float in [saida.length(), 24.0, 32.0, 44.0]:
+		for passo in 8:
+			var angulo := direcao.angle() + passo * TAU / 8.0 * (1.0 if passo % 2 == 0 else -1.0)
+			var ponto := global_position + Vector2.from_angle(angulo) * raio
+			if not corpo.test_move(Transform2D(0.0, ponto), Vector2.ZERO):
+				return ponto
+	return padrao
 
 # --- Sentado: mesa da taverna e vizinhos ---------------------------------------------------------------------
 

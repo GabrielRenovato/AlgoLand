@@ -28,6 +28,8 @@ const DURACAO_AVISO := 1.8
 const JANELA_SEMENTE := 2.0
 ## Os últimos segundos do efeito piscam
 const PISCAR_ABAIXO_DE := 5.0
+## Folga do canto direito no PC: a barra de energia vertical (10 px) fica ali
+const MARGEM_DIREITA := 32.0
 
 var efeitos: Node = null
 
@@ -78,23 +80,29 @@ func _process(_delta: float) -> void:
 		var caixa: Control = _rotulos_efeitos[efeito]["caixa"]
 		caixa.modulate.a = (0.45 + 0.55 * absf(sin(restante * 6.0))) if restante < PISCAR_ABAIXO_DE else 1.0
 
+## No toque fica no canto de baixo à esquerda (cresce para cima e para a direita). No PC o canto da esquerda é do chat,
+## então o cinto vai para o canto de baixo à direita, afastado da barra de energia vertical
+func _posicionar() -> void:
+	var a_direita := not Controle.usando_toque
+	_coluna.anchor_left = 1.0 if a_direita else 0.0
+	_coluna.anchor_right = _coluna.anchor_left
+	_coluna.grow_horizontal = Control.GROW_DIRECTION_BEGIN if a_direita else Control.GROW_DIRECTION_END
+	_coluna.offset_left = -MARGEM_DIREITA if a_direita else 6.0
+	_coluna.offset_right = _coluna.offset_left
+
 func _montar() -> void:
 	_coluna = VBoxContainer.new()
 	_coluna.name = "Coluna"
 	_coluna.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_coluna.add_theme_constant_override("separation", 2)
-	# Canto de baixo à esquerda: cresce para cima e para a direita
-	_coluna.anchor_left = 0.0
-	_coluna.anchor_right = 0.0
 	_coluna.anchor_top = 1.0
 	_coluna.anchor_bottom = 1.0
-	_coluna.grow_horizontal = Control.GROW_DIRECTION_END
 	_coluna.grow_vertical = Control.GROW_DIRECTION_BEGIN
-	_coluna.offset_left = 6
-	_coluna.offset_right = 6
 	_coluna.offset_top = -6
 	_coluna.offset_bottom = -6
 	add_child(_coluna)
+	_posicionar()
+	Controle.modo_alterado.connect(func(_modo = null) -> void: _posicionar())
 	_aviso_semente = _novo_rotulo(COR_SEMENTE)
 	_aviso_semente.name = "AvisoSemente"
 	_aviso_semente.modulate.a = 0.0

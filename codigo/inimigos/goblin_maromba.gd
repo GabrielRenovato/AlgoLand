@@ -4,7 +4,7 @@ const AreaDanoChefe := preload("res://codigo/inimigos/area_dano_chefe.gd")
 const Aviso := preload("res://codigo/efeitos/aviso_ataque.gd")
 const TEXTURA_LUZ := preload("res://recursos/luz/luz_radial.tres")
 const TIPOS := ["porretada", "varrida", "salto", "furia", "execucao"]
-const AVISOS := {"porretada": 0.45, "varrida": 0.7, "salto": 0.8, "furia": 0.65, "execucao": 2.5}
+const AVISOS := {"porretada": 0.38, "varrida": 0.56, "salto": 0.66, "furia": 0.55, "execucao": 2.2}
 const DURACOES := {"porretada": 0.4, "varrida": 0.5, "salto": 0.65, "furia": 1.8, "execucao": 0.65}
 const RAIO_EXECUCAO := 180.0
 const ALCANCE_PORRETADA := 65.0
@@ -14,12 +14,12 @@ enum Estado { LIVRE, AVISANDO, ATACANDO, RECUPERANDO }
 var estado := Estado.LIVRE
 var ataque_atual := "porretada"
 var _tempo := 0.0
-var _recarga := 0.8
+var _recarga := 0.4
 var _direcao := Vector2.DOWN
 var _linha := 0
 var _passos := 0.0
 var _normais := 0
-var _recarga_furia := 8.0
+var _recarga_furia := 6.0
 var _golpes_furia := 0
 var _acertou := false
 var _origem_salto := Vector2.ZERO
@@ -133,11 +133,11 @@ func _physics_process(delta: float) -> void:
 				_efeito.frame = clampi(int(_tempo / 0.4 * 6), 0, 5)
 				_efeito.visible = _tempo < 0.4
 			_tocar("execucao" if ataque_atual == "execucao" else ataque_atual, 5)
-			if _tempo >= (1.0 if ataque_atual in ["furia", "execucao"] else 0.4):
+			if _tempo >= (0.65 if ataque_atual in ["furia", "execucao"] else 0.25):
 				_limpar_efeitos()
 				estado = Estado.LIVRE
 				esta_atacando = false
-				_recarga = 0.65 if vida <= vida_maxima * 0.5 else 0.9
+				_recarga = 0.3 if vida <= vida_maxima * 0.5 else 0.45
 
 func _escolher_ataque(destino: Vector2) -> String:
 	var distancia := global_position.distance_to(destino)
@@ -167,7 +167,7 @@ func iniciar_ataque(tipo: String, destino: Vector2) -> bool:
 	_acertou = false
 	_golpes_furia = 0
 	if tipo == "furia":
-		_recarga_furia = 13.0
+		_recarga_furia = 10.0
 	_tempo = 0
 	estado = Estado.AVISANDO
 	esta_atacando = true

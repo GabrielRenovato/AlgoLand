@@ -7,7 +7,7 @@ const ChuvaFogo := preload("res://codigo/efeitos/chuva_fogo_dragao.gd")
 const ATAQUES := ["sopro", "cauda", "asas"]
 const TIPOS_ATAQUE := ["sopro", "cauda", "asas", "patada"]
 const ALCANCES := {"sopro": 150.0, "cauda": 82.0, "asas": 112.0, "patada": 65.0}
-const AVISOS := {"sopro": 0.9, "cauda": 0.75, "asas": 1.0, "patada": 0.32}
+const AVISOS := {"sopro": 0.75, "cauda": 0.62, "asas": 0.85, "patada": 0.28}
 const DURACOES := GeometriaGolpe.DURACOES
 const MULT_DANO := {"sopro": 1.6, "cauda": 1.8, "asas": 0.8, "patada": 0.6}
 const EMPURRAO := {"sopro": 100.0, "cauda": 240.0, "asas": 380.0, "patada": 480.0}
@@ -16,7 +16,7 @@ enum Estado { LIVRE, PREPARANDO, ATACANDO, RECUPERANDO, SUBINDO, CHUVA, DESCENDO
 var estado := Estado.LIVRE
 var ataque_atual := "sopro"
 var _proximo_ataque := 0
-var _recarga := 1.5
+var _recarga := 0.8
 var _recarga_patada := 0.0
 var _combo_sopro := false
 var _tempo_estado := 0.0
@@ -86,7 +86,7 @@ func _physics_process(delta: float) -> void:
 	if estado in [Estado.SUBINDO, Estado.CHUVA, Estado.DESCENDO]:
 		_atualizar_especial(delta)
 		return
-	if _especiais_pendentes > 0 and not esta_congelado() and _recarga <= 1.5:
+	if _especiais_pendentes > 0 and not esta_congelado() and _recarga <= 1.0:
 		if _iniciar_especial():
 			return
 	if esta_congelado():
@@ -159,12 +159,12 @@ func _physics_process(delta: float) -> void:
 				if alvo != null and alvo.get("estaMorto") != true:
 					iniciar_ataque("sopro", alvo.global_position)
 				else:
-					_recarga = 2.0
+					_recarga = 1.0
 				return
-			if _tempo_estado >= 0.6:
+			if _tempo_estado >= 0.4:
 				estado = Estado.LIVRE
 				esta_atacando = false
-				_recarga = 2.0
+				_recarga = 1.0
 
 func _escolher_ataque(destino: Vector2) -> String:
 	var local := to_local(destino)

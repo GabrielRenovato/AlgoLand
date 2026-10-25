@@ -8,7 +8,7 @@ const RUINA_NITIDA := preload("res://recursos/personagens/ruina_medusa.gdshader"
 const TELA_RUINA := preload("res://recursos/personagens/tela_ruina_medusa.tres")
 const CanalMedusa := preload("res://codigo/efeitos/canal_medusa.gd")
 const TIPOS := ["garras", "cauda", "bote", "olhar", "ruina"]
-const AVISOS := {"garras": 0.45, "cauda": 0.7, "bote": 0.8, "olhar": 1.2, "ruina": 2.5}
+const AVISOS := {"garras": 0.38, "cauda": 0.56, "bote": 0.66, "olhar": 0.95, "ruina": 2.2}
 const DURACOES := {"garras": 0.4, "cauda": 0.5, "bote": 0.65, "olhar": 0.45, "ruina": 0.65}
 const RAIO_RUINA := 180.0
 const ALCANCE_GARRAS := 65.0
@@ -16,7 +16,7 @@ const ALCANCE_CAUDA := 95.0
 const ALCANCE_OLHAR := 260.0
 const MEIA_ABERTURA_OLHAR := PI / 3.0
 const DURACAO_PEDRA := 0.85
-const RECUPERACOES := {"garras": 0.95, "cauda": 1.25, "bote": 1.15, "olhar": 1.3, "ruina": 1.7}
+const RECUPERACOES := {"garras": 0.55, "cauda": 0.72, "bote": 0.65, "olhar": 0.75, "ruina": 1.0}
 const MULT_DANO_EXPOSTA := 1.25
 const MULT_DANO_RUINA := 2.25
 enum Estado { LIVRE, AVISANDO, ATACANDO, RECUPERANDO, ENTRE_GOLPES }
@@ -24,7 +24,7 @@ enum Estado { LIVRE, AVISANDO, ATACANDO, RECUPERANDO, ENTRE_GOLPES }
 var estado := Estado.LIVRE
 var ataque_atual := "garras"
 var _tempo := 0.0
-var _recarga := 0.8
+var _recarga := 0.4
 var _direcao := Vector2.DOWN
 var _linha := 0
 var _passos := 0.0
@@ -164,7 +164,7 @@ func _physics_process(delta: float) -> void:
 				estado = Estado.LIVRE
 				esta_atacando = false
 				_rotulo_exposta.hide()
-				_recarga = 0.22 if fase == 1 else 0.14
+				_recarga = 0.08 if fase == 1 else 0.04
 
 func _escolher_ataque(destino: Vector2) -> String:
 	var para_alvo := destino - global_position

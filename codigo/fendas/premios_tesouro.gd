@@ -1,6 +1,6 @@
 extends RefCounted
 
-const CHANCE_PORTAL := 0.02
+const CHANCE_PORTAL := 0.06
 const CHANCE_PREMIO_RARO := 0.05
 const MULT_OURO_MIMICO := 5
 const Conjuntos := preload("res://codigo/dados/conjuntos_armadura.gd")

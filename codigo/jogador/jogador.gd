@@ -1528,7 +1528,8 @@ func _tocar_pose(pose: String, duracao: float = 0.25) -> void:
 
 ## Pode levantar a guarda agora? (armado, solto, sem tela aberta nem outra ação em andamento)
 func pode_aparar() -> bool:
-	if estaMorto or esta_sentado or esta_forjando or esta_em_dash or _esta_atacando or esta_em_acao_fazenda or modo_fazenda \
+	# Atacando também pode: levantar o escudo corta o golpe (ver DefesaJogador._iniciar)
+	if estaMorto or esta_sentado or esta_forjando or esta_em_dash or esta_em_acao_fazenda or modo_fazenda \
 			or ataques_bloqueados or not movimento_habilitado or temporizador_knockback > 0.0:
 		return false
 	if not _inventario_pronto or _familia_das_poses() == "" or no_reacao.visible or Time.get_ticks_msec() < _sem_acao_ate_ms:

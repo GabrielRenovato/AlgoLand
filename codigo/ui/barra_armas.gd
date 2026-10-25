@@ -88,6 +88,11 @@ func _montar() -> void:
 	_coluna.offset_bottom = -5
 	add_child(_coluna)
 	_coluna.resized.connect(_posicionar_coluna)
+	if not modo_fazenda:
+		# Buffs comprados entre os andares: ícones logo acima da barra, com dica no mouse/toque
+		var buffs := preload("res://codigo/ui/barra_buffs.gd").new()
+		buffs.name = "Buffs"
+		_coluna.add_child(buffs)
 	_nome = _novo_rotulo(COR_NOME, 10)
 	_nome.modulate.a = 0.0
 	_nome.hide()

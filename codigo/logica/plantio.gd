@@ -193,7 +193,7 @@ func _ao_ferramenta_pedida() -> void:
 			_avisar(Fazenda.MSG_REGADOR_CHEIO)
 			return
 		_enchendo = true
-		jogador.acao_fazenda("regar")
+		jogador.acao_fazenda("encher")
 		return
 	var motivo := _motivo_da_ferramenta(celula_alvo())
 	# Machadinha e picareta não mexem no solo: quem decide é a Extracao (árvores e pedras do mapa)
@@ -259,7 +259,7 @@ func _estacao_visual() -> int:
 func _ao_impacto(acao: String, ponto: Vector2) -> void:
 	if jogador == null or jogador.get_world_2d() != get_world_2d():
 		return
-	if acao == "regar" and _enchendo:
+	if acao == "encher" and _enchendo:
 		_enchendo = false
 		Fazenda.encher_regador()
 		Sons.tocar("regar", 0.05)

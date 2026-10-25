@@ -163,8 +163,7 @@ func _process(delta: float) -> void:
 		pesca.visible = false
 		coluna = quadro_pesca(pesca._pose)
 	elif _jogador.esta_em_acao_fazenda and _jogador.no_fazenda != null:
-		var acao: String = _jogador.no_fazenda.acao_atual
-		nome = acao
+		nome = _jogador.no_fazenda.folha_atual
 		coluna = int(_jogador.no_fazenda._quadros[_jogador.no_fazenda._indice][0]) % 4
 	elif _jogador.esta_em_dash:
 		nome = "esquiva"
