@@ -1,0 +1,328 @@
+{
+  "canônico": "../../corpo_base_cartoon_v1.png",
+  "frente_aprovada": "../../corrida_frente_4/",
+  "direcao": "costas",
+  "quadros": 4,
+  "celula": [
+    512,
+    896
+  ],
+  "pivo": [
+    256,
+    850
+  ],
+  "duracoes_ms": [
+    100,
+    100,
+    100,
+    100
+  ],
+  "fase_aerea": false,
+  "guia_poses": [
+    {
+      "be": [
+        [
+          170,
+          315
+        ],
+        [
+          142,
+          390
+        ],
+        [
+          170,
+          490
+        ]
+      ],
+      "bd": [
+        [
+          342,
+          315
+        ],
+        [
+          375,
+          360
+        ],
+        [
+          351,
+          333
+        ]
+      ],
+      "pe": [
+        [
+          224,
+          520
+        ],
+        [
+          210,
+          675
+        ],
+        [
+          210,
+          835
+        ]
+      ],
+      "pd": [
+        [
+          288,
+          520
+        ],
+        [
+          311,
+          654
+        ],
+        [
+          300,
+          750
+        ]
+      ]
+    },
+    {
+      "be": [
+        [
+          170,
+          315
+        ],
+        [
+          150,
+          392
+        ],
+        [
+          182,
+          470
+        ]
+      ],
+      "bd": [
+        [
+          342,
+          315
+        ],
+        [
+          362,
+          392
+        ],
+        [
+          330,
+          470
+        ]
+      ],
+      "pe": [
+        [
+          224,
+          520
+        ],
+        [
+          227,
+          675
+        ],
+        [
+          227,
+          835
+        ]
+      ],
+      "pd": [
+        [
+          288,
+          520
+        ],
+        [
+          307,
+          659
+        ],
+        [
+          294,
+          780
+        ]
+      ]
+    },
+    {
+      "be": [
+        [
+          170,
+          315
+        ],
+        [
+          137,
+          360
+        ],
+        [
+          161,
+          333
+        ]
+      ],
+      "bd": [
+        [
+          342,
+          315
+        ],
+        [
+          370,
+          390
+        ],
+        [
+          342,
+          490
+        ]
+      ],
+      "pe": [
+        [
+          224,
+          520
+        ],
+        [
+          201,
+          654
+        ],
+        [
+          212,
+          750
+        ]
+      ],
+      "pd": [
+        [
+          288,
+          520
+        ],
+        [
+          302,
+          675
+        ],
+        [
+          302,
+          835
+        ]
+      ]
+    },
+    {
+      "be": [
+        [
+          170,
+          315
+        ],
+        [
+          150,
+          392
+        ],
+        [
+          182,
+          470
+        ]
+      ],
+      "bd": [
+        [
+          342,
+          315
+        ],
+        [
+          362,
+          392
+        ],
+        [
+          330,
+          470
+        ]
+      ],
+      "pe": [
+        [
+          224,
+          520
+        ],
+        [
+          205,
+          659
+        ],
+        [
+          218,
+          780
+        ]
+      ],
+      "pd": [
+        [
+          288,
+          520
+        ],
+        [
+          285,
+          675
+        ],
+        [
+          285,
+          835
+        ]
+      ]
+    }
+  ],
+  "ferramenta": "image_gen integrado",
+  "estado": "revisado em folha e reprodução no Godot; aguardando avaliação artística do usuário",
+  "destino": "previa independente, personagem ativo preservado",
+  "escala_unica": 1.0413793103448277,
+  "quadros_exportados": [
+    {
+      "quadro": 1,
+      "translacao": [
+        12,
+        28
+      ],
+      "limites": [
+        84,
+        95,
+        407,
+        851
+      ],
+      "duracao_ms": 100,
+      "fonte": "folha_gerada_v1.png",
+      "sha256_rgba": "a6791f6105ad4cc008f46154e11df35fb54e5fb891ff1c3fca4aced523a314d9"
+    },
+    {
+      "quadro": 2,
+      "translacao": [
+        12,
+        40
+      ],
+      "limites": [
+        90,
+        96,
+        413,
+        851
+      ],
+      "duracao_ms": 100,
+      "fonte": "quadro_02_pe_corrigido.png",
+      "sha256_rgba": "202ad59eb49171867330c6787042e0a30964e7fd0277008e8fa1c06d3a5e3ad2"
+    },
+    {
+      "quadro": 3,
+      "translacao": [
+        6,
+        57
+      ],
+      "limites": [
+        94,
+        104,
+        448,
+        851
+      ],
+      "duracao_ms": 100,
+      "fonte": "folha_gerada_v1.png",
+      "sha256_rgba": "8af75e73e82c7d9cefc809ea1dc1b6740a53728e1329186e7032a3d0a980134b"
+    },
+    {
+      "quadro": 4,
+      "translacao": [
+        6,
+        40
+      ],
+      "limites": [
+        99,
+        96,
+        422,
+        851
+      ],
+      "duracao_ms": 100,
+      "fonte": "quadro_02_pe_corrigido.png (espelhado)",
+      "sha256_rgba": "d94d8cbfd8dcaaec9695e4670f7771f114c8513f035c1bf2441e4d6344ad1190"
+    }
+  ],
+  "apoio": "sola de apoio identificada nos quatro quadros; chão y850",
+  "revisao_motor": "arte/previas/personagens/raven_cartoon/corrida_direcoes_4/motor/reproducao.json",
+  "correcao_usuario": "perfil: sobreposição das coxas/short invertida nos quadros 3/4; costas: sola e calcanhar nos quadros 2/4"
+}

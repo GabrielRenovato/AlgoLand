@@ -1,0 +1,31 @@
+[gd_resource type="SpriteFrames" load_steps=6 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/personagens/raven_cartoon/corrida_frente_4.png" id="1"]
+
+[sub_resource type="AtlasTexture" id="q1"]
+atlas = ExtResource("1")
+region = Rect2(0, 0, 512, 896)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="q2"]
+atlas = ExtResource("1")
+region = Rect2(512, 0, 512, 896)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="q3"]
+atlas = ExtResource("1")
+region = Rect2(1024, 0, 512, 896)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="q4"]
+atlas = ExtResource("1")
+region = Rect2(1536, 0, 512, 896)
+filter_clip = true
+
+[resource]
+animations = [{
+"frames": [{"duration": 1.0, "texture": SubResource("q1")}, {"duration": 1.0, "texture": SubResource("q2")}, {"duration": 1.0, "texture": SubResource("q3")}, {"duration": 1.0, "texture": SubResource("q4")}],
+"loop": true,
+"name": &"correr_frente",
+"speed": 10.0
+}]

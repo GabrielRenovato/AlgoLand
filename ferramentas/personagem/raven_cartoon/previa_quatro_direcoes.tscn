@@ -1,0 +1,111 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="SpriteFrames" path="res://assets/personagens/raven_cartoon/corrida_quatro_direcoes.tres" id="1"]
+
+[node name="PreviaQuatroDirecoes" type="Node2D"]
+
+[node name="Fundo" type="ColorRect" parent="."]
+offset_right = 1152.0
+offset_bottom = 560.0
+mouse_filter = 2
+color = Color(0.925, 0.906, 0.847, 1)
+
+[node name="Titulo_frente" type="Label" parent="."]
+offset_left = 48.0
+offset_top = 24.0
+offset_right = 288.0
+offset_bottom = 60.0
+theme_override_colors/font_color = Color(0.26, 0.25, 0.24, 1)
+theme_override_font_sizes/font_size = 22
+text = "FRENTE"
+horizontal_alignment = 1
+
+[node name="Chao_frente" type="Line2D" parent="."]
+points = PackedVector2Array(56, 511, 280, 511)
+width = 2.0
+default_color = Color(0.53, 0.55, 0.52, 0.55)
+
+[node name="Raven_frente" type="AnimatedSprite2D" parent="."]
+texture_filter = 2
+position = Vector2(168, 510)
+scale = Vector2(0.5, 0.5)
+sprite_frames = ExtResource("1")
+animation = &"correr_frente"
+autoplay = "correr_frente"
+centered = false
+offset = Vector2(-256, -850)
+
+[node name="Titulo_costas" type="Label" parent="."]
+offset_left = 320.0
+offset_top = 24.0
+offset_right = 560.0
+offset_bottom = 60.0
+theme_override_colors/font_color = Color(0.26, 0.25, 0.24, 1)
+theme_override_font_sizes/font_size = 22
+text = "COSTAS"
+horizontal_alignment = 1
+
+[node name="Chao_costas" type="Line2D" parent="."]
+points = PackedVector2Array(328, 511, 552, 511)
+width = 2.0
+default_color = Color(0.53, 0.55, 0.52, 0.55)
+
+[node name="Raven_costas" type="AnimatedSprite2D" parent="."]
+texture_filter = 2
+position = Vector2(440, 510)
+scale = Vector2(0.5, 0.5)
+sprite_frames = ExtResource("1")
+animation = &"correr_costas"
+autoplay = "correr_costas"
+centered = false
+offset = Vector2(-256, -850)
+
+[node name="Titulo_direita" type="Label" parent="."]
+offset_left = 592.0
+offset_top = 24.0
+offset_right = 832.0
+offset_bottom = 60.0
+theme_override_colors/font_color = Color(0.26, 0.25, 0.24, 1)
+theme_override_font_sizes/font_size = 22
+text = "DIREITA"
+horizontal_alignment = 1
+
+[node name="Chao_direita" type="Line2D" parent="."]
+points = PackedVector2Array(600, 511, 824, 511)
+width = 2.0
+default_color = Color(0.53, 0.55, 0.52, 0.55)
+
+[node name="Raven_direita" type="AnimatedSprite2D" parent="."]
+texture_filter = 2
+position = Vector2(712, 510)
+scale = Vector2(0.5, 0.5)
+sprite_frames = ExtResource("1")
+animation = &"correr_direita"
+autoplay = "correr_direita"
+centered = false
+offset = Vector2(-256, -850)
+
+[node name="Titulo_esquerda" type="Label" parent="."]
+offset_left = 864.0
+offset_top = 24.0
+offset_right = 1104.0
+offset_bottom = 60.0
+theme_override_colors/font_color = Color(0.26, 0.25, 0.24, 1)
+theme_override_font_sizes/font_size = 22
+text = "ESQUERDA"
+horizontal_alignment = 1
+
+[node name="Chao_esquerda" type="Line2D" parent="."]
+points = PackedVector2Array(872, 511, 1096, 511)
+width = 2.0
+default_color = Color(0.53, 0.55, 0.52, 0.55)
+
+[node name="Raven_esquerda" type="AnimatedSprite2D" parent="."]
+texture_filter = 2
+position = Vector2(984, 510)
+scale = Vector2(0.5, 0.5)
+sprite_frames = ExtResource("1")
+animation = &"correr_esquerda"
+autoplay = "correr_esquerda"
+centered = false
+offset = Vector2(-256, -850)

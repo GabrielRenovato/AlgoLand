@@ -1,0 +1,21 @@
+{
+  "personagem": "corpo base Raven",
+  "tipo": "folha estática de referência cartoon",
+  "referencia": "referencia_corpo_base.png",
+  "arte": "corpo_base_cartoon_v1.png",
+  "prompt": "prompt_corpo_base.txt",
+  "ferramenta": "image_gen integrado",
+  "direcoes": [
+    "frente",
+    "perfil direito",
+    "costas"
+  ],
+  "dimensoes": [
+    1944,
+    809
+  ],
+  "fundo": "transparente",
+  "identidade": "careca, pele e proporções base Raven, sem armadura ou equipamento",
+  "vestimenta": "short cinza neutro até acima dos joelhos; versão sem roupa bloqueada pelo gerador",
+  "estado": "modelo estático aprovado; corrida frontal de quatro quadros aprovada; novas direções em prévia independente"
+}

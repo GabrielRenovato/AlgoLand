@@ -1,0 +1,462 @@
+{
+  "canônico": "../corpo_base_cartoon_v1.png",
+  "referencia_mana_seed": "arte/pacotes/Jogador/Base/20.01a - Character Base 2.5c/char_a_p1/char_a_p1_0bas_humn_v01.png",
+  "colunas_mana_seed": [
+    0,
+    1,
+    6,
+    3,
+    4,
+    7
+  ],
+  "linha_mana_seed": 4,
+  "acao": "corrida",
+  "direcao": "frente",
+  "quadros": 6,
+  "grade": [
+    3,
+    2
+  ],
+  "celula_planejada": [
+    512,
+    1024
+  ],
+  "pivo_planejado": [
+    256,
+    944
+  ],
+  "duracoes_ms": [
+    100,
+    60,
+    140,
+    100,
+    60,
+    140
+  ],
+  "repetir": true,
+  "deslocamento_por_ciclo_mundo": 48,
+  "guias_retarget": [
+    {
+      "cabeca": [
+        256,
+        270
+      ],
+      "pescoco": [
+        256,
+        384
+      ],
+      "quadril": [
+        256,
+        620
+      ],
+      "braco_esquerdo": [
+        [
+          170,
+          414
+        ],
+        [
+          143,
+          495
+        ],
+        [
+          170,
+          603
+        ]
+      ],
+      "braco_direito": [
+        [
+          342,
+          414
+        ],
+        [
+          396,
+          468
+        ],
+        [
+          369,
+          414
+        ]
+      ],
+      "perna_esquerda": [
+        [
+          220,
+          620
+        ],
+        [
+          184,
+          764
+        ],
+        [
+          184,
+          944
+        ]
+      ],
+      "perna_direita": [
+        [
+          292,
+          620
+        ],
+        [
+          328,
+          728
+        ],
+        [
+          328,
+          800
+        ]
+      ]
+    },
+    {
+      "cabeca": [
+        256,
+        270
+      ],
+      "pescoco": [
+        256,
+        384
+      ],
+      "quadril": [
+        256,
+        620
+      ],
+      "braco_esquerdo": [
+        [
+          170,
+          414
+        ],
+        [
+          143,
+          495
+        ],
+        [
+          170,
+          576
+        ]
+      ],
+      "braco_direito": [
+        [
+          342,
+          414
+        ],
+        [
+          396,
+          495
+        ],
+        [
+          342,
+          576
+        ]
+      ],
+      "perna_esquerda": [
+        [
+          220,
+          620
+        ],
+        [
+          220,
+          764
+        ],
+        [
+          220,
+          944
+        ]
+      ],
+      "perna_direita": [
+        [
+          292,
+          620
+        ],
+        [
+          328,
+          728
+        ],
+        [
+          328,
+          872
+        ]
+      ]
+    },
+    {
+      "cabeca": [
+        256,
+        195
+      ],
+      "pescoco": [
+        256,
+        309
+      ],
+      "quadril": [
+        256,
+        545
+      ],
+      "braco_esquerdo": [
+        [
+          170,
+          339
+        ],
+        [
+          116,
+          420
+        ],
+        [
+          170,
+          501
+        ]
+      ],
+      "braco_direito": [
+        [
+          342,
+          339
+        ],
+        [
+          423,
+          393
+        ],
+        [
+          423,
+          339
+        ]
+      ],
+      "perna_esquerda": [
+        [
+          220,
+          545
+        ],
+        [
+          112,
+          617
+        ],
+        [
+          112,
+          725
+        ]
+      ],
+      "perna_direita": [
+        [
+          292,
+          545
+        ],
+        [
+          364,
+          617
+        ],
+        [
+          328,
+          725
+        ]
+      ]
+    },
+    {
+      "cabeca": [
+        256,
+        270
+      ],
+      "pescoco": [
+        256,
+        384
+      ],
+      "quadril": [
+        256,
+        620
+      ],
+      "braco_esquerdo": [
+        [
+          170,
+          414
+        ],
+        [
+          116,
+          468
+        ],
+        [
+          143,
+          414
+        ]
+      ],
+      "braco_direito": [
+        [
+          342,
+          414
+        ],
+        [
+          396,
+          495
+        ],
+        [
+          369,
+          603
+        ]
+      ],
+      "perna_esquerda": [
+        [
+          220,
+          620
+        ],
+        [
+          184,
+          728
+        ],
+        [
+          184,
+          800
+        ]
+      ],
+      "perna_direita": [
+        [
+          292,
+          620
+        ],
+        [
+          328,
+          764
+        ],
+        [
+          328,
+          944
+        ]
+      ]
+    },
+    {
+      "cabeca": [
+        256,
+        270
+      ],
+      "pescoco": [
+        256,
+        384
+      ],
+      "quadril": [
+        256,
+        620
+      ],
+      "braco_esquerdo": [
+        [
+          170,
+          414
+        ],
+        [
+          116,
+          495
+        ],
+        [
+          170,
+          576
+        ]
+      ],
+      "braco_direito": [
+        [
+          342,
+          414
+        ],
+        [
+          396,
+          495
+        ],
+        [
+          342,
+          576
+        ]
+      ],
+      "perna_esquerda": [
+        [
+          220,
+          620
+        ],
+        [
+          184,
+          728
+        ],
+        [
+          184,
+          872
+        ]
+      ],
+      "perna_direita": [
+        [
+          292,
+          620
+        ],
+        [
+          292,
+          764
+        ],
+        [
+          292,
+          944
+        ]
+      ]
+    },
+    {
+      "cabeca": [
+        256,
+        195
+      ],
+      "pescoco": [
+        256,
+        309
+      ],
+      "quadril": [
+        256,
+        545
+      ],
+      "braco_esquerdo": [
+        [
+          170,
+          339
+        ],
+        [
+          89,
+          393
+        ],
+        [
+          89,
+          339
+        ]
+      ],
+      "braco_direito": [
+        [
+          342,
+          339
+        ],
+        [
+          423,
+          420
+        ],
+        [
+          369,
+          501
+        ]
+      ],
+      "perna_esquerda": [
+        [
+          220,
+          545
+        ],
+        [
+          148,
+          617
+        ],
+        [
+          184,
+          725
+        ]
+      ],
+      "perna_direita": [
+        [
+          292,
+          545
+        ],
+        [
+          400,
+          617
+        ],
+        [
+          400,
+          725
+        ]
+      ]
+    }
+  ],
+  "metodo": "poses Mana Seed marcadas, retarget para o corpo cartoon aprovado; geração dirigida pelos guias",
+  "estado": "rejeitado: usuário pediu retirar salto, limitar a quatro quadros e focar somente na frente"
+}

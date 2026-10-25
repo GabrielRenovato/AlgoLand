@@ -1,0 +1,17 @@
+{
+  "estado": "estudo_visual_geada_sem_aprovacao",
+  "referencia": "arte/previas/armaduras/elmos_aprovados/referencia_aprovada.png",
+  "critica": "armas grosseiras, blocadas e pouco acabadas",
+  "fonte_geada_pixellab": "81b903f5-fa4c-4923-8dfc-793bf4d686de",
+  "tela_desenho": [48, 64],
+  "dimensao_no_mundo": [24, 32],
+  "pivo_pegada": [24, 48],
+  "densidade": 2,
+  "camadas": "arma e cabo separados do corpo",
+  "estilo": "metal facetado, contorno seletivo, guarda curva compacta, gema e cabo detalhado",
+  "poses": "pegadas Raven originais, quatro direcoes, quatro golpes e seis poses de corrida",
+  "duracoes_golpe_ms": [75, 75, 75, 75],
+  "porte": "poses amostradas uma vez, sem nova rotacao no motor",
+  "integracao": "codigo/jogador/heroi_raven.gd",
+  "limite": "somente Geada tem novo desenho; os outros quatro modelos ainda usam a fonte anterior durante o estudo"
+}

@@ -1,0 +1,95 @@
+[gd_resource type="SpriteFrames" load_steps=21 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/personagens/raven_cartoon/corrida_frente_4.png" id="0"]
+
+[ext_resource type="Texture2D" path="res://assets/personagens/raven_cartoon/corrida_costas_4.png" id="1"]
+
+[ext_resource type="Texture2D" path="res://assets/personagens/raven_cartoon/corrida_direita_4.png" id="2"]
+
+[ext_resource type="Texture2D" path="res://assets/personagens/raven_cartoon/corrida_esquerda_4.png" id="3"]
+
+[sub_resource type="AtlasTexture" id="frente0"]
+atlas = ExtResource("0")
+region = Rect2(0, 0, 512, 896)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frente1"]
+atlas = ExtResource("0")
+region = Rect2(512, 0, 512, 896)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frente2"]
+atlas = ExtResource("0")
+region = Rect2(1024, 0, 512, 896)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="frente3"]
+atlas = ExtResource("0")
+region = Rect2(1536, 0, 512, 896)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="costas0"]
+atlas = ExtResource("1")
+region = Rect2(0, 0, 512, 896)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="costas1"]
+atlas = ExtResource("1")
+region = Rect2(512, 0, 512, 896)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="costas2"]
+atlas = ExtResource("1")
+region = Rect2(1024, 0, 512, 896)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="costas3"]
+atlas = ExtResource("1")
+region = Rect2(1536, 0, 512, 896)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="direita0"]
+atlas = ExtResource("2")
+region = Rect2(0, 0, 512, 896)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="direita1"]
+atlas = ExtResource("2")
+region = Rect2(512, 0, 512, 896)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="direita2"]
+atlas = ExtResource("2")
+region = Rect2(1024, 0, 512, 896)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="direita3"]
+atlas = ExtResource("2")
+region = Rect2(1536, 0, 512, 896)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="esquerda0"]
+atlas = ExtResource("3")
+region = Rect2(0, 0, 512, 896)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="esquerda1"]
+atlas = ExtResource("3")
+region = Rect2(512, 0, 512, 896)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="esquerda2"]
+atlas = ExtResource("3")
+region = Rect2(1024, 0, 512, 896)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="esquerda3"]
+atlas = ExtResource("3")
+region = Rect2(1536, 0, 512, 896)
+filter_clip = true
+
+[resource]
+animations = [{"frames": [{"duration": 1.0, "texture": SubResource("frente0")}, {"duration": 1.0, "texture": SubResource("frente1")}, {"duration": 1.0, "texture": SubResource("frente2")}, {"duration": 1.0, "texture": SubResource("frente3")}], "loop": true, "name": &"correr_frente", "speed": 10.0},
+{"frames": [{"duration": 1.0, "texture": SubResource("costas0")}, {"duration": 1.0, "texture": SubResource("costas1")}, {"duration": 1.0, "texture": SubResource("costas2")}, {"duration": 1.0, "texture": SubResource("costas3")}], "loop": true, "name": &"correr_costas", "speed": 10.0},
+{"frames": [{"duration": 1.0, "texture": SubResource("direita0")}, {"duration": 1.0, "texture": SubResource("direita1")}, {"duration": 1.0, "texture": SubResource("direita2")}, {"duration": 1.0, "texture": SubResource("direita3")}], "loop": true, "name": &"correr_direita", "speed": 10.0},
+{"frames": [{"duration": 1.0, "texture": SubResource("esquerda0")}, {"duration": 1.0, "texture": SubResource("esquerda1")}, {"duration": 1.0, "texture": SubResource("esquerda2")}, {"duration": 1.0, "texture": SubResource("esquerda3")}], "loop": true, "name": &"correr_esquerda", "speed": 10.0}]

@@ -1,0 +1,15 @@
+{
+  "origem": "direita",
+  "transformacao": "espelhamento horizontal da célula inteira",
+  "pivo": [
+    256,
+    850
+  ],
+  "quadros": 4,
+  "duracoes_ms": [
+    100,
+    100,
+    100,
+    100
+  ]
+}
