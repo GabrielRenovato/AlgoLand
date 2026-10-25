@@ -1,5 +1,6 @@
 extends Control
 const EscalaInterface := preload("res://codigo/ui/escala_interface.gd")
+const PreviaDigitacao := preload("res://codigo/ui/previa_digitacao.gd")
 ## Chat global opcional, na interface do dono (P1/P2), sem dados técnicos na tela.
 var painel: PanelContainer
 var _alternar: Button
@@ -179,15 +180,10 @@ func _ready() -> void:
  _teclado.com_pontuacao = true
  add_child(_teclado)
  _teclado.confirmado.connect(func(texto: String) -> void:
-  if _teclado.alvo==_historico_campo:
-   _historico_campo.text=texto
-   _enviar_do_canto(texto)
-  else:
-   _campo.text=texto
-   _enviar.grab_focus()
-  _teclado.alvo=null)
- _teclado.ligar_toque(_campo)
- _teclado.ligar_toque(_historico_campo)
+  _campo.text=texto
+  _enviar.grab_focus())
+ PreviaDigitacao.ligar(_campo,"MENSAGEM")
+ PreviaDigitacao.ligar(_historico_campo,"MENSAGEM")
  visibility_changed.connect(_ao_abrir)
  resized.connect(_ajustar)
  painel.minimum_size_changed.connect(func() -> void: _ajustar.call_deferred())
@@ -376,7 +372,6 @@ func _avisar(texto: String) -> void:
  _aviso_ate = Time.get_ticks_msec()+4000
 
 func _abrir_teclado() -> void:
- _teclado.alvo = null
  if _campo.editable: _teclado.abrir(_campo.text,160)
 
 func _ao_abrir() -> void:

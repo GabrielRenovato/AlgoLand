@@ -20,8 +20,6 @@ var texto := ""
 var max_caracteres := 12
 ## Chat precisa de pontuação; nomes continuam só com letras, números, - e _
 var com_pontuacao := false
-## Campo que abriu o teclado pelo toque (quem confirma decide o que fazer com ele)
-var alvo: LineEdit
 
 var _rotulo: Label
 var _teclas: Array[Button] = []
@@ -157,18 +155,6 @@ func _apagar() -> void:
 
 func _toque() -> bool:
 	return Controle.celular() or Controle.usando_toque
-
-## No celular o teclado do sistema cobre o campo; o toque no campo abre este teclado, que mostra o que está sendo escrito
-func ligar_toque(campo: LineEdit) -> void:
-	if Controle.celular():
-		campo.virtual_keyboard_enabled = false
-	campo.gui_input.connect(func(evento: InputEvent) -> void:
-		if not _toque() or not (evento is InputEventMouseButton and evento.pressed and evento.button_index == MOUSE_BUTTON_LEFT) or not campo.editable:
-			return
-		alvo = campo
-		campo.release_focus()
-		abrir(campo.text, campo.max_length if campo.max_length > 0 else 160)
-		campo.accept_event())
 
 func _atualizar_rotulo() -> void:
 	var limite := 90 if _toque() else 24

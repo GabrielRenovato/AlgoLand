@@ -5,6 +5,7 @@ extends Control
 ## os dois últimos pedem confirmação. A Interface abre e fecha a tela (nome "pausa") e cuida de Esc/B para fechar.
 
 const EstiloInicio := preload("res://codigo/ui/estilo_inicio_detalhado.gd")
+const PreviaDigitacao := preload("res://codigo/ui/previa_digitacao.gd")
 const TecladoVirtual := preload("res://codigo/ui/teclado_virtual.gd")
 const Opcoes := preload("res://codigo/globais/opcoes_jogo.gd")
 const CENA_MENU := "res://cenas/inicio_do_jogo.tscn"
@@ -234,7 +235,7 @@ func _montar_vista_apelido() -> void:
 	_teclado.confirmado.connect(func(texto: String):
 		_campo_apelido.text = texto
 		_botao_salvar_apelido.grab_focus())
-	_teclado.ligar_toque(_campo_apelido)
+	PreviaDigitacao.ligar(_campo_apelido, "APELIDO")
 
 func _ao_entrada_apelido(evento: InputEvent) -> void:
 	# No controle, confirmar (A) no campo abre o teclado virtual, como na criação do personagem

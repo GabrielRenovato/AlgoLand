@@ -10,6 +10,7 @@ extends Control
 signal confirmada(dados: Dictionary)
 
 const Aparencia := preload("res://codigo/dados/aparencia_raven.gd")
+const PreviaDigitacao := preload("res://codigo/ui/previa_digitacao.gd")
 const TecladoVirtual := preload("res://codigo/ui/teclado_virtual.gd")
 const EstiloInicio := preload("res://codigo/ui/estilo_inicio_detalhado.gd")
 const TEMA := preload("res://recursos/ui/tema_sidebar.tres")
@@ -125,7 +126,7 @@ func _ready() -> void:
 	_teclado = TecladoVirtual.new()
 	add_child(_teclado)
 	_teclado.confirmado.connect(_ao_nome_confirmado)
-	_teclado.ligar_toque(_campo_nome)
+	PreviaDigitacao.ligar(_campo_nome, "NOME DO PERSONAGEM")
 	Controle.modo_alterado.connect(_ao_modo_controle)
 	if etapa_coop > 0:
 		var quem := Label.new()
