@@ -69,8 +69,8 @@ func rodar() -> void:
 	verificar("pendência removida após instalação íntegra", atualizador._ler_pendente().is_empty())
 	# Exercita a orquestração real, incluindo o retorno após pedir reabertura.
 	atualizador.remoto_teste = {"pacotes": {"linux": {"teste": envelope}}}
-	process_frame.connect(_fechar_quando_pronto.bind(atualizador), CONNECT_ONE_SHOT)
 	await atualizador._executar()
+	verificar("atualização concluída reinicia sozinha", atualizador.pedido_reinicio)
 	verificar("atualização concluída exige reabertura e não libera jogo", atualizador.encerrou and entradas.total == 0 and atualizador.estado == "aguardando_reabertura")
 	for dimensao in [Vector2i(576,324), Vector2i(480,270), Vector2i(288,512), Vector2i(320,324)]:
 		root.content_scale_size = dimensao
@@ -89,8 +89,7 @@ func rodar() -> void:
 				atualizador._botao("SAIR", func(): pass)
 			else:
 				atualizador._texto.text = "Atualização pronta!"
-				atualizador._detalhe.text = "Feche e abra o jogo para ativar o novo conteúdo."
-				atualizador._botao("FECHAR JOGO", func(): pass)
+				atualizador._detalhe.text = "Reiniciando o jogo para ativar o novo conteúdo…"
 			for i in 8: await process_frame
 			var limite := Rect2(Vector2(15,15),Vector2(dimensao)-Vector2(30,30))
 			verificar("painel cabe %s %s" % [fase, dimensao], limite.encloses(atualizador._painel.get_global_rect()))
@@ -102,13 +101,6 @@ func rodar() -> void:
 				await RenderingServer.frame_post_draw
 				root.get_texture().get_image().save_png("/tmp/algoland-atualizacao-%s-%dx%d.png" % [fase,dimensao.x,dimensao.y])
 	quit(falhas)
-
-func _fechar_quando_pronto(atualizador: Node) -> void:
-	if atualizador.estado != "aguardando_reabertura":
-		process_frame.connect(_fechar_quando_pronto.bind(atualizador), CONNECT_ONE_SHOT)
-		return
-	verificar("conclusão não oferece jogar agora", atualizador._botoes.get_child_count() == 1 and atualizador._botoes.get_child(0).text == "FECHAR JOGO")
-	atualizador._botoes.get_child(0).pressed.emit()
 
 func _sair_quando_falhar(atualizador: Node) -> void:
 	if atualizador.estado != "falha_atualizacao":
