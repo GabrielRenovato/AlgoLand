@@ -360,6 +360,42 @@
       "icone": "res://assets/pesca/peixes/esturjao.png",
       "ambiente": "rio",
       "familia_visual": "esturjao"
+    },
+    "peixe_leao": {
+      "nome": "PEIXE LEAO",
+      "icone": "res://assets/pesca/peixes/peixe_leao.png",
+      "ambiente": "mar",
+      "origem": "Arte original gerada para AlgoLand; fonte e contrato em arte/fontes/pesca/progressao_99/"
+    },
+    "acara_disco": {
+      "nome": "ACARA DISCO",
+      "icone": "res://assets/pesca/peixes/acara_disco.png",
+      "ambiente": "rio",
+      "origem": "Arte original gerada para AlgoLand; fonte e contrato em arte/fontes/pesca/progressao_99/"
+    },
+    "peixe_mandarim": {
+      "nome": "PEIXE MANDARIM",
+      "icone": "res://assets/pesca/peixes/peixe_mandarim.png",
+      "ambiente": "mar",
+      "origem": "Arte original gerada para AlgoLand; fonte e contrato em arte/fontes/pesca/progressao_99/"
+    },
+    "aruana_prateada": {
+      "nome": "ARUANA PRATEADA",
+      "icone": "res://assets/pesca/peixes/aruana_prateada.png",
+      "ambiente": "rio",
+      "origem": "Arte original gerada para AlgoLand; fonte e contrato em arte/fontes/pesca/progressao_99/"
+    },
+    "imperador_abissal": {
+      "nome": "IMPERADOR ABISSAL",
+      "icone": "res://assets/pesca/peixes/imperador_abissal.png",
+      "ambiente": "mar",
+      "origem": "Arte original gerada para AlgoLand; fonte e contrato em arte/fontes/pesca/progressao_99/"
+    },
+    "carpa_celestial": {
+      "nome": "CARPA CELESTIAL",
+      "icone": "res://assets/pesca/peixes/carpa_celestial.png",
+      "ambiente": "rio",
+      "origem": "Arte original gerada para AlgoLand; fonte e contrato em arte/fontes/pesca/progressao_99/"
     }
   }
 }

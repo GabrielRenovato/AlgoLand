@@ -1,0 +1,793 @@
+[
+  {
+    "operation": "select_mask",
+    "layer": "image",
+    "frames": [
+      1
+    ],
+    "name": "calotas",
+    "combine": "replace",
+    "selector": {
+      "kind": "rectangle",
+      "region": [
+        3,
+        8,
+        20,
+        21
+      ]
+    },
+    "reason": "Preservar adornos finos fora da calota."
+  },
+  {
+    "operation": "select_mask",
+    "layer": "image",
+    "frames": [
+      1
+    ],
+    "name": "calotas",
+    "combine": "add",
+    "selector": {
+      "kind": "rectangle",
+      "region": [
+        27,
+        8,
+        44,
+        21
+      ]
+    },
+    "reason": "Preservar adornos finos fora da calota."
+  },
+  {
+    "operation": "select_mask",
+    "layer": "image",
+    "frames": [
+      1
+    ],
+    "name": "calotas",
+    "combine": "add",
+    "selector": {
+      "kind": "rectangle",
+      "region": [
+        51,
+        8,
+        68,
+        21
+      ]
+    },
+    "reason": "Preservar adornos finos fora da calota."
+  },
+  {
+    "operation": "select_mask",
+    "layer": "image",
+    "frames": [
+      1
+    ],
+    "name": "calotas",
+    "combine": "add",
+    "selector": {
+      "kind": "rectangle",
+      "region": [
+        75,
+        8,
+        92,
+        21
+      ]
+    },
+    "reason": "Preservar adornos finos fora da calota."
+  },
+  {
+    "operation": "select_mask",
+    "layer": "image",
+    "frames": [
+      1
+    ],
+    "name": "calotas",
+    "combine": "add",
+    "selector": {
+      "kind": "rectangle",
+      "region": [
+        97,
+        9,
+        117,
+        20
+      ]
+    },
+    "reason": "Preservar adornos finos fora da calota."
+  },
+  {
+    "operation": "select_mask",
+    "layer": "image",
+    "frames": [
+      1
+    ],
+    "name": "calotas",
+    "combine": "add",
+    "selector": {
+      "kind": "rectangle",
+      "region": [
+        121,
+        9,
+        141,
+        20
+      ]
+    },
+    "reason": "Preservar adornos finos fora da calota."
+  },
+  {
+    "operation": "select_mask",
+    "layer": "image",
+    "frames": [
+      1
+    ],
+    "name": "calotas",
+    "combine": "add",
+    "selector": {
+      "kind": "rectangle",
+      "region": [
+        147,
+        8,
+        164,
+        21
+      ]
+    },
+    "reason": "Preservar adornos finos fora da calota."
+  },
+  {
+    "operation": "select_mask",
+    "layer": "image",
+    "frames": [
+      1
+    ],
+    "name": "calotas",
+    "combine": "add",
+    "selector": {
+      "kind": "rectangle",
+      "region": [
+        171,
+        8,
+        188,
+        21
+      ]
+    },
+    "reason": "Preservar adornos finos fora da calota."
+  },
+  {
+    "operation": "select_mask",
+    "layer": "image",
+    "frames": [
+      1
+    ],
+    "name": "calotas",
+    "combine": "add",
+    "selector": {
+      "kind": "rectangle",
+      "region": [
+        195,
+        8,
+        212,
+        21
+      ]
+    },
+    "reason": "Preservar adornos finos fora da calota."
+  },
+  {
+    "operation": "select_mask",
+    "layer": "image",
+    "frames": [
+      1
+    ],
+    "name": "calotas",
+    "combine": "add",
+    "selector": {
+      "kind": "rectangle",
+      "region": [
+        219,
+        8,
+        236,
+        21
+      ]
+    },
+    "reason": "Preservar adornos finos fora da calota."
+  },
+  {
+    "operation": "select_mask",
+    "layer": "image",
+    "frames": [
+      1
+    ],
+    "name": "calotas",
+    "combine": "add",
+    "selector": {
+      "kind": "rectangle",
+      "region": [
+        243,
+        8,
+        260,
+        21
+      ]
+    },
+    "reason": "Preservar adornos finos fora da calota."
+  },
+  {
+    "operation": "select_mask",
+    "layer": "image",
+    "frames": [
+      1
+    ],
+    "name": "calotas",
+    "combine": "add",
+    "selector": {
+      "kind": "rectangle",
+      "region": [
+        267,
+        8,
+        284,
+        21
+      ]
+    },
+    "reason": "Preservar adornos finos fora da calota."
+  },
+  {
+    "operation": "select_mask",
+    "layer": "image",
+    "frames": [
+      1
+    ],
+    "name": "calotas",
+    "combine": "add",
+    "selector": {
+      "kind": "rectangle",
+      "region": [
+        291,
+        8,
+        308,
+        21
+      ]
+    },
+    "reason": "Preservar adornos finos fora da calota."
+  },
+  {
+    "operation": "select_mask",
+    "layer": "image",
+    "frames": [
+      1
+    ],
+    "name": "calotas",
+    "combine": "add",
+    "selector": {
+      "kind": "rectangle",
+      "region": [
+        315,
+        8,
+        332,
+        21
+      ]
+    },
+    "reason": "Preservar adornos finos fora da calota."
+  },
+  {
+    "operation": "select_mask",
+    "layer": "image",
+    "frames": [
+      1
+    ],
+    "name": "calotas",
+    "combine": "add",
+    "selector": {
+      "kind": "rectangle",
+      "region": [
+        339,
+        8,
+        356,
+        21
+      ]
+    },
+    "reason": "Preservar adornos finos fora da calota."
+  },
+  {
+    "operation": "select_mask",
+    "layer": "image",
+    "frames": [
+      1
+    ],
+    "name": "calotas",
+    "combine": "add",
+    "selector": {
+      "kind": "rectangle",
+      "region": [
+        363,
+        8,
+        380,
+        21
+      ]
+    },
+    "reason": "Preservar adornos finos fora da calota."
+  },
+  {
+    "operation": "select_mask",
+    "layer": "image",
+    "frames": [
+      1
+    ],
+    "name": "calotas",
+    "combine": "add",
+    "selector": {
+      "kind": "rectangle",
+      "region": [
+        387,
+        8,
+        404,
+        21
+      ]
+    },
+    "reason": "Preservar adornos finos fora da calota."
+  },
+  {
+    "operation": "select_mask",
+    "layer": "image",
+    "frames": [
+      1
+    ],
+    "name": "calotas",
+    "combine": "add",
+    "selector": {
+      "kind": "rectangle",
+      "region": [
+        411,
+        8,
+        428,
+        21
+      ]
+    },
+    "reason": "Preservar adornos finos fora da calota."
+  },
+  {
+    "operation": "select_mask",
+    "layer": "image",
+    "frames": [
+      1
+    ],
+    "name": "calotas",
+    "combine": "add",
+    "selector": {
+      "kind": "rectangle",
+      "region": [
+        435,
+        8,
+        452,
+        21
+      ]
+    },
+    "reason": "Preservar adornos finos fora da calota."
+  },
+  {
+    "operation": "select_mask",
+    "layer": "image",
+    "frames": [
+      1
+    ],
+    "name": "calotas",
+    "combine": "add",
+    "selector": {
+      "kind": "rectangle",
+      "region": [
+        459,
+        8,
+        476,
+        21
+      ]
+    },
+    "reason": "Preservar adornos finos fora da calota."
+  },
+  {
+    "operation": "select_mask",
+    "layer": "image",
+    "frames": [
+      1
+    ],
+    "name": "calotas",
+    "combine": "add",
+    "selector": {
+      "kind": "rectangle",
+      "region": [
+        483,
+        8,
+        500,
+        21
+      ]
+    },
+    "reason": "Preservar adornos finos fora da calota."
+  },
+  {
+    "operation": "select_mask",
+    "layer": "image",
+    "frames": [
+      1
+    ],
+    "name": "calotas",
+    "combine": "add",
+    "selector": {
+      "kind": "rectangle",
+      "region": [
+        507,
+        8,
+        524,
+        21
+      ]
+    },
+    "reason": "Preservar adornos finos fora da calota."
+  },
+  {
+    "operation": "select_mask",
+    "layer": "image",
+    "frames": [
+      1
+    ],
+    "name": "calotas",
+    "combine": "add",
+    "selector": {
+      "kind": "rectangle",
+      "region": [
+        531,
+        8,
+        548,
+        21
+      ]
+    },
+    "reason": "Preservar adornos finos fora da calota."
+  },
+  {
+    "operation": "select_mask",
+    "layer": "image",
+    "frames": [
+      1
+    ],
+    "name": "calotas",
+    "combine": "add",
+    "selector": {
+      "kind": "rectangle",
+      "region": [
+        555,
+        8,
+        572,
+        21
+      ]
+    },
+    "reason": "Preservar adornos finos fora da calota."
+  },
+  {
+    "operation": "select_mask",
+    "layer": "image",
+    "frames": [
+      1
+    ],
+    "name": "calotas",
+    "combine": "add",
+    "selector": {
+      "kind": "rectangle",
+      "region": [
+        579,
+        8,
+        596,
+        21
+      ]
+    },
+    "reason": "Preservar adornos finos fora da calota."
+  },
+  {
+    "operation": "select_mask",
+    "layer": "image",
+    "frames": [
+      1
+    ],
+    "name": "calotas",
+    "combine": "add",
+    "selector": {
+      "kind": "rectangle",
+      "region": [
+        603,
+        8,
+        620,
+        21
+      ]
+    },
+    "reason": "Preservar adornos finos fora da calota."
+  },
+  {
+    "operation": "select_mask",
+    "layer": "image",
+    "frames": [
+      1
+    ],
+    "name": "calotas",
+    "combine": "add",
+    "selector": {
+      "kind": "rectangle",
+      "region": [
+        627,
+        8,
+        644,
+        21
+      ]
+    },
+    "reason": "Preservar adornos finos fora da calota."
+  },
+  {
+    "operation": "select_mask",
+    "layer": "image",
+    "frames": [
+      1
+    ],
+    "name": "calotas",
+    "combine": "add",
+    "selector": {
+      "kind": "rectangle",
+      "region": [
+        651,
+        8,
+        668,
+        21
+      ]
+    },
+    "reason": "Preservar adornos finos fora da calota."
+  },
+  {
+    "operation": "select_mask",
+    "layer": "image",
+    "frames": [
+      1
+    ],
+    "name": "calotas",
+    "combine": "add",
+    "selector": {
+      "kind": "rectangle",
+      "region": [
+        675,
+        8,
+        692,
+        21
+      ]
+    },
+    "reason": "Preservar adornos finos fora da calota."
+  },
+  {
+    "operation": "select_mask",
+    "layer": "image",
+    "frames": [
+      1
+    ],
+    "name": "calotas",
+    "combine": "add",
+    "selector": {
+      "kind": "rectangle",
+      "region": [
+        699,
+        8,
+        716,
+        21
+      ]
+    },
+    "reason": "Preservar adornos finos fora da calota."
+  },
+  {
+    "operation": "select_mask",
+    "layer": "image",
+    "frames": [
+      1
+    ],
+    "name": "calotas",
+    "combine": "add",
+    "selector": {
+      "kind": "rectangle",
+      "region": [
+        723,
+        8,
+        740,
+        21
+      ]
+    },
+    "reason": "Preservar adornos finos fora da calota."
+  },
+  {
+    "operation": "select_mask",
+    "layer": "image",
+    "frames": [
+      1
+    ],
+    "name": "calotas",
+    "combine": "add",
+    "selector": {
+      "kind": "rectangle",
+      "region": [
+        747,
+        8,
+        764,
+        21
+      ]
+    },
+    "reason": "Preservar adornos finos fora da calota."
+  },
+  {
+    "operation": "select_mask",
+    "layer": "image",
+    "frames": [
+      1
+    ],
+    "name": "calotas",
+    "combine": "add",
+    "selector": {
+      "kind": "rectangle",
+      "region": [
+        3,
+        32,
+        20,
+        45
+      ]
+    },
+    "reason": "Preservar adornos finos fora da calota."
+  },
+  {
+    "operation": "select_mask",
+    "layer": "image",
+    "frames": [
+      1
+    ],
+    "name": "calotas",
+    "combine": "add",
+    "selector": {
+      "kind": "rectangle",
+      "region": [
+        27,
+        32,
+        44,
+        45
+      ]
+    },
+    "reason": "Preservar adornos finos fora da calota."
+  },
+  {
+    "operation": "select_mask",
+    "layer": "image",
+    "frames": [
+      1
+    ],
+    "name": "calotas",
+    "combine": "add",
+    "selector": {
+      "kind": "rectangle",
+      "region": [
+        51,
+        32,
+        68,
+        45
+      ]
+    },
+    "reason": "Preservar adornos finos fora da calota."
+  },
+  {
+    "operation": "select_mask",
+    "layer": "image",
+    "frames": [
+      1
+    ],
+    "name": "calotas",
+    "combine": "add",
+    "selector": {
+      "kind": "rectangle",
+      "region": [
+        75,
+        32,
+        92,
+        45
+      ]
+    },
+    "reason": "Preservar adornos finos fora da calota."
+  },
+  {
+    "operation": "select_mask",
+    "layer": "image",
+    "frames": [
+      1
+    ],
+    "name": "calotas",
+    "combine": "add",
+    "selector": {
+      "kind": "rectangle",
+      "region": [
+        99,
+        32,
+        116,
+        45
+      ]
+    },
+    "reason": "Preservar adornos finos fora da calota."
+  },
+  {
+    "operation": "select_mask",
+    "layer": "image",
+    "frames": [
+      1
+    ],
+    "name": "calotas",
+    "combine": "add",
+    "selector": {
+      "kind": "rectangle",
+      "region": [
+        123,
+        32,
+        140,
+        45
+      ]
+    },
+    "reason": "Preservar adornos finos fora da calota."
+  },
+  {
+    "operation": "select_mask",
+    "layer": "image",
+    "frames": [
+      1
+    ],
+    "name": "calotas",
+    "combine": "add",
+    "selector": {
+      "kind": "rectangle",
+      "region": [
+        147,
+        32,
+        164,
+        45
+      ]
+    },
+    "reason": "Preservar adornos finos fora da calota."
+  },
+  {
+    "operation": "select_mask",
+    "layer": "image",
+    "frames": [
+      1
+    ],
+    "name": "calotas",
+    "combine": "add",
+    "selector": {
+      "kind": "rectangle",
+      "region": [
+        171,
+        32,
+        188,
+        45
+      ]
+    },
+    "reason": "Preservar adornos finos fora da calota."
+  },
+  {
+    "operation": "outline",
+    "mode": "erase",
+    "layer": "image",
+    "frames": [
+      1
+    ],
+    "mask": "calotas",
+    "colors": [
+      "#111218ff"
+    ],
+    "width": 1,
+    "connectivity": 8,
+    "reason": "Retirar somente a borda escura adicional da calota; preservar o desenho anterior."
+  },
+  {
+    "operation": "outline",
+    "mode": "recolor",
+    "layer": "image",
+    "frames": [
+      1
+    ],
+    "mask": "calotas",
+    "colors": [
+      "#111218ff"
+    ],
+    "color": "#242830ff",
+    "width": 2,
+    "connectivity": 8,
+    "reason": "Suavizar o contorno restante sem recolorir o visor interior."
+  }
+]

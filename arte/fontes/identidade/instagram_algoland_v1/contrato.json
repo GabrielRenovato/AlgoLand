@@ -1,0 +1,16 @@
+{
+  "tipo": "Imagem de perfil do Instagram do AlgoLand",
+  "arquivo": "perfil_instagram.png",
+  "dimensoes": [
+    1254,
+    1254
+  ],
+  "referencia": "../logo_algoland_v1/logo.png",
+  "monograma": "AL",
+  "fundo": "Verde floresta opaco",
+  "estilo": "Pixel art; madeira, bronze e dourado da logo; broto e espada",
+  "ferramenta": "image_gen integrado",
+  "revisao": "Margens ampliadas para o recorte circular; AL dominante e legível; detalhes principais dentro do círculo central",
+  "medicao_margem_cores_emblema_px": 111.8,
+  "publicacao": "Arquivo entregue para o usuário; perfil externo não alterado"
+}

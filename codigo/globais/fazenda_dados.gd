@@ -149,9 +149,11 @@ var peixes_pescados: Dictionary = {}
 var varas_pesca: Dictionary = {}
 var pesca_capturas_jogador: Dictionary = {}
 var pesca_ultima_pedra: Dictionary = {}
+var pesca_xp: Dictionary = {}
 var pesca_perfeitas := 0
 var pesca_recompensas: Dictionary = {}
 var pesca_pedidos_entregues: Dictionary = {}
+var pesca_pedido_nivel: Dictionary = {}
 ## id da poção (Pocoes.POCOES) -> quantidade
 var pocoes: Dictionary:
 	get:
@@ -520,6 +522,7 @@ func gastar_pocao(id: String, quem: Node = null) -> bool:
 
 const Refeicoes := preload("res://codigo/dados/refeicoes.gd")
 const Peixes := preload("res://codigo/pesca/peixes.gd")
+const ProgressaoPesca := preload("res://codigo/pesca/progressao_pesca.gd")
 const DesafiosPesca := preload("res://codigo/pesca/desafios_pesca.gd")
 ## Brasas por unidade de colheita vendida à Lia: um pouco mais que o preço da semente (loja_sementes.gd), então
 ## plantar sempre compensa e a horta ajuda nas melhorias permanentes mesmo de quem cai cedo na arena
@@ -810,6 +813,7 @@ func total_de_peixes(quem: Node = null) -> int:
 func pescar(id: String, perfeita := false, quem: Node = null, qualidade := 0) -> bool:
 	if not Peixes.existe(id) or not mochila_pesca(quem).adicionar_peixe(id,qualidade):
 		return false
+	ProgressaoPesca.receber(id, perfeita, quem, qualidade)
 	peixes_pescados[id] = int(peixes_pescados.get(id,0))+1
 	if perfeita: pesca_perfeitas += 1
 	mochila_pesca(quem).salvar()
@@ -863,7 +867,11 @@ func migrar_peixes_antigos() -> void:
 	_migrando_peixes = false
 
 func pedidos_pesca() -> Array[Dictionary]:
-	return DesafiosPesca.pedidos_do_dia(Calendario.dia,Calendario.estacao())
+	# Fixar o nível usado no primeiro acesso impede trocar a encomenda ao subir de nível.
+	if int(pesca_pedido_nivel.get("dia", -1)) != Calendario.dia:
+		pesca_pedido_nivel = {"dia": Calendario.dia, "nivel": ProgressaoPesca.nivel()}
+		_agendar_salvamento()
+	return DesafiosPesca.pedidos_do_dia(Calendario.dia, Calendario.estacao(), int(pesca_pedido_nivel.get("nivel", 1)))
 
 func progresso_desafio_pesca(id: String) -> int:
 	return DesafiosPesca.progresso(id,peixes_pescados,pesca_perfeitas,pesca_pedidos_entregues.size())
@@ -909,7 +917,7 @@ func salvar() -> bool:
 		return false
 	# "sementes" só guarda o que ainda não migrou para a mochila (saves antigos)
 	arquivo.store_string(JSON.stringify({"versao": 3, "solo": tabela, "sementes": _sementes_antigas, "peixes": peixes, "peixes_pescados": peixes_pescados,
-			"varas_pesca": varas_pesca, "pesca_capturas_jogador":pesca_capturas_jogador, "pesca_ultima_pedra":pesca_ultima_pedra, "pesca_perfeitas": pesca_perfeitas, "pesca_recompensas": pesca_recompensas, "pesca_pedidos_entregues": pesca_pedidos_entregues,
+			"pesca_pedido_nivel": pesca_pedido_nivel, "pesca_xp": pesca_xp, "varas_pesca": varas_pesca, "pesca_capturas_jogador":pesca_capturas_jogador, "pesca_ultima_pedra":pesca_ultima_pedra, "pesca_perfeitas": pesca_perfeitas, "pesca_recompensas": pesca_recompensas, "pesca_pedidos_entregues": pesca_pedidos_entregues,
 			"clima_hoje": clima_hoje, "removidos": removidos, "galinheiro":galinheiro,
 			"entulho": _tabela_entulho(), "entulho_iniciado": entulho_iniciado, "agua_regador": agua_regador,
 			"energia_maxima": ENERGIA_MAXIMA, "energia_p1": energia_p1, "energia_p2": energia_p2}, "\t"))
@@ -958,6 +966,21 @@ func carregar() -> bool:
 		if lido is Dictionary:
 			for chave in ["p1","p2"]:
 				get(campo)[chave] = maxi(-1 if campo == "pesca_ultima_pedra" else 0,int(lido.get(chave,-1 if campo == "pesca_ultima_pedra" else 0)))
+	var experiencia = dados.get("pesca_xp", null)
+	if experiencia is Dictionary:
+		for chave in ["p1", "p2"]:
+			pesca_xp[chave] = clampi(int(experiencia.get(chave, 0)), 0, ProgressaoPesca.xp_para_nivel(99))
+	else:
+		# Saves sem XP recebem crédito pelo histórico, uma vez, preservando os donos conhecidos.
+		var pessoais := int(pesca_capturas_jogador.get("p1", 0)) + int(pesca_capturas_jogador.get("p2", 0))
+		for chave in ["p1", "p2"]:
+			pesca_xp[chave] = mini(ProgressaoPesca.xp_para_nivel(99), int(pesca_capturas_jogador.get(chave, 0)) * 60)
+		if pessoais == 0:
+			for id in peixes_pescados:
+				pesca_xp["p1"] = mini(ProgressaoPesca.xp_para_nivel(99), int(pesca_xp["p1"]) + int(peixes_pescados[id]) * ProgressaoPesca.experiencia_peixe(id))
+	var pedido_nivel = dados.get("pesca_pedido_nivel", {})
+	if pedido_nivel is Dictionary and int(pedido_nivel.get("dia", -1)) > 0:
+		pesca_pedido_nivel = {"dia": int(pedido_nivel["dia"]), "nivel": clampi(int(pedido_nivel.get("nivel", 1)), 1, 99)}
 	var recompensas = dados.get("pesca_recompensas",{})
 	if recompensas is Dictionary:
 		for id in recompensas:
@@ -1014,9 +1037,11 @@ func _zerar() -> void:
 	varas_pesca = {}
 	pesca_capturas_jogador = {}
 	pesca_ultima_pedra = {}
+	pesca_xp = {}
 	pesca_perfeitas = 0
 	pesca_recompensas = {}
 	pesca_pedidos_entregues = {}
+	pesca_pedido_nivel = {}
 	removidos = {}
 	entulho = {}
 	entulho_iniciado = false

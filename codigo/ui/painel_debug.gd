@@ -156,6 +156,12 @@ func _montar() -> void:
 			["COLHEITA", _ao_colheita], ["POCOES", _ao_pocoes],
 			["CRESCER 1 DIA", _ao_crescer], ["REGAR TUDO", _ao_regar_tudo]],
 	}
+	for conjunto in preload("res://codigo/dados/conjuntos_armadura.gd").CONJUNTOS:
+		if not conjunto.ID in ["cavalheiro", "cavaleiro_rubro", "carrasco"]:
+			_opcoes["CONJUNTOS"].insert(_opcoes["CONJUNTOS"].size()-2,
+				[conjunto.NOME+" (EQUIPAR)", _equipar_conjunto.bind(conjunto.ID)])
+		if not conjunto.ID in ["carrasco", "cavaleiro_rubro"]:
+			_opcoes["DROPS"].append([conjunto.NOME+" (4 PECAS)", _ao_drop_conjunto.bind(conjunto.ID)])
 	for tipo in preload("res://codigo/ui/icones_itens.gd").ARMAS_RAVEN:
 		_opcoes["ARMAS RAVEN"].append([preload("res://codigo/modelos/dados_item.gd").NOMES[tipo], _receber_armas_raven.bind(tipo)])
 	for i in CLIMAS.size():
@@ -440,8 +446,6 @@ func _equipar_conjunto(id: String) -> void:
 			hud.avisar_equipamento_cheio()
 		push_warning("MOCHILA CHEIA: libere espaço para guardar a armadura anterior.")
 		return
-	for item in pecas.values():
-		item.raridade = conjunto.RARIDADE
 	# Os slots reais determinam a aparência. Retira qualquer prévia cosmética
 	# que poderia continuar mascarando mudanças feitas depois no inventário.
 	var aparencia := load("res://codigo/dados/aparencia.gd")

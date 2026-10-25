@@ -1,0 +1,46 @@
+{
+  "conjuntos": [
+    "sentinela",
+    "batedor",
+    "guardiao_geada",
+    "templario_solar",
+    "arauto_trovao",
+    "guardiao_esmeralda",
+    "soberano_astral"
+  ],
+  "direcao": "costas",
+  "indice_direcao": 2,
+  "quadros_por_conjunto": 6,
+  "duracoes_ms": [
+    100,
+    60,
+    140,
+    100,
+    60,
+    140
+  ],
+  "celula": [
+    80,
+    80
+  ],
+  "pivo": [
+    40,
+    47
+  ],
+  "atlas_nativo": [
+    480,
+    560
+  ],
+  "armas": false,
+  "origem": "ferramentas/armaduras/revisar_corrida_costas.gd",
+  "revisao": "Centro do elmo fixo no eixo do personagem, sem seguir o balanço de um pixel dos ombros. Mantidas a altura, a limpeza da nuca e as mãos erguidas.",
+  "eixo_horizontal_elmo": 40,
+  "centros_elmo_por_quadro": [
+    40,
+    40,
+    40,
+    40,
+    40,
+    40
+  ]
+}

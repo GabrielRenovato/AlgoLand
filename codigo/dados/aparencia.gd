@@ -5,7 +5,15 @@ const PECAS_CAVALEIRO := {"elmo":1,"peitoral":2,"luvas":4,"botas":8}
 const ARMADURAS_VISUAIS := {
 	"armadura_cavaleiro":"res://assets/personagens/conjuntos/carrasco/",
 	"armadura_cavaleiro_rubro":"res://assets/personagens/conjuntos/cavaleiro_rubro/",
-	"traje_cavalheiro":"res://assets/personagens/conjuntos/cavalheiro/"}
+	"traje_cavalheiro":"res://assets/personagens/conjuntos/cavalheiro/",
+	"armadura_sentinela":"res://assets/personagens/conjuntos/sentinela/",
+	"armadura_batedor":"res://assets/personagens/conjuntos/batedor/",
+	"armadura_guardiao_geada":"res://assets/personagens/conjuntos/guardiao_geada/",
+	"armadura_templario_solar":"res://assets/personagens/conjuntos/templario_solar/",
+	"armadura_arauto_trovao":"res://assets/personagens/conjuntos/arauto_trovao/",
+	"armadura_guardiao_esmeralda":"res://assets/personagens/conjuntos/guardiao_esmeralda/",
+	"armadura_soberano_astral":"res://assets/personagens/conjuntos/soberano_astral/",
+}
 static var _cache_cavaleiro := {}
 static var _cache := {}
 

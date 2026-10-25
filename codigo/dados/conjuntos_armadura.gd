@@ -9,6 +9,13 @@ const CONJUNTOS := [
 	preload("res://codigo/dados/conjunto_carrasco.gd"),
 	preload("res://assets/personagens/conjuntos/cavaleiro_rubro/definicao.gd"),
 	preload("res://assets/personagens/conjuntos/cavalheiro/definicao.gd"),
+	preload("res://assets/personagens/conjuntos/sentinela/definicao.gd"),
+	preload("res://assets/personagens/conjuntos/batedor/definicao.gd"),
+	preload("res://assets/personagens/conjuntos/guardiao_geada/definicao.gd"),
+	preload("res://assets/personagens/conjuntos/templario_solar/definicao.gd"),
+	preload("res://assets/personagens/conjuntos/arauto_trovao/definicao.gd"),
+	preload("res://assets/personagens/conjuntos/guardiao_esmeralda/definicao.gd"),
+	preload("res://assets/personagens/conjuntos/soberano_astral/definicao.gd"),
 ]
 
 static func de_tipo(tipo: String) -> GDScript:

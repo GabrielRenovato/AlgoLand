@@ -60,6 +60,12 @@ static var DADOS := {
 	"arraia_do_rio": {"raridade":"epico", "dificuldade":77, "nivel_vara":4, "estacoes":[], "brasas":34},
 	"dourado_ancestral": {"raridade":"epico", "dificuldade":90, "nivel_vara":5, "estacoes":[0, 1], "brasas":52},
 	"guardiao_do_lago": {"raridade":"epico", "dificuldade":90, "nivel_vara":5, "estacoes":[1, 2], "brasas":52},
+	"peixe_leao": {"raridade":"epico", "dificuldade":82, "nivel_vara":4, "nivel_pesca":50, "estacoes":[1, 2], "brasas":42},
+	"acara_disco": {"raridade":"epico", "dificuldade":80, "nivel_vara":4, "nivel_pesca":50, "estacoes":[0, 1], "brasas":42},
+	"peixe_mandarim": {"raridade":"epico", "dificuldade":92, "nivel_vara":5, "nivel_pesca":80, "estacoes":[0, 1], "brasas":68},
+	"aruana_prateada": {"raridade":"epico", "dificuldade":93, "nivel_vara":5, "nivel_pesca":80, "estacoes":[2, 3], "brasas":68},
+	"imperador_abissal": {"raridade":"epico", "dificuldade":100, "nivel_vara":5, "nivel_pesca":99, "estacoes":[], "brasas":110},
+	"carpa_celestial": {"raridade":"epico", "dificuldade":100, "nivel_vara":5, "nivel_pesca":99, "estacoes":[], "brasas":110},
 }
 
 static var _catalogo: Dictionary = {}
@@ -89,12 +95,14 @@ static func brasas(id: String) -> int:
 	return int(DADOS.get(id, {}).get("brasas", 3))
 
 ## Sorteia um peixe do `ambiente` ("mar" ou "rio") que sai na `estacao` atual, com pesos por raridade
-static func sortear(ambiente: String, estacao: int, rng: RandomNumberGenerator = null) -> String:
+static func sortear(ambiente: String, estacao: int, rng: RandomNumberGenerator = null, habilidade := 99) -> String:
 	if rng == null:
 		rng = RandomNumberGenerator.new()
 		rng.randomize()
 	var grupos := {}
 	for id in DADOS:
+		if nivel_pesca(id) > habilidade:
+			continue
 		if not catalogo().has(id) or String(catalogo()[id].get("ambiente","")) != ambiente:
 			continue
 		var estacoes: Array = DADOS[id]["estacoes"]
@@ -119,3 +127,13 @@ static func sortear(ambiente: String, estacao: int, rng: RandomNumberGenerator =
 
 static func nivel_recomendado(id: String) -> int:
 	return int(DADOS.get(id,{}).get("nivel_vara",{"comum":1,"incomum":2,"raro":3,"epico":4}.get(raridade(id),1)))
+
+## Nível da habilidade que libera a espécie; o refinamento continua sendo uma recomendação.
+static func nivel_pesca(id: String) -> int:
+	if DADOS.get(id, {}).has("nivel_pesca"):
+		return int(DADOS[id]["nivel_pesca"])
+	var iniciais := {"sardinha":1, "anchova":1, "carpa":1, "bagre":1,
+		"linguado":5, "perca":5, "atum":15, "truta":15,
+		"baiacu":25, "dourado":25, "salmao":35, "esturjao":35}
+	if iniciais.has(id): return int(iniciais[id])
+	return int({1:10, 2:20, 3:40, 4:60, 5:90}.get(nivel_recomendado(id), 1))

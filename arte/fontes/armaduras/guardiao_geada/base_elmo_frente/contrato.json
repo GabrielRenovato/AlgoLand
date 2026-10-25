@@ -1,0 +1,10 @@
+{
+  "origem": "res://arte/fontes/armaduras/guardiao_geada/elmos_originais/elmos_nativos.png",
+  "ferramenta": "PixelLab pixelart_workbench edit",
+  "image_id": "172c73d7-9219-4541-95ca-e075545ab7ea",
+  "escopo": "Retirar somente as pontas das linhas horizontais sob a base frontal do elmo; preservar visor, crista, cores, outras vistas, pivô e grade. Aplicação nos seis quadros da corrida de frente.",
+  "sha256_fonte_revisada": "e251ada9ac46c478104b222e3bf66453768fa2df00ecc9824f43b7406ec3c34b",
+  "sha256_corrida_antes": "64fe18bbe36c7ee61e575374f70988ad11de6443b87dcd6ab9dcea6140431901",
+  "comando": "gerar_conjunto.gd <manifesto> --somente-base-elmos",
+  "sha256_corrida_revisada": "6acea75d4459d42d3b8d44bd8477b0bdc2a0ebb17a8e9e1985989d3d654a7d27"
+}

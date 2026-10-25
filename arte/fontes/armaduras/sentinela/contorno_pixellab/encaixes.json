@@ -1,0 +1,9264 @@
+{
+  "fontes": {
+    "raven_elmo.png": "05a336903bbb29a5e37367e464d3fd61e19fe3339d598d41cc02b46480ffe53c",
+    "raven_elmo/correr.png": "4945999cb55b4de5b1773616d66f1f2ee907129009e556aded47139e9a4571ab",
+    "raven_elmo/plantar.png": "753c143dccd56a73380d3498023f3b5c32914a85488ef9b110f774e4f970d55f",
+    "raven_elmo/colher.png": "3e37ff7ff0785e6c7941964be0c7b1c2aa9db7cb7d833a0776fd824205d7fa66"
+  },
+  "itens": [
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        0
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        0
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        0
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        0
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        80
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        80
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        80
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        80
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        160
+      ],
+      "bbox": [
+        33,
+        14,
+        47,
+        31
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        160
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        160
+      ],
+      "bbox": [
+        33,
+        14,
+        47,
+        31
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        160
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        240
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        240
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        240
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        240
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        320
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        320
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        320
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        320
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        400
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        400
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        400
+      ],
+      "bbox": [
+        30,
+        15,
+        48,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        400
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        480
+      ],
+      "bbox": [
+        33,
+        14,
+        47,
+        31
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        480
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        480
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        480
+      ],
+      "bbox": [
+        33,
+        14,
+        47,
+        31
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        560
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        560
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        560
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        560
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        640
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        640
+      ],
+      "bbox": [
+        31,
+        16,
+        49,
+        33
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        640
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        640
+      ],
+      "bbox": [
+        31,
+        16,
+        49,
+        33
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        720
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        720
+      ],
+      "bbox": [
+        33,
+        15,
+        51,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        720
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        720
+      ],
+      "bbox": [
+        32,
+        15,
+        50,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        800
+      ],
+      "bbox": [
+        33,
+        14,
+        47,
+        31
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        800
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        800
+      ],
+      "bbox": [
+        33,
+        14,
+        47,
+        31
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        800
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        880
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        880
+      ],
+      "bbox": [
+        29,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        880
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        880
+      ],
+      "bbox": [
+        30,
+        15,
+        48,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        960
+      ],
+      "bbox": [
+        31,
+        18,
+        49,
+        35
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        960
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        960
+      ],
+      "bbox": [
+        30,
+        14,
+        48,
+        31
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        960
+      ],
+      "bbox": [
+        31,
+        18,
+        49,
+        35
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        1040
+      ],
+      "bbox": [
+        31,
+        17,
+        49,
+        34
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        1040
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        1040
+      ],
+      "bbox": [
+        31,
+        13,
+        49,
+        30
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        1040
+      ],
+      "bbox": [
+        31,
+        17,
+        49,
+        34
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        1120
+      ],
+      "bbox": [
+        33,
+        18,
+        47,
+        35
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        1120
+      ],
+      "bbox": [
+        33,
+        14,
+        47,
+        31
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        1120
+      ],
+      "bbox": [
+        33,
+        13,
+        47,
+        30
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        1120
+      ],
+      "bbox": [
+        33,
+        18,
+        47,
+        35
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        1200
+      ],
+      "bbox": [
+        31,
+        17,
+        49,
+        34
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        1200
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        1200
+      ],
+      "bbox": [
+        31,
+        13,
+        49,
+        30
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        1200
+      ],
+      "bbox": [
+        30,
+        17,
+        48,
+        34
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        1280
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        1280
+      ],
+      "bbox": [
+        31,
+        17,
+        49,
+        34
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        1280
+      ],
+      "bbox": [
+        31,
+        22,
+        49,
+        39
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        1280
+      ],
+      "bbox": [
+        30,
+        39,
+        48,
+        56
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        1360
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        1360
+      ],
+      "bbox": [
+        32,
+        15,
+        50,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        1360
+      ],
+      "bbox": [
+        35,
+        18,
+        53,
+        35
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        1360
+      ],
+      "bbox": [
+        43,
+        34,
+        60,
+        52
+      ],
+      "destino": [
+        99,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        1440
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        1440
+      ],
+      "bbox": [
+        33,
+        17,
+        47,
+        34
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        1440
+      ],
+      "bbox": [
+        33,
+        19,
+        47,
+        36
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        1440
+      ],
+      "bbox": [
+        33,
+        19,
+        47,
+        36
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        1520
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        1520
+      ],
+      "bbox": [
+        30,
+        15,
+        48,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        1520
+      ],
+      "bbox": [
+        26,
+        18,
+        44,
+        35
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        1520
+      ],
+      "bbox": [
+        17,
+        34,
+        34,
+        52
+      ],
+      "destino": [
+        123,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        1600
+      ],
+      "bbox": [
+        30,
+        14,
+        48,
+        31
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        1600
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        1600
+      ],
+      "bbox": [
+        30,
+        14,
+        48,
+        31
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        1600
+      ],
+      "bbox": [
+        30,
+        15,
+        48,
+        32
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        1680
+      ],
+      "bbox": [
+        31,
+        12,
+        49,
+        29
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        1680
+      ],
+      "bbox": [
+        32,
+        14,
+        50,
+        31
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        1680
+      ],
+      "bbox": [
+        31,
+        12,
+        49,
+        29
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        1680
+      ],
+      "bbox": [
+        31,
+        13,
+        49,
+        30
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        1760
+      ],
+      "bbox": [
+        33,
+        14,
+        47,
+        31
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        1760
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        1760
+      ],
+      "bbox": [
+        33,
+        14,
+        47,
+        31
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        1760
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        1840
+      ],
+      "bbox": [
+        31,
+        12,
+        49,
+        29
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        1840
+      ],
+      "bbox": [
+        30,
+        14,
+        48,
+        31
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        1840
+      ],
+      "bbox": [
+        31,
+        12,
+        49,
+        29
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        1840
+      ],
+      "bbox": [
+        31,
+        13,
+        49,
+        30
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        1920
+      ],
+      "bbox": [
+        30,
+        14,
+        48,
+        31
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        1920
+      ],
+      "bbox": [
+        30,
+        15,
+        48,
+        32
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        1920
+      ],
+      "bbox": [
+        31,
+        16,
+        49,
+        33
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        1920
+      ],
+      "bbox": [
+        31,
+        16,
+        49,
+        33
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        2000
+      ],
+      "bbox": [
+        31,
+        12,
+        49,
+        29
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        2000
+      ],
+      "bbox": [
+        31,
+        13,
+        49,
+        30
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        2000
+      ],
+      "bbox": [
+        31,
+        16,
+        49,
+        33
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        2000
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        2080
+      ],
+      "bbox": [
+        33,
+        14,
+        47,
+        31
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        2080
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        2080
+      ],
+      "bbox": [
+        33,
+        17,
+        47,
+        34
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        2080
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        2160
+      ],
+      "bbox": [
+        31,
+        12,
+        49,
+        29
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        2160
+      ],
+      "bbox": [
+        31,
+        13,
+        49,
+        30
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        2160
+      ],
+      "bbox": [
+        31,
+        16,
+        49,
+        33
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        2160
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        2240
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        2240
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        2240
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        2240
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        2320
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        2320
+      ],
+      "bbox": [
+        32,
+        15,
+        50,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        2320
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        2320
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        2400
+      ],
+      "bbox": [
+        33,
+        14,
+        47,
+        31
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        2400
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        2400
+      ],
+      "bbox": [
+        33,
+        14,
+        47,
+        31
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        2400
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        2480
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        2480
+      ],
+      "bbox": [
+        30,
+        15,
+        48,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        2480
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        2480
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        2560
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        2560
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        2560
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        2560
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        2640
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        2640
+      ],
+      "bbox": [
+        30,
+        15,
+        48,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        2640
+      ],
+      "bbox": [
+        30,
+        14,
+        48,
+        31
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        2640
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        2720
+      ],
+      "bbox": [
+        33,
+        14,
+        47,
+        31
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        2720
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        2720
+      ],
+      "bbox": [
+        33,
+        14,
+        47,
+        31
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        2720
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        2800
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        2800
+      ],
+      "bbox": [
+        32,
+        15,
+        50,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        2800
+      ],
+      "bbox": [
+        32,
+        14,
+        50,
+        31
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        2800
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        2880
+      ],
+      "bbox": [
+        32,
+        14,
+        50,
+        31
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        2880
+      ],
+      "bbox": [
+        32,
+        15,
+        50,
+        32
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        2880
+      ],
+      "bbox": [
+        33,
+        15,
+        51,
+        32
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        2880
+      ],
+      "bbox": [
+        32,
+        14,
+        50,
+        31
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        2960
+      ],
+      "bbox": [
+        30,
+        14,
+        48,
+        31
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        2960
+      ],
+      "bbox": [
+        30,
+        15,
+        48,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        2960
+      ],
+      "bbox": [
+        29,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        2960
+      ],
+      "bbox": [
+        30,
+        15,
+        48,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        3040
+      ],
+      "bbox": [
+        34,
+        14,
+        48,
+        31
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        3040
+      ],
+      "bbox": [
+        34,
+        15,
+        48,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        3040
+      ],
+      "bbox": [
+        32,
+        15,
+        46,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        3040
+      ],
+      "bbox": [
+        34,
+        15,
+        48,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        3120
+      ],
+      "bbox": [
+        32,
+        14,
+        50,
+        31
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        3120
+      ],
+      "bbox": [
+        32,
+        15,
+        50,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        3120
+      ],
+      "bbox": [
+        33,
+        15,
+        51,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        3120
+      ],
+      "bbox": [
+        32,
+        15,
+        50,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        3200
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        3200
+      ],
+      "bbox": [
+        31,
+        16,
+        49,
+        33
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        3200
+      ],
+      "bbox": [
+        32,
+        16,
+        50,
+        33
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        3200
+      ],
+      "bbox": [
+        33,
+        17,
+        51,
+        34
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        3280
+      ],
+      "bbox": [
+        30,
+        15,
+        48,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        3280
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        3280
+      ],
+      "bbox": [
+        32,
+        16,
+        50,
+        33
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        3280
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        3360
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        3360
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        3360
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        3360
+      ],
+      "bbox": [
+        33,
+        16,
+        47,
+        33
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        3440
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        3440
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        3440
+      ],
+      "bbox": [
+        30,
+        16,
+        48,
+        33
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        3440
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        3520
+      ],
+      "bbox": [
+        32,
+        16,
+        50,
+        33
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        3520
+      ],
+      "bbox": [
+        31,
+        16,
+        49,
+        33
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        3520
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        3520
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        3600
+      ],
+      "bbox": [
+        32,
+        16,
+        50,
+        33
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        3600
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        3600
+      ],
+      "bbox": [
+        32,
+        15,
+        50,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        3600
+      ],
+      "bbox": [
+        32,
+        14,
+        50,
+        31
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        3680
+      ],
+      "bbox": [
+        33,
+        16,
+        47,
+        33
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        3680
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        3680
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        3680
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        3760
+      ],
+      "bbox": [
+        30,
+        16,
+        48,
+        33
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        3760
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        3760
+      ],
+      "bbox": [
+        30,
+        15,
+        48,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        3760
+      ],
+      "bbox": [
+        30,
+        14,
+        48,
+        31
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        3840
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        3840
+      ],
+      "bbox": [
+        31,
+        16,
+        49,
+        33
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        3840
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        3840
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        3920
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        3920
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        3920
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        3920
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        4000
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        4000
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        4000
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        4000
+      ],
+      "bbox": [
+        33,
+        16,
+        47,
+        33
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        4080
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        4080
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        4080
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        4080
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        4160
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        4160
+      ],
+      "bbox": [
+        31,
+        16,
+        49,
+        33
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        4160
+      ],
+      "bbox": [
+        31,
+        18,
+        49,
+        35
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        4160
+      ],
+      "bbox": [
+        31,
+        17,
+        49,
+        34
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        4240
+      ],
+      "bbox": [
+        30,
+        15,
+        48,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        4240
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        4240
+      ],
+      "bbox": [
+        32,
+        16,
+        50,
+        33
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        4240
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        4320
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        4320
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        4320
+      ],
+      "bbox": [
+        33,
+        17,
+        47,
+        34
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        4320
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        4400
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        4400
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        4400
+      ],
+      "bbox": [
+        30,
+        16,
+        48,
+        33
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        4400
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        4480
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        4480
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        4480
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        4480
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        4560
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        4560
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        4560
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        4560
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        4640
+      ],
+      "bbox": [
+        33,
+        14,
+        47,
+        31
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        4640
+      ],
+      "bbox": [
+        33,
+        14,
+        47,
+        31
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        4640
+      ],
+      "bbox": [
+        33,
+        14,
+        47,
+        31
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        4640
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        4720
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        4720
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        4720
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        4720
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        4800
+      ],
+      "bbox": [
+        30,
+        14,
+        48,
+        31
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        4800
+      ],
+      "bbox": [
+        29,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        4800
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        4800
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        4880
+      ],
+      "bbox": [
+        32,
+        15,
+        50,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        4880
+      ],
+      "bbox": [
+        32,
+        15,
+        50,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        4880
+      ],
+      "bbox": [
+        32,
+        16,
+        50,
+        33
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        4880
+      ],
+      "bbox": [
+        32,
+        15,
+        50,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        4960
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        4960
+      ],
+      "bbox": [
+        33,
+        16,
+        47,
+        33
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        4960
+      ],
+      "bbox": [
+        33,
+        17,
+        47,
+        34
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        4960
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        5040
+      ],
+      "bbox": [
+        30,
+        15,
+        48,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        5040
+      ],
+      "bbox": [
+        30,
+        15,
+        48,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        5040
+      ],
+      "bbox": [
+        30,
+        16,
+        48,
+        33
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        5040
+      ],
+      "bbox": [
+        30,
+        15,
+        48,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        5120
+      ],
+      "bbox": [
+        28,
+        15,
+        46,
+        32
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        5120
+      ],
+      "bbox": [
+        31,
+        16,
+        49,
+        33
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        5120
+      ],
+      "bbox": [
+        32,
+        16,
+        50,
+        33
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        5120
+      ],
+      "bbox": [
+        33,
+        17,
+        51,
+        34
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        5200
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        5200
+      ],
+      "bbox": [
+        32,
+        15,
+        50,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        5200
+      ],
+      "bbox": [
+        32,
+        15,
+        50,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        5200
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        5280
+      ],
+      "bbox": [
+        35,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        5280
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        5280
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        5280
+      ],
+      "bbox": [
+        33,
+        16,
+        47,
+        33
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        5360
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        5360
+      ],
+      "bbox": [
+        30,
+        15,
+        48,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        5360
+      ],
+      "bbox": [
+        30,
+        15,
+        48,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        5360
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        5440
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        5440
+      ],
+      "bbox": [
+        31,
+        16,
+        49,
+        33
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        5440
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        5440
+      ],
+      "bbox": [
+        31,
+        16,
+        49,
+        33
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        5520
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        5520
+      ],
+      "bbox": [
+        32,
+        15,
+        50,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        5520
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        5520
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        5600
+      ],
+      "bbox": [
+        33,
+        14,
+        47,
+        31
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        5600
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        5600
+      ],
+      "bbox": [
+        33,
+        14,
+        47,
+        31
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        5600
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        5680
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        5680
+      ],
+      "bbox": [
+        30,
+        15,
+        48,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        5680
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        5680
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        5760
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        5760
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        5760
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        5760
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        5840
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        5840
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        5840
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        5840
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        5920
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        5920
+      ],
+      "bbox": [
+        33,
+        16,
+        47,
+        33
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        5920
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        5920
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        6000
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        6000
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        6000
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        6000
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        6080
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        6080
+      ],
+      "bbox": [
+        31,
+        16,
+        49,
+        33
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        6080
+      ],
+      "bbox": [
+        31,
+        18,
+        49,
+        35
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        6080
+      ],
+      "bbox": [
+        31,
+        17,
+        49,
+        34
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        6160
+      ],
+      "bbox": [
+        30,
+        15,
+        48,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        6160
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        6160
+      ],
+      "bbox": [
+        32,
+        16,
+        50,
+        33
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        6160
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        6240
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        6240
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        6240
+      ],
+      "bbox": [
+        33,
+        17,
+        47,
+        34
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        6240
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        6320
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        6320
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        6320
+      ],
+      "bbox": [
+        30,
+        16,
+        48,
+        33
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        6320
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        6400
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        6400
+      ],
+      "bbox": [
+        31,
+        16,
+        49,
+        33
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        6400
+      ],
+      "bbox": [
+        31,
+        17,
+        49,
+        34
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        6400
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        6480
+      ],
+      "bbox": [
+        30,
+        15,
+        48,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        6480
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        6480
+      ],
+      "bbox": [
+        32,
+        16,
+        50,
+        33
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        6480
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        6560
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        6560
+      ],
+      "bbox": [
+        33,
+        17,
+        47,
+        34
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        6560
+      ],
+      "bbox": [
+        33,
+        18,
+        47,
+        35
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        6560
+      ],
+      "bbox": [
+        33,
+        16,
+        47,
+        33
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        6640
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        6640
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        6640
+      ],
+      "bbox": [
+        30,
+        16,
+        48,
+        33
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        6640
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        6720
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        6720
+      ],
+      "bbox": [
+        31,
+        16,
+        49,
+        33
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        6720
+      ],
+      "bbox": [
+        31,
+        18,
+        49,
+        35
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        6720
+      ],
+      "bbox": [
+        31,
+        17,
+        49,
+        34
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        6800
+      ],
+      "bbox": [
+        30,
+        15,
+        48,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        6800
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        6800
+      ],
+      "bbox": [
+        32,
+        16,
+        50,
+        33
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        6800
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        6880
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        6880
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        6880
+      ],
+      "bbox": [
+        33,
+        17,
+        47,
+        34
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        6880
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        6960
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        6960
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        6960
+      ],
+      "bbox": [
+        30,
+        16,
+        48,
+        33
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        6960
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        7040
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        7040
+      ],
+      "bbox": [
+        31,
+        16,
+        49,
+        33
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        7040
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        7040
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        7120
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        7120
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        7120
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        7120
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        7200
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        7200
+      ],
+      "bbox": [
+        33,
+        16,
+        47,
+        33
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        7200
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        7200
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        7280
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        7280
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        7280
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        7280
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        7360
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        7360
+      ],
+      "bbox": [
+        31,
+        16,
+        49,
+        33
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        7360
+      ],
+      "bbox": [
+        31,
+        18,
+        49,
+        35
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        7360
+      ],
+      "bbox": [
+        31,
+        17,
+        49,
+        34
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        7440
+      ],
+      "bbox": [
+        30,
+        15,
+        48,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        7440
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        7440
+      ],
+      "bbox": [
+        32,
+        16,
+        50,
+        33
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        7440
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        7520
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        7520
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        7520
+      ],
+      "bbox": [
+        33,
+        17,
+        47,
+        34
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        7520
+      ],
+      "bbox": [
+        33,
+        17,
+        47,
+        34
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        7600
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        7600
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        7600
+      ],
+      "bbox": [
+        30,
+        16,
+        48,
+        33
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        7600
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        7680
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        7680
+      ],
+      "bbox": [
+        31,
+        16,
+        49,
+        33
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        7680
+      ],
+      "bbox": [
+        31,
+        18,
+        49,
+        35
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        7680
+      ],
+      "bbox": [
+        31,
+        16,
+        49,
+        33
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        7760
+      ],
+      "bbox": [
+        32,
+        15,
+        50,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        7760
+      ],
+      "bbox": [
+        32,
+        15,
+        50,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        7760
+      ],
+      "bbox": [
+        34,
+        16,
+        52,
+        33
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        7760
+      ],
+      "bbox": [
+        32,
+        15,
+        50,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        7840
+      ],
+      "bbox": [
+        33,
+        17,
+        47,
+        34
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        7840
+      ],
+      "bbox": [
+        33,
+        18,
+        47,
+        35
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        7840
+      ],
+      "bbox": [
+        33,
+        18,
+        47,
+        35
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        7840
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        7920
+      ],
+      "bbox": [
+        30,
+        15,
+        48,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        7920
+      ],
+      "bbox": [
+        30,
+        15,
+        48,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        7920
+      ],
+      "bbox": [
+        28,
+        16,
+        46,
+        33
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        7920
+      ],
+      "bbox": [
+        30,
+        15,
+        48,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        8000
+      ],
+      "bbox": [
+        30,
+        14,
+        48,
+        31
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        8000
+      ],
+      "bbox": [
+        30,
+        15,
+        48,
+        32
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        8000
+      ],
+      "bbox": [
+        31,
+        16,
+        49,
+        33
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        8000
+      ],
+      "bbox": [
+        31,
+        16,
+        49,
+        33
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        8080
+      ],
+      "bbox": [
+        31,
+        12,
+        49,
+        29
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        8080
+      ],
+      "bbox": [
+        31,
+        13,
+        49,
+        30
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        8080
+      ],
+      "bbox": [
+        31,
+        16,
+        49,
+        33
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        8080
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        8160
+      ],
+      "bbox": [
+        33,
+        14,
+        47,
+        31
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        8160
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        8160
+      ],
+      "bbox": [
+        33,
+        17,
+        47,
+        34
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        8160
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        8240
+      ],
+      "bbox": [
+        31,
+        12,
+        49,
+        29
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        8240
+      ],
+      "bbox": [
+        31,
+        13,
+        49,
+        30
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        8240
+      ],
+      "bbox": [
+        31,
+        16,
+        49,
+        33
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        8240
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        8320
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        8320
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        8320
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        8320
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        8400
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        8400
+      ],
+      "bbox": [
+        30,
+        15,
+        48,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        8400
+      ],
+      "bbox": [
+        30,
+        14,
+        48,
+        31
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        8400
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        8480
+      ],
+      "bbox": [
+        33,
+        14,
+        47,
+        31
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        8480
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        8480
+      ],
+      "bbox": [
+        33,
+        14,
+        47,
+        31
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        8480
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        8560
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        8560
+      ],
+      "bbox": [
+        32,
+        15,
+        50,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        8560
+      ],
+      "bbox": [
+        32,
+        14,
+        50,
+        31
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        8560
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        8640
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        8640
+      ],
+      "bbox": [
+        31,
+        16,
+        49,
+        33
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        8640
+      ],
+      "bbox": [
+        31,
+        18,
+        49,
+        35
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        8640
+      ],
+      "bbox": [
+        31,
+        17,
+        49,
+        34
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        8720
+      ],
+      "bbox": [
+        30,
+        15,
+        48,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        8720
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        8720
+      ],
+      "bbox": [
+        32,
+        16,
+        50,
+        33
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        8720
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        8800
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        8800
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        8800
+      ],
+      "bbox": [
+        33,
+        17,
+        47,
+        34
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        8800
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        8880
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        8880
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        8880
+      ],
+      "bbox": [
+        30,
+        16,
+        48,
+        33
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        8880
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        8960
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        8960
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        8960
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        8960
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        9040
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        9040
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        9040
+      ],
+      "bbox": [
+        30,
+        15,
+        48,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        9040
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        9120
+      ],
+      "bbox": [
+        33,
+        14,
+        47,
+        31
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        9120
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        9120
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        9120
+      ],
+      "bbox": [
+        33,
+        14,
+        47,
+        31
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        9200
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        9200
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        9200
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        9200
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        9280
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        9280
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        9280
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        9280
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        9360
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        9360
+      ],
+      "bbox": [
+        32,
+        15,
+        50,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        9360
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        9360
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        9440
+      ],
+      "bbox": [
+        33,
+        14,
+        47,
+        31
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        9440
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        9440
+      ],
+      "bbox": [
+        33,
+        14,
+        47,
+        31
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        9440
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        0,
+        9520
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        80,
+        9520
+      ],
+      "bbox": [
+        30,
+        15,
+        48,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        160,
+        9520
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo.png",
+      "celula": [
+        240,
+        9520
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo/correr.png",
+      "celula": [
+        0,
+        0
+      ],
+      "bbox": [
+        29,
+        12,
+        47,
+        29
+      ],
+      "destino": [
+        147,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo/correr.png",
+      "celula": [
+        80,
+        0
+      ],
+      "bbox": [
+        29,
+        11,
+        47,
+        28
+      ],
+      "destino": [
+        147,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo/correr.png",
+      "celula": [
+        160,
+        0
+      ],
+      "bbox": [
+        31,
+        9,
+        49,
+        26
+      ],
+      "destino": [
+        171,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo/correr.png",
+      "celula": [
+        240,
+        0
+      ],
+      "bbox": [
+        31,
+        12,
+        49,
+        29
+      ],
+      "destino": [
+        195,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo/correr.png",
+      "celula": [
+        320,
+        0
+      ],
+      "bbox": [
+        31,
+        11,
+        49,
+        28
+      ],
+      "destino": [
+        3,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo/correr.png",
+      "celula": [
+        400,
+        0
+      ],
+      "bbox": [
+        29,
+        9,
+        47,
+        26
+      ],
+      "destino": [
+        219,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo/correr.png",
+      "celula": [
+        0,
+        80
+      ],
+      "bbox": [
+        31,
+        11,
+        49,
+        28
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo/correr.png",
+      "celula": [
+        80,
+        80
+      ],
+      "bbox": [
+        31,
+        11,
+        49,
+        28
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo/correr.png",
+      "celula": [
+        160,
+        80
+      ],
+      "bbox": [
+        33,
+        9,
+        51,
+        26
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo/correr.png",
+      "celula": [
+        240,
+        80
+      ],
+      "bbox": [
+        31,
+        11,
+        49,
+        28
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo/correr.png",
+      "celula": [
+        320,
+        80
+      ],
+      "bbox": [
+        31,
+        11,
+        49,
+        28
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo/correr.png",
+      "celula": [
+        400,
+        80
+      ],
+      "bbox": [
+        33,
+        9,
+        51,
+        26
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo/correr.png",
+      "celula": [
+        0,
+        160
+      ],
+      "bbox": [
+        33,
+        12,
+        47,
+        29
+      ],
+      "destino": [
+        245,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo/correr.png",
+      "celula": [
+        80,
+        160
+      ],
+      "bbox": [
+        33,
+        11,
+        47,
+        28
+      ],
+      "destino": [
+        245,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo/correr.png",
+      "celula": [
+        160,
+        160
+      ],
+      "bbox": [
+        31,
+        9,
+        45,
+        26
+      ],
+      "destino": [
+        269,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo/correr.png",
+      "celula": [
+        240,
+        160
+      ],
+      "bbox": [
+        31,
+        12,
+        45,
+        29
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo/correr.png",
+      "celula": [
+        320,
+        160
+      ],
+      "bbox": [
+        31,
+        11,
+        45,
+        28
+      ],
+      "destino": [
+        53,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo/correr.png",
+      "celula": [
+        400,
+        160
+      ],
+      "bbox": [
+        33,
+        9,
+        47,
+        26
+      ],
+      "destino": [
+        293,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo/correr.png",
+      "celula": [
+        0,
+        240
+      ],
+      "bbox": [
+        31,
+        11,
+        49,
+        28
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo/correr.png",
+      "celula": [
+        80,
+        240
+      ],
+      "bbox": [
+        31,
+        11,
+        49,
+        28
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo/correr.png",
+      "celula": [
+        160,
+        240
+      ],
+      "bbox": [
+        29,
+        9,
+        47,
+        26
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo/correr.png",
+      "celula": [
+        240,
+        240
+      ],
+      "bbox": [
+        31,
+        11,
+        49,
+        28
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo/correr.png",
+      "celula": [
+        320,
+        240
+      ],
+      "bbox": [
+        31,
+        11,
+        49,
+        28
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo/correr.png",
+      "celula": [
+        400,
+        240
+      ],
+      "bbox": [
+        29,
+        9,
+        47,
+        26
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo/plantar.png",
+      "celula": [
+        0,
+        0
+      ],
+      "bbox": [
+        31,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        315,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo/plantar.png",
+      "celula": [
+        80,
+        0
+      ],
+      "bbox": [
+        33,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        340,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo/plantar.png",
+      "celula": [
+        160,
+        0
+      ],
+      "bbox": [
+        33,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        340,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo/plantar.png",
+      "celula": [
+        240,
+        0
+      ],
+      "bbox": [
+        33,
+        15,
+        49,
+        32
+      ],
+      "destino": [
+        340,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo/plantar.png",
+      "celula": [
+        0,
+        80
+      ],
+      "bbox": [
+        30,
+        15,
+        48,
+        32
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo/plantar.png",
+      "celula": [
+        80,
+        80
+      ],
+      "bbox": [
+        35,
+        15,
+        53,
+        32
+      ],
+      "destino": [
+        363,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo/plantar.png",
+      "celula": [
+        160,
+        80
+      ],
+      "bbox": [
+        35,
+        15,
+        53,
+        32
+      ],
+      "destino": [
+        363,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo/plantar.png",
+      "celula": [
+        240,
+        80
+      ],
+      "bbox": [
+        35,
+        15,
+        53,
+        32
+      ],
+      "destino": [
+        363,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo/plantar.png",
+      "celula": [
+        0,
+        160
+      ],
+      "bbox": [
+        33,
+        15,
+        47,
+        32
+      ],
+      "destino": [
+        389,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo/plantar.png",
+      "celula": [
+        80,
+        160
+      ],
+      "bbox": [
+        33,
+        15,
+        46,
+        32
+      ],
+      "destino": [
+        413,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo/plantar.png",
+      "celula": [
+        160,
+        160
+      ],
+      "bbox": [
+        33,
+        15,
+        46,
+        32
+      ],
+      "destino": [
+        413,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo/plantar.png",
+      "celula": [
+        240,
+        160
+      ],
+      "bbox": [
+        33,
+        15,
+        46,
+        32
+      ],
+      "destino": [
+        413,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo/plantar.png",
+      "celula": [
+        0,
+        240
+      ],
+      "bbox": [
+        32,
+        15,
+        50,
+        32
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo/plantar.png",
+      "celula": [
+        80,
+        240
+      ],
+      "bbox": [
+        27,
+        15,
+        45,
+        32
+      ],
+      "destino": [
+        435,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo/plantar.png",
+      "celula": [
+        160,
+        240
+      ],
+      "bbox": [
+        27,
+        15,
+        45,
+        32
+      ],
+      "destino": [
+        435,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo/plantar.png",
+      "celula": [
+        240,
+        240
+      ],
+      "bbox": [
+        27,
+        15,
+        45,
+        32
+      ],
+      "destino": [
+        435,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo/colher.png",
+      "celula": [
+        0,
+        0
+      ],
+      "bbox": [
+        31,
+        22,
+        49,
+        39
+      ],
+      "destino": [
+        459,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo/colher.png",
+      "celula": [
+        80,
+        0
+      ],
+      "bbox": [
+        32,
+        17,
+        50,
+        34
+      ],
+      "destino": [
+        483,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo/colher.png",
+      "celula": [
+        160,
+        0
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        507,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo/colher.png",
+      "celula": [
+        240,
+        0
+      ],
+      "bbox": [
+        31,
+        14,
+        49,
+        31
+      ],
+      "destino": [
+        507,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo/colher.png",
+      "celula": [
+        0,
+        80
+      ],
+      "bbox": [
+        35,
+        22,
+        53,
+        39
+      ],
+      "destino": [
+        531,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo/colher.png",
+      "celula": [
+        80,
+        80
+      ],
+      "bbox": [
+        35,
+        17,
+        53,
+        34
+      ],
+      "destino": [
+        27,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo/colher.png",
+      "celula": [
+        160,
+        80
+      ],
+      "bbox": [
+        33,
+        13,
+        51,
+        30
+      ],
+      "destino": [
+        555,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo/colher.png",
+      "celula": [
+        240,
+        80
+      ],
+      "bbox": [
+        33,
+        13,
+        51,
+        30
+      ],
+      "destino": [
+        555,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo/colher.png",
+      "celula": [
+        0,
+        160
+      ],
+      "bbox": [
+        33,
+        22,
+        47,
+        39
+      ],
+      "destino": [
+        581,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo/colher.png",
+      "celula": [
+        80,
+        160
+      ],
+      "bbox": [
+        34,
+        17,
+        48,
+        34
+      ],
+      "destino": [
+        605,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo/colher.png",
+      "celula": [
+        160,
+        160
+      ],
+      "bbox": [
+        33,
+        14,
+        47,
+        31
+      ],
+      "destino": [
+        629,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo/colher.png",
+      "celula": [
+        240,
+        160
+      ],
+      "bbox": [
+        33,
+        14,
+        47,
+        31
+      ],
+      "destino": [
+        629,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo/colher.png",
+      "celula": [
+        0,
+        240
+      ],
+      "bbox": [
+        27,
+        22,
+        45,
+        39
+      ],
+      "destino": [
+        651,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo/colher.png",
+      "celula": [
+        80,
+        240
+      ],
+      "bbox": [
+        27,
+        17,
+        45,
+        34
+      ],
+      "destino": [
+        75,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo/colher.png",
+      "celula": [
+        160,
+        240
+      ],
+      "bbox": [
+        29,
+        13,
+        47,
+        30
+      ],
+      "destino": [
+        675,
+        3
+      ]
+    },
+    {
+      "arquivo": "raven_elmo/colher.png",
+      "celula": [
+        240,
+        240
+      ],
+      "bbox": [
+        29,
+        13,
+        47,
+        30
+      ],
+      "destino": [
+        675,
+        3
+      ]
+    }
+  ],
+  "paleta": [
+    "161219",
+    "30231d",
+    "51382b",
+    "795036",
+    "a57547",
+    "ca9d64",
+    "e8c58b",
+    "fff0c1",
+    "112a32",
+    "25464d",
+    "456a70",
+    "7c9898"
+  ],
+  "outros_slots": {
+    "raven_peitoral.png": "022fdbcb2b33bad1301f062ce641f7695ff2d69cd6a5f3eb98858d9981d16e0b",
+    "raven_peitoral/andar.png": "dab3ee6fa5774c19cf23ddae6dc49dba801d273f43598104950d5801b6d829f2",
+    "raven_peitoral/parado.png": "b58c38f53caad492f9e397ba6f6e22a5e13120c6269e87ea76df53be1bfb5e84",
+    "raven_peitoral/correr.png": "7d54a30fc33499221a4aa740abbacaf483e36749c0bbd82014caa604f5fd0c59",
+    "raven_peitoral/pular.png": "270749226f26af327e4a4698a5a968d7ff07cc1b1bbda3a49f6324a8e3035d7e",
+    "raven_peitoral/morrer.png": "36d5b3e4949d0a2e135266fc7d05dfb8916cbfd46d46d11f89e062c27e3a45c7",
+    "raven_peitoral/carregar.png": "7eb4e7279deea7cd805683cea9fb679174893993e9867a7bfdaf0ea0615b0e80",
+    "raven_peitoral/jogar.png": "13d6c696cd737492c1959b681b6b52740d26f4e9fc92e666d11cd7bae1d90b16",
+    "raven_peitoral/empurrar.png": "95a9c671e4b8e624f6bdb901572f69876476c5bdccd90cf1c6f491659baf476e",
+    "raven_peitoral/puxar.png": "7b2e8a20d409513388ecf337e193d0dc05f3e4e49604e5fa939261bc500b9418",
+    "raven_peitoral/esquiva.png": "97d7db150bd792875c68db2791ddebbb257d50e83e493a5a525ef977107e6dff",
+    "raven_peitoral/espada.png": "5b97bf373d43a3ca1b79bed8ab29291ef6355d59d195be4673a9e27cb68f5f17",
+    "raven_peitoral/espada_2.png": "1dbec7346cfba9d3a605573003d42b123723945153710287ba788b99fa933fbb",
+    "raven_peitoral/espada_dupla.png": "d69ec79223228309aa9773db491a3003a0be06a01c7598ed5d05f97dab7912a8",
+    "raven_peitoral/machado.png": "2c8086800c5f2985dc6b743777d262b880717fa51f671d9a44cf4965fcbfd89a",
+    "raven_peitoral/conjurar.png": "a44b40d6da12b36afbb8255dad41e5ac82a3417d95a5e3fdb392b2c5a7bfb78b",
+    "raven_peitoral/magia.png": "86f5ce9054d3ea79e529c38904a314f0edb147f80aa518335b76f55834ce51a3",
+    "raven_peitoral/bloquear.png": "78fba8eefcadec13baa8576d2c89a98802e75cdc2cf1251c9902a01a60cb1bdb",
+    "raven_peitoral/andar_escudo.png": "42ade08891e59fa6ce4ef34fd1740f23ea614432d4b4c90d76b6d768423e0602",
+    "raven_peitoral/arco.png": "d716fecfb8bc35c12e7b9b5ec4c64fe9d61c8dca664e17a7dacfed686b24d82a",
+    "raven_peitoral/picareta.png": "1acac73c35440fc27dd4bcb8d2a51738f001bc95e3e974099680cfee8449f824",
+    "raven_peitoral/pa.png": "5b749c86dca760950c1f2fcda24f15a35f9a262248b44b8317e442f7be67d875",
+    "raven_peitoral/enxada.png": "8f05daca9bea4aeed56b5caccd87dd0945c76bcf951307526b50eb36c775aee8",
+    "raven_peitoral/regar.png": "91589377cc2496f38b5c1b8a09eff212c0597d803b33002b5d0a63535249f2b4",
+    "raven_peitoral/pescar.png": "2e8d6da179b688471e415feaf3d56a5da6dcd1267b867cab13257db21b0a31a0",
+    "raven_peitoral/lanca.png": "706e118c4fbc42d6f0a80c5871fe38781da460db3a40060ac689f9e7cf76bf60",
+    "raven_peitoral/plantar.png": "b74d2aa02a326360329ceceda9ff3b32677796a589cf62fa977d7b9d16152ee2",
+    "raven_peitoral/colher.png": "9f6f58566d1ee11f625eb1629a66b05e7597fb8e297ab993bed6162f45f2b2cd",
+    "raven_peitoral/forjar.png": "1acac73c35440fc27dd4bcb8d2a51738f001bc95e3e974099680cfee8449f824",
+    "raven_peitoral/sentado.png": "b58c38f53caad492f9e397ba6f6e22a5e13120c6269e87ea76df53be1bfb5e84",
+    "raven_peitoral/ferido.png": "95a9c671e4b8e624f6bdb901572f69876476c5bdccd90cf1c6f491659baf476e",
+    "peitoral/andar.png": "883e97f622d69052b4ecff6db042bd41a37abaae9ac69aec88e2becb8a805522",
+    "peitoral/fazenda.png": "361cfadade75ca008483254a818ca0606cb4349c52df229ca8d3fef9bb8dd08e",
+    "peitoral/forja.png": "c385328473576db9a23ad3ff16399db4c069f4bc7da651457f9e00da98c9fe98",
+    "peitoral/sentado.png": "769623e8f6f40cf5bf1196e07f5d98478b57e13dd883bf7818a08d1e5adf599d",
+    "peitoral/espada.png": "f37c2c27c8db8460d4220a460e07ed0c4410ac8b7791d912b7951094b3ead1fa",
+    "peitoral/lanca.png": "1135f5dcb047c85198674aa4e434b045bac10a11f592ab25f403cb620c0a98ce",
+    "peitoral/reacao_um_mao.png": "d59ff6c8d1aa9a5cd45fd963e45ba4a64053e2910d8caee72c5e3930c09a0200",
+    "peitoral/reacao_lanca.png": "d59ff6c8d1aa9a5cd45fd963e45ba4a64053e2910d8caee72c5e3930c09a0200",
+    "peitoral/reacao_arco.png": "d59ff6c8d1aa9a5cd45fd963e45ba4a64053e2910d8caee72c5e3930c09a0200",
+    "peitoral/arco_p2.png": "769623e8f6f40cf5bf1196e07f5d98478b57e13dd883bf7818a08d1e5adf599d",
+    "peitoral/arco_p3.png": "540a9451d532e88354445913ae71d92cec841564544f7412664912d0761015a1",
+    "raven_luvas.png": "0cad2045ef3a4b1f1def1c32fe6904f25c81cf53ce60725744bb58d4fddd6c8c",
+    "raven_luvas/andar.png": "fb0d4214a41b306bf5883268c93c250491c6db17b61d50e5ef6abaa281087ca7",
+    "raven_luvas/parado.png": "6311d90033c8d898718afc88b690419345c90453a93f1ee8ce5ee9033054dd30",
+    "raven_luvas/correr.png": "b1980aef401c72508cf806dbb0b60138f7d84f5eb0ed82bb88da7dc835a541c2",
+    "raven_luvas/pular.png": "0bdd99210b17e8148ddfc31af8051cb0d1e48646580ad0a95a3c90e8d32b9b37",
+    "raven_luvas/morrer.png": "266a25064cce9f332e80d4ce6733e18a1558b7042f3947ef2108a6a4a3979497",
+    "raven_luvas/carregar.png": "6b4c8a8f5896c3defcf6b7a80a309ae141d0fb249a5d7a4a5c95f779ada93825",
+    "raven_luvas/jogar.png": "1d5bb1ea3fa9f5175afc666864e46ee28896d74103c1407a974e7b5a8d99563f",
+    "raven_luvas/empurrar.png": "27a3410a192a04324f28ef10ebbc685e3c01f73c023174115765e3ffe80c16a3",
+    "raven_luvas/puxar.png": "ad1b90a729255cc92afd5c8a5ec5052c18d986b4c267cbabc910120745d65348",
+    "raven_luvas/esquiva.png": "a8dbe6f5adc8aae5d63055f6e7e534add1d20bc0659af11e8726ba08902c7cac",
+    "raven_luvas/espada.png": "16ae95e4a48d18ec329637db07e48741655d7ad39a82577c70f31c4825bd7b76",
+    "raven_luvas/espada_2.png": "0475e5ec1f4efae529dfc5d09b0c2cbca369fcc4ddefec8db1796031f26da151",
+    "raven_luvas/espada_dupla.png": "b1448d1e4b8b8faad21e9fd0df13aa1b9c9e7c77bba85077d1f7191ceabe708f",
+    "raven_luvas/machado.png": "030c78adbf89403015fe2f537c72384de793d2372241dbcc758bae45be0fa734",
+    "raven_luvas/conjurar.png": "c89cdd47d9cd37f7cdae9749922d03bb3c6119eefa66814eeaea998ce6a3c68a",
+    "raven_luvas/magia.png": "c11b86604149e781c6a74c074bbb3f67c0ae5982aa48201e8c218b32714d7e15",
+    "raven_luvas/bloquear.png": "79368afddb9b2fb585e0aca64e86c7559884ca52007e943c8175fa146e7e84a5",
+    "raven_luvas/andar_escudo.png": "55f773f8605f98fba4098b7c64131f8ed14a2de927e7d02d6ecf2fa5e860dcde",
+    "raven_luvas/arco.png": "575552e120c9b82067c706242de1125e59630efbd988afe078c8d1b43edc4abb",
+    "raven_luvas/picareta.png": "1cf87a4509f6c4292ba53bb1474dfa89049f8789f524a121013df15ae8c4ad32",
+    "raven_luvas/pa.png": "9535d80eb31883033907eab06e4753deabbf21954dacdadbc81ae2ea102045cc",
+    "raven_luvas/enxada.png": "a4a88da3a536ba02868c1af2480bfb3d6c50b989045808b04befd07b5dee4778",
+    "raven_luvas/regar.png": "f6983f91f126ad64b7856f40deff9a3459069419e39d49e0531cdcb3b849dce5",
+    "raven_luvas/pescar.png": "9eb371cd272523aa24515baf67423498b82c6de7dd2015a83c2e18d5b44fb351",
+    "raven_luvas/lanca.png": "c82a1bf49eb37c13cdc7d810ef15fabf331992a9c30bd152e2c2b0e12e1c4460",
+    "raven_luvas/plantar.png": "e71ed2d6eeb24339ef0172753328f5b030cb424f53873397de64b36362f7bed4",
+    "raven_luvas/colher.png": "f411041d510ab041190914e2dd9b22e75d6b5f7b54fde449294677f0287fbcaf",
+    "raven_luvas/forjar.png": "1cf87a4509f6c4292ba53bb1474dfa89049f8789f524a121013df15ae8c4ad32",
+    "raven_luvas/sentado.png": "6311d90033c8d898718afc88b690419345c90453a93f1ee8ce5ee9033054dd30",
+    "raven_luvas/ferido.png": "27a3410a192a04324f28ef10ebbc685e3c01f73c023174115765e3ffe80c16a3",
+    "luvas/andar.png": "bebe29cb13be1916609be1d8c09ce4bccd2409577898d92fd5f77ccb2b8bf7b5",
+    "luvas/fazenda.png": "d00779e2c529bba62570d2bf07ded2cd4c9d292ffe6859404d7c37b1525aca77",
+    "luvas/forja.png": "c483078c6b65f2f6048366558439fcfb9d7877762a1c0e0159b97b33a4e615c7",
+    "luvas/sentado.png": "7b873f952383d2d0fb7199ed0eb21340f3aa811215921acb414d931d07730e3f",
+    "luvas/espada.png": "f2126569ae634fbc7d33a1d15bbea0b68a89931a3d769b28ce9d9bd983598b73",
+    "luvas/lanca.png": "778851e2ed19fc68a1f84e16493cde555fb698b6ea9085682e13df65b2f6e20c",
+    "luvas/reacao_um_mao.png": "e2232af10dcc5e539489606d7bff91cdc528a99c16de8e3b088fbcd6284ed3e7",
+    "luvas/reacao_lanca.png": "e2232af10dcc5e539489606d7bff91cdc528a99c16de8e3b088fbcd6284ed3e7",
+    "luvas/reacao_arco.png": "e2232af10dcc5e539489606d7bff91cdc528a99c16de8e3b088fbcd6284ed3e7",
+    "luvas/arco_p2.png": "7b873f952383d2d0fb7199ed0eb21340f3aa811215921acb414d931d07730e3f",
+    "luvas/arco_p3.png": "e469f4b97070604b65be50837669a9db861ace15e374a9072092156817091d04",
+    "raven_botas.png": "110e232d5c2ab8e054bbee231dcf970507ce14b1735ba2250b934dc1d4b70fd4",
+    "raven_botas/andar.png": "0f59f20fbeb2f6ce13e492335925bf1c5911ab81e37a610820f34eab35d3292d",
+    "raven_botas/parado.png": "0d6431243e2210446b9cf97d60737146d1e68e0c54aacf9645433f223a36b7a6",
+    "raven_botas/correr.png": "a4300183c6f6161dd1193d3d0fc8b1c109dce06fd4aed606076bfb81f3f30e96",
+    "raven_botas/pular.png": "7a9cc543519b62243dabc6c77f2432eac793c7e72ce9c4c0abe7c9254a98e7fe",
+    "raven_botas/morrer.png": "ccfe720d5107b7f5b7ae230fda0a34c127d83f2264a6d0e6ebbcd4af9cf87d53",
+    "raven_botas/carregar.png": "94cefaa53cf2d308e3abc9b8f648ac22f97f9b954d92d4e680e6deac376bcc7f",
+    "raven_botas/jogar.png": "ff39fe6945b10dce39fce272dd2f33790e170b4b3fcd6b6b9dcf79d3056bb779",
+    "raven_botas/empurrar.png": "9ea91dcdf506d5542730f1ef56e2f6d419a2d4cc758aeaa9aeac691929912867",
+    "raven_botas/puxar.png": "56bd36662362e3e541ad4e4a4f9cd859e49b5be8c97d634a6b094691b769b94f",
+    "raven_botas/esquiva.png": "ac321ad87fff11d45c4e195e8d695354cf3e0e40725ff9f160dbcfacfd239d42",
+    "raven_botas/espada.png": "fa5be7675c2a3b683e44316bd114057820f2269e4103e6132a2c64015300027e",
+    "raven_botas/espada_2.png": "de0c039eb35c79f66eb064189510ca2e6bc6885a5db5c9a76f348a63b9bfd97b",
+    "raven_botas/espada_dupla.png": "8c0a45526e3ca78e3962b459e76f6bebee566b99523336ec60e2b7a49fcc20b1",
+    "raven_botas/machado.png": "3f309fbcea16ae61c41309da335c7ff580eabf8ec6b15d4ffdba01eda00b94ac",
+    "raven_botas/conjurar.png": "9bfa0e203bdec431183a360aace6b6754dc2790a10e2f4f9b540640cf3daae45",
+    "raven_botas/magia.png": "0d78e21dbdbc7806836a458971c96b3c9606c25868dfad4aa12f3a38940098d2",
+    "raven_botas/bloquear.png": "b460c1c08b3381f2b8d143e42b5056f566ffd1d8db349316fa6050d82922a2a6",
+    "raven_botas/andar_escudo.png": "fe2d21b93d39713025191c7aa89d60e4ead5a76395b23b6daf83316b9c664203",
+    "raven_botas/arco.png": "18be2711968f376c05bf44e412acfc4d1bd51b7cc24595d81275134de4deb335",
+    "raven_botas/picareta.png": "3f309fbcea16ae61c41309da335c7ff580eabf8ec6b15d4ffdba01eda00b94ac",
+    "raven_botas/pa.png": "a557498c0913e55f248184c18d70fdf557939591d6978f4b3b47fe281aad2a9f",
+    "raven_botas/enxada.png": "e4506549b3eb13a1ca8d2351b4cb06e8ddee5d9819a8b61b6c238d736c53aaca",
+    "raven_botas/regar.png": "2a6638a0e06f09609a06bfba133190aa118332b2bd1dbcae27f49471b9826be6",
+    "raven_botas/pescar.png": "fd3b949b95af10ee7d62d87f8872a7d0ea57e39496cb1e9270babf5af934e5c2",
+    "raven_botas/lanca.png": "bc792082d60dd83421b006801a0e7f6af62ab3df69fa993d60cd442fd303a9c4",
+    "raven_botas/plantar.png": "2c17361a7d2f6d573f20cf5899dae8b5fc41b8cf7347435ed9ea64e449da3fd9",
+    "raven_botas/colher.png": "297e3d543c891ad79ce532451a3e40af61388be35edeac3ad9d01984ae77ae38",
+    "raven_botas/forjar.png": "3f309fbcea16ae61c41309da335c7ff580eabf8ec6b15d4ffdba01eda00b94ac",
+    "raven_botas/sentado.png": "0d6431243e2210446b9cf97d60737146d1e68e0c54aacf9645433f223a36b7a6",
+    "raven_botas/ferido.png": "9ea91dcdf506d5542730f1ef56e2f6d419a2d4cc758aeaa9aeac691929912867",
+    "botas/andar.png": "7a615f52d3b522101d72ef4ba7216538881f8b9b855a85d075e7cda43f715a9c",
+    "botas/fazenda.png": "315970aba0018a90c7662249439b9d2e8df7db927de01261036efb87dd1d37da",
+    "botas/forja.png": "eb3eaf781e1340eecf89c22899399844dfda5ee076e99a94f42b90b5c909a9ff",
+    "botas/sentado.png": "4df5c7bb281ff9c30534cad809da6954a69cc48fd30b0c3e2a236ffc5beddc4b",
+    "botas/espada.png": "1048f12eb441c7a82e3f614bbd0dd03d00dbe3bfa1d300852d07986fdcaff52a",
+    "botas/lanca.png": "b677c54045a27df1cb09099229249df7d8917de4be8ca8726d2c1d88874e37a2",
+    "botas/reacao_um_mao.png": "676849bdb6aa0fb227ad8fdefdb0b03f94a2c7a7d818aed32a9ae65a0ca32b85",
+    "botas/reacao_lanca.png": "676849bdb6aa0fb227ad8fdefdb0b03f94a2c7a7d818aed32a9ae65a0ca32b85",
+    "botas/reacao_arco.png": "676849bdb6aa0fb227ad8fdefdb0b03f94a2c7a7d818aed32a9ae65a0ca32b85",
+    "botas/arco_p2.png": "4df5c7bb281ff9c30534cad809da6954a69cc48fd30b0c3e2a236ffc5beddc4b",
+    "botas/arco_p3.png": "388db7925b6aca8ce7c7a957418d5988f2619648fdd75d1a2c355a7b1d832990"
+  }
+}

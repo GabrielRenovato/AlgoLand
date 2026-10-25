@@ -1,0 +1,10 @@
+{
+  "origem": "res://arte/fontes/armaduras/soberano_astral/elmos_originais/elmos_nativos.png",
+  "ferramenta": "PixelLab pixelart_workbench edit",
+  "image_id": "172c73d7-9219-4541-95ca-e075545ab7ea",
+  "escopo": "Retirar somente as pontas das linhas horizontais sob a base frontal do elmo; preservar visor, crista, cores, outras vistas, pivô e grade. Aplicação nos seis quadros da corrida de frente.",
+  "sha256_fonte_revisada": "dacc20306b978b54c5c8e96fcc36cdccbf0578532d45f6623bfdef2525b1f5c5",
+  "sha256_corrida_antes": "439596222e4df3620ac688ab52c8495d6845daa02c33a1121a2634f4de05f6bc",
+  "comando": "gerar_conjunto.gd <manifesto> --somente-base-elmos",
+  "sha256_corrida_revisada": "36001658fc8736161340ab985cc63cdcf0a51822fd5b1eaf190e74c457fd2cda"
+}

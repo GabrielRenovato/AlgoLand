@@ -2,6 +2,7 @@ extends Control
 
 ## Catálogo, encomendas diárias, desafios e coleção do Nilo.
 const Desafios := preload("res://codigo/pesca/desafios_pesca.gd")
+const Progressao := preload("res://codigo/pesca/progressao_pesca.gd")
 const Peixes := preload("res://codigo/pesca/peixes.gd")
 var _aba := "PEIXES"
 var _abas: GridContainer
@@ -12,6 +13,7 @@ var _fechar: Button
 var _grade: GridContainer
 var _vender: Button
 var _resumo: Label
+var _habilidade: VBoxContainer
 
 func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -42,6 +44,10 @@ func _ready() -> void:
 	_fechar.text = "FECHAR"
 	_fechar.pressed.connect(func(): EventosJogo.fechar_tela_de(get_parent(), "guia_pesca"))
 	cabecalho.add_child(_fechar)
+	_habilidade = Progressao.painel(EventosJogo.dono(self))
+	for rotulo in _habilidade.get_children():
+		if rotulo is Label: rotulo.add_theme_font_size_override("font_size", 8)
+	coluna.add_child(_habilidade)
 	var fala := Label.new()
 	fala.text = "Peixes por estacao, colecao e desafios.\nNilo refina sua vara na loja do cais, das 8h as 17h."
 	fala.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -93,6 +99,14 @@ func _ready() -> void:
 
 ## Catálogo com quantos o jogador tem na bolsa (x) e já pescou (total); recomposto ao abrir e depois de vender
 func _preencher() -> void:
+	var pai := _habilidade.get_parent()
+	var indice := _habilidade.get_index()
+	_habilidade.free()
+	_habilidade = Progressao.painel(EventosJogo.dono(self))
+	for rotulo in _habilidade.get_children():
+		if rotulo is Label: rotulo.add_theme_font_size_override("font_size", 8)
+	pai.add_child(_habilidade)
+	pai.move_child(_habilidade, indice)
 	for filho in _grade.get_children():
 		filho.queue_free()
 	for botao in _abas.get_children():
@@ -130,6 +144,7 @@ func _preencher() -> void:
 		nome.tooltip_text = "%s | %s\nPESCADOS: %d | VENDA: %d BRASAS\nUSOS: VENDA E PRATOS DO CAIO" % [Peixes.raridade(id).to_upper(),epoca,pescados,Peixes.brasas(id)]
 		nome.text = "%s\n%s | VARA %d%s" % [peixe["nome"], "Mar" if peixe["ambiente"] == "mar" else "Lago",Peixes.nivel_recomendado(id),
 			("  x%d" % Fazenda.quantidade_peixes(id)) if Fazenda.quantidade_peixes(id) > 0 else ""]
+		nome.text += "\nPESCA NV %d | %s" % [Peixes.nivel_pesca(id), "LIBERADO" if Progressao.nivel(EventosJogo.dono(self)) >= Peixes.nivel_pesca(id) else "BLOQUEADO"]
 		nome.add_theme_font_size_override("font_size", 8)
 		linha.add_child(nome)
 	var valor := Fazenda.valor_dos_peixes()

@@ -106,21 +106,24 @@ func _rodar() -> void:
 	jogador.global_position = current_scene.get_node("PescaPierLeste").global_position
 	jogador.definir_aparencia(0,2)
 	await quadros(6)
+	var movimento_anterior: bool = jogador.movimento_habilitado
+	var arvore_anterior: bool = jogador._arvore_animacao.active
+	var visual_anterior: bool = jogador.get_node("CompositeSprites").visible
 	for direcao in [Vector2.DOWN,Vector2.UP,Vector2.RIGHT,Vector2.LEFT]:
 		var sessao: Node = Sessao.new()
-		sessao.iniciar(jogador,direcao,"mar")
+		sessao.iniciar(jogador,direcao,"rio")
 		sessao._esperar()
 		sessao._espera = 999
 		await quadros(3)
-		verificar("pose de pesca alinhada: "+str(direcao),not jogador.get_node("CompositeSprites").visible and jogador.get_node("AnimacaoPesca").vara.frame == sessao._animacao._linha*8+2)
+		verificar("pose de pesca alinhada: "+str(direcao),not jogador.get_node("CompositeSprites").visible and sessao._animacao._pose == 2 and jogador.get_node("HeroiRaven").quadro_pesca(2) == 3)
 		if DisplayServer.get_name() != "headless":
 			await RenderingServer.frame_post_draw
 			root.get_texture().get_image().save_png("/tmp/algoland-pesca-direcao-%d.png" % sessao._animacao._linha)
 			if direcao == Vector2.RIGHT:
-				root.get_texture().get_image().save_png("res://arte/previas/pesca/mana_seed.png")
+				root.get_texture().get_image().save_png("/tmp/algoland-pesca-mana-seed.png")
 		sessao._terminar()
 		await quadros(3)
-		verificar("cancelar restaura árvore e visual",jogador.movimento_habilitado and jogador._arvore_animacao.active and jogador.get_node("CompositeSprites").visible and not jogador.has_node("AnimacaoPesca"))
+		verificar("cancelar restaura árvore e visual",jogador.movimento_habilitado == movimento_anterior and jogador._arvore_animacao.active == arvore_anterior and jogador.get_node("CompositeSprites").visible == visual_anterior and not jogador.has_node("AnimacaoPesca"))
 	for id in ["armadura_teste","armadura_cavaleiro","armadura_cavaleiro_rubro","traje_cavalheiro"]:
 		var indice := -1
 		for i in Aparencia.roupas().size():
@@ -128,11 +131,11 @@ func _rodar() -> void:
 				indice = i
 		jogador.definir_aparencia(0,indice)
 		var sessao: Node = Sessao.new()
-		sessao.iniciar(jogador,Vector2.RIGHT,"mar")
+		sessao.iniciar(jogador,Vector2.RIGHT,"rio")
 		sessao._esperar()
 		sessao._espera = 999
 		await quadros(3)
-		verificar("conjunto usa página adicional: "+id,sessao._animacao._camadas[1].texture != null)
+		verificar("conjunto usa página adicional: "+id,jogador.get_node("HeroiRaven")._camadas[1].texture != null)
 		if DisplayServer.get_name() != "headless":
 			await RenderingServer.frame_post_draw
 			root.get_texture().get_image().save_png("/tmp/algoland-pesca-%s.png" % id)

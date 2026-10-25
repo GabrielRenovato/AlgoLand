@@ -1,0 +1,10 @@
+{
+  "origem": "res://arte/fontes/armaduras/sentinela/elmos_originais/elmos_nativos.png",
+  "ferramenta": "PixelLab pixelart_workbench edit",
+  "image_id": "172c73d7-9219-4541-95ca-e075545ab7ea",
+  "escopo": "Retirar somente as pontas das linhas horizontais sob a base frontal do elmo; preservar visor, crista, cores, outras vistas, pivô e grade. Aplicação nos seis quadros da corrida de frente.",
+  "sha256_fonte_revisada": "a7a9c6a0656250eaabdc72cc28f67b93ccbeba1b123c3070c590f486f87332b7",
+  "sha256_corrida_antes": "6971bcdf0d82db9109096cbdb7176485de365d67b619db2d7d3165adb66ed011",
+  "comando": "gerar_conjunto.gd <manifesto> --somente-base-elmos",
+  "sha256_corrida_revisada": "361c6bb9a08331aabb8163f2b0d5c4616cfb2f36022420dbb6ccb9dac41f5a0f"
+}

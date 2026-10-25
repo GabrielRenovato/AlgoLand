@@ -1,0 +1,35 @@
+{
+  "modelo": "../../conceito_v1.png",
+  "tipo": "Estudo animado de aparência; sem alterar armadura ativa",
+  "referencia": "Mana Seed Character Base, char_a_p1_0bas_humn_v01.png",
+  "origem": {
+    "colunas": [
+      6,
+      7
+    ],
+    "linhas": {
+      "frente": 4,
+      "direita": 6,
+      "costas": 5
+    },
+    "celula": [
+      64,
+      64
+    ]
+  },
+  "quadros_desenhados_por_direcao": 2,
+  "esquerda": "Espelho horizontal da direita",
+  "fases": [
+    "Impulso aéreo, perna próxima avança e braço oposto avança",
+    "Impulso oposto, perna distante avança e braço próximo avança"
+  ],
+  "cabeca_tronco": "Inclinação e rotação sutil junto aos ombros, sem fixar capacete por frame",
+  "movimento": "Passada compacta, joelhos dobrados, sem pose estática aberta intermediária",
+  "grade_previa": "Duas células quadradas por linha; raiz comum pelo quadril; mesma escala para o par",
+  "ritmo_ms": [
+    150,
+    150
+  ],
+  "integracao": "AnimatedSprite2D na cidade em save isolado; estudo em alta resolução, sem substituir conjunto modular nativo",
+  "entrega": "Fontes nesta pasta; GIF e capturas em arte/previas/armaduras/carrasco/estudo_cidade/corpo_inteiro/"
+}

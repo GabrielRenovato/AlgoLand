@@ -1,8 +1,10 @@
 extends "res://codigo/ui/catalogo_inventario.gd"
 
 const Peixes := preload("res://codigo/pesca/peixes.gd")
+const Progressao := preload("res://codigo/pesca/progressao_pesca.gd")
 const Varas := preload("res://codigo/pesca/varas.gd")
 const Metas := preload("res://codigo/pesca/desafios_pesca.gd")
+const Ficha := preload("res://codigo/ui/ficha_peixe.gd")
 var _desafios_pesca := false
 var _grade_peixes: GridContainer
 func _ready() -> void:
@@ -12,7 +14,8 @@ func _ready() -> void:
 func _atualizar() -> void:
 	_limpar_catalogo()
 	var jogador := EventosJogo.dono(self)
-	_rotulo(_lista,"PESCA | VARA NV %d / 5" % Varas.nivel(jogador),Varas.CORES[Varas.nivel(jogador)-1])
+	_lista.add_child(Progressao.painel(jogador))
+	_rotulo(_lista,"VARA NV %d / 5" % Varas.nivel(jogador),Varas.CORES[Varas.nivel(jogador)-1])
 	_rotulo(_lista,"PEDRAS: %d | ESPECIES: %d / %d" % [Varas.pedras(jogador),Fazenda.peixes_pescados.size(),Peixes.DADOS.size()])
 	var trocar := Button.new()
 	trocar.text = "VER CATALOGO" if _desafios_pesca else "VER DESAFIOS"
@@ -33,6 +36,7 @@ func _atualizar() -> void:
 		var estacoes: Array = Peixes.DADOS[id]["estacoes"]
 		var epoca := "ANO TODO" if estacoes.is_empty() else "/".join(estacoes.map(func(e): return Calendario.NOMES[int(e)]))
 		var detalhes := "%s\n%s | %s\n%s\nVARA RECOMENDADA: NV %d\nPESCADOS: %d | BOLSA: %d\nVENDA: %d BRASAS" % [Peixes.nome(id),"MAR" if Peixes.catalogo()[id]["ambiente"] == "mar" else "AGUA DOCE",Peixes.raridade(id).to_upper(),epoca,Peixes.nivel_recomendado(id),int(Fazenda.peixes_pescados.get(id,0)),Fazenda.quantidade_peixes(id,EventosJogo.dono(self)),Peixes.brasas(id)]
+		detalhes += "\nPESCA: NV %d | %s\nXP BASE: %d" % [Peixes.nivel_pesca(id), "LIBERADO" if Progressao.nivel(jogador) >= Peixes.nivel_pesca(id) else "BLOQUEADO", Progressao.experiencia_peixe(id)]
 		_adicionar_item(id,Peixes.icone(id),int(Fazenda.peixes_pescados.get(id,0))>0,detalhes)
 
 func _mostrar_desafios() -> void:
@@ -62,4 +66,23 @@ func _depois_de_trocar() -> void:
 		cartao.grab_focus()
 
 func primeiro_cartao() -> Control:
-	return _lista.get_child(2) if _lista.get_child_count() > 2 else null
+	for filho in _lista.get_children():
+		if filho is Button: return filho
+	return null
+
+func _estilizar_dica() -> void:
+	preload("res://codigo/ui/estilo_inicio_detalhado.gd").painel(_dica, false, 10, true)
+	_dica.mouse_filter = Control.MOUSE_FILTER_STOP
+
+func _mostrar_dica(id: String, slot: Control) -> void:
+	if not is_instance_valid(_dica) or not is_visible_in_tree() or not Peixes.existe(id): return
+	_id_dica = id
+	for filho in _linhas_dica.get_children(): filho.free()
+	Ficha.preencher(_linhas_dica, id, EventosJogo.dono(self), _fechar_dica)
+	var largura := minf(212, _area_dica.size.x - 20)
+	_rolagem_dica.custom_minimum_size = Vector2(largura - 20, 0)
+	_rolagem_dica.scroll_vertical = 0
+	_dica.custom_minimum_size = Vector2(largura, 0)
+	_dica.size = Vector2(largura, 0)
+	_dica.show()
+	_posicionar_dica.call_deferred(slot)

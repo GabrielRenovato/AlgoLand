@@ -1,0 +1,10 @@
+{
+  "origem": "res://arte/fontes/armaduras/sentinela/base_elmo_frente/elmos_base_limpa.png",
+  "ferramenta": "PixelLab pixelart_workbench edit",
+  "image_id": "19045915-c380-43ba-b734-4ac7edccda5a",
+  "escopo": "Retirar apenas pontas nas quatro últimas linhas da vista de costas; preservar a frente revisada, calota, cores e perfis. Projetar nos seis quadros de costas, sem recompor outras peças.",
+  "sha256_fonte_revisada": "ac8929a07fd0d10853b51116ac7682ddac6d4743a7c56c889fc267b438232001",
+  "sha256_corrida_antes": "361c6bb9a08331aabb8163f2b0d5c4616cfb2f36022420dbb6ccb9dac41f5a0f",
+  "comando": "gerar_conjunto.gd <manifesto> --somente-base-elmos",
+  "sha256_corrida_revisada": "2857e5d4b308adcb92c17d51031cfa7fc2f9e78e295dccff44b19f55dd9b3185"
+}

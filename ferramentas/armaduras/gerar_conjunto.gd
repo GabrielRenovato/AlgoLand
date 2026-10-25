@@ -9,6 +9,8 @@ const Acabamento := preload("res://codigo/dados/acabamento_refinado.gd")
 var _config: Dictionary = {}
 var _destino := ""
 var _paleta: Array = []
+var _somente_elmos := false
+var _somente_peitorais := false
 
 var _elmos: Array[Image] = []
 var _peitorais: Array[Image] = []
@@ -22,16 +24,18 @@ var _deslocamentos_cranio: Array[int] = []
 ## Recortes sem alteração de pixels; evita folhas de 9600 px no WebGL.
 func _gravar_paginas_web() -> void:
 	var acoes: Array = JSON.parse_string(FileAccess.get_file_as_string("res://assets/personagens/raven_fantasy/camadas/acoes.json"))
-	for peca in Padrao.PECAS:
+	var selecionadas: Array = ["peitoral"] if _somente_peitorais else (["elmo", "peitoral"] if _somente_elmos else Padrao.PECAS)
+	for peca in selecionadas:
 		var caminho: String = _destino+"raven_"+String(peca)
 		var imagem := Image.load_from_file(caminho+".png")
 		DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(caminho))
 		for i in acoes.size():
+			if (_somente_elmos or _somente_peitorais) and String(acoes[i]) in ["correr","plantar","colher"]:continue
 			imagem.get_region(Rect2i(0,i*320,320,320)).save_png(caminho+"/"+String(acoes[i])+".png")
 	if FileAccess.file_exists("res://assets/personagens/raven_fantasy/acoes_fazenda/colher/corpo_0.png"):
-		preload("res://ferramentas/personagem/encaixe_acoes_fazenda_raven.gd").preparar_conjunto(_destino)
+		preload("res://ferramentas/personagem/encaixe_acoes_fazenda_raven.gd").preparar_conjunto(_destino, _somente_elmos, Color.html(_paleta[1]), _somente_peitorais)
 	if FileAccess.file_exists("res://assets/personagens/raven_fantasy/corrida_mana_seed/corpo_0.png"):
-		preload("res://ferramentas/personagem/encaixe_corrida_raven.gd").preparar_conjunto(_destino)
+		preload("res://ferramentas/personagem/encaixe_corrida_raven.gd").preparar_conjunto(_destino, _somente_elmos, Color.html(_paleta[1]), _somente_peitorais, bool(_config.recortes.get("pernas_corrida_frente",false)))
 
 func _initialize() -> void:
 	var args := OS.get_cmdline_user_args()
@@ -45,8 +49,21 @@ func _initialize() -> void:
 		return
 	_destino = String(_config["destino"])
 	_paleta = _config["paleta"]
+	_somente_elmos = "--somente-elmos" in args
+	_somente_peitorais = "--somente-peitorais" in args
+	if "--somente-base-elmos" in args:
+		quit(0 if preload("res://ferramentas/personagem/encaixe_corrida_raven.gd").corrigir_base_elmos_corrida(_destino) else 1)
+		return
+	if "--somente-pernas-corrida" in args:
+		if not bool(_config.recortes.get("pernas_corrida_frente",false)):
+			push_error("Correção de pernas não habilitada neste manifesto")
+			quit(1)
+			return
+		preload("res://ferramentas/personagem/encaixe_corrida_raven.gd").corrigir_pernas_frente(_destino)
+		quit()
+		return
 	if "--somente-corrida" in args:
-		preload("res://ferramentas/personagem/encaixe_corrida_raven.gd").preparar_conjunto(_destino)
+		preload("res://ferramentas/personagem/encaixe_corrida_raven.gd").preparar_conjunto(_destino,false,Color.TRANSPARENT,false,bool(_config.recortes.get("pernas_corrida_frente",false)))
 		quit()
 		return
 	if "--somente-acoes-fazenda" in args:
@@ -74,6 +91,9 @@ func _initialize() -> void:
 		quit(1)
 		return
 	_gerar_raven()
+	if _somente_elmos or _somente_peitorais:
+		quit()
+		return
 	quit(0 if _gravar_definicao() else 1)
 
 ## Mesmas quatro peças e manifestos; poses e moldes exclusivamente Raven.
@@ -85,7 +105,12 @@ func _gerar_raven() -> void:
 	var roupas: Array[Image] = []
 	for camada in raven.pecas_roupa(1): roupas.append(load(raven.RAIZ+"camadas/"+camada+".png").get_image())
 	var folhas := {}
-	for peca in Padrao.PECAS: folhas[peca]=Image.create(320,320*acoes.size(),false,Image.FORMAT_RGBA8)
+	var selecionadas: Array = ["peitoral"] if _somente_peitorais else (["elmo"] if _somente_elmos else Padrao.PECAS)
+	for peca in selecionadas: folhas[peca]=Image.create(320,320*acoes.size(),false,Image.FORMAT_RGBA8)
+	var existentes: Array[Image] = []
+	if _somente_elmos or _somente_peitorais:
+		for peca in ["peitoral", "luvas", "botas"]:
+			existentes.append(Image.load_from_file(_destino+"raven_"+peca+".png"))
 	for i in acoes.size():
 		for d in 4:
 			for q in 4:
@@ -105,7 +130,15 @@ func _gerar_raven() -> void:
 					elmo.rotate_90(CLOCKWISE if direcao==2 else COUNTERCLOCKWISE)
 					partes.elmo.fill(Color.TRANSPARENT)
 					partes.elmo.blit_rect(elmo,Rect2i(Vector2i.ZERO,elmo.get_size()),cabelo.get_center()-elmo.get_size()/2)
+				if _somente_elmos:
+					var outras: Array[Image] = []
+					for existente in existentes: outras.append(existente.get_region(regiao))
+					preload("res://ferramentas/personagem/encaixe_acoes_fazenda_raven.gd").preservar_outras_pecas(partes.elmo, outras, corpo, Color.html(_paleta[1]))
+					existentes[0].blit_rect(outras[0],Rect2i(0,0,64,64),pos)
+				if _somente_peitorais:
+					partes.peitoral=preload("res://ferramentas/personagem/encaixe_acoes_fazenda_raven.gd").preservar_mascara(existentes[0].get_region(regiao),partes.peitoral)
 				for peca in folhas: folhas[peca].blit_rect(partes[peca],Rect2i(0,0,64,64),pos)
+	if _somente_elmos: folhas["peitoral"]=existentes[0]
 	var paginas := {"andar":"correr","fazenda":"enxada","forja":"forjar","sentado":"sentado","espada":"espada","lanca":"lanca","reacao_um_mao":"ferido","reacao_lanca":"ferido","reacao_arco":"ferido","arco_p2":"parado","arco_p3":"arco"}
 	for peca in folhas:
 		DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(_destino+peca))
@@ -120,8 +153,15 @@ func _gerar_raven() -> void:
 					for bloco in [0,4]: pagina_peca.blit_rect(folhas[peca],origem,Vector2i(q*64,([0,2,1,3][d]+bloco)*64))
 			pagina_peca.save_png(_destino+peca+"/"+pagina+".png")
 			completo.blend_rect(pagina_peca,Rect2i(0,0,512,512),Vector2i.ZERO)
+		if _somente_elmos:
+			for peca in ["luvas", "botas"]:
+				completo.blend_rect(Image.load_from_file(_destino+peca+"/"+pagina+".png"),Rect2i(0,0,512,512),Vector2i.ZERO)
+		if _somente_peitorais:
+			for peca in ["elmo", "luvas", "botas"]:
+				completo.blend_rect(Image.load_from_file(_destino+peca+"/"+pagina+".png"),Rect2i(0,0,512,512),Vector2i.ZERO)
 		completo.save_png(_destino+pagina+".png")
 	_gravar_paginas_web()
+	Image.create(512,512,false,Image.FORMAT_RGBA8).save_png(_destino+"cabelo_oculto.png")
 	print("Conjunto Raven ",_config.id,": ",acoes.size()," ações, quatro peças e onze páginas.")
 
 func _gravar_definicao() -> bool:
@@ -190,7 +230,10 @@ func _preparar_pecas() -> bool:
 				push_error("Vista de elmo vazia: " + str(i))
 				return false
 			elmo = elmo.get_region(elmo.get_used_rect())
-		elmo.resize(int(_config["recortes"].get("largura_elmo", 14)), int(_config["recortes"].get("altura_elmo", 17)), Image.INTERPOLATE_NEAREST)
+		# Fontes nativas já foram desenhadas na grade final do PixelLab.
+		# Redimensioná-las voltaria a esmagar a calota e o visor.
+		if not bool(_config["recortes"].get("elmo_nativo", false)):
+			elmo.resize(int(_config["recortes"].get("largura_elmo", 14)), int(_config["recortes"].get("altura_elmo", 17)), Image.INTERPOLATE_NEAREST)
 		_quantizar(elmo)
 		_elmos.append(elmo)
 		var metade := elmo.get_height() / 2
@@ -207,7 +250,19 @@ func _preparar_pecas() -> bool:
 		var copa := elmo.get_region(Rect2i(0, 0, elmo.get_width(), maxi(1, roundi(elmo.get_height() * 0.6)))).get_used_rect()
 		_ancoras_cartola.append(copa.get_center().x)
 		var peito := vista.get_region(Rect2i(0, roundi(h * fim_elmo), vista.get_width(), roundi(h * (fim_peitoral - fim_elmo))))
-		peito.resize(16, 11, Image.INTERPOLATE_NEAREST)
+		if _config.has("arte_peitoral"):
+			var fonte_peito:=Image.load_from_file(_config["arte_peitoral"])
+			if fonte_peito==null or fonte_peito.is_empty():
+				push_error("Fonte de peitoral inválida")
+				return false
+			var largura:=fonte_peito.get_width()/4
+			peito=fonte_peito.get_region(Rect2i(i*largura,0,largura,fonte_peito.get_height()))
+			if peito.is_invisible():
+				push_error("Peitoral sem vista: "+str(i))
+				return false
+			peito=peito.get_region(peito.get_used_rect())
+		else:
+			peito.resize(16, 11, Image.INTERPOLATE_NEAREST)
 		_quantizar(peito)
 		_peitorais.append(peito)
 		var pernas := vista.get_region(Rect2i(0, roundi(h * fim_peitoral), vista.get_width(), h - roundi(h * fim_peitoral)))
@@ -296,7 +351,7 @@ func _vestir_tecido(corpo: Image, roupa: Image, cabeca: Rect2i, direcao: int) ->
 			elif y >= topo + 3 and abs(x - centro) > 4:
 				peca = "luvas"
 			elif y >= topo and y < fundo and abs(x - centro) <= 4:
-				var amostra := peito.get_pixel(clampi(x - centro + 8, 0, 15), clampi(y - topo, 0, 10))
+				var amostra := peito.get_pixel(clampi(x - centro + peito.get_width()/2, 0, peito.get_width()-1), clampi(y - topo, 0, peito.get_height()-1))
 				if amostra.a > 0.5:
 					cor = amostra
 			partes[peca].set_pixel(x, y, cor)
@@ -342,7 +397,7 @@ func _vestir(corpo: Image, roupa: Image, cabeca: Rect2i, direcao: int) -> Dictio
 			var tom := 0 if brilho < 0.15 else (2 if brilho < 0.4 else (3 if brilho < 0.6 else (4 if brilho < 0.8 else 5)))
 			var cor := Color.html(_paleta[tom])
 			if y >= topo and y <= fundo and abs(x - centro) <= 7 and brilho >= 0.15:
-				var amostra := peito.get_pixel(clampi(x - centro + 8, 0, 15), clampi(y - topo, 0, 10))
+				var amostra := peito.get_pixel(clampi(x - centro + peito.get_width()/2, 0, peito.get_width()-1), clampi(y - topo, 0, peito.get_height()-1))
 				if amostra.a > 0.5:
 					cor = amostra
 			# Couro entre a placa abdominal e as grevas, sem tingir os pés de marrom.

@@ -21,3 +21,16 @@ static func textura(tipo: String) -> Texture2D:
 		atlas.filter_clip = true
 		_texturas[tipo] = atlas
 	return _texturas[tipo]
+
+## Mesmo tamanho e pivô da arma inteira; só o couro do cabo sobe diante do elmo.
+static func textura_cabo(tipo: String) -> Texture2D:
+	var chave := "cabo:"+tipo
+	if not _texturas.has(chave):
+		var imagem := textura(tipo).get_image()
+		imagem.convert(Image.FORMAT_RGBA8)
+		for y in imagem.get_height():
+			for x in imagem.get_width():
+				if imagem.get_pixel(x,y) != Color("745c42"):
+					imagem.set_pixel(x,y,Color.TRANSPARENT)
+		_texturas[chave] = ImageTexture.create_from_image(imagem)
+	return _texturas[chave]

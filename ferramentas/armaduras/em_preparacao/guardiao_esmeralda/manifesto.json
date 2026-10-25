@@ -1,0 +1,125 @@
+{
+  "versao": 1,
+  "id": "guardiao_esmeralda",
+  "nome": "Guardiao Esmeralda",
+  "raridade": "epico",
+  "arte": "res://arte/fontes/armaduras/guardiao_esmeralda/conceito.png",
+  "destino": "res://assets/personagens/conjuntos/guardiao_esmeralda/",
+  "onda_minima": 41,
+  "chances_drop": {
+    "normal": 0.0,
+    "mutante": 0.0,
+    "chefe": 0.04
+  },
+  "preco_base": 1200,
+  "bonus": {
+    "tipo": "status",
+    "pecas": 4,
+    "chance": 0.0,
+    "recarga": 0.0,
+    "multiplicador_dano": 0.0,
+    "aviso": 0.0,
+    "defesa": 0.05,
+    "vitalidade": 0.15
+  },
+  "bases": {
+    "cabeca": {
+      "vitalidade": [
+        3,
+        4,
+        6,
+        9,
+        12
+      ],
+      "defesa": [
+        2,
+        3,
+        6,
+        8,
+        12
+      ]
+    },
+    "corpo": {
+      "vitalidade": [
+        4,
+        6,
+        10,
+        14,
+        20
+      ],
+      "defesa": [
+        3,
+        5,
+        8,
+        13,
+        17
+      ]
+    },
+    "luvas": {
+      "vitalidade": [
+        1,
+        3,
+        4,
+        5,
+        8
+      ],
+      "defesa": [
+        1,
+        2,
+        3,
+        5,
+        8
+      ]
+    },
+    "botas": {
+      "vitalidade": [
+        1,
+        3,
+        4,
+        5,
+        8
+      ],
+      "defesa": [
+        1,
+        2,
+        3,
+        5,
+        8
+      ]
+    }
+  },
+  "recortes": {
+    "fim_elmo": 0.4,
+    "fim_peitoral": 0.76,
+    "largura_elmo": 14,
+    "altura_elmo": 16,
+    "elmo_rigido": true,
+    "borda_calota": 0,
+    "elmo_nativo": true,
+    "deslocamento_vertical_elmo": [
+      2,
+      2,
+      2,
+      2
+    ],
+    "pernas_corrida_frente": true
+  },
+  "paleta": [
+    "101c1b",
+    "1d3930",
+    "2b5944",
+    "43825d",
+    "6daa7d",
+    "9dc59a",
+    "c5dfb7",
+    "e8f1cc",
+    "302218",
+    "604029",
+    "956b3c",
+    "d1ad68"
+  ],
+  "substituir_cabeca": false,
+  "arte_elmo": "res://arte/fontes/armaduras/guardiao_esmeralda/elmos_originais/elmos_nativos.png",
+  "arte_peitoral": "res://arte/fontes/armaduras/guardiao_esmeralda/peitorais_originais/peitorais_nativos.png",
+  "arte_base_elmo": "res://arte/fontes/armaduras/guardiao_esmeralda/base_elmo_costas/elmos_base_limpa.png"
+}

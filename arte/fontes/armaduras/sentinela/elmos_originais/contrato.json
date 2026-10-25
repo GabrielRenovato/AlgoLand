@@ -1,0 +1,64 @@
+{
+  "caixas_origem": [
+    [
+      165,
+      11,
+      259,
+      117
+    ],
+    [
+      377,
+      12,
+      471,
+      106
+    ],
+    [
+      592,
+      12,
+      691,
+      111
+    ],
+    [
+      775,
+      12,
+      874,
+      115
+    ]
+  ],
+  "dimensoes_nativas": [
+    [
+      14,
+      16
+    ],
+    [
+      14,
+      14
+    ],
+    [
+      14,
+      15
+    ],
+    [
+      14,
+      15
+    ]
+  ],
+  "grade": [
+    24,
+    24
+  ],
+  "ordem": [
+    "frente",
+    "costas",
+    "direita",
+    "esquerda"
+  ],
+  "origem": "conceito_original.png",
+  "saida": "pixelart96x168",
+  "job_id": "792fe787-8eb4-45ae-ace9-97d5244df502",
+  "init_image_strength": 200,
+  "faithful": true,
+  "escopo": "Desenho aprovado preservado pixel a pixel. Apenas encaixe no Raven e gola sob a chapa; sem novos visores, filtros ou redimensionamento.",
+  "referencia_aprovada": "arte/previas/armaduras/elmos_aprovados/referencia_aprovada.png",
+  "sha256_elmos_aprovados": "f5b66c1cfedb78f2b738d3df3b9c2dcdec6f3e7eef0b220b25461798efb973e8"
+}

@@ -1,0 +1,57 @@
+{
+  "tipo": "icones de inventario",
+  "uso": "catalogo, mochila e resultado de captura",
+  "referencias": [
+    "assets/pesca/peixes/dourado.png",
+    "assets/pesca/peixes/salmao.png"
+  ],
+  "dimensoes": [
+    16,
+    16
+  ],
+  "pivo": [
+    8,
+    8
+  ],
+  "margem": 1,
+  "estacoes": "nao se aplica a icones",
+  "ferramenta": "image_gen integrada",
+  "especies": {
+    "peixe_leao": {
+      "nivel": 50,
+      "original": "peixe_leao_original.png",
+      "destino": "assets/pesca/peixes/peixe_leao.png",
+      "prompt": "Use case: illustration-story. Recurso e função no AlgoLand: ícone individual de inventário de um peixe-leão vermelho coral, nadadeiras abertas em leque e listras creme. Referência de estilo: Tiny RPG fish icons, os ícones locais dourado.png e salmao.png têm 16×16 pixels, silhueta diagonal cauda embaixo à esquerda e cabeça em cima à direita, contorno escuro seletivo de um pixel e luz superior esquerda. Grade e tamanho lógico: desenhe EXATAMENTE como sprite nativo de 16 por 16 pixels, ampliado 64 vezes com nearest neighbor para 1024x1024. Cada pixel lógico é um quadrado plano grande de 64x64; formas simples e clusters claros, aproximadamente 10 cores opacas. Use a tela completa de 16x16 com margem transparente de 1 pixel lógico em todas as bordas. Pivô centro 8,8; animal ocupa cerca de 13x12 pixels lógicos. Apenas um peixe, sem letras, moldura, cenário, chão, sombra projetada ou grade visível. Não é uma ilustração detalhada: anatomia e nadadeiras comunicadas em poucos blocos de pixels. Fundo realmente transparente. Variante única de ícone, sem estações. Entrega: sprite estático, sem animação."
+    },
+    "acara_disco": {
+      "nivel": 50,
+      "original": "acara_disco_original.png",
+      "destino": "assets/pesca/peixes/acara_disco.png",
+      "prompt": "Use case: illustration-story. Recurso e função no AlgoLand: ícone individual de inventário de um acará-disco de água doce, corpo circular amarelo alaranjado, listras castanhas e nadadeiras azuis. Referência de estilo: Tiny RPG fish icons, os ícones locais dourado.png e salmao.png têm 16×16 pixels, silhueta diagonal cauda embaixo à esquerda e cabeça em cima à direita, contorno escuro seletivo de um pixel e luz superior esquerda. Grade e tamanho lógico: desenhe EXATAMENTE como sprite nativo de 16 por 16 pixels, ampliado 64 vezes com nearest neighbor para 1024x1024. Cada pixel lógico é um quadrado plano grande de 64x64; formas simples e clusters claros, aproximadamente 10 cores opacas. Use a tela completa de 16x16 com margem transparente de 1 pixel lógico em todas as bordas. Pivô centro 8,8; animal ocupa cerca de 13x12 pixels lógicos. Apenas um peixe, sem letras, moldura, cenário, chão, sombra projetada ou grade visível. Não é uma ilustração detalhada: anatomia e nadadeiras comunicadas em poucos blocos de pixels. Fundo realmente transparente. Variante única de ícone, sem estações. Entrega: sprite estático, sem animação."
+    },
+    "peixe_mandarim": {
+      "nivel": 80,
+      "original": "peixe_mandarim_original.png",
+      "destino": "assets/pesca/peixes/peixe_mandarim.png",
+      "prompt": "Use case: illustration-story. Recurso e função no AlgoLand: ícone individual de inventário de um peixe-mandarim azul turquesa com manchas laranja, corpo pequeno e nadadeiras arredondadas. Referência de estilo: Tiny RPG fish icons, os ícones locais dourado.png e salmao.png têm 16×16 pixels, silhueta diagonal cauda embaixo à esquerda e cabeça em cima à direita, contorno escuro seletivo de um pixel e luz superior esquerda. Grade e tamanho lógico: desenhe EXATAMENTE como sprite nativo de 16 por 16 pixels, ampliado 64 vezes com nearest neighbor para 1024x1024. Cada pixel lógico é um quadrado plano grande de 64x64; formas simples e clusters claros, aproximadamente 10 cores opacas. Use a tela completa de 16x16 com margem transparente de 1 pixel lógico em todas as bordas. Pivô centro 8,8; animal ocupa cerca de 13x12 pixels lógicos. Apenas um peixe, sem letras, moldura, cenário, chão, sombra projetada ou grade visível. Não é uma ilustração detalhada: anatomia e nadadeiras comunicadas em poucos blocos de pixels. Fundo realmente transparente. Variante única de ícone, sem estações. Entrega: sprite estático, sem animação."
+    },
+    "aruana_prateada": {
+      "nivel": 80,
+      "original": "aruana_prateada_original.png",
+      "destino": "assets/pesca/peixes/aruana_prateada.png",
+      "prompt": "Use case: illustration-story. Recurso e função no AlgoLand: ícone individual de inventário de uma aruanã prateada longa, dorso azul acinzentado, escamas grandes simples e cauda coral. Referência de estilo: Tiny RPG fish icons, os ícones locais dourado.png e salmao.png têm 16×16 pixels, silhueta diagonal cauda embaixo à esquerda e cabeça em cima à direita, contorno escuro seletivo de um pixel e luz superior esquerda. Grade e tamanho lógico: desenhe EXATAMENTE como sprite nativo de 16 por 16 pixels, ampliado 64 vezes com nearest neighbor para 1024x1024. Cada pixel lógico é um quadrado plano grande de 64x64; formas simples e clusters claros, aproximadamente 10 cores opacas. Use a tela completa de 16x16 com margem transparente de 1 pixel lógico em todas as bordas. Pivô centro 8,8; animal ocupa cerca de 13x12 pixels lógicos. Apenas um peixe, sem letras, moldura, cenário, chão, sombra projetada ou grade visível. Não é uma ilustração detalhada: anatomia e nadadeiras comunicadas em poucos blocos de pixels. Fundo realmente transparente. Variante única de ícone, sem estações. Entrega: sprite estático, sem animação."
+    },
+    "imperador_abissal": {
+      "nivel": 99,
+      "original": "imperador_abissal_original.png",
+      "destino": "assets/pesca/peixes/imperador_abissal.png",
+      "prompt": "Use case: illustration-story. Recurso e função no AlgoLand: ícone individual de inventário de um peixe abissal roxo escuro de corpo comprido, mandíbula definida, antena luminosa dourada e nadadeiras azul gelo. Referência de estilo: Tiny RPG fish icons, os ícones locais dourado.png e salmao.png têm 16×16 pixels, silhueta diagonal cauda embaixo à esquerda e cabeça em cima à direita, contorno escuro seletivo de um pixel e luz superior esquerda. Grade e tamanho lógico: desenhe EXATAMENTE como sprite nativo de 16 por 16 pixels, ampliado 64 vezes com nearest neighbor para 1024x1024. Cada pixel lógico é um quadrado plano grande de 64x64; formas simples e clusters claros, aproximadamente 10 cores opacas. Use a tela completa de 16x16 com margem transparente de 1 pixel lógico em todas as bordas. Pivô centro 8,8; animal ocupa cerca de 13x12 pixels lógicos. Apenas um peixe, sem letras, moldura, cenário, chão, sombra projetada ou grade visível. Não é uma ilustração detalhada: anatomia e nadadeiras comunicadas em poucos blocos de pixels. Fundo realmente transparente. Variante única de ícone, sem estações. Entrega: sprite estático, sem animação."
+    },
+    "carpa_celestial": {
+      "nivel": 99,
+      "original": "carpa_celestial_original.png",
+      "destino": "assets/pesca/peixes/carpa_celestial.png",
+      "prompt": "Use case: illustration-story. Recurso e função no AlgoLand: ícone individual de inventário de uma carpa celestial dourada de água doce, corpo arqueado branco e ouro, longas nadadeiras turquesa e pequenos bigodes. Referência de estilo: Tiny RPG fish icons, os ícones locais dourado.png e salmao.png têm 16×16 pixels, silhueta diagonal cauda embaixo à esquerda e cabeça em cima à direita, contorno escuro seletivo de um pixel e luz superior esquerda. Grade e tamanho lógico: desenhe EXATAMENTE como sprite nativo de 16 por 16 pixels, ampliado 64 vezes com nearest neighbor para 1024x1024. Cada pixel lógico é um quadrado plano grande de 64x64; formas simples e clusters claros, aproximadamente 10 cores opacas. Use a tela completa de 16x16 com margem transparente de 1 pixel lógico em todas as bordas. Pivô centro 8,8; animal ocupa cerca de 13x12 pixels lógicos. Apenas um peixe, sem letras, moldura, cenário, chão, sombra projetada ou grade visível. Não é uma ilustração detalhada: anatomia e nadadeiras comunicadas em poucos blocos de pixels. Fundo realmente transparente. Variante única de ícone, sem estações. Entrega: sprite estático, sem animação."
+    }
+  }
+}

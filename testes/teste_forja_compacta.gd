@@ -80,10 +80,14 @@ func rodar() -> void:
 		if DisplayServer.get_name() != "headless":
 			await RenderingServer.frame_post_draw
 			root.get_texture().get_image().save_png("/tmp/algoland-forja-%dx%d.png" % [medida.x,medida.y])
-		for tipo in ["arco_curto","peitoral_cavaleiro_rubro"]:
+		for tipo in ["arco_curto","peitoral_cavaleiro_rubro","peitoral_soberano_astral","elmo_sentinela"]:
 			tela._selecionar(tipo)
+			tela._mostrar_detalhes(true)
 			await esperar()
 			conferir(tela._papel.get_global_rect().grow(-6).encloses(tela._custos.get_global_rect()),"todos os materiais visiveis: %s %s papel %s custos %s" % [tipo,medida,tela._papel.get_global_rect(),tela._custos.get_global_rect()])
+			if DisplayServer.get_name() != "headless" and tipo == "peitoral_soberano_astral":
+				await RenderingServer.frame_post_draw
+				root.get_texture().get_image().save_png("/tmp/algoland-forja-astral-%dx%d.png" % [medida.x,medida.y])
 		tela._selecionar("arco_curto")
 		await esperar()
 		conferir(Rect2(Vector2.ZERO,tela.size).encloses(tela._fabricar.get_global_rect()),"fabricar visivel")

@@ -5,9 +5,11 @@ extends Sprite2D
 const AparenciaRaven := preload("res://codigo/dados/aparencia_raven.gd")
 const PorteArmas := preload("res://codigo/dados/porte_armas_raven.gd")
 var _arma_costas: Sprite2D
+var _cabo_arma_costas: Sprite2D
 const CoresArmas := preload("res://codigo/dados/cores_armas_raven.gd")
 var _camadas: Array[Sprite2D] = []
 var _chave_aparencia := -1
+var _id_elmo_corrida := ""
 const Profundidade := preload("res://codigo/globais/profundidade.gd")
 var _jogador: Node2D
 var _texturas: Dictionary = {}
@@ -82,6 +84,11 @@ func _montar_camadas() -> void:
 	_arma_costas.texture_filter = TEXTURE_FILTER_NEAREST
 	_arma_costas.visible = false
 	add_child(_arma_costas)
+	_cabo_arma_costas = Sprite2D.new()
+	_cabo_arma_costas.name = "CaboArmaNasCostas"
+	_cabo_arma_costas.texture_filter = TEXTURE_FILTER_NEAREST
+	_cabo_arma_costas.visible = false
+	_arma_costas.add_child(_cabo_arma_costas)
 
 ## Poeirinha nos pés a cada passada; fica no mundo (não acompanha o jogador) e some rápido
 func _montar_poeira() -> void:
@@ -214,31 +221,50 @@ func _process(delta: float) -> void:
 	_camadas[5].visible = not _vara_pesca.visible
 	frame = direcao*quantidade + clampi(coluna,0,quantidade-1)
 	for camada in _camadas: camada.frame = frame
+	_encaixar_elmo(nome,direcao,coluna)
 	_atualizar_arma_costas(nome,direcao,coluna)
 	_animar_corrida(nome,coluna)
+
+func _encaixar_elmo(acao: String, direcao: int, quadro: int) -> void:
+	_camadas[9].position = Corrida.encaixe_elmo(_id_elmo_corrida,acao,direcao,quadro)
 
 func _atualizar_arma_costas(acao: String, direcao: int, quadro: int) -> void:
 	var tipo := _tipo_armamento()
 	# Cada arma deixa as costas ao iniciar a ação; o golpe usa sua camada nativa.
 	_arma_costas.visible = acao in ["parado","correr"] and tipo in ["espada","espada_dupla","lanca"] and _jogador.id_arma_atual != "maca"
 	_camadas[6].z_index = 3 if _arma_costas.visible else 0
+	_cabo_arma_costas.visible = false
 	if not _arma_costas.visible: return
 	var pose := PorteArmas.pose(tipo,acao,direcao,quadro)
 	_arma_costas.texture = PorteArmas.textura(tipo)
 	_arma_costas.position = Vector2(pose.posicao[0],pose.posicao[1])
 	_arma_costas.rotation = pose.rotacao
 	_arma_costas.z_index = int(pose.z)
+	# O cabo passa diante da nuca, mas a lâmina conserva o porte nas costas.
+	# Filho da arma, acompanha sua posição e rotação sem outro encaixe.
+	if acao == "correr" and direcao == 2 and tipo in ["espada","espada_dupla"]:
+		_cabo_arma_costas.texture = PorteArmas.textura_cabo(tipo)
+		_cabo_arma_costas.z_index = _camadas[9].z_index+1-_arma_costas.z_index
+		_cabo_arma_costas.visible = true
 	var arma = _jogador.inventario.equipados.get("arma")
 	var id: String = arma.tipo if arma != null else (_jogador.id_lanca_atual if tipo=="lanca" else _jogador.id_arma_atual)
 	_arma_costas.material = CoresArmas.material(id,arma.nivel if arma != null else 1)
+	_cabo_arma_costas.material = _arma_costas.material
 
 func _definir_grade(quantidade: int) -> void:
-	if hframes == quantidade: return
-	frame = 0
-	hframes = quantidade
+	# Cada camada guarda a própria grade. A grade correta do corpo não
+	# garante que elmo/peitoral já tenham saído das quatro colunas do repouso.
+	# Uma camada de corrida recortada em quatro colunas mostra partes de
+	# duas poses; conferir todas também ao reaplicar aparência e prévias.
+	if hframes != quantidade or vframes != 4:
+		frame = 0
+		hframes = quantidade
+		vframes = 4
 	for camada in _camadas:
-		camada.frame = 0
-		camada.hframes = quantidade
+		if camada.hframes != quantidade or camada.vframes != 4:
+			camada.frame = 0
+			camada.hframes = quantidade
+			camada.vframes = 4
 
 func criar_previa() -> Sprite2D:
 	# Usa o mesmo compositor do mundo em pose neutra, restaurando o estado
@@ -253,6 +279,7 @@ func criar_previa() -> Sprite2D:
 	_porte_arma = ""
 	_definir_grade(4)
 	_aplicar_aparencia("parado")
+	_encaixar_elmo("parado",0,0)
 	frame = 0
 	for camada in _camadas: camada.frame = 0
 	var porte_visivel := _arma_costas.visible
@@ -266,6 +293,7 @@ func criar_previa() -> Sprite2D:
 	_porte_arma = porte_anterior
 	_definir_grade(colunas_anteriores)
 	_aplicar_aparencia(_animacao if not _animacao.is_empty() else "parado")
+	_encaixar_elmo(_animacao,direcao_anterior,quadro_anterior%colunas_anteriores)
 	frame = quadro_anterior
 	for camada in _camadas: camada.frame = quadro_anterior
 	return previa
@@ -278,7 +306,10 @@ func criar_rastro() -> Sprite2D:
 	for camada in _camadas:
 		if camada.is_visible_in_tree() and camada.texture != null:
 			copia.add_child(_copiar_sprite(camada))
-	if _arma_costas.visible: copia.add_child(_copiar_sprite(_arma_costas))
+	if _arma_costas.visible:
+		var arma := _copiar_sprite(_arma_costas)
+		if _cabo_arma_costas.visible: arma.add_child(_copiar_sprite(_cabo_arma_costas))
+		copia.add_child(arma)
 	return copia
 
 func _copiar_sprite(origem: Sprite2D) -> Sprite2D:
@@ -358,6 +389,7 @@ func _aplicar_aparencia(acao: String) -> void:
 		for peca in ["elmo","peitoral","luvas","botas"]:
 			if _jogador.pecas_cavaleiro & preload("res://codigo/dados/aparencia.gd").PECAS_CAVALEIRO[peca]: raizes[peca]=visual
 	var basicas := {}
+	_id_elmo_corrida = String(raizes.get("elmo","")).trim_suffix("/").get_file()
 	for par in [["cabeca","elmo","cabeca_basica"],["corpo","peitoral","armadura_basica"],["luvas","luvas","luvas_basicas"],["botas","botas","botas_basicas"]]:
 		var item = equipados.get(par[0])
 		if item != null and item.tipo == par[2] and not raizes.has(par[1]): basicas[par[1]]=true
@@ -365,7 +397,7 @@ func _aplicar_aparencia(acao: String) -> void:
 	var cabelo := AparenciaRaven.indice_cabelo(int(dados.get("cabelo",0)))
 	var roupa := AparenciaRaven.indice_roupa(int(dados.get("roupa",0)))
 	material = AparenciaRaven.material_pose(false,acao=="sentado",_direcao)
-	texture = AparenciaRaven.folha("corpo_%d" % pele,acao)
+	texture = AparenciaRaven.corpo_com_elmo(pele,acao,_id_elmo_corrida)
 	var pecas := AparenciaRaven.pecas_roupa(roupa)
 	for i in 5:
 		_camadas[i].texture = AparenciaRaven.folha(pecas[i] if i < pecas.size() else "vazio",acao)
@@ -393,6 +425,10 @@ func _aplicar_aparencia(acao: String) -> void:
 		var peca: String = ["elmo","peitoral","luvas","botas"][i]
 		var raiz: String = raizes.get(peca,"")
 		_camadas[9+i].texture = AparenciaRaven.folha("vazio",acao) if raiz.is_empty() else AparenciaRaven.folha_arquivo(raiz+"raven_"+peca+".png",acao)
+		if peca=="peitoral" and not raiz.is_empty():
+			_camadas[9+i].texture = AparenciaRaven.peitoral_com_elmo(raiz+"raven_peitoral.png",acao,_id_elmo_corrida)
+		if peca=="luvas" and not raiz.is_empty():
+			_camadas[9+i].texture = AparenciaRaven.luvas_com_elmo(raiz+"raven_luvas.png",acao,_id_elmo_corrida)
 		if basicas.has(peca):
 			_camadas[9+i].texture = AparenciaRaven.folha_arquivo("res://assets/personagens/conjuntos/carrasco/raven_elmo.png",acao) if peca=="elmo" else AparenciaRaven.folha(["vazio","camisa_azul","luvas","botas"][i],acao)
 		_camadas[9+i].material = AparenciaRaven.material_pose(false,acao=="sentado",_direcao,false)

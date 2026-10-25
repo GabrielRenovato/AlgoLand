@@ -1,0 +1,1 @@
+Estudo de redesenho completo interrompido. O usuário pediu manter os desenhos anteriores e ajustar somente contornos dos capacetes. Estes arquivos não são carregados nem usados pelo gerador. A revisão ativa está em <id>/contorno_pixellab/.

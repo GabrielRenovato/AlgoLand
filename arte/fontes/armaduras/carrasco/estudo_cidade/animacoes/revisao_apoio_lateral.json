@@ -1,0 +1,14 @@
+{
+  "poses_unicas": {
+    "frente": 2,
+    "costas": 2,
+    "direita": 3,
+    "esquerda": 3
+  },
+  "ciclo_ms": 300,
+  "apoio_ms": 50,
+  "renderizacao": "Godot gráfico, cidade com save isolado",
+  "inspecao": "Dois pés na linha de chão; capacete compatível em tamanho e posição; apoios opostos anteriores preservados; frente/costas inalterados.",
+  "limite": "Estudo animado; equipamentos ativos não substituídos.",
+  "avisos_motor": "Vazamentos de recursos na saída do processo; sem erros de script ou assertivas."
+}

@@ -1,0 +1,22 @@
+Objetivo: conceito do conjunto Templario Solar para o personagem usado no AlgoLand, compatível com Mana Seed.
+
+Referência 1: imagem do design da armadura que queremos adaptar.
+Referência 2: personagem nativo do projeto para proporções e câmera.
+Referência 3: Carrasco aprovado como referência de acabamento e encaixe, sem copiar sua identidade.
+
+Desenhar o conjunto completo em quatro vistas, numa única linha com quatro colunas iguais:
+frente, costas, perfil olhando para a direita, perfil olhando para a esquerda.
+Mesma escala e pose neutra em todas, corpo inteiro, botas e topo do elmo dentro da imagem.
+Personagem compacto, cabeça grande, câmera levemente superior; manter a anatomia e o tamanho do personagem nativo.
+
+Elmo, peitoral com ombreiras, luvas e botas/grevas devem formar peças distinguíveis.
+Cobertura contínua do tórax e da cabeça, sem pele vazando entre placas; manter articulações legíveis.
+Sem armas, aljava, escudo, cenário, sombras no chão, textos, legendas ou marcas.
+Fundo realmente transparente.
+
+Pixel art com pixels quadrados, contornos definidos e iluminação superior esquerda.
+Paleta restrita: oito tons para o material principal, do contorno aos brilhos, e quatro para o forro.
+Não usar suavização, degradês contínuos, brilho borrado ou proporções realistas de adulto alto.
+Detalhes precisam sobreviver à escala do personagem: rebites, bordas e chapas em grupos pequenos de pixels.
+
+Esta imagem é uma referência de design. A geração das animações usa as poses nativas, depois exige inspeção visual do personagem composto.

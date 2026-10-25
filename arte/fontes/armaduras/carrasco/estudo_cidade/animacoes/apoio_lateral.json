@@ -1,0 +1,190 @@
+{
+  "tipo": "Prévia animada de aparência; sem alteração dos equipamentos ativos.",
+  "observacao": "A lateral esquerda espelha a direita; frente/costas foram geradas separadamente. Compensação horizontal usa o mesmo marco da calota do capacete, preservando escala e chão comuns por direção; não usa recentralização pela silhueta de cada pose. Apoio lateral novo tem escala 0,72 para igualar o tamanho do capacete da fonte 1280 à fonte 887; mesmas âncoras anatômicas, sem deformação. Três desenhos laterais, com o apoio reutilizado entre os dois passos. Ciclo preservado em 300 ms.",
+  "direcoes": [
+    {
+      "nome": "FRENTE",
+      "arquivo": "res://arte/fontes/armaduras/carrasco/estudo_cidade/animacoes/duas_poses_frente_costas.png",
+      "regioes": [
+        [
+          0,
+          0,
+          627,
+          627
+        ],
+        [
+          627,
+          0,
+          627,
+          627
+        ]
+      ],
+      "ancoras_x": [
+        323.0,
+        291.5
+      ],
+      "chao": 616,
+      "altura": 557,
+      "espelhar": false,
+      "sequencia": [
+        0,
+        1
+      ],
+      "duracoes_ms": [
+        150,
+        150
+      ]
+    },
+    {
+      "nome": "COSTAS",
+      "arquivo": "res://arte/fontes/armaduras/carrasco/estudo_cidade/animacoes/duas_poses_frente_costas.png",
+      "regioes": [
+        [
+          0,
+          627,
+          627,
+          627
+        ],
+        [
+          627,
+          627,
+          627,
+          627
+        ]
+      ],
+      "ancoras_x": [
+        347.5,
+        275.5
+      ],
+      "chao": 591,
+      "altura": 548,
+      "espelhar": false,
+      "sequencia": [
+        0,
+        1
+      ],
+      "duracoes_ms": [
+        150,
+        150
+      ]
+    },
+    {
+      "nome": "DIREITA",
+      "arquivo": "res://arte/fontes/armaduras/carrasco/estudo_cidade/animacoes/apoios_opostos_v2.png",
+      "regioes": [
+        [
+          16,
+          0,
+          855,
+          887
+        ],
+        [
+          903,
+          0,
+          855,
+          887
+        ],
+        [
+          0,
+          0,
+          1280,
+          1280
+        ]
+      ],
+      "ancoras_x": [
+        509.0,
+        452.0,
+        690
+      ],
+      "chao": 828,
+      "altura": 736,
+      "espelhar": false,
+      "sequencia": [
+        0,
+        2,
+        1,
+        2
+      ],
+      "duracoes_ms": [
+        100,
+        50,
+        100,
+        50
+      ],
+      "arquivos_por_pose": [
+        "res://arte/fontes/armaduras/carrasco/estudo_cidade/animacoes/apoios_opostos_v2.png",
+        "res://arte/fontes/armaduras/carrasco/estudo_cidade/animacoes/apoios_opostos_v2.png",
+        "res://arte/fontes/armaduras/carrasco/estudo_cidade/animacoes/apoio_lateral.png"
+      ],
+      "chaos_por_pose": [
+        828,
+        828,
+        1140
+      ],
+      "escalas_por_pose": [
+        1,
+        1,
+        0.72
+      ]
+    },
+    {
+      "nome": "ESQUERDA",
+      "arquivo": "res://arte/fontes/armaduras/carrasco/estudo_cidade/animacoes/apoios_opostos_v2.png",
+      "regioes": [
+        [
+          16,
+          0,
+          855,
+          887
+        ],
+        [
+          903,
+          0,
+          855,
+          887
+        ],
+        [
+          0,
+          0,
+          1280,
+          1280
+        ]
+      ],
+      "ancoras_x": [
+        509.0,
+        452.0,
+        690
+      ],
+      "chao": 828,
+      "altura": 736,
+      "espelhar": true,
+      "sequencia": [
+        0,
+        2,
+        1,
+        2
+      ],
+      "duracoes_ms": [
+        100,
+        50,
+        100,
+        50
+      ],
+      "arquivos_por_pose": [
+        "res://arte/fontes/armaduras/carrasco/estudo_cidade/animacoes/apoios_opostos_v2.png",
+        "res://arte/fontes/armaduras/carrasco/estudo_cidade/animacoes/apoios_opostos_v2.png",
+        "res://arte/fontes/armaduras/carrasco/estudo_cidade/animacoes/apoio_lateral.png"
+      ],
+      "chaos_por_pose": [
+        828,
+        828,
+        1140
+      ],
+      "escalas_por_pose": [
+        1,
+        1,
+        0.72
+      ]
+    }
+  ]
+}

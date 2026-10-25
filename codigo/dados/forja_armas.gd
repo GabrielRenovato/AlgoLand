@@ -17,7 +17,7 @@ const ARMAS_RETIRADAS := ["maca", "arco_curvo", "arco_longo"]
 static func receitas_ativas() -> Array:
 	return RECEITAS.keys().filter(func(tipo): return not tipo in ARMAS_RETIRADAS)
 
-const RECEITAS := {
+const RECEITAS_BASE := {
 	"espada_basica": {"ferro": 2, "madeira": 2},
 	"escudo_basico": {"madeira": 4, "ferro": 2},
 	"lanca_basica": {"madeira": 12, "pedra": 6, "fibra": 4, "fragmento": 4},
@@ -86,7 +86,25 @@ static func extracao(tipo: String, toco := false) -> Dictionary:
 
 const Conjuntos := preload("res://codigo/dados/conjuntos_armadura.gd")
 const Desafios := preload("res://codigo/dados/desafios_armas.gd")
-## Marcos iguais para os três conjuntos: escolher uma classe não muda o acesso.
+static var RECEITAS: Dictionary = _montar_receitas()
+
+## Novos conjuntos usam o mesmo contrato de quatro peças, com custo por raridade.
+static func _montar_receitas() -> Dictionary:
+	var resultado := RECEITAS_BASE.duplicate(true)
+	for conjunto in Conjuntos.CONJUNTOS:
+		var fator := 1 + Raridades.indice(conjunto.RARIDADE)
+		for tipo in conjunto.TIPOS:
+			if resultado.has(tipo):
+				continue
+			var peca: String = conjunto.TIPOS[tipo]["peca"]
+			var custo: Dictionary = RECEITAS_BASE[peca+"_carrasco"].duplicate()
+			for material in custo:
+				custo[material] *= fator
+			resultado[tipo] = custo
+	return resultado
+
+const Raridades := preload("res://codigo/dados/raridades.gd")
+## Marcos por peça; conjuntos avançados também respeitam o seu andar mínimo.
 const ANDARES_CONJUNTO := {"luvas":10,"botas":12,"cabeca":15,"corpo":20}
 const ANDARES_BASICOS := {"lanca_basica":2,"aljava_basica":3,"luvas_basicas":2,
 	"botas_basicas":3,"cabeca_basica":4,"armadura_basica":5}
@@ -98,7 +116,7 @@ static func onda_receita(tipo: String) -> int:
 		return int(Desafios.DESAFIOS[tipo]["meta"])
 	var conjunto := Conjuntos.de_tipo(tipo)
 	if conjunto != null:
-		return int(ANDARES_CONJUNTO[conjunto.TIPOS[tipo]["slot"]])
+		return maxi(conjunto.ONDA_MINIMA, int(ANDARES_CONJUNTO[conjunto.TIPOS[tipo]["slot"]]))
 	return int(ANDARES_BASICOS.get(tipo,1))
 
 static func criar_item(tipo: String):

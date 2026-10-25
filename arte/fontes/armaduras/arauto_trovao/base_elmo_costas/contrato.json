@@ -1,0 +1,10 @@
+{
+  "origem": "res://arte/fontes/armaduras/arauto_trovao/base_elmo_frente/elmos_base_limpa.png",
+  "ferramenta": "PixelLab pixelart_workbench edit",
+  "image_id": "19045915-c380-43ba-b734-4ac7edccda5a",
+  "escopo": "Retirar apenas pontas nas quatro últimas linhas da vista de costas; preservar a frente revisada, calota, cores e perfis. Projetar nos seis quadros de costas, sem recompor outras peças.",
+  "sha256_fonte_revisada": "cde0769803e055561fdc564e6a8bc6d53b32073b4d552c85fe32de61e07b1b17",
+  "sha256_corrida_antes": "c220e43dee384328f43c2d8f93560ddcc50ca86a8ccad8b4d5dee13f26ad801f",
+  "comando": "gerar_conjunto.gd <manifesto> --somente-base-elmos",
+  "sha256_corrida_revisada": "7a06335b39713a6023b3708b632afd8ca7def8929668b01e3cf8f8ffaccb3847"
+}

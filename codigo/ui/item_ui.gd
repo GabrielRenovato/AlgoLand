@@ -188,7 +188,7 @@ func tooltip_do_item(largura := 170.0, tamanho := 10) -> Control:
 			for pecas in [conjunto.Base.PECAS_PARCIAL, conjunto.Base.PECAS_COMPLETO]:
 				var f: float = fator_nivel * (parcial if pecas == conjunto.Base.PECAS_PARCIAL else 1.0)
 				linhas.add_child(linha_dica("%d PECAS: %d%% CONGELAR AO ACERTAR" % [pecas, roundi(conjunto.CHANCE_BONUS * f * 100)], COR_DICA_DETALHE))
-			linhas.add_child(linha_dica("DURACAO %dS  RECARGA %dS" % [roundi(conjunto.DURACAO_BONUS), roundi(conjunto.RECARGA_BONUS)], COR_DICA_DETALHE))
+			linhas.add_child(linha_dica("DURACAO %sS  RECARGA %sS" % [String.num(conjunto.DURACAO_BONUS, 1), String.num(conjunto.RECARGA_BONUS, 1)], COR_DICA_DETALHE))
 		elif conjunto.TIPO_BONUS == "status":
 			var valores: Dictionary = conjunto.get_script_constant_map()
 			for pecas in [conjunto.Base.PECAS_PARCIAL, conjunto.Base.PECAS_COMPLETO]:

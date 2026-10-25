@@ -48,19 +48,14 @@ func _rodar() -> void:
 	equipados["botas"].tipo = "botas_guardiao"
 	_verificar("três peças dão metade do bônus", Base.fator_pecas(Carrasco.TIPOS, equipados) == 0.5 and Base.pode_ativar(Carrasco.TIPOS, equipados, 0.0, 0.0, 0.1) and not Base.pode_ativar(Carrasco.TIPOS, equipados, 0.0, 0.075, 0.1))
 	var raiz: String = config["destino"]
-	var completo := Aparencia.compor_armadura("andar", 15, 34, raiz).get_image()
-	var mistura := Aparencia.compor_pecas_armadura("andar", 34, {
-		"elmo": raiz, "peitoral": raiz + "./", "luvas": raiz, "botas": raiz + "./",
-	}).get_image()
-	var igual := true
-	for y in completo.get_height():
-		for x in completo.get_width():
-			var a := completo.get_pixel(x, y)
-			var b := mistura.get_pixel(x, y)
-			# A importação preenche RGB de texels transparentes; esse RGB não é desenhado.
-			if a.a != b.a or (a.a > 0.0 and a != b):
-				igual = false
-	_verificar("compositor por peça preserva o set e remove a capa de baixo", igual)
-	_verificar("sem peças mantém a roupa escolhida", Aparencia.compor_pecas_armadura("andar", 34, {}).get_image().get_data() == Aparencia.roupa(34, "andar").get_image().get_data())
+	# Raven usa camadas independentes; o compositor antigo de roupa foi retirado.
+	# As combinações e a roupa-base são conferidas no renderizador em teste_f3_equipar_conjuntos.
+	for pagina in Padrao.CORPOS:
+		var completa := Image.load_from_file(raiz+pagina+".png")
+		var recomposta := Image.create(512,512,false,Image.FORMAT_RGBA8)
+		for peca in Padrao.PECAS:
+			var imagem := Image.load_from_file(raiz+peca+"/"+pagina+".png")
+			recomposta.blend_rect(imagem,Rect2i(0,0,512,512),Vector2i.ZERO)
+		_verificar("camadas Raven recompõem a página: "+pagina, completa.get_data() == recomposta.get_data())
 	print("Falhas: ", _falhas)
 	quit(_falhas)

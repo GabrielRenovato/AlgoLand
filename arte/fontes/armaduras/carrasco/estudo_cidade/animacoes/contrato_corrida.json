@@ -1,0 +1,47 @@
+{
+  "acao": "correr",
+  "escopo": "Estudo simples solicitado: dois quadros por direção, sem fases intermediárias.",
+  "modelo": "../conceito_v1.png",
+  "referencia_movimento": "assets/personagens/raven_fantasy/corrida_mana_seed",
+  "direcoes": [
+    "direita",
+    "baixo",
+    "cima",
+    "esquerda"
+  ],
+  "etapa_inicial": "quatro direções, dois apoios alternados",
+  "quadros": 2,
+  "duracoes_ms": [
+    150,
+    150
+  ],
+  "fases": [
+    "apoio de uma perna e braço oposto à frente",
+    "apoio da outra perna e troca dos braços"
+  ],
+  "guia_tamanho": [
+    768,
+    512
+  ],
+  "guia_grade": [
+    3,
+    2
+  ],
+  "guia_celula": [
+    256,
+    256
+  ],
+  "guia_raiz": [
+    128,
+    188
+  ],
+  "transformacao_guia": "recorte fixo (8,0,64,64) de cada célula80, ampliação nearest4x",
+  "articulacoes_nativas": "Ver guias coloridos próprios; instrução do usuário substitui o estudo de seis quadros.",
+  "revisao": [
+    "mesmo personagem e câmera em todas as poses",
+    "alternância oposta de braços e pernas",
+    "apoio/voo e fechamento5→0",
+    "capacete rígido, ombreiras presas, mãos e botas sem deriva"
+  ],
+  "ferramenta": "image_gen integrado; PixelLab sem gerações"
+}

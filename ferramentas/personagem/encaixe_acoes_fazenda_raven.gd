@@ -137,7 +137,27 @@ static func escrever(imagem: Image, caminho: String):
 	assert(imagem.save_png(caminho)==OK)
 
 ## Usa as quatro peças já compiladas pelo manifesto, sem mudar ids, status ou páginas.
-static func preparar_conjunto(destino: String) -> void:
+static func preservar_outras_pecas(elmo: Image, outras: Array[Image], corpo: Image=null, sombra: Color=Color.TRANSPARENT) -> void:
+	for y in elmo.get_height():
+		for x in elmo.get_width():
+			var ocupado := false
+			for outra in outras:
+				if outra.get_pixel(x,y).a>0.5:ocupado=true;break
+			if ocupado:
+				elmo.set_pixel(x,y,Color.TRANSPARENT)
+			elif corpo!=null and corpo.get_pixel(x,y).a>0.5 and elmo.get_pixel(x,y).a<0.5:
+				# A gola cobre a pele sob a chapa menor e pertence ao peitoral.
+				# O desenho aprovado do capacete permanece intacto.
+				outras[0].set_pixel(x,y,sombra)
+
+static func preservar_mascara(anterior: Image, nova: Image) -> Image:
+	var resultado:=anterior.duplicate()
+	for y in anterior.get_height():
+		for x in anterior.get_width():
+			if anterior.get_pixel(x,y).a>0.5 and nova.get_pixel(x,y).a>0.5:resultado.set_pixel(x,y,nova.get_pixel(x,y))
+	return resultado
+
+static func preparar_conjunto(destino: String, somente_elmo: bool=false, sombra: Color=Color.TRANSPARENT, somente_peitoral: bool=false) -> void:
 	var guias=carregar_guias()
 	var acoes=JSON.parse_string(FileAccess.get_file_as_string(RAIZ+"camadas/acoes.json"))
 	var fontes={}
@@ -163,4 +183,12 @@ static func preparar_conjunto(destino: String) -> void:
 						if partes.elmo.get_pixel(x,y).a>0.5:
 							for peca in ["peitoral","luvas","botas"]:partes[peca].set_pixel(x,y,Color.TRANSPARENT)
 				for peca in PECAS:folhas[peca].blit_rect(partes[peca],Rect2i(0,0,80,80),Vector2i(q*80,d*80))
-		for peca in PECAS:escrever(folhas[peca],destino+"raven_"+peca+"/"+acao+".png")
+		if somente_elmo:
+			var outras: Array[Image] = []
+			for peca in ["peitoral","luvas","botas"]:outras.append(Image.load_from_file(destino+"raven_"+peca+"/"+acao+".png"))
+			preservar_outras_pecas(folhas.elmo,outras,corpo,sombra)
+			escrever(outras[0],destino+"raven_peitoral/"+acao+".png")
+		if somente_peitoral:
+			folhas.peitoral=preservar_mascara(Image.load_from_file(destino+"raven_peitoral/"+acao+".png"),folhas.peitoral)
+		var selecionadas: Array=["peitoral"] if somente_peitoral else (["elmo"] if somente_elmo else PECAS)
+		for peca in selecionadas:escrever(folhas[peca],destino+"raven_"+peca+"/"+acao+".png")

@@ -46,7 +46,9 @@ def preparar_tiles():
 
 
 def preparar_peixes():
-    catalogo = {'fonte': 'Farm RPG - Tiny Asset Pack - (All in One)', 'peixes': {}}
+    caminho_catalogo = RAIZ / 'assets/pesca/catalogo.json'
+    catalogo = json.loads(caminho_catalogo.read_text()) if caminho_catalogo.exists() else {'peixes': {}}
+    catalogo['fonte'] = 'Farm RPG - Tiny Asset Pack - (All in One)'
     with tempfile.TemporaryDirectory(prefix='algoland-peixes-') as tmp:
         subprocess.run(['unrar', 'x', '-idq', str(PACOTE), '*/Icons/Fish/*',
                         '*/Icons/RPG icons/Weapons and Armor/1. Wood/Fishing Rod.png', tmp + '/'], check=True)

@@ -1,6 +1,6 @@
 extends "res://codigo/ui/missoes_inventario.gd"
 
-## Grade e tooltip iguais para peixes e armas; cada vista do coop mantém os próprios controles.
+## Grade paginada e tooltip padrão; cada vista do coop mantém os próprios controles.
 var _grade_catalogo: GridContainer
 var colunas_maximas := 5
 var _lado_casa := 32.0
@@ -147,7 +147,7 @@ func _montar_dica() -> void:
 	_dica.name = "TooltipCatalogo"
 	_dica.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_dica.z_index = 30
-	preload("res://codigo/ui/estilo_inicio_detalhado.gd").painel(_dica,true,10)
+	_estilizar_dica()
 	_area_dica.add_child(_dica)
 	_rolagem_dica = ScrollContainer.new()
 	_rolagem_dica.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
@@ -157,6 +157,9 @@ func _montar_dica() -> void:
 	_linhas_dica.add_theme_constant_override("separation",4)
 	_rolagem_dica.add_child(_linhas_dica)
 	_dica.hide()
+
+func _estilizar_dica() -> void:
+	preload("res://codigo/ui/estilo_inicio_detalhado.gd").painel(_dica,true,10)
 
 func _mostrar_dica(id: String, slot: Control) -> void:
 	if not is_instance_valid(_dica) or not is_visible_in_tree(): return

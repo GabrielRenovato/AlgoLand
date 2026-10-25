@@ -1,0 +1,26 @@
+{
+  "ferramenta": "image_gen integrada",
+  "uso": "fonte de superfícies para o gerador compartilhado de armaduras",
+  "vistas": [
+    "frente",
+    "costas",
+    "direita",
+    "esquerda"
+  ],
+  "grade_destino": [
+    64,
+    64
+  ],
+  "pivo": "crânio Raven; pés preservados pelas poses nativas",
+  "pecas": [
+    "elmo",
+    "peitoral",
+    "luvas",
+    "botas"
+  ],
+  "paginas": 11,
+  "paleta": "12 cores no manifesto",
+  "animacoes": "corpo e poses nativas Raven; corrida 6 quadros, fazenda com tempos originais",
+  "recorte": "canal alfa binário no compilador; ajustar as faixas no manifesto após revisão",
+  "prompt": "prompt_final.txt"
+}

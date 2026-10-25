@@ -96,6 +96,43 @@ static func folha(camada: String, acao: String) -> Texture2D:
 		_cache[chave] = atlas
 	return _cache[chave]
 
+## Os elmos fechados substituem a cabeça original. O rosto e seu preenchimento
+## no peitoral não podem formar riscos nas laterais da chapa aprovada.
+static func corpo_com_elmo(pele: int, acao: String, id_elmo: String) -> Texture2D:
+	var camada := "corpo_%d" % pele
+	if acao!="correr" or id_elmo not in Corrida.ELMOS_RECOLHIDOS:
+		return folha(camada,acao)
+	var chave := "corpo_elmo_recolhido:"+camada+":"+id_elmo
+	if not _cache.has(chave):
+		_cache[chave] = _ocultar_cabecas_corrida(folha(camada,acao))
+	return _cache[chave]
+
+static func peitoral_com_elmo(caminho: String, acao: String, id_elmo: String) -> Texture2D:
+	var fonte := folha_arquivo(caminho,acao)
+	if acao!="correr" or id_elmo not in Corrida.ELMOS_RECOLHIDOS:
+		return fonte
+	var chave := "peitoral_elmo_recolhido:"+caminho
+	if not _cache.has(chave):_cache[chave] = _ocultar_cabecas_corrida(fonte)
+	return _cache[chave]
+
+static func luvas_com_elmo(caminho: String, acao: String, id_elmo: String) -> Texture2D:
+	var fonte := folha_arquivo(caminho,acao)
+	if acao!="correr" or id_elmo not in Corrida.ELMOS_RECOLHIDOS:
+		return fonte
+	var chave := "luvas_elmo_encaixado:"+caminho
+	if not _cache.has(chave):_cache[chave] = _ocultar_cabecas_corrida(fonte,false)
+	return _cache[chave]
+
+static func _ocultar_cabecas_corrida(fonte: Texture2D, incluir_frente: bool=true) -> Texture2D:
+	var imagem := fonte.get_image()
+	for q in Corrida.QUADROS:
+		if incluir_frente:imagem.fill_rect(Rect2i(q*80,0,80,Corrida.GOLAS_FRENTE[q]),Color.TRANSPARENT)
+		# A nuca antiga ocupa 12 px; fora dela há mãos erguidas. Preservar
+		# esses pixels em vez de apagar a faixa inteira acima da gola.
+		var esquerda: int = q*80+Corrida.CENTROS_CABECA_COSTAS[q]-6
+		imagem.fill_rect(Rect2i(esquerda,160,12,Corrida.GOLAS_FRENTE[q]),Color.TRANSPARENT)
+	return ImageTexture.create_from_image(imagem)
+
 static func aplicar_roupa(sprite: Sprite2D, i: int, pagina: String) -> void:
 	sprite.texture = roupa_refinada(i,pagina)
 	sprite.material = material_corpo()

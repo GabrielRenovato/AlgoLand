@@ -140,7 +140,6 @@ func _process(_delta: float) -> void:
 	if jogador == null:
 		return
 	_botao_iniciar_onda.disabled = not _tem_arma_equipada(jogador)
-	_aba_bigorna.disabled = not (jogador.usando_espada or jogador.usando_lanca or jogador.usando_arco)
 
 func _ao_visibilidade_alterada() -> void:
 	set_process(visible)

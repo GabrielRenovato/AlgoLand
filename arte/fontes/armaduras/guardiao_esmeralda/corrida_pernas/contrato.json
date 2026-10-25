@@ -1,0 +1,97 @@
+{
+  "escopo": "Somente pernas da direção de frente nas seis poses da corrida dos sete conjuntos novos. Elmos, parte superior, outras ações e outras direções preservados.",
+  "referencia": "arte/pacotes/Jogador/Base/20.01a - Character Base 2.5c/char_a_p1/char_a_p1_0bas_humn_v01.png",
+  "quadros": 6,
+  "duracoes_ms": [
+    100,
+    60,
+    140,
+    100,
+    60,
+    140
+  ],
+  "grade": [
+    80,
+    80
+  ],
+  "pivo": [
+    40,
+    47
+  ],
+  "limites_quadril": [
+    37,
+    37,
+    34,
+    37,
+    37,
+    34
+  ],
+  "fase_aerea": {
+    "2": {
+      "perna_esquerda": [
+        [
+          38,
+          34
+        ],
+        [
+          37,
+          36
+        ],
+        [
+          40,
+          39
+        ]
+      ],
+      "perna_direita": [
+        [
+          42,
+          34
+        ],
+        [
+          44,
+          34
+        ],
+        [
+          44,
+          37
+        ]
+      ]
+    },
+    "5": {
+      "perna_esquerda": [
+        [
+          37,
+          34
+        ],
+        [
+          35,
+          34
+        ],
+        [
+          36,
+          37
+        ]
+      ],
+      "perna_direita": [
+        [
+          41,
+          34
+        ],
+        [
+          43,
+          36
+        ],
+        [
+          40,
+          39
+        ]
+      ]
+    }
+  },
+  "arquivos_corrigidos": {
+    "raven_peitoral/correr.png": "3e0c9d47f5c8eb23fd48b420b38e46df2d0a79858ea05f2c0405d3fa4835fe0a",
+    "raven_luvas/correr.png": "eaf6f48a2335938798d5546aee50fe2ae7c4d463fecea3ccd0e0d43f51c8feff",
+    "raven_botas/correr.png": "9c214b86656981eeb2dfeee3a8cd8f2307d89c28cf0ef4ea9e3182d98f86d7c5"
+  },
+  "mascara_peitoral_corrigida": "50106f491b817bc2889d86d9bc29f0387e507a058d17411e5b55ace07d10165f"
+}

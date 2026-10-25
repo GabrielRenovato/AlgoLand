@@ -117,7 +117,7 @@ func _estilizar(rotulo: Label, tamanho: int) -> void:
 func iniciar(quem: Node, nome_peixe: String, dificuldade_peixe: float, recomendado := 1) -> void:
 	jogador = quem
 	equipamento = preload("res://codigo/pesca/varas.gd").parametros(dificuldade_peixe,recomendado,preload("res://codigo/pesca/varas.gd").nivel(quem))
-	dificuldade = equipamento["dificuldade"]
+	dificuldade = maxf(5.0, equipamento["dificuldade"] - 0.1 * (preload("res://codigo/pesca/progressao_pesca.gd").nivel(quem) - 1))
 	peixe_facil = recomendado == 1
 	ganho_otimo = (26.0 if peixe_facil else 18.0)*equipamento["ganho"]
 	ganho_bom = (18.0 if peixe_facil else 10.0)*equipamento["ganho"]

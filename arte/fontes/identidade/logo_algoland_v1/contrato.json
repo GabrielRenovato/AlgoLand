@@ -1,0 +1,34 @@
+{
+  "tipo": "Logo original do jogo",
+  "texto": "AlgoLand",
+  "referencias": [
+    "Captura real da cidade /tmp/algoland-patch12-real.png",
+    "arte/fontes/cenario/algoland_original/revisao_mana/referencia_materiais_ampliada.png"
+  ],
+  "estilo": "Pixel art; madeira quente, bronze, dourado e verde da cidade",
+  "composicao": "Nome em uma linha, placa de madeira com margens internas; broto e detalhe de espada",
+  "tamanho_pedido": [
+    1536,
+    1024
+  ],
+  "fundo": "Transparente",
+  "encaixe": "Marca centralizada e silhueta completa, sem cortar a letra g ou enfeites",
+  "variantes": "Uma proposta; não é cenário sazonal",
+  "destino": "arte/fontes/identidade/logo_algoland_v1/logo.png",
+  "uso": "Integrada à tela inicial em codigo/ui/tela_inicial.gd, com imagem em assets/ui/identidade/logo_algoland.png",
+  "tamanho_entregue": [
+    1536,
+    1024
+  ],
+  "ferramenta": "image_gen integrado",
+  "revisao": {
+    "texto": "AlgoLand, oito letras corretas; uma linha",
+    "composicao": "Letra g dentro da placa; moldura completa; broto e espada separados do texto",
+    "alfa": [
+      0,
+      254
+    ],
+    "observacao": "PNG com transparência e brilho suave ao redor da marca. Proposta avulsa, ainda sem aplicação no menu."
+  },
+  "validacao_interface": "Godot gráfico, save isolado, seis resoluções; 0 falhas no teste de margens, botões e painéis"
+}

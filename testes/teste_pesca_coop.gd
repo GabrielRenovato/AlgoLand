@@ -4,6 +4,7 @@ extends SceneTree
 ## minijogo na própria metade da tela, mochila de peixes e vara; cancelar/terminar um não afeta o outro.
 ## Saves isolados obrigatórios.
 
+const Habilidade := preload("res://codigo/pesca/progressao_pesca.gd")
 const P1 := 41
 const P2 := 40
 
@@ -31,6 +32,7 @@ func _rodar() -> void:
 	var Sessao := load("res://codigo/pesca/sessao_pesca.gd")
 	root.get_node("Saves").trocar("coop")
 	root.get_node("Introducao").pular_prologo()
+	root.get_node("Fazenda")._zerar()
 	for nome in ["InventarioJogador", "InventarioJogador2"]:
 		root.get_node(nome).limpar()
 		root.get_node(nome).criar_itens_iniciais()
@@ -101,11 +103,14 @@ func _rodar() -> void:
 	verificar("minijogos apontam para o dono", m1.jogador == p1 and m2.jogador == p2)
 	var antes1: int = int(fazenda.total_de_peixes(p1))
 	var antes2: int = int(fazenda.total_de_peixes(p2))
+	var xp1 := Habilidade.xp(p1)
+	var xp2 := Habilidade.xp(p2)
 	# P1 vence, P2 perde: resultados independentes.
 	m1._encerrar(true)
 	m2._encerrar(false)
 	await create_timer(0.5).timeout
 	verificar("P1 pegou o peixe, P2 não", int(fazenda.total_de_peixes(p1)) == antes1 + 1 and int(fazenda.total_de_peixes(p2)) == antes2)
+	verificar("XP só para quem capturou no cooperativo", Habilidade.xp(p1) > xp1 and Habilidade.xp(p2) == xp2)
 	verificar("P2 liberado após falhar, P1 comemorando", not Sessao.em_andamento(p2) and p2.movimento_habilitado and Sessao.em_andamento(p1))
 	await create_timer(2.6).timeout
 	verificar("P1 liberado ao fim", not Sessao.em_andamento(p1) and p1.movimento_habilitado)
@@ -126,11 +131,14 @@ func _rodar() -> void:
 	await quadros(3)
 	var t1: int = int(fazenda.total_de_peixes(p1))
 	var t2: int = int(fazenda.total_de_peixes(p2))
+	xp1 = Habilidade.xp(p1)
+	xp2 = Habilidade.xp(p2)
 	s1._minijogo._encerrar(true)
 	s2._minijogo._encerrar(true)
 	await create_timer(0.5).timeout
 	verificar("os dois pescam, cada peixe na mochila certa", int(fazenda.total_de_peixes(p1)) == t1 + 1 and int(fazenda.total_de_peixes(p2)) == t2 + 1)
 	await create_timer(2.6).timeout
+	verificar("capturas simultâneas concedem XP aos dois donos", Habilidade.xp(p1) > xp1 and Habilidade.xp(p2) > xp2)
 	verificar("os dois liberados", not Sessao.em_andamento(p1) and not Sessao.em_andamento(p2) and p1.movimento_habilitado and p2.movimento_habilitado)
 	# P2 sai da cena no meio da pescaria (viaja sozinho): sem crash e P1 intacto.
 	p1.global_position = leste.global_position

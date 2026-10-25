@@ -1,0 +1,10 @@
+{
+  "origem": "res://arte/fontes/armaduras/batedor/base_elmo_frente/elmos_base_limpa.png",
+  "ferramenta": "PixelLab pixelart_workbench edit",
+  "image_id": "19045915-c380-43ba-b734-4ac7edccda5a",
+  "escopo": "Retirar apenas pontas nas quatro últimas linhas da vista de costas; preservar a frente revisada, calota, cores e perfis. Projetar nos seis quadros de costas, sem recompor outras peças.",
+  "sha256_fonte_revisada": "9ec41ec4fbcfdf06165011fc880d2ea7639bce98808a163afb784e9260f8e73c",
+  "sha256_corrida_antes": "7268f34c328cab487ad7789ab3bfff782472b8c33cc77693eaba805e65e9439f",
+  "comando": "gerar_conjunto.gd <manifesto> --somente-base-elmos",
+  "sha256_corrida_revisada": "152f6b15ea2ae269b2db0e0d6ed5773dc990d59b13f3d454a132988ea90ee2bb"
+}

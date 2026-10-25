@@ -1,0 +1,125 @@
+{
+  "versao": 1,
+  "id": "batedor",
+  "nome": "Batedor do Bosque",
+  "raridade": "incomum",
+  "arte": "res://arte/fontes/armaduras/batedor/conceito.png",
+  "destino": "res://assets/personagens/conjuntos/batedor/",
+  "onda_minima": 11,
+  "chances_drop": {
+    "normal": 0.0,
+    "mutante": 0.0,
+    "chefe": 0.07
+  },
+  "preco_base": 320,
+  "bonus": {
+    "tipo": "status",
+    "pecas": 4,
+    "chance": 0.0,
+    "recarga": 0.0,
+    "multiplicador_dano": 0.0,
+    "aviso": 0.0,
+    "defesa": 0,
+    "vitalidade": 0.1
+  },
+  "bases": {
+    "cabeca": {
+      "vitalidade": [
+        2,
+        4,
+        6,
+        8,
+        11
+      ],
+      "defesa": [
+        2,
+        3,
+        5,
+        8,
+        10
+      ]
+    },
+    "corpo": {
+      "vitalidade": [
+        4,
+        6,
+        10,
+        13,
+        18
+      ],
+      "defesa": [
+        2,
+        4,
+        8,
+        11,
+        15
+      ]
+    },
+    "luvas": {
+      "vitalidade": [
+        1,
+        2,
+        4,
+        5,
+        7
+      ],
+      "defesa": [
+        1,
+        2,
+        3,
+        4,
+        7
+      ]
+    },
+    "botas": {
+      "vitalidade": [
+        1,
+        2,
+        4,
+        5,
+        7
+      ],
+      "defesa": [
+        1,
+        2,
+        3,
+        4,
+        7
+      ]
+    }
+  },
+  "recortes": {
+    "fim_elmo": 0.4,
+    "fim_peitoral": 0.76,
+    "largura_elmo": 14,
+    "altura_elmo": 16,
+    "elmo_rigido": true,
+    "borda_calota": 0,
+    "elmo_nativo": true,
+    "deslocamento_vertical_elmo": [
+      2,
+      2,
+      2,
+      2
+    ],
+    "pernas_corrida_frente": true
+  },
+  "paleta": [
+    "121b19",
+    "26362c",
+    "3d5138",
+    "576b43",
+    "7c8751",
+    "a5a36a",
+    "d0c38c",
+    "f2e2ad",
+    "271c18",
+    "493024",
+    "704b30",
+    "a37548"
+  ],
+  "substituir_cabeca": false,
+  "arte_elmo": "res://arte/fontes/armaduras/batedor/elmos_originais/elmos_nativos.png",
+  "arte_peitoral": "res://arte/fontes/armaduras/batedor/peitorais_originais/peitorais_nativos.png",
+  "arte_base_elmo": "res://arte/fontes/armaduras/batedor/base_elmo_costas/elmos_base_limpa.png"
+}

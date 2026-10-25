@@ -11,9 +11,10 @@ const BASE := {
 	"fornecedor": {"nome":"5 ENCOMENDAS DO CAIS", "campo":"pedidos", "meta":5, "brasas":50},
 }
 const COLECAO := {
+	"colecao_54": {"nome":"COLECAO COMPLETA: 54 ESPECIES", "campo":"especies", "meta":54, "brasas":1600},
 	"colecao_24": {"nome":"NATURALISTA: 24 ESPECIES", "campo":"especies", "meta":24, "brasas":300},
 	"colecao_36": {"nome":"ESPECIALISTA: 36 ESPECIES", "campo":"especies", "meta":36, "brasas":500},
-	"colecao_48": {"nome":"COLECAO COMPLETA: 48 ESPECIES", "campo":"especies", "meta":48, "brasas":1000},
+	"colecao_48": {"nome":"COLECIONADOR: 48 ESPECIES", "campo":"especies", "meta":48, "brasas":1000},
 	"colecao_3": {"nome":"CONHECEDOR: 3 ESPECIES", "campo":"especies", "meta":3, "brasas":25},
 	"colecao_6": {"nome":"EXPLORADOR: 6 ESPECIES", "campo":"especies", "meta":6, "brasas":60},
 	"colecao_12": {"nome":"MESTRE: 12 ESPECIES", "campo":"especies", "meta":12, "brasas":180},
@@ -37,11 +38,12 @@ static func progresso(id: String, historico: Dictionary, perfeitas: int, pedidos
 	return total
 
 ## Duas encomendas por dia do jogo; só espécies disponíveis na estação, sem sortear de novo ao abrir.
-static func pedidos_do_dia(dia: int, estacao: int) -> Array[Dictionary]:
+static func pedidos_do_dia(dia: int, estacao: int, habilidade := 99) -> Array[Dictionary]:
 	var pedidos: Array[Dictionary] = []
 	for ambiente in ["mar","rio"]:
 		var candidatos: Array[String] = []
 		for id in Peixes.DADOS:
+			if Peixes.nivel_pesca(id) > habilidade: continue
 			var dados_peixe: Dictionary = Peixes.DADOS[id]
 			if Peixes.catalogo()[id]["ambiente"] != ambiente:
 				continue

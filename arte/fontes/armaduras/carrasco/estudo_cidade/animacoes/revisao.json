@@ -1,0 +1,15 @@
+{
+  "corrida_direita_v1.png": {
+    "situacao": "rejeitada",
+    "motivo": "Alternância de pernas não ficou clara; as duas metades preservam silhueta semelhante. Não usar como referência de movimento."
+  },
+  "guia_alternancia_6.png": {
+    "situacao": "guia de articulações",
+    "identidade": "ciano=mesmo membro próximo; magenta=mesmo membro distante",
+    "apoios_opostos": [
+      0,
+      3
+    ],
+    "observacao": "Guia próprio corrigido: pé próximo apoia na primeira metade; distante apoia na segunda, com contra-movimento dos braços."
+  }
+}

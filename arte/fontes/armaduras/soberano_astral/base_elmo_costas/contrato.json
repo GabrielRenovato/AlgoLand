@@ -1,0 +1,10 @@
+{
+  "origem": "res://arte/fontes/armaduras/soberano_astral/base_elmo_frente/elmos_base_limpa.png",
+  "ferramenta": "PixelLab pixelart_workbench edit",
+  "image_id": "19045915-c380-43ba-b734-4ac7edccda5a",
+  "escopo": "Retirar apenas pontas nas quatro últimas linhas da vista de costas; preservar a frente revisada, calota, cores e perfis. Projetar nos seis quadros de costas, sem recompor outras peças.",
+  "sha256_fonte_revisada": "d437c4d7cc227c9cb06d5e9d1d3c3afd4a73dc776bf557186baa6bbd821c69fe",
+  "sha256_corrida_antes": "36001658fc8736161340ab985cc63cdcf0a51822fd5b1eaf190e74c457fd2cda",
+  "comando": "gerar_conjunto.gd <manifesto> --somente-base-elmos",
+  "sha256_corrida_revisada": "a78e890b82f28e20848d7839c6575f5e5a92369101a3b63302f0413bfbea013f"
+}

@@ -1,0 +1,10 @@
+{
+  "origem": "res://arte/fontes/armaduras/templario_solar/base_elmo_frente/elmos_base_limpa.png",
+  "ferramenta": "PixelLab pixelart_workbench edit",
+  "image_id": "19045915-c380-43ba-b734-4ac7edccda5a",
+  "escopo": "Retirar apenas pontas nas quatro últimas linhas da vista de costas; preservar a frente revisada, calota, cores e perfis. Projetar nos seis quadros de costas, sem recompor outras peças.",
+  "sha256_fonte_revisada": "9067af651500dd158b90ff02ae8915b44b4766efa774c9e5f28d0e8216b7e832",
+  "sha256_corrida_antes": "488dab18968861bc95c1832aaaeede944c6fe19de67ff83a302d14c2b5738078",
+  "comando": "gerar_conjunto.gd <manifesto> --somente-base-elmos",
+  "sha256_corrida_revisada": "71aae420ce63a58e48bc9a5080c8de5371b8af1d2a25aa2b8ffe7c96a6da10be"
+}

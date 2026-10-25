@@ -146,6 +146,7 @@ var _recarga_carrasco := 0.0
 var _rng_carrasco := RandomNumberGenerator.new()
 var _recarga_mordomo := 0.0
 var _rng_mordomo := RandomNumberGenerator.new()
+var _recargas_conjuntos := {}
 var botao_ataque_pressionado: bool = false
 const TIPOS_ARMADURA := {
 	"cabeca_basica": "usando_cabeca",
@@ -692,6 +693,8 @@ func _physics_process(delta: float) -> void:
 		pode_iniciar_interacao()
 	_recarga_carrasco = maxf(_recarga_carrasco - delta, 0.0)
 	_recarga_mordomo = maxf(_recarga_mordomo - delta, 0.0)
+	for id in _recargas_conjuntos:
+		_recargas_conjuntos[id] = maxf(float(_recargas_conjuntos[id]) - delta, 0.0)
 	_regenerar_stamina(delta)
 	if petrificacao != null and petrificacao.atualizar(delta):
 		_pedido_ataque = false
@@ -1123,34 +1126,51 @@ func _on_temporizador_ataque_timeout() -> void:
 ## O acerto normal (espada, lança ou flecha) pode invocar um raio aliado. O raio não passa por aplicar_golpe,
 ## portanto não gera outro raio, crítico, roubo de vida nem encantamentos em cadeia.
 func _tentar_raio_carrasco(alvo: Node2D, dano_golpe: int, sorteio: float = -1.0) -> bool:
-	if Carrasco.TIPO_BONUS != "raio":
-		return false
-	if not is_instance_valid(alvo) or not is_inside_tree() or estaMorto:
-		return false
 	var valor := _rng_carrasco.randf() if sorteio < 0.0 else sorteio
-	if not Carrasco.pode_ativar(inventario.equipados, _recarga_carrasco, valor):
-		return false
-	var cena := Cooperativo.cena_de(self)
-	if cena == null:
+	if not _ativar_efeito_conjunto(Carrasco, alvo, dano_golpe, _recarga_carrasco, valor):
 		return false
 	_recarga_carrasco = Carrasco.RECARGA_RAIO
-	var raio := RaioCarrasco.new()
-	raio.fracao_dano_chefe = 1.0
-	raio.add_to_group("raios_carrasco")
-	cena.add_child(raio)
-	raio.iniciar(alvo.global_position, Carrasco.AVISO_RAIO, maxi(1, roundi(dano_golpe * Carrasco.MULT_DANO_RAIO * Conjuntos.fator_nivel(Carrasco, inventario.equipados))), 0)
 	return true
 
 func _tentar_congelamento_mordomo(alvo: Node, sorteio: float = -1.0) -> bool:
-	if estaMorto or not is_instance_valid(alvo) or not alvo.has_method("aplicar_congelamento"):
+	var valor := _rng_mordomo.randf() if sorteio < 0 else sorteio
+	if not _ativar_efeito_conjunto(Mordomo, alvo, 0, _recarga_mordomo, valor):
+		return false
+	_recarga_mordomo = Mordomo.RECARGA_BONUS
+	return true
+
+## Todos os conjuntos consultam os mesmos parâmetros e fatores, inclusive os antigos.
+func _ativar_efeito_conjunto(conjunto: GDScript, alvo: Node, dano_golpe: int, recarga: float, sorteio: float) -> bool:
+	if estaMorto or not is_inside_tree() or not is_instance_valid(alvo):
 		return false
 	if "esta_morto" in alvo and alvo.esta_morto:
 		return false
-	var valor := _rng_mordomo.randf() if sorteio < 0 else sorteio
-	if Mordomo.TIPO_BONUS != "congelamento" or not Mordomo.pode_ativar(inventario.equipados, _recarga_mordomo, valor):
+	if not conjunto.pode_ativar(inventario.equipados, recarga, sorteio):
 		return false
-	_recarga_mordomo = Mordomo.RECARGA_BONUS
-	alvo.aplicar_congelamento(Mordomo.DURACAO_BONUS)
+	match conjunto.TIPO_BONUS:
+		"raio":
+			var cena := Cooperativo.cena_de(self)
+			if cena == null or not alvo is Node2D:
+				return false
+			var raio := RaioCarrasco.new()
+			raio.fracao_dano_chefe = 1.0
+			raio.add_to_group("raios_carrasco")
+			cena.add_child(raio)
+			raio.iniciar(alvo.global_position, conjunto.AVISO_BONUS,
+				maxi(1, roundi(dano_golpe * conjunto.MULT_DANO_BONUS * Conjuntos.fator_nivel(conjunto, inventario.equipados))), 0)
+		"congelamento":
+			if not alvo.has_method("aplicar_congelamento"):
+				return false
+			alvo.aplicar_congelamento(conjunto.DURACAO_BONUS)
+		_:
+			return false
+	return true
+
+func _tentar_bonus_conjunto(conjunto: GDScript, alvo: Node, dano_golpe: int, sorteio: float = -1.0) -> bool:
+	var valor := _rng_carrasco.randf() if sorteio < 0 else sorteio
+	if not _ativar_efeito_conjunto(conjunto, alvo, dano_golpe, float(_recargas_conjuntos.get(conjunto.ID, 0.0)), valor):
+		return false
+	_recargas_conjuntos[conjunto.ID] = conjunto.RECARGA_BONUS
 	return true
 
 func _on_timeout_janela_combo() -> void:
@@ -1280,6 +1300,9 @@ func aplicar_golpe(alvo: Node, direcao_knockback: Vector2, mult_dano: float = 1.
 	_aplicar_encantamento(alvo, golpe["dano"])
 	_tentar_raio_carrasco(alvo, golpe["dano"])
 	_tentar_congelamento_mordomo(alvo)
+	for conjunto in Conjuntos.CONJUNTOS:
+		if conjunto.ID not in [Carrasco.ID, Mordomo.ID] and conjunto.TIPO_BONUS in ["raio", "congelamento"]:
+			_tentar_bonus_conjunto(conjunto, alvo, golpe["dano"])
 	if not estaMorto and hp_atual < estatisticas.hp_maximo:
 		var percentual := minf(estatisticas.roubo_vida,estatisticas.ROUBO_VIDA_MAXIMO)/100.0 + efeitos_pocao.bonus("vampiro")
 		var recuperado: int = sustento_combate.recuperar(dano_efetivo,percentual)

@@ -1,0 +1,12 @@
+{
+  "escopo": "Ajuste de encaixe das peças e cartola existentes no Raven, sem redesenho",
+  "fonte_preservada": "arte/fontes/armaduras/cavalheiro/cartolas_completas_v2.png",
+  "ancora": "Crânio do corpo; copa pelo centro visível; recorte da face e gola preservado",
+  "validacao": {
+    "paginas": 11,
+    "falhas": 0,
+    "corrida": "aprovada",
+    "acoes_fazenda": "aprovadas"
+  },
+  "revisao_visual": "Godot, cena cidade em projeto com save isolado; quatro direções; conjunto, cartola isolada, mistura com Carrasco e traje sem cartola; repouso, corrida, espada e enxada"
+}

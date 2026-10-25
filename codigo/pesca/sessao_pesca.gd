@@ -7,10 +7,11 @@ extends Node2D
 signal acabou
 
 const Peixes := preload("res://codigo/pesca/peixes.gd")
-const Raridades := preload("res://codigo/dados/raridades.gd")
+const Progressao := preload("res://codigo/pesca/progressao_pesca.gd")
 const Minijogo := preload("res://codigo/pesca/minijogo_pesca.gd")
 const FONTE := preload("res://assets/ui/Planes_ValMore.ttf")
 const Animacao := preload("res://codigo/pesca/animacao_pesca.gd")
+const AvisoCaptura := preload("res://codigo/pesca/aviso_captura.gd")
 
 enum Estado { LANCANDO, ESPERANDO, BELISCANDO, PUXANDO, PEGOU, CARREGANDO }
 
@@ -29,6 +30,7 @@ var ambiente := "mar"
 var estado := Estado.LANCANDO
 var peixe := ""
 var qualidade_peixe := 0
+var _xp_ganha := 0
 
 var _frente := Vector2.DOWN
 var _alvo := Vector2.ZERO          ## ponto da água, em coordenadas locais do jogador
@@ -48,6 +50,7 @@ var _tempo_recolhimento := 0.0
 const TEMPO_QUADRO_RECOLHIMENTO := 0.14
 var _tempo_peixe := 0.0
 var _restaurado := false
+var _aviso_captura: Control
 
 static func em_andamento(quem: Node) -> bool:
 	return quem != null and quem.has_node("SessaoPesca")
@@ -167,10 +170,10 @@ func _lancar() -> void:
 func _esperar() -> void:
 	estado = Estado.ESPERANDO
 	_tempo = 0.0
-	_espera = randf_range(ESPERA_MIN, ESPERA_MAX)
+	_espera = randf_range(ESPERA_MIN, ESPERA_MAX) * (1.0 - 0.002 * (Progressao.nivel(jogador) - 1))
 
 func _beliscar() -> void:
-	peixe = "pedra_vara" if preload("res://codigo/pesca/varas.gd").sortear_pedra_para(jogador) else Peixes.sortear(ambiente, Calendario.estacao())
+	peixe = "pedra_vara" if preload("res://codigo/pesca/varas.gd").sortear_pedra_para(jogador) else Peixes.sortear(ambiente, Calendario.estacao(), null, Progressao.nivel(jogador))
 	if peixe == "":
 		_terminar()
 		return
@@ -251,60 +254,28 @@ func _pegar(perfeita := false) -> void:
 			_terminar()
 			return
 	else:
+		var xp_antes := Progressao.xp(jogador)
 		if not Fazenda.pescar(peixe,perfeita,jogador,qualidade_peixe):
 			Sons.tocar("erro",0.0)
 			_terminar()
 			return
+		_xp_ganha = Progressao.xp(jogador) - xp_antes
 		preload("res://codigo/pesca/varas.gd").registrar_peixe(jogador)
 	Sons.tocar("moeda", 0.05)
 	if _sombra != null:
 		_sombra.queue_free()
 		_sombra = null
 
-	var cartaz := Node2D.new()
-	cartaz.z_as_relative = false
-	cartaz.z_index = 800
-	cartaz.position = Vector2(0, -38)
-	cartaz.scale = Vector2.ZERO
-	add_child(cartaz)
-	var fundo := PanelContainer.new()
-	fundo.name = "ResultadoCaptura"
-	fundo.add_theme_stylebox_override("panel", preload("res://recursos/ui/tema_global.tres").get_stylebox("panel", "TooltipPanel"))
-	fundo.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	cartaz.add_child(fundo)
-	var linha := HBoxContainer.new()
-	linha.add_theme_constant_override("separation", 6)
-	linha.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	fundo.add_child(linha)
-	var icone := TextureRect.new()
-	icone.texture = Peixes.icone(peixe)
-	if peixe == "pedra_vara":
-		icone.modulate = Color("8bdcf7")
-	icone.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-	icone.custom_minimum_size = Vector2(16, 16)
-	icone.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	icone.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	icone.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	linha.add_child(icone)
-	var textos := VBoxContainer.new()
-	textos.add_theme_constant_override("separation", 4)
-	textos.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	linha.add_child(textos)
-	var dica := preload("res://codigo/ui/item_ui.gd")
-	var nome := dica.linha_dica(Peixes.nome(peixe), Raridades.cor(Peixes.raridade(peixe)))
-	# O cartaz mede o conteúdo; nomes longos não escapam de uma caixa fixa.
-	nome.autowrap_mode = TextServer.AUTOWRAP_OFF
-	textos.add_child(nome)
-	var qualidade := preload("res://codigo/pesca/qualidade_peixe.gd")
-	var detalhe := dica.linha_dica("REFINAMENTO" if peixe == "pedra_vara" else qualidade.NOMES[qualidade_peixe], dica.COR_DICA_DETALHE if peixe == "pedra_vara" else qualidade.CORES[qualidade_peixe])
-	detalhe.autowrap_mode = TextServer.AUTOWRAP_OFF
-	textos.add_child(detalhe)
-	fundo.size = fundo.get_combined_minimum_size()
-	fundo.position = Vector2(-roundf(fundo.size.x / 2.0), -fundo.size.y)
+	var interface := EventosJogo.interface_de(jogador)
+	if interface == null:
+		_terminar()
+		return
+	_aviso_captura = AvisoCaptura.new()
+	interface.add_child(_aviso_captura)
+	_aviso_captura.iniciar(jogador, peixe, qualidade_peixe, _xp_ganha)
 	var tween := create_tween()
-	tween.tween_property(cartaz, "scale", Vector2.ONE, 0.35).set_trans(Tween.TRANS_SPRING).set_ease(Tween.EASE_OUT)
-	tween.tween_interval(1.8)
-	tween.tween_property(cartaz, "modulate:a", 0.0, 0.3)
+	tween.tween_interval(2.0)
+	tween.tween_property(_aviso_captura, "modulate:a", 0.0, 0.2)
 	tween.tween_callback(_terminar)
 
 func _terminar() -> void:
@@ -330,6 +301,7 @@ func _restaurar_jogador() -> void:
 	jogador.get_node("CompositeSprites").visible = _visual_visivel
 
 func _exit_tree() -> void:
+	if is_instance_valid(_aviso_captura): _aviso_captura.queue_free()
 	_restaurar_jogador()
 	if is_instance_valid(_minijogo):
 		_minijogo.abortar()

@@ -1,0 +1,126 @@
+{
+  "versao": 1,
+  "id": "guardiao_geada",
+  "nome": "Guardiao da Geada",
+  "raridade": "raro",
+  "arte": "res://arte/fontes/armaduras/guardiao_geada/conceito.png",
+  "destino": "res://assets/personagens/conjuntos/guardiao_geada/",
+  "onda_minima": 16,
+  "chances_drop": {
+    "normal": 0.0,
+    "mutante": 0.0,
+    "chefe": 0.06
+  },
+  "preco_base": 650,
+  "bonus": {
+    "tipo": "congelamento",
+    "pecas": 4,
+    "chance": 0.1,
+    "recarga": 2.5,
+    "multiplicador_dano": 0.0,
+    "aviso": 0.0,
+    "defesa": 0,
+    "vitalidade": 0,
+    "duracao": 1.5
+  },
+  "bases": {
+    "cabeca": {
+      "vitalidade": [
+        2,
+        3,
+        5,
+        7,
+        9
+      ],
+      "defesa": [
+        2,
+        4,
+        7,
+        10,
+        14
+      ]
+    },
+    "corpo": {
+      "vitalidade": [
+        3,
+        5,
+        8,
+        11,
+        15
+      ],
+      "defesa": [
+        3,
+        6,
+        10,
+        15,
+        20
+      ]
+    },
+    "luvas": {
+      "vitalidade": [
+        1,
+        2,
+        3,
+        4,
+        6
+      ],
+      "defesa": [
+        1,
+        2,
+        4,
+        6,
+        9
+      ]
+    },
+    "botas": {
+      "vitalidade": [
+        1,
+        2,
+        3,
+        4,
+        6
+      ],
+      "defesa": [
+        1,
+        2,
+        4,
+        6,
+        9
+      ]
+    }
+  },
+  "recortes": {
+    "fim_elmo": 0.4,
+    "fim_peitoral": 0.76,
+    "largura_elmo": 14,
+    "altura_elmo": 16,
+    "elmo_rigido": true,
+    "borda_calota": 0,
+    "elmo_nativo": true,
+    "deslocamento_vertical_elmo": [
+      2,
+      2,
+      2,
+      2
+    ],
+    "pernas_corrida_frente": true
+  },
+  "paleta": [
+    "101b2a",
+    "20364a",
+    "365e78",
+    "528ba3",
+    "7eb8c9",
+    "a8d9df",
+    "d2edef",
+    "f5ffff",
+    "10172e",
+    "1e2d50",
+    "344f79",
+    "557eac"
+  ],
+  "substituir_cabeca": false,
+  "arte_elmo": "res://arte/fontes/armaduras/guardiao_geada/elmos_originais/elmos_nativos.png",
+  "arte_peitoral": "res://arte/fontes/armaduras/guardiao_geada/peitorais_originais/peitorais_nativos.png",
+  "arte_base_elmo": "res://arte/fontes/armaduras/guardiao_geada/base_elmo_costas/elmos_base_limpa.png"
+}

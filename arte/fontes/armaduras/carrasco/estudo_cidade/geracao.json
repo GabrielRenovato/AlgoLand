@@ -1,0 +1,17 @@
+{
+  "ferramenta": "image_gen integrado",
+  "arquivo": "conceito_v1.png",
+  "dimensoes": [
+    2172,
+    724
+  ],
+  "escopo": "Estudo visual; sem integração no jogo, sem redução para sprite nativo ou animações.",
+  "prompt": "prompt.txt",
+  "referencias": [
+    "captura real da cidade",
+    "corpo Raven",
+    "conceito original do Carrasco",
+    "bigorna da cidade"
+  ],
+  "revisao": "Frente, costas e perfis consistentes; placas com volume e reflexos quentes. A resolução desta prévia não corresponde à célula final do personagem."
+}

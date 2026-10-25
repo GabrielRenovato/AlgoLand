@@ -54,6 +54,60 @@ static func camada_nativa(origem: Image, pixels: Array) -> Image:
   var uv=Vector2i(pixel.uv)
   if Rect2i(0,0,80,80).has_point(uv):saida.set_pixelv(pixel.pos,origem.get_pixelv(uv))
  return saida
+
+## Na fase aérea, a canela recolhe para o centro. O guia antigo marcava o
+## tornozelo do lado de fora e atribuía esse pé ao quadril e às manoplas.
+static func guia_pernas_frente(guia: Dictionary, q: int) -> Dictionary:
+ var ajustado=guia.duplicate(true)
+ if q==2:
+  ajustado.perna_esquerda=[[38,34],[37,36],[40,39]]
+  ajustado.perna_direita=[[42,34],[44,34],[44,37]]
+ elif q==5:
+  ajustado.perna_esquerda=[[37,34],[35,34],[36,37]]
+  ajustado.perna_direita=[[41,34],[43,36],[40,39]]
+ return ajustado
+
+## Reencaixa somente as pernas de frente; conserva desenho, pivô e seis tempos.
+static func corrigir_pernas_frente(destino: String) -> void:
+ var dados=contrato();var original=Encaixe.carregar_guias().originais[0]
+ var modelo=Image.load_from_file(DESTINO+"corpo_0.png")
+ var folhas={}
+ for peca in Encaixe.PECAS:folhas[peca]=Image.load_from_file(destino+"raven_"+peca+"/correr.png")
+ var fonte=Image.load_from_file(destino+"raven_botas.png").get_region(Rect2i(0,320,80,80))
+ var paleta=JSON.parse_string(FileAccess.get_file_as_string(destino.replace("res://assets/personagens/conjuntos/","res://ferramentas/armaduras/em_preparacao/")+"manifesto.json")).paleta
+ var esquerda: Array[Vector2i]=[];var direita: Array[Vector2i]=[]
+ var candidatos={"esquerda":esquerda,"direita":direita}
+ for pos in Encaixe.candidatos(fonte):
+  candidatos["esquerda" if pos.x<float(original.quadril[0]) else "direita"].append(pos)
+ var reparados=0
+ for q in 6:
+  var guia=guia_pernas_frente(dados.guias[0][q],q)
+  var ossos_alvo=Encaixe.ossos(guia)
+  for y in range(int(guia.quadril[1])+1,80):
+   for x in 80:
+    var pos=Vector2i(q*80+x,y);var pele=modelo.get_pixelv(pos)
+    if pele.a<0.5:continue
+    var p=Vector2(x,y);var menor=INF;var perna=""
+    for id in ["coxa_esquerdo","canela_esquerdo","coxa_direito","canela_direito"]:
+     var osso=ossos_alvo[id];var dist=Encaixe.projecao(p,osso[0],osso[1]).y/float(osso[2])
+     if dist<menor:menor=dist;perna=id
+    var mao=INF
+    for id in ["braco_esquerdo","antebraco_esquerdo","braco_direito","antebraco_direito"]:
+     var osso=ossos_alvo[id];mao=minf(mao,Encaixe.projecao(p,osso[0],osso[1]).y/float(osso[2]))
+    if mao<menor:continue
+    var lado="esquerda" if perna.ends_with("esquerdo") else "direita"
+    var uv=Encaixe.coordenada(p,perna,guia,original)
+    var cor=Encaixe.amostrar(fonte,uv,candidatos[lado])
+    # Solado e contorno pertencem ao pé; não puxar metal claro para a
+    # borda de sombra da outra perna ao procurar a amostra mais próxima.
+    if pele==Color("2e1c2c"):
+     cor=Color.html(paleta[0])
+    folhas.botas.set_pixelv(pos,cor)
+    folhas.peitoral.set_pixelv(pos,Color.TRANSPARENT)
+    folhas.luvas.set_pixelv(pos,Color.TRANSPARENT)
+    reparados+=1
+ for peca in ["peitoral","luvas","botas"]:Encaixe.escrever(folhas[peca],destino+"raven_"+peca+"/correr.png")
+ print("Corrida de frente: ",reparados," pixels das pernas com pé recolhido e peças separadas em ",destino)
 static func capa_corrida(origem: Image, guia: Dictionary, original: Dictionary, modelo: Image, d: int, q: int) -> Dictionary:
  var tras=Image.create(80,80,false,Image.FORMAT_RGBA8);var fecho=Image.create(80,80,false,Image.FORMAT_RGBA8)
  var alvo=Encaixe.v(guia.pescoco);var fonte=Encaixe.v(original.pescoco)
@@ -169,7 +223,41 @@ static func preparar() -> void:
     if folhas.botas.get_pixelv(pos).a>0.5:folhas.capa.set_pixelv(pos,Color.TRANSPARENT)
  for nome in folhas:Encaixe.escrever(folhas[nome],DESTINO+nome+".png")
  print("Corrida: ",folhas.size()," camadas, seis poses, quatro direções")
-static func preparar_conjunto(destino: String) -> void:
+## Reaplica a revisão exata do PixelLab sem recompor as outras peças.
+## A origem da chapa permanece fixa: limpar a base não recentraliza o elmo.
+static func corrigir_base_elmos_corrida(destino: String) -> bool:
+ var manifesto=destino.replace("res://assets/personagens/conjuntos/","res://ferramentas/armaduras/em_preparacao/")+"manifesto.json"
+ if not FileAccess.file_exists(manifesto):return true
+ var config=JSON.parse_string(FileAccess.get_file_as_string(manifesto))
+ if not config.has("arte_base_elmo"):return true
+ var originais=Image.load_from_file(config.arte_elmo)
+ var revisados=Image.load_from_file(config.arte_base_elmo)
+ var caminho=destino+"raven_elmo/correr.png"
+ var folha=Image.load_from_file(caminho)
+ var removidos=0
+ for vista in [[0,0],[2,1]]:
+  var d=int(vista[0]);var coluna=int(vista[1])
+  var original=originais.get_region(Rect2i(coluna*24,0,24,24))
+  var revisado=revisados.get_region(Rect2i(coluna*24,0,24,24))
+  var caixa=original.get_used_rect()
+  for q in 6:
+   var alvo=folha.get_region(Rect2i(q*80,d*80,80,80)).get_used_rect().position+Vector2i(q*80,d*80)-caixa.position
+   for y in 24:
+    for x in 24:
+     var antes=original.get_pixel(x,y);var depois=revisado.get_pixel(x,y)
+     if antes==depois:continue
+     if antes.a<0.5 or depois.a>0.0:
+      push_error("Revisão da base só pode retirar pixels: "+destino);return false
+     var pos=alvo+Vector2i(x,y);var atual=folha.get_pixelv(pos)
+     if atual.a==0.0:continue
+     if atual!=antes:
+      push_error("Base do elmo diverge da fonte: "+destino+"/"+str(d)+"/"+str(q)+"/"+str(pos));return false
+     folha.set_pixelv(pos,Color.TRANSPARENT);removidos+=1
+ Encaixe.escrever(folha,caminho)
+ print("Bases dos elmos na corrida: ",removidos," pixels de pontas retirados em ",destino)
+ return true
+
+static func preparar_conjunto(destino: String, somente_elmo: bool=false, sombra: Color=Color.TRANSPARENT, somente_peitoral: bool=false, pernas_frente: bool=false) -> void:
  var dados=contrato();var originais=Encaixe.carregar_guias().originais
  var corpo_0=Image.load_from_file(DESTINO+"corpo_0.png");var fontes={};var folhas={}
  var reparos=0
@@ -200,5 +288,16 @@ static func preparar_conjunto(destino: String) -> void:
      if partes.elmo.get_pixel(x,y).a>0.5:
       for peca in ["peitoral","luvas","botas"]:partes[peca].set_pixel(x,y,Color.TRANSPARENT)
    for peca in Encaixe.PECAS:folhas[peca].blit_rect(partes[peca],Rect2i(0,0,80,80),Vector2i(q*80,d*80))
- for peca in Encaixe.PECAS:Encaixe.escrever(folhas[peca],destino+"raven_"+peca+"/correr.png")
+ if somente_elmo:
+  var outras: Array[Image] = []
+  for peca in ["peitoral","luvas","botas"]:outras.append(Image.load_from_file(destino+"raven_"+peca+"/correr.png"))
+  Encaixe.preservar_outras_pecas(folhas.elmo,outras,corpo_0,sombra)
+  Encaixe.escrever(outras[0],destino+"raven_peitoral/correr.png")
+ if somente_peitoral:
+  folhas.peitoral=Encaixe.preservar_mascara(Image.load_from_file(destino+"raven_peitoral/correr.png"),folhas.peitoral)
+ var selecionadas: Array=["peitoral"] if somente_peitoral else (["elmo"] if somente_elmo else Encaixe.PECAS)
+ for peca in selecionadas:Encaixe.escrever(folhas[peca],destino+"raven_"+peca+"/correr.png")
+ if pernas_frente:corrigir_pernas_frente(destino)
+ if not somente_peitoral and not corrigir_base_elmos_corrida(destino):
+  push_error("Não foi possível reaplicar a base revisada do elmo: "+destino)
  print("Corrida: peças independentes em ",destino,"; bordas completadas: ",reparos)

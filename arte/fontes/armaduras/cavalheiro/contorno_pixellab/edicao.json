@@ -1,0 +1,17 @@
+[
+  {
+    "operation": "outline",
+    "mode": "recolor",
+    "layer": "image",
+    "frames": [
+      1
+    ],
+    "colors": [
+      "#15151fff"
+    ],
+    "color": "#262638ff",
+    "width": 1,
+    "connectivity": 8,
+    "reason": "Suavizar apenas o contorno externo original, mantendo silhueta e detalhes."
+  }
+]

@@ -1,0 +1,125 @@
+{
+  "versao": 1,
+  "id": "sentinela",
+  "nome": "Sentinela de Bronze",
+  "raridade": "incomum",
+  "arte": "res://arte/fontes/armaduras/sentinela/conceito.png",
+  "destino": "res://assets/personagens/conjuntos/sentinela/",
+  "onda_minima": 6,
+  "chances_drop": {
+    "normal": 0.0,
+    "mutante": 0.0,
+    "chefe": 0.07
+  },
+  "preco_base": 350,
+  "bonus": {
+    "tipo": "status",
+    "pecas": 4,
+    "chance": 0.0,
+    "recarga": 0.0,
+    "multiplicador_dano": 0.0,
+    "aviso": 0.0,
+    "defesa": 0.08,
+    "vitalidade": 0.02
+  },
+  "bases": {
+    "cabeca": {
+      "vitalidade": [
+        2,
+        3,
+        4,
+        6,
+        8
+      ],
+      "defesa": [
+        2,
+        4,
+        8,
+        11,
+        15
+      ]
+    },
+    "corpo": {
+      "vitalidade": [
+        3,
+        4,
+        7,
+        10,
+        14
+      ],
+      "defesa": [
+        3,
+        7,
+        11,
+        16,
+        22
+      ]
+    },
+    "luvas": {
+      "vitalidade": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "defesa": [
+        1,
+        2,
+        4,
+        7,
+        10
+      ]
+    },
+    "botas": {
+      "vitalidade": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "defesa": [
+        1,
+        2,
+        4,
+        7,
+        10
+      ]
+    }
+  },
+  "recortes": {
+    "fim_elmo": 0.4,
+    "fim_peitoral": 0.76,
+    "largura_elmo": 14,
+    "altura_elmo": 16,
+    "elmo_rigido": true,
+    "borda_calota": 0,
+    "elmo_nativo": true,
+    "deslocamento_vertical_elmo": [
+      2,
+      2,
+      2,
+      2
+    ],
+    "pernas_corrida_frente": true
+  },
+  "paleta": [
+    "161219",
+    "30231d",
+    "51382b",
+    "795036",
+    "a57547",
+    "ca9d64",
+    "e8c58b",
+    "fff0c1",
+    "112a32",
+    "25464d",
+    "456a70",
+    "7c9898"
+  ],
+  "substituir_cabeca": false,
+  "arte_elmo": "res://arte/fontes/armaduras/sentinela/elmos_originais/elmos_nativos.png",
+  "arte_peitoral": "res://arte/fontes/armaduras/sentinela/peitorais_originais/peitorais_nativos.png",
+  "arte_base_elmo": "res://arte/fontes/armaduras/sentinela/base_elmo_costas/elmos_base_limpa.png"
+}

@@ -37,10 +37,10 @@ func _rodar() -> void:
 		quit(1)
 		return
 	for conjunto in Conjuntos.CONJUNTOS:
-		_verificar(conjunto.ID + ": comum e disponível desde a onda 1", conjunto.RARIDADE == "comum" and conjunto.ONDA_MINIMA == 1 and conjunto.chance_drop(1, false, true) > 0.0)
+		_verificar(conjunto.ID + ": respeita o andar mínimo", conjunto.chance_drop(conjunto.ONDA_MINIMA-1, false, true) == 0.0 and conjunto.chance_drop(conjunto.ONDA_MINIMA, false, true) > 0.0)
 		var rng := RandomNumberGenerator.new()
 		var item: DadosItem = Drop.criar_item(rng, 60, false, true, "", conjunto.TIPOS.keys()[0])
-		_verificar(conjunto.ID + ": peça cai no nível 1 mesmo em onda alta", item.nivel == 1 and item.raridade == "comum")
+		_verificar(conjunto.ID + ": peça cai no nível 1 com sua raridade", item.nivel == 1 and item.raridade == conjunto.RARIDADE)
 	# Fatores: 0 / 1 peça = nada; 2 e 3 = metade; 4 = completo; nível 5 = 2x
 	_verificar("1 peça não dá bônus", Conjuntos.fator(Carrasco, _equipados(Carrasco, 1, 1)) == 0.0)
 	_verificar("2 peças dão metade", is_equal_approx(Conjuntos.fator(Carrasco, _equipados(Carrasco, 2, 1)), 0.5))
@@ -96,14 +96,12 @@ func _rodar() -> void:
 	var pecas_chefe := 0
 	for i in 2000:
 		pecas_chefe += 1 if Conjuntos.de_tipo(Drop.criar_item(rng_mob, 50, false, true).tipo) != null else 0
-	_verificar("chefe solta peça em ~30% dos equipamentos (10% por conjunto), não sempre", pecas_chefe > 480 and pecas_chefe < 720)
+	_verificar("chefe na onda 50: ~64% dos equipamentos são conjuntos, sem lendário precoce", pecas_chefe > 1150 and pecas_chefe < 1410)
 	# A cobertura gravada em cobertura/<pagina>.png tem de ser idêntica à calculada (a gravada evita ~200 ms de travada ao equipar)
 	var Aparencia = load("res://codigo/dados/aparencia.gd")
-	var coberturas_iguais := true
 	for conjunto in Conjuntos.CONJUNTOS:
 		for pagina in ["andar", "espada", "arco_p3"]:
-			coberturas_iguais = coberturas_iguais and _cobertura_gravada(pagina, conjunto.RAIZ_SPRITES) == Aparencia.calcular_cobertura(pagina, conjunto.RAIZ_SPRITES)
-	_verificar("cobertura gravada igual à calculada nos três conjuntos", coberturas_iguais)
+			_verificar("cobertura gravada igual à calculada: "+conjunto.ID+"/"+pagina, _cobertura_gravada(pagina, conjunto.RAIZ_SPRITES) == Aparencia.calcular_cobertura(pagina, conjunto.RAIZ_SPRITES))
 	# Morte: peças de conjunto (equipadas e na mochila, com nível) e moedas sobrevivem; o resto volta ao kit inicial
 	inv.limpar()
 	inv.criar_itens_iniciais()

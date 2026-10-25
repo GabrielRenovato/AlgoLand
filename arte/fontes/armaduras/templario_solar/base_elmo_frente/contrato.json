@@ -1,0 +1,10 @@
+{
+  "origem": "res://arte/fontes/armaduras/templario_solar/elmos_originais/elmos_nativos.png",
+  "ferramenta": "PixelLab pixelart_workbench edit",
+  "image_id": "172c73d7-9219-4541-95ca-e075545ab7ea",
+  "escopo": "Retirar somente as pontas das linhas horizontais sob a base frontal do elmo; preservar visor, crista, cores, outras vistas, pivô e grade. Aplicação nos seis quadros da corrida de frente.",
+  "sha256_fonte_revisada": "5d73208ffb3dfa8ea8fea15106c50670ae6d59c4f9c090b5caf5a3218730ad2e",
+  "sha256_corrida_antes": "ac8ca5580c71f86026ff712431c2eb81744a78c94bcc4a8264ac928168c2f621",
+  "comando": "gerar_conjunto.gd <manifesto> --somente-base-elmos",
+  "sha256_corrida_revisada": "488dab18968861bc95c1832aaaeede944c6fe19de67ff83a302d14c2b5738078"
+}

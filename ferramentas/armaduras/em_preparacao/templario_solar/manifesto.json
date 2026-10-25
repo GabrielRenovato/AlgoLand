@@ -1,0 +1,125 @@
+{
+  "versao": 1,
+  "id": "templario_solar",
+  "nome": "Templario Solar",
+  "raridade": "raro",
+  "arte": "res://arte/fontes/armaduras/templario_solar/conceito.png",
+  "destino": "res://assets/personagens/conjuntos/templario_solar/",
+  "onda_minima": 21,
+  "chances_drop": {
+    "normal": 0.0,
+    "mutante": 0.0,
+    "chefe": 0.06
+  },
+  "preco_base": 700,
+  "bonus": {
+    "tipo": "status",
+    "pecas": 4,
+    "chance": 0.0,
+    "recarga": 0.0,
+    "multiplicador_dano": 0.0,
+    "aviso": 0.0,
+    "defesa": 0.08,
+    "vitalidade": 0.08
+  },
+  "bases": {
+    "cabeca": {
+      "vitalidade": [
+        2,
+        3,
+        5,
+        7,
+        9
+      ],
+      "defesa": [
+        2,
+        4,
+        7,
+        10,
+        14
+      ]
+    },
+    "corpo": {
+      "vitalidade": [
+        3,
+        5,
+        8,
+        12,
+        16
+      ],
+      "defesa": [
+        3,
+        6,
+        10,
+        15,
+        20
+      ]
+    },
+    "luvas": {
+      "vitalidade": [
+        1,
+        2,
+        3,
+        4,
+        6
+      ],
+      "defesa": [
+        1,
+        2,
+        4,
+        6,
+        9
+      ]
+    },
+    "botas": {
+      "vitalidade": [
+        1,
+        2,
+        3,
+        4,
+        6
+      ],
+      "defesa": [
+        1,
+        2,
+        4,
+        6,
+        9
+      ]
+    }
+  },
+  "recortes": {
+    "fim_elmo": 0.4,
+    "fim_peitoral": 0.76,
+    "largura_elmo": 14,
+    "altura_elmo": 16,
+    "elmo_rigido": true,
+    "borda_calota": 0,
+    "elmo_nativo": true,
+    "deslocamento_vertical_elmo": [
+      2,
+      2,
+      2,
+      2
+    ],
+    "pernas_corrida_frente": true
+  },
+  "paleta": [
+    "242022",
+    "4b3d2e",
+    "746044",
+    "9f885c",
+    "c7b281",
+    "dfcfa9",
+    "f4e8cd",
+    "ffffe9",
+    "321721",
+    "592531",
+    "8c3a46",
+    "c16b67"
+  ],
+  "substituir_cabeca": false,
+  "arte_elmo": "res://arte/fontes/armaduras/templario_solar/elmos_originais/elmos_nativos.png",
+  "arte_peitoral": "res://arte/fontes/armaduras/templario_solar/peitorais_originais/peitorais_nativos.png",
+  "arte_base_elmo": "res://arte/fontes/armaduras/templario_solar/base_elmo_costas/elmos_base_limpa.png"
+}

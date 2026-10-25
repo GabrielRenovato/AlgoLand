@@ -7,6 +7,9 @@ const Aparencia := preload("res://codigo/dados/aparencia.gd")
 const Icones := preload("res://codigo/ui/icones_itens.gd")
 var _falhas := 0
 
+func _origem(textura: Texture2D) -> String:
+	return textura.atlas.resource_path if textura is AtlasTexture else textura.resource_path
+
 func _initialize() -> void:
 	_rodar()
 
@@ -24,8 +27,8 @@ func _rodar() -> void:
 	var inv := root.get_node("InventarioJogador")
 	inv.limpar()
 	inv.criar_itens_iniciais()
-	# Trocar os três conjuntos seguidos guarda 12 peças na mochila; o kit agora ocupa 3 casas com as ferramentas da fazenda
-	inv.definir_linhas_extras(1)
+	# Espaço para guardar os dez conjuntos reais e o kit inicial.
+	inv.definir_linhas_extras(99)
 	var arena: Node = load("res://cenas/cenario.tscn").instantiate()
 	root.add_child(arena)
 	current_scene = arena
@@ -35,15 +38,17 @@ func _rodar() -> void:
 	var jogador := arena.get_node("Jogador")
 	jogador.set_physics_process(false)
 	jogador.definir_aparencia(1, 2)
+	jogador.aparencia_raven = {"pele":0,"cabelo":1,"roupa":2,"cor":[1,1,1,1]}
 	inv.equipar(inv.buscar_por_tipo("espada_basica"))
 	var visual := jogador.get_node("HeroiRaven")
 	var painel := root.get_node("PainelDebug")
 	var arma = inv.equipados["arma"]
 	# Usa os callbacks que o dropdown oferece, não apenas o método interno.
-	for i in 3:
+	var ids := ["cavalheiro", "cavaleiro_rubro", "carrasco", "sentinela", "batedor", "guardiao_geada", "templario_solar", "arauto_trovao", "guardiao_esmeralda", "soberano_astral"]
+	for i in ids.size():
 		painel._opcoes["CONJUNTOS"][i][1].call()
 		visual._process(0.0)
-		var id: String = ["cavalheiro", "cavaleiro_rubro", "carrasco"][i]
+		var id: String = ids[i]
 		var completo := true
 		for slot in ["cabeca", "corpo", "luvas", "botas"]:
 			var item: Dados = inv.equipados[slot]
@@ -52,31 +57,47 @@ func _rodar() -> void:
 			_verificar(id + "/" + slot + ": nome e ícone de item real", item != null and not item.nome().is_empty() and Icones.obter(item, self) != null)
 		_verificar(id + ": dropdown equipa os quatro slots reais", completo and jogador.pecas_cavaleiro == 15 and inv.equipados["arma"] == arma)
 		_verificar(id + ": visual vem dos slots sem prévia sobreposta", jogador.raizes_armadura.size() == 4 and Aparencia.raiz_armadura_visual(jogador.roupa_atual).is_empty())
+		var esperado := Conjuntos.bonus_status(inv.equipados)
+		jogador._aplicar_modelo()
+		jogador._aplicar_modelo()
+		_verificar(id + ": reaplicar não acumula bônus de status", is_equal_approx(jogador.estatisticas.bonus_defesa_conjunto, esperado.defesa) and is_equal_approx(jogador.estatisticas.bonus_vitalidade_conjunto, esperado.vitalidade))
 		if id == "cavalheiro":
-			_verificar("cartola equipada mantém o cabelo composto", not visual._camadas[6].texture.atlas.resource_path.ends_with("vazio.png") and visual._camadas[9].texture.atlas.resource_path.ends_with("cavalheiro/raven_elmo.png") and visual._camadas[9].z_index>visual._camadas[6].z_index)
+			# Com arma nas costas, cabelo e cartola usam z=3; a cartola vem depois na hierarquia.
+			var acima: bool = visual._camadas[9].z_index > visual._camadas[6].z_index or (visual._camadas[9].z_index == visual._camadas[6].z_index and visual._camadas[9].get_index() > visual._camadas[6].get_index())
+			_verificar("cartola equipada mantém o cabelo composto", not _origem(visual._camadas[6].texture).contains("vazio") and _origem(visual._camadas[9].texture).contains("cavalheiro/raven_elmo") and acima)
 			_verificar("Mordomo comum congela sem multiplicador de status", jogador.estatisticas.bonus_defesa_conjunto == 0 and Conjuntos.de_tipo("elmo_cavalheiro").RARIDADE == "comum" and Conjuntos.de_tipo("elmo_cavalheiro").TIPO_BONUS == "congelamento" and Conjuntos.de_tipo("elmo_cavalheiro").chance_drop(99, true, true) == 0.1)
 		if id == "cavaleiro_rubro":
 			_verificar("Rubro ativa os 10% pelas quatro peças reais", jogador.estatisticas.bonus_defesa_conjunto == 0.1 and jogador.estatisticas.bonus_vitalidade_conjunto == 0.1)
 		var anteriores: Dictionary = inv.equipados.duplicate()
 		var mochila: Array = inv.mochila.duplicate()
 		inv.equipados["corpo"].nivel = 3
+		inv.equipados["corpo"].raridade = "lendario"
 		painel._opcoes["CONJUNTOS"][i][1].call()
-		_verificar(id + ": repetir preserva instâncias, nível e mochila", inv.equipados == anteriores and inv.mochila == mochila and inv.equipados["corpo"].nivel == 3)
+		_verificar(id + ": repetir preserva instâncias, nível, ascensão e mochila", inv.equipados == anteriores and inv.mochila == mochila and inv.equipados["corpo"].nivel == 3 and inv.equipados["corpo"].raridade == "lendario")
 	# Todos os itens antigos permanecem disponíveis após trocar de conjunto.
 	for conjunto in Conjuntos.CONJUNTOS:
 		for tipo in conjunto.TIPOS:
 			_verificar(tipo + ": peça não perdida nas trocas", inv.buscar_por_tipo(tipo) != null)
+	inv.salvar("user://teste_dez_conjuntos.json")
+	var catalogo = load("res://codigo/modelos/modelo_inventario.gd").new()
+	catalogo.carregar("user://teste_dez_conjuntos.json")
+	for conjunto in Conjuntos.CONJUNTOS:
+		for tipo in conjunto.TIPOS:
+			var item = catalogo.buscar_por_tipo(tipo)
+			var original = inv.buscar_por_tipo(tipo)
+			_verificar(tipo + ": save preserva nível, raridade e afixos", item != null and item.nivel == original.nivel and item.raridade == original.raridade and item.afixos == original.afixos)
+	catalogo.free()
 	painel._alternar_armadura("traje_cavalheiro")
 	painel._equipar_conjunto("cavalheiro")
 	_verificar("equipar retira prévia cosmética e conserva a roupa base", jogador.roupa_atual == 2 and jogador.raizes_armadura["elmo"].ends_with("cavalheiro/"))
 	inv.remover_da_mochila(inv.buscar_por_tipo("lanca_basica"))
 	_verificar("retirada da cartola tem espaço reservado na mochila", inv.desequipar("cabeca"))
 	visual._process(0.0)
-	_verificar("retirar cartola pelo inventário remove o visual e restaura cabelo", jogador.pecas_cavaleiro == 14 and not visual._camadas[6].texture.atlas.resource_path.ends_with("vazio.png") and visual._camadas[9].texture.atlas.resource_path.ends_with("vazio.png"))
+	_verificar("retirar cartola pelo inventário remove o visual e restaura cabelo", jogador.pecas_cavaleiro == 14 and not _origem(visual._camadas[6].texture).contains("vazio") and _origem(visual._camadas[9].texture).contains("vazio"))
 	painel._equipar_conjunto("cavalheiro")
 	for acao in ["arco","ferido","picareta"]:
 		visual._aplicar_aparencia(acao)
-		_verificar("ação Raven conserva cartola e cabelo pelos slots: "+acao, visual._camadas[9].texture.atlas.resource_path.ends_with("cavalheiro/raven_elmo.png") and not visual._camadas[6].texture.atlas.resource_path.ends_with("vazio.png"))
+		_verificar("ação Raven conserva cartola e cabelo pelos slots: "+acao, _origem(visual._camadas[9].texture).contains("cavalheiro/raven_elmo") and not _origem(visual._camadas[6].texture).contains("vazio"))
 	inv.salvar("user://teste_f3_conjuntos.json")
 	var copia = load("res://codigo/modelos/modelo_inventario.gd").new()
 	copia.carregar("user://teste_f3_conjuntos.json")
@@ -103,7 +124,7 @@ func _rodar() -> void:
 			visual.frame=d*4+2
 			for camada in visual._camadas: camada.frame=visual.frame
 			for i in 4:
-				_verificar("peça mista mantém a origem em ação/direção",visual._camadas[9+i].texture.atlas.resource_path.contains("/"+["cavalheiro","cavaleiro_rubro","carrasco","cavalheiro"][i]+"/raven_"))
+				_verificar("peça mista mantém a origem em ação/direção",_origem(visual._camadas[9+i].texture).contains("/"+["cavalheiro","cavaleiro_rubro","carrasco","cavalheiro"][i]+"/raven_"))
 			var previa: Sprite2D=visual.criar_rastro()
 			previa.position=Vector2(d*80+40,a*80+56)
 			vp.add_child(previa)

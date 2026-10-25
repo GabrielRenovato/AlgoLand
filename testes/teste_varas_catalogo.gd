@@ -71,7 +71,7 @@ func _rodar() -> void:
 	fazenda.salvar()
 	fazenda.carregar()
 	verificar("intervalo da pedra persiste no save",Varas.capturas(p1)==80 and int(fazenda.pesca_ultima_pedra["p1"])==30)
-	verificar("48 espécies e desafios por espécie",Peixes.DADOS.size()==48 and Metas.DESAFIOS.size()>=60)
+	verificar("54 espécies e desafios por espécie",Peixes.DADOS.size()==54 and Metas.DESAFIOS.size()>=60)
 	for ambiente in ["mar","rio"]:
 		for estacao in 4:
 			var comuns := 0
@@ -98,6 +98,8 @@ func _rodar() -> void:
 	mini._novo_check()
 	verificar("peixe avançado quase impossível na vara fraca",zona_fraca<0.03 and mini.tamanho_zona>zona_fraca*10 and mini.ponteiro_velocidade<velocidade_fraca)
 	mini.queue_free()
+	var habilidade := load("res://codigo/pesca/progressao_pesca.gd")
+	fazenda.pesca_xp = {"p1": habilidade.xp_para_nivel(30), "p2": habilidade.xp_para_nivel(70)}
 	ui1._abrir_tela("inventario")
 	ui2._abrir_tela("inventario")
 	await create_timer(0.3).timeout
@@ -107,9 +109,14 @@ func _rodar() -> void:
 	inv2.selecionar_pagina(3)
 	await quadros(8)
 	verificar("catálogo dentro da aba de cada inventário",inv1._pesca.visible and inv2._pesca.visible and inv1._pesca!=inv2._pesca)
-	verificar("catálogo mostra todas as espécies",inv1._pesca._grade_peixes.get_child_count()==48 and inv1._pesca._grade_peixes.columns>=3)
+	verificar("catálogo mostra todas as espécies",inv1._pesca._grade_peixes.get_child_count()==Peixes.DADOS.size() and inv1._pesca._grade_peixes.columns>=3)
+	verificar("cada catálogo mostra XP do próprio jogador", inv1._pesca._lista.get_node("ProgressaoPesca").get_child(0).text.contains("NV 30") and inv2._pesca._lista.get_node("ProgressaoPesca").get_child(0).text.contains("NV 70"))
+	if DisplayServer.get_name() != "headless":
+		DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path("res://arte/previas/pesca/progressao_99"))
+		await RenderingServer.frame_post_draw
+		root.get_texture().get_image().save_png("res://arte/previas/pesca/progressao_99/coop.png")
 	verificar("não pescado aparece preto",inv1._pesca._grade_peixes.get_child(0).get_node("Icone").modulate == Color.BLACK)
-	verificar("cada catálogo mostra sua vara",inv1._pesca._lista.get_child(0).text.contains("NV 5") and inv2._pesca._lista.get_child(0).text.contains("NV 1"))
+	verificar("cada catálogo mostra sua vara",inv1._pesca._lista.get_child(1).text.contains("NV 5") and inv2._pesca._lista.get_child(1).text.contains("NV 1"))
 	inv1._pesca._desafios_pesca = true
 	inv1._pesca._atualizar()
 	verificar("desafios não trocam a aba do parceiro",not inv2._pesca._desafios_pesca and inv1._pesca._lista.get_child_count()>60)
@@ -123,7 +130,11 @@ func _rodar() -> void:
 	var d2: Node = ui2._telas["conversa_cidade"]
 	verificar("coop mantém conversas diferentes",d1._id_atual=="nilo" and d2._id_atual=="mercador" and d1._titulo.text=="NILO" and d2._titulo.text=="TOMAS")
 	verificar("ambos os NPCs permanecem em conversa",cidade.em_conversa("nilo") and cidade.em_conversa("mercador"))
+	ui1._fechar_tela("conversa_cidade")
+	cidade.atender("nilo", "servicos", p1)
+	await quadros()
 	d1._ver_vara()
+	await create_timer(0.35).timeout
 	await quadros()
 	var oficina: Control = ui1._telas["oficina_vara"]
 	verificar("oficina mostra comparacao e nivel maximo",oficina.visible and oficina._comparacao.get_child_count()==2 and oficina._refinar.disabled and oficina._refinar.text.contains("MAXIMO"))

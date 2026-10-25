@@ -1,0 +1,125 @@
+{
+  "versao": 1,
+  "id": "soberano_astral",
+  "nome": "Soberano Astral",
+  "raridade": "lendario",
+  "arte": "res://arte/fontes/armaduras/soberano_astral/conceito.png",
+  "destino": "res://assets/personagens/conjuntos/soberano_astral/",
+  "onda_minima": 51,
+  "chances_drop": {
+    "normal": 0.0,
+    "mutante": 0.0,
+    "chefe": 0.02
+  },
+  "preco_base": 2200,
+  "bonus": {
+    "tipo": "status",
+    "pecas": 4,
+    "chance": 0.0,
+    "recarga": 0.0,
+    "multiplicador_dano": 0.0,
+    "aviso": 0.0,
+    "defesa": 0.16,
+    "vitalidade": 0.16
+  },
+  "bases": {
+    "cabeca": {
+      "vitalidade": [
+        2,
+        3,
+        6,
+        8,
+        10
+      ],
+      "defesa": [
+        2,
+        4,
+        8,
+        11,
+        15
+      ]
+    },
+    "corpo": {
+      "vitalidade": [
+        3,
+        6,
+        9,
+        12,
+        16
+      ],
+      "defesa": [
+        3,
+        7,
+        11,
+        16,
+        22
+      ]
+    },
+    "luvas": {
+      "vitalidade": [
+        1,
+        2,
+        3,
+        4,
+        7
+      ],
+      "defesa": [
+        1,
+        2,
+        4,
+        7,
+        10
+      ]
+    },
+    "botas": {
+      "vitalidade": [
+        1,
+        2,
+        3,
+        4,
+        7
+      ],
+      "defesa": [
+        1,
+        2,
+        4,
+        7,
+        10
+      ]
+    }
+  },
+  "recortes": {
+    "fim_elmo": 0.4,
+    "fim_peitoral": 0.76,
+    "largura_elmo": 14,
+    "altura_elmo": 16,
+    "elmo_rigido": true,
+    "borda_calota": 0,
+    "elmo_nativo": true,
+    "deslocamento_vertical_elmo": [
+      2,
+      2,
+      2,
+      2
+    ],
+    "pernas_corrida_frente": true
+  },
+  "paleta": [
+    "15131f",
+    "302842",
+    "584b73",
+    "80739c",
+    "aaa2bd",
+    "d2cfdf",
+    "c9a653",
+    "ffe9a8",
+    "101d3b",
+    "1c3153",
+    "34577c",
+    "79a7c5"
+  ],
+  "substituir_cabeca": false,
+  "arte_elmo": "res://arte/fontes/armaduras/soberano_astral/elmos_originais/elmos_nativos.png",
+  "arte_peitoral": "res://arte/fontes/armaduras/soberano_astral/peitorais_originais/peitorais_nativos.png",
+  "arte_base_elmo": "res://arte/fontes/armaduras/soberano_astral/base_elmo_costas/elmos_base_limpa.png"
+}
