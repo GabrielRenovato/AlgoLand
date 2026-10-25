@@ -11,11 +11,17 @@ const FONTE_TECLA := preload("res://assets/ui/Planes_ValMore.ttf")
 const LINHAS := ["ABCDEFGHIJ", "KLMNOPQRST", "UVWXYZ-_", "0123456789"]
 const CAMADA := 50
 const LADO_TECLA := Vector2(18, 16)
+const LADO_TECLA_TOQUE := Vector2(30, 21)
+const PONTUACAO := ".,!?:;'()"
 const COR_FUNDO := Color(0, 0, 0, 0.6)
 
 var titulo_texto := "NOME DO PERSONAGEM"
 var texto := ""
 var max_caracteres := 12
+## Chat precisa de pontuação; nomes continuam só com letras, números, - e _
+var com_pontuacao := false
+## Campo que abriu o teclado pelo toque (quem confirma decide o que fazer com ele)
+var alvo: LineEdit
 
 var _rotulo: Label
 var _teclas: Array[Button] = []
@@ -63,11 +69,27 @@ func _montar() -> void:
 	titulo.text = titulo_texto
 	titulo.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	coluna.add_child(titulo)
+	# Caixa com a mensagem sendo digitada, para ler tudo o que foi escrito (quebra em linhas)
+	var caixa := PanelContainer.new()
+	var estilo_caixa := StyleBoxFlat.new()
+	estilo_caixa.bg_color = Color(0, 0, 0, 0.55)
+	estilo_caixa.set_border_width_all(1)
+	estilo_caixa.border_color = Color(0.96, 0.81, 0.48, 0.8)
+	estilo_caixa.set_content_margin_all(4)
+	caixa.add_theme_stylebox_override("panel", estilo_caixa)
+	coluna.add_child(caixa)
 	_rotulo = Label.new()
 	_rotulo.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	coluna.add_child(_rotulo)
+	_rotulo.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	if _toque():
+		_rotulo.autowrap_mode = TextServer.AUTOWRAP_ARBITRARY
+		_rotulo.custom_minimum_size = Vector2(LADO_TECLA_TOQUE.x * 10 + 18, 30)
+	caixa.add_child(_rotulo)
 
-	for linha in LINHAS:
+	var linhas: Array = LINHAS.duplicate()
+	if com_pontuacao:
+		linhas.append(PONTUACAO)
+	for linha in linhas:
 		var fileira := HBoxContainer.new()
 		fileira.alignment = BoxContainer.ALIGNMENT_CENTER
 		fileira.add_theme_constant_override("separation", 2)
@@ -88,6 +110,7 @@ func _montar() -> void:
 	var dica := _dica
 	dica.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	dica.modulate = Color(1, 1, 1, 0.6)
+	dica.visible = not _toque()
 	coluna.add_child(dica)
 
 # Letras como estão no controle em uso (no 8BitDo o botão de baixo é B e o menu é +)
@@ -97,7 +120,9 @@ func _atualizar_dica() -> void:
 func _criar_tecla(rotulo: String, acao: Callable) -> Button:
 	var tecla := Button.new()
 	tecla.text = rotulo
-	tecla.custom_minimum_size = LADO_TECLA
+	# A letra X não pode virar o botão circular de fechar janela
+	tecla.set_meta("tecla_virtual", true)
+	tecla.custom_minimum_size = LADO_TECLA_TOQUE if _toque() else LADO_TECLA
 	tecla.focus_mode = Control.FOCUS_ALL
 	# Planes_ValMore: o Y da fonte do tema parece um "y" minúsculo
 	tecla.add_theme_font_override("font", FONTE_TECLA)
@@ -130,5 +155,21 @@ func _apagar() -> void:
 	texto = texto.substr(0, maxi(texto.length() - 1, 0))
 	_atualizar_rotulo()
 
+func _toque() -> bool:
+	return Controle.celular() or Controle.usando_toque
+
+## No celular o teclado do sistema cobre o campo; o toque no campo abre este teclado, que mostra o que está sendo escrito
+func ligar_toque(campo: LineEdit) -> void:
+	if Controle.celular():
+		campo.virtual_keyboard_enabled = false
+	campo.gui_input.connect(func(evento: InputEvent) -> void:
+		if not _toque() or not (evento is InputEventMouseButton and evento.pressed and evento.button_index == MOUSE_BUTTON_LEFT) or not campo.editable:
+			return
+		alvo = campo
+		campo.release_focus()
+		abrir(campo.text, campo.max_length if campo.max_length > 0 else 160)
+		campo.accept_event())
+
 func _atualizar_rotulo() -> void:
-	_rotulo.text = (("..."+texto.right(24)) if texto.length()>24 else texto) + ("_" if texto.length() < max_caracteres else "")
+	var limite := 90 if _toque() else 24
+	_rotulo.text = (("..."+texto.right(limite)) if texto.length()>limite else texto) + ("_" if texto.length() < max_caracteres else "")

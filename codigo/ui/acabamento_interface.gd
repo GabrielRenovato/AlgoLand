@@ -87,7 +87,7 @@ func _pintar(no: Control, textura: Texture2D, botao := false, cor := Color.WHITE
 	aplicacoes += 1
 
 func _aplicar(no: Control) -> void:
-	if no is Button and (no.has_meta("fechar_circular") or no.text.strip_edges().to_upper() in ["X","FECHAR","×"]):
+	if no is Button and not no.has_meta("tecla_virtual") and (no.has_meta("fechar_circular") or no.text.strip_edges().to_upper() in ["X","FECHAR","×"]):
 		FecharJanela.ligar(no)
 		return
 	if no is NinePatchRect:

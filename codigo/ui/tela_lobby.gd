@@ -176,8 +176,18 @@ func _ready() -> void:
  get_parent().add_child(_falas)
  _teclado = preload("res://codigo/ui/teclado_virtual.gd").new()
  _teclado.titulo_texto = "MENSAGEM"
+ _teclado.com_pontuacao = true
  add_child(_teclado)
- _teclado.confirmado.connect(func(texto: String) -> void: _campo.text=texto; _enviar.grab_focus())
+ _teclado.confirmado.connect(func(texto: String) -> void:
+  if _teclado.alvo==_historico_campo:
+   _historico_campo.text=texto
+   _enviar_do_canto(texto)
+  else:
+   _campo.text=texto
+   _enviar.grab_focus()
+  _teclado.alvo=null)
+ _teclado.ligar_toque(_campo)
+ _teclado.ligar_toque(_historico_campo)
  visibility_changed.connect(_ao_abrir)
  resized.connect(_ajustar)
  painel.minimum_size_changed.connect(func() -> void: _ajustar.call_deferred())
@@ -366,6 +376,7 @@ func _avisar(texto: String) -> void:
  _aviso_ate = Time.get_ticks_msec()+4000
 
 func _abrir_teclado() -> void:
+ _teclado.alvo = null
  if _campo.editable: _teclado.abrir(_campo.text,160)
 
 func _ao_abrir() -> void:

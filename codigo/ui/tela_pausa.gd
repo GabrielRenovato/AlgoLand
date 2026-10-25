@@ -234,6 +234,7 @@ func _montar_vista_apelido() -> void:
 	_teclado.confirmado.connect(func(texto: String):
 		_campo_apelido.text = texto
 		_botao_salvar_apelido.grab_focus())
+	_teclado.ligar_toque(_campo_apelido)
 
 func _ao_entrada_apelido(evento: InputEvent) -> void:
 	# No controle, confirmar (A) no campo abre o teclado virtual, como na criação do personagem

@@ -125,6 +125,7 @@ func _ready() -> void:
 	_teclado = TecladoVirtual.new()
 	add_child(_teclado)
 	_teclado.confirmado.connect(_ao_nome_confirmado)
+	_teclado.ligar_toque(_campo_nome)
 	Controle.modo_alterado.connect(_ao_modo_controle)
 	if etapa_coop > 0:
 		var quem := Label.new()
