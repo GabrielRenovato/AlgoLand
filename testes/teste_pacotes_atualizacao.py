@@ -159,7 +159,7 @@ theme/custom="res://tema.tres"
 [rendering]
 renderer/rendering_method="gl_compatibility"
 '''.replace('CHAVE_TESTE', hashlib.sha256(publica.encode()).hexdigest()[:12]))
-    (destino / 'atualizador_teste.gd').write_text('extends "res://codigo/globais/atualizacao.gd"\nvar encerrou := false\nvar pedido_reinicio := false\nvar remoto_teste := {}\nfunc _ready() -> void: _montar_interface()\nfunc _encerrar() -> void: encerrou = true\nfunc _pedir_reinicio() -> void: pedido_reinicio = true\nfunc _ativa() -> bool: return true\nfunc _baixar_json(_url: String) -> Dictionary: return remoto_teste\n')
+    (destino / 'atualizador_teste.gd').write_text('extends "res://codigo/globais/atualizacao.gd"\nvar encerrou := false\nvar remoto_teste := {}\nfunc _ready() -> void: _montar_interface()\nfunc _encerrar() -> void: encerrou = true\nfunc _ativa() -> bool: return true\nfunc _baixar_json(_url: String) -> Dictionary: return remoto_teste\n')
     (destino / 'teste.gd').write_text((RAIZ / 'ferramentas/atualizacao/teste_motor.gd').read_text())
     print('Projeto mínimo preparado:', destino)
 

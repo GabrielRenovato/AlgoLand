@@ -156,19 +156,14 @@ func _aguardar_nova_tentativa() -> bool:
 func _oferecer_reabertura() -> void:
 	estado = "aguardando_reabertura"
 	_barra.hide()
-	_limpar_botoes()
 	_texto.text = "Atualização pronta!"
-	_detalhe.text = "Reiniciando o jogo para ativar o novo conteúdo…"
-	await get_tree().create_timer(1.2).timeout
-	_reiniciar()
-
-## Fecha e abre o jogo de novo sozinho (desktop e Android); se o sistema não reabrir, o jogo apenas fecha como antes
-func _reiniciar() -> void:
-	_pedir_reinicio()
+	_detalhe.text = "Feche e abra o jogo para ativar o novo conteúdo."
+	_decisao = ""
+	_limpar_botoes()
+	_botao("FECHAR JOGO", func(): _decisao = "fechar")
+	while _decisao.is_empty(): await get_tree().process_frame
+	_limpar_botoes()
 	_encerrar()
-
-func _pedir_reinicio() -> void:
-	OS.set_restart_on_exit(true, OS.get_cmdline_args())
 
 func _encerrar() -> void:
 	get_tree().quit()
