@@ -25,7 +25,7 @@ const ACOES := {
 	"regar": {"ferramenta": "fazenda", "linha_base": 4, "quadro_impacto": 2,
 		"quadros": [[0, 0.09], [1, 0.09], [2, 0.12], [3, 0.12], [2, 0.12], [3, 0.16]]},
 	"colher": {"ferramenta": "fazenda", "linha_base": 4, "quadro_impacto": 2,
-		"quadros": [[4, 0.40], [5, 0.24], [6, 0.18], [7, 0.30]]},
+		"quadros": [[4, 0.29], [5, 0.17], [6, 0.13], [7, 0.21]]},
 }
 
 var jogador = null
