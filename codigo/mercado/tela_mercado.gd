@@ -8,6 +8,7 @@ const IconesItens := preload("res://codigo/ui/icones_itens.gd")
 const EstiloSlot := preload("res://codigo/ui/estilo_slot.gd")
 const Raridades := preload("res://codigo/dados/raridades.gd")
 const Encantamentos := preload("res://codigo/dados/encantamentos.gd")
+const PreviaDigitacao := preload("res://codigo/ui/previa_digitacao.gd")
 const COR_TITULO := Color("f5cf7a")
 const COR_DETALHE := Color(0.7, 0.68, 0.64)
 const CATEGORIAS := [["", "TUDO"], ["arma", "ARMAS"], ["escudo", "ESCUDOS"], ["cabeca", "ELMOS"], ["corpo", "PEITORAIS"],
@@ -46,7 +47,7 @@ var _pagina := 0
 var _grade_venda: GridContainer
 var _nome_venda: Label
 var _detalhe_venda: Label
-var _preco_venda: Label
+var _preco_venda: LineEdit
 var _botao_prazo: Button
 var _recebe_venda: Label
 var _anunciar: Button
@@ -55,7 +56,8 @@ var _preco := 10
 var _quantidade := 1
 var _linha_quantidade: HBoxContainer
 var _legenda_quantidade: Label
-var _rotulo_quantidade: Label
+var _rotulo_quantidade: LineEdit
+var _total_quantidade: Label
 var _prazo := 0
 # MEUS ANÚNCIOS
 var _lista_meus: VBoxContainer
@@ -202,21 +204,19 @@ func _montar_vender() -> Control:
 	detalhe.add_child(_linha_quantidade)
 	for passo in [-10, -1]:
 		_linha_quantidade.add_child(_botao(str(passo), _mudar_quantidade.bind(passo)))
-	_rotulo_quantidade = _rotulo("", 8, COR_TITULO)
-	_rotulo_quantidade.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_rotulo_quantidade.size_flags_horizontal = SIZE_EXPAND_FILL
+	_rotulo_quantidade = _campo_numero("QUANTIDADE", _digitar_quantidade)
 	_linha_quantidade.add_child(_rotulo_quantidade)
+	_total_quantidade = _rotulo("", 7, COR_DETALHE)
+	_linha_quantidade.add_child(_total_quantidade)
 	for passo in [1, 10]:
 		_linha_quantidade.add_child(_botao("+" + str(passo), _mudar_quantidade.bind(passo)))
-	detalhe.add_child(_legenda("PRECO"))
+	detalhe.add_child(_legenda("PRECO EM BRASAS (DIGITE OU USE OS BOTOES)"))
 	var linha_preco := HBoxContainer.new()
 	linha_preco.add_theme_constant_override("separation", 2)
 	detalhe.add_child(linha_preco)
 	for passo in [-10, -1]:
 		linha_preco.add_child(_botao(str(passo), _mudar_preco.bind(passo)))
-	_preco_venda = _rotulo("", 8, COR_TITULO)
-	_preco_venda.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_preco_venda.size_flags_horizontal = SIZE_EXPAND_FILL
+	_preco_venda = _campo_numero("PRECO EM BRASAS", _digitar_preco)
 	linha_preco.add_child(_preco_venda)
 	for passo in [1, 10]:
 		linha_preco.add_child(_botao("+" + str(passo), _mudar_preco.bind(passo)))
@@ -428,6 +428,50 @@ func _mudar_quantidade(passo: int) -> void:
 	_quantidade = clampi(_quantidade + passo, 1, _item_venda.quantidade)
 	_mostrar_venda()
 
+## Campo numérico entre os botões −/+: aceita só dígitos, teclado numérico no celular.
+## Confirma com Enter ou ao sair do campo; o valor é ajustado aos limites do mercado.
+func _campo_numero(titulo: String, ao_confirmar: Callable) -> LineEdit:
+	var campo := LineEdit.new()
+	campo.alignment = HORIZONTAL_ALIGNMENT_CENTER
+	campo.size_flags_horizontal = SIZE_EXPAND_FILL
+	campo.custom_minimum_size.y = _altura_botao()
+	campo.max_length = 6
+	campo.virtual_keyboard_type = LineEdit.KEYBOARD_TYPE_NUMBER
+	campo.select_all_on_focus = true
+	campo.add_theme_font_size_override("font_size", 8)
+	campo.add_theme_color_override("font_color", COR_TITULO)
+	campo.text_changed.connect(func(texto: String) -> void:
+		var digitos := _so_digitos(texto)
+		if digitos != texto:
+			var cursor := campo.caret_column
+			campo.text = digitos
+			campo.caret_column = mini(cursor, digitos.length()))
+	campo.text_submitted.connect(func(_texto: String) -> void:
+		ao_confirmar.call(campo.text)
+		campo.release_focus())
+	campo.focus_exited.connect(func() -> void: ao_confirmar.call(campo.text))
+	PreviaDigitacao.ligar(campo, titulo)
+	return campo
+
+static func _so_digitos(texto: String) -> String:
+	var digitos := ""
+	for letra in texto:
+		if letra >= "0" and letra <= "9":
+			digitos += letra
+	return digitos
+
+func _digitar_preco(texto: String) -> void:
+	var digitos := _so_digitos(texto)
+	if not digitos.is_empty():
+		_preco = int(digitos)
+	_mostrar_venda()
+
+func _digitar_quantidade(texto: String) -> void:
+	var digitos := _so_digitos(texto)
+	if _item_venda != null and not digitos.is_empty():
+		_quantidade = int(digitos)
+	_mostrar_venda()
+
 func _mudar_preco(passo: int) -> void:
 	_preco = clampi(_preco + passo, int(_cliente.regras.get("preco_min", 1)), int(_cliente.regras.get("preco_max", 9999)))
 	_mostrar_venda()
@@ -443,7 +487,9 @@ func _horas() -> Array:
 func _mostrar_venda() -> void:
 	_preco = clampi(_preco, int(_cliente.regras.get("preco_min", 1)), int(_cliente.regras.get("preco_max", 9999)))
 	_prazo = clampi(_prazo, 0, _horas().size() - 1)
-	_preco_venda.text = "%d BRASAS" % _preco
+	# Não reescreve o campo enquanto o jogador digita (a mochila pode atualizar no meio).
+	if not _preco_venda.has_focus():
+		_preco_venda.text = str(_preco)
 	_botao_prazo.text = "PRAZO %dH" % int(_horas()[_prazo])
 	_nome_venda.text = _item_venda.nome() if _item_venda != null else "ESCOLHA UM ITEM DA MOCHILA"
 	var pilha := _item_venda != null and _item_venda.empilhavel() and _item_venda.quantidade > 1
@@ -451,7 +497,9 @@ func _mostrar_venda() -> void:
 	_legenda_quantidade.visible = pilha
 	if _item_venda != null:
 		_quantidade = clampi(_quantidade, 1, _item_venda.quantidade)
-	_rotulo_quantidade.text = "%d DE %d" % [_quantidade, _item_venda.quantidade] if pilha else ""
+	if not _rotulo_quantidade.has_focus():
+		_rotulo_quantidade.text = str(_quantidade) if pilha else ""
+	_total_quantidade.text = "DE %d" % _item_venda.quantidade if pilha else ""
 	_detalhe_venda.text = ("" if _item_venda.empilhavel() else _atributos(_item_venda)) if _item_venda != null else ""
 	_recebe_venda.text = "TAXA PARA ANUNCIAR: %d BRASA(S)\nVOCE RECEBE %d SE VENDER (TAXA DE %d%%)" % [
 		int(_cliente.regras.get("taxa_anuncio", 0)), _cliente.liquido(_preco), int(_cliente.regras.get("taxa_venda_pct", 0))]
