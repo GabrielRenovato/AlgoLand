@@ -245,6 +245,17 @@ func _montar_layout_flex() -> void:
 	_painel_coop.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
 	_painel_coop.visibility_changed.connect(func(): _moldura_coop.visible = _painel_coop.visible)
 	_moldura_coop.hide()
+	_moldura_transferencia = PanelContainer.new()
+	EstiloInicio.painel(_moldura_transferencia)
+	EstiloInicio.botoes_do_painel(_painel_transferencia)
+	EstiloInicio.textos_do_painel(_painel_transferencia)
+	EstiloInicio.campo(_campo_codigo)
+	raiz.add_child(_moldura_transferencia)
+	raiz.move_child(_moldura_transferencia,transicao.get_index())
+	_painel_transferencia.reparent(_moldura_transferencia)
+	_painel_transferencia.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
+	_painel_transferencia.visibility_changed.connect(func(): _moldura_transferencia.visible = _painel_transferencia.visible)
+	_moldura_transferencia.hide()
 	rolagem_creditos.custom_minimum_size.y = 100
 	raiz.resized.connect(_ajustar_layout_flex)
 	_ajustar_layout_flex.call_deferred()
@@ -270,6 +281,10 @@ func _ajustar_layout_flex() -> void:
 		painel.custom_minimum_size = Vector2(largura,altura)
 		painel.size = Vector2(largura,altura)
 		painel.position = ((medida-painel.size)/2).round()
+	if _moldura_transferencia != null:
+		_moldura_transferencia.custom_minimum_size = Vector2(minf(340,medida.x-24),0)
+		_moldura_transferencia.size = Vector2(minf(340,medida.x-24),_painel_transferencia.get_combined_minimum_size().y+24)
+		_moldura_transferencia.position = ((medida-_moldura_transferencia.size)/2).round()
 	if _moldura_coop != null:
 		_moldura_coop.custom_minimum_size = Vector2(minf(340,medida.x-24),0)
 		_moldura_coop.size = Vector2(minf(340,medida.x-24),_painel_coop.get_combined_minimum_size().y+24)
@@ -310,6 +325,7 @@ func _montar_menu() -> void:
 	botao_sim.pressed.connect(_ao_confirmar_novo_jogo)
 	botao_nao.pressed.connect(_fechar_painel)
 	_montar_coop()
+	_montar_transferencia()
 	var primeiro := botao_continuar if botao_continuar.visible else botao_novo_jogo
 	primeiro.grab_focus()
 	# Depois do foco inicial, para a tela não abrir com um "tick"; mover o foco e confirmar soam
@@ -650,6 +666,139 @@ func _ao_novo_coop() -> void:
 		inventario.salvar()
 	CriacaoPersonagem.etapa_coop = 1
 	_trocar_cena(CENA_CUSTOMIZACAO)
+
+# --- Transferir save entre aparelhos (PC <-> celular) ---------------------------------------------------------------
+
+const TransferenciaSave := preload("res://codigo/globais/transferencia_save.gd")
+const PreviaDigitacao := preload("res://codigo/ui/previa_digitacao.gd")
+var _painel_transferencia: VBoxContainer
+var _moldura_transferencia: PanelContainer
+var _botao_transferencia: Button
+var _botao_enviar: Button
+var _botao_receber: Button
+var _campo_codigo: LineEdit
+var _aviso_transferencia: Label
+var _cliente_transferencia: Node
+var _pacote_recebido := {}
+var _transferindo := false
+
+func _montar_transferencia() -> void:
+	_cliente_transferencia = TransferenciaSave.new()
+	add_child(_cliente_transferencia)
+	_botao_transferencia = botao_novo_jogo.duplicate() as Button
+	_botao_transferencia.name = "BotaoTransferencia"
+	_botao_transferencia.unique_name_in_owner = false
+	_botao_transferencia.text = "TRANSFERIR SAVE"
+	for sinal in _botao_transferencia.get_signal_connection_list("pressed"):
+		_botao_transferencia.pressed.disconnect(sinal["callable"])
+	menu.add_child(_botao_transferencia)
+	menu.move_child(_botao_transferencia, botao_opcoes.get_index())
+	_painel_transferencia = VBoxContainer.new()
+	_painel_transferencia.name = "PainelTransferencia"
+	_painel_transferencia.add_theme_constant_override("separation", 6)
+	_painel_transferencia.hide()
+	confirmar_novo_jogo.get_parent().add_child(_painel_transferencia)
+	var explicacao := Label.new()
+	explicacao.text = "LEVE SEU JOGO PARA OUTRO APARELHO (PC OU CELULAR).\nNO APARELHO COM O SAVE: ENVIAR. NO OUTRO: DIGITE O CODIGO."
+	explicacao.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	explicacao.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	explicacao.add_theme_font_size_override("font_size", 8)
+	_painel_transferencia.add_child(explicacao)
+	_botao_enviar = _novo_botao_transferencia("ENVIAR DESTE APARELHO", _ao_enviar_save)
+	_campo_codigo = LineEdit.new()
+	_campo_codigo.placeholder_text = "CODIGO (EX.: K7P-4QX)"
+	_campo_codigo.alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_campo_codigo.max_length = 7
+	_campo_codigo.custom_minimum_size = Vector2(0, 24)
+	_campo_codigo.text_changed.connect(func(texto: String) -> void:
+		var maiusculo := texto.to_upper()
+		if maiusculo != texto:
+			var cursor := _campo_codigo.caret_column
+			_campo_codigo.text = maiusculo
+			_campo_codigo.caret_column = cursor
+		_pacote_recebido = {}
+		_botao_receber.set_meta("texto_base", "RECEBER COM ESTE CODIGO")
+		_botao_receber.text = "RECEBER COM ESTE CODIGO")
+	_campo_codigo.text_submitted.connect(func(_t: String) -> void: _ao_receber_save())
+	_painel_transferencia.add_child(_campo_codigo)
+	PreviaDigitacao.ligar(_campo_codigo, "CODIGO DE TRANSFERENCIA")
+	_botao_receber = _novo_botao_transferencia("RECEBER COM ESTE CODIGO", _ao_receber_save)
+	_aviso_transferencia = Label.new()
+	_aviso_transferencia.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_aviso_transferencia.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_aviso_transferencia.add_theme_font_size_override("font_size", 8)
+	_painel_transferencia.add_child(_aviso_transferencia)
+	var voltar := _novo_botao_transferencia("VOLTAR", _fechar_painel)
+	voltar.focus_mode = Control.FOCUS_ALL
+	_botao_transferencia.pressed.connect(func() -> void:
+		_pacote_recebido = {}
+		_aviso_transferencia.text = ""
+		_campo_codigo.text = ""
+		_botao_enviar.disabled = not tem_save()
+		_abrir_painel(_painel_transferencia, _botao_transferencia, _botao_enviar if tem_save() else _campo_codigo))
+	_configurar_botao(_botao_transferencia)
+
+func _novo_botao_transferencia(texto: String, acao: Callable) -> Button:
+	var botao := botao_novo_jogo.duplicate() as Button
+	botao.unique_name_in_owner = false
+	botao.text = texto
+	for sinal in botao.get_signal_connection_list("pressed"):
+		botao.pressed.disconnect(sinal["callable"])
+	botao.pressed.connect(acao)
+	_painel_transferencia.add_child(botao)
+	_configurar_botao(botao)
+	return botao
+
+func _ao_enviar_save() -> void:
+	if _transferindo or _saindo:
+		return
+	_transferindo = true
+	_aviso_transferencia.text = "ENVIANDO..."
+	var resultado: Dictionary = await _cliente_transferencia.enviar()
+	_transferindo = false
+	if resultado.has("codigo"):
+		_aviso_transferencia.text = "CODIGO: %s\nDIGITE NO OUTRO APARELHO EM ATE %d MINUTOS. SO VALE UMA VEZ." % [resultado.codigo, resultado.minutos]
+	else:
+		_aviso_transferencia.text = str(resultado.erro)
+		Sons.tocar("erro", 0.0)
+	_ajustar_layout_flex.call_deferred()
+
+## Primeiro toque baixa e confere; com save neste aparelho, pede um segundo toque antes de substituir.
+func _ao_receber_save() -> void:
+	if _transferindo or _saindo:
+		return
+	if _pacote_recebido.is_empty():
+		_transferindo = true
+		_aviso_transferencia.text = "BUSCANDO..."
+		var resultado: Dictionary = await _cliente_transferencia.receber(_campo_codigo.text)
+		_transferindo = false
+		if resultado.has("erro"):
+			_aviso_transferencia.text = str(resultado.erro)
+			Sons.tocar("erro", 0.0)
+			_ajustar_layout_flex.call_deferred()
+			return
+		_pacote_recebido = resultado.pacote
+		if tem_save():
+			_aviso_transferencia.text = "SAVE ENCONTRADO. O JOGO DESTE APARELHO SERA SUBSTITUIDO (UMA COPIA FICA GUARDADA)."
+			_botao_receber.set_meta("texto_base", "SUBSTITUIR MEU SAVE?")
+			_destacar(_botao_receber, true)
+			_ajustar_layout_flex.call_deferred()
+			return
+	var erro := TransferenciaSave.aplicar(_pacote_recebido)
+	_pacote_recebido = {}
+	_botao_receber.set_meta("texto_base", "RECEBER COM ESTE CODIGO")
+	_destacar(_botao_receber, true)
+	if not erro.is_empty():
+		_aviso_transferencia.text = erro
+		Sons.tocar("erro", 0.0)
+		return
+	# Recarrega tudo do disco: mundo solo, identidade do ranking/mercado e o personagem do menu.
+	Saves.trocar(Saves.SOLO)
+	Ranking._carregar()
+	botao_continuar.visible = tem_save()
+	_montar_personagem()
+	_aviso_transferencia.text = "PRONTO! SAVE RECEBIDO. TOQUE EM VOLTAR E CONTINUE O JOGO."
+	_ajustar_layout_flex.call_deferred()
 
 func _ao_sair() -> void:
 	if _saindo:
