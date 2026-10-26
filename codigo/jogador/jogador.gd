@@ -5,6 +5,7 @@ const Encantamentos := preload("res://codigo/dados/encantamentos.gd")
 const Carrasco := preload("res://codigo/dados/conjunto_carrasco.gd")
 const Mordomo := preload("res://assets/personagens/conjuntos/cavalheiro/definicao.gd")
 const Conjuntos := preload("res://codigo/dados/conjuntos_armadura.gd")
+const CARTOON := "res://codigo/jogador/heroi_cartoon.gd"
 const RaioCarrasco := preload("res://codigo/efeitos/raio.gd")
 const Equipamentos := preload("res://codigo/dados/equipamentos.gd")
 const ArcoJogador := preload("res://codigo/jogador/arco_jogador.gd")
@@ -418,8 +419,9 @@ func _ready() -> void:
 	Progresso.melhorias_alteradas.connect(aplicar_melhorias_permanentes)
 	aplicar_melhorias_permanentes()
 	add_child(preload("res://codigo/jogador/heroi_raven.gd").new())
-	if get_tree().get_meta("visual_cartoon_p2" if eh_p2 else "visual_cartoon_p1", false):
-		add_child(preload("res://codigo/jogador/heroi_cartoon.gd").new())
+	# Visual de teste do F3: só existe na pasta de trabalho, nunca em pacote publicado.
+	if get_tree().get_meta("visual_cartoon_p2" if eh_p2 else "visual_cartoon_p1", false) and ResourceLoader.exists(CARTOON):
+		add_child(load(CARTOON).new())
 
 
 
