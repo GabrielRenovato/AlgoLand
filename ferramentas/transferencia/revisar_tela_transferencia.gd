@@ -17,7 +17,7 @@ func rodar():
 		tela._botao_transferencia.pressed.emit()
 		for i in 5: await process_frame
 		tela._campo_codigo.text = "K7P-4QX"
-		tela._aviso_transferencia.text = "CODIGO: XAC-UV3\nDIGITE NO OUTRO APARELHO EM ATE 15 MINUTOS. SO VALE UMA VEZ."
+		tela._aviso_transferencia.text = "CODIGO: XAC-UV3\nDIGITE NO OUTRO APARELHO EM ATE 15 MINUTOS."
 		tela._ajustar_layout_flex()
 		for i in 5: await process_frame
 		await RenderingServer.frame_post_draw

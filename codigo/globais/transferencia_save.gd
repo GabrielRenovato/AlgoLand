@@ -1,5 +1,5 @@
 extends Node
-## Leva o save do mundo solo de um aparelho para outro (PC <-> celular) por um código curto de uso único.
+## Leva o save do mundo solo de um aparelho para outro (PC <-> celular) por um código temporário.
 ## Enviar: empacota os arquivos do mundo solo, manda ao Supabase e recebe o código (15 minutos).
 ## Receber: baixa o pacote pelo código, guarda uma cópia do save atual em user://backups/ e grava o novo.
 ## O código secreto do ranking/mercado vai junto: os dois aparelhos passam a ser o mesmo jogador.
@@ -19,6 +19,8 @@ const ERROS := {
 	"nao_encontrado": "CODIGO NAO ENCONTRADO OU EXPIRADO",
 	"aguarde": "MUITAS TENTATIVAS. AGUARDE UM MINUTO",
 }
+var _codigo_recebido := ""
+var _segredo_recebido := ""
 
 static func versao_app() -> String:
 	return str(ProjectSettings.get_setting("application/config/version", ""))
@@ -46,6 +48,8 @@ static func validar(pacote) -> String:
 	for nome in arquivos:
 		if not nome in ARQUIVOS or not arquivos[nome] is String:
 			return "SAVE RECEBIDO ESTA CORROMPIDO"
+		if not JSON.parse_string(arquivos[nome]) is Dictionary:
+			return "SAVE RECEBIDO ESTA CORROMPIDO"
 	return ""
 
 ## Grava o pacote no mundo solo, depois de copiar o save atual para user://backups/antes_transferencia_<data>/.
@@ -70,10 +74,14 @@ static func aplicar(pacote: Dictionary) -> String:
 			if arquivo == null:
 				return "NAO FOI POSSIVEL GRAVAR O SAVE"
 			arquivo.store_string(arquivos[nome])
+			arquivo.flush()
+			var erro_gravacao := arquivo.get_error()
 			arquivo.close()
-			DirAccess.rename_absolute(ProjectSettings.globalize_path(temporario), ProjectSettings.globalize_path(caminho))
+			if erro_gravacao != OK or DirAccess.rename_absolute(ProjectSettings.globalize_path(temporario), ProjectSettings.globalize_path(caminho)) != OK:
+				return "NAO FOI POSSIVEL GRAVAR O SAVE"
 		elif FileAccess.file_exists(caminho):
-			DirAccess.remove_absolute(ProjectSettings.globalize_path(caminho))
+			if DirAccess.remove_absolute(ProjectSettings.globalize_path(caminho)) != OK:
+				return "NAO FOI POSSIVEL GRAVAR O SAVE"
 	return ""
 
 ## Envia o save deste aparelho. Devolve {"codigo", "minutos"} ou {"erro"}.
@@ -100,7 +108,17 @@ func receber(codigo: String) -> Dictionary:
 	var erro := validar(pacote)
 	if not erro.is_empty():
 		return {"erro": erro}
+	_codigo_recebido = codigo
+	var identidade = JSON.parse_string(str(pacote.arquivos.get("ranking.json", "{}")))
+	_segredo_recebido = str(identidade.get("codigo", ""))
 	return {"pacote": pacote}
+
+## Só encerra o código depois de gravar e recarregar a partida com sucesso.
+## Se a rede cair nesta confirmação, o save já está aplicado e o código expira normalmente.
+func confirmar_recebimento() -> Dictionary:
+	if _codigo_recebido.is_empty() or _segredo_recebido.is_empty():
+		return {"ok": false}
+	return await _rpc("transferencia_confirmar", {"p_codigo": _codigo_recebido, "p_codigo_secreto": _segredo_recebido})
 
 func _ranking() -> Node:
 	return get_node("/root/Ranking")

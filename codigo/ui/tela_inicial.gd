@@ -757,7 +757,7 @@ func _ao_enviar_save() -> void:
 	var resultado: Dictionary = await _cliente_transferencia.enviar()
 	_transferindo = false
 	if resultado.has("codigo"):
-		_aviso_transferencia.text = "CODIGO: %s\nDIGITE NO OUTRO APARELHO EM ATE %d MINUTOS. SO VALE UMA VEZ." % [resultado.codigo, resultado.minutos]
+		_aviso_transferencia.text = "CODIGO: %s\nDIGITE NO OUTRO APARELHO EM ATE %d MINUTOS." % [resultado.codigo, resultado.minutos]
 	else:
 		_aviso_transferencia.text = str(resultado.erro)
 		Sons.tocar("erro", 0.0)
@@ -785,13 +785,13 @@ func _ao_receber_save() -> void:
 			_ajustar_layout_flex.call_deferred()
 			return
 	var erro := TransferenciaSave.aplicar(_pacote_recebido)
-	_pacote_recebido = {}
-	_botao_receber.set_meta("texto_base", "RECEBER COM ESTE CODIGO")
-	_destacar(_botao_receber, true)
 	if not erro.is_empty():
 		_aviso_transferencia.text = erro
 		Sons.tocar("erro", 0.0)
 		return
+	_pacote_recebido = {}
+	_botao_receber.set_meta("texto_base", "RECEBER COM ESTE CODIGO")
+	_destacar(_botao_receber, true)
 	# Recarrega tudo do disco: mundo solo, identidade do ranking/mercado e o personagem do menu.
 	Saves.trocar(Saves.SOLO)
 	Ranking._carregar()
@@ -799,6 +799,7 @@ func _ao_receber_save() -> void:
 	_montar_personagem()
 	_aviso_transferencia.text = "PRONTO! SAVE RECEBIDO. TOQUE EM VOLTAR E CONTINUE O JOGO."
 	_ajustar_layout_flex.call_deferred()
+	await _cliente_transferencia.confirmar_recebimento()
 
 func _ao_sair() -> void:
 	if _saindo:
