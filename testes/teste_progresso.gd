@@ -190,26 +190,30 @@ func _testar_chefe_conta_uma_vez() -> void:
 func _testar_checkpoint_da_mistica() -> void:
 	var progresso = _novo()
 	progresso.iniciar_partida()
-	progresso.checkpoint_max = 20
-	_verificar("checkpoints liberados (1, 11, 21)", progresso.checkpoints_disponiveis(10) == [1, 11, 21], str(progresso.checkpoints_disponiveis(10)))
-	progresso.checkpoint_max = 0
-	_verificar("sem chefe so a onda 1", progresso.checkpoints_disponiveis(10) == [1], str(progresso.checkpoints_disponiveis(10)))
-	progresso.checkpoint_max = 20
-	_verificar("sem a mistica nao escolhe checkpoint", not progresso.pode_escolher_checkpoint() and progresso.definir_checkpoint(11, 10) == 0 and progresso.onda_inicial == 1, "onda_inicial=%d" % progresso.onda_inicial)
-	progresso.moradores = {"mistica": true}
-	_verificar("com a mistica pode escolher antes da onda 1", progresso.pode_escolher_checkpoint(), "")
-	var ouro: int = progresso.definir_checkpoint(11, 10)
-	_verificar("checkpoint 11 define a onda e da 30 x onda de ouro", ouro == 330 and progresso.onda_inicial == 11, "ouro=%d onda=%d" % [ouro, progresso.onda_inicial])
-	var troca: int = progresso.definir_checkpoint(21, 10)
-	_verificar("trocar de checkpoint devolve so a diferenca (630 - 330)", troca == 300 and progresso.onda_inicial == 21, "troca=%d" % troca)
-	var volta: int = progresso.definir_checkpoint(1, 10)
-	_verificar("voltar para a onda 1 tira a compensacao inteira", volta == -630 and progresso.onda_inicial == 1, "volta=%d" % volta)
-	_verificar("onda nao liberada e recusada", progresso.definir_checkpoint(31, 10) == 0 and progresso.onda_inicial == 1, "")
-	progresso.definir_checkpoint(11, 10)
-	progresso.registrar_onda_iniciada(11)
-	_verificar("depois da primeira onda nao escolhe mais", not progresso.pode_escolher_checkpoint() and progresso.definir_checkpoint(21, 10) == 0 and progresso.onda_inicial == 11, "onda_inicial=%d" % progresso.onda_inicial)
+	progresso.maior_onda_vencida = 49
+	_verificar("checkpoints de 5 em 5 ate o andar alcancado (1, 5 ... 50)", progresso.checkpoints_disponiveis() == [1, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50], str(progresso.checkpoints_disponiveis()))
+	progresso.maior_onda_vencida = 3
+	_verificar("sem alcancar o 5 so o andar 1", progresso.checkpoints_disponiveis() == [1], str(progresso.checkpoints_disponiveis()))
+	progresso.maior_onda_vencida = 49
+	_verificar("qualquer jogador escolhe antes do andar 1 (sem a mistica)", progresso.pode_escolher_checkpoint(), "")
+	var ouro_50: int = progresso.ouro_checkpoint(50)
+	var normal_50: float = progresso.ouro_estimado_ate(50)
+	_verificar("andar 50 da menos ouro que jogar do 1 (40%)", ouro_50 > 0 and ouro_50 < normal_50 and absf(ouro_50 - normal_50 * 0.4) <= 1.0, "ouro=%d normal=%d" % [ouro_50, normal_50])
+	_verificar("ouro cresce com o andar", progresso.ouro_checkpoint(5) < progresso.ouro_checkpoint(25) and progresso.ouro_checkpoint(25) < ouro_50, "")
+	var ouro: int = progresso.definir_checkpoint(50)
+	_verificar("checkpoint 50 define o andar e da o ouro", ouro == ouro_50 and progresso.onda_inicial == 50, "ouro=%d onda=%d" % [ouro, progresso.onda_inicial])
+	var troca: int = progresso.definir_checkpoint(25)
+	_verificar("trocar de checkpoint devolve so a diferenca", troca == progresso.ouro_checkpoint(25) - ouro_50 and progresso.onda_inicial == 25, "troca=%d" % troca)
+	var volta: int = progresso.definir_checkpoint(1)
+	_verificar("voltar para o andar 1 tira a compensacao inteira", volta == -progresso.ouro_checkpoint(25) and progresso.onda_inicial == 1, "volta=%d" % volta)
+	_verificar("andar nao liberado e recusado", progresso.definir_checkpoint(55) == 0 and progresso.definir_checkpoint(12) == 0 and progresso.onda_inicial == 1, "")
+	progresso.definir_checkpoint(10)
+	progresso.registrar_onda_iniciada(10)
+	_verificar("depois do primeiro andar nao escolhe mais", not progresso.pode_escolher_checkpoint() and progresso.definir_checkpoint(20) == 0 and progresso.onda_inicial == 10, "onda_inicial=%d" % progresso.onda_inicial)
 	progresso.iniciar_partida()
-	_verificar("nova partida volta o checkpoint para a onda 1", progresso.onda_inicial == 1 and not progresso.onda_comecou and progresso.pode_escolher_checkpoint(), "onda_inicial=%d" % progresso.onda_inicial)
+	_verificar("nova partida volta o checkpoint para o andar 1", progresso.onda_inicial == 1 and not progresso.onda_comecou and progresso.pode_escolher_checkpoint(), "onda_inicial=%d" % progresso.onda_inicial)
+	for andar in [5, 10, 25, 50]:
+		print("   ouro andar %d: checkpoint %d | jogando do 1 ~%d" % [andar, progresso.ouro_checkpoint(andar), progresso.ouro_estimado_ate(andar)])
 	progresso.free()
 
 func _testar_contratar_morador() -> void:

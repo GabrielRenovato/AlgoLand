@@ -1,6 +1,9 @@
 extends VBoxContainer
 
-## Consulta visual das ondas alcançadas; não altera checkpoints nem libera recompensas.
+## Mapa das ondas/andares alcançados. Com `escolher_checkpoint`, os andares de checkpoint liberados (azuis)
+## viram a entrada da partida ao tocar, com o ouro de compensação.
+signal entrada_escolhida(onda: int)
+var escolher_checkpoint := false
 const Estilo := preload("res://codigo/ui/estilo_interface.gd")
 const Slot := preload("res://codigo/ui/estilo_slot.gd")
 var modo_andares := false
@@ -58,6 +61,8 @@ func _ready() -> void:
 	add_child(legenda)
 	_rotulo(legenda,"VERDE: ALCANCADO",Color("44602c"),8)
 	_rotulo(legenda,"OURO: ENTRADA",Color("91602b"),8)
+	if escolher_checkpoint:
+		_rotulo(legenda,"AZUL: TOQUE PARA COMECAR AQUI",Color("3e6a8c"),8)
 	_rotulo(legenda,"PRETO: AINDA NAO DESCOBERTO",Color("75452d"),8)
 	_preencher()
 	resized.connect(_ajustar)
@@ -103,12 +108,22 @@ func _preencher() -> void:
 		marco.custom_minimum_size = Vector2(32,32)
 		marco.size_flags_horizontal = SIZE_EXPAND | SIZE_SHRINK_CENTER
 		marco.size_flags_vertical = SIZE_EXPAND | SIZE_SHRINK_CENTER
-		var cor := Color("e4bd72") if onda == entrada else (Color("90b77c") if onda <= recorde else Color("928377"))
+		var checkpoint := escolher_checkpoint and Progresso.checkpoints_disponiveis().has(onda)
+		var cor := Color("e4bd72") if onda == entrada else (Color(0.55, 1.0, 1.9) if checkpoint else (Color("90b77c") if onda <= recorde else Color("928377")))
 		marco.add_theme_stylebox_override("normal",Slot.caixa(cor))
 		for estado in ["hover","pressed","focus"]: marco.add_theme_stylebox_override(estado,Slot.caixa(Color("ffe0a0")))
 		marco.tooltip_text = _descricao(onda)
 		marco.pressed.connect(func():
-			_detalhe.text = _descricao(onda)
+			if checkpoint and onda != entrada:
+				var erro := Progresso.escolher_checkpoint(onda)
+				if erro.is_empty():
+					entrada = onda
+					entrada_escolhida.emit(onda)
+					return
+				_detalhe.text = erro
+				Sons.tocar("erro", 0.0)
+			else:
+				_detalhe.text = _descricao(onda)
 			_detalhe.show())
 		_grade.add_child(marco)
 		_marcos[onda] = marco
@@ -145,7 +160,7 @@ func _preencher() -> void:
 		numero.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		numero.mouse_filter = MOUSE_FILTER_IGNORE
 
-	_detalhe.text = "SELECIONE UM ANDAR PARA CONSULTAR."
+	_detalhe.text = "TOQUE NUM ANDAR AZUL PARA COMECAR NELE (MENOS OURO QUE JOGAR DO 1)." if escolher_checkpoint and Progresso.checkpoints_disponiveis().size() > 1 else "SELECIONE UM ANDAR PARA CONSULTAR."
 	_ajustar()
 	_trilha.queue_redraw()
 
@@ -163,7 +178,10 @@ func _ajustar() -> void:
 		for lado in ["left","right","top","bottom"]: marco.get_child(0).add_theme_constant_override("margin_"+lado,2 if _compacto else 3)
 
 func _descricao(onda: int) -> String:
-	return "ANDAR %d%s - %s" % [onda," / GUARDIAO" if modo_andares else (" / CHEFE" if onda%10 == 0 else ""),"SUA ENTRADA" if onda == entrada else ("ALCANCADO" if onda <= recorde else "AINDA NAO ALCANCADO")]
+	var texto := "ANDAR %d%s - %s" % [onda," / GUARDIAO" if modo_andares else (" / CHEFE" if onda%10 == 0 else ""),"SUA ENTRADA" if onda == entrada else ("ALCANCADO" if onda <= recorde else "AINDA NAO ALCANCADO")]
+	if escolher_checkpoint and Progresso.checkpoints_disponiveis().has(onda) and onda > 1:
+		texto += " - COMECAR AQUI: +%d OURO" % Progresso.ouro_checkpoint(onda)
+	return texto
 
 func _desenhar_trilha() -> void:
 	for onda in range(_pagina*10+1,_pagina*10+10):

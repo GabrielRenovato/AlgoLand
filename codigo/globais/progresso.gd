@@ -33,8 +33,14 @@ const BRASAS_POR_ONDA := 2
 const BRASAS_POR_CHEFE := 15
 const BRASAS_POR_BONUS := 5
 const FATOR_BARDO := 0.25
-# Ouro de compensação da Mística: por onda do checkpoint escolhido
-const OURO_POR_ONDA_CHECKPOINT := 30
+# Checkpoints da Mística: um a cada INTERVALO_CHECKPOINT andares (5, 10, 15...), liberados pelo andar mais
+# alto já alcançado. O ouro de quem começa adiantado é FRACAO_OURO_CHECKPOINT do que a mesma partida
+# renderia do andar 1 até ali (sem bônus de saque, eventos ou tesouros): sempre menos que jogar desde o 1.
+const INTERVALO_CHECKPOINT := 5
+const FRACAO_OURO_CHECKPOINT := 0.4
+# Fração dos pontos de cada andar que vira abate comum (o resto são elites, que valem mais pontos)
+const ABATES_POR_PONTO := 0.85
+const OURO_GUARDIAO := 250
 # Fração da vida com que a Curandeira revive o jogador
 const VIDA_REVIVER := 0.5
 const INVULNERABILIDADE_REVIVER := 2.0
@@ -336,23 +342,62 @@ func usar_reviver() -> bool:
 
 # --- Checkpoint (Mística) ---
 
-## Ondas em que dá para começar: a 1 e a seguinte a cada chefe já derrotado (11, 21...)
-func checkpoints_disponiveis(intervalo_chefe: int = 10) -> Array[int]:
+## Andares em que dá para começar: o 1 e cada múltiplo de INTERVALO_CHECKPOINT que o jogador já alcançou
+## (concluiu o andar anterior). `intervalo_chefe` ficou só por compatibilidade com quem chama.
+func checkpoints_disponiveis(_intervalo_chefe: int = 10) -> Array[int]:
 	var lista: Array[int] = [1]
-	if intervalo_chefe <= 0:
-		return lista
-	var onda_chefe := intervalo_chefe
-	while onda_chefe <= checkpoint_max:
-		lista.append(onda_chefe + 1)
-		onda_chefe += intervalo_chefe
+	var andar := INTERVALO_CHECKPOINT
+	while andar <= maior_onda_vencida + 1:
+		lista.append(andar)
+		andar += INTERVALO_CHECKPOINT
 	return lista
 
-## Ouro de compensação de começar na onda dada (0 na onda 1)
+## Ouro de começar no andar dado: FRACAO_OURO_CHECKPOINT do ouro estimado dos andares pulados (0 no andar 1)
+static var _ouro_estimado: Dictionary = {}
 func ouro_checkpoint(onda: int) -> int:
-	return OURO_POR_ONDA_CHECKPOINT * onda if onda > 1 else 0
+	if onda <= 1:
+		return 0
+	if not _ouro_estimado.has(onda):
+		_ouro_estimado[onda] = roundi(ouro_estimado_ate(onda) * FRACAO_OURO_CHECKPOINT)
+	return _ouro_estimado[onda]
 
+## Ouro que uma partida junta do andar 1 até o anterior ao dado, com as mesmas contas dos andares:
+## abates comuns para encher a barra, prêmio de fim de andar e o do guardião.
+static func ouro_estimado_ate(andar: int) -> float:
+	var Catalogo := preload("res://codigo/fendas/catalogo_andares.gd")
+	var ondas := preload("res://codigo/logica/gerenciador_de_ondas.gd").new()
+	var total := 0.0
+	for n in range(1, andar):
+		var combate: Dictionary = Catalogo.dados(n).combate
+		var abates := float(Catalogo.meta(n)) / float(combate.pontos_comum) * ABATES_POR_PONTO
+		total += abates * ondas.ouro_por_abate(n) + ondas.ouro_fim_onda(n) + OURO_GUARDIAO
+	ondas.free()
+	return total
+
+## Qualquer jogador escolhe no mapa dos andares do portal, antes do primeiro andar da partida
 func pode_escolher_checkpoint() -> bool:
-	return partida_ativa and tem_morador("mistica") and not onda_comecou
+	return partida_ativa and not onda_comecou
+
+## Escolhe o andar inicial e acerta o ouro nas duas carteiras (cooperativo). Devolve "" ou o motivo da recusa.
+## Trocar de checkpoint devolve a compensação anterior: o ouro não pode ficar negativo.
+func escolher_checkpoint(onda: int) -> String:
+	if not pode_escolher_checkpoint():
+		return "SO ANTES DO PRIMEIRO ANDAR"
+	if not checkpoints_disponiveis().has(onda):
+		return "ANDAR AINDA NAO LIBERADO"
+	var diferenca := ouro_checkpoint(onda) - ouro_compensacao
+	var dados := get_tree().root.get_node("DadosJogo")
+	if mini(dados.moedas, dados.moedas_p2 if get_tree().root.get_node("Cooperativo").com_dois() else dados.moedas) + diferenca < 0:
+		return "OURO INSUFICIENTE PARA TROCAR"
+	diferenca = definir_checkpoint(onda)
+	dados.moedas += diferenca
+	dados.moedas_p2 += diferenca
+	dados.atualizar_ui_moedas()
+	var gerenciador := get_tree().get_first_node_in_group("gerenciador_ondas")
+	if gerenciador != null:
+		gerenciador.definir_onda_inicial(onda)
+	get_tree().call_group("tela_mercante", "atualizar_exibicao_moedas")
+	return ""
 
 ## Define a onda inicial da partida. Retorna a diferença de ouro a aplicar (compensação nova menos a já
 ## concedida); 0 se a escolha for inválida ou nada mudar. Quem chama soma o ouro e ajusta o gerenciador

@@ -73,6 +73,7 @@ static func contexto(id: String, arvore: SceneTree) -> Dictionary:
 	m["caio_contratado"] = Progresso.tem_morador("bardo")
 	m["estela_contratada"] = Progresso.tem_morador("mistica")
 	m["venceu_chefe"] = Progresso.checkpoint_max > 0
+	m["tem_checkpoint"] = Progresso.checkpoints_disponiveis().size() > 1
 	m["todos_chefes"] = false
 	m["ja_lutou"] = Progresso.recorde_onda > 0
 	var proxima_linha := InventarioJogador.onda_da_proxima_linha()

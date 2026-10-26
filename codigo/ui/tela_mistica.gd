@@ -1,7 +1,7 @@
 extends Control
 
 ## Mística: escolhe a onda inicial da próxima partida (checkpoint), só antes da primeira onda.
-## A cada chefe derrotado libera a onda seguinte a ele (11, 21...) e paga uma compensação em ouro.
+## Libera um andar a cada 5 já alcançados (5, 10, 15...) e paga ouro, sempre menos do que jogar desde o 1.
 ## Mesmo visual da mochila, da loja e do caldeirão (tema_sidebar.tres, moldura do TileMap.png, título escuro no alto e o X de fechar).
 
 const COR_DESCRICAO := Color(0.75, 0.7, 0.62)
@@ -57,25 +57,12 @@ func _montar() -> void:
 	if not pode:
 		_aviso.text = "SO ANTES DO PRIMEIRO ANDAR"
 	elif _botoes.size() == 1:
-		_aviso.text = "CONCLUA 10 ANDARES PARA LIBERAR UM ATALHO"
+		_aviso.text = "ALCANCE O ANDAR %d PARA LIBERAR UM ATALHO" % Progresso.INTERVALO_CHECKPOINT
 	else:
 		_aviso.text = ""
 
 func _ao_escolher(onda: int) -> void:
-	# Trocar de checkpoint devolve a compensação anterior: não pode deixar o ouro negativo
-	var diferenca := Progresso.ouro_checkpoint(onda) - Progresso.ouro_compensacao
-	if EventosJogo.moedas_de(self) + diferenca < 0:
-		_aviso.text = "OURO INSUFICIENTE PARA TROCAR"
+	_aviso.text = Progresso.escolher_checkpoint(onda)
+	if not _aviso.text.is_empty():
 		Sons.tocar("erro", 0.0)
 		_botoes[Progresso.onda_inicial].set_pressed_no_signal(true)
-		return
-	diferenca = Progresso.definir_checkpoint(onda, _intervalo_chefe())
-	# Compensação da partida: vale para as duas carteiras (cooperativo)
-	DadosJogo.moedas += diferenca
-	DadosJogo.moedas_p2 += diferenca
-	DadosJogo.atualizar_ui_moedas()
-	var gerenciador := _gerenciador()
-	if gerenciador != null:
-		gerenciador.definir_onda_inicial(onda)
-	get_tree().call_group("tela_mercante", "atualizar_exibicao_moedas")
-	_aviso.text = ""

@@ -185,7 +185,11 @@ func _atualizar() -> void:
 		_lista.add_child(papel)
 		var mapa := preload("res://codigo/ui/mapa_jornada_arena.gd").new()
 		mapa.modo_andares = true
+		mapa.escolher_checkpoint = Progresso.pode_escolher_checkpoint()
 		mapa.preparar(maxi(Progresso.recorde_onda,Progresso.onda_maxima),_onda_do_portal())
+		mapa.entrada_escolhida.connect(func(_onda: int) -> void:
+			_atualizar.call_deferred()
+			focar_inicio.call_deferred())
 		papel.add_child(mapa)
 		var jogador := EventosJogo.dono(self)
 		_texto("Explore o bosque. Derrote grupos para completar a barra e invocar o guardiao. Elites valem mais progresso.")
