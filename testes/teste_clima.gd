@@ -3,8 +3,8 @@ extends SceneTree
 # Rodar: godot --headless --path . --script res://testes/teste_clima.gd
 # Cobre o clima (codigo/cenario/clima.gd), o evento TEMPESTADE e os raios (codigo/efeitos/raio.gd): sorteio por estação,
 # camadas de chuva/neve/nuvens, tom da luz, respingos fora da água, raios com dano em área (inimigos e jogador),
-# limpeza em parar_ondas / fim do evento, som da chuva e a tela de título fixa em NEVE_LEVE.
-# ATENCAO: abre a cena de jogo; faça backup do user:// antes (o Progresso grava num arquivo de teste e é apagado ao final)
+# limpeza em parar_ondas / fim do evento, som da chuva e título sem precipitação do mundo.
+# ATENCAO: executar somente em projeto com saves isolados.
 
 const CAMINHO_PROGRESSO := "user://teste_clima_progresso.json"
 
@@ -44,6 +44,10 @@ func _evento(id: String) -> Dictionary:
 	return {}
 
 func _rodar() -> void:
+	if not OS.get_user_data_dir().contains("AlgoLand testes"):
+		push_error("Execute com saves isolados.")
+		quit(1)
+		return
 	await process_frame
 	Clima = load("res://codigo/cenario/clima.gd")
 	Gerenciador = load("res://codigo/logica/gerenciador_de_ondas.gd")
@@ -795,22 +799,15 @@ func _testar_tempestade_em_onda_de_verdade() -> void:
 	_limpar_slimes()
 
 # -----------------------------------------------------------------
-# Tela de título: neve leve fixa, sem partículas de neve
+# Tela de título atual: VilaViva, sem a antiga cena Cenario/Estacoes.
 # -----------------------------------------------------------------
 func _testar_tela_de_titulo() -> void:
 	var titulo: Node = load("res://cenas/inicio_do_jogo.tscn").instantiate()
 	root.add_child(titulo)
 	current_scene = titulo
 	await _quadros(10)
-	await create_timer(1.8).timeout
-	var est: Node = titulo.get_node("Cenario/Estacoes")
-	var meteoro: Node = est.meteorologia
-	_verificar("titulo: inverno com NEVE_LEVE fixa", est.estacao_atual == 3 and meteoro.clima_atual == Clima.Estado.NEVE_LEVE and meteoro.clima_base == Clima.Estado.NEVE_LEVE, "clima=%d" % meteoro.clima_atual)
-	var alfas: Array = meteoro._camadas.map(func(c): return snappedf(c.alfa, 0.01))
-	_verificar("titulo: so a camada de neve leve visivel", alfas == [0.0, 0.0, 0.0, 1.0], str(alfas))
-	_verificar("titulo: sem raios nem chuva", meteoro.raios_ativos() == 0 and not meteoro._som_chuva.playing, "")
-	_verificar("titulo: as particulas de neve antigas nao existem mais", titulo.get_node_or_null("Neve") == null and get_nodes_in_group("clima_neve").is_empty(), "")
-	await create_timer(3.0).timeout
-	_verificar("titulo: continua NEVE_LEVE", meteoro.clima_atual == Clima.Estado.NEVE_LEVE, "")
+	_verificar("titulo: fundo VilaViva montado", titulo.get_node_or_null("Interface/Raiz/VilaViva") != null)
+	_verificar("titulo: sem simular clima do mundo", get_nodes_in_group("clima").is_empty())
+	_verificar("titulo: sem o emissor antigo de neve", titulo.get_node_or_null("Neve") == null and get_nodes_in_group("clima_neve").is_empty())
 	titulo.queue_free()
 	await _quadros(2)

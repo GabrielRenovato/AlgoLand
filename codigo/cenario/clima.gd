@@ -25,6 +25,13 @@ const Estado = preload("res://codigo/dados/estados_clima.gd").Estado
 
 const Profundidade := preload("res://codigo/globais/profundidade.gd")
 const RaioScript := preload("res://codigo/efeitos/raio.gd")
+const UNIFORMES_QUEDA := ["chuva_forte", "chuva_leve", "neve_forte", "neve_leve"]
+const PRECIPITACAO_COMPACTA := preload("res://codigo/cenario/precipitacao_compacta.gdshader")
+
+## Evita sobrepor várias telas transparentes e iluminar cada uma no celular.
+@export var modo_economico := OS.has_feature("android")
+var _queda_compacta: TextureRect
+var _material_queda: ShaderMaterial
 
 const PASTA := "res://assets/cenario/Weather Effects/"
 const FOLHA_CHUVA_LEVE := preload("res://assets/cenario/Weather Effects/weather effects, rain light anim 32x128.png")
@@ -575,34 +582,73 @@ func retangulos_visiveis() -> Array[Rect2]:
 	return retangulos
 
 func _process(delta: float) -> void:
-	var visivel := retangulo_visivel()
+	var vistas := retangulos_visiveis()
+	var visivel: Rect2 = vistas[0]
+	for vista in vistas.slice(1):
+		visivel = visivel.merge(vista)
 	_atualizar_camadas(delta, visivel)
 	_atualizar_nuvens(delta, visivel)
 	# Respingos numa das metades por vez (a união de duas vistas distantes cobre muito chão que ninguém vê)
-	var vistas := retangulos_visiveis()
 	_atualizar_impactos(delta, vistas[_rng.randi() % vistas.size()])
 	if clima_atual == Estado.TEMPESTADE:
 		_atualizar_raios(delta)
 
 func _atualizar_camadas(delta: float, visivel: Rect2) -> void:
+	if modo_economico and not is_instance_valid(_queda_compacta):
+		_criar_queda_compacta()
+	var alfas := Vector4.ZERO
+	var indice_camada := -1
 	for c in _camadas:
+		indice_camada += 1
 		var alvo: float = c.alvos.get(clima_atual, 0.0)
 		c.alfa = move_toward(c.alfa, alvo, delta / DURACAO_FADE)
 		var rect := c.no as TextureRect
-		rect.visible = c.alfa > 0.001
-		if not rect.visible:
+		var ativa := c.alfa > 0.001
+		rect.visible = ativa and not modo_economico
+		if not ativa:
 			continue
+		alfas[indice_camada] = c.alfa
 		c.tempo += delta
-		while c.tempo >= c.duracao:
-			c.tempo -= c.duracao
-			c.indice = (c.indice + 1) % c.quadros.size()
+		var avancos := int(c.tempo / c.duracao)
+		if avancos > 0:
+			# Retomar o app ou um quadro lento não precisa reproduzir todos os
+			# quadros perdidos nem reenviar cada textura para a GPU.
+			c.tempo = fposmod(c.tempo, c.duracao)
+			c.indice = (c.indice + avancos) % c.quadros.size()
 			rect.texture = c.quadros[c.indice]
+			if modo_economico:
+				_material_queda.set_shader_parameter(UNIFORMES_QUEDA[indice_camada], rect.texture)
+		if modo_economico:
+			continue
 		rect.modulate.a = c.alfa
 		# Presa ao mundo, não à tela: o retângulo começa num múltiplo do ladrilho, então o desenho da chuva
 		# fica parado no mapa quando a câmera anda (só a animação cai). Um ladrilho a mais cobre a sobra
 		var ladrilho := Vector2(LARGURA_QUEDA, ALTURA_QUEDA)
 		rect.position = (visivel.position / ladrilho).floor() * ladrilho
 		rect.size = ((visivel.end - rect.position) / ladrilho).ceil() * ladrilho + ladrilho
+	if is_instance_valid(_queda_compacta):
+		_queda_compacta.visible = modo_economico and alfas.length_squared() > 0.000001
+		if not _queda_compacta.visible:
+			return
+		var ladrilho := Vector2(LARGURA_QUEDA, ALTURA_QUEDA)
+		_queda_compacta.position = (visivel.position / ladrilho).floor() * ladrilho
+		_queda_compacta.size = ((visivel.end - _queda_compacta.position) / ladrilho).ceil() * ladrilho + ladrilho
+		_material_queda.set_shader_parameter("repeticoes", _queda_compacta.size / ladrilho)
+		_material_queda.set_shader_parameter("alfas", alfas)
+
+func _criar_queda_compacta() -> void:
+	_material_queda = ShaderMaterial.new()
+	_material_queda.shader = PRECIPITACAO_COMPACTA
+	_queda_compacta = TextureRect.new()
+	_queda_compacta.name = "PrecipitacaoCompacta"
+	_queda_compacta.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_queda_compacta.texture = _camadas[0].quadros[0]
+	_queda_compacta.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_queda_compacta.material = _material_queda
+	_queda_compacta.light_mask = 0
+	_mundo.add_child(_queda_compacta)
+	for i in _camadas.size():
+		_material_queda.set_shader_parameter(UNIFORMES_QUEDA[i], _camadas[i].quadros[_camadas[i].indice])
 
 func _atualizar_nuvens(delta: float, visivel: Rect2) -> void:
 	var alvo: float = ALFA_NUVENS.get(clima_atual, 0.0)
