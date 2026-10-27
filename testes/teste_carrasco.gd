@@ -18,6 +18,13 @@ class AlvoTeste extends Node2D:
 	func receber_dano(dano: int, _empurrao: Vector2 = Vector2.ZERO) -> void:
 		dano_recebido += dano
 
+func _cabelo_oculto() -> bool:
+	var visual := _jogador.get_node_or_null("HeroiBase3D")
+	if visual != null:
+		visual._armaduras.atualizar()
+		return not visual._pecas[3].visible
+	return _jogador.sprite_cabelo.texture != null and _jogador.sprite_cabelo.texture.get_image().is_invisible()
+
 func _initialize() -> void:
 	_rodar()
 
@@ -81,7 +88,7 @@ func _rodar() -> void:
 		_verificar(tipo + ": drop recolhido vai à mochila", _inv.indice_de(item) >= 0)
 		_inv.equipar(item)
 		_verificar(tipo + ": equipa no slot correto", _inv.equipados[item.categoria] == item)
-	_verificar("quatro peças ativam a aparência real sem trocar a roupa escolhida", _jogador.pecas_cavaleiro == 15 and _jogador.roupa_atual == 2 and _jogador.sprite_cabelo.texture.get_image().is_invisible())
+	_verificar("quatro peças ativam a aparência real sem trocar a roupa escolhida", _jogador.pecas_cavaleiro == 15 and _jogador.roupa_atual == 2 and _cabelo_oculto())
 	_inv.salvar("user://teste_carrasco_equipado.json")
 	var modelo = load("res://codigo/modelos/modelo_inventario.gd").new()
 	modelo.carregar("user://teste_carrasco_equipado.json")
@@ -133,7 +140,7 @@ func _rodar() -> void:
 	_verificar("flecha real também dispara o efeito do conjunto", get_first_node_in_group("raios_carrasco") != null)
 	_inv.desequipar("cabeca")
 	_jogador._recarga_carrasco = 0.0
-	_verificar("três peças dão só metade da chance (5%) e restauram cabelo", not _jogador._tentar_raio_carrasco(alvo, 20, 0.06) and not _jogador.sprite_cabelo.texture.get_image().is_invisible())
+	_verificar("três peças dão só metade da chance (5%) e restauram cabelo", not _jogador._tentar_raio_carrasco(alvo, 20, 0.06) and not _cabelo_oculto())
 	for slot in basicos:
 		if basicos[slot] == null:
 			_inv.desequipar(slot)

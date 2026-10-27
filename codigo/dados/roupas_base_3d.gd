@@ -26,8 +26,7 @@ const MODELOS := {
         {"id":"cabelo_raspado","nome":"Raspado","forma":4},
         {"id":"cabelo_espetado","nome":"Espetado","forma":5},
         {"id":"cabelo_chanel","nome":"Chanel","forma":1},
-        {"id":"cabelo_longo","nome":"Longo","forma":2},
-        {"id":"cabelo_cacheado","nome":"Cacheado","forma":3}]
+        {"id":"cabelo_longo","nome":"Longo","forma":2}]
 }
 static func padrao() -> Dictionary:
     return {"camisa":"camisa_bosque","calca":"calca_sarja","calcado":"botas_couro","cabelo":"cabelo_curto"}
@@ -43,7 +42,7 @@ static func do_visual_antigo(aparencia: Dictionary) -> Dictionary:
 
 static func modelo(categoria: String,id: String) -> Dictionary:
     if categoria=="cabelo":
-        id={"cabelo_rabo":"cabelo_longo","cabelo_trancas":"cabelo_cacheado"}.get(id,id)
+        id={"cabelo_rabo":"cabelo_longo","cabelo_trancas":"cabelo_longo","cabelo_cacheado":"cabelo_longo"}.get(id,id)
     for item in MODELOS[categoria]:
         if item.id==id: return item
     return MODELOS[categoria][0]

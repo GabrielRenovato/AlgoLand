@@ -24,66 +24,66 @@
   "bases": {
     "cabeca": {
       "vitalidade": [
-        0,
-        0,
-        0,
-        0,
-        0
+        2,
+        3,
+        5,
+        7,
+        9
       ],
       "defesa": [
-        0,
-        0,
-        0,
-        0,
-        0
+        2,
+        4,
+        7,
+        10,
+        14
       ]
     },
     "corpo": {
       "vitalidade": [
-        0,
-        0,
-        0,
-        0,
-        0
+        3,
+        5,
+        8,
+        11,
+        15
       ],
       "defesa": [
-        0,
-        0,
-        0,
-        0,
-        0
+        3,
+        6,
+        10,
+        15,
+        20
       ]
     },
     "luvas": {
       "vitalidade": [
-        0,
-        0,
-        0,
-        0,
-        0
+        1,
+        2,
+        3,
+        4,
+        6
       ],
       "defesa": [
-        0,
-        0,
-        0,
-        0,
-        0
+        1,
+        2,
+        4,
+        6,
+        9
       ]
     },
     "botas": {
       "vitalidade": [
-        0,
-        0,
-        0,
-        0,
-        0
+        1,
+        2,
+        3,
+        4,
+        6
       ],
       "defesa": [
-        0,
-        0,
-        0,
-        0,
-        0
+        1,
+        2,
+        4,
+        6,
+        9
       ]
     }
   },
@@ -111,5 +111,25 @@
   ],
   "modo_visual": "tecido",
   "substituir_cabeca": false,
-  "arte_elmo": "res://arte/fontes/armaduras/cavalheiro/cartolas_completas_v2.png"
+  "arte_elmo": "res://arte/fontes/armaduras/cavalheiro/cartolas_completas_v2.png",
+  "base_3d": {
+    "destino": "res://assets/personagens/conjuntos/cavalheiro/base_3d/",
+    "rig": "res://cenas/personagem/base_3d/personagem.tscn",
+    "fonte": "res://codigo/jogador/moldes_mordomo_3d.gd",
+    "grade_render": [
+      160,
+      160
+    ],
+    "pecas": [
+      "elmo",
+      "peitoral",
+      "luvas",
+      "botas"
+    ],
+    "paginas_legadas_preservadas": 11,
+    "cores_tecido": {
+      "tecido": "2f3043",
+      "lapela": "45465c"
+    }
+  }
 }

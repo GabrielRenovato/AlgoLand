@@ -103,5 +103,31 @@
     "493033",
     "6b4641",
     "956852"
-  ]
+  ],
+  "base_3d": {
+    "destino": "res://assets/personagens/conjuntos/carrasco/base_3d/",
+    "rig": "res://cenas/personagem/base_3d/personagem.tscn",
+    "fonte": "res://codigo/jogador/moldes_carrasco_3d.gd",
+    "grade_render": [
+      160,
+      160
+    ],
+    "pecas": [
+      "elmo",
+      "peitoral",
+      "luvas",
+      "botas"
+    ],
+    "paginas_legadas_preservadas": 11,
+    "referencia": "res://arte/fontes/armaduras/carrasco/referencia_usuario_original.png",
+    "cores_metal": {
+      "metal": "171e22",
+      "metal_meio": "263238",
+      "metal_luz": "738b8f",
+      "prata": "b4c4c4",
+      "couro": "302529",
+      "couro_luz": "493336",
+      "escuro": "101619"
+    }
+  }
 }

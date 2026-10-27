@@ -1,0 +1,77 @@
+{
+  "id": "cavalheiro",
+  "nome": "Mordomo",
+  "referencia": "arte/fontes/armaduras/cavalheiro/conceito_v1.png",
+  "producao": "Modelagem programática de malhas e materiais no rig3D existente; sem nova geração raster.",
+  "fonte": "codigo/jogador/moldes_mordomo_3d.gd",
+  "rig": "cenas/personagem/base_3d/personagem.tscn",
+  "camera": {
+    "ortografica": 4.0,
+    "inclinacao_graus": 20,
+    "viewport": [
+      160,
+      160
+    ],
+    "tamanho_mundo": [
+      80,
+      80
+    ]
+  },
+  "pecas": {
+    "elmo": "Cartola azul escura com faixa vinho; recorte do cabelo acima da aba; rosto preservado.",
+    "peitoral": "Casaca com mangas longas e duas pontas traseiras, gola creme, gravata vinho, colete marrom e calça.",
+    "luvas": "Luvas creme sobre a geometria das mãos, com pesos originais.",
+    "botas": "Couro marrom e sola escura no molde canônico."
+  },
+  "paleta": [
+    "15151f",
+    "262638",
+    "39394f",
+    "53536a",
+    "717185",
+    "f2e4ce",
+    "522b20",
+    "8d4b2c",
+    "bd7a40",
+    "dcb75f",
+    "64182d",
+    "a92b46"
+  ],
+  "ancora": "Mesma raiz/chão e proporções do personagem; pesos do rig preservados.",
+  "integracao": "codigo/jogador/armaduras_base_3d.gd; slots reais e prévia F3 separados.",
+  "dados_preservados": [
+    "ids",
+    "indices",
+    "raridade",
+    "niveis",
+    "bonus",
+    "11 paginas legadas",
+    "mochila e saves do jogador"
+  ],
+  "gerar": "gerar_conjunto.gd -- manifesto.json --base-3d",
+  "validar": "validar_conjunto.gd -- manifesto.json --base-3d",
+  "revisar": "ferramentas/armaduras/revisar_mordomo_3d.gd em save isolado",
+  "movimento": "Mesmos clipes e duração do controlador, sem animações substituídas. Capturas de doze fases por ação/direção e corrida a114 px/s.",
+  "validacao": {
+    "integracao": {
+      "verificacoes": 134,
+      "falhas": 0
+    },
+    "geometria_pesos_materiais_falhas": 0,
+    "paginas_legadas_falhas": 0,
+    "combate": {
+      "verificacoes": 281,
+      "falhas": 0
+    },
+    "quadros_inspecionados": 528,
+    "quadros_corrida_motor": 24,
+    "faixa_vinho": "Verificada também nos pixels renderizados.",
+    "capturas": "arte/previas/armaduras/mordomo_3d/",
+    "observacao": "Teste de combate executado com renderização gráfica; headless não concluiu devido ao caminho gráfico do teste."
+  },
+  "cores_tecido_3d": {
+    "tecido": "2f3043",
+    "lapela": "45465c",
+    "direcao": "Azul escuro, mantendo leitura de tecido e faixa vinho."
+  }
+}

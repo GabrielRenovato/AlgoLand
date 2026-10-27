@@ -26,6 +26,10 @@ uniform vec4 short_luz : source_color;
 uniform vec4 cor_rosto : source_color;
 uniform vec4 branco_olho : source_color;
 uniform bool esconder_camisa = false;
+uniform bool casaca_mordomo = false;
+uniform bool elmo_fechado = false;
+uniform float altura_grevas = 0.;
+uniform bool recortar_cartola = false;
 // Personalização: cor do cabelo (branco = cor pintada original), olhos.
 uniform vec4 cor_cabelo : source_color = vec4(1.0);
 uniform bool olhos_fechados = false;
@@ -98,6 +102,15 @@ vec2 uv_desenho_roupa(vec3 p) {
     return painel_tecido(uv,painel);
 }
 void fragment() {
+    if (elmo_fechado && usar_cor_do_vertice && COLOR.r>.25 && COLOR.r<.75) discard;
+    if (acabamento_roupa==2 && UV.y<altura_grevas) discard;
+    if (recortar_cartola) {
+        if (usar_textura_cabelo && UV2.y>.235) discard;
+        if (usar_cor_do_vertice && COLOR.r>.25 && COLOR.r<.75 && COLOR.b*.32-.03>.235) discard;
+    }
+    // Os braços novos guardam a coordenada transversal em UV2.x e o marcador2.
+    // Não usar VERTEX: ele já acompanha a deformação do esqueleto.
+    if (casaca_mordomo && usar_cor_do_vertice && UV2.y>1.8 && UV2.x>-.306) discard;
     ROUGHNESS = 0.82;
     SPECULAR = 0.25;
     // UV2 guarda apenas a cobertura da roupa no corpo em repouso.

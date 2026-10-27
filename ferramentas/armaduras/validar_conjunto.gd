@@ -22,6 +22,9 @@ func _initialize() -> void:
 		quit(1)
 		return
 	var raiz: String = config["destino"]
+	if "--base-3d" in args:
+		quit(preload("res://ferramentas/armaduras/conjunto_base_3d.gd").validar(config))
+		return
 	if "--cartoon" in args:
 		quit(preload("res://ferramentas/armaduras/conjunto_cartoon.gd").validar(config))
 		return

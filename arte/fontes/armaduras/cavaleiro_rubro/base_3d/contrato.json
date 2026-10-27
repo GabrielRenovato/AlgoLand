@@ -1,0 +1,54 @@
+{
+  "modelo_canonico": "res://cenas/personagem/base_3d/personagem.tscn",
+  "referencia_usuario": "res://arte/fontes/armaduras/cavaleiro_rubro/referencia_usuario_3d.png",
+  "producao": "Modelagem procedural de malhas e material espacial; sem geração raster nesta adaptação.",
+  "resolucao_nativa": [
+    160,
+    160
+  ],
+  "tamanho_no_mundo": [
+    80,
+    80
+  ],
+  "camera": "Ortográfica elevada 20 graus; oito vistas, direções de ação 0/2/4/6.",
+  "pivo": "Raiz e chão do rig; Skin, ossos e animações canônicos.",
+  "pecas": [
+    "elmo",
+    "peitoral",
+    "luvas",
+    "botas"
+  ],
+  "identidade": [
+    "Elmo fechado, viseira estreita e quatro chifres assimétricos",
+    "Aço escuro com arestas e nervuras em bronze antigo",
+    "Ombreiras de três lâminas com espinhos",
+    "Panos rubros fendidos com galões dourados na cintura",
+    "Manoplas articuladas e grevas segmentadas"
+  ],
+  "paleta": "base_3d.cores_metal no manifesto compartilhado",
+  "movimento": "Animações originais do rig; pesos de cabeça, ombros, mãos, quadril e pernas. Panos do quadril acompanham a coxa com liberdade de passada.",
+  "duracoes": "Exportadas do controlador real em arte/previas/armaduras/rubro_3d/tempos.json",
+  "destino": "res://assets/personagens/conjuntos/cavaleiro_rubro/base_3d/",
+  "paginas_legadas": 11,
+  "preservacao": "IDs, índices, bônus de status, raridades, drops e saves existentes. Quatro slots independentes, sem conceder bônus pela prévia cosmética.",
+  "validacao": {
+    "revisao_visual": "Godot gráfico, save isolado, oito vistas, 528 fases das onze ações em quatro direções, 24 quadros de corrida real e mapa. Contatos inspecionados.",
+    "slots_e_misturas": {
+      "verificacoes": 390,
+      "falhas": 0
+    },
+    "gameplay": {
+      "verificacoes": 25,
+      "falhas": 0
+    },
+    "geometria_e_paginas_legadas": "Validador compartilhado: zero falhas em pesos/materiais e nas onze páginas.",
+    "regressao_mordomo": {
+      "verificacoes": 134,
+      "falhas": 0
+    },
+    "regressao_carrasco": {
+      "verificacoes": 278,
+      "falhas": 0
+    }
+  }
+}

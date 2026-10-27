@@ -1,0 +1,19 @@
+{
+  "modelo": "cenas/personagem/base_3d/personagem.tscn",
+  "resolucao_nativa": [
+    160,
+    160
+  ],
+  "referencia": "Paleta real da criação: índice 6, ruivo (0.95,0.42,0.20).",
+  "metodo": "Correção da sincronização da cor entre campos atuais e legados; sem redesenhar malhas ou texturas.",
+  "cor": "aparencia_raven.cor governa saves atuais; cor_cabelo recebe a mesma tinta e funciona como fallback dos antigos. API definir_cor_cabelo atualiza imediatamente o material 3D.",
+  "penteados": "Removido cabelo_cacheado das opções por pedido do usuário. IDs antigos cabelo_cacheado e cabelo_trancas normalizam para cabelo_longo, sem alterar arquivos de save.",
+  "validacao": {
+    "teste": "testes/teste_ruivo_criacao_3d.gd",
+    "verificacoes": 14,
+    "falhas": 0,
+    "fluxo": "Botões reais de criação, quatro vistas de chanel/longo, save isolado, entrada na fazenda e editor real.",
+    "capturas": "fluxo/criacao_e_jogo.png, fluxo/interface_cabelo_longo.png",
+    "interface": "teste_visuais_femininos_3d.gd --somente-interface: zero falhas em 576x360, 288x512 e 320x324; opção removida e fallback preservados."
+  }
+}

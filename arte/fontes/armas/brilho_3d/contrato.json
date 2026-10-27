@@ -1,0 +1,55 @@
+{
+  "referencia": "referencia_usuario.png",
+  "modelo_canonico": "cenas/personagem/base_3d/personagem.tscn",
+  "metodo": "Materiais espaciais e malhas de aura no rig existente; sem geração raster.",
+  "grade": [
+    160,
+    160
+  ],
+  "apresentacao_no_mundo": [
+    80,
+    80
+  ],
+  "pivo": "Malha e ossos originais de cada arma; aura como filha da superfície, sem colisão.",
+  "regra": "Raridade governa material; nível da bigorna governa cor e intensidade da aura. Cabos e empunhaduras preservados.",
+  "niveis": {
+    "1": "sem aura",
+    "2": "branco frio, suave",
+    "3": "azul ciano",
+    "4": "violeta",
+    "5": "dourado, máximo"
+  },
+  "raridades": [
+    "comum",
+    "incomum",
+    "raro",
+    "epico",
+    "lendario"
+  ],
+  "integracao": [
+    "codigo/dados/visual_armas.gd",
+    "codigo/jogador/acabamento_armas_3d.gd",
+    "codigo/jogador/metal_arma_3d.gdshader",
+    "codigo/jogador/aura_arma_3d.gdshader",
+    "codigo/dados/cores_armas_raven.gd",
+    "codigo/ui/icones_itens.gd",
+    "codigo/dados/visual_ranking.gd"
+  ],
+  "restricoes": "Sem alterar dano, custos, níveis, afixos, encantamentos ou saves. Ferramentas e escudos mantêm seu acabamento anterior.",
+  "revisao": {
+    "motor": "Godot gráfico em save isolado",
+    "testes": "testes/teste_brilho_armas_3d.gd, 88 verificações sem falhas; teste_bigorna_conjuntos.gd sem falhas.",
+    "arte": "Cinco níveis e cinco raridades; treze modelos, 24 fases do ataque e 24 amostras de pulso, prévias da mochila em 576x324 e 288x512.",
+    "tempos": "arte/previas/armas_brilho_3d/tempos_pulso.json e tempo_golpe.json",
+    "observacao": "Avisos preexistentes de recursos/RIDs no encerramento; sem erros de script ou shader na execução validada.",
+    "regressao_previas": "teste_migracao_visual_3d.gd: zero falhas"
+  },
+  "arco_costas": {
+    "regra": "Parado e correndo, arco inteiro deitado, rente às costas; puxada/soltura na mão, retornando ao dorso. Corrida mixamo/Running em vez de BowRun.",
+    "rig": "Mesmo objeto, aljava separada, animações de disparo e origem da flecha preservadas.",
+    "encaixe": "Arco e aljava centralizados no dorso (X=0). Arco (0,0.02,-0.23), deitado no plano XY: eixo longo local Y para X, curvatura local Z para Y, espessura local X para Z. Aljava (0,0.02,-0.20), inclinação Z 18 graus; sobreposição autorizada.",
+    "teste": "testes/teste_arco_costas_3d.gd: 983 verificações sem falhas; centro e plano horizontal, oito direções, disparo real e retorno à corrida.",
+    "revisao": "192 fases em oito direções, 96 fases de disparo, transições e 24 quadros processados pelo motor; save isolado.",
+    "duracoes": "arte/previas/armas_brilho_3d/arco_costas/tempos.json"
+  }
+}

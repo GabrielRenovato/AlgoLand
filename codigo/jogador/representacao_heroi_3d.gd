@@ -40,6 +40,7 @@ func _anunciar_render() -> void:
 	if is_inside_tree(): renderizado.emit()
 
 func _posar(acao: String, clipe: String, direcao: int, instante: float) -> void:
+	heroi._acabamento_armas.atualizar()
 	heroi._acao = acao
 	heroi._modelo.rotation.y = DIRECOES[posmod(direcao,4)]
 	heroi._guinada = heroi._modelo.rotation.y

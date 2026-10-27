@@ -48,6 +48,9 @@ func _initialize() -> void:
 		quit(1)
 		return
 	_destino = String(_config["destino"])
+	if "--base-3d" in args:
+		quit(preload("res://ferramentas/armaduras/conjunto_base_3d.gd").gerar(_config))
+		return
 	if "--cartoon" in args:
 		var pagina_cartoon := ""
 		for arg in args:

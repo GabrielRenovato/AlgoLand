@@ -30,6 +30,8 @@ func _ready() -> void:
 func _ao_confirmar(dados: Dictionary) -> void:
 	# O Raven e o 3D leem aparencia_raven a cada quadro; as peças 3D trocam na hora.
 	jogador.aparencia_raven = dados.get("aparencia_raven", jogador.aparencia_raven).duplicate(true)
+	var cor: Array = jogador.aparencia_raven.get("cor", [1., 1., 1., 1.])
+	jogador.definir_cor_cabelo(Color(cor[0], cor[1], cor[2], cor[3] if cor.size() > 3 else 1.))
 	var heroi := jogador.get_node_or_null("HeroiBase3D")
 	if heroi != null:
 		heroi.definir_roupas_3d(dados.get("roupas_3d", {}))

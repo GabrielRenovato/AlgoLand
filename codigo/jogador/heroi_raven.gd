@@ -255,7 +255,7 @@ func _atualizar_arma_costas(acao: String, direcao: int, quadro: int) -> void:
 		_cabo_arma_costas.texture = preload("res://codigo/dados/armas_montantes.gd").porte(id_modelo,true) if montante else PorteArmas.textura_cabo(tipo)
 		_cabo_arma_costas.z_index = _camadas[9].z_index+1-_arma_costas.z_index
 		_cabo_arma_costas.visible = true
-	_arma_costas.material = CoresArmas.material(id_modelo,arma.nivel if arma != null else 1)
+	_arma_costas.material = CoresArmas.material(id_modelo,arma.nivel if arma != null else 1,arma.raridade if arma != null else "comum")
 	_cabo_arma_costas.material = _arma_costas.material
 
 func _definir_grade(quantidade: int) -> void:
@@ -387,7 +387,7 @@ func _aplicar_aparencia(acao: String) -> void:
 		var peca_equipada = equipados.get(slot)
 		tipos_pecas.append([peca_equipada.tipo,peca_equipada.categoria] if peca_equipada != null else "")
 	# raizes_armadura e pecas_cavaleiro são getters caros que derivam disso (equipados, roupa e o teste do F3), então ficam fora da chave
-	var chave := hash([acao,dados,_jogador.roupa_atual,_jogador._pecas_cavaleiro_debug,tipos_pecas,_direcao,_escudo_ativo,_jogador.usando_arco,_jogador.id_arma_atual,tipo_arma,nivel_arma,nivel_escudo,_jogador.esta_em_acao_fazenda])
+	var chave := hash([acao,dados,_jogador.roupa_atual,_jogador._pecas_cavaleiro_debug,tipos_pecas,_direcao,_escudo_ativo,_jogador.usando_arco,_jogador.id_arma_atual,tipo_arma,nivel_arma,equipados.arma.raridade if equipados.get("arma")!=null else "comum",nivel_escudo,_jogador.esta_em_acao_fazenda])
 	if chave == _chave_aparencia: return
 	_chave_aparencia = chave
 	var raizes: Dictionary = _jogador.raizes_armadura.duplicate()
@@ -419,7 +419,7 @@ func _aplicar_aparencia(acao: String) -> void:
 		_camadas[5].texture = AparenciaRaven.folha("porte_"+_porte_arma,acao)
 	_camadas[5].material = AparenciaRaven.material_pose(false,acao=="sentado",_direcao,true,acao=="pescar")
 	if not _jogador.esta_em_acao_fazenda and acao in ["espada","espada_2","espada_dupla","machado","lanca","arco"]:
-		_camadas[5].material = CoresArmas.material(tipo_arma,nivel_arma)
+		_camadas[5].material = CoresArmas.material(tipo_arma,nivel_arma,equipados.arma.raridade if equipados.get("arma")!=null else "comum")
 		if acao == "espada_dupla" and preload("res://codigo/dados/armas_montantes.gd").MODELOS.has(tipo_arma):
 			_camadas[5].texture = preload("res://codigo/dados/armas_montantes.gd").folha(tipo_arma)
 	_camadas[6].texture = AparenciaRaven.folha("vazio" if cabelo == 0 else "cabelo_%d" % cabelo,acao)

@@ -4,6 +4,7 @@ const Roupas3D := preload("res://codigo/dados/roupas_base_3d.gd")
 const Aparencia := preload("res://codigo/dados/aparencia.gd")
 const Conjuntos := preload("res://codigo/dados/conjuntos_armadura.gd")
 const Armas := preload("res://codigo/dados/armas_ranking.gd")
+const Raridades=preload("res://codigo/dados/raridades.gd")
 const BASICOS := {"cabeca":"cabeca_basica","corpo":"armadura_basica","luvas":"luvas_basicas","botas":"botas_basicas"}
 
 static func _inteiro(dados: Dictionary, chave: String, minimo: int, maximo: int, padrao := 0) -> int:
@@ -34,7 +35,7 @@ static func normalizar(valor: Variant) -> Dictionary:
 		"escudo":valor.get("escudo") is bool and valor.escudo,"olhos":_inteiro(valor,"olhos",0,5),"roupas_3d":roupas_do_visual(valor),
 		"roupa":_inteiro(valor,"roupa",0,8),"cor":cor,"equipamentos":equipamentos,
 		"roupa_visual":_inteiro(valor,"roupa_visual",0,Aparencia.total_roupas()-1),
-		"pecas_visuais":_inteiro(valor,"pecas_visuais",0,15,15),"arma_mais_usada":Armas.validar(valor.get("arma_mais_usada")),"nivel_arma":_inteiro(valor,"nivel_arma",1,99,1)}
+		"pecas_visuais":_inteiro(valor,"pecas_visuais",0,15,15),"arma_mais_usada":Armas.validar(valor.get("arma_mais_usada")),"nivel_arma":_inteiro(valor,"nivel_arma",1,99,1),"raridade_arma":valor.get("raridade_arma","comum") if valor.get("raridade_arma","comum") in Raridades.ORDEM else "comum"}
 
 static func roupas_do_visual(dados: Dictionary) -> Dictionary:
 	var roupas = dados.get("roupas_3d")
@@ -48,6 +49,10 @@ static func do_jogador(jogador: Node2D) -> Dictionary:
 	dados["versao"] = 1
 	dados["roupa_visual"] = jogador.roupa_atual
 	dados["pecas_visuais"] = jogador.pecas_cavaleiro
+	var arma = jogador.inventario.equipados.get("arma")
+	dados["arma_mais_usada"] = arma.tipo if arma != null else ""
+	dados["nivel_arma"] = arma.nivel if arma != null else 1
+	dados["raridade_arma"] = arma.raridade if arma != null else "comum"
 	dados["equipamentos"] = {}
 	for slot: String in BASICOS:
 		var item = jogador.inventario.equipados.get(slot)
@@ -59,6 +64,7 @@ class ItemVisual extends RefCounted:
 	var tipo := ""
 	var categoria := ""
 	var nivel := 1
+	var raridade := "comum"
 	var duas_maos := false
 
 class InventarioVisual extends RefCounted:
@@ -95,6 +101,7 @@ static func criar_modelo(dados: Dictionary) -> Node2D:
 		var item := ItemVisual.new()
 		item.tipo = arma
 		item.nivel = int(modelo.aparencia_raven.nivel_arma)
+		item.raridade = modelo.aparencia_raven.raridade_arma
 		item.categoria = "arma"
 		item.duas_maos = arma=="espada_gemea"
 		modelo.inventario.equipados.arma = item

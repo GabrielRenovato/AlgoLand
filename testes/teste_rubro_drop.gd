@@ -22,6 +22,7 @@ func _rodar() -> void:
 		push_error("Use a cópia isolada AlgoLand testes Carrasco.")
 		quit(1)
 		return
+	root.get_node("Ranking").conexao_habilitada = false
 	var drop: GDScript = load("res://codigo/logica/equipamento_drop.gd")
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 6831
@@ -69,20 +70,32 @@ func _rodar() -> void:
 			_verificar("bônus parcial com " + str(pecas.size()) + " peças", is_equal_approx(jogador.estatisticas.bonus_defesa_conjunto, esperado) and is_equal_approx(jogador.estatisticas.bonus_vitalidade_conjunto, esperado))
 	_verificar("quatro peças reais nível 2 dão 12,5% de defesa e vitalidade", jogador.estatisticas.defesa == roundi(jogador.bonus_defesa * 1.125) and jogador.estatisticas.vitalidade == roundi((jogador.vitalidade_base + jogador.bonus_vitalidade) * 1.125) and is_equal_approx(jogador.estatisticas.bonus_defesa_conjunto, 0.125))
 	_verificar("Rubro não ativa o raio do Carrasco", not Carrasco.pode_ativar(inv.equipados, 0.0, 0.0))
-	_verificar("visual real usa o Rubro e mantém a cabeça da base refinada", jogador.sprite_roupa.texture.resource_path == Rubro.RAIZ_SPRITES + "andar.png" and jogador.sprite_corpo.texture.resource_path == "res://assets/personagens/refinado/paginas/andar.png")
+	var visual := jogador.get_node_or_null("HeroiBase3D")
+	if visual != null:
+		visual._armaduras.atualizar()
+		var raizes_corretas: bool = visual._armaduras.mascara == 15
+		for raiz in visual._armaduras.raizes_pecas:
+			raizes_corretas = raizes_corretas and raiz == Rubro.RAIZ_SPRITES
+		_verificar("visual real usa as quatro malhas do Rubro e recolhe rosto/cabelo", raizes_corretas and not visual._pecas[3].visible and bool(visual._modelo.find_child("CorpoBase", true, false).material_override.get_shader_parameter("elmo_fechado")))
+	else:
+		_verificar("visual real usa o Rubro e mantém a cabeça da base refinada", jogador.sprite_roupa.texture.resource_path == Rubro.RAIZ_SPRITES + "andar.png" and jogador.sprite_corpo.texture.resource_path == "res://assets/personagens/refinado/paginas/andar.png")
 	var defesa: int = jogador.estatisticas.defesa
 	var vitalidade: int = jogador.estatisticas.vitalidade
 	for i in 5:
 		jogador._aplicar_modelo()
 	_verificar("reaplicar inventário não acumula bônus", jogador.estatisticas.defesa == defesa and jogador.estatisticas.vitalidade == vitalidade)
 	jogador.no_arco._sincronizar_aparencia()
-	var textura_anterior: Texture2D = jogador.no_arco._roupa.texture
+	var recurso_anterior: Resource = visual._armaduras.malhas[0].mesh if visual != null else jogador.no_arco._roupa.texture
 	var outra: DadosItem = drop.criar_item(rng, 14, false, false, "", "elmo_carrasco")
 	inv.adicionar(outra)
 	inv.equipar(outra)
 	jogador.no_arco._sincronizar_aparencia()
 	_verificar("misturar conjuntos mantém só o bônus parcial do Rubro (3/4) e não ativa o raio", is_equal_approx(jogador.estatisticas.bonus_defesa_conjunto, 0.0625) and is_equal_approx(jogador.estatisticas.bonus_vitalidade_conjunto, 0.0625) and not Carrasco.pode_ativar(inv.equipados, 0.0, 0.0))
-	_verificar("trocar o elmo com a mesma máscara atualiza o arco", jogador.pecas_cavaleiro == 15 and jogador.no_arco._roupa.texture != textura_anterior and jogador.raizes_armadura["elmo"] == Carrasco.RAIZ_SPRITES)
+	if visual != null:
+		visual._armaduras.atualizar()
+		_verificar("trocar elmo com a mesma máscara troca a malha e preserva o torso Rubro", visual._armaduras.mascara == 15 and visual._armaduras.malhas[0].mesh != recurso_anterior and visual._armaduras.raizes_pecas[0] == Carrasco.RAIZ_SPRITES and visual._armaduras.raizes_pecas[1] == Rubro.RAIZ_SPRITES)
+	else:
+		_verificar("trocar o elmo com a mesma máscara atualiza o arco", jogador.pecas_cavaleiro == 15 and jogador.no_arco._roupa.texture != recurso_anterior and jogador.raizes_armadura["elmo"] == Carrasco.RAIZ_SPRITES)
 	inv.equipar(pecas["cabeca"])
 	_verificar("restaurar a quarta peça retorna ao mesmo bônus", jogador.estatisticas.defesa == defesa and jogador.estatisticas.vitalidade == vitalidade)
 	pecas["corpo"].nivel = 3

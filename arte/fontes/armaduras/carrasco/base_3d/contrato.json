@@ -1,0 +1,80 @@
+{
+  "id": "carrasco",
+  "referencia": "arte/fontes/armaduras/carrasco/referencia_usuario_original.png",
+  "producao": "Modelagem programática sobre rig canônico; não houve geração ou redesenho raster.",
+  "modelo_canonico": "cenas/personagem/base_3d/personagem.tscn",
+  "moldes": "codigo/jogador/moldes_carrasco_3d.gd",
+  "grade_render": [
+    160,
+    160
+  ],
+  "camera": {
+    "ortografica": 4,
+    "inclinacao_graus": 20,
+    "area_mundo": [
+      80,
+      80
+    ]
+  },
+  "ancora": "Raiz/chão idênticos ao personagem; Skin e pesos ligados aos ossos canônicos.",
+  "pecas": {
+    "elmo": "Elmo fechado, viseira com orifícios, bordas de aço e pluma marrom curvada para trás; recolhe cabelo e rosto original.",
+    "peitoral": "Couraça escura com peito em V, ombreiras facetadas, losango abdominal elevado, proteção inferior pontuda e placas laterais do quadril.",
+    "luvas": "Manoplas com dedos da base e punhos modelados.",
+    "botas": "Grevas de aço com faixas segmentadas e joelheiras convexas independentes, seguindo os ossos da canela."
+  },
+  "paleta": [
+    "141820",
+    "252a32",
+    "35434e",
+    "526674",
+    "7c96a5",
+    "aec5cd",
+    "dce9e8",
+    "f3f3df",
+    "2b1e20",
+    "493033",
+    "6b4641",
+    "956852"
+  ],
+  "integracao": "armaduras_base_3d.gd; slots reais e F3; mistura livre com Mordomo; não muda atributos, itens, raridades, índices, drops ou bônus de raio.",
+  "paginas_legadas": 11,
+  "animacoes": "Clipes e duração do rig existente; revisão de onze ações em quatro direções, doze fases por ação. Corrida de referência a114 px/s.",
+  "gerar": "gerar_conjunto.gd -- modelos/carrasco.json --base-3d",
+  "validar": "validar_conjunto.gd -- modelos/carrasco.json --base-3d",
+  "revisar": "revisar_carrasco_3d.gd em save isolado",
+  "previas": "arte/previas/armaduras/carrasco_3d/",
+  "validacao": {
+    "integracao_e_misturas": {
+      "verificacoes": 278,
+      "falhas": 0
+    },
+    "geometria_pesos_materiais_falhas": 0,
+    "quadros_movimento_sem_cortes": 528,
+    "quadros_corrida_no_motor": 24,
+    "referencia": "Pixels da referência recuperada conferidos contra o novo anexo do usuário.",
+    "material": "Reflexos revistos em oito orientações e nas onze ações do rig; pluma/couro foscos.",
+    "logs": [
+      "/tmp/algoland-carrasco-metal-revisao.log",
+      "/tmp/algoland-carrasco-metal-exportar.log",
+      "/tmp/algoland-carrasco-refazer-validar.log"
+    ]
+  },
+  "revisao_original_usuario": {
+    "imagem": "codex-clipboard-ca2d2514-dfb2-4852-85e6-98488f94e865.png",
+    "direcao": "Aço quase preto com bordas frias de prata; ombreiras angulares, viseira perfurada convexa, peito em V e placa abdominal em losango, proteção inferior pontuda, joelheiras e grevas segmentadas.",
+    "geometria": "Placas convexas e ombreiras facetadas modeladas no rig canônico; sombreado e recortes acompanham cada peça.",
+    "anterior": "versao_anterior/ contém as malhas, os moldes, o shader e as quatro vistas anteriores; não é referência canônica."
+  },
+  "material_metal": {
+    "objetivo": "Aço escuro com contraste e reflexos móveis, conforme a referência original. Couro/pluma foscos.",
+    "metallic": 0.45,
+    "roughness": 0.28,
+    "specular": 0.65,
+    "iluminacao": "Reflexo do sol e faixa fria do ambiente no light() customizado; quantização nas faixas para conservar pixels legíveis. Intensidade acompanha a luz da cena.",
+    "regioes_excluidas": [
+      "pluma",
+      "couro da calça e sob as placas"
+    ]
+  }
+}

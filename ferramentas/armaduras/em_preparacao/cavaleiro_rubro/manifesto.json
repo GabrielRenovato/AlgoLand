@@ -121,5 +121,32 @@
     "cd624e"
   ],
   "arte_elmo": "res://arte/fontes/armaduras/cavaleiro_rubro/elmos_face_completa_v6.png",
-  "substituir_cabeca": false
+  "substituir_cabeca": false,
+  "base_3d": {
+    "destino": "res://assets/personagens/conjuntos/cavaleiro_rubro/base_3d/",
+    "rig": "res://cenas/personagem/base_3d/personagem.tscn",
+    "fonte": "res://codigo/jogador/moldes_rubro_3d.gd",
+    "referencia": "res://arte/fontes/armaduras/cavaleiro_rubro/referencia_usuario_3d.png",
+    "grade": [
+      160,
+      160
+    ],
+    "pecas": [
+      "elmo",
+      "peitoral",
+      "luvas",
+      "botas"
+    ],
+    "paginas_legadas": 11,
+    "cores_metal": {
+      "metal": "222526",
+      "metal_meio": "3c4142",
+      "metal_luz": "7d8585",
+      "prata": "afb4ae",
+      "bronze": "9e8056",
+      "escuro": "101416",
+      "couro": "5a1521",
+      "couro_luz": "992936"
+    }
+  }
 }

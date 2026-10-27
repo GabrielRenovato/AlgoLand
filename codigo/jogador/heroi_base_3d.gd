@@ -56,6 +56,8 @@ var _cache_roupas: Dictionary={}
 		_atualizar_pecas()
 var _pecas: Array[MeshInstance3D] = []
 var _molde_cabelo: ArrayMesh
+var _acabamento_armas: RefCounted
+var _armaduras: RefCounted
 var _molde_rosto: ArrayMesh
 var _rosto_arredondado: ArrayMesh
 # Encaixes da espada nos ossos (posição em metros e rotação em graus, no espaço do osso).
@@ -207,6 +209,8 @@ func _ready() -> void:
 	_empunhadura_lanca.heroi = self
 	_esqueleto.add_child(_empunhadura_lanca)
 	_esqueleto.skeleton_updated.connect(_sincronizar_linha_pesca)
+	_armaduras=preload("res://codigo/jogador/armaduras_base_3d.gd").new(self)
+	_acabamento_armas=preload("res://codigo/jogador/acabamento_armas_3d.gd").new(self)
 	_atualizar_materiais_pixel()
 
 func definir_roupas_3d(dados: Dictionary) -> void:
@@ -231,8 +235,12 @@ func definir_roupas_3d(dados: Dictionary) -> void:
 	if not _cache_roupas.has(cabelo.id):
 		_cache_roupas[cabelo.id]=preload("res://codigo/jogador/visuais_femininos_3d.gd").cabelo(_molde_cabelo,corpo,_esqueleto,cabelo.forma)
 	_pecas[3].mesh=_cache_roupas[cabelo.id]
+	if _armaduras!=null:_armaduras.ajustar_cabelo()
 	corpo.material_override.set_shader_parameter("raspado", cabelo.forma==4)
 	corpo.material_override.set_shader_parameter("altura_botas",CATALOGO_ROUPAS.modelo("calcado",roupas_3d.calcado).altura)
+	if _armaduras!=null:
+		_armaduras.invalidar()
+		_armaduras.atualizar()
 
 ## Save de antes do personagem 3D: veste o equivalente do Raven (cores e roupa) e grava uma vez.
 ## Pele, cor do cabelo e olhos já vêm de aparencia_raven. Marca o aviso de "visual novo".
@@ -334,7 +342,7 @@ func _atualizar_materiais_pixel() -> void:
 	if _modelo==null:return
 	for instancia in _modelo.find_children("*","MeshInstance3D",true,false):
 		var material=instancia.material_override
-		if material is ShaderMaterial and material.get_shader_parameter("desenho_pixel_cabeca")!=null:
+		if material is ShaderMaterial and material.get_shader_parameter("luz_em_blocos")!=null:
 			material.set_shader_parameter("luz_em_blocos",acabamento_pixel_art)
 
 ## A luz pertence à cena e acompanha o horário; nenhum sombreado é pintado no asset.
@@ -661,6 +669,8 @@ func _aplicar_cores() -> void:
 		corpo.material_override.set_shader_parameter("cor_raspado", Color(media.r,media.g,media.b,1.0))
 
 func _process(delta: float) -> void:
+	_armaduras.atualizar()
+	_acabamento_armas.atualizar()
 	_aplicar_cores()
 	_atualizar_iluminacao()
 	_delta_rastro = delta
@@ -769,8 +779,6 @@ func _nome_animacao(acao: String) -> String:
 	if acao=="guarda" and _arma_de_duas_maos(): return "mixamo/GreatSwordBlocking"
 	if acao=="arco": return "mixamo/BowDraw" if progresso_arco()<.40 else "mixamo/BowRecoil"
 	if acao=="pesada": return "mixamo/MaceAttack" if _jogador.id_arma_atual=="maca" else "mixamo/AxeAttack"
-	# Correndo com o arco equipado: corrida do Mixamo com o arco na mão (Standing Sprint Forward).
-	if acao=="correr" and _jogador.usando_arco: return "mixamo/BowRun"
 	if acao=="fazenda_machado": return "mixamo/AxeTreeChop"
 	if acao in ["fazenda_picareta","fazenda_enxada"]: return "ferramentas/Pickaxing"
 	if acao=="pesca": return _clipe_pesca()

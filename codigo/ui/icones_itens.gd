@@ -79,11 +79,11 @@ static func obter(item: DadosItem, arvore: SceneTree) -> Texture2D:
 		# Ícone individual do acessório, compartilhado com a camada Raven.
 		return load(ALJAVA)
 	if item.tipo in ARMAS_RAVEN or item.tipo in ARMAS_LEGADAS:
-		return obter_arma(item.tipo, arvore, item.nivel)
+		return obter_arma(item.tipo, arvore, item.nivel, item.raridade)
 	if ARMAS.get(item.tipo, {}).has("pasta_icone"):
 		return load(ARMAS[item.tipo]["pasta_icone"] % clampi(item.nivel, 1, 5))
 	if ARMAS.has(item.tipo):
-		return obter_arma(item.tipo, arvore, item.nivel)
+		return obter_arma(item.tipo, arvore, item.nivel, item.raridade)
 	if ARMADURAS.has(item.tipo):
 		return load("res://assets/personagens/raven_fantasy/icones/%s.png" % item.tipo)
 	var jogador := obter_jogador(arvore)
@@ -94,9 +94,9 @@ static func obter(item: DadosItem, arvore: SceneTree) -> Texture2D:
 			return _recortar(sprite_armadura.texture, Rect2i(sprite_armadura.get_frame_coords()*tamanho,tamanho))
 	return null
 
-static func obter_arma(tipo: String, arvore: SceneTree, nivel: int = 1) -> Texture2D:
+static func obter_arma(tipo: String, arvore: SceneTree, nivel: int = 1, raridade: String = "comum") -> Texture2D:
 	if tipo in ARMAS_RAVEN or tipo in ARMAS_LEGADAS:
-		return CoresArmas.icone(tipo,nivel)
+		return CoresArmas.icone(tipo,nivel,raridade)
 	if not ARMAS.has(tipo):
 		return null
 	var definicao: Dictionary = ARMAS[tipo]

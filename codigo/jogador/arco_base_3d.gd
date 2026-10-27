@@ -9,7 +9,7 @@ var origem_visual := Vector2.ZERO
 func _ready():
     _aljava=Node3D.new()
     heroi._costas.add_child(_aljava)
-    _aljava.position=Vector3(-.20,.04,-.20)
+    _aljava.position=Vector3(0,.02,-.20)
     _aljava.rotation_degrees.z=18
     _tubo(_aljava,Vector3(0,-.22,0),Vector3(0,.18,0),.085,Color("61413b"))
     _tubo(_aljava,Vector3(0,.181,0),Vector3(0,.19,0),.07,Color("302b38"))
@@ -40,6 +40,21 @@ func atualizar(s: Skeleton3D):
     _aljava.visible=heroi._jogador.usando_arco
     visible=heroi._jogador.usando_arco and heroi._acao in ["parado","correr","arco"]
     if not visible:return
+    var disparando: bool=heroi._acao=="arco"
+    var pai: Node3D=heroi._modelo if disparando else heroi._costas
+    if get_parent()!=pai:reparent(pai,false)
+    transform=Transform3D.IDENTITY
+    _madeira.position=Vector3.ZERO
+    _madeira.rotation=Vector3.ZERO
+    if not disparando:
+        # Um único arco, preso ao dorso; braços livres para a corrida normal.
+        position=Vector3(0,.02,-.23)
+        # Comprimento na horizontal e curvatura paralela ao dorso (plano XY).
+        # A orientação de disparo fica reservada ao arco na mão.
+        basis=Basis(Vector3.BACK,Vector3.RIGHT,Vector3.UP)
+        _flecha.visible=false
+        _desenhar_corda(Vector3(0,0,-.15),Vector3.ZERO)
+        return
     var base: Transform3D=heroi._modelo.global_transform.affine_inverse()*s.global_transform
     var esquerda: Transform3D=base*s.get_bone_global_pose(s.find_bone("DEF-hand.L"))
     var direita: Transform3D=base*s.get_bone_global_pose(s.find_bone("DEF-hand.R"))
@@ -50,13 +65,7 @@ func atualizar(s: Skeleton3D):
     var soltou: bool=heroi._jogador.no_arco._indice>=heroi._jogador.no_arco.QUADRO_SOLTAR
     var meio:=pega+Vector3(0,0,-.15)
     if heroi._acao=="arco" and not preparando and not soltou: meio=mao
-    var malha: ImmediateMesh=_corda.mesh
-    malha.clear_surfaces()
-    malha.surface_begin(Mesh.PRIMITIVE_LINE_STRIP)
-    malha.surface_add_vertex(pega+Vector3(0,-.48,-.15))
-    malha.surface_add_vertex(meio)
-    malha.surface_add_vertex(pega+Vector3(0,.48,-.15))
-    malha.surface_end()
+    _desenhar_corda(meio,pega)
     _flecha.visible=heroi._acao=="arco" and not soltou
     _flecha.position=mao
     _flecha.basis=Basis.IDENTITY
@@ -68,6 +77,14 @@ func atualizar(s: Skeleton3D):
     if _flecha.visible:
         var ponta: Vector3=_flecha.to_global(Vector3(0,0,.37))
         origem_visual=heroi._sprite.to_global(heroi._camera.unproject_position(ponta)+heroi._sprite.offset)
+func _desenhar_corda(meio: Vector3,pega: Vector3):
+    var malha: ImmediateMesh=_corda.mesh
+    malha.clear_surfaces()
+    malha.surface_begin(Mesh.PRIMITIVE_LINE_STRIP)
+    malha.surface_add_vertex(pega+Vector3(0,-.48,-.15))
+    malha.surface_add_vertex(meio)
+    malha.surface_add_vertex(pega+Vector3(0,.48,-.15))
+    malha.surface_end()
 func _tubo(pai: Node3D,inicio: Vector3,fim: Vector3,raio: float,cor: Color):
     var cilindro:=CylinderMesh.new()
     cilindro.top_radius=raio

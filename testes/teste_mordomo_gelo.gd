@@ -44,6 +44,26 @@ func _rodar() -> void:
 	for slot in ["cabeca", "corpo", "luvas", "botas"]:
 		comuns = comuns and inv.equipados[slot].raridade == "comum" and inv.equipados[slot].nome().contains("MORDOMO")
 	_verificar("F3 equipa quatro peças comuns do Mordomo", comuns and Mordomo.mascara(inv.equipados) == 15)
+	# Regressão: as peças antigas tinham os cinco níveis de vida/defesa zerados.
+	var totais_vitalidade := [7,12,19,26,36]
+	var totais_defesa := [7,14,25,37,52]
+	for nivel in range(1,6):
+		var vitalidade := 0
+		var defesa := 0
+		for slot in ["cabeca","corpo","luvas","botas"]:
+			var copia := Dados.de_dict(inv.equipados[slot].para_dict())
+			copia.nivel = nivel
+			copia.afixos.clear()
+			var pacote: Dictionary = jogador._pacote_do_item(copia)
+			vitalidade += int(pacote.vitalidade)
+			defesa += int(pacote.defesa)
+		_verificar("peças salvas usam os novos atributos no nível %d" % nivel, vitalidade == totais_vitalidade[nivel-1] and defesa == totais_defesa[nivel-1])
+	var aplicados_vitalidade := 0
+	var aplicados_defesa := 0
+	for slot in ["cabeca","corpo","luvas","botas"]:
+		aplicados_vitalidade += int(jogador._pacote_aplicado[slot].vitalidade)
+		aplicados_defesa += int(jogador._pacote_aplicado[slot].defesa)
+	_verificar("equipar aplica +7 vitalidade e +7 defesa reais", aplicados_vitalidade == 7 and aplicados_defesa == 7)
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 331
 	var ativacoes := 0

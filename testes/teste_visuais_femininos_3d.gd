@@ -49,10 +49,10 @@ func rodar():
     vp.size=h._vp.size
     sprite.material=h._sprite.material
     sprite.texture_filter=h._sprite.texture_filter
-    conferir(Catalogo.modelo("cabelo","cabelo_trancas").id=="cabelo_cacheado","Tranças antigas migram para cacheado")
+    conferir(Catalogo.modelo("cabelo","cabelo_trancas").id=="cabelo_longo","Tranças antigas migram para longo solto")
     conferir(Catalogo.modelo("cabelo","cabelo_rabo").id=="cabelo_longo","Rabo antigo migra para longo")
-    conferir(Catalogo.modelo("cabelo","cabelo_chanel").id=="cabelo_curto","Chanel antigo migra para curto")
-    conferir(Catalogo.MODELOS.cabelo.map(func(m):return m.id)==["cabelo_curto","cabelo_longo","cabelo_cacheado"],"Somente os três penteados pedidos")
+    conferir(Catalogo.modelo("cabelo","cabelo_chanel").id=="cabelo_chanel","Chanel preserva sua identidade")
+    conferir(Catalogo.MODELOS.cabelo.map(func(m):return m.id)==["cabelo_curto","cabelo_raspado","cabelo_espetado","cabelo_chanel","cabelo_longo"],"Catálogo preserva cinco penteados sem maria-chiquinha")
     var capturas:=0
     var somente_interface: bool="--somente-interface" in OS.get_cmdline_user_args()
     if somente_interface: h.definir_roupas_3d(conjuntos[2])
@@ -108,10 +108,10 @@ func rodar():
             var r: Rect2=seletor.get_global_rect()
             conferir(r.position.x>=ret.position.x+14 and r.end.x<=ret.end.x-14,"Margem horizontal dos seletores")
         conferir(ret.grow(-12).encloses(ui._imagem.get_global_rect()),"Prévia inteira dentro do painel")
-        conferir(ui._seletores.cabelo.item_count==3,"Três penteados disponíveis")
-        ui._seletores.cabelo.select(2)
-        ui._seletores.cabelo.item_selected.emit(2)
-        conferir(h.roupas_3d.cabelo=="cabelo_cacheado","Penteado muda na prévia")
+        conferir(ui._seletores.cabelo.item_count==5,"Cinco penteados disponíveis")
+        ui._seletores.cabelo.select(4)
+        ui._seletores.cabelo.item_selected.emit(4)
+        conferir(h.roupas_3d.cabelo=="cabelo_longo","Penteado muda na prévia")
         var ret_previa: Rect2=ui._imagem.get_global_rect()
         ui._rolagem.scroll_vertical=1000
         await esperar(2)

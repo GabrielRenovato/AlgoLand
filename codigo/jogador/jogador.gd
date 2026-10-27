@@ -2175,7 +2175,11 @@ func aplicar_dados_carregados(dados: Dictionary) -> void:
 	if dados.has("apelido"):
 		apelido = dados["apelido"]
 
-	if dados.has("cor_cabelo"):
+	# A aparência atual prevalece sobre o campo legado dos saves antigos.
+	var tinta_atual = aparencia_raven.get("cor")
+	if tinta_atual is Array and tinta_atual.size() >= 3:
+		definir_cor_cabelo(Color(tinta_atual[0], tinta_atual[1], tinta_atual[2], tinta_atual[3] if tinta_atual.size() > 3 else 1.0))
+	elif dados.has("cor_cabelo"):
 		var dict_cor = dados["cor_cabelo"]
 		var cor_cabelo_salva = Color(dict_cor["r"], dict_cor["g"], dict_cor["b"], dict_cor["a"])
 		definir_cor_cabelo(cor_cabelo_salva)
@@ -2461,6 +2465,10 @@ func equipar_botas() -> void:
 
 func definir_cor_cabelo(nova_cor: Color) -> void:
 	cor_cabelo = nova_cor
+	aparencia_raven["cor"] = [nova_cor.r, nova_cor.g, nova_cor.b, nova_cor.a]
+	var heroi := get_node_or_null("HeroiBase3D")
+	if heroi != null and heroi.is_node_ready():
+		heroi._aplicar_cores()
 	sprite_cabelo.modulate = nova_cor
 	cabelo_ataque.modulate = nova_cor
 	cabelo_lanca_ataque.modulate = nova_cor

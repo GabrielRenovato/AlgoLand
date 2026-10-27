@@ -112,8 +112,8 @@ func rodar() -> void:
 						var pixel := nativos.get_pixel(x,y)
 						verificar(pixel.a==novo.get_pixel(x,y).a,"Ícone preserva transparência")
 						if pixel.a>0 and pixel.to_html(false)==cor_base:
-							var tom: String = cor_base if nivel==1 else TONS[nivel-1]
-							verificar(novo.get_pixel(x,y).is_equal_approx(Color.html(tom)),"Tom visível do nível no ícone")
+							var tom: String = TONS[nivel-1] if tipo=="escudo_basico" and nivel>1 else cor_base
+							verificar(novo.get_pixel(x,y).is_equal_approx(Color.html(tom)),"Cor do material preservada nos ícones")
 		await esperar(2)
 		await RenderingServer.frame_post_draw
 		vp.get_texture().get_image().save_png(saida+"/direcao-%d.png" % d)
@@ -128,7 +128,7 @@ func rodar() -> void:
 	verificar(visual._camadas[5].material==Cores.material("espada_basica",1),"Instâncias iguais têm cores independentes")
 	jogador.iniciar_forja(arma)
 	visual._aplicar_aparencia("espada")
-	verificar(arma.nivel==2 and visual._camadas[5].material==Cores.material("espada_basica",2),"Refino atualiza a cor sem trocar a arma")
+	verificar(arma.nivel==2 and visual._camadas[5].material==Cores.material("espada_basica",2),"Refino conserva material sem trocar a arma")
 	verificar(reserva.nivel==5,"Refino preserva a outra instância")
 	var ui = root.get_node("EventosJogo").interface_p1()
 	ui._abrir_tela("inventario")

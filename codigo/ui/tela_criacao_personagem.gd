@@ -901,7 +901,7 @@ func dados_do_personagem() -> Dictionary:
 		"cabelo_atual": 0,
 		"roupa_atual": 2,
 		"apelido": apelido if apelido != "" else NOME_PADRAO,
-		"cor_cabelo": {"r": 1.0, "g": 1.0, "b": 1.0, "a": 1.0},
+		"cor_cabelo": {"r": cor.r, "g": cor.g, "b": cor.b, "a": cor.a},
 		"aparencia_raven": {"versao":1,"pele":pele,"cabelo":CABELO_RAVEN_DO_3D.get(roupas_3d.cabelo, 1),"roupa":maxi(roupa,1),"cor":[cor.r,cor.g,cor.b,cor.a],"olhos":olhos},
 		"roupas_3d": roupas_3d.duplicate(),
 	}
