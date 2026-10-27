@@ -1,0 +1,17 @@
+{
+  "uso": "Texturas de roupa e calçado sobre as peças independentes do personagem3D já ativo",
+  "referencia": "Modelo atual no Godot; rosto e cabelo em pixel art ativos em rosto_cabelo_pixel/contrato.json",
+  "modelo": "Mesmo rig, malhas, pesos, câmera ortográfica, pivô dos pés e animações do HeroiBase3D",
+  "atlas": "Três imagens: camisa, calça/saia e calçado. Cada uma tem quatro painéis2x2, grade solicitada64x64 (32x32 por painel), sem separadores. Preservar pixels e cores da fonte gerada no recurso consumido.",
+  "camisa": "Painéis: frente, costas, mangas, tecido neutro. Torso nas UVs de repouso x -0.28..0.28 e y0.96..1.58; mangas usam x absoluto0.26..0.72 e altura local.",
+  "calca": "Painéis: frente, costas, saia frente, saia costas. UVs de repouso x -0.27..0.27 e y0.24..1.04; saias usam a extensão própria, meias preservadas.",
+  "calcado": "Painéis: cano frente, calcanhar, peito do pé, lateral. Centralizar cada pé pelo lado em x±0.089, conforme o molde real; preservar sola, altura e apoio originais.",
+  "cores": "Arte neutra; tingimento pelas cores existentes do catálogo, com referência de luminância amostrada em UV(0.40,0.20) da própria textura. Variações de fundo menores que0.025 se igualam à base; grupos pintados permanecem. Sem novo filtro de tela.",
+  "variantes": "Todos os6 modelos de camisa,5 de calça/saia e4 de calçado, mantendo ids e formas existentes. Sem novos itens ou conjuntos de armadura.",
+  "origem": "Atlas produzidos com image_gen integrado; arte gerada por IA, sem alegação de pintura manual",
+  "integracao": "Texturas nearest nos materiais de roupa, ativação padrão no jogo e nas prévias; shader conserva os detalhes específicos dos modelos na grade de repouso.",
+  "revisao": "Godot gráfico com save isolado: oito direções, catálogo de variantes, corrida/ataque, detalhes de costuras, oclusão, apoio dos pés e vista no mapa. Conferir também desligar/restaurar.",
+  "recursos": "PNG1254x1254 originais, sem redimensionamento; importação lossless, mipmaps desativados, atlas amostrados com nearest",
+  "validacao": "99 verificações de integração,0 falhas.288 quadros reais de movimento, com verificação automática de encaixe na área fixa das prévias. Auditoria geral sinalizou6 referências preexistentes fora da mudança, nenhuma nos novos atlas.",
+  "estado": "Ativo por padrão no jogo e nas prévias; revisado no Godot em save isolado"
+}

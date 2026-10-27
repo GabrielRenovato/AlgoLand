@@ -271,6 +271,7 @@ var _tempo_proximo_rastro: float = 0.0
 # COMBO
 # ---------------------------
 var _esta_atacando: bool = false
+var _movimento_no_inicio_golpe := Vector2.ZERO
 var _fase_combo: int = 0
 var _pode_encadear_combo: bool = false
 
@@ -577,6 +578,8 @@ func _cancelar_golpe() -> void:
 	$AreaAtaque.rotation=0.0
 	_temporizador.stop()
 	_esta_atacando = false
+	_buffer_ataque_ate_ms = 0
+	_pode_encadear_combo = false
 	ataque_enfileirado = false
 	_pedido_ataque = false
 	_fase_combo = 0
@@ -584,6 +587,8 @@ func _cancelar_golpe() -> void:
 	$AreaAtaque.monitorable = false
 	definir_sprites_visiveis(false)
 	reprodutor_anim.speed_scale = 1.0
+	var perfil := get_node_or_null("ColisoesBase3D")
+	if perfil != null: perfil.atualizar_golpe()
 
 func iniciar_dash() -> void:
 	var dir = _vetor_movimento()
@@ -876,6 +881,7 @@ func _cardinal_de(dir: Vector2) -> Vector2:
 
 # Direção do próximo golpe: oito orientações na base 3D, cardinais nos sprites.
 func _apontar_golpe() -> void:
+	_movimento_no_inicio_golpe = _vetor_movimento()
 	_direcao_ataque = direcao_da_acao(direcao_apontada())
 	_direcao_golpe_3d=_direcao_ataque
 	_cardinal_anterior = _cardinal_de(_direcao_ataque)
@@ -891,9 +897,14 @@ func direcao_da_acao(dir: Vector2) -> Vector2:
 	return _cardinal_de(dir)
 
 func mover() -> void:
-	# A mira acompanha o direcional mesmo no meio de um golpe (o golpe que já começou não muda; o próximo, enfileirado, sai para onde
-	# ele aponta agora e não para onde apontava no começo do golpe anterior)
 	var apontando := _vetor_movimento()
+	if _esta_atacando and not _temporizador.is_stopped():
+		# A direção já segurada antes do golpe não o cancela no quadro seguinte.
+		# Soltar/reapertar ou mudar a direção é um novo pedido de movimento.
+		if apontando.length() < ZONA_MORTA_MIRA:
+			_movimento_no_inicio_golpe = Vector2.ZERO
+		elif _movimento_no_inicio_golpe.length() < ZONA_MORTA_MIRA or _movimento_no_inicio_golpe.normalized().dot(apontando.normalized()) < 0.85:
+			_cancelar_golpe()
 	if apontando.length() >= ZONA_MORTA_MIRA:
 		_direcao_ataque = apontando.normalized()
 	# Arco, escudada e outras ações seguem presas ao chão; o golpe de espada/lança permite andar devagar
@@ -1262,6 +1273,7 @@ func animar() -> void:
 		_maquina_estados.travel("idle")
 
 func _acertar_alvo_da_area(alvo: Node2D) -> void:
+	if not _esta_atacando: return # Ignora contatos pendentes de um golpe cancelado.
 	var id := alvo.get_instance_id()
 	if _alvos_area_golpe.has(id): return
 	_alvos_area_golpe[id] = true

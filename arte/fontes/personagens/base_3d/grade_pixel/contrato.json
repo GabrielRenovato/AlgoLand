@@ -1,0 +1,14 @@
+{
+  "uso": "Acabamento do personagem inteiro, já ativo por padrão no jogo e nas representações3D",
+  "referencia": "Mesmo personagem, rosto e cabelo em pixel art e catálogo de roupas atualmente ativos; comparação real entre640,80 e160 no Godot",
+  "grade": "Viewport3D160x160 para área de80x80 unidades do jogo; um texel equivale a0.5 unidade. Mesmo tamanho físico, câmera, direções, rig e pivô. Nearest, sem MSAA3D.",
+  "escolha": "Grade80 descartada porque apagava detalhes dos olhos.160 mantém a leitura e dá uma grade comum à silhueta, às roupas e ao rosto.",
+  "contorno": "contorno_pixel_base_3d.gdshader: um texel nas laterais e embaixo, tingido pela cor da peça vizinha. Sem borda preta grossa no alto da cabeça, sem paleta global de28 cores.",
+  "luz": "acabamento_base_3d.gdshader: três níveis de iluminação, sem brilho especular/rim. Tecidos em quatro níveis de pigmento; detalhes de modelos com bordas duras na grade. Cores do catálogo preservadas.",
+  "rosto": "Fonte raster original preservada; adaptação óptica dos olhos na grade pequena. Ampliação local30% e mistura da pupila com o azul da própria íris para evitar seu desaparecimento no repouso. Sem trocar a cor por uma paleta global.",
+  "movimento": "Animações, durações de combate e regras físicas preservadas. Prévia de corrida usa o ciclo PASSADA/114px/s, e ataque usa a duração real do primeiro golpe.",
+  "tecnica": "Renderização do rig3D na grade nativa, texturas em pixel art existentes e acabamento por materiais. Não é pintura manual de uma nova folha de sprites.",
+  "revisao": "revisar_grade_pixel.gd em save isolado:24 vistas estáticas,24 fases de repouso,288 quadros de corrida/ataque, três conjuntos. exportar_grade_pixel.py verifica encaixe dos quadros e legibilidade da íris antes de montar GIFs e contatos.",
+  "validacao_combate": "teste_cancelar_ataque_movimento.gd:281 verificações,0 falhas após ativar a grade; sem alterações na partida real",
+  "estado": "Ativo; revisão artística continua com o usuário"
+}

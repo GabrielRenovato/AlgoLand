@@ -1,5 +1,5 @@
 extends Node2D
-## Personagem base 3D (teste do F3): manequim CC0 da Quaternius (Universal Animation
+## Personagem com grade nativa sobre o rig3D CC0 da Quaternius (Universal Animation
 ## Library) com proporção chibi, roupas/cabelo independentes e acabamento de
 ## paleta opcional. Corte e plantio próprios; demais ações vêm dos clipes prontos.
 ## A espada é presa a um osso: nas costas fora do golpe, na mão no golpe.
@@ -33,9 +33,22 @@ var _moldes_roupas: Array[ArrayMesh]=[]
 var _cache_roupas: Dictionary={}
 @export var demonstrar_combate_na_fazenda := false
 @export_enum("Espada","Lança") var arma_demonstracao := 0
+@export var roupas_pixel_art := true:
+	set(valor):
+		roupas_pixel_art=valor
+		_atualizar_texturas_roupas()
+## Visual padrão: desenho na pele/cabelo do rig, independente do filtro da tela.
+@export var rosto_cabelo_pixel_art := true:
+	set(valor):
+		rosto_cabelo_pixel_art = valor
+		_atualizar_desenho_cabeca()
 @export var acabamento_pixel_art := true:
 	set(valor):
 		acabamento_pixel_art = valor
+		_atualizar_renderizacao()
+@export_range(1,2,1) var amostras_pixel_art := 2:
+	set(valor):
+		amostras_pixel_art=clampi(valor,1,2)
 		_atualizar_renderizacao()
 @export_flags("Camisa","Calça","Botas","Cabelo") var pecas_visiveis := 0:
 	set(valor):
@@ -43,6 +56,8 @@ var _cache_roupas: Dictionary={}
 		_atualizar_pecas()
 var _pecas: Array[MeshInstance3D] = []
 var _molde_cabelo: ArrayMesh
+var _molde_rosto: ArrayMesh
+var _rosto_arredondado: ArrayMesh
 # Encaixes da espada nos ossos (posição em metros e rotação em graus, no espaço do osso).
 const OSSO_COSTAS := "DEF-spine.003"
 const COSTAS_POSICAO := Vector3(-0.24, 0.38, -0.16)
@@ -126,6 +141,8 @@ func _ready() -> void:
 		_pecas[i].material_override=_pecas[i].material_override.duplicate()
 	_molde_cabelo=_pecas[3].mesh
 	_pecas[3].material_override=_pecas[3].material_override.duplicate()
+	_atualizar_desenho_cabeca()
+	_atualizar_texturas_roupas()
 	var dados_personagem: Dictionary=_jogador.carregar_de_json()
 	if not dados_personagem.has("roupas_3d") and _jogador.has_method("aplicar_dados_carregados"):
 		_migrar_visual_antigo(dados_personagem)
@@ -190,6 +207,7 @@ func _ready() -> void:
 	_empunhadura_lanca.heroi = self
 	_esqueleto.add_child(_empunhadura_lanca)
 	_esqueleto.skeleton_updated.connect(_sincronizar_linha_pesca)
+	_atualizar_materiais_pixel()
 
 func definir_roupas_3d(dados: Dictionary) -> void:
 	roupas_3d=CATALOGO_ROUPAS.normalizar(dados)
@@ -292,10 +310,10 @@ func _montar_cena() -> void:
 	_sprite.offset = -_camera.unproject_position(Vector3.ZERO)
 	_atualizar_renderizacao()
 
-## Teste reversível: a mesma pose e pivô em 3D suave ou render 3D pixelizado.
+## Acabamento nativo padrão, com modo suave disponível para inspeção das fontes.
 func _atualizar_renderizacao() -> void:
 	if _vp == null or _sprite == null:return
-	var amostras := 2 if acabamento_pixel_art else NITIDEZ
+	var amostras := amostras_pixel_art if acabamento_pixel_art else NITIDEZ
 	_vp.size = TAMANHO*amostras
 	_vp.msaa_3d = Viewport.MSAA_DISABLED if acabamento_pixel_art else Viewport.MSAA_4X
 	_sprite.texture_filter = TEXTURE_FILTER_NEAREST if acabamento_pixel_art else TEXTURE_FILTER_LINEAR
@@ -303,13 +321,21 @@ func _atualizar_renderizacao() -> void:
 	_sprite.offset = -_camera.unproject_position(Vector3.ZERO)
 	if acabamento_pixel_art:
 		var efeito := ShaderMaterial.new()
-		efeito.shader = preload("res://codigo/jogador/pixelizar_base_3d.gdshader")
+		efeito.shader = preload("res://codigo/jogador/contorno_pixel_base_3d.gdshader")
 		_sprite.material = efeito
 	else:
 		var contorno := ShaderMaterial.new()
 		contorno.shader = preload("res://codigo/jogador/contorno_suave_base_3d.gdshader")
 		contorno.set_shader_parameter("raio", float(NITIDEZ) * 1.1)
 		_sprite.material = contorno
+	_atualizar_materiais_pixel()
+
+func _atualizar_materiais_pixel() -> void:
+	if _modelo==null:return
+	for instancia in _modelo.find_children("*","MeshInstance3D",true,false):
+		var material=instancia.material_override
+		if material is ShaderMaterial and material.get_shader_parameter("desenho_pixel_cabeca")!=null:
+			material.set_shader_parameter("luz_em_blocos",acabamento_pixel_art)
 
 ## A luz pertence à cena e acompanha o horário; nenhum sombreado é pintado no asset.
 func _atualizar_iluminacao() -> void:
@@ -503,10 +529,38 @@ func _atualizar_pecas() -> void:
 	material.set_shader_parameter("esconder_calca",(pecas_visiveis & 2)!=0)
 	material.set_shader_parameter("esconder_botas",(pecas_visiveis & 4)!=0)
 
+func _atualizar_texturas_roupas() -> void:
+	if _pecas.size()<3:return
+	for i in 3:
+		var material := _pecas[i].material_override as ShaderMaterial
+		material.set_shader_parameter("desenho_pixel_roupas",roupas_pixel_art)
+		if roupas_pixel_art:
+			var categoria: String=CATALOGO_ROUPAS.CATEGORIAS[i]
+			material.set_shader_parameter("desenho_roupa",load("res://assets/personagens/base_3d/roupas_pixel/"+categoria+".png"))
+
+func _atualizar_desenho_cabeca() -> void:
+	if _modelo == null or _pecas.size() < 4:return
+	var corpo := _modelo.find_child("CorpoBase",true,false) as MeshInstance3D
+	if corpo == null:return
+	var pele := corpo.material_override as ShaderMaterial
+	var cabelo := _pecas[3].material_override as ShaderMaterial
+	if _molde_rosto==null:_molde_rosto=corpo.mesh
+	if rosto_cabelo_pixel_art and _rosto_arredondado==null:
+		var cabeca_para_malha := corpo.global_transform.affine_inverse()*_esqueleto.global_transform*_esqueleto.get_bone_global_rest(_esqueleto.find_bone("DEF-head"))
+		_rosto_arredondado=preload("res://codigo/jogador/ajuste_rosto_base_3d.gd").construir(_molde_rosto,cabeca_para_malha)
+	corpo.mesh=_rosto_arredondado if rosto_cabelo_pixel_art else _molde_rosto
+	pele.set_shader_parameter("desenho_pixel_cabeca",rosto_cabelo_pixel_art)
+	cabelo.set_shader_parameter("desenho_pixel_cabeca",rosto_cabelo_pixel_art)
+	if rosto_cabelo_pixel_art:
+		# Recursos importados sem mipmaps, também disponíveis no jogo exportado.
+		pele.set_shader_parameter("desenho_rosto",load("res://assets/personagens/base_3d/rosto_cabelo_pixel/rosto.png"))
+		cabelo.set_shader_parameter("desenho_cabelo",load("res://assets/personagens/base_3d/rosto_cabelo_pixel/cabelo.png"))
+
 func _material(cor: Color) -> ShaderMaterial:
 	var m := ShaderMaterial.new()
 	m.shader = preload("res://codigo/jogador/acabamento_base_3d.gdshader")
 	m.set_shader_parameter("cor", cor)
+	m.set_shader_parameter("luz_em_blocos",acabamento_pixel_art)
 	for parametro in PALETA:
 		m.set_shader_parameter(parametro,Color(PALETA[parametro]))
 	return m

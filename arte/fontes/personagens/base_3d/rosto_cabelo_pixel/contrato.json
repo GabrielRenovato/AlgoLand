@@ -1,0 +1,13 @@
+{
+  "tipo": "Estudo de texturas em pixel art para rosto e cabelo sobre o rig 3D existente",
+  "referencia": "Modelo atual e arte/previas/personagens/base_3d/acabamento/cabecas_v6.png",
+  "rosto": "Imagem original1254x1254, sem redução de grade nem quantização de paleta, mantendo exatamente os pixels da referência anexada pelo usuário. Projeção frontal no espaço de repouso DEF-head, x -0.15..0.15, y -0.03..0.29. Sem olhos na nuca. Cor da pele normalizada pela amostra do fundo no mesmo espaço de cor do renderer; olhos preservam azul e gradações da pintura.",
+  "cabelo": "Grade consumida 32x32, três tons castanhos após rejeição da primeira versão listrada; UV cilíndrica existente, costura na nuca, repetição horizontal.",
+  "encaixe": "Mesmas malhas, rig, câmera, pivô e escala; textura acompanha ossos e oclusão 3D.",
+  "ajuste_boca": "Boca deslocada3/64 da altura da textura no mapeamento do rosto (linha39→42, x30..33 na grade de referência64x64); o deslocamento é independente da variante de geometria.",
+  "proporcoes": "Variante cosmética da malha em ajuste_rosto_base_3d.gd: encurta a face abaixo dos olhos, sobe mais o centro do queixo e alarga discretamente a mandíbula inferior. Mantém topo, cabelo, rig, pesos e vértices do corpo; desativar o estudo restaura a malha original. Mapeamento dos olhos18% mais alto, sobrancelhas16% mais curtas e contraste reduzido a60%.",
+  "variantes": "Oito direções, parado, corrida e golpe; preservar tintura, tons de pele e olhos fechados.",
+  "integracao": "Ativo por padrão no HeroiBase3D, incluindo jogadorP1/P2 e prévias que usam esse compositor. Acabamento atual na grade nativa160x160, sem paleta global, definido em grade_pixel/contrato.json; rosto/cabelo usam nearest nas texturas e adaptação óptica dos olhos para preservar a íris. Modo640 mantido para inspeção das fontes.",
+  "origem": "Texturas geradas por IA com image_gen; preparo técnico por nearest e quantização de paleta no Godot, sem alegar pintura manual.",
+  "estado": "Visual ativo por solicitação do usuário; ajustes artísticos continuam em revisão"
+}
