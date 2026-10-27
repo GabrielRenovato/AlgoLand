@@ -3,8 +3,6 @@ extends Node2D
 # preload em vez de class_name: classe global nova pode nao estar no cache fora do editor
 const EstiloInicio := preload("res://codigo/ui/estilo_inicio_detalhado.gd")
 const Opcoes := preload("res://codigo/globais/opcoes_jogo.gd")
-const Raven := preload("res://codigo/dados/aparencia_raven.gd")
-const Aparencia := preload("res://codigo/dados/aparencia.gd")
 
 const CENA_JOGO := "res://cenas/cidade.tscn"
 const CENA_CUSTOMIZACAO := "res://cenas/criacao_personagem.tscn"
@@ -847,15 +845,16 @@ func _montar_personagem() -> void:
 			visual = dados.get("aparencia_raven",{
 				"pele":0,"cabelo":clampi(int(dados.get("cabelo_atual",0))+1,1,28),"roupa":1,
 				"cor":[anterior.get("r",1.0),anterior.get("g",1.0),anterior.get("b",1.0),anterior.get("a",1.0)]})
-	var pele := clampi(int(visual.get("pele",0)),0,2)
-	var cabelo := Raven.indice_cabelo(int(visual.get("cabelo",0)))
-	var roupa := Raven.indice_roupa(int(visual.get("roupa",1)))
-	sprite_corpo.texture = Raven.carregar(Raven.RAIZ+"paginas/corpo_%d/andar.png" % pele)
-	sprite_corpo.material = Raven.material_corpo()
-	sprite_cabelo.texture = Aparencia.cabelo(cabelo,"andar")
-	sprite_cabelo.material = Raven.material_cabelo()
-	sprite_roupa.texture = Aparencia.roupa_refinada(roupa,"andar")
-	sprite_roupa.material = Raven.material_corpo()
-	for sprite in [sprite_corpo,sprite_cabelo,sprite_roupa]: sprite.scale=Vector2.ONE
-	var cor: Array = visual.get("cor",[1,1,1,1])
-	sprite_cabelo.modulate = Color(cor[0],cor[1],cor[2],cor[3])
+	var roupas := preload("res://codigo/dados/visual_ranking.gd").roupas_do_visual(visual)
+	if FileAccess.file_exists(caminho_save_personagem):
+		var dados = JSON.parse_string(FileAccess.get_file_as_string(caminho_save_personagem))
+		if dados is Dictionary and dados.get("roupas_3d") is Dictionary:
+			roupas = preload("res://codigo/dados/roupas_base_3d.gd").normalizar(dados.roupas_3d)
+	for sprite in [sprite_corpo,sprite_cabelo,sprite_roupa]: sprite.hide()
+	var anterior := personagem.get_node_or_null("Previa3D")
+	if anterior != null: anterior.free()
+	var previa := preload("res://codigo/ui/previa_heroi_3d.gd").new()
+	previa.name = "Previa3D"
+	previa.aparencia_raven = visual
+	previa.roupas_3d = roupas
+	personagem.add_child(previa)

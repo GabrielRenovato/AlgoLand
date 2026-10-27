@@ -8,6 +8,20 @@ const DISTANCIA_POR_QUADRO := 8.0
 func _ready() -> void:
 	_distancia_combate = raio_parada
 	super()
+	# A base circular serve para andar. Cabeça e tronco também recebem a lâmina.
+	var atingivel := Area2D.new()
+	atingivel.name = "AreaDano"
+	atingivel.collision_layer = 4
+	atingivel.collision_mask = 0
+	atingivel.monitoring = false
+	atingivel.add_to_group("hurtbox_inimigo")
+	var forma := CollisionShape2D.new()
+	var corpo := CapsuleShape2D.new()
+	corpo.radius = 6.0
+	corpo.height = 32.0
+	forma.shape = corpo
+	atingivel.add_child(forma)
+	add_child(atingivel)
 
 func _physics_process(delta: float) -> void:
 	if tipo_ataque != "contato" and not esta_morto:

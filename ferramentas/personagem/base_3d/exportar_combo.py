@@ -6,6 +6,7 @@ from PIL import Image, ImageDraw
 RAIZ = Path(__file__).resolve().parents[3]
 lanca = '--lanca' in sys.argv
 montante = '--montante' in sys.argv
+cima = '--cima' in sys.argv
 PASTA = RAIZ / ('arte/previas/personagens/base_3d/combo_montante' if montante else ('arte/previas/personagens/base_3d/combo_lanca' if lanca else 'arte/previas/personagens/base_3d/combo_espada'))
 tempos = json.loads((PASTA / 'tempos.json').read_text())
 nomes = ['ESTOCADA 1', 'ESTOCADA 2', 'ESTOCADA FINAL'] if lanca else ['GOLPE 1', 'GOLPE 2', 'FINALIZADOR']
@@ -25,15 +26,16 @@ for golpe in range(3):
     for q in range(24):
         painel = Image.new('RGB', (640, 344), '#45434d')
         desenho = ImageDraw.Draw(painel)
-        for coluna, direcao in enumerate([0,1]):
+        for coluna, direcao in enumerate([2,1] if cima else [0,1]):
             im = Image.open(PASTA / f'combo_{direcao}_{golpe}_{q:02d}.png').convert('RGBA').resize((320,320),Image.Resampling.NEAREST)
             painel.paste(im, (coluna*320,24), im)
-            desenho.text((coluna*320+12,8), nomes[golpe], fill='white')
+            rotulo = (["BAIXO", "DIREITA", "CIMA", "ESQUERDA"][direcao]+" / " if cima else "")+nomes[golpe]
+            desenho.text((coluna*320+12,8), rotulo, fill='white')
         quadros.append(painel)
         # GIF usa centésimos: distribuir o arredondamento preserva o tempo total.
         duracoes.append((round((q+1)*tempos['duracoes'][golpe]*100/24)-round(q*tempos['duracoes'][golpe]*100/24))*10)
 # Pausa de leitura só após o combo; os golpes respeitam os tempos do motor.
 quadros.extend([quadros[-1]]*8)
 duracoes.extend([50]*8)
-quadros[0].save(PASTA / 'combo.gif', save_all=True, append_images=quadros[1:], duration=duracoes, loop=0)
+quadros[0].save(PASTA / ('combo_cima.gif' if cima else 'combo.gif'), save_all=True, append_images=quadros[1:], duration=duracoes, loop=0)
 print('288 capturas organizadas; tempos do controlador:', tempos['duracoes'])

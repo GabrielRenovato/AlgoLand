@@ -21,7 +21,9 @@ func _posicoes_livres() -> Array[Vector2]:
 	var entrada: Vector2 = terreno.get_node("Chegada_portal").global_position
 	var consulta := PhysicsShapeQueryParameters2D.new()
 	var forma := CircleShape2D.new()
-	forma.radius = 25
+	# O esqueleto mutante leva o centro do colisor 24,8 px abaixo da origem,
+	# mais 9,3 px de raio. A folga antiga de 25 permitia nascer dentro da margem.
+	forma.radius = 36
 	consulta.shape = forma
 	consulta.collision_mask = 96
 	var deslocamentos: Array[Vector2] = [Vector2.ZERO]

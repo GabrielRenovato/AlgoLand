@@ -69,8 +69,6 @@ var _desvio_restante := 0.0
 var _desvio_direcao := Vector2.ZERO
 var _sinal_desvio := 1.0
 var _ultimo_desvio_ms := -100000
-# Sem rota para o tamanho do corpo (largou num bolsão apertado demais): depois de um tempo usa a malha dos corpos pequenos
-var _tempo_sem_rota := 0.0
 
 const COR_QUEIMANDO := Color(1.0, 0.65, 0.45)
 const COR_CONGELADO := Color(0.6, 0.85, 1.0)
@@ -244,7 +242,10 @@ func _ready() -> void:
 		_agente = NavigationAgent2D.new()
 		_agente.path_desired_distance = 8.0
 		_agente.target_desired_distance = 6.0
-		add_child(_agente)
+		var centro := Node2D.new()
+		centro.name = "CentroNavegacao"
+		add_child(centro)
+		centro.add_child(_agente)
 		_ajustar_agente()
 
 func _physics_process(delta: float) -> void:
@@ -277,14 +278,14 @@ func _physics_process(delta: float) -> void:
 	var desejada := calcular_separacao()
 	var alvo := obter_jogador()
 	if alvo:
-		var para_alvo := alvo.global_position - global_position
+		var para_alvo := _centro_do_alvo(alvo) - _centro_de_navegacao()
 		if para_alvo.length() > raio_parada:
 			var rumo := _direcao_ate(alvo, para_alvo, delta)
+			_alvo_do_rumo = rumo
 			if _desvio_restante > 0.0:
 				_desvio_restante -= delta
 				rumo = _desvio_direcao
 			desejada += rumo * velocidade * (1.0 - _lentidao)
-			_alvo_do_rumo = para_alvo.normalized()
 	velocity = velocity.move_toward(desejada, aceleracao * delta)
 	if velocity.length() > 1.0:
 		definir_direcao_animacao(velocity)
@@ -294,28 +295,42 @@ func _physics_process(delta: float) -> void:
 
 var _alvo_do_rumo := Vector2.ZERO
 
-## Classe de navegação do corpo (0 = comum, 1 = médio, 2 = grande): a malha da arena tem uma por tamanho (ver navegacao_arena.gd). Conta
-## a metade do lado maior do retângulo do corpo (ele não gira) vezes a escala: mutantes, o golem e os chefes são maiores que o comum
+## A rota passa pelo centro físico do corpo, inclusive nos esqueletos cujo colisor
+## fica abaixo da origem. A folga deve cobrir os cantos, não só metade da largura.
+func _centro_de_navegacao() -> Vector2:
+	return (_agente.get_parent() as Node2D).global_position if _agente != null else global_position
+
+func _centro_do_alvo(alvo: Node2D) -> Vector2:
+	if _agente == null: return alvo.global_position # Voadores conservam a perseguição livre.
+	var corpo := alvo.get_node_or_null("CollisionShape2D") as CollisionShape2D
+	return corpo.global_position if corpo != null else alvo.global_position
+
 func classe_de_navegacao() -> int:
-	var meio := NavegacaoArena.RAIOS_AGENTE[0]
+	var raio := NavegacaoArena.RAIOS_AGENTE[0]
 	var corpo := get_node_or_null("colision_body") as CollisionShape2D
-	if corpo != null and corpo.shape is RectangleShape2D:
-		meio = maxf(corpo.shape.size.x, corpo.shape.size.y) * 0.5 * maxf(absf(scale.x), absf(scale.y))
-	elif corpo != null and corpo.shape is CircleShape2D:
-		meio = corpo.shape.radius * maxf(absf(scale.x), absf(scale.y))
+	if corpo != null and corpo.shape != null:
+		var escala := corpo.global_transform.get_scale().abs()
+		if corpo.shape is CircleShape2D:
+			raio = corpo.shape.radius * maxf(escala.x, escala.y)
+		else:
+			var retangulo := corpo.shape.get_rect()
+			raio = 0.0
+			for canto in [retangulo.position, Vector2(retangulo.end.x,retangulo.position.y),retangulo.end,Vector2(retangulo.position.x,retangulo.end.y)]:
+				raio = maxf(raio,(canto*escala).length())
 	for i in NavegacaoArena.RAIOS_AGENTE.size():
-		if meio <= NavegacaoArena.RAIOS_AGENTE[i] + 0.5:
-			return i
-	return NavegacaoArena.RAIOS_AGENTE.size() - 1
+		if raio <= NavegacaoArena.RAIOS_AGENTE[i]: return i
+	return NavegacaoArena.RAIOS_AGENTE.size()-1
 
 # Põe o agente na camada de navegação do tamanho do corpo (chamar de novo se a escala mudar)
 func _ajustar_agente() -> void:
 	if _agente == null:
 		return
 	var classe := classe_de_navegacao()
+	var corpo := get_node_or_null("colision_body") as CollisionShape2D
+	(_agente.get_parent() as Node2D).position = corpo.position if corpo != null else Vector2.ZERO
 	_agente.navigation_layers = 1 << classe
 	_agente.radius = NavegacaoArena.RAIOS_AGENTE[classe]
-	_agente.path_desired_distance = maxf(8.0, NavegacaoArena.RAIOS_AGENTE[classe] * 0.6)
+	_agente.path_desired_distance = 2.0 # Não corta curvas além da folga junto às margens.
 
 # O corpo quer andar mas quase não sai do lugar (encostado numa árvore, pedra, fogueira...): depois de um instante escorrega ao longo da
 # parede (tangente à superfície em que bateu, para o lado do jogador) por TEMPO_DESVIO; de novo em seguida, troca de lado
@@ -340,8 +355,7 @@ func _vigiar_travamento(delta: float, desejada: Vector2) -> void:
 	_desvio_restante = TEMPO_DESVIO
 	_tempo_parado = 0.0
 
-# Direção do próximo ponto da rota até o jogador. Sem malha (tela inicial), sem rota ou já perto (e sem obstáculo no meio),
-# volta à perseguição direta
+# Direção pela malha do tamanho real; o trecho direto só vale se estiver livre.
 func _direcao_ate(alvo: Node2D, para_alvo: Vector2, delta: float) -> Vector2:
 	var direta := para_alvo.normalized()
 	if _agente == null:
@@ -351,18 +365,16 @@ func _direcao_ate(alvo: Node2D, para_alvo: Vector2, delta: float) -> Vector2:
 	_tempo_rota -= delta
 	if _tempo_rota <= 0.0:
 		_tempo_rota = INTERVALO_ROTA
-		_agente.target_position = alvo.global_position
+		var destino := _centro_do_alvo(alvo)
+		# Reatribuir o mesmo alvo refaz a rota e pode alternar a margem escolhida.
+		var afastado_apos_chegar := _agente.is_navigation_finished() and para_alvo.length()>raio_parada+8.0
+		if _agente.target_position.distance_to(destino)>8.0 or _agente.get_current_navigation_path().is_empty() or afastado_apos_chegar:
+			_agente.target_position = destino
 	if _agente.is_navigation_finished():
-		# "Chegou" longe do jogador = sem rota para este tamanho: passa para a malha dos corpos pequenos
-		if para_alvo.length() > 3.0 * DISTANCIA_PERSEGUICAO_DIRETA:
-			_tempo_sem_rota += delta
-			if _tempo_sem_rota > 1.0 and _agente.navigation_layers != 1:
-				_agente.navigation_layers = 1
-				_tempo_sem_rota = 0.0
-		return direta
-	_tempo_sem_rota = 0.0
-	var ate_proximo := _agente.get_next_path_position() - global_position
-	return ate_proximo.normalized() if ate_proximo.length() > 0.5 else direta
+		# Não troca para uma malha estreita nem insiste em atravessar água/parede.
+		return Vector2.ZERO if test_move(global_transform,para_alvo) else direta
+	var ate_proximo := _agente.get_next_path_position() - _centro_de_navegacao()
+	return ate_proximo.normalized() if ate_proximo.length() > 0.1 else Vector2.ZERO
 
 # Quem está mais abaixo na tela é desenhado na frente (jogador, árvores e objetos usam a mesma escala)
 func _atualizar_ordem_desenho() -> void:

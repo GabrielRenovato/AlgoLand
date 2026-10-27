@@ -1,6 +1,6 @@
 extends SceneTree
 const Visual := preload("res://codigo/dados/visual_ranking.gd")
-const Personagem := preload("res://codigo/jogador/personagem_ranking.gd")
+var Personagem: GDScript
 const Item := preload("res://codigo/modelos/dados_item.gd")
 var falhas := 0
 var pasta := "res://arte/previas/cidade/podio_ranking"
@@ -33,6 +33,7 @@ func conferir_tela(tela: Control, contexto: String) -> void:
 		conferir(largura <= apelido.size.x,contexto+": nickname completo na consulta")
 		conferir(not apelido.get_global_rect().intersects(caixa.get_child(2).get_global_rect()),contexto+": nickname separado do andar")
 func rodar() -> void:
+	Personagem = load("res://codigo/jogador/personagem_ranking.gd")
 	assert(OS.get_user_data_dir().get_file().begins_with("AlgoLand testes"))
 	root.mode = Window.MODE_WINDOWED
 	capturar = "--capturar" in OS.get_cmdline_user_args()
@@ -72,19 +73,15 @@ func rodar() -> void:
 			item.categoria = slot
 			jogador.inventario.equipados[slot] = item
 		await quadros(2)
-		var real: Sprite2D = jogador.get_node("HeroiRaven").criar_previa()
-		var remoto := Personagem.new()
+		var real = jogador.get_node("HeroiBase3D")
+		var remoto = Personagem.new()
 		remoto.dados = Visual.do_jogador(jogador)
 		vila.add_child(remoto)
-		var iguais := remoto.texture == real.texture
-		for i in 15:
-			var copia: Sprite2D = remoto._camadas[i]
-			var original: Sprite2D = real.get_node("Camada%d" % i)
-			iguais = iguais and copia.texture == original.texture and copia.material == original.material and copia.modulate == original.modulate
-		conferir(iguais,"corpo, roupa, cabelo e peças iguais ao jogador: "+str(configuracao))
-		real.free()
+		await quadros(2)
+		var iguais: bool = remoto.heroi.roupas_3d==real.roupas_3d and remoto.aparencia_raven.pele==jogador.aparencia_raven.pele and Color(remoto.aparencia_raven.cor[0],remoto.aparencia_raven.cor[1],remoto.aparencia_raven.cor[2]).is_equal_approx(Color(jogador.aparencia_raven.cor[0],jogador.aparencia_raven.cor[1],jogador.aparencia_raven.cor[2]))
+		conferir(iguais,"corpo, roupa e cabelo 3D iguais ao jogador: "+str(configuracao))
 		remoto.queue_free()
-	# Cada id reutiliza a mesma pose Raven e mantém arma visível na mão.
+	# Cada id usa o equipamento e o rig 3D do jogador.
 	var indice_arma := 0
 	root.content_scale_size = Vector2i(576,324)
 	root.size = Vector2i(1536,864)
@@ -99,7 +96,7 @@ func rodar() -> void:
 	amostras.position = Vector2(128,100)
 	cartela.add_child(amostras)
 	for arma: String in preload("res://codigo/dados/armas_ranking.gd").ARMAS:
-		var remoto := Personagem.new()
+		var remoto = Personagem.new()
 		remoto.dados = Visual.normalizar({"versao":1,"cabelo":12,"roupa":8,"arma_mais_usada":arma})
 		remoto.position = Vector2((indice_arma%4)*104,(indice_arma/4)*116)
 		amostras.add_child(remoto)
@@ -110,7 +107,7 @@ func rodar() -> void:
 		etiqueta.size.x = 88
 		etiqueta.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		amostras.add_child(etiqueta)
-		conferir(remoto._pose_ranking!="parado" and remoto._camadas[5].texture.get_image().get_region(Rect2i(0,0,80,80)).get_used_rect().has_area(),"pose de guarda com arma: "+arma)
+		conferir(remoto.heroi._arma_de_lanca() or remoto.heroi._tem_espada() or remoto.heroi._arma_pesada()!=null or remoto.usando_arco,"pose de guarda com arma: "+arma)
 		indice_arma += 1
 	await quadros()
 	await foto("armas")

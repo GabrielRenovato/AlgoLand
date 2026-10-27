@@ -299,7 +299,11 @@ func _queda_e_equipamento() -> void:
 	gerenciador.parar_ondas()
 	var espada := _objeto_no_chao("espada_basica", Vector2(-24, 13))
 	var escudo := _objeto_no_chao("escudo_basico", Vector2(22, 15))
-	var corpo: Node2D = jogador.get_node("CompositeSprites")
+	var corpo: Node2D = jogador.get_node_or_null("HeroiBase3D")
+	var usando_3d := corpo!=null and corpo.visible
+	if not usando_3d: corpo = jogador.get_node("CompositeSprites")
+	var processava := corpo.is_processing()
+	if usando_3d: corpo.set_process(false)
 	var base := corpo.position
 	jogador.pausar_animacoes(true)
 	_quadro_da_queda(6)
@@ -311,6 +315,7 @@ func _queda_e_equipamento() -> void:
 	queda.tween_property(corpo, "modulate:a", 1, 0.3)
 	await queda.finished
 	await _aterrissar()
+	if usando_3d: corpo.set_process(processava)
 	jogador.pausar_animacoes(false)
 	Introducao.definir_etapa(Estado.Etapa.EQUIPAR)
 	await _conversar(["O chao treme. Uma espada e um escudo antigos brilham ao seu lado.", "Voce pega os dois. Algo se move entre as arvores..."], "O LIMIAR")
@@ -502,6 +507,15 @@ func _praticar(id: String) -> void:
 
 ## A página original já traz suspensão, agachamento e recuperação; todas as camadas usam a mesma pose.
 func _quadro_da_queda(quadro: int) -> void:
+	var heroi := jogador.get_node_or_null("HeroiBase3D")
+	if heroi!=null and heroi.visible:
+		var clipe := "Jump_Loop" if quadro==6 else "Jump_Land"
+		heroi._player.play(clipe)
+		heroi._player.speed_scale = 1.0 if quadro==6 else 0.0
+		if quadro!=6:
+			var duracao: float = heroi._player.get_animation(clipe).length
+			heroi._player.seek({2:0.0,1:0.55,0:0.999}.get(quadro,0.0)*duracao,true)
+		return
 	for camada in [jogador.sprite_corpo, jogador.sprite_cabelo, jogador.sprite_roupa]:
 		camada.frame = quadro
 

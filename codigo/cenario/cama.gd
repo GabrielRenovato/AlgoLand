@@ -99,6 +99,11 @@ func _montar_cabeca() -> void:
 	add_child(_cabeca)
 
 static func criar_cabeca(jogador: Node2D, olhos_fechados := false) -> Node2D:
+	if jogador.has_node("HeroiBase3D"):
+		var retrato := preload("res://codigo/ui/cabeca_heroi_3d.gd").new()
+		retrato.aparencia = preload("res://codigo/dados/visual_ranking.gd").do_jogador(jogador)
+		retrato.olhos_fechados = olhos_fechados
+		return retrato
 	var cabeca := Node2D.new()
 	var raven := jogador.get_node_or_null("HeroiRaven")
 	if raven == null:

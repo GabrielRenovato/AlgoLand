@@ -116,7 +116,7 @@ func atualizar(s: Skeleton3D,heroi: Node):
         var orientacao:=Basis(Vector3.RIGHT,inclinacao)
         _regador.transform=Transform3D(orientacao,pega-orientacao*Vector3(0,0.21,0))
     var origem:=_regador.transform*Vector3(0,-0.005,0.36)
-    var destino: Vector3=heroi.destino_ferramenta_3d()+Vector3(0,0.02,0)
+    var destino: Vector3=heroi.destino_ferramenta_3d()+Vector3(0,0.02,0) if despejando else Vector3.ZERO
     for i in _gotas.size():
         var gota:=_gotas[i]
         gota.visible=despejando

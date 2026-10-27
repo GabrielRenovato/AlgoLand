@@ -172,7 +172,7 @@ func _rosa_ao_lado_do_leito(jogador: Node2D) -> void:
 	rosa._atualizar_colisao()
 	rosa.olhar_para(jogador.position)
 
-## Deita o jogador no leito: conserva o estado de repouso e mostra a cabeça Raven
+## Deita o jogador no leito: conserva o estado de repouso e mostra a cabeça do mesmo modelo do jogador
 ## sob o cobertor recortado na escala da cama. Devolve a representação para remover ao levantar.
 func _deitar_no_leito(jogador: Node2D) -> Node2D:
 	var cama: Node2D = null

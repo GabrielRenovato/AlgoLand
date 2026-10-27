@@ -1,7 +1,7 @@
 extends Control
 
 const Estilo := preload("res://codigo/ui/estilo_interface.gd")
-const Aparencia := preload("res://codigo/dados/aparencia.gd")
+const Visual := preload("res://codigo/dados/visual_ranking.gd")
 var painel: PanelContainer
 var _marca: Label
 var _coluna: VBoxContainer
@@ -14,7 +14,7 @@ var _barra: ProgressBar
 var _dica: Label
 var _via: Control
 var _heroi: Node2D
-var _camadas: Array[Sprite2D] = []
+var _avatar: Node2D
 var _tempo := 0.0
 var _progresso := 0.0
 var _origem := ""
@@ -63,16 +63,6 @@ func _ready() -> void:
 		_via.draw_dashed_line(Vector2(8,_via.size.y-2),Vector2(_via.size.x-8,_via.size.y-2),Color("816644"),1,3))
 	_heroi = Node2D.new()
 	_via.add_child(_heroi)
-	for textura in [Aparencia.corpo("andar",2,0),Aparencia.roupa(2,"andar"),Aparencia.cabelo(0,"andar")]:
-		var sprite := Sprite2D.new()
-		sprite.texture = textura
-		sprite.hframes = 8
-		sprite.vframes = 8
-		sprite.scale = Vector2.ONE*(512.0/textura.get_width())
-		_heroi.add_child(sprite)
-		_camadas.append(sprite)
-	_camadas[0].material = Aparencia.material_corpo()
-	_camadas[2].modulate = Color("ba8047")
 	var andamento := HBoxContainer.new()
 	viagem.add_child(andamento)
 	_estado = _rotulo(andamento,"CARREGANDO",8,Color("805532"))
@@ -112,6 +102,7 @@ static func nome_do_destino(caminho: String) -> String:
 
 func iniciar(caminho: String, origem := "") -> void:
 	_tempo = 0
+	_montar_avatar()
 	_origem = origem
 	_destino.text = nome_do_destino(caminho)
 	_rota.text = "SUA JORNADA CONTINUA" if origem.is_empty() else origem+"  >  "+_destino.text
@@ -119,6 +110,25 @@ func iniciar(caminho: String, origem := "") -> void:
 	atualizar(0)
 	show()
 	_ajustar.call_deferred()
+
+## Criado na primeira viagem, depois dos autoloads; reutiliza a aparência atual ou salva.
+func _montar_avatar() -> void:
+	var visual := {}
+	var jogador := get_tree().get_first_node_in_group("jogadores")
+	if jogador != null:
+		visual = Visual.do_jogador(jogador)
+	else:
+		var caminho: String = get_node("/root/Saves").caminho_personagem(false)
+		if FileAccess.file_exists(caminho):
+			var dados = JSON.parse_string(FileAccess.get_file_as_string(caminho))
+			if dados is Dictionary:
+				visual = dados.get("aparencia_raven",{}).duplicate(true)
+				if dados.get("roupas_3d") is Dictionary: visual["roupas_3d"] = dados.roupas_3d
+	visual["versao"] = 1
+	if is_instance_valid(_avatar): _avatar.free()
+	_avatar = load("res://codigo/jogador/representacao_heroi_3d.gd").new()
+	_avatar.aparencia = Visual.normalizar(visual)
+	_heroi.add_child(_avatar)
 
 func atualizar(progresso: float, preparando := false) -> void:
 	_progresso = clampf(progresso,0,1)
@@ -129,8 +139,8 @@ func atualizar(progresso: float, preparando := false) -> void:
 func _process(delta: float) -> void:
 	if not is_visible_in_tree(): return
 	_tempo += delta
-	for sprite in _camadas: sprite.frame = 16+int(_tempo/0.12)%8
-	_heroi.position = Vector2(lerpf(24,maxf(24,_via.size.x-24),_progresso),_via.size.y-16)
+	if is_instance_valid(_avatar): _avatar.pose(true,1,_tempo)
+	_heroi.position = Vector2(lerpf(24,maxf(24,_via.size.x-24),_progresso),_via.size.y-6)
 
 func _ajustar() -> void:
 	if painel == null: return

@@ -431,6 +431,7 @@ func _ready() -> void:
 		visual_3d.pecas_visiveis = int(get_tree().get_meta("pecas_base_3d_p2" if eh_p2 else "pecas_base_3d_p1",15))
 		visual_3d.acabamento_pixel_art = bool(get_tree().get_meta("pixel_base_3d_p2" if eh_p2 else "pixel_base_3d_p1",true))
 		add_child(visual_3d)
+	add_child(preload("res://codigo/jogador/colisoes_base_3d.gd").new())
 
 
 
@@ -878,7 +879,7 @@ func _apontar_golpe() -> void:
 	_direcao_ataque = direcao_da_acao(direcao_apontada())
 	_direcao_golpe_3d=_direcao_ataque
 	_cardinal_anterior = _cardinal_de(_direcao_ataque)
-	$AreaAtaque.rotation=(_direcao_ataque.angle()-_cardinal_anterior.angle()) if usa_oito_direcoes() else 0.0
+	$AreaAtaque.rotation=0.0 # O perfil 3D já projeta a arma na orientação final.
 	virar_para(_direcao_ataque)
 
 func usa_oito_direcoes() -> bool:
@@ -1260,23 +1261,22 @@ func animar() -> void:
 	else:
 		_maquina_estados.travel("idle")
 
+func _acertar_alvo_da_area(alvo: Node2D) -> void:
+	var id := alvo.get_instance_id()
+	if _alvos_area_golpe.has(id): return
+	_alvos_area_golpe[id] = true
+	aplicar_golpe(alvo,(alvo.global_position-global_position).normalized())
+
 func _on_corpo_entrou_area_ataque(corpo: Node2D) -> void:
 	if corpo.is_in_group("enemy"):
-		aplicar_golpe(corpo, (corpo.position - position).normalized())
+		_acertar_alvo_da_area(corpo)
 
 func _on_area_entrou_area_ataque(area: Area2D) -> void:
 	if area.is_in_group("hurtbox_inimigo"):
 		var alvo := area.get_parent() as Node2D
-		if alvo == null or not alvo.is_in_group("enemy"):
-			return
-		var id := alvo.get_instance_id()
-		if _alvos_area_golpe.has(id):
-			return
-		_alvos_area_golpe[id] = true
-		aplicar_golpe(alvo, (alvo.global_position - global_position).normalized())
-		return
-	if area.is_in_group("enemy"):
-		aplicar_golpe(area, (area.global_position - position).normalized())
+		if alvo != null and alvo.is_in_group("enemy"): _acertar_alvo_da_area(alvo)
+	elif area.is_in_group("enemy"):
+		_acertar_alvo_da_area(area)
 
 func _aplicar_encantamento(alvo: Node, dano_golpe: int) -> void:
 	var arma = inventario.equipados.get("arma")

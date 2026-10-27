@@ -4,8 +4,8 @@ extends NavigationRegion2D
 ## menos todos os obstáculos sólidos (lago, árvores soltas, pedras, tocos, fogueira...).
 ## Assim o mapa pode ser regerado/editado sem precisar "assar" a navegação no editor.
 
-## Folga em volta dos obstáculos, por tamanho de corpo. O corpo dos inimigos é um retângulo que não gira, então o que conta é a metade do
-## lado maior (e a escala: mutantes e chefes são maiores que o inimigo comum). Uma malha só, com a folga do corpo pequeno, deixava os
+## Folga em volta dos obstáculos, por tamanho de corpo. O corpo dos inimigos é um retângulo que não gira, então o que conta é a distância do centro ao
+## canto mais distante (e a escala: mutantes e chefes são maiores que o inimigo comum). Uma malha só, com a folga do corpo pequeno, deixava os
 ## grandes encostarem nas árvores e nas pedras e ficarem presos. Cada classe é uma malha em uma camada de navegação (bit 1, 2 e 3);
 ## o inimigo escolhe a sua em inimigo_base.gd (classe_de_navegacao)
 const RAIOS_AGENTE: Array[float] = [14.0, 21.0, 30.0]

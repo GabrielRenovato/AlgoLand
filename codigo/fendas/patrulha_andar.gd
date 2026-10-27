@@ -52,7 +52,7 @@ func _physics_process(delta: float) -> void:
 			_rota_ativa = false
 			_espera = _rng.randf_range(.3,.8)
 		else:
-			desejada = (agente.get_next_path_position()-inimigo.global_position).normalized()*inimigo.velocidade*.55
+			desejada = (agente.get_next_path_position()-inimigo._centro_de_navegacao()).normalized()*inimigo.velocidade*.55
 	elif _rota_ativa:
 		desejada = (Vector2(inimigo.get_meta("destino_patrulha"))-inimigo.global_position).normalized()*inimigo.velocidade*.55
 		if inimigo.global_position.distance_to(inimigo.get_meta("destino_patrulha"))<8: _rota_ativa=false
@@ -69,7 +69,7 @@ func _escolher_destino(agente: NavigationAgent2D) -> void:
 	var camada: int = 1 << inimigo.classe_de_navegacao()
 	for tentativa in 10:
 		var candidato := origem+Vector2.from_angle(_rng.randf_range(0,TAU))*_rng.randf_range(45,115)
-		var rota := NavigationServer2D.map_get_path(mapa,inimigo.global_position,candidato,true,camada)
+		var rota := NavigationServer2D.map_get_path(mapa,inimigo._centro_de_navegacao() if agente!=null else inimigo.global_position,candidato,true,camada)
 		if rota.is_empty() or rota[-1].distance_to(candidato)>8: continue
 		var comprimento := 0.0
 		for i in range(1,rota.size()): comprimento += rota[i-1].distance_to(rota[i])

@@ -41,7 +41,7 @@ var lixeira: Button
 
 @onready var _grade: GridContainer = $Sidebar/Painel/Mochila
 @onready var _boneco: Control = $Sidebar/Painel/Boneco
-var _previa: Sprite2D
+var _previa: Node2D
 @onready var _atributos: GridContainer = $Sidebar/Atributos
 
 func _ready() -> void:
@@ -285,15 +285,15 @@ func _atualizar_boneco() -> void:
 	var jogador := EventosJogo.dono(self)
 	if jogador == null:
 		return
-	var visual := jogador.get_node_or_null("HeroiRaven")
-	if visual == null:
-		return
 	for nome in ["Corpo","Roupa","Cabelo"]: _boneco.get_node(nome).hide()
 	if is_instance_valid(_previa): _previa.free()
-	_previa = visual.criar_previa()
-	_previa.name = "PreviaRaven"
-	_previa.position = Vector2(58,50)
+	_previa = preload("res://codigo/jogador/representacao_heroi_3d.gd").new()
+	_previa.aparencia = preload("res://codigo/dados/visual_ranking.gd").do_jogador(jogador)
+	var arma = jogador.inventario.equipados.get("arma")
+	if arma != null: _previa.aparencia["arma_mais_usada"] = arma.tipo
+	_previa.name = "Previa3D"
 	_boneco.add_child(_previa)
+	_previa.position = Vector2(58,50)
 
 # --- Detalhe do item em foco (controle) ---
 

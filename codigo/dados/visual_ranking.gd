@@ -1,6 +1,6 @@
 extends RefCounted
 ## Retrato público limitado aos catálogos locais. Nunca aceita caminhos enviados pelo servidor.
-const Raven := preload("res://codigo/dados/aparencia_raven.gd")
+const Roupas3D := preload("res://codigo/dados/roupas_base_3d.gd")
 const Aparencia := preload("res://codigo/dados/aparencia.gd")
 const Conjuntos := preload("res://codigo/dados/conjuntos_armadura.gd")
 const Armas := preload("res://codigo/dados/armas_ranking.gd")
@@ -31,12 +31,20 @@ static func normalizar(valor: Variant) -> Dictionary:
 			var tipo = enviados.get(slot)
 			if tipo is String and tipo_valido(tipo,slot): equipamentos[slot] = tipo
 	return {"versao":1,"pele":_inteiro(valor,"pele",0,2),"cabelo":_inteiro(valor,"cabelo",0,28),
+		"escudo":valor.get("escudo") is bool and valor.escudo,"olhos":_inteiro(valor,"olhos",0,5),"roupas_3d":roupas_do_visual(valor),
 		"roupa":_inteiro(valor,"roupa",0,8),"cor":cor,"equipamentos":equipamentos,
 		"roupa_visual":_inteiro(valor,"roupa_visual",0,Aparencia.total_roupas()-1),
 		"pecas_visuais":_inteiro(valor,"pecas_visuais",0,15,15),"arma_mais_usada":Armas.validar(valor.get("arma_mais_usada")),"nivel_arma":_inteiro(valor,"nivel_arma",1,99,1)}
 
+static func roupas_do_visual(dados: Dictionary) -> Dictionary:
+	var roupas = dados.get("roupas_3d")
+	return Roupas3D.normalizar(roupas) if roupas is Dictionary else Roupas3D.do_visual_antigo({"roupa":_inteiro(dados,"roupa",0,8,1)})
+
 static func do_jogador(jogador: Node2D) -> Dictionary:
 	var dados: Dictionary = jogador.aparencia_raven.duplicate(true)
+	var heroi := jogador.get_node_or_null("HeroiBase3D")
+	if heroi != null: dados["roupas_3d"] = heroi.roupas_3d.duplicate(true)
+	dados["escudo"] = jogador.usando_escudo
 	dados["versao"] = 1
 	dados["roupa_visual"] = jogador.roupa_atual
 	dados["pecas_visuais"] = jogador.pecas_cavaleiro
@@ -62,6 +70,7 @@ class Modelo extends Node2D:
 	var inventario := InventarioVisual.new()
 	var roupa_atual := 0
 	var _pecas_cavaleiro_debug := 15
+	var usando_escudo := false
 	var usando_arco := false
 	var usando_lanca := false
 	var usando_espada := false
@@ -78,6 +87,7 @@ class Modelo extends Node2D:
 static func criar_modelo(dados: Dictionary) -> Node2D:
 	var modelo := Modelo.new()
 	modelo.aparencia_raven = normalizar(dados)
+	modelo.usando_escudo = modelo.aparencia_raven.escudo
 	modelo.roupa_atual = int(modelo.aparencia_raven.roupa_visual)
 	modelo._pecas_cavaleiro_debug = int(modelo.aparencia_raven.pecas_visuais)
 	var arma: String = modelo.aparencia_raven.arma_mais_usada

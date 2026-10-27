@@ -232,13 +232,7 @@ func _migrar_visual_antigo(dados: Dictionary) -> void:
 
 ## Roupa Raven (1..8: azul/verde × marrom/jeans, com ou sem capa) → peças 3D de mesma cor.
 static func roupas_do_raven(aparencia: Dictionary) -> Dictionary:
-	var roupas: Dictionary = CATALOGO_ROUPAS.padrao()
-	var roupa := int(aparencia.get("roupa", 1))
-	if roupa >= 1:
-		var base := (roupa-1) % 4
-		roupas.camisa = "camisa_bosque" if base in [0, 2] else "tunica_campo"
-		roupas.calca = "calca_sarja" if base in [0, 1] else "calca_pescador"
-	return roupas
+	return CATALOGO_ROUPAS.do_visual_antigo(aparencia)
 
 func _mostrar_aviso_visual() -> void:
 	if not is_inside_tree(): return
@@ -1034,3 +1028,36 @@ func progresso_arco() -> float:
 
 func _instante_machado() -> float:
 	return progresso_acao_fazenda()*preload("res://codigo/jogador/corte_machado_mixamo.gd").DURACAO
+
+## Parte cortante no mesmo espaço 2D do jogador; não inclui cabo, cabelo ou rastro.
+## Chamado após os modificadores do esqueleto terminarem o encaixe da arma.
+func geometria_golpe_2d() -> Dictionary:
+	var mundo := Transform3D.IDENTITY
+	var vertices: Array[Vector3] = []
+	var janela := Vector2(.25,.75)
+	var progresso := _progresso_golpe
+	if _acao in ["espada","lanca"]:
+		if _acao=="lanca":
+			mundo = _lanca.global_transform
+			vertices = [Vector3(-.075,.76,0),Vector3(.075,.82,0),Vector3(0,1.04,0)]
+		else:
+			mundo = _modelo.global_transform*_transformacao_rastro
+			var ponta: float = _rastro.ponta_montante if _arma_de_duas_maos() else _rastro.ponta_espada
+			vertices = [Vector3(0,.31,0),Vector3(0,ponta,0)]
+			janela = _rastro.JANELAS[clampi(_jogador._fase_combo,1,3)-1]
+	elif _acao=="pesada":
+		var arma := _arma_pesada()
+		if arma==null: return {}
+		mundo = _esqueleto.global_transform*_esqueleto.get_bone_global_pose(_esqueleto.find_bone(OSSO_MAO))*arma.transform
+		var maca: bool = _jogador.id_arma_atual=="maca"
+		for x in ([-.14,.14] if maca else [-.02,.21]):
+			for y in ([.41,.69] if maca else [.37,.57]):
+				vertices.append(Vector3(x,y,0))
+		var duracao: float = _player.get_animation(_player.assigned_animation).length
+		progresso = clampf((_player.current_animation_position/duracao-JANELA_PESADA.x)/(JANELA_PESADA.y-JANELA_PESADA.x),0.0,1.0)
+	else: return {}
+	var pontos := PackedVector2Array()
+	for vertice in vertices:
+		var pixel := _camera.unproject_position(mundo*vertice)
+		pontos.append(_jogador.to_local(_sprite.to_global(pixel+_sprite.offset)))
+	return {"pontos":pontos,"janela":janela,"progresso":progresso}

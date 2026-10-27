@@ -264,12 +264,14 @@ func _pegar(perfeita := false) -> void:
 	_tempo = 0.0
 	if peixe == "pedra_vara":
 		if not preload("res://codigo/pesca/varas.gd").receber_pedra(jogador):
+			get_tree().call_group(jogador.grupo_hud(), "avisar_barra", "MOCHILA CHEIA")
 			Sons.tocar("erro",0.0)
 			_terminar()
 			return
 	else:
 		var xp_antes := Progressao.xp(jogador)
 		if not Fazenda.pescar(peixe,perfeita,jogador,qualidade_peixe):
+			get_tree().call_group(jogador.grupo_hud(), "avisar_barra", "MOCHILA CHEIA")
 			Sons.tocar("erro",0.0)
 			_terminar()
 			return

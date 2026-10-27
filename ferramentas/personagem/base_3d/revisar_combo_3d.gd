@@ -44,6 +44,7 @@ func rodar():
     for direcao in 4:
         h._rastro.limpar()
         h._modelo.rotation.y = [0.0,PI/2.0,PI,-PI/2.0][direcao]
+        h._direcao_demonstracao = [Vector2.DOWN,Vector2.RIGHT,Vector2.UP,Vector2.LEFT][direcao]
         for golpe in 3:
             h._golpe_demonstracao = golpe+1
             h._encaixar_espada(true)

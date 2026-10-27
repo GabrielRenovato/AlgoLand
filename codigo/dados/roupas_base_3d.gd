@@ -31,6 +31,16 @@ const MODELOS := {
 }
 static func padrao() -> Dictionary:
     return {"camisa":"camisa_bosque","calca":"calca_sarja","calcado":"botas_couro","cabelo":"cabelo_curto"}
+## Migração visual pura, compartilhada por jogo, retratos e clientes antigos do lobby.
+static func do_visual_antigo(aparencia: Dictionary) -> Dictionary:
+    var roupas := padrao()
+    var roupa := int(aparencia.get("roupa",1))
+    if roupa>=1:
+        var base := (roupa-1)%4
+        roupas.camisa = "camisa_bosque" if base in [0,2] else "tunica_campo"
+        roupas.calca = "calca_sarja" if base in [0,1] else "calca_pescador"
+    return roupas
+
 static func modelo(categoria: String,id: String) -> Dictionary:
     if categoria=="cabelo":
         id={"cabelo_rabo":"cabelo_longo","cabelo_trancas":"cabelo_cacheado"}.get(id,id)

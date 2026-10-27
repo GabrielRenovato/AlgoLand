@@ -1,12 +1,11 @@
 extends Node2D
-## Representação social: reutiliza as poses Raven; nunca participa de colisão, combate ou saves.
+## Representação social: reutiliza o personagem 3D; nunca participa de colisão, combate ou saves.
 const Visual := preload("res://codigo/dados/visual_ranking.gd")
 const Profundidade := preload("res://codigo/globais/profundidade.gd")
-const Corrida := preload("res://codigo/dados/corrida_raven.gd")
 var identificador := ""
 var apelido := "sem apelido"
 var nome: Label
-var corpo: Sprite2D
+var corpo: Node2D
 var _rota := PackedVector2Array()
 var _velocidade := 0.0
 var _direcao := 0
@@ -29,62 +28,10 @@ const TRECHO_DIRETO := 14.0
 ## Menor intervalo entre amostras (o servidor próprio envia a 4 Hz; o banco, a cada 0,55 s)
 const INTERVALO_CONSULTA_REMOTO := 0.2
 
-class Corpo extends "res://codigo/jogador/heroi_raven.gd":
- var aparencia := {}
+class Corpo extends "res://codigo/jogador/representacao_heroi_3d.gd":
  func _ready() -> void:
-  _jogador = Visual.criar_modelo(aparencia)
-  add_child(_jogador)
-  centered = false
-  offset = Vector2(-40,-47)
+  super._ready()
   position.y = Profundidade.PES_JOGADOR
-  hframes = 4
-  vframes = 4
-  texture_filter = TEXTURE_FILTER_NEAREST
-  _montar_camadas()
-  _montar_vara_pesca()
-  pose(false,0,0)
- ## Nome da folha do golpe da arma que o modelo segura (mesma escolha do jogador local)
- func nome_do_golpe(combo: int) -> String:
-  if _jogador.usando_lanca: return "lanca"
-  if _jogador.id_arma_atual == "machado": return "machado"
-  if _jogador.usando_espada and _arma_duas_maos(): return "espada_dupla"
-  return "espada_2" if combo == 2 else "espada"
- ## Golpe, disparo ou esquiva em um quadro (coluna 0 a 3) da folha da ação
- func pose_acao(acao: String, coluna: int, direcao: int) -> void:
-  _direcao = direcao
-  _definir_grade(4)
-  _aplicar_aparencia(acao)
-  _vara_pesca.visible = false
-  _camadas[5].visible = true
-  frame = direcao*4+clampi(coluna,0,3)
-  for camada in _camadas: camada.frame = frame
-  _atualizar_arma_costas(acao,direcao,coluna)
- ## Pose de pesca parada: no quadro 3 a vara aparece estendida
- func pose_pesca(quadro: int, direcao: int) -> void:
-  _direcao = direcao
-  _definir_grade(4)
-  _aplicar_aparencia("pescar")
-  frame = direcao*4+clampi(quadro,0,3)
-  for camada in _camadas: camada.frame = frame
-  _vara_pesca.visible = quadro == 3
-  if _vara_pesca.visible:
-   _vara_pesca.points = pontos_vara(direcao,0.0)
-   _vara_pesca.z_index = -1 if direcao == 2 else 0
-  _camadas[5].visible = not _vara_pesca.visible
-  _atualizar_arma_costas("pescar",direcao,quadro)
- func pose(correndo: bool, direcao: int, tempo: float) -> void:
-  _vara_pesca.visible = false
-  _camadas[5].visible = true
-  _direcao = direcao
-  var acao := "correr" if correndo else "parado"
-  _definir_grade(6 if correndo else 4)
-  _aplicar_aparencia(acao)
-  var coluna := Corrida.quadro(tempo,0.6) if correndo else int(fposmod(tempo,0.8)/0.2)
-  frame = direcao*hframes+coluna
-  for camada in _camadas: camada.frame = frame
-  _atualizar_arma_costas(acao,direcao,coluna)
- func _process(_delta: float) -> void: pass
- func _exit_tree() -> void: pass
 
 func _ready() -> void:
  nome = Label.new()
@@ -101,16 +48,22 @@ func _ready() -> void:
  nome.z_index = 900
  add_child(nome)
 
+func _encaixar_nome() -> void:
+ if not is_instance_valid(corpo): return
+ nome.position = Vector2(-nome.size.x/2.0,corpo.position.y+corpo.topo_aparente()-nome.size.y-4.0)
+
 func atualizar(dados: Dictionary, visual: Dictionary, inicial := false) -> void:
  identificador = str(dados.id)
  apelido = str(dados.apelido).left(16)
  nome.text = apelido
- if visual != _aparencia:
+ if visual != _aparencia or not is_instance_valid(corpo):
   _aparencia = visual.duplicate(true)
   if is_instance_valid(corpo): remove_child(corpo); corpo.queue_free()
   corpo = Corpo.new()
   corpo.aparencia = _aparencia
   add_child(corpo)
+  corpo.renderizado.connect(_encaixar_nome)
+  _encaixar_nome()
  _direcao = clampi(int(dados.direcao),0,3)
  _pesca = clampi(int(dados.get("pesca",-1)),-1,3)
  var agora := Time.get_ticks_usec()/1000000.0
@@ -160,8 +113,8 @@ func iniciar_acao(dados: Dictionary) -> void:
 func _pose_da_acao(decorrido: float) -> void:
  var progresso := clampf(decorrido/maxf(_acao_duracao,0.01),0.0,0.999)
  match _acao:
-  "ataque": corpo.pose_acao(corpo.nome_do_golpe(_acao_combo),int(4.0*progresso),_acao_direcao)
-  "dash": corpo.pose_acao("esquiva",int(4.0*progresso),_acao_direcao)
+  "ataque": corpo.pose_acao(corpo.nome_do_golpe(_acao_combo),int(4.0*progresso),_acao_direcao,progresso)
+  "dash": corpo.pose_acao("esquiva",int(4.0*progresso),_acao_direcao,progresso)
   "arco":
    var escala := float(_acao_combo)/1000.0
    var restante := decorrido
@@ -171,7 +124,7 @@ func _pose_da_acao(decorrido: float) -> void:
      indice = i
      break
     restante -= DURACAO_DISPARO_ARCO[i]*escala
-   corpo.pose_acao("arco",COLUNA_DISPARO_ARCO[indice],_acao_direcao)
+   corpo.pose_acao("arco",COLUNA_DISPARO_ARCO[indice],_acao_direcao,progresso)
 
 func _process(delta: float) -> void:
  var antes := position

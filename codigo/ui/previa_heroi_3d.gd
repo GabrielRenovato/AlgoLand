@@ -44,7 +44,7 @@ func _ready() -> void:
 	heroi._player.play("Idle_Loop")
 	heroi._encaixar_espada(false)
 	# O herói desce os pés até a linha do jogador (PES_JOGADOR); aqui os pés ficam na origem.
-	position.y = -heroi.position.y
+	heroi.position = Vector2.ZERO
 
 ## Aplica aparência e roupas; `direcao` 0..3 como no Raven (frente, direita, costas, esquerda).
 func mostrar(aparencia: Dictionary, roupas: Dictionary, direcao: int) -> void:

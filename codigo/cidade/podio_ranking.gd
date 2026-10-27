@@ -108,6 +108,7 @@ func _atualizar_lista(lista: Array) -> void:
 			personagem.name = "Personagem"
 			personagem.dados = aparencia
 			ator.add_child(personagem)
+			personagem.renderizado.connect(_encaixar_nomes)
 			topo = personagem.topo_aparente()
 		else:
 			var pendente := _rotulo("VISUAL PENDENTE",76,6)
@@ -115,7 +116,7 @@ func _atualizar_lista(lista: Array) -> void:
 			ator.add_child(pendente)
 		var apelido := _rotulo(str(linha.get("apelido","")).left(16),48,6)
 		apelido.name = "Nickname"
-		# Mede cabelo/elmo nos quatro quadros; mantém nome fora da silhueta.
+		# Mede o contorno renderizado do personagem; mantém nome fora da silhueta.
 		apelido.autowrap_mode = TextServer.AUTOWRAP_ARBITRARY
 		apelido.clip_text = false
 		apelido.add_theme_font_size_override("font_size",5 if FONTE.get_string_size(apelido.text,HORIZONTAL_ALIGNMENT_LEFT,-1,6).x > 44 else 6)
@@ -140,13 +141,6 @@ func _encaixar_nomes() -> void:
 		var topo: float = personagem.topo_aparente() if personagem != null else -35.0
 		nome.position = Vector2(-24,topo-altura-5)
 		var retangulo := Rect2(ator.position+nome.position,nome.size)
-		# Nas laterais usa a folga externa antes de afastar o nome da cabeça.
-		var lateral := -1.0 if lugar==2 else 1.0
-		var deslocado := 0
-		while lugar!=1 and deslocado<20 and usados.any(func(outro: Rect2) -> bool: return outro.grow(2).intersects(retangulo)):
-			nome.position.x += lateral*4
-			retangulo.position.x += lateral*4
-			deslocado += 4
 		while usados.any(func(outro: Rect2) -> bool: return outro.grow(2).intersects(retangulo)):
 			nome.position.y -= 4
 			retangulo.position.y -= 4

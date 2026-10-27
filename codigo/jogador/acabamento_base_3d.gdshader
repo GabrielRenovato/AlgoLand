@@ -20,6 +20,7 @@ uniform vec4 branco_olho : source_color;
 uniform bool esconder_camisa = false;
 // Personalização: cor do cabelo (branco = cor pintada original), olhos.
 uniform vec4 cor_cabelo : source_color = vec4(1.0);
+uniform bool olhos_fechados = false;
 uniform vec4 cor_olhos : source_color = vec4(0.29, 0.22, 0.20, 1.0);
 // Penteado raspado: cabelo curtinho pintado no couro cabeludo, acima da linha do cabelo.
 uniform bool raspado = false;
@@ -176,7 +177,7 @@ void fragment() {
         }
         vec2 olho_p = vec2(abs(p.x)-0.040,p.y-0.138);
         vec3 tinta = vec3(0.065,0.045,0.085);
-        float branco = elipse(olho_p,vec2(0.027,0.037))*frente;
+        float branco = elipse(olho_p,vec2(0.027,0.037))*frente*(olhos_fechados ? 0.0 : 1.0);
         ALBEDO = mix(ALBEDO,branco_olho.rgb,branco);
         float iris = elipse(olho_p-vec2(0.0,-0.002),vec2(0.017,0.027))*branco;
         ALBEDO = mix(ALBEDO,cor_olhos.rgb,iris);
@@ -186,6 +187,7 @@ void fragment() {
         ALBEDO = mix(ALBEDO,vec3(1.0),brilho);
         // Íris e pálpebra legíveis também na renderização pequena do personagem.
         float arco = 0.034*sqrt(max(0.0,1.0-pow(olho_p.x/0.027,2.0)));
+        if (olhos_fechados) { arco = -0.007 - 0.005*max(0.0,1.0-pow(olho_p.x/0.027,2.0)); }
         float cilio = traco(olho_p.y-arco,0.0030)*(1.0-smoothstep(0.025,0.029,abs(olho_p.x)))*frente;
         // Sobrancelha: arco curto acima do olho, mais grosso no meio.
         float sobrancelha = traco(olho_p.y-0.052-0.004*(1.0-pow(olho_p.x/0.026,2.0)),0.0035)*(1.0-smoothstep(0.020,0.026,abs(olho_p.x+0.002)))*frente;

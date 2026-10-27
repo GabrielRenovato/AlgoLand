@@ -15,9 +15,9 @@ var _fatal := false
 var _esfarelando := false
 var _tempo_esfarelar := 0.0
 var corpo_esfarelado := false
-var _raven: CanvasItem
-var _raven_processava := true
-var _raven_visivel := true
+var _visuais: Dictionary = {}
+var _animacao_3d: AnimationPlayer
+var _animacao_ativa := true
 
 func aplicar(duracao: float, fatal: bool = false) -> bool:
 	var jogador := get_parent()
@@ -35,11 +35,16 @@ func aplicar(duracao: float, fatal: bool = false) -> bool:
 	jogador.no_reacao.hide()
 	jogador._cancelar_acoes_em_andamento()
 	jogador.animar()
-	_raven = jogador.get_node_or_null("HeroiRaven")
-	if is_instance_valid(_raven):
-		_raven_processava = _raven.is_processing()
-		_raven_visivel = _raven.visible
-		_raven.set_process(false)
+	_visuais.clear()
+	for nome_visual in ["HeroiRaven","HeroiBase3D"]:
+		var visual := jogador.get_node_or_null(nome_visual)
+		if visual == null: continue
+		_visuais[visual] = {"processava":visual.is_processing(),"visivel":visual.visible}
+		visual.set_process(false)
+		if nome_visual=="HeroiBase3D":
+			_animacao_3d = visual._player
+			_animacao_ativa = _animacao_3d.active
+			_animacao_3d.active = false
 	_arvore_ativa = jogador._arvore_animacao.active
 	jogador._arvore_animacao.active = false
 	var material_pedra := ShaderMaterial.new()
@@ -91,9 +96,8 @@ func atualizar(delta: float) -> bool:
 			if _fatal:
 				corpo_esfarelado = true
 				get_parent().get_node("CompositeSprites").hide()
-				var raven := get_parent().get_node_or_null("HeroiRaven")
-				if raven != null:
-					raven.hide()
+				for visual in _visuais:
+					if is_instance_valid(visual): visual.hide()
 				_esfarelando = true
 				_tempo_esfarelar = 0
 				_casca.texture = load("res://assets/efeitos/medusa/cascalho.png")
@@ -123,7 +127,7 @@ func liberar() -> void:
 			camada.material = _materiais[camada]
 	_materiais.clear()
 	if not corpo_esfarelado:
-		_restaurar_raven()
+		_restaurar_visuais()
 	if is_instance_valid(jogador) and is_instance_valid(jogador._arvore_animacao):
 		jogador._arvore_animacao.active = _arvore_ativa
 		jogador.velocity = Vector2.ZERO
@@ -148,7 +152,7 @@ func _exit_tree() -> void:
 func limpar() -> void:
 	liberar()
 	corpo_esfarelado = false
-	_restaurar_raven()
+	_restaurar_visuais()
 	if is_instance_valid(_casca):
 		_casca.queue_free()
 	_casca = null
@@ -158,7 +162,11 @@ func limpar() -> void:
 	imunidade = 0
 	_quebrando = false
 
-func _restaurar_raven() -> void:
-	if is_instance_valid(_raven):
-		_raven.set_process(_raven_processava)
-		_raven.visible = _raven_visivel
+func _restaurar_visuais() -> void:
+	for visual in _visuais:
+		if is_instance_valid(visual):
+			visual.set_process(_visuais[visual].processava)
+			visual.visible = _visuais[visual].visivel
+	_visuais.clear()
+	if is_instance_valid(_animacao_3d): _animacao_3d.active = _animacao_ativa
+	_animacao_3d = null

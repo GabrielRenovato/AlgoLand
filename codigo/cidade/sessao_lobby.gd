@@ -303,6 +303,13 @@ func _quadro_de_pesca(raven: Node) -> int:
  if pesca == null or raven == null or not raven.has_method("quadro_pesca"): return -1
  return clampi(int(raven.quadro_pesca(int(pesca._pose))),0,3)
 
+## A direção do compositor 2D fica parada enquanto o modelo 3D está ativo.
+func _direcao_visual() -> int:
+ var direcao: Vector2 = jogador._direcao_ataque
+ if jogador.velocity.length()>2: direcao = jogador.velocity
+ if absf(direcao.x)>absf(direcao.y): return 1 if direcao.x>0 else 3
+ return 0 if direcao.y>=0 else 2
+
 ## Estado do jogador para o servidor ({} se ele ainda não está pronto): "conteudo" é o que vai na rede, "retrato" a aparência serializada
 func _montar_estado(incluir_aparencia := false) -> Dictionary:
  if not is_instance_valid(jogador) or not jogador.is_inside_tree() or not is_instance_valid(cidade): return {}
@@ -317,7 +324,7 @@ func _montar_estado(incluir_aparencia := false) -> Dictionary:
   visual.arma_mais_usada = preload("res://codigo/dados/armas_ranking.gd").validar(arma.tipo)
   visual.nivel_arma = clampi(arma.nivel,1,99)
  # "cidade" continua indicando a praça para servidores e clientes antigos; "mapa" distingue cidade, floresta e praia
- var conteudo := {"cidade":mapa==1,"mapa":mapa,"x":clampf(normalizada.x,0,1024),"y":clampf(normalizada.y,0,576),"direcao":raven._direcao if raven!=null else 0,
+ var conteudo := {"cidade":mapa==1,"mapa":mapa,"x":clampf(normalizada.x,0,1024),"y":clampf(normalizada.y,0,576),"direcao":_direcao_visual(),
   "andando":posicao.distance_to(_ultima_posicao)>1,"apelido":Ranking.apelido_personagem(jogador.apelido),"pesca":_quadro_de_pesca(raven)}
  _ultima_posicao = posicao
  var retrato := JSON.stringify(visual)
