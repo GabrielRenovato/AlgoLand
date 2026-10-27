@@ -1,0 +1,140 @@
+{
+  "textura": "res://assets/personagens/raven_cartoon/espada_base_cartoon.png",
+  "tamanho_fonte": [
+    948,
+    1660
+  ],
+  "pivo": [
+    474,
+    1350
+  ],
+  "escala": 0.3,
+  "corpos_celula": [
+    640,
+    896
+  ],
+  "tempos_ms": [
+    160,
+    60,
+    70,
+    200
+  ],
+  "direcoes": {
+    "baixo": [
+      {
+        "mao": [
+          200,
+          424
+        ],
+        "angulo_graus": 0,
+        "camada": -1,
+        "raio_recorte_mao": 34
+      },
+      {
+        "mao": [
+          515,
+          679
+        ],
+        "angulo_graus": 120,
+        "camada": -1,
+        "raio_recorte_mao": 34
+      },
+      {
+        "mao": [
+          441,
+          301
+        ],
+        "angulo_graus": -30,
+        "camada": -1,
+        "raio_recorte_mao": 34
+      },
+      {
+        "mao": [
+          441,
+          301
+        ],
+        "angulo_graus": -30,
+        "camada": -1,
+        "raio_recorte_mao": 34
+      }
+    ],
+    "direita": [
+      {
+        "mao": [
+          383,
+          429
+        ],
+        "angulo_graus": -15,
+        "camada": -1,
+        "raio_recorte_mao": 34
+      },
+      {
+        "mao": [
+          389,
+          659
+        ],
+        "angulo_graus": 135,
+        "camada": -1,
+        "raio_recorte_mao": 34
+      },
+      {
+        "mao": [
+          91,
+          574
+        ],
+        "angulo_graus": -150,
+        "camada": -1,
+        "raio_recorte_mao": 34
+      },
+      {
+        "mao": [
+          91,
+          574
+        ],
+        "angulo_graus": -150,
+        "camada": -1,
+        "raio_recorte_mao": 34
+      }
+    ],
+    "cima": [
+      {
+        "mao": [
+          485,
+          510
+        ],
+        "angulo_graus": 115,
+        "camada": -1,
+        "raio_recorte_mao": 34
+      },
+      {
+        "mao": [
+          118,
+          310
+        ],
+        "angulo_graus": -60,
+        "camada": -1,
+        "raio_recorte_mao": 34
+      },
+      {
+        "mao": [
+          121,
+          653
+        ],
+        "angulo_graus": -145,
+        "camada": -1,
+        "raio_recorte_mao": 34
+      },
+      {
+        "mao": [
+          121,
+          653
+        ],
+        "angulo_graus": -145,
+        "camada": -1,
+        "raio_recorte_mao": 34
+      }
+    ]
+  },
+  "largura_relativa": 1.1733333333333333,
+  "acrescimo_raio_rastro": 110
+}

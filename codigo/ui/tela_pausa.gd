@@ -66,6 +66,11 @@ func _ready() -> void:
 	apelido.text = "APELIDO"
 	apelido.pressed.connect(_mostrar.bind(Vista.APELIDO))
 	_menu.add_child(apelido)
+	var visual := Button.new()
+	visual.name = "BotaoEditarVisual"
+	visual.text = "EDITAR VISUAL"
+	visual.pressed.connect(_editar_visual)
+	_menu.add_child(visual)
 	_montar_vista_apelido()
 	%BotaoFechar.pressed.connect(_continuar)
 	_botao_opcoes.pressed.connect(_mostrar.bind(Vista.OPCOES))
@@ -262,6 +267,15 @@ func _salvar_apelido() -> void:
 	_mostrar(Vista.MENU)
 	_detalhe.text = "APELIDO: " + novo
 	_detalhe.visible = true
+
+## Abre a tela de criação em modo edição por cima da pausa; ao fechar, volta para o menu.
+func _editar_visual() -> void:
+	var jogador := EventosJogo.dono(self)
+	if jogador == null: return
+	var editor := preload("res://codigo/ui/editor_visual.gd").abrir(jogador)
+	editor.fechado.connect(func() -> void:
+		if is_inside_tree(): focar_inicio())
+	get_tree().root.add_child(editor)
 
 func _gravar_apelido_no_personagem(jogador: Node2D, novo: String) -> void:
 	var caminho := Saves.caminho_personagem(bool(jogador.get("eh_p2")))

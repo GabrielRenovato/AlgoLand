@@ -75,6 +75,8 @@ var _pendentes_itens: Array = []
 ## O inventário começa vazio na memória; isso não representa o save do jogador.
 ## Guarda o caminho também para não confundir os mundos solo e cooperativo.
 var _caminho_inicializado := ""
+## Expansão concedida diretamente ao inventário, independente da progressão de ondas.
+var linhas_liberadas := 0
 
 func estado_pronto_para_salvar() -> bool:
 	return _caminho_inicializado == caminho_save
@@ -110,7 +112,7 @@ static func linhas_para_onda(onda_vencida: int) -> int:
 	return linhas
 
 func definir_linhas_extras(linhas: int) -> void:
-	linhas = clampi(linhas, 0, ONDAS_LINHA_EXTRA.size())
+	linhas = clampi(maxi(linhas,linhas_liberadas), 0, ONDAS_LINHA_EXTRA.size())
 	if linhas == linhas_extras:
 		return
 	linhas_extras = linhas
@@ -269,6 +271,7 @@ func gastar_moeda_forja(quantidade: int = 1) -> bool:
 	return true
 
 func _limpar() -> void:
+	linhas_liberadas=0
 	armas_permanentes_entregues.clear()
 	mochila.clear()
 	mochila.resize(TAMANHO_MAXIMO)
@@ -658,7 +661,7 @@ func dados_save() -> Dictionary:
 	for slot in SLOTS:
 		var item = equipados[slot]
 		dados_equipados[slot] = item.para_dict() if item != null else null
-	return {"mochila": fotografar_mochila(), "equipados": dados_equipados, "mao": celulas_da_mao,
+	return {"mochila": fotografar_mochila(), "equipados": dados_equipados, "mao": celulas_da_mao,"linhas_liberadas":linhas_liberadas,
 		"armas_permanentes_entregues": armas_permanentes_entregues}
 
 static func gravar_dados(caminho: String, dados: Dictionary) -> bool:
@@ -697,6 +700,8 @@ func carregar(caminho: String = "") -> bool:
 		return false
 	_limpar()
 	var dados_mochila = dados.get("mochila", [])
+	linhas_liberadas=clampi(int(dados.get("linhas_liberadas",0)),0,ONDAS_LINHA_EXTRA.size())
+	definir_linhas_extras(linhas_para_onda(Progresso.maior_onda_vencida))
 	if dados_mochila is Array:
 		for i in mini(dados_mochila.size(), TAMANHO_MAXIMO):
 			if dados_mochila[i] is Dictionary:

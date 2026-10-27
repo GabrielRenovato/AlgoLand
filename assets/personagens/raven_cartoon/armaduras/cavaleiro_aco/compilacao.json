@@ -1,0 +1,587 @@
+{
+	"armadura_original_preservada": true,
+	"fontes_armadura": {
+		"res://arte/fontes/armaduras/cavaleiro_aco_cartoon/animacoes_originais/ataque2_baixo_v1.png": "4b9a33f9c9aad1f41bb67cbeddc144b7583a1ec1ed810d7362148d99f49a6d10",
+		"res://arte/fontes/armaduras/cavaleiro_aco_cartoon/animacoes_originais/ataque2_cima_v1.png": "0f132b53cadcc3b869f6a4b2f5bc1cede2e2b461ba4afa9f785facbfc5beaa76",
+		"res://arte/fontes/armaduras/cavaleiro_aco_cartoon/animacoes_originais/ataque2_direita_v1.png": "827348f1a033d76ba1943fe51022af3794c503ecb0b5fd2408664c8bf009ee7f",
+		"res://arte/fontes/armaduras/cavaleiro_aco_cartoon/animacoes_originais/ataque_baixo_v1.png": "45a7af848f8bb6f297e172f587aafc0ac21c9d02e02279cf54d09d5c0350f7e0",
+		"res://arte/fontes/armaduras/cavaleiro_aco_cartoon/animacoes_originais/ataque_cima_v1.png": "04a74a8402827d407b8503a0e39f5408fe13ed16b3785139c16ef5102ab71116",
+		"res://arte/fontes/armaduras/cavaleiro_aco_cartoon/animacoes_originais/ataque_direita_v1.png": "2dff5d9464f95be3ee41969b67b0c0b460d13125401ebbb0df70e7b8b11c7270",
+		"res://arte/fontes/armaduras/cavaleiro_aco_cartoon/animacoes_originais/corrida_costas_v1.png": "67c7d9325155bc5fa3685d26113cc50e87bc9c4d80296e375629d8453505fb14",
+		"res://arte/fontes/armaduras/cavaleiro_aco_cartoon/animacoes_originais/corrida_direita_v1.png": "cc98c83ba848d77813bb16d5ac6a01b2820c3d1b353aeb1c09db50921e8be6a3",
+		"res://arte/fontes/armaduras/cavaleiro_aco_cartoon/animacoes_originais/corrida_frente_v1.png": "a3eff89d6315b399b5c6c21379e7957a293fb2cbcda67d385fc66130d31ef8e3",
+		"res://arte/fontes/armaduras/cavaleiro_aco_cartoon/animacoes_originais/repouso_v1.png": "4a138c81bba2d57fb3b1a30629b43506a3454279b283cf44b87150bfd16c91d7"
+	},
+	"fontes_corpo": {
+		"res://assets/personagens/raven_cartoon/ataque2_baixo_sem_arma.png": "197c6db495e182cdec9947fc2745a6966649f91f82e0eecf088060e56b53a41c",
+		"res://assets/personagens/raven_cartoon/ataque2_cima_sem_arma.png": "d8006c6baef2fe3b2b90c21fdae1fb6233386af3c78c96356e84faea8aef8609",
+		"res://assets/personagens/raven_cartoon/ataque2_direita_sem_arma.png": "d6dbbefef1611f83d48e1c79047be1e074dad79a3ec4327225d9f8a1d850f18a",
+		"res://assets/personagens/raven_cartoon/ataque_baixo_sem_arma.png": "5ce177c12ea0a3ff80792e30378f55e0eb2abda3beacf679e6409fe1c657e1af",
+		"res://assets/personagens/raven_cartoon/ataque_cima_sem_arma.png": "e3433be51867557f64c274c7b3f14c58c70b3326dc5479e1ad6f10b002d155da",
+		"res://assets/personagens/raven_cartoon/ataque_direita_sem_arma.png": "3bdefe9eef0018c593ae6147324a8dc40a3d5900daf5a54270346db296b56905",
+		"res://assets/personagens/raven_cartoon/corrida_costas_4.png": "f5f944be8a05454af10af04cf5c24257040ff04d76fe9700eaa8fe6eef65d33e",
+		"res://assets/personagens/raven_cartoon/corrida_direita_4.png": "3255e4c7b698690706f1cbd1695704e2daa30af6cc8c741bdafe106f8f1c8d08",
+		"res://assets/personagens/raven_cartoon/corrida_frente_4.png": "171f8a588750cb936eec1e3c5e468a1e7fc7a7353fd0eede070966f98f28439e",
+		"res://assets/personagens/raven_cartoon/parado_quatro_direcoes.png": "2436d64c5e4fa29c8f255f6c96f51b56567b750a32d0daa476d6305337d75ed2"
+	},
+	"id": "cavaleiro_aco_cartoon",
+	"paginas": {
+		"ataque2_baixo": {
+			"dimensoes": [
+				2560.0,
+				896.0
+			],
+			"rostos": [
+				{
+					"aberta": false,
+					"deslocamento": [
+						-9.0,
+						-6.0
+					],
+					"escala": 0.970840895138813,
+					"janela": [
+						199.0,
+						304.0,
+						348.0,
+						391.0
+					],
+					"olhos_origem": "[P: (233, 337), S: (117, 49)]",
+					"pixels_sem_pele": 0.0
+				},
+				{
+					"aberta": false,
+					"deslocamento": [
+						7.0,
+						1.0
+					],
+					"escala": 0.956315789473684,
+					"janela": [
+						224.0,
+						386.0,
+						369.0,
+						465.0
+					],
+					"olhos_origem": "[P: (245, 422), S: (117, 38)]",
+					"pixels_sem_pele": 0.0
+				},
+				{
+					"aberta": false,
+					"deslocamento": [
+						-2.0,
+						-2.0
+					],
+					"escala": 1.00816851121278,
+					"janela": [
+						261.0,
+						281.0,
+						395.0,
+						369.0
+					],
+					"olhos_origem": "[P: (281, 303), S: (111, 54)]",
+					"pixels_sem_pele": 6.0
+				},
+				{
+					"aberta": false,
+					"deslocamento": [
+						1.0,
+						-2.0
+					],
+					"escala": 1.00816851121278,
+					"janela": [
+						263.0,
+						281.0,
+						400.0,
+						369.0
+					],
+					"olhos_origem": "[P: (281, 303), S: (111, 54)]",
+					"pixels_sem_pele": 9.0
+				}
+			]
+		},
+		"ataque2_cima": {
+			"dimensoes": [
+				2560.0,
+				896.0
+			],
+			"rostos": [
+				{
+					"sem_rosto": true
+				},
+				{
+					"sem_rosto": true
+				},
+				{
+					"sem_rosto": true
+				},
+				{
+					"sem_rosto": true
+				}
+			]
+		},
+		"ataque2_direita": {
+			"dimensoes": [
+				2560,
+				896
+			],
+			"rostos": [
+				{
+					"aberta": true,
+					"deslocamento": [
+						21,
+						-14
+					],
+					"escala": 0.970454545454545,
+					"janela": [
+						327.0,
+						276.0,
+						420.0,
+						398.0
+					],
+					"olhos_origem": "[P: (346, 317), S: (22, 44)]",
+					"pixels_sem_pele": 4083
+				},
+				{
+					"aberta": true,
+					"deslocamento": [
+						36,
+						-36
+					],
+					"escala": 1.00227272727273,
+					"janela": [
+						361.0,
+						300.0,
+						454.0,
+						426.0
+					],
+					"olhos_origem": "[P: (353, 353), S: (24, 44)]",
+					"pixels_sem_pele": 4653
+				},
+				{
+					"aberta": true,
+					"deslocamento": [
+						49,
+						-17
+					],
+					"escala": 0.966666666666667,
+					"janela": [
+						358.0,
+						300.0,
+						453.0,
+						416.0
+					],
+					"olhos_origem": "[P: (352, 345), S: (22, 42)]",
+					"pixels_sem_pele": 4137
+				},
+				{
+					"aberta": true,
+					"deslocamento": [
+						53,
+						-18
+					],
+					"escala": 0.975,
+					"janela": [
+						365.0,
+						301.0,
+						460.0,
+						418.0
+					],
+					"olhos_origem": "[P: (352, 345), S: (22, 42)]",
+					"pixels_sem_pele": 4126
+				}
+			]
+		},
+		"ataque_baixo": {
+			"dimensoes": [
+				2560.0,
+				896.0
+			],
+			"rostos": [
+				{
+					"aberta": false,
+					"deslocamento": [
+						24.0,
+						24.0
+					],
+					"escala": 0.882525,
+					"janela": [
+						211.0,
+						305.0,
+						357.0,
+						389.0
+					],
+					"olhos_origem": "[P: (236, 340), S: (118, 46)]",
+					"pixels_sem_pele": 0.0
+				},
+				{
+					"aberta": false,
+					"deslocamento": [
+						-7.0,
+						-6.0
+					],
+					"escala": 0.955089743589744,
+					"janela": [
+						253.0,
+						373.0,
+						393.0,
+						452.0
+					],
+					"olhos_origem": "[P: (288, 417), S: (114, 39)]",
+					"pixels_sem_pele": 2.0
+				},
+				{
+					"aberta": false,
+					"deslocamento": [
+						16.0,
+						-10.0
+					],
+					"escala": 0.955335755813953,
+					"janela": [
+						253.0,
+						313.0,
+						396.0,
+						398.0
+					],
+					"olhos_origem": "[P: (266, 359), S: (115, 43)]",
+					"pixels_sem_pele": 0.0
+				},
+				{
+					"aberta": false,
+					"deslocamento": [
+						-9.0,
+						-14.0
+					],
+					"escala": 0.967698924418605,
+					"janela": [
+						232.0,
+						314.0,
+						375.0,
+						398.0
+					],
+					"olhos_origem": "[P: (266, 359), S: (115, 43)]",
+					"pixels_sem_pele": 0.0
+				}
+			]
+		},
+		"ataque_cima": {
+			"dimensoes": [
+				2560.0,
+				896.0
+			],
+			"rostos": [
+				{
+					"sem_rosto": true
+				},
+				{
+					"sem_rosto": true
+				},
+				{
+					"sem_rosto": true
+				},
+				{
+					"sem_rosto": true
+				}
+			]
+		},
+		"ataque_direita": {
+			"dimensoes": [
+				2560.0,
+				896.0
+			],
+			"rostos": [
+				{
+					"aberta": false,
+					"deslocamento": [
+						-91.0,
+						-89.0
+					],
+					"escala": 1.2671771984375,
+					"janela": [
+						306.0,
+						278.0,
+						388.0,
+						390.0
+					],
+					"olhos_origem": "[P: (331, 308), S: (22, 46)]",
+					"pixels_sem_pele": 0.0
+				},
+				{
+					"aberta": false,
+					"deslocamento": [
+						-21.0,
+						-54.0
+					],
+					"escala": 1.15255555555556,
+					"janela": [
+						355.0,
+						329.0,
+						441.0,
+						439.0
+					],
+					"olhos_origem": "[P: (347, 355), S: (25, 45)]",
+					"pixels_sem_pele": 2.0
+				},
+				{
+					"aberta": false,
+					"deslocamento": [
+						-98.0,
+						-88.0
+					],
+					"escala": 1.27502653454861,
+					"janela": [
+						325.0,
+						278.0,
+						406.0,
+						391.0
+					],
+					"olhos_origem": "[P: (349, 307), S: (22, 45)]",
+					"pixels_sem_pele": 0.0
+				},
+				{
+					"aberta": false,
+					"deslocamento": [
+						-86.0,
+						-87.0
+					],
+					"escala": 1.27502653454861,
+					"janela": [
+						337.0,
+						279.0,
+						418.0,
+						392.0
+					],
+					"olhos_origem": "[P: (349, 307), S: (22, 45)]",
+					"pixels_sem_pele": 2.0
+				}
+			]
+		},
+		"corrida_costas": {
+			"dimensoes": [
+				2048.0,
+				896.0
+			],
+			"rostos": [
+				{
+					"sem_rosto": true
+				},
+				{
+					"sem_rosto": true
+				},
+				{
+					"sem_rosto": true
+				},
+				{
+					"sem_rosto": true
+				}
+			]
+		},
+		"corrida_direita": {
+			"dimensoes": [
+				2048.0,
+				896.0
+			],
+			"rostos": [
+				{
+					"aberta": false,
+					"deslocamento": [
+						-9.0,
+						9.0
+					],
+					"escala": 1.00679245283019,
+					"janela": [
+						303.0,
+						199.0,
+						372.0,
+						315.0
+					],
+					"olhos_origem": "[P: (328, 217), S: (24, 53)]",
+					"pixels_sem_pele": 0.0
+				},
+				{
+					"aberta": false,
+					"deslocamento": [
+						-28.0,
+						3.0
+					],
+					"escala": 1.04777777777778,
+					"janela": [
+						296.0,
+						194.0,
+						372.0,
+						314.0
+					],
+					"olhos_origem": "[P: (329, 209), S: (25, 54)]",
+					"pixels_sem_pele": 0.0
+				},
+				{
+					"aberta": false,
+					"deslocamento": [
+						-25.0,
+						2.0
+					],
+					"escala": 1.05776132075472,
+					"janela": [
+						298.0,
+						227.0,
+						378.0,
+						343.0
+					],
+					"olhos_origem": "[P: (326, 238), S: (26, 53)]",
+					"pixels_sem_pele": 1.0
+				},
+				{
+					"aberta": false,
+					"deslocamento": [
+						6.0,
+						4.0
+					],
+					"escala": 1.01285185185185,
+					"janela": [
+						312.0,
+						245.0,
+						392.0,
+						361.0
+					],
+					"olhos_origem": "[P: (325, 265), S: (25, 54)]",
+					"pixels_sem_pele": 2.0
+				}
+			]
+		},
+		"corrida_frente": {
+			"dimensoes": [
+				2048.0,
+				896.0
+			],
+			"rostos": [
+				{
+					"aberta": false,
+					"deslocamento": [
+						-9.0,
+						-1.0
+					],
+					"escala": 1.03744680851064,
+					"janela": [
+						176.0,
+						203.0,
+						339.0,
+						309.0
+					],
+					"olhos_origem": "[P: (194, 222), S: (126, 47)]",
+					"pixels_sem_pele": 0.0
+				},
+				{
+					"aberta": false,
+					"deslocamento": [
+						-9.0,
+						5.0
+					],
+					"escala": 1.01583333333333,
+					"janela": [
+						171.0,
+						203.0,
+						333.0,
+						309.0
+					],
+					"olhos_origem": "[P: (193, 220), S: (128, 48)]",
+					"pixels_sem_pele": 0.0
+				},
+				{
+					"aberta": false,
+					"deslocamento": [
+						-11.0,
+						0.0
+					],
+					"escala": 1.01583333333333,
+					"janela": [
+						168.0,
+						204.0,
+						330.0,
+						310.0
+					],
+					"olhos_origem": "[P: (194, 226), S: (125, 48)]",
+					"pixels_sem_pele": 0.0
+				},
+				{
+					"aberta": false,
+					"deslocamento": [
+						-9.0,
+						3.0
+					],
+					"escala": 1.00625,
+					"janela": [
+						165.0,
+						204.0,
+						330.0,
+						309.0
+					],
+					"olhos_origem": "[P: (191, 225), S: (129, 48)]",
+					"pixels_sem_pele": 0.0
+				}
+			]
+		},
+		"repouso": {
+			"dimensoes": [
+				2560.0,
+				896.0
+			],
+			"rostos": [
+				{
+					"aberta": false,
+					"deslocamento": [
+						-21.0,
+						-23.0
+					],
+					"escala": 1.1,
+					"janela": [
+						251.0,
+						186.0,
+						408.0,
+						296.0
+					],
+					"olhos_origem": "[P: (258, 214), S: (123, 46)]",
+					"pixels_sem_pele": 0.0
+				},
+				{
+					"sem_rosto": true
+				},
+				{
+					"aberta": false,
+					"deslocamento": [
+						-37.0,
+						-13.0
+					],
+					"escala": 1.09617021276596,
+					"janela": [
+						342.0,
+						184.0,
+						415.0,
+						296.0
+					],
+					"olhos_origem": "[P: (364, 205), S: (22, 47)]",
+					"pixels_sem_pele": 2.0
+				},
+				{
+					"aberta": false,
+					"deslocamento": [
+						-57.0,
+						-27.0
+					],
+					"escala": 1.16194654255319,
+					"janela": [
+						209.0,
+						185.0,
+						284.0,
+						298.0
+					],
+					"olhos_origem": "[P: (254, 205), S: (22, 47)]",
+					"pixels_sem_pele": 0.0
+				}
+			]
+		}
+	},
+	"pecas": [
+		"elmo",
+		"peitoral",
+		"luvas",
+		"botas"
+	]
+}

@@ -113,7 +113,11 @@ func _montar() -> void:
 			["FENO NA MOCHILA", _feno_galinheiro_debug],
 			["VISITAR OSVALDO E FAMILIA", _familia_carpinteiro_debug]],
 		"VISUAL DA FAZENDA": [["ORIGINAL / TINY RPG", _alternar_fazenda_tiny]],
-		"PERSONAGEM": [["RAVEN: REAPLICAR VISUAL", _reaplicar_personagem]],
+		"PERSONAGEM": [["RAVEN: REAPLICAR VISUAL", _reaplicar_personagem],
+			["CARTOON: ANDAR + 2 GOLPES", _ativar_cartoon],
+			["CARTOON: CAVALEIRO DE ACO", _ativar_cartoon.bind(true)],
+			["PERSONAGEM 3D: COMPLETO", _ativar_base_3d.bind(true)],
+			["CUSTOMIZAR ROUPAS 3D", _customizar_roupas_3d]],
 		"ARMAS RAVEN": [["RECEBER TODAS (MOCHILA)", _receber_armas_raven],
 			["ALJAVA", _receber_armas_raven.bind("aljava_basica")]],
 		"CONJUNTOS": [
@@ -229,7 +233,7 @@ func _selecionar_categoria(indice: int) -> void:
 	_acao.clear()
 	for par in _acoes_atuais:
 		_acao.add_item(par[0])
-	_acao.select(int(_selecoes.get(nome, 0)))
+	_acao.select(clampi(int(_selecoes.get(nome, 0)),0,_acoes_atuais.size()-1))
 	_selecionar_acao(_acao.selected)
 
 func _selecionar_acao(indice: int) -> void:
@@ -238,6 +242,8 @@ func _selecionar_acao(indice: int) -> void:
 	_acao.tooltip_text = _acao.get_item_text(indice)
 	if _aviso != null:
 		_aviso.text = "Obra com materiais gratis; no nivel maximo, testa uma reforma." if categoria == "OBRA DO OSVALDO" and indice == 0 else "Altera a partida de teste atual."
+		if categoria == "PERSONAGEM" and indice == 1:
+			_aviso.text = "Ataque testa a espada sem dano na fazenda."
 	_ajustar_altura.call_deferred()
 
 func _executar_selecao() -> void:
@@ -729,6 +735,11 @@ func _reaplicar_personagem() -> void:
 	var cena := get_tree().current_scene
 	var jogador := cena.get_node_or_null("Jogador") if cena != null else null
 	if jogador != null:
+		get_tree().set_meta("visual_cartoon_p1", false)
+		get_tree().set_meta("armadura_cartoon_p1", 0)
+		_remover_prototipo(jogador, "HeroiCartoon")
+		get_tree().set_meta("visual_base_3d_p1", false)
+		_remover_prototipo(jogador, "HeroiBase3D")
 		_remover_prototipo(jogador, "HeroiTiny")
 		_remover_prototipo(jogador, "HeroiGerado")
 		_remover_prototipo(jogador, "HeroiCraftpix")
@@ -740,6 +751,46 @@ func _reaplicar_personagem() -> void:
 		if jogador.usando_escudo and not jogador.usando_arco:
 			jogador.atualizar_texturas_escudo()
 		jogador.definir_sprites_visiveis(false)
+
+func _customizar_roupas_3d() -> void:
+	var cena:=get_tree().current_scene
+	var j=cena.get_node_or_null("Jogador") if cena!=null else null
+	if j==null:return
+	if j.get_node_or_null("HeroiBase3D")==null: _ativar_base_3d(true)
+	if get_node_or_null("CustomizacaoRoupas3D")!=null:return
+	var tela=preload("res://codigo/ui/customizacao_roupas_3d.gd").new()
+	tela.name="CustomizacaoRoupas3D"
+	tela.heroi=j.get_node("HeroiBase3D")
+	add_child(tela)
+	_painel.hide()
+
+func _ativar_base_3d(com_roupa: bool = false,teste_pixel: bool = true,teste_lanca: bool = false,teste_combate: bool = false) -> void:
+	_reaplicar_personagem()
+	var cena := get_tree().current_scene
+	var jogador := cena.get_node_or_null("Jogador") if cena != null else null
+	if jogador == null:
+		return
+	get_tree().set_meta("visual_base_3d_p1", true)
+	var visual = preload("res://codigo/jogador/heroi_base_3d.gd").new()
+	visual.demonstrar_combate_na_fazenda=teste_lanca or teste_combate
+	get_tree().set_meta("demo_combate_base_3d_p1",visual.demonstrar_combate_na_fazenda)
+	visual.arma_demonstracao = 1 if teste_lanca else 0
+	get_tree().set_meta("arma_demo_base_3d_p1",visual.arma_demonstracao)
+	visual.pecas_visiveis = 15 if com_roupa else 0
+	visual.acabamento_pixel_art = teste_pixel
+	get_tree().set_meta("pixel_base_3d_p1",teste_pixel)
+	get_tree().set_meta("pecas_base_3d_p1",visual.pecas_visiveis)
+	jogador.add_child(visual)
+
+func _ativar_cartoon(com_armadura: bool = false) -> void:
+	_reaplicar_personagem()
+	var cena := get_tree().current_scene
+	var jogador := cena.get_node_or_null("Jogador") if cena != null else null
+	if jogador == null:
+		return
+	get_tree().set_meta("visual_cartoon_p1", true)
+	get_tree().set_meta("armadura_cartoon_p1",15 if com_armadura else 0)
+	jogador.add_child(preload("res://codigo/jogador/heroi_cartoon.gd").new())
 
 func _feno_galinheiro_debug() -> void:
 	InventarioJogador.adicionar_coletavel("produto","feno",14)

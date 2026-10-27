@@ -1,6 +1,6 @@
 extends Sprite2D
 ## Corpo base Raven sem roupa/cabelo prontos; apresentação exclusiva do jogador.
-## Único renderizador do jogador: nenhuma ação restaura camadas de outro pacote.
+## Renderizador padrão; o modo cartoon do F3 assume apenas suas poses disponíveis.
 ## A lógica de combate/ferramentas permanece dona dos tempos e impactos.
 const AparenciaRaven := preload("res://codigo/dados/aparencia_raven.gd")
 const PorteArmas := preload("res://codigo/dados/porte_armas_raven.gd")
@@ -140,6 +140,12 @@ func _process(delta: float) -> void:
 		return
 	var original := _jogador.get_node("CompositeSprites") as CanvasItem
 	var pesca := _jogador.get_node_or_null("AnimacaoPesca")
+	var cartoon := _jogador.get_node_or_null("HeroiCartoon") as CanvasItem
+	var base_3d := _jogador.get_node_or_null("HeroiBase3D") as CanvasItem
+	if (cartoon != null and cartoon.visible) or (base_3d != null and base_3d.visible):
+		visible = false
+		original.visible = false
+		return
 	visible = true
 	original.visible = false
 	self_modulate = original.self_modulate

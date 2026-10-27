@@ -237,6 +237,7 @@ var _knockback: Vector2 = Vector2.ZERO
 var temporizador_knockback: float = 0.0
 
 var _direcao_ataque: Vector2 = Vector2.DOWN
+var _direcao_golpe_3d: Vector2 = Vector2.DOWN
 ## Cardinal do último golpe de espada ou lança (desempate das diagonais)
 var _cardinal_anterior: Vector2 = Vector2.DOWN
 var hp_atual: int
@@ -422,6 +423,14 @@ func _ready() -> void:
 	# Visual de teste do F3: só existe na pasta de trabalho, nunca em pacote publicado.
 	if get_tree().get_meta("visual_cartoon_p2" if eh_p2 else "visual_cartoon_p1", false) and ResourceLoader.exists(CARTOON):
 		add_child(load(CARTOON).new())
+	# Personagem 3D é o visual padrão; F3 → RAVEN: REAPLICAR VISUAL volta ao Raven 2D nesta sessão.
+	if get_tree().get_meta("visual_base_3d_p2" if eh_p2 else "visual_base_3d_p1", true):
+		var visual_3d = preload("res://codigo/jogador/heroi_base_3d.gd").new()
+		visual_3d.demonstrar_combate_na_fazenda = bool(get_tree().get_meta("demo_combate_base_3d_p2" if eh_p2 else "demo_combate_base_3d_p1",false))
+		visual_3d.arma_demonstracao = int(get_tree().get_meta("arma_demo_base_3d_p2" if eh_p2 else "arma_demo_base_3d_p1",0))
+		visual_3d.pecas_visiveis = int(get_tree().get_meta("pecas_base_3d_p2" if eh_p2 else "pecas_base_3d_p1",15))
+		visual_3d.acabamento_pixel_art = bool(get_tree().get_meta("pixel_base_3d_p2" if eh_p2 else "pixel_base_3d_p1",true))
+		add_child(visual_3d)
 
 
 
@@ -564,6 +573,7 @@ func _golpe_cancelavel() -> bool:
 
 ## Encerra o golpe sem enfileirar o próximo (mesmo fim do _on_temporizador_ataque_timeout sem fila)
 func _cancelar_golpe() -> void:
+	$AreaAtaque.rotation=0.0
 	_temporizador.stop()
 	_esta_atacando = false
 	ataque_enfileirado = false
@@ -646,6 +656,16 @@ func _criar_rastro_dash() -> void:
 	rastro.global_position = $CompositeSprites.global_position
 	rastro.z_index = z_index - 1
 	rastro.modulate = cor_rastro_dash
+	var base_3d := get_node_or_null("HeroiBase3D")
+	if base_3d != null and base_3d.is_visible_in_tree():
+		base_3d._process(0.0)
+		rastro.add_child(base_3d.criar_rastro())
+		cena_atual.add_child(rastro)
+		rastro.global_transform=base_3d.global_transform
+		var desaparecer:=rastro.create_tween()
+		desaparecer.tween_property(rastro,"modulate:a",0.0,duracao_rastro_dash)
+		desaparecer.tween_callback(rastro.queue_free)
+		return
 	var raven := get_node_or_null("HeroiRaven")
 	if raven != null and raven.is_visible_in_tree():
 		# A pose precisa acompanhar este passo físico antes de fotografar o rastro.
@@ -853,11 +873,21 @@ func _cardinal_de(dir: Vector2) -> Vector2:
 		return horizontal if ax > 0.0 else vertical
 	return horizontal if ax > ay else vertical
 
-# Direção do próximo golpe: a que o jogador está apontando NESTE instante, em cardinal. Também vira o corpo para lá (parado e correndo)
+# Direção do próximo golpe: oito orientações na base 3D, cardinais nos sprites.
 func _apontar_golpe() -> void:
-	_direcao_ataque = _cardinal_de(direcao_apontada())
-	_cardinal_anterior = _direcao_ataque
+	_direcao_ataque = direcao_da_acao(direcao_apontada())
+	_direcao_golpe_3d=_direcao_ataque
+	_cardinal_anterior = _cardinal_de(_direcao_ataque)
+	$AreaAtaque.rotation=(_direcao_ataque.angle()-_cardinal_anterior.angle()) if usa_oito_direcoes() else 0.0
 	virar_para(_direcao_ataque)
+
+func usa_oito_direcoes() -> bool:
+	return get_node_or_null("HeroiBase3D")!=null
+
+func direcao_da_acao(dir: Vector2) -> Vector2:
+	if usa_oito_direcoes():
+		return get_node("HeroiBase3D").direcao_em_oito(dir)
+	return _cardinal_de(dir)
 
 func mover() -> void:
 	# A mira acompanha o direcional mesmo no meio de um golpe (o golpe que já começou não muda; o próximo, enfileirado, sai para onde
@@ -868,6 +898,11 @@ func mover() -> void:
 	# Arco, escudada e outras ações seguem presas ao chão; o golpe de espada/lança permite andar devagar
 	var fator_golpe := 1.0
 	if _esta_atacando:
+		# Personagem base 3D de teste: com ANDAR_NO_GOLPE desligado, planta os pés no golpe (para na hora, sem escorregar).
+		var visual_3d := get_node_or_null("HeroiBase3D")
+		if visual_3d != null and not visual_3d.ANDAR_NO_GOLPE:
+			velocity = Vector2.ZERO
+			return
 		if _temporizador.is_stopped():
 			velocity.x = lerp(velocity.x, 0.0, _friccao)
 			velocity.y = lerp(velocity.y, 0.0, _friccao)
@@ -983,6 +1018,9 @@ func curar(quantidade: int) -> void:
 	atualizar_barra_hp()
 
 func _limite_combo_espada() -> int:
+	var base_3d := get_node_or_null("HeroiBase3D")
+	if base_3d != null and base_3d.usa_combo_espada():
+		return base_3d._duracoes_combo().size()
 	var cartoon := get_node_or_null("HeroiCartoon")
 	if cartoon != null and cartoon.usa_combo_espada():
 		return 2
@@ -1008,7 +1046,11 @@ func logica_combo_ataque() -> void:
 			if cartoon != null and cartoon.visible:
 				cartoon.pedir_golpe_na_fazenda()
 			else:
-				ferramenta_pedida.emit()
+				var base_3d := get_node_or_null("HeroiBase3D")
+				if base_3d != null and base_3d.visible and base_3d.demonstrar_combate_na_fazenda:
+					base_3d.pedir_golpe_na_fazenda()
+				else:
+					ferramenta_pedida.emit()
 		return
 	if picareta_arena_ativa:
 		if atacar:
@@ -1058,6 +1100,9 @@ func logica_combo_ataque() -> void:
 var _alvos_area_golpe := {}
 
 func iniciar_slash_ataque_lanca(nome_anim: String, tempo_slash: float) -> void:
+	var base_3d := get_node_or_null("HeroiBase3D")
+	if base_3d != null and base_3d.usa_combo_lanca():
+		tempo_slash = base_3d.COMBO_LANCA.DURACOES[clampi(_fase_combo,1,3)-1]
 	Ranking.registrar_uso(self,id_lanca_atual)
 	_alvos_area_golpe.clear()
 	# Ajusta a velocidade da animação se necessário (pode ser removido se não for desejado)
@@ -1070,7 +1115,7 @@ func iniciar_slash_ataque_lanca(nome_anim: String, tempo_slash: float) -> void:
 	$AreaAtaque.monitoring = true
 	$AreaAtaque.monitorable = true
 	definir_sprites_visiveis(true)
-	_arvore_animacao.set("parameters/%s/blend_position" % nome_anim, _direcao_ataque)
+	_arvore_animacao.set("parameters/%s/blend_position" % nome_anim, _cardinal_anterior if usa_oito_direcoes() else _direcao_ataque)
 	_maquina_estados.travel(nome_anim)
 	_temporizador.start(tempo_slash)
 	_pode_encadear_combo = true
@@ -1080,6 +1125,9 @@ func _flash_golpe() -> void:
 			Color(1, 0.95, 0.8), 0.9, 0.7, 0.15)
 
 func iniciar_slash_ataque(nome_anim: String, tempo_slash: float) -> void:
+	var base_3d := get_node_or_null("HeroiBase3D")
+	if base_3d != null and base_3d.usa_combo_espada():
+		tempo_slash = base_3d._duracoes_combo()[clampi(_fase_combo,1,base_3d._duracoes_combo().size())-1]
 	var cartoon := get_node_or_null("HeroiCartoon")
 	if cartoon != null and cartoon.usa_combo_espada():
 		tempo_slash = cartoon.DURACAO_GOLPE
@@ -1093,7 +1141,7 @@ func iniciar_slash_ataque(nome_anim: String, tempo_slash: float) -> void:
 	$AreaAtaque.monitoring = true
 	$AreaAtaque.monitorable = true
 	definir_sprites_visiveis(true)
-	_arvore_animacao.set("parameters/%s/blend_position" % nome_anim, _direcao_ataque)
+	_arvore_animacao.set("parameters/%s/blend_position" % nome_anim, _cardinal_anterior if usa_oito_direcoes() else _direcao_ataque)
 	_maquina_estados.travel(nome_anim)
 	_temporizador.start(tempo_slash)
 	_pode_encadear_combo = true
@@ -1102,6 +1150,7 @@ func iniciar_slash_ataque(nome_anim: String, tempo_slash: float) -> void:
 		visual_gerado.iniciar_ataque_espada(tempo_slash, false, maxi(1, _fase_combo))
 
 func _on_temporizador_ataque_timeout() -> void:
+	$AreaAtaque.rotation=0.0
 	_esta_atacando = false
 	$AreaAtaque.monitoring = false
 	$AreaAtaque.monitorable = false
@@ -1643,6 +1692,9 @@ func _ao_disparo_liberado(direcao: Vector2) -> void:
 		Cooperativo.cena_de(self).add_child(flecha)
 		flecha.global_position = global_position + Vector2(0, 2) + rumo * 12.0
 		flecha.iniciar(self, rumo)
+		var visual_3d:=get_node_or_null("HeroiBase3D")
+		if visual_3d!=null and visual_3d.visible and visual_3d._acao=="arco":
+			flecha.alinhar_visual(visual_3d._arco_visual.origem_visual)
 	Sons.tocar("flecha")
 
 func _ao_disparo_terminado() -> void:
@@ -1772,6 +1824,7 @@ func acao_fazenda(acao: String) -> bool:
 	if usando_arco and no_arco.esta_disparando():
 		return false
 	esta_em_acao_fazenda = true
+	if usa_oito_direcoes(): _direcao_ataque=direcao_da_acao(_direcao_ataque)
 	velocity = Vector2.ZERO
 	no_reacao.visible = false
 	no_fazenda.tocar(acao, _direcao_ataque)
@@ -1780,6 +1833,8 @@ func acao_fazenda(acao: String) -> bool:
 
 ## Ponto do chão à frente dos pés, na direção em que o jogador está virado (alvo da enxada, do regador...)
 func ponto_acao_fazenda() -> Vector2:
+	if usa_oito_direcoes():
+		return global_position+Vector2(0,Profundidade.PES_JOGADOR)+direcao_da_acao(_direcao_ataque)*ALCANCE_ACAO_FAZENDA
 	var linha := ArcoJogador.linha_da_direcao(_direcao_ataque)
 	var frente: Vector2 = [Vector2.DOWN, Vector2.UP, Vector2.RIGHT, Vector2.LEFT][linha]
 	return global_position + Vector2(0, Profundidade.PES_JOGADOR) + frente * ALCANCE_ACAO_FAZENDA

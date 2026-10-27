@@ -10,6 +10,7 @@ const ALCANCE := 280.0
 const CAMADA_INIMIGOS := 4
 const CAMADA_MUNDO := 64
 
+var _visual: Sprite2D
 var _direcao: Vector2 = Vector2.RIGHT
 var _jogador: Node = null
 var _percorrido: float = 0.0
@@ -26,6 +27,7 @@ func _init() -> void:
 	colisao.shape = forma
 	add_child(colisao)
 	var sprite := Sprite2D.new()
+	_visual = sprite
 	sprite.texture = TEXTURA
 	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	add_child(sprite)
@@ -68,3 +70,7 @@ func _ao_alvo_entrar(alvo: Node) -> void:
 		_disparo["distancia"] = _percorrido
 		_jogador.aplicar_golpe(alvo, _direcao, 1.0, 1.0, _disparo)
 	queue_free()
+
+## Encaixe cosmético no arco 3D; origem física, alcance e colisão permanecem iguais.
+func alinhar_visual(origem: Vector2) -> void:
+	_visual.position = to_local(origem)

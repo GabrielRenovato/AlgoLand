@@ -22,6 +22,9 @@ func _initialize() -> void:
 		quit(1)
 		return
 	var raiz: String = config["destino"]
+	if "--cartoon" in args:
+		quit(preload("res://ferramentas/armaduras/conjunto_cartoon.gd").validar(config))
+		return
 	if "--corrida" in args:
 		_validar_acoes_fazenda(raiz,true)
 		print("Falhas: ",_falhas)

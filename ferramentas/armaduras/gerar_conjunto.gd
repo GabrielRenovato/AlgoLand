@@ -48,6 +48,12 @@ func _initialize() -> void:
 		quit(1)
 		return
 	_destino = String(_config["destino"])
+	if "--cartoon" in args:
+		var pagina_cartoon := ""
+		for arg in args:
+			if arg.begins_with("--pagina-cartoon="): pagina_cartoon = arg.trim_prefix("--pagina-cartoon=")
+		quit(preload("res://ferramentas/armaduras/conjunto_cartoon.gd").gerar(_config,pagina_cartoon))
+		return
 	_paleta = _config["paleta"]
 	_somente_elmos = "--somente-elmos" in args
 	_somente_peitorais = "--somente-peitorais" in args

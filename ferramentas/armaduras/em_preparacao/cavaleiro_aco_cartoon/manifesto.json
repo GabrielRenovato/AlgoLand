@@ -1,0 +1,326 @@
+{
+  "versao": 1,
+  "id": "cavaleiro_aco_cartoon",
+  "nome": "Cavaleiro de Aço",
+  "raridade": "comum",
+  "arte": "res://arte/fontes/armaduras/cavaleiro_aco_cartoon/conceito_v1.png",
+  "destino": "res://assets/personagens/conjuntos/cavaleiro_aco_cartoon/",
+  "onda_minima": 1,
+  "chances_drop": {
+    "normal": 0.0,
+    "mutante": 0.0,
+    "chefe": 0.0
+  },
+  "preco_base": 900,
+  "bonus": {
+    "tipo": "nenhum",
+    "pecas": 4,
+    "chance": 0.0,
+    "recarga": 0.0,
+    "multiplicador_dano": 0.0,
+    "aviso": 0.0
+  },
+  "bases": {
+    "cabeca": {
+      "vitalidade": [
+        2,
+        3,
+        5,
+        7,
+        9
+      ],
+      "defesa": [
+        2,
+        4,
+        7,
+        10,
+        14
+      ]
+    },
+    "corpo": {
+      "vitalidade": [
+        3,
+        5,
+        8,
+        11,
+        15
+      ],
+      "defesa": [
+        3,
+        6,
+        10,
+        15,
+        20
+      ]
+    },
+    "luvas": {
+      "vitalidade": [
+        1,
+        2,
+        3,
+        4,
+        6
+      ],
+      "defesa": [
+        1,
+        2,
+        4,
+        6,
+        9
+      ]
+    },
+    "botas": {
+      "vitalidade": [
+        1,
+        2,
+        3,
+        4,
+        6
+      ],
+      "defesa": [
+        1,
+        2,
+        4,
+        6,
+        9
+      ]
+    }
+  },
+  "recortes": {
+    "fim_elmo": 0.46,
+    "fim_peitoral": 0.76
+  },
+  "paleta": [
+    "141820",
+    "252a32",
+    "35434e",
+    "526674",
+    "7c96a5",
+    "aec5cd",
+    "dce9e8",
+    "f3f3df",
+    "2b1e20",
+    "493033",
+    "6b4641",
+    "956852"
+  ],
+  "etapa": "previa_cosmetica_cartoon_animada",
+  "apresentacao_cartoon": {
+    "modelo": "res://arte/fontes/personagens/raven_cartoon/corpo_base_cartoon_v1.png",
+    "estilo": "cartoon aprovado, sem conversao para pixel art",
+    "direcoes": [
+      "frente",
+      "costas",
+      "direita",
+      "esquerda"
+    ],
+    "pecas": [
+      "elmo",
+      "peitoral",
+      "luvas",
+      "botas"
+    ],
+    "estado": "camadas animadas independentes; previa cosmetica F3, sem cadastro de itens"
+  },
+  "cartoon": {
+    "destino": "res://assets/personagens/raven_cartoon/armaduras/cavaleiro_aco/",
+    "fontes": "res://arte/fontes/armaduras/cavaleiro_aco_cartoon/animacoes_originais/",
+    "marcacoes": "res://arte/fontes/armaduras/cavaleiro_aco_cartoon/marcacoes_animacoes.json",
+    "paginas": {
+      "corrida_frente": {
+        "corpo": "res://assets/personagens/raven_cartoon/corrida_frente_4.png",
+        "fonte": "corrida_frente_v1.png",
+        "direcoes": [
+          "frente",
+          "frente",
+          "frente",
+          "frente"
+        ]
+      },
+      "corrida_costas": {
+        "corpo": "res://assets/personagens/raven_cartoon/corrida_costas_4.png",
+        "fonte": "corrida_costas_v1.png",
+        "direcoes": [
+          "costas",
+          "costas",
+          "costas",
+          "costas"
+        ]
+      },
+      "corrida_direita": {
+        "corpo": "res://assets/personagens/raven_cartoon/corrida_direita_4.png",
+        "fonte": "corrida_direita_v1.png",
+        "direcoes": [
+          "direita",
+          "direita",
+          "direita",
+          "direita"
+        ],
+        "base_elmo": {
+          "0": [
+            150,
+            272,
+            330,
+            320
+          ],
+          "1": [
+            155,
+            271,
+            340,
+            320
+          ],
+          "2": [
+            145,
+            306,
+            340,
+            356
+          ],
+          "3": [
+            155,
+            332,
+            355,
+            382
+          ]
+        }
+      },
+      "repouso": {
+        "corpo": "res://assets/personagens/raven_cartoon/parado_quatro_direcoes.png",
+        "fonte": "repouso_v1.png",
+        "direcoes": [
+          "frente",
+          "costas",
+          "direita",
+          "esquerda"
+        ],
+        "base_elmo": {
+          "2": [
+            210,
+            269,
+            400,
+            310
+          ],
+          "3": [
+            240,
+            315,
+            440,
+            270
+          ]
+        }
+      },
+      "ataque_baixo": {
+        "corpo": "res://assets/personagens/raven_cartoon/ataque_baixo_sem_arma.png",
+        "fonte": "ataque_baixo_v1.png",
+        "direcoes": [
+          "frente",
+          "frente",
+          "frente",
+          "frente"
+        ]
+      },
+      "ataque_cima": {
+        "corpo": "res://assets/personagens/raven_cartoon/ataque_cima_sem_arma.png",
+        "fonte": "ataque_cima_v1.png",
+        "direcoes": [
+          "costas",
+          "costas",
+          "costas",
+          "costas"
+        ]
+      },
+      "ataque_direita": {
+        "corpo": "res://assets/personagens/raven_cartoon/ataque_direita_sem_arma.png",
+        "fonte": "ataque_direita_v1.png",
+        "direcoes": [
+          "direita",
+          "direita",
+          "direita",
+          "direita"
+        ],
+        "base_elmo": {
+          "0": [
+            175,
+            340,
+            370,
+            398
+          ],
+          "1": [
+            240,
+            380,
+            425,
+            448
+          ],
+          "2": [
+            185,
+            345,
+            400,
+            405
+          ],
+          "3": [
+            185,
+            345,
+            400,
+            405
+          ]
+        }
+      },
+      "ataque2_baixo": {
+        "corpo": "res://assets/personagens/raven_cartoon/ataque2_baixo_sem_arma.png",
+        "fonte": "ataque2_baixo_v1.png",
+        "direcoes": [
+          "frente",
+          "frente",
+          "frente",
+          "frente"
+        ]
+      },
+      "ataque2_cima": {
+        "corpo": "res://assets/personagens/raven_cartoon/ataque2_cima_sem_arma.png",
+        "fonte": "ataque2_cima_v1.png",
+        "direcoes": [
+          "costas",
+          "costas",
+          "costas",
+          "costas"
+        ]
+      },
+      "ataque2_direita": {
+        "corpo": "res://assets/personagens/raven_cartoon/ataque2_direita_sem_arma.png",
+        "fonte": "ataque2_direita_v1.png",
+        "direcoes": [
+          "direita",
+          "direita",
+          "direita",
+          "direita"
+        ],
+        "base_elmo": {
+          "0": [
+            190,
+            340,
+            390,
+            405
+          ],
+          "1": [
+            220,
+            355,
+            420,
+            425
+          ],
+          "2": [
+            220,
+            350,
+            425,
+            425
+          ],
+          "3": [
+            220,
+            350,
+            425,
+            425
+          ]
+        }
+      }
+    },
+    "encaixes_rosto": "res://arte/fontes/armaduras/cavaleiro_aco_cartoon/encaixes_rosto.json",
+    "preservar_quadros_originais": true
+  }
+}

@@ -50,6 +50,8 @@ def preparar():
         if nome == 'direita':
             for q in [2, 3]:
                 fontes[q] = f'quadro_{q+1:02d}_pernas_corrigidas.png'
+                if q == 3:
+                    fontes[q] = 'quadro_04_passada_v2.png'
                 im = Image.open(pasta / fontes[q]).convert('RGBA')
                 # Geração isolada retorna a mesma célula ampliada 2x; escala uniforme da tela.
                 imagens[q] = im.resize(imagens[q].size, Image.Resampling.LANCZOS)
@@ -60,7 +62,8 @@ def preparar():
             imagens[3] = ImageOps.mirror(imagens[1])
             fontes[3] = 'quadro_02_pe_corrigido.png (espelhado)'
         # Uma única escala por direção; nenhum quadro é dimensionado por seu contorno.
-        escala = 755 / median(caixa(im)[3]-caixa(im)[1] for im in imagens)
+        contrato_anterior = json.loads((pasta / 'contrato.json').read_text())
+        escala = contrato_anterior.get('escala_fixa_exportacao', 755 / median(caixa(im)[3]-caixa(im)[1] for im in imagens))
         quadros, dados = [], []
         for q, im in enumerate(imagens):
             im = im.resize((round(im.width*escala), round(im.height*escala)), Image.Resampling.LANCZOS)

@@ -1,0 +1,78 @@
+{
+  "cor": "f5faf7",
+  "amostras": 96,
+  "direcoes": {
+    "baixo": {
+      "centro": [
+        320,
+        470
+      ],
+      "raios": [
+        490,
+        430
+      ],
+      "fases": [
+        null,
+        {
+          "inicio": -140,
+          "fim": -335,
+          "espessura": 64
+        },
+        {
+          "inicio": 15,
+          "fim": 165,
+          "espessura": 38
+        },
+        null
+      ]
+    },
+    "cima": {
+      "centro": [
+        320,
+        470
+      ],
+      "raios": [
+        490,
+        430
+      ],
+      "fases": [
+        null,
+        {
+          "inicio": 155,
+          "fim": 385,
+          "espessura": 64
+        },
+        {
+          "inicio": 200,
+          "fim": 340,
+          "espessura": 38
+        },
+        null
+      ]
+    },
+    "direita": {
+      "centro": [
+        280,
+        470
+      ],
+      "raios": [
+        430,
+        420
+      ],
+      "fases": [
+        null,
+        {
+          "inicio": -65,
+          "fim": 120,
+          "espessura": 64
+        },
+        {
+          "inicio": -80,
+          "fim": 90,
+          "espessura": 38
+        },
+        null
+      ]
+    }
+  }
+}

@@ -211,3 +211,13 @@ modelos/carrasco.json e modelos/prompt_conceito.txt são os modelos de dados e a
 O Rubro preserva a cabeça original: substituir_cabeca=false é registrado na definição gerada, e Aparencia.corpo respeita essa opção mesmo quando há folhas antigas de corpo_sem_cabeca na pasta. A calota precisa cobrir a cabeça real na caminhada; apagar a cabeça para encaixar um capacete menor não passa no teste do Rubro. borda_calota=1 acrescenta um contorno escuro de um pixel às chapas (não aos espigões); deslocamento_vertical_elmo define quatro ajustes inteiros entre -3 e 3 para alinhar cada vista. O visor original é preservado por cima do contorno.
 
 Para exportar os seis quadros de costas dos sete novos conjuntos, executar `ferramentas/armaduras/revisar_corrida_costas.gd` em projeto/save isolado. Captura o controlador com movimento para cima e salva folha ampliada e atlas nativo transparente em `arte/previas/armaduras/corrida_costas/`.
+
+## Adaptador cartoon
+
+Manifestos com `cartoon` usam o gerador e o validador compartilhados com `--cartoon`. Uma atualização localizada pode usar `--pagina-cartoon=ataque2_direita`. `conjunto_cartoon.gd` preserva alfa, filtro e resolução do corpo cartoon, sem quantização nem grade Raven.
+
+O Cavaleiro de Aço é uma prévia cosmética de quatro peças independentes e onze páginas por peça; não cadastra itens reais. Preservar as folhas de `animacoes_originais/`: normalizar a folha inteira para o atlas, sem recentralizar quadros, trocar elmos por modelos parados ou duplicar poses finais. `base_elmo` e as marcações dos braços servem somente para separar peças. O validador exige recomposição exata e igualdade pixel a pixel com a fonte normalizada, além dos hashes das fontes de corpo e armadura.
+
+`cobertura` codifica o slot no canal R com alfa opaco e oculta o corpo somente para as peças ligadas. O rosto original fica numa camada separada atrás da armadura, visível junto do elmo. `encaixes_rosto.json` documenta a abertura por quadro e, em perfis abertos, o recorte da cabeça que exclui as mãos. Ajustar somente essa face à abertura original, preservando o desenho do equipamento. A corrida esquerda espelha cada célula; ataques à esquerda espelham no motor. As projeções antigas de `elmo_canonico/` não são usadas.
+
+`testes/teste_cartoon_fazenda.gd -- --armadura --capturar --tela-inteira` confere peças, rosto sob o elmo, sincronização e restauração em projeto/save isolado. Revisar os quadros e a animação com os tempos reais antes de entregar. A exportação recusa gravações incompletas.

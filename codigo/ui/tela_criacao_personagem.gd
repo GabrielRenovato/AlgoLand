@@ -8,6 +8,11 @@ extends Control
 ## preservando os campos antigos para compatibilidade, e entra no jogo.
 
 signal confirmada(dados: Dictionary)
+signal cancelada
+## Modo edição (menu de pausa / aviso de visual novo): sem trocar de cena, mescla com o save existente
+## e conserva o cabelo/roupa escolhidos para o Raven 2D.
+var modo_edicao := false
+var _dados_existentes: Dictionary = {}
 
 const Aparencia := preload("res://codigo/dados/aparencia_raven.gd")
 const PreviaDigitacao := preload("res://codigo/ui/previa_digitacao.gd")
@@ -65,6 +70,19 @@ var caminho_save := CAMINHO_SAVE
 var cabelo := 0
 var roupa := 0
 var pele := 0
+## Cor dos olhos (índice em HeroiBase3D.OLHOS); o Raven 2D não desenha a íris, o personagem 3D usa.
+var olhos := 0
+const CORES_OLHOS: Array = preload("res://codigo/jogador/heroi_base_3d.gd").OLHOS
+var _botoes_olhos: Array[Button] = []
+## Personagem 3D: penteado e peças do catálogo de roupas 3D, com prévia do próprio modelo.
+const Roupas3D := preload("res://codigo/dados/roupas_base_3d.gd")
+const PreviaHeroi3D := preload("res://codigo/ui/previa_heroi_3d.gd")
+const NOMES_CATEGORIA_3D := {"camisa":"PARTE DE CIMA","calca":"PARTE DE BAIXO","calcado":"CALCADO","cabelo":"PENTEADO"}
+## O Raven 2D ainda desenha o jogador fora do modo 3D: cada penteado leva um cabelo parecido.
+const CABELO_RAVEN_DO_3D := {"cabelo_curto":1, "cabelo_longo":13, "cabelo_cacheado":9}
+var roupas_3d: Dictionary = Roupas3D.padrao()
+var _previa_3d: Node2D
+var _opcoes_3d: Dictionary = {} # categoria -> Array[[id, Button]]
 var _tempo_animacao := 0.0
 var cor: Color = COR_INICIAL
 var apelido := ""
@@ -121,6 +139,10 @@ func _ready() -> void:
 	if trocar_cena:
 		caminho_save = Saves.caminho_personagem(etapa_coop == 2)
 	_montar()
+	if modo_edicao:
+		_campo_nome.text = apelido
+		_botao_confirmar.text = "SALVAR"
+		_botao_voltar.text = "CANCELAR"
 	_atualizar_tudo()
 	_abrir_aba(Aba.CABELO)
 	_teclado = TecladoVirtual.new()
@@ -254,6 +276,12 @@ func _ajustar_paginas() -> void:
 ## A mesma caixa do recorte nativo inclui cabelo, corpo e sombra, sem cortar a prévia.
 func _centralizar_previa() -> void:
 	if _palco == null or _modelo == null: return
+	if _previa_3d != null:
+		# Personagem 3D: cerca de 40×44 px no mundo, com os pés na origem da prévia.
+		var escala_3d := clampf(minf((_palco.size.x-8)/40.0,(_palco.size.y-8)/44.0),1.0,4.0)
+		_modelo.scale = Vector2.ONE*escala_3d
+		_modelo.position = Vector2(_palco.size.x/2.0, _palco.size.y-4).round()
+		return
 	var escala := minf(2.0 if _compacto else ESCALA_PREVIA,minf((_palco.size.x-10)/48.0,(_palco.size.y-10)/52.0))
 	escala = maxf(0.5,escala)
 	_modelo.scale = Vector2.ONE*escala
@@ -321,6 +349,10 @@ func _montar_painel_previa() -> Control:
 	_previa_corpo.material = Aparencia.material_corpo()
 	_previa_roupa = _nova_camada(null)
 	_previa_cabelo = _nova_camada(null)
+	for camada in [_previa_corpo,_previa_roupa,_previa_cabelo]: camada.visible = false
+	sombra.visible = false
+	_previa_3d = PreviaHeroi3D.new()
+	_modelo.add_child(_previa_3d)
 	var girar := HBoxContainer.new()
 	girar.alignment = BoxContainer.ALIGNMENT_CENTER
 	girar.add_theme_constant_override("separation", 6)
@@ -357,7 +389,34 @@ func _montar_painel_previa() -> Control:
 		_botoes_pele.append(tom)
 		tom.pressed.connect(_escolher_pele.bind(i))
 		tons.add_child(tom)
+	var linha_olhos := HBoxContainer.new()
+	linha_olhos.alignment = BoxContainer.ALIGNMENT_CENTER
+	linha_olhos.add_theme_constant_override("separation",4)
+	linhas.add_child(linha_olhos)
+	var rotulo_olhos := Label.new()
+	rotulo_olhos.text = "OLHOS"
+	linha_olhos.add_child(rotulo_olhos)
+	for i in CORES_OLHOS.size():
+		var casa := Button.new()
+		casa.theme_type_variation = &"BotaoSlot"
+		EstiloInicio.casa(casa)
+		casa.custom_minimum_size = Vector2(22,22)
+		casa.tooltip_text = "Cor dos olhos %d" % (i+1)
+		var miolo := ColorRect.new()
+		miolo.color = CORES_OLHOS[i]
+		miolo.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		miolo.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		for lado in ["offset_left","offset_top"]: miolo.set(lado, 4)
+		for lado in ["offset_right","offset_bottom"]: miolo.set(lado, -4)
+		casa.add_child(miolo)
+		casa.pressed.connect(_escolher_olhos.bind(i))
+		linha_olhos.add_child(casa)
+		_botoes_olhos.append(casa)
 	return painel
+
+func _escolher_olhos(indice: int) -> void:
+	olhos = clampi(indice,0,CORES_OLHOS.size()-1)
+	_atualizar_tudo()
 
 func _escolher_pele(indice: int) -> void:
 	pele = clampi(indice,0,2)
@@ -401,7 +460,7 @@ func _botao_seta(icone: Texture2D, passo: int) -> Button:
 
 # Painel da direita: abas, a lista da aba, o nome e os botões de baixo
 func _montar_painel_edicao() -> Control:
-	var par := _novo_painel("CRIAR PERSONAGEM")
+	var par := _novo_painel("EDITAR VISUAL" if modo_edicao else "CRIAR PERSONAGEM")
 	var painel: PanelContainer = par[0]
 	var linhas: VBoxContainer = par[1]
 	_linhas_edicao = linhas
@@ -431,8 +490,8 @@ func _montar_painel_edicao() -> Control:
 	conteudo.resized.connect(func(): _ajustar_paginas.call_deferred())
 	linhas.add_child(conteudo)
 	_paginas = [
-		_montar_lista(Aparencia.cabelos(), true),
-		_montar_lista(Aparencia.roupas(), false),
+		_montar_opcoes_3d(["cabelo"]),
+		_montar_opcoes_3d(["camisa","calca","calcado"]),
 		_montar_cores(),
 	]
 	for pagina in _paginas:
@@ -480,6 +539,49 @@ func _botao_rodape(texto: String, variacao: StringName) -> Button:
 		botao.theme_type_variation = variacao
 	botao.custom_minimum_size = Vector2(70, 24)
 	return botao
+
+## Botões com o nome de cada peça 3D, agrupados por categoria; a prévia mostra a escolha.
+func _montar_opcoes_3d(categorias: Array) -> Control:
+	var rolagem := ScrollContainer.new()
+	rolagem.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	var coluna := VBoxContainer.new()
+	coluna.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	coluna.add_theme_constant_override("separation", 3)
+	rolagem.add_child(coluna)
+	for categoria in categorias:
+		if categorias.size() > 1:
+			var titulo := Label.new()
+			titulo.text = NOMES_CATEGORIA_3D[categoria]
+			titulo.add_theme_color_override("font_color", COR_DESCRICAO)
+			titulo.add_theme_font_size_override("font_size", 8)
+			coluna.add_child(titulo)
+		var grade := GridContainer.new()
+		grade.columns = 2
+		grade.add_theme_constant_override("h_separation", 3)
+		grade.add_theme_constant_override("v_separation", 3)
+		grade.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		coluna.add_child(grade)
+		_opcoes_3d[categoria] = []
+		var grupo := ButtonGroup.new()
+		for modelo in Roupas3D.MODELOS[categoria]:
+			var botao := Button.new()
+			botao.text = String(modelo.nome).to_upper().replace(" COM MEIA-CALÇA","").replace(" DE MANGAS BUFANTES"," BUFANTE").replace(" ANTIGO","")
+			botao.tooltip_text = String(modelo.nome)
+			botao.clip_text = true
+			botao.toggle_mode = true
+			botao.button_group = grupo
+			EstiloInicio.botao(botao, false, 16.0)
+			_botoes_estrutura.append(botao)
+			botao.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			botao.custom_minimum_size = Vector2(0, 22)
+			botao.pressed.connect(_escolher_peca_3d.bind(categoria, String(modelo.id)))
+			grade.add_child(botao)
+			_opcoes_3d[categoria].append([String(modelo.id), botao])
+	return rolagem
+
+func _escolher_peca_3d(categoria: String, id: String) -> void:
+	roupas_3d[categoria] = id
+	_atualizar_tudo()
 
 # Grade de casinhas (cabelos ou roupas) com rolagem
 func _montar_lista(itens: Array[Dictionary], eh_cabelo: bool) -> Control:
@@ -671,6 +773,8 @@ func _atualizar_tudo() -> void:
 	_revelar_selecoes()
 
 func _atualizar_previa() -> void:
+	if _previa_3d != null:
+		_previa_3d.mostrar({"pele":pele,"cabelo":cabelo,"roupa":roupa,"cor":[cor.r,cor.g,cor.b,cor.a],"olhos":olhos}, roupas_3d.duplicate(), _direcao)
 	var quadro: int = int(LINHAS_DIRECAO[_direcao]) * 8 + int(fmod(_tempo_animacao,0.8)/0.2)
 	_previa_corpo.frame = quadro
 	Aparencia.aplicar_roupa(_previa_roupa, roupa, "andar")
@@ -678,8 +782,8 @@ func _atualizar_previa() -> void:
 	Aparencia.aplicar_cabelo(_previa_cabelo, cabelo, "andar", roupa)
 	_previa_cabelo.frame = quadro
 	_previa_cabelo.modulate = cor
-	_rotulo_cabelo.text = Aparencia.nome_cabelo(cabelo)
-	_rotulo_roupa.text = Aparencia.nome_roupa(roupa)
+	_rotulo_cabelo.text = String(Roupas3D.modelo("cabelo", roupas_3d.cabelo).nome).to_upper()
+	_rotulo_roupa.text = String(Roupas3D.modelo("camisa", roupas_3d.camisa).nome).to_upper()
 
 # Refaz as miniaturas: cabelo e roupa escolhidos aparecem em todas, e a escolhida de cada lista fica na moldura dourada
 func _atualizar_casas() -> void:
@@ -695,6 +799,12 @@ func _atualizar_casas() -> void:
 		_marcar(casa["botao"], i == roupa)
 	for i in _casas_cor.size():
 		_marcar(_casas_cor[i], PALETA[i].is_equal_approx(cor))
+	for i in _botoes_olhos.size():
+		_marcar(_botoes_olhos[i], i == olhos)
+	for categoria in _opcoes_3d:
+		for par in _opcoes_3d[categoria]:
+			# Escolhida aparece afundada, como a aba ativa.
+			par[1].set_pressed_no_signal(par[0] == roupas_3d[categoria])
 
 # A escolhida mantém a moldura dourada mesmo sem foco ou mouse.
 func _marcar(botao: Button, escolhida: bool) -> void:
@@ -778,6 +888,10 @@ func sortear() -> void:
 	roupa = Aparencia.roupa_aleatoria(sorteio)
 	cor = PALETA[sorteio.randi_range(0, PALETA.size() - 1)]
 	pele = sorteio.randi_range(0,2)
+	olhos = sorteio.randi_range(0,CORES_OLHOS.size()-1)
+	for categoria in Roupas3D.CATEGORIAS:
+		var lista: Array = Roupas3D.MODELOS[categoria]
+		roupas_3d[categoria] = lista[sorteio.randi_range(0, lista.size()-1)].id
 	_textura_corpo = Aparencia.corpo("andar",pele)
 	_previa_corpo.texture = _textura_corpo
 	_atualizar_tudo()
@@ -788,14 +902,41 @@ func dados_do_personagem() -> Dictionary:
 		"roupa_atual": 2,
 		"apelido": apelido if apelido != "" else NOME_PADRAO,
 		"cor_cabelo": {"r": 1.0, "g": 1.0, "b": 1.0, "a": 1.0},
-		"aparencia_raven": {"versao":1,"pele":pele,"cabelo":cabelo,"roupa":roupa,"cor":[cor.r,cor.g,cor.b,cor.a]},
+		"aparencia_raven": {"versao":1,"pele":pele,"cabelo":CABELO_RAVEN_DO_3D.get(roupas_3d.cabelo, 1),"roupa":maxi(roupa,1),"cor":[cor.r,cor.g,cor.b,cor.a],"olhos":olhos},
+		"roupas_3d": roupas_3d.duplicate(),
 	}
 
 ## Grava o personagem e entra no jogo
+## Edição: começa do personagem salvo (cores, olhos, peças 3D e apelido).
+func carregar_dados(dados: Dictionary) -> void:
+	_dados_existentes = dados.duplicate(true)
+	var aparencia: Dictionary = dados.get("aparencia_raven", {})
+	pele = clampi(int(aparencia.get("pele", 0)), 0, 2)
+	cabelo = int(aparencia.get("cabelo", cabelo))
+	roupa = int(aparencia.get("roupa", roupa))
+	olhos = clampi(int(aparencia.get("olhos", 0)), 0, CORES_OLHOS.size()-1)
+	var c: Array = aparencia.get("cor", [1, 1, 1, 1])
+	cor = Color(c[0], c[1], c[2], c[3] if c.size() > 3 else 1.0)
+	var heroi_script := preload("res://codigo/jogador/heroi_base_3d.gd")
+	roupas_3d = Roupas3D.normalizar(dados.get("roupas_3d", heroi_script.roupas_do_raven(aparencia)))
+	apelido = str(dados.get("apelido", ""))
+	if apelido == NOME_PADRAO: apelido = ""
+	_textura_corpo = Aparencia.corpo("andar", pele)
+
 func confirmar() -> void:
 	if _saindo:
 		return
 	var dados := dados_do_personagem()
+	if modo_edicao:
+		var mesclado := _dados_existentes.duplicate(true)
+		var aparencia: Dictionary = dados.aparencia_raven
+		# Raven 2D: mantém cabelo e roupa que o jogador já tinha.
+		aparencia.cabelo = cabelo
+		aparencia.roupa = roupa
+		for chave in ["aparencia_raven", "roupas_3d", "apelido"]:
+			mesclado[chave] = dados[chave]
+		mesclado.erase("aviso_visual_3d")
+		dados = mesclado
 	var arquivo := FileAccess.open(caminho_save, FileAccess.WRITE)
 	if arquivo == null:
 		push_error("Criação de personagem: não consegui gravar " + caminho_save)
@@ -811,6 +952,9 @@ func confirmar() -> void:
 		_sair_para(Introducao.cena_continuar())
 
 func voltar() -> void:
+	if modo_edicao:
+		cancelada.emit()
+		return
 	if not _saindo and trocar_cena:
 		etapa_coop = 0
 		_sair_para(CENA_TITULO)
@@ -867,8 +1011,8 @@ func _focar_inicio() -> void:
 	_revelar_selecoes()
 	match aba:
 		Aba.CABELO:
-			Controle.focar(_casas_cabelo[cabelo]["botao"])
+			Controle.focar(_opcoes_3d["cabelo"][0][1])
 		Aba.ROUPA:
-			Controle.focar(_casas_roupa[roupa]["botao"])
+			Controle.focar(_opcoes_3d["camisa"][0][1])
 		Aba.COR:
 			Controle.focar(_casas_cor[0])

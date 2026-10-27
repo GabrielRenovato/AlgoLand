@@ -483,6 +483,13 @@ func _atualizar_cursor() -> void:
 	if jogador != null and is_instance_valid(jogador) and jogador.movimento_habilitado and not jogador.esta_em_acao_fazenda:
 		celula = celula_alvo()
 		visivel = Fazenda.dentro_da_area(celula) and not _eh_extracao(Fazenda.acao_da_ferramenta(_lado()))
+		# O teste de espada no F3 não usa a ferramenta nem seu marcador de solo.
+		var cartoon := jogador.get_node_or_null("HeroiCartoon") as CanvasItem
+		if cartoon != null and cartoon.visible:
+			visivel = false
+		var base_3d := jogador.get_node_or_null("HeroiBase3D") as CanvasItem
+		if base_3d != null and base_3d.visible and base_3d.demonstrar_combate_na_fazenda:
+			visivel = false
 		if visivel:
 			valido = _motivo_da_ferramenta(celula) == ""
 	if visivel != _cursor_visivel or celula != _celula_cursor or valido != _cursor_valido:

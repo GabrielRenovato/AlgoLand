@@ -41,6 +41,8 @@ var _tinha_movimento := true
 var _minijogo: Control
 var _sombra: Sprite2D
 var _exclamacao: Label
+var _boia_3d: Polygon2D
+var _linha_3d: Line2D
 var _animacao: Node2D
 var _arvore_ativa := false
 var _visual_visivel := true
@@ -88,6 +90,18 @@ func iniciar(quem: CharacterBody2D, direcao: Vector2, ambiente_agua: String, car
 	quem.get_node("CompositeSprites").visible = false
 	_ataques_bloqueados = quem.ataques_bloqueados
 	quem.ataques_bloqueados = true
+	_linha_3d = Line2D.new()
+	_linha_3d.name = "LinhaVara3D"
+	_linha_3d.width = 0.7
+	_linha_3d.antialiased = true
+	_linha_3d.default_color = Color(0.95,0.96,0.88,0.75)
+	_linha_3d.visible = false
+	add_child(_linha_3d)
+	_boia_3d = Polygon2D.new()
+	_boia_3d.polygon = PackedVector2Array([Vector2(-1,-1),Vector2(2,-1),Vector2(2,2),Vector2(-1,2)])
+	_boia_3d.color = Color("d45548")
+	_boia_3d.visible = false
+	add_child(_boia_3d)
 	_animacao = Animacao.new()
 	_animacao.iniciar(quem,direcao)
 	_exclamacao = Label.new()
@@ -328,11 +342,16 @@ func _draw() -> void:
 		return
 	var ponta: Vector2 = _animacao.ponta() if is_instance_valid(_animacao) else Vector2(0,-12)
 	var boia := posicao_boia()
-	draw_line(ponta, boia, Color(0.95, 0.96, 0.88, 0.7), 1.0)
+	var heroi := jogador.get_node_or_null("HeroiBase3D")
+	if heroi == null or not heroi.visible:
+		_linha_3d.visible = false
+		_boia_3d.visible = false
+		draw_line(ponta, boia, Color(0.95, 0.96, 0.88, 0.7), 1.0)
 	if estado != Estado.LANCANDO:
 		var raio := 3.0 + fmod(Time.get_ticks_msec() / 400.0, 3.0)
 		draw_arc(_alvo + Vector2(0, 2), raio, 0.0, TAU, 14, Color(1, 1, 1, 0.35), 1.0)
-	draw_rect(Rect2(boia - Vector2(1, 1), Vector2(3, 3)), Color("d45548"))
+	if heroi == null or not heroi.visible:
+		draw_rect(Rect2(boia - Vector2(1, 1), Vector2(3, 3)), Color("d45548"))
 
 func posicao_boia() -> Vector2:
 	if estado == Estado.LANCANDO:
@@ -346,3 +365,21 @@ func posicao_boia() -> Vector2:
 	if estado == Estado.BELISCANDO:
 		boia.y += 2.0+roundf(sin(Time.get_ticks_msec()/40.0))
 	return boia
+
+## Executa depois dos modificadores: o cabo e a linha usam a mesma pose final.
+func sincronizar_linha_3d() -> void:
+	if not is_instance_valid(_linha_3d) or not is_instance_valid(_animacao): return
+	_linha_3d.visible = estado not in [Estado.CARREGANDO,Estado.PEGOU] and not (estado==Estado.LANCANDO and _tempo<INICIO_ARREMESSO)
+	_boia_3d.visible = _linha_3d.visible
+	if not _linha_3d.visible: return
+	if estado==Estado.LANCANDO: _animacao.fixar_arremesso_3d()
+	var inicio: Vector2 = _animacao.ponta()
+	var fim := posicao_boia()
+	_boia_3d.position = fim
+	# Pequena folga sob gravidade; tensionar estica o fio sem mover suas pontas.
+	var folga: float = minf(4.0,inicio.distance_to(fim)*0.06)*(1.0-_animacao.tensao)
+	var pontos := PackedVector2Array()
+	for i in 13:
+		var t := i/12.0
+		pontos.append(inicio.lerp(fim,t)+Vector2(0,4.0*t*(1.0-t)*folga))
+	_linha_3d.points = pontos

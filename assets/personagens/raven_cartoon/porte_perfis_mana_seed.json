@@ -1,0 +1,279 @@
+{
+  "referencia_corpo": "arte/pacotes/Jogador/Base/20.01a - Character Base 2.5c/char_a_p1/char_a_p1_0bas_humn_v01.png",
+  "referencia_espada": "arte/pacotes/Jogador/Combate/21.07b - Sword & Shield Combat 2.3a/optional files (unsupported)/char_a_p1/6tla/char_a_p1_6tla_sw01_v01.png",
+  "duracoes_ms": [
+    100,
+    60,
+    140,
+    100,
+    60,
+    140
+  ],
+  "proporcao_corpo": 1.1,
+  "direcoes": {
+    "direita": {
+      "parado": [
+        {
+          "posicao": [
+            -7.425,
+            -19.525
+          ],
+          "angulo": 2.3561945,
+          "camada": -1,
+          "coluna": 0,
+          "linha": 2,
+          "cabo_fonte": [
+            25.25,
+            26.25
+          ],
+          "ponta_fonte": [
+            35.5,
+            36.5
+          ]
+        }
+      ],
+      "correr": [
+        {
+          "posicao": [
+            -7.4119,
+            -22.6548
+          ],
+          "angulo": 2.636658,
+          "camada": -1,
+          "coluna": 0,
+          "linha": 6,
+          "cabo_fonte": [
+            25.261904761904763,
+            23.404761904761905
+          ],
+          "ponta_fonte": [
+            32.5,
+            36.5
+          ]
+        },
+        {
+          "posicao": [
+            0.8119,
+            -22.6548
+          ],
+          "angulo": 3.6465273,
+          "camada": -1,
+          "coluna": 1,
+          "linha": 6,
+          "cabo_fonte": [
+            32.73809523809524,
+            23.404761904761905
+          ],
+          "ponta_fonte": [
+            25.5,
+            36.5
+          ]
+        },
+        {
+          "posicao": [
+            5.225,
+            -26.125
+          ],
+          "angulo": 3.9269908,
+          "camada": -1,
+          "coluna": 6,
+          "linha": 6,
+          "cabo_fonte": [
+            36.75,
+            20.25
+          ],
+          "ponta_fonte": [
+            26.5,
+            30.5
+          ]
+        },
+        {
+          "posicao": [
+            0.8119,
+            -22.6548
+          ],
+          "angulo": 3.6465273,
+          "camada": -1,
+          "coluna": 3,
+          "linha": 6,
+          "cabo_fonte": [
+            32.73809523809524,
+            23.404761904761905
+          ],
+          "ponta_fonte": [
+            25.5,
+            36.5
+          ]
+        },
+        {
+          "posicao": [
+            -7.4119,
+            -22.6548
+          ],
+          "angulo": 2.636658,
+          "camada": -1,
+          "coluna": 4,
+          "linha": 6,
+          "cabo_fonte": [
+            25.261904761904763,
+            23.404761904761905
+          ],
+          "ponta_fonte": [
+            32.5,
+            36.5
+          ]
+        },
+        {
+          "posicao": [
+            -8.525,
+            -26.125
+          ],
+          "angulo": 2.3561945,
+          "camada": -1,
+          "coluna": 7,
+          "linha": 6,
+          "cabo_fonte": [
+            24.25,
+            20.25
+          ],
+          "ponta_fonte": [
+            34.5,
+            30.5
+          ]
+        }
+      ]
+    },
+    "esquerda": {
+      "parado": [
+        {
+          "posicao": [
+            7.425,
+            -19.525
+          ],
+          "angulo": 3.9269908,
+          "camada": -1,
+          "coluna": 0,
+          "linha": 3,
+          "cabo_fonte": [
+            38.75,
+            26.25
+          ],
+          "ponta_fonte": [
+            28.5,
+            36.5
+          ]
+        }
+      ],
+      "correr": [
+        {
+          "posicao": [
+            7.4119,
+            -22.6548
+          ],
+          "angulo": 3.6465273,
+          "camada": -1,
+          "coluna": 0,
+          "linha": 7,
+          "cabo_fonte": [
+            38.73809523809524,
+            23.404761904761905
+          ],
+          "ponta_fonte": [
+            31.5,
+            36.5
+          ]
+        },
+        {
+          "posicao": [
+            -0.8119,
+            -22.6548
+          ],
+          "angulo": 2.636658,
+          "camada": -1,
+          "coluna": 1,
+          "linha": 7,
+          "cabo_fonte": [
+            31.261904761904763,
+            23.404761904761905
+          ],
+          "ponta_fonte": [
+            38.5,
+            36.5
+          ]
+        },
+        {
+          "posicao": [
+            -5.225,
+            -26.125
+          ],
+          "angulo": 2.3561945,
+          "camada": -1,
+          "coluna": 6,
+          "linha": 7,
+          "cabo_fonte": [
+            27.25,
+            20.25
+          ],
+          "ponta_fonte": [
+            37.5,
+            30.5
+          ]
+        },
+        {
+          "posicao": [
+            -0.8119,
+            -22.6548
+          ],
+          "angulo": 2.636658,
+          "camada": -1,
+          "coluna": 3,
+          "linha": 7,
+          "cabo_fonte": [
+            31.261904761904763,
+            23.404761904761905
+          ],
+          "ponta_fonte": [
+            38.5,
+            36.5
+          ]
+        },
+        {
+          "posicao": [
+            7.4119,
+            -22.6548
+          ],
+          "angulo": 3.6465273,
+          "camada": -1,
+          "coluna": 4,
+          "linha": 7,
+          "cabo_fonte": [
+            38.73809523809524,
+            23.404761904761905
+          ],
+          "ponta_fonte": [
+            31.5,
+            36.5
+          ]
+        },
+        {
+          "posicao": [
+            8.525,
+            -26.125
+          ],
+          "angulo": 3.9269908,
+          "camada": -1,
+          "coluna": 7,
+          "linha": 7,
+          "cabo_fonte": [
+            39.75,
+            20.25
+          ],
+          "ponta_fonte": [
+            29.5,
+            30.5
+          ]
+        }
+      ]
+    }
+  }
+}

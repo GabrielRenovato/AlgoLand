@@ -168,6 +168,7 @@ func _parar(delta: float) -> void:
 
 ## O vetor cardinal (como a linha da folha) mais próximo de uma direção
 func _cardinal(dir: Vector2) -> Vector2:
+	if jogador.usa_oito_direcoes(): return jogador.direcao_da_acao(dir)
 	match ArcoJogador.linha_da_direcao(dir):
 		0: return Vector2.DOWN
 		1: return Vector2.UP
