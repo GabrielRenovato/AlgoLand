@@ -11,7 +11,30 @@ static func cabelo(base: ArrayMesh,corpo: MeshInstance3D,s: Skeleton3D,forma: in
     var rig:=Modelagem.ligacoes(corpo,s)
     var bind: int=rig["DEF-head"]
     var transformacao:=corpo.global_transform.affine_inverse()*s.global_transform*s.get_bone_global_rest(s.find_bone("DEF-head"))
-    if forma in [1,2]:
+    if forma==4:
+        # Raspado: sem malha; o shader da pele pinta o cabelo rente (raspado no acabamento_base_3d).
+        return ArrayMesh.new()
+    if forma==5:
+        # Espetado: touca curta e pontas cônicas pelo topo, inclinadas para trás.
+        var aneis5: Array=[]
+        for nivel in 3:
+            var anel5: Array=[]
+            for q in 33:
+                var a:=-TAU*q/32.0
+                var raio: float=[.070,.114,.120][nivel]
+                var y: float=[.255,.215,.140][nivel]
+                if nivel==2: y+=.06*maxf(0.0,sin(a))-.03*maxf(0.0,-sin(a))
+                anel5.append(Vector3(cos(a)*raio,y,sin(a)*raio*.95-.012))
+            aneis5.append(anel5)
+        for n in 2:
+            for q in 32:
+                _quad_cabelo(st,[aneis5[n][q],aneis5[n+1][q],aneis5[n+1][q+1],aneis5[n][q+1]],transformacao,bind)
+        for i in 9:
+            var a:=TAU*i/9.0+.3
+            var base5:=Vector3(cos(a)*.065,.245,sin(a)*.062-.02)
+            var ponta5:=base5+Vector3(cos(a)*.045,.075,sin(a)*.03-.035)
+            _mecha(st,[[base5,.028,.026],[base5.lerp(ponta5,.55),.016,.015],[ponta5,.002,.002]],transformacao,bind)
+    elif forma in [1,2]:
         var longo:=forma==2
         # Cortina aberta na frente: nuca e laterais sem cobrir os olhos.
         var aneis: Array=[]

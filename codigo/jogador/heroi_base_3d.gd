@@ -213,6 +213,7 @@ func definir_roupas_3d(dados: Dictionary) -> void:
 	if not _cache_roupas.has(cabelo.id):
 		_cache_roupas[cabelo.id]=preload("res://codigo/jogador/visuais_femininos_3d.gd").cabelo(_molde_cabelo,corpo,_esqueleto,cabelo.forma)
 	_pecas[3].mesh=_cache_roupas[cabelo.id]
+	corpo.material_override.set_shader_parameter("raspado", cabelo.forma==4)
 	corpo.material_override.set_shader_parameter("altura_botas",CATALOGO_ROUPAS.modelo("calcado",roupas_3d.calcado).altura)
 
 ## Save de antes do personagem 3D: veste o equivalente do Raven (cores e roupa) e grava uma vez.
@@ -605,6 +606,11 @@ func _aplicar_cores() -> void:
 		m.set_shader_parameter("cor_olhos", OLHOS[clampi(int(aparencia.get("olhos",0)),0,OLHOS.size()-1)])
 	var cor: Array = aparencia.get("cor",[1,1,1,1])
 	(_pecas[3].material_override as ShaderMaterial).set_shader_parameter("cor_cabelo", Color(cor[0],cor[1],cor[2]))
+	if corpo != null:
+		# Raspado pinta a pele com o tom médio do cabelo (branco = castanho original).
+		var tinta := Color(cor[0],cor[1],cor[2])
+		var media := Color(0.36,0.24,0.16) if tinta.is_equal_approx(Color.WHITE) else tinta*0.62
+		corpo.material_override.set_shader_parameter("cor_raspado", Color(media.r,media.g,media.b,1.0))
 
 func _process(delta: float) -> void:
 	_aplicar_cores()

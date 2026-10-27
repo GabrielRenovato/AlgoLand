@@ -79,7 +79,7 @@ const Roupas3D := preload("res://codigo/dados/roupas_base_3d.gd")
 const PreviaHeroi3D := preload("res://codigo/ui/previa_heroi_3d.gd")
 const NOMES_CATEGORIA_3D := {"camisa":"PARTE DE CIMA","calca":"PARTE DE BAIXO","calcado":"CALCADO","cabelo":"PENTEADO"}
 ## O Raven 2D ainda desenha o jogador fora do modo 3D: cada penteado leva um cabelo parecido.
-const CABELO_RAVEN_DO_3D := {"cabelo_curto":1, "cabelo_longo":13, "cabelo_cacheado":9}
+const CABELO_RAVEN_DO_3D := {"cabelo_curto":1, "cabelo_raspado":3, "cabelo_espetado":5, "cabelo_chanel":7, "cabelo_longo":13, "cabelo_cacheado":9}
 var roupas_3d: Dictionary = Roupas3D.padrao()
 var _previa_3d: Node2D
 var _opcoes_3d: Dictionary = {} # categoria -> Array[[id, Button]]

@@ -21,6 +21,9 @@ uniform bool esconder_camisa = false;
 // Personalização: cor do cabelo (branco = cor pintada original), olhos.
 uniform vec4 cor_cabelo : source_color = vec4(1.0);
 uniform vec4 cor_olhos : source_color = vec4(0.29, 0.22, 0.20, 1.0);
+// Penteado raspado: cabelo curtinho pintado no couro cabeludo, acima da linha do cabelo.
+uniform bool raspado = false;
+uniform vec4 cor_raspado : source_color = vec4(0.36, 0.24, 0.16, 1.0);
 uniform bool esconder_calca = false;
 uniform bool esconder_botas = false;
 // Acabamento toon: luz em três faixas e brilho de borda. `inflar` engorda a malha
@@ -164,6 +167,13 @@ void fragment() {
     if (usar_cor_do_vertice && COLOR.r > 0.25 && COLOR.r < 0.75) {
         vec3 p = vec3(COLOR.g*0.30-0.15,COLOR.b*0.32-0.03,COLOR.a*0.32-0.16);
         float frente = smoothstep(0.030,0.040,p.z);
+        if (raspado) {
+            // Linha do cabelo: alta na testa, baixa na nuca; borda um pouco irregular.
+            float linha = mix(0.085, 0.215, smoothstep(-0.06, 0.09, p.z)) + 0.004*sin(p.x*140.0);
+            float cabelo = smoothstep(linha, linha+0.012, p.y);
+            float fios = 0.88 + 0.12*sin(p.x*420.0 + p.z*380.0)*sin(p.y*510.0);
+            ALBEDO = mix(ALBEDO, cor_raspado.rgb*fios, cabelo);
+        }
         vec2 olho_p = vec2(abs(p.x)-0.040,p.y-0.138);
         vec3 tinta = vec3(0.065,0.045,0.085);
         float branco = elipse(olho_p,vec2(0.027,0.037))*frente;

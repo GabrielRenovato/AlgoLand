@@ -21,7 +21,11 @@ const MODELOS := {
         {"id":"sapatos_viagem","nome":"Sapatos de viagem","cor":"443642","forma":2,"estilo":2,"altura":0.14},
         {"id":"sapatilhas_vinho","nome":"Sapatilhas vinho","cor":"985563","forma":3,"estilo":3,"altura":0.12}],
     "cabelo":[
-        {"id":"cabelo_curto","nome":"Curto","forma":1},
+        # cabelo_curto = penteado masculino original (pintado); o chanel ganhou id próprio.
+        {"id":"cabelo_curto","nome":"Bagunçado","forma":0},
+        {"id":"cabelo_raspado","nome":"Raspado","forma":4},
+        {"id":"cabelo_espetado","nome":"Espetado","forma":5},
+        {"id":"cabelo_chanel","nome":"Chanel","forma":1},
         {"id":"cabelo_longo","nome":"Longo","forma":2},
         {"id":"cabelo_cacheado","nome":"Cacheado","forma":3}]
 }
@@ -29,7 +33,7 @@ static func padrao() -> Dictionary:
     return {"camisa":"camisa_bosque","calca":"calca_sarja","calcado":"botas_couro","cabelo":"cabelo_curto"}
 static func modelo(categoria: String,id: String) -> Dictionary:
     if categoria=="cabelo":
-        id={"cabelo_chanel":"cabelo_curto","cabelo_rabo":"cabelo_longo","cabelo_trancas":"cabelo_cacheado"}.get(id,id)
+        id={"cabelo_rabo":"cabelo_longo","cabelo_trancas":"cabelo_cacheado"}.get(id,id)
     for item in MODELOS[categoria]:
         if item.id==id: return item
     return MODELOS[categoria][0]
