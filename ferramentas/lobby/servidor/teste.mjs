@@ -150,6 +150,23 @@ b.ws.send(JSON.stringify({ t: 'sair' }));
 await esperar(150);
 conferir(![...servidor.jogadores.values()].some((p) => p.apelido === 'BETO'), 'sair remove na hora');
 for (const cl of [a, c2, d, ...e, f]) try { cl.fechar(); } catch {}
+// Peixe pescado: id do catálogo passa; texto fora do padrão é barrado
+{
+  const p1 = new Cliente(url, cod(41)), p2 = new Cliente(url, cod(42));
+  await p1.conectar({ x: 100, y: 100, mapa: 2, apelido: 'PESCA', aparencia });
+  await p2.conectar({ x: 120, y: 100, mapa: 2, apelido: 'OLHA', aparencia });
+  await p2.esperarSnapshot((s) => s.jogadores.length === 2);
+  p1.ws.send(JSON.stringify({ t: 'acao', acao: 'peixe', peixe: 'tilapia', combo: 2, duracao: 2 }));
+  p1.ws.send(JSON.stringify({ t: 'acao', acao: 'peixe', peixe: '<script>alert(1)</script>', combo: 1 }));
+  const visto = await p2.esperarSnapshot((s) => s.acoes?.some((a) => a.acao === 'peixe'));
+  const peixes = (visto?.acoes ?? []).filter((a) => a.acao === 'peixe');
+  await new Promise((r) => setTimeout(r, 200));
+  const todos = p2.msgs.flatMap((m) => m.acoes ?? []).filter((a) => a.acao === 'peixe');
+  conferir(peixes[0]?.peixe === 'tilapia' && peixes[0]?.combo === 2, 'peixe pescado chega a quem está no mapa');
+  conferir(todos.length === 1, 'peixe com id inválido é barrado', JSON.stringify(todos));
+  p1.fechar(); p2.fechar();
+}
+
 await servidor.parar();
 
 // Expiração: quem para de enviar estado some (servidor próprio, com prazo curto)

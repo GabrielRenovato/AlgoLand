@@ -27,7 +27,8 @@ export const CONFIG = {
 };
 const ENVELOPE = { x: 1024, y: 576 };
 const REGEX_HEX = /^[a-f0-9]{24,64}$/;
-const ACOES = new Set(['ataque', 'arco', 'dash']);
+const ACOES = new Set(['ataque', 'arco', 'dash', 'peixe']);
+const REGEX_PEIXE = /^[a-z0-9_]{1,40}$/;
 
 export function criarServidor(config = CONFIG) {
   /** @type {Map<string, any>} id -> jogador */
@@ -143,7 +144,7 @@ export function criarServidor(config = CONFIG) {
     const limite = Date.now() - config.idadeAcaoMs;
     const novasAcoes = jogador.mapa > 0
       ? acoes.filter((a) => a.n > jogador.ultimaAcao && a.mapa === jogador.mapa && a.jogador !== jogador.id && a.em >= limite)
-        .map((a) => ({ jogador: a.jogador, acao: a.acao, duracao: a.duracao, combo: a.combo, direcao: a.direcao }))
+        .map((a) => ({ jogador: a.jogador, acao: a.acao, duracao: a.duracao, combo: a.combo, direcao: a.direcao, ...(a.peixe ? { peixe: a.peixe } : {}) }))
       : [];
     jogador.ultimaAcao = proximaAcao - 1;
     const mudou = forcar || assinatura !== jogador.ultimaAssinatura || jogador.confirmado !== null || jogador.aviso !== '' || novasAcoes.length > 0;
@@ -186,8 +187,14 @@ export function criarServidor(config = CONFIG) {
         const duracao = Number.isFinite(dados.duracao) ? Math.max(0.05, Math.min(2, dados.duracao)) : 0.3;
         const combo = Number.isInteger(dados.combo) ? Math.max(0, Math.min(3, dados.combo)) : 0;
         const direcao = Number.isInteger(dados.direcao) ? Math.max(0, Math.min(3, dados.direcao)) : jogador.direcao;
+        // Peixe pescado: só o id do catálogo e a qualidade (0 normal .. 3 irídio); o resto vem do jogo de quem vê.
+        let peixe = '';
+        if (dados.acao === 'peixe') {
+          if (typeof dados.peixe !== 'string' || !REGEX_PEIXE.test(dados.peixe)) break;
+          peixe = dados.peixe;
+        }
         contadores.acoes += 1;
-        acoes.push({ n: proximaAcao++, jogador: jogador.id, mapa: jogador.mapa, acao: dados.acao, duracao, combo, direcao, em: agora });
+        acoes.push({ n: proximaAcao++, jogador: jogador.id, mapa: jogador.mapa, acao: dados.acao, duracao, combo, direcao, peixe, em: agora });
         while (acoes.length > config.acoesGuardadas) acoes.shift();
         break;
       }

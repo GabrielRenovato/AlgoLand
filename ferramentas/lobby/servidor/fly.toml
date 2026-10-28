@@ -11,6 +11,8 @@ primary_region = "gru"
   # Painel administrativo só na rede privada da conta (não está no http_service, então não é público).
   # No PC: ./abrir_painel_fly.sh abre o túnel `fly proxy` e o painel ligado a ele.
   ADMIN_PORTA = "8788"
+  # Instantâneos dos mapas a cada 50 ms (a cidade envia a 10 Hz; 100 ms somava atraso).
+  TICK_MS = "50"
   ADMIN_HOST = "fly-local-6pn"
 
 [http_service]

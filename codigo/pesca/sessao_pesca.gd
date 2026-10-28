@@ -279,6 +279,7 @@ func _pegar(perfeita := false) -> void:
 		_xp_ganha = Progressao.xp(jogador) - xp_antes
 		preload("res://codigo/pesca/varas.gd").registrar_peixe(jogador)
 	Sons.tocar("moeda", 0.05)
+	_avisar_online()
 	if _sombra != null:
 		_sombra.queue_free()
 		_sombra = null
@@ -295,6 +296,14 @@ func _pegar(perfeita := false) -> void:
 	tween.tween_interval(2.4)
 	tween.tween_property(_aviso_captura, "modulate:a", 0.0, 0.2)
 	tween.tween_callback(_terminar)
+
+## Mostra o peixe aos outros jogadores online do mesmo mapa (cidade, floresta, praia).
+func _avisar_online() -> void:
+	var cena := jogador.get_tree().current_scene
+	var lobby := cena.get_node_or_null("LobbyCidade") if cena != null else null
+	if lobby == null or not lobby.has_method("sessao_de"): return
+	var sessao: Node = lobby.sessao_de(jogador)
+	if sessao != null and sessao.has_method("avisar_peixe"): sessao.avisar_peixe(peixe, qualidade_peixe)
 
 func _terminar() -> void:
 	if is_queued_for_deletion():

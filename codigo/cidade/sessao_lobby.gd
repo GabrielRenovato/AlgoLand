@@ -39,7 +39,7 @@ const INTERVALO_GLOBAL := 3.0
 var _intervalo_pedido := INTERVALO_CONSULTA
 ## Transporte WebSocket (servidor próprio em ferramentas/lobby/servidor): quando há endereço, substitui as consultas HTTP ao banco
 const Config := preload("res://codigo/dados/ranking_config.gd")
-const INTERVALO_ESTADO_WS := 0.25
+const INTERVALO_ESTADO_WS := 0.1 # 10 Hz andando; o avatar dos outros interpola com atraso (jogador_lobby.gd)
 const INTERVALO_OCIOSO_WS := 4.0
 const MAXIMO_AVATARES_WS := 24
 var _url_ws := ""
@@ -228,10 +228,18 @@ func _ao_acao_visual(acao: String, duracao: float, combo: int) -> void:
  elif vetor.y<0: direcao = 2
  _ws.send_text(JSON.stringify({"t":"acao","acao":acao,"duracao":duracao,"combo":combo,"direcao":direcao}))
 
+## Peixe pescado (sessao_pesca.gd): os outros jogadores do mapa veem o peixe sobre este avatar.
+## A qualidade (0 normal .. 3 irídio) vai no campo combo do aviso.
+func avisar_peixe(peixe: String, qualidade: int) -> void:
+ if _ws == null or not _ws_entrou or _ws.get_ready_state()!=WebSocketPeer.STATE_OPEN or mapa_id()==0: return
+ _ws.send_text(JSON.stringify({"t":"acao","acao":"peixe","peixe":peixe,"combo":clampi(qualidade,0,3),"duracao":2.0,"direcao":_direcao_visual()}))
+
 func _conectar_ws() -> void:
  if not is_instance_valid(jogador) or not jogador.is_inside_tree(): return
  _ws = WebSocketPeer.new()
  _ws.heartbeat_interval = 15.0
+ # Sem Nagle: as posições pequenas e frequentes saem na hora.
+ _ws.set_no_delay(true)
  _ws_entrou = false
  _ws_tempo_conexao = 0.0
  if _ws.connect_to_url(_url_ws)!=OK:
@@ -374,7 +382,7 @@ func _processar(dados: Dictionary, mapa_pedido: int, retrato: String) -> void:
  participantes = novos
  if mapa_pedido>0 and mapa_id()==mapa_pedido and dados.get("acoes") is Array:
   for acao in dados.acoes.slice(0,16):
-   if acao is Dictionary and str(acao.get("jogador","")).length()==36 and str(acao.get("acao","")) in ["ataque","arco","dash"]:
+   if acao is Dictionary and str(acao.get("jogador","")).length()==36 and str(acao.get("acao","")) in ["ataque","arco","dash","peixe"]:
     acao_remota.emit(str(acao.jogador),acao)
  for id in _visuais.keys():
   if not novos.has(id): _visuais.erase(id); _conhecidos.erase(id)

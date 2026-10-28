@@ -59,6 +59,18 @@ func rodar():
 	if not await esperar_ate(func(): return current_scene != null and current_scene.scene_file_path == duelo.CENA_ARENA, 20.0): log_("FALHA nao foi para a arena"); quit(1); return
 	log_("na arena, lado=%d" % duelo.meu_lado)
 	var arena = current_scene
+	var vistos := {}
+	var registrar := func(n: Node):
+		if not n.has_method("definir_dano") or vistos.has(n): return
+		vistos[n] = true
+		(func():
+			var rotulo: Label = n.get_node("Rotulo")
+			var em_mim: bool = n.global_position.distance_to(arena.jogador.global_position) < n.global_position.distance_to(arena.adversario.global_position)
+			var cor: Color = rotulo.modulate
+			var esperado: Color = arena.cor_do_dano(not em_mim)
+			log_("cor_dano: texto=%s em=%s cor=%s esperado=%s ok=%s" % [rotulo.text, "mim" if em_mim else "adversario", cor.to_html(false), esperado.to_html(false), cor.is_equal_approx(esperado)])
+		).call_deferred()
+	arena.child_entered_tree.connect(registrar)
 	await esperar(60)
 	await foto("arena_inicio")
 	var rounds_vistos := 0
@@ -97,7 +109,17 @@ func rodar():
 				soltura.action = "attack"
 				soltura.pressed = false
 				Input.parse_input_event(soltura)
-				await esperar(22)
+				for espera in 22:
+					await process_frame
+					var visiveis := arena.get_children().filter(func(n): return n.has_method("definir_dano"))
+					if not visiveis.is_empty() and not has_meta("foto_numero"):
+						set_meta("foto_numero", true)
+						await esperar(4)
+						log_("numero na tela: %s" % [visiveis.map(func(n): return n.get_node("Rotulo").text)])
+						await RenderingServer.frame_post_draw
+						var tela := root.get_texture().get_image()
+						var centro := Vector2i(tela.get_size() / 2)
+						tela.get_region(Rect2i(centro - Vector2i(240, 170), Vector2i(480, 300))).save_png("%s/duelo_a_numeros.png" % saida)
 			await esperar(30)
 			log_("golpe real: distancia=%.0f hp_adversario %d -> %d" % [arena.jogador.global_position.distance_to(arena.adversario.global_position), antes, arena.adversario.hp])
 			if "--aparo" in OS.get_cmdline_user_args():

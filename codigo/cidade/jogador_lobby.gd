@@ -6,14 +6,10 @@ var identificador := ""
 var apelido := "sem apelido"
 var nome: Label
 var corpo: Node2D
-var _rota := PackedVector2Array()
-var _velocidade := 0.0
 var _direcao := 0
 var _tempo := 0.0
 var _aparencia := {}
-var _ultimo_destino := Vector2(-1,-1)
 var _ultima_amostra := -1.0
-var _ultima_recepcao := -1.0
 ## Ação em curso (golpe, disparo ou esquiva) tocada a partir do aviso do servidor; pesca vem do estado (quadro 0 a 3, -1 fora dela)
 var _acao := ""
 var _acao_inicio := 0.0
@@ -25,8 +21,14 @@ const DURACAO_DISPARO_ARCO: Array[float] = [0.18, 0.1, 0.1, 0.1, 0.4, 0.05, 0.05
 const COLUNA_DISPARO_ARCO := [0,0,1,1,1,2,3,3]
 ## Trechos curtos não passam pelo centro das células da grade: o avatar parado não pode "andar" até ele e voltar a cada consulta
 const TRECHO_DIRETO := 14.0
-## Menor intervalo entre amostras (o servidor próprio envia a 4 Hz; o banco, a cada 0,55 s)
-const INTERVALO_CONSULTA_REMOTO := 0.2
+## Interpolação com atraso (como no duelo): o avatar é desenhado um pouco no passado, entre duas
+## posições reais, no relógio do servidor ("instante"). Sem isso, cada pacote fora do ritmo parava
+## ou acelerava o boneco. O atraso acompanha o ritmo de envio (10 Hz no servidor próprio, 0,55 s no banco).
+const ATRASO_MIN := 0.15
+const ATRASO_MAX := 0.9
+var _amostras: Array = [] # [instante_servidor, posição]
+var _desvio_relogio := INF # relógio local - relógio do servidor (o menor visto)
+var _intervalo_medio := 0.1
 
 class Corpo extends "res://codigo/jogador/representacao_heroi_3d.gd":
  func _ready() -> void:
@@ -69,34 +71,54 @@ func atualizar(dados: Dictionary, visual: Dictionary, inicial := false) -> void:
  var agora := Time.get_ticks_usec()/1000000.0
  var amostra := float(dados.get("instante",agora))
  if _ultima_amostra>=0 and amostra<=_ultima_amostra: return
- var intervalo := INTERVALO_CONSULTA_REMOTO
- if _ultima_amostra>=0:
-  intervalo = maxf(INTERVALO_CONSULTA_REMOTO,amostra-_ultima_amostra if dados.has("instante") else agora-_ultima_recepcao)
- _ultima_amostra = amostra
- _ultima_recepcao = agora
+ _desvio_relogio = minf(_desvio_relogio, agora-amostra)
  var destino := Vector2(float(dados.x),float(dados.y))
- var mesmo_destino := destino.distance_to(_ultimo_destino)<0.5
- _ultimo_destino = destino
- if inicial or position.distance_to(destino)>240:
+ if inicial or _amostras.is_empty() or position.distance_to(destino)>240:
   position = destino
-  _rota.clear()
- elif mesmo_destino:
-  # Uma posição repetida não reinicia nem acelera o trecho ainda em reprodução.
-  if _rota.is_empty(): _velocidade = 0.0
- elif position.distance_to(destino)<TRECHO_DIRETO:
-  _rota = PackedVector2Array([destino])
-  _velocidade = position.distance_to(destino)/intervalo
- else:
+  _amostras = [[amostra,destino]]
+  _ultima_amostra = amostra
+  return
+ var anterior: Array = _amostras.back()
+ var lacuna := amostra-float(anterior[0])
+ var andou := (anterior[1] as Vector2).distance_to(destino)>0.5
+ if andou: _intervalo_medio = lerpf(_intervalo_medio, clampf(lacuna,0.03,1.0), 0.2)
+ # Parado (só manda sinal de vida a cada 2 s) e voltou a andar: ficou no lugar até um intervalo antes.
+ if andou and lacuna>maxf(0.35,_intervalo_medio*2.5):
+  _amostras.append([amostra-_intervalo_medio, anterior[1]])
+  anterior = _amostras.back()
+ # Salto longo (pacote perdido): passa pelos pontos da grade para não atravessar paredes.
+ if andou and (anterior[1] as Vector2).distance_to(destino)>TRECHO_DIRETO*3:
   var cidade := get_parent().get_parent()
-  # Cidade e praia têm grade de navegação; na floresta o avatar segue em linha reta até a nova posição
-  _rota = cidade.caminho_entre(position,destino) if cidade.has_method("caminho_entre") else PackedVector2Array([destino])
-  var comprimento := 0.0
-  var anterior := position
-  for ponto in _rota: comprimento+=anterior.distance_to(ponto); anterior=ponto
-  _velocidade = comprimento/intervalo
+  if cidade.has_method("caminho_entre"):
+   var rota: PackedVector2Array = cidade.caminho_entre(anterior[1],destino)
+   var total := 0.0
+   var ponto_anterior: Vector2 = anterior[1]
+   for ponto in rota: total+=ponto_anterior.distance_to(ponto); ponto_anterior=ponto
+   var feito := 0.0
+   ponto_anterior = anterior[1]
+   var inicio := float(anterior[0])
+   for k in rota.size()-1:
+    feito += ponto_anterior.distance_to(rota[k]); ponto_anterior = rota[k]
+    _amostras.append([lerpf(inicio,amostra,feito/maxf(total,0.001)), rota[k]])
+ _amostras.append([amostra,destino])
+ while _amostras.size()>24: _amostras.pop_front()
+ _ultima_amostra = amostra
+
+func _posicao_no_tempo(t: float) -> Vector2:
+ var primeira: Array = _amostras[0]
+ if t<=float(primeira[0]): return primeira[1]
+ for k in range(1,_amostras.size()):
+  var b: Array = _amostras[k]
+  if t<=float(b[0]):
+   var a: Array = _amostras[k-1]
+   return (a[1] as Vector2).lerp(b[1],(t-float(a[0]))/maxf(float(b[0])-float(a[0]),0.001))
+ return (_amostras.back() as Array)[1]
 
 ## Aviso do servidor: o dono deste avatar acabou de atacar, disparar ou esquivar
 func iniciar_acao(dados: Dictionary) -> void:
+ if str(dados.get("acao","")) == "peixe":
+  _mostrar_peixe(str(dados.get("peixe","")), clampi(int(dados.get("combo",0)),0,3))
+  return
  _acao = str(dados.get("acao",""))
  _acao_inicio = Time.get_ticks_usec()/1000000.0
  _acao_duracao = clampf(float(dados.get("duracao",0.3)),0.05,2.0)
@@ -109,6 +131,48 @@ func iniciar_acao(dados: Dictionary) -> void:
   _acao_combo = clampi(int(dados.get("combo",0)),0,3)
  _acao_direcao = clampi(int(dados.get("direcao",_direcao)),0,3)
  _direcao = _acao_direcao
+
+## Peixe que o outro jogador acabou de pescar: ícone pulando sobre a cabeça e o nome, por ~2,6 s.
+## Nome na cor da raridade; a qualidade (prata/ouro/irídio) aparece junto, na cor dela.
+const Peixes := preload("res://codigo/pesca/peixes.gd")
+const Qualidade := preload("res://codigo/pesca/qualidade_peixe.gd")
+const Raridades := preload("res://codigo/dados/raridades.gd")
+const FONTE_PEIXE := preload("res://assets/ui/Planes_ValMore.ttf")
+var _peixe_mostrado: Node2D
+
+func _mostrar_peixe(id: String, qualidade: int) -> void:
+ if id.is_empty() or not Peixes.DADOS.has(id) and id != "pedra_vara": return
+ if is_instance_valid(_peixe_mostrado): _peixe_mostrado.queue_free()
+ var caixa := Node2D.new()
+ # Logo acima do nome do jogador.
+ caixa.position = Vector2(0, nome.position.y - 10)
+ caixa.z_as_relative = false
+ caixa.z_index = 4000
+ add_child(caixa)
+ _peixe_mostrado = caixa
+ var icone := Sprite2D.new()
+ icone.texture = Peixes.icone(id)
+ icone.scale = Vector2.ONE * (16.0 / maxf(1.0, float(icone.texture.get_width()))) if icone.texture else Vector2.ONE
+ caixa.add_child(icone)
+ var texto := Label.new()
+ texto.text = Peixes.nome(id).to_upper() + ("" if qualidade == 0 else " " + Qualidade.NOMES[qualidade])
+ texto.add_theme_font_override("font", FONTE_PEIXE)
+ texto.add_theme_font_size_override("font_size", 6)
+ texto.add_theme_color_override("font_color", Raridades.cor(Peixes.raridade(id)) if qualidade == 0 else Qualidade.CORES[qualidade])
+ texto.add_theme_color_override("font_outline_color", Color(0.13, 0.08, 0.14))
+ texto.add_theme_constant_override("outline_size", 2)
+ texto.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+ texto.size = Vector2(120, 10)
+ texto.position = Vector2(-60, -20)
+ caixa.add_child(texto)
+ var anim := caixa.create_tween()
+ anim.tween_property(icone, "position:y", -6.0, 0.18).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+ anim.tween_property(icone, "position:y", 0.0, 0.18).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+ anim.tween_property(icone, "position:y", -3.0, 0.12)
+ anim.tween_property(icone, "position:y", 0.0, 0.12)
+ anim.tween_interval(1.8)
+ anim.tween_property(caixa, "modulate:a", 0.0, 0.25)
+ anim.tween_callback(caixa.queue_free)
 
 func _pose_da_acao(decorrido: float) -> void:
  var progresso := clampf(decorrido/maxf(_acao_duracao,0.01),0.0,0.999)
@@ -128,15 +192,9 @@ func _pose_da_acao(decorrido: float) -> void:
 
 func _process(delta: float) -> void:
  var antes := position
- var restante := _velocidade*delta
- while not _rota.is_empty():
-  var distancia := position.distance_to(_rota[0])
-  if distancia>restante:
-   position = position.move_toward(_rota[0],restante)
-   break
-  position = _rota[0]
-  _rota.remove_at(0)
-  restante -= distancia
+ if not _amostras.is_empty() and _desvio_relogio<INF:
+  var atraso := clampf(_intervalo_medio*1.8,ATRASO_MIN,ATRASO_MAX)
+  position = _posicao_no_tempo(Time.get_ticks_usec()/1000000.0-_desvio_relogio-atraso)
  var passo := position-antes
  if passo.length()>0.05:
   _direcao = (1 if passo.x>0 else 3) if absf(passo.x)>absf(passo.y) else (0 if passo.y>0 else 2)

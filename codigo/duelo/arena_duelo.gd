@@ -4,6 +4,7 @@ extends Node2D
 ## quem recebe o golpe resolve defesa, aparo e dano no próprio jogador. Quem cai avisa o servidor,
 ## que conta o round (melhor de 3) — ver ferramentas/lobby/servidor/duelo.mjs.
 const Remoto := preload("res://codigo/duelo/adversario_remoto.gd")
+const Ringue := preload("res://codigo/duelo/ringue_duelo.gd")
 const ConexaoDuelo := preload("res://codigo/duelo/conexao_duelo.gd")
 const FONTE := preload("res://assets/ui/Planes_ValMore.ttf")
 ## O dano das armas foi feito contra monstros: entre jogadores ele é reduzido.
@@ -14,8 +15,6 @@ const ATORDOAR_PVP := 1.0
 var _atordoado_ate_ms := 0
 var _aviso_atordoado: Label
 const CONTAGEM := 1.6
-## Distância de cada lado em relação à chegada do portal.
-const AFASTAMENTO := Vector2(72, 0)
 
 @onready var jogador: CharacterBody2D = $Jogador
 @onready var Duelo: Node = ConexaoDuelo.obter(get_tree())
@@ -31,9 +30,8 @@ var _contagem := 0.0
 var _caiu := false
 var _hp_antes := -1
 var _encerrando := false
-## Limite da luta: as células de terra ligadas à chegada (o desenho do chão é a parede).
-var _terra: TileMapLayer
-var _celulas_arena: Dictionary = {}
+## Limite da luta: a cerca do ringue (com colisão) e, por segurança, o retângulo dentro dela.
+var _ringue: Node2D
 var _ultima_valida := Vector2.ZERO
 
 func _ready() -> void:
@@ -65,8 +63,7 @@ func _ready() -> void:
 	_ao_round({"round": Duelo.round_atual})
 
 func _ponto_do_lado(lado: int) -> Vector2:
-	var chegada: Node2D = get_node("Terrains/Chegada_portal")
-	return chegada.global_position + (AFASTAMENTO * (-1 if lado == 0 else 1))
+	return (get_node("Terrains") as Node2D).to_global(Ringue.ponto_do_lado(lado))
 
 func _ao_round(_dados: Dictionary) -> void:
 	_caiu = false
@@ -88,27 +85,14 @@ func _ao_round(_dados: Dictionary) -> void:
 	_mostrar("ROUND %d" % Duelo.round_atual)
 	_atualizar_placar()
 
-## Inunda a camada Terra a partir da chegada: só a área de luta, sem caminhos soltos fora dela.
+## Ringue cercado (ringue_duelo.gd) sobre o terreno da arena.
 func _mapear_arena() -> void:
-	_terra = get_node_or_null("Terrains/Terra")
-	if _terra == null: return
-	var usadas := {}
-	for celula in _terra.get_used_cells(): usadas[celula] = true
-	var inicio := _terra.local_to_map(_terra.to_local(get_node("Terrains/Chegada_portal").global_position))
-	if not usadas.has(inicio): return
-	var fila: Array[Vector2i] = [inicio]
-	_celulas_arena[inicio] = true
-	while not fila.is_empty():
-		var atual: Vector2i = fila.pop_back()
-		for passo in [Vector2i.LEFT, Vector2i.RIGHT, Vector2i.UP, Vector2i.DOWN]:
-			var vizinha: Vector2i = atual + passo
-			if usadas.has(vizinha) and not _celulas_arena.has(vizinha):
-				_celulas_arena[vizinha] = true
-				fila.append(vizinha)
+	_ringue = Ringue.new()
+	get_node("Terrains").add_child(_ringue)
 
 func dentro_da_arena(ponto: Vector2) -> bool:
-	if _celulas_arena.is_empty(): return true
-	return _celulas_arena.has(_terra.local_to_map(_terra.to_local(ponto)))
+	var terreno: Node2D = get_node("Terrains")
+	return Ringue.area_jogavel().has_point(terreno.to_local(ponto))
 
 func _physics_process(_delta: float) -> void:
 	if dentro_da_arena(jogador.global_position):
@@ -178,7 +162,31 @@ func _ser_atordoado(duracao: float, empurrao: Vector2) -> void:
 	_aviso_atordoado.visible = true
 	_mostrar("ATORDOADO!", duracao)
 
+## Número flutuante sobre quem apanhou (o mesmo dos inimigos). Bloqueio e aparo também aparecem.
+const DANO_FLUTUANTE := preload("res://cenas/dano_flutuante.tscn")
+const COR_DANO_MEU := Color(1.0, 0.85, 0.3)
+const COR_DANO_TOMADO := Color(1.0, 0.35, 0.3)
+static func cor_do_dano(foi_no_adversario: bool) -> Color:
+	return COR_DANO_MEU if foi_no_adversario else COR_DANO_TOMADO
+func _mostrar_dano(alvo: Node2D, valor: int, resultado: String) -> void:
+	if not is_instance_valid(alvo): return
+	var rotulo = DANO_FLUTUANTE.instantiate()
+	rotulo.position = alvo.global_position + Vector2(randf_range(-6, 6), -36)
+	rotulo.z_as_relative = false
+	rotulo.z_index = 4000
+	add_child(rotulo)
+	# A cor diz de quem é o dano: amarelo = dano meu (no adversário), vermelho = dano que eu tomei.
+	var cor := cor_do_dano(alvo == adversario)
+	rotulo.definir_dano(valor, cor)
+	match resultado:
+		"aparo": rotulo.get_node("Rotulo").text = "APAROU"
+		"bloqueio": rotulo.get_node("Rotulo").text = "%d BLOQ" % valor
+
 func _ao_evento(ev: Dictionary) -> void:
+	if str(ev.get("tipo", "")) == "efeito" and str(ev.get("efeito", "")) == "dano":
+		# Resultado do meu golpe, decidido no jogo do adversário.
+		_mostrar_dano(adversario, int(ev.get("valor", 0)), str(ev.get("resultado", "dano")))
+		return
 	if str(ev.get("tipo", "")) == "efeito" and str(ev.get("efeito", "")) == "atordoar":
 		if _contagem <= 0.0 and not _caiu:
 			var kb_atd: Array = ev.get("kb", [0, 0])
@@ -187,7 +195,19 @@ func _ao_evento(ev: Dictionary) -> void:
 	if str(ev.get("tipo", "")) != "golpe" or _contagem > 0.0 or _caiu: return
 	var kb: Array = ev.get("kb", [0, 0])
 	# O próprio jogador resolve guarda, aparo, armadura e invulnerabilidade.
+	var antes: int = int(jogador.hp_atual)
+	var estava_invulneravel: bool = jogador.invulneravel
+	var em_guarda: bool = jogador.defesa.em_guarda()
 	jogador.receber_dano(clampi(int(ev.get("dano", 1)), 1, 9999), Vector2(float(kb[0]), float(kb[1])))
+	var perdido: int = antes - int(jogador.hp_atual)
+	if estava_invulneravel and perdido <= 0: return # Golpe ignorado: nada a mostrar.
+	var resultado := "dano"
+	# Aparo: guarda erguida e nada perdido. Bloqueio: a guarda continua de pé depois do golpe
+	# (pelas costas ou com a estamina quebrada ela cai, e o dano entra inteiro).
+	if perdido <= 0 and em_guarda: resultado = "aparo"
+	elif em_guarda and jogador.defesa.em_guarda(): resultado = "bloqueio"
+	_mostrar_dano(jogador, perdido, resultado)
+	Duelo.enviar_evento({"tipo": "efeito", "efeito": "dano", "valor": perdido, "resultado": resultado})
 
 ## Vida zerou (jogador.gd: morrer avisa o Duelo durante a partida).
 func _ao_cair() -> void:
