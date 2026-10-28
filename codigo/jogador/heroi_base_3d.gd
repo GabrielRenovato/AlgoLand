@@ -714,19 +714,20 @@ func _acao_do_jogador() -> String:
 	return "correr" if _jogador.velocity.length() > 2.0 else "parado"
 
 ## Cores da personalização (aparencia_raven): tom de pele 0..2, cor do cabelo e dos olhos.
-const PELES := [Color("edb393"), Color("c98a62"), Color("8d5a3d")]
+const CORES_PELE := preload("res://codigo/dados/cores_pele.gd")
+const PELES := CORES_PELE.TONS
 const OLHOS := [Color("4a3833"), Color("2f6fb0"), Color("3f8a4a"), Color("8a6a2c"), Color("6f6f78"), Color("7a3f9a")]
 var _chave_cores := 0
 
 func _aplicar_cores() -> void:
 	var aparencia: Dictionary = _jogador.aparencia_raven
-	var chave := hash([aparencia.get("pele",0), aparencia.get("cor",[1,1,1,1]), aparencia.get("olhos",0), aparencia.get("cor_cabelo_personalizada",false)])
+	var chave := hash([aparencia.get("pele",0), aparencia.get("cor_pele"), aparencia.get("cor",[1,1,1,1]), aparencia.get("olhos",-1), aparencia.get("cor_cabelo_personalizada",false)])
 	if chave == _chave_cores: return
 	_chave_cores = chave
 	var corpo = _modelo.find_child("CorpoBase",true,false)
 	if corpo != null:
 		var m: ShaderMaterial = corpo.material_override
-		m.set_shader_parameter("pele_base", PELES[clampi(int(aparencia.get("pele",0)),0,2)])
+		m.set_shader_parameter("pele_base", CORES_PELE.obter(aparencia))
 		m.set_shader_parameter("cor_olhos", OLHOS[clampi(int(aparencia.get("olhos",0)),0,OLHOS.size()-1)])
 	var cor: Array = aparencia.get("cor",[1,1,1,1])
 	var tinta_cabelo := Color(cor[0],cor[1],cor[2])

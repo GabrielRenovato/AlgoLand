@@ -31,11 +31,14 @@ static func normalizar(valor: Variant) -> Dictionary:
 		for slot: String in BASICOS:
 			var tipo = enviados.get(slot)
 			if tipo is String and tipo_valido(tipo,slot): equipamentos[slot] = tipo
-	return {"versao":1,"pele":_inteiro(valor,"pele",0,2),"cabelo":_inteiro(valor,"cabelo",0,28),
+	var resultado := {"versao":1,"pele":_inteiro(valor,"pele",0,2),"cabelo":_inteiro(valor,"cabelo",0,28),
 		"escudo":valor.get("escudo") is bool and valor.escudo,"olhos":_inteiro(valor,"olhos",0,5),"roupas_3d":roupas_do_visual(valor),
 		"roupa":_inteiro(valor,"roupa",0,8),"cor":cor,"equipamentos":equipamentos,
 		"roupa_visual":_inteiro(valor,"roupa_visual",0,Aparencia.total_roupas()-1),
 		"pecas_visuais":_inteiro(valor,"pecas_visuais",0,15,15),"arma_mais_usada":Armas.validar(valor.get("arma_mais_usada")),"nivel_arma":_inteiro(valor,"nivel_arma",1,99,1),"raridade_arma":valor.get("raridade_arma","comum") if valor.get("raridade_arma","comum") in Raridades.ORDEM else "comum"}
+	var rgb:=preload("res://codigo/dados/cores_pele.gd").normalizar_rgb(valor.get("cor_pele"))
+	if not rgb.is_empty(): resultado["cor_pele"]=rgb
+	return resultado
 
 static func roupas_do_visual(dados: Dictionary) -> Dictionary:
 	var roupas = dados.get("roupas_3d")

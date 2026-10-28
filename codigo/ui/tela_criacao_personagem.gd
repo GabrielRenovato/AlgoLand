@@ -70,8 +70,12 @@ var caminho_save := CAMINHO_SAVE
 var cabelo := 0
 var roupa := 0
 var pele := 0
+var cor_pele: Array=[]
+var _botao_rgb_pele: Button
+const CoresPele := preload("res://codigo/dados/cores_pele.gd")
 ## Cor dos olhos (índice em HeroiBase3D.OLHOS); o Raven 2D não desenha a íris, o personagem 3D usa.
 var olhos := 0
+var olhos_personalizados := true
 const CORES_OLHOS: Array = preload("res://codigo/jogador/heroi_base_3d.gd").OLHOS
 var _botoes_olhos: Array[Button] = []
 ## Personagem 3D: penteado e peças do catálogo de roupas 3D, com prévia do próprio modelo.
@@ -326,13 +330,27 @@ func _montar_painel_previa() -> Control:
 
 func _escolher_olhos(indice: int) -> void:
 	olhos = clampi(indice,0,CORES_OLHOS.size()-1)
+	olhos_personalizados = true
 	_atualizar_tudo()
 
 func _escolher_pele(indice: int) -> void:
 	pele = clampi(indice,0,2)
+	cor_pele=[]
 	for i in _botoes_pele.size(): _marcar(_botoes_pele[i], i == pele)
 	_textura_corpo = Aparencia.corpo("andar",pele)
 	_previa_corpo.texture = _textura_corpo
+	_atualizar_tudo()
+
+func _abrir_rgb_pele() -> void:
+	if has_node("EditorRGBPele"): return
+	var editor=preload("res://codigo/ui/editor_rgb_pele.gd").new()
+	editor.name="EditorRGBPele"
+	editor.cor=CoresPele.obter({"pele":pele,"cor_pele":cor_pele})
+	editor.cor_alterada.connect(_escolher_rgb_pele)
+	add_child(editor)
+
+func _escolher_rgb_pele(nova: Color) -> void:
+	cor_pele=[nova.r,nova.g,nova.b]
 	_atualizar_tudo()
 
 func _nova_camada(textura: Texture2D) -> Sprite2D:
@@ -676,7 +694,8 @@ func _cor_vista(tinta: Color) -> Color:
 # --- Estado e atualização -------------------------------------------------------------------------------------
 
 func _atualizar_tudo() -> void:
-	for i in _botoes_pele.size(): _marcar(_botoes_pele[i], i == pele)
+	for i in _botoes_pele.size(): _marcar(_botoes_pele[i], i == pele and cor_pele.is_empty())
+	if _botao_rgb_pele!=null: _marcar(_botao_rgb_pele,not cor_pele.is_empty())
 	_atualizar_previa()
 	_atualizar_casas()
 	_atualizar_sliders()
@@ -685,7 +704,10 @@ func _atualizar_tudo() -> void:
 func _atualizar_previa() -> void:
 	_rotulo_girar.text = ["Frente", "Direita", "Costas", "Esquerda"][_direcao]
 	if _previa_3d != null:
-		_previa_3d.mostrar({"pele":pele,"cabelo":cabelo,"roupa":roupa,"cor":[cor.r,cor.g,cor.b,cor.a],"olhos":olhos,"cor_cabelo_personalizada":cor_personalizada}, roupas_3d.duplicate(), _direcao)
+		var aparencia := {"pele":pele,"cabelo":cabelo,"roupa":roupa,"cor":[cor.r,cor.g,cor.b,cor.a],"cor_cabelo_personalizada":cor_personalizada}
+		if olhos_personalizados: aparencia["olhos"] = olhos
+		if not cor_pele.is_empty(): aparencia["cor_pele"] = cor_pele.duplicate()
+		_previa_3d.mostrar(aparencia, roupas_3d.duplicate(), _direcao)
 	var quadro: int = int(LINHAS_DIRECAO[_direcao]) * 8 + int(fmod(_tempo_animacao,0.8)/0.2)
 	_previa_corpo.frame = quadro
 	Aparencia.aplicar_roupa(_previa_roupa, roupa, "andar")
@@ -802,7 +824,9 @@ func sortear() -> void:
 	roupa = Aparencia.roupa_aleatoria(sorteio)
 	cor = PALETA[sorteio.randi_range(0, PALETA.size() - 1)]
 	pele = sorteio.randi_range(0,2)
+	cor_pele=[]
 	olhos = sorteio.randi_range(0,CORES_OLHOS.size()-1)
+	olhos_personalizados = true
 	for categoria in Roupas3D.CATEGORIAS:
 		var lista: Array = Roupas3D.MODELOS[categoria]
 		roupas_3d[categoria] = lista[sorteio.randi_range(0, lista.size()-1)].id
@@ -811,7 +835,7 @@ func sortear() -> void:
 	_atualizar_tudo()
 
 func dados_do_personagem() -> Dictionary:
-	return {
+	var dados := {
 		"cabelo_atual": 0,
 		"roupa_atual": 2,
 		"apelido": apelido if apelido != "" else NOME_PADRAO,
@@ -819,12 +843,18 @@ func dados_do_personagem() -> Dictionary:
 		"aparencia_raven": {"versao":1,"pele":pele,"cabelo":CABELO_RAVEN_DO_3D.get(roupas_3d.cabelo, 1),"roupa":maxi(roupa,1),"cor":[cor.r,cor.g,cor.b,cor.a],"olhos":olhos,"cor_cabelo_personalizada":cor_personalizada},
 		"roupas_3d": roupas_3d.duplicate(),
 	}
+	# Saves sem tintura de olhos usam os detalhes e cores da pintura original.
+	if not olhos_personalizados: dados.aparencia_raven.erase("olhos")
+	if not cor_pele.is_empty(): dados.aparencia_raven["cor_pele"] = cor_pele.duplicate()
+	return dados
 
 ## Grava o personagem e entra no jogo
 ## Edição: começa do personagem salvo (cores, olhos, peças 3D e apelido).
 func carregar_dados(dados: Dictionary) -> void:
 	_dados_existentes = dados.duplicate(true)
 	var aparencia: Dictionary = dados.get("aparencia_raven", {})
+	cor_pele=CoresPele.normalizar_rgb(aparencia.get("cor_pele"))
+	olhos_personalizados = aparencia.has("olhos")
 	pele = clampi(int(aparencia.get("pele", 0)), 0, 2)
 	cabelo = int(aparencia.get("cabelo", cabelo))
 	roupa = int(aparencia.get("roupa", roupa))
@@ -890,6 +920,7 @@ func _sair_para(caminho: String) -> void:
 # --- Teclado, controle e toque ---------------------------------------------------------------------------------
 
 func _unhandled_input(evento: InputEvent) -> void:
+	if has_node("EditorRGBPele"): return
 	if _teclado != null and _teclado.visible:
 		return
 	if evento.is_action_pressed("ferramenta_proxima"):

@@ -95,7 +95,12 @@ void fragment() {
     if (iris && direcao>=3 && direcao<=5) {
         cor=tom_pele.rgb*.65;
     } else if (iris && tingir_olhos) {
-        cor=tinta_olhos.rgb*(dot(cor,vec3(.2126,.7152,.0722))/.12);
+        // A referência vem da própria textura, no espaço de cor do renderer.
+        // Dividir por .12 estourava a íris no Compatibility, apagando seus detalhes.
+        vec3 iris_fonte=texture(pintura,vec2(220.0,250.0)/dimensao).rgb;
+        vec3 luminancia=vec3(.2126,.7152,.0722);
+        float valor=dot(cor,luminancia)/max(dot(iris_fonte,luminancia),.01);
+        cor=tinta_olhos.rgb*valor;
     } else if (pele) {
         cor*=tom_pele.rgb/vec3(.9294,.7020,.5765);
     } else if (tingir_cabelo && !iris && paleta.r>paleta.g*1.05 && paleta.r>paleta.b*1.10) {

@@ -65,8 +65,8 @@ func montar(heroi: Node) -> void:
 	malha.position=t.affine_inverse()*centro
 	orientar(0)
 
-func aplicar_aparencia(dados: Dictionary,peles: Array,olhos: Array) -> void:
-	material.set_shader_parameter("tom_pele",peles[clampi(int(dados.get("pele",0)),0,peles.size()-1)])
+func aplicar_aparencia(dados: Dictionary,_peles: Array,olhos: Array) -> void:
+	material.set_shader_parameter("tom_pele",preload("res://codigo/dados/cores_pele.gd").obter(dados))
 	var cor: Array=dados.get("cor",[1.0,1.0,1.0,1.0])
 	var tinta:=Color(cor[0],cor[1],cor[2])
 	material.set_shader_parameter("tingir_cabelo",not tinta.is_equal_approx(Color.WHITE))

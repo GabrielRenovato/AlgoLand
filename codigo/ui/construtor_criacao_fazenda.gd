@@ -241,6 +241,10 @@ func _visual() -> Control:
 		b.pressed.connect(tela._escolher_pele.bind(i))
 		tons.add_child(b)
 		tela._botoes_pele.append(b)
+	tela._botao_rgb_pele=_botao("RGB")
+	tela._botao_rgb_pele.tooltip_text="Personalizar a cor da pele (vermelho, verde e azul)"
+	tela._botao_rgb_pele.pressed.connect(tela._abrir_rgb_pele)
+	tons.add_child(tela._botao_rgb_pele)
 	var olhos := HBoxContainer.new()
 	olhos.add_theme_constant_override("separation",3)
 	v.add_child(olhos)
