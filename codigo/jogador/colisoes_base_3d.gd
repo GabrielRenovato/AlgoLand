@@ -141,9 +141,10 @@ func atualizar_golpe() -> void:
 	varredura.append_array(_anterior)
 	_anterior = pontos
 	var expandidos := PackedVector2Array()
+	var margem: float=geometria.get("margem",MARGEM_LAMINA)
 	for ponto in varredura:
 		for canto in [Vector2(-1,-1),Vector2(1,-1),Vector2(1,1),Vector2(-1,1)]:
-			expandidos.append(ponto+canto*MARGEM_LAMINA)
+			expandidos.append(ponto+canto*margem)
 	var contorno := Geometry2D.convex_hull(expandidos)
 	if contorno.size()>1 and contorno[0].is_equal_approx(contorno[-1]): contorno.remove_at(contorno.size()-1)
 	area.transform = Transform2D.IDENTITY

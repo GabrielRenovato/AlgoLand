@@ -16,7 +16,7 @@ func rodar():
 		for i in 10: await process_frame
 		for i in 30: await process_frame
 		tela._botoes_olhos[2].pressed.emit()
-		tela._escolher_peca_3d("cabelo", "cabelo_longo")
+		tela._escolher_peca_3d("cabelo", "cabelo_cacheado")
 		tela._escolher_peca_3d("camisa", "blusa_bufante")
 		tela._escolher_peca_3d("calca", "saia_pregas")
 		tela._escolher_cor(tela.PALETA[4])

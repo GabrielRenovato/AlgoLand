@@ -21,10 +21,11 @@ const MODELOS := {
         {"id":"sapatos_viagem","nome":"Sapatos de viagem","cor":"443642","forma":2,"estilo":2,"altura":0.14},
         {"id":"sapatilhas_vinho","nome":"Sapatilhas vinho","cor":"985563","forma":3,"estilo":3,"altura":0.12}],
     "cabelo":[
-        # Somente os cortes ativos; IDs retirados migram para o bagunçado.
+        # IDs retirados (chanel, longo, espetado, rabo, tranças) migram para o bagunçado.
         {"id":"cabelo_curto","nome":"Bagunçado","forma":0},
         {"id":"cabelo_raspado","nome":"Raspado","forma":4},
-        {"id":"cabelo_espetado","nome":"Espetado","forma":5}]
+        {"id":"cabelo_cacheado","nome":"Cacheado","forma":3},
+        {"id":"cabelo_liso_longo","nome":"Longo liso","forma":6}]
 }
 static func padrao() -> Dictionary:
     return {"camisa":"camisa_bosque","calca":"calca_sarja","calcado":"botas_couro","cabelo":"cabelo_curto"}
@@ -40,7 +41,7 @@ static func do_visual_antigo(aparencia: Dictionary) -> Dictionary:
 
 static func modelo(categoria: String,id: String) -> Dictionary:
     if categoria=="cabelo":
-        id={"cabelo_chanel":"cabelo_curto","cabelo_longo":"cabelo_curto","cabelo_rabo":"cabelo_curto","cabelo_trancas":"cabelo_curto","cabelo_cacheado":"cabelo_curto"}.get(id,id)
+        id={"cabelo_chanel":"cabelo_curto","cabelo_longo":"cabelo_curto","cabelo_espetado":"cabelo_curto","cabelo_rabo":"cabelo_curto","cabelo_trancas":"cabelo_cacheado"}.get(id,id)
     for item in MODELOS[categoria]:
         if item.id==id: return item
     return MODELOS[categoria][0]

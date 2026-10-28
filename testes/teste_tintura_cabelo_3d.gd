@@ -16,7 +16,7 @@ func rodar():
  vp=SubViewport.new();vp.size=h._vp.size;vp.transparent_bg=true;vp.world_2d=World2D.new();vp.render_target_update_mode=SubViewport.UPDATE_ALWAYS;root.add_child(vp)
  sprite=Sprite2D.new();sprite.centered=false;sprite.texture=h._vp.get_texture();sprite.material=h._sprite.material;sprite.texture_filter=CanvasItem.TEXTURE_FILTER_NEAREST;vp.add_child(sprite)
  var paleta: Array=load("res://codigo/ui/tela_criacao_personagem.gd").PALETA
- for estilo in ["cabelo_curto","cabelo_chanel","cabelo_longo","cabelo_espetado"]:
+ for estilo in ["cabelo_curto","cabelo_cacheado"]:
   var roupas: Dictionary=h.CATALOGO_ROUPAS.padrao();roupas.cabelo=estilo;h.definir_roupas_3d(roupas)
   for indice in [8,6,7,15]:
    var cor: Color=paleta[indice]

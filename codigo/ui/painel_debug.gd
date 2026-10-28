@@ -112,7 +112,8 @@ func _montar() -> void:
 			["OVOS NOS NINHOS", _ovos_galinheiro_debug],
 			["FENO NA MOCHILA", _feno_galinheiro_debug],
 			["VISITAR OSVALDO E FAMILIA", _familia_carpinteiro_debug]],
-		"VISUAL DA FAZENDA": [["ORIGINAL / TINY RPG", _alternar_fazenda_tiny]],
+		"VISUAL DA FAZENDA": [["ORIGINAL / TINY RPG", _alternar_fazenda_tiny],
+			["FILTRO PIXEL NO MAPA (TESTE)", _alternar_filtro_pixel_mapa]],
 		"PERSONAGEM": [["RAVEN: REAPLICAR VISUAL", _reaplicar_personagem],
 			["CARTOON: ANDAR + 2 GOLPES", _ativar_cartoon],
 			["CARTOON: CAVALEIRO DE ACO", _ativar_cartoon.bind(true)],
@@ -656,6 +657,25 @@ func _alternar_fazenda_tiny() -> void:
 	if comparacao != null:
 		comparacao.alternar()
 
+## Liga/desliga as rampas de pintura do personagem no mundo inteiro (abaixo da interface).
+func _alternar_filtro_pixel_mapa() -> void:
+	var raiz := get_tree().root
+	var atual := raiz.get_node_or_null("FiltroPixelMapa")
+	if atual != null:
+		atual.queue_free()
+		return
+	var camada := CanvasLayer.new()
+	camada.name = "FiltroPixelMapa"
+	camada.layer = 5 # Acima do mundo, abaixo da interface (10).
+	var tela := ColorRect.new()
+	tela.set_anchors_preset(Control.PRESET_FULL_RECT)
+	tela.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var material := ShaderMaterial.new()
+	material.shader = preload("res://codigo/ui/filtro_pixel_mapa.gdshader")
+	tela.material = material
+	camada.add_child(tela)
+	raiz.add_child(camada)
+
 func _alternar_heroi_tiny() -> void:
 	_desativar_base_vila()
 	var cena := get_tree().current_scene
@@ -778,6 +798,7 @@ func _ativar_base_3d(com_roupa: bool = false,teste_pixel: bool = true,teste_lanc
 	get_tree().set_meta("arma_demo_base_3d_p1",visual.arma_demonstracao)
 	visual.pecas_visiveis = 15 if com_roupa else 0
 	visual.acabamento_pixel_art = teste_pixel
+	visual.acabamento_low_poly = not teste_pixel
 	get_tree().set_meta("pixel_base_3d_p1",teste_pixel)
 	get_tree().set_meta("pecas_base_3d_p1",visual.pecas_visiveis)
 	jogador.add_child(visual)

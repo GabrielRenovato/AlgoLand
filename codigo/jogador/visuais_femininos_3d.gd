@@ -4,8 +4,9 @@ extends RefCounted
 const Modelagem=preload("res://codigo/jogador/roupas_modeladas_3d.gd")
 static func cabelo(base: ArrayMesh,corpo: MeshInstance3D,s: Skeleton3D,forma: int) -> ArrayMesh:
     var cabeca_para_malha:=corpo.global_transform.affine_inverse()*s.global_transform*s.get_bone_global_rest(s.find_bone("DEF-head"))
+    if forma==6: return _cabelo_liso(corpo,s)
     base=_abrir_franja(base,cabeca_para_malha)
-    if forma not in [4,5]: return base
+    if forma not in [3,4]: return base
     var st:=SurfaceTool.new()
     st.begin(Mesh.PRIMITIVE_TRIANGLES)
     st.append_from(base,0,Transform3D.IDENTITY)
@@ -16,26 +17,21 @@ static func cabelo(base: ArrayMesh,corpo: MeshInstance3D,s: Skeleton3D,forma: in
     if forma==4:
         # Raspado: sem malha; o shader da pele pinta o cabelo rente (raspado no acabamento_base_3d).
         return ArrayMesh.new()
-    if forma==5:
-        # Espetado: touca curta e pontas cônicas pelo topo, inclinadas para trás.
-        var aneis5: Array=[]
-        for nivel in 3:
-            var anel5: Array=[]
-            for q in 33:
-                var a:=-TAU*q/32.0
-                var raio: float=[.070,.114,.120][nivel]
-                var y: float=[.255,.215,.140][nivel]
-                if nivel==2: y+=.06*maxf(0.0,sin(a))-.03*maxf(0.0,-sin(a))
-                anel5.append(Vector3(cos(a)*raio,y,sin(a)*raio*.95-.012))
-            aneis5.append(anel5)
-        for n in 2:
-            for q in 32:
-                _quad_cabelo(st,[aneis5[n][q],aneis5[n+1][q],aneis5[n+1][q+1],aneis5[n][q+1]],transformacao,bind)
-        for i in 9:
-            var a:=TAU*i/9.0+.3
-            var base5:=Vector3(cos(a)*.065,.245,sin(a)*.062-.02)
-            var ponta5:=base5+Vector3(cos(a)*.045,.075,sin(a)*.03-.035)
-            _mecha(st,[[base5,.028,.026],[base5.lerp(ponta5,.55),.016,.015],[ponta5,.002,.002]],transformacao,bind)
+    if forma==3:
+        # Volume cacheado contínuo, com cachos sobrepostos e distribuição
+        # irregular; nenhuma divisão em duas tranças ou caudas laterais.
+        for faixa in 3:
+            var quantidade: int=[11,15,13][faixa]
+            for i in quantidade:
+                var a: float=TAU*(i+.37*faixa)/quantidade
+                var frente:=sin(a)>.25
+                if frente and faixa>0: continue
+                var raio: float=[.095,.124,.118][faixa]
+                var y: float=[.235,.145,.035][faixa]
+                var tamanho:=.033+.005*sin(i*2.7+faixa)
+                var centro:=Vector3(cos(a)*raio,y+.009*sin(i*1.9),sin(a)*raio-.015)
+                _cacho(st,centro,Vector3(tamanho,.046 if faixa==0 else .055,tamanho*.90),transformacao,bind)
+        _cacho(st,Vector3(0,.267,-.015),Vector3(.067,.033,.060),transformacao,bind)
     st.generate_normals()
     st.index()
     return st.commit()
@@ -110,6 +106,58 @@ static func saia(base: ArrayMesh,corpo: MeshInstance3D,s: Skeleton3D,forma: int)
         novo.tom=.78
         interno.append(novo)
     Modelagem.unir(st,aneis[-1],interno,Vector3(0,0,-.012))
+    st.generate_normals()
+    st.index()
+    return st.commit()
+
+static func _cacho(st: SurfaceTool,centro: Vector3,raios: Vector3,t: Transform3D,bind: int):
+    var secoes: Array=[]
+    for i in 7:
+        var a:=PI*i/6.0
+        var largura:=maxf(.025,sin(a))
+        var deslocamento:=Vector3(sin(a*2)*.008,cos(a)*raios.y,cos(a*2)*.006)
+        secoes.append([centro+deslocamento,raios.x*largura,raios.z*largura])
+    _mecha(st,secoes,t,bind)
+
+## Longo liso: calota lisa no alto, fios retos pelas laterais e costas até o meio das costas,
+## pontas em leve V. Fica aberto na frente abaixo da testa para não cobrir rosto e olhos.
+## Medidas no espaço do osso da cabeça (a proporção chibi amplia 2,38× / 1,75× / 2,3×).
+static func _cabelo_liso(corpo: MeshInstance3D,s: Skeleton3D) -> ArrayMesh:
+    var st:=SurfaceTool.new()
+    st.begin(Mesh.PRIMITIVE_TRIANGLES)
+    var bind: int=Modelagem.ligacoes(corpo,s)["DEF-head"]
+    var t:=corpo.global_transform.affine_inverse()*s.global_transform*s.get_bone_global_rest(s.find_bone("DEF-head"))
+    # [altura, raio, recuo para trás, abertura da frente (0 = fechado)]
+    var niveis:=[
+        [.292,.022,.000,0.0],[.280,.078,.000,0.0],[.250,.114,.000,0.0],[.200,.130,.000,0.0], # Calota (acima da cabeça chibi).
+        [.140,.130,.004,.62],[.080,.130,.010,.95],[.010,.124,.020,1.15], # Testa e laterais do rosto.
+        [-.070,.118,.032,1.45],[-.150,.112,.045,1.75],[-.230,.106,.055,1.95],[-.300,.100,.060,2.05]] # Fios até as costas.
+    var segmentos:=32
+    var aneis: Array=[]
+    for n in niveis.size():
+        var nivel: Array=niveis[n]
+        var abertura: float=nivel[3]
+        var anel: Array=[]
+        for q in segmentos+1:
+            # Ângulo decrescente (ordem das faces do _quad_cabelo); a frente é sin(a)=1.
+            var a: float
+            if abertura<=0.0:
+                a=PI*.5-TAU*q/segmentos
+            else:
+                a=lerpf(PI*.5-abertura,-PI*1.5+abertura,float(q)/segmentos)
+            var y: float=nivel[0]
+            # Pontas em leve V: o centro das costas desce um pouco mais.
+            if n==niveis.size()-1: y-=.025*maxf(0.0,-sin(a))
+            var raio: float=nivel[1]*(1.0+.012*sin(a*7.0+n)) # Fios levemente irregulares.
+            anel.append(Vector3(cos(a)*raio,y,sin(a)*raio*.92-nivel[2]))
+        aneis.append(anel)
+    for n in aneis.size()-1:
+        for q in segmentos:
+            _quad_cabelo(st,[aneis[n][q],aneis[n+1][q],aneis[n+1][q+1],aneis[n][q+1]],t,bind)
+            # Avesso nos fios soltos: visto de baixo/de lado não fica oco.
+            if n>=4:
+                var dentro: Array=[aneis[n][q],aneis[n+1][q],aneis[n+1][q+1],aneis[n][q+1]].map(func(p): return Vector3(p.x*.95,p.y,p.z*.95-.003))
+                _quad_cabelo(st,[dentro[3],dentro[2],dentro[1],dentro[0]],t,bind)
     st.generate_normals()
     st.index()
     return st.commit()

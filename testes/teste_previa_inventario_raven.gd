@@ -26,7 +26,7 @@ func rodar() -> void:
 	ui._abrir_tela("inventario")
 	await esperar()
 	var tela = ui._telas.inventario
-	for cabelo in ["cabelo_curto","cabelo_longo","cabelo_cacheado"]:
+	for cabelo in ["cabelo_curto","cabelo_raspado","cabelo_cacheado"]:
 		var roupas: Dictionary = visual.roupas_3d.duplicate()
 		roupas.cabelo = cabelo
 		visual.definir_roupas_3d(roupas)

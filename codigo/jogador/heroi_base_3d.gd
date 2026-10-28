@@ -1,5 +1,5 @@
 extends Node2D
-## Personagem com grade nativa sobre o rig3D CC0 da Quaternius (Universal Animation
+## Personagem low poly sobre o rig3D CC0 da Quaternius (Universal Animation
 ## Library) com proporção chibi, roupas/cabelo independentes e acabamento de
 ## paleta opcional. Corte e plantio próprios; demais ações vêm dos clipes prontos.
 ## A espada é presa a um osso: nas costas fora do golpe, na mão no golpe.
@@ -9,8 +9,11 @@ const CENA_COMPILADA := "res://cenas/personagem/base_3d/personagem.scn"
 const ARQUIVO := "res://assets/personagens/base_3d/manequim_ual1.glb"
 const Profundidade := preload("res://codigo/globais/profundidade.gd")
 const ProporcaoChibi := preload("res://codigo/jogador/proporcao_chibi.gd")
+const PELE_PIXEL := preload("res://codigo/jogador/pele_pixel_3d.gd")
+const ROUPAS_PIXEL := preload("res://codigo/jogador/roupas_pixel_3d.gd")
+var _pele_pixel := false # O CorpoBase recebeu o UV da pele em pixel art.
 const TAMANHO := Vector2i(80, 80) # Área em pixels de mundo.
-const NITIDEZ := 8 # Render suave em alta resolução; preserva tamanho e proporção chibi.
+const NITIDEZ := 16 # Detalhe da pintura em alta resolução; mesmo tamanho no mundo.
 const TAMANHO_CAMERA := 4.0 # Metros na altura do viewport: define o tamanho no mundo.
 const INCLINACAO_CAMERA := 20.0 # Graus abaixo da horizontal.
 const ALVO_CAMERA := Vector3(0, 0.75, 0)
@@ -33,6 +36,11 @@ var _moldes_roupas: Array[ArrayMesh]=[]
 var _cache_roupas: Dictionary={}
 @export var demonstrar_combate_na_fazenda := false
 @export_enum("Espada","Lança") var arma_demonstracao := 0
+## Facetas reais dos triângulos, renderizadas sobre o mesmo mundo 2D.
+@export var acabamento_low_poly := false:
+	set(valor):
+		acabamento_low_poly=valor
+		_atualizar_renderizacao()
 @export var roupas_pixel_art := true:
 	set(valor):
 		roupas_pixel_art=valor
@@ -46,9 +54,9 @@ var _cache_roupas: Dictionary={}
 	set(valor):
 		acabamento_pixel_art = valor
 		_atualizar_renderizacao()
-@export_range(1,2,1) var amostras_pixel_art := 2:
+@export_range(1,4,1) var amostras_pixel_art := 2: # Metade do pixel do cenário: nítido e ainda pixel art.
 	set(valor):
-		amostras_pixel_art=clampi(valor,1,2)
+		amostras_pixel_art=clampi(valor,1,4)
 		_atualizar_renderizacao()
 @export_flags("Camisa","Calça","Botas","Cabelo") var pecas_visiveis := 0:
 	set(valor):
@@ -60,6 +68,7 @@ var _acabamento_armas: RefCounted
 var _armaduras: RefCounted
 var _molde_rosto: ArrayMesh
 var _rosto_arredondado: ArrayMesh
+var _cabeca_referencia: BoneAttachment3D
 # Encaixes da espada nos ossos (posição em metros e rotação em graus, no espaço do osso).
 const OSSO_COSTAS := "DEF-spine.003"
 const COSTAS_POSICAO := Vector3(-0.24, 0.38, -0.16)
@@ -103,6 +112,9 @@ var _mao: BoneAttachment3D
 var _sprite: Sprite2D
 var _rastro: MeshInstance3D
 var _progresso_golpe := 0.0
+var _golpe_visual_espada := 1
+var _restante_recuperacao_espada := 0.0
+const TEMPO_RECUPERACAO_ESPADA := 0.28
 var _delta_rastro := 0.0
 var _quadro_rastro := -1
 var _transformacao_rastro := Transform3D.IDENTITY
@@ -138,6 +150,12 @@ func _ready() -> void:
 	process_priority = 110 # Decide antes do compositor Raven (120).
 	_montar_cena()
 	_carregar_modelo()
+	# Modo pixel: pele em pixel art pintada no modelo; os outros modos usam a pintura projetada.
+	if acabamento_pixel_art and not acabamento_low_poly and ResourceLoader.exists(PELE_PIXEL.TEXTURA):
+		PELE_PIXEL.aplicar(_modelo.find_child("CorpoBase",true,false),_esqueleto)
+		_pele_pixel=true
+	else:
+		preload("res://codigo/jogador/pintura_corpo_3d.gd").aplicar(_modelo.find_child("CorpoBase",true,false))
 	for i in 3:
 		_moldes_roupas.append(_pecas[i].mesh)
 		_pecas[i].material_override=_pecas[i].material_override.duplicate()
@@ -156,6 +174,7 @@ func _ready() -> void:
 	var mixamo: AnimationLibrary=load("res://assets/personagens/base_3d/mixamo.res").duplicate()
 	mixamo.add_animation("AxeTreeChop",preload("res://codigo/jogador/corte_machado_mixamo.gd").gerar(mixamo.get_animation("AxeHorizontal")))
 	_player.add_animation_library("mixamo",mixamo)
+	_player.add_animation_library("quaternius",load("res://assets/personagens/base_3d/quaternius_ual2.res"))
 	_player.add_animation_library("melee",load("res://assets/personagens/base_3d/kevin_melee_free.res"))
 	_player.add_animation_library("fazenda",load("res://assets/personagens/base_3d/acoes_fazenda.res"))
 	_pega_kaykit=Node3D.new()
@@ -212,6 +231,13 @@ func _ready() -> void:
 	_armaduras=preload("res://codigo/jogador/armaduras_base_3d.gd").new(self)
 	_acabamento_armas=preload("res://codigo/jogador/acabamento_armas_3d.gd").new(self)
 	_atualizar_materiais_pixel()
+	_player.play("Idle_Loop",0.0)
+	_player.seek(0.0,true)
+	for modificador in _esqueleto.get_children():
+		if modificador is ProporcaoChibi:modificador._aplicar()
+	_cabeca_referencia=preload("res://codigo/jogador/cabeca_referencia_3d.gd").new()
+	_cabeca_referencia.montar(self)
+	_atualizar_pecas()
 
 func definir_roupas_3d(dados: Dictionary) -> void:
 	roupas_3d=CATALOGO_ROUPAS.normalizar(dados)
@@ -225,8 +251,15 @@ func definir_roupas_3d(dados: Dictionary) -> void:
 				_cache_roupas[modelo.id]=preload("res://codigo/jogador/visuais_femininos_3d.gd").saia(_moldes_roupas[i],corpo_saia,_esqueleto,modelo.forma)
 			else:
 				_cache_roupas[modelo.id]=CATALOGO_ROUPAS.malha(_moldes_roupas[i],categoria,modelo.forma)
-		_pecas[i].mesh=_cache_roupas[modelo.id]
+		# Modo pixel: a peça ganha o UV de cilindro e a pintura própria do modelo.
+		var textura_pixel: String=ROUPAS_PIXEL.caminho(modelo.id)
+		var usar_pixel: bool=_pele_pixel and ResourceLoader.exists(textura_pixel)
+		if usar_pixel and not _cache_roupas.has(modelo.id+"#pixel"):
+			_cache_roupas[modelo.id+"#pixel"]=PELE_PIXEL.com_uv_pixel(_cache_roupas[modelo.id],_pecas[i],_esqueleto)
+		_pecas[i].mesh=_cache_roupas[modelo.id+"#pixel"] if usar_pixel else _cache_roupas[modelo.id]
 		var material: ShaderMaterial=_pecas[i].material_override
+		material.set_shader_parameter("roupa_pixel",usar_pixel)
+		if usar_pixel: material.set_shader_parameter("textura_roupa_pixel",load(textura_pixel))
 		material.set_shader_parameter("cor",Color(modelo.cor))
 		material.set_shader_parameter("acabamento_roupa",i+1)
 		material.set_shader_parameter("modelo_roupa",modelo.estilo)
@@ -234,7 +267,14 @@ func definir_roupas_3d(dados: Dictionary) -> void:
 	var cabelo: Dictionary=CATALOGO_ROUPAS.modelo("cabelo",roupas_3d.cabelo)
 	if not _cache_roupas.has(cabelo.id):
 		_cache_roupas[cabelo.id]=preload("res://codigo/jogador/visuais_femininos_3d.gd").cabelo(_molde_cabelo,corpo,_esqueleto,cabelo.forma)
-	_pecas[3].mesh=_cache_roupas[cabelo.id]
+	var textura_cabelo_pixel: String=ROUPAS_PIXEL.caminho(cabelo.id)
+	var cabelo_pixel: bool=_pele_pixel and ResourceLoader.exists(textura_cabelo_pixel) and (_cache_roupas[cabelo.id] as ArrayMesh).get_surface_count()>0
+	if cabelo_pixel and not _cache_roupas.has(cabelo.id+"#pixel"):
+		_cache_roupas[cabelo.id+"#pixel"]=PELE_PIXEL.com_uv_pixel(_cache_roupas[cabelo.id],_pecas[3],_esqueleto)
+	_pecas[3].mesh=_cache_roupas[cabelo.id+"#pixel"] if cabelo_pixel else _cache_roupas[cabelo.id]
+	var material_cabelo: ShaderMaterial=_pecas[3].material_override
+	material_cabelo.set_shader_parameter("cabelo_pixel",cabelo_pixel)
+	if cabelo_pixel: material_cabelo.set_shader_parameter("textura_roupa_pixel",load(textura_cabelo_pixel))
 	if _armaduras!=null:_armaduras.ajustar_cabelo()
 	corpo.material_override.set_shader_parameter("raspado", cabelo.forma==4)
 	corpo.material_override.set_shader_parameter("altura_botas",CATALOGO_ROUPAS.modelo("calcado",roupas_3d.calcado).altura)
@@ -318,16 +358,20 @@ func _montar_cena() -> void:
 	_sprite.offset = -_camera.unproject_position(Vector3.ZERO)
 	_atualizar_renderizacao()
 
-## Acabamento nativo padrão, com modo suave disponível para inspeção das fontes.
+## Low poly mantém as facetas em alta resolução e o mesmo tamanho no mundo 2D.
 func _atualizar_renderizacao() -> void:
 	if _vp == null or _sprite == null:return
-	var amostras := amostras_pixel_art if acabamento_pixel_art else NITIDEZ
+	var pixel := acabamento_pixel_art and not acabamento_low_poly
+	var suave := 8 if OS.has_feature("mobile") else NITIDEZ
+	var amostras := amostras_pixel_art if pixel else suave
 	_vp.size = TAMANHO*amostras
-	_vp.msaa_3d = Viewport.MSAA_DISABLED if acabamento_pixel_art else Viewport.MSAA_4X
-	_sprite.texture_filter = TEXTURE_FILTER_NEAREST if acabamento_pixel_art else TEXTURE_FILTER_LINEAR
+	_vp.msaa_3d = Viewport.MSAA_DISABLED if pixel else Viewport.MSAA_4X
+	_sprite.texture_filter = TEXTURE_FILTER_NEAREST if pixel else TEXTURE_FILTER_LINEAR
 	_sprite.scale = Vector2.ONE/amostras
 	_sprite.offset = -_camera.unproject_position(Vector3.ZERO)
-	if acabamento_pixel_art:
+	if acabamento_low_poly:
+		_sprite.material = null
+	elif acabamento_pixel_art:
 		var efeito := ShaderMaterial.new()
 		efeito.shader = preload("res://codigo/jogador/contorno_pixel_base_3d.gdshader")
 		_sprite.material = efeito
@@ -342,8 +386,18 @@ func _atualizar_materiais_pixel() -> void:
 	if _modelo==null:return
 	for instancia in _modelo.find_children("*","MeshInstance3D",true,false):
 		var material=instancia.material_override
+		if material is ShaderMaterial and material.get_shader_parameter("facetado")!=null:
+			material.set_shader_parameter("facetado",acabamento_low_poly)
 		if material is ShaderMaterial and material.get_shader_parameter("luz_em_blocos")!=null:
-			material.set_shader_parameter("luz_em_blocos",acabamento_pixel_art)
+			material.set_shader_parameter("luz_em_blocos",acabamento_pixel_art and not acabamento_low_poly)
+		if material is ShaderMaterial and material.get_shader_parameter("luz_dura")!=null:
+			material.set_shader_parameter("luz_dura",acabamento_pixel_art and not acabamento_low_poly)
+		# Em grades grossas (1–2) a pintura de músculos vira ruído; a forma vem das faixas de luz.
+		if instancia.name=="CorpoBase" and material is ShaderMaterial:
+			# Com a pele em pixel art o UV mudou: a pintura projetada não serve mais.
+			material.set_shader_parameter("pele_pixel",_pele_pixel and acabamento_pixel_art and not acabamento_low_poly)
+			material.set_shader_parameter("desenho_pixel_corpo",not _pele_pixel and (acabamento_low_poly or not acabamento_pixel_art or amostras_pixel_art>2))
+			material.set_shader_parameter("forca_desenho_corpo",.4 if acabamento_pixel_art and not acabamento_low_poly else 1.0)
 
 ## A luz pertence à cena e acompanha o horário; nenhum sombreado é pintado no asset.
 func _atualizar_iluminacao() -> void:
@@ -536,6 +590,12 @@ func _atualizar_pecas() -> void:
 	material.set_shader_parameter("esconder_camisa",(pecas_visiveis & 1)!=0)
 	material.set_shader_parameter("esconder_calca",(pecas_visiveis & 2)!=0)
 	material.set_shader_parameter("esconder_botas",(pecas_visiveis & 4)!=0)
+	if _cabeca_referencia!=null:
+		var usar: bool=(pecas_visiveis & 8)!=0 and roupas_3d.get("cabelo","")=="cabelo_curto" and (_armaduras==null or (_armaduras.mascara & 1)==0)
+		_cabeca_referencia.aplicar_aparencia(_jogador.aparencia_raven,PELES,OLHOS)
+		_cabeca_referencia.visible=usar
+		material.set_shader_parameter("substituir_cabeca",usar)
+		if usar:_pecas[3].visible=false
 
 func _atualizar_texturas_roupas() -> void:
 	if _pecas.size()<3:return
@@ -571,6 +631,7 @@ func _material(cor: Color) -> ShaderMaterial:
 	var m := ShaderMaterial.new()
 	m.shader = preload("res://codigo/jogador/acabamento_base_3d.gdshader")
 	m.set_shader_parameter("cor", cor)
+	m.set_shader_parameter("facetado",acabamento_low_poly)
 	m.set_shader_parameter("luz_em_blocos",acabamento_pixel_art)
 	for parametro in PALETA:
 		m.set_shader_parameter(parametro,Color(PALETA[parametro]))
@@ -674,6 +735,7 @@ func _aplicar_cores() -> void:
 		var tinta := Color(cor[0],cor[1],cor[2])
 		var media := Color(0.36,0.24,0.16) if manter_pintura else tinta*0.62
 		corpo.material_override.set_shader_parameter("cor_raspado", Color(media.r,media.g,media.b,1.0))
+	if _cabeca_referencia!=null:_atualizar_pecas()
 
 func _process(delta: float) -> void:
 	_armaduras.atualizar()
@@ -692,7 +754,15 @@ func _process(delta: float) -> void:
 			if _fila_demonstracao:
 				_fila_demonstracao = false
 				_iniciar_demonstracao(_golpe_demonstracao % _duracoes_combo().size()+1)
+	_restante_recuperacao_espada=maxf(0.0,_restante_recuperacao_espada-delta)
 	var acao := _acao_do_jogador() if _player != null else ""
+	# Recuperação apenas visual após soltar o ataque: andar, atacar ou defender interrompe imediatamente.
+	if acao=="parado" and _tem_espada() and not _arma_de_duas_maos():
+		if _acao=="espada" and _golpe_visual_espada in [1,2]:
+			_restante_recuperacao_espada=TEMPO_RECUPERACAO_ESPADA
+		if _restante_recuperacao_espada>0.0:acao="recuperar_espada"
+	else:
+		_restante_recuperacao_espada=0.0
 	if _demonstracao and acao not in ["espada","lanca"]:
 		_demonstracao=false
 		_fila_demonstracao=false
@@ -739,8 +809,12 @@ func _process(delta: float) -> void:
 			if _demonstracao:
 				progresso = _tempo_demonstracao/_duracoes_combo()[_golpe_demonstracao-1]
 			_progresso_golpe = progresso
+			if acao=="espada":_golpe_visual_espada=clampi(_golpe_demonstracao if _demonstracao else _jogador._fase_combo,1,3)
 			_tocar(acao, 0.0)
 			_player.seek(clampf(progresso, 0.0, 0.999)*duracao, true)
+		"recuperar_espada":
+			_tocar(acao,0.0)
+			_player.seek(clampf(1.0-_restante_recuperacao_espada/TEMPO_RECUPERACAO_ESPADA,0.0,1.0)*duracao,true)
 		"arco":
 			_tocar(acao,0.0)
 			# Puxada até 40% do disparo; depois o coice da soltura (Standing Aim Recoil).
@@ -776,13 +850,15 @@ func _process(delta: float) -> void:
 				_player.seek(instante,true)
 			else: _tocar(acao, 1.0)
 	_acao = acao
-	_encaixar_espada(acao in ["espada","lanca","guarda","escudada"] or (acao=="guarda_livre" and _tem_espada()))
+	if _cabeca_referencia!=null:_cabeca_referencia.orientar(_modelo.rotation.y)
+	_encaixar_espada(acao in ["espada","lanca","guarda","escudada","recuperar_espada"] or (acao=="guarda_livre" and _tem_espada()))
 	_encaixar_arma_pesada(acao=="pesada" or (acao=="guarda_livre" and _arma_pesada()!=null))
 
 func usa_combo_espada() -> bool:
 	return _tem_espada()
 
 func _nome_animacao(acao: String) -> String:
+	if acao=="recuperar_espada":return "quaternius/Sword_Regular_%s_Rec" % ("A" if _golpe_visual_espada==1 else "B")
 	if acao=="guarda" and _arma_de_duas_maos(): return "mixamo/GreatSwordBlocking"
 	if acao=="arco": return "mixamo/BowDraw" if progresso_arco()<.40 else "mixamo/BowRecoil"
 	if acao=="pesada": return "mixamo/MaceAttack" if _jogador.id_arma_atual=="maca" else "mixamo/AxeAttack"
@@ -825,7 +901,7 @@ func _encaixar_espada(na_mao: bool) -> void:
 		_espada.reparent(pai, false)
 	_espada.position = MAO_POSICAO if na_mao else (COSTAS_COM_ESCUDO_POSICAO if _escudo.visible else COSTAS_POSICAO)
 	_espada.rotation_degrees = MAO_ROTACAO if na_mao else COSTAS_ROTACAO
-	if na_mao and _acao in ["espada","guarda","guarda_livre","escudada"]:
+	if na_mao and _acao in ["espada","guarda","guarda_livre","escudada","recuperar_espada"]:
 		var animacao := _player.get_animation(_nome_animacao(_acao))
 		_espada.quaternion=animacao.get_meta("rotacao_arma",Quaternion.IDENTITY)
 	var pai_lanca: Node3D = _modelo if na_mao else _costas
@@ -1013,7 +1089,7 @@ func progresso_acao_fazenda() -> float:
 ## importados animam esses ossos: sem uma trilha de retorno, a última pose fica.
 func _completar_rotacoes_de_retorno() -> void:
 	var retornos: Dictionary={}
-	for biblioteca in ["melee","fazenda","mixamo"]:
+	for biblioteca in ["melee","fazenda","mixamo","quaternius"]:
 		for nome in _player.get_animation_library(biblioteca).get_animation_list():
 			var animacao:=_player.get_animation_library(biblioteca).get_animation(nome)
 			for trilha in animacao.get_track_count():
@@ -1037,7 +1113,8 @@ func orientar_escudo_3d(s: Skeleton3D) -> void:
 	if _escudo.get_parent()!=_mao_esquerda: return
 	var clipe:=_player.get_animation(_player.assigned_animation)
 	var mixamo: bool=_player.assigned_animation.begins_with("mixamo/") or str(clipe.get_meta("fonte","")).begins_with("mixamo/")
-	if _acao!="escudada" and not (mixamo and _acao in ["espada","guarda"]): return
+	var quaternius := _player.assigned_animation.begins_with("quaternius/") or str(clipe.get_meta("fonte","")).begins_with("quaternius/")
+	if _acao!="escudada" and not ((mixamo or quaternius) and _acao in ["espada","guarda","recuperar_espada"]): return
 	var mao:=s.get_bone_global_pose(s.find_bone("DEF-hand.L"))
 	var cotovelo:=s.get_bone_global_pose(s.find_bone("DEF-forearm.L")).origin
 	var normal: Vector3=((mao.origin-cotovelo).normalized()+Vector3.BACK*(0.5 if _acao=="espada" else 2.0)).normalized()
@@ -1129,4 +1206,6 @@ func geometria_golpe_2d() -> Dictionary:
 	for vertice in vertices:
 		var pixel := _camera.unproject_position(mundo*vertice)
 		pontos.append(_jogador.to_local(_sprite.to_global(pixel+_sprite.offset)))
-	return {"pontos":pontos,"janela":janela,"progresso":progresso}
+	# A varredura do UAL2 reserva quatro pixels para a espessura e a passagem entre quadros.
+	var margem := 4.0 if _acao=="espada" and not _arma_de_duas_maos() else 2.0
+	return {"pontos":pontos,"janela":janela,"progresso":progresso,"margem":margem}

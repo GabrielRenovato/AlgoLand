@@ -4,6 +4,23 @@ uniform vec4 cor : source_color = vec4(1.0);
 uniform bool usar_cor_do_vertice = false;
 uniform bool tingir_roupa = false;
 uniform bool luz_em_blocos = false;
+uniform bool facetado = false;
+uniform bool desenho_pixel_corpo = false;
+uniform sampler2D desenho_corpo : source_color, filter_nearest, repeat_disable;
+uniform bool luz_dura = false; // Modo pixel: duas faixas secas e sombra escura (estilo Dead Cells).
+uniform float volume_desenhado = 1.0; // Só vale com luz_em_blocos (modo pixel).
+// Pele em pixel art no próprio modelo (pele_pixel_3d.gd): UV por cilindro de cada osso.
+uniform bool pele_pixel = false;
+uniform sampler2D textura_pele_pixel : source_color, filter_nearest, repeat_disable;
+// Short pela altura de repouso (UV2.y): barra reta, cós e bainha, independente dos triângulos.
+uniform vec2 faixa_short_pixel = vec2(0.70, 1.06);
+// Roupas em pixel art (roupas_pixel_3d.gd): UV de cilindro em CUSTOM0; alfa 1 = tom da cor
+// do catálogo, alfa 0,5 = cor própria (botões, fivela, sola).
+uniform bool roupa_pixel = false;
+uniform bool cabelo_pixel = false; // Cabelo 3D com a mesma pintura em pixel art (CUSTOM0).
+uniform sampler2D textura_roupa_pixel : source_color, filter_nearest, repeat_disable;
+varying vec2 uv_pixel;
+uniform float forca_desenho_corpo = 1.0; // <1 no modo pixel: músculos viram volume, não pontilhado.
 uniform int acabamento_roupa = 0;
 uniform int modelo_roupa = 0;
 uniform bool desenho_pixel_roupas = false;
@@ -12,6 +29,7 @@ uniform float altura_botas = 0.30;
 uniform bool usar_textura_cabelo = false;
 uniform sampler2D textura_cabelo : source_color, filter_linear_mipmap, repeat_enable;
 uniform bool desenho_pixel_cabeca = false;
+uniform bool substituir_cabeca = false;
 uniform sampler2D desenho_rosto : source_color, filter_nearest, repeat_disable;
 uniform sampler2D desenho_cabelo : source_color, filter_nearest, repeat_enable;
 // No estudo, conservar o azul e as gradações da referência anexada.
@@ -47,15 +65,25 @@ uniform vec4 cor_borda : source_color = vec4(1.0, 0.93, 0.82, 1.0);
 uniform float forca_borda = 0.22;
 
 void vertex() {
+    uv_pixel = CUSTOM0.xy;
     if (!usar_textura_cabelo) VERTEX += NORMAL * inflar;
 }
 
 void light() {
     float n = dot(NORMAL, LIGHT) * ATTENUATION;
+    if (facetado) {
+        DIFFUSE_LIGHT += LIGHT_COLOR * max(n, 0.0) / PI;
+    } else {
     float faixa = mix(sombra_minima, 0.78, smoothstep(0.0, 0.06, n));
     faixa = mix(faixa, 1.0, smoothstep(0.55, 0.62, n));
     if (luz_em_blocos) faixa=n<0.08 ? 0.56 : (n<0.58 ? 0.80 : 1.0);
+    // Luz dura (estilo Dead Cells): corte seco entre sombra e luz, sombra bem escura.
+    if (luz_em_blocos && luz_dura) faixa=n<0.12 ? 0.15 : 1.0;
+    // Modo pixel: sol + ambiente passavam de 150% e estouravam a pele (vermelho travado
+    // em 255, a cor amarelava e mudava conforme a pose); 0,5 deixa a soma perto de 100%.
+    if (luz_em_blocos) faixa*=luz_dura ? 0.75 : 0.5; // Com luz dura o ambiente cai pela metade (AO).
     DIFFUSE_LIGHT += LIGHT_COLOR * faixa / PI;
+    }
 }
 // Desenho vetorial no espaço da cabeça: curvas contínuas, sem grade de pixels.
 float elipse(vec2 p, vec2 raios) {
@@ -102,6 +130,11 @@ vec2 uv_desenho_roupa(vec3 p) {
     return painel_tecido(uv,painel);
 }
 void fragment() {
+    if (substituir_cabeca && usar_cor_do_vertice && COLOR.r>.25 && COLOR.r<.75) discard;
+    if (facetado && !(usar_cor_do_vertice && desenho_pixel_corpo)) {
+        vec3 face = normalize(cross(dFdx(VERTEX), dFdy(VERTEX)));
+        NORMAL = dot(face, NORMAL)<0.0 ? -face : face;
+    }
     if (elmo_fechado && usar_cor_do_vertice && COLOR.r>.25 && COLOR.r<.75) discard;
     if (acabamento_roupa==2 && UV.y<altura_grevas) discard;
     if (recortar_cartola) {
@@ -119,6 +152,23 @@ void fragment() {
         if (esconder_calca && UV2.y > 0.24 && UV2.y < 1.025) discard;
         if (esconder_botas && UV2.y < altura_botas) discard;
         ALBEDO = mix(pele_base.rgb,short_base.rgb,step(0.75,COLOR.r));
+        if (desenho_pixel_corpo && (COLOR.r<.25 || COLOR.r>.75)) {
+            vec3 pintura=texture(desenho_corpo,UV).rgb;
+            bool short_pintado=COLOR.r>.75;
+            vec3 fundo=texture(desenho_corpo,short_pintado ? vec2(.640,.57) : vec2(.003,.003)).rgb;
+            // Mantém tintura/pele escolhidas e aplica só os grupos da pintura.
+            ALBEDO*=mix(vec3(1.0),clamp(pintura/max(fundo,vec3(.01)),vec3(.68),vec3(1.22)),forca_desenho_corpo);
+        }
+        if (pele_pixel && (COLOR.r<.25 || COLOR.r>.75)) {
+            bool no_short=UV2.y>faixa_short_pixel.x && UV2.y<faixa_short_pixel.y;
+            if (no_short) {
+                ALBEDO=short_base.rgb;
+                if (UV2.y>faixa_short_pixel.y-0.035) ALBEDO=short_luz.rgb; // Cós.
+                if (UV2.y<faixa_short_pixel.x+0.025) ALBEDO=short_sombra.rgb; // Bainha.
+            } else {
+                ALBEDO=pele_base.rgb*texture(textura_pele_pixel,UV).rgb/0.784;
+            }
+        }
     } else {
         ALBEDO = cor.rgb*(tingir_roupa ? COLOR.rgb : vec3(1.0));
     }
@@ -129,11 +179,19 @@ void fragment() {
             float luz = dot(ALBEDO, vec3(0.299, 0.587, 0.114));
             ALBEDO = clamp(cor_cabelo.rgb * luz * 2.1, 0.0, 1.0);
         }
+        if (cabelo_pixel) {
+            // Castanho original quando sem tintura; senão a cor escolhida, com as mechas da pintura.
+            vec3 base_cabelo=any(lessThan(cor_cabelo.rgb, vec3(0.99))) ? cor_cabelo.rgb*0.85 : vec3(0.45,0.26,0.16);
+            ALBEDO=base_cabelo*texture(textura_roupa_pixel,uv_pixel).rgb/0.784;
+        }
         ROUGHNESS = 1.0;
         SPECULAR = 0.0;
     }
     // Coordenadas de costura em repouso: os detalhes acompanham o tecido no rig.
-    if (acabamento_roupa>0) {
+    if (acabamento_roupa>0 && roupa_pixel) {
+        vec4 desenho=texture(textura_roupa_pixel,uv_pixel);
+        ALBEDO=desenho.a>0.75 ? cor.rgb*desenho.rgb/0.784 : desenho.rgb;
+    } else if (acabamento_roupa>0) {
         vec3 tecido = vec3(UV.x,UV.y,UV2.x);
         if (desenho_pixel_roupas) {
             // O atlas desenha a peça; a cor do catálogo continua independente.
@@ -338,8 +396,22 @@ void fragment() {
     // Brilho de borda: separa o boneco do fundo, mais forte nas costas da luz.
     RIM = forca_borda;
     RIM_TINT = 0.6;
-    if (luz_em_blocos) {
+    if (luz_em_blocos || facetado) {
         RIM=0.0;
         SPECULAR=0.0;
     }
+    // Pintura pixel: volume desenhado com luz fixa de cima/esquerda (espaço da câmera),
+    // em 3 degraus, como na pintura à mão; a luz do mapa continua por cima.
+    // Luz dura: a luz ambiente clareava a sombra e tirava o contraste; AO só afeta o ambiente.
+    if (luz_em_blocos && luz_dura) {
+        AO=0.5;
+        AO_LIGHT_AFFECT=0.0;
+    }
+    if (luz_em_blocos && volume_desenhado>0.0) {
+        float forma=dot(NORMAL,normalize(vec3(-0.45,0.65,0.62)));
+        float degrau_forma=forma<0.05 ? 0.74 : (forma<0.55 ? 0.88 : 1.0);
+        ALBEDO*=mix(1.0,degrau_forma,volume_desenhado);
+    }
+
+
 }

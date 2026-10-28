@@ -5,6 +5,7 @@ import http from 'node:http';
 import { createHash, randomUUID } from 'node:crypto';
 import { WebSocketServer } from 'ws';
 import { limparApelido, limparTexto, proibido } from './filtro.mjs';
+import { criarDuelo, DUELO } from './duelo.mjs';
 
 export const CONFIG = {
   porta: Number(process.env.PORTA ?? 8787),
@@ -19,6 +20,8 @@ export const CONFIG = {
   idadeAcaoMs: 2000,
   retencaoMs: 3600000,
   origens: (process.env.ORIGENS_PERMITIDAS ?? '').split(',').map((o) => o.trim()).filter(Boolean),
+  // Só para testes locais: atrasa cada envio, simulando a latência da internet.
+  atrasoTesteMs: Number(process.env.ATRASO_TESTE_MS ?? 0),
 };
 const ENVELOPE = { x: 1024, y: 576 };
 const REGEX_HEX = /^[a-f0-9]{24,64}$/;
@@ -53,11 +56,16 @@ export function criarServidor(config = CONFIG) {
   });
 
   function enviar(jogador, objeto) {
-    if (jogador.ws.readyState === 1) jogador.ws.send(JSON.stringify(objeto));
+    const texto = JSON.stringify(objeto);
+    if (config.atrasoTesteMs > 0) { setTimeout(() => { if (jogador.ws.readyState === 1) jogador.ws.send(texto); }, config.atrasoTesteMs); return; }
+    if (jogador.ws.readyState === 1) jogador.ws.send(texto);
   }
+  // Salas de duelo (duelo.mjs): mensagens com t = duelo_*
+  const duelo = criarDuelo(enviar, { ...DUELO, ...(config.duelo ?? {}) });
 
   function remover(jogador, motivo = '') {
     if (jogadores.get(jogador.id) !== jogador) return;
+    duelo.sair(jogador);
     jogadores.delete(jogador.id);
     if (porHash.get(jogador.hash) === jogador) porHash.delete(jogador.hash);
     if (motivo && jogador.ws.readyState === 1) jogador.ws.close(1000, motivo);
@@ -153,6 +161,8 @@ export function criarServidor(config = CONFIG) {
     jogador.janela = jogador.janela.filter((t) => agora - t < 1000);
     if (jogador.janela.length >= 30) { enviar(jogador, { erro: 'aguarde' }); return; }
     jogador.janela.push(agora);
+    // Qualquer mensagem mostra que a conexão está viva (a do duelo não manda presença de mapa).
+    jogador.vistoEm = agora;
     let dados;
     try { dados = JSON.parse(bruto.toString('utf8')); } catch { return; }
     if (!dados || typeof dados !== 'object') return;
@@ -183,6 +193,7 @@ export function criarServidor(config = CONFIG) {
         remover(jogador, 'saiu');
         break;
       default:
+        if (typeof dados.t === 'string' && dados.t.startsWith('duelo_')) duelo.aoMensagem(jogador, dados);
     }
   }
 
@@ -201,7 +212,7 @@ export function criarServidor(config = CONFIG) {
       const anterior = porHash.get(hash);
       // Reconectar com o mesmo perfil assume a identidade e histórico e derruba a conexão antiga
       const id = anterior?.id ?? randomUUID();
-      if (anterior) { jogadores.delete(anterior.id); porHash.delete(hash); anterior.ws.close(1000, 'substituida'); }
+      if (anterior) { duelo.sair(anterior); jogadores.delete(anterior.id); porHash.delete(hash); anterior.ws.close(1000, 'substituida'); }
       jogador = { id, hash, ws, geracao: dados.geracao, apelido: 'sem apelido', aparencia: anterior?.aparencia ?? null, revisao: anterior?.revisao ?? 1,
         entrouEm: Date.now(), mapa: 0, x: 0, y: 0, direcao: 0, andando: false, pesca: -1, ultimaAcao: proximaAcao - 1, instante: Date.now() / 1000, vistoEm: Date.now(), ultimaMensagem: 0,
         envios: anterior?.envios ?? new Set(), janela: [], conhecidos: new Map(), depois: Number.isInteger(dados.depois) ? Math.max(0, dados.depois) : 0,
@@ -239,7 +250,8 @@ export function criarServidor(config = CONFIG) {
     return { ok: true, ativoHa: Math.round((agora - inicio) / 1000), jogadores: lista, porMapa, contadores: { ...contadores },
       mensagens: mensagens.slice(-40).map((m) => ({ id: m.id, apelido: m.apelido, texto: m.texto, criadoEm: m.criadoEm })),
       memoriaMB: Math.round(process.memoryUsage().rss / 1048576), node: process.version,
-      limites: { maxConexoes: config.maxConexoes, maxPorMapa: config.maxPorMapa, expiraMs: config.expiraMs, tickMs: config.tickMs } };
+      limites: { maxConexoes: config.maxConexoes, maxPorMapa: config.maxPorMapa, expiraMs: config.expiraMs, tickMs: config.tickMs },
+      duelos: duelo.estadoAdmin() };
   }
   const servidorAdmin = http.createServer((req, res) => {
     if (req.url === '/estado' && req.method === 'GET') {
@@ -264,6 +276,7 @@ export function criarServidor(config = CONFIG) {
       wss.close(() => servidorHttp.close(() => resolve()));
     }),
     jogadores,
+    duelo,
   };
 }
 

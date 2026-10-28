@@ -26,7 +26,7 @@ func rodar() -> void:
 	root.add_child(tela)
 	current_scene = tela
 	await quadros(40)
-	tela._escolher_peca_3d("cabelo", "cabelo_espetado")
+	tela._escolher_peca_3d("cabelo", "cabelo_cacheado")
 	tela._escolher_peca_3d("camisa", "blusa_bufante")
 	tela._botoes_pele[1].pressed.emit()
 	tela._casas_cor[6].pressed.emit()
@@ -69,7 +69,7 @@ func rodar() -> void:
 	tela._ao_nome_alterado("AVENTUREIROX")
 	tela.confirmar()
 	var dados: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(tela.caminho_save))
-	verificar("confirmacao preserva escolhas e nome",dados.apelido == "AVENTUREIROX" and dados.roupas_3d.cabelo == "cabelo_espetado" and dados.roupas_3d.camisa == "blusa_bufante" and dados.aparencia_raven.pele == 1)
+	verificar("confirmacao preserva escolhas e nome",dados.apelido == "AVENTUREIROX" and dados.roupas_3d.cabelo == "cabelo_cacheado" and dados.roupas_3d.camisa == "blusa_bufante" and dados.aparencia_raven.pele == 1)
 	current_scene = null
 	tela.queue_free()
 	await quadros()

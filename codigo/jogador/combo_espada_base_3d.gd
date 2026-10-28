@@ -1,9 +1,9 @@
 extends RefCounted
-## Cortes Mixamo escolhidos pelo usuário; mantém os três tempos de combate.
+## Combo CC0 do Quaternius UAL2; mantém os três tempos do combate existente.
 const NOMES := ["combo_3d/espada_1", "combo_3d/espada_2", "combo_3d/espada_3"]
-const FONTES := ["mixamo/SwordSlashA","mixamo/SwordSlashB","mixamo/SwordSlashB"]
+const FONTES := ["quaternius/Sword_Regular_A","quaternius/Sword_Regular_B","quaternius/Sword_Regular_C"]
 # Início, contato e recuperação medidos no clipe original.
-const TRECHOS := [Vector3(0.0,0.62,0.95),Vector3(0.95,1.28,1.98),Vector3(1.98,2.40,3.533333333)]
+const TRECHOS := [Vector3(0.0,0.25,13.0/30.0),Vector3(0.0,0.37,16.0/30.0),Vector3(0.0,0.80,2.0)]
 const DURACOES := [0.38, 0.38, 0.50]
 static func instalar(player: AnimationPlayer) -> void:
     var biblioteca := AnimationLibrary.new()

@@ -44,15 +44,15 @@ func rodar():
     vp.add_child(sprite)
     var conjuntos: Array=[
         {"camisa":"blusa_bufante","calca":"saia_pregas","calcado":"sapatilhas_vinho","cabelo":"cabelo_curto"},
-        {"camisa":"casaquinho_lavanda","calca":"saia_campo","calcado":"sapatilhas_vinho","cabelo":"cabelo_espetado"},
+        {"camisa":"casaquinho_lavanda","calca":"saia_campo","calcado":"sapatilhas_vinho","cabelo":"cabelo_cacheado"},
         {"camisa":"blusa_bufante","calca":"saia_campo","calcado":"botinas_trabalho","cabelo":"cabelo_curto"}]
     vp.size=h._vp.size
     sprite.material=h._sprite.material
     sprite.texture_filter=h._sprite.texture_filter
     conferir(Catalogo.modelo("cabelo","cabelo_trancas").id=="cabelo_curto","Tranças antigas migram para bagunçado")
     conferir(Catalogo.modelo("cabelo","cabelo_rabo").id=="cabelo_curto","Rabo antigo migra para bagunçado")
-    conferir(Catalogo.modelo("cabelo","cabelo_chanel").id=="cabelo_curto" and Catalogo.modelo("cabelo","cabelo_longo").id=="cabelo_curto","Cortes retirados migram para bagunçado")
-    conferir(Catalogo.MODELOS.cabelo.map(func(m):return m.id)==["cabelo_curto","cabelo_raspado","cabelo_espetado"],"Somente os três cortes ativos")
+    conferir(Catalogo.modelo("cabelo","cabelo_chanel").id=="cabelo_curto" and Catalogo.modelo("cabelo","cabelo_longo").id=="cabelo_curto" and Catalogo.modelo("cabelo","cabelo_espetado").id=="cabelo_curto","Cortes retirados migram para bagunçado")
+    conferir(Catalogo.MODELOS.cabelo.map(func(m):return m.id)==["cabelo_curto","cabelo_raspado","cabelo_cacheado","cabelo_liso_longo"],"Somente os quatro cortes ativos")
     var capturas:=0
     var somente_interface: bool="--somente-interface" in OS.get_cmdline_user_args()
     if somente_interface: h.definir_roupas_3d(conjuntos[2])
@@ -111,7 +111,7 @@ func rodar():
         conferir(ui._seletores.cabelo.item_count==3,"Três penteados disponíveis")
         ui._seletores.cabelo.select(2)
         ui._seletores.cabelo.item_selected.emit(2)
-        conferir(h.roupas_3d.cabelo=="cabelo_espetado","Penteado muda na prévia")
+        conferir(h.roupas_3d.cabelo=="cabelo_cacheado","Penteado muda na prévia")
         var ret_previa: Rect2=ui._imagem.get_global_rect()
         ui._rolagem.scroll_vertical=1000
         await esperar(2)

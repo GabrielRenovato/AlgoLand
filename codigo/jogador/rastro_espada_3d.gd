@@ -27,7 +27,8 @@ func limpar():
     _malha.clear_surfaces()
     visible = false
 func atualizar(delta: float,transformacao: Transform3D,golpe: String,progresso: float,fase: int,lanca: bool = false,duas_maos: bool = false):
-    var vida: float=VIDA if lanca else VIDA_CORTE
+    var corte_curto: bool=not lanca and not duas_maos
+    var vida: float=VIDA if lanca else (0.075 if corte_curto else VIDA_CORTE)
     _tempo += delta
     if golpe != _golpe:
         limpar()
@@ -37,7 +38,8 @@ func atualizar(delta: float,transformacao: Transform3D,golpe: String,progresso: 
     var indice := clampi(fase,1,3)-1
     var janela: Vector2 = Vector2(0.25,0.75) if lanca else JANELAS[indice]
     if not golpe.is_empty() and progresso >= janela.x and progresso <= janela.y:
-        var base := transformacao*Vector3(-0.035 if lanca else 0.0,0.84 if lanca else 0.31,0)
+        var inicio_lamina: float=lerpf(0.31,ponta_espada,0.65) if corte_curto else 0.31
+        var base := transformacao*Vector3(-0.035 if lanca else 0.0,0.84 if lanca else inicio_lamina,0)
         var ponta := transformacao*Vector3(0.035 if lanca else 0.0,1.08 if lanca else (ponta_montante if duas_maos else ponta_espada),0)
         if _amostras.is_empty() or ponta.distance_to(_amostras[-1][2]) > 0.012:
             _amostras.append([_tempo,base,ponta])

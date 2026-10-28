@@ -25,6 +25,7 @@ static func construir() -> Node3D:
     var madeira:=disco(escudo,RAIO-0.025,0.088,Color.WHITE)
     var m:=ShaderMaterial.new()
     m.shader=load("res://codigo/jogador/escudo_madeira_3d.gdshader")
+    m.set_shader_parameter("luz_em_blocos",false) # Explícito: o herói só atualiza parâmetros já definidos.
     madeira.material_override=m
     disco(escudo,0.045,0.11,Color("79879a"))
     for lado in [-1.0,1.0]:

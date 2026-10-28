@@ -23,11 +23,11 @@ func rodar():
  tela.trocar_cena=false;tela.caminho_save="user://configuracao_jogador.json"
  root.add_child(tela)
  await esperar(8)
- conferir(not tela._opcoes_3d.cabelo.any(func(par):return par[0] in ["cabelo_chanel","cabelo_longo","cabelo_cacheado"]),"Penteado removido não aparece na criação")
+ conferir(not tela._opcoes_3d.cabelo.any(func(par):return par[0] in ["cabelo_chanel","cabelo_longo","cabelo_espetado"]),"Penteado removido não aparece na criação")
  var catalogo=load("res://codigo/dados/roupas_base_3d.gd")
- for retirado in ["cabelo_chanel","cabelo_longo","cabelo_cacheado","cabelo_trancas","cabelo_rabo"]:
+ for retirado in ["cabelo_chanel","cabelo_longo","cabelo_espetado","cabelo_rabo"]:
   conferir(catalogo.modelo("cabelo",retirado).id=="cabelo_curto","Save com corte retirado usa bagunçado: "+retirado)
- for estilo in ["cabelo_curto","cabelo_espetado"]:
+ for estilo in ["cabelo_curto","cabelo_cacheado"]:
   for par in tela._opcoes_3d.cabelo:
    if par[0]==estilo:par[1].pressed.emit()
   tela._abrir_aba(tela.Aba.COR)
@@ -79,7 +79,7 @@ func rodar():
  j._aplicar_modelo();h._armaduras.atualizar()
  var cor_jogo: Array=j.aparencia_raven.cor
  conferir(Color(cor_jogo[0],cor_jogo[1],cor_jogo[2]).is_equal_approx(Color(.95,.42,.20)),"Jogo carrega a cor da criação")
- conferir(h.roupas_3d.cabelo=="cabelo_espetado","Jogo mantém o penteado escolhido")
+ conferir(h.roupas_3d.cabelo=="cabelo_cacheado","Jogo mantém o penteado escolhido")
  conferir(j.cor_cabelo.is_equal_approx(Color(.95,.42,.20)),"Campo branco antigo não apaga o ruivo escolhido")
  h._aplicar_cores()
  for d in 4:

@@ -36,6 +36,6 @@ static func construir(base: ArrayMesh, cabeca_para_malha: Transform3D) -> ArrayM
 			normais[i]=(normal_para_malha*jacobiano.inverse().transposed()*normal).normalized()
 		arrays[Mesh.ARRAY_VERTEX]=vertices
 		arrays[Mesh.ARRAY_NORMAL]=normais
-		nova.add_surface_from_arrays(base.surface_get_primitive_type(s),arrays)
+		nova.add_surface_from_arrays(base.surface_get_primitive_type(s),arrays,[],{},base.surface_get_format(s))
 		nova.surface_set_material(s,base.surface_get_material(s))
 	return nova

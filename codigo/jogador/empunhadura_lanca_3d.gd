@@ -66,11 +66,26 @@ func _elevar_corte_uma_mao(s: Skeleton3D) -> void:
     if peso<=.001: return
     var indice:=s.find_bone("DEF-hand.R")
     var mao: Transform3D=s.global_transform*s.get_bone_global_pose(indice)
+    var clipe: Animation=heroi._player.get_animation(heroi._player.assigned_animation)
+    if str(clipe.get_meta("fonte","")).begins_with("quaternius/"):
+        # Preserva o corte visível acima do tronco baixo do modelo chibi ao atacar para o norte.
+        var fase: int=heroi._golpe_demonstracao if heroi._demonstracao else clampi(heroi._jogador._fase_combo,1,3)
+        var elevacao: float=[.28,.80,.50][fase-1]
+        var alvo: Vector3=s.global_transform.affine_inverse()*(mao.origin+Vector3.UP*elevacao*peso)
+        var cotovelo:=s.get_bone_global_pose(s.find_bone("DEF-forearm.R")).origin
+        var ombro:=s.get_bone_global_pose(s.find_bone("DEF-upper_arm.R")).origin
+        heroi._acoes_manuais._resolver(s,"DEF-upper_arm.R","DEF-forearm.R","DEF-hand.R",alvo,(cotovelo-ombro).normalized())
+        var nova:=s.global_transform*s.get_bone_global_pose(indice)
+        nova.basis=mao.basis
+        s.set_bone_global_pose(indice,s.global_transform.affine_inverse()*nova)
+        mao=nova
     var eixo: Vector3=(mao.basis*heroi._espada.basis*Vector3.UP).normalized()
-    var elevado: Vector3=(eixo+Vector3.UP*1.25).normalized()
+    var novo_combo: bool=str(clipe.get_meta("fonte","")).begins_with("quaternius/")
+    var segundo: bool=novo_combo and (heroi._golpe_demonstracao if heroi._demonstracao else heroi._jogador._fase_combo)==2
+    var elevado: Vector3=(eixo+Vector3.UP*(3.5 if segundo else 1.25)).normalized()
     var giro:=Quaternion(eixo,elevado)
     # Limita a extensão do punho, inclusive quando o clipe aponta a lâmina para baixo.
-    giro=Quaternion.IDENTITY.slerp(giro,minf(1.0,deg_to_rad(55.0)/maxf(giro.get_angle(),.001)))
+    giro=Quaternion.IDENTITY.slerp(giro,minf(1.0,deg_to_rad(100.0 if segundo else 55.0)/maxf(giro.get_angle(),.001)))
     var correcao:=Quaternion.IDENTITY.slerp(giro,peso)
     mao.basis=Basis(correcao)*mao.basis
     s.set_bone_global_pose(indice,s.global_transform.affine_inverse()*mao)

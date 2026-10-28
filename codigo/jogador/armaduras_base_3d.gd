@@ -43,7 +43,9 @@ func ajustar_cabelo():
    for i in uv2.size():
     uv2[i].y=(t.affine_inverse()*a[Mesh.ARRAY_VERTEX][i]).y
    a[Mesh.ARRAY_TEX_UV2]=uv2
-   nova.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES,a)
+   # Repassa o formato dos canais extras (CUSTOM0 do cabelo em pixel art); sem ele a superfície é recusada.
+   var formato_extra:=origem.surface_get_format(s) & (Mesh.ARRAY_FORMAT_CUSTOM_MASK << Mesh.ARRAY_FORMAT_CUSTOM0_SHIFT)
+   nova.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES,a,[],{},formato_extra)
   _cabelos[id]=nova
  heroi._pecas[3].mesh=_cabelos[id]
 
