@@ -19,8 +19,10 @@ def copia(nome):
 
 def main():
     os.makedirs(SAIDA, exist_ok=True)
+    # --servidor=ws://... usa um servidor já rodando (ex.: o container do Fly) em vez de subir um local.
+    externo = next((a.split("=", 1)[1] for a in sys.argv[1:] if a.startswith("--servidor=")), "")
     porta = porta_livre()
-    servidor = subprocess.Popen(["node", "servidor.mjs"], cwd=os.path.join(RAIZ, "ferramentas/lobby/servidor"),
+    servidor = None if externo else subprocess.Popen(["node", "servidor.mjs"], cwd=os.path.join(RAIZ, "ferramentas/lobby/servidor"),
         env={**os.environ, "PORTA": str(porta), "ADMIN_PORTA": "0",
              "ATRASO_TESTE_MS": next((a.split("=")[1] for a in sys.argv[1:] if a.startswith("--atraso=")), "0")}, stdout=open(f"{SAIDA}/servidor.log", "w"), stderr=subprocess.STDOUT)
     time.sleep(1.0)
@@ -30,14 +32,14 @@ def main():
             pasta = copia(papel)
             jogos.append(subprocess.Popen(["flatpak", "run", "--filesystem=/tmp", f"--filesystem={RAIZ}", "org.godotengine.Godot",
                 "--path", pasta, "--resolution", "960x540", "--script", "res://ferramentas/duelo/cliente_teste_duelo.gd", "--",
-                f"--papel={papel}", f"--duelo-ws=ws://127.0.0.1:{porta}", f"--saida={SAIDA}"] + sys.argv[1:],
+                f"--papel={papel}", f"--duelo-ws={externo or f'ws://127.0.0.1:{porta}'}", f"--saida={SAIDA}"] + sys.argv[1:],
                 stdout=open(f"{SAIDA}/jogo_{papel}.log", "w"), stderr=subprocess.STDOUT))
             time.sleep(2.0)
         for jogo in jogos: jogo.wait(timeout=240)
     finally:
         for jogo in jogos:
             if jogo.poll() is None: jogo.kill()
-        servidor.terminate()
+        if servidor: servidor.terminate()
     for papel in ["a", "b"]:
         for linha in open(f"{SAIDA}/jogo_{papel}.log"):
             if "DUELO[" in linha or "SCRIPT ERROR" in linha or "Parse Error" in linha: print(linha.rstrip())

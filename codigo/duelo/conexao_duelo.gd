@@ -16,7 +16,6 @@ signal evento_remoto(evento: Dictionary)
 ## A vida do jogador local zerou durante a partida (jogador.gd: morrer).
 signal caiu_local
 
-const Config := preload("res://codigo/dados/ranking_config.gd")
 const Visual := preload("res://codigo/dados/visual_ranking.gd")
 const CENA_ARENA := "res://cenas/duelo/arena_duelo.tscn"
 const ERROS := {
@@ -81,13 +80,18 @@ func abrir_tela() -> void:
 func conectado() -> bool:
 	return _ws != null and _entrou and _ws.get_ready_state() == WebSocketPeer.STATE_OPEN
 
-## Endereço igual ao do lobby (sessao_lobby.gd): --duelo-ws= / --lobby-ws= em testes locais,
-## opcoes.cfg [lobby] servidor, ou o padrão do jogo. Só wss:// ou ws:// local.
+## Servidor do duelo no Fly.io em São Paulo (ferramentas/lobby/servidor/fly.toml): perto dos jogadores.
+## Fica aqui, e não no ranking_config.gd, porque aquele é lido por um autoload e o patch não pode trocá-lo.
+## O lobby/chat continuam no servidor do PC (Config.LOBBY_WS).
+const DUELO_WS := "wss://algoland-duelo.fly.dev"
+
+## --duelo-ws= / --lobby-ws= em testes locais, opcoes.cfg [duelo] servidor, ou DUELO_WS.
+## Só wss:// ou ws:// local (o código secreto do perfil viaja na entrada).
 static func endereco() -> String:
-	var candidato: String = Config.LOBBY_WS
+	var candidato: String = DUELO_WS
 	var preferencias := ConfigFile.new()
 	preferencias.load("user://opcoes.cfg")
-	var salvo := str(preferencias.get_value("lobby", "servidor", ""))
+	var salvo := str(preferencias.get_value("duelo", "servidor", ""))
 	if not salvo.is_empty(): candidato = salvo
 	if "--script" in OS.get_cmdline_args() or OS.get_user_data_dir().get_file().begins_with("AlgoLand testes"): candidato = ""
 	for argumento in OS.get_cmdline_user_args():

@@ -1,0 +1,36 @@
+# Servidor do duelo online (e do lobby, se um dia mudar) no Fly.io, em São Paulo.
+# Uso: fly apps create algoland-duelo && fly deploy   (nesta pasta)
+app = "algoland-duelo"
+primary_region = "gru"
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  PORTA = "8787"
+  # Sem painel administrativo na nuvem (ele só existe em 127.0.0.1 no PC).
+  ADMIN_PORTA = "0"
+
+[http_service]
+  internal_port = 8787
+  force_https = true
+  # Sempre uma máquina ligada: desligar por inatividade faria a primeira conexão do duelo demorar.
+  auto_stop_machines = "off"
+  auto_start_machines = true
+  min_machines_running = 1
+
+  [http_service.concurrency]
+    type = "connections"
+    soft_limit = 150
+    hard_limit = 200
+
+  [[http_service.checks]]
+    grace_period = "10s"
+    interval = "30s"
+    method = "GET"
+    path = "/saude"
+    timeout = "3s"
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "256mb"

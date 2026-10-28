@@ -3,7 +3,7 @@ FROM node:22-alpine
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci --omit=dev
-COPY filtro.mjs servidor.mjs ./
+COPY filtro.mjs servidor.mjs duelo.mjs ./
 ENV PORTA=8787
 EXPOSE 8787
 USER node
