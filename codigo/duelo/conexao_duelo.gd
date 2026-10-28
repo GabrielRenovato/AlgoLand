@@ -126,7 +126,7 @@ static func perfil_do(jogador: Node2D) -> Dictionary:
 		"apelido": Ranking.apelido_personagem(jogador.apelido),
 		"aparencia_raven": jogador.aparencia_raven,
 		"roupas_3d": heroi.roupas_3d if heroi != null else {},
-		"pecas": heroi.pecas_visiveis if heroi != null else 8,
+		"pecas": heroi.pecas_visiveis if heroi != null else 15,
 		"arma": str(jogador.id_arma_atual),
 		"espada": bool(jogador.usando_espada), "escudo": bool(jogador.usando_escudo),
 		"lanca": bool(jogador.usando_lanca), "arco": bool(jogador.usando_arco),

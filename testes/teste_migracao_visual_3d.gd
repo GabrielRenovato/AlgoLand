@@ -27,8 +27,12 @@ func rodar() -> void:
 	jogador.set_physics_process(false)
 	jogador.aparencia_raven = dados.duplicate(true)
 	var heroi = jogador.get_node("HeroiBase3D")
+	conferir(heroi.pecas_visiveis==15,"Entrada normal mostra camisa, calça, calçado e cabelo sem ativar F3")
+	for i in 3:
+		conferir(heroi._pecas[i].visible,"Peça de roupa visível na entrada: "+str(i))
 	heroi.definir_roupas_3d(dados.roupas_3d)
 	await esperar()
+	await foto("roupas-entrada")
 	conferir(Visual.do_jogador(jogador).roupas_3d==dados.roupas_3d,"Retrato público inclui roupas e cabelo atuais")
 	var sequencia = load("res://codigo/introducao/sequencia_introducao.gd").new()
 	sequencia.jogador = jogador

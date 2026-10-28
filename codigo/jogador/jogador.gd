@@ -429,7 +429,7 @@ func _ready() -> void:
 		var visual_3d = preload("res://codigo/jogador/heroi_base_3d.gd").new()
 		visual_3d.demonstrar_combate_na_fazenda = bool(get_tree().get_meta("demo_combate_base_3d_p2" if eh_p2 else "demo_combate_base_3d_p1",false))
 		visual_3d.arma_demonstracao = int(get_tree().get_meta("arma_demo_base_3d_p2" if eh_p2 else "arma_demo_base_3d_p1",0))
-		visual_3d.pecas_visiveis = int(get_tree().get_meta("pecas_base_3d_p2" if eh_p2 else "pecas_base_3d_p1",8))
+		visual_3d.pecas_visiveis = int(get_tree().get_meta("pecas_base_3d_p2" if eh_p2 else "pecas_base_3d_p1",15))
 		visual_3d.acabamento_pixel_art = bool(get_tree().get_meta("pixel_base_3d_p2" if eh_p2 else "pixel_base_3d_p1",true))
 		visual_3d.acabamento_low_poly = not visual_3d.acabamento_pixel_art
 		add_child(visual_3d)

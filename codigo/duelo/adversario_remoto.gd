@@ -97,7 +97,7 @@ func configurar(perfil: Dictionary) -> void:
 	hp_maximo = maxi(1, int(perfil.get("hp_maximo", 1)))
 	hp = hp_maximo
 	var heroi = preload("res://codigo/jogador/heroi_base_3d.gd").new()
-	heroi.pecas_visiveis = int(perfil.get("pecas", 8))
+	heroi.pecas_visiveis = int(perfil.get("pecas", 15))
 	add_child(heroi)
 
 ## Lido pelo heroi_base_3d no _ready: só as roupas vêm "do save".
