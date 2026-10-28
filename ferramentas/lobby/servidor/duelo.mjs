@@ -66,6 +66,10 @@ export function criarDuelo(enviar, config = DUELO) {
     jogador.duelo ??= { sala: 0, perfil: null };
     const s = salaDe(jogador);
     switch (dados.t) {
+      case 'duelo_ping':
+        // Eco imediato para o jogo medir a ida e volta até o servidor.
+        enviar(jogador, { t: 'duelo_pong', c: Number.isFinite(dados.c) ? dados.c : 0 });
+        return true;
       case 'duelo_salas':
         enviar(jogador, { t: 'duelo_salas', salas: [...salas.values()].map(resumo) });
         return true;

@@ -23,6 +23,7 @@ var _tempo_lista := 0.0
 var _pausou := false
 var _campo_nome: LineEdit
 var _campo_senha: LineEdit
+var _rotulo_ping: Label
 
 func _ready() -> void:
 	layer = 110
@@ -64,6 +65,8 @@ func _exit_tree() -> void:
 	if _pausou: get_tree().paused = false
 
 func _process(delta: float) -> void:
+	if _rotulo_ping != null and is_instance_valid(_rotulo_ping):
+		_rotulo_ping.text = "PING %d MS" % Duelo.ping_ms if Duelo.ping_ms >= 0 else ""
 	if _vista != Vista.LISTA: return
 	_tempo_lista -= delta
 	if _tempo_lista <= 0.0:
@@ -83,6 +86,9 @@ func _unhandled_input(evento: InputEvent) -> void:
 func _mostrar(vista: Vista) -> void:
 	_vista = vista
 	for filho in _conteudo.get_children(): filho.queue_free()
+	_rotulo_ping = _rotulo("", 8, COR_SUAVE)
+	_rotulo_ping.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	_conteudo.add_child(_rotulo_ping)
 	match vista:
 		Vista.LISTA: _montar_lista()
 		Vista.CRIAR: _montar_criar()

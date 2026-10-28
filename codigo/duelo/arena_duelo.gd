@@ -8,7 +8,7 @@ const ConexaoDuelo := preload("res://codigo/duelo/conexao_duelo.gd")
 const FONTE := preload("res://assets/ui/Planes_ValMore.ttf")
 ## O dano das armas foi feito contra monstros: entre jogadores ele é reduzido.
 const MULT_DANO_PVP := 0.6
-const INTERVALO_ESTADO := 1.0 / 15.0
+const INTERVALO_ESTADO := 1.0 / 20.0
 const CONTAGEM := 1.6
 ## Distância de cada lado em relação à chegada do portal.
 const AFASTAMENTO := Vector2(72, 0)
@@ -21,6 +21,7 @@ var _placar: Label
 var _aviso: Label
 var _nome_adversario: Label
 var _vida_adversario: ProgressBar
+var _ping: Label
 var _tempo_estado := 0.0
 var _contagem := 0.0
 var _caiu := false
@@ -111,6 +112,7 @@ func _process(delta: float) -> void:
 	if _tempo_estado <= 0.0 and Duelo.em_partida:
 		_tempo_estado = INTERVALO_ESTADO
 		Duelo.enviar_estado(estado_local())
+	_ping.text = "PING %d MS" % Duelo.ping_ms if Duelo.ping_ms >= 0 else "PING ..."
 	if is_instance_valid(adversario):
 		_nome_adversario.text = adversario.apelido
 		_vida_adversario.max_value = adversario.hp_maximo
@@ -215,6 +217,8 @@ func _montar_hud() -> void:
 	_vida_adversario.add_theme_stylebox_override("background", fundo)
 	_vida_adversario.add_theme_stylebox_override("fill", cheio)
 	topo.add_child(_vida_adversario)
+	_ping = _rotulo(9)
+	topo.add_child(_ping)
 	_aviso = _rotulo(22)
 	_aviso.set_anchors_preset(Control.PRESET_CENTER)
 	_aviso.position = Vector2(-200, -40)

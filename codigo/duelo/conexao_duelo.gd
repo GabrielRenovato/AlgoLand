@@ -104,6 +104,8 @@ func conectar(jogador: Node2D) -> void:
 		return
 	_ws = WebSocketPeer.new()
 	_ws.heartbeat_interval = 15.0
+	# Sem o algoritmo de Nagle: os pacotes pequenos e frequentes do duelo saem na hora.
+	_ws.set_no_delay(true)
 	_entrou = false
 	if _ws.connect_to_url(url) != OK:
 		_ws = null
@@ -156,9 +158,11 @@ func _enviar(objeto: Dictionary) -> void:
 	else:
 		_pendentes.append(objeto)
 
-## O servidor desconecta quem passa 20 s calado: na sala ou na lista, um sinal de vida a cada 5 s.
-const INTERVALO_VIDA := 5.0
+## O servidor desconecta quem passa 20 s calado: o ping (1 por segundo) também serve de sinal de vida.
+const INTERVALO_VIDA := 1.0
 var _tempo_vida := 0.0
+## Ida e volta até o servidor, em ms (-1 = ainda sem medida). O atraso entre os dois jogadores é ~ a soma das metades.
+var ping_ms := -1
 
 func _process(delta: float) -> void:
 	if _ws == null: return
@@ -166,7 +170,7 @@ func _process(delta: float) -> void:
 	_tempo_vida -= delta
 	if _tempo_vida <= 0.0 and conectado():
 		_tempo_vida = INTERVALO_VIDA
-		_ws.send_text(JSON.stringify({"t": "duelo_vivo"}))
+		_ws.send_text(JSON.stringify({"t": "duelo_ping", "c": Time.get_ticks_msec()}))
 	match _ws.get_ready_state():
 		WebSocketPeer.STATE_OPEN:
 			if not _entrou: _entrar()
@@ -222,6 +226,7 @@ func _receber(texto: String) -> void:
 			placar = dados.get("placar", placar)
 			em_partida = false
 			partida_terminou.emit(dados)
+		"duelo_pong": ping_ms = maxi(0, Time.get_ticks_msec() - int(dados.get("c", 0)))
 		"duelo_estado": estado_remoto.emit(dados.e)
 		"duelo_evento": evento_remoto.emit(dados.ev)
 

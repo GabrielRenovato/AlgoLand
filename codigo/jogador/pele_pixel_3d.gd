@@ -7,6 +7,37 @@ extends RefCounted
 const TEXTURA := "res://assets/personagens/base_3d/pele_pixel/pele.png"
 const TAMANHO := Vector2i(64, 64)
 const NEUTRO := 0.784 # Texel neutro: o shader divide por este valor.
+## Malhas com o UV pixel já calculado (gerar_roupas_pixel.gd): no jogo só carregam. O cálculo por
+## triângulo em GDScript levava ~0,2 s no PC e segundos no Android a cada troca de mapa.
+const PASTA_MALHAS := "res://assets/personagens/base_3d/pele_pixel/malhas/"
+
+static func assinatura(malha: Mesh) -> String:
+	if malha == null or malha.get_surface_count() == 0: return "vazia"
+	var total := 0
+	for s in malha.get_surface_count(): total += malha.surface_get_array_len(s)
+	var caixa := malha.get_aabb()
+	return "%d|%.4f|%.4f|%.4f|%.4f|%.4f|%.4f" % [total, caixa.position.x, caixa.position.y, caixa.position.z, caixa.size.x, caixa.size.y, caixa.size.z]
+
+static func caminho_malha(nome: String) -> String:
+	return PASTA_MALHAS + nome + ".res"
+
+## Malha pronta salva para esta origem; null se não existir ou se a origem mudou (aí recalcula).
+static func malha_pronta(nome: String, origem: Mesh) -> ArrayMesh:
+	var caminho := caminho_malha(nome)
+	if not ResourceLoader.exists(caminho): return null
+	var pronta := load(caminho) as ArrayMesh
+	if pronta == null or str(pronta.get_meta("origem", "")) != assinatura(origem): return null
+	return pronta
+
+static func guardar_malha(nome: String, origem: Mesh, pronta: ArrayMesh) -> void:
+	pronta.set_meta("origem", assinatura(origem))
+	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(PASTA_MALHAS))
+	ResourceSaver.save(pronta, caminho_malha(nome), ResourceSaver.FLAG_COMPRESS)
+
+## UV pixel de uma peça (roupa/cabelo), da malha salva quando houver.
+static func com_uv_pixel_salvo(nome: String, malha: ArrayMesh, instancia: MeshInstance3D, esqueleto: Skeleton3D) -> ArrayMesh:
+	var pronta := malha_pronta(nome, malha)
+	return pronta if pronta != null else com_uv_pixel(malha, instancia, esqueleto)
 
 # Partes: retângulo no atlas, juntas do eixo (sufixo .L/.R quando lateral), faixa de v
 # coberta pelos triângulos e referência de "frente" para o ângulo.
@@ -146,6 +177,14 @@ static func extensoes(malha: ArrayMesh, instancia: MeshInstance3D, esqueleto: Sk
 	return faixas
 
 static func aplicar(corpo: MeshInstance3D, esqueleto: Skeleton3D) -> void:
+	var pronta := malha_pronta("corpo", corpo.mesh)
+	corpo.mesh = pronta if pronta != null else malha_do_corpo(corpo, esqueleto)
+	var m: ShaderMaterial = corpo.material_override
+	m.set_shader_parameter("desenho_pixel_corpo", false)
+	m.set_shader_parameter("pele_pixel", true)
+	m.set_shader_parameter("textura_pele_pixel", load(TEXTURA))
+
+static func malha_do_corpo(corpo: MeshInstance3D, esqueleto: Skeleton3D) -> ArrayMesh:
 	var juntas := juntas_na_malha(corpo, esqueleto)
 	var nomes := nomes_dos_binds(corpo, esqueleto)
 	var base := corpo.mesh as ArrayMesh
@@ -181,11 +220,7 @@ static func aplicar(corpo: MeshInstance3D, esqueleto: Skeleton3D) -> void:
 				st.set_weights(pesos.slice(i * 4, i * 4 + 4))
 				st.add_vertex(vertices[i])
 	st.index()
-	corpo.mesh = st.commit()
-	var m: ShaderMaterial = corpo.material_override
-	m.set_shader_parameter("desenho_pixel_corpo", false)
-	m.set_shader_parameter("pele_pixel", true)
-	m.set_shader_parameter("textura_pele_pixel", load(TEXTURA))
+	return st.commit()
 
 # --- Pintura (gerada por ferramentas/personagem/base_3d/gerar_pele_pixel.gd; pode ser repintada à mão).
 

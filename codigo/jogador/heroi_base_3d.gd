@@ -255,7 +255,7 @@ func definir_roupas_3d(dados: Dictionary) -> void:
 		var textura_pixel: String=ROUPAS_PIXEL.caminho(modelo.id)
 		var usar_pixel: bool=_pele_pixel and ResourceLoader.exists(textura_pixel)
 		if usar_pixel and not _cache_roupas.has(modelo.id+"#pixel"):
-			_cache_roupas[modelo.id+"#pixel"]=PELE_PIXEL.com_uv_pixel(_cache_roupas[modelo.id],_pecas[i],_esqueleto)
+			_cache_roupas[modelo.id+"#pixel"]=PELE_PIXEL.com_uv_pixel_salvo(modelo.id,_cache_roupas[modelo.id],_pecas[i],_esqueleto)
 		_pecas[i].mesh=_cache_roupas[modelo.id+"#pixel"] if usar_pixel else _cache_roupas[modelo.id]
 		var material: ShaderMaterial=_pecas[i].material_override
 		material.set_shader_parameter("roupa_pixel",usar_pixel)
@@ -270,7 +270,7 @@ func definir_roupas_3d(dados: Dictionary) -> void:
 	var textura_cabelo_pixel: String=ROUPAS_PIXEL.caminho(cabelo.id)
 	var cabelo_pixel: bool=_pele_pixel and ResourceLoader.exists(textura_cabelo_pixel) and (_cache_roupas[cabelo.id] as ArrayMesh).get_surface_count()>0
 	if cabelo_pixel and not _cache_roupas.has(cabelo.id+"#pixel"):
-		_cache_roupas[cabelo.id+"#pixel"]=PELE_PIXEL.com_uv_pixel(_cache_roupas[cabelo.id],_pecas[3],_esqueleto)
+		_cache_roupas[cabelo.id+"#pixel"]=PELE_PIXEL.com_uv_pixel_salvo(cabelo.id,_cache_roupas[cabelo.id],_pecas[3],_esqueleto)
 	_pecas[3].mesh=_cache_roupas[cabelo.id+"#pixel"] if cabelo_pixel else _cache_roupas[cabelo.id]
 	var material_cabelo: ShaderMaterial=_pecas[3].material_override
 	material_cabelo.set_shader_parameter("cabelo_pixel",cabelo_pixel)
