@@ -1,4 +1,4 @@
-# Servidor do duelo online (e do lobby, se um dia mudar) no Fly.io, em São Paulo.
+# Servidor online do AlgoLand no Fly.io, em São Paulo: presença nos mapas, chat global e duelo.
 # Uso: fly apps create algoland-duelo && fly deploy   (nesta pasta)
 app = "algoland-duelo"
 primary_region = "gru"
@@ -8,8 +8,10 @@ primary_region = "gru"
 
 [env]
   PORTA = "8787"
-  # Sem painel administrativo na nuvem (ele só existe em 127.0.0.1 no PC).
-  ADMIN_PORTA = "0"
+  # Painel administrativo só na rede privada da conta (não está no http_service, então não é público).
+  # No PC: ./abrir_painel_fly.sh abre o túnel `fly proxy` e o painel ligado a ele.
+  ADMIN_PORTA = "8788"
+  ADMIN_HOST = "fly-local-6pn"
 
 [http_service]
   internal_port = 8787

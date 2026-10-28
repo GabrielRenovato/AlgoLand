@@ -11,6 +11,8 @@ export const CONFIG = {
   porta: Number(process.env.PORTA ?? 8787),
   // Painel de administração: só em 127.0.0.1 e em outra porta, que o Funnel/túnel não publica
   portaAdmin: Number(process.env.ADMIN_PORTA ?? 8788),
+  // No PC: só 127.0.0.1. No Fly: fly-local-6pn (rede privada da conta, alcançada por `fly proxy`; nunca pública).
+  hostAdmin: process.env.ADMIN_HOST ?? '127.0.0.1',
   maxConexoes: Number(process.env.MAX_CONEXOES ?? 200),
   maxPorMapa: Number(process.env.MAX_POR_MAPA ?? 24),
   tickMs: Number(process.env.TICK_MS ?? 100),
@@ -265,7 +267,7 @@ export function criarServidor(config = CONFIG) {
 
   return {
     iniciar: () => new Promise((resolve) => servidorHttp.listen(config.porta, () => {
-      if (config.portaAdmin > 0) servidorAdmin.listen(config.portaAdmin, '127.0.0.1');
+      if (config.portaAdmin > 0) servidorAdmin.listen(config.portaAdmin, config.hostAdmin ?? '127.0.0.1');
       resolve(servidorHttp.address().port);
     })),
     estadoAdmin,

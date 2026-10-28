@@ -137,10 +137,14 @@ var _ws_suspenso_ate := 0.0
 func usa_ws() -> bool:
  return not _url_ws.is_empty() and Time.get_ticks_msec()/1000.0>=_ws_suspenso_ate
 
-## Endereço do servidor próprio: --lobby-ws= (testes locais), opcoes.cfg [lobby] servidor, ou o padrão do jogo.
+## Servidor online no Fly.io em São Paulo (o mesmo do duelo). Fica aqui, e não no ranking_config.gd,
+## porque aquele é lido por um autoload e o patch de conteúdo não pode trocá-lo.
+const LOBBY_WS_FLY := "wss://algoland-duelo.fly.dev"
+
+## Endereço do servidor próprio: --lobby-ws= (testes locais), opcoes.cfg [lobby] servidor, ou LOBBY_WS_FLY.
 ## Só aceita wss:// (o código secreto do perfil viaja na entrada) ou ws:// local.
 func _endereco_ws() -> String:
- var candidato: String = Config.LOBBY_WS
+ var candidato: String = LOBBY_WS_FLY
  var preferencias := ConfigFile.new()
  preferencias.load("user://opcoes.cfg")
  var salvo := str(preferencias.get_value("lobby","servidor",""))
