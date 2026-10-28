@@ -56,7 +56,7 @@ func montar(heroi: Node) -> void:
 	var t: Transform3D=_esqueleto.global_transform*_esqueleto.get_bone_global_pose(osso)
 	_base_osso=_esqueleto.get_bone_global_pose(osso).basis.orthonormalized()
 	_base_tronco=_esqueleto.get_bone_global_pose(_esqueleto.find_bone("DEF-spine.003")).basis.orthonormalized()
-	_esqueleto.skeleton_updated.connect(_atualizar_inclinacao)
+	_esqueleto.skeleton_updated.connect(_sincronizar_pose)
 	var centro:=t*Vector3(0,.14,0)
 	var tela:=_camera.unproject_position(centro)
 	var tamanho:=Vector2(heroi._vp.size)
@@ -95,7 +95,16 @@ func _definir_vista(d: int) -> void:
 	material.set_shader_parameter("olho_a",areas[0] if areas.size()>0 else Vector4.ZERO)
 	material.set_shader_parameter("olho_b",areas[1] if areas.size()>1 else Vector4.ZERO)
 
+func _sincronizar_pose() -> void:
+	# Lobby, carregamento e prévias posam o rig com o _process do herói desligado.
+	# A rotação efetiva do modelo é a fonte da direção também nesses avatares.
+	if not is_inside_tree():return
+	_angulo=_heroi._modelo.rotation.y
+	_atualizar_inclinacao()
+
 func _atualizar_inclinacao() -> void:
+	# O esqueleto ainda pode emitir skeleton_updated ao sair da árvore.
+	if not is_inside_tree():return
 	# Ler a pose final depois dos modificadores: seek/AnimationPlayer podem
 	# deixar uma pose intermediária diferente daquela que será desenhada.
 	var osso:=_esqueleto.find_bone("DEF-head")
