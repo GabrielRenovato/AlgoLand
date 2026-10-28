@@ -185,11 +185,12 @@ func _acao(texto: String, executar: Callable, bloqueado: bool) -> void:
 	_grade.add_child(botao)
 
 func _preencher_pedidos() -> void:
-	_texto("PEDIDOS DO DIA %d: RENOVAM AO DORMIR. PAGAMENTO 3X A VENDA.\nENTREGAR CONSOME OS PEIXES. VENDER TUDO TAMBEM VENDE INGREDIENTES." % Calendario.dia)
-	for pedido in Fazenda.pedidos_pesca():
+	_texto("PEDIDOS DO DIA %d: RENOVAM AO DORMIR. PAGAMENTO 3X A VENDA.\nDE ACORDO COM SEU NIVEL DE PESCA E SUA VARA.\nENTREGAR CONSOME OS PEIXES. VENDER TUDO TAMBEM VENDE INGREDIENTES." % Calendario.dia)
+	var quem := EventosJogo.dono(self)
+	for pedido in Fazenda.pedidos_pesca(quem):
 		var entregue: bool = Fazenda.pesca_pedidos_entregues.has(pedido["id"])
-		_texto("%s: %d/%d NA BOLSA | %d BRASAS" % [Peixes.nome(pedido["peixe"]),Fazenda.quantidade_peixes(pedido["peixe"]),pedido["quantidade"],pedido["brasas"]])
-		_acao("ENTREGUE" if entregue else "ENTREGAR", Fazenda.entregar_pedido_pesca.bind(pedido["id"]), entregue or Fazenda.quantidade_peixes(pedido["peixe"]) < int(pedido["quantidade"]))
+		_texto("%s: %d/%d NA BOLSA | %d BRASAS" % [Peixes.nome(pedido["peixe"]),Fazenda.quantidade_peixes(pedido["peixe"],quem),pedido["quantidade"],pedido["brasas"]])
+		_acao("ENTREGUE" if entregue else "ENTREGAR", Fazenda.entregar_pedido_pesca.bind(pedido["id"],quem), entregue or Fazenda.quantidade_peixes(pedido["peixe"],quem) < int(pedido["quantidade"]))
 
 func _preencher_metas() -> void:
 	var tabela: Dictionary = Desafios.COLECAO if _aba == "COLECAO" else Desafios.DESAFIOS

@@ -38,18 +38,20 @@ static func progresso(id: String, historico: Dictionary, perfeitas: int, pedidos
 	return total
 
 ## Duas encomendas por dia do jogo; só espécies disponíveis na estação, sem sortear de novo ao abrir.
-static func pedidos_do_dia(dia: int, estacao: int, habilidade := 99) -> Array[Dictionary]:
+static func pedidos_do_dia(dia: int, estacao: int, habilidade := 99, nivel_vara := 5) -> Array[Dictionary]:
 	var pedidos: Array[Dictionary] = []
 	for ambiente in ["mar","rio"]:
 		var candidatos: Array[String] = []
 		for id in Peixes.DADOS:
-			if Peixes.nivel_pesca(id) > habilidade: continue
+			if Peixes.nivel_pesca(id) > clampi(habilidade,1,99): continue
+			if int(Peixes.DADOS[id].get("nivel_vara",1)) > clampi(nivel_vara,1,5): continue
 			var dados_peixe: Dictionary = Peixes.DADOS[id]
 			if Peixes.catalogo()[id]["ambiente"] != ambiente:
 				continue
 			if not dados_peixe["estacoes"].is_empty() and not dados_peixe["estacoes"].has(estacao):
 				continue
 			candidatos.append(id)
+		if candidatos.is_empty(): continue
 		var peixe := candidatos[(maxi(1,dia)-1)%candidatos.size()]
 		var quantidade := 2 if Peixes.raridade(peixe) in ["comum","incomum"] else 1
 		pedidos.append({"id":"%d_%s" % [dia,ambiente], "peixe":peixe, "quantidade":quantidade,

@@ -55,7 +55,7 @@ var _barra: ColorRect
 var _dica: Label
 
 func _ready() -> void:
-	set_anchors_preset(Control.PRESET_FULL_RECT)
+	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var tela := get_viewport().get_visible_rect().size
 	centro = Vector2(tela.x * 0.65, tela.y * 0.46)
@@ -96,6 +96,37 @@ func _ready() -> void:
 	_dica = _rotulo(Vector2(barra_x - 10, barra_y + 84), Vector2(40, 10), 7)
 	_dica.text = "PUXAR"
 	modulate.a = 0.0
+	resized.connect(_ajustar_layout)
+	_ajustar_layout.call_deferred()
+
+## O desenho cresce no toque, mantendo a área de acerto e as durações originais.
+func _ajustar_layout() -> void:
+	if _titulo == null: return
+	var toque := OS.has_feature("mobile") or Controle.usando_toque
+	var tela := size
+	if tela.x <= 0 or tela.y <= 0: tela = get_viewport_rect().size
+	raio = minf(38.0 if toque else 26.0, maxf(22.0,(tela.y-92.0)/2.0))
+	var largura_titulo := minf(180.0,tela.x-20.0)
+	var margem_x := maxf(largura_titulo/2.0,raio+52.0)
+	centro = Vector2(clampf(tela.x*(0.56 if tela.y>tela.x else 0.65),largura_titulo/2.0+8.0,tela.x-margem_x-8.0),clampf(tela.y*.46,raio+38.0,tela.y-raio-34.0))
+	_titulo.position = centro+Vector2(-largura_titulo/2.0,-raio-34.0)
+	_titulo.size = Vector2(largura_titulo,28)
+	_titulo.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_titulo.add_theme_font_size_override("font_size",10 if toque else 7)
+	_feedback.position = centro+Vector2(-raio,raio+8.0)
+	_feedback.size = Vector2(raio*2.0,18)
+	_feedback.add_theme_font_size_override("font_size",11 if toque else 9)
+	var lado := 22.0 if toque else 13.0
+	_tecla_caixa.size = Vector2(maxf(lado,_tecla.text.length()*6.0+8.0),lado)
+	_tecla_caixa.position = centro-_tecla_caixa.size/2.0
+	_tecla.add_theme_font_size_override("font_size",10 if toque else 8)
+	_barra_fundo.position = centro+Vector2(raio+16.0,-raio-12.0)
+	_barra_fundo.size = Vector2(10 if toque else 8,raio*2.0+24.0)
+	_dica.position = _barra_fundo.position+Vector2(-12.0,_barra_fundo.size.y+8.0)
+	_dica.size = Vector2(36,14)
+	_dica.add_theme_font_size_override("font_size",9 if toque else 7)
+	_atualizar_barra()
+	queue_redraw()
 
 func _rotulo(posicao: Vector2, tamanho: Vector2, fonte: int) -> Label:
 	var rotulo := Label.new()
@@ -125,9 +156,7 @@ func iniciar(quem: Node, nome_peixe: String, dificuldade_peixe: float, recomenda
 	_titulo.text = nome_peixe
 	_tecla_icone.visible = Controle.usando_toque and not EventosJogo.eh_do_p2(quem)
 	_tecla.text = "" if _tecla_icone.visible else Controle.rotulo_acao("attack",quem)
-	var largura := maxf(13.0, _tecla.text.length() * 6.0 + 8.0)
-	_tecla_caixa.size = Vector2(largura, 13)
-	_tecla_caixa.position = centro - _tecla_caixa.size / 2.0
+	_ajustar_layout()
 	progresso = 32.0 if peixe_facil else 22.0
 	decorrido = 0.0
 	ativo = true
@@ -227,11 +256,11 @@ func _draw() -> void:
 	if not ativo:
 		return
 	draw_circle(centro, raio + 5.0, Color(0, 0, 0, 0.33))
-	draw_arc(centro, raio, 0.0, TAU, 40, Color(1, 1, 1, 0.45), 2.0, true)
+	draw_arc(centro, raio, 0.0, TAU, 64, Color(1, 1, 1, 0.45), 2.0 * raio/26.0, true)
 	if check_ativo:
 		var inicio := (ponteiro_base + folga_zona) - PI / 2.0
-		draw_arc(centro, raio, inicio, inicio + tamanho_zona, 18, Color(0.95, 0.8, 0.2, 0.95), 4.0, true)
-		draw_arc(centro, raio, inicio, inicio + tamanho_otimo, 10, Color(1, 1, 1, 1), 4.0, true)
+		draw_arc(centro, raio, inicio, inicio + tamanho_zona, 18, Color(0.95, 0.8, 0.2, 0.95), 4.0 * raio/26.0, true)
+		draw_arc(centro, raio, inicio, inicio + tamanho_otimo, 10, Color(1, 1, 1, 1), 4.0 * raio/26.0, true)
 		var direcao := Vector2(sin(ponteiro_angulo), -cos(ponteiro_angulo))
 		draw_line(centro + direcao * (raio - 6.0), centro + direcao * (raio + 4.0), Color(0.95, 0.2, 0.2), 2.0)
 

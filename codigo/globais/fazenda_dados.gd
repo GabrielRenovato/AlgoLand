@@ -522,6 +522,7 @@ func gastar_pocao(id: String, quem: Node = null) -> bool:
 
 const Refeicoes := preload("res://codigo/dados/refeicoes.gd")
 const Peixes := preload("res://codigo/pesca/peixes.gd")
+const Varas := preload("res://codigo/pesca/varas.gd")
 const ProgressaoPesca := preload("res://codigo/pesca/progressao_pesca.gd")
 const DesafiosPesca := preload("res://codigo/pesca/desafios_pesca.gd")
 ## Brasas por unidade de colheita vendida à Lia: um pouco mais que o preço da semente (loja_sementes.gd), então
@@ -866,12 +867,22 @@ func migrar_peixes_antigos() -> void:
 		salvar()
 	_migrando_peixes = false
 
-func pedidos_pesca() -> Array[Dictionary]:
-	# Fixar o nível usado no primeiro acesso impede trocar a encomenda ao subir de nível.
+func pedidos_pesca(quem: Node = null) -> Array[Dictionary]:
+	# A encomenda fica estável até dormir, mesmo após ganhar XP ou melhorar a vara.
 	if int(pesca_pedido_nivel.get("dia", -1)) != Calendario.dia:
-		pesca_pedido_nivel = {"dia": Calendario.dia, "nivel": ProgressaoPesca.nivel()}
+		pesca_pedido_nivel = {"dia": Calendario.dia, "jogadores": {}}
+	var chave := Varas.chave(quem)
+	var perfis: Dictionary = pesca_pedido_nivel.get("jogadores", {})
+	if not perfis.has(chave):
+		var habilidade := int(pesca_pedido_nivel.get("nivel", ProgressaoPesca.nivel(quem))) if chave == "p1" else ProgressaoPesca.nivel(quem)
+		perfis[chave] = {"nivel": habilidade, "vara": Varas.nivel(quem)}
+		pesca_pedido_nivel["jogadores"] = perfis
 		_agendar_salvamento()
-	return DesafiosPesca.pedidos_do_dia(Calendario.dia, Calendario.estacao(), int(pesca_pedido_nivel.get("nivel", 1)))
+	var perfil: Dictionary = perfis[chave]
+	var pedidos := DesafiosPesca.pedidos_do_dia(Calendario.dia, Calendario.estacao(), int(perfil.nivel), int(perfil.vara))
+	if chave == "p2":
+		for pedido in pedidos: pedido.id += "_p2"
+	return pedidos
 
 func progresso_desafio_pesca(id: String) -> int:
 	return DesafiosPesca.progresso(id,peixes_pescados,pesca_perfeitas,pesca_pedidos_entregues.size())
@@ -883,16 +894,16 @@ func resgatar_desafio_pesca(id: String) -> int:
 	pesca_recompensas[id] = true
 	return _recompensar_pesca(int(dados["brasas"]))
 
-func entregar_pedido_pesca(id: String) -> int:
+func entregar_pedido_pesca(id: String, quem: Node = null) -> int:
 	if pesca_pedidos_entregues.has(id):
 		return 0
-	for pedido in pedidos_pesca():
+	for pedido in pedidos_pesca(quem):
 		if pedido["id"] != id:
 			continue
 		var peixe: String = pedido["peixe"]
-		if quantidade_peixes(peixe) < int(pedido["quantidade"]):
+		if quantidade_peixes(peixe,quem) < int(pedido["quantidade"]):
 			return 0
-		gastar_peixes(peixe,int(pedido["quantidade"]))
+		gastar_peixes(peixe,int(pedido["quantidade"]),quem)
 		pesca_pedidos_entregues[id] = true
 		return _recompensar_pesca(int(pedido["brasas"]))
 	return 0
@@ -980,7 +991,14 @@ func carregar() -> bool:
 				pesca_xp["p1"] = mini(ProgressaoPesca.xp_para_nivel(99), int(pesca_xp["p1"]) + int(peixes_pescados[id]) * ProgressaoPesca.experiencia_peixe(id))
 	var pedido_nivel = dados.get("pesca_pedido_nivel", {})
 	if pedido_nivel is Dictionary and int(pedido_nivel.get("dia", -1)) > 0:
-		pesca_pedido_nivel = {"dia": int(pedido_nivel["dia"]), "nivel": clampi(int(pedido_nivel.get("nivel", 1)), 1, 99)}
+		pesca_pedido_nivel = {"dia": int(pedido_nivel["dia"]), "jogadores": {}}
+		if pedido_nivel.has("nivel"): pesca_pedido_nivel["nivel"] = clampi(int(pedido_nivel.nivel),1,99)
+		var perfis = pedido_nivel.get("jogadores", {})
+		if perfis is Dictionary:
+			for chave in ["p1", "p2"]:
+				var perfil = perfis.get(chave)
+				if perfil is Dictionary:
+					pesca_pedido_nivel.jogadores[chave] = {"nivel": clampi(int(perfil.get("nivel",1)),1,99), "vara": clampi(int(perfil.get("vara",1)),1,5)}
 	var recompensas = dados.get("pesca_recompensas",{})
 	if recompensas is Dictionary:
 		for id in recompensas:
@@ -990,14 +1008,14 @@ func carregar() -> bool:
 	if pedidos_entregues is Dictionary:
 		for id in pedidos_entregues:
 			var partes := String(id).split("_")
-			if pedidos_entregues[id] == true and partes.size() == 2 and partes[0].is_valid_int() and int(partes[0]) > 0 and partes[1] in ["mar","rio"]:
+			if pedidos_entregues[id] == true and (partes.size() == 2 or (partes.size() == 3 and partes[2] == "p2")) and partes[0].is_valid_int() and int(partes[0]) > 0 and partes[1] in ["mar","rio"]:
 				pesca_pedidos_entregues[id] = true
 	clima_hoje = clampi(int(dados.get("clima_hoje", -1)), -1, ClimaScript.Estado.NEVE_FORTE)
 	var tabela_entulho = dados.get("entulho", {})
 	if tabela_entulho is Dictionary:
 		for chave in tabela_entulho:
 			var partes := String(chave).split(",")
-			if partes.size() == 2 and partes[0].is_valid_int() and partes[1].is_valid_int() and PESOS_ENTULHO.has(String(tabela_entulho[chave])):
+			if (partes.size() == 2 or (partes.size() == 3 and partes[2] == "p2")) and partes[0].is_valid_int() and partes[1].is_valid_int() and PESOS_ENTULHO.has(String(tabela_entulho[chave])):
 				var celula := Vector2i(int(partes[0]), int(partes[1]))
 				if dentro_da_area(celula) and not solo.has(celula):
 					entulho[celula] = String(tabela_entulho[chave])
