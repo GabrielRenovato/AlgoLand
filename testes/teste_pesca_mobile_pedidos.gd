@@ -32,6 +32,7 @@ func rodar():
  f.varas_pesca={"p1":5,"p2":1}
  var p2=Dono.new()
  root.add_child(p2)
+ p2.set_meta("dono",p2)
  var p1=f.pedidos_pesca()
  var segundo=f.pedidos_pesca(p2)
  conferir("P2 recebe metas dos próprios níveis",segundo.all(func(p):return Peixes.nivel_pesca(p.peixe)<=1 and int(Peixes.DADOS[p.peixe].get("nivel_vara",1))==1 and p.id.ends_with("_p2")))
@@ -57,7 +58,7 @@ func rodar():
   root.add_child(vp)
   var mini=load("res://codigo/pesca/minijogo_pesca.gd").new()
   vp.add_child(mini)
-  mini.iniciar(p2,"IMPERADOR ABISSAL",60,5)
+  mini.iniciar(null,"IMPERADOR ABISSAL",60,5)
   mini.set_process(false)
   mini._novo_check()
   await create_timer(.35).timeout
