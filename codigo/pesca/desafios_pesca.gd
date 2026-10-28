@@ -25,7 +25,9 @@ static func dados(id: String) -> Dictionary:
 
 static func progresso(id: String, historico: Dictionary, perfeitas: int, pedidos: int) -> int:
 	if dados(id).has("peixe"):
-		return int(historico.get(dados(id)["peixe"],0))
+		var meta := dados(id)
+		# Capturas da meta antiga continuam valendo após a substituição.
+		return int(historico.get(meta["peixe"],0)) + int(historico.get(meta.get("peixe_anterior", ""),0))
 	match dados(id).get("campo", ""):
 		"especies": return historico.size()
 		"perfeitas": return perfeitas
@@ -66,4 +68,7 @@ static func _montar_desafios() -> Dictionary:
 		resultado["perfeitas_%d" % meta] = {"nome":"%d PESCARIAS PERFEITAS" % meta,"campo":"perfeitas","meta":meta,"brasas":meta*10}
 	for peixe in Peixes.DADOS:
 		resultado["especie_"+peixe] = {"nome":"PESCAR 5 "+Peixes.nome(peixe),"peixe":peixe,"meta":5,"brasas":Peixes.brasas(peixe)*10}
+	# Mesmo ID: partidas existentes recebem a meta nova sem permitir novo resgate.
+	resultado["especie_linguado"] = {"nome":"PESCAR 3 SARDINHAS", "peixe":"sardinha",
+		"peixe_anterior":"linguado", "meta":3, "brasas":50}
 	return resultado

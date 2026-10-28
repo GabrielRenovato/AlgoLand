@@ -9,8 +9,8 @@ const MISSOES := {
 		"texto":"Bento precisa de duas colheitas da estacao para preparar as raizes do novo selo. Cultive sua horta e entregue a ele. Recompensa extra: projeto da aljava."},
 	"limiar_ecos": {"nome":"LIMIAR III - O ECO NAS RUINAS", "dono":"ferreiro", "tipo":"chefe", "quantidade":6, "brasas":20, "receita":"armadura_basica", "anterior":"limiar_raizes",
 		"texto":"Ivo reconheceu o metal que prende o Limiar. Venca o guardiao do andar 6 e volte a forja. Recompensa extra: projeto da armadura."},
-	"limiar_selo": {"nome":"LIMIAR IV - A LUZ DA VILA", "dono":"mistica", "tipo":"chefe", "quantidade":10, "brasas":40, "anterior":"limiar_ecos",
-		"texto":"Estela encontrou o ultimo vinculo. Derrote o guardiao do andar 10 e volte para restaurar o selo da praca. A fonte passara a recuperar 30 de energia por dia, para cada jogador."},
+	"limiar_selo": {"nome":"LIMIAR IV - A ULTIMA VIGILIA", "dono":"mistica", "tipo":"ondas", "quantidade":3, "brasas":40, "anterior":"limiar_ecos",
+		"texto":"Estela precisa de uma ultima ronda para proteger a vila. Depois de aceitar, venca 3 andares da fenda e volte para conversar. Recompensa extra: recuperar 30 de energia por dia na praca."},
 }
 
 static func disponivel(id: String, cidade: Node) -> bool:
@@ -49,13 +49,15 @@ static func rastreio(cidade: Node, quem: Node = null) -> Dictionary:
 				fase = "cumprir"
 				alvo = ""
 				texto = "Fazenda: colheitas da estacao %d/2" % progresso.x if dados.tipo == "colheita" else "Fenda: derrote o guardiao do andar %d" % dados.quantidade
-				nos_andares = dados.tipo == "chefe"
+				if dados.tipo == "ondas":
+					texto = "Fenda: venca %d andares (%d/%d)" % [dados.quantidade,progresso.x,progresso.y]
+				nos_andares = dados.tipo in ["chefe","ondas"]
 		return {"id":id,"fase":fase,"texto":texto,"alvo":alvo,"dono":dados.dono,"titulo":dados.nome,"andares":nos_andares}
 	return {"id":"","fase":"concluida","texto":"Selo restaurado! Use a fonte da vila.","alvo":"","dono":"","titulo":"LIMIAR CONCLUIDO","andares":false}
 
 const ENTREGAS := {
 	"limiar_vigilia":"Voce voltou. Entao ainda temos tempo. Aprendi com o antigo guarda a desenhar esta lanca: leve o projeto ao Ivo. Agora procure Bento; o selo precisa de raizes vivas.",
 	"limiar_raizes":"Essas raizes nasceram aqui. E isso que faltava ao selo: algo que queira ficar. O projeto da aljava e seu. Ivo espera noticias das ruinas do sexto andar.",
-	"limiar_ecos":"O eco nas ruinas confirmou: a pedra da praca e o Limiar estao ligados. Este projeto de armadura vai ajudar. Procure Estela depois de vencer o decimo guardiao.",
+	"limiar_ecos":"O eco nas ruinas confirmou: a pedra da praca e o Limiar estao ligados. Este projeto de armadura vai ajudar. Procure Estela para organizar a ultima ronda da vila.",
 	"limiar_selo":"Esta ouvindo? A praca voltou a respirar. Voce nao fechou todos os caminhos, mas deu a esta vila um futuro. A fonte agora recupera sua energia uma vez por dia. Quando quiser partir de novo, estaremos aqui."
 }

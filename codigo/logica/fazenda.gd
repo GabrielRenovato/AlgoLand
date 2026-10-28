@@ -87,3 +87,7 @@ func _montar_pesca_lago() -> void:
 
 func _montar_carpinteiro() -> void:
 	add_child(preload("res://codigo/fazenda/ambiente_obra.gd").new())
+
+## Também corrige partidas antigas salvas além das bordas.
+func ajustar_posicao_continuacao(ponto: Vector2) -> Vector2:
+	return preload("res://codigo/jogador/seguranca_mapa.gd").corrigir(self,ponto)

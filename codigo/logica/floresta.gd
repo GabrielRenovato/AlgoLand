@@ -35,3 +35,7 @@ func _ready() -> void:
 func estacao_visual() -> int:
 	var estacoes := get_node_or_null("Terrains/Estacoes")
 	return int(estacoes.estacao_atual) if estacoes != null and estacoes.estacao_atual >= 0 else Calendario.estacao()
+
+## Recupera também continuações gravadas além das bordas do mapa.
+func ajustar_posicao_continuacao(ponto: Vector2) -> Vector2:
+	return preload("res://codigo/jogador/seguranca_mapa.gd").corrigir(self,ponto)

@@ -354,7 +354,7 @@ func porta_do_local(destino: String) -> Vector2:
 	return DadosCidade.ponto("praca")
 
 func ajustar_posicao_continuacao(ponto: Vector2) -> Vector2:
-	if local != "carpintaria": return ponto
+	if local != "carpintaria": return super.ajustar_posicao_continuacao(ponto)
 	# A planta anterior era uma sala única; uma posição antiga pode cair numa parede nova.
 	var celula := Vector2i(to_local(ponto)/navegacao.cell_size)
 	if navegacao.is_in_boundsv(celula) and not navegacao.is_point_solid(celula): return ponto

@@ -433,6 +433,7 @@ func _ready() -> void:
 		visual_3d.acabamento_pixel_art = bool(get_tree().get_meta("pixel_base_3d_p2" if eh_p2 else "pixel_base_3d_p1",true))
 		add_child(visual_3d)
 	add_child(preload("res://codigo/jogador/colisoes_base_3d.gd").new())
+	add_child(preload("res://codigo/jogador/seguranca_mapa.gd").new())
 
 
 
