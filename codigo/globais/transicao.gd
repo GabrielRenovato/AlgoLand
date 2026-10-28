@@ -43,6 +43,8 @@ var _painel: ColorRect
 var _tween: Tween
 var _carregador: Control
 var _carregando := false
+# Evita a espera infinita do carregador em segundo plano em aparelhos Android.
+var carregar_na_thread_principal := OS.has_feature("android")
 signal progresso_carregamento(caminho: String, progresso: float)
 
 func _ready() -> void:
@@ -149,26 +151,37 @@ func carregar_cena(caminho: String) -> Error:
 		origem = preload("res://codigo/ui/tela_carregamento.gd").nome_do_destino(get_tree().current_scene.scene_file_path)
 	var inicio := Time.get_ticks_msec()
 	progresso_carregamento.emit(caminho,0.0)
-	var erro := ResourceLoader.load_threaded_request(caminho,"PackedScene")
-	if erro != OK:
-		_carregador.hide()
-		_carregando = false
-		return erro
-	var progresso: Array = []
-	var status := ResourceLoader.load_threaded_get_status(caminho,progresso)
-	while status == ResourceLoader.THREAD_LOAD_IN_PROGRESS:
-		var valor := float(progresso[0]) if not progresso.is_empty() else 0.0
-		if not _carregador.visible and Time.get_ticks_msec()-inicio >= ESPERA_PAINEL_CARREGAMENTO_MS:
-			_carregador.iniciar(caminho,origem)
-		if _carregador.visible: _carregador.atualizar(valor)
-		progresso_carregamento.emit(caminho,valor)
+	var cena: PackedScene
+	var erro := OK
+	if carregar_na_thread_principal:
+		# Desenha o painel antes da leitura/instanciação. Em alguns Androids, a
+		# requisição em thread fica IN_PROGRESS indefinidamente (Godot #121124).
+		_carregador.iniciar(caminho,origem)
 		await get_tree().process_frame
-		status = ResourceLoader.load_threaded_get_status(caminho,progresso)
-	if status != ResourceLoader.THREAD_LOAD_LOADED:
+		await get_tree().process_frame
+		cena = ResourceLoader.load(caminho,"PackedScene") as PackedScene
+	else:
+		erro = ResourceLoader.load_threaded_request(caminho,"PackedScene")
+		if erro != OK:
+			_carregador.hide()
+			_carregando = false
+			return erro
+		var progresso: Array = []
+		var status := ResourceLoader.load_threaded_get_status(caminho,progresso)
+		while status == ResourceLoader.THREAD_LOAD_IN_PROGRESS:
+			var valor := float(progresso[0]) if not progresso.is_empty() else 0.0
+			if not _carregador.visible and Time.get_ticks_msec()-inicio >= ESPERA_PAINEL_CARREGAMENTO_MS:
+				_carregador.iniciar(caminho,origem)
+			if _carregador.visible: _carregador.atualizar(valor)
+			progresso_carregamento.emit(caminho,valor)
+			await get_tree().process_frame
+			status = ResourceLoader.load_threaded_get_status(caminho,progresso)
+		if status == ResourceLoader.THREAD_LOAD_LOADED:
+			cena = ResourceLoader.load_threaded_get(caminho) as PackedScene
+	if cena == null:
 		_carregador.hide()
 		_carregando = false
 		return ERR_CANT_OPEN
-	var cena := ResourceLoader.load_threaded_get(caminho) as PackedScene
 	if _carregador.visible:
 		_carregador.atualizar(1.0,true)
 		await get_tree().process_frame

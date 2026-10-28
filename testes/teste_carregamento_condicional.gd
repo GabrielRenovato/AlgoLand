@@ -43,6 +43,13 @@ func rodar() -> void:
 	erro = await transicao.carregar_cena("res://lenta.cena_espera")
 	verificar("carga demorada mostra painel somente depois da espera",erro==OK and aparicoes.size()==1 and aparicoes[0]-inicio >= transicao.ESPERA_PAINEL_CARREGAMENTO_MS)
 	verificar("painel fecha e libera proxima troca",not transicao._carregador.visible and not transicao._carregando)
+	transicao.carregar_na_thread_principal = true
+	aparicoes.clear()
+	erro = await transicao.carregar_cena("res://android.cena_espera")
+	verificar("caminho Android mostra painel antes de abrir a cena", erro == OK and aparicoes.size() == 1 and current_scene.name == "CenaTeste")
+	verificar("caminho Android libera o carregador",not transicao._carregador.visible and not transicao._carregando)
+	erro = await transicao.carregar_cena("res://cena_ausente.tscn")
+	verificar("recurso ausente preserva cena e libera carregamento",erro == ERR_FILE_NOT_FOUND and current_scene.name == "CenaTeste" and not transicao._carregando)
 	ResourceLoader.remove_resource_format_loader(carregador)
 	current_scene.queue_free()
 	current_scene = null

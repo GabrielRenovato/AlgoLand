@@ -40,7 +40,7 @@ const PALETA: Array[Color] = [
 	Color(0.35, 0.60, 1.00), Color(0.25, 0.35, 0.80), Color(0.40, 0.85, 0.45), Color(0.30, 0.85, 0.80), Color(1.00, 0.55, 0.75),
 	Color(0.65, 0.40, 0.95), Color(0.85, 0.30, 0.70), Color(1.00, 0.65, 0.20), Color(0.50, 0.15, 0.30), Color(0.60, 0.70, 0.30),
 ]
-const COR_INICIAL := Color.WHITE
+const COR_INICIAL := Color(0.55, 0.36, 0.22)
 
 ## Casinhas: quadro do personagem parado de frente (folha 8x8 de 64 px; ele ocupa mais ou menos x 24-40 e y 13-44) recortado em volta da
 ## cabeça (cabelos) ou do corpo todo (roupas)
@@ -79,12 +79,13 @@ const Roupas3D := preload("res://codigo/dados/roupas_base_3d.gd")
 const PreviaHeroi3D := preload("res://codigo/ui/previa_heroi_3d.gd")
 const NOMES_CATEGORIA_3D := {"camisa":"PARTE DE CIMA","calca":"PARTE DE BAIXO","calcado":"CALCADO","cabelo":"PENTEADO"}
 ## O Raven 2D ainda desenha o jogador fora do modo 3D: cada penteado leva um cabelo parecido.
-const CABELO_RAVEN_DO_3D := {"cabelo_curto":1, "cabelo_raspado":3, "cabelo_espetado":5, "cabelo_chanel":7, "cabelo_longo":13, "cabelo_cacheado":9}
+const CABELO_RAVEN_DO_3D := {"cabelo_curto":1, "cabelo_raspado":3, "cabelo_espetado":5}
 var roupas_3d: Dictionary = Roupas3D.padrao()
 var _previa_3d: Node2D
 var _opcoes_3d: Dictionary = {} # categoria -> Array[[id, Button]]
 var _tempo_animacao := 0.0
 var cor: Color = COR_INICIAL
+var cor_personalizada := true
 var apelido := ""
 var aba: Aba = Aba.CABELO
 
@@ -130,6 +131,7 @@ var _rotulo_nome: Label
 var _titulo_cor: Label
 var _compacto := false
 var _minimo := false
+var _construtor_fazenda: RefCounted
 var _cortina: ColorRect
 
 func _ready() -> void:
@@ -173,107 +175,15 @@ func _ready() -> void:
 # --- Montagem da tela --------------------------------------------------------------------------------------------
 
 func _montar() -> void:
-	var fundo := preload("res://codigo/ui/fundo_vila_viva.gd").new()
-	fundo.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	fundo.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(fundo)
-	var margem := MarginContainer.new()
-	margem.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	for lado in ["left", "top", "right", "bottom"]:
-		margem.add_theme_constant_override("margin_" + lado, 8)
-	if etapa_coop > 0: margem.add_theme_constant_override("margin_top",32)
-	add_child(margem)
-	_colunas = BoxContainer.new()
-	_colunas.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_colunas.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	_colunas.add_theme_constant_override("separation",6)
-	margem.add_child(_colunas)
-	_painel_previa = _montar_painel_previa()
-	_painel_edicao = _montar_painel_edicao()
-	_colunas.add_child(_painel_previa)
-	_colunas.add_child(_painel_edicao)
-	resized.connect(_ajustar_layout)
-	_ajustar_layout.call_deferred()
+	_construtor_fazenda = preload("res://codigo/ui/construtor_criacao_fazenda.gd").new()
+	_construtor_fazenda.montar(self)
 
 func _ajustar_layout() -> void:
-	if _colunas == null:
-		return
-	_compacto = size.x < 500 or size.y < 300
-	var retrato := size.y >= 360 and size.y > size.x*1.2
-	_minimo = _compacto and not retrato and size.x < 360
-	_colunas.vertical = retrato
-	_painel_previa.custom_minimum_size = Vector2(0,150) if retrato else Vector2(80 if _minimo else (120 if _compacto else 150),0)
-	_painel_previa.size_flags_vertical = Control.SIZE_FILL if retrato else Control.SIZE_EXPAND_FILL
-	_painel_edicao.custom_minimum_size = Vector2.ZERO
-	_palco.custom_minimum_size.y = 80 if retrato else (60 if _minimo else 80)
-	_centralizar_previa.call_deferred()
-	_rotulo_cabelo.visible = not _minimo
-	_rotulo_roupa.visible = not _minimo
-	_rotulo_girar.visible = not _minimo
-	_rotulo_pele.visible = not _minimo
-	_rotulo_nome.visible = not _minimo
-	_titulo_cor.visible = not _minimo
-	for linhas in [_linhas_previa,_linhas_edicao]:
-		linhas.add_theme_constant_override("separation",2 if _compacto else 4)
-		var titulo: Label = linhas.get_child(0)
-		titulo.label_settings.font_size = (8 if _minimo else 10) if _compacto else 14
-	for painel in [_painel_previa,_painel_edicao]:
-		painel.add_theme_stylebox_override("panel",EstiloInicio.espaco(8 if _compacto else 12))
-	for botao in _botoes_estrutura:
-		botao.add_theme_font_size_override("font_size",8 if _compacto else 9)
-		botao.custom_minimum_size = Vector2(18,18) if _compacto else Vector2(26,22)
-		for estado in ["normal","hover","pressed","hover_pressed","disabled"]:
-			var estilo := EstiloInicio.espaco(4 if _compacto else 8)
-			estilo.content_margin_top = 0
-			estilo.content_margin_bottom = 0
-			botao.add_theme_stylebox_override(estado,estilo)
-	for rotulo in [_rotulo_cabelo,_rotulo_roupa,_rotulo_girar,_rotulo_pele,_rotulo_nome,_titulo_cor]:
-		rotulo.add_theme_font_size_override("font_size",8 if _compacto else 9)
-	_campo_nome.custom_minimum_size.y = 18 if _compacto else 22
-	_campo_nome.add_theme_font_size_override("font_size",8 if _compacto else 10)
-	_conteudo.custom_minimum_size = Vector2.ZERO
-	_ajustar_paginas.call_deferred()
+	if _construtor_fazenda != null: _construtor_fazenda.ajustar()
 
 func _ajustar_paginas() -> void:
-	if _conteudo == null: return
-	for catalogo in _catalogos:
-		var largura := maxf(40,_conteudo.size.x)
-		var altura := maxf(28,_conteudo.size.y-22)
-		var alvo := 36.0 if _minimo else (44.0 if _compacto else 52.0)
-		var colunas := maxi(1,floori((largura+3)/(alvo+3)))
-		var celula := minf(alvo,(largura-(colunas-1)*3)/colunas)
-		var linhas := maxi(1,floori((altura+3)/(celula+3)))
-		celula = minf(celula,(altura-(linhas-1)*3)/linhas)
-		catalogo.grade.columns = colunas
-		var quantidade_anterior: int = catalogo.por_pagina
-		catalogo.por_pagina = colunas*linhas
-		if quantidade_anterior != catalogo.por_pagina:
-			var selecionado: Button = _casas_cabelo[cabelo].botao if catalogo.eh_cabelo else _casas_roupa[roupa].botao
-			catalogo.pagina = maxi(0,catalogo.itens.find(selecionado))/catalogo.por_pagina
-		var paginas := maxi(1,ceili(catalogo.itens.size()/float(catalogo.por_pagina)))
-		catalogo.pagina = clampi(catalogo.pagina,0,paginas-1)
-		for i in catalogo.itens.size():
-			var botao: Button = catalogo.itens[i]
-			botao.custom_minimum_size = Vector2(floorf((largura-(colunas-1)*3)/colunas),celula)
-			botao.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-			botao.visible = i/catalogo.por_pagina == catalogo.pagina
-		catalogo.rotulo.text = "%d / %d" % [catalogo.pagina+1,paginas]
-		catalogo.anterior.disabled = catalogo.pagina == 0
-		catalogo.proxima.disabled = catalogo.pagina == paginas-1
-	var lado := 14.0 if _minimo else (22.0 if _compacto else 24.0)
-	_grade_cores.columns = mini(10,maxi(1,floori((_conteudo.size.x+2)/(lado+2))))
-	_grade_cores.add_theme_constant_override("h_separation",2)
-	_grade_cores.add_theme_constant_override("v_separation",2)
-	for botao in _casas_cor:
-		botao.custom_minimum_size = Vector2(lado,lado)
-		botao.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	for slider in [_slider_matiz,_slider_saturacao,_slider_brilho]:
-		slider.custom_minimum_size.y = 12 if _minimo else 16
-		var rotulo: Label = slider.get_parent().get_child(0)
-		rotulo.custom_minimum_size.x = 32 if _compacto else 44
-		rotulo.add_theme_font_size_override("font_size",8 if _compacto else 9)
+	if _construtor_fazenda != null: _construtor_fazenda.ajustar_controles()
 
-## A mesma caixa do recorte nativo inclui cabelo, corpo e sombra, sem cortar a prévia.
 func _centralizar_previa() -> void:
 	if _palco == null or _modelo == null: return
 	if _previa_3d != null:
@@ -420,7 +330,7 @@ func _escolher_olhos(indice: int) -> void:
 
 func _escolher_pele(indice: int) -> void:
 	pele = clampi(indice,0,2)
-	for i in _botoes_pele.size(): _botoes_pele[i].set_pressed_no_signal(i == pele)
+	for i in _botoes_pele.size(): _marcar(_botoes_pele[i], i == pele)
 	_textura_corpo = Aparencia.corpo("andar",pele)
 	_previa_corpo.texture = _textura_corpo
 	_atualizar_tudo()
@@ -580,7 +490,7 @@ func _montar_opcoes_3d(categorias: Array) -> Control:
 	return rolagem
 
 func _escolher_peca_3d(categoria: String, id: String) -> void:
-	roupas_3d[categoria] = id
+	roupas_3d[categoria] = Roupas3D.modelo(categoria, id).id
 	_atualizar_tudo()
 
 # Grade de casinhas (cabelos ou roupas) com rolagem
@@ -766,15 +676,16 @@ func _cor_vista(tinta: Color) -> Color:
 # --- Estado e atualização -------------------------------------------------------------------------------------
 
 func _atualizar_tudo() -> void:
-	for i in _botoes_pele.size(): _botoes_pele[i].set_pressed_no_signal(i == pele)
+	for i in _botoes_pele.size(): _marcar(_botoes_pele[i], i == pele)
 	_atualizar_previa()
 	_atualizar_casas()
 	_atualizar_sliders()
 	_revelar_selecoes()
 
 func _atualizar_previa() -> void:
+	_rotulo_girar.text = ["Frente", "Direita", "Costas", "Esquerda"][_direcao]
 	if _previa_3d != null:
-		_previa_3d.mostrar({"pele":pele,"cabelo":cabelo,"roupa":roupa,"cor":[cor.r,cor.g,cor.b,cor.a],"olhos":olhos}, roupas_3d.duplicate(), _direcao)
+		_previa_3d.mostrar({"pele":pele,"cabelo":cabelo,"roupa":roupa,"cor":[cor.r,cor.g,cor.b,cor.a],"olhos":olhos,"cor_cabelo_personalizada":cor_personalizada}, roupas_3d.duplicate(), _direcao)
 	var quadro: int = int(LINHAS_DIRECAO[_direcao]) * 8 + int(fmod(_tempo_animacao,0.8)/0.2)
 	_previa_corpo.frame = quadro
 	Aparencia.aplicar_roupa(_previa_roupa, roupa, "andar")
@@ -787,6 +698,7 @@ func _atualizar_previa() -> void:
 
 # Refaz as miniaturas: cabelo e roupa escolhidos aparecem em todas, e a escolhida de cada lista fica na moldura dourada
 func _atualizar_casas() -> void:
+	if _construtor_fazenda != null: _construtor_fazenda.atualizar_seletores()
 	for i in _casas_cabelo.size():
 		var casa: Dictionary = _casas_cabelo[i]
 		_centralizar_casa(casa, Aparencia.roupa_refinada(roupa, "andar"), Aparencia.cabelo_refinado(i, "andar", roupa))
@@ -808,7 +720,7 @@ func _atualizar_casas() -> void:
 
 # A escolhida mantém a moldura dourada mesmo sem foco ou mouse.
 func _marcar(botao: Button, escolhida: bool) -> void:
-	botao.add_theme_stylebox_override("normal", EstiloInicio.borda_casa(escolhida))
+	botao.add_theme_stylebox_override("normal", preload("res://codigo/ui/estilo_criacao_fazenda.gd").caixa(Color("fff0c9"), Color("916039") if escolhida else Color("c4a370"), 3, 3 if escolhida else 1))
 
 func _atualizar_sliders() -> void:
 	_atualizando_sliders = true
@@ -835,11 +747,13 @@ func _escolher_roupa(indice: int) -> void:
 
 func _escolher_cor(nova: Color) -> void:
 	cor = nova
+	cor_personalizada = true
 	_atualizar_tudo()
 
 func _ao_slider_alterado(_valor: float) -> void:
 	if _atualizando_sliders:
 		return
+	cor_personalizada = true
 	cor = Color.from_hsv(_slider_matiz.value / 360.0, _slider_saturacao.value / 100.0, _slider_brilho.value / 100.0)
 	_atualizar_previa()
 	_atualizar_casas()
@@ -902,7 +816,7 @@ func dados_do_personagem() -> Dictionary:
 		"roupa_atual": 2,
 		"apelido": apelido if apelido != "" else NOME_PADRAO,
 		"cor_cabelo": {"r": cor.r, "g": cor.g, "b": cor.b, "a": cor.a},
-		"aparencia_raven": {"versao":1,"pele":pele,"cabelo":CABELO_RAVEN_DO_3D.get(roupas_3d.cabelo, 1),"roupa":maxi(roupa,1),"cor":[cor.r,cor.g,cor.b,cor.a],"olhos":olhos},
+		"aparencia_raven": {"versao":1,"pele":pele,"cabelo":CABELO_RAVEN_DO_3D.get(roupas_3d.cabelo, 1),"roupa":maxi(roupa,1),"cor":[cor.r,cor.g,cor.b,cor.a],"olhos":olhos,"cor_cabelo_personalizada":cor_personalizada},
 		"roupas_3d": roupas_3d.duplicate(),
 	}
 
@@ -917,6 +831,7 @@ func carregar_dados(dados: Dictionary) -> void:
 	olhos = clampi(int(aparencia.get("olhos", 0)), 0, CORES_OLHOS.size()-1)
 	var c: Array = aparencia.get("cor", [1, 1, 1, 1])
 	cor = Color(c[0], c[1], c[2], c[3] if c.size() > 3 else 1.0)
+	cor_personalizada = aparencia.get("cor_cabelo_personalizada", not cor.is_equal_approx(Color.WHITE))
 	var heroi_script := preload("res://codigo/jogador/heroi_base_3d.gd")
 	roupas_3d = Roupas3D.normalizar(dados.get("roupas_3d", heroi_script.roupas_do_raven(aparencia)))
 	apelido = str(dados.get("apelido", ""))
@@ -933,7 +848,7 @@ func confirmar() -> void:
 		# Raven 2D: mantém cabelo e roupa que o jogador já tinha.
 		aparencia.cabelo = cabelo
 		aparencia.roupa = roupa
-		for chave in ["aparencia_raven", "roupas_3d", "apelido"]:
+		for chave in ["aparencia_raven", "roupas_3d", "apelido", "cor_cabelo"]:
 			mesclado[chave] = dados[chave]
 		mesclado.erase("aviso_visual_3d")
 		dados = mesclado
@@ -1013,6 +928,6 @@ func _focar_inicio() -> void:
 		Aba.CABELO:
 			Controle.focar(_opcoes_3d["cabelo"][0][1])
 		Aba.ROUPA:
-			Controle.focar(_opcoes_3d["camisa"][0][1])
+			_construtor_fazenda.focar_roupa()
 		Aba.COR:
 			Controle.focar(_casas_cor[0])

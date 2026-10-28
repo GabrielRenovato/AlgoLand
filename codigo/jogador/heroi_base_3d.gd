@@ -552,6 +552,9 @@ func _atualizar_desenho_cabeca() -> void:
 	if corpo == null:return
 	var pele := corpo.material_override as ShaderMaterial
 	var cabelo := _pecas[3].material_override as ShaderMaterial
+	var textura_original = cabelo.get_shader_parameter("textura_cabelo")
+	cabelo.shader = preload("res://codigo/jogador/cabelo_base_3d.gdshader")
+	cabelo.set_shader_parameter("textura_cabelo", textura_original)
 	if _molde_rosto==null:_molde_rosto=corpo.mesh
 	if rosto_cabelo_pixel_art and _rosto_arredondado==null:
 		var cabeca_para_malha := corpo.global_transform.affine_inverse()*_esqueleto.global_transform*_esqueleto.get_bone_global_rest(_esqueleto.find_bone("DEF-head"))
@@ -652,7 +655,7 @@ var _chave_cores := 0
 
 func _aplicar_cores() -> void:
 	var aparencia: Dictionary = _jogador.aparencia_raven
-	var chave := hash([aparencia.get("pele",0), aparencia.get("cor",[1,1,1,1]), aparencia.get("olhos",0)])
+	var chave := hash([aparencia.get("pele",0), aparencia.get("cor",[1,1,1,1]), aparencia.get("olhos",0), aparencia.get("cor_cabelo_personalizada",false)])
 	if chave == _chave_cores: return
 	_chave_cores = chave
 	var corpo = _modelo.find_child("CorpoBase",true,false)
@@ -661,11 +664,15 @@ func _aplicar_cores() -> void:
 		m.set_shader_parameter("pele_base", PELES[clampi(int(aparencia.get("pele",0)),0,2)])
 		m.set_shader_parameter("cor_olhos", OLHOS[clampi(int(aparencia.get("olhos",0)),0,OLHOS.size()-1)])
 	var cor: Array = aparencia.get("cor",[1,1,1,1])
-	(_pecas[3].material_override as ShaderMaterial).set_shader_parameter("cor_cabelo", Color(cor[0],cor[1],cor[2]))
+	var tinta_cabelo := Color(cor[0],cor[1],cor[2])
+	var manter_pintura: bool = tinta_cabelo.is_equal_approx(Color.WHITE) and not aparencia.get("cor_cabelo_personalizada", false)
+	var material_cabelo := _pecas[3].material_override as ShaderMaterial
+	material_cabelo.set_shader_parameter("cor_cabelo", tinta_cabelo)
+	material_cabelo.set_shader_parameter("usar_cor_pintada", manter_pintura)
 	if corpo != null:
 		# Raspado pinta a pele com o tom médio do cabelo (branco = castanho original).
 		var tinta := Color(cor[0],cor[1],cor[2])
-		var media := Color(0.36,0.24,0.16) if tinta.is_equal_approx(Color.WHITE) else tinta*0.62
+		var media := Color(0.36,0.24,0.16) if manter_pintura else tinta*0.62
 		corpo.material_override.set_shader_parameter("cor_raspado", Color(media.r,media.g,media.b,1.0))
 
 func _process(delta: float) -> void:

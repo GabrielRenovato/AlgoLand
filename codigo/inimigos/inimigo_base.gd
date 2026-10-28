@@ -5,6 +5,7 @@ const EfeitosLuz := preload("res://codigo/efeitos/efeitos_luz.gd")
 const Profundidade := preload("res://codigo/globais/profundidade.gd")
 const SementeDrop := preload("res://codigo/logica/semente_drop.gd")
 const NavegacaoArena := preload("res://codigo/logica/navegacao_arena.gd")
+const Vizinhos := preload("res://codigo/inimigos/vizinhos_inimigos.gd")
 
 # -----------------------------
 # CONFIGURAÇÕES DE MOVIMENTO
@@ -221,6 +222,7 @@ signal atingiu_jogador
 signal inimigo_morreu
 
 func _ready() -> void:
+	Vizinhos.invalidar()
 	if arvore_animacao:
 		arvore_animacao.active = true
 		definir_animacao("run")
@@ -247,6 +249,9 @@ func _ready() -> void:
 		add_child(centro)
 		centro.add_child(_agente)
 		_ajustar_agente()
+
+func _exit_tree() -> void:
+	Vizinhos.invalidar()
 
 func _physics_process(delta: float) -> void:
 	if esta_morto:
@@ -382,13 +387,14 @@ func _atualizar_ordem_desenho() -> void:
 
 func calcular_separacao() -> Vector2:
 	var vetor_repulsao := Vector2.ZERO
-	for outro in get_tree().get_nodes_in_group("enemy"):
+	for outro in Vizinhos.proximos(self,alcance_separacao):
 		if outro == self:
 			continue
 		var diff: Vector2 = global_position - outro.global_position
-		var dist := diff.length()
-		if dist >= alcance_separacao:
+		var distancia_quadrada := diff.length_squared()
+		if distancia_quadrada >= alcance_separacao*alcance_separacao:
 			continue
+		var dist := sqrt(distancia_quadrada)
 		# Slimes sobrepostos têm diff zero: sem um empurrão aleatório a normalização gera NaN
 		if dist < 0.01:
 			vetor_repulsao += Vector2.from_angle(randf() * TAU)

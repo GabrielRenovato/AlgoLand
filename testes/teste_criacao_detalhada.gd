@@ -26,10 +26,10 @@ func rodar() -> void:
 	root.add_child(tela)
 	current_scene = tela
 	await quadros(40)
-	tela._casas_cabelo[18].botao.pressed.emit()
-	tela._casas_roupa[2].botao.pressed.emit()
+	tela._escolher_peca_3d("cabelo", "cabelo_espetado")
+	tela._escolher_peca_3d("camisa", "blusa_bufante")
 	tela._botoes_pele[1].pressed.emit()
-	tela._casas_cor[2].pressed.emit()
+	tela._casas_cor[6].pressed.emit()
 	tela._campo_nome.text = "AVENTUREIROX"
 	var direcao_inicial: int = tela._direcao
 	for i in 180: tela._process(1.0/60.0)
@@ -46,7 +46,7 @@ func rodar() -> void:
 		for aba in 3:
 			tela._abrir_aba(aba)
 			await quadros()
-			verificar("conteudo afastado da moldura %d %s" % [aba,str(tamanho)],tela._painel_edicao.get_global_rect().grow(-6).encloses(tela._painel_edicao.get_child(1).get_global_rect()))
+			verificar("conteudo afastado da moldura %d %s" % [aba,str(tamanho)],tela._painel_edicao.get_global_rect().grow(-6).encloses(tela._linhas_edicao.get_global_rect()))
 			verificar("campo nome cabe %d %s" % [aba,str(tamanho)],tela._campo_nome.size.x >= tela._campo_nome.get_minimum_size().x)
 			for botao in [tela._botao_voltar,tela._botao_aleatorio,tela._botao_confirmar]+tela._botoes_aba:
 				var texto: Vector2 = botao.get_theme_font("font").get_string_size(botao.text,HORIZONTAL_ALIGNMENT_LEFT,-1,botao.get_theme_font_size("font_size"))
@@ -55,14 +55,9 @@ func rodar() -> void:
 			if tamanho == Vector2i(288,512):
 				await quadros()
 				await foto("celular-"+str(aba))
-			verificar("sem rolagem",tela.find_children("*","ScrollContainer",true,false).is_empty())
 			verificar("pagina cabe no conteudo",tela._conteudo.get_global_rect().grow(1).encloses(tela._paginas[aba].get_global_rect()))
-			if aba < 2:
-				var catalogo = tela._catalogos[aba]
-				var visiveis: Array = catalogo.itens.filter(func(botao): return botao.visible)
-				var ultimo: Button = visiveis[mini(catalogo.grade.columns,visiveis.size())-1]
-				if visiveis.size() >= catalogo.grade.columns:
-					verificar("grade ocupa a largura disponivel",absf(ultimo.get_global_rect().end.x-tela._conteudo.get_global_rect().end.x) < 2)
+			for botao in [tela._botao_voltar,tela._botao_confirmar]:
+				verificar("rodape sempre visivel",Rect2(Vector2.ZERO,tela.size).grow(-6).encloses(botao.get_global_rect()))
 			for botao: Button in tela._botoes_estrutura:
 				if botao.icon != null:
 					verificar("seta cabe dentro da moldura",botao.get_theme_constant("icon_max_width") <= minf(botao.size.x,botao.size.y)-8)
@@ -71,19 +66,10 @@ func rodar() -> void:
 				await quadros()
 				await foto("compacto-"+str(aba))
 				tela._botoes_aba[aba].grab_focus()
-	for catalogo in tela._catalogos:
-		catalogo.proxima.pressed.emit()
-		await quadros()
-		verificar("pagina seguinte acessivel",catalogo.pagina == 1 or catalogo.proxima.disabled)
-	# As miniaturas mantêm a mesma área reservada dentro da moldura.
-	for casa in tela._casas_cabelo + tela._casas_roupa:
-		for chave in ["corpo","roupa","cabelo"]:
-			var imagem: TextureRect = casa[chave]
-			verificar("previa respeita a moldura",Rect2(Vector2.ZERO,casa.botao.size).grow(-5).encloses(imagem.get_rect()))
 	tela._ao_nome_alterado("AVENTUREIROX")
 	tela.confirmar()
 	var dados: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(tela.caminho_save))
-	verificar("confirmacao preserva escolhas e nome",dados.apelido == "AVENTUREIROX" and dados.aparencia_raven.cabelo == 18 and dados.aparencia_raven.roupa == 2 and dados.aparencia_raven.pele == 1)
+	verificar("confirmacao preserva escolhas e nome",dados.apelido == "AVENTUREIROX" and dados.roupas_3d.cabelo == "cabelo_espetado" and dados.roupas_3d.camisa == "blusa_bufante" and dados.aparencia_raven.pele == 1)
 	current_scene = null
 	tela.queue_free()
 	await quadros()

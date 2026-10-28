@@ -23,10 +23,11 @@ func rodar():
  tela.trocar_cena=false;tela.caminho_save="user://configuracao_jogador.json"
  root.add_child(tela)
  await esperar(8)
- conferir(not tela._opcoes_3d.cabelo.any(func(par):return par[0]=="cabelo_cacheado"),"Penteado removido não aparece na criação")
+ conferir(not tela._opcoes_3d.cabelo.any(func(par):return par[0] in ["cabelo_chanel","cabelo_longo","cabelo_cacheado"]),"Penteado removido não aparece na criação")
  var catalogo=load("res://codigo/dados/roupas_base_3d.gd")
- conferir(catalogo.modelo("cabelo","cabelo_cacheado").id=="cabelo_longo" and catalogo.modelo("cabelo","cabelo_trancas").id=="cabelo_longo","Saves antigos usam cabelo longo solto")
- for estilo in ["cabelo_chanel","cabelo_longo"]:
+ for retirado in ["cabelo_chanel","cabelo_longo","cabelo_cacheado","cabelo_trancas","cabelo_rabo"]:
+  conferir(catalogo.modelo("cabelo",retirado).id=="cabelo_curto","Save com corte retirado usa bagunçado: "+retirado)
+ for estilo in ["cabelo_curto","cabelo_espetado"]:
   for par in tela._opcoes_3d.cabelo:
    if par[0]==estilo:par[1].pressed.emit()
   tela._abrir_aba(tela.Aba.COR)
@@ -41,6 +42,25 @@ func rodar():
    await foto(h,"criacao_%s_%d"%[estilo,d])
   await RenderingServer.frame_post_draw
   root.get_texture().get_image().save_png(pasta+"interface_"+estilo+".png")
+ # Confere pixels reais, incluindo o branco antes reservado à pintura original.
+ var previa=tela._previa_3d.heroi
+ previa._player.pause()
+ tela._escolher_cor(Color(.95,.42,.20))
+ await RenderingServer.frame_post_draw
+ await RenderingServer.frame_post_draw
+ var ruivo: Image=previa._vp.get_texture().get_image()
+ tela._escolher_cor(Color.WHITE)
+ await RenderingServer.frame_post_draw
+ await RenderingServer.frame_post_draw
+ var branco: Image=previa._vp.get_texture().get_image()
+ var alterados:=0
+ for y in branco.get_height():
+  for x in branco.get_width():
+   if ruivo.get_pixel(x,y).a>.5 and branco.get_pixel(x,y).a>.5 and ruivo.get_pixel(x,y).is_equal_approx(branco.get_pixel(x,y))==false:alterados+=1
+ conferir(alterados>30,"Tintura branca muda os pixels renderizados do cabelo")
+ conferir(not previa._pecas[3].material_override.get_shader_parameter("usar_cor_pintada"),"Branco escolhido não vira castanho original")
+ conferir(tela.dados_do_personagem().aparencia_raven.cor_cabelo_personalizada,"Save distingue tinta branca da pintura antiga")
+ tela._escolher_cor(Color(.95,.42,.20))
  tela.confirmar()
  await esperar(3)
  var dados: Dictionary=JSON.parse_string(FileAccess.get_file_as_string(tela.caminho_save))
@@ -59,7 +79,7 @@ func rodar():
  j._aplicar_modelo();h._armaduras.atualizar()
  var cor_jogo: Array=j.aparencia_raven.cor
  conferir(Color(cor_jogo[0],cor_jogo[1],cor_jogo[2]).is_equal_approx(Color(.95,.42,.20)),"Jogo carrega a cor da criação")
- conferir(h.roupas_3d.cabelo=="cabelo_longo","Jogo mantém cabelo longo solto")
+ conferir(h.roupas_3d.cabelo=="cabelo_espetado","Jogo mantém o penteado escolhido")
  conferir(j.cor_cabelo.is_equal_approx(Color(.95,.42,.20)),"Campo branco antigo não apaga o ruivo escolhido")
  h._aplicar_cores()
  for d in 4:

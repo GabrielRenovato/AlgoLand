@@ -9,6 +9,17 @@ var _tempo := 0.0
 var _espera := 0.0
 var _rota_ativa := false
 var _rng := RandomNumberGenerator.new()
+var _suspensa := false
+var _modo_animacao := Node.PROCESS_MODE_INHERIT
+
+func _retomar_animacao() -> void:
+	if not _suspensa:return
+	_suspensa=false
+	if is_instance_valid(inimigo) and is_instance_valid(inimigo.arvore_animacao):
+		inimigo.arvore_animacao.process_mode=_modo_animacao
+
+func _exit_tree() -> void:
+	_retomar_animacao()
 
 func _ready() -> void:
 	inimigo = get_parent()
@@ -29,14 +40,26 @@ func _physics_process(delta: float) -> void:
 	if inimigo.esta_congelado():
 		inimigo.velocity = Vector2.ZERO
 		return
-	# Flores e outros inimigos enraizados preservam sua identidade de emboscada.
-	if inimigo.get("parado")==true:
-		if inimigo.has_method("_animar"): inimigo._animar(delta)
-		return
-	if inimigo.esta_recuando or inimigo._atordoado>0:
+	if (inimigo.esta_recuando or inimigo._atordoado>0) and inimigo.get("parado")!=true:
 		inimigo._atordoado = maxf(0,inimigo._atordoado-delta)
 		inimigo.velocity = inimigo.velocity.move_toward(Vector2.ZERO,inimigo.desaceleracao_knockback*delta)
 		inimigo.move_and_slide()
+		return
+	# Fora das duas câmeras, conserva a posição e os estados de dano. Sem rotas
+	# ou passos acumulados: retoma antes de entrar na tela, sem teleportar.
+	if not gerente.patrulha_proxima(inimigo):
+		if not _suspensa:
+			_suspensa=true
+			if inimigo.arvore_animacao:
+				_modo_animacao=inimigo.arvore_animacao.process_mode
+				inimigo.arvore_animacao.process_mode=Node.PROCESS_MODE_DISABLED
+		inimigo.velocity=Vector2.ZERO
+		_rota_ativa=false
+		return
+	_retomar_animacao()
+	# Inimigos configurados como enraizados preservam sua identidade de emboscada.
+	if inimigo.get("parado")==true:
+		if inimigo.has_method("_animar"): inimigo._animar(delta)
 		return
 	_tempo -= delta
 	_espera -= delta
@@ -68,6 +91,9 @@ func _escolher_destino(agente: NavigationAgent2D) -> void:
 	var mapa := inimigo.get_world_2d().navigation_map
 	var camada: int = 1 << inimigo.classe_de_navegacao()
 	for tentativa in 10:
+		if not gerente.reservar_rota_patrulha():
+			_espera=_rng.randf_range(.04,.10)
+			return
 		var candidato := origem+Vector2.from_angle(_rng.randf_range(0,TAU))*_rng.randf_range(45,115)
 		var rota := NavigationServer2D.map_get_path(mapa,inimigo._centro_de_navegacao() if agente!=null else inimigo.global_position,candidato,true,camada)
 		if rota.is_empty() or rota[-1].distance_to(candidato)>8: continue

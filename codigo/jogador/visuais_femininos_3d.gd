@@ -3,7 +3,9 @@ extends RefCounted
 ## saias conservam a meia-calça e recebem pesos leves das duas coxas.
 const Modelagem=preload("res://codigo/jogador/roupas_modeladas_3d.gd")
 static func cabelo(base: ArrayMesh,corpo: MeshInstance3D,s: Skeleton3D,forma: int) -> ArrayMesh:
-    if forma==0: return base
+    var cabeca_para_malha:=corpo.global_transform.affine_inverse()*s.global_transform*s.get_bone_global_rest(s.find_bone("DEF-head"))
+    base=_abrir_franja(base,cabeca_para_malha)
+    if forma not in [4,5]: return base
     var st:=SurfaceTool.new()
     st.begin(Mesh.PRIMITIVE_TRIANGLES)
     st.append_from(base,0,Transform3D.IDENTITY)
@@ -34,54 +36,31 @@ static func cabelo(base: ArrayMesh,corpo: MeshInstance3D,s: Skeleton3D,forma: in
             var base5:=Vector3(cos(a)*.065,.245,sin(a)*.062-.02)
             var ponta5:=base5+Vector3(cos(a)*.045,.075,sin(a)*.03-.035)
             _mecha(st,[[base5,.028,.026],[base5.lerp(ponta5,.55),.016,.015],[ponta5,.002,.002]],transformacao,bind)
-    elif forma in [1,2]:
-        var longo:=forma==2
-        # Cortina aberta na frente: nuca e laterais sem cobrir os olhos.
-        var aneis: Array=[]
-        for nivel in 4:
-            var anel: Array=[]
-            for q in 25:
-                var a:=lerpf(.27,-PI-.27,q/24.0)
-                # Raios rentes à cabeça (no espaço do osso, que a proporção chibi amplia 2,4x).
-                var raio: float=([.110,.128,.120,.096] if longo else [.110,.126,.124,.116])[nivel]
-                var y: float=([.205,.10,-.04,-.15] if longo else [.205,.130,.035,-.035])[nivel]
-                y+=.008*cos(a*5)*nivel/3.0
-                # Pontas em V nas costas: a mecha central desce mais que as laterais.
-                if longo and nivel==3: y-=.05*maxf(0.0,-sin(a))
-                anel.append(Vector3(cos(a)*raio,y,sin(a)*raio*.92-(.03*nivel/3.0 if longo else .007)))
-            aneis.append(anel)
-        for n in 3:
-            for q in 24:
-                _quad_cabelo(st,[aneis[n][q],aneis[n+1][q],aneis[n+1][q+1],aneis[n][q+1]],transformacao,bind)
-        for lado in [-1,1]:
-            # Mechas finas emoldurando o rosto (antes eram tubos grossos, como fones).
-            _mecha(st,[[Vector3(lado*.100,.20,.035),.018,.018],[Vector3(lado*.116,.13,.045),.020,.022],[Vector3(lado*.120,.02 if longo else .05,.040),.015,.016],[Vector3(lado*.114,-.08 if longo else -.01,.028),.006,.008]],transformacao,bind)
-    else:
-        # Volume cacheado contínuo, com cachos sobrepostos e distribuição
-        # irregular; nenhuma divisão em duas tranças ou caudas laterais.
-        for faixa in 3:
-            var quantidade: int=[11,15,13][faixa]
-            for i in quantidade:
-                var a: float=TAU*(i+.37*faixa)/quantidade
-                var frente:=sin(a)>.25
-                if frente and faixa>0: continue
-                var raio: float=[.095,.124,.118][faixa]
-                var y: float=[.235,.145,.035][faixa]
-                var tamanho:=.033+.005*sin(i*2.7+faixa)
-                var centro:=Vector3(cos(a)*raio,y+.009*sin(i*1.9),sin(a)*raio-.015)
-                _cacho(st,centro,Vector3(tamanho,.046 if faixa==0 else .055,tamanho*.90),transformacao,bind)
-        _cacho(st,Vector3(0,.267,-.015),Vector3(.067,.033,.060),transformacao,bind)
     st.generate_normals()
     st.index()
     return st.commit()
-static func _cacho(st: SurfaceTool,centro: Vector3,raios: Vector3,t: Transform3D,bind: int):
-    var secoes: Array=[]
-    for i in 7:
-        var a:=PI*i/6.0
-        var largura:=maxf(.025,sin(a))
-        var deslocamento:=Vector3(sin(a*2)*.008,cos(a)*raios.y,cos(a*2)*.006)
-        secoes.append([centro+deslocamento,raios.x*largura,raios.z*largura])
-    _mecha(st,secoes,t,bind)
+
+## Levanta somente a frente do molde, sem alterar nuca, UVs ou pesos do rig.
+static func _abrir_franja(base: ArrayMesh,t: Transform3D) -> ArrayMesh:
+    var nova:=ArrayMesh.new()
+    var inversa:=t.affine_inverse()
+    for superficie in base.get_surface_count():
+        var dados:=base.surface_get_arrays(superficie).duplicate(true)
+        var vertices: PackedVector3Array=dados[Mesh.ARRAY_VERTEX]
+        for i in vertices.size():
+            var p:=inversa*vertices[i]
+            var frente:=smoothstep(0.065,0.105,p.z)
+            var ponta:=1.0-smoothstep(0.185,0.245,p.y)
+            var centro:=1.0-smoothstep(0.080,0.115,absf(p.x))
+            var levantamento:=0.035*frente*ponta*centro
+            if levantamento<=0.0: continue
+            p.y+=levantamento
+            vertices[i]=t*p
+        dados[Mesh.ARRAY_VERTEX]=vertices
+        nova.add_surface_from_arrays(base.surface_get_primitive_type(superficie),dados)
+        nova.surface_set_material(superficie,base.surface_get_material(superficie))
+    return nova
+
 static func _mecha(st: SurfaceTool,secoes: Array,t: Transform3D,bind: int):
     for n in range(secoes.size()-1):
         for q in 12:

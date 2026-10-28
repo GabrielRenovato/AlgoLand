@@ -8,6 +8,12 @@ enum Etapa { PREPARANDO, EXPLORANDO, INVOCANDO, GUARDIAO, CONCLUIDO, PARADO }
 const Catalogo := preload("res://codigo/fendas/catalogo_andares.gd")
 var META_PROGRESSO := 35
 const RAIO_ALERTA := 175.0
+@export var economizar_patrulhas := OS.has_feature("android")
+const MARGEM_PATRULHA := 128.0
+const CONSULTAS_PATRULHA_POR_QUADRO := 4
+var _quadro_patrulhas := -1
+var _areas_patrulha: Array[Dictionary] = []
+var _consultas_patrulha := 0
 var etapa := Etapa.PREPARANDO
 var pontos := 0
 var guardiao: Node2D
@@ -19,6 +25,31 @@ var posicao_guardiao := Vector2.ZERO
 var guia: Node2D
 var tesouro: Node2D
 var encontro: Node2D
+
+func _preparar_patrulhas() -> void:
+	var quadro := Engine.get_physics_frames()
+	if quadro==_quadro_patrulhas:return
+	_quadro_patrulhas=quadro
+	_consultas_patrulha=0
+	_areas_patrulha.clear()
+	for parte in get_tree().get_nodes_in_group("jogadores"):
+		if not is_instance_valid(parte) or parte.estaMorto or parte.caido:continue
+		var area: Rect2=parte.get_canvas_transform().affine_inverse()*parte.get_viewport_rect()
+		_areas_patrulha.append({"mundo":parte.get_world_2d(),"area":area.grow(MARGEM_PATRULHA)})
+
+func patrulha_proxima(inimigo: Node2D) -> bool:
+	if not economizar_patrulhas:return true
+	_preparar_patrulhas()
+	for entrada in _areas_patrulha:
+		if entrada.mundo==inimigo.get_world_2d() and entrada.area.has_point(inimigo.global_position):return true
+	return false
+
+func reservar_rota_patrulha() -> bool:
+	if not economizar_patrulhas:return true
+	_preparar_patrulhas()
+	if _consultas_patrulha>=CONSULTAS_PATRULHA_POR_QUADRO:return false
+	_consultas_patrulha+=1
+	return true
 
 func _abrir_janela_entre_ondas() -> void:
 	# Nas fendas a vitória chama o guia, sem abrir um menu em cima do saque.

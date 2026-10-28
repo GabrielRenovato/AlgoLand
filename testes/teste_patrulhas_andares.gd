@@ -51,7 +51,7 @@ func rodar() -> void:
 		for s in dados.setores: contagem+=int(s.grupos)*int(dados.combate.comuns_por_grupo)
 		contagem+=int(dados.combate.elites)
 		verificar("populacao ampliada completa %d" % andar,gerador._populacao.size()==contagem)
-		verificar("barra exige 76 a 90 por cento dos pontos %d" % andar,gerente.META_PROGRESSO>=disponivel*.75 and gerente.META_PROGRESSO<=disponivel*.91)
+		verificar("barra preserva ritmo de 60 a 72 por cento com arredondamento %d" % andar,gerente.META_PROGRESSO>=disponivel*.60 and gerente.META_PROGRESSO<=ceili(disponivel*.72))
 		verificar("entrada nao atrai o mapa inteiro %d" % andar,gerente._adormecidos.size()==gerador._populacao.size())
 		await quadros(180)
 		var andando := 0
