@@ -1368,7 +1368,6 @@ func aplicar_golpe(alvo: Node, direcao_knockback: Vector2, mult_dano: float = 1.
 	var vida_antes := maxi(0,int(alvo.vida)) if "vida" in alvo else 0
 	alvo.receber_dano(golpe["dano"], direcao_knockback * forca)
 	var vida_depois := maxi(0,int(alvo.vida)) if is_instance_valid(alvo) and "vida" in alvo else 0
-	var dano_efetivo := maxi(0,vida_antes-vida_depois)
 	if is_instance_valid(alvo) and float(estilo.atordoar) > 0 and alvo.has_method("atordoar"):
 		alvo.atordoar(float(estilo.atordoar))
 	# Flechas e golpes especiais não congelam o jogo; o acerto corpo a corpo sim
@@ -1382,10 +1381,10 @@ func aplicar_golpe(alvo: Node, direcao_knockback: Vector2, mult_dano: float = 1.
 	for conjunto in Conjuntos.CONJUNTOS:
 		if conjunto.ID not in [Carrasco.ID, Mordomo.ID] and conjunto.TIPO_BONUS in ["raio", "congelamento"]:
 			_tentar_bonus_conjunto(conjunto, alvo, golpe["dano"])
-	if not estaMorto and hp_atual < estatisticas.hp_maximo:
-		var percentual := minf(estatisticas.roubo_vida,estatisticas.ROUBO_VIDA_MAXIMO)/100.0 + efeitos_pocao.bonus("vampiro")
-		var recuperado: int = sustento_combate.recuperar(dano_efetivo,percentual)
-		if recuperado > 0: curar(recuperado)
+	# Roubo de vida: 1 de vida por mob abatido, não por golpe (equilibra com o dano dos afixos)
+	var abateu := vida_antes > 0 and (not is_instance_valid(alvo) or vida_depois <= 0)
+	if abateu and not estaMorto and hp_atual < estatisticas.hp_maximo and (estatisticas.roubo_vida > 0 or efeitos_pocao.bonus("vampiro") > 0):
+		curar(1)
 
 # ---------------------------
 # Visibilidade dos sprites

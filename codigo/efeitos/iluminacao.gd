@@ -111,6 +111,8 @@ func _tentar_fim_do_dia() -> void:
 	if bool(jogador.get("estaMorto")):
 		return
 	_dormindo = true
+	# Grava o fim do dia já aqui: um save antes do dormir não pode voltar às 6h do mesmo dia
+	Calendario.encerrar_dia()
 	fim_do_dia.emit()
 	# Fora de casa o jogador desmaia e acorda na casa da fazenda
 	Transicao.desmaiar()

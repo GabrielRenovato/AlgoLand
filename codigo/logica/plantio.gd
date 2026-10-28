@@ -189,7 +189,7 @@ func _ao_ferramenta_pedida() -> void:
 	_enchendo = false
 	# Regador virado para o lago: enche
 	if Fazenda.acao_da_ferramenta(_lado()) == "regar" and _lago_a_frente():
-		if Fazenda.agua_regador >= Fazenda.REGADOR_CAPACIDADE:
+		if Fazenda.agua_regador >= Fazenda.regador_capacidade:
 			_avisar(Fazenda.MSG_REGADOR_CHEIO)
 			return
 		_enchendo = true
@@ -264,11 +264,11 @@ func _ao_impacto(acao: String, ponto: Vector2) -> void:
 		Fazenda.encher_regador()
 		Sons.tocar("regar", 0.05)
 		_efeito_particulas(to_local(ponto), Color(0.55, 0.8, 1.0))
-		_avisar("REGADOR CHEIO (%d)" % Fazenda.REGADOR_CAPACIDADE)
+		_avisar("REGADOR CHEIO (%d)" % Fazenda.regador_capacidade)
 		return
 	if _eh_extracao(acao):
 		if _extracao() != null:
-			_extracao().impacto(acao, ponto, preload("res://codigo/dados/melhorias_ferramentas.gd").nivel(Fazenda.mochila_do_lado(_lado()),"machadinha" if acao=="machado" else "picareta"))
+			_extracao().impacto(acao, ponto, preload("res://codigo/dados/melhorias_ferramentas.gd").nivel(Fazenda.mochila_do_lado(_lado()),"machadinha" if acao=="machado" else "picareta"),jogador.global_position)
 		return
 	var celula := Fazenda.celula_do_ponto(to_local(ponto))
 	var grau: int=preload("res://codigo/dados/melhorias_ferramentas.gd").nivel(Fazenda.mochila_do_lado(_lado()),"enxada" if acao=="enxada" else "regador") if acao in ["enxada","regar"] else 1

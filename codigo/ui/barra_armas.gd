@@ -70,7 +70,7 @@ func _mostrar_ferramenta_selecionada() -> void:
 	else:
 		var ferramenta := Fazenda.ferramenta_de(_lado())
 		if ferramenta != "": texto = nome_da_ferramenta(ferramenta)
-		if ferramenta == "regador": texto += "  %d/%d" % [Fazenda.agua_regador, Fazenda.REGADOR_CAPACIDADE]
+		if ferramenta == "regador": texto += "  %d/%d" % [Fazenda.agua_regador, Fazenda.regador_capacidade]
 	if texto != "": _mostrar_nome(texto,COR_NOME)
 
 func _montar() -> void:
@@ -322,7 +322,7 @@ func _mostrar_agua(casa: Control, item) -> void:
 		barra.name = "AguaRegador"
 		barra.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		casa.add_child(barra)
-	var fracao := float(Fazenda.agua_regador) / float(Fazenda.REGADOR_CAPACIDADE)
+	var fracao := float(Fazenda.agua_regador) / float(Fazenda.regador_capacidade)
 	barra.visible = true
 	barra.color = Color(0.4, 0.75, 1.0) if fracao > 0.0 else Color(1.0, 0.4, 0.35)
 	var lado: Vector2 = casa.size if casa.size.x > 0 else casa.custom_minimum_size

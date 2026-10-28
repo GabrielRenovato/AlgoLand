@@ -16,6 +16,9 @@ const NOMES: Array[String] = ["PRIMAVERA", "VERAO", "OUTONO", "INVERNO"]
 
 ## Dia corrido desde o começo do jogo (1 = primeiro dia da primavera do ano 1)
 var dia: int = 1
+## O relógio chegou ao limite e o dia ainda não passou (o jogador desmaia ou dorme em seguida). Se o jogo for salvo
+## nessa fresta, o dia é passado ao carregar, para não voltar às 6h do mesmo dia com o progresso já feito
+var dia_encerrado := false
 var caminho_save: String = CAMINHO_SAVE
 
 func _ready() -> void:
@@ -64,6 +67,7 @@ func texto_data() -> String:
 func dormir() -> void:
 	var estacao_anterior := estacao()
 	dia += 1
+	dia_encerrado = false
 	salvar()
 	if estacao() != estacao_anterior:
 		estacao_mudou.emit(estacao())
@@ -75,17 +79,27 @@ func salvar() -> bool:
 	var arquivo := FileAccess.open(caminho_save, FileAccess.WRITE)
 	if arquivo == null:
 		return false
-	arquivo.store_string(JSON.stringify({"dia": dia}, "\t"))
+	arquivo.store_string(JSON.stringify({"dia": dia, "dia_encerrado": dia_encerrado}, "\t"))
 	return true
+
+## Relógio chegou ao limite: grava o fim do dia antes de dormir ou desmaiar
+func encerrar_dia() -> void:
+	dia_encerrado = true
+	salvar()
 
 func carregar() -> bool:
 	dia = 1
+	dia_encerrado = false
 	if not FileAccess.file_exists(caminho_save):
 		return false
 	var dados = JSON.parse_string(FileAccess.get_file_as_string(caminho_save))
 	if not dados is Dictionary:
 		return false
 	dia = maxi(int(dados.get("dia", 1)), 1)
+	# Salvo depois do fim do dia e antes de dormir: conta como noite passada
+	if bool(dados.get("dia_encerrado", false)):
+		dia += 1
+		salvar()
 	return true
 
 ## Novo jogo: apaga o arquivo e volta ao dia 1 (sem emitir sinais: quem está na tela de título não reage)

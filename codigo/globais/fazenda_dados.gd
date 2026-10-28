@@ -105,8 +105,9 @@ const MSG_ARAR_ANTES := "ARE O SOLO ANTES"
 const MSG_JA_MOLHADO := "JA ESTA MOLHADO"
 const MSG_REGADOR_VAZIO := "REGADOR VAZIO: ENCHA NO LAGO"
 const MSG_REGADOR_CHEIO := "O REGADOR JA ESTA CHEIO"
-## Regas por regador cheio; enche no laguinho da fazenda (lago_fazenda.gd), como no Harvest Moon
-const REGADOR_CAPACIDADE := 20
+## Regas por regador cheio; enche no laguinho da fazenda (lago_fazenda.gd), como no Harvest Moon.
+## A capacidade cresce com o nível do regador (melhorias_ferramentas.gd): 20, 30 e 40 regas.
+const REGADOR_CAPACIDADE_POR_NIVEL := {1: 20, 2: 30, 3: 40}
 const MSG_SEM_SEMENTE := "SEM SEMENTES"
 const MSG_FORA_ESTACAO := "NAO E A ESTACAO DESTA SEMENTE"
 const MSG_NADA_COLHER := "NADA PARA COLHER"
@@ -172,7 +173,8 @@ var clima_hoje: int = -1
 var ferramenta: String = "enxada"
 ## Cooperativo: o jogador 2 escolhe a própria ferramenta, da mochila dele (InventarioJogador2)
 var ferramenta_p2: String = "enxada"
-var agua_regador: int = REGADOR_CAPACIDADE
+var regador_capacidade: int = REGADOR_CAPACIDADE_POR_NIVEL[1]
+var agua_regador: int = REGADOR_CAPACIDADE_POR_NIVEL[1]
 var caminho_save: String = CAMINHO_SAVE
 var rng := RandomNumberGenerator.new()
 
@@ -930,7 +932,7 @@ func salvar() -> bool:
 	arquivo.store_string(JSON.stringify({"versao": 3, "solo": tabela, "sementes": _sementes_antigas, "peixes": peixes, "peixes_pescados": peixes_pescados,
 			"pesca_pedido_nivel": pesca_pedido_nivel, "pesca_xp": pesca_xp, "varas_pesca": varas_pesca, "pesca_capturas_jogador":pesca_capturas_jogador, "pesca_ultima_pedra":pesca_ultima_pedra, "pesca_perfeitas": pesca_perfeitas, "pesca_recompensas": pesca_recompensas, "pesca_pedidos_entregues": pesca_pedidos_entregues,
 			"clima_hoje": clima_hoje, "removidos": removidos, "galinheiro":galinheiro,
-			"entulho": _tabela_entulho(), "entulho_iniciado": entulho_iniciado, "agua_regador": agua_regador,
+			"entulho": _tabela_entulho(), "entulho_iniciado": entulho_iniciado, "agua_regador": agua_regador, "capacidade_regador": regador_capacidade,
 			"energia_maxima": ENERGIA_MAXIMA, "energia_p1": energia_p1, "energia_p2": energia_p2}, "\t"))
 	return true
 
@@ -1020,7 +1022,8 @@ func carregar() -> bool:
 				if dentro_da_area(celula) and not solo.has(celula):
 					entulho[celula] = String(tabela_entulho[chave])
 	entulho_iniciado = bool(dados.get("entulho_iniciado", false))
-	agua_regador = clampi(int(dados.get("agua_regador", REGADOR_CAPACIDADE)), 0, REGADOR_CAPACIDADE)
+	regador_capacidade = clampi(int(dados.get("capacidade_regador", REGADOR_CAPACIDADE_POR_NIVEL[1])), REGADOR_CAPACIDADE_POR_NIVEL[1], REGADOR_CAPACIDADE_POR_NIVEL[3])
+	agua_regador = clampi(int(dados.get("agua_regador", regador_capacidade)), 0, regador_capacidade)
 	var bruto = dados.get("removidos", {})
 	if bruto is Dictionary:
 		for chave in bruto:
@@ -1065,11 +1068,18 @@ func _zerar() -> void:
 	entulho_iniciado = false
 	clima_hoje = -1
 	ferramenta = "enxada"
-	agua_regador = REGADOR_CAPACIDADE
+	regador_capacidade = REGADOR_CAPACIDADE_POR_NIVEL[1]
+	agua_regador = regador_capacidade
 
 ## Encheu no lago
 func encher_regador() -> void:
-	agua_regador = REGADOR_CAPACIDADE
+	agua_regador = regador_capacidade
+	agua_regador_alterada.emit(agua_regador)
+	_agendar_salvamento()
+
+## Chamado ao melhorar o regador: a capacidade sobe e a água atual é mantida
+func definir_nivel_regador(nivel: int) -> void:
+	regador_capacidade = REGADOR_CAPACIDADE_POR_NIVEL[clampi(nivel, 1, 3)]
 	agua_regador_alterada.emit(agua_regador)
 	_agendar_salvamento()
 

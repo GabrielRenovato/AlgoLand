@@ -31,6 +31,8 @@ static func melhorar(inventario: Node, tipo: String) -> String:
 	if not inventario.salvar():
 		inventario.restaurar_mochila(antes)
 		return "NAO FOI POSSIVEL SALVAR. TENTE NOVAMENTE."
+	# O regador ganha capacidade a cada nível (a água atual é mantida)
+	if tipo == "regador": Fazenda.definir_nivel_regador(proximo)
 	inventario._avisar_item(item)
 	inventario._avisar_mochila()
 	return ""
