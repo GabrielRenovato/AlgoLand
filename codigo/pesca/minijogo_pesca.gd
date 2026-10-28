@@ -181,12 +181,15 @@ func _process(delta: float) -> void:
 			_novo_check()
 		return
 	if check_ativo:
-		percorrido += ponteiro_velocidade * delta
-		ponteiro_angulo = ponteiro_base + percorrido
+		# O aperto corresponde ao ponteiro que já foi desenhado. Avançar antes
+		# julgava uma posição futura, fora da zona em quadros mais demorados.
 		if _apertou():
 			_resolver_aperto()
-		elif percorrido >= folga_zona + tamanho_zona + 0.12 or percorrido >= TAU:
-			_resolver("erro", -perda_erro, Color(1, 0.3, 0.3))
+		else:
+			percorrido += ponteiro_velocidade * delta
+			ponteiro_angulo = ponteiro_base + percorrido
+			if percorrido >= folga_zona + tamanho_zona + 0.12 or percorrido >= TAU:
+				_resolver("erro", -perda_erro, Color(1, 0.3, 0.3))
 		queue_redraw()
 
 func _novo_check() -> void:
