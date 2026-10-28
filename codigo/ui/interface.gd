@@ -18,6 +18,7 @@ const TELAS_CENTRAIS := ["acampamento", "fim_partida", "dormir", "pausa", "conve
 const TELAS_OBRIGATORIAS := ["fim_partida", "introducao"]
 
 var _telas_abertas: Array[String] = []
+var _botao_duelo: Button
 var _troca_companheira: Button
 var _companheira_mochila := false
 var _par_compacto := ""
@@ -151,10 +152,31 @@ func _ready() -> void:
 		_focar_tela("inventario" if _companheira_mochila else _par_compacto))
 	add_child(_troca_companheira)
 	_troca_companheira.hide()
+	if not EventosJogo.eh_do_p2(self):
+		_botao_duelo = Button.new()
+		_botao_duelo.name = "BotaoDuelo"
+		_botao_duelo.icon = preload("res://codigo/ui/icone_duelo.gd").obter()
+		_botao_duelo.expand_icon = true
+		_botao_duelo.add_theme_constant_override("icon_max_width", 22)
+		_botao_duelo.add_theme_color_override("icon_normal_color", Color.WHITE)
+		_botao_duelo.theme = preload("res://recursos/ui/tema_sidebar.tres")
+		_botao_duelo.add_theme_font_size_override("font_size", 9)
+		_botao_duelo.custom_minimum_size = Vector2(32, 32)
+		_botao_duelo.focus_mode = Control.FOCUS_NONE
+		_botao_duelo.tooltip_text = "Duelo online: criar ou entrar em salas PvP"
+		_botao_duelo.pressed.connect(func(): preload("res://codigo/duelo/conexao_duelo.gd").obter(get_tree()).abrir_tela())
+		add_child(_botao_duelo)
 	preload("res://codigo/ui/escala_interface.gd").ligar(self)
 
 func _process(_delta: float) -> void:
 	_organizar_companheiras()
+	if _botao_duelo != null:
+		var escala := preload("res://codigo/ui/escala_interface.gd").fator(self)
+		var medida := get_viewport().get_visible_rect().size
+		var margens := Controle.margens_seguras() * escala
+		_botao_duelo.scale = Vector2.ONE / escala
+		_botao_duelo.position = Vector2(medida.x - (222 if Controle.usando_toque else 44) - margens.z, (10 if Controle.usando_toque else 48) + margens.y) / escala
+		_botao_duelo.visible = _telas_abertas.is_empty() and not Introducao.cinematica and not get_tree().paused and not preload("res://codigo/duelo/conexao_duelo.gd").obter(get_tree()).em_partida
 
 ## Em janelas estreitas alterna entre loja e mochila, preservando os itens e o arrastar no PC.
 func _organizar_companheiras() -> void:

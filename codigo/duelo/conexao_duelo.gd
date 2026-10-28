@@ -137,7 +137,13 @@ static func perfil_do(jogador: Node2D) -> Dictionary:
 		"espada": bool(jogador.usando_espada), "escudo": bool(jogador.usando_escudo),
 		"lanca": bool(jogador.usando_lanca), "arco": bool(jogador.usando_arco),
 		"hp_maximo": int(jogador.estatisticas.hp_maximo),
+		"visual": Visual.do_jogador(jogador),
 	}
+	perfil["equipamentos"] = {}
+	for slot in ["arma", "cabeca", "corpo", "luvas", "botas", "escudo"]:
+		var item = jogador.inventario.equipados.get(slot)
+		if item != null:
+			perfil.equipamentos[slot] = {"nivel": item.nivel, "raridade": item.raridade}
 	return perfil
 
 func listar() -> void: _enviar({"t": "duelo_salas"})
