@@ -15,11 +15,36 @@ import io
 
 RAIZ = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(RAIZ / 'ferramentas/atualizacao'))
-from pacotes import Entrada, area, dividir, escrever_pck, ler_pck
+from pacotes import Entrada, area, dividir, escrever_pck, ler_pck, limitar_pacotes
 import gerar_atualizacao as gerador
 
 
 class Pacotes(unittest.TestCase):
+    def test_partes_limitadas_preservam_binarios_remocoes_e_ordem(self):
+        entradas = {'codigo/a.gdc': Entrada(b'a' * 140),
+                    'codigo/b.gdc': Entrada(b'b' * 140),
+                    'removido.txt': Entrada(b'', 2), 'nome_com_acentuação.txt': Entrada(b'fim')}
+        partes = limitar_pacotes({'compartilhado': entradas}, 400)
+        self.assertGreater(len(partes), 1)
+        self.assertEqual(partes, limitar_pacotes({'compartilhado': dict(reversed(list(entradas.items())))}, 400))
+        recuperadas = {}
+        with tempfile.TemporaryDirectory() as pasta:
+            for nome, arquivos in partes.items():
+                caminho = Path(pasta) / (nome + '.pck')
+                escrever_pck(caminho, arquivos)
+                self.assertLessEqual(caminho.stat().st_size, 400)
+                for arquivo in ler_pck(caminho): self.assertNotIn(arquivo, recuperadas)
+                recuperadas.update(ler_pck(caminho))
+        self.assertEqual(recuperadas, entradas)
+
+    def test_pacote_pequeno_preserva_identificador_e_hash(self):
+        entradas = {'codigo/a.gdc': Entrada(b'a')}
+        self.assertEqual(limitar_pacotes({'interface': entradas}), {'interface': entradas})
+        with self.assertRaisesRegex(ValueError, 'Recurso excede'):
+            limitar_pacotes({'interface': entradas}, 110)
+        with self.assertRaisesRegex(ValueError, 'Identificador de pacote repetido'):
+            limitar_pacotes({'a': {'a': Entrada(b'a' * 140), 'b': Entrada(b'b' * 140)}, 'a_01': entradas}, 400)
+
     def test_roundtrip_remocao_e_binario(self):
         with tempfile.TemporaryDirectory() as pasta:
             p = Path(pasta) / 'teste.pck'
@@ -127,17 +152,24 @@ def preparar_motor(destino):
         arquivo = destino / 'assinar'; arquivo.write_bytes(dados)
         return base64.b64encode(subprocess.run(['openssl', 'dgst', '-sha256', '-sign', str(privada), str(arquivo)], check=True, capture_output=True).stdout).decode()
     servidor = destino / 'servidor'; servidor.mkdir(exist_ok=True)
-    escrever_pck(servidor / 'area.pck', {'sentinela.gd': Entrada(b'extends Node\nconst VALOR = "patch antes dos autoloads"\n'),
-        'tema.tres': Entrada(b'[gd_resource type="Theme" format=3]\n[resource]\ndefault_font_size = 18\n')})
-    pacote = servidor / 'area.pck'
-    descritor = {'id': 'interface', 'arquivo': 'area.pck', 'sha256': hashlib.sha256(pacote.read_bytes()).hexdigest(),
-                 'tamanho': pacote.stat().st_size, 'assinatura': assinar(pacote.read_bytes())}
+    # O autoload depende de um script em outra parte; tudo deve ser montado antes de compilar.
+    partes = limitar_pacotes({'interface': {
+        'sentinela.gd': Entrada(b'extends Node\nconst VALOR = preload("res://vinculo.gd").VALOR\n'),
+        'tema.tres': Entrada(b'[gd_resource type="Theme" format=3]\n[resource]\ndefault_font_size = 18\n'),
+        'vinculo.gd': Entrada(b'extends RefCounted\nconst VALOR = "patch antes dos autoloads"\n')}}, 300)
+    descritores = []
+    for indice, (id_parte, arquivos) in enumerate(partes.items()):
+        pacote = servidor / ('area.pck' if indice == 0 else f'area-{indice + 1:02d}.pck')
+        escrever_pck(pacote, arquivos)
+        descritores.append({'id': id_parte, 'arquivo': pacote.name, 'sha256': hashlib.sha256(pacote.read_bytes()).hexdigest(),
+                            'tamanho': pacote.stat().st_size, 'assinatura': assinar(pacote.read_bytes())})
+    descritor = descritores[0]
     def envelope(pacotes, numero=1):
         dados = json.dumps({'formato': 2, 'app_base': 'teste', 'plataforma': 'linux', 'conteudo': numero, 'pacotes': pacotes})
         return {'dados': dados, 'assinatura': assinar(dados.encode())}
-    (servidor / 'envelope.json').write_text(json.dumps(envelope([descritor])))
+    (servidor / 'envelope.json').write_text(json.dumps(envelope(descritores)))
     faltante = dict(descritor, id='faltante', arquivo='ausente.pck')
-    (servidor / 'incompleto.json').write_text(json.dumps(envelope([descritor, faltante], 2)))
+    (servidor / 'incompleto.json').write_text(json.dumps(envelope(descritores + [faltante], 2)))
     invalidos = [envelope([dict(descritor, arquivo='../invalido.pck')]), envelope([descritor, descritor])]
     (servidor / 'invalidos.json').write_text(json.dumps(invalidos))
     (destino / 'tema.tres').write_text('[gd_resource type="Theme" format=3]\n[resource]\ndefault_font_size = 16\n')

@@ -57,6 +57,38 @@ def escrever_pck(caminho: Path, entradas: dict[str, Entrada]) -> None:
     caminho.write_bytes(cabecalho + diretorio + corpo)
 
 
+def limitar_pacotes(grupos: dict[str, dict[str, Entrada]], limite: int = 8 * 1024 * 1024) -> dict[str, dict[str, Entrada]]:
+    """Mantém PCKs completos abaixo do limite de transferência, sem cortar recursos.
+
+    O aplicativo existente já monta todos os pacotes antes de carregar os recursos;
+    por isso referências entre partes continuam funcionando sem um APK novo.
+    """
+    resultado = {}
+    for area_id, entradas in sorted(grupos.items()):
+        partes = []
+        parte = {}
+        tamanho = 100  # Cabeçalho de 96 bytes e quantidade de arquivos.
+        for nome, entrada in sorted(entradas.items()):
+            texto = len(('res://' + nome).encode())
+            custo = 40 + texto + (-texto % 4) + len(entrada.dados) + (-len(entrada.dados) % 16)
+            if 100 + custo > limite:
+                raise ValueError(f'Recurso excede o limite de {limite} bytes: {nome}')
+            if tamanho + custo > limite:
+                partes.append(parte)
+                parte = {}
+                tamanho = 100
+            parte[nome] = entrada
+            tamanho += custo
+        if parte:
+            partes.append(parte)
+        for indice, arquivos in enumerate(partes, 1):
+            nome = area_id if len(partes) == 1 else f'{area_id}_{indice:02d}'
+            if nome in resultado:
+                raise ValueError(f'Identificador de pacote repetido: {nome}')
+            resultado[nome] = arquivos
+    return resultado
+
+
 def area(caminho: str) -> str:
     caminho = caminho.removeprefix('res://')
     andar = re.search(r'(?:cenas/fendas/|codigo/fendas/plantas/)andar_(\d+)', caminho)

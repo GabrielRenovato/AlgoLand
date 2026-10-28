@@ -46,6 +46,12 @@ Recursos usados por mais de uma área permanecem no grupo compartilhado quando
 não têm dono específico. Todos os grupos necessários são instalados juntos;
 aqui não há download sob demanda ao entrar num mapa.
 
+Cada PCK tem no máximo 8 MiB, incluindo cabeçalho e índice. Áreas maiores
+recebem IDs como `compartilhado_01`; os recursos não são cortados. O aplicativo
+já instalado aceita essas partes assinadas e monta todas antes dos autoloads.
+Isso reduz o risco de atingir o prazo de 120 segundos por download no Android.
+Um recurso individual maior que 8 MiB interrompe a geração para ser tratado.
+
 O nome de cada pacote contém o hash. Se só um andar mudou, os outros grupos
 reutilizam os arquivos já baixados. A primeira atualização baixa as diferenças
 acumuladas da base; as seguintes baixam apenas grupos cujo hash mudou.

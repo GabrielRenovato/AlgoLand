@@ -12,7 +12,7 @@ import re
 import shutil
 import subprocess
 import sys
-from pacotes import ler_pck, escrever_pck, dividir
+from pacotes import ler_pck, escrever_pck, dividir, limitar_pacotes
 from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parents[2]
@@ -154,7 +154,7 @@ def cmd_patch(a: argparse.Namespace) -> None:
         sys.exit('Gere um aplicativo novo (e rode "base" de novo) ou desfaça essas mudanças.')
     entradas = ler_pck(temporario)
     pacotes = []
-    for area_id, arquivos in sorted(dividir(entradas, ler_pck(base)).items()):
+    for area_id, arquivos in limitar_pacotes(dividir(entradas, ler_pck(base))).items():
         provisoria = BASES / f'area-{area_id}.pck'
         escrever_pck(provisoria, arquivos)
         hash_pacote = hashlib.sha256(provisoria.read_bytes()).hexdigest()
