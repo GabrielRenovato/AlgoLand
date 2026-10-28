@@ -4,6 +4,8 @@ extends CharacterBody2D
 ## mochila nem sessões. É alvo dos golpes (grupo "enemy", camada 4): o acerto vira um evento
 ## e quem apanha resolve defesa, aparo e dano no próprio jogo (arena_duelo.gd).
 signal golpeado(dano: int, empurrao: Vector2)
+## O meu aparo perfeito o pegou (defesa_jogador.gd chama empurrar + atordoar nos inimigos próximos).
+signal atordoado_por_mim(duracao: float, empurrao: Vector2)
 
 const DefesaJogador := preload("res://codigo/jogador/defesa_jogador.gd")
 const ALCANCE_ACAO_FAZENDA := 14.0
@@ -57,6 +59,15 @@ var hp_maximo := 1
 
 var _alvo := Vector2.ZERO
 var _tem_estado := false
+## Interpolação com atraso fixo: desenha o adversário ATRASO s no passado, entre dois pacotes reais.
+## Sem isso, cada pacote que chega fora do ritmo (Wi-Fi/4G) vira um tranco na tela.
+const ATRASO := 0.10
+const EXTRAPOLACAO_MAX := 0.15
+var _amostras: Array = [] # [tempo_local_s, posicao, velocidade]
+var _empurrao_pendente := Vector2.ZERO
+## O adversário está atordoado (estado "atd"): estrelas sobre a cabeça.
+var atordoado := false
+var _estrelas: Label
 
 func _init() -> void:
 	name = "AdversarioRemoto"
@@ -83,6 +94,16 @@ func _init() -> void:
 	add_child(no_fazenda)
 	defesa = DefesaJogador.new()
 	defesa.jogador = null
+	_estrelas = Label.new()
+	_estrelas.text = "* * *"
+	_estrelas.position = Vector2(-14, -58)
+	_estrelas.add_theme_font_size_override("font_size", 10)
+	_estrelas.add_theme_color_override("font_color", Color(1.0, 0.92, 0.45))
+	_estrelas.add_theme_color_override("font_outline_color", Color(0.13, 0.08, 0.14))
+	_estrelas.add_theme_constant_override("outline_size", 3)
+	_estrelas.z_index = 20
+	_estrelas.visible = false
+	add_child(_estrelas)
 
 ## Perfil da sala (conexao_duelo.gd: perfil_do): monta o visual com roupas, cabelo, cores e armas.
 func configurar(perfil: Dictionary) -> void:
@@ -110,14 +131,19 @@ func direcao_apontada() -> Vector2:
 func posicionar(ponto: Vector2) -> void:
 	global_position = ponto
 	_alvo = ponto
+	_amostras.clear()
 
 ## Estado enviado pelo outro jogo (arena_duelo.gd: estado_local) a ~15 Hz.
 func aplicar_estado(e: Dictionary) -> void:
 	_alvo = Vector2(float(e.get("x", _alvo.x)), float(e.get("y", _alvo.y)))
+	velocity = Vector2(float(e.get("vx", 0)), float(e.get("vy", 0)))
+	_amostras.append([Time.get_ticks_msec() / 1000.0, _alvo, velocity])
+	while _amostras.size() > 12: _amostras.pop_front()
 	if not _tem_estado:
 		global_position = _alvo
 		_tem_estado = true
-	velocity = Vector2(float(e.get("vx", 0)), float(e.get("vy", 0)))
+	atordoado = bool(e.get("atd", false))
+	_estrelas.visible = atordoado
 	var atacando := bool(e.get("a", false))
 	var combo := int(e.get("c", 0))
 	# O cronômetro do golpe só recomeça num golpe novo; depois corre sozinho (o visual lê o progresso dele).
@@ -154,10 +180,23 @@ static func _vetor(valor, padrao: Vector2) -> Vector2:
 	return padrao
 
 func _physics_process(delta: float) -> void:
-	# Suaviza entre os pacotes; a velocidade recebida antecipa o movimento até o próximo.
-	_alvo += velocity * delta
-	global_position = global_position.lerp(_alvo, 1.0 - exp(-14.0 * delta))
+	if not _amostras.is_empty():
+		global_position = _posicao_interpolada(Time.get_ticks_msec() / 1000.0 - ATRASO)
 	if esta_sentado: _tempo_sentado += delta
+	if atordoado: _estrelas.position.x = -14 + sin(Time.get_ticks_msec() / 120.0) * 2.0
+
+func _posicao_interpolada(t: float) -> Vector2:
+	var primeira: Array = _amostras[0]
+	if t <= float(primeira[0]): return primeira[1]
+	for i in range(1, _amostras.size()):
+		var a: Array = _amostras[i - 1]
+		var b: Array = _amostras[i]
+		if t <= float(b[0]):
+			var f := (t - float(a[0])) / maxf(float(b[0]) - float(a[0]), 0.001)
+			return (a[1] as Vector2).lerp(b[1], f)
+	# Faltou pacote: segue pela última velocidade por pouco tempo, depois espera parado.
+	var ultima: Array = _amostras.back()
+	return (ultima[1] as Vector2) + (ultima[2] as Vector2) * minf(t - float(ultima[0]), EXTRAPOLACAO_MAX)
 
 ## Golpe local acertou o adversário: avisa a arena, que manda o evento pela rede.
 func receber_dano(dano: int, forca_knockback: Vector2 = Vector2.ZERO) -> void:
@@ -166,3 +205,12 @@ func receber_dano(dano: int, forca_knockback: Vector2 = Vector2.ZERO) -> void:
 
 func receber_dano_efeito(dano: int, _cor: Color = Color.WHITE) -> void:
 	receber_dano(dano)
+
+## Chamados pelo meu aparo perfeito (defesa_jogador.gd: _aparo_perfeito), nesta ordem.
+func empurrar(forca: Vector2) -> void:
+	_empurrao_pendente = forca
+
+func atordoar(duracao: float) -> void:
+	if estaMorto or caido: return
+	atordoado_por_mim.emit(duracao, _empurrao_pendente)
+	_empurrao_pendente = Vector2.ZERO

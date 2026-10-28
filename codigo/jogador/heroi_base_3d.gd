@@ -95,6 +95,7 @@ var _modelo: Node3D
 var _player: AnimationPlayer
 var _esqueleto: Skeleton3D
 var _pose_guarda: SkeletonModifier3D
+var _pose_peixe: SkeletonModifier3D
 var _empunhadura_lanca: SkeletonModifier3D
 var _lanca: Node3D
 var _machado_arma: Node3D
@@ -215,6 +216,9 @@ func _ready() -> void:
 	_pose_trabalho=preload("res://codigo/jogador/pose_trabalho_base_3d.gd").new()
 	_pose_trabalho.heroi=self
 	_esqueleto.add_child(_pose_trabalho)
+	_pose_peixe=preload("res://codigo/jogador/pose_peixe_base_3d.gd").new()
+	_pose_peixe.heroi=self
+	_esqueleto.add_child(_pose_peixe)
 	_pose_guarda=preload("res://codigo/jogador/pose_guarda_base_3d.gd").new()
 	_pose_guarda.heroi=self
 	_esqueleto.add_child(_pose_guarda)
@@ -1129,9 +1133,10 @@ func _clipe_pesca() -> String:
 	match sessao.estado:
 		sessao.Estado.CARREGANDO, sessao.Estado.LANCANDO: return "mixamo/FishingCast"
 		sessao.Estado.BELISCANDO: return "ferramentas/Fishing_Bite"
-		sessao.Estado.PUXANDO:
-			return "ferramentas/Fishing_Reeling"
-		sessao.Estado.PEGOU: return "ferramentas/Fishing_Catch"
+		# Briga com o peixe: corpo firme puxando (o Reeling quase não se mexe nesse tamanho).
+		sessao.Estado.PUXANDO: return "ferramentas/Fishing_Struggling"
+		# Puxão que tira o peixe da água; depois a vara fica erguida e a outra mão mostra o peixe.
+		sessao.Estado.PEGOU: return "ferramentas/Fishing_Bite" if sessao._tempo<_pose_peixe.FIM_PUXAO else "mixamo/FishingIdle"
 	return "mixamo/FishingIdle"
 
 func _instante_pesca(duracao: float) -> float:
@@ -1142,7 +1147,17 @@ func _instante_pesca(duracao: float) -> float:
 		var p:=clampf(sessao._tempo/sessao.DURACAO_LANCE,0,1)
 		return lerpf(1.05,2.0,p/saida) if p<=saida else lerpf(2.0,2.90,(p-saida)/(1.0-saida))
 	if sessao.estado in [sessao.Estado.ESPERANDO,sessao.Estado.PUXANDO]: return fposmod(sessao._tempo,duracao)
+	if sessao.estado==sessao.Estado.PEGOU:
+		# Puxão: o Bite de trás para frente (vara apontada para a água → erguida), acelerado.
+		if sessao._tempo<_pose_peixe.FIM_PUXAO: return lerpf(0.45,0.0,sessao._tempo/_pose_peixe.FIM_PUXAO)
+		return fposmod(sessao._tempo,duracao)
 	return minf(sessao._tempo,duracao-0.001)
+
+## Mão esquerda (que segura o peixe na captura) no espaço 2D do jogador. Guardada em
+## skeleton_updated, depois dos modificadores (antes disso a pose ainda é a da animação).
+var _mao_peixe_2d := Vector2.ZERO
+func mao_peixe_3d() -> Vector2:
+	return _mao_peixe_2d
 
 func ponta_pesca_3d() -> Vector2:
 	var mundo: Vector3=_ferramentas._vara.to_global(_ferramentas.PONTA_VARA)
@@ -1159,6 +1174,9 @@ func _instante_picareta(duracao: float) -> float:
 
 func _sincronizar_linha_pesca() -> void:
 	if not visible or _acao!="pesca": return
+	var osso:=_esqueleto.find_bone("DEF-hand.L")
+	var mundo: Vector3=_esqueleto.global_transform*_esqueleto.get_bone_global_pose(osso)*Vector3(0,0.06,0)
+	_mao_peixe_2d=_jogador.to_local(_sprite.to_global(_camera.unproject_position(mundo)+_sprite.offset))
 	var sessao:=_jogador.get_node_or_null("SessaoPesca")
 	if sessao!=null: sessao.sincronizar_linha_3d()
 

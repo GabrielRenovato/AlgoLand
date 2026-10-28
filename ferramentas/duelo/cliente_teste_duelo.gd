@@ -100,7 +100,41 @@ func rodar():
 				await esperar(22)
 			await esperar(30)
 			log_("golpe real: distancia=%.0f hp_adversario %d -> %d" % [arena.jogador.global_position.distance_to(arena.adversario.global_position), antes, arena.adversario.hp])
+			if "--aparo" in OS.get_cmdline_user_args():
+				# 3) Aparo: o B fica em guarda recém-erguida; o golpe do A vira aparo perfeito no B,
+				# que atordoa o A (evento "efeito" de volta).
+				await esperar(90)
+				var para_b: Vector2 = (arena.adversario.global_position - arena.jogador.global_position).normalized()
+				arena._ao_golpear_adversario(20, para_b * 120.0)
+				var atordoado := await esperar_ate(func(): return arena._atordoado_ate_ms > 0, 3.0)
+				log_("aparo: fui_atordoado=%s pode_agir=%s" % [atordoado, arena.jogador.movimento_habilitado])
+				await esperar_ate(func(): return arena._atordoado_ate_ms == 0, 3.0)
+				log_("aparo: recuperou pode_agir=%s" % arena.jogador.movimento_habilitado)
+		elif "--aparo" in OS.get_cmdline_user_args():
+			# B: guarda sempre "recém-erguida" e virada para o A até o fim do teste do aparo.
+			var fim_guarda := Time.get_ticks_msec() + 9000
+			while Time.get_ticks_msec() < fim_guarda:
+				var d = arena.jogador.defesa
+				d.estado = d.Estado.GUARDA
+				d._inicio_guarda_ms = Time.get_ticks_msec()
+				d.direcao_guarda = (arena.adversario.global_position - arena.jogador.global_position).normalized()
+				await esperar(1)
+			log_("aparo: hp_depois_do_golpe=%d de %d" % [arena.jogador.hp_atual, arena.jogador.estatisticas.hp_maximo])
+			arena.jogador.defesa.cancelar()
 		else:
+			# Suavidade: passo por quadro do adversário enquanto ele corre (liso = passos parecidos).
+			var passos: Array[float] = []
+			var anterior: Vector2 = arena.adversario.global_position
+			var fim_medida := Time.get_ticks_msec() + 2500
+			while Time.get_ticks_msec() < fim_medida:
+				await process_frame
+				var atual: Vector2 = arena.adversario.global_position
+				var passo := atual.distance_to(anterior)
+				if passo > 0.05: passos.append(passo)
+				anterior = atual
+			if passos.size() > 10:
+				passos.sort()
+				log_("suavidade: quadros=%d passo_mediano=%.2f p10=%.2f p90=%.2f maior=%.2f" % [passos.size(), passos[passos.size()/2], passos[passos.size()/10], passos[passos.size()*9/10], passos.back()])
 			for quadro in 12:
 				await esperar(12)
 				await foto("movimento_%02d" % quadro)

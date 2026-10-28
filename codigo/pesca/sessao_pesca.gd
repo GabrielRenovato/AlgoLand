@@ -262,6 +262,7 @@ func _ao_minijogo_terminar(sucesso: bool) -> void:
 func _pegar(perfeita := false) -> void:
 	estado = Estado.PEGOU
 	_tempo = 0.0
+	_criar_camada_peixe()
 	if peixe == "pedra_vara":
 		if not preload("res://codigo/pesca/varas.gd").receber_pedra(jogador):
 			get_tree().call_group(jogador.grupo_hud(), "avisar_barra", "MOCHILA CHEIA")
@@ -290,7 +291,8 @@ func _pegar(perfeita := false) -> void:
 	interface.add_child(_aviso_captura)
 	_aviso_captura.iniciar(jogador, peixe, qualidade_peixe, _xp_ganha)
 	var tween := create_tween()
-	tween.tween_interval(2.0)
+	# Tempo para o puxão, o voo e um instante mostrando o peixe (pose_peixe_base_3d.gd).
+	tween.tween_interval(2.4)
 	tween.tween_property(_aviso_captura, "modulate:a", 0.0, 0.2)
 	tween.tween_callback(_terminar)
 
@@ -338,6 +340,8 @@ func _draw() -> void:
 		draw_line(Vector2(22,-56),Vector2(22,-48),Color("fff0ce"),1)
 		return
 	if estado == Estado.PEGOU:
+		# O peixe tem camada própria, à frente do personagem (a sessão fica atrás dele).
+		if is_instance_valid(_camada_peixe): _camada_peixe.queue_redraw()
 		return
 	# Os dois quadros de preparação já contêm a boia presa à vara.
 	if estado == Estado.LANCANDO and _tempo < INICIO_ARREMESSO:
@@ -354,6 +358,52 @@ func _draw() -> void:
 		draw_arc(_alvo + Vector2(0, 2), raio, 0.0, TAU, 14, Color(1, 1, 1, 0.35), 1.0)
 	if heroi == null or not heroi.visible:
 		draw_rect(Rect2(boia - Vector2(1, 1), Vector2(3, 3)), Color("d45548"))
+
+## Captura: o peixe sai da água pela boia, voa num arco preso à linha até a mão e fica sendo
+## mostrado, se debatendo (tempos em pose_peixe_base_3d.gd). Sem o herói 3D, fica na ponta da vara.
+var _camada_peixe: Node2D
+
+func _criar_camada_peixe() -> void:
+	_camada_peixe = Node2D.new()
+	_camada_peixe.name = "PeixePego"
+	_camada_peixe.z_as_relative = true
+	_camada_peixe.z_index = 10
+	_camada_peixe.draw.connect(_desenhar_peixe_pego.bind(_camada_peixe))
+	add_child(_camada_peixe)
+
+func _desenhar_peixe_pego(c: Node2D) -> void:
+	var textura: Texture2D = Peixes.icone(peixe)
+	if textura == null: return
+	var heroi := jogador.get_node_or_null("HeroiBase3D")
+	var tem_3d: bool = heroi != null and heroi.visible
+	var mao: Vector2 = heroi.mao_peixe_3d() if tem_3d else (_animacao.ponta() if is_instance_valid(_animacao) else Vector2(0, -24))
+	var ponta: Vector2 = heroi.ponta_pesca_3d() if tem_3d else mao
+	var fim_puxao := 0.30
+	var fim_voo := 0.75
+	var posicao := _alvo
+	var giro := 0.0
+	if _tempo < fim_puxao:
+		# Puxão: o peixe ainda na água, sacudindo junto da boia.
+		posicao = _alvo + Vector2(sin(_tempo * 60.0) * 1.5, -2.0)
+		giro = sin(_tempo * 50.0) * 0.6
+	elif _tempo < fim_voo:
+		var t := (_tempo - fim_puxao) / (fim_voo - fim_puxao)
+		posicao = _alvo.lerp(mao, t) + Vector2(0, -26.0 * sin(PI * t))
+		giro = lerpf(-1.2, 0.0, t) + sin(_tempo * 30.0) * 0.4
+		c.draw_line(ponta, posicao, Color(0.95, 0.96, 0.88, 0.7), 1.0)
+		# Gotas soltando da água no começo do voo.
+		for i in 3:
+			var g := _alvo + Vector2((i - 1) * 4.0, -10.0 * t - i * 3.0) + Vector2(0, 18.0 * t * t)
+			if t < 0.6: c.draw_rect(Rect2(g, Vector2(1, 1)), Color(0.75, 0.9, 1.0, 0.8 - t))
+	else:
+		# Mostrando: preso pela mão, cabeça para cima, se debatendo cada vez menos.
+		posicao = mao
+		var calma := clampf((_tempo - fim_voo) / 1.2, 0.0, 1.0)
+		giro = -PI * 0.5 + sin(_tempo * 16.0) * lerpf(0.45, 0.12, calma)
+	var tamanho := Vector2(16, 16)
+	c.draw_set_transform(posicao, giro, Vector2.ONE)
+	c.draw_texture_rect(textura, Rect2(-tamanho * 0.5, tamanho), false)
+	c.draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
 
 func posicao_boia() -> Vector2:
 	if estado == Estado.LANCANDO:

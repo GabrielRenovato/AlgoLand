@@ -9,6 +9,10 @@ const FONTE := preload("res://assets/ui/Planes_ValMore.ttf")
 ## O dano das armas foi feito contra monstros: entre jogadores ele é reduzido.
 const MULT_DANO_PVP := 0.6
 const INTERVALO_ESTADO := 1.0 / 20.0
+## Aparo perfeito no duelo: quem atacou fica atordoado (sem andar, atacar ou defender).
+const ATORDOAR_PVP := 1.0
+var _atordoado_ate_ms := 0
+var _aviso_atordoado: Label
 const CONTAGEM := 1.6
 ## Distância de cada lado em relação à chegada do portal.
 const AFASTAMENTO := Vector2(72, 0)
@@ -41,6 +45,7 @@ func _ready() -> void:
 	add_child(adversario)
 	adversario.configurar(Duelo.adversario().get("perfil", {}))
 	adversario.golpeado.connect(_ao_golpear_adversario)
+	adversario.atordoado_por_mim.connect(_ao_atordoar_adversario)
 	_montar_hud()
 	Duelo.round_comecou.connect(_ao_round)
 	Duelo.ponto_marcado.connect(_ao_ponto)
@@ -48,6 +53,15 @@ func _ready() -> void:
 	Duelo.estado_remoto.connect(adversario.aplicar_estado)
 	Duelo.evento_remoto.connect(_ao_evento)
 	Duelo.caiu_local.connect(_ao_cair)
+	_aviso_atordoado = Label.new()
+	_aviso_atordoado.text = "* * *"
+	_aviso_atordoado.add_theme_font_size_override("font_size", 10)
+	_aviso_atordoado.add_theme_color_override("font_color", Color(1.0, 0.92, 0.45))
+	_aviso_atordoado.add_theme_color_override("font_outline_color", Color(0.13, 0.08, 0.14))
+	_aviso_atordoado.add_theme_constant_override("outline_size", 3)
+	_aviso_atordoado.z_index = 20
+	_aviso_atordoado.visible = false
+	jogador.add_child(_aviso_atordoado)
 	_ao_round({"round": Duelo.round_atual})
 
 func _ponto_do_lado(lado: int) -> Vector2:
@@ -56,6 +70,8 @@ func _ponto_do_lado(lado: int) -> Vector2:
 
 func _ao_round(_dados: Dictionary) -> void:
 	_caiu = false
+	_atordoado_ate_ms = 0
+	if is_instance_valid(_aviso_atordoado): _aviso_atordoado.visible = false
 	jogador.hp_atual = jogador.estatisticas.hp_maximo
 	jogador.atualizar_barra_hp()
 	jogador.global_position = _ponto_do_lado(Duelo.meu_lado)
@@ -108,6 +124,12 @@ func _process(delta: float) -> void:
 			jogador.desabilitar_todas_acoes(false)
 			jogador.invulneravel = false
 			_mostrar("LUTE!", 0.8)
+	if _atordoado_ate_ms > 0 and Time.get_ticks_msec() >= _atordoado_ate_ms:
+		_atordoado_ate_ms = 0
+		_aviso_atordoado.visible = false
+		if not _caiu and _contagem <= 0.0 and not _encerrando: jogador.desabilitar_todas_acoes(false)
+	if _aviso_atordoado.visible:
+		_aviso_atordoado.position = Vector2(-14 + sin(Time.get_ticks_msec() / 120.0) * 2.0, -58)
 	_tempo_estado -= delta
 	if _tempo_estado <= 0.0 and Duelo.em_partida:
 		_tempo_estado = INTERVALO_ESTADO
@@ -136,13 +158,32 @@ func estado_local() -> Dictionary:
 		"rf": j.no_reacao.visible and j.no_reacao.pose_atual == "ferido",
 		"cai": j.caido or _caiu, "morto": _caiu, "hp": int(j.hp_atual), "hpm": int(j.estatisticas.hp_maximo),
 		"arma": j.id_arma_atual, "es": j.usando_espada, "ec": j.usando_escudo, "la": j.usando_lanca, "arc": j.usando_arco,
+		"atd": _atordoado_ate_ms > 0,
 	}
 
 func _ao_golpear_adversario(dano: int, empurrao: Vector2) -> void:
 	if _contagem > 0.0 or _caiu: return
 	Duelo.enviar_evento({"tipo": "golpe", "dano": maxi(1, roundi(dano * MULT_DANO_PVP)), "kb": [snappedf(empurrao.x, 0.1), snappedf(empurrao.y, 0.1)]})
 
+func _ao_atordoar_adversario(duracao: float, empurrao: Vector2) -> void:
+	if _contagem > 0.0 or _caiu: return
+	# Tipo "efeito" (o servidor já repassa): não exige atualizar o servidor.
+	Duelo.enviar_evento({"tipo": "efeito", "efeito": "atordoar", "dur": snappedf(duracao * ATORDOAR_PVP, 0.01), "kb": [snappedf(empurrao.x, 0.1), snappedf(empurrao.y, 0.1)]})
+
+func _ser_atordoado(duracao: float, empurrao: Vector2) -> void:
+	_atordoado_ate_ms = Time.get_ticks_msec() + int(clampf(duracao, 0.1, 2.0) * 1000.0)
+	jogador.defesa.cancelar()
+	jogador.desabilitar_todas_acoes(true)
+	if empurrao != Vector2.ZERO: jogador.aplicar_knockback(empurrao * 0.6)
+	_aviso_atordoado.visible = true
+	_mostrar("ATORDOADO!", duracao)
+
 func _ao_evento(ev: Dictionary) -> void:
+	if str(ev.get("tipo", "")) == "efeito" and str(ev.get("efeito", "")) == "atordoar":
+		if _contagem <= 0.0 and not _caiu:
+			var kb_atd: Array = ev.get("kb", [0, 0])
+			_ser_atordoado(float(ev.get("dur", 1.0)), Vector2(float(kb_atd[0]), float(kb_atd[1])))
+		return
 	if str(ev.get("tipo", "")) != "golpe" or _contagem > 0.0 or _caiu: return
 	var kb: Array = ev.get("kb", [0, 0])
 	# O próprio jogador resolve guarda, aparo, armadura e invulnerabilidade.
