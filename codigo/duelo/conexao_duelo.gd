@@ -73,6 +73,9 @@ static func jogador_local(arvore: SceneTree) -> Node2D:
 func abrir_tela() -> void:
 	var raiz := get_tree().root
 	if raiz.get_node_or_null("TelaSalasDuelo") != null: return
+	if not preload("res://codigo/conta/cliente_conta.gd").obter(get_tree()).online_liberado():
+		get_tree().call_group("hud", "anunciar", "DUELO ONLINE", "ENTRE NA CONTA PELO MENU INICIAL", 3.0)
+		return
 	var tela = preload("res://codigo/duelo/tela_salas_duelo.gd").new()
 	tela.name = "TelaSalasDuelo"
 	raiz.add_child(tela)

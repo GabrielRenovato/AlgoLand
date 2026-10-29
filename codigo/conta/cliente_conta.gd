@@ -6,8 +6,11 @@ signal mudou
 
 const Config := preload("res://codigo/dados/ranking_config.gd")
 const ARQUIVO := "user://conta.cfg"
-## Fica falso até o Supabase estar configurado (confirmação de e-mail e SQL aplicado); com falso o login é opcional.
-const CONTA_OBRIGATORIA := false
+## A tela de login abre ao iniciar o jogo quando não há sessão, e tem sempre a saída "JOGAR OFFLINE".
+const ABRIR_LOGIN_AO_INICIAR := true
+## Com verdadeiro, coop, duelo e demais recursos online exigem conta (offline joga o solo normalmente).
+## Fica falso até o Supabase estar configurado (confirmação de e-mail e SQL aplicado).
+const ONLINE_EXIGE_CONTA := false
 ## Sem rede, quem já entrou continua jogando por este prazo antes de precisar validar o login de novo.
 const DIAS_OFFLINE := 14
 const SENHA_MINIMA := 8
@@ -30,6 +33,8 @@ var usuario_id := ""
 var vinculo := ""
 var codigo_da_conta := ""
 var offline := false
+## O jogador escolheu jogar offline nesta sessão: não pergunta de novo ao voltar para o título.
+var escolheu_offline := false
 var _acesso := ""
 var _renovacao := ""
 var _expira_ms := 0
@@ -59,8 +64,12 @@ func logado() -> bool:
 func ocupado() -> bool:
 	return _ocupado
 
-func precisa_de_login() -> bool:
-	return CONTA_OBRIGATORIA and disponivel() and not logado()
+func deve_abrir_login() -> bool:
+	return ABRIR_LOGIN_AO_INICIAR and disponivel() and not logado() and not escolheu_offline
+
+## Recursos online (coop, duelo...) liberados? Sempre, até ONLINE_EXIGE_CONTA ser ligado.
+func online_liberado() -> bool:
+	return not ONLINE_EXIGE_CONTA or not disponivel() or logado()
 
 ## --conta-url=http://127.0.0.1:PORTA nos testes locais (nunca aponta para produção por acidente).
 static func url_base() -> String:

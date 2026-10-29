@@ -682,7 +682,7 @@ var _cliente_transferencia: Node
 var _pacote_recebido := {}
 var _transferindo := false
 
-## Conta: renova a sessão guardada ao abrir e, quando o login for obrigatório, bloqueia o menu até entrar.
+## Conta: renova a sessão guardada ao abrir e, sem sessão, abre o login (com a saída "JOGAR OFFLINE").
 const ContaCliente := preload("res://codigo/conta/cliente_conta.gd")
 const ContaTela := preload("res://codigo/conta/tela_conta.gd")
 var _botao_conta: Button
@@ -718,7 +718,7 @@ func _iniciar_conta() -> void:
 	var conta := ContaCliente.obter(get_tree())
 	if not conta.disponivel(): return
 	if not conta.logado(): await conta.restaurar()
-	if conta.precisa_de_login() and get_node_or_null("TelaConta") == null:
+	if conta.deve_abrir_login() and get_node_or_null("TelaConta") == null:
 		var tela := ContaTela.new()
 		tela.name = "TelaConta"
 		add_child(tela)

@@ -175,6 +175,9 @@ func _pedir(jogador: Node2D, pedido: Dictionary) -> void:
 	if Introducao.ativa():
 		erro.emit("TERMINE O TUTORIAL ANTES DE ENTRAR NO COOP")
 		return
+	if not load("res://codigo/conta/cliente_conta.gd").obter(get_tree()).online_liberado():
+		erro.emit("ENTRE NA CONTA PARA JOGAR ONLINE")
+		return
 	if not OS.has_feature("web") and not ClassDB.class_exists("WebRTCPeerConnectionExtension"):
 		erro.emit("INSTALE A VERSAO COM SUPORTE AO COOP ONLINE")
 		return

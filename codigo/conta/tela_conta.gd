@@ -1,5 +1,5 @@
 extends CanvasLayer
-## Entrar, criar conta e recuperar senha. Abre sobre a tela inicial; com CONTA_OBRIGATORIA não dá para fechar sem entrar.
+## Entrar, criar conta e recuperar senha. Abre sobre a tela inicial e sempre dá para sair com JOGAR OFFLINE.
 signal concluida
 const Cliente := preload("res://codigo/conta/cliente_conta.gd")
 const FONTE := preload("res://assets/ui/Planes_ValMore.ttf")
@@ -47,9 +47,9 @@ func _ready() -> void:
 	_montar()
 
 func _unhandled_input(evento: InputEvent) -> void:
-	if evento.is_action_pressed("ui_cancel") and not Cliente.CONTA_OBRIGATORIA:
+	if evento.is_action_pressed("ui_cancel"):
 		get_viewport().set_input_as_handled()
-		queue_free()
+		_jogar_offline()
 
 # --- Montagem
 
@@ -105,11 +105,16 @@ func _montar() -> void:
 		rodape.add_child(_botao("ESQUECI A SENHA", _trocar.bind(Modo.RECUPERAR), COR_BOTAO, Vector2(0, 26), true))
 	else:
 		rodape.add_child(_botao("JA TENHO CONTA", _trocar.bind(Modo.ENTRAR), COR_BOTAO, Vector2(0, 26), true))
-	if not Cliente.CONTA_OBRIGATORIA:
-		_caixa.add_child(_botao("AGORA NAO", queue_free, COR_LINHA, Vector2(0, 24)))
+	_caixa.add_child(_botao("JOGAR OFFLINE", _jogar_offline, COR_LINHA, Vector2(0, 24)))
+	if Cliente.ONLINE_EXIGE_CONTA:
+		_caixa.add_child(_rotulo("Offline: o modo solo funciona normalmente; coop, duelo, ranking e mercado pedem conta.", 7, COR_SUAVE))
 	for campo in [_email, _senha, _apelido]:
 		if campo != null: campo.text_submitted.connect(func(_t): _enviar_formulario())
 	_email.grab_focus.call_deferred()
+
+func _jogar_offline() -> void:
+	conta.escolheu_offline = not conta.logado()
+	queue_free()
 
 func _trocar(modo: Modo) -> void:
 	_modo = modo
