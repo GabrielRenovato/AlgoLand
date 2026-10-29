@@ -49,9 +49,21 @@ static func obter(arvore: SceneTree) -> Node:
 		arvore.root.add_child(no)
 	return no
 
+var nuvem: Node
+
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	_carregar()
+	nuvem = load("res://codigo/conta/nuvem_save.gd").new()
+	nuvem.name = "Nuvem"
+	add_child(nuvem)
+	var calendario := get_tree().root.get_node_or_null("Calendario")
+	if calendario != null: calendario.dia_passou.connect(func(_dia: int): nuvem.sincronizar("dormir"))
+
+func _notification(motivo: int) -> void:
+	# Fechar a janela ou mandar o app para o fundo: última chance de subir o progresso.
+	if motivo in [NOTIFICATION_WM_CLOSE_REQUEST, NOTIFICATION_APPLICATION_PAUSED] and nuvem != null and logado():
+		nuvem.sincronizar("saida")
 
 # --- Estado
 
@@ -207,6 +219,25 @@ func _carregar() -> void:
 	apelido = str(cfg.get_value("conta", "apelido", ""))
 	usuario_id = str(cfg.get_value("conta", "usuario", ""))
 	_ultimo_ok = int(cfg.get_value("conta", "ultimo_ok", 0))
+
+## RPC do Supabase como o jogador logado. {"erro": texto} ou o corpo da resposta.
+func chamar(funcao: String, corpo := {}) -> Dictionary:
+	var autenticacao := await token()
+	if autenticacao.is_empty(): return {"erro": "SEM LOGIN"}
+	var r := await _requisitar("POST", "/rest/v1/rpc/" + funcao, corpo, autenticacao)
+	var erro := _erro(r)
+	if not erro.is_empty(): return {"erro": erro}
+	return r.corpo if r.corpo is Dictionary else {"erro": "RESPOSTA INVALIDA"}
+
+## Mantém o save desta conta apontando para o código deste aparelho (usado ao escolher "manter este aparelho").
+func adotar_codigo_local() -> String:
+	var ranking := get_tree().root.get_node_or_null("Ranking")
+	if ranking == null: return "pendente"
+	var r := await chamar("trocar_codigo_conta", {"p_codigo": ranking.codigo_secreto()})
+	if r.has("erro"): return "pendente"
+	if str(r.get("estado", "")) == "ok": vinculo = "ok"
+	mudou.emit()
+	return str(r.get("estado", "pendente"))
 
 # --- Rede
 

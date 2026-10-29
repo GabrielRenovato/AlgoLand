@@ -35,10 +35,10 @@ static func empacotar() -> Dictionary:
 	return {"formato": FORMATO, "versao_app": versao_app(), "versao_save": VersaoSave.ATUAL, "arquivos": arquivos}
 
 ## Confere o pacote recebido. Devolve "" ou o motivo da recusa.
-static func validar(pacote) -> String:
+static func validar(pacote, exigir_versao_app := true) -> String:
 	if not pacote is Dictionary or int(pacote.get("formato", 0)) != FORMATO or not pacote.get("arquivos") is Dictionary:
 		return "SAVE RECEBIDO ESTA CORROMPIDO"
-	if str(pacote.get("versao_app", "")) != versao_app():
+	if exigir_versao_app and str(pacote.get("versao_app", "")) != versao_app():
 		return "VERSOES DIFERENTES (%s NO OUTRO APARELHO, %s AQUI). ATUALIZE OS DOIS" % [pacote.get("versao_app", "?"), versao_app()]
 	if int(pacote.get("versao_save", -1)) != VersaoSave.ATUAL:
 		return "SAVE DE OUTRA VERSAO DO JOGO"
@@ -54,8 +54,8 @@ static func validar(pacote) -> String:
 
 ## Grava o pacote no mundo solo, depois de copiar o save atual para user://backups/antes_transferencia_<data>/.
 ## Arquivos do mundo solo que não vieram no pacote são removidos (o save fica igual ao do outro aparelho).
-static func aplicar(pacote: Dictionary) -> String:
-	var erro := validar(pacote)
+static func aplicar(pacote: Dictionary, exigir_versao_app := true) -> String:
+	var erro := validar(pacote, exigir_versao_app)
 	if not erro.is_empty():
 		return erro
 	var backup := "user://backups/antes_transferencia_%s/" % Time.get_datetime_string_from_system().replace(":", "-")

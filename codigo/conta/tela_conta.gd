@@ -49,7 +49,11 @@ func _ready() -> void:
 func _unhandled_input(evento: InputEvent) -> void:
 	if evento.is_action_pressed("ui_cancel"):
 		get_viewport().set_input_as_handled()
-		_jogar_offline()
+		_cancelar()
+
+## ESC: no login é "jogar offline"; as telas derivadas só fecham.
+func _cancelar() -> void:
+	_jogar_offline()
 
 # --- Montagem
 
@@ -144,8 +148,12 @@ func _enviar_formulario() -> void:
 		_montar()
 		_avisar("LINK ENVIADO. CONFIRA SEU E-MAIL.", COR_OK)
 	else:
+		_avisar("SINCRONIZANDO COM A NUVEM...", COR_SUAVE)
+		await conta.nuvem.sincronizar("login")
+		var arvore := get_tree()
 		concluida.emit()
 		queue_free()
+		if conta.nuvem.estado == "conflito": arvore.root.add_child(preload("res://codigo/conta/conflito_nuvem.gd").new())
 
 func _avisar(texto: String, cor: Color) -> void:
 	if is_instance_valid(_mensagem):
@@ -172,6 +180,8 @@ func _rotulo(texto: String, tamanho: int, cor: Color, alinhamento := HORIZONTAL_
 	rotulo.add_theme_color_override("font_color", cor)
 	rotulo.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	rotulo.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	# A fonte do jogo tem entrelinha folgada; sem isto os textos de várias linhas estouram a altura de 324.
+	rotulo.add_theme_constant_override("line_spacing", -4)
 	return rotulo
 
 func _campo(dica: String, maximo: int) -> LineEdit:

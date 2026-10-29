@@ -718,10 +718,25 @@ func _iniciar_conta() -> void:
 	var conta := ContaCliente.obter(get_tree())
 	if not conta.disponivel(): return
 	if not conta.logado(): await conta.restaurar()
+	if not conta.nuvem.save_aplicado.is_connected(_ao_save_da_nuvem): conta.nuvem.save_aplicado.connect(_ao_save_da_nuvem)
+	if conta.logado():
+		await conta.nuvem.sincronizar("titulo")
+		if conta.nuvem.estado == "conflito" and get_node_or_null("ConflitoNuvem") == null:
+			var dialogo := preload("res://codigo/conta/conflito_nuvem.gd").new()
+			dialogo.name = "ConflitoNuvem"
+			add_child(dialogo)
 	if conta.deve_abrir_login() and get_node_or_null("TelaConta") == null:
 		var tela := ContaTela.new()
 		tela.name = "TelaConta"
 		add_child(tela)
+
+## A nuvem trouxe um save: recarrega tudo do disco, como no recebimento por código.
+func _ao_save_da_nuvem() -> void:
+	Saves.trocar(Saves.SOLO)
+	Ranking._carregar()
+	botao_continuar.visible = tem_save()
+	_montar_personagem()
+	_ajustar_layout_flex.call_deferred()
 
 func _montar_transferencia() -> void:
 	_cliente_transferencia = TransferenciaSave.new()

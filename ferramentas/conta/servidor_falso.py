@@ -11,6 +11,7 @@ USUARIOS = {}   # email -> {id, senha, meta}
 SESSOES = {}    # access_token -> id
 RENOVACOES = {} # refresh_token -> id
 PERFIS = {}     # id -> {apelido, codigo}
+NUVEM = {}      # id -> {rev, pacote, versao_app, versao_save, aparelho, anterior}
 
 
 def sessao(id_usuario, email):
@@ -81,7 +82,50 @@ class Manipulador(BaseHTTPRequestHandler):
                 return self.responder(200, {"estado": "codigo_em_uso"})
             PERFIS[id_usuario] = {"codigo": codigo, "apelido": (corpo.get("p_apelido") or "JOGADOR")[:24]}
             return self.responder(200, {"estado": "ok", "apelido": PERFIS[id_usuario]["apelido"]})
+        if url.path.startswith("/rest/v1/rpc/") and url.path.split("/")[-1] in ("meta_nuvem", "salvar_nuvem", "baixar_nuvem", "trocar_codigo_conta"):
+            return self.nuvem(url.path.split("/")[-1], SESSOES.get(auth), corpo)
         self.responder(404, {"message": "rota desconhecida"})
+
+    def nuvem(self, funcao, id_usuario, corpo):
+        if not id_usuario:
+            return self.responder(200, {"estado": "sem_login"})
+        s = NUVEM.get(id_usuario)
+        if funcao == "meta_nuvem":
+            if not s:
+                return self.responder(200, {"estado": "ok", "existe": False})
+            return self.responder(200, {"estado": "ok", "existe": True, "rev": s["rev"], "atualizado_em": "2026-10-29T12:00:00Z",
+                                        "aparelho": s["aparelho"], "versao_app": s["versao_app"], "versao_save": s["versao_save"]})
+        if funcao == "baixar_nuvem":
+            if not s:
+                return self.responder(200, {"estado": "ok", "existe": False})
+            pacote = s["anterior"] if corpo.get("p_anterior") else s["pacote"]
+            if pacote is None:
+                return self.responder(200, {"estado": "ok", "existe": False})
+            return self.responder(200, {"estado": "ok", "existe": True, "rev": s["rev"], "pacote": pacote, "versao_app": s["versao_app"],
+                                        "versao_save": s["versao_save"], "aparelho": s["aparelho"], "atualizado_em": "2026-10-29T12:00:00Z"})
+        if funcao == "trocar_codigo_conta":
+            codigo = corpo.get("p_codigo", "")
+            if id_usuario not in PERFIS:
+                return self.responder(200, {"estado": "sem_perfil"})
+            if any(p["codigo"] == codigo for i, p in PERFIS.items() if i != id_usuario):
+                return self.responder(200, {"estado": "codigo_em_uso"})
+            PERFIS[id_usuario]["codigo"] = codigo
+            return self.responder(200, {"estado": "ok"})
+        pacote = corpo.get("p_pacote", "")
+        if not 2 <= len(pacote) <= 1500000:
+            return self.responder(200, {"estado": "tamanho_invalido"})
+        esperada = corpo.get("p_rev_esperada")
+        if not s:
+            if (esperada or 0) != 0:
+                return self.responder(200, {"estado": "conflito", "rev": 0})
+            NUVEM[id_usuario] = {"rev": 1, "pacote": pacote, "versao_app": corpo.get("p_versao_app", ""), "versao_save": corpo.get("p_versao_save", 0),
+                                 "aparelho": corpo.get("p_aparelho", ""), "anterior": None}
+            return self.responder(200, {"estado": "ok", "rev": 1})
+        if esperada != s["rev"]:
+            return self.responder(200, {"estado": "conflito", "rev": s["rev"], "atualizado_em": "2026-10-29T12:00:00Z", "aparelho": s["aparelho"]})
+        s.update({"anterior": s["pacote"], "pacote": pacote, "rev": s["rev"] + 1, "versao_app": corpo.get("p_versao_app", ""),
+                  "versao_save": corpo.get("p_versao_save", 0), "aparelho": corpo.get("p_aparelho", "")})
+        return self.responder(200, {"estado": "ok", "rev": s["rev"]})
 
 
 if __name__ == "__main__":

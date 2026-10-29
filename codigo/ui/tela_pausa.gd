@@ -61,6 +61,13 @@ func _ready() -> void:
 		EventosJogo.fechar_tela_de(self,"pausa")
 		EventosJogo.abrir_tela_de(self,"lobby"))
 	_menu.add_child(cidade_online)
+	var conta_botao := Button.new()
+	conta_botao.name = "BotaoConta"
+	conta_botao.text = "CONTA"
+	conta_botao.pressed.connect(func():
+		EventosJogo.fechar_tela_de(self, "pausa")
+		get_tree().root.add_child(preload("res://codigo/conta/painel_conta.gd").new()))
+	_menu.add_child(conta_botao)
 	var apelido := Button.new()
 	apelido.name = "BotaoApelido"
 	apelido.text = "APELIDO"
