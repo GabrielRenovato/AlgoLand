@@ -196,7 +196,7 @@ func _process(_delta: float) -> void:
 		_botao_duelo.size = _botao_duelo.custom_minimum_size
 		_botao_duelo.add_theme_constant_override("icon_max_width", 22 if Controle.usando_toque else 13)
 		_botao_duelo.scale = Vector2.ONE / escala
-		_botao_duelo.position = Vector2(medida.x - (214 if Controle.usando_toque else 44) - margens.z, (10 if Controle.usando_toque else 48) + margens.y) / escala
+		_botao_duelo.position = Vector2(medida.x - (200 if Controle.usando_toque else 44) - margens.z, (10 if Controle.usando_toque else 48) + margens.y) / escala
 		_botao_duelo.visible = _telas_abertas.is_empty() and not Introducao.cinematica and not get_tree().paused and not preload("res://codigo/duelo/conexao_duelo.gd").obter(get_tree()).em_partida
 		# Amigos: mesmo tamanho do PvP, à esquerda dele com 6 px de folga.
 		if _botao_amigos != null:

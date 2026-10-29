@@ -592,9 +592,9 @@ func _process(_delta: float) -> void:
 			var margens := Controle.margens_seguras() * escala
 			$CantoDireito.offset_top = (50 + margens.y) / escala
 			# Uma única fileira com mochila e pausa, no espaço já reservado ao topo.
-			_botao_mapa_toque.position = (Vector2(tela_mapa.x - 138 - margens.z, 10 + margens.y) / escala).round()
+			_botao_mapa_toque.position = (Vector2(tela_mapa.x - 124 - margens.z, 10 + margens.y) / escala).round()
 			_botao_mapa_toque.scale = Vector2.ONE / escala
-			_botao_mapa_toque.custom_minimum_size = Vector2(46,32)
+			_botao_mapa_toque.custom_minimum_size = Vector2(32,32)
 			_botao_mapa_toque.size = _botao_mapa_toque.custom_minimum_size
 	if Controle.usando_toque: _atualizar_resumo_toque()
 	if faixa_banner.visible: _ajustar_faixa_banner()
@@ -670,11 +670,14 @@ func _montar_botao_mapa() -> void:
 	var botao := Button.new()
 	botao.name = "BotaoMapaMundi"
 	botao.focus_mode = Control.FOCUS_NONE
-	botao.text = "MAPA"
+	# Só o ícone, quadrado como os de PvP, amigos e chat.
+	botao.icon = preload("res://codigo/ui/icone_mapa.gd").obter()
+	botao.expand_icon = true
+	botao.add_theme_constant_override("icon_max_width",22)
+	botao.add_theme_color_override("icon_normal_color",Color.WHITE)
 	botao.tooltip_text = "Mapa de AlgoLand (M)"
 	botao.theme = preload("res://recursos/ui/tema_sidebar.tres")
-	botao.add_theme_font_size_override("font_size",8)
-	botao.custom_minimum_size = Vector2(46,32)
+	botao.custom_minimum_size = Vector2(32,32)
 	botao.add_to_group("toque_hud")
 	botao.size_flags_horizontal = Control.SIZE_SHRINK_END
 	# Dentro de um andar da fenda o botão alterna o automapa do andar; fora dele abre a carta do mundo
