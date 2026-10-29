@@ -29,6 +29,12 @@ var _progresso_reviver := 0.0
 var _reanimando := false
 var _grupo: CanvasLayer
 var _espelhos := {}
+## Texturas que mudam em tempo de execução (poses recortadas da Medusa, folhas por página): o anfitrião as descreve por hash.
+var _catalogo_tex := {}
+var _hash_por_objeto := {}
+var _tex_enviadas := {}
+var _catalogo_guest := {}
+var _texturas_prontas := {}
 var _ultimo_enviado := {}
 var _refresco := {}
 var _espelhos_enviados_vazio := true
@@ -195,6 +201,10 @@ func _receber(m: Dictionary) -> void:
 			if not sessao.sou_host(): _aplicar_visuais(m)
 		"espelhos":
 			if not sessao.sou_host(): _aplicar_espelhos(m.get("lista", []))
+		"texturas":
+			if not sessao.sou_host():
+				for par in m.get("lista", []):
+					if par is Array and par.size() == 2 and par[1] is Array: _catalogo_guest[int(par[0])] = par[1]
 		"tremor":
 			if not sessao.sou_host(): _tremer(clampf(float(m.get("i", 0)), 0, 12), clampf(float(m.get("d", 0.2)), 0.05, 1.0))
 		"recompensa":
@@ -216,6 +226,63 @@ func _receber(m: Dictionary) -> void:
 				get_tree().call_group("hud_p1", "anunciar", "ANDAR CONCLUIDO", "FALE COM O ORION E MARQUE PRONTO", 5.0)
 		"saque":
 			pass # versões antigas do anfitrião ainda mandavam o saque dele; agora cada um sorteia o seu
+
+## Descreve uma textura que o convidado consegue reconstruir: [caminho] ou [caminho, x, y, w, h, margem...] se for um recorte.
+func _descritor_textura(t: Texture2D) -> Array:
+	if t == null: return []
+	if t is AtlasTexture:
+		var base: Texture2D = t.atlas
+		if base == null or not base.resource_path.begins_with("res://assets/inimigos/"): return []
+		var r: Rect2 = t.region
+		var m: Rect2 = t.margin
+		return [base.resource_path, r.position.x, r.position.y, r.size.x, r.size.y, m.position.x, m.position.y, m.size.x, m.size.y]
+	if t.resource_path.begins_with("res://assets/inimigos/") and t.resource_path.ends_with(".png"): return [t.resource_path]
+	return []
+
+func _hash_textura(t: Texture2D) -> int:
+	if t == null: return 0
+	var chave := t.get_instance_id()
+	if _hash_por_objeto.has(chave): return int(_hash_por_objeto[chave])
+	var descritor := _descritor_textura(t)
+	var h := 0
+	if not descritor.is_empty():
+		h = str(descritor).hash()
+		_catalogo_tex[h] = descritor
+	_hash_por_objeto[chave] = h
+	return h
+
+## Antes de mandar o estado, garante que o convidado conhece todas as texturas citadas (canal confiável).
+func _enviar_texturas_novas(peer: String, estados: Array) -> void:
+	var enviadas: Dictionary = _tex_enviadas.get(peer, {})
+	_tex_enviadas[peer] = enviadas
+	var novas: Array = []
+	for e in estados:
+		if e.size() < 7: continue
+		for h in e[6]:
+			if int(h) != 0 and not enviadas.has(int(h)) and _catalogo_tex.has(int(h)):
+				enviadas[int(h)] = true
+				novas.append([int(h), _catalogo_tex[int(h)]])
+	for inicio in range(0, novas.size(), 12):
+		sessao.enviar_para(peer, {"t": "texturas", "andar": andar, "lista": novas.slice(inicio, inicio + 12)})
+
+## Convidado: reconstrói a textura citada pelo hash (recorte de uma folha de inimigo), ou null se ainda não chegou.
+func textura_por_hash(h: int) -> Texture2D:
+	if _texturas_prontas.has(h): return _texturas_prontas[h]
+	var d = _catalogo_guest.get(h)
+	if not d is Array or d.is_empty(): return null
+	var caminho := str(d[0])
+	if not caminho.begins_with("res://assets/inimigos/") or ".." in caminho or not caminho.ends_with(".png"): return null
+	var base := load(caminho) as Texture2D
+	if base == null: return null
+	var t: Texture2D = base
+	if d.size() >= 5:
+		var recorte := AtlasTexture.new()
+		recorte.atlas = base
+		recorte.region = Rect2(float(d[1]), float(d[2]), float(d[3]), float(d[4]))
+		if d.size() >= 9: recorte.margin = Rect2(float(d[5]), float(d[6]), float(d[7]), float(d[8]))
+		t = recorte
+	_texturas_prontas[h] = t
+	return t
 
 func _vida_maxima_de(no: Node) -> int:
 	var maxima := int(no.get("vida_maxima"))
@@ -272,14 +339,18 @@ func _enviar_mundo() -> void:
 			if no.global_position.distance_squared_to(pedido[1]) > 1000000: continue
 			if not cache.has(id):
 				var poses: Array = []
+				var hashes: Array = []
 				for s in _sprites.get(id, []):
-					if is_instance_valid(s): poses.append([s.hframes, s.vframes, s.frame, s.flip_h, s.is_visible_in_tree(), snappedf(s.rotation, 0.01)])
+					if is_instance_valid(s):
+						poses.append([s.hframes, s.vframes, s.frame, s.flip_h, s.is_visible_in_tree(), snappedf(s.rotation, 0.01)])
+						hashes.append(_hash_textura(s.texture))
 				_vmax[id] = maxi(int(_vmax.get(id, 1)), int(no.vida))
-				cache[id] = [id, snappedf(no.global_position.x, 0.1), snappedf(no.global_position.y, 0.1), no.vida, poses, _vmax[id]]
+				cache[id] = [id, snappedf(no.global_position.x, 0.1), snappedf(no.global_position.y, 0.1), no.vida, poses, _vmax[id], hashes]
 			# Inimigo parado e adormecido não muda: só vai de novo no refresco, o que poupa banda com muita gente.
 			if not completo and memoria.get(id) == cache[id]: continue
 			memoria[id] = cache[id]
 			estados.append(cache[id])
+		_enviar_texturas_novas(pedido[0], estados)
 		# Lotes pequenos respeitam o tamanho máximo do SCTP, inclusive em celular/Web.
 		for inicio in range(0, maxi(1, estados.size()), 8):
 			_seq += 1

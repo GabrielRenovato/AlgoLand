@@ -150,6 +150,22 @@ func configurar(perfil: Dictionary) -> void:
 	usando_arco = bool(perfil.get("arco", false))
 	hp_maximo = maxi(1, int(perfil.get("hp_maximo", 1)))
 	hp = hp_maximo
+	# A armadura do herói 3D é lida de inventario.equipados; o perfil leva só os tipos (visual.equipamentos).
+	var VisualRanking := preload("res://codigo/dados/visual_ranking.gd")
+	inventario = VisualRanking.InventarioVisual.new()
+	var visual = perfil.get("visual", {})
+	if visual is Dictionary:
+		var equipados: Dictionary = VisualRanking.normalizar(visual).get("equipamentos", {})
+		var extras = perfil.get("equipamentos", {})
+		for slot in equipados:
+			var item := VisualRanking.ItemVisual.new()
+			item.tipo = str(equipados[slot])
+			item.categoria = str(slot)
+			var dados = extras.get(slot, {}) if extras is Dictionary else {}
+			if dados is Dictionary:
+				item.nivel = clampi(int(dados.get("nivel", 1)), 1, 99)
+				item.raridade = str(dados.get("raridade", "comum"))
+			inventario.equipados[slot] = item
 	var heroi = preload("res://codigo/jogador/heroi_base_3d.gd").new()
 	heroi.pecas_visiveis = int(perfil.get("pecas", 15))
 	add_child(heroi)

@@ -13,6 +13,7 @@ var _tem_alvo := false
 var vida_maxima := 1
 var nome_chefe := ""
 var _barra: Node2D
+var _hashes_tex: Array = []
 var _velocidade := Vector2.ZERO
 var _instante_alvo := 0.0
 
@@ -103,6 +104,17 @@ func aplicar(e: Array) -> void:
 		global_position = _alvo
 		_tem_alvo = true
 	var poses: Array = e[4]
+	# Texturas que o anfitrião troca em tempo de execução (poses recortadas): sem isto a folha inteira aparecia.
+	if e.size() >= 7 and e[6] is Array and controlador != null:
+		var hashes: Array = e[6]
+		for i in mini(hashes.size(), sprites.size()):
+			var h := int(hashes[i])
+			if h == 0 or (i < _hashes_tex.size() and _hashes_tex[i] == h): continue
+			var textura: Texture2D = controlador.textura_por_hash(h)
+			if textura == null: continue
+			sprites[i].texture = textura
+			while _hashes_tex.size() <= i: _hashes_tex.append(0)
+			_hashes_tex[i] = h
 	for i in mini(poses.size(), sprites.size()):
 		var p: Array = poses[i]
 		if p.size() < 6: continue

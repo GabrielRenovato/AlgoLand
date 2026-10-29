@@ -126,7 +126,8 @@ func _atualizar_inclinacao() -> void:
 	giro_rosto=atan2(olhar.x,olhar.z)
 	var d:=posmod(roundi(giro_rosto/(PI*.25)),8)
 	_definir_vista(d)
-	var dormindo:=bool(_corpo.material_override.get_shader_parameter("olhos_fechados"))
+	# O parâmetro só existe depois que o herói o define; sem isso devolve null e bool(null) dava erro a cada quadro.
+	var dormindo: bool=_corpo.material_override.get_shader_parameter("olhos_fechados")==true
 	material.set_shader_parameter("olhos_fechados",dormindo)
 	# Neutralidade precisa do repouso; variações pequenas da animação não
 	# fazem o desenho piscar entre poses. Peso contínuo para o aceno da cabeça.
