@@ -150,7 +150,11 @@ static func perfil_do(jogador: Node2D) -> Dictionary:
 	return perfil
 
 func listar() -> void: _enviar({"t": "duelo_salas"})
-func criar(titulo: String, senha: String) -> void: _enviar({"t": "duelo_criar", "titulo": titulo, "senha": senha, "perfil": perfil_do(_jogador)})
+## A senha que o dono digitou ao criar (o servidor não a devolve): vai dentro do convite para o amigo entrar.
+var senha_da_sala := ""
+func criar(titulo: String, senha: String) -> void:
+	senha_da_sala = senha
+	_enviar({"t": "duelo_criar", "titulo": titulo, "senha": senha, "perfil": perfil_do(_jogador)})
 func entrar(id: int, senha := "") -> void: _enviar({"t": "duelo_entrar", "id": id, "senha": senha, "perfil": perfil_do(_jogador)})
 func sair_da_sala() -> void: _enviar({"t": "duelo_sair"})
 func marcar_pronto(pronto: bool) -> void: _enviar({"t": "duelo_pronto", "pronto": pronto})

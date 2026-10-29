@@ -81,6 +81,14 @@ func _entrar() -> void:
 	elif str(convite.get("tipo", "")) == "coop" and not sessao.ativo and sessao.codigo.is_empty():
 		sessao.abrir_tela("")
 		sessao.entrar(jogador, str(convite.get("sala", "")))
+	elif str(convite.get("tipo", "")) == "duelo":
+		# "numero|senha": o convite entra direto; as mensagens ficam na fila até a conexão do duelo abrir.
+		var partes := str(convite.get("sala", "")).split("|")
+		var duelo = load("res://codigo/duelo/conexao_duelo.gd").obter(get_tree())
+		if partes.size() >= 1 and str(partes[0]).is_valid_int():
+			duelo.conectar(jogador)
+			duelo.entrar(int(partes[0]), str(partes[1]) if partes.size() > 1 else "")
+			duelo.abrir_tela()
 	var conta = load("res://codigo/conta/cliente_conta.gd").obter(get_tree())
 	conta.amigos.descartar(int(convite.get("id", 0)))
 	queue_free()

@@ -230,8 +230,16 @@ func _montar_sala() -> void:
 		_status.text = "ESPERANDO O DONO COMECAR" if eu_pronto else "MARQUE PRONTO QUANDO QUISER LUTAR"
 	botoes.add_child(principal)
 	botoes.add_child(_botao("SAIR DA SALA", Duelo.sair_da_sala))
+	if Duelo.sou_dono() and preload("res://codigo/conta/cliente_conta.gd").obter(get_tree()).logado():
+		botoes.add_child(_botao("CONVIDAR", _convidar_amigo))
 	_acoes.add_child(botoes)
 	principal.grab_focus.call_deferred()
+
+## Convida um amigo da conta para esta sala; o convite leva o número da sala e a senha (se houver).
+func _convidar_amigo() -> void:
+	var tela = preload("res://codigo/conta/tela_amigos.gd").new()
+	tela.convite = {"tipo": "duelo", "sala": "%d|%s" % [int(Duelo.sala.get("id", 0)), Duelo.senha_da_sala], "andar": 1}
+	get_tree().root.add_child(tela)
 
 func _lugar(jogador: Dictionary, sala: Dictionary) -> PanelContainer:
 	var caixa := PanelContainer.new()
