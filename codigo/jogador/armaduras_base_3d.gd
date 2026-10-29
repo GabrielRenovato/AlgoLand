@@ -90,12 +90,7 @@ func atualizar():
    _recursos[caminho]={"malha":malha,"material":malha.surface_get_material(0).duplicate()}
   malhas[i].mesh=_recursos[caminho].malha
   malhas[i].material_override=_recursos[caminho].material
- if mascara & 2:
-  heroi._pecas[0].visible=false
-  heroi._pecas[1].visible=false
- if mascara & 8:heroi._pecas[2].visible=false
  var elmo_fechado: bool=raizes_pecas[0] in ELMOS_FECHADOS
- if elmo_fechado:heroi._pecas[3].visible=false
  var pele: ShaderMaterial=_corpo.material_override
  pele.set_shader_parameter("casaca_mordomo",(mascara & 2)!=0)
  pele.set_shader_parameter("elmo_fechado",elmo_fechado)

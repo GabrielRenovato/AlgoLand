@@ -98,6 +98,9 @@ func _aplicar(indice: int) -> void:
 			peca = "casa"
 		if not peca.is_empty():
 			sprite.texture = load(pasta + peca + ".png")
+			if sprite.has_meta("escala_render_arvore_3d") and peca in ["carvalho","abeto"]:
+				sprite.scale=_originais[sprite].scale/float(sprite.get_meta("escala_render_arvore_3d"))
+				sprite.offset=Vector2(-40,-111) if peca=="carvalho" else Vector2(-24,-85)
 			if peca == "casa":
 				sprite.hframes = 1
 				sprite.vframes = 1

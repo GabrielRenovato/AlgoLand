@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="PackedScene" path="res://assets/inimigos/goblin_king/goblin_king.glb" id="1_modelo"]
+
+[node name="GoblinKing3D" type="Node3D"]
+
+[node name="Modelo" parent="." instance=ExtResource("1_modelo")]

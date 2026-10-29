@@ -1,0 +1,151 @@
+{
+  "arquivo": "res://assets/inimigos/goblin_king/goblin_king.glb",
+  "fonte": "arte/fontes/inimigos/goblin_king/goblin_king_animado.blend",
+  "referencia": "referencia.png",
+  "metodo": "modelagem procedural esculpida em Blender; aproximação da referência",
+  "altura_m": 3.31,
+  "chao_z_blender": 0,
+  "frente_blender": "-Y",
+  "frente_godot": "+Z",
+  "triangulos": 109856,
+  "ossos": 17,
+  "materiais": 18,
+  "animacoes": {
+    "parado": {
+      "duracao_s": 2.6666666666666665,
+      "quadros": 81,
+      "fps": 30
+    },
+    "corte_direita": {
+      "duracao_s": 0.9333333333333333,
+      "quadros": 29,
+      "fps": 30,
+      "loop": false,
+      "eventos": [
+        {
+          "fracao": 0.41785714285714287,
+          "tipo": "corte",
+          "indice": 1,
+          "raio": 65
+        }
+      ],
+      "aviso_area": false,
+      "raio": 65
+    },
+    "corte_esquerda": {
+      "duracao_s": 0.9333333333333333,
+      "quadros": 29,
+      "fps": 30,
+      "loop": false,
+      "eventos": [
+        {
+          "fracao": 0.41785714285714287,
+          "tipo": "corte",
+          "indice": 1,
+          "raio": 65
+        }
+      ],
+      "aviso_area": false,
+      "raio": 65
+    },
+    "golpe_pesado": {
+      "duracao_s": 1.4333333333333333,
+      "quadros": 44,
+      "fps": 30,
+      "loop": false,
+      "eventos": [
+        {
+          "fracao": 0.4883720930232558,
+          "tipo": "pesado",
+          "indice": 1,
+          "raio": 75
+        }
+      ],
+      "aviso_area": false,
+      "raio": 65
+    },
+    "combo_triplo": {
+      "duracao_s": 2.1666666666666665,
+      "quadros": 66,
+      "fps": 30,
+      "loop": false,
+      "eventos": [
+        {
+          "fracao": 0.16153846153846155,
+          "tipo": "corte",
+          "indice": 1,
+          "raio": 65
+        },
+        {
+          "fracao": 0.3553846153846154,
+          "tipo": "corte",
+          "indice": 2,
+          "raio": 65
+        },
+        {
+          "fracao": 0.6830769230769231,
+          "tipo": "pesado",
+          "indice": 3,
+          "raio": 80
+        }
+      ],
+      "aviso_area": false,
+      "raio": 65
+    },
+    "impacto_area": {
+      "duracao_s": 1.9333333333333333,
+      "quadros": 59,
+      "fps": 30,
+      "loop": false,
+      "eventos": [
+        {
+          "fracao": 0.5379310344827586,
+          "tipo": "area_chao",
+          "indice": 1,
+          "raio": 110
+        }
+      ],
+      "aviso_area": true,
+      "raio": 110
+    },
+    "giro_area": {
+      "duracao_s": 2.033333333333333,
+      "quadros": 62,
+      "fps": 30,
+      "loop": false,
+      "eventos": [
+        {
+          "fracao": 0.3344262295081968,
+          "tipo": "area_giro",
+          "indice": 1,
+          "raio": 90
+        },
+        {
+          "fracao": 0.46229508196721314,
+          "tipo": "area_giro",
+          "indice": 2,
+          "raio": 90
+        },
+        {
+          "fracao": 0.5950819672131148,
+          "tipo": "area_giro",
+          "indice": 3,
+          "raio": 90
+        }
+      ],
+      "aviso_area": true,
+      "raio": 90
+    }
+  },
+  "limites": [
+    "Fidelidade à referência depende de revisão visual; não é reprodução exata.",
+    "Cenário de jogo e inimigos existentes preservados.",
+    "Ataques animados com marcadores; caminhada e IA não implementadas. Dano depende do ator consumidor."
+  ],
+  "acabamento_visual": {
+    "tipo": "filtro do HeroiBase3D, aplicado ao render original",
+    "shader": "res://codigo/jogador/contorno_pixel_base_3d.gdshader",
+    "amostras_por_pixel": 2,
+    "texturas_originais": true
+  }
+}

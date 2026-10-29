@@ -104,12 +104,20 @@ func rodar():
  equipar(0);pose("parado",0,0);await foto("sem_conjunto")
  for bits in 16:
   equipar(bits)
+  # Reproduz os quadros seguintes: atualizar() usa cache, mas cores atualiza
+  # a visibilidade novamente. A roupa base não pode reaparecer por cima.
+  for quadro in 3:
+   h._armaduras.atualizar()
+   h._aplicar_cores()
   conferir(h._armaduras.mascara==bits,"Máscara acompanha equipamento real %d"%bits)
   for i in 4:conferir(h._armaduras.malhas[i].visible==bool(bits & (1<<i)),"Peça independente %d/%d"%[bits,i])
   conferir(h._pecas[0].visible==not bool(bits & 2) and h._pecas[1].visible==not bool(bits & 2),"Roupas ocultas sob casaca")
   conferir(h._pecas[2].visible==not bool(bits & 8),"Calçado oculto só com botas")
   if id_conjunto in ["carrasco","cavaleiro_rubro"]:
-   conferir(h._pecas[3].visible==not bool(bits & 1),"Elmo fechado recolhe cabelo")
+   if bits & 1:
+    conferir(not h._pecas[3].visible,"Elmo fechado recolhe cabelo")
+   else:
+    conferir(h._pecas[3].visible or h._cabeca_referencia.visible,"Retirar elmo restaura cabelo ou cabeça pintada")
    var pele=h._modelo.find_child("CorpoBase",true,false).material_override
    conferir(bool(pele.get_shader_parameter("elmo_fechado"))==bool(bits & 1),"Rosto restaurado ao retirar elmo")
   conferir((Conjuntos.fator(conjunto,j.inventario.equipados)>0)==(conjunto.quantidade(j.inventario.equipados)>=2),"Bônus conta itens reais")
@@ -118,6 +126,20 @@ func rodar():
   for bits in [2,4,15]:
    equipar(bits);pose("espada",0,7./12.);await foto("diagnostico_%d"%bits)
   quit();return
+ equipar(2)
+ var alternativa: Dictionary=roupas.duplicate()
+ alternativa.camisa="jaqueta_viajante"
+ alternativa.calca="calca_cargo"
+ h.definir_roupas_3d(alternativa)
+ h.set_process(true)
+ await esperar(6)
+ h.set_process(false)
+ conferir(not h._pecas[0].visible and not h._pecas[1].visible,"Peitoral substitui roupa base durante atualização real e troca de roupa")
+ pose("parado",0,0);await foto("peitoral_atualizacao_real")
+ equipar(0)
+ h._aplicar_cores()
+ conferir(h._pecas[0].visible and h._pecas[1].visible and h.roupas_3d==alternativa,"Retirar peitoral restaura a roupa escolhida")
+ h.definir_roupas_3d(roupas)
  equipar(15)
  for d in 8:
   pose("parado",d,0);await foto("parado_%d"%d)

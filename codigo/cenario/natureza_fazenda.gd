@@ -12,6 +12,7 @@ var _estacoes: Node
 var _originais := {}
 var _materiais := {}
 var _fontes_paredao := {}
+var _arvores_3d: Node
 var _detalhes: TileMapLayer
 var _paredao: TileMapLayer
 
@@ -52,6 +53,8 @@ func configurar(terreno: Node2D) -> void:
 		material_mato.set_shader_parameter("uv_tamanho", Vector2(16, 16) / fonte.texture.get_size())
 	_estacoes.estacao_mudou.connect(aplicar)
 	aplicar(maxi(_estacoes.estacao_atual,0))
+	_arvores_3d=preload("res://codigo/cenario/arvores_fazenda_3d.gd").new()
+	_arvores_3d.configurar(terreno)
 
 func _material(peca: String) -> ShaderMaterial:
 	if not _materiais.has(peca):
@@ -111,3 +114,5 @@ func aplicar(indice: int) -> void:
 	if not ativo:
 		for sprite in _originais:
 			if is_instance_valid(sprite): sprite.material=_originais[sprite]
+
+	if _arvores_3d != null:_arvores_3d.aplicar(estacao)

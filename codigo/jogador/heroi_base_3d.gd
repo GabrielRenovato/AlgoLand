@@ -585,15 +585,23 @@ func _pintar_regioes(instancia: MeshInstance3D) -> void:
 	instancia.mesh = nova
 
 func _atualizar_pecas() -> void:
+	# A atualização de cores também passa aqui a cada quadro. Equipamentos devem
+	# continuar substituindo as roupas mesmo quando o inventário não mudou.
+	var substituidas := 0
+	if _armaduras != null and _armaduras.mascara >= 0:
+		if _armaduras.mascara & 2:substituidas |= 3 # Peitoral inclui a calça do conjunto.
+		if _armaduras.mascara & 8:substituidas |= 4
+		if _armaduras.raizes_pecas[0] in _armaduras.ELMOS_FECHADOS:substituidas |= 8
 	for i in _pecas.size():
-		_pecas[i].visible = (pecas_visiveis & (1 << i)) != 0
+		_pecas[i].visible = (pecas_visiveis & ~substituidas & (1 << i)) != 0
 	if _modelo == null:return
 	var corpo = _modelo.find_child("CorpoBase",true,false)
 	if corpo == null:return
 	var material: ShaderMaterial = corpo.material_override
-	material.set_shader_parameter("esconder_camisa",(pecas_visiveis & 1)!=0)
-	material.set_shader_parameter("esconder_calca",(pecas_visiveis & 2)!=0)
-	material.set_shader_parameter("esconder_botas",(pecas_visiveis & 4)!=0)
+	var cobertura := pecas_visiveis | substituidas
+	material.set_shader_parameter("esconder_camisa",(cobertura & 1)!=0)
+	material.set_shader_parameter("esconder_calca",(cobertura & 2)!=0)
+	material.set_shader_parameter("esconder_botas",(cobertura & 4)!=0)
 	if _cabeca_referencia!=null:
 		var usar: bool=(pecas_visiveis & 8)!=0 and roupas_3d.get("cabelo","")=="cabelo_curto" and (_armaduras==null or (_armaduras.mascara & 1)==0)
 		_cabeca_referencia.aplicar_aparencia(_jogador.aparencia_raven,PELES,OLHOS)

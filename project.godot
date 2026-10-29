@@ -13,6 +13,10 @@ config_version=5
 format_on_save=true
 fast_but_unsafe=false
 
+[algoland]
+
+url_atualizacao="https://wikialgoland.netlify.app/jogar/atualizacao/"
+
 [animation]
 
 compatibility/default_parent_skeleton_in_mesh_instance_3d=true
@@ -20,16 +24,11 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 [application]
 
 config/name="top down"
-run/main_scene="res://cenas/atualizacao.tscn"
 config/version="2026.10.23.1"
+run/main_scene="res://cenas/atualizacao.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 run/max_fps=60
 config/icon="res://assets/icone/icone.png"
-
-[algoland]
-
-; URL da pasta com versao.json e os patches (ex.: https://seu-site/jogar/atualizacao/). Vazio desliga a atualização de conteúdo.
-url_atualizacao="https://wikialgoland.netlify.app/jogar/atualizacao/"
 
 [autoload]
 

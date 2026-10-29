@@ -104,6 +104,10 @@ func _trocar_estacao() -> void:
 	for toco in _tocos.values():
 		toco.texture = _textura_toco()
 		toco.offset = _deslocamento_toco()
+		var arvores_3d := get_parent().get_node_or_null("ArvoresFazenda3D")
+		if arvores_3d != null and not arvores_3d.vestir_toco(toco):
+			toco.material=null
+			toco.scale=toco.get_meta("escala_base_toco_3d",Vector2.ONE)
 		_area_real_do_sprite(toco)
 	_atualizar_crescimento()
 
@@ -192,6 +196,8 @@ func _mostrar_toco(recurso: Dictionary) -> void:
 	toco.z_index = Profundidade.z_de(recurso["pos"].y)
 	add_child(toco)
 	_tocos[recurso["chave"]] = toco
+	var arvores_3d := get_parent().get_node_or_null("ArvoresFazenda3D")
+	if arvores_3d != null:arvores_3d.vestir_toco(toco,original)
 	_area_real_do_sprite(toco)
 	_invalidar_coberturas()
 
@@ -297,7 +303,7 @@ func motivo(acao: String, ponto_global: Vector2) -> String:
 	return MSG_NADA_CORTAR if acao == "machado" else MSG_NADA_QUEBRAR
 
 ## A ferramenta acertou (quadro de impacto da animação)
-func impacto(acao: String, ponto_global: Vector2, forca := 1) -> void:
+func impacto(acao: String, ponto_global: Vector2, forca := 1, origem_golpe := Vector2.INF) -> void:
 	var recurso := alvo(acao, ponto_global)
 	if recurso.is_empty():
 		return
@@ -311,7 +317,7 @@ func impacto(acao: String, ponto_global: Vector2, forca := 1) -> void:
 		if no_toco:
 			_balancar_no(_tocos[chave])
 		else:
-			_balancar(recurso)
+			_balancar(recurso,origem_golpe)
 		return
 	Sons.tocar("escudada" if tipo != "pedra" else "bloqueio", 0.05, -1.0)
 	_lascas(recurso["pos"] + Vector2(0, -16 if tipo == "arvore" else -4), COR_LASCA[tipo], 14)
@@ -326,7 +332,7 @@ func impacto(acao: String, ponto_global: Vector2, forca := 1) -> void:
 	# Carvalho: cai e deixa o toco (a colisão continua); o toco, quando sai, libera a passagem
 	if tipo == "arvore" and not no_toco:
 		Fazenda.remover_recurso(chave, tipo, true)
-		_derrubar(recurso, ponto_global)
+		_derrubar(recurso, origem_golpe if origem_golpe.is_finite() else ponto_global)
 		_mostrar_toco(recurso)
 		return
 	if no_toco:
@@ -385,6 +391,10 @@ func _derrubar(recurso: Dictionary, ponto_golpe: Vector2) -> void:
 	var original := _sprite(recurso) as Sprite2D
 	if original == null:
 		return
+	var arvores_3d := get_parent().get_node_or_null("ArvoresFazenda3D")
+	if arvores_3d != null:
+		var retorno := func(ponto: Vector2): _impacto_queda(to_local(ponto),recurso["tipo"])
+		if arvores_3d.reagir_ao_corte(original,ponto_golpe,true,retorno):return
 	var atlas := original.texture as AtlasTexture
 	if original.texture == null:
 		return
@@ -394,6 +404,7 @@ func _derrubar(recurso: Dictionary, ponto_golpe: Vector2) -> void:
 	copa.atlas = atlas.atlas if atlas != null else original.texture
 	var tiny: String = preload("res://codigo/cenario/fazenda_tiny.gd").pasta_do_terreno(get_parent(), _estacao())
 	var altura_corte := ALTURA_CORTE if tiny.is_empty() else 19.0
+	if tiny.is_empty():altura_corte/=float(original.get_meta("escala_render_arvore_3d",1.0))
 	# Só as linhas acima do corte: o desenho começa 'offset.y' px acima da base
 	copa.region = Rect2(regiao.position, Vector2(regiao.size.x, clampf(-original.offset.y - altura_corte, 1.0, regiao.size.y)))
 	var corte: Vector2 = recurso["pos"] - Vector2(0, altura_corte * original.scale.y)
@@ -438,7 +449,14 @@ func _sprite(recurso: Dictionary) -> CanvasItem:
 	var caminho: NodePath = recurso["no"]
 	return get_node_or_null(caminho) if caminho.is_absolute() else get_parent().get_node_or_null(caminho)
 
-func _balancar(recurso: Dictionary) -> void:
+func _balancar(recurso: Dictionary,origem_golpe := Vector2.INF) -> void:
+	var arvores_3d := get_parent().get_node_or_null("ArvoresFazenda3D")
+	if recurso["tipo"]=="arvore" and arvores_3d != null:
+		var ponto := to_global(recurso["pos"]-Vector2(20,0))
+		var jogador := Cooperativo.jogador_no_ambiente(self)
+		if jogador != null:ponto=jogador.global_position
+		if origem_golpe.is_finite():ponto=origem_golpe
+		if arvores_3d.reagir_ao_corte(_sprite(recurso) as Sprite2D,ponto):return
 	_balancar_no(_sprite(recurso) as Node2D)
 
 func _balancar_no(sprite: Node2D) -> void:
