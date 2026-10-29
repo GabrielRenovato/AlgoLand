@@ -30,6 +30,7 @@ var _recebeu := 0
 var _cena: Node
 var motivo_final := ""
 var _fila: Array[Dictionary] = []
+var _encerrados: Array[Dictionary] = []
 
 func retirar_pacotes(nivel: int) -> Array[Dictionary]:
 	var resultado: Array[Dictionary] = []
@@ -145,6 +146,8 @@ func enviar(dados: Dictionary, estado := false) -> bool:
 	return canal.put_packet(bytes) == OK
 
 func _process(delta: float) -> void:
+	# Conserva os objetos até os callbacks de fechamento do navegador terminarem.
+	_encerrados = _encerrados.filter(func(item: Dictionary): return Time.get_ticks_msec() < item.ate)
 	_relogio -= delta
 	if _ws != null:
 		_ws.poll()
@@ -155,7 +158,7 @@ func _process(delta: float) -> void:
 				var ranking = Ranking.para_jogador(_jogador)
 				_ws.send_text(JSON.stringify({"t": "entrar", "codigo": str(ranking._codigo) + "#coop", "geracao": Crypto.new().generate_random_bytes(16).hex_encode(), "estado": {"x": 1, "y": 1, "mapa": 0, "apelido": _jogador.apelido, "aparencia": _perfil(_jogador).visual}}))
 			while _ws.get_available_packet_count() > 0:
-				_receber_ws(_ws.get_packet().get_string_from_utf8())
+				_receber_ws.call_deferred(_ws.get_packet().get_string_from_utf8())
 			if _relogio <= 0.0: _ws.send_text('{"t":"coop_ping"}')
 		elif _ws.get_ready_state() == WebSocketPeer.STATE_CLOSED:
 			_ws = null
@@ -176,7 +179,7 @@ func _process(delta: float) -> void:
 				var dados = JSON.parse_string(bytes.get_string_from_utf8())
 				if dados is Dictionary:
 					_recebeu = Time.get_ticks_msec()
-					_receber(dados)
+					_receber.call_deferred(dados)
 		if _rtc != null and _rtc.get_connection_state() in [WebRTCPeerConnection.STATE_FAILED, WebRTCPeerConnection.STATE_CLOSED]:
 			_falhar("CONEXAO DIRETA ENCERRADA")
 	if _relogio <= 0.0:
@@ -288,6 +291,8 @@ func _falhar(texto: String) -> void:
 		get_tree().call_group("hud_p1", "anunciar", "COOP ENCERRADO", texto, 5.0)
 
 func sair(avisar := true) -> void:
+	if _rtc != null or _ws != null:
+		_encerrados.append({"rtc": _rtc, "eventos": _eventos, "estados": _estados, "ws": _ws, "ate": Time.get_ticks_msec() + 2000})
 	if avisar: enviar({"t": "fim"})
 	ativo = false
 	_fila.clear()
