@@ -208,7 +208,10 @@ func _limpar_sessao() -> void:
 	mudou.emit()
 
 static func _chave() -> String:
-	return (OS.get_unique_id() if not OS.get_unique_id().is_empty() else "algoland") + "#conta"
+	# Na Web o motor não tem id do aparelho (e registra erro se perguntarmos): usa só o valor fixo.
+	if OS.has_feature("web"): return "algoland#conta"
+	var id := OS.get_unique_id()
+	return (id if not id.is_empty() else "algoland") + "#conta"
 
 func _gravar() -> void:
 	var cfg := ConfigFile.new()
