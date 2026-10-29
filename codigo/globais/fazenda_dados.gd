@@ -123,7 +123,7 @@ const MSG_ENTULHO := {"pedra": "PEDRA NO CAMINHO: USE A PICARETA", "arbusto": "A
 const ENTULHO_INICIAL := 60
 const ENTULHO_POR_NOITE := 4
 const ENTULHO_MAXIMO := 90
-const PESOS_ENTULHO := {"mato": 35, "pedra": 30, "arvoreta": 15}
+const PESOS_ENTULHO := {"mato": 35, "pedra": 30, "arvoreta": 30}
 
 ## Dados das plantas: ficam em codigo/dados/plantas.gd (os nomes antigos continuam valendo aqui)
 const TIRAS := Plantas.TIRAS
@@ -385,7 +385,8 @@ func aplicar(acao: String, celula: Vector2i, semente := "", lado := 1) -> String
 			var mochila := mochila_do_lado(lado)
 			if not mochila.adicionar_coletavel("colheita",id):
 				return "MOCHILA CHEIA"
-			mochila.salvar()
+			# Salvar adiado: gravar o inventário inteiro no meio da ação trava o frame no Android
+			mochila.salvar.call_deferred()
 			solo[celula]["planta"] = ""
 			solo[celula]["dias"] = 0
 			_ao_bolsa_alterada()

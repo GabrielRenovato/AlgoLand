@@ -268,6 +268,10 @@ func _ao_impacto(acao: String, ponto: Vector2) -> void:
 		return
 	if _eh_extracao(acao):
 		if _extracao() != null:
+			# Sem alvo no alcance o golpe não faz nada: avisa o motivo em vez de falhar em silêncio
+			if _extracao().alvo(acao, ponto).is_empty():
+				_avisar(_extracao().motivo(acao, ponto))
+				return
 			_extracao().impacto(acao, ponto, preload("res://codigo/dados/melhorias_ferramentas.gd").nivel(Fazenda.mochila_do_lado(_lado()),"machadinha" if acao=="machado" else "picareta"),jogador.global_position)
 		return
 	var celula := Fazenda.celula_do_ponto(to_local(ponto))
