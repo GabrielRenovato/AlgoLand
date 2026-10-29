@@ -1,0 +1,100 @@
+{
+  "permissions": {
+    "allow": [
+      "Read",
+      "Bash(ls *)",
+      "Bash(grep *)",
+      "Bash(find *)",
+      "Bash(cat *)",
+      "Bash(head *)",
+      "Bash(tail *)",
+      "Bash(wc *)",
+      "Bash(python3 ferramentas/projeto/auditar_referencias.py*)",
+      "Bash(host-spawn git status*)",
+      "Bash(host-spawn git --no-pager diff*)",
+      "Bash(host-spawn git --no-pager log*)",
+      "Bash(host-spawn git --no-pager show*)",
+      "Bash(host-spawn git diff*)",
+      "Bash(host-spawn git log*)",
+      "Bash(host-spawn git show*)",
+      "Bash(host-spawn git ls-remote*)"
+    ],
+    "ask": [
+      "Bash(host-spawn git add*)",
+      "Bash(host-spawn git commit*)",
+      "Bash(host-spawn git push*)",
+      "Bash(host-spawn git remote*)",
+      "Bash(git commit*)",
+      "Bash(git push*)",
+      "Bash(flatpak run *)",
+      "Bash(python3 ferramentas/atualizacao/gerar_atualizacao.py*)",
+      "Bash(python3 ferramentas/projeto/preparar_testes.py*)",
+      "Bash(host-spawn bash -lc *gerar_atualizacao.py*)",
+      "Bash(host-spawn bash -lc *exportar-jogo-web.py*)",
+      "Bash(host-spawn bash -lc *sincronizar-dados.py*)",
+      "Bash(host-spawn bash -lc *npm run build*)"
+    ],
+    "deny": [
+      "Bash(rm -rf *)",
+      "Bash(rm -r *)",
+      "Bash(rm -fr *)",
+      "Bash(rm * arte/*)",
+      "Bash(rm * assets/*)",
+      "Bash(rm * arquivo/*)",
+      "Bash(rm * builds/*)",
+      "Bash(rm * .godot/*)",
+      "Bash(rm * .git/*)",
+      "Bash(rm * *app_userdata*)",
+      "Bash(rm * *user://*)",
+      "Bash(rm * */.local/share/godot/*)",
+      "Bash(rm * .claude/*)",
+      "Bash(host-spawn git reset --hard*)",
+      "Bash(host-spawn git clean*)",
+      "Bash(host-spawn git push --force*)",
+      "Bash(host-spawn git push -f*)",
+      "Bash(host-spawn git push * --force*)",
+      "Bash(host-spawn git push * -f*)",
+      "Bash(host-spawn git remote set-url*)",
+      "Bash(host-spawn git remote add*)",
+      "Bash(host-spawn git remote remove*)",
+      "Bash(host-spawn git branch -D*)",
+      "Bash(host-spawn git filter-repo*)",
+      "Bash(git reset --hard*)",
+      "Bash(git clean*)",
+      "Bash(git push --force*)",
+      "Bash(git push -f*)",
+      "Bash(git remote set-url*)",
+      "Bash(git filter-repo*)",
+      "Bash(pkill -f*)",
+      "Bash(pgrep -f*)",
+      "Bash(killall *)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 -I \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/guard_bash.py",
+            "timeout": 10,
+            "statusMessage": "Verificando comando"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 -I \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/validar_json.py",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}
