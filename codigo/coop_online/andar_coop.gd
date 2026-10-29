@@ -221,7 +221,7 @@ func _receber(m: Dictionary) -> void:
 				jogador.levantar_caido()
 				# O anfitrião já chama o Orion ao vencer; o convidado também precisa dele para comprar e se preparar.
 				gerente._abrir_janela_entre_ondas()
-				DadosJogo.adicionar_moedas(gerente.ouro_fim_onda(andar))
+				DadosJogo.adicionar_moedas(roundi(float(m.get("ouro_fim", gerente.ouro_fim_onda(andar)))))
 				Progresso.registrar_onda_concluida(andar, false, false)
 				get_tree().call_group("hud_p1", "anunciar", "ANDAR CONCLUIDO", "FALE COM O ORION E MARQUE PRONTO", 5.0)
 		"saque":
@@ -358,7 +358,7 @@ func _enviar_mundo() -> void:
 	_enviar_visuais()
 	if gerente.etapa == gerente.Etapa.CONCLUIDO and not _andar_concluido:
 		_andar_concluido = true
-		sessao.enviar({"t": "concluido", "andar": andar})
+		sessao.enviar({"t": "concluido", "andar": andar, "ouro_fim": roundi(float(gerente.ouro_fim_onda(andar)) * gerente.mult_evento("ouro"))})
 
 func _abate(id: int) -> void:
 	if not sessao.ativo or not sessao.sou_host(): return
