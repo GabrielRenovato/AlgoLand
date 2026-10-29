@@ -43,6 +43,16 @@ A wiki é um repositório separado em `../AlgoLand-wiki` (Netlify): `npm run bui
 
 Neste ambiente não há `git` no PATH: use `host-spawn git ...`.
 
+## Economia de limite
+
+- `ferramentas/projeto/CONTEXTO.md` tem linhas de milhares de caracteres: nunca ler inteiro nem `grep` puro; use `grep -n -m3 termo ferramentas/projeto/CONTEXTO.md | cut -c1-400`.
+- Ler arquivo grande só por trechos (`offset`/`limit`) e não reler o que acabou de ser editado.
+- Conferir compilação de scripts com um `.gd` de `_initialize` que dá `load()` nos arquivos (rápido), em vez de abrir o jogo; imprimir só OK/FALHOU por arquivo.
+- Capturas de tela só para trabalho visual: uma por tamanho (576×324 e 288×512), uma leitura de imagem por rodada, e só depois de o texto/medidas já baterem.
+- Buscas em `assets/`, `arte/`, `arquivo/`, `builds/` e `.godot/` só quando a tarefa for de recursos.
+- Publicar patch com uma chamada: `host-spawn python3 ferramentas/projeto/publicar_conteudo.py --resumo "..."` (`--simular` lista os passos); só quando o usuário pedir.
+- Respostas e atualizações curtas; sem subagentes salvo pedido.
+
 ## Arquitetura
 
 **Entrada e autoloads.** O jogo abre em `cenas/inicio_do_jogo.tscn`. Os autoloads em `project.godot` têm ordem: `Saves` é o primeiro e prepara `codigo/dados/versao_save.gd` e `reequilibrio_save.gd` antes de carregar os demais. A ordem importa; mudar autoload ou `project.godot` exige APK novo, não patch.
