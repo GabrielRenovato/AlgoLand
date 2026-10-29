@@ -88,6 +88,7 @@ func _ready() -> void:
 	_fade_entrada()
 	# Fogo no máximo: a tela inicial é sempre crepúsculo
 	get_tree().call_group("luzes_noturnas", "set", "multiplicador_noite", 1.0)
+	_iniciar_conta.call_deferred()
 
 ## Fluxo vertical com rolagem para manter título, menu e opções dentro da janela.
 func _montar_layout_flex() -> void:
@@ -324,6 +325,7 @@ func _montar_menu() -> void:
 	botao_nao.pressed.connect(_fechar_painel)
 	_montar_coop()
 	_montar_transferencia()
+	_montar_conta()
 	var primeiro := botao_continuar if botao_continuar.visible else botao_novo_jogo
 	primeiro.grab_focus()
 	# Depois do foco inicial, para a tela não abrir com um "tick"; mover o foco e confirmar soam
@@ -679,6 +681,47 @@ var _aviso_transferencia: Label
 var _cliente_transferencia: Node
 var _pacote_recebido := {}
 var _transferindo := false
+
+## Conta: renova a sessão guardada ao abrir e, quando o login for obrigatório, bloqueia o menu até entrar.
+const ContaCliente := preload("res://codigo/conta/cliente_conta.gd")
+const ContaTela := preload("res://codigo/conta/tela_conta.gd")
+var _botao_conta: Button
+
+func _montar_conta() -> void:
+	if not ContaCliente.obter(get_tree()).disponivel(): return
+	_botao_conta = botao_novo_jogo.duplicate() as Button
+	_botao_conta.name = "BotaoConta"
+	_botao_conta.unique_name_in_owner = false
+	for sinal in _botao_conta.get_signal_connection_list("pressed"):
+		_botao_conta.pressed.disconnect(sinal["callable"])
+	menu.add_child(_botao_conta)
+	menu.move_child(_botao_conta, botao_opcoes.get_index())
+	_configurar_botao(_botao_conta)
+	_botao_conta.pressed.connect(_abrir_conta)
+	ContaCliente.obter(get_tree()).mudou.connect(_atualizar_botao_conta)
+	_atualizar_botao_conta()
+
+func _atualizar_botao_conta() -> void:
+	if _botao_conta == null: return
+	var conta := ContaCliente.obter(get_tree())
+	_botao_conta.text = "CONTA: " + (conta.apelido if not conta.apelido.is_empty() else conta.email).left(14).to_upper() if conta.logado() else "ENTRAR NA CONTA"
+	_botao_conta.set_meta("texto_base", _botao_conta.text)
+
+func _abrir_conta() -> void:
+	var conta := ContaCliente.obter(get_tree())
+	if conta.logado():
+		await conta.sair()
+	else:
+		add_child(ContaTela.new())
+
+func _iniciar_conta() -> void:
+	var conta := ContaCliente.obter(get_tree())
+	if not conta.disponivel(): return
+	if not conta.logado(): await conta.restaurar()
+	if conta.precisa_de_login() and get_node_or_null("TelaConta") == null:
+		var tela := ContaTela.new()
+		tela.name = "TelaConta"
+		add_child(tela)
 
 func _montar_transferencia() -> void:
 	_cliente_transferencia = TransferenciaSave.new()
