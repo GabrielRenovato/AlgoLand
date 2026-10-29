@@ -1,0 +1,11 @@
+Produção via imagegen, referência de identidade: referencia_v1.png.
+Folha de cabeças e ombros, quatro colunas por duas linhas, câmera ortográfica
+20 graus para baixo, escala e iluminação constantes. Preservar rosto, olhos
+azuis, mandíbula, cabelo castanho assimétrico e pintura nítida original.
+Ordem: frente, diagonal direita45°, perfil direito90°, costas/direita135°,
+costas180°, costas/esquerda225°, perfil esquerdo270°, diagonal esquerda315°.
+Fundo verde oliva, sem textos nem molduras; pescoço curto conectado ao corpo.
+Perfis com um olho e anatomia própria; costas sem olhos. Correção localizada:
+a célula superior direita estava virada para esquerda e com olho aparente;
+regenerada somente essa célula, para costas/direita sem olho, preservando as
+outras sete. Arquivo final referencia_oito_direcoes_v1.png.

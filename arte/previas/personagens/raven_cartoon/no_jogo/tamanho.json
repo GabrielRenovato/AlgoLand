@@ -1,0 +1,16 @@
+{
+  "escala_visual": 1.08,
+  "escala_mundo": 0.0432,
+  "aumento_percentual": 20,
+  "pivo": "pes",
+  "camadas": [
+    "corpo",
+    "armadura",
+    "espada",
+    "rastro"
+  ],
+  "verificacoes": 131,
+  "falhas": 0,
+  "capturas": 200,
+  "url": "https://alfeim.tail0e3970.ts.net/raven-a57d52fdf80b/?v=9"
+}

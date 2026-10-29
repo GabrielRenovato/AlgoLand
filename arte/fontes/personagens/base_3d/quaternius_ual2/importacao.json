@@ -1,0 +1,38 @@
+[
+	{
+		"amostras": 15,
+		"duracao": 0.433333337306976,
+		"nome": "Sword_Regular_A",
+		"ossos": 52
+	},
+	{
+		"amostras": 18,
+		"duracao": 0.533333361148834,
+		"nome": "Sword_Regular_B",
+		"ossos": 52
+	},
+	{
+		"amostras": 61,
+		"duracao": 2.0,
+		"nome": "Sword_Regular_C",
+		"ossos": 52
+	},
+	{
+		"amostras": 30,
+		"duracao": 0.966666638851166,
+		"nome": "Sword_Regular_A_Rec",
+		"ossos": 52
+	},
+	{
+		"amostras": 32,
+		"duracao": 1.03333330154419,
+		"nome": "Sword_Regular_B_Rec",
+		"ossos": 52
+	},
+	{
+		"amostras": 91,
+		"duracao": 3.0,
+		"nome": "Sword_Regular_Combo",
+		"ossos": 52
+	}
+]

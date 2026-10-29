@@ -1,0 +1,191 @@
+[
+  {
+    "amostras": 23,
+    "arquivo": "Standard Run.fbx",
+    "duracao": 0.733333333333333,
+    "id": "Running",
+    "loop": true,
+    "ossos": 52,
+    "raiz": "Deslocamento XZ removido; física do jogador controla a posição."
+  },
+  {
+    "amostras": 121,
+    "arquivo": "Idle.fbx",
+    "duracao": 4.0,
+    "id": "Idle",
+    "loop": true,
+    "ossos": 52,
+    "raiz": "Deslocamento XZ removido; física do jogador controla a posição."
+  },
+  {
+    "amostras": 46,
+    "arquivo": "Sword And Shield Slash.fbx",
+    "duracao": 1.5,
+    "id": "SwordSlashA",
+    "loop": false,
+    "ossos": 52,
+    "raiz": "Deslocamento XZ removido; física do jogador controla a posição."
+  },
+  {
+    "amostras": 107,
+    "arquivo": "Sword And Shield Slash (1).fbx",
+    "duracao": 3.53333333333333,
+    "id": "SwordSlashB",
+    "loop": false,
+    "ossos": 52,
+    "raiz": "Deslocamento XZ removido; física do jogador controla a posição."
+  },
+  {
+    "amostras": 43,
+    "arquivo": "Sword And Shield Block Idle.fbx",
+    "duracao": 1.4,
+    "id": "SwordBlockIdle",
+    "loop": true,
+    "ossos": 52,
+    "raiz": "Deslocamento XZ removido; física do jogador controla a posição."
+  },
+  {
+    "amostras": 99,
+    "arquivo": "Two Hand Sword Combo.fbx",
+    "duracao": 3.26666666666667,
+    "id": "TwoHandCombo",
+    "loop": false,
+    "ossos": 52,
+    "raiz": "Deslocamento XZ removido; física do jogador controla a posição."
+  },
+  {
+    "amostras": 264,
+    "arquivo": "Fishing Cast.fbx",
+    "duracao": 8.76666666666667,
+    "id": "FishingCast",
+    "loop": false,
+    "ossos": 52,
+    "raiz": "Deslocamento XZ removido; física do jogador controla a posição."
+  },
+  {
+    "amostras": 107,
+    "arquivo": "Fishing Idle.fbx",
+    "duracao": 3.53333333333333,
+    "id": "FishingIdle",
+    "loop": true,
+    "ossos": 52,
+    "raiz": "Deslocamento XZ removido; física do jogador controla a posição."
+  },
+  {
+    "amostras": 33,
+    "arquivo": "Standing Draw Arrow.fbx",
+    "duracao": 1.03333333333333,
+    "id": "BowDraw",
+    "loop": false,
+    "ossos": 52,
+    "raiz": "Deslocamento XZ removido; física do jogador controla a posição."
+  },
+  {
+    "amostras": 73,
+    "arquivo": "Standing Melee Attack Horizontal.fbx",
+    "duracao": 2.4,
+    "id": "AxeHorizontal",
+    "loop": false,
+    "ossos": 52,
+    "raiz": "Deslocamento XZ removido; física do jogador controla a posição."
+  },
+  {
+    "amostras": 39,
+    "arquivo": "Great Sword Slash.fbx",
+    "duracao": 1.26666666666667,
+    "id": "GreatSwordSlash",
+    "loop": false,
+    "ossos": 52,
+    "raiz": "Deslocamento XZ removido; física do jogador controla a posição."
+  },
+  {
+    "amostras": 66,
+    "arquivo": "Great Sword Jump Attack.fbx",
+    "duracao": 2.16666666666667,
+    "id": "GreatSwordJumpAttack",
+    "loop": false,
+    "ossos": 52,
+    "raiz": "Deslocamento XZ removido; física do jogador controla a posição."
+  },
+  {
+    "amostras": 30,
+    "arquivo": "Great Sword Blocking.fbx",
+    "duracao": 0.966666666666667,
+    "id": "GreatSwordBlocking",
+    "loop": true,
+    "ossos": 52,
+    "raiz": "Deslocamento XZ removido; física do jogador controla a posição."
+  },
+  {
+    "amostras": 16,
+    "arquivo": "Standing Sprint Forward.fbx",
+    "duracao": 0.5,
+    "id": "BowRun",
+    "loop": true,
+    "ossos": 52,
+    "raiz": "Deslocamento XZ removido; física do jogador controla a posição."
+  },
+  {
+    "amostras": 69,
+    "arquivo": "Standing Melee Attack Downward.fbx",
+    "duracao": 2.26666666666667,
+    "id": "AxeAttack",
+    "loop": false,
+    "ossos": 52,
+    "raiz": "Deslocamento XZ removido; física do jogador controla a posição."
+  },
+  {
+    "amostras": 76,
+    "arquivo": "Standing Melee Attack 360 Low.fbx",
+    "duracao": 2.5,
+    "id": "MaceAttack",
+    "loop": false,
+    "ossos": 52,
+    "raiz": "Deslocamento XZ removido; física do jogador controla a posição."
+  },
+  {
+    "amostras": 84,
+    "arquivo": "Standing Block Idle.fbx",
+    "duracao": 2.76666666666667,
+    "id": "BlockIdle",
+    "loop": true,
+    "ossos": 52,
+    "raiz": "Deslocamento XZ removido; física do jogador controla a posição."
+  },
+  {
+    "amostras": 47,
+    "arquivo": "Running Slide.fbx",
+    "duracao": 1.53333333333333,
+    "id": "Dodge",
+    "loop": false,
+    "ossos": 52,
+    "raiz": "Deslocamento XZ removido; física do jogador controla a posição."
+  },
+  {
+    "amostras": 56,
+    "arquivo": "Hit Reaction.fbx",
+    "duracao": 1.83333333333333,
+    "id": "HitReaction",
+    "loop": false,
+    "ossos": 52,
+    "raiz": "Deslocamento XZ removido; física do jogador controla a posição."
+  },
+  {
+    "amostras": 133,
+    "arquivo": "Dying.fbx",
+    "duracao": 4.4,
+    "id": "Dying",
+    "loop": false,
+    "ossos": 52,
+    "raiz": "Deslocamento XZ removido; física do jogador controla a posição."
+  },
+  {
+    "amostras": 22,
+    "arquivo": "Standing Aim Recoil.fbx",
+    "duracao": 0.7,
+    "id": "BowRecoil",
+    "loop": false,
+    "ossos": 52,
+    "raiz": "Deslocamento XZ removido; física do jogador controla a posição."
+  }
+]

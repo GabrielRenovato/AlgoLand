@@ -1,0 +1,18 @@
+{
+	"com_espada": true,
+	"direcoes": [
+		"baixo",
+		"direita",
+		"cima",
+		"esquerda"
+	],
+	"esquerda": "direita espelhada ao redor da raiz",
+	"reproducoes": 2,
+	"sincronizados": true,
+	"tempos_ms": [
+		160,
+		60,
+		70,
+		200
+	]
+}

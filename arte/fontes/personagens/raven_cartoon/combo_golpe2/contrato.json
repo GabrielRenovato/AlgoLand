@@ -1,0 +1,565 @@
+{
+  "modelo": "Raven cartoon canônico adulto careca, torso atlético, short cinza opaco",
+  "referencia_modelo": "../corpo_base_cartoon_v1.png",
+  "movimento": "adaptação das poses observadas no Slash2 Mana Seed, sem transferência exata das articulações",
+  "pagina": "ONE3",
+  "celula_mana": [
+    64,
+    64
+  ],
+  "colunas_mana": [
+    4,
+    5,
+    6,
+    7
+  ],
+  "linhas_mana": {
+    "baixo": 0,
+    "cima": 1,
+    "direita": 2,
+    "esquerda": 3
+  },
+  "celula_raven": [
+    640,
+    896
+  ],
+  "pivos": {
+    "baixo": [
+      320,
+      850
+    ],
+    "cima": [
+      320,
+      850
+    ],
+    "direita": [
+      280,
+      850
+    ]
+  },
+  "duracoes_ms": [
+    160,
+    60,
+    70,
+    200
+  ],
+  "loop": false,
+  "quadros3e4": "mesmo corpo; efeito somente no terceiro, como referência",
+  "esquerda": "espelho da direita, junto com arma e efeito",
+  "camada_rastro": "acima da espada, z relativo +3",
+  "destino": "prévia isolada no Godot; não altera jogador ou save real",
+  "guia_poses": {
+    "direita": [
+      {
+        "fase": "preparação compacta à frente",
+        "mao": [
+          430,
+          365
+        ],
+        "cotovelo": [
+          345,
+          440
+        ],
+        "quadril": [
+          300,
+          580
+        ],
+        "cabeca": [
+          320,
+          260
+        ],
+        "apoio": "dois pés, direito visual adiante, joelhos flexionados"
+      },
+      {
+        "fase": "passagem baixa à frente",
+        "mao": [
+          385,
+          665
+        ],
+        "cotovelo": [
+          340,
+          510
+        ],
+        "quadril": [
+          300,
+          600
+        ],
+        "cabeca": [
+          320,
+          285
+        ],
+        "apoio": "mesmos apoios, leve absorção"
+      },
+      {
+        "fase": "continuação recuada",
+        "mao": [
+          110,
+          615
+        ],
+        "cotovelo": [
+          220,
+          500
+        ],
+        "quadril": [
+          295,
+          580
+        ],
+        "cabeca": [
+          320,
+          270
+        ],
+        "apoio": "peso recua, mão livre à frente do peito"
+      },
+      {
+        "fase": "sustentar término",
+        "igual_ao": 3
+      }
+    ],
+    "baixo": [
+      {
+        "fase": "preparação cruzada",
+        "mao": [
+          205,
+          425
+        ],
+        "cotovelo": [
+          345,
+          500
+        ],
+        "quadril": [
+          320,
+          590
+        ],
+        "cabeca": [
+          320,
+          270
+        ],
+        "apoio": "base afastada, ambos os pés apoiados"
+      },
+      {
+        "fase": "passagem baixa à direita da imagem",
+        "mao": [
+          510,
+          670
+        ],
+        "cotovelo": [
+          450,
+          520
+        ],
+        "quadril": [
+          320,
+          600
+        ],
+        "cabeca": [
+          320,
+          290
+        ],
+        "apoio": "flexão sem salto"
+      },
+      {
+        "fase": "término alto à direita da imagem",
+        "mao": [
+          455,
+          365
+        ],
+        "cotovelo": [
+          445,
+          470
+        ],
+        "quadril": [
+          320,
+          580
+        ],
+        "cabeca": [
+          320,
+          270
+        ],
+        "apoio": "tronco girado levemente, pés na mesma base"
+      },
+      {
+        "fase": "sustentar término",
+        "igual_ao": 3
+      }
+    ],
+    "cima": [
+      {
+        "fase": "preparação cruzada à direita da imagem",
+        "mao": [
+          520,
+          540
+        ],
+        "cotovelo": [
+          400,
+          500
+        ],
+        "quadril": [
+          320,
+          600
+        ],
+        "cabeca": [
+          320,
+          270
+        ],
+        "apoio": "dois pés, dorso girado à direita"
+      },
+      {
+        "fase": "passagem alta à esquerda da imagem",
+        "mao": [
+          110,
+          350
+        ],
+        "cotovelo": [
+          200,
+          420
+        ],
+        "quadril": [
+          320,
+          580
+        ],
+        "cabeca": [
+          320,
+          270
+        ],
+        "apoio": "base aberta, dorso visível"
+      },
+      {
+        "fase": "término baixo à esquerda da imagem",
+        "mao": [
+          150,
+          620
+        ],
+        "cotovelo": [
+          220,
+          510
+        ],
+        "quadril": [
+          320,
+          600
+        ],
+        "cabeca": [
+          320,
+          290
+        ],
+        "apoio": "mesmos apoios, giro do dorso à esquerda"
+      },
+      {
+        "fase": "sustentar término",
+        "igual_ao": 3
+      }
+    ]
+  },
+  "estado": "renderizado e revisado em comparação sincronizada no Godot isolado; avaliação artística do usuário pendente",
+  "empacotamento": {
+    "direita": {
+      "escala_unica": 0.9459459459459459,
+      "calota_base": 210,
+      "calota_fonte": 222,
+      "pivo": [
+        280,
+        850
+      ],
+      "quadros": [
+        {
+          "quadro": 1,
+          "recorte": [
+            0,
+            0,
+            530,
+            742
+          ],
+          "raiz_fonte": [
+            265,
+            730
+          ],
+          "translacao": [
+            29,
+            159
+          ],
+          "limites": [
+            75,
+            200,
+            506,
+            851
+          ]
+        },
+        {
+          "quadro": 2,
+          "recorte": [
+            530,
+            0,
+            1060,
+            742
+          ],
+          "raiz_fonte": [
+            270,
+            730
+          ],
+          "translacao": [
+            25,
+            159
+          ],
+          "limites": [
+            46,
+            233,
+            511,
+            850
+          ]
+        },
+        {
+          "quadro": 3,
+          "recorte": [
+            0,
+            742,
+            540,
+            1484
+          ],
+          "raiz_fonte": [
+            300,
+            708
+          ],
+          "translacao": [
+            -4,
+            180
+          ],
+          "limites": [
+            54,
+            229,
+            499,
+            851
+          ]
+        },
+        {
+          "quadro": 4,
+          "recorte": [
+            0,
+            742,
+            540,
+            1484
+          ],
+          "raiz_fonte": [
+            300,
+            708
+          ],
+          "translacao": [
+            -4,
+            180
+          ],
+          "limites": [
+            54,
+            229,
+            499,
+            851
+          ]
+        }
+      ]
+    },
+    "baixo": {
+      "escala_unica": 1.0216216216216216,
+      "calota_base": 189,
+      "calota_fonte": 185,
+      "pivo": [
+        320,
+        850
+      ],
+      "quadros": [
+        {
+          "quadro": 1,
+          "recorte": [
+            0,
+            0,
+            530,
+            742
+          ],
+          "raiz_fonte": [
+            285,
+            687
+          ],
+          "translacao": [
+            29,
+            148
+          ],
+          "limites": [
+            98,
+            207,
+            544,
+            852
+          ]
+        },
+        {
+          "quadro": 2,
+          "recorte": [
+            530,
+            0,
+            1060,
+            742
+          ],
+          "raiz_fonte": [
+            255,
+            685
+          ],
+          "translacao": [
+            59,
+            150
+          ],
+          "limites": [
+            83,
+            279,
+            549,
+            851
+          ]
+        },
+        {
+          "quadro": 3,
+          "recorte": [
+            0,
+            742,
+            540,
+            1484
+          ],
+          "raiz_fonte": [
+            305,
+            695
+          ],
+          "translacao": [
+            8,
+            140
+          ],
+          "limites": [
+            95,
+            187,
+            549,
+            851
+          ]
+        },
+        {
+          "quadro": 4,
+          "recorte": [
+            0,
+            742,
+            540,
+            1484
+          ],
+          "raiz_fonte": [
+            305,
+            695
+          ],
+          "translacao": [
+            8,
+            140
+          ],
+          "limites": [
+            95,
+            187,
+            549,
+            851
+          ]
+        }
+      ]
+    },
+    "cima": {
+      "escala_unica": 1.1025447292069632,
+      "calota_base": 191,
+      "calota_fonte": 176,
+      "pivo": [
+        320,
+        850
+      ],
+      "quadros": [
+        {
+          "quadro": 1,
+          "recorte": [
+            0,
+            0,
+            530,
+            742
+          ],
+          "raiz_fonte": [
+            250,
+            683
+          ],
+          "translacao": [
+            44,
+            97
+          ],
+          "limites": [
+            123,
+            209,
+            519,
+            851
+          ]
+        },
+        {
+          "quadro": 2,
+          "recorte": [
+            530,
+            0,
+            1060,
+            742
+          ],
+          "raiz_fonte": [
+            270,
+            679
+          ],
+          "translacao": [
+            22,
+            101
+          ],
+          "limites": [
+            83,
+            213,
+            567,
+            850
+          ]
+        },
+        {
+          "quadro": 3,
+          "recorte": [
+            0,
+            742,
+            540,
+            1484
+          ],
+          "raiz_fonte": [
+            310,
+            662
+          ],
+          "translacao": [
+            -22,
+            120
+          ],
+          "limites": [
+            84,
+            247,
+            549,
+            851
+          ]
+        },
+        {
+          "quadro": 4,
+          "recorte": [
+            0,
+            742,
+            540,
+            1484
+          ],
+          "raiz_fonte": [
+            310,
+            662
+          ],
+          "translacao": [
+            -22,
+            120
+          ],
+          "limites": [
+            84,
+            247,
+            549,
+            851
+          ]
+        }
+      ]
+    }
+  },
+  "gif": "arte/previas/personagens/raven_cartoon/combo_golpe2/comparacao_mana_seed.gif",
+  "revisao_motor": "arte/previas/personagens/raven_cartoon/combo_golpe2/motor/comparacao/reproducao.json"
+}

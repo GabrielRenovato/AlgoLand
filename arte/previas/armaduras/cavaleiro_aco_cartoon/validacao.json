@@ -1,0 +1,17 @@
+{
+  "folhas_por_peca": 11,
+  "recomposicao_falhas": 0,
+  "motor": "Godot 4.7.2",
+  "cenario": "fazenda",
+  "save": "isolado",
+  "verificacoes": 138,
+  "falhas": 0,
+  "capturas_reais": 207,
+  "revisao": "quatro quadros por direcao: corrida e dois golpes; capturas do viewport real",
+  "armadura_original_preservada": true,
+  "composicao_rosto": "camada extraida do corpo original sob o equipamento, ajustada somente a abertura de cada elmo",
+  "deslocamentos_armadura": false,
+  "substituicao_elmo": false,
+  "escala_visual": 1.08,
+  "avisos_encerramento": "Godot informa texturas/recursos ainda em uso ao encerrar; nenhum erro de script ou falha das verificacoes durante a execucao."
+}

@@ -1,0 +1,56 @@
+{
+  "Walk": {
+    "arquivo": "Unarmed Walk Forward.fbx",
+    "loop": true,
+    "mixamo_id": "c9cef1a4-b96c-11e4-a802-0aaa78deedf9",
+    "descricao_mixamo": "Walking Forward",
+    "duracao_fonte": 1.33,
+    "uso": "Caminhada",
+    "pagina": "https://www.mixamo.com/#/?page=1&type=Motion&query=Unarmed%20Walk%20Forward"
+  },
+  "DodgeBowForward": {
+    "arquivo": "Standing Dodge Forward.fbx",
+    "loop": false,
+    "mixamo_id": "c9ceb892-b96c-11e4-a802-0aaa78deedf9",
+    "descricao_mixamo": "Dodge Forward With Bow",
+    "duracao_fonte": 0.97,
+    "uso": "Esquiva para a frente com arco",
+    "pagina": "https://www.mixamo.com/#/?page=1&type=Motion&query=Standing%20Dodge%20Forward"
+  },
+  "DodgeBack": {
+    "arquivo": "Dodging Back.fbx",
+    "loop": false,
+    "mixamo_id": "c9c8f3f4-b96c-11e4-a802-0aaa78deedf9",
+    "descricao_mixamo": "Jumping Backwards Dodge",
+    "duracao_fonte": 2.67,
+    "uso": "Esquiva para trás",
+    "pagina": "https://www.mixamo.com/#/?page=1&type=Motion&query=Dodging%20Back"
+  },
+  "AxeDownward": {
+    "arquivo": "Standing Melee Attack Downward.fbx",
+    "loop": false,
+    "mixamo_id": "c9ced340-b96c-11e4-a802-0aaa78deedf9",
+    "descricao_mixamo": "Downward Attack With Axe",
+    "duracao_fonte": 2.27,
+    "uso": "Ataque vertical de machado de combate",
+    "pagina": "https://www.mixamo.com/#/?page=1&type=Motion&query=Standing%20Melee%20Attack%20Downward"
+  },
+  "AxeCombo": {
+    "arquivo": "Standing Melee Combo Attack Ver. 3.fbx",
+    "loop": false,
+    "mixamo_id": "c9cedb93-b96c-11e4-a802-0aaa78deedf9",
+    "descricao_mixamo": "Two Hit Combo Attack With Axe",
+    "duracao_fonte": 2.73,
+    "uso": "Combo de dois golpes de machado de combate",
+    "pagina": "https://www.mixamo.com/#/?page=1&type=Motion&query=Standing%20Melee%20Combo%20Attack%20Ver.%203"
+  },
+  "AxeBlock": {
+    "arquivo": "Standing Block Idle.fbx",
+    "loop": true,
+    "mixamo_id": "c9ceccf3-b96c-11e4-a802-0aaa78deedf9",
+    "descricao_mixamo": "Blocking An Attack With Axe",
+    "duracao_fonte": 1.83,
+    "uso": "Guarda com machado; escolher a variante Blocking An Attack With Axe",
+    "pagina": "https://www.mixamo.com/#/?page=1&type=Motion&query=Standing%20Block%20Idle"
+  }
+}

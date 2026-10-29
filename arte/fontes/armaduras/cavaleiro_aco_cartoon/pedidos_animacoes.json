@@ -1,0 +1,83 @@
+[
+  {
+    "nome": "corrida_costas",
+    "alvo": "assets/personagens/raven_cartoon/corrida_costas_4.png",
+    "prompt": "arte/fontes/armaduras/cavaleiro_aco_cartoon/prompt_corrida_costas.txt",
+    "celula": [
+      512,
+      896
+    ]
+  },
+  {
+    "nome": "corrida_direita",
+    "alvo": "assets/personagens/raven_cartoon/corrida_direita_4.png",
+    "prompt": "arte/fontes/armaduras/cavaleiro_aco_cartoon/prompt_corrida_direita.txt",
+    "celula": [
+      512,
+      896
+    ]
+  },
+  {
+    "nome": "repouso",
+    "alvo": "assets/personagens/raven_cartoon/parado_quatro_direcoes.png",
+    "prompt": "arte/fontes/armaduras/cavaleiro_aco_cartoon/prompt_repouso.txt",
+    "celula": [
+      640,
+      896
+    ]
+  },
+  {
+    "nome": "ataque_baixo",
+    "alvo": "assets/personagens/raven_cartoon/ataque_baixo_sem_arma.png",
+    "prompt": "arte/fontes/armaduras/cavaleiro_aco_cartoon/prompt_ataque_baixo.txt",
+    "celula": [
+      640,
+      896
+    ]
+  },
+  {
+    "nome": "ataque_cima",
+    "alvo": "assets/personagens/raven_cartoon/ataque_cima_sem_arma.png",
+    "prompt": "arte/fontes/armaduras/cavaleiro_aco_cartoon/prompt_ataque_cima.txt",
+    "celula": [
+      640,
+      896
+    ]
+  },
+  {
+    "nome": "ataque_direita",
+    "alvo": "assets/personagens/raven_cartoon/ataque_direita_sem_arma.png",
+    "prompt": "arte/fontes/armaduras/cavaleiro_aco_cartoon/prompt_ataque_direita.txt",
+    "celula": [
+      640,
+      896
+    ]
+  },
+  {
+    "nome": "ataque2_baixo",
+    "alvo": "assets/personagens/raven_cartoon/ataque2_baixo_sem_arma.png",
+    "prompt": "arte/fontes/armaduras/cavaleiro_aco_cartoon/prompt_ataque2_baixo.txt",
+    "celula": [
+      640,
+      896
+    ]
+  },
+  {
+    "nome": "ataque2_cima",
+    "alvo": "assets/personagens/raven_cartoon/ataque2_cima_sem_arma.png",
+    "prompt": "arte/fontes/armaduras/cavaleiro_aco_cartoon/prompt_ataque2_cima.txt",
+    "celula": [
+      640,
+      896
+    ]
+  },
+  {
+    "nome": "ataque2_direita",
+    "alvo": "assets/personagens/raven_cartoon/ataque2_direita_sem_arma.png",
+    "prompt": "arte/fontes/armaduras/cavaleiro_aco_cartoon/prompt_ataque2_direita.txt",
+    "celula": [
+      640,
+      896
+    ]
+  }
+]

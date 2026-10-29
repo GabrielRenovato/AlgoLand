@@ -1,0 +1,14 @@
+{
+  "funcao": "Pesca, mineração e enxada no personagem 3D atual, mantendo aparência e mecânicas.",
+  "referencia": "cenas/personagem/base_3d/personagem.tscn e contrato.json do personagem; animações originais KayKit Character Animations 1.1 (CC0).",
+  "fonte": "original_free_1_1.zip / Animations/gltf/Rig_Medium/Rig_Medium_Tools.glb",
+  "destino": "assets/personagens/base_3d/kaykit_ferramentas.res",
+  "camera": "Ortográfica do HeroiBase3D, 20 graus; viewport lógico80x80; renderização conforme acabamento atual.",
+  "encaixe": "Mantém o rig canônico, proporção chibi, roupas, pivô e oito direções. Pega direita segue a palma; orientação do handslot.r original é transferida em todas as amostras. Sem reposicionamento por contorno.",
+  "metodo": "Retarget de rotações globais por repouso; quadril conserva somente deslocamento vertical. Não são poses geradas por IA nem gestos procedurais substituindo as animações.",
+  "picareta": "Um dos dois golpes do Pickaxing por ação de0,68s; contato de origem0,31s sincronizado ao sinal em0,30s.",
+  "pesca": "Fishing_Cast para carregar/lançar; Fishing_Idle para espera; Fishing_Bite para belisco; Fishing_Reeling para disputa; Fishing_Catch para resultado. Linha nasce na projeção da ponta da vara3D; origem do voo é fixa após soltar. Linha e boia são atualizadas juntas após skeleton_updated; Line2D suavizada mantém as pontas exatas, com pequena folga variável pela tensão.",
+  "ferramentas": "Malhas3D autorais simples compatíveis com a apresentação atual; são cosméticas e não concedem itens.",
+  "revisao": "teste_ferramentas_kaykit_3d.gd; quatro direções cardinais,24 amostras por fase,768 capturas; exportar_ferramentas_kaykit.py compõe contato/GIF com os mesmos tempos.",
+  "enxada": "Reutiliza Pickaxing por solicitação do usuário, com a mesma pegada e o mesmo tempo de impacto da picareta; malha própria com lâmina perpendicular ao cabo. Não depende de pacote comercial."
+}

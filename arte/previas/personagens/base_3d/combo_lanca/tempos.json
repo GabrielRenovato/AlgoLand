@@ -1,0 +1,9 @@
+{
+  "direcoes": 4,
+  "duracoes": [
+    0.32,
+    0.36,
+    0.5
+  ],
+  "quadros_por_golpe": 24
+}

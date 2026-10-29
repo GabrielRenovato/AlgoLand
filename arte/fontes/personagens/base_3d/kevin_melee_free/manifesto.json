@@ -1,0 +1,775 @@
+{
+  "animacoes": [
+    {
+      "arquivo": "Female/Combat/1H/HumanF@Attack1H01_L.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 1.1,
+      "mascara": false,
+      "nome": "HumanF_Attack1H01_L",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Female/Combat/1H/HumanF@Attack1H01_R.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 1.1,
+      "mascara": false,
+      "nome": "HumanF_Attack1H01_R",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Female/Combat/1H/HumanF@CombatIdle1H01.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 1.33333333333333,
+      "mascara": false,
+      "nome": "HumanF_CombatIdle1H01",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Female/Combat/2H/HumanF@Attack2H01.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 1.6,
+      "mascara": false,
+      "nome": "HumanF_Attack2H01",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Female/Combat/2H/HumanF@CombatIdle2H01.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 1.33333333333333,
+      "mascara": false,
+      "nome": "HumanF_CombatIdle2H01",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Female/Combat/Polearm/HumanF@AttackPolearm01.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 1.36666666666667,
+      "mascara": false,
+      "nome": "HumanF_AttackPolearm01",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Female/Combat/Polearm/HumanF@CombatIdlePolearm01.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 1.33333333333333,
+      "mascara": false,
+      "nome": "HumanF_CombatIdlePolearm01",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Female/Combat/Shield/HumanF@AttackShield01.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.9,
+      "mascara": false,
+      "nome": "HumanF_AttackShield01",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Female/Combat/HumanF@CombatDamage01.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 1.0,
+      "mascara": false,
+      "nome": "HumanF_CombatDamage01",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Female/Combat/HumanF@CombatIdle01.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 1.33333333333333,
+      "mascara": false,
+      "nome": "HumanF_CombatIdle01",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Female/Combat/HumanF@Death01.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.733333333333333,
+      "mascara": false,
+      "nome": "HumanF_Death01",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Female/Idles/HumanF@Idle01.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 2.7,
+      "mascara": false,
+      "nome": "HumanF_Idle01",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Female/Movement/Run/RootMotion/HumanF@Run01_Backward [RM].fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.6,
+      "mascara": false,
+      "nome": "HumanF_Run01_Backward_RM",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Female/Movement/Run/RootMotion/HumanF@Run01_BackwardLeft [RM].fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.6,
+      "mascara": false,
+      "nome": "HumanF_Run01_BackwardLeft_RM",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Female/Movement/Run/RootMotion/HumanF@Run01_BackwardRight [RM].fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.6,
+      "mascara": false,
+      "nome": "HumanF_Run01_BackwardRight_RM",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Female/Movement/Run/RootMotion/HumanF@Run01_Forward [RM].fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.6,
+      "mascara": false,
+      "nome": "HumanF_Run01_Forward_RM",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Female/Movement/Run/RootMotion/HumanF@Run01_ForwardLeft [RM].fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.6,
+      "mascara": false,
+      "nome": "HumanF_Run01_ForwardLeft_RM",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Female/Movement/Run/RootMotion/HumanF@Run01_ForwardRight [RM].fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.6,
+      "mascara": false,
+      "nome": "HumanF_Run01_ForwardRight_RM",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Female/Movement/Run/RootMotion/HumanF@Run01_Left [RM].fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.6,
+      "mascara": false,
+      "nome": "HumanF_Run01_Left_RM",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Female/Movement/Run/RootMotion/HumanF@Run01_Right [RM].fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.6,
+      "mascara": false,
+      "nome": "HumanF_Run01_Right_RM",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Female/Movement/Run/HumanF@Run01_Backward.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.6,
+      "mascara": false,
+      "nome": "HumanF_Run01_Backward",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Female/Movement/Run/HumanF@Run01_BackwardLeft.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.6,
+      "mascara": false,
+      "nome": "HumanF_Run01_BackwardLeft",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Female/Movement/Run/HumanF@Run01_BackwardRight.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.6,
+      "mascara": false,
+      "nome": "HumanF_Run01_BackwardRight",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Female/Movement/Run/HumanF@Run01_Forward.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.6,
+      "mascara": false,
+      "nome": "HumanF_Run01_Forward",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Female/Movement/Run/HumanF@Run01_ForwardLeft.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.6,
+      "mascara": false,
+      "nome": "HumanF_Run01_ForwardLeft",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Female/Movement/Run/HumanF@Run01_ForwardRight.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.6,
+      "mascara": false,
+      "nome": "HumanF_Run01_ForwardRight",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Female/Movement/Run/HumanF@Run01_Left.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.6,
+      "mascara": false,
+      "nome": "HumanF_Run01_Left",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Female/Movement/Run/HumanF@Run01_Right.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.6,
+      "mascara": false,
+      "nome": "HumanF_Run01_Right",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Female/Movement/Strafe/StrafeRun/RootMotion/HumanF@StrafeRun01_BackwardLeft [RM].fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.6,
+      "mascara": false,
+      "nome": "HumanF_StrafeRun01_BackwardLeft_RM",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Female/Movement/Strafe/StrafeRun/RootMotion/HumanF@StrafeRun01_BackwardRight [RM].fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.6,
+      "mascara": false,
+      "nome": "HumanF_StrafeRun01_BackwardRight_RM",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Female/Movement/Strafe/StrafeRun/RootMotion/HumanF@StrafeRun01_ForwardLeft [RM].fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.6,
+      "mascara": false,
+      "nome": "HumanF_StrafeRun01_ForwardLeft_RM",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Female/Movement/Strafe/StrafeRun/RootMotion/HumanF@StrafeRun01_ForwardRight [RM].fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.6,
+      "mascara": false,
+      "nome": "HumanF_StrafeRun01_ForwardRight_RM",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Female/Movement/Strafe/StrafeRun/RootMotion/HumanF@StrafeRun01_Left [RM].fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.6,
+      "mascara": false,
+      "nome": "HumanF_StrafeRun01_Left_RM",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Female/Movement/Strafe/StrafeRun/RootMotion/HumanF@StrafeRun01_Right [RM].fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.6,
+      "mascara": false,
+      "nome": "HumanF_StrafeRun01_Right_RM",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Female/Movement/Strafe/StrafeRun/HumanF@StrafeRun01_BackwardLeft.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.6,
+      "mascara": false,
+      "nome": "HumanF_StrafeRun01_BackwardLeft",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Female/Movement/Strafe/StrafeRun/HumanF@StrafeRun01_BackwardRight.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.6,
+      "mascara": false,
+      "nome": "HumanF_StrafeRun01_BackwardRight",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Female/Movement/Strafe/StrafeRun/HumanF@StrafeRun01_ForwardLeft.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.6,
+      "mascara": false,
+      "nome": "HumanF_StrafeRun01_ForwardLeft",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Female/Movement/Strafe/StrafeRun/HumanF@StrafeRun01_ForwardRight.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.6,
+      "mascara": false,
+      "nome": "HumanF_StrafeRun01_ForwardRight",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Female/Movement/Strafe/StrafeRun/HumanF@StrafeRun01_Left.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.6,
+      "mascara": false,
+      "nome": "HumanF_StrafeRun01_Left",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Female/Movement/Strafe/StrafeRun/HumanF@StrafeRun01_Right.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.6,
+      "mascara": false,
+      "nome": "HumanF_StrafeRun01_Right",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Male/Combat/1H/HumanM@Attack1H01_L.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 1.1,
+      "mascara": false,
+      "nome": "HumanM_Attack1H01_L",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Male/Combat/1H/HumanM@Attack1H01_R.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 1.1,
+      "mascara": false,
+      "nome": "HumanM_Attack1H01_R",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Male/Combat/1H/HumanM@CombatIdle1H01.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 1.33333333333333,
+      "mascara": false,
+      "nome": "HumanM_CombatIdle1H01",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Male/Combat/2H/HumanM@Attack2H01.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 1.6,
+      "mascara": false,
+      "nome": "HumanM_Attack2H01",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Male/Combat/2H/HumanM@CombatIdle2H01.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 1.33333333333333,
+      "mascara": false,
+      "nome": "HumanM_CombatIdle2H01",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Male/Combat/Polearm/HumanM@AttackPolearm01.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 1.36666666666667,
+      "mascara": false,
+      "nome": "HumanM_AttackPolearm01",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Male/Combat/Polearm/HumanM@CombatIdlePolearm01.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 1.33333333333333,
+      "mascara": false,
+      "nome": "HumanM_CombatIdlePolearm01",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Male/Combat/Shield/HumanM@AttackShield01.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.9,
+      "mascara": false,
+      "nome": "HumanM_AttackShield01",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Male/Combat/HumanM@CombatDamage01.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 1.0,
+      "mascara": false,
+      "nome": "HumanM_CombatDamage01",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Male/Combat/HumanM@CombatIdle01.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 1.33333333333333,
+      "mascara": false,
+      "nome": "HumanM_CombatIdle01",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Male/Combat/HumanM@Death01.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.733333333333333,
+      "mascara": false,
+      "nome": "HumanM_Death01",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Male/Idles/HumanM@Idle01.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 2.7,
+      "mascara": false,
+      "nome": "HumanM_Idle01",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Male/Movement/Run/RootMotion/HumanM@Run01_Backward [RM].fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.6,
+      "mascara": false,
+      "nome": "HumanM_Run01_Backward_RM",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Male/Movement/Run/RootMotion/HumanM@Run01_BackwardLeft [RM].fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.6,
+      "mascara": false,
+      "nome": "HumanM_Run01_BackwardLeft_RM",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Male/Movement/Run/RootMotion/HumanM@Run01_BackwardRight [RM].fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.6,
+      "mascara": false,
+      "nome": "HumanM_Run01_BackwardRight_RM",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Male/Movement/Run/RootMotion/HumanM@Run01_Forward [RM].fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.6,
+      "mascara": false,
+      "nome": "HumanM_Run01_Forward_RM",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Male/Movement/Run/RootMotion/HumanM@Run01_ForwardLeft [RM].fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.6,
+      "mascara": false,
+      "nome": "HumanM_Run01_ForwardLeft_RM",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Male/Movement/Run/RootMotion/HumanM@Run01_ForwardRight [RM].fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.6,
+      "mascara": false,
+      "nome": "HumanM_Run01_ForwardRight_RM",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Male/Movement/Run/RootMotion/HumanM@Run01_Left [RM].fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.6,
+      "mascara": false,
+      "nome": "HumanM_Run01_Left_RM",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Male/Movement/Run/RootMotion/HumanM@Run01_Right [RM].fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.6,
+      "mascara": false,
+      "nome": "HumanM_Run01_Right_RM",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Male/Movement/Run/HumanM@Run01_Backward.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.6,
+      "mascara": false,
+      "nome": "HumanM_Run01_Backward",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Male/Movement/Run/HumanM@Run01_BackwardLeft.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.6,
+      "mascara": false,
+      "nome": "HumanM_Run01_BackwardLeft",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Male/Movement/Run/HumanM@Run01_BackwardRight.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.6,
+      "mascara": false,
+      "nome": "HumanM_Run01_BackwardRight",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Male/Movement/Run/HumanM@Run01_Forward.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.6,
+      "mascara": false,
+      "nome": "HumanM_Run01_Forward",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Male/Movement/Run/HumanM@Run01_ForwardLeft.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.6,
+      "mascara": false,
+      "nome": "HumanM_Run01_ForwardLeft",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Male/Movement/Run/HumanM@Run01_ForwardRight.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.6,
+      "mascara": false,
+      "nome": "HumanM_Run01_ForwardRight",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Male/Movement/Run/HumanM@Run01_Left.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.6,
+      "mascara": false,
+      "nome": "HumanM_Run01_Left",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Male/Movement/Run/HumanM@Run01_Right.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.6,
+      "mascara": false,
+      "nome": "HumanM_Run01_Right",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Male/Movement/Strafe/StrafeRun/RootMotion/HumanM@StrafeRun01_BackwardLeft [RM].fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.6,
+      "mascara": false,
+      "nome": "HumanM_StrafeRun01_BackwardLeft_RM",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Male/Movement/Strafe/StrafeRun/RootMotion/HumanM@StrafeRun01_BackwardRight [RM].fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.6,
+      "mascara": false,
+      "nome": "HumanM_StrafeRun01_BackwardRight_RM",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Male/Movement/Strafe/StrafeRun/RootMotion/HumanM@StrafeRun01_ForwardLeft [RM].fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.6,
+      "mascara": false,
+      "nome": "HumanM_StrafeRun01_ForwardLeft_RM",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Male/Movement/Strafe/StrafeRun/RootMotion/HumanM@StrafeRun01_ForwardRight [RM].fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.6,
+      "mascara": false,
+      "nome": "HumanM_StrafeRun01_ForwardRight_RM",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Male/Movement/Strafe/StrafeRun/RootMotion/HumanM@StrafeRun01_Left [RM].fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.6,
+      "mascara": false,
+      "nome": "HumanM_StrafeRun01_Left_RM",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Male/Movement/Strafe/StrafeRun/RootMotion/HumanM@StrafeRun01_Right [RM].fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.6,
+      "mascara": false,
+      "nome": "HumanM_StrafeRun01_Right_RM",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Male/Movement/Strafe/StrafeRun/HumanM@StrafeRun01_BackwardLeft.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.6,
+      "mascara": false,
+      "nome": "HumanM_StrafeRun01_BackwardLeft",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Male/Movement/Strafe/StrafeRun/HumanM@StrafeRun01_BackwardRight.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.6,
+      "mascara": false,
+      "nome": "HumanM_StrafeRun01_BackwardRight",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Male/Movement/Strafe/StrafeRun/HumanM@StrafeRun01_ForwardLeft.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.6,
+      "mascara": false,
+      "nome": "HumanM_StrafeRun01_ForwardLeft",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Male/Movement/Strafe/StrafeRun/HumanM@StrafeRun01_ForwardRight.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.6,
+      "mascara": false,
+      "nome": "HumanM_StrafeRun01_ForwardRight",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Male/Movement/Strafe/StrafeRun/HumanM@StrafeRun01_Left.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.6,
+      "mascara": false,
+      "nome": "HumanM_StrafeRun01_Left",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Male/Movement/Strafe/StrafeRun/HumanM@StrafeRun01_Right.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.6,
+      "mascara": false,
+      "nome": "HumanM_StrafeRun01_Right",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Masked Poses/Human@HandsClosed01.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.333333333333333,
+      "mascara": true,
+      "nome": "Human_HandsClosed01",
+      "ossos": 42
+    },
+    {
+      "arquivo": "Masked Poses/Human@ObjectGripHands01.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.333333333333333,
+      "mascara": true,
+      "nome": "Human_ObjectGripHands01",
+      "ossos": 42
+    },
+    {
+      "arquivo": "Masked Poses/HumanF@ObjectGripShoulder01_L.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.333333333333333,
+      "mascara": true,
+      "nome": "HumanF_ObjectGripShoulder01_L",
+      "ossos": 42
+    },
+    {
+      "arquivo": "Masked Poses/HumanF@ObjectGripShoulder01_R.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.333333333333333,
+      "mascara": true,
+      "nome": "HumanF_ObjectGripShoulder01_R",
+      "ossos": 42
+    },
+    {
+      "arquivo": "Masked Poses/HumanF@ObjectGripShoulder02_L.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.333333333333333,
+      "mascara": true,
+      "nome": "HumanF_ObjectGripShoulder02_L",
+      "ossos": 42
+    },
+    {
+      "arquivo": "Masked Poses/HumanF@ObjectGripShoulder02_R.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.333333333333333,
+      "mascara": true,
+      "nome": "HumanF_ObjectGripShoulder02_R",
+      "ossos": 42
+    },
+    {
+      "arquivo": "Masked Poses/HumanF@WeaponHold2H01.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.333333333333333,
+      "mascara": true,
+      "nome": "HumanF_WeaponHold2H01",
+      "ossos": 42
+    },
+    {
+      "arquivo": "Masked Poses/HumanF@WeaponHoldPolearm01.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.333333333333333,
+      "mascara": true,
+      "nome": "HumanF_WeaponHoldPolearm01",
+      "ossos": 42
+    },
+    {
+      "arquivo": "Masked Poses/HumanM@ObjectGripShoulder01_L.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.333333333333333,
+      "mascara": true,
+      "nome": "HumanM_ObjectGripShoulder01_L",
+      "ossos": 42
+    },
+    {
+      "arquivo": "Masked Poses/HumanM@ObjectGripShoulder01_R.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.333333333333333,
+      "mascara": true,
+      "nome": "HumanM_ObjectGripShoulder01_R",
+      "ossos": 42
+    },
+    {
+      "arquivo": "Masked Poses/HumanM@ObjectGripShoulder02_L.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.333333333333333,
+      "mascara": true,
+      "nome": "HumanM_ObjectGripShoulder02_L",
+      "ossos": 42
+    },
+    {
+      "arquivo": "Masked Poses/HumanM@ObjectGripShoulder02_R.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.333333333333333,
+      "mascara": true,
+      "nome": "HumanM_ObjectGripShoulder02_R",
+      "ossos": 42
+    },
+    {
+      "arquivo": "Masked Poses/HumanM@WeaponHold2H01.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.333333333333333,
+      "mascara": true,
+      "nome": "HumanM_WeaponHold2H01",
+      "ossos": 42
+    },
+    {
+      "arquivo": "Masked Poses/HumanM@WeaponHoldPolearm01.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.333333333333333,
+      "mascara": true,
+      "nome": "HumanM_WeaponHoldPolearm01",
+      "ossos": 42
+    },
+    {
+      "arquivo": "Female/Combat/1H/HumanF@Attack1H01_L.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 1.1,
+      "mascara": false,
+      "nome": "HumanF_Attack1H01_L_Espelhado",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Male/Combat/1H/HumanM@Attack1H01_L.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 1.1,
+      "mascara": false,
+      "nome": "HumanM_Attack1H01_L_Espelhado",
+      "ossos": 51
+    }
+  ],
+  "autor": "Kevin Iglesias",
+  "fonte": "https://kevdev.itch.io/human-melee-animatons-free",
+  "licenca": "Standard Asset Store EULA; uso comercial permitido, sem revenda dos arquivos; documentação original dentro do ZIP."
+}

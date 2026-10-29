@@ -1,0 +1,18 @@
+{
+  "arquivo": "raven_cartoon_fazenda_tela_inteira.gif",
+  "quadros": 185,
+  "duracao_ms": 9250,
+  "resolucao": [
+    960,
+    600
+  ],
+  "fps": 20,
+  "origem": "capturas reais do Godot, com física e controles",
+  "recorte_do_viewport": null,
+  "redimensionamento": false,
+  "direcoes": 4,
+  "golpes": 2,
+  "fases_observadas_por_golpe": 4,
+  "verificacoes": 138,
+  "falhas": 0
+}

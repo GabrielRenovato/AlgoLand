@@ -1,0 +1,12 @@
+{
+  "recurso": "assets/personagens/base_3d/cabelo_pintado.png",
+  "original": "original.png",
+  "uso": "Textura albedo de cabelo em UV cilíndrica, sobre malha contínua e franja fina.",
+  "origem": "image_gen integrado, geração por IA; sem pintura manual de pixels.",
+  "grade": "Imagem de textura albedo; não é sprite. O filtro do jogo renderiza 160x160 para área de mundo 80x80.",
+  "revisao": "revisar_cabelo_3d.gd, quatro direções, com/sem cabelo, filtro real e modo suave.",
+  "dimensoes_fonte": [
+    1254,
+    1254
+  ]
+}

@@ -1,0 +1,225 @@
+{
+  "capturas": 4,
+  "direcoes": 4,
+  "margens_arma_conferidas": true,
+  "amostras_lamina_visivel": [
+    {
+      "direcao": "baixo",
+      "quadro": 1,
+      "amostra_lamina": [
+        393,
+        194
+      ],
+      "cor": [
+        226,
+        235,
+        241
+      ]
+    },
+    {
+      "direcao": "direita",
+      "quadro": 1,
+      "amostra_lamina": [
+        795,
+        320
+      ],
+      "cor": [
+        226,
+        236,
+        242
+      ]
+    },
+    {
+      "direcao": "cima",
+      "quadro": 1,
+      "amostra_lamina": [
+        155,
+        1193
+      ],
+      "cor": [
+        227,
+        235,
+        242
+      ]
+    },
+    {
+      "direcao": "esquerda",
+      "quadro": 1,
+      "amostra_lamina": [
+        1125,
+        960
+      ],
+      "cor": [
+        226,
+        235,
+        242
+      ]
+    },
+    {
+      "direcao": "baixo",
+      "quadro": 2,
+      "amostra_lamina": [
+        561,
+        499
+      ],
+      "cor": [
+        225,
+        235,
+        241
+      ]
+    },
+    {
+      "direcao": "direita",
+      "quadro": 2,
+      "amostra_lamina": [
+        916,
+        572
+      ],
+      "cor": [
+        227,
+        236,
+        241
+      ]
+    },
+    {
+      "direcao": "cima",
+      "quadro": 2,
+      "amostra_lamina": [
+        58,
+        874
+      ],
+      "cor": [
+        227,
+        236,
+        243
+      ]
+    },
+    {
+      "direcao": "esquerda",
+      "quadro": 2,
+      "amostra_lamina": [
+        1004,
+        1212
+      ],
+      "cor": [
+        226,
+        235,
+        242
+      ]
+    },
+    {
+      "direcao": "baixo",
+      "quadro": 3,
+      "amostra_lamina": [
+        190,
+        241
+      ],
+      "cor": [
+        228,
+        237,
+        243
+      ]
+    },
+    {
+      "direcao": "direita",
+      "quadro": 3,
+      "amostra_lamina": [
+        1057,
+        193
+      ],
+      "cor": [
+        226,
+        235,
+        242
+      ]
+    },
+    {
+      "direcao": "cima",
+      "quadro": 3,
+      "amostra_lamina": [
+        583,
+        1053
+      ],
+      "cor": [
+        226,
+        235,
+        241
+      ]
+    },
+    {
+      "direcao": "esquerda",
+      "quadro": 3,
+      "amostra_lamina": [
+        863,
+        833
+      ],
+      "cor": [
+        227,
+        236,
+        242
+      ]
+    },
+    {
+      "direcao": "baixo",
+      "quadro": 4,
+      "amostra_lamina": [
+        190,
+        241
+      ],
+      "cor": [
+        228,
+        237,
+        243
+      ]
+    },
+    {
+      "direcao": "direita",
+      "quadro": 4,
+      "amostra_lamina": [
+        1057,
+        193
+      ],
+      "cor": [
+        226,
+        235,
+        242
+      ]
+    },
+    {
+      "direcao": "cima",
+      "quadro": 4,
+      "amostra_lamina": [
+        583,
+        1053
+      ],
+      "cor": [
+        226,
+        235,
+        241
+      ]
+    },
+    {
+      "direcao": "esquerda",
+      "quadro": 4,
+      "amostra_lamina": [
+        863,
+        833
+      ],
+      "cor": [
+        227,
+        236,
+        242
+      ]
+    }
+  ],
+  "dimensao": [
+    1280,
+    1280
+  ],
+  "tempos_ms": [
+    160,
+    60,
+    70,
+    200
+  ]
+}

@@ -1,0 +1,9 @@
+# Corte para direita refeito pela referência Mana Seed
+
+Pedido: refazer para direita da mesma forma que os cortes frontal e traseiro já aprovados, comparando movimento real Mana Seed. Corpo Raven cartoon careca com short cinza opaco, mão vazia e direção direita. Referência: corpo ONE3, linha2 e colunas0–3, além do guia do autor com espada/arco. Mesmo braço próximo conduz preparação atrás, passagem baixa junto à coxa e final dobrado à frente do peito. O braço distante equilibra e não troca de função.
+
+Arte produzida com `image_gen` integrado. Fonte `folha_corte_mana_seed_v2.png`, prompt `prompt_corte_mana_seed_v2.txt`, guia `guia_corte_mana_seed_v2.png`. Quadros3/4 usam o mesmo término como Mana Seed. Versão anterior em `folha_gerada_v1.png` e nas prévias `anterior_corte_mana_seed_v2/`; preservada como histórico, sem ser o movimento atual.
+
+Empacotar: `python3 ferramentas/personagem/raven_cartoon/preparar_ataque_direita.py --direcao direita`. Células640×896, pivô280×850, uma escala para toda a sequência calibrada pela calota do perfil canônico, com tolerância de2px. Tempos160/60/70/200ms,490ms. Recurso não repete; GIF repete para análise e reúne os dois tempos finais iguais em270ms, resultando em três imagens únicas. Atlas e SpriteFrames em `assets/personagens/raven_cartoon/ataque_direita_sem_arma.*`.
+
+Revisão gráfica no Godot em projeto/save isolado: `revisar_ataque_direita.gd` e `revisar_ataque_direita.gd -- --comparar-mana`. Duas reproduções, quatro capturas por revisão e comparação sincronizada com o corpo Mana Seed. GIF em `arte/previas/personagens/raven_cartoon/ataque_direita/comparacao_mana_seed.gif`. Conferidos direção, braço constante, trajetória, término, pés, margens e escala. Adaptação cartoon, sem transferência exata das articulações nem aprovação artística inferida. Não altera personagem ativo ou outras direções.

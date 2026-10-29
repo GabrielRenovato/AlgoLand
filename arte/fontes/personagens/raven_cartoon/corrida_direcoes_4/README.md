@@ -11,6 +11,7 @@ Prompts usados:
 - `direita/prompt_correcao_quadro3.txt`: braço oposto no terceiro quadro.
 - `direita/prompt_correcao_pernas3.txt` e `prompt_correcao_pernas4.txt`: abertura do short e sobreposição das coxas para alternar a perna próxima e distante.
 - `costas/prompt_correcao_pe.txt`: sola e calcanhar no pé levantado, removendo dedos vistos pela frente.
+- `direita/prompt_quadro4_perna_atras_v2.txt` e `prompt_quadro4_braco_frente_v2.txt`: perna esquerda distante recuada e braço esquerdo distante à frente no último quadro; os três primeiros quadros permanecem idênticos.
 
 Empacotamento: `python3 ferramentas/personagem/raven_cartoon/preparar_direcoes.py`. Usa uma escala comum por direção e translações pela calota e sola de apoio; não dimensiona cada pose pelo próprio contorno. Células 512×896, chão y850. A cabeça no perfil fica à frente do quadril, centro x280 para direita e espelhado para esquerda.
 

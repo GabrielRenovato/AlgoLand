@@ -1,0 +1,11 @@
+{
+  "bytes": 4642196,
+  "triangulos": 109856,
+  "vertices_exportados": 72176,
+  "ossos": 16,
+  "texturas_embutidas": 18,
+  "pesos_normalizados": true,
+  "indices_validos": true,
+  "sha256": "d9bc3f7625c1207422c49fd8754bd75a7a0630487c73ba343d7db1816d49b2b4",
+  "materiais_originais": 18
+}

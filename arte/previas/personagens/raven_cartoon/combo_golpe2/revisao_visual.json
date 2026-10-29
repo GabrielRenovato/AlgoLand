@@ -1,0 +1,368 @@
+{
+  "quadros_por_direcao": 4,
+  "direcoes": 4,
+  "tempos_ms": [
+    160,
+    60,
+    70,
+    200
+  ],
+  "margens_arma_16_poses": [
+    {
+      "direcao": "baixo",
+      "quadro": 1,
+      "cantos_arma_na_dupla": [
+        [
+          666.25,
+          188.46
+        ],
+        [
+          697.84,
+          188.46
+        ],
+        [
+          666.25,
+          319.31
+        ],
+        [
+          697.84,
+          319.31
+        ]
+      ]
+    },
+    {
+      "direcao": "baixo",
+      "quadro": 2,
+      "cantos_arma_na_dupla": [
+        [
+          912.13,
+          443.53
+        ],
+        [
+          896.33,
+          470.89
+        ],
+        [
+          798.8,
+          378.1
+        ],
+        [
+          783.01,
+          405.46
+        ]
+      ]
+    },
+    {
+      "direcao": "baixo",
+      "quadro": 3,
+      "cantos_arma_na_dupla": [
+        [
+          709.19,
+          162.02
+        ],
+        [
+          736.55,
+          146.23
+        ],
+        [
+          774.61,
+          275.35
+        ],
+        [
+          801.97,
+          259.55
+        ]
+      ]
+    },
+    {
+      "direcao": "baixo",
+      "quadro": 4,
+      "cantos_arma_na_dupla": [
+        [
+          709.19,
+          162.02
+        ],
+        [
+          736.55,
+          146.23
+        ],
+        [
+          774.61,
+          275.35
+        ],
+        [
+          801.97,
+          259.55
+        ]
+      ]
+    },
+    {
+      "direcao": "direita",
+      "quadro": 1,
+      "cantos_arma_na_dupla": [
+        [
+          727.22,
+          198.32
+        ],
+        [
+          757.73,
+          190.14
+        ],
+        [
+          761.09,
+          324.72
+        ],
+        [
+          791.6,
+          316.54
+        ]
+      ]
+    },
+    {
+      "direcao": "direita",
+      "quadro": 2,
+      "cantos_arma_na_dupla": [
+        [
+          863.33,
+          461.05
+        ],
+        [
+          840.99,
+          483.39
+        ],
+        [
+          770.8,
+          368.52
+        ],
+        [
+          748.46,
+          390.86
+        ]
+      ]
+    },
+    {
+      "direcao": "direita",
+      "quadro": 3,
+      "cantos_arma_na_dupla": [
+        [
+          612.47,
+          463.73
+        ],
+        [
+          585.11,
+          447.93
+        ],
+        [
+          677.9,
+          350.4
+        ],
+        [
+          650.54,
+          334.61
+        ]
+      ]
+    },
+    {
+      "direcao": "direita",
+      "quadro": 4,
+      "cantos_arma_na_dupla": [
+        [
+          612.47,
+          463.73
+        ],
+        [
+          585.11,
+          447.93
+        ],
+        [
+          677.9,
+          350.4
+        ],
+        [
+          650.54,
+          334.61
+        ]
+      ]
+    },
+    {
+      "direcao": "cima",
+      "quadro": 1,
+      "cantos_arma_na_dupla": [
+        [
+          903.39,
+          366.7
+        ],
+        [
+          890.04,
+          395.33
+        ],
+        [
+          784.79,
+          311.39
+        ],
+        [
+          771.44,
+          340.03
+        ]
+      ]
+    },
+    {
+      "direcao": "cima",
+      "quadro": 2,
+      "cantos_arma_na_dupla": [
+        [
+          545.07,
+          212.07
+        ],
+        [
+          560.87,
+          184.71
+        ],
+        [
+          658.4,
+          277.5
+        ],
+        [
+          674.19,
+          250.14
+        ]
+      ]
+    },
+    {
+      "direcao": "cima",
+      "quadro": 3,
+      "cantos_arma_na_dupla": [
+        [
+          599.55,
+          491.28
+        ],
+        [
+          573.68,
+          473.16
+        ],
+        [
+          674.61,
+          384.09
+        ],
+        [
+          648.73,
+          365.97
+        ]
+      ]
+    },
+    {
+      "direcao": "cima",
+      "quadro": 4,
+      "cantos_arma_na_dupla": [
+        [
+          599.55,
+          491.28
+        ],
+        [
+          573.68,
+          473.16
+        ],
+        [
+          674.61,
+          384.09
+        ],
+        [
+          648.73,
+          365.97
+        ]
+      ]
+    },
+    {
+      "direcao": "esquerda",
+      "quadro": 1,
+      "cantos_arma_na_dupla": [
+        [
+          732.78,
+          198.32
+        ],
+        [
+          702.27,
+          190.14
+        ],
+        [
+          698.91,
+          324.72
+        ],
+        [
+          668.4,
+          316.54
+        ]
+      ]
+    },
+    {
+      "direcao": "esquerda",
+      "quadro": 2,
+      "cantos_arma_na_dupla": [
+        [
+          596.67,
+          461.05
+        ],
+        [
+          619.01,
+          483.39
+        ],
+        [
+          689.2,
+          368.52
+        ],
+        [
+          711.54,
+          390.86
+        ]
+      ]
+    },
+    {
+      "direcao": "esquerda",
+      "quadro": 3,
+      "cantos_arma_na_dupla": [
+        [
+          847.53,
+          463.73
+        ],
+        [
+          874.89,
+          447.93
+        ],
+        [
+          782.1,
+          350.4
+        ],
+        [
+          809.46,
+          334.61
+        ]
+      ]
+    },
+    {
+      "direcao": "esquerda",
+      "quadro": 4,
+      "cantos_arma_na_dupla": [
+        [
+          847.53,
+          463.73
+        ],
+        [
+          874.89,
+          447.93
+        ],
+        [
+          782.1,
+          350.4
+        ],
+        [
+          809.46,
+          334.61
+        ]
+      ]
+    }
+  ],
+  "corpos3e4_iguais": true,
+  "rastro": "apenas quadros2/3, z relativo +3 acima da espada -1",
+  "revisao": "quatro capturas e duas reproduções sincronizadas no Godot isolado; comparação com ONE3 Slash2 original",
+  "limite": "adaptação cartoon de poses; sem transferência exata de articulações"
+}

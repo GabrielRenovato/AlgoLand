@@ -1,0 +1,18 @@
+{
+	"amostras_por_pixel": 2,
+	"clipe": "parado",
+	"duracao_s": 2.70000004768372,
+	"filtro_personagem": "res://codigo/jogador/contorno_pixel_base_3d.gdshader",
+	"margens_integras": true,
+	"motor": "4.7.2-stable (flathub)",
+	"ossos": 16,
+	"quadros_revisados": 16,
+	"save_carregado": false,
+	"vistas": [
+		"frente",
+		"tres_quartos",
+		"costas",
+		"perfil",
+		"camera_jogo"
+	]
+}

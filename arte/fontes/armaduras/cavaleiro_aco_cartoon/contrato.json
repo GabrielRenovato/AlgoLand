@@ -1,0 +1,110 @@
+{
+  "id": "cavaleiro_aco_cartoon",
+  "tipo": "conjunto cartoon animado em camadas independentes",
+  "modelo_canonico": "referencia_corpo_cartoon.png",
+  "ordem": [
+    "frente",
+    "costas",
+    "direita",
+    "esquerda"
+  ],
+  "grade_planejada": [
+    4,
+    1
+  ],
+  "tela_solicitada": [
+    2560,
+    1024
+  ],
+  "fundo": "transparente",
+  "pose": "neutra; mesma altura e linha dos pes nas quatro vistas",
+  "pecas": [
+    "elmo",
+    "peitoral e ombreiras",
+    "luvas/manoplas",
+    "botas/grevas"
+  ],
+  "material": "aco azul acinzentado, couro castanho escuro, pequenos arremates de bronze",
+  "invariantes": [
+    "mesmo rosto e cranio",
+    "mesmo corpo e proporcoes",
+    "sem armas",
+    "elmo sem partes dos ombros",
+    "preservar queixo e rosto inteiros na abertura do elmo, independentemente do recorte da peca"
+  ],
+  "manifesto": "ferramentas/armaduras/em_preparacao/cavaleiro_aco_cartoon/manifesto.json",
+  "ferramenta": "image_gen integrado",
+  "estado": "animacoes separadas; previa cosmetica no F3",
+  "arquivo": "conceito_v1.png",
+  "dimensoes_reais": [
+    1983,
+    793
+  ],
+  "alfa_min_max": [
+    0,
+    255
+  ],
+  "sha256": "b25a1bdde8a1387ad02b9a4fc466b2f12a22aa25dd8dd83e626d935699ee3a83",
+  "geracao": "image_gen integrado",
+  "revisao_visual": {
+    "ordem_direcoes": true,
+    "mesmo_conjunto_quatro_vistas": true,
+    "elmo_separado_dos_ombros": true,
+    "rosto_preservado": true,
+    "personagem_completo_sem_cortes": true,
+    "armas_ausentes": true,
+    "contornos_e_materiais_cartoon": true,
+    "modelo_base_nao_modificado": true
+  },
+  "observacao_grade": "Atlas nativos cartoon, sem conversao para pixel art; corpo original preservado",
+  "animacoes": {
+    "quadros": 4,
+    "corrida": [
+      "frente",
+      "costas",
+      "direita",
+      "esquerda"
+    ],
+    "ataques": 2,
+    "tempos_ataque_ms": [
+      160,
+      60,
+      70,
+      200
+    ],
+    "celula_corrida": [
+      512,
+      896
+    ],
+    "celula_repouso_ataque": [
+      640,
+      896
+    ],
+    "paginas_por_peca": 11,
+    "pivo_y": 850
+  },
+  "composicao": {
+    "armadura": "arte original preservada por quadro; somente escala global da folha para o atlas",
+    "rosto": "extraído do corpo original, ajustado à abertura do elmo e desenhado atrás das quatro peças",
+    "encaixes": "encaixes_rosto.json",
+    "elmo_substituido": false,
+    "quadros_finais_duplicados": false
+  },
+  "validacao_animacoes": {
+    "folhas_por_peca": 11,
+    "recomposicao_falhas": 0,
+    "motor": "Godot 4.7.2",
+    "cenario": "fazenda",
+    "save": "isolado",
+    "verificacoes": 138,
+    "falhas": 0,
+    "capturas_reais": 207,
+    "revisao": "quatro quadros por direcao: corrida e dois golpes; capturas do viewport real",
+    "armadura_original_preservada": true,
+    "composicao_rosto": "camada extraida do corpo original sob o equipamento, ajustada somente a abertura de cada elmo",
+    "deslocamentos_armadura": false,
+    "substituicao_elmo": false,
+    "escala_visual": 1.08,
+    "avisos_encerramento": "Godot informa texturas/recursos ainda em uso ao encerrar; nenhum erro de script ou falha das verificacoes durante a execucao."
+  }
+}

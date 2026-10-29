@@ -1,0 +1,15 @@
+{
+	"atores_sincronizados": 8,
+	"camada_espada": "atrás em todos os quadros",
+	"coluna_inicial": 4,
+	"fontes_mana": "ONE3, corpo e espada originais, linhas 0/2/1/3",
+	"golpe": 2,
+	"rastro_raven": "à frente da espada",
+	"reproducoes": 2,
+	"tempos_ms": [
+		160,
+		60,
+		70,
+		200
+	]
+}

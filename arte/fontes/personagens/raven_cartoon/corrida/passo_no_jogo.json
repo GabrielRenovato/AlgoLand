@@ -1,0 +1,46 @@
+{
+  "modelo": "corpo_base_cartoon_v1.png",
+  "acao": "corrida integrada ao movimento fisico",
+  "quadros": 4,
+  "celula": [
+    512,
+    896
+  ],
+  "pivo": [
+    256,
+    850
+  ],
+  "edicao_dos_desenhos": false,
+  "medicao": "Centro medio dos pixels com alfa >128 nas linhas835..850 da sola apoiada do perfil direito",
+  "apoios_direita": [
+    [
+      364.04,
+      840.3
+    ],
+    [
+      197.09,
+      840.74
+    ],
+    [
+      393.98,
+      841.23
+    ],
+    [
+      125.99,
+      840.83
+    ]
+  ],
+  "recuos_em_pixels": [
+    166.95,
+    267.99
+  ],
+  "distancia_ciclo_nativa": 870,
+  "escala_visual": 1.08,
+  "escala_mundo": 0.0432,
+  "distancia_ciclo_mundo": 44.216470588235296,
+  "distancia_ciclo_anterior": 45.6,
+  "regra": "Avanca pela distancia global efetivamente percorrida, nunca por tempo acumulado multiplicado pela velocidade instantanea; paradas congelam a fase e giros preservam o ciclo.",
+  "fator_ritmo_solicitado": 0.85,
+  "ajuste_usuario": "Troca dos quatro quadros 15% mais lenta que a calibração inicial, preservando avanço pela distância física.",
+  "ajuste_tamanho": "Personagem, armadura e espada 20% maiores a partir dos pes; velocidade fisica preservada."
+}

@@ -1,0 +1,169 @@
+{
+  "metodo": "Variação da posição mundial do centro da sola entre entradas em poses consecutivas de apoio; perfis direito e esquerdo.",
+  "antes": {
+    "pares": [
+      {
+        "direcao": "direita",
+        "quadros": [
+          3,
+          4
+        ],
+        "inicio_ms": 658,
+        "fim_ms": 769,
+        "deslocamento_corpo": 11.32357788086,
+        "deriva_sola": 2.747927692577605
+      },
+      {
+        "direcao": "direita",
+        "quadros": [
+          1,
+          2
+        ],
+        "inicio_ms": 886,
+        "fim_ms": 1003,
+        "deslocamento_corpo": 11.339904785156023,
+        "deriva_sola": 5.9975213125398215
+      },
+      {
+        "direcao": "direita",
+        "quadros": [
+          3,
+          4
+        ],
+        "inicio_ms": 1119,
+        "fim_ms": 1236,
+        "deslocamento_corpo": 11.339965820311988,
+        "deriva_sola": 2.764315455294117
+      },
+      {
+        "direcao": "esquerda",
+        "quadros": [
+          3,
+          4
+        ],
+        "inicio_ms": 4892,
+        "fim_ms": 5009,
+        "deslocamento_corpo": 11.323577880858977,
+        "deriva_sola": 2.7479276925765816
+      },
+      {
+        "direcao": "esquerda",
+        "quadros": [
+          1,
+          2
+        ],
+        "inicio_ms": 5125,
+        "fim_ms": 5242,
+        "deslocamento_corpo": 11.339904785155966,
+        "deriva_sola": 5.997521312539765
+      },
+      {
+        "direcao": "esquerda",
+        "quadros": [
+          3,
+          4
+        ],
+        "inicio_ms": 5359,
+        "fim_ms": 5476,
+        "deslocamento_corpo": 11.339965820311988,
+        "deriva_sola": 2.764315455294117
+      }
+    ],
+    "deriva_media": 3.8365881534703346
+  },
+  "depois": {
+    "pares": [
+      {
+        "direcao": "direita",
+        "quadros": [
+          3,
+          4
+        ],
+        "inicio_ms": 619,
+        "fim_ms": 702,
+        "deslocamento_corpo": 8.069549560546989,
+        "deriva_sola": 0.5062922690905901
+      },
+      {
+        "direcao": "direita",
+        "quadros": [
+          1,
+          2
+        ],
+        "inicio_ms": 786,
+        "fim_ms": 869,
+        "deslocamento_corpo": 8.099151611329034,
+        "deriva_sola": 2.756787567616559
+      },
+      {
+        "direcao": "direita",
+        "quadros": [
+          3,
+          4
+        ],
+        "inicio_ms": 952,
+        "fim_ms": 1035,
+        "deslocamento_corpo": 8.099975585936988,
+        "deriva_sola": 0.47587659068190497
+      },
+      {
+        "direcao": "direita",
+        "quadros": [
+          1,
+          2
+        ],
+        "inicio_ms": 1119,
+        "fim_ms": 1202,
+        "deslocamento_corpo": 8.099975585936988,
+        "deriva_sola": 2.7576115314807708
+      },
+      {
+        "direcao": "esquerda",
+        "quadros": [
+          3,
+          4
+        ],
+        "inicio_ms": 4851,
+        "fim_ms": 4935,
+        "deslocamento_corpo": 8.069549560546989,
+        "deriva_sola": 0.5062922690905901
+      },
+      {
+        "direcao": "esquerda",
+        "quadros": [
+          1,
+          2
+        ],
+        "inicio_ms": 5018,
+        "fim_ms": 5102,
+        "deslocamento_corpo": 8.099151611328011,
+        "deriva_sola": 2.756787567615536
+      },
+      {
+        "direcao": "esquerda",
+        "quadros": [
+          3,
+          4
+        ],
+        "inicio_ms": 5185,
+        "fim_ms": 5268,
+        "deslocamento_corpo": 8.099975585936988,
+        "deriva_sola": 0.47587659068190497
+      },
+      {
+        "direcao": "esquerda",
+        "quadros": [
+          1,
+          2
+        ],
+        "inicio_ms": 5351,
+        "fim_ms": 5435,
+        "deslocamento_corpo": 8.099975585936988,
+        "deriva_sola": 2.7576115314807708
+      }
+    ],
+    "deriva_media": 1.6241419897173284
+  },
+  "reducao_percentual": 57.66702276218436,
+  "limite": "Mede as transições de apoio no perfil. Quatro desenhos discretos ainda mantêm a sola fixa dentro de cada pose; não mede ausência de deriva em todos os instantes ou nas vistas frontal/traseira."
+}

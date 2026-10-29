@@ -1,0 +1,24 @@
+{
+  "origem": "assets/personagens/raven_cartoon/armaduras/cavaleiro_aco",
+  "corpo_incorporado": false,
+  "direcoes": [
+    "frente",
+    "costas",
+    "direita",
+    "esquerda"
+  ],
+  "quadros": 4,
+  "tempos_ataque_ms": [
+    160,
+    60,
+    70,
+    200
+  ],
+  "corrida_previa_ms": [
+    110,
+    120,
+    110,
+    110
+  ],
+  "observacao": "Corrida no jogo varia com a distancia fisica; GIF usa o ciclo e a velocidade atuais, com a precisao de 10 ms do formato. Fontes originais preservadas."
+}

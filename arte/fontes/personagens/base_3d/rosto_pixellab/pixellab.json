@@ -1,0 +1,258 @@
+{
+  "referencia": "Moradores do AlgoLand, especialmente assets/npcs/cidade/tomas.png; pedido de aparência próxima de Mana Seed, mantendo rig 3D e retirando filtro.",
+  "modelo": "PixelLab Pixen",
+  "geracoes": [
+    "02e9f7f3-fafd-4077-8552-bfe18d5bfd4c",
+    "a4b40768-6dfc-4cbc-9938-51e66172d9af"
+  ],
+  "geracoes_cobradas": 2,
+  "estudo_olhos_grandes": "c440eaba-f9d2-49d9-a5d2-37775893a4c6",
+  "estudo_rejeitado": true,
+  "arte_final": "02b1093f-f74d-4eda-9cb9-670194c31c34",
+  "canvas": [
+    32,
+    32
+  ],
+  "cores": 8,
+  "edicoes_exatas": [
+    {
+      "operation": "brush",
+      "frames": [
+        1
+      ],
+      "points": [
+        [
+          16,
+          16
+        ]
+      ],
+      "size": 64,
+      "shape": "square",
+      "color": "#edb393",
+      "region": [
+        0,
+        0,
+        31,
+        31
+      ],
+      "reason": "Rosto discreto de RPG de fazenda; remover olhos grandes do estudo anterior."
+    },
+    {
+      "operation": "brush",
+      "frames": [
+        1
+      ],
+      "points": [
+        [
+          10,
+          10
+        ],
+        [
+          12,
+          10
+        ]
+      ],
+      "size": 1,
+      "shape": "square",
+      "color": "#98664e",
+      "reason": "Sobrancelha esquerda curta e suave."
+    },
+    {
+      "operation": "brush",
+      "frames": [
+        1
+      ],
+      "points": [
+        [
+          19,
+          10
+        ],
+        [
+          21,
+          10
+        ]
+      ],
+      "size": 1,
+      "shape": "square",
+      "color": "#98664e",
+      "reason": "Sobrancelha direita na mesma altura."
+    },
+    {
+      "operation": "brush",
+      "frames": [
+        1
+      ],
+      "points": [
+        [
+          10,
+          14
+        ],
+        [
+          12,
+          14
+        ]
+      ],
+      "size": 1,
+      "shape": "square",
+      "color": "#513c35",
+      "reason": "Pálpebra curta em pixels contíguos."
+    },
+    {
+      "operation": "brush",
+      "frames": [
+        1
+      ],
+      "points": [
+        [
+          19,
+          14
+        ],
+        [
+          21,
+          14
+        ]
+      ],
+      "size": 1,
+      "shape": "square",
+      "color": "#513c35",
+      "reason": "Pálpebra direita simétrica."
+    },
+    {
+      "operation": "brush",
+      "frames": [
+        1
+      ],
+      "points": [
+        [
+          11,
+          15
+        ],
+        [
+          11,
+          17
+        ]
+      ],
+      "size": 2,
+      "shape": "square",
+      "color": "#5f5547",
+      "reason": "Olho pequeno com tinta castanha, referência nos moradores."
+    },
+    {
+      "operation": "brush",
+      "frames": [
+        1
+      ],
+      "points": [
+        [
+          20,
+          15
+        ],
+        [
+          20,
+          17
+        ]
+      ],
+      "size": 2,
+      "shape": "square",
+      "color": "#5f5547",
+      "reason": "Olho direito com o mesmo volume."
+    },
+    {
+      "operation": "brush",
+      "frames": [
+        1
+      ],
+      "points": [
+        [
+          11,
+          16
+        ],
+        [
+          11,
+          17
+        ]
+      ],
+      "size": 1,
+      "shape": "square",
+      "color": "#382e2c",
+      "reason": "Pupila curta sem branco exagerado."
+    },
+    {
+      "operation": "brush",
+      "frames": [
+        1
+      ],
+      "points": [
+        [
+          20,
+          16
+        ],
+        [
+          20,
+          17
+        ]
+      ],
+      "size": 1,
+      "shape": "square",
+      "color": "#382e2c",
+      "reason": "Pupila direita."
+    },
+    {
+      "operation": "brush",
+      "frames": [
+        1
+      ],
+      "points": [
+        [
+          10,
+          15
+        ],
+        [
+          19,
+          15
+        ]
+      ],
+      "size": 1,
+      "shape": "square",
+      "color": "#c7bba2",
+      "reason": "Um brilho discreto por olho, sem anime."
+    },
+    {
+      "operation": "brush",
+      "frames": [
+        1
+      ],
+      "points": [
+        [
+          15,
+          21
+        ]
+      ],
+      "size": 1,
+      "shape": "square",
+      "color": "#cf9275",
+      "reason": "Nariz discreto."
+    },
+    {
+      "operation": "brush",
+      "frames": [
+        1
+      ],
+      "points": [
+        [
+          15,
+          24
+        ],
+        [
+          16,
+          24
+        ]
+      ],
+      "size": 1,
+      "shape": "square",
+      "color": "#aa6e60",
+      "reason": "Boca fechada pequena."
+    }
+  ],
+  "observacao": "Arte gerada e retocada no PixelLab. Olhos grandes rejeitados; olhos finais pequenos, castanhos, paleta curta. Correção posterior remove a ligação do pincel entre os brilhos. Nenhum redimensionamento ou pintura por Python."
+}

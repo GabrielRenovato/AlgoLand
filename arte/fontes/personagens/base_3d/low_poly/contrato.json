@@ -1,0 +1,22 @@
+{
+  "tipo": "Acabamento low poly do personagem existente, renderizado no jogo 2D",
+  "modelo_canonico": "cenas/personagem/base_3d/personagem.tscn",
+  "metodo": "Sombreamento por face dos triângulos existentes. Não reduz polígonos nem gera novas imagens. Preserva geometria, pesos, proporção chibi e pescoço original.",
+  "pintura": "Texturas existentes de rosto_cabelo_pixel e roupas_pixel aplicadas diretamente às superfícies, com amostragem nearest. Sem pixelização ou contorno na imagem final.",
+  "render": [
+    640,
+    640
+  ],
+  "area_mundo": [
+    80,
+    80
+  ],
+  "camera_ortografica": 4.0,
+  "inclinacao_camera": 20.0,
+  "pivo": "Origem 3D projetada sobre PES_JOGADOR; inalterada",
+  "variantes": "Oito direções, mesmos cosméticos e clipes existentes; mantém a personalização.",
+  "revisao": "ferramentas/personagem/base_3d/revisar_low_poly.gd, projeto e save isolados; oito vistas comparadas e 128 poses de corrida/espada; inventário preservado.",
+  "previas": "arte/previas/personagens/base_3d/low_poly/",
+  "exportacao": "python3 ferramentas/personagem/base_3d/exportar_low_poly.py; tempos reais distribuídos entre os quadros do GIF, sem recentralização individual.",
+  "limites": "As armaduras e materiais específicos de equipamentos conservam o próprio acabamento."
+}

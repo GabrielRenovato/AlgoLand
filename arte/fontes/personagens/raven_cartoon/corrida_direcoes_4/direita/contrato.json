@@ -253,7 +253,7 @@
     }
   ],
   "ferramenta": "image_gen integrado",
-  "estado": "revisado em folha e reprodução no Godot; aguardando avaliação artística do usuário",
+  "estado": "revisado no Godot em save isolado; nova correção aguardando avaliação do usuário",
   "destino": "previa independente, personagem ativo preservado",
   "escala_unica": 1.0406616126809096,
   "quadros_exportados": [
@@ -309,20 +309,22 @@
       "quadro": 4,
       "translacao": [
         -4,
-        75
+        103
       ],
       "limites": [
-        112,
-        109,
-        430,
+        57,
+        137,
+        439,
         851
       ],
       "duracao_ms": 100,
-      "fonte": "quadro_04_pernas_corrigidas.png",
-      "sha256_rgba": "efec25c2d011e351f3a0a42bdc291b8de3dc7526e7dcc980e1e41d7e8635965c"
+      "fonte": "quadro_04_passada_v2.png",
+      "sha256_rgba": "b29b373594865f22086161a0dc61f8e1de8b6af3ff195e7626da9b41252f39f7"
     }
   ],
   "apoio": "sola de apoio identificada nos quatro quadros; chão y850",
   "revisao_motor": "arte/previas/personagens/raven_cartoon/corrida_direcoes_4/motor/reproducao.json",
-  "correcao_usuario": "perfil: sobreposição das coxas/short invertida nos quadros 3/4; costas: sola e calcanhar nos quadros 2/4"
+  "correcao_usuario": "perfil: sobreposição das coxas/short invertida nos quadros 3/4; costas: sola e calcanhar nos quadros 2/4",
+  "escala_fixa_exportacao": 1.0406616126809096,
+  "correcao_quadro4_v2": "perna esquerda distante recuada, braço esquerdo distante avançado; três primeiros quadros preservados"
 }

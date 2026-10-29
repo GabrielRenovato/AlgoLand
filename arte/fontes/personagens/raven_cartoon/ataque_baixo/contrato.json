@@ -1,0 +1,771 @@
+{
+  "modelo": "Raven cartoon aprovado, adulto careca, short cinza opaco",
+  "referencia_modelo": "../corpo_base_cartoon_v1.png",
+  "referencia_ataque_aprovado": "../ataque_direita/folha_gerada_v1.png",
+  "referencia_movimento": "arte/pacotes/Jogador/Combate/21.07b - Sword & Shield Combat 2.3a/char_a_pONE3/char_a_pONE3_0bas_humn_v01.png",
+  "recortes_mana_seed": {
+    "linha": 0,
+    "colunas": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "celula": [
+      64,
+      64
+    ]
+  },
+  "tipo": "corte de espada de uma mão; corpo sem arma ou efeitos",
+  "direcao": "baixo/frente da câmera",
+  "mao_dominante": "mesmo braço observado na referência Mana Seed frontal: parte do ombro à direita da imagem, abre baixo à direita, cruza à esquerda do peito",
+  "quadros": 4,
+  "fases": [
+    "antecipacao",
+    "corte",
+    "continuacao",
+    "recuperacao"
+  ],
+  "duracoes_ms": [
+    160,
+    60,
+    70,
+    200
+  ],
+  "ciclo": false,
+  "grade_fonte": [
+    2,
+    2
+  ],
+  "celula_planejada": [
+    640,
+    896
+  ],
+  "pivo_planejado": [
+    320,
+    850
+  ],
+  "apoio": "base firme com dois pés; joelhos flexionam e quadril gira; sem salto",
+  "destino": "previa independente sem substituir personagem ativo",
+  "ferramenta": "image_gen integrado",
+  "estado": "corte frontal refeito e revisado em comparação com Mana Seed no Godot; aguardando avaliação artística",
+  "guia_poses": [
+    {
+      "cabeca": [
+        310,
+        195
+      ],
+      "quadril": [
+        315,
+        560
+      ],
+      "braco_golpe": [
+        [
+          405,
+          350
+        ],
+        [
+          425,
+          410
+        ],
+        [
+          450,
+          330
+        ]
+      ],
+      "braco_livre": [
+        [
+          235,
+          350
+        ],
+        [
+          200,
+          430
+        ],
+        [
+          245,
+          460
+        ]
+      ],
+      "perna_esquerda": [
+        [
+          280,
+          560
+        ],
+        [
+          235,
+          705
+        ],
+        [
+          210,
+          840
+        ]
+      ],
+      "perna_direita": [
+        [
+          350,
+          560
+        ],
+        [
+          400,
+          690
+        ],
+        [
+          430,
+          820
+        ]
+      ],
+      "mao": [
+        450,
+        330
+      ],
+      "ponta_virtual": [
+        440,
+        130
+      ]
+    },
+    {
+      "cabeca": [
+        320,
+        230
+      ],
+      "quadril": [
+        320,
+        580
+      ],
+      "braco_golpe": [
+        [
+          405,
+          385
+        ],
+        [
+          455,
+          450
+        ],
+        [
+          510,
+          520
+        ]
+      ],
+      "braco_livre": [
+        [
+          235,
+          385
+        ],
+        [
+          190,
+          450
+        ],
+        [
+          240,
+          470
+        ]
+      ],
+      "perna_esquerda": [
+        [
+          285,
+          580
+        ],
+        [
+          235,
+          720
+        ],
+        [
+          210,
+          840
+        ]
+      ],
+      "perna_direita": [
+        [
+          355,
+          580
+        ],
+        [
+          410,
+          700
+        ],
+        [
+          430,
+          820
+        ]
+      ],
+      "mao": [
+        510,
+        520
+      ],
+      "ponta_virtual": [
+        625,
+        520
+      ]
+    },
+    {
+      "cabeca": [
+        290,
+        200
+      ],
+      "quadril": [
+        310,
+        565
+      ],
+      "braco_golpe": [
+        [
+          395,
+          350
+        ],
+        [
+          405,
+          435
+        ],
+        [
+          200,
+          335
+        ]
+      ],
+      "braco_livre": [
+        [
+          230,
+          350
+        ],
+        [
+          200,
+          430
+        ],
+        [
+          240,
+          465
+        ]
+      ],
+      "perna_esquerda": [
+        [
+          275,
+          565
+        ],
+        [
+          235,
+          705
+        ],
+        [
+          210,
+          840
+        ]
+      ],
+      "perna_direita": [
+        [
+          345,
+          565
+        ],
+        [
+          400,
+          690
+        ],
+        [
+          430,
+          820
+        ]
+      ],
+      "mao": [
+        200,
+        335
+      ],
+      "ponta_virtual": [
+        105,
+        170
+      ]
+    },
+    {
+      "cabeca": [
+        290,
+        200
+      ],
+      "quadril": [
+        310,
+        565
+      ],
+      "braco_golpe": [
+        [
+          395,
+          350
+        ],
+        [
+          405,
+          435
+        ],
+        [
+          200,
+          335
+        ]
+      ],
+      "braco_livre": [
+        [
+          230,
+          350
+        ],
+        [
+          200,
+          430
+        ],
+        [
+          240,
+          465
+        ]
+      ],
+      "perna_esquerda": [
+        [
+          275,
+          565
+        ],
+        [
+          235,
+          705
+        ],
+        [
+          210,
+          840
+        ]
+      ],
+      "perna_direita": [
+        [
+          345,
+          565
+        ],
+        [
+          400,
+          690
+        ],
+        [
+          430,
+          820
+        ]
+      ],
+      "mao": [
+        200,
+        335
+      ],
+      "ponta_virtual": [
+        105,
+        170
+      ]
+    }
+  ],
+  "movimento": "adaptação das fases do corte1 Mana Seed, vista de baixo; sem transferência exata de articulações",
+  "fonte": "folha_corte_mana_seed_v2.png",
+  "escala_unica": 0.9593908629441624,
+  "quadros_exportados": [
+    {
+      "quadro": 1,
+      "fonte": "preparacao_corte_corrigida_v2.png",
+      "recorte": [
+        0,
+        0,
+        1060,
+        1484
+      ],
+      "raiz_fonte_x": 275,
+      "translacao": [
+        56,
+        171
+      ],
+      "limites": [
+        126,
+        212,
+        504,
+        851
+      ],
+      "duracao_ms": 160
+    },
+    {
+      "quadro": 2,
+      "fonte": "folha_corte_mana_seed_v2.png",
+      "recorte": [
+        530,
+        0,
+        1060,
+        742
+      ],
+      "raiz_fonte_x": 270,
+      "translacao": [
+        61,
+        158
+      ],
+      "limites": [
+        127,
+        277,
+        544,
+        851
+      ],
+      "duracao_ms": 60
+    },
+    {
+      "quadro": 3,
+      "fonte": "folha_corte_mana_seed_v2.png",
+      "recorte": [
+        0,
+        742,
+        530,
+        1484
+      ],
+      "raiz_fonte_x": 280,
+      "translacao": [
+        51,
+        175
+      ],
+      "limites": [
+        137,
+        228,
+        512,
+        852
+      ],
+      "duracao_ms": 70
+    },
+    {
+      "quadro": 4,
+      "fonte": "folha_corte_mana_seed_v2.png",
+      "recorte": [
+        0,
+        742,
+        530,
+        1484
+      ],
+      "raiz_fonte_x": 280,
+      "translacao": [
+        51,
+        175
+      ],
+      "limites": [
+        137,
+        228,
+        512,
+        852
+      ],
+      "duracao_ms": 200
+    }
+  ],
+  "pivo": [
+    320,
+    850
+  ],
+  "celula": [
+    640,
+    896
+  ],
+  "observacao_tempo": "65ms/65ms aproximados por60ms/70ms, preservando490ms também no GIF",
+  "repeticao_previa": "GIF repete quatro quadros para análise; recurso de ataque não repete",
+  "revisao_motor": "arte/previas/personagens/raven_cartoon/ataque_baixo/motor/reproducao.json",
+  "observacoes": "mesmo braço à direita da imagem na preparação/passagem, cruza para esquerda no final; dois tempos finais idênticos à referência",
+  "calibracao_escala": {
+    "referencia": "referencia_frente.png",
+    "calota_base_px": 189,
+    "calota_fonte_px": 197,
+    "calota_exportada_px": 188,
+    "metodo": "mesma escala em todos os quadros; proporção da calota canônica"
+  },
+  "observacao_escala": "calota do primeiro quadro igual à base; demais quadros usam o mesmo fator, preservando a postura",
+  "revisao_v2": {
+    "pedido": "refazer para baixo como o corte para cima aprovado, comparando referência real Mana Seed",
+    "guia_poses": [
+      {
+        "cabeca": [
+          310,
+          195
+        ],
+        "quadril": [
+          315,
+          560
+        ],
+        "braco_golpe": [
+          [
+            405,
+            350
+          ],
+          [
+            425,
+            410
+          ],
+          [
+            450,
+            330
+          ]
+        ],
+        "braco_livre": [
+          [
+            235,
+            350
+          ],
+          [
+            200,
+            430
+          ],
+          [
+            245,
+            460
+          ]
+        ],
+        "perna_esquerda": [
+          [
+            280,
+            560
+          ],
+          [
+            235,
+            705
+          ],
+          [
+            210,
+            840
+          ]
+        ],
+        "perna_direita": [
+          [
+            350,
+            560
+          ],
+          [
+            400,
+            690
+          ],
+          [
+            430,
+            820
+          ]
+        ],
+        "mao": [
+          450,
+          330
+        ],
+        "ponta_virtual": [
+          440,
+          130
+        ]
+      },
+      {
+        "cabeca": [
+          320,
+          230
+        ],
+        "quadril": [
+          320,
+          580
+        ],
+        "braco_golpe": [
+          [
+            405,
+            385
+          ],
+          [
+            455,
+            450
+          ],
+          [
+            510,
+            520
+          ]
+        ],
+        "braco_livre": [
+          [
+            235,
+            385
+          ],
+          [
+            190,
+            450
+          ],
+          [
+            240,
+            470
+          ]
+        ],
+        "perna_esquerda": [
+          [
+            285,
+            580
+          ],
+          [
+            235,
+            720
+          ],
+          [
+            210,
+            840
+          ]
+        ],
+        "perna_direita": [
+          [
+            355,
+            580
+          ],
+          [
+            410,
+            700
+          ],
+          [
+            430,
+            820
+          ]
+        ],
+        "mao": [
+          510,
+          520
+        ],
+        "ponta_virtual": [
+          625,
+          520
+        ]
+      },
+      {
+        "cabeca": [
+          290,
+          200
+        ],
+        "quadril": [
+          310,
+          565
+        ],
+        "braco_golpe": [
+          [
+            395,
+            350
+          ],
+          [
+            405,
+            435
+          ],
+          [
+            200,
+            335
+          ]
+        ],
+        "braco_livre": [
+          [
+            230,
+            350
+          ],
+          [
+            200,
+            430
+          ],
+          [
+            240,
+            465
+          ]
+        ],
+        "perna_esquerda": [
+          [
+            275,
+            565
+          ],
+          [
+            235,
+            705
+          ],
+          [
+            210,
+            840
+          ]
+        ],
+        "perna_direita": [
+          [
+            345,
+            565
+          ],
+          [
+            400,
+            690
+          ],
+          [
+            430,
+            820
+          ]
+        ],
+        "mao": [
+          200,
+          335
+        ],
+        "ponta_virtual": [
+          105,
+          170
+        ]
+      },
+      {
+        "cabeca": [
+          290,
+          200
+        ],
+        "quadril": [
+          310,
+          565
+        ],
+        "braco_golpe": [
+          [
+            395,
+            350
+          ],
+          [
+            405,
+            435
+          ],
+          [
+            200,
+            335
+          ]
+        ],
+        "braco_livre": [
+          [
+            230,
+            350
+          ],
+          [
+            200,
+            430
+          ],
+          [
+            240,
+            465
+          ]
+        ],
+        "perna_esquerda": [
+          [
+            275,
+            565
+          ],
+          [
+            235,
+            705
+          ],
+          [
+            210,
+            840
+          ]
+        ],
+        "perna_direita": [
+          [
+            345,
+            565
+          ],
+          [
+            400,
+            690
+          ],
+          [
+            430,
+            820
+          ]
+        ],
+        "mao": [
+          200,
+          335
+        ],
+        "ponta_virtual": [
+          105,
+          170
+        ]
+      }
+    ],
+    "trajeto_mao": "inicia do ombro direito da imagem, abre baixo à direita e termina cruzada à esquerda do peito",
+    "quadros3e4": "mesma pose final sustentada70ms+200ms",
+    "estado": "revisado em comparação sincronizada no Godot",
+    "fonte": "folha_corte_mana_seed_v2.png",
+    "preparacao_corrigida": "preparacao_corte_corrigida_v2.png, tela2x reduzida uniformemente à fonte"
+  },
+  "comparacao": "arte/previas/personagens/raven_cartoon/ataque_baixo/comparacao_mana_seed.gif",
+  "gif": "três imagens únicas:160/60/270ms; SpriteFrames mantém quatro tempos160/60/70/200ms"
+}

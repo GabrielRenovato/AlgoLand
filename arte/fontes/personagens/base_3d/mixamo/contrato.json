@@ -1,0 +1,57 @@
+{
+  "fonte": "https://www.mixamo.com/",
+  "autor": "Adobe Mixamo",
+  "licenca": "Mixamo permite incorporar animações em jogos pessoais/comerciais sem royalties. Não é CC0. Fonte preservada para reprodução interna do projeto.",
+  "condicoes": "https://helpx.adobe.com/creative-cloud/faq/mixamo-faq.html",
+  "modelo": "cenas/personagem/base_3d/personagem.tscn, mesma malha e proporção chibi",
+  "camera": "Ortográfica20°,80x80 pixels de mundo, pivô nos pés",
+  "acao": "Idle e corrida, espada/escudo, espadão, pesca, machado e preparação do arco; transferência para os mesmos 52 ossos do modelo canônico.",
+  "integracao": "assets/personagens/base_3d/mixamo.res; importar_mixamo.gd reproduz a biblioteca. A física controla XZ; os clipes preservam altura e rotações. Empunhaduras e modificadores ajustam as proporções chibi.",
+  "estado": "Biblioteca e controladores integrados; prévias reais no Godot em save isolado.",
+  "ritmo": "PASSADA=42 pixels por ciclo; mediana42,21px estimada pela velocidade retrógrada das pontas dos pés durante apoio após proporção chibi. Física e velocidade do jogador preservadas.",
+  "revisao": "864 poses aplicadas nas quatro direções: idle, guarda, cinco golpes, machado e arco, incluindo soltura real. Pesca/picareta/enxada:768 poses. Corrida:192 poses/oito direções. Prévias em arte/previas/personagens/base_3d/mixamo/. Espadão:384 quadros contínuos a60fps, com encadeamento e retorno, preservados em mixamo/espadão/; combo_espadão.gif reproduz essa captura.",
+  "validacao": "Espadão:191 verificações de entrada/combate, zero falhas; retorno:32 transições com render idêntico e zero falhas. Executar gráficos com --fixed-fps 60 para reprodução determinística.",
+  "fontes": "catalogo.json preserva os 12 FBXs, hashes SHA256 e repetição; importacao.json registra durações e ossos.",
+  "espada": {
+    "fontes": [
+      "SwordSlashA",
+      "SwordSlashB"
+    ],
+    "golpes": 3,
+    "duracoes": [
+      0.38,
+      0.38,
+      0.5
+    ],
+    "contato_normalizado": 0.45,
+    "guarda": "SwordBlockIdle"
+  },
+  "espadao": {
+    "fontes": [
+      "GreatSwordSlash",
+      "GreatSwordJumpAttack"
+    ],
+    "golpes": 2,
+    "duracoes": [
+      0.52,
+      0.86
+    ],
+    "trechos_fonte": [
+      [
+        0,
+        0.65,
+        1.266666667
+      ],
+      [
+        0,
+        1.1,
+        2.166666667
+      ]
+    ],
+    "contato_normalizado": 0.45,
+    "substitui": "TwoHandCombo permanece arquivado, sem uso no combo ativo.",
+    "encaixe": "Eixo do cabo definido pelas duas mãos; escudo oculto."
+  },
+  "arco": "Standing Draw Arrow fornece a retirada/encaixe da flecha. A pedido do usuário, pose_arco_base_3d.gd completa puxada/soltura no próprio rig; arco_base_3d.gd desenha arco, corda, flecha e aljava. Controlador e colisão do projétil preservados.",
+  "ferramentas": "AxeHorizontal com contato fonte em 0,97s, sincronizado a 0,30s do jogo. FishingCast entre 1,05s e 2,9s para lançamento; FishingIdle para espera. KayKit mantém beliscar/recolher/pegar e Pickaxing para picareta/enxada."
+}

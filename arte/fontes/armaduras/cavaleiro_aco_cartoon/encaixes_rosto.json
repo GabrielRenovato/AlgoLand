@@ -1,0 +1,341 @@
+{
+  "corrida_frente": [
+    {
+      "janela": [
+        176,
+        203,
+        339,
+        309
+      ],
+      "aberta": false
+    },
+    {
+      "janela": [
+        171,
+        203,
+        333,
+        309
+      ],
+      "aberta": false
+    },
+    {
+      "janela": [
+        168,
+        204,
+        330,
+        310
+      ],
+      "aberta": false
+    },
+    {
+      "janela": [
+        165,
+        204,
+        330,
+        309
+      ],
+      "aberta": false
+    }
+  ],
+  "corrida_costas": [
+    {
+      "janela": null,
+      "aberta": false
+    },
+    {
+      "janela": null,
+      "aberta": false
+    },
+    {
+      "janela": null,
+      "aberta": false
+    },
+    {
+      "janela": null,
+      "aberta": false
+    }
+  ],
+  "corrida_direita": [
+    {
+      "janela": [
+        303,
+        199,
+        372,
+        315
+      ],
+      "aberta": false
+    },
+    {
+      "janela": [
+        296,
+        194,
+        372,
+        314
+      ],
+      "aberta": false
+    },
+    {
+      "janela": [
+        298,
+        227,
+        378,
+        343
+      ],
+      "aberta": false
+    },
+    {
+      "janela": [
+        312,
+        245,
+        392,
+        361
+      ],
+      "aberta": false
+    }
+  ],
+  "repouso": [
+    {
+      "janela": [
+        251,
+        186,
+        408,
+        296
+      ],
+      "aberta": false
+    },
+    {
+      "janela": null,
+      "aberta": false
+    },
+    {
+      "janela": [
+        342,
+        184,
+        415,
+        296
+      ],
+      "aberta": false
+    },
+    {
+      "janela": [
+        209,
+        185,
+        284,
+        298
+      ],
+      "aberta": false
+    }
+  ],
+  "ataque_baixo": [
+    {
+      "janela": [
+        211,
+        305,
+        357,
+        389
+      ],
+      "aberta": false
+    },
+    {
+      "janela": [
+        253,
+        373,
+        393,
+        452
+      ],
+      "aberta": false
+    },
+    {
+      "janela": [
+        253,
+        313,
+        396,
+        398
+      ],
+      "aberta": false
+    },
+    {
+      "janela": [
+        232,
+        314,
+        375,
+        398
+      ],
+      "aberta": false
+    }
+  ],
+  "ataque_cima": [
+    {
+      "janela": null,
+      "aberta": false
+    },
+    {
+      "janela": null,
+      "aberta": false
+    },
+    {
+      "janela": null,
+      "aberta": false
+    },
+    {
+      "janela": null,
+      "aberta": false
+    }
+  ],
+  "ataque_direita": [
+    {
+      "janela": [
+        306,
+        278,
+        388,
+        390
+      ],
+      "aberta": false
+    },
+    {
+      "janela": [
+        355,
+        329,
+        441,
+        439
+      ],
+      "aberta": false
+    },
+    {
+      "janela": [
+        325,
+        278,
+        406,
+        391
+      ],
+      "aberta": false
+    },
+    {
+      "janela": [
+        337,
+        279,
+        418,
+        392
+      ],
+      "aberta": false
+    }
+  ],
+  "ataque2_baixo": [
+    {
+      "janela": [
+        199,
+        304,
+        348,
+        391
+      ],
+      "aberta": false
+    },
+    {
+      "janela": [
+        224,
+        386,
+        369,
+        465
+      ],
+      "aberta": false
+    },
+    {
+      "janela": [
+        261,
+        281,
+        395,
+        369
+      ],
+      "aberta": false
+    },
+    {
+      "janela": [
+        263,
+        281,
+        400,
+        369
+      ],
+      "aberta": false
+    }
+  ],
+  "ataque2_cima": [
+    {
+      "janela": null,
+      "aberta": false
+    },
+    {
+      "janela": null,
+      "aberta": false
+    },
+    {
+      "janela": null,
+      "aberta": false
+    },
+    {
+      "janela": null,
+      "aberta": false
+    }
+  ],
+  "ataque2_direita": [
+    {
+      "janela": [
+        327,
+        276,
+        420,
+        398
+      ],
+      "aberta": true,
+      "recorte_cabeca_origem": [
+        180,
+        170,
+        404,
+        401
+      ]
+    },
+    {
+      "janela": [
+        361,
+        300,
+        454,
+        426
+      ],
+      "aberta": true,
+      "recorte_cabeca_origem": [
+        180,
+        170,
+        404,
+        433
+      ]
+    },
+    {
+      "janela": [
+        358,
+        300,
+        453,
+        416
+      ],
+      "aberta": true,
+      "recorte_cabeca_origem": [
+        180,
+        170,
+        404,
+        425
+      ]
+    },
+    {
+      "janela": [
+        365,
+        301,
+        460,
+        418
+      ],
+      "aberta": true,
+      "recorte_cabeca_origem": [
+        180,
+        170,
+        404,
+        425
+      ]
+    }
+  ]
+}

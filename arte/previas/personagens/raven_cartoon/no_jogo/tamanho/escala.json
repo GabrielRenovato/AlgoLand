@@ -1,0 +1,12 @@
+{
+  "fator": 0.9,
+  "escala_final": 0.036,
+  "aumento_sobre_anterior_percentual": 12.5,
+  "fator_movimento": 0.8,
+  "fator_ritmo": 0.85,
+  "verificacoes": 93,
+  "falhas": 0,
+  "capturas": 201,
+  "mesma_camera": true,
+  "ancora_pes_preservada": true
+}

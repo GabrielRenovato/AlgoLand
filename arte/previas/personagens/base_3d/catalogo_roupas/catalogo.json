@@ -1,0 +1,214 @@
+{
+  "duracao_corrida": 0.733333333333333,
+  "modelos": [
+    {
+      "categoria": "camisa",
+      "dados": {
+        "cabelo": "cabelo_curto",
+        "calca": "calca_sarja",
+        "calcado": "botas_couro",
+        "camisa": "camisa_bosque"
+      },
+      "id": "camisa_bosque",
+      "nome": "Camisa do bosque"
+    },
+    {
+      "categoria": "camisa",
+      "dados": {
+        "cabelo": "cabelo_curto",
+        "calca": "calca_sarja",
+        "calcado": "botas_couro",
+        "camisa": "camisa_trabalho"
+      },
+      "id": "camisa_trabalho",
+      "nome": "Camisa de trabalho"
+    },
+    {
+      "categoria": "camisa",
+      "dados": {
+        "cabelo": "cabelo_curto",
+        "calca": "calca_sarja",
+        "calcado": "botas_couro",
+        "camisa": "tunica_campo"
+      },
+      "id": "tunica_campo",
+      "nome": "Túnica do campo"
+    },
+    {
+      "categoria": "camisa",
+      "dados": {
+        "cabelo": "cabelo_curto",
+        "calca": "calca_sarja",
+        "calcado": "botas_couro",
+        "camisa": "jaqueta_viajante"
+      },
+      "id": "jaqueta_viajante",
+      "nome": "Jaqueta de viagem"
+    },
+    {
+      "categoria": "camisa",
+      "dados": {
+        "cabelo": "cabelo_curto",
+        "calca": "calca_sarja",
+        "calcado": "botas_couro",
+        "camisa": "blusa_bufante"
+      },
+      "id": "blusa_bufante",
+      "nome": "Blusa de mangas bufantes"
+    },
+    {
+      "categoria": "camisa",
+      "dados": {
+        "cabelo": "cabelo_curto",
+        "calca": "calca_sarja",
+        "calcado": "botas_couro",
+        "camisa": "casaquinho_lavanda"
+      },
+      "id": "casaquinho_lavanda",
+      "nome": "Casaquinho lavanda"
+    },
+    {
+      "categoria": "calca",
+      "dados": {
+        "cabelo": "cabelo_curto",
+        "calca": "calca_sarja",
+        "calcado": "botas_couro",
+        "camisa": "camisa_bosque"
+      },
+      "id": "calca_sarja",
+      "nome": "Calça de sarja"
+    },
+    {
+      "categoria": "calca",
+      "dados": {
+        "cabelo": "cabelo_curto",
+        "calca": "calca_cargo",
+        "calcado": "botas_couro",
+        "camisa": "camisa_bosque"
+      },
+      "id": "calca_cargo",
+      "nome": "Calça cargo"
+    },
+    {
+      "categoria": "calca",
+      "dados": {
+        "cabelo": "cabelo_curto",
+        "calca": "calca_pescador",
+        "calcado": "botas_couro",
+        "camisa": "camisa_bosque"
+      },
+      "id": "calca_pescador",
+      "nome": "Calça de pescador"
+    },
+    {
+      "categoria": "calca",
+      "dados": {
+        "cabelo": "cabelo_curto",
+        "calca": "saia_pregas",
+        "calcado": "botas_couro",
+        "camisa": "camisa_bosque"
+      },
+      "id": "saia_pregas",
+      "nome": "Saia de pregas com meia-calça"
+    },
+    {
+      "categoria": "calca",
+      "dados": {
+        "cabelo": "cabelo_curto",
+        "calca": "saia_campo",
+        "calcado": "botas_couro",
+        "camisa": "camisa_bosque"
+      },
+      "id": "saia_campo",
+      "nome": "Saia do campo com meia-calça"
+    },
+    {
+      "categoria": "calcado",
+      "dados": {
+        "cabelo": "cabelo_curto",
+        "calca": "calca_sarja",
+        "calcado": "botas_couro",
+        "camisa": "camisa_bosque"
+      },
+      "id": "botas_couro",
+      "nome": "Botas de couro"
+    },
+    {
+      "categoria": "calcado",
+      "dados": {
+        "cabelo": "cabelo_curto",
+        "calca": "calca_sarja",
+        "calcado": "botinas_trabalho",
+        "camisa": "camisa_bosque"
+      },
+      "id": "botinas_trabalho",
+      "nome": "Botinas de trabalho"
+    },
+    {
+      "categoria": "calcado",
+      "dados": {
+        "cabelo": "cabelo_curto",
+        "calca": "calca_sarja",
+        "calcado": "sapatos_viagem",
+        "camisa": "camisa_bosque"
+      },
+      "id": "sapatos_viagem",
+      "nome": "Sapatos de viagem"
+    },
+    {
+      "categoria": "calcado",
+      "dados": {
+        "cabelo": "cabelo_curto",
+        "calca": "calca_sarja",
+        "calcado": "sapatilhas_vinho",
+        "camisa": "camisa_bosque"
+      },
+      "id": "sapatilhas_vinho",
+      "nome": "Sapatilhas vinho"
+    },
+    {
+      "categoria": "cabelo",
+      "dados": {
+        "cabelo": "cabelo_curto",
+        "calca": "calca_sarja",
+        "calcado": "botas_couro",
+        "camisa": "camisa_bosque"
+      },
+      "id": "cabelo_curto",
+      "nome": "Curto original"
+    },
+    {
+      "categoria": "cabelo",
+      "dados": {
+        "cabelo": "cabelo_chanel",
+        "calca": "calca_sarja",
+        "calcado": "botas_couro",
+        "camisa": "camisa_bosque"
+      },
+      "id": "cabelo_chanel",
+      "nome": "Chanel"
+    },
+    {
+      "categoria": "cabelo",
+      "dados": {
+        "cabelo": "cabelo_rabo",
+        "calca": "calca_sarja",
+        "calcado": "botas_couro",
+        "camisa": "camisa_bosque"
+      },
+      "id": "cabelo_rabo",
+      "nome": "Rabo de cavalo"
+    },
+    {
+      "categoria": "cabelo",
+      "dados": {
+        "cabelo": "cabelo_trancas",
+        "calca": "calca_sarja",
+        "calcado": "botas_couro",
+        "camisa": "camisa_bosque"
+      },
+      "id": "cabelo_trancas",
+      "nome": "Tranças laterais"
+    }
+  ]
+}

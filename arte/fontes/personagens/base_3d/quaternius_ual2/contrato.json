@@ -1,0 +1,61 @@
+{
+  "autor": "Quaternius",
+  "fonte": "https://quaternius.itch.io/universal-animation-library-2",
+  "arquivo_original": "Universal Animation Library 2[Standard].zip",
+  "licenca": "CC0-1.0; License.txt original preservado",
+  "processo": "Transferência das poses do GLB Unreal-Godot, sem geração de imagens ou troca do modelo.",
+  "modelo_canonico": "res://cenas/personagem/base_3d/personagem.tscn",
+  "destino": "res://assets/personagens/base_3d/quaternius_ual2.res",
+  "mao_dominante": "direita",
+  "direcoes": "oito rotações do mesmo rig; revisão das quatro cardinais e diagonais no jogo",
+  "camera": "ortográfica, 20 graus, tamanho 4 m; renderização e filtros atuais preservados",
+  "pivo": "raiz estável; deslocamento XZ removido, física inalterada",
+  "fases": [
+    "antecipação",
+    "corte",
+    "continuação",
+    "recuperação"
+  ],
+  "tempos_jogo": [
+    0.38,
+    0.38,
+    0.5
+  ],
+  "repeticao": "golpes não cíclicos; segue comandos e cancelamento existentes",
+  "restricoes": "Preservar rosto, cabeça, pescoço, cabelo, roupas, proporções, dano, inventário e save.",
+  "recuperacoes": {
+    "golpes": [
+      1,
+      2
+    ],
+    "duracao": 0.28,
+    "interrompivel_por": [
+      "movimento",
+      "ataque",
+      "defesa"
+    ]
+  },
+  "adaptacoes": [
+    "Retarget de52 ossos sem mudar o modelo.",
+    "Deslocamento vertical convertido ao espaço do pai do quadril e multiplicado pela escala0,6 das pernas.",
+    "Contatos da fonte em0,25s /0,37s /0,80s sincronizados com45% do tempo do golpe.",
+    "Compensação do braço e punho para o norte sobre a proporção chibi; arma, rastro e colisão seguem a mesma pose.",
+    "Margem da lâmina de4px para espessura e varredura entre quadros; demais armas conservam2px."
+  ],
+  "validacao": {
+    "combo": {
+      "verificacoes": 5239,
+      "falhas": 0
+    },
+    "alcance_seis_direcoes": {
+      "verificacoes": 253,
+      "falhas": 0
+    },
+    "cancelamento_teclado_toque_p2": {
+      "verificacoes": 281,
+      "falhas": 0
+    },
+    "revisao": "288 poses no Godot, quatro direções, três golpes; ataques reais no andar1 em save isolado.",
+    "limitacao": "Sem dispositivo Android físico conectado; não publicado nesta tarefa."
+  }
+}

@@ -1,0 +1,129 @@
+{
+  "url": "https://alfeim.tail0e3970.ts.net/raven-a57d52fdf80b/",
+  "video": "https://alfeim.tail0e3970.ts.net/raven-a57d52fdf80b/raven.mp4",
+  "gif": "https://alfeim.tail0e3970.ts.net/raven-a57d52fdf80b/raven.gif",
+  "temporario": true,
+  "dependencia": "computador e servidor de mídia ativos",
+  "validacao_https": {
+    "pagina": 200,
+    "video_range": 206,
+    "gif": 200,
+    "outros_arquivos": 404
+  },
+  "mp4": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "profile": "Constrained Baseline",
+        "width": 960,
+        "height": 600,
+        "pix_fmt": "yuv420p"
+      }
+    ],
+    "format": {
+      "duration": "9.000000"
+    }
+  },
+  "revisao_porte": {
+    "versao": 2,
+    "url": "https://alfeim.tail0e3970.ts.net/raven-a57d52fdf80b/?v=2",
+    "verificacoes": 89,
+    "falhas": 0,
+    "capturas": 211,
+    "duracao_ms": 9400,
+    "atualizado_em": "2026-10-25T22:27:44.605982+00:00",
+    "arquivos": {
+      "mp4": 4946342,
+      "gif": 11769115
+    },
+    "verificacao_https": [
+      {
+        "arquivo": "?v=2",
+        "status": 200,
+        "tipo": "text/html; charset=utf-8",
+        "bytes": 1102,
+        "range": null
+      },
+      {
+        "arquivo": "raven.mp4?v=2",
+        "status": 206,
+        "tipo": "video/mp4",
+        "bytes": 1024,
+        "range": "bytes 0-1023/4946342"
+      },
+      {
+        "arquivo": "raven.gif?v=2",
+        "status": 200,
+        "tipo": "image/gif",
+        "bytes": 0,
+        "range": null
+      },
+      {
+        "arquivo": "project.godot",
+        "status": 404
+      }
+    ]
+  },
+  "revisao_tamanho": {
+    "versao": 7,
+    "url": "https://alfeim.tail0e3970.ts.net/raven-a57d52fdf80b/?v=7",
+    "fator_visual": 0.9,
+    "aumento_percentual": 12.5,
+    "fator_movimento": 0.8,
+    "fator_ritmo": 0.85,
+    "verificacoes": 93,
+    "falhas": 0,
+    "capturas": 201,
+    "atualizado_em": "2026-10-26T03:17:25.786741+00:00",
+    "verificacao_https": [
+      {
+        "arquivo": "?v=7",
+        "status": 200,
+        "tipo": "text/html; charset=utf-8"
+      },
+      {
+        "arquivo": "raven.mp4?v=7",
+        "status": 206,
+        "tipo": "video/mp4"
+      },
+      {
+        "arquivo": "raven.gif?v=7",
+        "status": 200,
+        "tipo": "image/gif"
+      }
+    ]
+  },
+  "revisao_passada": {
+    "versao": 6,
+    "url": "https://alfeim.tail0e3970.ts.net/raven-a57d52fdf80b/?v=6",
+    "fator_visual": 0.8,
+    "fator_movimento": 0.8,
+    "fator_ritmo": 0.85,
+    "distancia_ciclo_mundo": 32.752941176470586,
+    "deriva_apoio_antes": 3.8365881534703346,
+    "deriva_apoio_depois": 1.6241419897173284,
+    "verificacoes": 93,
+    "falhas": 0,
+    "capturas": 210,
+    "atualizado_em": "2026-10-26T02:53:21.187027+00:00",
+    "verificacao_https": [
+      {
+        "arquivo": "?v=6",
+        "status": 200,
+        "tipo": "text/html; charset=utf-8"
+      },
+      {
+        "arquivo": "raven.mp4?v=6",
+        "status": 206,
+        "tipo": "video/mp4"
+      },
+      {
+        "arquivo": "raven.gif?v=6",
+        "status": 200,
+        "tipo": "image/gif"
+      }
+    ]
+  }
+}

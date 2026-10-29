@@ -253,7 +253,7 @@
     }
   ],
   "ferramenta": "image_gen integrado",
-  "estado": "revisado em folha e reprodução no Godot; aguardando avaliação artística do usuário",
+  "estado": "empacotado para revisão no motor",
   "destino": "previa independente, personagem ativo preservado",
   "escala_unica": 1.0413793103448277,
   "quadros_exportados": [
@@ -324,5 +324,6 @@
   ],
   "apoio": "sola de apoio identificada nos quatro quadros; chão y850",
   "revisao_motor": "arte/previas/personagens/raven_cartoon/corrida_direcoes_4/motor/reproducao.json",
-  "correcao_usuario": "perfil: sobreposição das coxas/short invertida nos quadros 3/4; costas: sola e calcanhar nos quadros 2/4"
+  "correcao_usuario": "perfil: sobreposição das coxas/short invertida nos quadros 3/4; costas: sola e calcanhar nos quadros 2/4",
+  "escala_fixa_exportacao": 1.0413793103448277
 }

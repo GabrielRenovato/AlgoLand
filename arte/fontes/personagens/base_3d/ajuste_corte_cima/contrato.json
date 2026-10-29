@@ -1,0 +1,38 @@
+{
+  "modelo": "Base 3D chibi já integrada, sem alterar proporções, câmera ou comprimento da arma",
+  "fontes": [
+    "mixamo/SwordSlashA",
+    "mixamo/SwordSlashB"
+  ],
+  "consumidor": "codigo/jogador/empunhadura_lanca_3d.gd::_elevar_corte_uma_mao",
+  "camera": {
+    "inclinacao_graus": 20,
+    "area_mundo_px": [
+      80,
+      80
+    ],
+    "amostragem_pixel_art": 2
+  },
+  "direcoes": 8,
+  "mao_dominante": "DEF-hand.R",
+  "duracoes_s": [
+    0.38,
+    0.38,
+    0.5
+  ],
+  "janela_correcao_progresso": [
+    0.1,
+    0.9
+  ],
+  "peso": "seno contínuo, proporcional à componente norte da direção",
+  "limite_rotacao_punho_graus": 55,
+  "geometria": "punho, espada, rastro e colisão compartilham a pose modificada; tamanho da espada preservado",
+  "esqueletos": "Capsula atingível de raio6/altura32 no tronco e cabeça, separada da base de navegação",
+  "validacao": [
+    "testes/teste_alcance_espada_cima.gd",
+    "testes/teste_colisoes_base_3d.gd",
+    "ferramentas/personagem/base_3d/revisar_combo_3d.gd"
+  ],
+  "previa": "arte/previas/personagens/base_3d/combo_espada/combo_cima.gif",
+  "nota_previa": "Pausa demonstrativa de 400ms após os três golpes; tempos dos golpes iguais ao controlador."
+}

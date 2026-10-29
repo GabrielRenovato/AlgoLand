@@ -1,0 +1,107 @@
+{
+  "Running": {
+    "arquivo": "Standard Run.fbx",
+    "loop": true,
+    "sha256": "ffd59f715f0c27c13f2ad0b168034ee3148f8faae256b3ddb5136af0b75218bd"
+  },
+  "Idle": {
+    "arquivo": "Idle.fbx",
+    "loop": true,
+    "sha256": "efc78505273513c642654f1dd3324640bb13cc237a5baad4a14c40de350da6d6"
+  },
+  "SwordSlashA": {
+    "arquivo": "Sword And Shield Slash.fbx",
+    "loop": false,
+    "sha256": "c3abd72c73417301e9eda497b176b4dc4f4899aa0ec302e93357c1bc6a3acdd1"
+  },
+  "SwordSlashB": {
+    "arquivo": "Sword And Shield Slash (1).fbx",
+    "loop": false,
+    "sha256": "83c4b80d39a264165cc342a5f6e3dad1e469f85d614618f51ea563ff0f6da3b3"
+  },
+  "SwordBlockIdle": {
+    "arquivo": "Sword And Shield Block Idle.fbx",
+    "loop": true,
+    "sha256": "3eff4f4cf72e954d4d64b69395357642c6de7c81993bd631e662cd2af7ac7d36"
+  },
+  "TwoHandCombo": {
+    "arquivo": "Two Hand Sword Combo.fbx",
+    "loop": false,
+    "sha256": "53e85c1805bd39a9506051d4e0e33ecc391c720d2a84065959ce5353b48be187"
+  },
+  "FishingCast": {
+    "arquivo": "Fishing Cast.fbx",
+    "loop": false,
+    "sha256": "c94250252e1cdc1eda40ccc82b2998671e7284e916513d7a0e6305d1cbcbee83"
+  },
+  "FishingIdle": {
+    "arquivo": "Fishing Idle.fbx",
+    "loop": true,
+    "sha256": "99c31761dd46f9553eeb8eb21697a646c348c555af393c0c6645fc3124e035b2"
+  },
+  "BowDraw": {
+    "arquivo": "Standing Draw Arrow.fbx",
+    "loop": false,
+    "sha256": "fc4f0b27972402513d6cf3588fe38b76d852124725a3b78b2e6d25597f25bca4"
+  },
+  "AxeHorizontal": {
+    "arquivo": "Standing Melee Attack Horizontal.fbx",
+    "loop": false,
+    "sha256": "47edd24b1a891326b948d5f846cb089561234213fec1ad48679428e1c58ea394"
+  },
+  "GreatSwordSlash": {
+    "arquivo": "Great Sword Slash.fbx",
+    "loop": false,
+    "sha256": "24ed485012d772cf6fd6d1610a4840ccb7991f0f39e504e88ef5b20519a23eaa"
+  },
+  "GreatSwordJumpAttack": {
+    "arquivo": "Great Sword Jump Attack.fbx",
+    "loop": false,
+    "sha256": "393dae956646f84308fdc295bb0edde328dd900c4acc9132e9aace3bea3b3e95"
+  },
+  "GreatSwordBlocking": {
+    "arquivo": "Great Sword Blocking.fbx",
+    "loop": true,
+    "sha256": "f034e64a149847f8c5679c5414316031f0e3f899314fcd8fbe30e2444cf4c2f1"
+  },
+  "BowRun": {
+    "arquivo": "Standing Sprint Forward.fbx",
+    "loop": true,
+    "sha256": "76bb32af35403dfaa94bb7ffd69bd707fe52108b9c24764a10e93c474a5d9f5b"
+  },
+  "AxeAttack": {
+    "arquivo": "Standing Melee Attack Downward.fbx",
+    "loop": false,
+    "sha256": "acd2d97751013297b86f3f616c215a319d8c5bed15ef2e5a8915c07e6dac113f"
+  },
+  "MaceAttack": {
+    "arquivo": "Standing Melee Attack 360 Low.fbx",
+    "loop": false,
+    "sha256": "870c50feaa23405ba7d58cc27e8dd523cc6e252f8b4391bcd65dd9ea6b172b2a"
+  },
+  "BlockIdle": {
+    "arquivo": "Standing Block Idle.fbx",
+    "loop": true,
+    "sha256": "7922f17edb0a7b2964c5ee8b39ea43b0198fc43db228287a318e180999bef20f"
+  },
+  "Dodge": {
+    "arquivo": "Running Slide.fbx",
+    "loop": false,
+    "sha256": "bc9401761059c240a4aa329e5ba767333b8af03f5a54d5889bb1309b99bfa36c"
+  },
+  "HitReaction": {
+    "arquivo": "Hit Reaction.fbx",
+    "loop": false,
+    "sha256": "b8c787361815b83adb17e99ffde4fc3f627de204238da2b04d64f78806c8b8b5"
+  },
+  "Dying": {
+    "arquivo": "Dying.fbx",
+    "loop": false,
+    "sha256": "7c35d7c76366c2f0b483f24ecad450506cd80db3fea7e761cb6395e43545608f"
+  },
+  "BowRecoil": {
+    "arquivo": "Standing Aim Recoil.fbx",
+    "loop": false,
+    "sha256": "37b9c461341940edd73c27fbcff12b8bda4edb9dec2058c8c3a76c4fbae8c8bc"
+  }
+}

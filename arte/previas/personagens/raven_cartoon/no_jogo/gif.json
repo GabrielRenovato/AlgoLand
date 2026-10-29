@@ -1,0 +1,23 @@
+{
+  "arquivo": "raven_andando_e_atacando_na_fazenda.gif",
+  "quadros": 225,
+  "duracao_ms": 9000,
+  "resolucao": [
+    768,
+    480
+  ],
+  "fps": 25,
+  "origem": "capturas reais do Godot, com física e controles",
+  "recorte_do_viewport": [
+    192,
+    120,
+    768,
+    480
+  ],
+  "redimensionamento": false,
+  "direcoes": 4,
+  "golpes": 2,
+  "fases_observadas_por_golpe": 4,
+  "verificacoes": 57,
+  "falhas": 0
+}

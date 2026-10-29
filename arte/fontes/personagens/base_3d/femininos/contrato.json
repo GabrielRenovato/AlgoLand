@@ -1,0 +1,26 @@
+{
+  "tipo": "Penteados e roupas cosméticas para a base 3D; modelagem nativa por código, sem geração raster ou novos serviços.",
+  "referencia": "cenas/personagem/base_3d/personagem.tscn, roupa/cabelo atuais; paleta e filtro pixel art existentes.",
+  "fontes": [
+    "codigo/jogador/visuais_femininos_3d.gd",
+    "codigo/dados/roupas_base_3d.gd",
+    "codigo/jogador/acabamento_base_3d.gdshader"
+  ],
+  "grade": "Câmera e pivô herdados do personagem; render 160×160, nearest e paleta atual; roupa em metros no repouso do rig, sem redimensionar quadros individualmente.",
+  "modelos": [
+    "Cabelo longo solto",
+    "Cabelo cacheado",
+    "Cabelo curto",
+    "Blusa de mangas bufantes",
+    "Casaquinho rosa antigo",
+    "Saia de pregas com meia-calça",
+    "Saia do campo com meia-calça",
+    "Sapatilhas vinho"
+  ],
+  "encaixe": "Cabelos presos ao DEF-head, com abertura frontal; saias sobre meia-calça, ligadas aos quadris e coxas; mantidas as quatro peças originais e âncora dos pés.",
+  "integracao": "Categoria cabelo adicionada ao catálogo e roupas_3d; IDs anteriores e padrão preservados. Customizar roupas 3D oferece as opções, prévia, cancelamento e gravação pela ação Salvar.",
+  "validacao": "testes/teste_visuais_femininos_3d.gd: 300 capturas (3 conjuntos, 4 vistas, repouso/corrida/ataque), pesos, recortes, persistência e cancelamento. --somente-interface revisa somente 576×360,288×512,320×324. Saves isolados.",
+  "previas": "arte/previas/personagens/base_3d/femininos/; exportar_femininos_3d.py preserva durações reais registradas em tempos.json.",
+  "limite": "Cabelos acompanham a animação da cabeça; sem simulação secundária de fios.",
+  "penteados": "Somente curto (forma1), longo solto (forma2) e cacheado (forma3). Removidas as tranças e o rabo de cavalo. Saves antigos convertem cabelo_trancas→cabelo_cacheado, cabelo_rabo→cabelo_longo e cabelo_chanel→cabelo_curto."
+}

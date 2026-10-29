@@ -1,0 +1,20 @@
+{
+  "animacoes": [
+    {
+      "duracao": 4.33333349227905,
+      "nome": "Chop",
+      "ossos": 18
+    },
+    {
+      "duracao": 1.33333337306976,
+      "nome": "Chopping",
+      "ossos": 18
+    }
+  ],
+  "fonte": "https://kaylousberg.itch.io/kaykit-character-animations",
+  "licenca": "CC0",
+  "autor": "Kay Lousberg",
+  "uso": "Alternativa gratuita baixada e retargetada para comparação visual. Não está ativa: usuário pediu gestos próprios de corte e plantio.",
+  "arquivo_original": "original_free_1_1.zip",
+  "sha256": "65882f31f905ad2e953819648a59287cdeab8f623908d5ef701971d3758be20f"
+}

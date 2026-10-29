@@ -1,0 +1,51 @@
+{
+  "animacoes": [
+    {
+      "duracao": 6.03333330154419,
+      "nome": "Pickaxe",
+      "ossos": 18
+    },
+    {
+      "duracao": 3.73333334922791,
+      "nome": "Pickaxing",
+      "ossos": 18
+    },
+    {
+      "duracao": 2.23333334922791,
+      "nome": "Fishing_Bite",
+      "ossos": 18
+    },
+    {
+      "duracao": 1.93333327770233,
+      "nome": "Fishing_Cast",
+      "ossos": 18
+    },
+    {
+      "duracao": 3.23333334922791,
+      "nome": "Fishing_Catch",
+      "ossos": 18
+    },
+    {
+      "duracao": 2.33333325386047,
+      "nome": "Fishing_Idle",
+      "ossos": 18
+    },
+    {
+      "duracao": 1.60000002384186,
+      "nome": "Fishing_Reeling",
+      "ossos": 18
+    },
+    {
+      "duracao": 3.43333339691162,
+      "nome": "Fishing_Struggling",
+      "ossos": 18
+    },
+    {
+      "duracao": 1.89999997615814,
+      "nome": "Fishing_Tug",
+      "ossos": 18
+    }
+  ],
+  "fonte": "https://kaylousberg.itch.io/kaykit-character-animations",
+  "licenca": "CC0"
+}

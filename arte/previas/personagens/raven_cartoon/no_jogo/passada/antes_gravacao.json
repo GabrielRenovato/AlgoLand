@@ -1,0 +1,5864 @@
+{
+  "captura": "viewport real, controles e física do jogador; sem teletransporte durante o percurso",
+  "capturas": [
+    {
+      "acao": "parado",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "frente",
+      "indice": 0,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        376.0,
+        256.0
+      ],
+      "quadro": 0,
+      "tempo_ms": 2
+    },
+    {
+      "acao": "parado",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "frente",
+      "indice": 1,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        376.0,
+        256.0
+      ],
+      "quadro": 0,
+      "tempo_ms": 52
+    },
+    {
+      "acao": "parado",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "frente",
+      "indice": 2,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        376.0,
+        256.0
+      ],
+      "quadro": 0,
+      "tempo_ms": 102
+    },
+    {
+      "acao": "parado",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "frente",
+      "indice": 3,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        376.0,
+        256.0
+      ],
+      "quadro": 0,
+      "tempo_ms": 152
+    },
+    {
+      "acao": "parado",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "frente",
+      "indice": 4,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        376.0,
+        256.0
+      ],
+      "quadro": 0,
+      "tempo_ms": 202
+    },
+    {
+      "acao": "parado",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "frente",
+      "indice": 5,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        376.0,
+        256.0
+      ],
+      "quadro": 0,
+      "tempo_ms": 252
+    },
+    {
+      "acao": "parado",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "frente",
+      "indice": 6,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        376.0,
+        256.0
+      ],
+      "quadro": 0,
+      "tempo_ms": 302
+    },
+    {
+      "acao": "parado",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "frente",
+      "indice": 7,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        376.0,
+        256.0
+      ],
+      "quadro": 0,
+      "tempo_ms": 352
+    },
+    {
+      "acao": "parado",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "frente",
+      "indice": 8,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        376.0,
+        256.0
+      ],
+      "quadro": 0,
+      "tempo_ms": 402
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "direita",
+      "indice": 9,
+      "porte": {
+        "angulo": 2.31336355209351,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0808367729187,
+          -20.9065971374512
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        376.485992431641,
+        256.0
+      ],
+      "quadro": 0,
+      "tempo_ms": 419
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "direita",
+      "indice": 10,
+      "porte": {
+        "angulo": 2.31336355209351,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0808367729187,
+          -20.9065971374512
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        379.607574462891,
+        256.0
+      ],
+      "quadro": 0,
+      "tempo_ms": 469
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "direita",
+      "indice": 11,
+      "porte": {
+        "angulo": 2.31336355209351,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0808367729187,
+          -20.9065971374512
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        383.871276855469,
+        256.0
+      ],
+      "quadro": 0,
+      "tempo_ms": 519
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "direita",
+      "indice": 12,
+      "porte": {
+        "angulo": 2.27888417243958,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -2.91078114509583,
+          -20.9101905822754
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        385.397888183594,
+        256.0
+      ],
+      "quadro": 1,
+      "tempo_ms": 536
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "direita",
+      "indice": 13,
+      "porte": {
+        "angulo": 2.27888417243958,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -2.91078114509583,
+          -20.9101905822754
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        390.11474609375,
+        256.0
+      ],
+      "quadro": 1,
+      "tempo_ms": 585
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "direita",
+      "indice": 14,
+      "porte": {
+        "angulo": 2.27888417243958,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -2.91078114509583,
+          -20.9101905822754
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        394.925628662109,
+        256.0
+      ],
+      "quadro": 1,
+      "tempo_ms": 636
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "direita",
+      "indice": 15,
+      "porte": {
+        "angulo": 2.31804513931274,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0365686416626,
+          -20.5168895721436
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        396.537933349609,
+        256.0
+      ],
+      "quadro": 2,
+      "tempo_ms": 658
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "direita",
+      "indice": 16,
+      "porte": {
+        "angulo": 2.31804513931274,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0365686416626,
+          -20.5168895721436
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        401.386169433594,
+        256.0
+      ],
+      "quadro": 2,
+      "tempo_ms": 703
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "direita",
+      "indice": 17,
+      "porte": {
+        "angulo": 2.31804513931274,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0365686416626,
+          -20.5168895721436
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        406.242156982422,
+        256.0
+      ],
+      "quadro": 2,
+      "tempo_ms": 752
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "direita",
+      "indice": 18,
+      "porte": {
+        "angulo": 2.33397603034973,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -1.62168335914612,
+          -19.3517646789551
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        407.861511230469,
+        256.0
+      ],
+      "quadro": 3,
+      "tempo_ms": 769
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "direita",
+      "indice": 19,
+      "porte": {
+        "angulo": 2.33397603034973,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -1.62168335914612,
+          -19.3517646789551
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        412.720550537109,
+        256.0
+      ],
+      "quadro": 3,
+      "tempo_ms": 819
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "direita",
+      "indice": 20,
+      "porte": {
+        "angulo": 2.33397603034973,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -1.62168335914612,
+          -19.3517646789551
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        417.580230712891,
+        256.0
+      ],
+      "quadro": 3,
+      "tempo_ms": 869
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "direita",
+      "indice": 21,
+      "porte": {
+        "angulo": 2.31336355209351,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0808367729187,
+          -20.9065971374512
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        419.200164794922,
+        256.0
+      ],
+      "quadro": 0,
+      "tempo_ms": 886
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "direita",
+      "indice": 22,
+      "porte": {
+        "angulo": 2.31336355209351,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0808367729187,
+          -20.9065971374512
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        424.060089111328,
+        256.0
+      ],
+      "quadro": 0,
+      "tempo_ms": 935
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "direita",
+      "indice": 23,
+      "porte": {
+        "angulo": 2.31336355209351,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0808367729187,
+          -20.9065971374512
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        428.920074462891,
+        256.0
+      ],
+      "quadro": 0,
+      "tempo_ms": 985
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "direita",
+      "indice": 24,
+      "porte": {
+        "angulo": 2.27888417243958,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -2.91078114509583,
+          -20.9101905822754
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        430.540069580078,
+        256.0
+      ],
+      "quadro": 1,
+      "tempo_ms": 1003
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "direita",
+      "indice": 25,
+      "porte": {
+        "angulo": 2.27888417243958,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -2.91078114509583,
+          -20.9101905822754
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        435.400054931641,
+        256.0
+      ],
+      "quadro": 1,
+      "tempo_ms": 1053
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "direita",
+      "indice": 26,
+      "porte": {
+        "angulo": 2.27888417243958,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -2.91078114509583,
+          -20.9101905822754
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        440.260040283203,
+        256.0
+      ],
+      "quadro": 1,
+      "tempo_ms": 1102
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "direita",
+      "indice": 27,
+      "porte": {
+        "angulo": 2.31804513931274,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0365686416626,
+          -20.5168895721436
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        441.880035400391,
+        256.0
+      ],
+      "quadro": 2,
+      "tempo_ms": 1119
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "direita",
+      "indice": 28,
+      "porte": {
+        "angulo": 2.31804513931274,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0365686416626,
+          -20.5168895721436
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        446.740020751953,
+        256.0
+      ],
+      "quadro": 2,
+      "tempo_ms": 1169
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "direita",
+      "indice": 29,
+      "porte": {
+        "angulo": 2.31804513931274,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0365686416626,
+          -20.5168895721436
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        451.600006103516,
+        256.0
+      ],
+      "quadro": 2,
+      "tempo_ms": 1219
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "direita",
+      "indice": 30,
+      "porte": {
+        "angulo": 2.33397603034973,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -1.62168335914612,
+          -19.3517646789551
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        453.220001220703,
+        256.0
+      ],
+      "quadro": 3,
+      "tempo_ms": 1236
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "direita",
+      "indice": 31,
+      "porte": {
+        "angulo": 2.33397603034973,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -1.62168335914612,
+          -19.3517646789551
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        458.079986572266,
+        256.0
+      ],
+      "quadro": 3,
+      "tempo_ms": 1285
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "direita",
+      "indice": 32,
+      "porte": {
+        "angulo": 2.27888417243958,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -2.91078114509583,
+          -20.9101905822754
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        460.833984375,
+        256.0
+      ],
+      "quadro": 1,
+      "tempo_ms": 1319
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "direita",
+      "indice": 33,
+      "porte": {
+        "angulo": 2.27888417243958,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -2.91078114509583,
+          -20.9101905822754
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        462.572418212891,
+        256.0
+      ],
+      "quadro": 1,
+      "tempo_ms": 1368
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "direita",
+      "indice": 34,
+      "porte": {
+        "angulo": 2.31804513931274,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0365686416626,
+          -20.5168895721436
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        463.035278320312,
+        256.0
+      ],
+      "quadro": 2,
+      "tempo_ms": 1402
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "direita",
+      "indice": 35,
+      "porte": {
+        "angulo": 2.31804513931274,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0365686416626,
+          -20.5168895721436
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        463.327453613281,
+        256.0
+      ],
+      "quadro": 2,
+      "tempo_ms": 1452
+    },
+    {
+      "acao": "parado",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "direita",
+      "indice": 36,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        463.427673339844,
+        256.0
+      ],
+      "quadro": 0,
+      "tempo_ms": 1502
+    },
+    {
+      "acao": "espada1",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "direita",
+      "indice": 37,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        463.443359375,
+        256.0
+      ],
+      "quadro": 0,
+      "tempo_ms": 1519
+    },
+    {
+      "acao": "espada1",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "direita",
+      "indice": 38,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        463.467407226562,
+        256.0
+      ],
+      "quadro": 0,
+      "tempo_ms": 1568
+    },
+    {
+      "acao": "espada1",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "direita",
+      "indice": 39,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        463.475646972656,
+        256.0
+      ],
+      "quadro": 0,
+      "tempo_ms": 1618
+    },
+    {
+      "acao": "espada1",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "direita",
+      "indice": 40,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        463.478485107422,
+        256.0
+      ],
+      "quadro": 1,
+      "tempo_ms": 1669
+    },
+    {
+      "acao": "espada1",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "direita",
+      "indice": 41,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        463.479461669922,
+        256.0
+      ],
+      "quadro": 1,
+      "tempo_ms": 1719
+    },
+    {
+      "acao": "espada1",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "direita",
+      "indice": 42,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        463.479614257812,
+        256.0
+      ],
+      "quadro": 2,
+      "tempo_ms": 1736
+    },
+    {
+      "acao": "espada1",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "direita",
+      "indice": 43,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        463.479827880859,
+        256.0
+      ],
+      "quadro": 2,
+      "tempo_ms": 1785
+    },
+    {
+      "acao": "espada1",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "direita",
+      "indice": 44,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        463.479858398438,
+        256.0
+      ],
+      "quadro": 3,
+      "tempo_ms": 1802
+    },
+    {
+      "acao": "espada1",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "direita",
+      "indice": 45,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        463.479919433594,
+        256.0
+      ],
+      "quadro": 3,
+      "tempo_ms": 1852
+    },
+    {
+      "acao": "espada1",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "direita",
+      "indice": 46,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        463.479919433594,
+        256.0
+      ],
+      "quadro": 3,
+      "tempo_ms": 1902
+    },
+    {
+      "acao": "espada1",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "direita",
+      "indice": 47,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        463.479919433594,
+        256.0
+      ],
+      "quadro": 3,
+      "tempo_ms": 1952
+    },
+    {
+      "acao": "espada2",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "direita",
+      "indice": 48,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        463.479919433594,
+        256.0
+      ],
+      "quadro": 0,
+      "tempo_ms": 2002
+    },
+    {
+      "acao": "espada2",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "direita",
+      "indice": 49,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        463.479919433594,
+        256.0
+      ],
+      "quadro": 0,
+      "tempo_ms": 2052
+    },
+    {
+      "acao": "espada2",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "direita",
+      "indice": 50,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        463.479919433594,
+        256.0
+      ],
+      "quadro": 0,
+      "tempo_ms": 2102
+    },
+    {
+      "acao": "espada2",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "direita",
+      "indice": 51,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        463.479919433594,
+        256.0
+      ],
+      "quadro": 1,
+      "tempo_ms": 2152
+    },
+    {
+      "acao": "espada2",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "direita",
+      "indice": 52,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        463.479919433594,
+        256.0
+      ],
+      "quadro": 1,
+      "tempo_ms": 2202
+    },
+    {
+      "acao": "espada2",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "direita",
+      "indice": 53,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        463.479919433594,
+        256.0
+      ],
+      "quadro": 2,
+      "tempo_ms": 2219
+    },
+    {
+      "acao": "espada2",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "direita",
+      "indice": 54,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        463.479919433594,
+        256.0
+      ],
+      "quadro": 2,
+      "tempo_ms": 2269
+    },
+    {
+      "acao": "espada2",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "direita",
+      "indice": 55,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        463.479919433594,
+        256.0
+      ],
+      "quadro": 3,
+      "tempo_ms": 2285
+    },
+    {
+      "acao": "espada2",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "direita",
+      "indice": 56,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        463.479919433594,
+        256.0
+      ],
+      "quadro": 3,
+      "tempo_ms": 2335
+    },
+    {
+      "acao": "espada2",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "direita",
+      "indice": 57,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        463.479919433594,
+        256.0
+      ],
+      "quadro": 3,
+      "tempo_ms": 2385
+    },
+    {
+      "acao": "espada2",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "direita",
+      "indice": 58,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        463.479919433594,
+        256.0
+      ],
+      "quadro": 3,
+      "tempo_ms": 2436
+    },
+    {
+      "acao": "parado",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "direita",
+      "indice": 59,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        463.479919433594,
+        256.0
+      ],
+      "quadro": 0,
+      "tempo_ms": 2485
+    },
+    {
+      "acao": "parado",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "direita",
+      "indice": 60,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        463.479919433594,
+        256.0
+      ],
+      "quadro": 0,
+      "tempo_ms": 2535
+    },
+    {
+      "acao": "parado",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "direita",
+      "indice": 61,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        463.479919433594,
+        256.0
+      ],
+      "quadro": 0,
+      "tempo_ms": 2585
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "frente",
+      "indice": 62,
+      "porte": {
+        "angulo": 2.21106815338135,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.11307978630066,
+          -20.5556335449219
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        463.479919433594,
+        256.485992431641
+      ],
+      "quadro": 0,
+      "tempo_ms": 2635
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "frente",
+      "indice": 63,
+      "porte": {
+        "angulo": 2.21106815338135,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.11307978630066,
+          -20.5556335449219
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        463.479919433594,
+        259.607574462891
+      ],
+      "quadro": 0,
+      "tempo_ms": 2685
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "frente",
+      "indice": 64,
+      "porte": {
+        "angulo": 2.21106815338135,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.11307978630066,
+          -20.5556335449219
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        463.479919433594,
+        263.871276855469
+      ],
+      "quadro": 0,
+      "tempo_ms": 2735
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "frente",
+      "indice": 65,
+      "porte": {
+        "angulo": 2.37258648872375,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -2.98320555686951,
+          -21.1290378570557
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        463.479919433594,
+        265.397888183594
+      ],
+      "quadro": 1,
+      "tempo_ms": 2752
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "frente",
+      "indice": 66,
+      "porte": {
+        "angulo": 2.37258648872375,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -2.98320555686951,
+          -21.1290378570557
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        463.479919433594,
+        266.952514648438
+      ],
+      "quadro": 1,
+      "tempo_ms": 2820
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "frente",
+      "indice": 67,
+      "porte": {
+        "angulo": 2.47376012802124,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -2.86199641227722,
+          -21.2249794006348
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        463.479919433594,
+        274.925628662109
+      ],
+      "quadro": 2,
+      "tempo_ms": 2860
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "frente",
+      "indice": 68,
+      "porte": {
+        "angulo": 2.47376012802124,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -2.86199641227722,
+          -21.2249794006348
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        463.479919433594,
+        279.768798828125
+      ],
+      "quadro": 2,
+      "tempo_ms": 2909
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "frente",
+      "indice": 69,
+      "porte": {
+        "angulo": 2.47376012802124,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -2.86199641227722,
+          -21.2249794006348
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        463.479919433594,
+        284.623046875
+      ],
+      "quadro": 2,
+      "tempo_ms": 2959
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "frente",
+      "indice": 70,
+      "porte": {
+        "angulo": 2.31523370742798,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.03843259811401,
+          -20.8763122558594
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        463.479919433594,
+        286.242156982422
+      ],
+      "quadro": 3,
+      "tempo_ms": 2976
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "frente",
+      "indice": 71,
+      "porte": {
+        "angulo": 2.31523370742798,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.03843259811401,
+          -20.8763122558594
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        463.479919433594,
+        291.100769042969
+      ],
+      "quadro": 3,
+      "tempo_ms": 3026
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "frente",
+      "indice": 72,
+      "porte": {
+        "angulo": 2.31523370742798,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.03843259811401,
+          -20.8763122558594
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        463.479919433594,
+        295.960296630859
+      ],
+      "quadro": 3,
+      "tempo_ms": 3075
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "frente",
+      "indice": 73,
+      "porte": {
+        "angulo": 2.21106815338135,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.11307978630066,
+          -20.5556335449219
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        463.479919433594,
+        297.580230712891
+      ],
+      "quadro": 0,
+      "tempo_ms": 3092
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "frente",
+      "indice": 74,
+      "porte": {
+        "angulo": 2.21106815338135,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.11307978630066,
+          -20.5556335449219
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        463.479919433594,
+        302.440093994141
+      ],
+      "quadro": 0,
+      "tempo_ms": 3142
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "frente",
+      "indice": 75,
+      "porte": {
+        "angulo": 2.21106815338135,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.11307978630066,
+          -20.5556335449219
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        463.479919433594,
+        307.300079345703
+      ],
+      "quadro": 0,
+      "tempo_ms": 3193
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "frente",
+      "indice": 76,
+      "porte": {
+        "angulo": 2.37258648872375,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -2.98320555686951,
+          -21.1290378570557
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        463.479919433594,
+        308.920074462891
+      ],
+      "quadro": 1,
+      "tempo_ms": 3209
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "frente",
+      "indice": 77,
+      "porte": {
+        "angulo": 2.37258648872375,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -2.98320555686951,
+          -21.1290378570557
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        463.479919433594,
+        313.780059814453
+      ],
+      "quadro": 1,
+      "tempo_ms": 3259
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "frente",
+      "indice": 78,
+      "porte": {
+        "angulo": 2.37258648872375,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -2.98320555686951,
+          -21.1290378570557
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        463.479919433594,
+        318.640045166016
+      ],
+      "quadro": 1,
+      "tempo_ms": 3309
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "frente",
+      "indice": 79,
+      "porte": {
+        "angulo": 2.47376012802124,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -2.86199641227722,
+          -21.2249794006348
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        463.479919433594,
+        320.260040283203
+      ],
+      "quadro": 2,
+      "tempo_ms": 3326
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "frente",
+      "indice": 80,
+      "porte": {
+        "angulo": 2.21106815338135,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.11307978630066,
+          -20.5556335449219
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        463.479919433594,
+        321.39404296875
+      ],
+      "quadro": 0,
+      "tempo_ms": 3342
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "frente",
+      "indice": 81,
+      "porte": {
+        "angulo": 2.21106815338135,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.11307978630066,
+          -20.5556335449219
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        463.479919433594,
+        323.132476806641
+      ],
+      "quadro": 0,
+      "tempo_ms": 3393
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "frente",
+      "indice": 82,
+      "porte": {
+        "angulo": 2.21106815338135,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.11307978630066,
+          -20.5556335449219
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        463.479919433594,
+        323.728759765625
+      ],
+      "quadro": 0,
+      "tempo_ms": 3443
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "frente",
+      "indice": 83,
+      "porte": {
+        "angulo": 2.37258648872375,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -2.98320555686951,
+          -21.1290378570557
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        463.479919433594,
+        323.822143554688
+      ],
+      "quadro": 1,
+      "tempo_ms": 3459
+    },
+    {
+      "acao": "parado",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "frente",
+      "indice": 84,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        463.479919433594,
+        323.965301513672
+      ],
+      "quadro": 0,
+      "tempo_ms": 3509
+    },
+    {
+      "acao": "espada1",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "frente",
+      "indice": 85,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        463.479919433594,
+        324.00341796875
+      ],
+      "quadro": 0,
+      "tempo_ms": 3542
+    },
+    {
+      "acao": "espada1",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "frente",
+      "indice": 86,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        463.479919433594,
+        324.027465820312
+      ],
+      "quadro": 0,
+      "tempo_ms": 3592
+    },
+    {
+      "acao": "espada1",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "frente",
+      "indice": 87,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        463.479919433594,
+        324.035705566406
+      ],
+      "quadro": 0,
+      "tempo_ms": 3642
+    },
+    {
+      "acao": "espada1",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "frente",
+      "indice": 88,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        463.479919433594,
+        324.038543701172
+      ],
+      "quadro": 1,
+      "tempo_ms": 3692
+    },
+    {
+      "acao": "espada1",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "frente",
+      "indice": 89,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        463.479919433594,
+        324.039520263672
+      ],
+      "quadro": 1,
+      "tempo_ms": 3742
+    },
+    {
+      "acao": "espada1",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "frente",
+      "indice": 90,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        463.479919433594,
+        324.039672851562
+      ],
+      "quadro": 2,
+      "tempo_ms": 3759
+    },
+    {
+      "acao": "espada1",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "frente",
+      "indice": 91,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        463.479919433594,
+        324.039886474609
+      ],
+      "quadro": 2,
+      "tempo_ms": 3809
+    },
+    {
+      "acao": "espada1",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "frente",
+      "indice": 92,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        463.479919433594,
+        324.039916992188
+      ],
+      "quadro": 3,
+      "tempo_ms": 3826
+    },
+    {
+      "acao": "espada1",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "frente",
+      "indice": 93,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        463.479919433594,
+        324.039978027344
+      ],
+      "quadro": 3,
+      "tempo_ms": 3875
+    },
+    {
+      "acao": "espada1",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "frente",
+      "indice": 94,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        463.479919433594,
+        324.039978027344
+      ],
+      "quadro": 3,
+      "tempo_ms": 3925
+    },
+    {
+      "acao": "espada1",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "frente",
+      "indice": 95,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        463.479919433594,
+        324.039978027344
+      ],
+      "quadro": 3,
+      "tempo_ms": 3975
+    },
+    {
+      "acao": "espada2",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "frente",
+      "indice": 96,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        463.479919433594,
+        324.039978027344
+      ],
+      "quadro": 0,
+      "tempo_ms": 4026
+    },
+    {
+      "acao": "espada2",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "frente",
+      "indice": 97,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        463.479919433594,
+        324.039978027344
+      ],
+      "quadro": 0,
+      "tempo_ms": 4075
+    },
+    {
+      "acao": "espada2",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "frente",
+      "indice": 98,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        463.479919433594,
+        324.039978027344
+      ],
+      "quadro": 0,
+      "tempo_ms": 4125
+    },
+    {
+      "acao": "espada2",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "frente",
+      "indice": 99,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        463.479919433594,
+        324.039978027344
+      ],
+      "quadro": 0,
+      "tempo_ms": 4175
+    },
+    {
+      "acao": "espada2",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "frente",
+      "indice": 100,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        463.479919433594,
+        324.039978027344
+      ],
+      "quadro": 1,
+      "tempo_ms": 4193
+    },
+    {
+      "acao": "espada2",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "frente",
+      "indice": 101,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        463.479919433594,
+        324.039978027344
+      ],
+      "quadro": 2,
+      "tempo_ms": 4242
+    },
+    {
+      "acao": "espada2",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "frente",
+      "indice": 102,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        463.479919433594,
+        324.039978027344
+      ],
+      "quadro": 2,
+      "tempo_ms": 4293
+    },
+    {
+      "acao": "espada2",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "frente",
+      "indice": 103,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        463.479919433594,
+        324.039978027344
+      ],
+      "quadro": 3,
+      "tempo_ms": 4309
+    },
+    {
+      "acao": "espada2",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "frente",
+      "indice": 104,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        463.479919433594,
+        324.039978027344
+      ],
+      "quadro": 3,
+      "tempo_ms": 4359
+    },
+    {
+      "acao": "espada2",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "frente",
+      "indice": 105,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        463.479919433594,
+        324.039978027344
+      ],
+      "quadro": 3,
+      "tempo_ms": 4409
+    },
+    {
+      "acao": "espada2",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "frente",
+      "indice": 106,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        463.479919433594,
+        324.039978027344
+      ],
+      "quadro": 3,
+      "tempo_ms": 4459
+    },
+    {
+      "acao": "parado",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "frente",
+      "indice": 107,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        463.479919433594,
+        324.039978027344
+      ],
+      "quadro": 0,
+      "tempo_ms": 4509
+    },
+    {
+      "acao": "parado",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "frente",
+      "indice": 108,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        463.479919433594,
+        324.039978027344
+      ],
+      "quadro": 0,
+      "tempo_ms": 4559
+    },
+    {
+      "acao": "parado",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "frente",
+      "indice": 109,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        463.479919433594,
+        324.039978027344
+      ],
+      "quadro": 0,
+      "tempo_ms": 4609
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "esquerda",
+      "indice": 110,
+      "porte": {
+        "angulo": -2.31336355209351,
+        "escala": [
+          -0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          3.04083681106567,
+          -20.9065971374512
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        462.993927001953,
+        324.039978027344
+      ],
+      "quadro": 0,
+      "tempo_ms": 4659
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "esquerda",
+      "indice": 111,
+      "porte": {
+        "angulo": -2.31336355209351,
+        "escala": [
+          -0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          3.04083681106567,
+          -20.9065971374512
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        459.872344970703,
+        324.039978027344
+      ],
+      "quadro": 0,
+      "tempo_ms": 4709
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "esquerda",
+      "indice": 112,
+      "porte": {
+        "angulo": -2.31336355209351,
+        "escala": [
+          -0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          3.04083681106567,
+          -20.9065971374512
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        455.608642578125,
+        324.039978027344
+      ],
+      "quadro": 0,
+      "tempo_ms": 4759
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "esquerda",
+      "indice": 113,
+      "porte": {
+        "angulo": -2.27888417243958,
+        "escala": [
+          -0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          2.8707811832428,
+          -20.9101905822754
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        454.08203125,
+        324.039978027344
+      ],
+      "quadro": 1,
+      "tempo_ms": 4776
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "esquerda",
+      "indice": 114,
+      "porte": {
+        "angulo": -2.27888417243958,
+        "escala": [
+          -0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          2.8707811832428,
+          -20.9101905822754
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        449.365173339844,
+        324.039978027344
+      ],
+      "quadro": 1,
+      "tempo_ms": 4825
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "esquerda",
+      "indice": 115,
+      "porte": {
+        "angulo": -2.27888417243958,
+        "escala": [
+          -0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          2.8707811832428,
+          -20.9101905822754
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        444.554290771484,
+        324.039978027344
+      ],
+      "quadro": 1,
+      "tempo_ms": 4875
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "esquerda",
+      "indice": 116,
+      "porte": {
+        "angulo": -2.31804513931274,
+        "escala": [
+          -0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          2.99656867980957,
+          -20.5168895721436
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        442.941986083984,
+        324.039978027344
+      ],
+      "quadro": 2,
+      "tempo_ms": 4892
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "esquerda",
+      "indice": 117,
+      "porte": {
+        "angulo": -2.31804513931274,
+        "escala": [
+          -0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          2.99656867980957,
+          -20.5168895721436
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        438.09375,
+        324.039978027344
+      ],
+      "quadro": 2,
+      "tempo_ms": 4942
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "esquerda",
+      "indice": 118,
+      "porte": {
+        "angulo": -2.31804513931274,
+        "escala": [
+          -0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          2.99656867980957,
+          -20.5168895721436
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        433.237762451172,
+        324.039978027344
+      ],
+      "quadro": 2,
+      "tempo_ms": 4992
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "esquerda",
+      "indice": 119,
+      "porte": {
+        "angulo": -2.33397603034973,
+        "escala": [
+          -0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          1.58168339729309,
+          -19.3517646789551
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        431.618408203125,
+        324.039978027344
+      ],
+      "quadro": 3,
+      "tempo_ms": 5009
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "esquerda",
+      "indice": 120,
+      "porte": {
+        "angulo": -2.33397603034973,
+        "escala": [
+          -0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          1.58168339729309,
+          -19.3517646789551
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        426.759368896484,
+        324.039978027344
+      ],
+      "quadro": 3,
+      "tempo_ms": 5059
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "esquerda",
+      "indice": 121,
+      "porte": {
+        "angulo": -2.33397603034973,
+        "escala": [
+          -0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          1.58168339729309,
+          -19.3517646789551
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        421.899688720703,
+        324.039978027344
+      ],
+      "quadro": 3,
+      "tempo_ms": 5109
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "esquerda",
+      "indice": 122,
+      "porte": {
+        "angulo": -2.31336355209351,
+        "escala": [
+          -0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          3.04083681106567,
+          -20.9065971374512
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        420.279754638672,
+        324.039978027344
+      ],
+      "quadro": 0,
+      "tempo_ms": 5125
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "esquerda",
+      "indice": 123,
+      "porte": {
+        "angulo": -2.31336355209351,
+        "escala": [
+          -0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          3.04083681106567,
+          -20.9065971374512
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        415.419830322266,
+        324.039978027344
+      ],
+      "quadro": 0,
+      "tempo_ms": 5175
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "esquerda",
+      "indice": 124,
+      "porte": {
+        "angulo": -2.31336355209351,
+        "escala": [
+          -0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          3.04083681106567,
+          -20.9065971374512
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        410.559844970703,
+        324.039978027344
+      ],
+      "quadro": 0,
+      "tempo_ms": 5225
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "esquerda",
+      "indice": 125,
+      "porte": {
+        "angulo": -2.27888417243958,
+        "escala": [
+          -0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          2.8707811832428,
+          -20.9101905822754
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        408.939849853516,
+        324.039978027344
+      ],
+      "quadro": 1,
+      "tempo_ms": 5242
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "esquerda",
+      "indice": 126,
+      "porte": {
+        "angulo": -2.27888417243958,
+        "escala": [
+          -0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          2.8707811832428,
+          -20.9101905822754
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        404.079864501953,
+        324.039978027344
+      ],
+      "quadro": 1,
+      "tempo_ms": 5292
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "esquerda",
+      "indice": 127,
+      "porte": {
+        "angulo": -2.27888417243958,
+        "escala": [
+          -0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          2.8707811832428,
+          -20.9101905822754
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        399.219879150391,
+        324.039978027344
+      ],
+      "quadro": 1,
+      "tempo_ms": 5342
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "esquerda",
+      "indice": 128,
+      "porte": {
+        "angulo": -2.31804513931274,
+        "escala": [
+          -0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          2.99656867980957,
+          -20.5168895721436
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        397.599884033203,
+        324.039978027344
+      ],
+      "quadro": 2,
+      "tempo_ms": 5359
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "esquerda",
+      "indice": 129,
+      "porte": {
+        "angulo": -2.31804513931274,
+        "escala": [
+          -0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          2.99656867980957,
+          -20.5168895721436
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        392.739898681641,
+        324.039978027344
+      ],
+      "quadro": 2,
+      "tempo_ms": 5409
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "esquerda",
+      "indice": 130,
+      "porte": {
+        "angulo": -2.31804513931274,
+        "escala": [
+          -0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          2.99656867980957,
+          -20.5168895721436
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        387.879913330078,
+        324.039978027344
+      ],
+      "quadro": 2,
+      "tempo_ms": 5459
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "esquerda",
+      "indice": 131,
+      "porte": {
+        "angulo": -2.33397603034973,
+        "escala": [
+          -0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          1.58168339729309,
+          -19.3517646789551
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        386.259918212891,
+        324.039978027344
+      ],
+      "quadro": 3,
+      "tempo_ms": 5476
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "esquerda",
+      "indice": 132,
+      "porte": {
+        "angulo": -2.33397603034973,
+        "escala": [
+          -0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          1.58168339729309,
+          -19.3517646789551
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        381.399932861328,
+        324.039978027344
+      ],
+      "quadro": 3,
+      "tempo_ms": 5525
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "esquerda",
+      "indice": 133,
+      "porte": {
+        "angulo": -2.27888417243958,
+        "escala": [
+          -0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          2.8707811832428,
+          -20.9101905822754
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        378.645935058594,
+        324.039978027344
+      ],
+      "quadro": 1,
+      "tempo_ms": 5559
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "esquerda",
+      "indice": 134,
+      "porte": {
+        "angulo": -2.27888417243958,
+        "escala": [
+          -0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          2.8707811832428,
+          -20.9101905822754
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        376.907501220703,
+        324.039978027344
+      ],
+      "quadro": 1,
+      "tempo_ms": 5609
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "esquerda",
+      "indice": 135,
+      "porte": {
+        "angulo": -2.31804513931274,
+        "escala": [
+          -0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          2.99656867980957,
+          -20.5168895721436
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        376.311218261719,
+        324.039978027344
+      ],
+      "quadro": 2,
+      "tempo_ms": 5659
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "esquerda",
+      "indice": 136,
+      "porte": {
+        "angulo": -2.31804513931274,
+        "escala": [
+          -0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          2.99656867980957,
+          -20.5168895721436
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        376.106719970703,
+        324.039978027344
+      ],
+      "quadro": 2,
+      "tempo_ms": 5709
+    },
+    {
+      "acao": "espada1",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "esquerda",
+      "indice": 137,
+      "porte": {
+        "angulo": -2.35619449615479,
+        "escala": [
+          -0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        376.036560058594,
+        324.039978027344
+      ],
+      "quadro": 0,
+      "tempo_ms": 5759
+    },
+    {
+      "acao": "espada1",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "esquerda",
+      "indice": 138,
+      "porte": {
+        "angulo": -2.35619449615479,
+        "escala": [
+          -0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        376.012512207031,
+        324.039978027344
+      ],
+      "quadro": 0,
+      "tempo_ms": 5809
+    },
+    {
+      "acao": "espada1",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "esquerda",
+      "indice": 139,
+      "porte": {
+        "angulo": -2.35619449615479,
+        "escala": [
+          -0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        376.004272460938,
+        324.039978027344
+      ],
+      "quadro": 0,
+      "tempo_ms": 5859
+    },
+    {
+      "acao": "espada1",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "esquerda",
+      "indice": 140,
+      "porte": {
+        "angulo": -2.35619449615479,
+        "escala": [
+          -0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        376.001434326172,
+        324.039978027344
+      ],
+      "quadro": 1,
+      "tempo_ms": 5909
+    },
+    {
+      "acao": "espada1",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "esquerda",
+      "indice": 141,
+      "porte": {
+        "angulo": -2.35619449615479,
+        "escala": [
+          -0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        376.000457763672,
+        324.039978027344
+      ],
+      "quadro": 1,
+      "tempo_ms": 5959
+    },
+    {
+      "acao": "espada1",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "esquerda",
+      "indice": 142,
+      "porte": {
+        "angulo": -2.35619449615479,
+        "escala": [
+          -0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        376.000305175781,
+        324.039978027344
+      ],
+      "quadro": 2,
+      "tempo_ms": 5976
+    },
+    {
+      "acao": "espada1",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "esquerda",
+      "indice": 143,
+      "porte": {
+        "angulo": -2.35619449615479,
+        "escala": [
+          -0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        376.000091552734,
+        324.039978027344
+      ],
+      "quadro": 2,
+      "tempo_ms": 6026
+    },
+    {
+      "acao": "espada1",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "esquerda",
+      "indice": 144,
+      "porte": {
+        "angulo": -2.35619449615479,
+        "escala": [
+          -0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        376.000061035156,
+        324.039978027344
+      ],
+      "quadro": 3,
+      "tempo_ms": 6042
+    },
+    {
+      "acao": "espada1",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "esquerda",
+      "indice": 145,
+      "porte": {
+        "angulo": -2.35619449615479,
+        "escala": [
+          -0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        376.0,
+        324.039978027344
+      ],
+      "quadro": 3,
+      "tempo_ms": 6092
+    },
+    {
+      "acao": "espada1",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "esquerda",
+      "indice": 146,
+      "porte": {
+        "angulo": -2.35619449615479,
+        "escala": [
+          -0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        376.0,
+        324.039978027344
+      ],
+      "quadro": 3,
+      "tempo_ms": 6142
+    },
+    {
+      "acao": "espada1",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "esquerda",
+      "indice": 147,
+      "porte": {
+        "angulo": -2.35619449615479,
+        "escala": [
+          -0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        376.0,
+        324.039978027344
+      ],
+      "quadro": 3,
+      "tempo_ms": 6193
+    },
+    {
+      "acao": "espada2",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "esquerda",
+      "indice": 148,
+      "porte": {
+        "angulo": -2.35619449615479,
+        "escala": [
+          -0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        376.0,
+        324.039978027344
+      ],
+      "quadro": 0,
+      "tempo_ms": 6242
+    },
+    {
+      "acao": "espada2",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "esquerda",
+      "indice": 149,
+      "porte": {
+        "angulo": -2.35619449615479,
+        "escala": [
+          -0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        376.0,
+        324.039978027344
+      ],
+      "quadro": 0,
+      "tempo_ms": 6292
+    },
+    {
+      "acao": "espada2",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "esquerda",
+      "indice": 150,
+      "porte": {
+        "angulo": -2.35619449615479,
+        "escala": [
+          -0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        376.0,
+        324.039978027344
+      ],
+      "quadro": 0,
+      "tempo_ms": 6342
+    },
+    {
+      "acao": "espada2",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "esquerda",
+      "indice": 151,
+      "porte": {
+        "angulo": -2.35619449615479,
+        "escala": [
+          -0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        376.0,
+        324.039978027344
+      ],
+      "quadro": 0,
+      "tempo_ms": 6392
+    },
+    {
+      "acao": "espada2",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "esquerda",
+      "indice": 152,
+      "porte": {
+        "angulo": -2.35619449615479,
+        "escala": [
+          -0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        376.0,
+        324.039978027344
+      ],
+      "quadro": 1,
+      "tempo_ms": 6410
+    },
+    {
+      "acao": "espada2",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "esquerda",
+      "indice": 153,
+      "porte": {
+        "angulo": -2.35619449615479,
+        "escala": [
+          -0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        376.0,
+        324.039978027344
+      ],
+      "quadro": 2,
+      "tempo_ms": 6459
+    },
+    {
+      "acao": "espada2",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "esquerda",
+      "indice": 154,
+      "porte": {
+        "angulo": -2.35619449615479,
+        "escala": [
+          -0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        376.0,
+        324.039978027344
+      ],
+      "quadro": 2,
+      "tempo_ms": 6509
+    },
+    {
+      "acao": "espada2",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "esquerda",
+      "indice": 155,
+      "porte": {
+        "angulo": -2.35619449615479,
+        "escala": [
+          -0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        376.0,
+        324.039978027344
+      ],
+      "quadro": 3,
+      "tempo_ms": 6525
+    },
+    {
+      "acao": "espada2",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "esquerda",
+      "indice": 156,
+      "porte": {
+        "angulo": -2.35619449615479,
+        "escala": [
+          -0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        376.0,
+        324.039978027344
+      ],
+      "quadro": 3,
+      "tempo_ms": 6575
+    },
+    {
+      "acao": "espada2",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "esquerda",
+      "indice": 157,
+      "porte": {
+        "angulo": -2.35619449615479,
+        "escala": [
+          -0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        376.0,
+        324.039978027344
+      ],
+      "quadro": 3,
+      "tempo_ms": 6625
+    },
+    {
+      "acao": "espada2",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "esquerda",
+      "indice": 158,
+      "porte": {
+        "angulo": -2.35619449615479,
+        "escala": [
+          -0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        376.0,
+        324.039978027344
+      ],
+      "quadro": 3,
+      "tempo_ms": 6675
+    },
+    {
+      "acao": "parado",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "esquerda",
+      "indice": 159,
+      "porte": {
+        "angulo": -2.35619449615479,
+        "escala": [
+          -0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          3.0,
+          -21.0
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        376.0,
+        324.039978027344
+      ],
+      "quadro": 0,
+      "tempo_ms": 6725
+    },
+    {
+      "acao": "parado",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "esquerda",
+      "indice": 160,
+      "porte": {
+        "angulo": -2.35619449615479,
+        "escala": [
+          -0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          3.0,
+          -21.0
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        376.0,
+        324.039978027344
+      ],
+      "quadro": 0,
+      "tempo_ms": 6775
+    },
+    {
+      "acao": "parado",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "esquerda",
+      "indice": 161,
+      "porte": {
+        "angulo": -2.35619449615479,
+        "escala": [
+          -0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          3.0,
+          -21.0
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        376.0,
+        324.039978027344
+      ],
+      "quadro": 0,
+      "tempo_ms": 6825
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "costas",
+      "indice": 162,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        376.0,
+        323.553985595703
+      ],
+      "quadro": 0,
+      "tempo_ms": 6875
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "costas",
+      "indice": 163,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        376.0,
+        320.432403564453
+      ],
+      "quadro": 0,
+      "tempo_ms": 6925
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "costas",
+      "indice": 164,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        376.0,
+        316.168701171875
+      ],
+      "quadro": 0,
+      "tempo_ms": 6975
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "costas",
+      "indice": 165,
+      "porte": {
+        "angulo": 2.34127020835876,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.01458978652954,
+          -21.0351161956787
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        376.0,
+        314.64208984375
+      ],
+      "quadro": 1,
+      "tempo_ms": 6992
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "costas",
+      "indice": 166,
+      "porte": {
+        "angulo": 2.34127020835876,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.01458978652954,
+          -21.0351161956787
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        376.0,
+        309.925231933594
+      ],
+      "quadro": 1,
+      "tempo_ms": 7042
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "costas",
+      "indice": 167,
+      "porte": {
+        "angulo": 2.34127020835876,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.01458978652954,
+          -21.0351161956787
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        376.0,
+        305.114349365234
+      ],
+      "quadro": 1,
+      "tempo_ms": 7092
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "costas",
+      "indice": 168,
+      "porte": {
+        "angulo": 2.30240035057068,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.04942870140076,
+          -20.6772480010986
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        376.0,
+        303.502044677734
+      ],
+      "quadro": 2,
+      "tempo_ms": 7109
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "costas",
+      "indice": 169,
+      "porte": {
+        "angulo": 2.30240035057068,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.04942870140076,
+          -20.6772480010986
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        376.0,
+        298.65380859375
+      ],
+      "quadro": 2,
+      "tempo_ms": 7159
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "costas",
+      "indice": 170,
+      "porte": {
+        "angulo": 2.30240035057068,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.04942870140076,
+          -20.6772480010986
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        376.0,
+        293.797821044922
+      ],
+      "quadro": 2,
+      "tempo_ms": 7209
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "costas",
+      "indice": 171,
+      "porte": {
+        "angulo": 2.3710081577301,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -2.98485708236694,
+          -21.1243305206299
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        376.0,
+        292.178466796875
+      ],
+      "quadro": 3,
+      "tempo_ms": 7225
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "costas",
+      "indice": 172,
+      "porte": {
+        "angulo": 2.3710081577301,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -2.98485708236694,
+          -21.1243305206299
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        376.0,
+        287.319427490234
+      ],
+      "quadro": 3,
+      "tempo_ms": 7275
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "costas",
+      "indice": 173,
+      "porte": {
+        "angulo": 2.3710081577301,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -2.98485708236694,
+          -21.1243305206299
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        376.0,
+        282.459747314453
+      ],
+      "quadro": 3,
+      "tempo_ms": 7325
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "costas",
+      "indice": 174,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        376.0,
+        280.839813232422
+      ],
+      "quadro": 0,
+      "tempo_ms": 7342
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "costas",
+      "indice": 175,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        376.0,
+        275.979888916016
+      ],
+      "quadro": 0,
+      "tempo_ms": 7392
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "costas",
+      "indice": 176,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        376.0,
+        271.119903564453
+      ],
+      "quadro": 0,
+      "tempo_ms": 7442
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "costas",
+      "indice": 177,
+      "porte": {
+        "angulo": 2.34127020835876,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.01458978652954,
+          -21.0351161956787
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        376.0,
+        269.499908447266
+      ],
+      "quadro": 1,
+      "tempo_ms": 7459
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "costas",
+      "indice": 178,
+      "porte": {
+        "angulo": 2.34127020835876,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.01458978652954,
+          -21.0351161956787
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        376.0,
+        264.639923095703
+      ],
+      "quadro": 1,
+      "tempo_ms": 7509
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "costas",
+      "indice": 179,
+      "porte": {
+        "angulo": 2.34127020835876,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.01458978652954,
+          -21.0351161956787
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        376.0,
+        259.779937744141
+      ],
+      "quadro": 1,
+      "tempo_ms": 7559
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "costas",
+      "indice": 180,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        376.0,
+        258.645935058594
+      ],
+      "quadro": 0,
+      "tempo_ms": 7575
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "costas",
+      "indice": 181,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        376.0,
+        256.907501220703
+      ],
+      "quadro": 0,
+      "tempo_ms": 7626
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "costas",
+      "indice": 182,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        376.0,
+        256.311218261719
+      ],
+      "quadro": 0,
+      "tempo_ms": 7675
+    },
+    {
+      "acao": "correr",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "costas",
+      "indice": 183,
+      "porte": {
+        "angulo": 2.34127020835876,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.01458978652954,
+          -21.0351161956787
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        376.0,
+        256.152465820312
+      ],
+      "quadro": 1,
+      "tempo_ms": 7709
+    },
+    {
+      "acao": "parado",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "costas",
+      "indice": 184,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        376.0,
+        256.05224609375
+      ],
+      "quadro": 0,
+      "tempo_ms": 7759
+    },
+    {
+      "acao": "espada1",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "costas",
+      "indice": 185,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        376.0,
+        256.036560058594
+      ],
+      "quadro": 0,
+      "tempo_ms": 7776
+    },
+    {
+      "acao": "espada1",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "costas",
+      "indice": 186,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        376.0,
+        256.012512207031
+      ],
+      "quadro": 0,
+      "tempo_ms": 7825
+    },
+    {
+      "acao": "espada1",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "costas",
+      "indice": 187,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        376.0,
+        256.004272460938
+      ],
+      "quadro": 0,
+      "tempo_ms": 7875
+    },
+    {
+      "acao": "espada1",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "costas",
+      "indice": 188,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        376.0,
+        256.001434326172
+      ],
+      "quadro": 1,
+      "tempo_ms": 7926
+    },
+    {
+      "acao": "espada1",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "costas",
+      "indice": 189,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        376.0,
+        256.000457763672
+      ],
+      "quadro": 1,
+      "tempo_ms": 7976
+    },
+    {
+      "acao": "espada1",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "costas",
+      "indice": 190,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        376.0,
+        256.000305175781
+      ],
+      "quadro": 2,
+      "tempo_ms": 7993
+    },
+    {
+      "acao": "espada1",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "costas",
+      "indice": 191,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        376.0,
+        256.000091552734
+      ],
+      "quadro": 2,
+      "tempo_ms": 8042
+    },
+    {
+      "acao": "espada1",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "costas",
+      "indice": 192,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        376.0,
+        256.000061035156
+      ],
+      "quadro": 3,
+      "tempo_ms": 8059
+    },
+    {
+      "acao": "espada1",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "costas",
+      "indice": 193,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        376.0,
+        255.999984741211
+      ],
+      "quadro": 3,
+      "tempo_ms": 8109
+    },
+    {
+      "acao": "espada1",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "costas",
+      "indice": 194,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        376.0,
+        255.999984741211
+      ],
+      "quadro": 3,
+      "tempo_ms": 8159
+    },
+    {
+      "acao": "espada1",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "costas",
+      "indice": 195,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        376.0,
+        255.999984741211
+      ],
+      "quadro": 3,
+      "tempo_ms": 8209
+    },
+    {
+      "acao": "espada2",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "costas",
+      "indice": 196,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        376.0,
+        255.999984741211
+      ],
+      "quadro": 0,
+      "tempo_ms": 8259
+    },
+    {
+      "acao": "espada2",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "costas",
+      "indice": 197,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        376.0,
+        255.999984741211
+      ],
+      "quadro": 0,
+      "tempo_ms": 8309
+    },
+    {
+      "acao": "espada2",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "costas",
+      "indice": 198,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        376.0,
+        255.999984741211
+      ],
+      "quadro": 0,
+      "tempo_ms": 8359
+    },
+    {
+      "acao": "espada2",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "costas",
+      "indice": 199,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        376.0,
+        255.999984741211
+      ],
+      "quadro": 0,
+      "tempo_ms": 8409
+    },
+    {
+      "acao": "espada2",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "costas",
+      "indice": 200,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        376.0,
+        255.999984741211
+      ],
+      "quadro": 1,
+      "tempo_ms": 8426
+    },
+    {
+      "acao": "espada2",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "costas",
+      "indice": 201,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        376.0,
+        255.999984741211
+      ],
+      "quadro": 2,
+      "tempo_ms": 8476
+    },
+    {
+      "acao": "espada2",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "costas",
+      "indice": 202,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        376.0,
+        255.999984741211
+      ],
+      "quadro": 2,
+      "tempo_ms": 8525
+    },
+    {
+      "acao": "espada2",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "costas",
+      "indice": 203,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        376.0,
+        255.999984741211
+      ],
+      "quadro": 3,
+      "tempo_ms": 8542
+    },
+    {
+      "acao": "espada2",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "costas",
+      "indice": 204,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        376.0,
+        255.999984741211
+      ],
+      "quadro": 3,
+      "tempo_ms": 8592
+    },
+    {
+      "acao": "espada2",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "costas",
+      "indice": 205,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        376.0,
+        255.999984741211
+      ],
+      "quadro": 3,
+      "tempo_ms": 8643
+    },
+    {
+      "acao": "espada2",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "costas",
+      "indice": 206,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": false
+      },
+      "posicao": [
+        376.0,
+        255.999984741211
+      ],
+      "quadro": 3,
+      "tempo_ms": 8692
+    },
+    {
+      "acao": "parado",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "costas",
+      "indice": 207,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        376.0,
+        255.999984741211
+      ],
+      "quadro": 0,
+      "tempo_ms": 8742
+    },
+    {
+      "acao": "parado",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "costas",
+      "indice": 208,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        376.0,
+        255.999984741211
+      ],
+      "quadro": 0,
+      "tempo_ms": 8792
+    },
+    {
+      "acao": "parado",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "costas",
+      "indice": 209,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        376.0,
+        255.999984741211
+      ],
+      "quadro": 0,
+      "tempo_ms": 8842
+    },
+    {
+      "acao": "parado",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "costas",
+      "indice": 210,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        376.0,
+        255.999984741211
+      ],
+      "quadro": 0,
+      "tempo_ms": 8893
+    },
+    {
+      "acao": "parado",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "costas",
+      "indice": 211,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        376.0,
+        255.999984741211
+      ],
+      "quadro": 0,
+      "tempo_ms": 8942
+    },
+    {
+      "acao": "parado",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "costas",
+      "indice": 212,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        376.0,
+        255.999984741211
+      ],
+      "quadro": 0,
+      "tempo_ms": 8992
+    },
+    {
+      "acao": "parado",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "costas",
+      "indice": 213,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        376.0,
+        255.999984741211
+      ],
+      "quadro": 0,
+      "tempo_ms": 9042
+    },
+    {
+      "acao": "parado",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "costas",
+      "indice": 214,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        376.0,
+        255.999984741211
+      ],
+      "quadro": 0,
+      "tempo_ms": 9093
+    },
+    {
+      "acao": "parado",
+      "ancora_tela": [
+        480.0,
+        300.0
+      ],
+      "direcao": "costas",
+      "indice": 215,
+      "porte": {
+        "angulo": 2.35619449615479,
+        "escala": [
+          0.00879999995231628,
+          0.00879999995231628
+        ],
+        "posicao": [
+          -3.0,
+          -21.0
+        ],
+        "visivel": true
+      },
+      "posicao": [
+        376.0,
+        255.999984741211
+      ],
+      "quadro": 0,
+      "tempo_ms": 9143
+    }
+  ],
+  "cena": "res://cenas/fazenda.tscn",
+  "deslocamentos": [
+    {
+      "direcao": "direita",
+      "distancia": 87.4276733398438
+    },
+    {
+      "direcao": "frente",
+      "distancia": 67.9877319335938
+    },
+    {
+      "direcao": "esquerda",
+      "distancia": 87.4276733398438
+    },
+    {
+      "direcao": "costas",
+      "distancia": 67.9877319335938
+    }
+  ],
+  "falhas": 0,
+  "save": "/home/alfeim/.var/app/org.godotengine.Godot/data/AlgoLand testes cartoon fazenda 20261025",
+  "velocidades": {
+    "cartoon": 97.1999893188477,
+    "padrao": 121.49609375
+  },
+  "verificacoes": 90,
+  "escala_mundo": 0.032
+}

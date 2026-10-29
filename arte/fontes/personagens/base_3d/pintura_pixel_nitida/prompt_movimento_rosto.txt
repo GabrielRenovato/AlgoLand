@@ -1,0 +1,12 @@
+Referências geradas com imagegen a partir de referencia_oito_direcoes_v1.png
+e referencia_v1.png. Estudo corporal: oito poses, grade4x2, corrida em cima,
+antecipação/golpe/seguimento/recuperação embaixo; mesma identidade e câmera
+20 graus. Foco: cabeça e pescoço acompanham tronco; queixo recolhe, cabeça
+contragira ao ombro, sem volume elástico nem pescoço alongado.
+Segundo estudo usa folha direcional e estudo corporal como entradas: oito
+bustos grandes, câmera fixa, rumo diagonal direita. Corrida: contato, compressão
+com flexão22°, contragiro15° e inclinação8°, subida com extensão10°. Golpe:
+preparação, flexão25°, seguimento quase de perfil com flexão15°, recuperação.
+Mudar planos faciais e quantidade de topo da cabeça visível, não só girar um
+rosto plano. Preservar olhos azuis, cabelo assimétrico castanho e proporções.
+Fundo oliva, sem texto nem molduras, desenho nítido sem filtro de pixelização.

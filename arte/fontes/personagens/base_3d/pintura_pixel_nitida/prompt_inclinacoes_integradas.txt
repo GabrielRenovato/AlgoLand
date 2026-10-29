@@ -1,0 +1,12 @@
+Geração imagegen: entradas referencia_oito_direcoes_v1.png (identidade/layout)
+e referencia_movimento_rosto_v1.png (apoio de flexão/extensão).
+Duas variantes registradas do mesmo atlas4x2: flexão18 graus e extensão12graus.
+Ordem de yaw preservada: frente, diagonal direita, perfil direito, costas/direita,
+costas, costas/esquerda, perfil esquerdo, diagonal esquerda. Corpo e ombros fixos;
+mover somente cabeça ao redor do pescoço curto, sem alongamento nem separação.
+Mudar perspectiva real de crânio/coroa, testa, olhos, nariz e queixo, não girar
+apenas retrato plano. Preservar dimensões de cabeça, assimetria do cabelo,
+identidade do rosto, olhos azuis, paleta, pintura facetada nítida sem filtro,
+centros horizontais, escala e distribuição das células. Fundo oliva sem texto
+nem molduras. Costas sem olhos. No baixo: mais coroa e queixo recolhido; no alto:
+menos coroa e um pouco de parte inferior do queixo, sem olhar totalmente para cima.

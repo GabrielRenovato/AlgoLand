@@ -1,0 +1,26 @@
+{
+  "animacoes": [
+    {
+      "duracao": 3.79999995231628,
+      "nome": "Farm_Watering",
+      "ossos": 52
+    },
+    {
+      "duracao": 2.76666665077209,
+      "nome": "Farm_PlantSeed",
+      "ossos": 52
+    },
+    {
+      "duracao": 2.5,
+      "nome": "Farm_Harvest",
+      "ossos": 52
+    },
+    {
+      "duracao": 0.966666638851166,
+      "nome": "TreeChopping_Loop",
+      "ossos": 52
+    }
+  ],
+  "fonte": "https://quaternius.itch.io/universal-animation-library-2",
+  "licenca": "CC0"
+}

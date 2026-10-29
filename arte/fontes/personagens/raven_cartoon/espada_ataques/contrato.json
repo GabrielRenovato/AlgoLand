@@ -1,0 +1,174 @@
+{
+  "tipo": "espada simples de uma mão, camada cartoon para ataques existentes",
+  "referencia": "Mana Seed ONE3 6tla sw01v01",
+  "ferramenta": "image_gen integrado",
+  "celula_planejada": [
+    512,
+    896
+  ],
+  "pivo_planejado": [
+    256,
+    710
+  ],
+  "escala": 0.3,
+  "direcoes": {
+    "baixo": [
+      {
+        "mao": [
+          441,
+          383
+        ],
+        "angulo_graus": 0,
+        "camada": -1,
+        "raio_recorte_mao": 34
+      },
+      {
+        "mao": [
+          513,
+          682
+        ],
+        "angulo_graus": 90,
+        "camada": -1,
+        "raio_recorte_mao": 34
+      },
+      {
+        "mao": [
+          207,
+          432
+        ],
+        "angulo_graus": -30,
+        "camada": -1,
+        "raio_recorte_mao": 34
+      },
+      {
+        "mao": [
+          207,
+          432
+        ],
+        "angulo_graus": -30,
+        "camada": -1,
+        "raio_recorte_mao": 34
+      }
+    ],
+    "direita": [
+      {
+        "mao": [
+          110,
+          565
+        ],
+        "angulo_graus": -30,
+        "camada": -1,
+        "raio_recorte_mao": 34
+      },
+      {
+        "mao": [
+          354,
+          655
+        ],
+        "angulo_graus": -135,
+        "camada": 1,
+        "raio_recorte_mao": 34
+      },
+      {
+        "mao": [
+          441,
+          381
+        ],
+        "angulo_graus": 0,
+        "camada": -1,
+        "raio_recorte_mao": 34
+      },
+      {
+        "mao": [
+          441,
+          381
+        ],
+        "angulo_graus": 0,
+        "camada": -1,
+        "raio_recorte_mao": 34
+      }
+    ],
+    "cima": [
+      {
+        "mao": [
+          149,
+          590
+        ],
+        "angulo_graus": -150,
+        "camada": -1,
+        "raio_recorte_mao": 34
+      },
+      {
+        "mao": [
+          65,
+          345
+        ],
+        "angulo_graus": -60,
+        "camada": -1,
+        "raio_recorte_mao": 34
+      },
+      {
+        "mao": [
+          550,
+          538
+        ],
+        "angulo_graus": 90,
+        "camada": -1,
+        "raio_recorte_mao": 34
+      },
+      {
+        "mao": [
+          550,
+          538
+        ],
+        "angulo_graus": 90,
+        "camada": -1,
+        "raio_recorte_mao": 34
+      }
+    ]
+  },
+  "tempos_ms": [
+    160,
+    60,
+    70,
+    200
+  ],
+  "estados": [
+    "preparacao",
+    "corte",
+    "termino",
+    "termino sustentado"
+  ],
+  "camadas": "seguir guia de ordem Mana Seed; somente corte direita quadro2 à frente; demais atrás do corpo",
+  "destino": "prévia independente sem substituir personagem ativo",
+  "estado": "espada criada, encaixada e revisada nas quatro direções no Godot em save isolado",
+  "textura": "res://assets/personagens/raven_cartoon/espada_base_cartoon.png",
+  "tamanho_fonte": [
+    948,
+    1660
+  ],
+  "pivo": [
+    474,
+    1350
+  ],
+  "corpos_celula": [
+    640,
+    896
+  ],
+  "esquerda": "espelhamento conjunto do corpo e arma da direita ao redor da raiz",
+  "prompt": "prompt_espada.txt",
+  "fonte": "espada_base_original.png",
+  "arte_consumida": "assets/personagens/raven_cartoon/espada_base_cartoon.png",
+  "pegadas_consumidas": "assets/personagens/raven_cartoon/pegadas_espada_base.json",
+  "preview": "arte/previas/personagens/raven_cartoon/ataques_quatro_direcoes_com_espada/ataques_com_espada.gif",
+  "revisao": "arte/previas/personagens/raven_cartoon/ataques_quatro_direcoes_com_espada/revisao_visual.json",
+  "alpha_preservado": true,
+  "sem_alteracao_corpos": {
+    "baixo": "5ce177c12ea0a3ff80792e30378f55e0eb2abda3beacf679e6409fe1c657e1af",
+    "direita": "3bdefe9eef0018c593ae6147324a8dc40a3d5900daf5a54270346db296b56905",
+    "cima": "e3433be51867557f64c274c7b3f14c58c70b3326dc5479e1ad6f10b002d155da"
+  },
+  "largura_relativa": 1.1733333333333333,
+  "acrescimo_raio_rastro": 110,
+  "proporcao_arma": "Lamina 36,36% mais longa e 60% mais larga; pivo do cabo e maos preservados, mesma escala no porte nas costas."
+}

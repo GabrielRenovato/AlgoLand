@@ -1,0 +1,222 @@
+{
+  "fonte": "assets/personagens/base_3d/manequim_ual1.glb",
+  "autor": "Quaternius — Universal Animation Library",
+  "licenca": "assets/personagens/base_3d/LICENCA_QUATERNIUS_CC0.txt",
+  "base": "GLB original preservado. Corpo derivado mantém rosto, mãos e demais regiões; trecho central dos braços reconstruído em superfície contínua, com perfil gradual e mistura suave dos ossos no cotovelo/punho. Núcleo do pescoço preso ao DEF-neck.",
+  "pecas_independentes": [
+    "Camisa",
+    "Calca",
+    "Botas",
+    "Cabelo"
+  ],
+  "metodo_roupa": "Camisa e calça com moldes próprios em roupas_modeladas_3d.gd. Folga e silhueta independentes da anatomia; cós ajustado à cintura, pernas soltas, gola e mangas costuradas. Pesos autorais contínuos: barra da camisa no quadril, ombros no suporte do ombro, mangas no braço; sem cópia de pesos da pele. Orientação das faces propagada pelas costuras, com avessos coerentes. Botas e cabelo preservados.",
+  "olhos": "Desenhados na pele: centros X ±0.037; branco com raios 0.023×0.030, íris reduzida a 0.013×0.020 e pupila a 0.0085×0.015 para revelar mais branco. Brilho 0.004×0.0045 e pálpebra reforçada. Parcela de 25% da cor conserva contraste sob iluminação. Revisão nas quatro vistas com/sem cabelo e filtro.",
+  "cores": "Materiais com iluminação real do SubViewport, direção e energia controladas por código conforme horário do mapa; sem sombra pintada no asset e sem chão/sombra fixa no modelo.",
+  "viewport": [
+    640,
+    640
+  ],
+  "area_mundo": [
+    80,
+    80
+  ],
+  "ancora": "Pés calculados pela câmera ortográfica na origem 3D; HeroiBase3D acompanha PES_JOGADOR.",
+  "cena_editavel": "cenas/personagem/base_3d/personagem.tscn",
+  "compilacao": "ferramentas/personagem/base_3d/preparar_cena.gd",
+  "revisao": "teste_roupas_base_3d.gd valida costuras orientadas, pesos da gola/pescoço, máscara métrica, ausência de drift, movimento e restauração; 48 fases de corrida e quatro vistas. revisar_base_3d.gd confere mapa e golpes em save isolado.",
+  "escopo": "Personagem3D padrão, com rosto/cabelo em pixel art e rosto arredondado ativos; mesmas peças e itens existentes. Raven2D permanece disponível pelo F3.",
+  "revisao_volume": "Quatro vistas e 12 fases por direção da corrida no Godot, save isolado; fonte em codigo/jogador/roupas_base_3d.gd. Sem simulação de tecido.",
+  "nitidez": "Grade nativa160×160 por padrão, nearest e MSAA desativado, para a mesma área física80×80. Contorno fino seletivo e luz em três faixas, sem a antiga paleta global de28 cores. Rosto, cabelo, roupas e calçados mantêm suas texturas; modo640 suave disponível para inspeção. Contrato atual em grade_pixel/contrato.json.",
+  "referencia_visual": "referencia_estilo_3d.png, imagem fornecida pelo usuário. Direção solicitada: chibi 3D de RPG de fazenda, volumes suaves e acabamento anime discreto.",
+  "estado_artistico": "Em revisão com o usuário. Direção: chibi 3D suave da referência fornecida, sem aprovação artística presumida.",
+  "pescoco": "Gola centrada em z=0.014, abertura ajustada às medidas do pescoço e ligada ao DEF-neck. UV2.x guarda campo métrico contínuo de cobertura da camisa, incluindo abas do pescoço e trapézio. Camisa visível recorta pele coberta; corpo sem camisa preserva superfície completa.",
+  "bracos": "codigo/jogador/bracos_base_3d.gd recorta somente os trechos dos braços entre x absoluto 0.265 e 0.751 no repouso e gera nova pele com 32 lados e 20 seções. Remove encaixes/capas mecânicas de cotovelo, mantém mãos originais e rig. A manga recorta o trecho coberto.",
+  "teste_pixel_art": {
+    "estado": "Ensaio histórico da paleta28; o acabamento padrão atual é grade_pixel/contrato.json, sem substituição global de cores",
+    "ativacao": "F3 → PERSONAGEM → PERSONAGEM → PERSONAGEM 3D: COMPLETO",
+    "render": [
+      160,
+      160
+    ],
+    "grade": "2 amostras por pixel de mundo, nearest, MSAA desligado; mesmo tamanho, câmera, modelo e animações do modo suave.",
+    "efeito": "Paleta fixa de 28 cores por distância perceptual, alfa binário e nearest. Contorno externo sutil com o tom mais escuro da paleta (#292637), um texel da renderização (0,5 pixel de mundo), quatro vizinhos; sem linhas internas no rosto. Pedido explícito de contorno substitui a preferência anterior sem borda.",
+    "revisao": "revisar_pixel_art.gd em save isolado: 4 vistas e 12 fases de corrida por direção para ambos os modos; capturas do filtro renderizadas no Godot. exportar_teste_pixel.py monta comparação e GIF.",
+    "referencia_tecnica": "https://www.gamedeveloper.com/production/art-design-deep-dive-using-a-3d-pipeline-for-2d-animation-in-i-dead-cells-i-",
+    "escopo": "Teste reversível em tempo real; não substitui render suave padrão e não implementa o exportador de sprites/normal maps de Dead Cells.",
+    "validacao_paleta": "exportar_teste_pixel.py confere 52 PNGs nativos no motor: apenas cores do manifesto e alfa 0/255, antes de exportar comparações e GIF."
+  },
+  "combo_espada": {
+    "controle": "Três toques encadeiam três ataques da mesma espada de uma mão. Uma entrada pode ficar na fila; combate usa o temporizador e a área originais. Demonstração disponível apenas nos scripts de revisão/teste, sem opção separada no F3.",
+    "fonte": "Kevin Iglesias HumanM_Attack1H01_R, HumanM_Attack1H01_L_Espelhado e HumanF_Attack1H01_R. Estocadas de uma mão restauradas a pedido do usuário; versão esquerda espelhada para a mão direita.",
+    "duracoes": [
+      0.38,
+      0.38,
+      0.5
+    ],
+    "implementacao": "codigo/jogador/combo_espada_base_3d.gd amostra três clipes da biblioteca melee; controlador busca a fase sincronizada com AttackTimer. Sem modificador procedural de cortes.",
+    "validacao": "testes/teste_ataque_base_3d.gd usa eventos de entrada e save isolado; revisar_combo_3d.gd exporta 288 fases no filtro do Godot.",
+    "rastro": "Arco branco/marfim varrido pela lâmina com 130ms de persistência; três faixas da paleta quente clara, sem sombra. Lança mantém o rastro anterior de 90ms. Limpa ao interromper ou trocar golpe.",
+    "encaixe": "Rotação de arma dos metadados de cada clipe importado; mão direita preservada, escudo no braço esquerdo durante os ataques.",
+    "retorno_pose": "Ao carregar as bibliotecas, completa rotações constantes ausentes dos clipes originais usando a pose canônica. DEF-spine.001 era animado pelo ataque e omitido no repouso, deixando 17–27 graus residuais. teste_retorno_pose_base_3d.gd confere 48 transições para repouso/corrida, quatro direções e término/interrupção; captura filtrada deve coincidir pixel a pixel com a pose original."
+  },
+  "combo_lanca": {
+    "fonte": "Kevin Iglesias Human Melee Animations FREE: um ataque Polearm nas versões masculina e feminina. Combo usa M/F/M, com preparação e ritmo diferentes no finalizador; não são três ataques originais do pacote.",
+    "duracoes": [
+      0.32,
+      0.36,
+      0.5
+    ],
+    "empunhadura": "Duas mãos nas poses Polearm originais; eixo da haste passa pelos dois pontos de pega após a proporção chibi. Escudo oculto com lança. Fora do ataque, lança nas costas e movimento original preservado.",
+    "teste": "teste_ataque_base_3d.gd -- --lanca; demonstração sem dano na fazenda e combo real no combate."
+  },
+  "animacoes_melee": {
+    "fonte": "https://kevdev.itch.io/human-melee-animatons-free",
+    "autor": "Kevin Iglesias",
+    "originais": 94,
+    "adaptacoes_espelhadas": 2,
+    "arquivo": "assets/personagens/base_3d/kevin_melee_free.res",
+    "manifesto": "kevin_melee_free/manifesto.json",
+    "sha256_zip": "bcd47d323e40419d4dda188d51bd5d91021e6ca42d8dc0c30f1e5053401244f5",
+    "ligacoes": "Ataques de espada, lança e escudada usam Kevin Iglesias. Parado/corrida continuam originais; avanço preserva mecânica sem rolamento.",
+    "root_motion": "Arquivadas no recurso importado, sem uso no controlador. Movimento do jogador continua no controlador e na animação Jog_Fwd_Loop original.",
+    "licenca": "Standard Asset Store EULA; gratuita e com uso comercial autorizado, sem revenda dos arquivos originais; não é CC0.",
+    "validacao_ativa": "Teste de entrada, três golpes, rastro, escudada e restauração: teste_ataque_base_3d.gd, com --lanca para a lança. Corrida e demais ações antigas verificadas explicitamente."
+  },
+  "acoes_fazenda": {
+    "ativacao": "Única opção PERSONAGEM 3D: COMPLETO no F3: roupas/cabelo/paleta, ferramentas reais, avanço e cadeira. Espada e lança seguem o equipamento; demos não aparecem no menu.",
+    "fonte_importada": "Quaternius UAL2 Standard CC0, original e manifesto em ual2; regar, encher e colher ativos. Clipes antigos de plantio e corte permanecem arquivados, sem uso nessas duas ações.",
+    "acoes_proprias": {
+      "implementacao": "codigo/jogador/acoes_manuais_fazenda_3d.gd, SkeletonModifier após proporção chibi e antes do equipamento; IK analítica de dois segmentos mantém mãos e pés, sem esticar malha.",
+      "machado": {
+        "duracao": 0.68,
+        "impacto": 0.3,
+        "gesto": "Preparação sobre o ombro, duas mãos separadas 0.14m no cabo, golpe à altura do tronco, pequena continuação e retorno. Machado e mãos usam a mesma trajetória própria; sem fonte importada ativa."
+      },
+      "plantar": {
+        "duracao": 0.6,
+        "impacto": 0.3,
+        "referencia": "arte/fontes/personagens/prototipo/base_mana_seed/fazenda.png, células64x64, colunas4–7, quatro direções; tempos do controlador real .30/.10/.10/.10.",
+        "gesto": "Pegar semente junto à mão de apoio e estender a mão à frente, com inclinação curta. Três grãos visuais percorrem o alvo depois do impacto; a regra de plantio continua no Plantio."
+      }
+    },
+    "sincronia": "Relógio derivado do índice e tempo do no_fazenda, sem disparar sinais próprios de água, colheita, plantio ou extração.",
+    "avanco": "Deslocamento, custo, invulnerabilidade e rastro mantidos; pose de avanço de Jog_Fwd_Loop, sem Roll.",
+    "sentar": "Sitting_Enter/Idle/Exit originais sincronizados à cadeira real; armas ocultas.",
+    "revisao": "revisar_acoes_game.gd: 7 ações × 4 direções × 12 fases, filtro real no Godot; teste_mecanicas_base_3d.gd exercita impactos reais; teste_acoes_manuais_base_3d.gd amostra 280 poses e confere ambas as mãos contra o cabo desenhado, apoio e cancelamento."
+  },
+  "encaixe_armas_costas": {
+    "osso": "DEF-spine.003",
+    "espada": {
+      "posicao": [
+        -0.24,
+        0.38,
+        -0.16
+      ],
+      "rotacao_graus": [
+        0,
+        0,
+        -145
+      ]
+    },
+    "lanca": {
+      "posicao": [
+        -0.05,
+        0.02,
+        -0.2
+      ],
+      "rotacao_graus": [
+        -18,
+        0,
+        -15
+      ]
+    },
+    "revisao": "revisar_armas_costas.gd: parado e 12 fases de corrida nas quatro direções; encaixes independentes, lança atrás da cabeça."
+  },
+  "cabelo": {
+    "implementacao": "Superfície contínua da cabeça com franja fina, UV cilíndrica e textura albedo cabelo_pintado.png. Tubos e mechas geométricas rejeitados foram removidos.",
+    "fonte": "arte/fontes/personagens/base_3d/cabelo_pintado: original, prompt e manifesto. Textura gerada por IA com image_gen integrado; não é pintura manual de pixels.",
+    "preservado": "Rig, proporção chibi, cabeça, olhos na pele e peça cosmética independente; sem alterar outros gestos.",
+    "revisao": "revisar_cabelo_3d.gd: quatro direções, com/sem cabelo, modo suave e filtro real; teste_roupas_base_3d.gd confere pesos e corrida."
+  },
+  "corrida": "Jog_Fwd_Loop original com PASSADA=60px, antes 48px: 20% menos ciclos por segundo para a mesma velocidade física. Não altera movimento, consumo de energia ou controles.",
+  "escudo_3d": {
+    "modelo": "codigo/jogador/escudo_madeira_3d.gd, raio .32m, tábuas com veios discretos em escudo_madeira_3d.gdshader, aro de couro e ferragem pequena. Tamanho aparente aproximadamente 30% maior que o anterior após compensação da escala das mãos.",
+    "encaixes": "Guarda nas costas junto da espada de uma mão. Costas: posição [0,.03,-.24], rotação [0,180,0]; espada deslocada para [-.33,.30,-.16] quando carregada com escudo. No braço esquerdo em ataques, defesa e escudada; escala compensada para evitar crescimento ao sacar.",
+    "guarda": "pose_guarda_base_3d.gd: ergue em .12s, escudo central à frente do peito, tronco recolhido atrás, quadril 45mm abaixo, pés mais afastados, cabeça acompanha o alvo; respiração discreta e impulso curto no aparo perfeito.",
+    "referencia": "guarda/referencia_usuario.png: referência visual de gesto fornecida pelo usuário (Zelda), sem copiar malha ou textura do escudo mostrado.",
+    "mecanica": "Usa DefesaJogador existente: mesmo custo, janela perfeita, redução de dano, invulnerabilidade e escudada automática. Espada+escudo ficam em 3D durante guarda/contra; outras armas mantêm a regra anterior.",
+    "revisao": "revisar_escudo_3d.gd: costas, quatro direções, 36 fases de erguer e 48 de escudada; exportar_escudo_3d.py organiza capturas reais. teste_escudo_madeira_base_3d.gd testa entrada real de aparar, dano frontal, contra-ataque e velocidade da corrida."
+  },
+  "combo_montante": {
+    "fontes": [
+      "melee/HumanM_Attack2H01",
+      "melee/HumanF_Attack2H01",
+      "melee/HumanM_Attack2H01"
+    ],
+    "duracoes": [
+      0.52,
+      0.52,
+      0.68
+    ],
+    "escopo": "Clipes 2H do pacote Kevin Iglesias, sem trajetórias procedurais. São duas fontes, a masculina repete no terceiro golpe. Espada de Duas Mãos e cinco montantes selecionam esse combo; espada de uma mão mantém estocadas.",
+    "encaixe": "As duas pegas animadas determinam o eixo do cabo depois da proporção chibi; escudo oculto. Lâmina maior e rastro branco acompanham a pose final.",
+    "implementacao": "codigo/jogador/combo_montante_base_3d.gd; empunhadura_lanca_3d.gd; jogador usa durações da família equipada."
+  },
+  "formato_rosto": {
+    "escala_osso_cabeca": [
+      2.38,
+      1.75,
+      2.3
+    ],
+    "ajuste": "Largura reduzida em 15% em relação a 2.8; altura original 1.75 restaurada e profundidade preservada. Olhos na pele e cabelo acompanham a cabeça.",
+    "revisao": "revisar_cabelo_3d.gd: quatro vistas, com/sem cabelo, render suave sem filtro de pixel art."
+  },
+  "acabamento_roupas": {
+    "implementacao": "UV/UV2 de costura em repouso nas malhas independentes; acabamento_roupa no shader. Cena compilada pelo preparar_cena.gd.",
+    "camisa": "Gola e punhos em tom mais escuro, barra definida, carcela curta com dois botões e dobras discretas junto à barra.",
+    "calca": "Cós escurecido, costuras inclinadas dos bolsos, costura lateral suave e dobras discretas no joelho.",
+    "botas": "Sola escura, cano com borda definida, tira de couro e fivela, biqueira ligeiramente mais clara.",
+    "preservado": "Mesmas peças separadas, folga da roupa, rig, cabelo, olhos e proporções atuais. Detalhes acompanham a pele e não flutuam.",
+    "revisao": "Quatro vistas nos dois acabamentos; 12 fases de corrida em quatro direções, save isolado."
+  },
+  "catalogo_roupas": {
+    "fonte": "Derivações dos moldes 3D próprios já aceitos, com geometria e detalhes em shader; sem geração raster.",
+    "catalogo": "codigo/dados/roupas_base_3d.gd",
+    "pecas": {
+      "camisa": [
+        "camisa_bosque",
+        "camisa_trabalho",
+        "tunica_campo",
+        "jaqueta_viajante"
+      ],
+      "calca": [
+        "calca_sarja",
+        "calca_cargo",
+        "calca_pescador"
+      ],
+      "calcado": [
+        "botas_couro",
+        "botinas_trabalho",
+        "sapatos_viagem"
+      ]
+    },
+    "uso": "F3 → PERSONAGEM → CUSTOMIZAR ROUPAS 3D; 36 combinações independentes, prévia no modelo. SALVAR mescla roupas_3d à configuração solo/P2 do mundo atual, CANCELAR restaura a seleção anterior. Não cria itens nem altera bônus.",
+    "diferencas": "Camisa de trabalho mais folgada com bolso no peito; túnica alongada com cinto; jaqueta com abertura e bolsos. Cargo mais larga e com bolsos; pescador com barra dobrada. Botas, botinas e sapatos com alturas distintas e cadarços nas opções baixas.",
+    "render": "Paleta ampliada de 24 para 28 cores, incluindo rampa de verde; contorno externo fino permanece. Detalhes seguem UV/UV2 de repouso e os pesos existentes do rig.",
+    "validacao": "revisar_catalogo_roupas.gd: 80 vistas, 36 combinações, 192 fases de corrida; persistência preserva campos existentes; seleção/cancelar, bloqueio de ações e margens em 576×360 e 288×512. exportar_catalogo_roupas.py valida paleta/alfa de 232 imagens e monta catálogo e GIF de corrida a 100px/s."
+  },
+  "oito_direcoes": {
+    "direcoes": 8,
+    "giro": "Ângulo do direcional arredondado em passos de 45°; mesmo rig e mesmas animações. Repouso usa última direção, corrida/avanço usam deslocamento.",
+    "combate": "direcao_da_acao usa oito direções com HeroiBase3D. Direção do golpe fica fixa até terminar; próximo golpe pode mudar. Área 2D usa clipe cardinal e rotação complementar no nó pai, restaurada ao terminar/cancelar. Defesa e escudada usam vetor diagonal.",
+    "fazenda": "Ponto de interação real, giro e destino dos efeitos 3D recebem o mesmo vetor diagonal normalizado. Cadeira preserva orientação fixa de seu encaixe.",
+    "compatibilidade": "Raven e outros visuais 2D mantêm as quatro direções; nenhuma animação foi substituída.",
+    "validacao": "revisar_oito_direcoes.gd: 187 verificações sem falhas e 64 renders; teste_ataque_base_3d.gd -- --oito verifica entrada, combos e rastros nas oito direções; --lanca e --montante selecionam demais famílias."
+  },
+  "encaixe_machado_mixamo": {
+    "modificador": "codigo/jogador/encaixe_machado_3d.gd",
+    "regra": "Usa o primeiro golpe do FBX Standing Melee Attack Horizontal (0–0,90s; contato0,82s), recomposto em680ms com impacto300ms e recuperação por interpolação para a pose inicial. Evita o giro longo da recuperação de combate que fazia o machado parecer trocar de mão. O punho corrigido respeita a folga da cabeça/costas/escudo; o cabo usa sempre DEF-hand.R. Sobra inferior do cabo:4cm.",
+    "revisao": "teste_machado_pixel_3d.gd:164 poses/quatro direções, folga, pega direita após skeleton_updated, limites de salto por quadro, fechamento da recuperação, impacto e repouso. exportar_machado_pixel.py preserva680ms.",
+    "recuperacao": "codigo/jogador/corte_machado_mixamo.gd; fonte importada preservada; corte derivado AxeTreeChop criado por instância."
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "nome": "AlgoLand — chibi pixel 28",
+  "cores": [
+    "#292637",
+    "#985563",
+    "#c27b70",
+    "#e6a07e",
+    "#f6c799",
+    "#ffe5b9",
+    "#263653",
+    "#354f73",
+    "#4b7696",
+    "#71a2b2",
+    "#a6c6c0",
+    "#3d2936",
+    "#61413b",
+    "#8c5a3c",
+    "#bf8950",
+    "#443642",
+    "#6e5048",
+    "#95714e",
+    "#c09c67",
+    "#332936",
+    "#52313d",
+    "#7d494b",
+    "#e6d5b8",
+    "#fff0cb",
+    "#3c4b3f",
+    "#5c714e",
+    "#87966a",
+    "#b0b882"
+  ],
+  "grupos": {
+    "contorno": [
+      0
+    ],
+    "pele": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "camisa": [
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "cabelo": [
+      11,
+      12,
+      13,
+      14
+    ],
+    "calca": [
+      15,
+      16,
+      17,
+      18
+    ],
+    "botas": [
+      19,
+      20,
+      21
+    ],
+    "olhos_e_luzes": [
+      22,
+      23
+    ],
+    "tecido_verde": [
+      24,
+      25,
+      26,
+      27
+    ]
+  },
+  "direcao": "Sombras violeta/azuladas e luzes quentes; rampas curtas próprias para pixel art. Aplicação somente no acabamento pixelizado, mantendo grade, modelo e animações."
+}
