@@ -61,23 +61,11 @@ func _ready() -> void:
 		EventosJogo.fechar_tela_de(self,"pausa")
 		EventosJogo.abrir_tela_de(self,"lobby"))
 	_menu.add_child(cidade_online)
-	var coop_online := Button.new()
-	coop_online.name = "BotaoCoopOnline"
-	coop_online.text = "COOP ONLINE DOS ANDARES"
-	coop_online.pressed.connect(func():
-		EventosJogo.fechar_tela_de(self, "pausa")
-		load("res://codigo/coop_online/conexao_coop.gd").obter(get_tree()).abrir_tela.call_deferred())
-	_menu.add_child(coop_online)
 	var apelido := Button.new()
 	apelido.name = "BotaoApelido"
 	apelido.text = "APELIDO"
 	apelido.pressed.connect(_mostrar.bind(Vista.APELIDO))
 	_menu.add_child(apelido)
-	var visual := Button.new()
-	visual.name = "BotaoEditarVisual"
-	visual.text = "EDITAR VISUAL"
-	visual.pressed.connect(_editar_visual)
-	_menu.add_child(visual)
 	_montar_vista_apelido()
 	%BotaoFechar.pressed.connect(_continuar)
 	_botao_opcoes.pressed.connect(_mostrar.bind(Vista.OPCOES))

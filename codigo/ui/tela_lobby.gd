@@ -303,11 +303,14 @@ func _encaixar_ao_lado_do_mapa() -> void:
  for no in get_tree().get_nodes_in_group("toque_hud"):
   if no.name=="BotaoMapaMundi" and no is Control and no.get_viewport()==get_viewport() and no.is_visible_in_tree(): mapa=no; break
  if mapa==null: return
- var fator := EscalaInterface.fator(self)
- var origem := mapa.get_global_transform_with_canvas().origin
- var altura_mapa := mapa.size.y*mapa.get_global_transform_with_canvas().get_scale().y
- var tela_px := origem+Vector2(-(_botao_hud.size.x+6.0)*fator,(altura_mapa-_botao_hud.size.y*fator)*0.5)
+ var transformacao_mapa := mapa.get_global_transform_with_canvas()
+ var escala_mapa := transformacao_mapa.get_scale()
+ var origem := transformacao_mapa.origin
  var pai := get_parent()
+ # Mesma escala na tela do MAPA e do ícone de PvP: os três botões do topo ficam do mesmo tamanho.
+ var escala_pai: Vector2 = (pai.get_final_transform() if pai is CanvasLayer else pai.get_global_transform_with_canvas()).get_scale()
+ _botao_hud.scale = Vector2(escala_mapa.x/maxf(escala_pai.x,0.001),escala_mapa.y/maxf(escala_pai.y,0.001))
+ var tela_px := origem+Vector2(-(_botao_hud.size.x+6.0)*escala_mapa.x,(mapa.size.y-_botao_hud.size.y)*escala_mapa.y*0.5)
  var da_tela_para_pai: Transform2D = pai.get_final_transform().affine_inverse() if pai is CanvasLayer else pai.get_global_transform_with_canvas().affine_inverse()
  _botao_hud.position = (da_tela_para_pai*tela_px).round()
 
