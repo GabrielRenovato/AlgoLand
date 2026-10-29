@@ -491,6 +491,13 @@ func _liquidar_partida() -> void:
 	Progresso.onda_inicial = 1
 	Progresso.ouro_compensacao = 0
 	Progresso.onda_comecou = false
+	# Quem caiu (ou todos caíram) voltava à cidade com a vida zerada, que a transição restaurava como 1 de vida.
+	# Como na morte da arena, a volta é com a vida cheia.
+	var local := Duelo.jogador_local(get_tree())
+	if local != null and (local.caido or motivo_final.contains("CAIRAM")):
+		if local.caido: local.levantar_caido(1.0)
+		local.estaMorto = false
+		local.descansar()
 	if not Progresso.partida_ativa: return
 	Saque.encerrar(not motivo_final.contains("CAIRAM"))
 	var resultado: Dictionary = Progresso.encerrar_partida()
