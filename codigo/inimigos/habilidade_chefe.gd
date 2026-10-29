@@ -244,10 +244,10 @@ func _detonar_esporos() -> void:
 		_indicador.detonar_impacto()
 		_indicador = null
 	_chefe._tremer_camera(2.5, 0.2)
-	var jogador: Node2D = _chefe.obter_jogador()
-	if jogador != null and _chefe.global_position.distance_to(jogador.global_position) < RAIO_ESPOROS:
-		var direcao := (jogador.global_position - _chefe.global_position).normalized()
-		jogador.receber_dano(roundi(_chefe.dano * MULT_DANO_ESPOROS), direcao * FORCA_ESPOROS)
+	for jogador in _chefe.jogadores_vivos():
+		if _chefe.global_position.distance_to(jogador.global_position) < RAIO_ESPOROS:
+			var direcao: Vector2 = (jogador.global_position - _chefe.global_position).normalized()
+			jogador.receber_dano(roundi(_chefe.dano * MULT_DANO_ESPOROS), direcao * FORCA_ESPOROS)
 	estado = Estado.RECUPERANDO
 	_tempo_estado = TEMPO_RECUPERACAO_ESPOROS
 

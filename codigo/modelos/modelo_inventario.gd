@@ -875,7 +875,7 @@ func entregar_armas_liberadas(forcar := false) -> void:
 	var introducao := get_node_or_null("/root/Introducao")
 	if progresso == null or progresso._carregando or (introducao != null and introducao.ativa()):
 		return
-	var mudou := false
+	var mudou := garantir_iniciais()
 	for tipo in preload("res://codigo/dados/forja_armas.gd").RECEITAS:
 		if tipo in preload("res://codigo/dados/forja_armas.gd").INICIAIS_LIVRES: continue
 		if not progresso.arma_liberada(tipo) or tipo in armas_permanentes_entregues:
@@ -886,6 +886,22 @@ func entregar_armas_liberadas(forcar := false) -> void:
 		mudou = true
 	if mudou:
 		salvar()
+
+## Todo jogador tem o kit inicial (espada, escudo e ferramentas). Quem já tem o item, na mochila, equipado ou no baú da
+## fazenda, não recebe de novo; sem espaço na mochila o item vai para o baú da fazenda. Cobre saves antigos e o jogador 2.
+func garantir_iniciais() -> bool:
+	var mudou := false
+	var bau := get_node_or_null("/root/BauCasa")
+	for definicao in DEFINICOES_INICIAIS:
+		var tipo: String = definicao["tipo"]
+		if not tipo in preload("res://codigo/dados/forja_armas.gd").INICIAIS_LIVRES: continue
+		if buscar_por_tipo(tipo) != null or (bau != null and bau.contem_tipo(tipo)): continue
+		var item = _criar_item(definicao)
+		if tem_espaco():
+			if adicionar(item) != -1: mudou = true
+		elif bau != null and bau.guardar_novo(item):
+			mudou = true
+	return mudou
 
 ## Encerramento voluntário usa a mesma seleção de itens permanentes da morte.
 ## Conjuntos, sementes e moedas de forja ficam; equipamento temporário volta ao kit inicial.

@@ -78,6 +78,11 @@ func sair_da_arena(encerrar := false) -> void:
 		_esquecer_totens = true
 	ir_para("res://cenas/cidade.tscn", "portal")
 
+## A partida acabou fora da arena (coop online): a próxima ida começa no andar 1, sem os totens da anterior.
+func esquecer_partida() -> void:
+	_esquecer_onda = true
+	_esquecer_totens = true
+
 const ENFERMARIA := "res://cenas/cidade/enfermaria.tscn"
 ## Caiu na arena: acorda ao lado de um leito da enfermaria e a Rosa conversa com ele (cidade.gd lê e zera)
 var acordou_ferido := false

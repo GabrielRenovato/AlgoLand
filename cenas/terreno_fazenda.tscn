@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" path="res://assets/cenario/substitutos/natureza/spring.png" id="arena_folha"]
 [ext_resource type="Texture2D" path="res://assets/cenario/substitutos/natureza/arvore_winter.png" id="evergreen_inverno"]
-[ext_resource type="Script" path="res://codigo/cenario/casa_fazenda_3d.gd" id="casa_fachada"]
+[ext_resource type="Script" path="res://codigo/cidade/casa_exterior.gd" id="casa_fachada"]
 [ext_resource type="Script" path="res://codigo/logica/plantio.gd" id="plantio_script"]
 [ext_resource type="Script" path="res://codigo/logica/interagivel.gd" id="interagivel_script"]
 [ext_resource type="Script" path="res://codigo/cenario/profundidade_grupo.gd" id="prof_grupo"]

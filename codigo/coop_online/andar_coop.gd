@@ -4,6 +4,8 @@ const Remoto := preload("res://codigo/coop_online/parceiro_coop.gd")
 const Replica := preload("res://codigo/coop_online/inimigo_replica.gd")
 const DadosItemScript := preload("res://codigo/modelos/dados_item.gd")
 const Drop := preload("res://codigo/logica/equipamento_drop.gd")
+const SementeDrop := preload("res://codigo/logica/semente_drop.gd")
+const EquipamentoDrop := preload("res://codigo/logica/equipamento_drop.gd")
 var sessao: Node
 var cena: Node2D
 const Grupo := preload("res://codigo/coop_online/grupo_coop.gd")
@@ -24,8 +26,19 @@ var _sprites := {}
 var _vmax := {}
 var _prontos: Array[String] = []
 var _progresso_reviver := 0.0
+var _reanimando := false
 var _grupo: CanvasLayer
+var _espelhos := {}
+var _ultimo_enviado := {}
+var _refresco := {}
+var _espelhos_enviados_vazio := true
+var _espelhos_finalizados := {}
+const IndicadorScript := preload("res://codigo/efeitos/indicador_ataque.gd")
+const CanalScript := preload("res://codigo/efeitos/canal_medusa.gd")
+const FogoScript := preload("res://codigo/efeitos/efeito_ataque_dragao.gd")
+const ChuvaScript := preload("res://codigo/efeitos/chuva_fogo_dragao.gd")
 var _saques := {}
+var _rng_drops := RandomNumberGenerator.new()
 var _saques_enviados := {}
 var _saques_recebidos := {}
 var _golpes := {}
@@ -62,6 +75,8 @@ func configurar(conexao: Node, raiz: Node2D) -> void:
 		parceiros[id] = parceiro
 	jogador.global_position = base + Vector2(16 * sessao.vaga_de(sessao.eu), 0)
 	sessao.jogador_saiu.connect(_ao_saiu)
+	_rng_drops.randomize()
+	add_to_group("coop_tremor")
 	_grupo = Grupo.new()
 	add_child(_grupo)
 	if not sessao.sou_host():
@@ -83,7 +98,7 @@ func _process(delta: float) -> void:
 	for m in sessao.retirar_pacotes(andar): _receber(m)
 	_tempo -= delta
 	if _tempo <= 0.0:
-		_tempo = 1.0 / 15.0
+		_tempo = 1.0 / 20.0
 		sessao.enviar({"t": "jogador", "andar": andar, "e": _estado_jogador()}, true)
 		if sessao.sou_host(): _enviar_mundo()
 	if sessao.sou_host(): _verificar_derrota()
@@ -115,7 +130,7 @@ func _estado_jogador() -> Dictionary:
 		"gh": (Time.get_ticks_msec() - d._inicio_guarda_ms) / 1000.0,
 		"ar": jogador.no_arco.esta_disparando(), "ad": par.call(jogador.no_arco._direcao_disparo),
 		"rf": jogador.no_reacao.visible and jogador.no_reacao.pose_atual == "ferido",
-		"cai": jogador.caido, "morto": jogador.estaMorto, "hp": jogador.hp_atual, "hpm": jogador.estatisticas.hp_maximo,
+		"af": jogador.no_fazenda.acao_atual if jogador.esta_em_acao_fazenda else "", "cai": jogador.caido, "morto": jogador.estaMorto, "hp": jogador.hp_atual, "hpm": jogador.estatisticas.hp_maximo,
 		"arma": jogador.id_arma_atual, "es": jogador.usando_espada, "ec": jogador.usando_escudo, "la": jogador.usando_lanca, "arc": jogador.usando_arco}
 
 func _receber(m: Dictionary) -> void:
@@ -132,7 +147,6 @@ func _receber(m: Dictionary) -> void:
 				_prontos.append(de)
 				# Quem chega recebe o retrato completo do que já existe no andar.
 				for id in _descricoes: sessao.enviar_para(de, _descricoes[id])
-				for id in _saques: sessao.enviar_para(de, _saques[id])
 		"nascer":
 			if sessao.sou_host(): return
 			var id := int(m.get("id", 0))
@@ -179,10 +193,15 @@ func _receber(m: Dictionary) -> void:
 			if not sessao.sou_host(): jogador.receber_hitkill_chefe()
 		"efeitos_visuais":
 			if not sessao.sou_host(): _aplicar_visuais(m)
+		"espelhos":
+			if not sessao.sou_host(): _aplicar_espelhos(m.get("lista", []))
+		"tremor":
+			if not sessao.sou_host(): _tremer(clampf(float(m.get("i", 0)), 0, 12), clampf(float(m.get("d", 0.2)), 0.05, 1.0))
 		"recompensa":
 			if not sessao.sou_host() and not _saques_recebidos.has("abate_" + str(m.get("id", 0))):
 				_saques_recebidos["abate_" + str(m.get("id", 0))] = true
-				DadosJogo.adicionar_moedas(clampi(int(m.get("ouro", 0)), 0, 10000))
+				DadosJogo.adicionar_moedas(gerente._aplicar_saque(clampf(float(m.get("ouro", 0)), 0.0, 10000.0)))
+				_soltar_drops_locais(int(m.get("id", 0)), bool(m.get("ultimo", false)))
 				Progresso.registrar_abate()
 		"concluido":
 			if not sessao.sou_host() and not _andar_concluido:
@@ -196,7 +215,7 @@ func _receber(m: Dictionary) -> void:
 				Progresso.registrar_onda_concluida(andar, false, false)
 				get_tree().call_group("hud_p1", "anunciar", "ANDAR CONCLUIDO", "FALE COM O ORION E MARQUE PRONTO", 5.0)
 		"saque":
-			if not sessao.sou_host(): _criar_saque(m)
+			pass # versões antigas do anfitrião ainda mandavam o saque dele; agora cada um sorteia o seu
 
 func _vida_maxima_de(no: Node) -> int:
 	var maxima := int(no.get("vida_maxima"))
@@ -219,15 +238,9 @@ func _enviar_mundo() -> void:
 		_sprites[id] = lista
 		for s in lista: texturas.append(s.texture.resource_path if s.texture != null else "")
 		_vmax[id] = _vida_maxima_de(no)
-		_descricoes[id] = {"t": "nascer", "andar": andar, "id": id, "cena": no.scene_file_path, "x": no.global_position.x, "y": no.global_position.y, "sx": no.scale.x, "sy": no.scale.y, "chefe": bool(no.get("eh_chefe")), "nome": str(no.get("nome_chefe")), "vm": _vmax[id], "ab": float(no.get("altura_barra_vida")), "barra": bool(no.get("usar_barra_vida")), "texturas": texturas}
+		_descricoes[id] = {"t": "nascer", "andar": andar, "id": id, "cena": no.scene_file_path, "x": no.global_position.x, "y": no.global_position.y, "sx": no.scale.x, "sy": no.scale.y, "chefe": bool(no.get("eh_chefe")), "mut": bool(no.get("eh_mutante")), "nome": str(no.get("nome_chefe")), "vm": _vmax[id], "ab": float(no.get("altura_barra_vida")), "barra": bool(no.get("usar_barra_vida")), "texturas": texturas}
 		no.inimigo_morreu.connect(_abate.bind(id), CONNECT_ONE_SHOT)
-	for grupo in ["equipamento_drop", "semente_drop"]:
-		for no in get_tree().get_nodes_in_group(grupo):
-			if not cena.is_ancestor_of(no) or _saques.has(no.get_instance_id()): continue
-			var dados := {"t": "saque", "andar": andar, "id": str(no.get_instance_id()), "x": no.global_position.x, "y": no.global_position.y}
-			if grupo == "equipamento_drop": dados["item"] = no.item.para_dict()
-			else: dados["semente"] = no.semente
-			_saques[no.get_instance_id()] = dados
+	# Os drops do anfitrião são só dele: cada convidado sorteia os próprios quando o inimigo morre.
 	if _prontos.is_empty(): return
 	for id in _inimigos.keys():
 		if not is_instance_valid(_inimigos[id]):
@@ -241,11 +254,6 @@ func _enviar_mundo() -> void:
 			var ok := true
 			for p in _prontos: ok = sessao.enviar_para(p, _descricoes[id]) and ok
 			if ok: _enviados[id] = true
-	for id in _saques:
-		if not _saques_enviados.has(id):
-			var ok := true
-			for p in _prontos: ok = sessao.enviar_para(p, _saques[id]) and ok
-			if ok: _saques_enviados[id] = true
 	# Cada convidado só recebe o estado do que está perto dele; as poses são montadas uma vez por inimigo.
 	var pedidos: Array = []
 	for p in _prontos:
@@ -254,6 +262,11 @@ func _enviar_mundo() -> void:
 	var cache := {}
 	for pedido in pedidos:
 		var estados: Array = []
+		var memoria: Dictionary = _ultimo_enviado.get(pedido[0], {})
+		_ultimo_enviado[pedido[0]] = memoria
+		var agora_ms := Time.get_ticks_msec()
+		var completo: bool = agora_ms >= int(_refresco.get(pedido[0], 0))
+		if completo: _refresco[pedido[0]] = agora_ms + 1500
 		for id in _inimigos:
 			var no: Node2D = _inimigos[id]
 			if no.global_position.distance_squared_to(pedido[1]) > 1000000: continue
@@ -263,6 +276,9 @@ func _enviar_mundo() -> void:
 					if is_instance_valid(s): poses.append([s.hframes, s.vframes, s.frame, s.flip_h, s.is_visible_in_tree(), snappedf(s.rotation, 0.01)])
 				_vmax[id] = maxi(int(_vmax.get(id, 1)), int(no.vida))
 				cache[id] = [id, snappedf(no.global_position.x, 0.1), snappedf(no.global_position.y, 0.1), no.vida, poses, _vmax[id]]
+			# Inimigo parado e adormecido não muda: só vai de novo no refresco, o que poupa banda com muita gente.
+			if not completo and memoria.get(id) == cache[id]: continue
+			memoria[id] = cache[id]
 			estados.append(cache[id])
 		# Lotes pequenos respeitam o tamanho máximo do SCTP, inclusive em celular/Web.
 		for inicio in range(0, maxi(1, estados.size()), 8):
@@ -275,8 +291,9 @@ func _enviar_mundo() -> void:
 
 func _abate(id: int) -> void:
 	if not sessao.ativo or not sessao.sou_host(): return
-	var ouro := roundi(gerente.ouro_por_abate(andar) * gerente.mult_ouro_online())
-	sessao.enviar({"t": "recompensa", "andar": andar, "id": id, "ouro": ouro})
+	# Valor-base igual ao do anfitrião (evento e tamanho do grupo); cada um aplica o próprio bônus de saque.
+	var ouro: float = float(gerente.ouro_por_abate(andar)) * gerente.mult_evento("ouro") * gerente.mult_ouro_online()
+	sessao.enviar({"t": "recompensa", "andar": andar, "id": id, "ouro": snappedf(ouro, 0.001), "ultimo": gerente.inimigos_vivos <= 0})
 
 func pedir_golpe(id: int, dano: int, empurrao: Vector2) -> void:
 	sessao.enviar({"t": "golpe", "andar": andar, "id": id, "dano": dano, "kx": empurrao.x, "ky": empurrao.y})
@@ -337,16 +354,28 @@ func _cuidar_do_aliado_caido(delta: float) -> void:
 		if is_instance_valid(p) and p != alvo: p.mostrar_reviver(-1.0)
 	if alvo == null:
 		_progresso_reviver = 0.0
+		_parar_animacao_reviver()
 		return
 	if Input.is_action_pressed("open_menu") and get_viewport().gui_get_focus_owner() == null:
+		# Ajoelha virado para o aliado (pose de colher) enquanto segura; os outros jogadores veem a mesma pose.
+		if not jogador.esta_em_acao_fazenda:
+			jogador._direcao_ataque = (alvo.global_position - jogador.global_position).normalized()
+			_reanimando = jogador.acao_fazenda("colher") or _reanimando
 		_progresso_reviver += delta
 		alvo.mostrar_reviver(_progresso_reviver / sessao.TEMPO_REVIVER, "REANIMANDO...")
 		if _progresso_reviver >= sessao.TEMPO_REVIVER:
 			_progresso_reviver = 0.0
+			_parar_animacao_reviver()
 			_pedir_reviver(alvo)
 	else:
+		_parar_animacao_reviver()
 		_progresso_reviver = maxf(0.0, _progresso_reviver - delta * 2.0)
 		alvo.mostrar_reviver(_progresso_reviver / sessao.TEMPO_REVIVER, "SEGURE %s PARA REANIMAR" % Controle.rotulo_acao("open_menu"))
+
+func _parar_animacao_reviver() -> void:
+	if _reanimando:
+		_reanimando = false
+		jogador.cancelar_acao_fazenda()
 
 func _pedir_reviver(alvo: Node2D) -> void:
 	if sessao.sou_host(): _executar_reviver(sessao.eu, alvo.id_jogador)
@@ -361,6 +390,95 @@ func _executar_reviver(quem_id: String, alvo_id: String) -> void:
 	if quem.global_position.distance_to(alvo.global_position) > sessao.ALCANCE_REVIVER * 2.0: return
 	alvo.levantar_caido(sessao.FRACAO_REVIVER)
 
+## Chamado pelo grupo "coop_tremor" (inimigo_base._tremer_camera) no anfitrião.
+func tremor(intensidade: float, duracao: float) -> void:
+	if sessao != null and sessao.ativo and sessao.sou_host():
+		sessao.enviar({"t": "tremor", "andar": andar, "i": intensidade, "d": duracao})
+
+func _tremer(intensidade: float, duracao: float) -> void:
+	var camera: Camera2D = jogador.get_node_or_null("Camera2D")
+	if camera == null: return
+	var tween := camera.create_tween()
+	for i in 6:
+		var forca := intensidade * (1.0 - float(i) / 6.0)
+		tween.tween_property(camera, "offset", Vector2(randf_range(-forca, forca), randf_range(-forca, forca)), duracao / 6.0)
+	tween.tween_property(camera, "offset", Vector2.ZERO, 0.03)
+
+func _aplicar_espelhos(lista: Array) -> void:
+	var vistos := {}
+	for d in lista:
+		if not d is Dictionary: continue
+		var id := int(d.get("id", 0))
+		if _espelhos_finalizados.has(id): continue
+		vistos[id] = true
+		var no = _espelhos.get(id)
+		if no == null or not is_instance_valid(no):
+			no = _criar_espelho(d)
+			if no == null: continue
+			_espelhos[id] = no
+		_atualizar_espelho(id, no, d)
+	for id in _espelhos.keys():
+		if vistos.has(id): continue
+		var no = _espelhos[id]
+		_espelhos.erase(id)
+		if is_instance_valid(no): no.cancelar() if no.has_method("cancelar") else no.queue_free()
+
+func _par(v, padrao := Vector2.ZERO) -> Vector2:
+	return Vector2(float(v[0]), float(v[1])) if v is Array and v.size() == 2 else padrao
+
+func _criar_espelho(d: Dictionary) -> Node:
+	var no: Node
+	match str(d.get("k", "")):
+		"ind":
+			no = IndicadorScript.new()
+			cena.add_child(no)
+			no.configurar(Vector2(float(d.get("x", 0)), float(d.get("y", 0))), clampf(float(d.get("r", 64)), 4, 600))
+		"canal":
+			no = CanalScript.new()
+			cena.add_child(no)
+		"fogo":
+			var tipo := str(d.get("tp", "sopro"))
+			if not tipo in FogoScript.ARQUIVOS: return null
+			no = FogoScript.new()
+			no.tipo = tipo
+			no.direcao = _par(d.get("dr"), Vector2.RIGHT)
+			no.alcance = clampf(float(d.get("al", 150)), 1, 1000)
+			cena.add_child(no)
+		"chuva":
+			no = ChuvaScript.new()
+			cena.add_child(no)
+			# O polígono do aviso já chega pelos avisos de ataque; aqui só os meteoros.
+			no._aviso.visible = false
+		_:
+			return null
+	return no
+
+func _atualizar_espelho(id: int, no: Node, d: Dictionary) -> void:
+	match str(d.get("k", "")):
+		"ind":
+			if bool(d.get("i", false)):
+				_espelhos_finalizados[id] = true
+				no.detonar_impacto()
+			else: no.atualizar_progresso(float(d.get("p", 0)))
+		"canal": no.atualizar(_par(d.get("o")), _par(d.get("d")), float(d.get("t", 0)), float(d.get("f", -1)))
+		"fogo":
+			no.global_position = _par(d.get("gp"))
+			no.global_rotation = float(d.get("rot", 0))
+			no.scale = _par(d.get("sc"), Vector2.ONE)
+			no.visible = bool(d.get("v", false))
+			no.frame = clampi(int(d.get("fr", 0)), 0, 5)
+			no.z_as_relative = false
+			no.z_index = clampi(int(d.get("zi", 0)), -4096, 4096)
+		"chuva":
+			var pontos := PackedVector2Array()
+			for p in (d.get("z", []) as Array).slice(0, 128): pontos.append(_par(p))
+			var assinatura := str(pontos).hash()
+			if int(no.get_meta("zh", 0)) != assinatura:
+				no.set_meta("zh", assinatura)
+				no.definir_zona(pontos)
+				no._aviso.visible = false
+			no.atualizar(float(d.get("t", 0)), bool(d.get("a", false)))
+
 func _enviar_visuais() -> void:
 	var avisos: Array = []
 	for no in get_tree().get_nodes_in_group("avisos_ataque_coop"):
@@ -374,6 +492,15 @@ func _enviar_visuais() -> void:
 	for no in get_tree().get_nodes_in_group("projeteis_hostis_coop"):
 		if cena.is_ancestor_of(no): projeteis.append([no.global_position.x, no.global_position.y, no._sprite.rotation, no.tipo, no._sprite.frame])
 	sessao.enviar({"t": "efeitos_visuais", "andar": andar, "avisos": avisos.slice(0, 16), "projeteis": projeteis.slice(0, 48)}, true)
+	var espelhos: Array = []
+	for no in get_tree().get_nodes_in_group("espelhos_coop"):
+		if not is_instance_valid(no) or not cena.is_ancestor_of(no): continue
+		var dados: Dictionary = no.espelho()
+		dados["id"] = no.get_instance_id()
+		espelhos.append(dados)
+	if not espelhos.is_empty() or not _espelhos_enviados_vazio:
+		sessao.enviar({"t": "espelhos", "andar": andar, "lista": espelhos.slice(0, 12)}, true)
+	_espelhos_enviados_vazio = espelhos.is_empty()
 
 func _aplicar_visuais(m: Dictionary) -> void:
 	var dados: Array = m.get("avisos", [])
@@ -415,6 +542,18 @@ func _aplicar_visuais(m: Dictionary) -> void:
 			sprite.frame = clampi(int(p[4]), 0, 2)
 		sprite.z_index = load("res://codigo/globais/profundidade.gd").z_de(sprite.position.y + 12)
 	for i in _projeteis.size(): _projeteis[i].visible = i < tiros.size()
+
+## Drops individuais: o convidado sorteia o próprio saque, com a própria sorte e as próprias receitas, no ponto da morte.
+func _soltar_drops_locais(id: int, ultimo: bool) -> void:
+	var alvo = _inimigos.get(id)
+	if alvo == null or not is_instance_valid(alvo): return
+	var chefe: bool = SementeDrop.eh_chefe(alvo)
+	SementeDrop.soltar_de(alvo, cena, _rng_drops, true)
+	EquipamentoDrop.soltar_de(alvo, cena, _rng_drops, andar, chefe)
+	var forja := preload("res://codigo/logica/drops_forja.gd")
+	if chefe: forja.soltar_material("nucleo", 1, alvo.global_position, cena)
+	if ultimo: forja.soltar_material("fragmento", 1, alvo.global_position, cena)
+	if EquipamentoDrop.sortear_moeda_forja(_rng_drops, chefe): forja.soltar_material("moeda_forja", 1, alvo.global_position, cena)
 
 func _criar_saque(m: Dictionary) -> void:
 	var id := str(m.get("id", ""))

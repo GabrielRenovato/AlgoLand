@@ -20,7 +20,7 @@ var _direcao := Vector2.DOWN
 var _linha := 0
 var _origem_investida := Vector2.ZERO
 var _distancia_investida := 280.0
-var _causou_dano := false
+var _atingidos_area := {}
 var _furia_usada := false
 var _furia_ativa := false
 var _fila_furia: Array[String] = []
@@ -168,7 +168,7 @@ func iniciar_ataque(tipo: String, destino: Vector2) -> bool:
 		_direcao = Vector2.DOWN
 	_definir_linha(_direcao)
 	_origem_investida = global_position
-	_causou_dano = false
+	_atingidos_area.clear()
 	_tempo = 0
 	estado = Estado.PREPARANDO
 	esta_atacando = true
@@ -269,9 +269,6 @@ func _atingir_investida(inicio: Vector2, fim: Vector2) -> void:
 			inimigo.receber_dano_efeito(maxi(1, inimigo.vida), Color("eeb552"))
 
 func _atingir_area() -> void:
-	var alvo := obter_jogador()
-	if alvo == null:
-		return
 	var forma: Shape2D
 	if ataque_atual == "machado":
 		var poligono := ConvexPolygonShape2D.new()
@@ -281,11 +278,12 @@ func _atingir_area() -> void:
 		var circulo := CircleShape2D.new()
 		circulo.radius = RAIOS[ataque_atual]
 		forma = circulo
-	_aplicar_dano(alvo, forma, global_transform, 220)
+	for alvo in jogadores_vivos():
+		_aplicar_dano(alvo, forma, global_transform, 220)
 	_tremer_camera(4, 0.2)
 
 func _aplicar_dano(alvo: Node2D, forma: Shape2D, transformacao: Transform2D, empurrao: float) -> void:
-	if _causou_dano or alvo.get("invulneravel") == true or alvo.get("estaMorto") == true:
+	if _atingidos_area.has(alvo.get_instance_id()) or alvo.get("invulneravel") == true or alvo.get("estaMorto") == true:
 		return
 	var caminho := "CollisionShape2D" if ataque_atual in ["pisao", "pisao_furia"] else "AreaDano/CollisionShape2D"
 	var colisor := alvo.get_node_or_null(caminho) as CollisionShape2D
@@ -303,7 +301,7 @@ func _aplicar_dano(alvo: Node2D, forma: Shape2D, transformacao: Transform2D, emp
 	var consulta := PhysicsRayQueryParameters2D.create(global_position, transformacao_alvo.origin, 64)
 	if not get_world_2d().direct_space_state.intersect_ray(consulta).is_empty():
 		return
-	_causou_dano = true
+	_atingidos_area[alvo.get_instance_id()] = true
 	var rumo := (alvo.global_position - global_position).normalized()
 	if rumo == Vector2.ZERO:
 		rumo = _direcao

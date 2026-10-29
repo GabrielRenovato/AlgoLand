@@ -10,7 +10,12 @@ var alcance := 150.0
 var chefe: Node2D
 var origem := Vector2.ZERO
 
+func espelho() -> Dictionary:
+	return {"k": "fogo", "tp": tipo, "dr": [direcao.x, direcao.y], "al": alcance, "gp": [snappedf(global_position.x, 0.1), snappedf(global_position.y, 0.1)],
+		"rot": snappedf(global_rotation, 0.01), "sc": [scale.x, scale.y], "v": visible, "fr": frame, "zi": z_index}
+
 func _ready() -> void:
+	add_to_group("espelhos_coop")
 	texture = load("res://assets/efeitos/dragao/" + ARQUIVOS[tipo] + ".png")
 	hframes = 6
 	texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST

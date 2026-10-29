@@ -23,7 +23,7 @@ var _tempo_estado := 0.0
 var _tempo_animacao := 0.0
 var _direcao_golpe := Vector2.DOWN
 var _linha := 0
-var _causou_dano := false
+var _atingidos_impacto := {}
 var _area_golpe: Node2D
 var _folhas := {}
 var _marcas_especial := [false, false]
@@ -193,7 +193,7 @@ func iniciar_ataque(tipo: String, destino: Vector2) -> bool:
 	if _direcao_golpe == Vector2.ZERO:
 		_direcao_golpe = Vector2.DOWN
 	_tempo_estado = 0
-	_causou_dano = false
+	_atingidos_impacto.clear()
 	estado = Estado.PREPARANDO
 	esta_atacando = true
 	velocity = Vector2.ZERO
@@ -320,17 +320,17 @@ func forcar_ataque_debug(tipo: String) -> bool:
 	return iniciar_ataque(tipo, alvo.global_position)
 
 func _aplicar_impacto(instante: float = -1.0) -> void:
-	if _causou_dano or esta_congelado() or esta_morto:
+	if esta_congelado() or esta_morto or not is_instance_valid(_area_golpe):
 		return
-	var alvo := obter_jogador()
-	if alvo == null or ("invulneravel" in alvo and alvo.invulneravel) or not is_instance_valid(_area_golpe) or not _area_golpe.atinge_alvo(alvo, instante):
-		return
-	_causou_dano = true
-	var rumo := (alvo.global_position - global_position).normalized()
-	if rumo == Vector2.ZERO:
-		rumo = _direcao_golpe
-	alvo.receber_dano(maxi(1, roundi(obter_dano() * float(MULT_DANO[ataque_atual]))), rumo * float(EMPURRAO[ataque_atual]))
-	_tremer_camera(2.0 if ataque_atual == "sopro" else 4.0, 0.2)
+	for alvo in jogadores_vivos():
+		if _atingidos_impacto.has(alvo.get_instance_id()) or ("invulneravel" in alvo and alvo.invulneravel) or not _area_golpe.atinge_alvo(alvo, instante):
+			continue
+		_atingidos_impacto[alvo.get_instance_id()] = true
+		var rumo := (alvo.global_position - global_position).normalized()
+		if rumo == Vector2.ZERO:
+			rumo = _direcao_golpe
+		alvo.receber_dano(maxi(1, roundi(obter_dano() * float(MULT_DANO[ataque_atual]))), rumo * float(EMPURRAO[ataque_atual]))
+		_tremer_camera(2.0 if ataque_atual == "sopro" else 4.0, 0.2)
 
 func _definir_linha(rumo: Vector2) -> void:
 	_linha = (2 if rumo.x > 0 else 3) if absf(rumo.x) > absf(rumo.y) else (0 if rumo.y > 0 else 1)

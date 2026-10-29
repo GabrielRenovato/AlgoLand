@@ -174,6 +174,10 @@ func _process(_delta: float) -> void:
 		var escala := preload("res://codigo/ui/escala_interface.gd").fator(self)
 		var medida := get_viewport().get_visible_rect().size
 		var margens := Controle.margens_seguras() * escala
+		# No PC o botão é discreto (20 px, ao lado do relógio); no toque mantém o alvo de 32 px.
+		_botao_duelo.custom_minimum_size = Vector2(32, 32) if Controle.usando_toque else Vector2(20, 20)
+		_botao_duelo.size = _botao_duelo.custom_minimum_size
+		_botao_duelo.add_theme_constant_override("icon_max_width", 22 if Controle.usando_toque else 13)
 		_botao_duelo.scale = Vector2.ONE / escala
 		_botao_duelo.position = Vector2(medida.x - (222 if Controle.usando_toque else 44) - margens.z, (10 if Controle.usando_toque else 48) + margens.y) / escala
 		_botao_duelo.visible = _telas_abertas.is_empty() and not Introducao.cinematica and not get_tree().paused and not preload("res://codigo/duelo/conexao_duelo.gd").obter(get_tree()).em_partida

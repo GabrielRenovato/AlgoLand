@@ -37,6 +37,9 @@ var _ultima_valida := Vector2.ZERO
 func _ready() -> void:
 	# Roda depois do jogador (prioridade maior) para desfazer o passo que sairia da terra.
 	process_physics_priority = 100
+	# O relógio do dia (e o fim do dia que faz desmaiar) fica parado durante o duelo.
+	var luz := get_node_or_null("Iluminacao")
+	if luz != null: luz.relogio_parado = true
 	_mapear_arena()
 	_hp_antes = int(jogador.hp_atual)
 	adversario = Remoto.new()
@@ -80,6 +83,7 @@ func _ao_round(_dados: Dictionary) -> void:
 	adversario.hp = adversario.hp_maximo
 	# Contagem: ninguém se move nem apanha até "LUTE!".
 	jogador.invulneravel = true
+	jogador.temporizador_invul = 9999.0
 	jogador.desabilitar_todas_acoes(true)
 	_contagem = CONTAGEM
 	_mostrar("ROUND %d" % Duelo.round_atual)
@@ -107,6 +111,7 @@ func _process(delta: float) -> void:
 		if _contagem <= 0.0:
 			jogador.desabilitar_todas_acoes(false)
 			jogador.invulneravel = false
+			jogador.temporizador_invul = 0.0
 			_mostrar("LUTE!", 0.8)
 	if _atordoado_ate_ms > 0 and Time.get_ticks_msec() >= _atordoado_ate_ms:
 		_atordoado_ate_ms = 0
@@ -214,6 +219,7 @@ func _ao_cair() -> void:
 	if _caiu: return
 	_caiu = true
 	jogador.invulneravel = true
+	jogador.temporizador_invul = 9999.0 # quem caiu fica protegido até o fim do round
 	jogador.desabilitar_todas_acoes(true)
 	Duelo.avisar_queda()
 

@@ -74,9 +74,12 @@ func _ligar_arena() -> void:
 func hora_do_mundo() -> float:
 	return hora
 
+## O duelo pausa o dia: a luta não pode ser cortada por desmaio nem consumir o tempo de quem luta.
+var relogio_parado := false
+
 func _process(delta: float) -> void:
 	# O prólogo não consome o primeiro dia enquanto o jogador aprende.
-	if Introducao.ativa() or Comercio.em_viagem:
+	if Introducao.ativa() or Comercio.em_viagem or relogio_parado:
 		_aplicar()
 		return
 	# O relógio nunca para, nem nos andares. Passando das 02:00 o jogador apaga assim que der (se estiver numa onda, o

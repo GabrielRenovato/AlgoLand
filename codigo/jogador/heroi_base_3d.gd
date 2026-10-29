@@ -603,11 +603,15 @@ func _atualizar_pecas() -> void:
 	material.set_shader_parameter("esconder_calca",(cobertura & 2)!=0)
 	material.set_shader_parameter("esconder_botas",(cobertura & 4)!=0)
 	if _cabeca_referencia!=null:
-		var usar: bool=(pecas_visiveis & 8)!=0 and roupas_3d.get("cabelo","")=="cabelo_curto" and (_armaduras==null or (_armaduras.mascara & 1)==0)
+		# O rosto pintado vale para todos os penteados: no "Bagunçado" o cabelo vem da própria pintura;
+		# nos demais o cabelo pintado sai e a malha do penteado escolhido cobre o crânio.
+		var pintado: bool=roupas_3d.get("cabelo","")=="cabelo_curto"
+		var usar: bool=(pecas_visiveis & 8)!=0 and (_armaduras==null or (_armaduras.mascara & 1)==0)
 		_cabeca_referencia.aplicar_aparencia(_jogador.aparencia_raven,PELES,OLHOS)
+		_cabeca_referencia.material.set_shader_parameter("sem_cabelo",not pintado)
 		_cabeca_referencia.visible=usar
 		material.set_shader_parameter("substituir_cabeca",usar)
-		if usar:_pecas[3].visible=false
+		if usar and pintado:_pecas[3].visible=false
 
 func _atualizar_texturas_roupas() -> void:
 	if _pecas.size()<3:return

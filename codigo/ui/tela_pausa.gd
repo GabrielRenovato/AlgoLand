@@ -61,13 +61,6 @@ func _ready() -> void:
 		EventosJogo.fechar_tela_de(self,"pausa")
 		EventosJogo.abrir_tela_de(self,"lobby"))
 	_menu.add_child(cidade_online)
-	var duelo := Button.new()
-	duelo.name = "BotaoDuelo"
-	duelo.text = "DUELO ONLINE"
-	duelo.pressed.connect(func():
-		EventosJogo.fechar_tela_de(self,"pausa")
-		preload("res://codigo/duelo/conexao_duelo.gd").obter(get_tree()).abrir_tela.call_deferred())
-	_menu.add_child(duelo)
 	var coop_online := Button.new()
 	coop_online.name = "BotaoCoopOnline"
 	coop_online.text = "COOP ONLINE DOS ANDARES"

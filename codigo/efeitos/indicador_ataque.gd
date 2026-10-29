@@ -19,7 +19,12 @@ const COR_BORDA := Color(1.0, 0.22, 0.12, 0.9)
 const COR_MARCADOR := Color(1.0, 0.6, 0.2, 0.9)
 const COR_FLASH := Color(1.0, 0.9, 0.6, 0.75)
 
+## Coop online: o anfitrião descreve o indicador e o convidado desenha o seu (coop_online/andar_coop.gd).
+func espelho() -> Dictionary:
+	return {"k": "ind", "x": snappedf(global_position.x, 0.1), "y": snappedf(global_position.y, 0.1), "r": raio, "p": snappedf(progresso, 0.01), "i": em_impacto}
+
 func _ready() -> void:
+	add_to_group("espelhos_coop")
 	z_index = Profundidade.Z_CHAO + 10
 	z_as_relative = false
 	top_level = true

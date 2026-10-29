@@ -30,6 +30,9 @@ uniform bool olhos_fechados=false;
 uniform vec4 olho_a;
 uniform vec4 olho_b;
 uniform vec4 tom_pele : source_color = vec4(.9294,.7020,.5765,1.0);
+// Penteados que não são o da pintura (raspado, cacheado, longo...): o cabelo pintado sai e vira pele,
+// e a malha do penteado escolhido cobre o crânio.
+uniform bool sem_cabelo=false;
 uniform bool tingir_cabelo=false;
 uniform vec4 tinta_cabelo : source_color = vec4(1.0);
 uniform bool tingir_olhos=false;
@@ -92,7 +95,10 @@ void fragment() {
     vec3 paleta=cor;
     bool iris=paleta.b>paleta.r*1.15 && paleta.b>paleta.g*.95 && paleta.b>.25;
     bool pele=paleta.r>.50 && paleta.g>paleta.r*.58 && paleta.b>paleta.r*.42 && paleta.r>paleta.g*1.08;
-    if (iris && direcao>=3 && direcao<=5) {
+    bool cabelo_pintado=!iris && !pele && paleta.r>paleta.g*1.05 && paleta.r>paleta.b*1.10;
+    if (sem_cabelo && cabelo_pintado && (pixel.y-centro.y)<olhar_alvo.y-6.0) {
+        cor=tom_pele.rgb*.80;
+    } else if (iris && direcao>=3 && direcao<=5) {
         cor=tom_pele.rgb*.65;
     } else if (iris && tingir_olhos) {
         // A referência vem da própria textura, no espaço de cor do renderer.

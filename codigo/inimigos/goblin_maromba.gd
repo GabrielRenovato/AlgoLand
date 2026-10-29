@@ -276,20 +276,18 @@ func _atingir_area() -> void:
 	if _acertou:
 		return
 	_acertou = true
-	var alvo := obter_jogador()
-	if alvo == null or alvo.get("estaMorto") == true:
-		return
-	var ponto := alvo.global_position + Vector2(0, 9)
-	if ataque_atual == "execucao":
-		if ponto.distance_to(_centro_execucao) <= RAIO_EXECUCAO and alvo.has_method("receber_hitkill_chefe"):
-			alvo.receber_hitkill_chefe()
-		return
 	if ataque_atual == "salto" and global_position.distance_to(_destino_salto) > 65:
 		return
 	var centro := _destino_salto if ataque_atual == "salto" else global_position
-	if not Geometry2D.is_point_in_polygon(ponto - centro, _pontos_ataque()) or not _caminho_livre(ponto):
-		return
-	alvo.receber_dano(roundi(dano * (1.2 if ataque_atual == "varrida" else 1.0)), (alvo.global_position - global_position).normalized() * 230)
+	for alvo in jogadores_vivos():
+		var ponto := alvo.global_position + Vector2(0, 9)
+		if ataque_atual == "execucao":
+			if ponto.distance_to(_centro_execucao) <= RAIO_EXECUCAO and alvo.has_method("receber_hitkill_chefe"):
+				alvo.receber_hitkill_chefe()
+			continue
+		if not Geometry2D.is_point_in_polygon(ponto - centro, _pontos_ataque()) or not _caminho_livre(ponto):
+			continue
+		alvo.receber_dano(roundi(dano * (1.2 if ataque_atual == "varrida" else 1.0)), (alvo.global_position - global_position).normalized() * 230)
 
 func _recuperar() -> void:
 	sprite.position.y = -54

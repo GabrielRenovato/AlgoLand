@@ -418,6 +418,11 @@ func iniciar() -> void:
 	_iniciar_local(nivel)
 
 func _iniciar_local(nivel: int) -> void:
+	# Run nova começa limpa, mesmo que algo da anterior tenha sobrado no jogador.
+	var local := Duelo.jogador_local(get_tree())
+	if local != null and not local.itens_comprados.is_empty():
+		local._remover_efeitos_itens_comprados()
+		local.itens_comprados.clear()
 	ativo = true
 	motivo_final = ""
 	Saves.salvar_tudo()
@@ -425,9 +430,18 @@ func _iniciar_local(nivel: int) -> void:
 	_abrir_andar(nivel)
 	mudou.emit()
 
+## Cada andar começa com todos de pé e com vida e fôlego cheios: antes, quem caiu entrava com 1 de vida.
+func _recuperar_para_o_andar() -> void:
+	var local := Duelo.jogador_local(get_tree())
+	if local == null: return
+	if local.caido: local.levantar_caido(1.0)
+	local.estaMorto = false
+	local.descansar()
+
 func _abrir_andar(nivel: int) -> void:
 	andar = nivel
 	prontos_avanco.clear()
+	_recuperar_para_o_andar()
 	Transicao.estado.clear()
 	Transicao.iniciar_onda_ao_chegar = sou_host()
 	permitir_viagem = true
@@ -465,9 +479,27 @@ func _falhar(texto: String) -> void:
 		permitir_viagem = true
 		Transicao.ir_para("res://cenas/cidade.tscn", "portal")
 		permitir_viagem = false
-		get_tree().call_group("hud_p1", "anunciar", "COOP ENCERRADO", texto, 5.0)
+		get_tree().call_group("hud_p1", "anunciar", "COOP ENCERRADO", texto + ("  +%d BRASAS" % brasas_ganhas if brasas_ganhas > 0 else ""), 5.0)
+
+## Fecha a partida como "voltar para a cidade": o desempenho vira Brasas e o saque é vendido. Derrota (todos
+## caíram) perde o saque, como a morte na arena. Sem isto, nada do coop online pagava Brasas.
+var brasas_ganhas := 0
+func _liquidar_partida() -> void:
+	brasas_ganhas = 0
+	# Totens, andar guardado e checkpoint da run que acabou não podem vazar para a próxima sala.
+	Transicao.esquecer_partida()
+	Progresso.onda_inicial = 1
+	Progresso.ouro_compensacao = 0
+	Progresso.onda_comecou = false
+	if not Progresso.partida_ativa: return
+	Saque.encerrar(not motivo_final.contains("CAIRAM"))
+	var resultado: Dictionary = Progresso.encerrar_partida()
+	brasas_ganhas = int(resultado.get("brasas", 0))
+	InventarioJogador.reiniciar_equipamento_da_partida()
+	DadosDosItems.resetar_precos()
 
 func sair(avisar := true) -> void:
+	if ativo: _liquidar_partida()
 	if avisar: enviar({"t": "fim"})
 	var ws_antigo := _ws
 	for id in _pares.keys(): _remover_par(id)

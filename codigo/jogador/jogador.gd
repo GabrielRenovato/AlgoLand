@@ -728,13 +728,15 @@ func _physics_process(delta: float) -> void:
 	for id in _recargas_conjuntos:
 		_recargas_conjuntos[id] = maxf(float(_recargas_conjuntos[id]) - delta, 0.0)
 	_regenerar_stamina(delta)
+	# O tempo de invulnerabilidade corre sempre: antes ele parava com as ações desabilitadas (atordoado, loja, petrificado)
+	# e quem estava invulnerável ao ser atordoado ficava intocável durante todo o stun.
+	if invulneravel:
+		temporizador_invul -= delta
+		if temporizador_invul <= 0:
+			invulneravel = false
 	if petrificacao != null and petrificacao.atualizar(delta):
 		_pedido_ataque = false
 		velocity = Vector2.ZERO
-		if invulneravel:
-			temporizador_invul -= delta
-			if temporizador_invul <= 0:
-				invulneravel = false
 		return
 	if esta_sentado:
 		_atualizar_sentado(delta)
@@ -768,12 +770,6 @@ func _physics_process(delta: float) -> void:
 
 	if Input.is_action_just_pressed("debug_damage"):
 		receber_dano(1)
-
-	if invulneravel:
-		temporizador_invul -= delta
-		if temporizador_invul <= 0:
-			invulneravel = false
-
 
 	# Durante a ação de fazenda o jogador fica parado: sem andar, atacar ou rolar
 	if esta_em_acao_fazenda:

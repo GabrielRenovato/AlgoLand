@@ -45,6 +45,21 @@ func reiniciar_equipamento_da_partida() -> void:
 		salvar()
 		alterado.emit()
 
+func contem_tipo(tipo: String) -> bool:
+	for item in itens:
+		if item != null and item.tipo == tipo: return true
+	return false
+
+## Põe um item recém-criado direto no baú (kit inicial sem espaço na mochila). false se o baú também está cheio.
+func guardar_novo(item) -> bool:
+	var destino := _destino(item, -1)
+	if destino == -1: return false
+	if itens[destino] != null: itens[destino].quantidade += item.quantidade
+	else: itens[destino] = item
+	salvar()
+	alterado.emit()
+	return true
+
 ## Guarda um item da mochila. `casa` = onde soltou (ocupada ou -1: a primeira livre). false se não coube
 func guardar(item, casa: int = -1, quem: Node = null) -> bool:
 	var mochila := _mochila_de(quem)

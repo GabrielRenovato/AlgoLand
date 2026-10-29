@@ -194,6 +194,8 @@ func _registrar_chefe_no_progresso() -> void:
 		Progresso.registrar_chefe(gerenciador.onda_atual)
 
 func _tremer_camera(intensidade: float, duracao: float) -> void:
+	# Coop online: o anfitrião repassa o tremor aos convidados, que não têm o inimigo real.
+	get_tree().call_group("coop_tremor", "tremor", intensidade, duracao)
 	var jogador := obter_jogador()
 	var camera: Camera2D = jogador.get_node_or_null("Camera2D") if jogador else null
 	if camera == null:
@@ -400,6 +402,16 @@ func calcular_separacao() -> Vector2:
 			vetor_repulsao += Vector2.from_angle(randf() * TAU)
 			continue
 		vetor_repulsao += (diff / dist) * (1.0 - dist / alcance_separacao)
+	# Jogador e inimigo não colidem pela física (camadas separadas), então eles empilhavam em cima de quem luta.
+	# Um empurrão suave para fora do corpo do alvo mantém o toque do ataque, mas desfaz a sobreposição.
+	var alvo_atual := _jogador_cache
+	if alvo_atual != null and is_instance_valid(alvo_atual) and not bool(alvo_atual.get("estaMorto")):
+		var diff_j: Vector2 = global_position - alvo_atual.global_position
+		var raio_j := alcance_separacao * 0.5
+		var d2 := diff_j.length_squared()
+		if d2 > 0.01 and d2 < raio_j * raio_j:
+			var dj := sqrt(d2)
+			vetor_repulsao += (diff_j / dj) * (1.0 - dj / raio_j) * 1.5
 	return (vetor_repulsao * forca_separacao).limit_length(forca_separacao)
 
 # Os i-frames do jogador impedem dano a cada frame e o empilhamento de vários slimes
@@ -615,6 +627,17 @@ func obter_dano() -> int:
 
 ## Alvo: o jogador de pé mais próximo (no cooperativo são dois), revisto a cada meio segundo para não ficar trocando
 var _proxima_escolha_alvo := 0
+## Todos os jogadores de pé deste mundo. Ataque em área acerta o grupo inteiro, não só o alvo atual (no coop eram dois).
+func jogadores_vivos() -> Array[Node2D]:
+	var lista: Array[Node2D] = []
+	for jogador in get_tree().get_nodes_in_group("jogadores"):
+		if jogador is Node2D and jogador.get_world_2d() == get_world_2d() and not bool(jogador.get("estaMorto")) and not bool(jogador.get("caido")):
+			lista.append(jogador)
+	if lista.is_empty():
+		var alvo := obter_jogador()
+		if alvo != null: lista.append(alvo)
+	return lista
+
 func obter_jogador() -> Node2D:
 	var agora := Time.get_ticks_msec()
 	if agora >= _proxima_escolha_alvo or not is_instance_valid(_jogador_cache) or bool(_jogador_cache.get("estaMorto")):

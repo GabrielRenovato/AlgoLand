@@ -862,7 +862,9 @@ func _aceitar(id: String) -> void:
 func _entregar(id: String) -> void:
 	if Cidade.concluir(id,_interlocutor_local(),EventosJogo.dono(self)):
 		_pedido = ""
-		_falar(preload("res://codigo/cidade/jornada_limiar.gd").ENTREGAS.get(id, "Obrigado! Voce recebeu %d Brasas e ganhou amizade." % Dados.MISSOES[id]["brasas"]))
+		var padrao := "Obrigado! Voce recebeu %d Brasas e ganhou amizade." % Dados.MISSOES[id]["brasas"]
+		if id.begins_with("carta_pesca_"): padrao = Dados.AGRADECIMENTO_PESCA.get(str(Dados.MISSOES[id]["dono"]), padrao)
+		_falar(preload("res://codigo/cidade/jornada_limiar.gd").ENTREGAS.get(id, padrao))
 
 func _validar_atendimento() -> bool:
 	if _atendimento == "": return false

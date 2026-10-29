@@ -15,7 +15,13 @@ var centro_aviso := Vector2.ZERO
 var _meteoritos: Array[Vector3] = []
 var _textura: Texture2D
 
+func espelho() -> Dictionary:
+	var pontos: Array = []
+	for p in zona: pontos.append([snappedf(p.x, 0.1), snappedf(p.y, 0.1)])
+	return {"k": "chuva", "z": pontos.slice(0, 128), "t": snappedf(tempo, 0.01), "a": ativo}
+
 func _ready() -> void:
+	add_to_group("espelhos_coop")
 	z_as_relative = false
 	z_index = Profundidade.Z_CHAO + 30
 	var material_efeito := CanvasItemMaterial.new()

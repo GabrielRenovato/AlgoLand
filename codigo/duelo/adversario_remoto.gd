@@ -12,6 +12,10 @@ const ALCANCE_ACAO_FAZENDA := 14.0
 
 class FazendaRemota extends Node:
 	var acao_atual := ""
+	## O visual lê o andamento da ação por aqui; no avatar remoto a pose roda em laço enquanto a ação durar.
+	var _quadros: Array = [[0, 0.9]]
+	var _tempo := 0.0
+	var _indice := 0
 class ArcoRemoto extends RefCounted:
 	var disparando := false
 	var _direcao_disparo := Vector2.DOWN
@@ -62,12 +66,41 @@ var _tem_estado := false
 ## Interpolação com atraso fixo: desenha o adversário ATRASO s no passado, entre dois pacotes reais.
 ## Sem isso, cada pacote que chega fora do ritmo (Wi-Fi/4G) vira um tranco na tela.
 const ATRASO := 0.10
+## Quanto o avatar é desenhado no passado. O coop online reduz: o anfitrião usa esta posição para decidir dano.
+var atraso := ATRASO
 const EXTRAPOLACAO_MAX := 0.15
 var _amostras: Array = [] # [tempo_local_s, posicao, velocidade]
 var _empurrao_pendente := Vector2.ZERO
 ## O adversário está atordoado (estado "atd"): estrelas sobre a cabeça.
 var atordoado := false
 var _estrelas: Label
+
+## Camada física só dos corpos dos outros jogadores; o jogador local passa a colidir com ela (nenhum inimigo usa).
+const CAMADA_ALIADOS := 2048
+var _corpo_fisico: AnimatableBody2D
+
+func _enter_tree() -> void:
+	add_to_group("aliados_online")
+	if _corpo_fisico == null:
+		_corpo_fisico = AnimatableBody2D.new()
+		_corpo_fisico.name = "CorpoFisico"
+		_corpo_fisico.collision_layer = CAMADA_ALIADOS
+		_corpo_fisico.collision_mask = 0
+		var forma := CollisionShape2D.new()
+		var circulo := CircleShape2D.new()
+		circulo.radius = 6.0
+		forma.shape = circulo
+		forma.position = Vector2(0, -4)
+		_corpo_fisico.add_child(forma)
+		add_child(_corpo_fisico)
+	for no in get_tree().get_nodes_in_group("character"):
+		if no is CharacterBody2D and no.get("eh_p2") != true: no.collision_mask |= CAMADA_ALIADOS
+
+func _exit_tree() -> void:
+	remove_from_group("aliados_online")
+	if not is_inside_tree() or get_tree().get_nodes_in_group("aliados_online").is_empty():
+		for no in get_tree().get_nodes_in_group("character") if is_inside_tree() else []:
+			if no is CharacterBody2D: no.collision_mask &= ~CAMADA_ALIADOS
 
 func _init() -> void:
 	name = "AdversarioRemoto"
@@ -169,6 +202,10 @@ func aplicar_estado(e: Dictionary) -> void:
 	estaMorto = bool(e.get("morto", false))
 	hp = int(e.get("hp", hp))
 	hp_maximo = maxi(1, int(e.get("hpm", hp_maximo)))
+	# Ação de fazenda do outro jogador (no coop online: reanimar um aliado usa a pose de "colher").
+	var acao := str(e.get("af", ""))
+	esta_em_acao_fazenda = not acao.is_empty()
+	no_fazenda.acao_atual = acao
 	id_arma_atual = str(e.get("arma", id_arma_atual))
 	usando_espada = bool(e.get("es", usando_espada))
 	usando_escudo = bool(e.get("ec", usando_escudo))
@@ -181,7 +218,8 @@ static func _vetor(valor, padrao: Vector2) -> Vector2:
 
 func _physics_process(delta: float) -> void:
 	if not _amostras.is_empty():
-		global_position = _posicao_interpolada(Time.get_ticks_msec() / 1000.0 - ATRASO)
+		global_position = _posicao_interpolada(Time.get_ticks_msec() / 1000.0 - atraso)
+	if esta_em_acao_fazenda: no_fazenda._tempo = fposmod(no_fazenda._tempo + delta, 0.9)
 	if esta_sentado: _tempo_sentado += delta
 	if atordoado: _estrelas.position.x = -14 + sin(Time.get_ticks_msec() / 120.0) * 2.0
 

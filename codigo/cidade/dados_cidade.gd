@@ -65,12 +65,12 @@ const FALAS_ESTACAO := [
 ]
 static var MISSOES := _montar_missoes()
 const MISSOES_BASE := {
-	"boas_vindas": {"nome": "CONHECA SEUS VIZINHOS", "dono": "lia", "texto": "\"Uma vila so e vila quando todo mundo se conhece.\" A Lia quer que voce se apresente a Tomas, Dona Rosa, Caio, Estela e Bento.", "tipo": "conversas", "alvos": ["mercador", "curandeira", "bardo", "mistica", "bento"], "brasas": 10},
-	"passeio": {"nome": "PORTAS ABERTAS", "dono": "lia", "texto": "\"Cada porta daqui guarda uma ajuda.\" A Lia pede que voce entre na venda, na enfermaria, na pousada e na casa da mistica.", "tipo": "visitas", "alvos": ["venda", "enfermaria", "pousada", "mistica"], "brasas": 10},
-	"horta": {"nome": "DA HORTA PARA A MESA", "dono": "bento", "texto": "\"Terra boa a gente conhece pelo que ela da.\" O Bento quer provar 3 colheitas da estacao da sua horta. No inverno, qualquer colheita serve.", "tipo": "colheita", "quantidade": 3, "brasas": 15},
-	"remedios": {"nome": "UM CUIDADO PARA A VILA", "dono": "curandeira", "texto": "\"Remedio bom comeca no canteiro, querido.\" A Dona Rosa precisa de 2 colheitas para encher as prateleiras da enfermaria.", "tipo": "colheita", "quantidade": 2, "brasas": 15},
-	"cancao": {"nome": "UMA HISTORIA PARA CANTAR", "dono": "bardo", "texto": "\"Me falta o refrao, e o refrao e voce!\" O Caio quer uma cancao nova: depois de aceitar, venca 3 andares na arena e volte para contar.", "tipo": "ondas", "quantidade": 3, "brasas": 20},
-	"caminhos": {"nome": "CAMINHOS DA FLORESTA", "dono": "mistica", "texto": "\"As estrelas apontam para algo grande na arena.\" A Estela pede que voce derrote o guardiao do andar 10 e volte para conversar.", "tipo": "chefe", "quantidade": 10, "brasas": 25},
+	"boas_vindas": {"nome": "OS ROSTOS DA VILA", "dono": "lia", "texto": "\"Esta casa de pedra e a sede da vigilia. Faz tempo que ninguem assume o posto do vigia, a sua fazenda.\" A Lia quer que voce se apresente a Tomas, Dona Rosa, Caio, Estela e Bento: cada um guarda uma parte do que mantem o selo da praca de pe.", "tipo": "conversas", "alvos": ["mercador", "curandeira", "bardo", "mistica", "bento"], "brasas": 10},
+	"passeio": {"nome": "AS PORTAS DA VIGILIA", "dono": "lia", "texto": "\"Venda, enfermaria, pousada e a casa da Estela: eram os pontos de apoio dos vigias.\" A Lia pede que voce entre nos quatro e veja o que ainda funciona.", "tipo": "visitas", "alvos": ["venda", "enfermaria", "pousada", "mistica"], "brasas": 10},
+	"horta": {"nome": "RAIZES DO BENTO", "dono": "bento", "texto": "\"Minha avo dizia que o selo nao gosta de terra morta.\" O Bento quer provar 3 colheitas da estacao da sua horta; ele jura que o solo da fazenda ainda lembra da mao do antigo vigia. No inverno, qualquer colheita serve.", "tipo": "colheita", "quantidade": 3, "brasas": 15},
+	"remedios": {"nome": "ERVAS PARA QUEM VOLTA", "dono": "curandeira", "texto": "\"Quem volta da fenda traz frio nos ossos, querido. So erva fresca resolve.\" A Dona Rosa precisa de 2 colheitas para encher as prateleiras da enfermaria antes da proxima leva de feridos.", "tipo": "colheita", "quantidade": 2, "brasas": 15},
+	"cancao": {"nome": "O REFRAO DA FENDA", "dono": "bardo", "texto": "\"Todo mundo canta os vigias que partiram. Ninguem canta quem voltou.\" O Caio quer uma cancao nova, e o refrao e a sua historia: depois de aceitar, venca 3 andares na fenda e volte para contar.", "tipo": "ondas", "quantidade": 3, "brasas": 20},
+	"caminhos": {"nome": "ONDE AS ESTRELAS SE APAGAM", "dono": "mistica", "texto": "\"As estrelas se apagam sempre no mesmo ponto da fenda: o decimo andar.\" A Estela pede que voce derrote o guardiao do andar 10 e volte para contar o que viu do outro lado.", "tipo": "chefe", "quantidade": 10, "brasas": 25},
 }
 
 ## Vida de cada morador fora da rotina de trabalho (pedido de 2026-10-15):
@@ -125,14 +125,14 @@ const SAIDAS_FESTA := {"curandeira": 0.5, "bento": 0.7, "mercador": 0.9, "lia": 
 ## Cartas sem remetente que o pombo-correio traz (agenda_vila.gd): no domingo de manhã e, sem pedidos a entregar, em
 ## qualquer manhã. Vêm na ordem, uma vez cada; "brasas" > 0 é um presentinho dentro do envelope. Sem acentos (fonte).
 const CARTAS_MISTERIOSAS := [
-	{"id": "misterio_1", "texto": "Eu sei o que voce plantou no verao passado.", "brasas": 0},
-	{"id": "misterio_2", "texto": "As estrelas da Estela mentem as tercas. Nas outras noites elas so exageram um pouco.", "brasas": 0},
-	{"id": "misterio_3", "texto": "Nao confie no pombo. Ele diz que nao le as cartas, mas sempre chega sabendo do que se trata.", "brasas": 3},
-	{"id": "misterio_4", "texto": "Alguem nesta vila nunca dorme de verdade. Repare em quem acorda primeiro.", "brasas": 0},
-	{"id": "misterio_5", "texto": "Deixei um agrado dentro deste envelope. Nao conte ao Tomas, ele ia querer cobrar imposto.", "brasas": 5},
-	{"id": "misterio_6", "texto": "A arena nao comecou com voce e nao vai terminar com voce. Mas desde que voce chegou ficou bem mais divertida.", "brasas": 0},
-	{"id": "misterio_7", "texto": "O Caio esta compondo uma cancao sobre um heroi misterioso. Eu acho que e sobre mim. Ele acha que e sobre voce.", "brasas": 0},
-	{"id": "misterio_8", "texto": "Esta e a ultima carta. Ou nao. Ate breve.", "brasas": 10},
+	{"id": "misterio_1", "texto": "Se esta lendo isto, a fazenda aceitou voce. Ela costumava ser mais exigente. - V.", "brasas": 0},
+	{"id": "misterio_2", "texto": "O selo da praca nao e de pedra. E feito de coisas que alguem quis proteger: uma horta, uma cancao, uma porta aberta.", "brasas": 0},
+	{"id": "misterio_3", "texto": "Nao desconfie do pombo. Ele atravessou a fenda uma vez e voltou sem asas novas, so com o habito de sempre chegar. Deixei algo no envelope.", "brasas": 3},
+	{"id": "misterio_4", "texto": "Os guardioes dos andares foram vigias como eu. Esqueceram o caminho de volta. Quando um deles cair, repare: ele costuma agradecer.", "brasas": 0},
+	{"id": "misterio_5", "texto": "Ha um fundo falso na gaveta da forja do Ivo. Nao conte que eu te falei. Deixei um agrado aqui dentro.", "brasas": 5},
+	{"id": "misterio_6", "texto": "A fenda nao e um monstro. E uma porta que ninguem fechou direito, e portas cansam de esperar.", "brasas": 0},
+	{"id": "misterio_7", "texto": "A Estela le as estrelas e erra por modestia. O decimo andar e onde elas de fato se apagam. Va com calma.", "brasas": 0},
+	{"id": "misterio_8", "texto": "Esta e a ultima carta que consigo mandar. O resto da historia agora e sua, e da vila. Obrigado por sempre voltar. - V.", "brasas": 10},
 ]
 
 ## Eventos da vila anunciados no banner do HUD (agenda_vila.gd): de manhã o convite, na hora o começo.
@@ -278,6 +278,21 @@ static func visita_praia(id: String, hora: float, estacao: int, clima: int, dia_
 	var lugar: Array = lugares[posmod(dia_semana, lugares.size())]
 	return {"local": "praia", "ponto": lugar[0], "atividade": lugar[1], "livre": true}
 
+## Pedidos de pesca na voz de cada morador (%d = quantidade, %s = peixe, %s = onde). Sem acentos (fonte).
+const PEDIDOS_PESCA := {
+	"bardo": {"titulo": "PEIXE PARA A TAVERNA", "texto": "Preciso de %d %s do %s para o jantar da taverna. Dizem que quem come peixe de la sonha com a fenda, e eu quero colher o sonho em verso."},
+	"curandeira": {"titulo": "CALDO DOS CONVALESCENTES", "texto": "Para o caldo de quem voltou ferido, preciso de %d %s do %s. Peixe fresco ajuda mais que erva, querido."},
+	"bento": {"titulo": "ADUBO DE PEIXE", "texto": "Nao entendo de anzol, mas a horta pede adubo bom: %d %s do %s, se nao for incomodo."},
+	"lia": {"titulo": "RANCHO DA VIGILIA", "texto": "A vigilia fica de estomago vazio nos turnos longos. Pode pescar %d %s no %s? O selo agradece."},
+}
+## Agradecimento de cada morador aos pedidos de pesca.
+const AGRADECIMENTO_PESCA := {
+	"bardo": "Que peixe! Ja ouco o refrao: \"da fenda ao prato, do prato ao verso\". Suas Brasas estao a caminho.",
+	"curandeira": "Perfeito, querido. Esta noite alguem dorme sem febre por sua causa. Aqui esta a sua parte.",
+	"bento": "Isso vai fazer a terra sorrir. Minha avo aprovaria. Pegue, e merecido.",
+	"lia": "A ronda da noite jantara bem. Quem guarda a vila agradece. Aqui esta o combinado.",
+}
+
 ## Encomendas sazonais do pombo, entregues aos moradores (Nilo só refina varas).
 static func _montar_missoes() -> Dictionary:
 	var peixes := preload("res://codigo/pesca/peixes.gd")
@@ -293,9 +308,10 @@ static func _montar_missoes() -> Dictionary:
 		for i in mini(4,candidatos.size()):
 			var peixe: String = candidatos[i]
 			var quantidade := 2 if peixes.nivel_recomendado(peixe)<=2 else 1
-			resultado["carta_pesca_%d_%d" % [estacao,i]] = {"nome":"PESCA DE "+estacoes[estacao],"dono":moradores[i],"tipo":"peixe",
+			var onde := "mar" if peixes.catalogo()[peixe]["ambiente"]=="mar" else "lago"
+			resultado["carta_pesca_%d_%d" % [estacao,i]] = {"nome":PEDIDOS_PESCA[moradores[i]]["titulo"],"dono":moradores[i],"tipo":"peixe",
 				"peixe":peixe,"estacao":estacao,"quantidade":quantidade,"brasas":peixes.brasas(peixe)*quantidade*3,
-				"texto":"Pedido: %d peixes da especie %s.\nOnde: %s.\nEstacao: %s." % [quantidade,peixes.nome(peixe),"mar" if peixes.catalogo()[peixe]["ambiente"]=="mar" else "lago",estacoes[estacao]]}
+				"texto":PEDIDOS_PESCA[moradores[i]]["texto"] % [quantidade,peixes.nome(peixe),onde]+"\nEstacao: "+estacoes[estacao]+"."}
 	return resultado
 
 static func missao_na_estacao(id: String, estacao: int) -> bool:

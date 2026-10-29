@@ -5,6 +5,12 @@ var destino := Vector2.ZERO
 var tempo := 0.0
 var impacto := -1.0
 
+func _ready() -> void:
+	add_to_group("espelhos_coop")
+
+func espelho() -> Dictionary:
+	return {"k": "canal", "o": [origem.x, origem.y], "d": [destino.x, destino.y], "t": snappedf(tempo, 0.01), "f": snappedf(impacto, 0.01)}
+
 func atualizar(inicio: Vector2, fim: Vector2, relogio: float, fase := -1.0) -> void:
 	origem = inicio.round()
 	destino = fim.round()

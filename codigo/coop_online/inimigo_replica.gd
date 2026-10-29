@@ -6,12 +6,15 @@ var identificador := 0
 var vida := 1
 var esta_morto := false
 var eh_chefe := false
+var eh_mutante := false
 var sprites: Array[Sprite2D] = []
 var _alvo := Vector2.ZERO
 var _tem_alvo := false
 var vida_maxima := 1
 var nome_chefe := ""
 var _barra: Node2D
+var _velocidade := Vector2.ZERO
+var _instante_alvo := 0.0
 
 func configurar(dados: Dictionary) -> bool:
 	var caminho := str(dados.get("cena", ""))
@@ -34,6 +37,7 @@ func configurar(dados: Dictionary) -> bool:
 	add_to_group("enemy")
 	identificador = int(dados.get("id", 0))
 	eh_chefe = bool(dados.get("chefe", false))
+	eh_mutante = bool(dados.get("mut", false))
 	scale = Vector2(float(dados.get("sx", 1)), float(dados.get("sy", 1)))
 	global_position = Vector2(float(dados.get("x", 0)), float(dados.get("y", 0)))
 	_alvo = global_position
@@ -76,7 +80,15 @@ func _limpar(no: Node) -> void:
 
 func aplicar(e: Array) -> void:
 	if e.size() < 5: return
-	_alvo = Vector2(float(e[1]), float(e[2]))
+	var novo_alvo := Vector2(float(e[1]), float(e[2]))
+	var agora := Time.get_ticks_msec() / 1000.0
+	if _tem_alvo:
+		# Velocidade medida entre dois pacotes: o inimigo continua andando até o próximo chegar, em vez de chegar atrasado.
+		var dt := clampf(agora - _instante_alvo, 0.03, 0.25)
+		_velocidade = (novo_alvo - _alvo) / dt
+		if _velocidade.length() > 600.0: _velocidade = Vector2.ZERO
+	_alvo = novo_alvo
+	_instante_alvo = agora
 	var anterior := vida
 	vida = int(e[3])
 	if e.size() >= 6: vida_maxima = maxi(vida_maxima, int(e[5]))
@@ -103,7 +115,8 @@ func aplicar(e: Array) -> void:
 		s.rotation = float(p[5])
 
 func _process(delta: float) -> void:
-	global_position = global_position.lerp(_alvo, minf(1.0, delta * 18))
+	var previsto := _alvo + _velocidade * clampf(Time.get_ticks_msec() / 1000.0 - _instante_alvo, 0.0, 0.12)
+	global_position = global_position.lerp(previsto, minf(1.0, delta * 22))
 	z_index = Profundidade.z_de(global_position.y)
 
 ## O anfitrião já mostra o número do golpe; aqui ele vem da queda de vida recebida (vários golpes podem somar).

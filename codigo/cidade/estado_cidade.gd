@@ -125,9 +125,9 @@ func proxima_carta() -> String:
 	)
 	if disponiveis.has("boas_vindas"):
 		return "boas_vindas"
-	if Calendario.dia % 2 == 0:
-		for id in disponiveis:
-			if Dados.MISSOES[id]["tipo"] == "peixe": return id
+	# Pedidos de pesca por último: primeiro as histórias da vila.
+	for id in disponiveis:
+		if Dados.MISSOES[id]["tipo"] != "peixe": return id
 	return "" if disponiveis.is_empty() else String(disponiveis[0])
 
 ## A próxima carta sem remetente ainda não lida (Dados.CARTAS_MISTERIOSAS), ou vazio
@@ -138,7 +138,16 @@ func proxima_carta_misteriosa() -> String:
 	return ""
 
 ## O que o pombo traz hoje: no domingo (ou sem pedidos a entregar) uma carta sem remetente; nos outros dias, o pedido
+## Dias mínimos entre duas cartas: o pombo deixou de vir todo dia (a primeira, de boas-vindas, não espera).
+const INTERVALO_CARTAS := 4
+
+func _carta_liberada() -> bool:
+	var ultimo := -9999
+	for dia in cartas.values(): ultimo = maxi(ultimo, int(dia))
+	return Calendario.dia - ultimo >= INTERVALO_CARTAS
+
 func carta_do_dia() -> String:
+	if proxima_carta() != "boas_vindas" and not _carta_liberada(): return ""
 	var pedido := proxima_carta()
 	var misterio := proxima_carta_misteriosa()
 	if misterio != "" and (pedido == "" or Calendario.dia_da_semana() == 6):

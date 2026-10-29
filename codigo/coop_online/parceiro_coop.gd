@@ -15,6 +15,7 @@ var hp_atual: int:
 	set(valor): hp = valor
 
 func _ready() -> void:
+	atraso = 0.05
 	remove_from_group("enemy")
 	add_to_group("jogadores")
 	set_meta("parceiro_coop", true)
