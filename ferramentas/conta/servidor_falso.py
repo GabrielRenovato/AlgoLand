@@ -11,6 +11,9 @@ USUARIOS = {}   # email -> {id, senha, meta}
 SESSOES = {}    # access_token -> id
 RENOVACOES = {} # refresh_token -> id
 PERFIS = {}     # id -> {apelido, codigo}
+AMIGOS_COD = {}  # id -> codigo de amigo
+AMIZADES = []    # [a, b, estado]
+CONVITES = []    # {id, de, para, tipo, sala, andar}
 NUVEM = {}      # id -> {rev, pacote, versao_app, versao_save, aparelho, anterior}
 
 
@@ -82,9 +85,76 @@ class Manipulador(BaseHTTPRequestHandler):
                 return self.responder(200, {"estado": "codigo_em_uso"})
             PERFIS[id_usuario] = {"codigo": codigo, "apelido": (corpo.get("p_apelido") or "JOGADOR")[:24]}
             return self.responder(200, {"estado": "ok", "apelido": PERFIS[id_usuario]["apelido"]})
+        if url.path.startswith("/rest/v1/rpc/") and url.path.split("/")[-1] in ("meu_codigo_amigo", "pedir_amizade", "listar_amigos", "responder_amizade", "remover_amizade", "enviar_convite", "listar_convites", "descartar_convite"):
+            return self.amigos(url.path.split("/")[-1], SESSOES.get(auth), corpo)
         if url.path.startswith("/rest/v1/rpc/") and url.path.split("/")[-1] in ("meta_nuvem", "salvar_nuvem", "baixar_nuvem", "trocar_codigo_conta"):
             return self.nuvem(url.path.split("/")[-1], SESSOES.get(auth), corpo)
         self.responder(404, {"message": "rota desconhecida"})
+
+    def amigos(self, funcao, eu, corpo):
+        if not eu:
+            return self.responder(200, {"estado": "sem_login"})
+        def por_codigo(c):
+            return next((i for i, cod in AMIGOS_COD.items() if cod == str(c).upper()), None)
+        def apelido(i):
+            return PERFIS.get(i, {}).get("apelido", "?")
+        if funcao == "meu_codigo_amigo":
+            if eu not in PERFIS:
+                return self.responder(200, None)
+            AMIGOS_COD.setdefault(eu, ("K" + uuid.uuid4().hex[:5]).upper())
+            return self.responder(200, AMIGOS_COD[eu])
+        if funcao == "pedir_amizade":
+            alvo = por_codigo(corpo.get("p_codigo_amigo", ""))
+            if not alvo:
+                return self.responder(200, {"estado": "nao_encontrado"})
+            if alvo == eu:
+                return self.responder(200, {"estado": "proprio"})
+            for m in AMIZADES:
+                if {m[0], m[1]} == {eu, alvo}:
+                    if m[2] == "aceita":
+                        return self.responder(200, {"estado": "ja_amigos"})
+                    if m[0] == alvo:
+                        m[2] = "aceita"
+                        return self.responder(200, {"estado": "amigos"})
+                    return self.responder(200, {"estado": "ja_pedido"})
+            AMIZADES.append([eu, alvo, "pendente"])
+            return self.responder(200, {"estado": "enviado"})
+        if funcao == "listar_amigos":
+            lista = []
+            for a, b, estado in AMIZADES:
+                if eu in (a, b):
+                    outro = b if a == eu else a
+                    lista.append({"codigo": AMIGOS_COD.get(outro), "apelido": apelido(outro),
+                                  "estado": "amigo" if estado == "aceita" else ("enviado" if a == eu else "recebido")})
+            return self.responder(200, {"estado": "ok", "lista": lista})
+        if funcao == "responder_amizade":
+            alvo = por_codigo(corpo.get("p_codigo_amigo", ""))
+            for m in list(AMIZADES):
+                if m[0] == alvo and m[1] == eu and m[2] == "pendente":
+                    if corpo.get("p_aceitar"):
+                        m[2] = "aceita"
+                    else:
+                        AMIZADES.remove(m)
+            return self.responder(200, {"estado": "ok"})
+        if funcao == "remover_amizade":
+            alvo = por_codigo(corpo.get("p_codigo_amigo", ""))
+            AMIZADES[:] = [m for m in AMIZADES if {m[0], m[1]} != {eu, alvo}]
+            return self.responder(200, {"estado": "ok"})
+        if funcao == "enviar_convite":
+            alvo = por_codigo(corpo.get("p_codigo_amigo", ""))
+            if not alvo:
+                return self.responder(200, {"estado": "nao_encontrado"})
+            if not any({m[0], m[1]} == {eu, alvo} and m[2] == "aceita" for m in AMIZADES):
+                return self.responder(200, {"estado": "nao_sao_amigos"})
+            CONVITES.append({"id": len(CONVITES) + 1, "de": eu, "para": alvo, "tipo": corpo.get("p_tipo"), "sala": corpo.get("p_sala"), "andar": corpo.get("p_andar", 1)})
+            return self.responder(200, {"estado": "ok"})
+        if funcao == "listar_convites":
+            lista = [{"id": c["id"], "tipo": c["tipo"], "sala": c["sala"], "andar": c["andar"], "de": apelido(c["de"]), "codigo": AMIGOS_COD.get(c["de"])}
+                     for c in CONVITES if c["para"] == eu]
+            return self.responder(200, {"estado": "ok", "lista": lista})
+        if funcao == "descartar_convite":
+            CONVITES[:] = [c for c in CONVITES if not (c["id"] == corpo.get("p_id") and c["para"] == eu)]
+            return self.responder(204)
 
     def nuvem(self, funcao, id_usuario, corpo):
         if not id_usuario:

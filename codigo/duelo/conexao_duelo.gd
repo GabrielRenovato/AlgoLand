@@ -205,7 +205,10 @@ func _entrar() -> void:
 	# Identidade própria do duelo: entrar com o código do lobby derrubaria a sessão do chat.
 	var codigo: String = str(perfil_ranking._codigo) + "#duelo"
 	var estado := {"x": 1, "y": 1, "mapa": 0, "apelido": Ranking.apelido_personagem(_jogador.apelido), "aparencia": Visual.do_jogador(_jogador)}
-	_ws.send_text(JSON.stringify({"t": "entrar", "codigo": codigo, "geracao": Crypto.new().generate_random_bytes(16).hex_encode(), "estado": estado}))
+	var pedido_entrada := {"t": "entrar", "codigo": codigo, "geracao": Crypto.new().generate_random_bytes(16).hex_encode(), "estado": estado}
+	var token_conta: String = preload("res://codigo/conta/cliente_conta.gd").token_para_servidor(get_tree())
+	if not token_conta.is_empty(): pedido_entrada["token"] = token_conta
+	_ws.send_text(JSON.stringify(pedido_entrada))
 	_entrou = true
 	conexao_alterada.emit(true)
 	for pendente in _pendentes: _ws.send_text(JSON.stringify(pendente))

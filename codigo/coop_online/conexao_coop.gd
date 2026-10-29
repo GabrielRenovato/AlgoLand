@@ -270,7 +270,10 @@ func _process(delta: float) -> void:
 				_autenticou = true
 				if not OS.has_feature("web"): _ws.set_no_delay(true)
 				var ranking = Ranking.para_jogador(_jogador)
-				_ws.send_text(JSON.stringify({"t": "entrar", "codigo": str(ranking._codigo) + "#coop", "geracao": Crypto.new().generate_random_bytes(16).hex_encode(), "estado": {"x": 1, "y": 1, "mapa": 0, "apelido": _jogador.apelido, "aparencia": _perfil(_jogador).visual}}))
+				var pedido_entrada := {"t": "entrar", "codigo": str(ranking._codigo) + "#coop", "geracao": Crypto.new().generate_random_bytes(16).hex_encode(), "estado": {"x": 1, "y": 1, "mapa": 0, "apelido": _jogador.apelido, "aparencia": _perfil(_jogador).visual}}
+				var token_conta: String = load("res://codigo/conta/cliente_conta.gd").token_para_servidor(get_tree())
+				if not token_conta.is_empty(): pedido_entrada["token"] = token_conta
+				_ws.send_text(JSON.stringify(pedido_entrada))
 			while _ws.get_available_packet_count() > 0:
 				_receber_ws.call_deferred(_ws.get_packet().get_string_from_utf8())
 			if _relogio <= 0.0: _ws.send_text('{"t":"coop_ping"}')
@@ -335,6 +338,9 @@ func _par_caiu(par: Par) -> void:
 func _receber_ws(texto: String) -> void:
 	var m = JSON.parse_string(texto)
 	if not m is Dictionary: return
+	if str(m.get("erro", "")) == "conta_obrigatoria":
+		_falhar("ENTRE NA CONTA PARA JOGAR ONLINE")
+		return
 	if m.has("eu"):
 		eu = str(m.eu)
 		if not _pedido.is_empty():

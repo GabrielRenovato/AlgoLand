@@ -250,7 +250,10 @@ func _conectar_ws() -> void:
 func _entrar_ws() -> void:
  var montado := _montar_estado(true)
  if montado.is_empty(): return
- _ws.send_text(JSON.stringify({"t":"entrar","codigo":_codigo,"geracao":geracao,"depois":_depois,"estado":montado.conteudo}))
+ var pedido_entrada := {"t":"entrar","codigo":_codigo,"geracao":geracao,"depois":_depois,"estado":montado.conteudo}
+ var token_conta: String = preload("res://codigo/conta/cliente_conta.gd").token_para_servidor(get_tree())
+ if not token_conta.is_empty(): pedido_entrada["token"] = token_conta
+ _ws.send_text(JSON.stringify(pedido_entrada))
  _ultimo_visual = montado.retrato
  _ws_entrou = true
  _ws_falhas = 0

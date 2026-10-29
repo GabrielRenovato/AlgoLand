@@ -50,6 +50,7 @@ static func obter(arvore: SceneTree) -> Node:
 	return no
 
 var nuvem: Node
+var amigos: Node
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -57,6 +58,13 @@ func _ready() -> void:
 	nuvem = load("res://codigo/conta/nuvem_save.gd").new()
 	nuvem.name = "Nuvem"
 	add_child(nuvem)
+	amigos = load("res://codigo/conta/amigos.gd").new()
+	amigos.name = "Amigos"
+	add_child(amigos)
+	amigos.convite_recebido.connect(func(convite: Dictionary):
+		var aviso = load("res://codigo/conta/convite_popup.gd").new()
+		aviso.convite = convite
+		get_tree().root.add_child(aviso))
 	var calendario := get_tree().root.get_node_or_null("Calendario")
 	if calendario != null: calendario.dia_passou.connect(func(_dia: int): nuvem.sincronizar("dormir"))
 
@@ -220,6 +228,12 @@ func _carregar() -> void:
 	usuario_id = str(cfg.get_value("conta", "usuario", ""))
 	_ultimo_ok = int(cfg.get_value("conta", "ultimo_ok", 0))
 
+## Token atual para os servidores de lobby, coop e duelo conferirem a conta no "entrar" ("" sem conta). Sem esperar rede:
+## quem renova é `token()`, chamado a cada poucos segundos pelos convites.
+static func token_para_servidor(arvore: SceneTree) -> String:
+	var no := arvore.root.get_node_or_null("ContaJogador")
+	return no._acesso if no != null else ""
+
 ## RPC do Supabase como o jogador logado. {"erro": texto} ou o corpo da resposta.
 func chamar(funcao: String, corpo := {}) -> Dictionary:
 	var autenticacao := await token()
@@ -227,7 +241,9 @@ func chamar(funcao: String, corpo := {}) -> Dictionary:
 	var r := await _requisitar("POST", "/rest/v1/rpc/" + funcao, corpo, autenticacao)
 	var erro := _erro(r)
 	if not erro.is_empty(): return {"erro": erro}
-	return r.corpo if r.corpo is Dictionary else {"erro": "RESPOSTA INVALIDA"}
+	if r.corpo is Dictionary: return r.corpo
+	# Funções que devolvem um valor simples (texto) ou nada (void).
+	return {} if r.corpo == null else {"valor": r.corpo}
 
 ## Mantém o save desta conta apontando para o código deste aparelho (usado ao escolher "manter este aparelho").
 func adotar_codigo_local() -> String:

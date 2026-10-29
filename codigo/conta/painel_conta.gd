@@ -26,6 +26,7 @@ func _montar() -> void:
 	_caixa.add_child(_botao("SINCRONIZAR AGORA", _sincronizar, COR_DESTAQUE, Vector2(0, 30)))
 	if conta.nuvem.estado == "conflito":
 		_caixa.add_child(_botao("RESOLVER CONFLITO DO SAVE", _resolver, COR_BOTAO, Vector2(0, 28)))
+	_caixa.add_child(_botao("AMIGOS", _abrir_amigos, COR_BOTAO, Vector2(0, 26)))
 	_caixa.add_child(_botao("SAIR DA CONTA", _sair, COR_BOTAO, Vector2(0, 26)))
 	_caixa.add_child(_botao("FECHAR", queue_free, COR_LINHA, Vector2(0, 26)))
 
@@ -53,6 +54,11 @@ func _resolver() -> void:
 	var arvore := get_tree()
 	queue_free()
 	arvore.root.add_child(preload("res://codigo/conta/conflito_nuvem.gd").new())
+
+func _abrir_amigos() -> void:
+	var arvore := get_tree()
+	queue_free()
+	arvore.root.add_child(preload("res://codigo/conta/tela_amigos.gd").new())
 
 func _abrir_login() -> void:
 	var arvore := get_tree()

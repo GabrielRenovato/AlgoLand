@@ -14,6 +14,10 @@ primary_region = "gru"
   # Instantâneos dos mapas a cada 50 ms (a cidade envia a 10 Hz; 100 ms somava atraso).
   TICK_MS = "50"
   ADMIN_HOST = "fly-local-6pn"
+  # Conferência do token da conta (valores públicos: a chave é a "publishable" que já vai no jogo). EXIGIR_CONTA="1" recusa quem entra sem conta.
+  SUPABASE_URL = "https://mqaurdqxvpxoqccypqnh.supabase.co"
+  SUPABASE_CHAVE = "sb_publishable_9OBi-D1a5To2obqFqMW5QA_JzS8jzN0"
+  EXIGIR_CONTA = "0"
 
 [http_service]
   internal_port = 8787

@@ -325,6 +325,11 @@ func _montar_sala() -> void:
 	rodape.add_theme_constant_override("separation", 8)
 	raiz.add_child(rodape)
 	rodape.add_child(_botao("SAIR DA SALA", _sair_da_sala, COR_LINHA, Vector2(96, 32)))
+	if sessao.sou_host() and load("res://codigo/conta/cliente_conta.gd").obter(get_tree()).logado():
+		rodape.add_child(_botao("CONVIDAR", func():
+			var tela = load("res://codigo/conta/tela_amigos.gd").new()
+			tela.convite = {"tipo": "coop", "sala": sessao.codigo, "andar": maxi(1, Progresso.onda_inicial)}
+			get_tree().root.add_child(tela), COR_BOTAO, Vector2(74, 32)))
 	var folga := Control.new()
 	folga.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	rodape.add_child(folga)

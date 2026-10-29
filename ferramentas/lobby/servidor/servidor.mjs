@@ -7,6 +7,7 @@ import { WebSocketServer } from 'ws';
 import { limparApelido, limparTexto, proibido } from './filtro.mjs';
 import { criarDuelo, DUELO } from './duelo.mjs';
 import { criarCoop } from './coop.mjs';
+import { criarVerificadorConta } from './conta.mjs';
 
 export const CONFIG = {
   porta: Number(process.env.PORTA ?? 8787),
@@ -23,6 +24,11 @@ export const CONFIG = {
   idadeAcaoMs: 2000,
   retencaoMs: 3600000,
   origens: (process.env.ORIGENS_PERMITIDAS ?? '').split(',').map((o) => o.trim()).filter(Boolean),
+  // Conta (Supabase Auth): com URL e chave, o token enviado no "entrar" é conferido e a conexão ganha a conta. Sem EXIGIR_CONTA,
+  // quem não tem conta entra como antes (versões antigas do jogo); com EXIGIR_CONTA=1 a entrada sem conta é recusada.
+  supabaseUrl: process.env.SUPABASE_URL ?? '',
+  supabaseChave: process.env.SUPABASE_CHAVE ?? '',
+  exigirConta: process.env.EXIGIR_CONTA === '1',
   // Só para testes locais: atrasa cada envio, simulando a latência da internet.
   atrasoTesteMs: Number(process.env.ATRASO_TESTE_MS ?? 0),
 };
@@ -32,6 +38,7 @@ const ACOES = new Set(['ataque', 'arco', 'dash', 'peixe']);
 const REGEX_PEIXE = /^[a-z0-9_]{1,40}$/;
 
 export function criarServidor(config = CONFIG) {
+  const contas = criarVerificadorConta({ url: config.supabaseUrl, chave: config.supabaseChave });
   /** @type {Map<string, any>} id -> jogador */
   const jogadores = new Map();
   const porHash = new Map();
@@ -214,19 +221,27 @@ export function criarServidor(config = CONFIG) {
     if (jogadores.size >= config.maxConexoes) { ws.send(JSON.stringify({ erro: 'limite_gratuito' })); ws.close(1013, 'cheio'); return; }
     let jogador = null;
     const limiteEntrada = setTimeout(() => { if (!jogador) ws.close(1008, 'sem entrada'); }, 5000);
-    ws.on('message', (bruto) => {
+    let entrando = false;
+    ws.on('message', async (bruto) => {
       if (jogador) { aoMensagem(jogador, bruto); return; }
+      if (entrando) return;
       let dados;
       try { dados = JSON.parse(bruto.toString('utf8')); } catch { ws.close(1008, 'invalido'); return; }
       if (!dados || dados.t !== 'entrar' || typeof dados.codigo !== 'string' || dados.codigo.length < 24 || dados.codigo.length > 128
         || typeof dados.geracao !== 'string' || !REGEX_HEX.test(dados.geracao)) { ws.send(JSON.stringify({ erro: 'codigo_invalido' })); ws.close(1008, 'invalido'); return; }
+      // A conta é conferida antes de qualquer estado do jogador existir; token inválido conta como "sem conta".
+      entrando = true;
+      const conta = typeof dados.token === 'string' ? await contas.verificar(dados.token) : null;
+      entrando = false;
+      if (ws.readyState !== 1) return;
+      if (config.exigirConta && !conta) { ws.send(JSON.stringify({ erro: 'conta_obrigatoria' })); ws.close(1008, 'conta'); return; }
       clearTimeout(limiteEntrada);
       const hash = createHash('sha256').update(dados.codigo, 'utf8').digest('hex');
       const anterior = porHash.get(hash);
       // Reconectar com o mesmo perfil assume a identidade e histórico e derruba a conexão antiga
       const id = anterior?.id ?? randomUUID();
       if (anterior) { duelo.sair(anterior); coop.sair(anterior); jogadores.delete(anterior.id); porHash.delete(hash); anterior.ws.close(1000, 'substituida'); }
-      jogador = { id, hash, ws, geracao: dados.geracao, apelido: 'sem apelido', aparencia: anterior?.aparencia ?? null, revisao: anterior?.revisao ?? 1,
+      jogador = { id, hash, ws, conta, geracao: dados.geracao, apelido: 'sem apelido', aparencia: anterior?.aparencia ?? null, revisao: anterior?.revisao ?? 1,
         entrouEm: Date.now(), mapa: 0, x: 0, y: 0, direcao: 0, andando: false, pesca: -1, ultimaAcao: proximaAcao - 1, instante: Date.now() / 1000, vistoEm: Date.now(), ultimaMensagem: 0,
         envios: anterior?.envios ?? new Set(), janela: [], conhecidos: new Map(), depois: Number.isInteger(dados.depois) ? Math.max(0, dados.depois) : 0,
         confirmado: null, aviso: '', ultimaAssinatura: '' };
@@ -258,7 +273,7 @@ export function criarServidor(config = CONFIG) {
     const lista = [...jogadores.values()].map((p) => {
       porMapa[p.mapa] += 1;
       return { id: p.id.slice(0, 8), apelido: p.apelido, mapa: p.mapa, desdeSeg: Math.round((agora - p.entrouEm) / 1000),
-        vistoHaMs: agora - p.vistoEm, x: Math.round(p.x), y: Math.round(p.y), pesca: p.pesca >= 0 };
+        vistoHaMs: agora - p.vistoEm, x: Math.round(p.x), y: Math.round(p.y), pesca: p.pesca >= 0, conta: Boolean(p.conta) };
     }).sort((a, b) => a.mapa - b.mapa || a.apelido.localeCompare(b.apelido));
     return { ok: true, ativoHa: Math.round((agora - inicio) / 1000), jogadores: lista, porMapa, contadores: { ...contadores },
       mensagens: mensagens.slice(-40).map((m) => ({ id: m.id, apelido: m.apelido, texto: m.texto, criadoEm: m.criadoEm })),
