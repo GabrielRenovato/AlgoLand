@@ -21,6 +21,7 @@ const COR_DESTAQUE := Color(0.27, 0.50, 0.24)
 enum Modo { ENTRAR, CRIAR, RECUPERAR }
 var conta: Node
 var _modo := Modo.ENTRAR
+var _rolagem: ScrollContainer
 var _caixa: VBoxContainer
 var _email: LineEdit
 var _senha: LineEdit
@@ -44,10 +45,25 @@ func _ready() -> void:
 	painel.custom_minimum_size = Vector2(minf(330.0, get_viewport().get_visible_rect().size.x - 24.0), 0)
 	EstiloInicio.painel(painel, false, 14, true)
 	centro.add_child(painel)
+	# O conteúdo rola quando não cabe: no celular em paisagem a tela tem ~324 de altura, e o teclado na tela tira mais.
+	_rolagem = ScrollContainer.new()
+	_rolagem.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	_rolagem.follow_focus = true
+	painel.add_child(_rolagem)
 	_caixa = VBoxContainer.new()
-	_caixa.add_theme_constant_override("separation", 6)
-	painel.add_child(_caixa)
+	_caixa.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_caixa.add_theme_constant_override("separation", 5)
+	_rolagem.add_child(_caixa)
 	_montar()
+	_ajustar_altura()
+
+## A altura do painel acompanha o conteúdo, limitada à tela (margem de moldura e folga).
+func _ajustar_altura() -> void:
+	var limite := maxf(get_viewport().get_visible_rect().size.y - 56.0, 80.0)
+	_rolagem.custom_minimum_size.y = clampf(_caixa.get_combined_minimum_size().y, 60.0, limite)
+
+func _process(_delta: float) -> void:
+	_ajustar_altura()
 
 func _unhandled_input(evento: InputEvent) -> void:
 	if evento.is_action_pressed("ui_cancel"):
