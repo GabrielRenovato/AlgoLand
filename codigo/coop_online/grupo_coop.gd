@@ -11,20 +11,27 @@ func _init() -> void:
 	layer = 7
 
 func _ready() -> void:
+	# Canto direito, abaixo da onda e do relógio: a esquerda é da vida, da missão e da energia do jogador.
 	_caixa = VBoxContainer.new()
-	_caixa.position = Vector2(6, 78)
+	_caixa.set_anchors_preset(Control.PRESET_TOP_RIGHT)
+	_caixa.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+	var seguras: Vector4 = Controle.margens_seguras()
+	_caixa.offset_right = -6.0 - seguras.z
+	_caixa.offset_top = 96.0 + seguras.y
 	_caixa.add_theme_constant_override("separation", 2)
 	_caixa.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_caixa)
 	_rodape = Label.new()
 	_rodape.add_theme_font_override("font", FONTE)
 	_rodape.add_theme_font_size_override("font_size", 6)
+	_rodape.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	_rodape.add_theme_color_override("font_color", Color(0.85, 0.8, 0.7, 0.8))
 	_rodape.add_theme_constant_override("outline_size", 2)
 	_rodape.add_theme_color_override("font_outline_color", Color.BLACK)
 
 ## membros: [{nome, hp, hpm, caido, vaga, eu}] na ordem da sala.
 func atualizar(membros: Array, rodape: String) -> void:
+	_caixa.visible = not membros.is_empty()
 	while _linhas.size() < membros.size(): _criar_linha()
 	for i in _linhas.size():
 		var linha := _linhas[i]
@@ -56,11 +63,14 @@ func _criar_linha() -> void:
 	var nome := Label.new()
 	nome.add_theme_font_override("font", FONTE)
 	nome.add_theme_font_size_override("font_size", 7)
+	nome.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	nome.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	nome.add_theme_constant_override("outline_size", 2)
 	nome.add_theme_color_override("font_outline_color", Color.BLACK)
 	coluna.add_child(nome)
 	var linha_barra := HBoxContainer.new()
 	linha_barra.add_theme_constant_override("separation", 3)
+	linha_barra.alignment = BoxContainer.ALIGNMENT_END
 	linha_barra.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	coluna.add_child(linha_barra)
 	var fundo := ColorRect.new()

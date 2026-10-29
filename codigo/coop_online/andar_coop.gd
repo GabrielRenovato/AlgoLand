@@ -109,12 +109,12 @@ func _atualizar_grupo() -> void:
 	var membros: Array = []
 	for j in sessao.jogadores:
 		var id := str(j.get("id", ""))
-		if id == sessao.eu:
-			membros.append({"nome": str(sessao.perfil_de(id).get("apelido", jogador.apelido)), "hp": jogador.hp_atual, "hpm": jogador.estatisticas.hp_maximo, "caido": jogador.caido, "vaga": sessao.vaga_de(id), "eu": true, "pronto": _andar_concluido and not sessao.sou_host() and bool(sessao.prontos_avanco.get(id, false))})
-		elif parceiros.has(id) and is_instance_valid(parceiros[id]):
+		# Só os aliados: a vida do próprio jogador já está no HUD dele.
+		if id == sessao.eu: continue
+		if parceiros.has(id) and is_instance_valid(parceiros[id]):
 			var p: Node2D = parceiros[id]
 			membros.append({"nome": p.apelido, "hp": p.hp_atual, "hpm": p.hp_maximo, "caido": p.caido, "vaga": sessao.vaga_de(id), "eu": false, "pronto": _andar_concluido and id != sessao.dono and bool(sessao.prontos_avanco.get(id, false))})
-	_grupo.atualizar(membros, "COOP • %s • %d MS" % ["ANFITRIAO" if sessao.sou_host() else "CONVIDADO", maxi(0, sessao.ping_ms)])
+	_grupo.atualizar(membros, "%d MS" % maxi(0, sessao.ping_ms) if not membros.is_empty() else "")
 
 func _estado_jogador() -> Dictionary:
 	# Mesmo contrato de movimento/poses já usado no duelo, sem instanciar aquela arena.
