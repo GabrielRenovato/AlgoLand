@@ -4,6 +4,7 @@ extends Node2D
 var _superficie: Polygon2D
 
 func _ready() -> void:
+	add_to_group("avisos_ataque_coop")
 	_superficie = Polygon2D.new()
 	_superficie.texture = load("res://assets/efeitos/avisos/perigo.png")
 	_superficie.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST

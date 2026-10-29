@@ -190,7 +190,10 @@ func _atualizar() -> void:
 		mapa.entrada_escolhida.connect(func(_onda: int) -> void:
 			_atualizar.call_deferred()
 			focar_inicio.call_deferred())
+		mapa.coop_escolhido.connect(_abrir_coop_online)
 		papel.add_child(mapa)
+		for botao in mapa.get_node("SalasOnline").get_children():
+			_botoes.append(botao)
 		var jogador := EventosJogo.dono(self)
 		_texto("Explore o bosque. Derrote grupos para completar a barra e invocar o guardiao. Elites valem mais progresso.")
 		_entrada_portal.text = "ENTRAR / ANDAR %d" % _onda_do_portal()
@@ -383,3 +386,8 @@ func focar_inicio() -> void:
 		if not botao.disabled:
 			Controle.focar(botao)
 			return
+
+func _abrir_coop_online(acao: String) -> void:
+	var sessao = load("res://codigo/coop_online/conexao_coop.gd").obter(get_tree())
+	_fechar()
+	sessao.abrir_tela.call_deferred(acao)

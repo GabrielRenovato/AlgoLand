@@ -289,6 +289,7 @@ func _jogador() -> Node2D:
 	var melhor: Node2D = null
 	var menor := INF
 	for jogador in get_tree().get_nodes_in_group("jogadores") if is_inside_tree() else []:
+		if jogador.has_meta("parceiro_coop"): continue
 		if bool(jogador.get("estaMorto")) or jogador.get_world_2d()!=get_world_2d():
 			continue
 		var distancia := global_position.distance_squared_to(jogador.global_position)

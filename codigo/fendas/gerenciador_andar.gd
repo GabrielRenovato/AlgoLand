@@ -35,6 +35,7 @@ func _preparar_patrulhas() -> void:
 	for parte in get_tree().get_nodes_in_group("jogadores"):
 		if not is_instance_valid(parte) or parte.estaMorto or parte.caido:continue
 		var area: Rect2=parte.get_canvas_transform().affine_inverse()*parte.get_viewport_rect()
+		if parte.has_meta("parceiro_coop"): area = Rect2(parte.global_position - Vector2(350, 250), Vector2(700, 500))
 		_areas_patrulha.append({"mundo":parte.get_world_2d(),"area":area.grow(MARGEM_PATRULHA)})
 
 func patrulha_proxima(inimigo: Node2D) -> bool:
@@ -98,6 +99,8 @@ func estacao_do_andar() -> int:
 	return int(estacoes.estacao_atual) if estacoes != null and estacoes.estacao_atual >= 0 else Calendario.estacao()
 
 func iniciar_onda(ignorar_checkpoint: bool = false) -> void:
+	var coop := get_tree().root.get_node_or_null("CoopOnline")
+	if coop != null and coop.ativo and not coop.sou_host(): return
 	if is_instance_valid(tesouro) and tesouro.ativo:
 		return
 	if Introducao.ativa() or onda_em_andamento or jogador.estaMorto:
@@ -133,6 +136,7 @@ func iniciar_onda(ignorar_checkpoint: bool = false) -> void:
 	# A transição já posicionou os jogadores na chegada. O respiro permite andar;
 	# iniciar o combate deve preservar esse deslocamento e a velocidade atual.
 	multiplicador_vida_inimigo = mult_vida_onda(onda_atual) * (Cooperativo.MULT_VIDA_COOP if Cooperativo.com_dois() else 1.0)
+	if coop != null and coop.ativo: multiplicador_vida_inimigo = mult_vida_onda(onda_atual) * Cooperativo.MULT_VIDA_COOP
 	multiplicador_dano_inimigo = mult_dano_onda(onda_atual)
 	# A preparação precisa da malha e das colisões já sincronizadas.
 	await get_tree().physics_frame

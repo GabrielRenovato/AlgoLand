@@ -89,6 +89,8 @@ func _criar(cena: PackedScene, ponto: Vector2, geracao: int, valor: int, chefe: 
 		inimigo.dano = (9.0 + 0.8 * maxi(andar-1,0)) * gerenciador_ondas.multiplicador_dano_inimigo * _mult_evento("dano")
 		inimigo.velocidade = 65
 		if Cooperativo.com_dois(): inimigo.vida = roundi(inimigo.vida * Cooperativo.MULT_VIDA_CHEFE_COOP)
+		var online := get_tree().root.get_node_or_null("CoopOnline")
+		if online != null and online.ativo: inimigo.vida = roundi(inimigo.vida * Cooperativo.MULT_VIDA_CHEFE_COOP)
 	principal.add_child(inimigo)
 	if chefe:
 		inimigo.set_meta("guardiao_aguardando",true)

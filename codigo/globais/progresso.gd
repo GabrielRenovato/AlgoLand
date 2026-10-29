@@ -178,6 +178,8 @@ func registrar_chefe(onda: int) -> void:
 ## Vitória envia imediatamente; morte reutiliza o retrato feito antes de reiniciar os itens.
 func _atualizar_ranking(andar: int, capturar := true) -> void:
 	if not is_inside_tree() or andar <= 0: return
+	var online := get_tree().root.get_node_or_null("CoopOnline")
+	if online != null and online.ativo: return
 	var coop: Node = get_tree().root.get_node("Cooperativo")
 	var ranking: Node = get_tree().root.get_node("Ranking")
 	for jogador in [coop._jogador1(),coop.jogador2()]:

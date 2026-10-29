@@ -7,6 +7,8 @@ func _ready() -> void:
 	var mineracao := preload("res://codigo/fendas/mineracao_fenda.gd").new()
 	mineracao.name = "MineracaoArena"
 	add_child(mineracao)
+	var coop := get_tree().root.get_node_or_null("CoopOnline")
+	if coop != null and coop.ativo: coop.instalar(self)
 
 func _montar_portal() -> void:
 	var portal := Portal.new()

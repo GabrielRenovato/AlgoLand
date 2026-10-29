@@ -1,0 +1,74 @@
+import assert from 'node:assert/strict';
+import { criarServidor, CONFIG } from './servidor.mjs';
+import { criarCoop } from './coop.mjs';
+const recebidas = new Map();
+const enviar = (j, m) => { const a = recebidas.get(j.id) ?? []; a.push(m); recebidas.set(j.id, a); };
+const a = {id:'a'}, b={id:'b'}, c={id:'c'};
+const coop=criarCoop(enviar);
+coop.aoMensagem(a,{t:'coop_criar',perfil:{apelido:'ANA'}});
+const sala=recebidas.get('a').at(-1);
+assert.match(sala.codigo,/^[A-F0-9]{12}$/);
+assert.equal(sala.dono,'a');
+coop.aoMensagem(c,{t:'coop_listar'});
+assert.deepEqual(recebidas.get('c').at(-1),{t:'coop_salas',salas:[{codigo:sala.codigo,anfitriao:'ANA',andar:1,jogadores:1,em_partida:false}]});
+coop.aoMensagem(b,{t:'coop_entrar',codigo:sala.codigo.toLowerCase(),perfil:{apelido:'BETO'}});
+assert.equal(recebidas.get('b').at(-1).jogadores.length,2);
+coop.aoMensagem(c,{t:'coop_entrar',codigo:sala.codigo,perfil:{}});
+assert.equal(recebidas.get('c').at(-1).erro,'sala_cheia');
+coop.aoMensagem(c,{t:'coop_sinal',dados:{tipo:'offer',sdp:'intruso'}});
+assert.equal(recebidas.get('c').at(-1).erro,'sem_parceiro');
+coop.aoMensagem(a,{t:'coop_sinal',dados:{tipo:'offer',sdp:'teste'}});
+assert.deepEqual(recebidas.get('b').at(-1),{t:'coop_sinal',dados:{tipo:'offer',sdp:'teste'}});
+const total=recebidas.get('b').length;
+for(const dados of [{tipo:'mundo',segredo:1},{tipo:'offer',sdp:'x'.repeat(6001)},{tipo:'ice',mid:'0',indice:-1,candidato:'x'}])coop.aoMensagem(a,{t:'coop_sinal',dados});
+assert.equal(recebidas.get('b').length,total,'não transporta gameplay, SDP grande ou ICE inválido');
+coop.aoMensagem(b,{t:'coop_iniciar'});
+coop.aoMensagem(c,{t:'coop_listar'});
+assert.equal(recebidas.get('c').at(-1).salas[0].em_partida,false,'só o anfitrião inicia');
+coop.aoMensagem(a,{t:'coop_iniciar'});
+coop.aoMensagem(c,{t:'coop_listar'});
+assert.equal(recebidas.get('c').at(-1).salas[0].em_partida,true);
+coop.aoMensagem(c,{t:'coop_entrar',codigo:sala.codigo,perfil:{}});
+assert.equal(recebidas.get('c').at(-1).erro,'em_partida');
+coop.aoMensagem(a,{t:'coop_sair'});
+assert.equal(recebidas.get('b').at(-1).intencional,true);
+coop.aoMensagem(c,{t:'coop_listar'});
+assert.deepEqual(recebidas.get('c').at(-1).salas,[]);
+assert.equal(coop.quantidade(),0);
+assert.equal(recebidas.get('b').at(-1).t,'coop_fim');
+coop.aoMensagem(b,{t:'coop_entrar',codigo:sala.codigo,perfil:{}});
+assert.equal(recebidas.get('b').at(-1).erro,'sala_inexistente');
+// Integração real do roteamento/autenticação do lobby.
+const server=criarServidor({...CONFIG,porta:0,portaAdmin:0,expiraMs:60000});
+const porta=await server.iniciar();
+async function cliente(id) {
+ const ws=new WebSocket(`ws://127.0.0.1:${porta}`), mensagens=[];
+ ws.onmessage=e=>mensagens.push(JSON.parse(e.data));
+ await new Promise((ok,no)=>{ws.onopen=ok;ws.onerror=no;});
+ ws.send(JSON.stringify({t:'entrar',codigo:'coop_teste_isolado_'+id+'_abcdefghijklmnop',geracao:'a'.repeat(32),estado:{x:1,y:1,mapa:0,apelido:id,aparencia:{versao:1}}}));
+ return {ws,mensagens};
+}
+async function ate(c, teste) {
+ const fim=Date.now()+3000;
+ while(Date.now()<fim){const m=c.mensagens.find(teste);if(m)return m;await new Promise(r=>setTimeout(r,10));}
+ throw Error('Sem resposta do servidor: '+JSON.stringify(c.mensagens));
+}
+const x=await cliente('x'), y=await cliente('y');
+await ate(x,m=>m.eu);await ate(y,m=>m.eu);
+x.ws.send(JSON.stringify({t:'coop_criar',perfil:{apelido:'X'}}));
+const criada=await ate(x,m=>m.t==='coop_sala');
+y.ws.send(JSON.stringify({t:'coop_listar'}));
+const listadas=await ate(y,m=>m.t==='coop_salas');
+assert.equal(listadas.salas[0].codigo,criada.codigo);
+assert.equal(listadas.salas[0].anfitriao,'X');
+assert.equal('perfil' in listadas.salas[0],false,'lista não revela equipamento/perfil');
+y.ws.send(JSON.stringify({t:'coop_entrar',codigo:listadas.salas[0].codigo,perfil:{apelido:'Y'}}));
+await ate(y,m=>m.t==='coop_sala');
+x.ws.send(JSON.stringify({t:'coop_sinal',dados:{tipo:'offer',sdp:'sdp-teste'}}));
+assert.equal((await ate(y,m=>m.t==='coop_sinal')).dados.sdp,'sdp-teste');
+x.ws.close();
+const fim=await ate(y,m=>m.t==='coop_fim');
+assert.equal(fim.motivo,'parceiro_saiu');
+assert.equal(fim.intencional,false,'queda da sinalização não encerra a conexão direta');
+y.ws.close();await server.parar();
+console.log('COOP: salas, privacidade, limite de dois jogadores, sinalização, rejeição de gameplay e encerramento OK.');

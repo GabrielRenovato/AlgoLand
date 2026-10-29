@@ -1931,6 +1931,10 @@ func receber_hitkill_chefe() -> void:
 	morrer(true)
 
 func morrer(ignorar_reviver: bool = false) -> void:
+	var coop_online := get_tree().root.get_node_or_null("CoopOnline")
+	if coop_online != null and coop_online.ativo:
+		_cair()
+		return
 	# Duelo online: cair só conta o round (arena_duelo.gd); sem enfermaria nem perdas.
 	if not eh_p2 and preload("res://codigo/duelo/conexao_duelo.gd").em_partida_em(get_tree()):
 		hp_atual = 0

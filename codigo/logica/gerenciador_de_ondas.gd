@@ -119,6 +119,10 @@ func _ready() -> void:
 	var iniciar_ao_chegar: bool = Transicao.iniciar_onda_ao_chegar
 	Transicao.iniciar_onda_ao_chegar = false
 	await get_tree().create_timer(0.0).timeout
+	var online := get_tree().root.get_node_or_null("CoopOnline")
+	if online != null and online.ativo:
+		onda_inicial = online.andar
+		voltando = false
 	onda_atual = onda_inicial
 	gerador = get_tree().get_root().get_node("/root/cenario/enemySpawner")
 	if voltando:

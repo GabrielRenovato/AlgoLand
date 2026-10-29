@@ -17,6 +17,7 @@ var _atingiu := false
 var _sprite: Sprite2D
 
 func _ready() -> void:
+	add_to_group("projeteis_hostis_coop")
 	top_level = true
 	global_position = origem
 	z_as_relative = false

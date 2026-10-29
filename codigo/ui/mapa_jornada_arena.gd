@@ -3,6 +3,7 @@ extends VBoxContainer
 ## Mapa das ondas/andares alcançados. Com `escolher_checkpoint`, os andares de checkpoint liberados (azuis)
 ## viram a entrada da partida ao tocar, com o ouro de compensação.
 signal entrada_escolhida(onda: int)
+signal coop_escolhido(acao: String)
 var escolher_checkpoint := false
 const Estilo := preload("res://codigo/ui/estilo_interface.gd")
 const Slot := preload("res://codigo/ui/estilo_slot.gd")
@@ -64,6 +65,16 @@ func _ready() -> void:
 	if escolher_checkpoint:
 		_rotulo(legenda,"AZUL: TOQUE PARA COMECAR AQUI",Color("3e6a8c"),8)
 	_rotulo(legenda,"PRETO: AINDA NAO DESCOBERTO",Color("75452d"),8)
+	if modo_andares:
+		var online := VBoxContainer.new()
+		online.name = "SalasOnline"
+		online.add_theme_constant_override("separation", 6)
+		add_child(online)
+		for opcao in [["CRIAR SALA ONLINE", "criar"], ["VER SALAS CRIADAS", "listar"]]:
+			var acao: String = opcao[1]
+			var botao := _botao(online, opcao[0], func(): coop_escolhido.emit(acao))
+			botao.custom_minimum_size.y = 34
+			botao.add_theme_font_size_override("font_size", 10)
 	_preencher()
 	resized.connect(_ajustar)
 	_ajustar.call_deferred()
@@ -168,7 +179,7 @@ func _ajustar() -> void:
 	if _grade == null: return
 	_compacto = size.x < 340
 	add_theme_constant_override("separation",2 if _compacto else 6)
-	_trilha.custom_minimum_size.y = 68 if _compacto else 88
+	_trilha.custom_minimum_size.y = 80 if _compacto else 88
 	_legenda.visible = not _compacto
 	_detalhe.visible = not _compacto
 	for rotulo in _resumo.get_children(): rotulo.add_theme_font_size_override("font_size",8 if _compacto else 10)

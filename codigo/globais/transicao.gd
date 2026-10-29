@@ -115,6 +115,8 @@ func desmaiar() -> void:
 func ir_para(caminho: String, ponto := "", clarear_no_fim := true) -> void:
 	if ocupada:
 		return
+	var coop := get_tree().root.get_node_or_null("CoopOnline")
+	if coop != null and not coop.autorizar_viagem(caminho): return
 	ocupada = true
 	var jogador := _obter_jogador()
 	if jogador != null:

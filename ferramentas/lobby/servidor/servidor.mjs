@@ -6,6 +6,7 @@ import { createHash, randomUUID } from 'node:crypto';
 import { WebSocketServer } from 'ws';
 import { limparApelido, limparTexto, proibido } from './filtro.mjs';
 import { criarDuelo, DUELO } from './duelo.mjs';
+import { criarCoop } from './coop.mjs';
 
 export const CONFIG = {
   porta: Number(process.env.PORTA ?? 8787),
@@ -65,10 +66,12 @@ export function criarServidor(config = CONFIG) {
   }
   // Salas de duelo (duelo.mjs): mensagens com t = duelo_*
   const duelo = criarDuelo(enviar, { ...DUELO, ...(config.duelo ?? {}) });
+  const coop = criarCoop(enviar);
 
   function remover(jogador, motivo = '') {
     if (jogadores.get(jogador.id) !== jogador) return;
     duelo.sair(jogador);
+    coop.sair(jogador);
     jogadores.delete(jogador.id);
     if (porHash.get(jogador.hash) === jogador) porHash.delete(jogador.hash);
     if (motivo && jogador.ws.readyState === 1) jogador.ws.close(1000, motivo);
@@ -203,6 +206,7 @@ export function criarServidor(config = CONFIG) {
         break;
       default:
         if (typeof dados.t === 'string' && dados.t.startsWith('duelo_')) duelo.aoMensagem(jogador, dados);
+        if (typeof dados.t === 'string' && dados.t.startsWith('coop_')) coop.aoMensagem(jogador, dados);
     }
   }
 
@@ -221,7 +225,7 @@ export function criarServidor(config = CONFIG) {
       const anterior = porHash.get(hash);
       // Reconectar com o mesmo perfil assume a identidade e histórico e derruba a conexão antiga
       const id = anterior?.id ?? randomUUID();
-      if (anterior) { duelo.sair(anterior); jogadores.delete(anterior.id); porHash.delete(hash); anterior.ws.close(1000, 'substituida'); }
+      if (anterior) { duelo.sair(anterior); coop.sair(anterior); jogadores.delete(anterior.id); porHash.delete(hash); anterior.ws.close(1000, 'substituida'); }
       jogador = { id, hash, ws, geracao: dados.geracao, apelido: 'sem apelido', aparencia: anterior?.aparencia ?? null, revisao: anterior?.revisao ?? 1,
         entrouEm: Date.now(), mapa: 0, x: 0, y: 0, direcao: 0, andando: false, pesca: -1, ultimaAcao: proximaAcao - 1, instante: Date.now() / 1000, vistoEm: Date.now(), ultimaMensagem: 0,
         envios: anterior?.envios ?? new Set(), janela: [], conhecidos: new Map(), depois: Number.isInteger(dados.depois) ? Math.max(0, dados.depois) : 0,
