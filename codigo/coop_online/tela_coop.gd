@@ -231,6 +231,7 @@ func _mostrar_salas(salas: Array) -> void:
 	var validas := salas.filter(func(s): return s is Dictionary)
 	if validas.is_empty():
 		var vazio := _rotulo("NENHUMA SALA ABERTA\nCRIE A SUA E CHAME OS AMIGOS", 9, COR_SUAVE)
+		vazio.autowrap_mode = TextServer.AUTOWRAP_OFF # dentro da rolagem, quebra automática trava a altura no celular
 		vazio.custom_minimum_size.y = 70
 		vazio.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		_lista_salas.add_child(vazio)

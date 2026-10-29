@@ -42,7 +42,8 @@ func _ready() -> void:
 	centro.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(centro)
 	var painel := PanelContainer.new()
-	painel.custom_minimum_size = Vector2(minf(330.0, get_viewport().get_visible_rect().size.x - 24.0), 0)
+	var largura_painel := minf(330.0, get_viewport().get_visible_rect().size.x - 24.0)
+	painel.custom_minimum_size = Vector2(largura_painel, 0)
 	EstiloInicio.painel(painel, false, 14, true)
 	centro.add_child(painel)
 	# O conteúdo rola quando não cabe: no celular em paisagem a tela tem ~324 de altura, e o teclado na tela tira mais.
@@ -52,6 +53,9 @@ func _ready() -> void:
 	painel.add_child(_rolagem)
 	_caixa = VBoxContainer.new()
 	_caixa.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	# Largura fixa desde o primeiro quadro (painel menos margens e barra de rolagem). Sem isto, os textos com quebra
+	# automática eram medidos com largura mínima (uma letra por linha) e a altura errada ficava travada no celular.
+	_caixa.custom_minimum_size.x = maxf(largura_painel - 44.0, 120.0)
 	_caixa.add_theme_constant_override("separation", 5)
 	_rolagem.add_child(_caixa)
 	_montar()
@@ -197,7 +201,8 @@ func _rotulo(texto: String, tamanho: int, cor: Color, alinhamento := HORIZONTAL_
 	rotulo.add_theme_font_override("font", FONTE)
 	rotulo.add_theme_font_size_override("font_size", tamanho)
 	rotulo.add_theme_color_override("font_color", cor)
-	rotulo.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	# Títulos ficam numa linha só; só os textos corridos quebram.
+	rotulo.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART if tamanho < 13 else TextServer.AUTOWRAP_OFF
 	rotulo.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	# A fonte do jogo tem entrelinha folgada; sem isto os textos de várias linhas estouram a altura de 324.
 	rotulo.add_theme_constant_override("line_spacing", -4)

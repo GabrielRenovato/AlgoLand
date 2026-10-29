@@ -43,6 +43,7 @@ func _montar() -> void:
 	_caixa.add_child(rolagem)
 	_linhas = VBoxContainer.new()
 	_linhas.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_linhas.custom_minimum_size.x = maxf(_caixa.custom_minimum_size.x - 14.0, 100.0)
 	_linhas.add_theme_constant_override("separation", 3)
 	rolagem.add_child(_linhas)
 	_caixa.add_child(_botao("FECHAR", queue_free, COR_LINHA, Vector2(0, 24)))
@@ -74,7 +75,9 @@ func _listar() -> void:
 		filho.queue_free()
 	var lista: Array = conta.amigos.lista
 	if lista.is_empty():
-		_linhas.add_child(_rotulo("Ninguem ainda. Passe o seu codigo ou digite o de um amigo.", 8, COR_SUAVE, HORIZONTAL_ALIGNMENT_LEFT))
+		var vazio := _rotulo("Ninguem ainda.\nPasse o seu codigo ou digite o de um amigo.", 8, COR_SUAVE, HORIZONTAL_ALIGNMENT_LEFT)
+		vazio.autowrap_mode = TextServer.AUTOWRAP_OFF # dentro da rolagem, quebra automática trava a altura no celular
+		_linhas.add_child(vazio)
 		return
 	for estado in ["recebido", "amigo", "enviado"]:
 		for pessoa in lista:
