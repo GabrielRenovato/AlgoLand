@@ -16,6 +16,7 @@ RAIZ = Path(__file__).resolve().parents[2]
 GRAFICOS = {"lote_mixamo_3d", "corrida_mixamo_3d", "ferramentas_kaykit_3d", "natureza_fazenda", "acabamento_cidade", "chao_detalhado", "ponte_cidade", "urbanismo_cidade", "enfeites_detalhados", "nitidez_exteriores", "botoes_carta", "cama_raven", "entrada_portal", "f3_equipar_conjuntos", "cores_armas_raven", "previa_inventario_raven", "migracao_raven", "dash_raven", "catalogo_armas_raven", "espera_pesca_raven", "acabamento_raven", "camadas_corrida_raven", "personalizacao_raven", "heroi_raven", "rotina_aves", "painel_debug", "obra_carpinteiro","atendimento_cidade", "dialogo_cidade", "familia_carpinteiro", "casa_carpinteiro", "galinheiro", "relevo_gentle", "enseada_visual", "mapa_mundi", "fazenda_tiny", "sobreposicao_cais", "pegadas_praia", "heroi_gerado", "rotas_visuais", "barra_energia", "continuidade_caverna"}
 GRAFICOS.add("fluidez_medusa")
 GRAFICOS.add("camadas_magias_medusa")
+GRAFICOS.add("fontes_web")
 GRAFICOS.update({"marcadores_missao", "alinhamento_chat_marcador"})
 
 

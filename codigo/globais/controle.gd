@@ -72,16 +72,8 @@ var layout := "xbox"
 ## Controle que foi usado por último (para ler o nome e fazer vibrar)
 var dispositivo := 0
 
-func _ajustar_nitidez_texto() -> void:
-	var raiz := get_tree().root
-	raiz.oversampling_override = clampf(raiz.get_final_transform().get_scale().x, 1.0, 4.0)
-
 func _ready() -> void:
 	preload("res://codigo/dados/fontes_interface.gd").preparar()
-	if OS.has_feature("web"):
-		# No navegador do celular o texto saía em blocos: a nitidez da fonte ficava presa na escala do tamanho inicial do canvas.
-		get_tree().root.size_changed.connect(_ajustar_nitidez_texto, CONNECT_DEFERRED)
-		_ajustar_nitidez_texto.call_deferred()
 	add_child(preload("res://codigo/ui/rolagem_toque.gd").new())
 	if "--desempenho" in OS.get_cmdline_args() or "--desempenho" in OS.get_cmdline_user_args():
 		add_child(preload("res://codigo/ui/desempenho_web.gd").new())

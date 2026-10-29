@@ -6,6 +6,8 @@ const DadosItemScript := preload("res://codigo/modelos/dados_item.gd")
 const Drop := preload("res://codigo/logica/equipamento_drop.gd")
 const SementeDrop := preload("res://codigo/logica/semente_drop.gd")
 const EquipamentoDrop := preload("res://codigo/logica/equipamento_drop.gd")
+const Conjuntos := preload("res://codigo/dados/conjuntos_armadura.gd")
+const RaioConjunto := preload("res://codigo/efeitos/raio.gd")
 var sessao: Node
 var cena: Node2D
 const Grupo := preload("res://codigo/coop_online/grupo_coop.gd")
@@ -48,6 +50,7 @@ var _rng_drops := RandomNumberGenerator.new()
 var _saques_enviados := {}
 var _saques_recebidos := {}
 var _golpes := {}
+var _recargas_conjuntos := {}
 var _pronto := false
 var _tempo_reviver := 0.0
 var _dano_ate := {}
@@ -342,10 +345,10 @@ func _enviar_mundo() -> void:
 				var hashes: Array = []
 				for s in _sprites.get(id, []):
 					if is_instance_valid(s):
-						poses.append([s.hframes, s.vframes, s.frame, s.flip_h, s.is_visible_in_tree(), snappedf(s.rotation, 0.01)])
+						poses.append([s.hframes, s.vframes, s.frame, s.flip_h, s.is_visible_in_tree(), snappedf(s.rotation, 0.01), [s.modulate.r, s.modulate.g, s.modulate.b, s.modulate.a]])
 						hashes.append(_hash_textura(s.texture))
 				_vmax[id] = maxi(int(_vmax.get(id, 1)), int(no.vida))
-				cache[id] = [id, snappedf(no.global_position.x, 0.1), snappedf(no.global_position.y, 0.1), no.vida, poses, _vmax[id], hashes]
+				cache[id] = [id, snappedf(no.global_position.x, 0.1), snappedf(no.global_position.y, 0.1), no.vida, poses, _vmax[id], hashes, no.esta_congelado()]
 			# Inimigo parado e adormecido não muda: só vai de novo no refresco, o que poupa banda com muita gente.
 			if not completo and memoria.get(id) == cache[id]: continue
 			memoria[id] = cache[id]
@@ -384,6 +387,43 @@ func _aplicar_efeito(m: Dictionary) -> void:
 	elif e.get("tipo") == "gelo": no.aplicar_congelamento(duracao)
 	elif e.get("tipo") == "lento": no.aplicar_lentidao(clampf(float(e.get("fracao", 0)), 0, 0.8), duracao)
 	elif e.get("tipo") == "atordoar": no.atordoar(duracao)
+	elif e.get("tipo") == "raio_conjunto": _invocar_raio_convidado(str(m.get("de", "")), parceiro, no, e)
+
+## Dano em área simulado uma única vez, sem os filtros de um golpe corpo a corpo.
+func _invocar_raio_convidado(de: String, parceiro: Node2D, alvo: Node2D, efeito: Dictionary) -> void:
+	if alvo.esta_morto or parceiro.inventario == null: return
+	for conjunto in Conjuntos.CONJUNTOS:
+		if conjunto.ID != str(efeito.get("conjunto", "")) or conjunto.TIPO_BONUS != "raio": continue
+		var chave: String = de + ":" + conjunto.ID
+		var agora := Time.get_ticks_msec()
+		var recarga := maxf(0.0, (int(_recargas_conjuntos.get(chave, 0)) - agora) / 1000.0)
+		var equipados: Dictionary = parceiro.inventario.equipados
+		# A mochila pode mudar depois de entrar na sala. O pedido leva somente
+		# tipos e níveis atuais, reconstruídos pelos slots do catálogo local.
+		if efeito.get("pecas") is Dictionary:
+			equipados = {}
+			for slot in ["cabeca", "corpo", "luvas", "botas"]:
+				var dados = efeito.pecas.get(slot)
+				if not dados is Dictionary: continue
+				var tipo := str(dados.get("tipo", ""))
+				if not conjunto.TIPOS.has(tipo) or conjunto.TIPOS[tipo].slot != slot: continue
+				var item := DadosItemScript.new()
+				item.tipo = tipo
+				item.categoria = slot
+				item.nivel = clampi(int(dados.get("nivel", 1)), 1, 5)
+				equipados[slot] = item
+		if not conjunto.pode_ativar(equipados, recarga, 0.0): return
+		var limite := clampi(int(sessao.perfil_de(de).get("dano_maximo", 30)), 1, 100000)
+		var dano := clampi(int(efeito.get("dano", 0)), 0, limite)
+		if dano <= 0: return
+		_recargas_conjuntos[chave] = agora + ceili(conjunto.RECARGA_BONUS * 1000)
+		var raio := RaioConjunto.new()
+		raio.fracao_dano_chefe = 1.0
+		raio.add_to_group("raios_carrasco")
+		cena.add_child(raio)
+		raio.iniciar(alvo.global_position, conjunto.AVISO_BONUS,
+			maxi(1, roundi(dano * conjunto.MULT_DANO_BONUS * Conjuntos.fator_nivel(conjunto, equipados))), 0)
+		return
 
 func _aplicar_golpe(m: Dictionary) -> void:
 	var id := int(m.get("id", 0))
@@ -507,7 +547,9 @@ func _aplicar_espelhos(lista: Array) -> void:
 		if vistos.has(id): continue
 		var no = _espelhos[id]
 		_espelhos.erase(id)
-		if is_instance_valid(no): no.cancelar() if no.has_method("cancelar") else no.queue_free()
+		if is_instance_valid(no):
+			if no.has_method("cancelar"): no.cancelar()
+			else: no.queue_free()
 
 func _par(v, padrao := Vector2.ZERO) -> Vector2:
 	return Vector2(float(v[0]), float(v[1])) if v is Array and v.size() == 2 else padrao
@@ -515,6 +557,12 @@ func _par(v, padrao := Vector2.ZERO) -> Vector2:
 func _criar_espelho(d: Dictionary) -> Node:
 	var no: Node
 	match str(d.get("k", "")):
+		"raio_conjunto":
+			no = RaioConjunto.new()
+			no.somente_visual = true
+			cena.add_child(no)
+			no.set_process(false)
+			no.iniciar(Vector2(float(d.get("x", 0)), float(d.get("y", 0))), maxf(float(d.get("aviso", 0.1)), 0.0), 0, 0)
 		"ind":
 			no = IndicadorScript.new()
 			cena.add_child(no)
@@ -541,6 +589,11 @@ func _criar_espelho(d: Dictionary) -> Node:
 
 func _atualizar_espelho(id: int, no: Node, d: Dictionary) -> void:
 	match str(d.get("k", "")):
+		"raio_conjunto":
+			if bool(d.get("caiu", false)):
+				if not no.caiu: no.cair()
+			elif is_instance_valid(no._indicador):
+				no._indicador.atualizar_progresso(float(d.get("t", 0)) / maxf(no._tempo_aviso, 0.001))
 		"ind":
 			if bool(d.get("i", false)):
 				_espelhos_finalizados[id] = true

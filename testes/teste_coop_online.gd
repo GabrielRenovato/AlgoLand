@@ -60,11 +60,21 @@ func rodar():
 	if not await esperar(func(): return current_scene != null and current_scene.has_node("AndarCoop")):
 		conferir(false, "entrada no andar"); quit(1); return
 	var controle: Node = current_scene.get_node("AndarCoop")
+	if not host:
+		# Dois conjuntos parciais reais: raio e gelo, com nível acima do inicial.
+		var drop = load("res://codigo/logica/equipamento_drop.gd")
+		var rng := RandomNumberGenerator.new()
+		for tipo in ["elmo_carrasco", "peitoral_carrasco", "luvas_cavalheiro", "botas_cavalheiro"]:
+			var item = drop.criar_item(rng, 1, false, false, "", tipo)
+			item.nivel = 3
+			inv.adicionar(item)
+			inv.equipar(item)
 	controle.jogador.invulneravel = true
 	controle.jogador.temporizador_invul = 1000
-	conferir(controle.parceiro.inventario == null, "parceiro sem acesso ao inventario local")
+	var parceiro: Node2D = controle.parceiros.values()[0]
+	conferir(parceiro.inventario != inv, "parceiro sem acesso ao inventario local")
 	if host:
-		if not await esperar(func(): return controle._inimigos.size() > 0 and controle._pronto):
+		if not await esperar(func(): return controle._inimigos.size() >= 2 and not controle._prontos.is_empty()):
 			conferir(false, "populacao do anfitriao"); quit(1); return
 		for mob in controle._inimigos.values(): mob.set_physics_process(false)
 		marcar("host_pronto")
@@ -73,10 +83,24 @@ func rodar():
 		var inimigo: Node = controle._inimigos[id]
 		inimigo.set_physics_process(false)
 		inimigo.global_position = controle.jogador.global_position + Vector2(70, 0)
+		inimigo.vida = 10000
+		var vizinho: Node2D = controle._inimigos[controle._inimigos.keys()[1]]
+		vizinho.global_position = inimigo.global_position + Vector2(8, 0)
+		vizinho.vida = 10000
+		var vizinho_antes: int = vizinho.vida
 		var vida_antes: int = inimigo.vida
 		marcar("alvo", JSON.stringify({"id": id, "x": inimigo.global_position.x, "y": inimigo.global_position.y}))
 		conferir(await esperar(func(): return inimigo.vida < vida_antes), "golpe do convidado aplicado somente no anfitriao")
 		marcar("golpe_validado")
+		conferir(await esperar(func(): return inimigo.esta_congelado()), "congelamento do conjunto do convidado aplicado no anfitriao")
+		# Carrasco 2/4 nível 3: o sorteio muda, mas o raio mantém 200% x 1,5 de dano.
+		conferir(await esperar(func(): return inimigo.vida == vida_antes - 2 - 60 and vizinho.vida == vizinho_antes - 60), "raio do convidado causa dano integral em area, separado do golpe")
+		conferir(await esperar(func(): return tem("efeitos_vistos")), "raio e casca de gelo aparecem na tela do convidado")
+		marcar("efeitos_validados")
+		if "--somente-conjuntos" in OS.get_cmdline_user_args():
+			conferir(await esperar(func(): return tem("fim_conjuntos")), "convidado concluiu a revisao visual")
+			await encerrar()
+			return
 		await esperar(func(): return tem("saque_pedir"))
 		load("res://codigo/logica/drops_forja.gd").soltar_material("ferro", 2, controle.jogador.global_position + Vector2(100, 0), current_scene)
 		conferir(await esperar(func(): return tem("saque_validado")), "saque entregue na mochila do convidado")
@@ -109,6 +133,24 @@ func rodar():
 		await create_timer(0.3).timeout
 		alvo.receber_dano(2, Vector2.ZERO)
 		conferir(await esperar(func(): return tem("golpe_validado")), "acao local chegou ao host")
+		conferir(controle.jogador._tentar_raio_carrasco(alvo, 20, 0.0), "conjunto parcial do convidado solicita raio")
+		conferir(not controle.jogador._tentar_raio_carrasco(alvo, 20, 0.0), "recarga local impede raio duplicado")
+		# Mesmo um pedido repetido na rede não pode duplicar o dano no anfitrião.
+		alvo.pedir_raio_conjunto("carrasco", 20)
+		conferir(controle.jogador._tentar_congelamento_mordomo(alvo, 0.0), "conjunto parcial do convidado solicita gelo")
+		conferir(await esperar(func(): return is_instance_valid(alvo._gelo_visual) and controle._espelhos.values().any(func(n): return is_instance_valid(n) and n.get_script() == load("res://codigo/efeitos/raio.gd"))), "replicas exibem o raio e o congelamento autoritativos")
+		await RenderingServer.frame_post_draw
+		root.get_texture().get_image().save_png(pasta + "/convidado_conjuntos.png")
+		marcar("efeitos_vistos")
+		conferir(await esperar(func(): return tem("efeitos_validados")), "efeitos validados sem aplicar dano pelo espelho")
+		if "--somente-conjuntos" in OS.get_cmdline_user_args():
+			await esperar(func(): return controle._espelhos.values().any(func(n): return is_instance_valid(n) and n.get_script() == load("res://codigo/efeitos/raio.gd") and n.caiu))
+			await RenderingServer.frame_post_draw
+			root.get_texture().get_image().save_png(pasta + "/convidado_raio.png")
+			marcar("fim_conjuntos")
+			await esperar(func(): return not sessao.ativo)
+			await encerrar()
+			return
 		marcar("saque_pedir")
 		conferir(await esperar(func(): return not get_nodes_in_group("equipamento_drop").is_empty()), "drop recebido")
 		var drop: Node = get_nodes_in_group("equipamento_drop")[0]
@@ -118,8 +160,8 @@ func rodar():
 		conferir(inv.quantidade_tipo("material:ferro") == antes + 2, "coleta salva na mochila propria")
 		marcar("saque_validado")
 		await esperar(func(): return tem("host_caido"))
-		controle.jogador.global_position = controle.parceiro.global_position
-		conferir(await esperar(func(): return not controle.parceiro.caido), "reviver em rede")
+		controle.jogador.global_position = parceiro.global_position
+		conferir(await esperar(func(): return not parceiro.caido), "reviver em rede")
 		conferir(await esperar(func(): return controle._inimigos.values().any(func(m): return is_instance_valid(m) and m.eh_chefe)), "replica do guardiao")
 		await RenderingServer.frame_post_draw
 		root.get_texture().get_image().save_png(pasta + "/convidado_andar.png")
@@ -130,6 +172,9 @@ func rodar():
 		marcar("andar2_visto")
 		await esperar(func(): return tem("fim_teste"))
 		conferir(await esperar(func(): return not sessao.ativo), "saida do anfitriao encerra a sessao")
+	await encerrar()
+
+func encerrar() -> void:
 	print("COOP ONLINE ", "HOST" if host else "CONVIDADO", ": ", falhas, " falhas")
 	sessao.sair()
 	await process_frame

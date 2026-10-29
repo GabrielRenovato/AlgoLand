@@ -1224,6 +1224,11 @@ func _ativar_efeito_conjunto(conjunto: GDScript, alvo: Node, dano_golpe: int, re
 		return false
 	match conjunto.TIPO_BONUS:
 		"raio":
+			# A réplica pede ao anfitrião para simular a área inteira. Enviar cada
+			# vítima como golpe comum perdia dano por alcance, limite e intervalo.
+			if alvo.has_method("pedir_raio_conjunto"):
+				alvo.pedir_raio_conjunto(conjunto.ID, dano_golpe)
+				return true
 			var cena := Cooperativo.cena_de(self)
 			if cena == null or not alvo is Node2D:
 				return false

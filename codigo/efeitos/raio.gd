@@ -39,6 +39,8 @@ var caiu := false
 ## Quantos alvos o último raio atingiu (para testes e depuração)
 var atingidos_inimigos := 0
 var atingiu_jogador := false
+## Espelhos online só desenham: o dano é aplicado uma vez pelo anfitrião.
+var somente_visual := false
 
 var _jogador: Node
 var _tempo_aviso := 1.0
@@ -70,8 +72,13 @@ func iniciar(ponto: Vector2, aviso: float, dano_a_inimigos: int, dano_ao_jogador
 	_jogador = jogador
 	global_position = ponto
 	add_to_group("raios_clima")
+	if is_in_group("raios_carrasco") and not somente_visual:
+		add_to_group("espelhos_coop")
 	_indicador = IndicadorAtaqueScript.new()
 	add_child(_indicador)
+	# O espelho do raio já inclui o aviso; não enviar um segundo círculo.
+	if is_in_group("raios_carrasco"):
+		_indicador.remove_from_group("espelhos_coop")
 	_indicador.configurar(ponto, raio_area)
 
 func _process(delta: float) -> void:
@@ -90,13 +97,16 @@ func cair() -> void:
 	caiu = true
 	if is_instance_valid(_indicador):
 		_indicador.detonar_impacto()
-	_causar_dano()
+	if not somente_visual: _causar_dano()
 	_desenhar_raio()
 	get_tree().call_group("clima", "piscar_raio", 0.8)
 	_tremer_camera()
 	get_tree().create_timer(ATRASO_TROVAO).timeout.connect(_tocar_trovao)
 	# sem indicador/raio por mais tempo que o necessário
 	get_tree().create_timer(DURACAO_RAIO).timeout.connect(queue_free)
+
+func espelho() -> Dictionary:
+	return {"k": "raio_conjunto", "x": _alvo.x, "y": _alvo.y, "aviso": _tempo_aviso, "t": _tempo, "caiu": caiu}
 
 func _causar_dano() -> void:
 	atingidos_inimigos = 0

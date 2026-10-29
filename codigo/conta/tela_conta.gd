@@ -29,6 +29,7 @@ var _apelido: LineEdit
 var _mensagem: Label
 var _enviar: Button
 var _ver_senha: CheckBox
+var _painel: PanelContainer
 
 func _ready() -> void:
 	layer = 120
@@ -42,6 +43,7 @@ func _ready() -> void:
 	centro.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(centro)
 	var painel := PanelContainer.new()
+	_painel = painel
 	var largura_painel := minf(330.0, get_viewport().get_visible_rect().size.x - 24.0)
 	painel.custom_minimum_size = Vector2(largura_painel, 0)
 	EstiloInicio.painel(painel, false, 14, true)
@@ -61,8 +63,11 @@ func _ready() -> void:
 	_montar()
 	_ajustar_altura()
 
-## A altura do painel acompanha o conteúdo, limitada à tela (margem de moldura e folga).
+## O painel acompanha a largura da tela e a altura do conteúdo, com folga para a moldura.
 func _ajustar_altura() -> void:
+	var largura := minf(330.0, get_viewport().get_visible_rect().size.x - 24.0)
+	_painel.custom_minimum_size.x = largura
+	_caixa.custom_minimum_size.x = maxf(largura - 44.0, 120.0)
 	var limite := maxf(get_viewport().get_visible_rect().size.y - 56.0, 80.0)
 	_rolagem.custom_minimum_size.y = clampf(_caixa.get_combined_minimum_size().y, 60.0, limite)
 
@@ -93,7 +98,9 @@ func _montar() -> void:
 	_caixa.add_child(_rotulo(explicacao[_modo], 8, COR_SUAVE, HORIZONTAL_ALIGNMENT_LEFT))
 	_email = _campo("E-MAIL", 120)
 	_email.text = conta.email
-	_email.virtual_keyboard_type = LineEdit.KEYBOARD_TYPE_EMAIL_ADDRESS
+	# O teclado experimental Web chama setSelectionRange, incompatível com
+	# input[type=email]. O campo textual preserva digitação, seleção e validação.
+	_email.virtual_keyboard_type = LineEdit.KEYBOARD_TYPE_DEFAULT if OS.has_feature("web") else LineEdit.KEYBOARD_TYPE_EMAIL_ADDRESS
 	_caixa.add_child(_email)
 	_senha = null
 	_apelido = null
@@ -137,7 +144,8 @@ func _montar() -> void:
 		_caixa.add_child(_rotulo("Offline: o modo solo funciona normalmente; coop, duelo, ranking e mercado pedem conta.", 7, COR_SUAVE))
 	for campo in [_email, _senha, _apelido]:
 		if campo != null: campo.text_submitted.connect(func(_t): _enviar_formulario())
-	_email.grab_focus.call_deferred()
+	if not preload("res://codigo/globais/dispositivo.gd").celular():
+		_email.grab_focus.call_deferred()
 
 func _jogar_offline() -> void:
 	conta.escolheu_offline = not conta.logado()

@@ -4,10 +4,12 @@ extends Node2D
 var _sprite: Sprite2D
 var _tempo := 0.0
 var _quebrando := false
+## Réplicas online reaproveitam o corpo original, que fica dentro do nó visual.
+var corpo: Sprite2D
 
 func _ready() -> void:
 	var alvo := get_parent()
-	var corpo: Sprite2D = alvo.get_node("Texture")
+	if corpo == null: corpo = alvo.get_node("Texture")
 	var imagem := corpo.texture.get_image()
 	var tamanho := Vector2i(imagem.get_width() / corpo.hframes, imagem.get_height() / corpo.vframes)
 	var origem := Vector2i((corpo.frame % corpo.hframes) * tamanho.x, (corpo.frame / corpo.hframes) * tamanho.y)

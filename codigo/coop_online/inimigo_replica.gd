@@ -16,6 +16,7 @@ var _barra: Node2D
 var _hashes_tex: Array = []
 var _velocidade := Vector2.ZERO
 var _instante_alvo := 0.0
+var _gelo_visual: Node2D
 
 func configurar(dados: Dictionary) -> bool:
 	var caminho := str(dados.get("cena", ""))
@@ -125,6 +126,25 @@ func aplicar(e: Array) -> void:
 		s.flip_h = bool(p[3])
 		s.visible = bool(p[4])
 		s.rotation = float(p[5])
+		if p.size() >= 7 and p[6] is Array and p[6].size() == 4:
+			s.modulate = Color(p[6][0], p[6][1], p[6][2], p[6][3])
+	if e.size() >= 8:
+		_atualizar_gelo_visual(bool(e[7]))
+
+func _atualizar_gelo_visual(congelado: bool) -> void:
+	if congelado:
+		if is_instance_valid(_gelo_visual):
+			_gelo_visual.renovar()
+		else:
+			var corpo := find_child("Texture", true, false) as Sprite2D
+			if corpo == null: return
+			_gelo_visual = preload("res://codigo/efeitos/congelamento.gd").new()
+			_gelo_visual.corpo = corpo
+			# Mesmo espaço de coordenadas do corpo original.
+			corpo.get_parent().add_child(_gelo_visual)
+			_gelo_visual.process_mode = Node.PROCESS_MODE_ALWAYS
+	elif is_instance_valid(_gelo_visual):
+		_gelo_visual.descongelar()
 
 func _process(delta: float) -> void:
 	# O anfitrião decide o dano pela posição dele: projetamos o inimigo adiante pela latência de ida (metade do ping).
@@ -145,6 +165,12 @@ func _mostrar_dano(valor: int) -> void:
 func receber_dano(dano: int, empurrao: Vector2 = Vector2.ZERO) -> void:
 	if controlador != null and not esta_morto: controlador.pedir_golpe(identificador, dano, empurrao)
 func receber_dano_efeito(dano: int, _cor: Color) -> void: receber_dano(dano)
+func pedir_raio_conjunto(conjunto: String, dano_golpe: int) -> void:
+	var pecas := {}
+	for slot in ["cabeca", "corpo", "luvas", "botas"]:
+		var item = controlador.jogador.inventario.equipados.get(slot)
+		if item != null: pecas[slot] = {"tipo": item.tipo, "nivel": item.nivel}
+	controlador.pedir_efeito(identificador, {"tipo": "raio_conjunto", "conjunto": conjunto, "dano": dano_golpe, "pecas": pecas})
 func aplicar_queimadura(dano: int, intervalo: float, duracao: float, cor: Color) -> void:
 	controlador.pedir_efeito(identificador, {"tipo": "fogo", "dano": dano, "intervalo": intervalo, "duracao": duracao, "cor": cor.to_html()})
 func aplicar_congelamento(duracao: float) -> void: controlador.pedir_efeito(identificador, {"tipo": "gelo", "duracao": duracao})
