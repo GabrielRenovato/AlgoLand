@@ -195,7 +195,7 @@ func _atualizar() -> void:
 		for botao in mapa.get_node("SalasOnline").get_children():
 			_botoes.append(botao)
 		var jogador := EventosJogo.dono(self)
-		_texto("Explore o bosque. Derrote grupos para completar a barra e invocar o guardiao. Elites valem mais progresso.")
+		_texto("Derrote grupos para encher a barra e invocar o guardiao.")
 		_entrada_portal.text = "ENTRAR / ANDAR %d" % _onda_do_portal()
 		_entrada_portal.disabled = jogador == null
 		_botoes.append(_entrada_portal)

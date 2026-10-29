@@ -34,6 +34,7 @@ var _conversa_guia: HBoxContainer
 var _linha_abas_loja: Control
 var _linha_arena: HBoxContainer
 var _botao_proxima: Button
+var _texto_base_proxima := ""
 var _botao_cidade: Button
 # Aviso curto (validação) acima das moedas: arma que não serve, moedas que faltam...
 var _mensagem: Label
@@ -136,6 +137,8 @@ func _exit_tree() -> void:
 	_equipamentos.free()
 
 func _process(_delta: float) -> void:
+	if _modo_arena and _botao_proxima != null and not _texto_base_proxima.is_empty():
+		_botao_proxima.text = _texto_proxima_online(_texto_base_proxima)
 	var jogador := EventosJogo.dono(self)
 	if jogador == null:
 		return
@@ -407,6 +410,8 @@ func _aplicar_modo() -> void:
 	if _modo_arena and gerenciador != null:
 		_botao_proxima.text = ("ANDAR %d" if gerenciador.is_in_group("gerenciador_andar") else "PROXIMO ANDAR (%d)") % gerenciador.onda_atual
 		_botao_proxima.disabled = gerenciador.onda_em_andamento
+		_texto_base_proxima = _botao_proxima.text
+		_botao_proxima.text = _texto_proxima_online(_texto_base_proxima)
 		if gerenciador.is_in_group("gerenciador_andar"):
 			_botao_proxima.custom_minimum_size = Vector2(80,24)
 			_botao_cidade.custom_minimum_size = Vector2(80,24)
@@ -472,7 +477,20 @@ func _montar_rodape_arena() -> void:
 	_linha_arena.add_child(_botao_proxima)
 	_botao_iniciar_onda.get_parent().add_child(_linha_arena)
 
+## Coop online: o convidado marca "pronto" e o anfitrião avança; o texto mostra quem falta.
+func _texto_proxima_online(padrao: String) -> String:
+	var online := get_tree().root.get_node_or_null("CoopOnline")
+	if online == null or not online.ativo: return padrao
+	if online.sou_host():
+		var total: int = online.outros().size()
+		return "%s (%d/%d PRONTOS)" % [padrao, total - online.pendentes_para_avancar().size(), total] if total > 0 else padrao
+	return "CANCELAR PRONTO" if bool(online.prontos_avanco.get(online.eu, false)) else "ESTOU PRONTO"
+
 func _ao_proxima_onda() -> void:
+	var online := get_tree().root.get_node_or_null("CoopOnline")
+	if online != null and online.ativo and not online.sou_host():
+		online.alternar_pronto()
+		return
 	var gerenciador := get_tree().get_first_node_in_group("gerenciador_ondas")
 	if gerenciador == null or gerenciador.onda_em_andamento:
 		return

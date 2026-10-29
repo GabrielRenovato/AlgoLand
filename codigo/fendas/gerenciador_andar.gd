@@ -110,6 +110,9 @@ func iniciar_onda(ignorar_checkpoint: bool = false) -> void:
 	var raiz := get_parent().get_parent()
 	if raiz.get_meta("planta_andar",0) != Catalogo.indice(onda_atual):
 		if Transicao.ocupada: return
+		if coop != null and coop.ativo and not coop.todos_prontos_para_avancar():
+			get_tree().call_group("hud", "anunciar", "AGUARDANDO O GRUPO", "FALTA MARCAR PRONTO: " + ", ".join(coop.pendentes_para_avancar()), 3.0)
+			return
 		onda_em_andamento = true
 		Transicao.iniciar_onda_ao_chegar = true
 		Transicao.ir_para(Catalogo.cena(onda_atual),"portal")

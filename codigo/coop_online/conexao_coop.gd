@@ -6,10 +6,15 @@ signal erro(texto: String)
 signal pacote(dados: Dictionary)
 signal encerrou(motivo: String)
 signal jogador_saiu(id: String)
+signal prontos_mudaram
 const Duelo := preload("res://codigo/duelo/conexao_duelo.gd")
 const Catalogo := preload("res://codigo/fendas/catalogo_andares.gd")
 const LIMITE_PACOTE := 262144
 const MAX_JOGADORES := 4
+## Reanimar um aliado: segurar a ação de interagir por este tempo; ele volta com pouca vida.
+const TEMPO_REVIVER := 1.5
+const FRACAO_REVIVER := 0.2
+const ALCANCE_REVIVER := 36.0
 ## Um par WebRTC. O anfitrião tem um por convidado (estrela); cada convidado tem só o do anfitrião.
 class Par extends RefCounted:
 	var id := ""
@@ -41,6 +46,8 @@ var motivo_final := ""
 var _fila: Array[Dictionary] = []
 var _encerrados: Array[Dictionary] = []
 var _n_conectados := 0
+## Convidados que já se declararam prontos para o próximo andar (id -> bool). O anfitrião decide, os convidados só veem.
+var prontos_avanco: Dictionary = {}
 
 func retirar_pacotes(nivel: int) -> Array[Dictionary]:
 	var resultado: Array[Dictionary] = []
@@ -90,6 +97,31 @@ static func mult_vida(n: int) -> float: return 1.0 + 0.25 * (clampi(n, 1, MAX_JO
 static func mult_vida_chefe(n: int) -> float: return 1.0 + 0.3 * (clampi(n, 1, MAX_JOGADORES) - 1)
 static func mult_dano(n: int) -> float: return 1.0 + 0.08 * (clampi(n, 1, MAX_JOGADORES) - 1)
 static func mult_ouro(n: int) -> float: return 1.0 / (1.0 + (clampi(n, 1, MAX_JOGADORES) - 1) / 3.0)
+
+func todos_prontos_para_avancar() -> bool:
+	for id in outros():
+		if not bool(prontos_avanco.get(id, false)): return false
+	return true
+
+func pendentes_para_avancar() -> Array[String]:
+	var nomes: Array[String] = []
+	for id in outros():
+		if not bool(prontos_avanco.get(id, false)): nomes.append(str(perfil_de(id).get("apelido", "JOGADOR")))
+	return nomes
+
+## Convidado: marca ou desmarca "pronto para o próximo andar" e avisa o anfitrião.
+func alternar_pronto() -> bool:
+	if sou_host() or not ativo: return false
+	var pronto := not bool(prontos_avanco.get(eu, false))
+	prontos_avanco[eu] = pronto
+	enviar({"t": "pronto_avanco", "pronto": pronto})
+	prontos_mudaram.emit()
+	return pronto
+
+func _limpar_prontos() -> void:
+	prontos_avanco.clear()
+	if sou_host(): enviar({"t": "prontos", "lista": {}})
+	prontos_mudaram.emit()
 
 func perfil_de(id: String) -> Dictionary:
 	for j in jogadores:
@@ -357,6 +389,15 @@ func _receber(m: Dictionary, de: String, estado := false) -> void:
 			if not sou_host() and not ativo and de == dono: _iniciar_local(clampi(int(m.get("andar", 1)), 1, 1000))
 		"mapa":
 			if ativo and not sou_host() and de == dono: _abrir_andar(clampi(int(m.get("andar", 1)), 1, 1000))
+		"pronto_avanco":
+			if sou_host():
+				prontos_avanco[de] = bool(m.get("pronto", false))
+				enviar({"t": "prontos", "lista": prontos_avanco})
+				prontos_mudaram.emit()
+		"prontos":
+			if not sou_host() and de == dono and m.get("lista") is Dictionary:
+				prontos_avanco = m.lista
+				prontos_mudaram.emit()
 		"fim":
 			if de == dono: _falhar("O ANFITRIAO ENCERROU A PARTIDA")
 		_:
@@ -386,6 +427,7 @@ func _iniciar_local(nivel: int) -> void:
 
 func _abrir_andar(nivel: int) -> void:
 	andar = nivel
+	prontos_avanco.clear()
 	Transicao.estado.clear()
 	Transicao.iniciar_onda_ao_chegar = sou_host()
 	permitir_viagem = true
@@ -432,6 +474,7 @@ func sair(avisar := true) -> void:
 	if ws_antigo != null: _encerrados.append({"ws": ws_antigo, "ate": Time.get_ticks_msec() + 2000})
 	ativo = false
 	_fila.clear()
+	prontos_avanco.clear()
 	conectado = false
 	_prazo = 0
 	ping_ms = -1

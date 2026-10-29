@@ -23,7 +23,7 @@ var _enviados := {}
 var _sprites := {}
 var _vmax := {}
 var _prontos: Array[String] = []
-var _tempos_reviver := {}
+var _progresso_reviver := 0.0
 var _grupo: CanvasLayer
 var _saques := {}
 var _saques_enviados := {}
@@ -86,7 +86,8 @@ func _process(delta: float) -> void:
 		_tempo = 1.0 / 15.0
 		sessao.enviar({"t": "jogador", "andar": andar, "e": _estado_jogador()}, true)
 		if sessao.sou_host(): _enviar_mundo()
-	if sessao.sou_host(): _reviver(delta)
+	if sessao.sou_host(): _verificar_derrota()
+	_cuidar_do_aliado_caido(delta)
 	_atualizar_grupo()
 
 func _atualizar_grupo() -> void:
@@ -94,10 +95,10 @@ func _atualizar_grupo() -> void:
 	for j in sessao.jogadores:
 		var id := str(j.get("id", ""))
 		if id == sessao.eu:
-			membros.append({"nome": str(sessao.perfil_de(id).get("apelido", jogador.apelido)), "hp": jogador.hp_atual, "hpm": jogador.estatisticas.hp_maximo, "caido": jogador.caido, "vaga": sessao.vaga_de(id), "eu": true})
+			membros.append({"nome": str(sessao.perfil_de(id).get("apelido", jogador.apelido)), "hp": jogador.hp_atual, "hpm": jogador.estatisticas.hp_maximo, "caido": jogador.caido, "vaga": sessao.vaga_de(id), "eu": true, "pronto": _andar_concluido and not sessao.sou_host() and bool(sessao.prontos_avanco.get(id, false))})
 		elif parceiros.has(id) and is_instance_valid(parceiros[id]):
 			var p: Node2D = parceiros[id]
-			membros.append({"nome": p.apelido, "hp": p.hp_atual, "hpm": p.hp_maximo, "caido": p.caido, "vaga": sessao.vaga_de(id), "eu": false})
+			membros.append({"nome": p.apelido, "hp": p.hp_atual, "hpm": p.hp_maximo, "caido": p.caido, "vaga": sessao.vaga_de(id), "eu": false, "pronto": _andar_concluido and id != sessao.dono and bool(sessao.prontos_avanco.get(id, false))})
 	_grupo.atualizar(membros, "COOP • %s • %d MS" % ["ANFITRIAO" if sessao.sou_host() else "CONVIDADO", maxi(0, sessao.ping_ms)])
 
 func _estado_jogador() -> Dictionary:
@@ -169,7 +170,9 @@ func _receber(m: Dictionary) -> void:
 		"dano":
 			if not sessao.sou_host(): jogador.receber_dano(clampi(int(m.get("dano", 0)), 0, 100000), Vector2(float(m.get("kx", 0)), float(m.get("ky", 0))))
 		"reviver":
-			if not sessao.sou_host(): jogador.levantar_caido()
+			if not sessao.sou_host(): jogador.levantar_caido(clampf(float(m.get("fr", 0.5)), 0.05, 1.0))
+		"reviver_pedido":
+			if sessao.sou_host(): _executar_reviver(de, str(m.get("alvo", "")))
 		"petrificar":
 			if not sessao.sou_host(): jogador.aplicar_petrificacao(clampf(float(m.get("duracao", 1)), 0.1, 10))
 		"execucao":
@@ -185,10 +188,13 @@ func _receber(m: Dictionary) -> void:
 			if not sessao.sou_host() and not _andar_concluido:
 				_andar_concluido = true
 				gerente.onda_em_andamento = false
+				gerente.etapa = gerente.Etapa.CONCLUIDO
 				jogador.levantar_caido()
+				# O anfitrião já chama o Orion ao vencer; o convidado também precisa dele para comprar e se preparar.
+				gerente._abrir_janela_entre_ondas()
 				DadosJogo.adicionar_moedas(gerente.ouro_fim_onda(andar))
 				Progresso.registrar_onda_concluida(andar, false, false)
-				get_tree().call_group("hud_p1", "anunciar", "ANDAR CONCLUIDO", "AGUARDE O ANFITRIAO ESCOLHER O CAMINHO", 5.0)
+				get_tree().call_group("hud_p1", "anunciar", "ANDAR CONCLUIDO", "FALE COM O ORION E MARQUE PRONTO", 5.0)
 		"saque":
 			if not sessao.sou_host(): _criar_saque(m)
 
@@ -312,24 +318,48 @@ func dano_no_parceiro(parceiro: Node2D, dano: int, empurrao: Vector2) -> void:
 	_dano_ate[parceiro.id_jogador] = Time.get_ticks_msec() + 150
 	sessao.enviar_para(parceiro.id_jogador, {"t": "dano", "andar": andar, "dano": dano, "kx": empurrao.x, "ky": empurrao.y})
 
-## Qualquer jogador de pé levanta um caído parado ao lado dele por 2 s; só cai a sessão se todos caírem.
-func _reviver(delta: float) -> void:
-	var todos: Array = [jogador]
+## Só cai a sessão se todos caírem.
+func _verificar_derrota() -> void:
+	if not jogador.caido: return
 	for p in parceiros.values():
-		if is_instance_valid(p): todos.append(p)
-	var de_pe: Array = todos.filter(func(p): return not p.caido)
-	if de_pe.is_empty():
-		sessao._falhar("TODOS OS JOGADORES CAIRAM")
+		if is_instance_valid(p) and not p.caido: return
+	sessao._falhar("TODOS OS JOGADORES CAIRAM")
+
+## Perto de um aliado caído, segurar a ação de interagir o reanima; ele volta com pouca vida.
+func _cuidar_do_aliado_caido(delta: float) -> void:
+	var alvo: Node2D = null
+	if not jogador.caido and not jogador.estaMorto:
+		for p in parceiros.values():
+			if is_instance_valid(p) and p.caido and p.global_position.distance_to(jogador.global_position) <= sessao.ALCANCE_REVIVER:
+				alvo = p
+				break
+	for p in parceiros.values():
+		if is_instance_valid(p) and p != alvo: p.mostrar_reviver(-1.0)
+	if alvo == null:
+		_progresso_reviver = 0.0
 		return
-	for p in todos:
-		var chave: int = p.get_instance_id()
-		if not p.caido or not de_pe.any(func(v): return v.global_position.distance_to(p.global_position) <= 26):
-			_tempos_reviver.erase(chave)
-			continue
-		_tempos_reviver[chave] = float(_tempos_reviver.get(chave, 0.0)) + delta
-		if _tempos_reviver[chave] >= 2.0:
-			_tempos_reviver.erase(chave)
-			p.levantar_caido()
+	if Input.is_action_pressed("open_menu") and get_viewport().gui_get_focus_owner() == null:
+		_progresso_reviver += delta
+		alvo.mostrar_reviver(_progresso_reviver / sessao.TEMPO_REVIVER, "REANIMANDO...")
+		if _progresso_reviver >= sessao.TEMPO_REVIVER:
+			_progresso_reviver = 0.0
+			_pedir_reviver(alvo)
+	else:
+		_progresso_reviver = maxf(0.0, _progresso_reviver - delta * 2.0)
+		alvo.mostrar_reviver(_progresso_reviver / sessao.TEMPO_REVIVER, "SEGURE %s PARA REANIMAR" % Controle.rotulo_acao("open_menu"))
+
+func _pedir_reviver(alvo: Node2D) -> void:
+	if sessao.sou_host(): _executar_reviver(sessao.eu, alvo.id_jogador)
+	else: sessao.enviar({"t": "reviver_pedido", "andar": andar, "alvo": alvo.id_jogador})
+
+## O anfitrião confere quem reanima quem (de pé, perto) antes de levantar o aliado.
+func _executar_reviver(quem_id: String, alvo_id: String) -> void:
+	var quem: Node2D = jogador if quem_id == sessao.eu else parceiros.get(quem_id)
+	var alvo: Node2D = jogador if alvo_id == sessao.eu else parceiros.get(alvo_id)
+	if quem == null or alvo == null or quem == alvo or not is_instance_valid(quem) or not is_instance_valid(alvo): return
+	if quem.caido or not alvo.caido: return
+	if quem.global_position.distance_to(alvo.global_position) > sessao.ALCANCE_REVIVER * 2.0: return
+	alvo.levantar_caido(sessao.FRACAO_REVIVER)
 
 func _enviar_visuais() -> void:
 	var avisos: Array = []

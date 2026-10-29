@@ -2557,14 +2557,15 @@ func _cair() -> void:
 	queue_redraw()
 
 ## Levantado pelo parceiro (ou no fim da onda): metade da vida e um instante sem levar dano
-func levantar_caido() -> void:
+## fracao: vida com que volta (50% ao fim da onda; o coop online usa menos quando um aliado o reanima).
+func levantar_caido(fracao: float = 0.5) -> void:
 	if not caido:
 		return
 	caido = false
 	estaMorto = false
 	_progresso_reviver = 0.0
 	$CompositeSprites.modulate = Color.WHITE
-	hp_atual = maxi(1, roundi(estatisticas.hp_maximo * 0.5))
+	hp_atual = maxi(1, roundi(estatisticas.hp_maximo * clampf(fracao, 0.0, 1.0)))
 	invulneravel = true
 	temporizador_invul = 2.0
 	atualizar_barra_hp()

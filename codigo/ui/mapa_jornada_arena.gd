@@ -31,21 +31,27 @@ func _ready() -> void:
 	name = "MapaJornada"
 	size_flags_horizontal = SIZE_EXPAND_FILL
 	add_theme_constant_override("separation",6)
-	var resumo := HFlowContainer.new()
-	_resumo = resumo
-	resumo.add_theme_constant_override("h_separation",12)
-	add_child(resumo)
-	_rotulo(resumo,"RECORDE: ANDAR %d" % recorde,Color("75452d"),10)
-	_rotulo(resumo,"ENTRADA: ANDAR %d" % entrada,Color("44602c"),10)
+	# Uma linha só: página anterior, recorde/entrada com o intervalo, página seguinte.
 	var navegacao := HBoxContainer.new()
+	navegacao.add_theme_constant_override("separation",6)
 	add_child(navegacao)
 	_anterior = _botao(navegacao,"ANT.",_mudar_pagina.bind(-1))
-	_intervalo = _rotulo(navegacao,"",Color("493629"),9)
-	_intervalo.size_flags_horizontal = SIZE_EXPAND_FILL
+	var centro := VBoxContainer.new()
+	centro.size_flags_horizontal = SIZE_EXPAND_FILL
+	centro.add_theme_constant_override("separation",0)
+	navegacao.add_child(centro)
+	var resumo := HFlowContainer.new()
+	_resumo = resumo
+	resumo.alignment = FlowContainer.ALIGNMENT_CENTER
+	resumo.add_theme_constant_override("h_separation",12)
+	centro.add_child(resumo)
+	_rotulo(resumo,"RECORDE: ANDAR %d" % recorde,Color("75452d"),10)
+	_rotulo(resumo,"ENTRADA: ANDAR %d" % entrada,Color("44602c"),10)
+	_intervalo = _rotulo(centro,"",Color("493629"),9)
 	_intervalo.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_proxima = _botao(navegacao,"PROX.",_mudar_pagina.bind(1))
 	_trilha = Control.new()
-	_trilha.custom_minimum_size.y = 104
+	_trilha.custom_minimum_size.y = 76 if modo_andares else 104
 	add_child(_trilha)
 	_trilha.draw.connect(_desenhar_trilha)
 	_grade = GridContainer.new()
@@ -66,15 +72,18 @@ func _ready() -> void:
 		_rotulo(legenda,"AZUL: TOQUE PARA COMECAR AQUI",Color("3e6a8c"),8)
 	_rotulo(legenda,"PRETO: AINDA NAO DESCOBERTO",Color("75452d"),8)
 	if modo_andares:
-		var online := VBoxContainer.new()
+		# Os dois botões lado a lado: sem rolagem e ao alcance do polegar.
+		var online := HBoxContainer.new()
 		online.name = "SalasOnline"
 		online.add_theme_constant_override("separation", 6)
 		add_child(online)
-		for opcao in [["CRIAR SALA ONLINE", "criar"], ["VER SALAS CRIADAS", "listar"]]:
+		for opcao in [["CRIAR SALA ONLINE", "criar"], ["VER SALAS ONLINE", "listar"]]:
 			var acao: String = opcao[1]
 			var botao := _botao(online, opcao[0], func(): coop_escolhido.emit(acao))
-			botao.custom_minimum_size.y = 34
-			botao.add_theme_font_size_override("font_size", 10)
+			botao.custom_minimum_size.y = 28
+			botao.size_flags_horizontal = SIZE_EXPAND_FILL
+			botao.add_theme_font_size_override("font_size", 9)
+			if acao == "criar": botao.theme_type_variation = &"BotaoPrimario"
 	_preencher()
 	resized.connect(_ajustar)
 	_ajustar.call_deferred()
@@ -179,13 +188,13 @@ func _ajustar() -> void:
 	if _grade == null: return
 	_compacto = size.x < 340
 	add_theme_constant_override("separation",2 if _compacto else 6)
-	_trilha.custom_minimum_size.y = 80 if _compacto else 88
-	_legenda.visible = not _compacto
+	_trilha.custom_minimum_size.y = 72 if modo_andares else (80 if _compacto else 88)
+	_legenda.visible = not _compacto and not modo_andares
 	_detalhe.visible = not _compacto
 	for rotulo in _resumo.get_children(): rotulo.add_theme_font_size_override("font_size",8 if _compacto else 10)
 	for botao in [_anterior,_proxima]: botao.custom_minimum_size.y = 20 if _compacto else 24
 	for marco in _marcos.values():
-		marco.custom_minimum_size = Vector2(28,28) if _compacto else Vector2(32,32)
+		marco.custom_minimum_size = Vector2(28,28) if _compacto or modo_andares else Vector2(32,32)
 		for lado in ["left","right","top","bottom"]: marco.get_child(0).add_theme_constant_override("margin_"+lado,2 if _compacto else 3)
 
 func _descricao(onda: int) -> String:
