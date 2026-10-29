@@ -5,9 +5,21 @@ signal mudou
 signal erro(texto: String)
 signal pacote(dados: Dictionary)
 signal encerrou(motivo: String)
+signal jogador_saiu(id: String)
 const Duelo := preload("res://codigo/duelo/conexao_duelo.gd")
 const Catalogo := preload("res://codigo/fendas/catalogo_andares.gd")
 const LIMITE_PACOTE := 262144
+const MAX_JOGADORES := 4
+## Um par WebRTC. O anfitrião tem um por convidado (estrela); cada convidado tem só o do anfitrião.
+class Par extends RefCounted:
+	var id := ""
+	var rtc: WebRTCPeerConnection
+	var eventos: WebRTCDataChannel
+	var estados: WebRTCDataChannel
+	var conectado := false
+	var recebeu := 0
+	var ping_ms := -1
+	var prazo := 0
 var eu := ""
 var codigo := ""
 var dono := ""
@@ -18,19 +30,17 @@ var andar := 1
 var permitir_viagem := false
 var ping_ms := -1
 var _ws: WebSocketPeer
-var _rtc: WebRTCPeerConnection
-var _eventos: WebRTCDataChannel
-var _estados: WebRTCDataChannel
+var _pares: Dictionary = {}
 var _autenticou := false
 var _jogador: Node2D
 var _pedido: Dictionary = {}
 var _relogio := 0.0
 var _prazo := 0
-var _recebeu := 0
 var _cena: Node
 var motivo_final := ""
 var _fila: Array[Dictionary] = []
 var _encerrados: Array[Dictionary] = []
+var _n_conectados := 0
 
 func retirar_pacotes(nivel: int) -> Array[Dictionary]:
 	var resultado: Array[Dictionary] = []
@@ -63,10 +73,49 @@ func _ready() -> void:
 func sou_host() -> bool:
 	return not eu.is_empty() and dono == eu
 
-func perfil_remoto() -> Dictionary:
+## Quantos jogadores estão na partida (1 fora do coop online). Base do balanceamento por sala.
+func jogadores_na_partida() -> int:
+	return clampi(jogadores.size(), 1, MAX_JOGADORES) if ativo else 1
+
+## Posição do jogador na sala (0 = anfitrião): define cor, vaga e ponto de chegada.
+func vaga_de(id: String) -> int:
+	for i in jogadores.size():
+		if str(jogadores[i].get("id", "")) == id: return i
+	return 0
+
+# Balanceamento: cada jogador a mais traz mais inimigos, mais vida e um pouco mais de dano;
+# o ouro por abate cai para o total por jogador não disparar com a horda maior.
+static func mult_quantidade(n: int) -> float: return 1.0 + 0.35 * (clampi(n, 1, MAX_JOGADORES) - 1)
+static func mult_vida(n: int) -> float: return 1.0 + 0.25 * (clampi(n, 1, MAX_JOGADORES) - 1)
+static func mult_vida_chefe(n: int) -> float: return 1.0 + 0.3 * (clampi(n, 1, MAX_JOGADORES) - 1)
+static func mult_dano(n: int) -> float: return 1.0 + 0.08 * (clampi(n, 1, MAX_JOGADORES) - 1)
+static func mult_ouro(n: int) -> float: return 1.0 / (1.0 + (clampi(n, 1, MAX_JOGADORES) - 1) / 3.0)
+
+func perfil_de(id: String) -> Dictionary:
 	for j in jogadores:
-		if str(j.get("id", "")) != eu: return j.get("perfil", {})
+		if str(j.get("id", "")) == id:
+			var perfil = j.get("perfil", {})
+			return perfil if perfil is Dictionary else {}
 	return {}
+
+## Ids dos outros jogadores da sala, na ordem de entrada.
+func outros() -> Array[String]:
+	var ids: Array[String] = []
+	for j in jogadores:
+		if str(j.get("id", "")) != eu: ids.append(str(j.get("id", "")))
+	return ids
+
+## Vagas já ocupadas por um par WebRTC aberto (para o saguão mostrar quem já está pronto).
+func esta_conectado(id: String) -> bool:
+	if id == eu: return true
+	var par = _pares.get(id)
+	return par != null and par.conectado
+
+func todos_conectados() -> bool:
+	if _pares.size() != jogadores.size() - 1: return false
+	for par in _pares.values():
+		if not par.conectado: return false
+	return true
 
 func abrir_tela(acao := "") -> void:
 	if get_tree().root.has_node("TelaCoopOnline"): return
@@ -116,34 +165,64 @@ func _pedir(jogador: Node2D, pedido: Dictionary) -> void:
 	_prazo = Time.get_ticks_msec() + 20000
 	if _ws.connect_to_url(url) != OK: _falhar("NAO FOI POSSIVEL CONECTAR AO SERVIDOR DE SALAS")
 
-func _sinal(dados: Dictionary) -> void:
+func _sinal(para: String, dados: Dictionary) -> void:
 	if _ws != null and _ws.get_ready_state() == WebSocketPeer.STATE_OPEN:
-		_ws.send_text(JSON.stringify({"t": "coop_sinal", "dados": dados}))
+		_ws.send_text(JSON.stringify({"t": "coop_sinal", "para": para, "dados": dados}))
 
-func _preparar_rtc() -> void:
-	if _rtc != null: return
-	_rtc = WebRTCPeerConnection.new()
+func _preparar_par(id: String) -> void:
+	if _pares.has(id) or id == eu or id.is_empty(): return
+	var par := Par.new()
+	par.id = id
+	par.rtc = WebRTCPeerConnection.new()
 	# STUN apenas descobre o endereço público. Nenhum TURN/relay pago é configurado.
-	var resultado := _rtc.initialize({"iceServers": [{"urls": ["stun:stun.cloudflare.com:3478"]}]})
+	var resultado := par.rtc.initialize({"iceServers": [{"urls": ["stun:stun.cloudflare.com:3478"]}]})
 	if resultado != OK:
 		_falhar("ESTA VERSAO NAO TEM SUPORTE A CONEXAO DIRETA")
 		return
-	_rtc.session_description_created.connect(func(tipo: String, sdp: String):
-		_rtc.set_local_description(tipo, sdp)
-		_sinal({"tipo": tipo, "sdp": sdp}))
-	_rtc.ice_candidate_created.connect(func(mid: String, indice: int, candidato: String):
-		_sinal({"tipo": "ice", "mid": mid, "indice": indice, "candidato": candidato}))
-	_eventos = _rtc.create_data_channel("eventos", {"negotiated": true, "id": 1, "ordered": true})
-	_estados = _rtc.create_data_channel("estados", {"negotiated": true, "id": 2, "ordered": false, "maxRetransmits": 0})
-	_prazo = Time.get_ticks_msec() + 25000
-	if sou_host(): _rtc.create_offer()
+	par.rtc.session_description_created.connect(func(tipo: String, sdp: String):
+		par.rtc.set_local_description(tipo, sdp)
+		_sinal(id, {"tipo": tipo, "sdp": sdp}))
+	par.rtc.ice_candidate_created.connect(func(mid: String, indice: int, candidato: String):
+		_sinal(id, {"tipo": "ice", "mid": mid, "indice": indice, "candidato": candidato}))
+	par.eventos = par.rtc.create_data_channel("eventos", {"negotiated": true, "id": 1, "ordered": true})
+	par.estados = par.rtc.create_data_channel("estados", {"negotiated": true, "id": 2, "ordered": false, "maxRetransmits": 0})
+	par.prazo = Time.get_ticks_msec() + 25000
+	_pares[id] = par
+	if sou_host(): par.rtc.create_offer()
 
-func enviar(dados: Dictionary, estado := false) -> bool:
-	var canal := _estados if estado else _eventos
-	if not conectado or canal == null or canal.get_ready_state() != WebRTCDataChannel.STATE_OPEN: return false
-	var bytes := JSON.stringify(dados).to_utf8_buffer()
+func _remover_par(id: String) -> void:
+	var par: Par = _pares.get(id)
+	if par == null: return
+	_pares.erase(id)
+	_encerrados.append({"rtc": par.rtc, "eventos": par.eventos, "estados": par.estados, "ate": Time.get_ticks_msec() + 2000})
+	par.rtc.close()
+
+func _enviar_par(par: Par, bytes: PackedByteArray, estado: bool) -> bool:
+	var canal := par.estados if estado else par.eventos
+	if not par.conectado or canal == null or canal.get_ready_state() != WebRTCDataChannel.STATE_OPEN: return false
 	if bytes.size() > 16384 or canal.get_buffered_amount() > LIMITE_PACOTE: return false
 	return canal.put_packet(bytes) == OK
+
+## Anfitrião: para todos os convidados. Convidado: para o anfitrião. Verdadeiro se chegou a alguém.
+func enviar(dados: Dictionary, estado := false) -> bool:
+	dados["de"] = eu
+	var bytes := JSON.stringify(dados).to_utf8_buffer()
+	var algum := false
+	for par in _pares.values():
+		if _enviar_par(par, bytes, estado): algum = true
+	return algum
+
+func enviar_para(id: String, dados: Dictionary, estado := false) -> bool:
+	var par: Par = _pares.get(id)
+	if par == null: return false
+	dados["de"] = eu
+	return _enviar_par(par, JSON.stringify(dados).to_utf8_buffer(), estado)
+
+## Anfitrião repassa o pacote de um convidado aos demais (o remetente é mantido em "de").
+func _retransmitir(dados: Dictionary, origem: String, estado: bool) -> void:
+	var bytes := JSON.stringify(dados).to_utf8_buffer()
+	for id in _pares:
+		if id != origem: _enviar_par(_pares[id], bytes, estado)
 
 func _process(delta: float) -> void:
 	# Conserva os objetos até os callbacks de fechamento do navegador terminarem.
@@ -164,31 +243,59 @@ func _process(delta: float) -> void:
 			_ws = null
 			# Uma partida já direta continua se o servidor de sinalização cair.
 			if not conectado: _falhar("CONEXAO COM O SERVIDOR DE SALAS ENCERRADA")
-	if _rtc != null:
-		_rtc.poll()
-		var abriu := _eventos != null and _estados != null and _eventos.get_ready_state() == WebRTCDataChannel.STATE_OPEN and _estados.get_ready_state() == WebRTCDataChannel.STATE_OPEN
-		if abriu and not conectado:
-			conectado = true
-			_recebeu = Time.get_ticks_msec()
-			mudou.emit()
-		for canal in [_eventos, _estados]:
+	var agora := Time.get_ticks_msec()
+	for id in _pares.keys():
+		var par: Par = _pares.get(id)
+		if par == null: continue
+		par.rtc.poll()
+		var abriu: bool = par.eventos != null and par.estados != null and par.eventos.get_ready_state() == WebRTCDataChannel.STATE_OPEN and par.estados.get_ready_state() == WebRTCDataChannel.STATE_OPEN
+		if abriu and not par.conectado:
+			par.conectado = true
+			par.recebeu = agora
+		for canal in [par.eventos, par.estados]:
 			if canal == null: continue
 			while canal.get_available_packet_count() > 0:
 				var bytes: PackedByteArray = canal.get_packet()
 				if bytes.size() > LIMITE_PACOTE: continue
 				var dados = JSON.parse_string(bytes.get_string_from_utf8())
 				if dados is Dictionary:
-					_recebeu = Time.get_ticks_msec()
-					_receber.call_deferred(dados)
-		if _rtc != null and _rtc.get_connection_state() in [WebRTCPeerConnection.STATE_FAILED, WebRTCPeerConnection.STATE_CLOSED]:
-			_falhar("CONEXAO DIRETA ENCERRADA")
+					par.recebeu = agora
+					_receber.call_deferred(dados, id, canal == par.estados)
+		var caiu: bool = par.rtc.get_connection_state() in [WebRTCPeerConnection.STATE_FAILED, WebRTCPeerConnection.STATE_CLOSED]
+		if par.conectado and agora - par.recebeu > 15000: caiu = true
+		if not par.conectado and par.prazo > 0 and agora > par.prazo: caiu = true
+		if caiu:
+			_par_caiu(par)
+			if _pares.is_empty() and not sou_host(): return
+	var havia := conectado
+	if sou_host():
+		conectado = false
+		for par in _pares.values(): conectado = conectado or par.conectado
+	else:
+		var do_anfitriao: Par = _pares.get(dono)
+		conectado = do_anfitriao != null and do_anfitriao.conectado
+	var n_conectados := 0
+	for par in _pares.values(): n_conectados += 1 if par.conectado else 0
+	if conectado != havia or n_conectados != _n_conectados:
+		_n_conectados = n_conectados
+		mudou.emit()
+	var maior := -1
+	for par in _pares.values(): maior = maxi(maior, par.ping_ms)
+	ping_ms = maior
+	if not conectado and _prazo > 0 and agora > _prazo: _falhar("NAO FOI POSSIVEL CONECTAR AO SERVIDOR DE SALAS")
 	if _relogio <= 0.0:
 		_relogio = 1.0
 		if conectado: enviar({"t": "ping", "tempo": Time.get_ticks_msec()})
-	if conectado and Time.get_ticks_msec() - _recebeu > 15000: _falhar("O PARCEIRO NAO RESPONDEU")
-	if not conectado and _prazo > 0 and Time.get_ticks_msec() > _prazo:
-		_falhar("A REDE NAO PERMITIU CONEXAO DIRETA. TENTE OUTRO WI-FI.")
 	if ativo and get_tree().paused: get_tree().paused = false
+
+## Convidado sem o anfitrião acaba a sessão; anfitrião só perde aquele jogador.
+func _par_caiu(par: Par) -> void:
+	if not sou_host():
+		_falhar("A REDE NAO PERMITIU CONEXAO DIRETA. TENTE OUTRO WI-FI." if not par.conectado else "O ANFITRIAO NAO RESPONDEU")
+		return
+	_remover_par(par.id)
+	jogador_saiu.emit(par.id)
+	if not ativo: erro.emit("UM JOGADOR NAO CONSEGUIU CONECTAR")
 
 func _receber_ws(texto: String) -> void:
 	var m = JSON.parse_string(texto)
@@ -203,43 +310,67 @@ func _receber_ws(texto: String) -> void:
 			_prazo = 0
 			salas_recebidas.emit(m.get("salas", []))
 		"coop_sala":
+			var antes: Array[String] = []
+			for j in jogadores: antes.append(str(j.get("id", "")))
 			codigo = str(m.codigo)
 			dono = str(m.dono)
 			jogadores = m.jogadores
 			_prazo = 0
-			if jogadores.size() == 2: _preparar_rtc()
+			var agora_ids: Array[String] = []
+			for j in jogadores: agora_ids.append(str(j.get("id", "")))
+			for id in antes:
+				if not id in agora_ids:
+					_remover_par(id)
+					jogador_saiu.emit(id)
+			if not ativo or not sou_host():
+				if sou_host():
+					for id in outros(): _preparar_par(id)
+				elif jogadores.size() >= 2: _preparar_par(dono)
 			mudou.emit()
 		"coop_sinal":
-			if _rtc == null: return
+			var de := str(m.get("de", ""))
+			if de.is_empty(): return
+			if not _pares.has(de) and not sou_host() and de == dono: _preparar_par(de)
+			var par: Par = _pares.get(de)
+			if par == null: return
 			var d: Dictionary = m.get("dados", {})
 			if str(d.get("tipo", "")) == "ice":
-				_rtc.add_ice_candidate(str(d.get("mid", "")), int(d.get("indice", 0)), str(d.get("candidato", "")))
+				par.rtc.add_ice_candidate(str(d.get("mid", "")), int(d.get("indice", 0)), str(d.get("candidato", "")))
 			elif str(d.get("tipo", "")) in ["offer", "answer"]:
-				_rtc.set_remote_description(str(d.tipo), str(d.get("sdp", "")))
+				par.rtc.set_remote_description(str(d.tipo), str(d.get("sdp", "")))
 		"coop_erro": _falhar({"sala_inexistente": "SALA NAO ENCONTRADA", "sala_cheia": "SALA CHEIA", "em_partida": "ESTA SALA JA ESTA EM PARTIDA", "ja_na_sala": "VOCE JA ESTA EM UMA SALA"}.get(str(m.get("erro", "")), "NAO FOI POSSIVEL ENTRAR NA SALA"))
 		"coop_fim":
 			# A sinalização pode cair sem derrubar uma conexão direta em andamento.
-			if not conectado or m.get("intencional", false) == true: _falhar("O PARCEIRO SAIU DA SALA")
+			if not conectado or m.get("intencional", false) == true: _falhar("O ANFITRIAO SAIU DA SALA" if not sou_host() else "VOCE SAIU DA SALA")
 
-func _receber(m: Dictionary) -> void:
+func _receber(m: Dictionary, de: String, estado := false) -> void:
+	var par: Par = _pares.get(de)
+	if par == null: return
 	match str(m.get("t", "")):
-		"ping": enviar({"t": "pong", "tempo": m.get("tempo", 0)})
-		"pong": ping_ms = maxi(0, Time.get_ticks_msec() - int(m.get("tempo", 0)))
+		"ping": enviar_para(de, {"t": "pong", "tempo": m.get("tempo", 0)})
+		"pong": par.ping_ms = maxi(0, Time.get_ticks_msec() - int(m.get("tempo", 0)))
 		"iniciar":
-			if not sou_host() and not ativo: _iniciar_local(clampi(int(m.get("andar", 1)), 1, 1000))
+			if not sou_host() and not ativo and de == dono: _iniciar_local(clampi(int(m.get("andar", 1)), 1, 1000))
 		"mapa":
-			if ativo and not sou_host(): _abrir_andar(clampi(int(m.get("andar", 1)), 1, 1000))
-		"fim": _falhar("O PARCEIRO ENCERROU A PARTIDA")
+			if ativo and not sou_host() and de == dono: _abrir_andar(clampi(int(m.get("andar", 1)), 1, 1000))
+		"fim":
+			if de == dono: _falhar("O ANFITRIAO ENCERROU A PARTIDA")
 		_:
-			if ativo and _fila.size() < 128: _fila.append(m)
+			if not ativo: return
+			if sou_host():
+				# O remetente é quem a conexão diz ser, nunca o que o pacote afirma.
+				m["de"] = de
+				if m.get("t") == "jogador": _retransmitir(m, de, estado)
+			if _fila.size() < 256: _fila.append(m)
 
 func iniciar() -> void:
-	if not sou_host() or not conectado or ativo: return
+	if not sou_host() or ativo or not todos_conectados(): return
+	if _ws != null and _ws.get_ready_state() == WebSocketPeer.STATE_OPEN:
+		_ws.send_text('{"t":"coop_iniciar"}')
 	var nivel := maxi(1, Progresso.onda_inicial)
-	if enviar({"t": "iniciar", "andar": nivel}):
-		if _ws != null and _ws.get_ready_state() == WebSocketPeer.STATE_OPEN:
-			_ws.send_text('{"t":"coop_iniciar"}')
-		_iniciar_local(nivel)
+	# Sozinho também vale: a sala fecha para novos jogadores e o anfitrião segue com a partida.
+	enviar({"t": "iniciar", "andar": nivel})
+	_iniciar_local(nivel)
 
 func _iniciar_local(nivel: int) -> void:
 	ativo = true
@@ -291,18 +422,15 @@ func _falhar(texto: String) -> void:
 		get_tree().call_group("hud_p1", "anunciar", "COOP ENCERRADO", texto, 5.0)
 
 func sair(avisar := true) -> void:
-	if _rtc != null or _ws != null:
-		_encerrados.append({"rtc": _rtc, "eventos": _eventos, "estados": _estados, "ws": _ws, "ate": Time.get_ticks_msec() + 2000})
 	if avisar: enviar({"t": "fim"})
+	var ws_antigo := _ws
+	for id in _pares.keys(): _remover_par(id)
+	if ws_antigo != null: _encerrados.append({"ws": ws_antigo, "ate": Time.get_ticks_msec() + 2000})
 	ativo = false
 	_fila.clear()
 	conectado = false
 	_prazo = 0
-	_recebeu = 0
-	if _rtc != null: _rtc.close()
-	_rtc = null
-	_eventos = null
-	_estados = null
+	ping_ms = -1
 	if _ws != null:
 		if _ws.get_ready_state() == WebSocketPeer.STATE_OPEN: _ws.send_text('{"t":"coop_sair"}')
 		_ws.close()

@@ -9,6 +9,9 @@ var eh_chefe := false
 var sprites: Array[Sprite2D] = []
 var _alvo := Vector2.ZERO
 var _tem_alvo := false
+var vida_maxima := 1
+var nome_chefe := ""
+var _barra: Node2D
 
 func configurar(dados: Dictionary) -> bool:
 	var caminho := str(dados.get("cena", ""))
@@ -40,7 +43,24 @@ func configurar(dados: Dictionary) -> bool:
 		var t := str(texturas[i])
 		if t.begins_with("res://assets/inimigos/") and not ".." in t and t.ends_with(".png"):
 			sprites[i].texture = load(t)
+	vida_maxima = maxi(1, int(dados.get("vm", 1)))
+	vida = vida_maxima
+	nome_chefe = str(dados.get("nome", ""))
+	if eh_chefe:
+		# Como no anfitrião: a vida do chefe fica no HUD, não sobre a cabeça.
+		get_tree().call_group("hud", "mostrar_chefe", nome_chefe, vida, vida_maxima)
+	elif bool(dados.get("barra", true)):
+		_barra = preload("res://cenas/barra_de_vida.tscn").instantiate()
+		_barra.name = "HPBar"
+		add_child(_barra)
+		_barra.position = Vector2(0, -float(dados.get("ab", 22.0)))
+		_barra.vida_maxima = vida_maxima
+		_barra.definir_vida_atual(vida_maxima)
 	return true
+
+func remover() -> void:
+	if eh_chefe: get_tree().call_group("hud", "esconder_chefe")
+	queue_free()
 
 func _limpar(no: Node) -> void:
 	no.set_script(null)
@@ -57,8 +77,16 @@ func _limpar(no: Node) -> void:
 func aplicar(e: Array) -> void:
 	if e.size() < 5: return
 	_alvo = Vector2(float(e[1]), float(e[2]))
+	var anterior := vida
 	vida = int(e[3])
+	if e.size() >= 6: vida_maxima = maxi(vida_maxima, int(e[5]))
 	esta_morto = vida <= 0
+	if vida < anterior and _tem_alvo: _mostrar_dano(anterior - vida)
+	if _barra != null:
+		_barra.vida_maxima = vida_maxima
+		if vida < anterior and _tem_alvo: _barra.atualizar_barra(vida)
+		else: _barra.definir_vida_atual(vida)
+	if eh_chefe and vida != anterior: get_tree().call_group("hud", "atualizar_chefe", maxi(vida, 0), vida_maxima)
 	if not _tem_alvo:
 		global_position = _alvo
 		_tem_alvo = true
@@ -77,6 +105,13 @@ func aplicar(e: Array) -> void:
 func _process(delta: float) -> void:
 	global_position = global_position.lerp(_alvo, minf(1.0, delta * 18))
 	z_index = Profundidade.z_de(global_position.y)
+
+## O anfitrião já mostra o número do golpe; aqui ele vem da queda de vida recebida (vários golpes podem somar).
+func _mostrar_dano(valor: int) -> void:
+	var rotulo = preload("res://cenas/dano_flutuante.tscn").instantiate()
+	rotulo.global_position = global_position - Vector2(0, 20.0 * maxf(scale.y, 1.0))
+	rotulo.definir_dano(valor, Color.WHITE)
+	get_tree().current_scene.add_child(rotulo)
 
 func receber_dano(dano: int, empurrao: Vector2 = Vector2.ZERO) -> void:
 	if controlador != null and not esta_morto: controlador.pedir_golpe(identificador, dano, empurrao)

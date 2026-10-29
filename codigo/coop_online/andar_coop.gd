@@ -6,8 +6,10 @@ const DadosItemScript := preload("res://codigo/modelos/dados_item.gd")
 const Drop := preload("res://codigo/logica/equipamento_drop.gd")
 var sessao: Node
 var cena: Node2D
+const Grupo := preload("res://codigo/coop_online/grupo_coop.gd")
 var jogador: Node2D
-var parceiro: Node2D
+## Os outros jogadores da sala, por id de conexão (o anfitrião também entra aqui para os convidados).
+var parceiros: Dictionary = {}
 var gerente: Node
 var andar := 1
 var _tempo := 0.0
@@ -18,18 +20,21 @@ var _ids := {}
 var _inimigos := {}
 var _descricoes := {}
 var _enviados := {}
+var _sprites := {}
+var _vmax := {}
+var _prontos: Array[String] = []
+var _tempos_reviver := {}
+var _grupo: CanvasLayer
 var _saques := {}
 var _saques_enviados := {}
 var _saques_recebidos := {}
 var _golpes := {}
 var _pronto := false
 var _tempo_reviver := 0.0
-var _dano_ate := 0
-var _rotulo: Label
+var _dano_ate := {}
 var _andar_concluido := false
 var _avisos: Array[Polygon2D] = []
 var _projeteis: Array[Sprite2D] = []
-var _fracao_reviver: Label
 
 func configurar(conexao: Node, raiz: Node2D) -> void:
 	sessao = conexao
@@ -44,27 +49,34 @@ func configurar(conexao: Node, raiz: Node2D) -> void:
 		gerente.onda_inicial = andar
 		gerente.onda_atual = andar
 		gerente.META_PROGRESSO = load("res://codigo/fendas/catalogo_andares.gd").meta(andar)
-	parceiro = Remoto.new()
-	parceiro.name = "ParceiroOnline"
-	parceiro.controlador = self
-	cena.add_child(parceiro)
-	parceiro.configurar(sessao.perfil_remoto())
-	parceiro.posicionar(jogador.global_position + Vector2(24, 0) if sessao.sou_host() else jogador.global_position)
-	if not sessao.sou_host(): jogador.global_position += Vector2(24, 0)
-	var hud := CanvasLayer.new()
-	hud.layer = 7
-	add_child(hud)
-	_rotulo = Label.new()
-	_rotulo.position = Vector2(12, 48)
-	_rotulo.add_theme_font_size_override("font_size", 10)
-	_rotulo.add_theme_constant_override("outline_size", 3)
-	_rotulo.add_theme_color_override("font_outline_color", Color.BLACK)
-	hud.add_child(_rotulo)
+	var base := jogador.global_position
+	for id in sessao.outros():
+		var parceiro := Remoto.new()
+		parceiro.name = "ParceiroOnline_" + id.substr(0, 8)
+		parceiro.controlador = self
+		parceiro.id_jogador = id
+		cena.add_child(parceiro)
+		parceiro.configurar(sessao.perfil_de(id))
+		parceiro.definir_vaga(sessao.vaga_de(id))
+		parceiro.posicionar(base + Vector2(16 * sessao.vaga_de(id), 0))
+		parceiros[id] = parceiro
+	jogador.global_position = base + Vector2(16 * sessao.vaga_de(sessao.eu), 0)
+	sessao.jogador_saiu.connect(_ao_saiu)
+	_grupo = Grupo.new()
+	add_child(_grupo)
 	if not sessao.sou_host():
 		if gerente != null:
 			gerente.set_physics_process(false)
 			gerente.onda_em_andamento = true
 		sessao.enviar({"t": "pronto_andar", "andar": andar})
+
+func _ao_saiu(id: String) -> void:
+	var parceiro = parceiros.get(id)
+	if parceiro != null and is_instance_valid(parceiro): parceiro.queue_free()
+	parceiros.erase(id)
+	_prontos.erase(id)
+	if is_instance_valid(jogador):
+		get_tree().call_group("hud_p1", "avisar", "%s SAIU DA SALA" % (str(parceiro.apelido) if parceiro != null else "UM JOGADOR"))
 
 func _process(delta: float) -> void:
 	if sessao == null or not sessao.ativo or not is_instance_valid(jogador): return
@@ -75,7 +87,18 @@ func _process(delta: float) -> void:
 		sessao.enviar({"t": "jogador", "andar": andar, "e": _estado_jogador()}, true)
 		if sessao.sou_host(): _enviar_mundo()
 	if sessao.sou_host(): _reviver(delta)
-	_rotulo.text = "COOP • %s • %d MS" % ["ANFITRIAO" if sessao.sou_host() else "CONVIDADO", maxi(0, sessao.ping_ms)]
+	_atualizar_grupo()
+
+func _atualizar_grupo() -> void:
+	var membros: Array = []
+	for j in sessao.jogadores:
+		var id := str(j.get("id", ""))
+		if id == sessao.eu:
+			membros.append({"nome": str(sessao.perfil_de(id).get("apelido", jogador.apelido)), "hp": jogador.hp_atual, "hpm": jogador.estatisticas.hp_maximo, "caido": jogador.caido, "vaga": sessao.vaga_de(id), "eu": true})
+		elif parceiros.has(id) and is_instance_valid(parceiros[id]):
+			var p: Node2D = parceiros[id]
+			membros.append({"nome": p.apelido, "hp": p.hp_atual, "hpm": p.hp_maximo, "caido": p.caido, "vaga": sessao.vaga_de(id), "eu": false})
+	_grupo.atualizar(membros, "COOP • %s • %d MS" % ["ANFITRIAO" if sessao.sou_host() else "CONVIDADO", maxi(0, sessao.ping_ms)])
 
 func _estado_jogador() -> Dictionary:
 	# Mesmo contrato de movimento/poses já usado no duelo, sem instanciar aquela arena.
@@ -95,22 +118,24 @@ func _estado_jogador() -> Dictionary:
 		"arma": jogador.id_arma_atual, "es": jogador.usando_espada, "ec": jogador.usando_escudo, "la": jogador.usando_lanca, "arc": jogador.usando_arco}
 
 func _receber(m: Dictionary) -> void:
+	var de := str(m.get("de", ""))
 	match str(m.get("t", "")):
 		"jogador":
 			var e = m.get("e", {})
-			if not e is Dictionary: return
+			if not e is Dictionary or not parceiros.has(de): return
 			var ponto := Vector2(float(e.get("x", 0)), float(e.get("y", 0)))
 			if not ponto.is_finite() or absf(ponto.x) > 12000 or absf(ponto.y) > 12000: return
-			parceiro.aplicar_estado(e)
+			parceiros[de].aplicar_estado(e)
 		"pronto_andar":
-			if sessao.sou_host():
-				_pronto = true
-				_enviados.clear()
-				_saques_enviados.clear()
+			if sessao.sou_host() and parceiros.has(de) and not de in _prontos:
+				_prontos.append(de)
+				# Quem chega recebe o retrato completo do que já existe no andar.
+				for id in _descricoes: sessao.enviar_para(de, _descricoes[id])
+				for id in _saques: sessao.enviar_para(de, _saques[id])
 		"nascer":
 			if sessao.sou_host(): return
 			var id := int(m.get("id", 0))
-			if _inimigos.has(id) or _inimigos.size() >= 300: return
+			if _inimigos.has(id) or _inimigos.size() >= 400: return
 			var replica := Replica.new()
 			replica.controlador = self
 			cena.add_child(replica)
@@ -124,6 +149,7 @@ func _receber(m: Dictionary) -> void:
 			for e in m.get("inimigos", []):
 				if e is Array and e.size() >= 5 and _inimigos.has(int(e[0])): _inimigos[int(e[0])].aplicar(e)
 			if gerente != null:
+				gerente.META_PROGRESSO = clampi(int(m.get("meta", gerente.META_PROGRESSO)), 1, 100000)
 				gerente.pontos = clampi(int(m.get("pontos", 0)), 0, gerente.META_PROGRESSO)
 				gerente.etapa = int(m.get("etapa", 0))
 				gerente.inimigos_vivos = int(m.get("vivos", 0))
@@ -134,7 +160,7 @@ func _receber(m: Dictionary) -> void:
 			if not sessao.sou_host():
 				var id := int(m.get("id", 0))
 				if _inimigos.has(id):
-					_inimigos[id].queue_free()
+					_inimigos[id].remover()
 					_inimigos.erase(id)
 		"golpe":
 			if sessao.sou_host(): _aplicar_golpe(m)
@@ -166,6 +192,11 @@ func _receber(m: Dictionary) -> void:
 		"saque":
 			if not sessao.sou_host(): _criar_saque(m)
 
+func _vida_maxima_de(no: Node) -> int:
+	var maxima := int(no.get("vida_maxima"))
+	if maxima <= 0 and no.has_node("HPBar"): maxima = int(no.get_node("HPBar").vida_maxima)
+	return maxi(maxi(maxima, int(no.vida)), 1)
+
 func _enviar_mundo() -> void:
 	if gerente == null: return
 	for no in get_tree().get_nodes_in_group("enemy"):
@@ -178,8 +209,11 @@ func _enviar_mundo() -> void:
 		_ids[instancia] = id
 		_inimigos[id] = no
 		var texturas: Array = []
-		for s in no.find_children("*", "Sprite2D", true, false): texturas.append(s.texture.resource_path if s.texture != null else "")
-		_descricoes[id] = {"t": "nascer", "andar": andar, "id": id, "cena": no.scene_file_path, "x": no.global_position.x, "y": no.global_position.y, "sx": no.scale.x, "sy": no.scale.y, "chefe": bool(no.get("eh_chefe")), "texturas": texturas}
+		var lista: Array = no.find_children("*", "Sprite2D", true, false)
+		_sprites[id] = lista
+		for s in lista: texturas.append(s.texture.resource_path if s.texture != null else "")
+		_vmax[id] = _vida_maxima_de(no)
+		_descricoes[id] = {"t": "nascer", "andar": andar, "id": id, "cena": no.scene_file_path, "x": no.global_position.x, "y": no.global_position.y, "sx": no.scale.x, "sy": no.scale.y, "chefe": bool(no.get("eh_chefe")), "nome": str(no.get("nome_chefe")), "vm": _vmax[id], "ab": float(no.get("altura_barra_vida")), "barra": bool(no.get("usar_barra_vida")), "texturas": texturas}
 		no.inimigo_morreu.connect(_abate.bind(id), CONNECT_ONE_SHOT)
 	for grupo in ["equipamento_drop", "semente_drop"]:
 		for no in get_tree().get_nodes_in_group(grupo):
@@ -188,27 +222,46 @@ func _enviar_mundo() -> void:
 			if grupo == "equipamento_drop": dados["item"] = no.item.para_dict()
 			else: dados["semente"] = no.semente
 			_saques[no.get_instance_id()] = dados
-	if not _pronto: return
+	if _prontos.is_empty(): return
 	for id in _inimigos.keys():
 		if not is_instance_valid(_inimigos[id]):
-			sessao.enviar({"t": "remover", "andar": andar, "id": id})
+			for p in _prontos: sessao.enviar_para(p, {"t": "remover", "andar": andar, "id": id})
 			_inimigos.erase(id)
 			_descricoes.erase(id)
+			_sprites.erase(id)
+			_vmax.erase(id)
 			continue
-		if not _enviados.has(id) and sessao.enviar(_descricoes[id]): _enviados[id] = true
+		if not _enviados.has(id):
+			var ok := true
+			for p in _prontos: ok = sessao.enviar_para(p, _descricoes[id]) and ok
+			if ok: _enviados[id] = true
 	for id in _saques:
-		if not _saques_enviados.has(id) and sessao.enviar(_saques[id]): _saques_enviados[id] = true
-	var estados: Array = []
-	for id in _inimigos:
-		var no: Node2D = _inimigos[id]
-		if no.global_position.distance_squared_to(parceiro.global_position) > 1000000: continue
-		var poses: Array = []
-		for s in no.find_children("*", "Sprite2D", true, false): poses.append([s.hframes, s.vframes, s.frame, s.flip_h, s.is_visible_in_tree(), snappedf(s.rotation, 0.01)])
-		estados.append([id, snappedf(no.global_position.x, 0.1), snappedf(no.global_position.y, 0.1), no.vida, poses])
-	# Lotes pequenos respeitam o tamanho máximo do SCTP, inclusive em celular/Web.
-	for inicio in range(0, maxi(1, estados.size()), 8):
-		_seq += 1
-		sessao.enviar({"t": "mundo", "andar": andar, "seq": _seq, "inimigos": estados.slice(inicio, inicio + 8), "pontos": gerente.pontos, "etapa": gerente.etapa, "vivos": gerente.inimigos_vivos, "total": gerente.total_inimigos_onda}, true)
+		if not _saques_enviados.has(id):
+			var ok := true
+			for p in _prontos: ok = sessao.enviar_para(p, _saques[id]) and ok
+			if ok: _saques_enviados[id] = true
+	# Cada convidado só recebe o estado do que está perto dele; as poses são montadas uma vez por inimigo.
+	var pedidos: Array = []
+	for p in _prontos:
+		var par: Node2D = parceiros.get(p)
+		if par != null and is_instance_valid(par): pedidos.append([p, par.global_position])
+	var cache := {}
+	for pedido in pedidos:
+		var estados: Array = []
+		for id in _inimigos:
+			var no: Node2D = _inimigos[id]
+			if no.global_position.distance_squared_to(pedido[1]) > 1000000: continue
+			if not cache.has(id):
+				var poses: Array = []
+				for s in _sprites.get(id, []):
+					if is_instance_valid(s): poses.append([s.hframes, s.vframes, s.frame, s.flip_h, s.is_visible_in_tree(), snappedf(s.rotation, 0.01)])
+				_vmax[id] = maxi(int(_vmax.get(id, 1)), int(no.vida))
+				cache[id] = [id, snappedf(no.global_position.x, 0.1), snappedf(no.global_position.y, 0.1), no.vida, poses, _vmax[id]]
+			estados.append(cache[id])
+		# Lotes pequenos respeitam o tamanho máximo do SCTP, inclusive em celular/Web.
+		for inicio in range(0, maxi(1, estados.size()), 8):
+			_seq += 1
+			sessao.enviar_para(pedido[0], {"t": "mundo", "andar": andar, "seq": _seq, "inimigos": estados.slice(inicio, inicio + 8), "meta": gerente.META_PROGRESSO, "pontos": gerente.pontos, "etapa": gerente.etapa, "vivos": gerente.inimigos_vivos, "total": gerente.total_inimigos_onda}, true)
 	_enviar_visuais()
 	if gerente.etapa == gerente.Etapa.CONCLUIDO and not _andar_concluido:
 		_andar_concluido = true
@@ -216,7 +269,8 @@ func _enviar_mundo() -> void:
 
 func _abate(id: int) -> void:
 	if not sessao.ativo or not sessao.sou_host(): return
-	sessao.enviar({"t": "recompensa", "andar": andar, "id": id, "ouro": gerente.ouro_por_abate(andar)})
+	var ouro := roundi(gerente.ouro_por_abate(andar) * gerente.mult_ouro_online())
+	sessao.enviar({"t": "recompensa", "andar": andar, "id": id, "ouro": ouro})
 
 func pedir_golpe(id: int, dano: int, empurrao: Vector2) -> void:
 	sessao.enviar({"t": "golpe", "andar": andar, "id": id, "dano": dano, "kx": empurrao.x, "ky": empurrao.y})
@@ -226,7 +280,8 @@ func pedir_efeito(id: int, efeito: Dictionary) -> void:
 
 func _aplicar_efeito(m: Dictionary) -> void:
 	var id := int(m.get("id", 0))
-	if not _inimigos.has(id) or not is_instance_valid(_inimigos[id]) or parceiro.estaMorto: return
+	var parceiro: Node2D = parceiros.get(str(m.get("de", "")))
+	if parceiro == null or not _inimigos.has(id) or not is_instance_valid(_inimigos[id]) or parceiro.estaMorto: return
 	var no: Node2D = _inimigos[id]
 	if no.global_position.distance_to(parceiro.global_position) > 450: return
 	var e: Dictionary = m.get("efeito", {})
@@ -238,34 +293,43 @@ func _aplicar_efeito(m: Dictionary) -> void:
 
 func _aplicar_golpe(m: Dictionary) -> void:
 	var id := int(m.get("id", 0))
-	if not _inimigos.has(id) or not is_instance_valid(_inimigos[id]) or parceiro.estaMorto: return
+	var de := str(m.get("de", ""))
+	var parceiro: Node2D = parceiros.get(de)
+	if parceiro == null or not _inimigos.has(id) or not is_instance_valid(_inimigos[id]) or parceiro.estaMorto: return
 	var no: Node2D = _inimigos[id]
 	var alcance := 450.0 if parceiro.usando_arco else 110.0
 	if no.global_position.distance_to(parceiro.global_position) > alcance: return
 	var agora := Time.get_ticks_msec()
-	if agora < int(_golpes.get(id, 0)): return
-	_golpes[id] = agora + 120
-	var limite := clampi(int(sessao.perfil_remoto().get("dano_maximo", 30)), 1, 100000)
+	var chave := de + ":" + str(id)
+	if agora < int(_golpes.get(chave, 0)): return
+	_golpes[chave] = agora + 120
+	var limite := clampi(int(sessao.perfil_de(de).get("dano_maximo", 30)), 1, 100000)
 	var dano := clampi(int(m.get("dano", 0)), 0, limite)
 	if dano > 0: no.receber_dano(dano, Vector2(float(m.get("kx", 0)), float(m.get("ky", 0))).limit_length(400))
 
-func dano_no_parceiro(dano: int, empurrao: Vector2) -> void:
-	if not sessao.sou_host() or Time.get_ticks_msec() < _dano_ate: return
-	_dano_ate = Time.get_ticks_msec() + 150
-	sessao.enviar({"t": "dano", "andar": andar, "dano": dano, "kx": empurrao.x, "ky": empurrao.y})
+func dano_no_parceiro(parceiro: Node2D, dano: int, empurrao: Vector2) -> void:
+	if not sessao.sou_host() or Time.get_ticks_msec() < int(_dano_ate.get(parceiro.id_jogador, 0)): return
+	_dano_ate[parceiro.id_jogador] = Time.get_ticks_msec() + 150
+	sessao.enviar_para(parceiro.id_jogador, {"t": "dano", "andar": andar, "dano": dano, "kx": empurrao.x, "ky": empurrao.y})
 
+## Qualquer jogador de pé levanta um caído parado ao lado dele por 2 s; só cai a sessão se todos caírem.
 func _reviver(delta: float) -> void:
-	if jogador.caido and parceiro.caido:
-		sessao._falhar("OS DOIS JOGADORES CAIRAM")
+	var todos: Array = [jogador]
+	for p in parceiros.values():
+		if is_instance_valid(p): todos.append(p)
+	var de_pe: Array = todos.filter(func(p): return not p.caido)
+	if de_pe.is_empty():
+		sessao._falhar("TODOS OS JOGADORES CAIRAM")
 		return
-	if jogador.global_position.distance_to(parceiro.global_position) > 26 or not (jogador.caido or parceiro.caido):
-		_tempo_reviver = 0.0
-		return
-	_tempo_reviver += delta
-	if _tempo_reviver >= 2.0:
-		_tempo_reviver = 0.0
-		if jogador.caido: jogador.levantar_caido()
-		else: sessao.enviar({"t": "reviver", "andar": andar})
+	for p in todos:
+		var chave: int = p.get_instance_id()
+		if not p.caido or not de_pe.any(func(v): return v.global_position.distance_to(p.global_position) <= 26):
+			_tempos_reviver.erase(chave)
+			continue
+		_tempos_reviver[chave] = float(_tempos_reviver.get(chave, 0.0)) + delta
+		if _tempos_reviver[chave] >= 2.0:
+			_tempos_reviver.erase(chave)
+			p.levantar_caido()
 
 func _enviar_visuais() -> void:
 	var avisos: Array = []

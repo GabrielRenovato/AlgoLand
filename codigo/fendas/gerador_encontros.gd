@@ -45,7 +45,11 @@ func _posicoes_livres() -> Array[Vector2]:
 			resultado.append(ponto)
 	return resultado
 
+## Soma dos pontos de todos os inimigos comuns da população montada: teto para a meta do andar.
+var pontos_possiveis := 0
+
 func montar_populacao(geracao: int) -> int:
+	pontos_possiveis = 0
 	PLANTA = Catalogo.dados(gerenciador_ondas.onda_atual)
 	_pontos = _posicoes_livres()
 	var terreno: Node2D = principal.get_node("Terrains")
@@ -54,6 +58,9 @@ func montar_populacao(geracao: int) -> int:
 		var perto := _pontos.duplicate()
 		perto.sort_custom(func(a,b): return a.distance_squared_to(grupo.global_position)<b.distance_squared_to(grupo.global_position))
 		var tamanho: int = int(PLANTA.combate.comuns_por_grupo) + (1 if grupo.get_meta("elite",false) else 0)
+		# Coop online: cada jogador a mais enche os grupos de inimigos.
+		var online := get_tree().root.get_node_or_null("CoopOnline")
+		if online != null and online.ativo: tamanho = roundi(tamanho * online.mult_quantidade(online.jogadores_na_partida()))
 		var criados := 0
 		for ponto in perto:
 			if criados >= tamanho: break
@@ -63,7 +70,9 @@ func montar_populacao(geracao: int) -> int:
 			var especies := obter_pool_especies(gerenciador_ondas.onda_atual)
 			var cena: PackedScene = especies[criados % especies.size()]
 			if PLANTA.bioma.begins_with("caverna") and criados == 2: cena = CENA_MORCEGO
-			var inimigo := _criar(cena,ponto,geracao,int(PLANTA.combate.pontos_elite if elite else PLANTA.combate.pontos_comum),false)
+			var valor_pontos := int(PLANTA.combate.pontos_elite if elite else PLANTA.combate.pontos_comum)
+			pontos_possiveis += valor_pontos
+			var inimigo := _criar(cena,ponto,geracao,valor_pontos,false)
 			inimigo.set_meta("grupo_andar",grupo.name)
 			if elite:
 				inimigo.tornar_mutante()
@@ -90,8 +99,12 @@ func _criar(cena: PackedScene, ponto: Vector2, geracao: int, valor: int, chefe: 
 		inimigo.velocidade = 65
 		if Cooperativo.com_dois(): inimigo.vida = roundi(inimigo.vida * Cooperativo.MULT_VIDA_CHEFE_COOP)
 		var online := get_tree().root.get_node_or_null("CoopOnline")
-		if online != null and online.ativo: inimigo.vida = roundi(inimigo.vida * Cooperativo.MULT_VIDA_CHEFE_COOP)
+		if online != null and online.ativo: inimigo.vida = roundi(inimigo.vida * online.mult_vida_chefe(online.jogadores_na_partida()))
 	principal.add_child(inimigo)
+	# A barra nasce com 30 de máximo: sem isto ela só começa a descer abaixo de 30 de vida.
+	if inimigo.has_node("HPBar"):
+		inimigo.get_node("HPBar").vida_maxima = inimigo.vida
+		inimigo.get_node("HPBar").definir_vida_atual(inimigo.vida)
 	if chefe:
 		inimigo.set_meta("guardiao_aguardando",true)
 		inimigo.set_physics_process(false)

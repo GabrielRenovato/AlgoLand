@@ -136,8 +136,11 @@ func iniciar_onda(ignorar_checkpoint: bool = false) -> void:
 	# A transição já posicionou os jogadores na chegada. O respiro permite andar;
 	# iniciar o combate deve preservar esse deslocamento e a velocidade atual.
 	multiplicador_vida_inimigo = mult_vida_onda(onda_atual) * (Cooperativo.MULT_VIDA_COOP if Cooperativo.com_dois() else 1.0)
-	if coop != null and coop.ativo: multiplicador_vida_inimigo = mult_vida_onda(onda_atual) * Cooperativo.MULT_VIDA_COOP
 	multiplicador_dano_inimigo = mult_dano_onda(onda_atual)
+	if coop != null and coop.ativo:
+		var n: int = coop.jogadores_na_partida()
+		multiplicador_vida_inimigo = mult_vida_onda(onda_atual) * coop.mult_vida(n)
+		multiplicador_dano_inimigo *= coop.mult_dano(n)
 	# A preparação precisa da malha e das colisões já sincronizadas.
 	await get_tree().physics_frame
 	await get_tree().physics_frame
@@ -146,6 +149,10 @@ func iniciar_onda(ignorar_checkpoint: bool = false) -> void:
 	gerador.limpar_populacao()
 	inimigos_vivos = gerador.montar_populacao(geracao)
 	total_inimigos_onda = inimigos_vivos
+	if coop != null and coop.ativo:
+		# Mais inimigos exigem uma meta proporcional, sem passar do que a população realmente entrega.
+		var meta_online := roundi(META_PROGRESSO * coop.mult_quantidade(coop.jogadores_na_partida()))
+		META_PROGRESSO = maxi(1, mini(meta_online, roundi(gerador.pontos_possiveis * 0.75)))
 	if inimigos_vivos == 0:
 		etapa = Etapa.PARADO
 		onda_em_andamento = false
@@ -245,7 +252,7 @@ func ao_abate(inimigo: Node2D, valor: int, chefe: bool, geracao: int) -> void:
 		progresso_andar_alterado.emit()
 		return
 	if etapa != Etapa.EXPLORANDO: return
-	DadosJogo.adicionar_moedas(_aplicar_saque(float(ouro_por_abate(onda_atual)) * mult_evento("ouro")))
+	DadosJogo.adicionar_moedas(_aplicar_saque(float(ouro_por_abate(onda_atual)) * mult_evento("ouro") * mult_ouro_online()))
 	Progresso.registrar_abate()
 	inimigos_vivos = maxi(inimigos_vivos - 1, 0)
 	pontos = mini(pontos + valor, META_PROGRESSO)
@@ -253,6 +260,11 @@ func ao_abate(inimigo: Node2D, valor: int, chefe: bool, geracao: int) -> void:
 	progresso_andar_alterado.emit()
 	if pontos >= META_PROGRESSO:
 		_invocar_guardiao(geracao)
+
+## Fator do ouro por abate conforme o tamanho do grupo online (1.0 fora dele).
+func mult_ouro_online() -> float:
+	var coop := get_tree().root.get_node_or_null("CoopOnline")
+	return coop.mult_ouro(coop.jogadores_na_partida()) if coop != null and coop.ativo else 1.0
 
 func _invocar_guardiao(geracao: int) -> void:
 	etapa = Etapa.INVOCANDO
