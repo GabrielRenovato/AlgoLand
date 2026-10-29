@@ -3,6 +3,9 @@ extends CanvasLayer
 signal concluida
 const Cliente := preload("res://codigo/conta/cliente_conta.gd")
 const FONTE := preload("res://assets/ui/Planes_ValMore.ttf")
+## Mesmo acabamento do menu inicial e do menu de pausa: moldura de madeira, botões e campos de pergaminho.
+const EstiloInicio := preload("res://codigo/ui/estilo_inicio_detalhado.gd")
+const COR_TEXTO_ESCURO := Color("49321e")
 const COR_FUNDO := Color(0.17, 0.11, 0.10, 0.98)
 const COR_BORDA := Color(0.55, 0.38, 0.24)
 const COR_LINHA := Color(0.25, 0.17, 0.14)
@@ -39,7 +42,7 @@ func _ready() -> void:
 	add_child(centro)
 	var painel := PanelContainer.new()
 	painel.custom_minimum_size = Vector2(minf(330.0, get_viewport().get_visible_rect().size.x - 24.0), 0)
-	painel.add_theme_stylebox_override("panel", _caixa_estilo(COR_FUNDO, COR_BORDA, 5, 2, 12))
+	EstiloInicio.painel(painel, false, 14, true)
 	centro.add_child(painel)
 	_caixa = VBoxContainer.new()
 	_caixa.add_theme_constant_override("separation", 6)
@@ -191,11 +194,18 @@ func _campo(dica: String, maximo: int) -> LineEdit:
 	campo.custom_minimum_size = Vector2(0, 30)
 	campo.add_theme_font_override("font", FONTE)
 	campo.add_theme_font_size_override("font_size", 10)
-	campo.add_theme_color_override("font_color", COR_TEXTO)
-	campo.add_theme_color_override("font_placeholder_color", Color(COR_SUAVE, 0.55))
-	for tipo in ["normal", "focus", "read_only"]:
-		campo.add_theme_stylebox_override(tipo, _caixa_estilo(COR_PALCO, COR_OURO if tipo == "focus" else COR_BORDA, 3, 1, 6))
+	EstiloInicio.campo(campo)
 	return campo
+
+## Faixa de pergaminho para linhas de lista e cartões (texto escuro, como o mural e a mochila).
+func _painel_claro(horizontal := 14.0, vertical := 8.0) -> PanelContainer:
+	var painel := PanelContainer.new()
+	EstiloInicio.painel(painel, true, horizontal)
+	var margens := EstiloInicio.espaco(horizontal)
+	margens.content_margin_top = vertical
+	margens.content_margin_bottom = vertical
+	painel.add_theme_stylebox_override("panel", margens)
+	return painel
 
 func _botao(texto: String, acao: Callable, cor := COR_BOTAO, minimo := Vector2(0, 30), expandir := false) -> Button:
 	var b := Button.new()
@@ -203,14 +213,8 @@ func _botao(texto: String, acao: Callable, cor := COR_BOTAO, minimo := Vector2(0
 	b.custom_minimum_size = minimo
 	if expandir: b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	b.clip_text = true
-	b.add_theme_font_override("font", FONTE)
+	# O botão principal (verde no estilo antigo) usa a moldura escura do jogo; os demais, o pergaminho.
+	EstiloInicio.botao(b, cor == COR_DESTAQUE)
 	b.add_theme_font_size_override("font_size", 9)
-	b.add_theme_color_override("font_color", COR_TEXTO)
-	b.add_theme_color_override("font_disabled_color", Color(0.55, 0.5, 0.45))
-	b.add_theme_stylebox_override("normal", _caixa_estilo(cor, cor.lightened(0.3), 3, 1, 5))
-	b.add_theme_stylebox_override("hover", _caixa_estilo(cor.lightened(0.15), COR_OURO, 3, 1, 5))
-	b.add_theme_stylebox_override("pressed", _caixa_estilo(cor.darkened(0.2), cor.lightened(0.2), 3, 1, 5))
-	b.add_theme_stylebox_override("disabled", _caixa_estilo(Color(0.2, 0.16, 0.15), Color(0.32, 0.27, 0.25), 3, 1, 5))
-	b.add_theme_stylebox_override("focus", _caixa_estilo(Color(0, 0, 0, 0), COR_OURO, 3, 2, 5))
 	b.pressed.connect(acao)
 	return b

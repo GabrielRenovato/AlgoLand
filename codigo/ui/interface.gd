@@ -19,6 +19,7 @@ const TELAS_OBRIGATORIAS := ["fim_partida", "introducao"]
 
 var _telas_abertas: Array[String] = []
 var _botao_duelo: Button
+var _botao_amigos: Button
 var _troca_companheira: Button
 var _companheira_mochila := false
 var _par_compacto := ""
@@ -166,7 +167,23 @@ func _ready() -> void:
 		_botao_duelo.tooltip_text = "Duelo online: criar ou entrar em salas PvP"
 		_botao_duelo.pressed.connect(func(): preload("res://codigo/duelo/conexao_duelo.gd").obter(get_tree()).abrir_tela())
 		add_child(_botao_duelo)
+		# Lista de amigos ao lado do PvP: com conta abre os amigos; sem conta abre o login.
+		_botao_amigos = Button.new()
+		_botao_amigos.name = "BotaoAmigos"
+		_botao_amigos.icon = preload("res://codigo/ui/icone_amigos.gd").obter()
+		_botao_amigos.expand_icon = true
+		_botao_amigos.add_theme_color_override("icon_normal_color", Color.WHITE)
+		_botao_amigos.theme = preload("res://recursos/ui/tema_sidebar.tres")
+		_botao_amigos.focus_mode = Control.FOCUS_NONE
+		_botao_amigos.tooltip_text = "Amigos"
+		_botao_amigos.pressed.connect(_abrir_amigos)
+		add_child(_botao_amigos)
 	preload("res://codigo/ui/escala_interface.gd").ligar(self)
+
+func _abrir_amigos() -> void:
+	var conta = preload("res://codigo/conta/cliente_conta.gd").obter(get_tree())
+	var tela = preload("res://codigo/conta/tela_amigos.gd").new() if conta.logado() else preload("res://codigo/conta/tela_conta.gd").new()
+	get_tree().root.add_child(tela)
 
 func _process(_delta: float) -> void:
 	_organizar_companheiras()
@@ -181,6 +198,14 @@ func _process(_delta: float) -> void:
 		_botao_duelo.scale = Vector2.ONE / escala
 		_botao_duelo.position = Vector2(medida.x - (214 if Controle.usando_toque else 44) - margens.z, (10 if Controle.usando_toque else 48) + margens.y) / escala
 		_botao_duelo.visible = _telas_abertas.is_empty() and not Introducao.cinematica and not get_tree().paused and not preload("res://codigo/duelo/conexao_duelo.gd").obter(get_tree()).em_partida
+		# Amigos: mesmo tamanho do PvP, à esquerda dele com 6 px de folga.
+		if _botao_amigos != null:
+			_botao_amigos.custom_minimum_size = _botao_duelo.custom_minimum_size
+			_botao_amigos.size = _botao_duelo.size
+			_botao_amigos.add_theme_constant_override("icon_max_width", 22 if Controle.usando_toque else 13)
+			_botao_amigos.scale = _botao_duelo.scale
+			_botao_amigos.position = _botao_duelo.position - Vector2(_botao_duelo.size.x + 6.0, 0.0)
+			_botao_amigos.visible = _botao_duelo.visible and preload("res://codigo/conta/cliente_conta.gd").obter(get_tree()).disponivel()
 
 ## Em janelas estreitas alterna entre loja e mochila, preservando os itens e o arrastar no PC.
 func _organizar_companheiras() -> void:

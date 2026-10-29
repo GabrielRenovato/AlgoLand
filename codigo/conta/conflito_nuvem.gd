@@ -34,14 +34,13 @@ func _montar() -> void:
 	_caixa.add_child(_botao("DECIDIR DEPOIS", queue_free, COR_LINHA, Vector2(0, 24)))
 
 func _cartao(titulo: String, texto: String, cor: Color) -> Control:
-	var painel := PanelContainer.new()
+	var painel := _painel_claro(14.0, 8.0)
 	painel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	painel.add_theme_stylebox_override("panel", _caixa_estilo(COR_LINHA, cor.lightened(0.2), 4, 2, 6))
 	var coluna := VBoxContainer.new()
 	coluna.add_theme_constant_override("separation", 2)
 	painel.add_child(coluna)
-	coluna.add_child(_rotulo(titulo, 9, COR_OURO))
-	coluna.add_child(_rotulo(texto, 9, COR_TEXTO))
+	coluna.add_child(_rotulo(titulo, 9, Color("8a4b14") if cor == COR_DESTAQUE else Color("5a4128")))
+	coluna.add_child(_rotulo(texto, 9, COR_TEXTO_ESCURO))
 	return painel
 
 func _escolher(usar_nuvem: bool) -> void:

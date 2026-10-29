@@ -24,7 +24,7 @@ func _montar() -> void:
 	var meu := _rotulo("SEU CODIGO: ...", 9, COR_TEXTO, HORIZONTAL_ALIGNMENT_LEFT)
 	meu.name = "MeuCodigo"
 	topo.add_child(meu)
-	var copiar := _botao("COPIAR", func(): DisplayServer.clipboard_set(_meu_codigo), COR_BOTAO, Vector2(52, 22))
+	var copiar := _botao("COPIAR", func(): DisplayServer.clipboard_set(_meu_codigo), COR_BOTAO, Vector2(70, 26))
 	topo.add_child(copiar)
 	var adicionar := HBoxContainer.new()
 	adicionar.add_theme_constant_override("separation", 4)
@@ -33,7 +33,7 @@ func _montar() -> void:
 	_campo_amigo.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_campo_amigo.text_submitted.connect(func(_t): _pedir())
 	adicionar.add_child(_campo_amigo)
-	adicionar.add_child(_botao("ADICIONAR", _pedir, COR_DESTAQUE, Vector2(64, 28)))
+	adicionar.add_child(_botao("ADICIONAR", _pedir, COR_DESTAQUE, Vector2(92, 28)))
 	_aviso = _rotulo("", 8, COR_SUAVE, HORIZONTAL_ALIGNMENT_LEFT)
 	_aviso.custom_minimum_size.y = 12
 	_caixa.add_child(_aviso)
@@ -81,29 +81,28 @@ func _listar() -> void:
 			if pessoa is Dictionary and str(pessoa.get("estado", "")) == estado: _linhas.add_child(_linha(pessoa))
 
 func _linha(pessoa: Dictionary) -> Control:
-	var painel := PanelContainer.new()
-	painel.add_theme_stylebox_override("panel", _caixa_estilo(COR_LINHA, COR_BORDA, 3, 1, 4))
+	var painel := _painel_claro()
 	var linha := HBoxContainer.new()
 	linha.add_theme_constant_override("separation", 4)
 	painel.add_child(linha)
 	var estado := str(pessoa.get("estado", ""))
-	var nome := _rotulo(str(pessoa.get("apelido", "?")), 9, COR_TEXTO, HORIZONTAL_ALIGNMENT_LEFT)
+	var nome := _rotulo(str(pessoa.get("apelido", "?")), 9, COR_TEXTO_ESCURO, HORIZONTAL_ALIGNMENT_LEFT)
 	nome.autowrap_mode = TextServer.AUTOWRAP_OFF
 	nome.clip_text = true
 	linha.add_child(nome)
 	var codigo_amigo := str(pessoa.get("codigo", ""))
 	match estado:
 		"recebido":
-			linha.add_child(_botao("ACEITAR", func(): _responder(codigo_amigo, true), COR_DESTAQUE, Vector2(54, 22)))
-			linha.add_child(_botao("RECUSAR", func(): _responder(codigo_amigo, false), COR_LINHA, Vector2(54, 22)))
+			linha.add_child(_botao("ACEITAR", func(): _responder(codigo_amigo, true), COR_DESTAQUE, Vector2(76, 26)))
+			linha.add_child(_botao("RECUSAR", func(): _responder(codigo_amigo, false), COR_LINHA, Vector2(76, 26)))
 		"enviado":
-			linha.add_child(_rotulo("AGUARDANDO", 8, COR_SUAVE, HORIZONTAL_ALIGNMENT_RIGHT))
+			linha.add_child(_rotulo("AGUARDANDO", 8, Color("7a6648"), HORIZONTAL_ALIGNMENT_RIGHT))
 		_:
 			if not convite.is_empty():
-				linha.add_child(_botao("CONVIDAR", func(): _convidar(codigo_amigo), COR_DESTAQUE, Vector2(68, 22)))
+				linha.add_child(_botao("CONVIDAR", func(): _convidar(codigo_amigo), COR_DESTAQUE, Vector2(88, 26)))
 			else:
 				# Texto "X" seria confundido com o botão global de fechar janela.
-				linha.add_child(_botao("REMOVER", func(): _remover(codigo_amigo), COR_LINHA, Vector2(54, 22)))
+				linha.add_child(_botao("REMOVER", func(): _remover(codigo_amigo), COR_LINHA, Vector2(80, 26)))
 	return painel
 
 func _avisar_amigos(texto: String, cor: Color) -> void:

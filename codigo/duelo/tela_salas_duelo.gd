@@ -2,6 +2,8 @@ extends CanvasLayer
 ## Saguão do duelo online: lista de salas, criar sala (nome e senha opcional), entrar e a sala com
 ## os dois lugares, "Pronto" e "Começar" (só o dono). Aberta pelo menu de pausa (Duelo.abrir_tela).
 const FONTE := preload("res://assets/ui/Planes_ValMore.ttf")
+## Mesmo acabamento do menu inicial e do de pausa: moldura de madeira, botões e campos de pergaminho.
+const EstiloInicio := preload("res://codigo/ui/estilo_inicio_detalhado.gd")
 const ConexaoDuelo := preload("res://codigo/duelo/conexao_duelo.gd")
 @onready var Duelo: Node = ConexaoDuelo.obter(get_tree())
 const COR_FUNDO := Color(0.17, 0.11, 0.10, 0.96)
@@ -44,13 +46,7 @@ func _ready() -> void:
 	_painel.offset_top = 8
 	_painel.offset_right = -8
 	_painel.offset_bottom = -8
-	var estilo := StyleBoxFlat.new()
-	estilo.bg_color = COR_FUNDO
-	estilo.border_color = COR_BORDA
-	estilo.set_border_width_all(2)
-	estilo.set_corner_radius_all(5)
-	estilo.set_content_margin_all(8)
-	_painel.add_theme_stylebox_override("panel", estilo)
+	EstiloInicio.painel(_painel, false, 12, true)
 	add_child(_painel)
 	var estrutura := VBoxContainer.new()
 	_painel.add_child(estrutura)
@@ -395,9 +391,10 @@ func _rotulo(texto: String, tamanho: int, cor := COR_TEXTO) -> Label:
 func _botao(texto: String, acao: Callable) -> Button:
 	var botao := Button.new()
 	botao.text = texto
-	botao.add_theme_font_override("font", FONTE)
-	botao.add_theme_font_size_override("font_size", 10)
-	botao.custom_minimum_size = Vector2(76, 34)
+	botao.custom_minimum_size = Vector2(84, 34)
+	botao.clip_text = true
+	# COMECAR, PRONTO, CRIAR e ENTRAR são as ações principais; os demais, pergaminho.
+	EstiloInicio.botao(botao, texto in ["COMECAR", "PRONTO", "CRIAR", "ENTRAR"])
 	botao.pressed.connect(acao)
 	return botao
 
@@ -408,4 +405,5 @@ func _campo(dica: String, maximo: int) -> LineEdit:
 	campo.add_theme_font_override("font", FONTE)
 	campo.add_theme_font_size_override("font_size", 11)
 	campo.custom_minimum_size = Vector2(0, 34)
+	EstiloInicio.campo(campo)
 	return campo

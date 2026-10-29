@@ -5,6 +5,12 @@ const Conexao := preload("res://codigo/coop_online/conexao_coop.gd")
 const Duelo := preload("res://codigo/duelo/conexao_duelo.gd")
 const Parceiro := preload("res://codigo/coop_online/parceiro_coop.gd")
 const FONTE := preload("res://assets/ui/Planes_ValMore.ttf")
+## Mesmo acabamento do menu inicial e do de pausa: moldura de madeira, botões e campos de pergaminho.
+const EstiloInicio := preload("res://codigo/ui/estilo_inicio_detalhado.gd")
+const COR_TEXTO_ESCURO := Color("49321e")
+const COR_SUAVE_ESCURA := Color("7a6648")
+## Cores das vagas legíveis sobre o pergaminho.
+const CORES_VAGA_ESCURAS: Array[Color] = [Color("2c5c9e"), Color("a8392f"), Color("2f7a36"), Color("8a6410")]
 const COR_FUNDO := Color(0.17, 0.11, 0.10, 0.97)
 const COR_BORDA := Color(0.55, 0.38, 0.24)
 const COR_LINHA := Color(0.25, 0.17, 0.14)
@@ -49,13 +55,7 @@ func _ready() -> void:
 	var painel := PanelContainer.new()
 	painel.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	for lado in ["left", "right", "top", "bottom"]: painel.set("offset_" + lado, 8 if lado in ["left", "top"] else -8)
-	var estilo := StyleBoxFlat.new()
-	estilo.bg_color = COR_FUNDO
-	estilo.border_color = COR_BORDA
-	estilo.set_border_width_all(2)
-	estilo.set_corner_radius_all(5)
-	estilo.set_content_margin_all(8)
-	painel.add_theme_stylebox_override("panel", estilo)
+	EstiloInicio.painel(painel, false, 12, true)
 	add_child(painel)
 	_corpo = Control.new()
 	_corpo.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -170,7 +170,7 @@ func _montar_lista() -> void:
 
 	var esquerda := VBoxContainer.new()
 	esquerda.add_theme_constant_override("separation", 6)
-	if not estreito: esquerda.custom_minimum_size.x = 186
+	if not estreito: esquerda.custom_minimum_size.x = 200
 	corpo.add_child(esquerda)
 	esquerda.add_child(_rotulo("COOP ONLINE", 16, COR_OURO, HORIZONTAL_ALIGNMENT_LEFT))
 	esquerda.add_child(_rotulo("Ate 4 jogadores por sala. Quanto mais gente, mais inimigos e mais vida. Pode comecar sozinho e deixar a sala aberta.", 8, COR_SUAVE, HORIZONTAL_ALIGNMENT_LEFT))
@@ -179,21 +179,16 @@ func _montar_lista() -> void:
 	linha.add_theme_constant_override("separation", 4)
 	esquerda.add_child(linha)
 	_codigo = LineEdit.new()
-	_codigo.placeholder_text = "CODIGO DA SALA"
+	_codigo.placeholder_text = "CODIGO"
 	_codigo.max_length = 12
 	_codigo.custom_minimum_size = Vector2(0, 28)
 	_codigo.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_codigo.add_theme_font_override("font", FONTE)
 	_codigo.add_theme_font_size_override("font_size", 10)
-	_codigo.add_theme_color_override("font_color", COR_TEXTO)
-	_codigo.add_theme_color_override("font_placeholder_color", Color(COR_SUAVE, 0.55))
-	for tipo in ["normal", "focus", "read_only"]:
-		var caixa := _caixa(COR_PALCO, COR_OURO if tipo == "focus" else COR_BORDA, 3, 1)
-		caixa.set_content_margin_all(6)
-		_codigo.add_theme_stylebox_override(tipo, caixa)
+	EstiloInicio.campo(_codigo)
 	_codigo.text_submitted.connect(func(_t): _entrar_pelo_codigo())
 	linha.add_child(_codigo)
-	linha.add_child(_botao("ENTRAR", _entrar_pelo_codigo, COR_BOTAO, Vector2(58, 28)))
+	linha.add_child(_botao("ENTRAR", _entrar_pelo_codigo, COR_BOTAO, Vector2(78, 30)))
 	if not estreito:
 		var folga := Control.new()
 		folga.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -210,7 +205,7 @@ func _montar_lista() -> void:
 	var titulo := _rotulo("SALAS ABERTAS", 11, COR_TEXTO, HORIZONTAL_ALIGNMENT_LEFT)
 	titulo.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	cabecalho.add_child(titulo)
-	cabecalho.add_child(_botao("ATUALIZAR", func(): _listar(), COR_BOTAO, Vector2(70, 22)))
+	cabecalho.add_child(_botao("ATUALIZAR", func(): _listar(), COR_BOTAO, Vector2(98, 26)))
 	_status = _rotulo(_mensagem, 8, COR_SUAVE, HORIZONTAL_ALIGNMENT_LEFT)
 	direita.add_child(_status)
 	var moldura := PanelContainer.new()
@@ -249,7 +244,8 @@ func _linha_sala(sala: Dictionary) -> Control:
 	var cheia := jogadores >= maximo
 	var codigo_sala := str(sala.get("codigo", ""))
 	var painel := PanelContainer.new()
-	painel.add_theme_stylebox_override("panel", _caixa(COR_LINHA, COR_BORDA if not (em_partida or cheia) else Color(0.35, 0.27, 0.22), 3, 1, 5))
+	_pergaminho(painel, 16.0, 8.0)
+	if em_partida or cheia: painel.modulate = Color(0.8, 0.78, 0.74)
 	var linha := HBoxContainer.new()
 	linha.add_theme_constant_override("separation", 8)
 	painel.add_child(linha)
@@ -257,12 +253,12 @@ func _linha_sala(sala: Dictionary) -> Control:
 	texto.add_theme_constant_override("separation", 0)
 	texto.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	linha.add_child(texto)
-	var nome := _rotulo(str(sala.get("anfitriao", "JOGADOR")), 10, COR_TEXTO, HORIZONTAL_ALIGNMENT_LEFT)
+	var nome := _rotulo(str(sala.get("anfitriao", "JOGADOR")), 10, COR_TEXTO_ESCURO, HORIZONTAL_ALIGNMENT_LEFT)
 	nome.autowrap_mode = TextServer.AUTOWRAP_OFF
 	nome.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	nome.clip_text = true
 	texto.add_child(nome)
-	texto.add_child(_rotulo("ANDAR %d" % int(sala.get("andar", 1)), 8, COR_SUAVE, HORIZONTAL_ALIGNMENT_LEFT))
+	texto.add_child(_rotulo("ANDAR %d" % int(sala.get("andar", 1)), 8, COR_SUAVE_ESCURA, HORIZONTAL_ALIGNMENT_LEFT))
 	# Uma pastilha por vaga, na cor do jogador que a ocupa.
 	var vagas := HBoxContainer.new()
 	vagas.add_theme_constant_override("separation", 2)
@@ -284,7 +280,7 @@ func _linha_sala(sala: Dictionary) -> Control:
 	else:
 		linha.add_child(_botao("ENTRAR", func():
 			var j := Duelo.jogador_local(get_tree())
-			if j != null: sessao.entrar(j, codigo_sala), COR_DESTAQUE, Vector2(60, 24)))
+			if j != null: sessao.entrar(j, codigo_sala), COR_DESTAQUE, Vector2(78, 26)))
 	return painel
 
 # --- Vista: sala
@@ -298,11 +294,11 @@ func _montar_sala() -> void:
 	raiz.add_child(cabecalho)
 	cabecalho.add_child(_linha_unica(_rotulo("SALA", 16, COR_OURO, HORIZONTAL_ALIGNMENT_LEFT)))
 	var chip := PanelContainer.new()
-	chip.add_theme_stylebox_override("panel", _caixa(COR_PALCO, COR_BORDA, 3, 1, 5))
+	_pergaminho(chip, 12.0, 6.0)
 	chip.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	cabecalho.add_child(chip)
-	chip.add_child(_linha_unica(_rotulo(sessao.codigo, 9, COR_TEXTO)))
-	var copiar := _botao("COPIAR", func(): pass, COR_BOTAO, Vector2(52, 20))
+	chip.add_child(_linha_unica(_rotulo(sessao.codigo, 9, COR_TEXTO_ESCURO)))
+	var copiar := _botao("COPIAR", func(): pass, COR_BOTAO, Vector2(74, 26))
 	copiar.pressed.connect(func():
 		DisplayServer.clipboard_set(sessao.codigo)
 		copiar.text = "COPIADO")
@@ -362,13 +358,14 @@ func _vaga(indice: int) -> Control:
 	var painel := PanelContainer.new()
 	painel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	painel.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	painel.add_theme_stylebox_override("panel", _caixa(COR_LINHA, cor if ocupada else Color(0.32, 0.25, 0.22), 4, 2 if ocupada else 1, 5))
+	_pergaminho(painel, 14.0, 10.0)
+	if not ocupada: painel.modulate = Color(0.85, 0.83, 0.8)
 	var coluna := VBoxContainer.new()
 	coluna.add_theme_constant_override("separation", 3)
 	painel.add_child(coluna)
 	var topo := HBoxContainer.new()
 	coluna.add_child(topo)
-	var etiqueta := _rotulo("P%d" % (indice + 1), 9, cor if ocupada else COR_SUAVE, HORIZONTAL_ALIGNMENT_LEFT)
+	var etiqueta := _rotulo("P%d" % (indice + 1), 9, CORES_VAGA_ESCURAS[indice] if ocupada else COR_SUAVE_ESCURA, HORIZONTAL_ALIGNMENT_LEFT)
 	etiqueta.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	topo.add_child(etiqueta)
 	var palco := Panel.new()
@@ -383,9 +380,9 @@ func _vaga(indice: int) -> Control:
 		mais.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		palco.add_child(mais)
 		_pulsantes.append(mais)
-		var livre := _rotulo("VAGA ABERTA", 9, Color(COR_SUAVE, 0.8))
+		var livre := _rotulo("VAGA ABERTA", 9, COR_SUAVE_ESCURA)
 		coluna.add_child(livre)
-		coluna.add_child(_rotulo(" ", 8, COR_SUAVE))
+		coluna.add_child(_rotulo(" ", 8, COR_SUAVE_ESCURA))
 		return painel
 	var jogador: Dictionary = sessao.jogadores[indice]
 	var id := str(jogador.get("id", ""))
@@ -409,19 +406,27 @@ func _vaga(indice: int) -> Control:
 			avatar.position = Vector2(palco.size.x / 2.0, palco.size.y - 8.0)
 			sombra.scale = Vector2.ONE * maxf(escala * 0.7, 1.0)
 			sombra.position = avatar.position + Vector2(0, 1))
-	var nome := _rotulo(str(perfil.get("apelido", "JOGADOR")), 10, cor, HORIZONTAL_ALIGNMENT_CENTER)
+	var nome := _rotulo(str(perfil.get("apelido", "JOGADOR")), 10, CORES_VAGA_ESCURAS[indice], HORIZONTAL_ALIGNMENT_CENTER)
 	nome.autowrap_mode = TextServer.AUTOWRAP_OFF
 	nome.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	nome.clip_text = true
 	coluna.add_child(nome)
 	var pronto: bool = sessao.esta_conectado(id)
 	var situacao := "ANFITRIAO" if dono else ("PRONTO" if pronto else "CONECTANDO...")
-	var rotulo := _rotulo(situacao + ("  •  VOCE" if id == sessao.eu else ""), 8, COR_OURO if dono else (COR_PRONTO if pronto else Color("b8a98a")), HORIZONTAL_ALIGNMENT_CENTER)
+	var rotulo := _rotulo(situacao + ("  •  VOCE" if id == sessao.eu else ""), 8, Color("8a5a00") if dono else (Color("2f7a36") if pronto else COR_SUAVE_ESCURA), HORIZONTAL_ALIGNMENT_CENTER)
 	coluna.add_child(rotulo)
 	if not pronto: _pulsantes.append(rotulo)
 	return painel
 
 # --- Componentes
+
+## Pergaminho com respiro: a moldura desenhada ocupa ~8 px por lado, e o texto não pode encostar nela.
+func _pergaminho(painel: PanelContainer, horizontal := 14.0, vertical := 8.0) -> void:
+	EstiloInicio.painel(painel, true, horizontal)
+	var margens := EstiloInicio.espaco(horizontal)
+	margens.content_margin_top = vertical
+	margens.content_margin_bottom = vertical
+	painel.add_theme_stylebox_override("panel", margens)
 
 func _caixa(fundo: Color, borda: Color, raio := 3, largura := 1, margem := 0) -> StyleBoxFlat:
 	var c := StyleBoxFlat.new()
@@ -453,20 +458,9 @@ func _botao(texto: String, acao: Callable, cor := COR_BOTAO, minimo := Vector2(0
 	var b := Button.new()
 	b.text = texto
 	b.custom_minimum_size = minimo
-	b.add_theme_font_override("font", FONTE)
-	b.add_theme_font_size_override("font_size", 10)
-	b.add_theme_color_override("font_color", COR_TEXTO)
-	b.add_theme_color_override("font_hover_color", Color.WHITE)
-	b.add_theme_color_override("font_disabled_color", Color(0.55, 0.5, 0.45))
-	var normal := _caixa(cor, cor.lightened(0.3), 3, 1, 6)
-	var hover := _caixa(cor.lightened(0.15), COR_OURO, 3, 1, 6)
-	var apertado := _caixa(cor.darkened(0.2), cor.lightened(0.2), 3, 1, 6)
-	var desligado := _caixa(Color(0.2, 0.16, 0.15), Color(0.32, 0.27, 0.25), 3, 1, 6)
-	b.add_theme_stylebox_override("normal", normal)
-	b.add_theme_stylebox_override("hover", hover)
-	b.add_theme_stylebox_override("pressed", apertado)
-	b.add_theme_stylebox_override("disabled", desligado)
-	b.add_theme_stylebox_override("focus", _caixa(Color(0, 0, 0, 0), COR_OURO, 3, 2, 6))
+	b.clip_text = true
+	# Botão principal (verde) = moldura escura do jogo; os demais, pergaminho.
+	EstiloInicio.botao(b, cor == COR_DESTAQUE)
 	b.pressed.connect(acao)
 	return b
 
