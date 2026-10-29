@@ -59,6 +59,7 @@ func _rodar() -> void:
 	var terreno:=current_scene.get_node("Terrains")
 	var estacoes:=terreno.get_node("Estacoes")
 	var natureza:=terreno.get_node("NaturezaFazenda")
+	verificar(not terreno.has_node("ArvoresFazenda3D"),"protótipo de árvores 3D não entra no jogo normal")
 	var extracao:=terreno.get_node("Extracao")
 	current_scene.get_node("Jogador").set_physics_process(false)
 	for hud in get_nodes_in_group("hud"): hud.hide()
