@@ -329,7 +329,11 @@ func _receber_ws(texto: String) -> void:
 			mudou.emit()
 		"coop_sinal":
 			var de := str(m.get("de", ""))
-			if de.is_empty(): return
+			if de.is_empty():
+				# Servidor antigo não diz quem mandou: com um único par só pode ser ele (salas de 2).
+				if not sou_host(): de = dono
+				elif _pares.size() == 1: de = str(_pares.keys()[0])
+				else: return
 			if not _pares.has(de) and not sou_host() and de == dono: _preparar_par(de)
 			var par: Par = _pares.get(de)
 			if par == null: return
