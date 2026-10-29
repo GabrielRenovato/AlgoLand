@@ -188,7 +188,7 @@ func _receber(m: Dictionary) -> void:
 		"efeito":
 			if sessao.sou_host(): _aplicar_efeito(m)
 		"dano":
-			if not sessao.sou_host(): jogador.receber_dano(clampi(int(m.get("dano", 0)), 0, 100000), Vector2(float(m.get("kx", 0)), float(m.get("ky", 0))))
+			if not sessao.sou_host() and not _contato_desmentido(int(m.get("perto", 0))): jogador.receber_dano(clampi(int(m.get("dano", 0)), 0, 100000), Vector2(float(m.get("kx", 0)), float(m.get("ky", 0))))
 		"reviver":
 			if not sessao.sou_host(): jogador.levantar_caido(clampf(float(m.get("fr", 0.5)), 0.05, 1.0))
 		"reviver_pedido":
@@ -401,10 +401,25 @@ func _aplicar_golpe(m: Dictionary) -> void:
 	var dano := clampi(int(m.get("dano", 0)), 0, limite)
 	if dano > 0: no.receber_dano(dano, Vector2(float(m.get("kx", 0)), float(m.get("ky", 0))).limit_length(400))
 
+## O anfitrião viu um inimigo colado no convidado; se na tela do convidado esse inimigo está longe, o golpe foi só atraso de rede.
+func _contato_desmentido(id: int) -> bool:
+	if id == 0 or not _inimigos.has(id) or not is_instance_valid(_inimigos[id]): return false
+	return _inimigos[id].global_position.distance_to(jogador.global_position) > 110.0
+
 func dano_no_parceiro(parceiro: Node2D, dano: int, empurrao: Vector2) -> void:
 	if not sessao.sou_host() or Time.get_ticks_msec() < int(_dano_ate.get(parceiro.id_jogador, 0)): return
 	_dano_ate[parceiro.id_jogador] = Time.get_ticks_msec() + 150
-	sessao.enviar_para(parceiro.id_jogador, {"t": "dano", "andar": andar, "dano": dano, "kx": empurrao.x, "ky": empurrao.y})
+	# Dano de contato: informa qual inimigo estava colado, para o convidado conferir se também o vê perto.
+	var perto := 0
+	var menor := 56.0
+	for id in _inimigos:
+		var e = _inimigos[id]
+		if not is_instance_valid(e): continue
+		var d: float = e.global_position.distance_to(parceiro.global_position)
+		if d < menor:
+			menor = d
+			perto = int(id)
+	sessao.enviar_para(parceiro.id_jogador, {"t": "dano", "andar": andar, "dano": dano, "kx": empurrao.x, "ky": empurrao.y, "perto": perto})
 
 ## Só cai a sessão se todos caírem.
 func _verificar_derrota() -> void:
