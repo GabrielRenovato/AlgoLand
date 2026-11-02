@@ -1,6 +1,7 @@
 extends Node
-## Até quatro jogadores. Tudo passa pelo servidor de salas (relay): conexão direta entre aparelhos falhava em rede
-## de celular e em muitos Wi-Fi, e a sala ficava parada em "conectando".
+## Até quatro jogadores. A sala conecta na hora pelo servidor de salas (relay) e, em paralelo, tenta a conexão direta
+## (WebRTC). Se ela abrir, a partida passa por ela: sem o servidor no meio e sem o TCP segurando tudo atrás de um
+## pacote perdido, o ping fica estável. Se não abrir (rede de celular, muitos Wi-Fi) ou cair, segue pelo relay.
 signal salas_recebidas(salas: Array)
 signal mudou
 signal erro(texto: String)
@@ -26,6 +27,12 @@ class Par extends RefCounted:
 	var conectado := false
 	var recebeu := 0
 	var ping_ms := -1
+	var rtc: WebRTCPeerConnection
+	var eventos: WebRTCDataChannel
+	var estados: WebRTCDataChannel
+	## Canais diretos abertos: os pacotes deixam de passar pelo servidor.
+	var direto := false
+	var prazo_direto := 0
 var eu := ""
 var codigo := ""
 var dono := ""
@@ -205,6 +212,11 @@ func _pedir(jogador: Node2D, pedido: Dictionary) -> void:
 		erro.emit("SERVIDOR DE SALAS INDISPONIVEL")
 		return
 	_ws = WebSocketPeer.new()
+	# O padrão (64 KiB) estourava no começo do andar, quando todos os inimigos e texturas saem juntos, e os pacotes
+	# sumiam sem erro: o convidado ficava sem ver os monstros.
+	_ws.inbound_buffer_size = 4 * 1024 * 1024
+	_ws.outbound_buffer_size = 2 * 1024 * 1024
+	_ws.max_queued_packets = 8192
 	_autenticou = false
 	_prazo = Time.get_ticks_msec() + 20000
 	if _ws.connect_to_url(url) != OK: _falhar("NAO FOI POSSIVEL CONECTAR AO SERVIDOR DE SALAS")
@@ -217,8 +229,47 @@ func _preparar_par(id: String) -> void:
 	par.conectado = true
 	par.recebeu = Time.get_ticks_msec()
 	_pares[id] = par
+	_tentar_direto(par)
+
+func _tentar_direto(par: Par) -> void:
+	if not OS.has_feature("web") and not ClassDB.class_exists("WebRTCPeerConnectionExtension"): return
+	var rtc := WebRTCPeerConnection.new()
+	if rtc.initialize({"iceServers": [{"urls": ["stun:stun.cloudflare.com:3478"]}]}) != OK: return
+	var id := par.id
+	par.rtc = rtc
+	rtc.session_description_created.connect(func(tipo: String, sdp: String):
+		rtc.set_local_description(tipo, sdp)
+		_sinal(id, {"tipo": tipo, "sdp": sdp}))
+	rtc.ice_candidate_created.connect(func(mid: String, indice: int, candidato: String):
+		_sinal(id, {"tipo": "ice", "mid": mid, "indice": indice, "candidato": candidato}))
+	par.eventos = rtc.create_data_channel("eventos", {"negotiated": true, "id": 1, "ordered": true})
+	par.estados = rtc.create_data_channel("estados", {"negotiated": true, "id": 2, "ordered": false, "maxRetransmits": 0})
+	par.prazo_direto = Time.get_ticks_msec() + 15000
+	if sou_host(): rtc.create_offer()
+
+## Desiste da conexão direta daquele parceiro; ele continua alcançável pelo relay.
+func _fechar_direto(par: Par) -> void:
+	if par.rtc == null: return
+	_encerrados.append({"rtc": par.rtc, "eventos": par.eventos, "estados": par.estados, "ate": Time.get_ticks_msec() + 2000})
+	par.rtc.close()
+	par.rtc = null
+	par.eventos = null
+	par.estados = null
+	par.direto = false
+
+func _sinal(para: String, dados: Dictionary) -> void:
+	if _ws_aberto(): _ws.send_text(JSON.stringify({"t": "coop_sinal", "para": para, "dados": dados}))
+
+func _enviar_direto(par: Par, bytes: PackedByteArray, estado: bool) -> bool:
+	var canal := par.estados if estado else par.eventos
+	if canal == null or canal.get_ready_state() != WebRTCDataChannel.STATE_OPEN: return false
+	if bytes.size() > 16384 or canal.get_buffered_amount() > (LIMITE_FILA_ESTADOS if estado else LIMITE_PACOTE): return false
+	return canal.put_packet(bytes) == OK
 
 func _remover_par(id: String) -> void:
+	var par: Par = _pares.get(id)
+	if par == null: return
+	_fechar_direto(par)
 	_pares.erase(id)
 
 func _ws_aberto() -> bool:
@@ -240,36 +291,57 @@ func _despachar() -> void:
 		_saida.clear()
 		_saida_bytes = 0
 		return
-	var lote: Array[Dictionary] = []
-	var bytes := 0
-	for item in _saida:
-		var tamanho := JSON.stringify(item).length()
-		if not lote.is_empty() and (bytes + tamanho > LIMITE_LOTE or lote.size() >= 64):
-			_ws.send_text(JSON.stringify({"t": "coop_rede", "p": lote}))
-			lote = []
-			bytes = 0
-		lote.append(item)
-		bytes += tamanho
-	if not lote.is_empty(): _ws.send_text(JSON.stringify({"t": "coop_rede", "p": lote}))
-	_saida.clear()
+	# O que não couber no envio agora fica para o próximo quadro, na mesma ordem; nada confiável é descartado.
+	var enviados := 0
+	while enviados < _saida.size():
+		var lote: Array[Dictionary] = []
+		var bytes := 0
+		var i := enviados
+		while i < _saida.size():
+			var tamanho := JSON.stringify(_saida[i]).length()
+			if not lote.is_empty() and (bytes + tamanho > LIMITE_LOTE or lote.size() >= 64): break
+			lote.append(_saida[i])
+			bytes += tamanho
+			i += 1
+		if _ws.get_current_outbound_buffered_amount() + bytes > _ws.outbound_buffer_size - 1024: break
+		if _ws.send_text(JSON.stringify({"t": "coop_rede", "p": lote})) != OK: break
+		enviados = i
+	_saida = _saida.slice(enviados)
 	_saida_bytes = 0
+	for item in _saida: _saida_bytes += JSON.stringify(item.m).length() + 24
 
 ## Anfitrião: para todos os convidados. Convidado: para o anfitrião. Verdadeiro se chegou a alguém.
 func enviar(dados: Dictionary, estado := false) -> bool:
 	if _pares.is_empty(): return false
 	dados["de"] = eu
-	return _enfileirar("*", dados, estado)
+	var bytes := PackedByteArray()
+	var algum := false
+	var pelo_relay: Array[String] = []
+	for par in _pares.values():
+		if par.direto:
+			if bytes.is_empty(): bytes = JSON.stringify(dados).to_utf8_buffer()
+			if _enviar_direto(par, bytes, estado): algum = true
+		else: pelo_relay.append(par.id)
+	if pelo_relay.size() == _pares.size(): return _enfileirar("*", dados, estado)
+	for id in pelo_relay:
+		if _enfileirar(id, dados, estado): algum = true
+	return algum
 
 func enviar_para(id: String, dados: Dictionary, estado := false) -> bool:
 	var par: Par = _pares.get(id)
 	if par == null: return false
 	dados["de"] = eu
+	if par.direto: return _enviar_direto(par, JSON.stringify(dados).to_utf8_buffer(), estado)
 	return _enfileirar(id, dados, estado)
 
 ## Anfitrião repassa o pacote de um convidado aos demais (o remetente é mantido em "de").
 func _retransmitir(dados: Dictionary, origem: String, estado: bool) -> void:
+	var bytes := JSON.stringify(dados).to_utf8_buffer()
 	for id in _pares:
-		if id != origem: _enfileirar(id, dados, estado)
+		if id == origem: continue
+		var par: Par = _pares[id]
+		if par.direto: _enviar_direto(par, bytes, estado)
+		else: _enfileirar(id, dados, estado)
 
 func _process(delta: float) -> void:
 	# Prioridade alta: roda depois dos outros nós, então o lote já leva o que o quadro produziu.
@@ -300,6 +372,22 @@ func _process(delta: float) -> void:
 	for id in _pares.keys():
 		var par: Par = _pares.get(id)
 		if par == null: continue
+		if par.rtc != null:
+			par.rtc.poll()
+			var abriu: bool = par.eventos.get_ready_state() == WebRTCDataChannel.STATE_OPEN and par.estados.get_ready_state() == WebRTCDataChannel.STATE_OPEN
+			if abriu and not par.direto: par.direto = true
+			for canal in [par.eventos, par.estados]:
+				while canal.get_available_packet_count() > 0:
+					var bytes: PackedByteArray = canal.get_packet()
+					if bytes.size() > LIMITE_PACOTE: continue
+					var dados = JSON.parse_string(bytes.get_string_from_utf8())
+					if dados is Dictionary:
+						par.recebeu = agora
+						_receber.call_deferred(dados, id, canal == par.estados)
+			var falhou: bool = par.rtc.get_connection_state() in [WebRTCPeerConnection.STATE_FAILED, WebRTCPeerConnection.STATE_CLOSED]
+			if par.direto and not abriu: falhou = true
+			if not par.direto and agora > par.prazo_direto: falhou = true
+			if falhou: _fechar_direto(par)
 		if agora - par.recebeu > 15000:
 			_par_caiu(par)
 			if _pares.is_empty() and not sou_host(): return
@@ -377,6 +465,16 @@ func _receber_ws(texto: String) -> void:
 				if par == null: continue
 				par.recebeu = Time.get_ticks_msec()
 				_receber(item.m, de, int(item.get("e", 0)) == 1)
+		"coop_sinal":
+			var de := str(m.get("de", ""))
+			if not _pares.has(de) and not sou_host() and de == dono: _preparar_par(de)
+			var par: Par = _pares.get(de)
+			if par == null or par.rtc == null: return
+			var d: Dictionary = m.get("dados", {})
+			if str(d.get("tipo", "")) == "ice":
+				par.rtc.add_ice_candidate(str(d.get("mid", "")), int(d.get("indice", 0)), str(d.get("candidato", "")))
+			elif str(d.get("tipo", "")) in ["offer", "answer"]:
+				par.rtc.set_remote_description(str(d.tipo), str(d.get("sdp", "")))
 		"coop_erro": _falhar({"sala_inexistente": "SALA NAO ENCONTRADA", "sala_cheia": "SALA CHEIA", "em_partida": "ESTA SALA JA ESTA EM PARTIDA", "ja_na_sala": "VOCE JA ESTA EM UMA SALA"}.get(str(m.get("erro", "")), "NAO FOI POSSIVEL ENTRAR NA SALA"))
 		"coop_fim":
 			_falhar("O ANFITRIAO SAIU DA SALA" if not sou_host() else "VOCE SAIU DA SALA")
