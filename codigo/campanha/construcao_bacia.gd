@@ -42,6 +42,8 @@ const RECORTES := {
 	"engrenagem": Rect2i(641, 1110, 128, 123),
 }
 var camadas: Array[TileMapLayer] = []
+var pontes_3d: Array[Node2D] = []
+var ruinas_3d: Array[Node2D] = []
 var fontes: Dictionary = {}
 var tamanhos: Dictionary = {"janela": Vector2i(2, 2), "porta_esquerda": Vector2i(1, 3), "porta_direita": Vector2i(1, 3), "comporta": Vector2i(4, 2)}
 var conjunto: TileSet
@@ -187,43 +189,36 @@ func _montar_eixo(origem: Vector2i) -> void:
 	barreira(Rect2(apoio + Vector2(-12, 36), Vector2(24, 18)))
 
 func ruina(origem: Vector2i) -> void:
-	var muro := camada("DungeonAlvenaria", origem.y * 16.0 + 64)
-	cobertura(muro, origem.y * 16.0)
-	bloco(muro, origem, Vector2i(12, 4), "pedra")
-	bloco(muro, origem, Vector2i(12, 1), "capitel")
-	for x in [0, 3, 8, 11]:
-		bloco(muro, origem + Vector2i(x, -1), Vector2i(1, 5), "pilar")
-		bloco(muro, origem + Vector2i(x, -1), Vector2i.ONE, "capitel_pilar")
-		bloco(muro, origem + Vector2i(x, 3), Vector2i.ONE, "base_pilar")
-	for y in range(1, 4):
-		for x in range(4, 8): muro.erase_cell(origem + Vector2i(x, y))
-	var abertura := camada("DungeonPortal", origem.y * 16.0 + 1)
-	bloco(abertura, origem + Vector2i(4, 1), Vector2i(4, 3), "breu")
-	var escada := camada("DungeonEscadaria", 0, true)
-	bloco(escada, origem + Vector2i(4, 4), Vector2i(4, 2), "degrau")
+	var entrada := preload("res://codigo/campanha/entrada_dungeon_bacia_3d.gd").new()
+	entrada.name = "EntradaDungeon3D"
+	entrada.position = Vector2(origem * 16) + Vector2(96, 64)
+	entrada.estacao = estacao
+	add_child(entrada)
+	ruinas_3d.append(entrada)
+	# A passagem central e os limites continuam correspondendo ao espaço jogável.
 	barreira(Rect2(Vector2(origem * 16), Vector2(64, 64)))
 	barreira(Rect2(Vector2((origem + Vector2i(8, 0)) * 16), Vector2(64, 64)))
 	barreira(Rect2(Vector2((origem + Vector2i(4, 0)) * 16), Vector2(64, 16)))
 	for lado in [-1, 1]:
-		var x := origem.x - 1 if lado == -1 else origem.x + 12
-		var lateral := camada("DungeonMuroLateral" + str(lado), (origem.y + 7) * 16.0)
-		bloco(lateral, Vector2i(x, origem.y + 3), Vector2i(1, 4), "pedra")
-		barreira(Rect2(Vector2(x * 16, (origem.y + 3) * 16), Vector2(16, 64)))
+		var centro := Vector2(origem * 16) + Vector2(96, 64)
+		var x := -90.0 if lado == -1 else 58.0
+		barreira(Rect2(centro + Vector2(x, -8), Vector2(32, 32)))
 
 func ponte(origem: Vector2i, tamanho: Vector2i, vertical: bool) -> Rect2:
-	var piso := camada("PontePiso" + str(camadas.size()), 0, true)
-	bloco(piso, origem, tamanho, "tabuas")
 	var ret := Rect2(Vector2(origem * 16), Vector2(tamanho * 16))
+	var modelo := preload("res://codigo/campanha/ponte_bacia_3d_no_mapa.gd").new()
+	modelo.name = "Ponte3D_%02d" % pontes_3d.size()
+	modelo.tamanho_mapa = Vector2i(tamanho * 16)
+	modelo.vertical = vertical
+	modelo.estacao = estacao
+	modelo.position = ret.get_center()
+	add_child(modelo)
+	pontes_3d.append(modelo)
 	if vertical:
 		for x in [origem.x, origem.x + tamanho.x - 1]:
-			for y in range(origem.y, origem.y + tamanho.y):
-				var lateral := camada("PonteBorda_%d_%d" % [x, y], y * 16.0 + 12)
-				bloco(lateral, Vector2i(x, y), Vector2i.ONE, "viga")
 			barreira(Rect2(x * 16, ret.position.y, 6, ret.size.y))
 	else:
 		for y in [origem.y, origem.y + tamanho.y - 1]:
-			var lateral := camada("PonteBorda_%d" % y, y * 16.0 + 8)
-			bloco(lateral, Vector2i(origem.x, y), Vector2i(tamanho.x, 1), "viga")
 			barreira(Rect2(ret.position.x, y * 16, ret.size.x, 6))
 	return ret
 
@@ -251,8 +246,12 @@ func definir_estacao(indice: int) -> void:
 	estacao = indice
 	material_sazonal.set_shader_parameter("estacao", indice)
 	for material in materiais_expostos: material.set_shader_parameter("estacao", indice)
+	for ponte_3d in pontes_3d:
+		ponte_3d.definir_estacao(indice)
 	for mecanismo in mecanismos:
 		mecanismo.definir_estacao(indice)
+	for ruina_3d in ruinas_3d:
+		ruina_3d.definir_estacao(indice)
 
 func sala_manutencao() -> Rect2:
 	var origem := Vector2i(128, -8)

@@ -2,8 +2,15 @@ extends "res://codigo/campanha/clareiras_chegada.gd"
 class_name TerrenoBaciaMoinho
 
 ## Região modular da Bacia: o canal, os caminhos e os marcos usam peças do jogo.
+const CENA_GOBLIN := preload("res://cenas/inimigos/goblin_pomar.tscn")
 const TAMANHO_MAPA := Vector2(1536, 1024)
 const CENTRO_MAPA := Vector2(-768, -512)
+const PONTOS_GOBLINS_ADICIONAIS := [
+	Vector2(-650, 360), Vector2(-600, 200), Vector2(-200, 340),
+	Vector2(160, 320), Vector2(360, 320), Vector2(680, 300),
+	Vector2(-680, -100), Vector2(-180, -420), Vector2(700, -420),
+	Vector2(700, -60), Vector2(-700, -400), Vector2(200, -400),
+]
 const CANAIS := [
 	[Vector2(-800, -224), Vector2(-560, -224), Vector2(-240, -224), Vector2(80, -224), Vector2(432, -224), Vector2(800, -224)],
 	[Vector2(432, -224), Vector2(432, 0), Vector2(432, 240), Vector2(480, 540)],
@@ -205,8 +212,8 @@ func _montar_marcos() -> void:
 	add_child(_construcoes)
 	_montar_moinho_3d()
 	_construcoes.ruina(Vector2i(-6, -4))
-	_travessias.append(_construcoes.ponte(Vector2i(-17, -19), Vector2i(4, 10), true))
-	_travessias.append(_construcoes.ponte(Vector2i(22, 4), Vector2i(10, 4), false))
+	_registrar_ponte(Vector2i(-17, -19), Vector2i(4, 10), true)
+	_registrar_ponte(Vector2i(22, 4), Vector2i(10, 4), false)
 	_comporta = _construcoes.comporta(Vector2i(-25, -15))
 	_no_mundo("marco_entrada", "poste_resgate", Vector2(-690, 420), 32.0, Vector2(12, 9))
 	_no_mundo("marco_margem", "estela", Vector2(-575, 70), 45.0, Vector2(24, 12))
@@ -268,16 +275,47 @@ func _montar_floresta() -> void:
 		_objeto("arbusto_bacia_%02d" % i, "arbustos", p, rng.randf_range(24, 36), Vector2.ZERO)
 
 func _criar_inimigos() -> void:
+	var pontos_usados: Array[Vector2] = []
 	for entrada in [
-		["res://cenas/inimigos/arraia_junco.tscn", Vector2(-490, 96)],
-		["res://cenas/inimigos/besouro_barranco.tscn", Vector2(576, 160)],
-		["res://cenas/inimigos/valvula_errante.tscn", Vector2(-320, -350)],
+		{"posicao": Vector2(-490, 96), "guardiao": false},
+		{"posicao": Vector2(576, 160), "guardiao": false},
+		{"posicao": Vector2(-320, -350), "guardiao": true},
 	]:
-		var inimigo := load(entrada[0]).instantiate() as Node2D
-		inimigo.position = entrada[1]
-		inimigo.set_meta("encontro_bacia", true)
-		add_child(inimigo)
-		if is_instance_valid(roteiro) and "valvula" in str(entrada[0]): roteiro.guardioes.append(inimigo)
+		_criar_goblin_bacia(entrada.posicao, entrada.guardiao, pontos_usados)
+	for posicao in PONTOS_GOBLINS_ADICIONAIS:
+		# O mapa de navegação ainda pode não estar sincronizado durante o _ready deferido.
+		# Estes pontos foram escolhidos e conferidos no próprio terreno modular.
+		var ponto: Vector2 = posicao
+		if not ponto_seguro(ponto): continue
+		if pontos_usados.any(func(outro): return outro.distance_to(ponto) < 96.0): continue
+		var perto_de_alvo := false
+		for alvo in dados.alvos.values():
+			if ponto.distance_to(Vector2(alvo.p[0], alvo.p[1])) < 88.0:
+				perto_de_alvo = true
+				break
+		if perto_de_alvo: continue
+		_criar_goblin_bacia(ponto, false, pontos_usados)
+
+func _criar_goblin_bacia(posicao: Vector2, guardiao: bool, pontos_usados: Array[Vector2]) -> void:
+	var inimigo := CENA_GOBLIN.instantiate() as Node2D
+	inimigo.position = posicao
+	inimigo.set("velocidade", 55)
+	inimigo.set("fator_velocidade_animacao", 1.35)
+	inimigo.set("tempo_recarga_ataque", 1.1)
+	inimigo.set_meta("encontro_bacia", true)
+	add_child(inimigo)
+	pontos_usados.append(posicao)
+	if is_instance_valid(roteiro) and guardiao: roteiro.guardioes.append(inimigo)
+
+func _registrar_ponte(origem: Vector2i, tamanho: Vector2i, vertical: bool) -> void:
+	var travessia: Rect2 = _construcoes.ponte(origem, tamanho, vertical)
+	_travessias.append(travessia)
+	var a := Vector2(travessia.get_center().x, travessia.position.y)
+	var b := Vector2(travessia.get_center().x, travessia.end.y)
+	if not vertical:
+		a = Vector2(travessia.position.x, travessia.get_center().y)
+		b = Vector2(travessia.end.x, travessia.get_center().y)
+	_pontes.append({"raiz": _construcoes.pontes_3d.back(), "a": a, "b": b})
 
 func aplicar_descobertas(cumpridos: Array) -> void:
 	if is_instance_valid(_comporta):
@@ -293,6 +331,3 @@ func definir_estacao(indice: int) -> void:
 	if is_instance_valid(_construcoes): _construcoes.definir_estacao(indice)
 	if is_instance_valid(_roda_moinho): _roda_moinho.definir_estacao(estacao_atual)
 	if is_instance_valid(_natureza_lowpoly): _natureza_lowpoly.definir_estacao(estacao_atual)
-	for ponte in _pontes:
-		for parte in ponte.raiz.get_children():
-			parte.texture = load("res://assets/cenario/cidade/ponte_detalhada/%s/%s.png" % [NOMES[estacao_atual], parte.name])

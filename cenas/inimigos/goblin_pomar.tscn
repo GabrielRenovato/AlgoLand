@@ -1,8 +1,12 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=5 format=3]
 [ext_resource type="Script" path="res://codigo/inimigos/goblin_pomar.gd" id="1"]
 [ext_resource type="Texture2D" path="res://assets/inimigos/goblin_capuz_3d/atlas/parado.png" id="2"]
 [sub_resource type="CircleShape2D" id="Corpo"]
 radius = 7.0
+
+[sub_resource type="CapsuleShape2D" id="Atingivel"]
+radius = 12.0
+height = 38.0
 [node name="GoblinPomar" type="CharacterBody2D" groups=["enemy", "goblins_pomar"]]
 collision_layer = 32
 collision_mask = 64
@@ -24,3 +28,13 @@ scale = Vector2(0.4, 0.4)
 texture_filter = 1
 [node name="colision_body" type="CollisionShape2D" parent="."]
 shape = SubResource("Corpo")
+
+[node name="AlvoGolpes" type="Area2D" parent="." groups=["hurtbox_inimigo"]]
+collision_layer = 4
+collision_mask = 0
+monitoring = false
+monitorable = true
+
+[node name="Forma" type="CollisionShape2D" parent="AlvoGolpes"]
+position = Vector2(0, -18)
+shape = SubResource("Atingivel")

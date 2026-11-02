@@ -64,7 +64,7 @@ func interagir(id: String) -> Dictionary:
 	if id == "roda_moinho" and "comporta" in feitos and not "eixo" in feitos:
 		for guarda in guardioes:
 			if is_instance_valid(guarda) and not guarda.esta_morto:
-				return {"texto": "A Válvula Errante protege o acesso à transmissão. Derrote-a para inspecionar o eixo."}
+				return {"texto": "Um goblin protege o acesso à transmissão. Derrote-o para inspecionar o eixo."}
 	if id == "entrada_dungeon" and "eixo" in feitos and not dentro:
 		_entrar()
 		return {"texto": "Sala de manutenção antiga. As inscrições estão na parede ao norte."}
@@ -74,7 +74,7 @@ func interagir(id: String) -> Dictionary:
 	if id == "entrada_dungeon" and dentro:
 		for inimigo in terreno.get_tree().get_nodes_in_group("enemy"):
 			if inimigo.has_meta("subsolo_bacia") and not inimigo.esta_morto:
-				return {"texto": "Os besouros guardam as inscrições. Limpe a sala para investigar."}
+				return {"texto": "Os goblins guardam as inscrições. Limpe a sala para investigar."}
 	return {}
 
 func alvo_do_puzzle() -> String:
@@ -118,8 +118,11 @@ func _montar_sala() -> void:
 	terreno.add_child(navegacao)
 	NavigationServer2D.map_force_update(terreno.get_world_2d().navigation_map)
 	for p in [Vector2(2160, -10), Vector2(2320, -10)]:
-		var mob := preload("res://cenas/inimigos/besouro_barranco.tscn").instantiate() as Node2D
+		var mob := preload("res://cenas/inimigos/goblin_pomar.tscn").instantiate() as Node2D
 		mob.position = p
+		mob.set("velocidade", 55)
+		mob.set("fator_velocidade_animacao", 1.35)
+		mob.set("tempo_recarga_ataque", 1.1)
 		mob.set_meta("subsolo_bacia", true)
 		terreno.add_child(mob)
 

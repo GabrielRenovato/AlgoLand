@@ -2,9 +2,11 @@ shader_type spatial;
 render_mode cull_disabled, world_vertex_coords, ambient_light_disabled;
 uniform vec3 cor_grama = vec3(.30,.47,.12);
 uniform vec4 jogadores[8]; // xy: pés no mapa; zw: direção ponderada pela velocidade.
+uniform vec2 atores_frente[16]; // pés de jogadores e inimigos para a camada de oclusão.
 uniform vec4 rastros[16]; // xy: centro; zw: direção da passagem.
 uniform float forcas_rastros[16];
 uniform int quantidade_jogadores = 0;
+uniform int quantidade_atores_frente = 0;
 uniform int quantidade_rastros = 0;
 uniform bool somente_frente = false;
 varying vec2 raiz_mapa;
@@ -37,9 +39,9 @@ void vertex() {
 void fragment() {
 	if (somente_frente) {
 		float visivel = 0.;
-		for (int i=0; i<8; i++) {
-			if (i >= quantidade_jogadores) break;
-			vec2 d = raiz_mapa-jogadores[i].xy;
+		for (int i=0; i<16; i++) {
+			if (i >= quantidade_atores_frente) break;
+			vec2 d = raiz_mapa-atores_frente[i];
 			if (d.y >= -.5 && d.y <= 12. && abs(d.x) <= 16.) visivel = 1.;
 		}
 		if (visivel < .5) discard;

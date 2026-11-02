@@ -11,6 +11,8 @@ var _tempo := 0.0
 var _agua: ShaderMaterial
 var _materiais: Array[StandardMaterial3D] = []
 var _cores: Array[Color] = []
+var _texturas_pintadas: Dictionary = {}
+var _materiais_pintados: Dictionary = {}
 var _estacao_atual := -2
 var agua_fisica: Node3D
 var _velocidade_roda := 0.0
@@ -49,11 +51,51 @@ func _preparar_materiais(no: Node) -> void:
 			if original:
 				var material := original.duplicate() as StandardMaterial3D
 				material.vertex_color_use_as_albedo = true
+				var textura := _textura_para_material(material.resource_name)
+				if textura != null:
+					material.albedo_texture = textura
+					material.albedo_color = Color.WHITE
+					material.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
+					material.uv1_triplanar = true
+					material.uv1_scale = Vector3.ONE * 0.45
+					_materiais_pintados[material.resource_name] = true
 				instancia.set_surface_override_material(i, material)
 				_materiais.append(material)
 				_cores.append(material.albedo_color)
 	for filho in no.get_children():
 		_preparar_materiais(filho)
+
+func _textura_para_material(nome_material: String) -> Texture2D:
+	var categoria := ""
+	if nome_material in ["Material_b95832", "Material_c46438", "Material_cb7141", "Material_ae4d2c", "Material_dd824c"]:
+		categoria = "telhado"
+	elif nome_material in ["Material_a5a38a", "Material_c1b99c", "Material_777a72"]:
+		categoria = "pedra"
+	elif nome_material in ["Material_573b28", "Material_83502c", "Material_8c412b", "Material_473f32", "Material_a5743f", "Material_624631", "Material_a16d38", "Material_b1844b", "Material_936238"]:
+		categoria = "madeira"
+	if categoria.is_empty():
+		return null
+	if _texturas_pintadas.has(categoria):
+		return _texturas_pintadas[categoria]
+	var imagem: Image
+	if categoria == "madeira":
+		var fonte := load("res://assets/cenario/campanha/moinho_lowpoly/pinturas_pixel_art/madeira.png") as Texture2D
+		if fonte == null:
+			return null
+		imagem = fonte.get_image()
+	else:
+		var atlas := load("res://assets/cenario/campanha/moinho_lowpoly/pinturas_pixel_art/telhado_pedra_atlas.png") as Texture2D
+		if atlas == null:
+			return null
+		var origem := atlas.get_image()
+		var largura_painel := origem.get_width() / 2
+		var inicio_x := 0 if categoria == "telhado" else largura_painel
+		imagem = origem.get_region(Rect2i(inicio_x, 0, largura_painel, origem.get_height()))
+	# A textura fica na densidade que sobrevive ao render do moinho em baixa resolução.
+	imagem.resize(64, 64, Image.INTERPOLATE_NEAREST)
+	var textura := ImageTexture.create_from_image(imagem)
+	_texturas_pintadas[categoria] = textura
+	return textura
 
 func _superficie(posicao: Vector3, tamanho: Vector2) -> void:
 	var instancia := MeshInstance3D.new()
@@ -89,7 +131,12 @@ func _atualizar_estacao() -> void:
 	for i in _materiais.size():
 		var material := _materiais[i]
 		material.albedo_color = _cores[i]
-		if material.resource_name in ["Material_72835b", "Material_496747"]:
+		if _materiais_pintados.has(material.resource_name):
+			if material.resource_name in ["Material_b95832", "Material_c46438", "Material_cb7141", "Material_ae4d2c", "Material_dd824c"]:
+				material.albedo_color = Color("dce0df") if estacao == 3 else Color.WHITE
+			else:
+				material.albedo_color = [Color("fff2da"), Color("fff0d4"), Color("eed6b6"), Color("dce0df")][estacao]
+		elif material.resource_name in ["Material_72835b", "Material_496747"]:
 			material.albedo_color = gramas[estacao]
 		elif material.resource_name in ["Material_b95832", "Material_c46438", "Material_cb7141", "Material_ae4d2c", "Material_dd824c"]:
 			material.albedo_color = _cores[i].lerp(telhas[estacao], 0.7 if estacao == 3 else 0.25)

@@ -9,6 +9,7 @@ const ATLAS := {
 	"morrer":preload("res://assets/inimigos/goblin_capuz_3d/atlas/morrer.png")}
 @export var raio_percepcao := 132.0
 @export var ia_habilitada := true
+@export var fator_velocidade_animacao := 1.0
 var animacao := "parado"
 var tempo_animacao := 0.0
 var direcao := 0
@@ -99,7 +100,7 @@ func _tocar(nome: String,reiniciar := false) -> void:
 	animacao=nome;tempo_animacao=0.0;sprite.texture=ATLAS[nome]
 	_aplicar_quadro()
 func _animar(delta: float) -> void:
-	tempo_animacao+=delta;_aplicar_quadro()
+	tempo_animacao+=delta*maxf(fator_velocidade_animacao,0.1);_aplicar_quadro()
 func _aplicar_quadro() -> void:
 	sprite.texture=ATLAS[animacao]
 	var dados:Dictionary=FICHA.data.animacoes[animacao]

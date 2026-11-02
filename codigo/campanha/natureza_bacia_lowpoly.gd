@@ -385,15 +385,21 @@ func definir_estacao(indice: int) -> void:
 
 func _process(delta: float) -> void:
 	var jogadores := PackedVector4Array()
+	var atores_frente := PackedVector2Array()
 	var atores: Array[Node2D] = []
 	var ativos: Dictionary = {}
+	var inversa := get_viewport().get_canvas_transform().affine_inverse()
+	var inicio := inversa * Vector2.ZERO
+	var fim := inversa * get_viewport_rect().size
+	var visivel := Rect2(inicio, fim - inicio).abs().grow(96)
 	for ator in get_tree().get_nodes_in_group("jogadores"):
 		if not ator is Node2D or not ator.is_visible_in_tree(): continue
-		var pes: Vector2 = ator.global_position+Vector2(0,terreno.Profundidade.PES_JOGADOR)
-		if not terreno.limites.has_point(pes): continue
+		var pes := _pes_ator(ator)
+		if not terreno.limites.has_point(pes) or not visivel.has_point(pes): continue
 		var direcao := Vector2.ZERO
 		if ator is CharacterBody2D: direcao = ator.velocity/130.0
 		jogadores.append(Vector4(pes.x,pes.y,direcao.x,direcao.y))
+		if atores_frente.size() < 16: atores_frente.append(pes)
 		atores.append(ator)
 		var id: int = ator.get_instance_id()
 		ativos[id] = true
@@ -403,6 +409,17 @@ func _process(delta: float) -> void:
 			_ultimos_passos[id] = pes
 		elif not _ultimos_passos.has(id): _ultimos_passos[id] = pes
 		if atores.size() >= 8: break
+	# A camada que desenha os tufos à frente também precisa incluir inimigos;
+	# só jogadores controlavam a máscara, então goblins nunca recebiam oclusão.
+	for ator in get_tree().get_nodes_in_group("enemy"):
+		if not ator is Node2D or not ator.is_visible_in_tree(): continue
+		if atores.any(func(outro: Node2D) -> bool: return outro == ator): continue
+		if atores.size() >= 16: break
+		var pes := _pes_ator(ator)
+		if not terreno.limites.has_point(pes) or not visivel.has_point(pes): continue
+		if atores_frente.size() < 16: atores_frente.append(pes)
+		atores.append(ator)
+		ativos[ator.get_instance_id()] = true
 	for id in _ultimos_passos.keys():
 		if not ativos.has(id): _ultimos_passos.erase(id)
 	for i in range(_rastros.size()-1,-1,-1):
@@ -415,19 +432,20 @@ func _process(delta: float) -> void:
 		rastros.append(Vector4(rastro.p.x,rastro.p.y,rastro.d.x,rastro.d.y))
 		forcas.append(rastro.forca)
 	# Arrays com tamanho fixo mantêm o contrato dos uniforms em todas as fases.
+	var quantidade_jogadores := jogadores.size()
+	var quantidade_atores_frente := atores_frente.size()
 	jogadores.resize(8)
 	rastros.resize(16)
 	forcas.resize(16)
+	atores_frente.resize(16)
 	for material in [_grama,_grama_frente]:
 		material.set_shader_parameter("jogadores",jogadores)
-		material.set_shader_parameter("quantidade_jogadores",atores.size())
+		material.set_shader_parameter("quantidade_jogadores",quantidade_jogadores)
 		material.set_shader_parameter("rastros",rastros)
 		material.set_shader_parameter("forcas_rastros",forcas)
 		material.set_shader_parameter("quantidade_rastros",_rastros.size())
-	var inversa := get_viewport().get_canvas_transform().affine_inverse()
-	var inicio := inversa*Vector2.ZERO
-	var fim := inversa*get_viewport_rect().size
-	var visivel := Rect2(inicio,fim-inicio).abs().grow(24)
+		material.set_shader_parameter("atores_frente",atores_frente)
+		material.set_shader_parameter("quantidade_atores_frente",quantidade_atores_frente)
 	for origem in _blocos:
 		var bloco: Dictionary = _blocos[origem]
 		bloco.visor_grama.render_target_update_mode = SubViewport.UPDATE_ALWAYS if visivel.intersects(Rect2(origem,Vector2(256,256))) else SubViewport.UPDATE_DISABLED
@@ -444,7 +462,7 @@ func _process(delta: float) -> void:
 		if is_instance_valid(base.visor):
 			base.visor.render_target_update_mode = SubViewport.UPDATE_ALWAYS if visivel.has_point(base.p) else SubViewport.UPDATE_DISABLED
 	for ator in atores:
-		var pes: Vector2 = ator.global_position+Vector2(0,terreno.Profundidade.PES_JOGADOR)
+		var pes := _pes_ator(ator)
 		if _peso_grama(pes) < .08: continue
 		var origens: Dictionary = {}
 		for dy in [-20.0,20.0]:
@@ -452,6 +470,12 @@ func _process(delta: float) -> void:
 				var origem := ((pes+Vector2(dx,dy))/256.0).floor()*256.0
 				if _blocos.has(origem): origens[origem] = true
 		for origem in origens: _atualizar_frente(ator,pes,origem)
+
+func _pes_ator(ator: Node2D) -> Vector2:
+	var altura: float = terreno.Profundidade.PES_JOGADOR
+	if ator.get("altura_pes") != null:
+		altura = float(ator.get("altura_pes"))
+	return ator.global_position + Vector2(0, altura)
 
 func _atualizar_frente(ator: Node2D, pes: Vector2, origem: Vector2) -> void:
 	var chave := "%d_%d_%d" % [ator.get_instance_id(),origem.x,origem.y]
