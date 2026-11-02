@@ -59,6 +59,9 @@ var _n_conectados := 0
 ## Pacotes do quadro aguardando o envio em lote: {"p": destino ("*" = todos), "e": 1 se estado, "m": pacote}.
 var _saida: Array[Dictionary] = []
 var _saida_bytes := 0
+## O servidor troca a conexão antiga por uma nova com o mesmo código: sem isto, o mesmo save (ou conta) no PC e no
+## celular derrubava quem entrou primeiro. Muda a cada abertura do jogo; reconectar na mesma execução ainda assume a vaga.
+var _aparelho := Crypto.new().generate_random_bytes(6).hex_encode()
 ## Convidados que já se declararam prontos para o próximo andar (id -> bool). O anfitrião decide, os convidados só veem.
 var prontos_avanco: Dictionary = {}
 
@@ -356,7 +359,7 @@ func _process(delta: float) -> void:
 				_autenticou = true
 				if not OS.has_feature("web"): _ws.set_no_delay(true)
 				var ranking = Ranking.para_jogador(_jogador)
-				var pedido_entrada := {"t": "entrar", "codigo": str(ranking._codigo) + "#coop", "geracao": Crypto.new().generate_random_bytes(16).hex_encode(), "estado": {"x": 1, "y": 1, "mapa": 0, "apelido": _jogador.apelido, "aparencia": _perfil(_jogador).visual}}
+				var pedido_entrada := {"t": "entrar", "codigo": str(ranking._codigo) + "#coop#" + _aparelho, "geracao": Crypto.new().generate_random_bytes(16).hex_encode(), "estado": {"x": 1, "y": 1, "mapa": 0, "apelido": _jogador.apelido, "aparencia": _perfil(_jogador).visual}}
 				var token_conta: String = load("res://codigo/conta/cliente_conta.gd").token_para_servidor(get_tree())
 				if not token_conta.is_empty(): pedido_entrada["token"] = token_conta
 				_ws.send_text(JSON.stringify(pedido_entrada))
