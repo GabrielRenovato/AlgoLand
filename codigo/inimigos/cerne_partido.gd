@@ -5,6 +5,7 @@ signal fala(texto: String, complemento: String)
 signal aterrissou
 signal fase_alterada(fase: int)
 const FICHA_CERNE := preload("res://assets/inimigos/cerne_partido/animacoes.json")
+const ATLAS_CERNE := [preload("res://assets/inimigos/cerne_partido/atlas_1.png"), preload("res://assets/inimigos/cerne_partido/atlas_2.png"), preload("res://assets/inimigos/cerne_partido/atlas_3.png")]
 enum Etapa { QUEDA, LIVRE, COMBO, PANCADA, INVESTIDA, CONJURAR, TRANSFORMAR, VULNERAVEL, MORTE }
 var etapa := Etapa.QUEDA
 var fase := 1
@@ -49,7 +50,12 @@ func _aplicar_quadro() -> void:
 	for i in dados.duracoes.size():
 		if tempo<float(dados.duracoes[i]): indice=i;break
 		tempo-=float(dados.duracoes[i])
-	sprite.frame=int(dados.quadros[indice])
+	var quadro := int(dados.quadros[indice])
+	var pagina := quadro/16
+	sprite.texture=ATLAS_CERNE[pagina]
+	sprite.hframes=8
+	sprite.vframes=2 if pagina<2 else 1
+	sprite.frame=quadro%16
 	sprite.flip_h=animacao=="lado" and ultima_direcao_horizontal<0
 
 func _physics_process(delta: float) -> void:

@@ -3,6 +3,7 @@ extends "res://codigo/inimigos/inimigo_base.gd"
 ## Ataques discretos: preparação, janela de impacto e recuperação sem dano de contato.
 signal golpe_executado(tipo: String, indice: int)
 const FICHA := preload("res://assets/inimigos/rebento_raizes/animacoes.json")
+const ATLAS := [preload("res://assets/inimigos/rebento_raizes/atlas_1.png"), preload("res://assets/inimigos/rebento_raizes/atlas_2.png"), preload("res://assets/inimigos/rebento_raizes/atlas_3.png")]
 const Indicador := preload("res://codigo/efeitos/indicador_ataque.gd")
 const Erupcao := preload("res://codigo/inimigos/erupcao_raizes.gd")
 enum Estado { LIVRE, COMBO, CONJURANDO, REAGINDO, MORRENDO }
@@ -223,7 +224,12 @@ func _aplicar_quadro() -> void:
 	for i in duracoes.size():
 		if t<float(duracoes[i]): indice=i;break
 		t-=float(duracoes[i])
-	sprite.frame=int(dados.quadros[indice])
+	var quadro := int(dados.quadros[indice])
+	var pagina := quadro/16
+	sprite.texture=ATLAS[pagina]
+	sprite.hframes=8
+	sprite.vframes=2
+	sprite.frame=quadro%16
 	sprite.flip_h=_direcao_visual=="lado" and ultima_direcao_horizontal<0
 
 func receber_dano(quantidade: int,empurrao := Vector2.ZERO) -> void:
