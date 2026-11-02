@@ -391,6 +391,9 @@ func _aplicar_aparencia(acao: String) -> void:
 	if chave == _chave_aparencia: return
 	_chave_aparencia = chave
 	var raizes: Dictionary = _jogador.raizes_armadura.duplicate()
+	# Conjuntos do rig 3D não requisitam páginas Raven inexistentes durante a inicialização.
+	for peca in raizes.keys():
+		if not ResourceLoader.exists(str(raizes[peca])+"raven_"+str(peca)+".png"):raizes.erase(peca)
 	var visual: String = preload("res://codigo/dados/aparencia.gd").raiz_armadura_visual(_jogador.roupa_atual)
 	if not visual.is_empty():
 		for peca in ["elmo","peitoral","luvas","botas"]:

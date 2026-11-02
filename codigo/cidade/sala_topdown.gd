@@ -37,9 +37,11 @@ func _atualizar_materiais() -> void:
 	_estacao = atual
 	var pasta: String = Biblioteca.RAIZ + "materiais/" + ["primavera", "verao", "outono", "inverno"][atual] + "/"
 	for nome in ["parede", "horizontal", "vertical", "janela"]:
-		_materiais[nome] = load(pasta + nome + ".png")
+		var exclusivo: String = Biblioteca.RAIZ + "familias/arquitetura/" + casa + "/" + ["primavera", "verao", "outono", "inverno"][atual] + "/" + nome + ".png"
+		_materiais[nome] = load(exclusivo if ResourceLoader.exists(exclusivo) else pasta + nome + ".png")
 	for tom in ["escuro", "medio", "claro"]:
-		_pisos[tom] = load(pasta + "piso_" + tom + ".png")
+		var piso_exclusivo: String = Biblioteca.RAIZ + "familias/arquitetura/" + casa + "/" + ["primavera", "verao", "outono", "inverno"][atual] + "/piso_" + tom + ".png"
+		_pisos[tom] = load(piso_exclusivo if ResourceLoader.exists(piso_exclusivo) else pasta + "piso_" + tom + ".png")
 	FOLHA = _pisos["medio"]
 	queue_redraw()
 

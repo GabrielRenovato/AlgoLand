@@ -31,6 +31,7 @@ var _camada_agua: TileMapLayer
 var _terra_mascarada = preload("res://codigo/cenario/terra_mascarada.gd").new()
 var _bordas_grama: Node2D
 var _chao_detalhado: Node2D
+var _grama_3d: Node2D
 
 func _ready() -> void:
 	if local == "cidade":
@@ -531,6 +532,24 @@ func _aplicar_terreno(estacao: int) -> void:
 		camada.get_parent().add_child(_chao_detalhado)
 		_chao_detalhado.configurar(camada,_camada_agua)
 	_chao_detalhado.aplicar(estacao)
+	if local == "cidade":
+		if _grama_3d == null:
+			var grama := preload("res://codigo/cenario/grama_3d_no_mapa.gd").new()
+			grama.name = "Grama3D"
+			grama.terreno = self
+			grama.consultar_grama = _chao_detalhado.peso_grama_mundo
+			# Na cidade, cada bloco ocupa 288 px na tela: evita texturas 3D superdimensionadas.
+			grama.resolucao_grama = 288
+			grama.passo_tufo = 8
+			add_child(grama)
+			_grama_3d = grama
+			_bordas_grama.visible = false
+			var decoracao := get_node_or_null("Decoracao")
+			if decoracao != null:
+				for objeto in decoracao.get_children():
+					if objeto is Node2D and str(objeto.name).begins_with("arvore_"):
+						grama._montar_frente_base({"tipo":"arbustos","ponto":objeto.position,"sprite":objeto})
+		_grama_3d.definir_estacao(estacao)
 
 
 ## Estação que está valendo na tela: a do nó Estacoes (que também obedece ao painel F3), senão a do calendário

@@ -71,6 +71,9 @@ static func obter(item: DadosItem, arvore: SceneTree) -> Texture2D:
 	# Ferramentas e sementes da fazenda: o mesmo ícone da barra (saco de semente, enxada, regador, mão)
 	if item.categoria == "ferramenta" or item.categoria == "semente":
 		return IconesFazenda.da_ferramenta(item.tipo)
+	if preload("res://codigo/dados/acessorios_iniciais.gd").TIPOS.has(item.tipo): return preload("res://codigo/dados/acessorios_iniciais.gd").icone(item.tipo)
+	if item.tipo.ends_with("_guarda_novato"):
+		return load("res://assets/personagens/conjuntos/guarda_novato/icones/%s.svg" % {"cabeca":"elmo","corpo":"peitoral","luvas":"luvas","botas":"botas"}.get(item.categoria,"peitoral"))
 	var conjunto := Conjuntos.de_tipo(item.tipo)
 	if conjunto != null:
 		var peca: String = conjunto.TIPOS[item.tipo]["peca"]

@@ -17,8 +17,17 @@ var parceiros: Dictionary = {}
 var gerente: Node
 var andar := 1
 var _tempo := 0.0
+var _tempo_mundo := 0.0
+const INTERVALO_JOGADOR := 1.0 / 30.0
+const INTERVALO_MUNDO := 1.0 / 20.0
+## A tela tem 576×324: além disso o convidado não vê o inimigo, e cada lote a mais pesa no upload do anfitrião.
+const RAIO_MUNDO := 700.0
 var _seq := 0
 var _ultima_seq := -1
+## Os lotes do mundo são parciais e podem chegar fora de ordem no canal de estados.
+var _ultima_seq_inimigo: Dictionary = {}
+var _seq_jogador := 0
+var _ultima_seq_jogador: Dictionary = {}
 var _proximo_id := 1
 var _ids := {}
 var _inimigos := {}
@@ -50,6 +59,10 @@ var _rng_drops := RandomNumberGenerator.new()
 var _saques_enviados := {}
 var _saques_recebidos := {}
 var _golpes := {}
+var _maestria_gasta := {}
+var _maestria_eventos := {}
+var _armas_recentes := {}
+var _credito_seq := 0
 var _recargas_conjuntos := {}
 var _pronto := false
 var _tempo_reviver := 0.0
@@ -99,6 +112,7 @@ func _ao_saiu(id: String) -> void:
 	if parceiro != null and is_instance_valid(parceiro): parceiro.queue_free()
 	parceiros.erase(id)
 	_prontos.erase(id)
+	_ultima_seq_jogador.erase(id)
 	if is_instance_valid(jogador):
 		get_tree().call_group("hud_p1", "avisar", "%s SAIU DA SALA" % (str(parceiro.apelido) if parceiro != null else "UM JOGADOR"))
 
@@ -107,9 +121,14 @@ func _process(delta: float) -> void:
 	for m in sessao.retirar_pacotes(andar): _receber(m)
 	_tempo -= delta
 	if _tempo <= 0.0:
-		_tempo = 1.0 / 20.0
-		sessao.enviar({"t": "jogador", "andar": andar, "e": _estado_jogador()}, true)
-		if sessao.sou_host(): _enviar_mundo()
+		# Conserva a fração do quadro: zerar o relógio reduzia a frequência real.
+		_tempo = maxf(0.0, _tempo + INTERVALO_JOGADOR)
+		_seq_jogador += 1
+		sessao.enviar({"t": "jogador", "andar": andar, "seq":_seq_jogador, "e": _estado_jogador()}, true)
+	_tempo_mundo -= delta
+	if sessao.sou_host() and _tempo_mundo <= 0.0:
+		_tempo_mundo = maxf(0.0, _tempo_mundo + INTERVALO_MUNDO)
+		_enviar_mundo()
 	if sessao.sou_host(): _verificar_derrota()
 	_cuidar_do_aliado_caido(delta)
 	_atualizar_grupo()
@@ -140,16 +159,22 @@ func _estado_jogador() -> Dictionary:
 		"ar": jogador.no_arco.esta_disparando(), "ad": par.call(jogador.no_arco._direcao_disparo),
 		"rf": jogador.no_reacao.visible and jogador.no_reacao.pose_atual == "ferido",
 		"af": jogador.no_fazenda.acao_atual if jogador.esta_em_acao_fazenda else "", "cai": jogador.caido, "morto": jogador.estaMorto, "hp": jogador.hp_atual, "hpm": jogador.estatisticas.hp_maximo,
-		"arma": jogador.id_arma_atual, "es": jogador.usando_espada, "ec": jogador.usando_escudo, "la": jogador.usando_lanca, "arc": jogador.usando_arco}
+		"tm": jogador.get_meta("tecnica_maestria",{}), "arma": jogador.id_arma_atual, "es": jogador.usando_espada, "ec": jogador.usando_escudo, "la": jogador.usando_lanca, "arc": jogador.usando_arco}
 
 func _receber(m: Dictionary) -> void:
 	var de := str(m.get("de", ""))
 	match str(m.get("t", "")):
 		"jogador":
+			if m.get("e") is Dictionary and m.e.get("arc",false):_armas_recentes[de]=Time.get_ticks_msec()
 			var e = m.get("e", {})
 			if not e is Dictionary or not parceiros.has(de): return
 			var ponto := Vector2(float(e.get("x", 0)), float(e.get("y", 0)))
 			if not ponto.is_finite() or absf(ponto.x) > 12000 or absf(ponto.y) > 12000: return
+			# Evita puxar o aliado para trás quando o canal não ordenado inverte dois estados.
+			if m.has("seq"):
+				var sequencia := int(m.seq)
+				if sequencia <= int(_ultima_seq_jogador.get(de,-1)): return
+				_ultima_seq_jogador[de] = sequencia
 			parceiros[de].aplicar_estado(e)
 		"pronto_andar":
 			if sessao.sou_host() and parceiros.has(de) and not de in _prontos:
@@ -168,11 +193,18 @@ func _receber(m: Dictionary) -> void:
 				return
 			_inimigos[id] = replica
 		"mundo":
-			if sessao.sou_host() or int(m.get("seq", -1)) <= _ultima_seq: return
-			_ultima_seq = int(m.seq)
+			if sessao.sou_host(): return
+			var sequencia := int(m.get("seq",-1))
+			if sequencia < 0: return
 			for e in m.get("inimigos", []):
-				if e is Array and e.size() >= 5 and _inimigos.has(int(e[0])): _inimigos[int(e[0])].aplicar(e)
-			if gerente != null:
+				if not e is Array or e.size() < 5: continue
+				var id := int(e[0])
+				if _inimigos.has(id) and sequencia > int(_ultima_seq_inimigo.get(id,-1)):
+					_ultima_seq_inimigo[id] = sequencia
+					_inimigos[id].aplicar(e)
+			var atualizar_progresso := sequencia > _ultima_seq
+			_ultima_seq = maxi(_ultima_seq,sequencia)
+			if gerente != null and atualizar_progresso:
 				gerente.META_PROGRESSO = clampi(int(m.get("meta", gerente.META_PROGRESSO)), 1, 100000)
 				gerente.pontos = clampi(int(m.get("pontos", 0)), 0, gerente.META_PROGRESSO)
 				gerente.etapa = int(m.get("etapa", 0))
@@ -186,6 +218,10 @@ func _receber(m: Dictionary) -> void:
 				if _inimigos.has(id):
 					_inimigos[id].remover()
 					_inimigos.erase(id)
+					_ultima_seq_inimigo.erase(id)
+		"maestria_credito":
+			if not sessao.sou_host() and de == sessao.dono and jogador.get("maestria") != null:
+				jogador.maestria.receber_credito(str(m.get("ticket","")),str(m.get("familia","")),int(m.get("xp",0)))
 		"golpe":
 			if sessao.sou_host(): _aplicar_golpe(m)
 		"efeito":
@@ -217,7 +253,7 @@ func _receber(m: Dictionary) -> void:
 				_soltar_drops_locais(int(m.get("id", 0)), bool(m.get("ultimo", false)))
 				Progresso.registrar_abate()
 		"concluido":
-			if not sessao.sou_host() and not _andar_concluido:
+			if not sessao.sou_host() and de == sessao.dono and not _andar_concluido:
 				_andar_concluido = true
 				gerente.onda_em_andamento = false
 				gerente.etapa = gerente.Etapa.CONCLUIDO
@@ -225,7 +261,9 @@ func _receber(m: Dictionary) -> void:
 				# O anfitrião já chama o Orion ao vencer; o convidado também precisa dele para comprar e se preparar.
 				gerente._abrir_janela_entre_ondas()
 				DadosJogo.adicionar_moedas(roundi(float(m.get("ouro_fim", gerente.ouro_fim_onda(andar)))))
-				Progresso.registrar_onda_concluida(andar, false, false)
+				# A vitória confirmada também avança as missões do save do convidado.
+				Progresso.registrar_onda_concluida(andar, gerente.eh_onda_chefe(andar), false)
+				Cidade.registrar_onda(andar)
 				get_tree().call_group("hud_p1", "anunciar", "ANDAR CONCLUIDO", "FALE COM O ORION E MARQUE PRONTO", 5.0)
 		"saque":
 			pass # versões antigas do anfitrião ainda mandavam o saque dele; agora cada um sorteia o seu
@@ -259,14 +297,17 @@ func _enviar_texturas_novas(peer: String, estados: Array) -> void:
 	var enviadas: Dictionary = _tex_enviadas.get(peer, {})
 	_tex_enviadas[peer] = enviadas
 	var novas: Array = []
+	var pendentes: Dictionary = {}
 	for e in estados:
 		if e.size() < 7: continue
 		for h in e[6]:
-			if int(h) != 0 and not enviadas.has(int(h)) and _catalogo_tex.has(int(h)):
-				enviadas[int(h)] = true
+			if int(h) != 0 and not enviadas.has(int(h)) and not pendentes.has(int(h)) and _catalogo_tex.has(int(h)):
+				pendentes[int(h)] = true
 				novas.append([int(h), _catalogo_tex[int(h)]])
 	for inicio in range(0, novas.size(), 12):
-		sessao.enviar_para(peer, {"t": "texturas", "andar": andar, "lista": novas.slice(inicio, inicio + 12)})
+		var lote := novas.slice(inicio,inicio+12)
+		if sessao.enviar_para(peer, {"t": "texturas", "andar": andar, "lista": lote}):
+			for textura in lote: enviadas[int(textura[0])] = true
 
 ## Convidado: reconstrói a textura citada pelo hash (recorte de uma folha de inimigo), ou null se ainda não chegou.
 func textura_por_hash(h: int) -> Texture2D:
@@ -339,25 +380,26 @@ func _enviar_mundo() -> void:
 		if completo: _refresco[pedido[0]] = agora_ms + 1500
 		for id in _inimigos:
 			var no: Node2D = _inimigos[id]
-			if no.global_position.distance_squared_to(pedido[1]) > 1000000: continue
+			if no.global_position.distance_squared_to(pedido[1]) > RAIO_MUNDO * RAIO_MUNDO: continue
 			if not cache.has(id):
 				var poses: Array = []
 				var hashes: Array = []
 				for s in _sprites.get(id, []):
 					if is_instance_valid(s):
-						poses.append([s.hframes, s.vframes, s.frame, s.flip_h, s.is_visible_in_tree(), snappedf(s.rotation, 0.01), [s.modulate.r, s.modulate.g, s.modulate.b, s.modulate.a]])
+						poses.append([s.hframes, s.vframes, s.frame, s.flip_h, s.is_visible_in_tree(), snappedf(s.rotation, 0.01), [snappedf(s.modulate.r, 0.01), snappedf(s.modulate.g, 0.01), snappedf(s.modulate.b, 0.01), snappedf(s.modulate.a, 0.01)]])
 						hashes.append(_hash_textura(s.texture))
 				_vmax[id] = maxi(int(_vmax.get(id, 1)), int(no.vida))
 				cache[id] = [id, snappedf(no.global_position.x, 0.1), snappedf(no.global_position.y, 0.1), no.vida, poses, _vmax[id], hashes, no.esta_congelado()]
 			# Inimigo parado e adormecido não muda: só vai de novo no refresco, o que poupa banda com muita gente.
 			if not completo and memoria.get(id) == cache[id]: continue
-			memoria[id] = cache[id]
 			estados.append(cache[id])
 		_enviar_texturas_novas(pedido[0], estados)
 		# Lotes pequenos respeitam o tamanho máximo do SCTP, inclusive em celular/Web.
 		for inicio in range(0, maxi(1, estados.size()), 8):
 			_seq += 1
-			sessao.enviar_para(pedido[0], {"t": "mundo", "andar": andar, "seq": _seq, "inimigos": estados.slice(inicio, inicio + 8), "meta": gerente.META_PROGRESSO, "pontos": gerente.pontos, "etapa": gerente.etapa, "vivos": gerente.inimigos_vivos, "total": gerente.total_inimigos_onda}, true)
+			var lote := estados.slice(inicio,inicio+8)
+			if sessao.enviar_para(pedido[0], {"t": "mundo", "andar": andar, "seq": _seq, "inimigos": lote, "meta": gerente.META_PROGRESSO, "pontos": gerente.pontos, "etapa": gerente.etapa, "vivos": gerente.inimigos_vivos, "total": gerente.total_inimigos_onda}, true):
+				for estado in lote: memoria[int(estado[0])] = estado
 	_enviar_visuais()
 	if gerente.etapa == gerente.Etapa.CONCLUIDO and not _andar_concluido:
 		_andar_concluido = true
@@ -369,13 +411,14 @@ func _abate(id: int) -> void:
 	var ouro: float = float(gerente.ouro_por_abate(andar)) * gerente.mult_evento("ouro") * gerente.mult_ouro_online()
 	sessao.enviar({"t": "recompensa", "andar": andar, "id": id, "ouro": snappedf(ouro, 0.001), "ultimo": gerente.inimigos_vivos <= 0})
 
-func pedir_golpe(id: int, dano: int, empurrao: Vector2) -> void:
-	sessao.enviar({"t": "golpe", "andar": andar, "id": id, "dano": dano, "kx": empurrao.x, "ky": empurrao.y})
+func pedir_golpe(id: int, dano: int, empurrao: Vector2, credito: Dictionary = {}) -> void:
+	sessao.enviar({"t": "golpe", "andar": andar, "id": id, "dano": dano, "kx": empurrao.x, "ky": empurrao.y, "maestria":credito})
 
 func pedir_efeito(id: int, efeito: Dictionary) -> void:
 	sessao.enviar({"t": "efeito", "andar": andar, "id": id, "efeito": efeito})
 
 func _aplicar_efeito(m: Dictionary) -> void:
+	if not m.get("efeito",{}).get("tipo","") in ["atordoar"]: return
 	var id := int(m.get("id", 0))
 	var parceiro: Node2D = parceiros.get(str(m.get("de", "")))
 	if parceiro == null or not _inimigos.has(id) or not is_instance_valid(_inimigos[id]) or parceiro.estaMorto: return
@@ -433,13 +476,21 @@ func _aplicar_golpe(m: Dictionary) -> void:
 	var no: Node2D = _inimigos[id]
 	var alcance := 450.0 if parceiro.usando_arco else 110.0
 	if no.global_position.distance_to(parceiro.global_position) > alcance: return
+	var pedido_credito:Variant=m.get("maestria",{})
+	if pedido_credito is Dictionary and int(pedido_credito.get("evento",-1))>=0:
+		var unico:="%s:%d:%d" % [de,id,int(pedido_credito.evento)]
+		if _maestria_eventos.has(unico):return
 	var agora := Time.get_ticks_msec()
 	var chave := de + ":" + str(id)
 	if agora < int(_golpes.get(chave, 0)): return
 	_golpes[chave] = agora + 120
 	var limite := clampi(int(sessao.perfil_de(de).get("dano_maximo", 30)), 1, 100000)
 	var dano := clampi(int(m.get("dano", 0)), 0, limite)
+	var vida_antes: int = maxi(0,int(no.vida))
+	var vida_base: int = maxi(1,int(_vmax.get(id,vida_antes)))
 	if dano > 0: no.receber_dano(dano, Vector2(float(m.get("kx", 0)), float(m.get("ky", 0))).limit_length(400))
+	var recebido: int = maxi(0,vida_antes - maxi(0,int(no.vida))) if is_instance_valid(no) else vida_antes
+	_creditar_maestria_remota(de,id,parceiro,m.get("maestria",{}),recebido,vida_base)
 
 ## O anfitrião viu um inimigo colado no convidado; se na tela do convidado esse inimigo está longe, o golpe foi só atraso de rede.
 func _contato_desmentido(id: int) -> bool:
@@ -708,3 +759,26 @@ func _criar_saque(m: Dictionary) -> void:
 		drop.semente = str(m.semente)
 		drop.preparar_pulo(posicao, posicao)
 		cena.add_child(drop)
+
+func _creditar_maestria_remota(de: String,id: int,parceiro: Node,credito: Variant,dano: int,vida: int) -> void:
+	if dano<=0 or not credito is Dictionary:return
+	var catalogo=preload("res://codigo/dados/catalogo_maestria.gd")
+	var f:=str(credito.get("familia",""))
+	var permitida:String=catalogo.familia(parceiro.id_arma_atual)
+	if parceiro.usando_lanca:permitida="lanca"
+	if parceiro.usando_arco:permitida="arco"
+	if not f in catalogo.FAMILIAS:return
+	if f!=permitida and not (f=="escudo" and parceiro.usando_escudo) and not (f=="arco" and Time.get_ticks_msec()-int(_armas_recentes.get(de, -10000))<1500):return
+	var evento:=int(credito.get("evento",-1))
+	if evento<0:return
+	var chave:="%s:%d" % [de,id]
+	var unico:="%s:%d" % [chave,evento]
+	if _maestria_eventos.has(unico):return
+	_maestria_eventos[unico]=true
+	var usado:float=_maestria_gasta.get(chave,0.0)
+	var aceito:=minf(float(dano),vida-usado)
+	if aceito<=0:return
+	_maestria_gasta[chave]=usado+aceito
+	var xp:=clampi(roundi(maxf(20,sqrt(float(vida))*6.0)*aceito/vida),1,180)
+	_credito_seq+=1
+	sessao.enviar_para(de,{"t":"maestria_credito","andar":andar,"familia":f,"xp":xp,"ticket":"%d:%d:%d" % [Time.get_ticks_usec(),id,_credito_seq]})

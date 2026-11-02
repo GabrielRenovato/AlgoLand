@@ -10,6 +10,8 @@ signal prontos_mudaram
 const Duelo := preload("res://codigo/duelo/conexao_duelo.gd")
 const Catalogo := preload("res://codigo/fendas/catalogo_andares.gd")
 const LIMITE_PACOTE := 262144
+## Estados velhos não servem: com fila curta o canal descarta em vez de acumular segundos de atraso em upload fraco.
+const LIMITE_FILA_ESTADOS := 16384
 const MAX_JOGADORES := 4
 ## Reanimar um aliado: segurar a ação de interagir por este tempo; ele volta com pouca vida.
 const TEMPO_REVIVER := 1.5
@@ -44,6 +46,8 @@ var _prazo := 0
 var _cena: Node
 var motivo_final := ""
 var _fila: Array[Dictionary] = []
+## Movimento não disputa as 256 vagas dos eventos e lotes do mundo.
+var _movimentos: Dictionary = {}
 var _encerrados: Array[Dictionary] = []
 var _n_conectados := 0
 ## Convidados que já se declararam prontos para o próximo andar (id -> bool). O anfitrião decide, os convidados só veem.
@@ -52,6 +56,11 @@ var prontos_avanco: Dictionary = {}
 func retirar_pacotes(nivel: int) -> Array[Dictionary]:
 	var resultado: Array[Dictionary] = []
 	var pendentes: Array[Dictionary] = []
+	for chave in _movimentos.keys():
+		var m: Dictionary = _movimentos[chave]
+		var andar_pacote := int(m.get("andar", -1))
+		if andar_pacote == nivel: resultado.append(m)
+		if andar_pacote <= nivel: _movimentos.erase(chave)
 	for m in _fila:
 		if int(m.get("andar", -1)) == nivel: resultado.append(m)
 		elif int(m.get("andar", -1)) > nivel: pendentes.append(m)
@@ -172,7 +181,7 @@ func _pedir(jogador: Node2D, pedido: Dictionary) -> void:
 	if Cooperativo.ativo:
 		erro.emit("SAIA DO COOP LOCAL ANTES DE ENTRAR NO ONLINE")
 		return
-	if Introducao.ativa():
+	if Introducao.ativa() and not permite_entrada_sem_tutorial():
 		erro.emit("TERMINE O TUTORIAL ANTES DE ENTRAR NO COOP")
 		return
 	if not load("res://codigo/conta/cliente_conta.gd").obter(get_tree()).online_liberado():
@@ -235,7 +244,7 @@ func _remover_par(id: String) -> void:
 func _enviar_par(par: Par, bytes: PackedByteArray, estado: bool) -> bool:
 	var canal := par.estados if estado else par.eventos
 	if not par.conectado or canal == null or canal.get_ready_state() != WebRTCDataChannel.STATE_OPEN: return false
-	if bytes.size() > 16384 or canal.get_buffered_amount() > LIMITE_PACOTE: return false
+	if bytes.size() > 16384 or canal.get_buffered_amount() > (LIMITE_FILA_ESTADOS if estado else LIMITE_PACOTE): return false
 	return canal.put_packet(bytes) == OK
 
 ## Anfitrião: para todos os convidados. Convidado: para o anfitrião. Verdadeiro se chegou a alguém.
@@ -414,7 +423,16 @@ func _receber(m: Dictionary, de: String, estado := false) -> void:
 			if sou_host():
 				# O remetente é quem a conexão diz ser, nunca o que o pacote afirma.
 				m["de"] = de
-				if m.get("t") == "jogador": _retransmitir(m, de, estado)
+			if m.get("t") == "jogador":
+				var nivel := int(m.get("andar", -1))
+				var remetente := str(m.get("de", ""))
+				if nivel < andar or nivel > andar + 1 or remetente.is_empty(): return
+				var chave := "%d:%s" % [nivel, remetente]
+				var anterior: Dictionary = _movimentos.get(chave, {})
+				if m.has("seq") and anterior.has("seq") and int(m.seq) <= int(anterior.seq): return
+				_movimentos[chave] = m
+				if sou_host(): _retransmitir(m, de, estado)
+				return
 			if _fila.size() < 256: _fila.append(m)
 
 func iniciar() -> void:
@@ -522,6 +540,7 @@ func sair(avisar := true) -> void:
 	if ws_antigo != null: _encerrados.append({"ws": ws_antigo, "ate": Time.get_ticks_msec() + 2000})
 	ativo = false
 	_fila.clear()
+	_movimentos.clear()
 	prontos_avanco.clear()
 	conectado = false
 	_prazo = 0
@@ -536,3 +555,6 @@ func sair(avisar := true) -> void:
 	_cena = null
 	encerrou.emit(motivo_final)
 	mudou.emit()
+
+func permite_entrada_sem_tutorial() -> bool:
+	return false

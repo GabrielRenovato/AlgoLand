@@ -1,0 +1,1261 @@
+{
+  "grade": 8,
+  "corredor_minimo": 32,
+  "fontes_permitidas": [
+    "assets/cenario/cidade/interiores_detalhados/"
+  ],
+  "casas": {
+    "mara": {
+      "nome": "Pousada de Mara e Téo",
+      "familia": [
+        "mara",
+        "teo"
+      ],
+      "geometria": {
+        "recorte": [
+          0,
+          0,
+          800,
+          640
+        ],
+        "porta": [
+          448,
+          496
+        ],
+        "chao_sul": 592,
+        "chegada": [
+          472.0,
+          568
+        ],
+        "saida": [
+          472.0,
+          600
+        ],
+        "areas": [
+          {
+            "nome": "Quarto da Mara",
+            "retangulo": [
+              32,
+              64,
+              160,
+              144
+            ],
+            "piso": "claro"
+          },
+          {
+            "nome": "Quarto do Téo",
+            "retangulo": [
+              224,
+              64,
+              160,
+              144
+            ],
+            "piso": "claro"
+          },
+          {
+            "nome": "Hóspedes 1",
+            "retangulo": [
+              480,
+              64,
+              128,
+              192
+            ],
+            "piso": "claro"
+          },
+          {
+            "nome": "Hóspedes 2",
+            "retangulo": [
+              640,
+              64,
+              128,
+              192
+            ],
+            "piso": "claro"
+          },
+          {
+            "nome": "Passagem",
+            "retangulo": [
+              96,
+              208,
+              48,
+              40
+            ],
+            "piso": "medio"
+          },
+          {
+            "nome": "Passagem",
+            "retangulo": [
+              288,
+              208,
+              48,
+              40
+            ],
+            "piso": "medio"
+          },
+          {
+            "nome": "Corredor",
+            "retangulo": [
+              96,
+              248,
+              384,
+              48
+            ],
+            "piso": "medio"
+          },
+          {
+            "nome": "Corredor",
+            "retangulo": [
+              480,
+              296,
+              288,
+              40
+            ],
+            "piso": "medio"
+          },
+          {
+            "nome": "Passagem",
+            "retangulo": [
+              432,
+              248,
+              48,
+              88
+            ],
+            "piso": "medio"
+          },
+          {
+            "nome": "Passagem",
+            "retangulo": [
+              520,
+              256,
+              48,
+              40
+            ],
+            "piso": "medio"
+          },
+          {
+            "nome": "Passagem",
+            "retangulo": [
+              680,
+              256,
+              48,
+              40
+            ],
+            "piso": "medio"
+          },
+          {
+            "nome": "Cozinha da pousada",
+            "retangulo": [
+              32,
+              336,
+              192,
+              128
+            ],
+            "piso": "escuro"
+          },
+          {
+            "nome": "Passagem",
+            "retangulo": [
+              96,
+              296,
+              48,
+              40
+            ],
+            "piso": "medio"
+          },
+          {
+            "nome": "Recepção e salão",
+            "retangulo": [
+              256,
+              376,
+              512,
+              216
+            ],
+            "piso": "medio"
+          },
+          {
+            "nome": "Passagem",
+            "retangulo": [
+              432,
+              336,
+              48,
+              40
+            ],
+            "piso": "medio"
+          },
+          {
+            "nome": "Passagem",
+            "retangulo": [
+              224,
+              416,
+              32,
+              48
+            ],
+            "piso": "medio"
+          },
+          {
+            "nome": "Saída",
+            "retangulo": [
+              448,
+              592,
+              48,
+              48
+            ],
+            "piso": "medio"
+          }
+        ],
+        "janelas": [
+          [
+            40,
+            64
+          ],
+          [
+            232,
+            64
+          ],
+          [
+            552,
+            64
+          ],
+          [
+            704,
+            64
+          ],
+          [
+            40,
+            336
+          ],
+          [
+            720,
+            376
+          ]
+        ]
+      },
+      "areas_publicas": [
+        "Recepção e salão"
+      ],
+      "quartos": [
+        "Quarto da Mara",
+        "Quarto do Téo",
+        "Hóspedes 1",
+        "Hóspedes 2"
+      ],
+      "itens": [
+        {
+          "chave": "interior/casa_bento/cama",
+          "x": 80,
+          "y": 144,
+          "col": [
+            28,
+            48
+          ],
+          "id": "CamaResponsavel"
+        },
+        {
+          "chave": "interior/sede/estante",
+          "x": 160,
+          "y": 128,
+          "col": [
+            30,
+            12
+          ]
+        },
+        {
+          "chave": "interior/venda/bau",
+          "x": 152,
+          "y": 192,
+          "col": [
+            26,
+            12
+          ]
+        },
+        {
+          "chave": "interior/casa_bento/cama",
+          "x": 272,
+          "y": 144,
+          "col": [
+            28,
+            48
+          ],
+          "id": "CamaCrianca"
+        },
+        {
+          "chave": "interior/pousada/mesa",
+          "x": 344,
+          "y": 152,
+          "col": [
+            40,
+            14
+          ],
+          "id": "MesaCrianca"
+        },
+        {
+          "chave": "interior/sede/cadeira",
+          "x": 344,
+          "y": 192,
+          "col": [
+            12,
+            8
+          ]
+        },
+        {
+          "chave": "interior/casa_bento/cama",
+          "x": 512,
+          "y": 152,
+          "col": [
+            28,
+            48
+          ],
+          "id": "CamaHospede1"
+        },
+        {
+          "chave": "interior/venda/bau",
+          "x": 584,
+          "y": 232,
+          "col": [
+            26,
+            12
+          ]
+        },
+        {
+          "chave": "interior/pousada/mesa",
+          "x": 568,
+          "y": 192,
+          "col": [
+            40,
+            14
+          ]
+        },
+        {
+          "chave": "interior/casa_bento/cama",
+          "x": 672,
+          "y": 152,
+          "col": [
+            28,
+            48
+          ],
+          "id": "CamaHospede2"
+        },
+        {
+          "chave": "interior/venda/bau",
+          "x": 744,
+          "y": 232,
+          "col": [
+            26,
+            12
+          ]
+        },
+        {
+          "chave": "interior/pousada/mesa",
+          "x": 728,
+          "y": 192,
+          "col": [
+            40,
+            14
+          ]
+        },
+        {
+          "chave": "interior/casa_bento/lareira",
+          "x": 64,
+          "y": 400,
+          "col": [
+            44,
+            12
+          ]
+        },
+        {
+          "chave": "interior/venda/balcao",
+          "x": 136,
+          "y": 376,
+          "col": [
+            58,
+            14
+          ],
+          "id": "BancadaCozinha"
+        },
+        {
+          "chave": "interior/enfermaria/lavatorio",
+          "x": 184,
+          "y": 376,
+          "col": [
+            24,
+            12
+          ],
+          "id": "PiaCozinha"
+        },
+        {
+          "chave": "interior/pousada/prateleira",
+          "x": 64,
+          "y": 456,
+          "col": [
+            32,
+            12
+          ]
+        },
+        {
+          "chave": "familias/balcao_hospedaria",
+          "x": 544,
+          "y": 456,
+          "col": [
+            96,
+            20
+          ],
+          "id": "BalcaoDeMara"
+        },
+        {
+          "chave": "interior/sede/estante",
+          "x": 704,
+          "y": 440,
+          "col": [
+            30,
+            12
+          ],
+          "id": "ArmarioRecepcao"
+        },
+        {
+          "chave": "interior/sede/banco_reuniao",
+          "x": 304,
+          "y": 504,
+          "col": [
+            30,
+            10
+          ]
+        },
+        {
+          "chave": "interior/sede/banco_reuniao",
+          "x": 352,
+          "y": 504,
+          "col": [
+            30,
+            10
+          ]
+        },
+        {
+          "chave": "interior/pousada/mesa",
+          "x": 320,
+          "y": 552,
+          "col": [
+            44,
+            14
+          ]
+        },
+        {
+          "chave": "interior/sede/cadeira",
+          "x": 280,
+          "y": 552,
+          "col": [
+            12,
+            8
+          ]
+        },
+        {
+          "chave": "interior/sede/cadeira",
+          "x": 360,
+          "y": 552,
+          "col": [
+            12,
+            8
+          ]
+        },
+        {
+          "chave": "interior/pousada/mesa",
+          "x": 640,
+          "y": 552,
+          "col": [
+            44,
+            14
+          ]
+        },
+        {
+          "chave": "interior/sede/cadeira",
+          "x": 600,
+          "y": 552,
+          "col": [
+            12,
+            8
+          ]
+        },
+        {
+          "chave": "interior/sede/cadeira",
+          "x": 680,
+          "y": 552,
+          "col": [
+            12,
+            8
+          ]
+        },
+        {
+          "chave": "interior/pousada/tapete",
+          "x": 472,
+          "y": 576,
+          "col": [
+            0,
+            0
+          ],
+          "id": "TapeteEntrada",
+          "sem_colisao": true,
+          "no_chao": true
+        },
+        {
+          "chave": "interior/venda/planta",
+          "x": 736,
+          "y": 568,
+          "col": [
+            16,
+            10
+          ]
+        }
+      ]
+    },
+    "cora": {
+      "nome": "Padaria de Cora e Bia",
+      "familia": [
+        "cora",
+        "bia"
+      ],
+      "geometria": {
+        "recorte": [
+          0,
+          0,
+          608,
+          624
+        ],
+        "porta": [
+          432,
+          480
+        ],
+        "chao_sul": 576,
+        "chegada": [
+          456.0,
+          552
+        ],
+        "saida": [
+          456.0,
+          584
+        ],
+        "areas": [
+          {
+            "nome": "Produção da padaria",
+            "retangulo": [
+              32,
+              64,
+              208,
+              264
+            ],
+            "piso": "escuro"
+          },
+          {
+            "nome": "Quarto da Cora",
+            "retangulo": [
+              320,
+              64,
+              256,
+              112
+            ],
+            "piso": "claro"
+          },
+          {
+            "nome": "Quarto da Bia",
+            "retangulo": [
+              320,
+              216,
+              256,
+              112
+            ],
+            "piso": "claro"
+          },
+          {
+            "nome": "Corredor",
+            "retangulo": [
+              256,
+              112,
+              32,
+              216
+            ],
+            "piso": "claro"
+          },
+          {
+            "nome": "Passagem",
+            "retangulo": [
+              288,
+              128,
+              32,
+              48
+            ],
+            "piso": "claro"
+          },
+          {
+            "nome": "Passagem",
+            "retangulo": [
+              288,
+              264,
+              32,
+              48
+            ],
+            "piso": "claro"
+          },
+          {
+            "nome": "Passagem",
+            "retangulo": [
+              112,
+              328,
+              48,
+              40
+            ],
+            "piso": "escuro"
+          },
+          {
+            "nome": "Passagem",
+            "retangulo": [
+              256,
+              328,
+              32,
+              40
+            ],
+            "piso": "claro"
+          },
+          {
+            "nome": "Loja da padaria",
+            "retangulo": [
+              32,
+              368,
+              544,
+              208
+            ],
+            "piso": "medio"
+          },
+          {
+            "nome": "Saída",
+            "retangulo": [
+              432,
+              576,
+              48,
+              48
+            ],
+            "piso": "medio"
+          }
+        ],
+        "janelas": [
+          [
+            40,
+            64
+          ],
+          [
+            488,
+            64
+          ],
+          [
+            488,
+            216
+          ],
+          [
+            40,
+            368
+          ],
+          [
+            528,
+            368
+          ]
+        ]
+      },
+      "areas_publicas": [
+        "Loja da padaria"
+      ],
+      "quartos": [
+        "Quarto da Cora",
+        "Quarto da Bia"
+      ],
+      "itens": [
+        {
+          "chave": "interior/casa_bento/cama",
+          "x": 352,
+          "y": 144,
+          "col": [
+            28,
+            48
+          ],
+          "id": "CamaResponsavel"
+        },
+        {
+          "chave": "interior/sede/estante",
+          "x": 520,
+          "y": 128,
+          "col": [
+            30,
+            12
+          ]
+        },
+        {
+          "chave": "interior/venda/bau",
+          "x": 552,
+          "y": 160,
+          "col": [
+            26,
+            12
+          ]
+        },
+        {
+          "chave": "interior/casa_bento/cama",
+          "x": 384,
+          "y": 296,
+          "col": [
+            28,
+            48
+          ],
+          "id": "CamaCrianca"
+        },
+        {
+          "chave": "interior/pousada/mesa",
+          "x": 488,
+          "y": 280,
+          "col": [
+            40,
+            14
+          ],
+          "id": "MesaCrianca"
+        },
+        {
+          "chave": "interior/sede/cadeira",
+          "x": 488,
+          "y": 312,
+          "col": [
+            12,
+            8
+          ]
+        },
+        {
+          "chave": "interior/forja/fornalha",
+          "x": 72,
+          "y": 144,
+          "col": [
+            44,
+            14
+          ],
+          "recorte": [
+            0,
+            0,
+            50,
+            56
+          ],
+          "id": "FornoSemBigorna"
+        },
+        {
+          "chave": "familias/bancada_padeiro",
+          "x": 152,
+          "y": 112,
+          "col": [
+            72,
+            20
+          ],
+          "id": "BancadaDeCora"
+        },
+        {
+          "chave": "interior/enfermaria/lavatorio",
+          "x": 208,
+          "y": 112,
+          "col": [
+            24,
+            12
+          ],
+          "id": "PiaProducao"
+        },
+        {
+          "chave": "interior/venda/sacos",
+          "x": 192,
+          "y": 304,
+          "col": [
+            48,
+            16
+          ],
+          "id": "FarinhaProducao"
+        },
+        {
+          "chave": "interior/pousada/prateleira",
+          "x": 72,
+          "y": 304,
+          "col": [
+            32,
+            12
+          ],
+          "id": "DespensaProducao"
+        },
+        {
+          "chave": "familias/vitrine_padaria",
+          "x": 368,
+          "y": 448,
+          "col": [
+            136,
+            22
+          ],
+          "id": "VitrineDePaes"
+        },
+        {
+          "chave": "interior/venda/balcao",
+          "x": 472,
+          "y": 448,
+          "col": [
+            58,
+            14
+          ],
+          "id": "EmbalagemDaLoja"
+        },
+        {
+          "chave": "interior/pousada/prateleira",
+          "x": 80,
+          "y": 432,
+          "col": [
+            32,
+            12
+          ],
+          "id": "ProdutosLoja1"
+        },
+        {
+          "chave": "interior/pousada/prateleira",
+          "x": 168,
+          "y": 432,
+          "col": [
+            32,
+            12
+          ],
+          "id": "ProdutosLoja2"
+        },
+        {
+          "chave": "interior/sede/banco_reuniao",
+          "x": 88,
+          "y": 552,
+          "col": [
+            30,
+            10
+          ]
+        },
+        {
+          "chave": "interior/sede/banco_reuniao",
+          "x": 136,
+          "y": 552,
+          "col": [
+            30,
+            10
+          ]
+        },
+        {
+          "chave": "interior/venda/planta",
+          "x": 552,
+          "y": 552,
+          "col": [
+            16,
+            8
+          ]
+        }
+      ]
+    },
+    "rosa": {
+      "nome": "Casa e botica de Rosa e Nina",
+      "familia": [
+        "rosa",
+        "nina"
+      ],
+      "geometria": {
+        "recorte": [
+          0,
+          0,
+          576,
+          640
+        ],
+        "porta": [
+          400,
+          448
+        ],
+        "chao_sul": 592,
+        "chegada": [
+          424.0,
+          568
+        ],
+        "saida": [
+          424.0,
+          600
+        ],
+        "areas": [
+          {
+            "nome": "Quarto da Rosa",
+            "retangulo": [
+              32,
+              64,
+              176,
+              144
+            ],
+            "piso": "claro"
+          },
+          {
+            "nome": "Quarto da Nina",
+            "retangulo": [
+              32,
+              248,
+              176,
+              128
+            ],
+            "piso": "claro"
+          },
+          {
+            "nome": "Corredor",
+            "retangulo": [
+              224,
+              128,
+              32,
+              248
+            ],
+            "piso": "claro"
+          },
+          {
+            "nome": "Passagem",
+            "retangulo": [
+              208,
+              152,
+              16,
+              48
+            ],
+            "piso": "claro"
+          },
+          {
+            "nome": "Passagem",
+            "retangulo": [
+              208,
+              304,
+              16,
+              48
+            ],
+            "piso": "claro"
+          },
+          {
+            "nome": "Cozinha da família",
+            "retangulo": [
+              288,
+              64,
+              256,
+              144
+            ],
+            "piso": "escuro"
+          },
+          {
+            "nome": "Passagem",
+            "retangulo": [
+              256,
+              128,
+              32,
+              48
+            ],
+            "piso": "claro"
+          },
+          {
+            "nome": "Consultório",
+            "retangulo": [
+              288,
+              248,
+              256,
+              128
+            ],
+            "piso": "escuro"
+          },
+          {
+            "nome": "Passagem",
+            "retangulo": [
+              224,
+              376,
+              32,
+              40
+            ],
+            "piso": "claro"
+          },
+          {
+            "nome": "Passagem",
+            "retangulo": [
+              448,
+              376,
+              48,
+              40
+            ],
+            "piso": "escuro"
+          },
+          {
+            "nome": "Loja de ervas e espera",
+            "retangulo": [
+              32,
+              416,
+              512,
+              176
+            ],
+            "piso": "medio"
+          },
+          {
+            "nome": "Saída",
+            "retangulo": [
+              400,
+              592,
+              48,
+              48
+            ],
+            "piso": "medio"
+          }
+        ],
+        "janelas": [
+          [
+            40,
+            64
+          ],
+          [
+            40,
+            248
+          ],
+          [
+            472,
+            64
+          ],
+          [
+            472,
+            248
+          ],
+          [
+            40,
+            416
+          ]
+        ]
+      },
+      "areas_publicas": [
+        "Loja de ervas e espera"
+      ],
+      "quartos": [
+        "Quarto da Rosa",
+        "Quarto da Nina"
+      ],
+      "itens": [
+        {
+          "chave": "interior/casa_bento/cama",
+          "x": 80,
+          "y": 144,
+          "col": [
+            28,
+            48
+          ],
+          "id": "CamaResponsavel"
+        },
+        {
+          "chave": "interior/sede/estante",
+          "x": 168,
+          "y": 128,
+          "col": [
+            30,
+            12
+          ]
+        },
+        {
+          "chave": "interior/venda/bau",
+          "x": 152,
+          "y": 192,
+          "col": [
+            26,
+            12
+          ]
+        },
+        {
+          "chave": "interior/casa_bento/cama",
+          "x": 80,
+          "y": 328,
+          "col": [
+            28,
+            48
+          ],
+          "id": "CamaCrianca"
+        },
+        {
+          "chave": "interior/pousada/mesa",
+          "x": 160,
+          "y": 312,
+          "col": [
+            40,
+            14
+          ],
+          "id": "MesaCrianca"
+        },
+        {
+          "chave": "interior/sede/cadeira",
+          "x": 160,
+          "y": 352,
+          "col": [
+            12,
+            8
+          ]
+        },
+        {
+          "chave": "interior/venda/balcao",
+          "x": 336,
+          "y": 104,
+          "col": [
+            58,
+            14
+          ],
+          "id": "BancadaCozinha"
+        },
+        {
+          "chave": "interior/enfermaria/lavatorio",
+          "x": 384,
+          "y": 104,
+          "col": [
+            24,
+            12
+          ],
+          "id": "PiaCozinha"
+        },
+        {
+          "chave": "interior/casa_bento/lareira",
+          "x": 448,
+          "y": 128,
+          "col": [
+            44,
+            12
+          ],
+          "id": "FogaoDaFamilia"
+        },
+        {
+          "chave": "interior/pousada/prateleira",
+          "x": 512,
+          "y": 144,
+          "col": [
+            32,
+            12
+          ]
+        },
+        {
+          "chave": "interior/pousada/mesa",
+          "x": 464,
+          "y": 192,
+          "col": [
+            40,
+            14
+          ]
+        },
+        {
+          "chave": "interior/sede/cadeira",
+          "x": 504,
+          "y": 192,
+          "col": [
+            12,
+            8
+          ]
+        },
+        {
+          "chave": "interior/enfermaria/cama",
+          "x": 496,
+          "y": 344,
+          "col": [
+            24,
+            34
+          ],
+          "id": "MacaConsultorio"
+        },
+        {
+          "chave": "interior/enfermaria/armario",
+          "x": 328,
+          "y": 312,
+          "col": [
+            34,
+            12
+          ]
+        },
+        {
+          "chave": "interior/enfermaria/mesa",
+          "x": 400,
+          "y": 320,
+          "col": [
+            28,
+            14
+          ],
+          "id": "MesaConsulta"
+        },
+        {
+          "chave": "interior/sede/cadeira",
+          "x": 400,
+          "y": 352,
+          "col": [
+            12,
+            8
+          ]
+        },
+        {
+          "chave": "interior/mistica/pocoes",
+          "x": 80,
+          "y": 488,
+          "col": [
+            40,
+            14
+          ],
+          "id": "ProdutosBotica1"
+        },
+        {
+          "chave": "interior/mistica/pocoes",
+          "x": 176,
+          "y": 488,
+          "col": [
+            40,
+            14
+          ],
+          "id": "ProdutosBotica2"
+        },
+        {
+          "chave": "familias/bancada_ervas",
+          "x": 392,
+          "y": 496,
+          "col": [
+            64,
+            20
+          ],
+          "id": "BalcaoDeRosa"
+        },
+        {
+          "chave": "interior/venda/balcao",
+          "x": 320,
+          "y": 496,
+          "col": [
+            58,
+            14
+          ],
+          "id": "BalcaoBoticaEsquerda"
+        },
+        {
+          "chave": "interior/venda/balcao",
+          "x": 464,
+          "y": 496,
+          "col": [
+            58,
+            14
+          ],
+          "id": "BalcaoBoticaDireita"
+        },
+        {
+          "chave": "interior/sede/banco_reuniao",
+          "x": 104,
+          "y": 568,
+          "col": [
+            30,
+            10
+          ]
+        },
+        {
+          "chave": "interior/sede/banco_reuniao",
+          "x": 152,
+          "y": 568,
+          "col": [
+            30,
+            10
+          ]
+        },
+        {
+          "chave": "interior/venda/planta",
+          "x": 512,
+          "y": 568,
+          "col": [
+            16,
+            8
+          ]
+        }
+      ]
+    }
+  }
+}

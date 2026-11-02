@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3]
+[ext_resource type="Script" path="res://codigo/cidade/familias/interior_familia.gd" id="1"]
+[node name="Casacora" type="Node2D"]
+script = ExtResource("1")
+id = "cora"

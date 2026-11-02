@@ -30,6 +30,9 @@ uniform bool usar_textura_cabelo = false;
 uniform sampler2D textura_cabelo : source_color, filter_linear_mipmap, repeat_enable;
 uniform bool desenho_pixel_cabeca = false;
 uniform bool substituir_cabeca = false;
+// Cabelo infantil separado deixa a nuca descoberta: preservar essa pele sob a pintura.
+uniform bool preservar_nuca = false;
+varying vec3 posicao_reposo_nuca;
 uniform sampler2D desenho_rosto : source_color, filter_nearest, repeat_disable;
 uniform sampler2D desenho_cabelo : source_color, filter_nearest, repeat_enable;
 // No estudo, conservar o azul e as gradações da referência anexada.
@@ -56,6 +59,9 @@ uniform vec4 cor_olhos : source_color = vec4(0.29, 0.22, 0.20, 1.0);
 uniform bool raspado = false;
 uniform vec4 cor_raspado : source_color = vec4(0.36, 0.24, 0.16, 1.0);
 uniform bool esconder_calca = false;
+// Peças curtas deixam joelhos e canelas descobertos. O padrão preserva as calças atuais.
+uniform float altura_barra_calca = .24;
+uniform bool cobertura_saia_longa = false;
 uniform bool esconder_botas = false;
 // Acabamento toon: luz em três faixas e brilho de borda. `inflar` engorda a malha
 // (corpo e roupa juntos, sem o cabelo) para membros mais roliços de chibi.
@@ -65,6 +71,7 @@ uniform vec4 cor_borda : source_color = vec4(1.0, 0.93, 0.82, 1.0);
 uniform float forca_borda = 0.22;
 
 void vertex() {
+    posicao_reposo_nuca=VERTEX;
     uv_pixel = CUSTOM0.xy;
     if (!usar_textura_cabelo) VERTEX += NORMAL * inflar;
 }
@@ -130,7 +137,8 @@ vec2 uv_desenho_roupa(vec3 p) {
     return painel_tecido(uv,painel);
 }
 void fragment() {
-    if (substituir_cabeca && usar_cor_do_vertice && COLOR.r>.25 && COLOR.r<.75) discard;
+    bool nuca_visivel=preservar_nuca && COLOR.b*.32-.03<.085 && COLOR.a*.32-.16<.015;
+    if (substituir_cabeca && usar_cor_do_vertice && COLOR.r>.25 && COLOR.r<.75 && !nuca_visivel) discard;
     if (facetado && !(usar_cor_do_vertice && desenho_pixel_corpo)) {
         vec3 face = normalize(cross(dFdx(VERTEX), dFdy(VERTEX)));
         NORMAL = dot(face, NORMAL)<0.0 ? -face : face;
@@ -148,8 +156,10 @@ void fragment() {
     SPECULAR = 0.25;
     // UV2 guarda apenas a cobertura da roupa no corpo em repouso.
     if (usar_cor_do_vertice) {
-        if (esconder_camisa && UV2.x > 0.0) discard;
-        if (esconder_calca && UV2.y > 0.24 && UV2.y < 1.025) discard;
+        if (cobertura_saia_longa && UV2.y<1.025) discard;
+        bool pescoco_infantil=preservar_nuca && abs(posicao_reposo_nuca.x)<.075 && posicao_reposo_nuca.y>1.470 && posicao_reposo_nuca.y<1.70 && posicao_reposo_nuca.z<-.025;
+        if (esconder_camisa && UV2.x > 0.0 && !pescoco_infantil) discard;
+        if (esconder_calca && UV2.y > altura_barra_calca && UV2.y < 1.025) discard;
         if (esconder_botas && UV2.y < altura_botas) discard;
         ALBEDO = mix(pele_base.rgb,short_base.rgb,step(0.75,COLOR.r));
         if (desenho_pixel_corpo && (COLOR.r<.25 || COLOR.r>.75)) {

@@ -28,6 +28,7 @@ static func v_tronco(y: float) -> float:
 ## Tom de um texel. faixas: Vector2(v mínimo, v máximo) que a peça cobre em cada parte;
 ## passo: tamanho de 1 texel em v naquela parte (para bainhas de 1 texel).
 static func tom(categoria: String, estilo: int, parte: String, u: float, v: float, faixas: Dictionary, passo: float) -> Color:
+	if categoria=="camisa" and estilo>=6:return _fantasia(estilo,parte,u,v,passo)
 	var base := _tecido(1.0)
 	var vinco := _tecido(0.80)
 	var luz := _tecido(1.10)
@@ -112,11 +113,13 @@ static func tom(categoria: String, estilo: int, parte: String, u: float, v: floa
 	return base
 
 static func pintar(categoria: String, estilo: int, faixas: Dictionary) -> Image:
-	var imagem := Image.create(PELE.TAMANHO.x, PELE.TAMANHO.y, false, Image.FORMAT_RGBA8)
+	# Detalhes finos das peças novas: o atlas normalizado conserva o encaixe no rig.
+	var escala:=4 if categoria=="camisa" and estilo>=6 else 1
+	var imagem := Image.create(PELE.TAMANHO.x*escala, PELE.TAMANHO.y*escala, false, Image.FORMAT_RGBA8)
 	imagem.fill(_tecido(1.0))
 	for parte in PELE.PARTES:
 		var d: Dictionary = PELE.PARTES[parte]
-		var tile: Rect2i = d.tile
+		var tile:=Rect2i(d.tile.position*escala,d.tile.size*escala)
 		var faixa: Vector2 = d.v
 		var passo := (faixa.y - faixa.x) / tile.size.y
 		for y in tile.size.y:
@@ -125,3 +128,50 @@ static func pintar(categoria: String, estilo: int, faixas: Dictionary) -> Image:
 				var v := faixa.x + (1.0 - (y + 0.5) / tile.size.y) * (faixa.y - faixa.x)
 				imagem.set_pixel(tile.position.x + x, tile.position.y + y, tom(categoria, estilo, parte, u, v, faixas, passo))
 	return imagem
+
+## Pintura pertence ao atlas da PEÇA, nunca ao corpo. Geometria e pesos são próprios.
+static func _fantasia(estilo: int,parte: String,u: float,v: float,passo: float) -> Color:
+	var y:=0.9167+v*0.571
+	var frente:=absf(u-0.5)<0.25
+	var centro:=absf(u-0.5)
+	var base:=_tecido(1.0)
+	if estilo==8:
+		if parte!="mao":return _propria(CREME)
+		var altura:float=(v+.2)/2.4
+		var couro:=Color("88502e")
+		var costura:=Color("b48351")
+		if absf(u-.5)>.45 or altura<.025:return _propria(Color("593620"))
+		if (absf(u-.5)>.42 and absf(u-.5)<.435) or (altura>.035 and altura<.05):return _propria(costura)
+		if altura>.30 and altura<.49 and absf(u-.5)<.22:
+			if altura>.47 or absf(u-.5)>.20:return _propria(costura)
+			return _propria(Color("69412a"))
+		if altura>.88 and altura<.92 and absf(absf(u-.5)-.18)<.025:return _propria(OURO)
+		return _propria(couro*(.96+.045*cos(u*TAU*3)))
+	if parte in ["braco","antebraco"]:
+		return _propria(CREME) if estilo in [7,8,9,11,12] else base
+	if parte!="tronco":return base
+	if estilo==12:
+		if frente and y>1.38 and centro<0.17:return _propria(CREME)
+		if frente and centro<0.055 and y>1.10:
+			var zigue:=absf(fmod((y-1.1)/0.07,1.0)-0.5)*0.10
+			return _propria(COURO_ESCURO) if absf(centro-zigue)<0.014 else _propria(CREME)
+		return base
+	if y>1.40 and frente and centro<0.075:return _propria(CREME)
+	if y>1.045 and y<1.085:
+		return _propria(OURO) if frente and centro<0.035 else _propria(COURO_ESCURO)
+	match estilo:
+		6:
+			if frente and absf(u-(0.5+(1.27-y)*0.65))<0.032 and y>1.09:return _propria(COURO_ESCURO)
+		7:
+			if (y<0.91 or absf(centro-0.16)<0.012) and frente:return _propria(OURO)
+		9:
+			if frente and centro<0.07:return _propria(CREME)
+			if frente and absf(centro-0.13)<0.018:return _propria(COURO_ESCURO)
+		10:
+			if frente and absf(u-(0.5+(1.28-y)*0.7))<0.024:return _propria(CREME)
+			if y>1.04 and y<1.10:return _propria(CREME)
+		11:
+			if frente and (centro<0.014 or y<1.0):return _propria(OURO)
+			if frente and centro<0.025 and fmod(y-1.10,0.10)<0.028:return _propria(OURO)
+	if y<0.98:return _tecido(0.8)
+	return base

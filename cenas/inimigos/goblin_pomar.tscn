@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3]
+[ext_resource type="Script" path="res://codigo/inimigos/goblin_pomar.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/inimigos/goblin_capuz_3d/atlas/parado.png" id="2"]
+[sub_resource type="CircleShape2D" id="Corpo"]
+radius = 7.0
+[node name="GoblinPomar" type="CharacterBody2D" groups=["enemy", "goblins_pomar"]]
+collision_layer = 32
+collision_mask = 64
+script = ExtResource("1")
+velocidade = 30
+vida = 28
+dano = 4.0
+raio_parada = 22.0
+alcance_ataque = 29.0
+alcance_separacao = 22.0
+altura_pes = 0.0
+altura_barra_vida = 38.0
+tempo_recarga_ataque = 1.35
+[node name="Texture" type="Sprite2D" parent="."]
+texture = ExtResource("2")
+hframes = 12
+vframes = 4
+scale = Vector2(0.4, 0.4)
+texture_filter = 1
+[node name="colision_body" type="CollisionShape2D" parent="."]
+shape = SubResource("Corpo")

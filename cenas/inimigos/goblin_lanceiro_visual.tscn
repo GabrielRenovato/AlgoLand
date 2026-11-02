@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://codigo/inimigos/lanceiro_moinho_visual.gd" id="1"]
+[ext_resource type="SpriteFrames" path="res://assets/inimigos/goblins_moinho/lanceiro/animacoes.tres" id="2"]
+
+[node name="GoblinLanceiroVisual" type="AnimatedSprite2D"]
+texture_filter = 2
+sprite_frames = ExtResource("2")
+animation = &"andar_baixo"
+script = ExtResource("1")

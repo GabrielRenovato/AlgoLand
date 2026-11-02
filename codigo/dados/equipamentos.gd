@@ -369,6 +369,7 @@ static func nivel_liberado(onda: int) -> int:
 	return nivel
 
 static func preco_base(tipo: String) -> int:
+	if tipo in preload("res://codigo/dados/acessorios_iniciais.gd").TIPOS: return {"anel_cobre":12,"amuleto_madeira":14,"cinto_couro":16,"bracelete_ferro":18}[tipo]
 	var conjunto := Conjuntos.de_tipo(tipo)
 	if conjunto != null:
 		return conjunto.PRECO_BASE

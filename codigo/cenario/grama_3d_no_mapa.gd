@@ -1,0 +1,197 @@
+extends "res://codigo/campanha/natureza_bacia_lowpoly.gd"
+## Reutiliza lâminas, vento, rastros e passes dos pés do moinho sobre pisos 2D.
+## A máscara vem do terreno consumidor: nenhuma copa, água ou caminho é substituído.
+var consultar_grama: Callable
+var _bases_fisicas: Dictionary = {}
+var _contatos: Array[Dictionary] = []
+var _imagens_contato: Array[Sprite2D] = []
+const TAMANHO_BLOCO := 256
+var resolucao_grama := 864
+var passo_tufo := 5
+
+func _ready() -> void:
+	_grama = ShaderMaterial.new()
+	_grama.shader = preload("res://codigo/campanha/grama_interativa_bacia.gdshader")
+	_grama_frente = _grama.duplicate() as ShaderMaterial
+	_grama_frente.set_shader_parameter("somente_frente",true)
+	_tufo = _malha_tufo()
+	_coletar_bases(terreno)
+	var inicio: Vector2 = (terreno.limites.position/256.0).floor()*256.0
+	for y in range(int(inicio.y),ceili(terreno.limites.end.y),256):
+		for x in range(int(inicio.x),ceili(terreno.limites.end.x),256):
+			_montar_bloco(Vector2(x,y))
+	if terreno.has_signal("terreno_alterado"):
+		terreno.terreno_alterado.connect(_ao_terreno_alterado)
+	if terreno.has_signal("estacao_mudou"):
+		terreno.estacao_mudou.connect(definir_estacao)
+	definir_estacao(Calendario.estacao())
+	_montar_contatos()
+
+func _coletar_bases(no: Node) -> void:
+	for filho in no.get_children():
+		if filho is CollisionShape2D and filho.get_parent() is StaticBody2D and filho.shape is RectangleShape2D and not filho.disabled:
+			var tamanho: Vector2 = filho.shape.size
+			var ret := Rect2(filho.to_global(-tamanho*.5),Vector2.ZERO)
+			for canto in [Vector2(-.5,.5),Vector2(.5,-.5),Vector2(.5,.5)]: ret = ret.expand(filho.to_global(tamanho*canto))
+			var inicio := (ret.position/256.0).floor()*256.0
+			for y in range(int(inicio.y),ceili(ret.end.y),256):
+				for x in range(int(inicio.x),ceili(ret.end.x),256):
+					var chave := Vector2(x,y)
+					if not _bases_fisicas.has(chave): _bases_fisicas[chave] = []
+					_bases_fisicas[chave].append({"ret":ret,"forma":filho})
+			# Cercas usam colisões rasas de 20×4; postes estreitos também precisam de contato.
+			if ret.size.x >= 8.0 and ret.size.y >= 1.0 and ret.size.y < 200.0 and ret.size.x < 500.0:
+				_contatos.append({"ret":ret,"forma":filho})
+		elif filho is CollisionShape2D and filho.get_parent() is StaticBody2D and not filho.disabled:
+			var pontos := PackedVector2Array()
+			if filho.shape is CircleShape2D:
+				for i in 24:
+					var a := TAU*float(i)/24.0
+					pontos.append(filho.to_global(Vector2(cos(a),sin(a))*filho.shape.radius))
+			elif filho.shape is CapsuleShape2D:
+				var raio: float = filho.shape.radius
+				var haste: float = maxf(0.0,filho.shape.height*.5-raio)
+				for i in 24:
+					var a := TAU*float(i)/24.0
+					var v := Vector2(cos(a),sin(a))*raio
+					v.y += haste if v.y >= 0.0 else -haste
+					pontos.append(filho.to_global(v))
+			elif filho.shape is ConvexPolygonShape2D:
+				for ponto in filho.shape.points: pontos.append(filho.to_global(ponto))
+			_registrar_poligono(filho,pontos)
+		elif filho is CollisionPolygon2D and filho.get_parent() is StaticBody2D and not filho.disabled:
+			var pontos := PackedVector2Array()
+			for ponto in filho.polygon: pontos.append(filho.to_global(ponto))
+			_registrar_poligono(filho,pontos)
+		_coletar_bases(filho)
+
+func _registrar_poligono(forma: Node2D, pontos: PackedVector2Array) -> void:
+	if pontos.size() < 3: return
+	var ret := Rect2(pontos[0],Vector2.ZERO)
+	for ponto in pontos: ret = ret.expand(ponto)
+	var inicio := (ret.position/256.0).floor()*256.0
+	for y in range(int(inicio.y),ceili(ret.end.y),256):
+		for x in range(int(inicio.x),ceili(ret.end.x),256):
+			var chave := Vector2(x,y)
+			if not _bases_fisicas.has(chave): _bases_fisicas[chave] = []
+			_bases_fisicas[chave].append({"ret":ret,"forma":forma,"poligono":pontos})
+	if ret.size.x > 500.0 or ret.size.y > 200.0: return
+	# Seguir a frente curva da base, em vez de pintar uma linha reta sob a peça inteira.
+	for x in range(floori(ret.position.x),ceili(ret.end.x),6):
+		var meio := minf(float(x)+3.0,ret.end.x-.01)
+		var frente := -INF
+		for i in pontos.size():
+			var a := pontos[i]
+			var b := pontos[(i+1)%pontos.size()]
+			if is_equal_approx(a.x,b.x) or meio < minf(a.x,b.x) or meio > maxf(a.x,b.x): continue
+			frente = maxf(frente,lerpf(a.y,b.y,(meio-a.x)/(b.x-a.x)))
+		if is_finite(frente):
+			_contatos.append({"ret":Rect2(x,frente-1.0,minf(6.0,ret.end.x-x),1.0),"forma":forma})
+
+func _dentro_base(p: Vector2) -> bool:
+	var chave := (p/256.0).floor()*256.0
+	for base in _bases_fisicas.get(chave,[]):
+		if is_instance_valid(base.forma) and not base.forma.disabled and base.ret.has_point(p):
+			if not base.has("poligono") or Geometry2D.is_point_in_polygon(p,base.poligono): return true
+	return false
+
+func _montar_contatos() -> void:
+	# Recortes da textura viva compartilhada: não criam novos renders por casa.
+	var escala_render := 288.0/float(resolucao_grama)
+	for contato in _contatos:
+		var ret: Rect2 = contato.ret
+		var faixa := Rect2(ret.position.x-2.0,ret.end.y-9.0,ret.size.x+4.0,16.0)
+		for origem in _blocos:
+			var intersecao := faixa.intersection(Rect2(origem,Vector2(256,256)))
+			if not intersecao.has_area(): continue
+			var imagem := Sprite2D.new()
+			imagem.texture = _blocos[origem].visor.get_texture()
+			imagem.centered = false
+			imagem.region_enabled = true
+			imagem.region_rect = Rect2((intersecao.position-origem+Vector2(16,16))/escala_render,intersecao.size/escala_render)
+			imagem.position = intersecao.position
+			imagem.scale = Vector2.ONE*escala_render
+			imagem.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
+			imagem.z_as_relative = false
+			imagem.z_index = terreno.Profundidade.z_de(ret.end.y)+7
+			var recorte := ShaderMaterial.new()
+			recorte.shader = preload("res://codigo/cenario/contato_grama_3d.gdshader")
+			recorte.set_shader_parameter("base_y",ret.end.y)
+			imagem.material = recorte
+			add_child(imagem)
+			_imagens_contato.append(imagem)
+			contato.forma.tree_exiting.connect(imagem.queue_free)
+
+func _ao_terreno_alterado(celula: Vector2i, tipo: int) -> void:
+	super(celula,tipo)
+	for imagem in _imagens_contato:
+		if is_instance_valid(imagem): imagem.queue_free()
+	_imagens_contato.clear()
+	_montar_contatos()
+
+func _altura(_p: Vector2) -> float:
+	return 0.0
+
+func _peso_grama(p: Vector2) -> float:
+	if not terreno.limites.has_point(p) or not consultar_grama.is_valid() or _dentro_base(p): return 0.0
+	return clampf(float(consultar_grama.call(p)),0.0,1.0)
+
+func _montar_bloco(origem: Vector2) -> void:
+	if _blocos.has(origem):
+		var antigo: Dictionary = _blocos[origem]
+		_visores.erase(antigo.visor)
+		antigo.visor.queue_free()
+		antigo.imagem.queue_free()
+	var centro := origem+Vector2(128,128)
+	_rng.seed = int(origem.x)*771+int(origem.y)*139+840417
+	var tufos: Array[Transform3D] = []
+	for gy in range(0,TAMANHO_BLOCO,passo_tufo):
+		for gx in range(0,TAMANHO_BLOCO,passo_tufo):
+			var p := origem+Vector2(gx+_rng.randf_range(.4,passo_tufo-.4),gy+_rng.randf_range(.4,passo_tufo-.4))
+			# A margem evita lâminas nas soleiras, no calçamento e dentro da água.
+			var peso := _peso_grama(p)
+			for d in [Vector2(-2,0),Vector2(2,0),Vector2(0,2)]: peso = minf(peso,_peso_grama(p+d))
+			if _rng.randf() >= smoothstep(.18,.80,peso): continue
+			var b := Basis(Vector3.UP,_rng.randf()*TAU).scaled(Vector3.ONE*_rng.randf_range(.8,1.25))
+			tufos.append(Transform3D(b,_ponto(p-centro)))
+	if tufos.is_empty():
+		_blocos.erase(origem)
+		_gramados.erase(origem)
+		return
+	# O bloco ocupa 288 px na tela por causa da margem de 16 px em cada lado.
+	# Renderizar nesse tamanho evita alocar nove vezes mais pixels sem ganho visível.
+	var render := _visor(Vector2i(resolucao_grama,resolucao_grama),0,9.0)
+	var visor: SubViewport = render.visor
+	(render.camera as Camera3D).cull_mask = 2
+	visor.name = "Grama_%d_%d" % [origem.x,origem.y]
+	_gramados[origem] = _instancias(visor,_tufo,_grama,tufos,centro,true)
+	var imagem := Sprite2D.new()
+	imagem.texture = visor.get_texture()
+	imagem.position = centro
+	imagem.scale = Vector2.ONE*(288.0/float(resolucao_grama))
+	imagem.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
+	imagem.z_as_relative = false
+	imagem.z_index = terreno.Profundidade.Z_CHAO+5
+	add_child(imagem)
+	_blocos[origem] = {"visor":visor,"visor_grama":visor,"imagem":imagem}
+
+func definir_estacao(indice: int) -> void:
+	_estacao = clampi(indice,0,3)
+	var cor := Color(["4d781e","466d24","9e853b","b2c3b7"][_estacao]).linear_to_srgb()
+	for m in [_grama,_grama_frente]:
+		m.set_shader_parameter("cor_grama",Vector3(cor.r,cor.g,cor.b))
+	for visor in _visores:
+		if is_instance_valid(visor): visor.render_target_update_mode = SubViewport.UPDATE_ONCE
+
+static func peso_modular(p: Vector2, tipo_canto: Callable) -> float:
+	var celula := Vector2i((p/16.0).floor())
+	var uv := p/16.0-Vector2(celula)
+	var pesos := [(1.-uv.x)*(1.-uv.y),uv.x*(1.-uv.y),(1.-uv.x)*uv.y,uv.x*uv.y]
+	var cantos := [Vector2i.ZERO,Vector2i.RIGHT,Vector2i.DOWN,Vector2i.ONE]
+	var acumulado := [0.0,0.0,0.0,0.0]
+	for i in 4: acumulado[int(tipo_canto.call(celula+cantos[i]))] += pesos[i]
+	var total := 0.0
+	for i in 4:
+		acumulado[i] = pow(maxf(float(acumulado[i])-.18,0.0),2.0)
+		total += float(acumulado[i])
+	return float(acumulado[0])/maxf(total,.001)

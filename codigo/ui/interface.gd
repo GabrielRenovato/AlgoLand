@@ -13,7 +13,7 @@ const TELAS_ACOMPANHANTES := {"mercante": ["inventario"], "bau": ["inventario"]}
 # fechar, senão o A que fechou a conversa já abriria outra)
 const ACOES_DO_JOGADOR := ["rolar", "attack", "open_menu"]
 # Telas no centro da tela: em vez de deslizar de uma borda, aparecem com fade
-const TELAS_CENTRAIS := ["acampamento", "fim_partida", "dormir", "pausa", "conversa_cidade", "mural_cidade", "desafio_arena", "introducao", "guia_pesca", "comercio", "forja", "carpintaria", "oficina_vara", "mapa_mundi", "ranking", "lobby", "mercado"]
+const TELAS_CENTRAIS := ["acampamento", "fim_partida", "dormir", "pausa", "conversa_cidade", "mural_cidade", "desafio_arena", "maestria", "introducao", "guia_pesca", "comercio", "forja", "carpintaria", "oficina_vara", "mapa_mundi", "ranking", "lobby", "mercado"]
 # Só se fecha pelo próprio botão (B/Esc e o atalho do inventário são ignorados)
 const TELAS_OBRIGATORIAS := ["fim_partida", "introducao"]
 
@@ -91,6 +91,11 @@ func _ready() -> void:
 	add_child(carpintaria)
 	_telas["carpintaria"] = carpintaria
 	_paineis["carpintaria"] = carpintaria.painel
+	var maestria := preload("res://codigo/ui/tela_maestria.gd").new()
+	maestria.name = "TelaMaestria"
+	add_child(maestria)
+	_telas["maestria"] = maestria
+	_paineis["maestria"] = maestria.painel
 	var introducao := DialogoIntroducao.new()
 	introducao.name = "DialogoIntroducao"
 	add_child(introducao)

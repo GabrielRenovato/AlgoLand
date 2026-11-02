@@ -6,6 +6,7 @@ const TERRA := ["spring","summer","autumn","winter"]
 var estacao := -1
 var area := Rect2()
 var distribuicao: Image
+var mascara_grama: Image
 var _material: ShaderMaterial
 var _terreno: TileMapLayer
 var _agua: TileMapLayer
@@ -28,7 +29,8 @@ func configurar(terreno: TileMapLayer, agua: TileMapLayer, preparar_material := 
 		_cache.world_2d=World2D.new()
 		_cache.render_target_update_mode=SubViewport.UPDATE_DISABLED
 		add_child(_cache)
-		_renderizador=new()
+		# Conserva a composição especializada dos terrenos que reutilizam esta camada.
+		_renderizador=get_script().new()
 		_cache.add_child(_renderizador)
 		_renderizador.configurar(terreno,agua,true)
 		var camera:=Camera2D.new()
@@ -60,6 +62,10 @@ func configurar(terreno: TileMapLayer, agua: TileMapLayer, preparar_material := 
 	_material=ShaderMaterial.new()
 	_material.shader=SHADER
 	_material.set_shader_parameter("distribuicao",ImageTexture.create_from_image(distribuicao))
+	# Mesma máscara final das soleiras e do piso, para a vegetação volumétrica.
+	mascara_grama = distribuicao.duplicate()
+	mascara_grama.resize(int(distribuicao.get_width()/4),int(distribuicao.get_height()/4),Image.INTERPOLATE_NEAREST)
+	mascara_grama.convert(Image.FORMAT_R8)
 	distribuicao=null
 	_material.set_shader_parameter("origem",terreno.to_global(area.position))
 	_material.set_shader_parameter("tamanho",area.size)
@@ -67,6 +73,12 @@ func configurar(terreno: TileMapLayer, agua: TileMapLayer, preparar_material := 
 	z_as_relative=false
 	z_index=-999
 	queue_redraw()
+func peso_grama_mundo(ponto: Vector2) -> float:
+	if _renderizador != null: return _renderizador.peso_grama_mundo(ponto)
+	if mascara_grama == null: return 0.0
+	var p := Vector2i((_terreno.to_local(ponto)-area.position).floor())
+	if p.x < 0 or p.y < 0 or p.x >= mascara_grama.get_width() or p.y >= mascara_grama.get_height(): return 0.0
+	return mascara_grama.get_pixelv(p).r
 func _mascara(id: int,atlas: Vector2i,agua_atlas: Image) -> Image:
 	var imagem := Image.create(64,64,false,Image.FORMAT_RGBA8)
 	var baixo := Color.RED if id in [0,1,3] else Color.BLUE

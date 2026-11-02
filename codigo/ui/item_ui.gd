@@ -116,6 +116,7 @@ func tooltip_do_item(largura := 170.0, tamanho := 10) -> Control:
 		return null
 	var linhas := VBoxContainer.new()
 	linhas.set_meta("tamanho_dica",tamanho)
+	if get_meta("acabamento_campanha",false):linhas.set_meta("fonte_dica",preload("res://assets/ui/fontes/NotoSans-Regular.ttf"))
 	linhas.custom_minimum_size.x = largura
 	linhas.add_theme_constant_override("separation", 2 if tamanho<10 else 4)
 	linhas.add_child(linha_dica(dados.nome(), dados.cor_raridade()))
@@ -173,22 +174,27 @@ func tooltip_do_item(largura := 170.0, tamanho := 10) -> Control:
 	if dados.encantamento != "":
 		linhas.add_child(linha_dica("%s NV %d" % [Encantamentos.nome(dados.encantamento), dados.nivel_encantamento],
 				Encantamentos.cor(dados.encantamento)))
+	if preload("res://codigo/dados/acessorios_iniciais.gd").TIPOS.has(dados.tipo):
+		linhas.add_child(linha_dica(preload("res://codigo/dados/acessorios_iniciais.gd").TIPOS[dados.tipo].texto,COR_DICA_DETALHE))
 	var conjunto := Conjuntos.de_tipo(dados.tipo)
 	if conjunto != null:
 		var quantidade: int = conjunto.quantidade(EventosJogo.inventario_de(self).equipados)
 		linhas.add_child(linha_dica("CONJUNTO %s %d/4" % [conjunto.NOME, quantidade], dados.cor_raridade()))
 		var fator_nivel: float = 1.0 + conjunto.Base.GANHO_POR_NIVEL * (clampi(dados.nivel, 1, 5) - 1)
 		var parcial: float = conjunto.Base.FRACAO_PARCIAL
-		if conjunto.TIPO_BONUS == "raio":
+		if conjunto.ID=="guarda_novato":
+			linhas.add_child(linha_dica("2 PECAS: -5% FOLEGO NO BLOQUEIO",COR_DICA_DETALHE))
+			linhas.add_child(linha_dica("4 PECAS: -5% FOLEGO NA ESQUIVA",COR_DICA_DETALHE))
+		elif conjunto.TIPO_BONUS == "raio":
 			for pecas in [conjunto.Base.PECAS_PARCIAL, conjunto.Base.PECAS_COMPLETO]:
 				var f: float = fator_nivel * (parcial if pecas == conjunto.Base.PECAS_PARCIAL else 1.0)
-				linhas.add_child(linha_dica("%d PECAS: %d%% RAIO AO ACERTAR" % [pecas, roundi(conjunto.CHANCE_BONUS * f * 100)], COR_DICA_DETALHE))
-			linhas.add_child(linha_dica("DANO %d%%  RECARGA %dS" % [roundi(conjunto.MULT_DANO_BONUS * fator_nivel * 100), roundi(conjunto.RECARGA_BONUS)], COR_DICA_DETALHE))
+				linhas.add_child(linha_dica("%d PECAS: +%d%% EMPURRAO" % [pecas, roundi(0.15 * f * 100)], COR_DICA_DETALHE))
+			linhas.add_child(linha_dica("IMPACTO FISICO NOS GOLPES", COR_DICA_DETALHE))
 		elif conjunto.TIPO_BONUS == "congelamento":
 			for pecas in [conjunto.Base.PECAS_PARCIAL, conjunto.Base.PECAS_COMPLETO]:
 				var f: float = fator_nivel * (parcial if pecas == conjunto.Base.PECAS_PARCIAL else 1.0)
-				linhas.add_child(linha_dica("%d PECAS: %d%% CONGELAR AO ACERTAR" % [pecas, roundi(conjunto.CHANCE_BONUS * f * 100)], COR_DICA_DETALHE))
-			linhas.add_child(linha_dica("DURACAO %sS  RECARGA %sS" % [String.num(conjunto.DURACAO_BONUS, 1), String.num(conjunto.RECARGA_BONUS, 1)], COR_DICA_DETALHE))
+				linhas.add_child(linha_dica("%d PECAS: -%d%% FOLEGO NA GUARDA" % [pecas, roundi(0.08 * f * 100)], COR_DICA_DETALHE))
+			linhas.add_child(linha_dica("GUARDA FISICA REFORCADA", COR_DICA_DETALHE))
 		elif conjunto.TIPO_BONUS == "status":
 			var valores: Dictionary = conjunto.get_script_constant_map()
 			for pecas in [conjunto.Base.PECAS_PARCIAL, conjunto.Base.PECAS_COMPLETO]:
@@ -200,11 +206,13 @@ func tooltip_do_item(largura := 170.0, tamanho := 10) -> Control:
 static func _dimensionar_dica(linhas: VBoxContainer, largura: float) -> Control:
 	var altura := 0.0
 	var tamanho: int = linhas.get_meta("tamanho_dica",10)
+	var fonte: Font=linhas.get_meta("fonte_dica",FONTE_DICA)
 	for rotulo: Label in linhas.get_children():
 		rotulo.add_theme_font_size_override("font_size",tamanho)
+		rotulo.add_theme_font_override("font",fonte)
 		rotulo.size.x = largura
 		rotulo.custom_minimum_size.x = largura
-		var medida := FONTE_DICA.get_multiline_string_size(rotulo.text,HORIZONTAL_ALIGNMENT_LEFT,largura,tamanho)
+		var medida := fonte.get_multiline_string_size(rotulo.text,HORIZONTAL_ALIGNMENT_LEFT,largura,tamanho)
 		# O Label inclui métricas/entrelinhas do tema que a medição da fonte ignora.
 		var altura_linha := ceilf(maxf(medida.y,rotulo.get_minimum_size().y))
 		rotulo.custom_minimum_size.y = altura_linha

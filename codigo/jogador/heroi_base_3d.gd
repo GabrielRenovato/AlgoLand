@@ -25,6 +25,7 @@ const ANDAR_NO_GOLPE := false
 const ANIMACOES := {"parado":"Idle_Loop", "correr":"mixamo/Running", "espada":"Sword_Attack",
 	"avanco":"mixamo/Dodge", "ferido":"mixamo/HitReaction", "morrer":"mixamo/Dying", "guarda_livre":"mixamo/BlockIdle",
 	"sentar":"Sitting_Enter", "sentado":"Sitting_Idle_Loop", "levantar":"Sitting_Exit",
+	"ajoelhar":"mixamo/KneelingDown", "ajoelhado":"mixamo/KneelingIdle", "levantar_ajoelhado":"mixamo/StandUpFromKneel",
 	"guarda":"mixamo/SwordBlockIdle", "escudada":"melee/HumanM_AttackShield01"}
 # Cores por região do corpo (o osso dominante de cada vértice decide a região).
 const PALETA := {"pele_sombra":"9e5d53","pele_meio":"cd8c72","pele_base":"edb393","pele_luz":"ffdbb2",
@@ -254,7 +255,7 @@ func definir_roupas_3d(dados: Dictionary) -> void:
 				var corpo_saia: MeshInstance3D=_modelo.find_child("CorpoBase",true,false)
 				_cache_roupas[modelo.id]=preload("res://codigo/jogador/visuais_femininos_3d.gd").saia(_moldes_roupas[i],corpo_saia,_esqueleto,modelo.forma)
 			else:
-				_cache_roupas[modelo.id]=CATALOGO_ROUPAS.malha(_moldes_roupas[i],categoria,modelo.forma)
+				_cache_roupas[modelo.id]=CATALOGO_ROUPAS.malha(_moldes_roupas[i],categoria,modelo.forma,preload("res://codigo/jogador/roupas_modeladas_3d.gd").ligacoes(_modelo.find_child("CorpoBase",true,false),_esqueleto))
 		# Modo pixel: a peça ganha o UV de cilindro e a pintura própria do modelo.
 		var textura_pixel: String=ROUPAS_PIXEL.caminho(modelo.id)
 		var usar_pixel: bool=_pele_pixel and ResourceLoader.exists(textura_pixel)
@@ -285,6 +286,7 @@ func definir_roupas_3d(dados: Dictionary) -> void:
 	if _armaduras!=null:
 		_armaduras.invalidar()
 		_armaduras.atualizar()
+	_atualizar_pecas()
 
 ## Save de antes do personagem 3D: veste o equivalente do Raven (cores e roupa) e grava uma vez.
 ## Pele, cor do cabelo e olhos já vêm de aparencia_raven. Marca o aviso de "visual novo".
@@ -308,6 +310,8 @@ func _mostrar_aviso_visual() -> void:
 	if not is_inside_tree(): return
 	await get_tree().create_timer(1.5).timeout
 	if not is_inside_tree() or get_tree().root.get_node("Introducao").ativa(): return
+	# Na campanha o aviso atrapalharia a chegada; o editor continua no menu de pausa.
+	if get_tree().current_scene != null and get_tree().current_scene.scene_file_path.ends_with("percurso_prototipo.tscn"): return
 	get_tree().root.add_child(preload("res://codigo/ui/editor_visual.gd").aviso(_jogador))
 
 func salvar_roupas_3d(caminho: String="") -> bool:
@@ -591,13 +595,15 @@ func _atualizar_pecas() -> void:
 	if _armaduras != null and _armaduras.mascara >= 0:
 		if _armaduras.mascara & 2:substituidas |= 3 # Peitoral inclui a calça do conjunto.
 		if _armaduras.mascara & 8:substituidas |= 4
-		if _armaduras.raizes_pecas[0] in _armaduras.ELMOS_FECHADOS:substituidas |= 8
+		if _armaduras.raizes_pecas[0] in _armaduras.ELMOS_FECHADOS or _armaduras.raizes_pecas[0] in _armaduras.ELMOS_ABERTOS:substituidas |= 8
+	var saia_longa: bool=(pecas_visiveis & ~substituidas & 2)!=0 and roupas_3d.calca=="saia_vinho_longa"
 	for i in _pecas.size():
-		_pecas[i].visible = (pecas_visiveis & ~substituidas & (1 << i)) != 0
+		_pecas[i].visible = (pecas_visiveis & ~substituidas & (1 << i)) != 0 and not (i==2 and saia_longa)
 	if _modelo == null:return
 	var corpo = _modelo.find_child("CorpoBase",true,false)
 	if corpo == null:return
 	var material: ShaderMaterial = corpo.material_override
+	material.set_shader_parameter("cobertura_saia_longa",saia_longa)
 	var cobertura := pecas_visiveis | substituidas
 	material.set_shader_parameter("esconder_camisa",(cobertura & 1)!=0)
 	material.set_shader_parameter("esconder_calca",(cobertura & 2)!=0)
@@ -606,9 +612,12 @@ func _atualizar_pecas() -> void:
 		# O rosto pintado vale para todos os penteados: no "Bagunçado" o cabelo vem da própria pintura;
 		# nos demais o cabelo pintado sai e a malha do penteado escolhido cobre o crânio.
 		var pintado: bool=roupas_3d.get("cabelo","")=="cabelo_curto"
-		var usar: bool=(pecas_visiveis & 8)!=0 and (_armaduras==null or (_armaduras.mascara & 1)==0)
+		var elmo_aberto: bool=_armaduras!=null and _armaduras.raizes_pecas[0] in _armaduras.ELMOS_ABERTOS
+		var usar: bool=(pecas_visiveis & 8)!=0 and (_armaduras==null or (_armaduras.mascara & 1)==0 or elmo_aberto)
 		_cabeca_referencia.aplicar_aparencia(_jogador.aparencia_raven,PELES,OLHOS)
-		_cabeca_referencia.material.set_shader_parameter("sem_cabelo",not pintado)
+		_cabeca_referencia.material.set_shader_parameter("sem_cabelo",not pintado or elmo_aberto)
+		_cabeca_referencia.material.set_shader_parameter("cabelo_volumetrico",elmo_aberto or (not pintado and roupas_3d.cabelo!="cabelo_raspado"))
+		_cabeca_referencia.material.set_shader_parameter("cabelo_raspado",roupas_3d.cabelo=="cabelo_raspado")
 		_cabeca_referencia.visible=usar
 		material.set_shader_parameter("substituir_cabeca",usar)
 		if usar and pintado:_pecas[3].visible=false
@@ -697,6 +706,10 @@ func _tem_espada() -> bool:
 func _acao_do_jogador() -> String:
 	if _jogador.estaMorto or _jogador.caido:
 		return "morrer"
+	if _jogador.has_meta("tecnica_maestria"): return "tecnica"
+	# Cena de invocação da campanha: a abertura escolhe o estado (ajoelhar, ajoelhado, levantar_ajoelhado).
+	var invocacao := str(_jogador.get_meta("invocacao", ""))
+	if not invocacao.is_empty(): return invocacao
 	if _jogador.esta_sentado:
 		return "sentar" if _jogador._tempo_sentado<TEMPO_SENTAR else "sentado"
 	if _jogador.esta_forjando: return ""
@@ -812,6 +825,13 @@ func _process(delta: float) -> void:
 	_modelo.rotation.y = _guinada
 	var duracao: float = _player.get_animation(_nome_animacao(acao)).length
 	match acao:
+		"tecnica":
+			var dados: Dictionary = _jogador.get_meta("tecnica_maestria")
+			var instante: float = float(dados.get("tempo",0.0))
+			var preparo: float = dados.preparo
+			var p: float = lerpf(0.0,0.25,clampf(instante/preparo,0,1)) if instante < preparo else lerpf(0.25,0.999,clampf((instante-preparo)/float(dados.duracao),0,1))
+			_tocar(acao,0.0)
+			_player.seek(p*duracao,true)
 		"correr":
 			# Um ciclo da animação a cada PASSADA pixels percorridos.
 			_tocar(acao, velocidade.length()/PASSADA*duracao)
@@ -868,13 +888,23 @@ func _process(delta: float) -> void:
 			else: _tocar(acao, 1.0)
 	_acao = acao
 	if _cabeca_referencia!=null:_cabeca_referencia.orientar(_modelo.rotation.y)
-	_encaixar_espada(acao in ["espada","lanca","guarda","escudada","recuperar_espada"] or (acao=="guarda_livre" and _tem_espada()))
-	_encaixar_arma_pesada(acao=="pesada" or (acao=="guarda_livre" and _arma_pesada()!=null))
+	_encaixar_espada(acao in ["espada","lanca","guarda","escudada","recuperar_espada","tecnica"] or (acao=="guarda_livre" and _tem_espada()))
+	_encaixar_arma_pesada(acao=="pesada" or (acao=="tecnica" and _arma_pesada()!=null) or (acao=="guarda_livre" and _arma_pesada()!=null))
 
 func usa_combo_espada() -> bool:
 	return _tem_espada()
 
 func _nome_animacao(acao: String) -> String:
+	if acao=="tecnica":
+		var dados: Dictionary = _jogador.get_meta("tecnica_maestria",{})
+		var f: String = dados.get("familia", "espada")
+		var ramo: int = int(dados.get("ramo",0))
+		if f=="escudo": return ANIMACOES.escudada
+		if f=="arco": return "mixamo/BowDraw" if float(dados.get("tempo",0)) < float(dados.preparo)+float(dados.duracao)*0.45 else "mixamo/BowRecoil"
+		if f in ["machado","maca"]: return "mixamo/MaceAttack" if f=="maca" else "mixamo/AxeAttack"
+		if f=="lanca": return COMBO_LANCA.NOMES[clampi(ramo,0,2)]
+		if f=="montante": return COMBO_MONTANTE.NOMES[clampi(ramo,0,COMBO_MONTANTE.NOMES.size()-1)]
+		return COMBO.NOMES[clampi(ramo,0,2)]
 	if acao=="recuperar_espada":return "quaternius/Sword_Regular_%s_Rec" % ("A" if _golpe_visual_espada==1 else "B")
 	if acao=="guarda" and _arma_de_duas_maos(): return "mixamo/GreatSwordBlocking"
 	if acao=="arco": return "mixamo/BowDraw" if progresso_arco()<.40 else "mixamo/BowRecoil"

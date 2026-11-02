@@ -1,0 +1,62 @@
+{
+  "mara": {
+    "pivo": [
+      367,
+      368
+    ],
+    "texturas": [
+      "res://assets/cenario/cidade/interiores_detalhados/familias/arquitetura/mara/primavera/fachada.png",
+      "res://assets/cenario/cidade/interiores_detalhados/familias/arquitetura/mara/verao/fachada.png",
+      "res://assets/cenario/cidade/interiores_detalhados/familias/arquitetura/mara/outono/fachada.png",
+      "res://assets/cenario/cidade/interiores_detalhados/familias/arquitetura/mara/inverno/fachada.png"
+    ],
+    "largura_fonte": 644,
+    "materiais": [
+      "res://assets/cenario/cidade/interiores_detalhados/familias/arquitetura/mara/primavera/parede.png",
+      "res://assets/cenario/cidade/interiores_detalhados/familias/arquitetura/mara/verao/parede.png",
+      "res://assets/cenario/cidade/interiores_detalhados/familias/arquitetura/mara/outono/parede.png",
+      "res://assets/cenario/cidade/interiores_detalhados/familias/arquitetura/mara/inverno/parede.png"
+    ],
+    "origem": "image_gen nativa; sem Mana Seed/Tiny"
+  },
+  "cora": {
+    "pivo": [
+      414,
+      364
+    ],
+    "texturas": [
+      "res://assets/cenario/cidade/interiores_detalhados/familias/arquitetura/cora/primavera/fachada.png",
+      "res://assets/cenario/cidade/interiores_detalhados/familias/arquitetura/cora/verao/fachada.png",
+      "res://assets/cenario/cidade/interiores_detalhados/familias/arquitetura/cora/outono/fachada.png",
+      "res://assets/cenario/cidade/interiores_detalhados/familias/arquitetura/cora/inverno/fachada.png"
+    ],
+    "largura_fonte": 591,
+    "materiais": [
+      "res://assets/cenario/cidade/interiores_detalhados/familias/arquitetura/cora/primavera/parede.png",
+      "res://assets/cenario/cidade/interiores_detalhados/familias/arquitetura/cora/verao/parede.png",
+      "res://assets/cenario/cidade/interiores_detalhados/familias/arquitetura/cora/outono/parede.png",
+      "res://assets/cenario/cidade/interiores_detalhados/familias/arquitetura/cora/inverno/parede.png"
+    ],
+    "origem": "image_gen nativa; sem Mana Seed/Tiny"
+  },
+  "rosa": {
+    "pivo": [
+      392,
+      337
+    ],
+    "texturas": [
+      "res://assets/cenario/cidade/interiores_detalhados/familias/arquitetura/rosa/primavera/fachada.png",
+      "res://assets/cenario/cidade/interiores_detalhados/familias/arquitetura/rosa/verao/fachada.png",
+      "res://assets/cenario/cidade/interiores_detalhados/familias/arquitetura/rosa/outono/fachada.png",
+      "res://assets/cenario/cidade/interiores_detalhados/familias/arquitetura/rosa/inverno/fachada.png"
+    ],
+    "largura_fonte": 636,
+    "materiais": [
+      "res://assets/cenario/cidade/interiores_detalhados/familias/arquitetura/rosa/primavera/parede.png",
+      "res://assets/cenario/cidade/interiores_detalhados/familias/arquitetura/rosa/verao/parede.png",
+      "res://assets/cenario/cidade/interiores_detalhados/familias/arquitetura/rosa/outono/parede.png",
+      "res://assets/cenario/cidade/interiores_detalhados/familias/arquitetura/rosa/inverno/parede.png"
+    ],
+    "origem": "image_gen nativa; sem Mana Seed/Tiny"
+  }
+}

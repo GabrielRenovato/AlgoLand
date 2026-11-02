@@ -28,6 +28,7 @@ var bonus_dano_critico: float = 0.0
 var velocidade_movimento: float = velocidade_base_movimento
 
 # Atributos derivados
+var bonus_vida_acessorios := 0
 var hp_maximo: int
 var dano_ataque: int
 var chance_critico: float
@@ -48,7 +49,7 @@ const VELOCIDADE_MAXIMA: float = 180.0
 
 func calcular_estatisticas_derivadas(_arma_equipada: bool = false):
 	# Melhorias permanentes (Progresso): vigor aumenta a vida máxima e força o dano
-	hp_maximo = roundi((40 + vitalidade * 6) * (1.0 + Progresso.bonus("vigor")))
+	hp_maximo = roundi((40 + vitalidade * 6) * (1.0 + Progresso.bonus("vigor"))) + bonus_vida_acessorios
 	dano_ataque = roundi((dano_arma + forca) * (1.0 + Progresso.bonus("forca")))
 	chance_critico = clamp(0.05 + sorte * 0.01 + bonus_critico, 0.0, 0.6)
 	dano_critico = 1.5 + sorte * 0.02 + bonus_dano_critico

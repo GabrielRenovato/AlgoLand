@@ -184,6 +184,14 @@ func posicionar(ponto: Vector2) -> void:
 
 ## Estado enviado pelo outro jogo (arena_duelo.gd: estado_local) a ~15 Hz.
 func aplicar_estado(e: Dictionary) -> void:
+	var tecnica:Variant=e.get("tm",{})
+	if tecnica is Dictionary and tecnica.get("familia","") in ["espada","montante","lanca","machado","maca","arco","escudo"] and int(tecnica.get("ramo",-1)) in [0,1,2]:
+		var dados:Dictionary=tecnica.duplicate()
+		dados.preparo=clampf(float(dados.get("preparo",0.2)),0.05,1)
+		dados.duracao=clampf(float(dados.get("duracao",0.5)),0.1,1.5)
+		dados.tempo=clampf(float(dados.get("tempo",0)),0,3)
+		set_meta("tecnica_maestria",dados)
+	elif has_meta("tecnica_maestria"):remove_meta("tecnica_maestria")
 	_alvo = Vector2(float(e.get("x", _alvo.x)), float(e.get("y", _alvo.y)))
 	velocity = Vector2(float(e.get("vx", 0)), float(e.get("vy", 0)))
 	_amostras.append([Time.get_ticks_msec() / 1000.0, _alvo, velocity])

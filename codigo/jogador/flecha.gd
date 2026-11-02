@@ -45,6 +45,9 @@ func _init() -> void:
 func iniciar(jogador: Node, direcao: Vector2) -> void:
 	_jogador = jogador
 	_disparo = {"tipo":jogador.id_arco_atual, "golpe":jogador.estatisticas.calcular_dano_golpe(jogador.efeitos_pocao.bonus("critico")), "forca":jogador.efeitos_pocao.bonus("forca")}
+	_disparo["tratamento"] = preload("res://codigo/dados/encantamentos.gd").modificadores(jogador.inventario.equipados.get("arma"))
+	_disparo["multiplicador_maestria"] = jogador.maestria.multiplicador("arco",0) if jogador.maestria != null else 1.0
+	_disparo["evento_maestria"] = jogador.maestria.novo_evento() if jogador.maestria != null else 0
 	_direcao = direcao.normalized()
 	# O sprite da flecha aponta para a esquerda
 	rotation = _direcao.angle() + PI
@@ -85,7 +88,13 @@ func _ao_alvo_entrar(alvo: Node) -> void:
 	_acertou = true
 	if is_instance_valid(_jogador):
 		_disparo["distancia"] = _percorrido
-		_jogador.aplicar_golpe(alvo, _direcao, 1.0, 1.0, _disparo)
+		var tecnica: Dictionary = _disparo.get("tecnica", {})
+		var multiplicador: float = float(tecnica.get("dano",1.0))
+		if not tecnica.is_empty():
+			_disparo["especial"]=true
+			_disparo["finalizador"]=tecnica.get("finalizador",false)
+			multiplicador *= 1.0 + _jogador.maestria.bonus("dominio_%d" % tecnica.ramo, "arco")
+		_jogador.aplicar_golpe(alvo, _direcao, multiplicador, 1.0, _disparo)
 	queue_free()
 
 ## Sprite e colisão saem do mesmo ponto do arco 3D.

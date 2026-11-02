@@ -141,4 +141,4 @@ func _encaixar() -> void:
 func _process(_delta: float) -> void:
 	# Menus e botões de toque já apresentam seus próprios comandos.
 	var exibir := (Introducao.etapa == Introducao.Etapa.COMBATE and not _fechado_na_introducao) if Introducao.ativa() else not esta_fechado()
-	visible = exibir and not Controle.usando_toque and (not is_instance_valid(_interface) or _interface._telas_abertas.is_empty())
+	visible = exibir and not bool(get_tree().get_meta("cinema_ativo", false)) and not Controle.usando_toque and (not is_instance_valid(_interface) or _interface._telas_abertas.is_empty())

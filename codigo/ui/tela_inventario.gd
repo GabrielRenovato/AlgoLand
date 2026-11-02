@@ -5,9 +5,9 @@ const CENA_SLOT := preload("res://cenas/ui/componentes/slot_ui.tscn")
 const IconesItens := preload("res://codigo/ui/icones_itens.gd")
 const FONTE_DICA := preload("res://assets/ui/Planes_ValMore.ttf")
 const LARGURA_TEXTO_INFO := 90
-const NOMES_SLOTS_EQUIPAMENTO := ["SlotCabeca", "SlotCorpo", "SlotLuvas", "SlotBotas", "SlotEscudo", "SlotSecundaria"]
+const NOMES_SLOTS_EQUIPAMENTO := ["SlotCabeca", "SlotCorpo", "SlotLuvas", "SlotBotas", "SlotEscudo", "SlotSecundaria", "SlotAnel1", "SlotAnel2", "SlotColar", "SlotCinto"]
 ## Anéis e colar ainda não existem no jogo: os quadrados aparecem (com o símbolo apagado), mas não recebem foco nem item
-const NOMES_SLOTS_DECORATIVOS := ["SlotAnel1", "SlotAnel2", "SlotColar"]
+const NOMES_SLOTS_DECORATIVOS := []
 
 ## A grade da mochila rola quando não cabe mais acima dos atributos (a mochila cresce com as linhas extras)
 const LARGURA_BARRA_ROLAGEM := 3
@@ -208,8 +208,8 @@ func _montar_rolagem() -> void:
 	var centro := CenterContainer.new()
 	itens.add_child(centro)
 	_equipamento.reparent(centro)
-	_equipamento.custom_minimum_size = Vector2(112,104)
-	_equipamento.size = Vector2(112,104)
+	_equipamento.custom_minimum_size = Vector2(112,126)
+	_equipamento.size = Vector2(112,126)
 	var centro_grade := CenterContainer.new()
 	itens.add_child(centro_grade)
 	_grade.reparent(centro_grade)
@@ -368,7 +368,7 @@ func _verbo_do_item(slot: Control) -> String:
 			return "COLOCAR " + destino
 	if slot.item_atual.categoria == "comida" and slot.tipo_slot == "mochila":
 		return "COMER"
-	if not slot.item_atual.categoria in ["arma", "escudo", "secundaria", "cabeca", "corpo", "luvas", "botas"]:
+	if not slot.item_atual.categoria in ["arma", "escudo", "secundaria", "cabeca", "corpo", "luvas", "botas", "anel", "colar", "cinto", "bracelete"]:
 		return ""
 	if slot.item_atual.categoria == "arma":
 		return "SELECIONAR NA BARRA"
@@ -415,9 +415,9 @@ func _montar_abas() -> void:
 	linha.offset_bottom = 32
 	linha.add_theme_constant_override("separation", 2)
 	var grupo := ButtonGroup.new()
-	for i in 4:
+	for i in 5:
 		var botao := Button.new()
-		botao.tooltip_text = ["ITENS", "MISSOES ATIVAS", "DESAFIOS DE ARMAS", "CATALOGO DE PESCA"] [i]
+		botao.tooltip_text = ["ITENS", "MISSOES ATIVAS", "DESAFIOS DE ARMAS", "CATALOGO DE PESCA", "MAESTRIA DE ARMAS"] [i]
 		botao.custom_minimum_size.y = 18
 		var icone := preload("res://codigo/ui/icone_aba_inventario.gd").new()
 		icone.tipo = i
@@ -455,6 +455,10 @@ func selecionar_aba(missoes: bool) -> void:
 	selecionar_pagina(1 if missoes else 0)
 
 func selecionar_pagina(indice: int) -> void:
+	if indice == 4:
+		EventosJogo.fechar_tela_de(self,"inventario")
+		EventosJogo.abrir_tela_de(self,"maestria")
+		return
 	_aba_atual = clampi(indice, 0, 3)
 	_aba_missoes = _aba_atual == 1
 	_botoes_abas[_aba_atual].button_pressed = true
@@ -490,6 +494,6 @@ func _unhandled_input(evento: InputEvent) -> void:
 	elif evento.is_action_pressed("ferramenta_proxima"):
 		passo = 1
 	if passo != 0:
-		selecionar_pagina(posmod(_aba_atual + passo, 4))
+		selecionar_pagina(posmod(_aba_atual + passo, 5))
 		Controle.focar(_botoes_abas[_aba_atual])
 		get_viewport().set_input_as_handled()

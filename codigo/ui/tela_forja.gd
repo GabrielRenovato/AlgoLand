@@ -560,11 +560,14 @@ func _ajustar() -> void:
 	altura_catalogo -= 22 if _compacto else 32 # Abas ou fabricação.
 	altura_catalogo -= 12 if _compacto else 15 # Espaçamento da coluna.
 	if not _compacto: altura_catalogo -= _resumo_receitas.get_combined_minimum_size().y + 4
-	var linhas := maxi(1,floori((altura_catalogo - 24 + 4) / 52))
+	var celula := 56.0 if painel.get_meta("acabamento_campanha",false) else 48.0
+	# A fonte da campanha tem métricas próprias; reserva também a folga da paginação.
+	var reserva := 12.0 if painel.get_meta("acabamento_campanha",false) else 0.0
+	var linhas := maxi(1,floori((altura_catalogo - 24 + 4 - reserva) / (celula+4)))
 	_por_pagina = _grade_receitas.columns * linhas
 	for botao in _botoes.values():
 		botao.size_flags_horizontal = SIZE_EXPAND_FILL
-		botao.custom_minimum_size = Vector2(0,48)
+		botao.custom_minimum_size = Vector2(0,celula)
 	_nome.add_theme_font_size_override("font_size",8 if _compacto else 10)
 	_icone_previa.custom_minimum_size = Vector2(12,12) if _compacto else Vector2(20,20)
 	_atualizar_pagina()

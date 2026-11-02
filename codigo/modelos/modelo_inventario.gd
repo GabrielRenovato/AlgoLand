@@ -24,7 +24,7 @@ const TAMANHO_MAXIMO := 80
 const COLUNAS_MOCHILA := 8
 ## Só a arma selecionada reserva uma casa na barra; escudo e aljava ficam nos seus slots.
 const CATEGORIAS_DA_BARRA := ["arma"]
-const SLOTS := ["arma", "escudo", "secundaria", "cabeca", "corpo", "luvas", "botas"]
+const SLOTS := ["arma", "escudo", "secundaria", "cabeca", "corpo", "luvas", "botas", "anel", "colar", "cinto", "bracelete"]
 ## Espada, escudo e ferramentas são iniciais; os demais equipamentos exigem receita e forja.
 const DEFINICOES_INICIAIS := [
 	{"tipo": "espada_basica", "categoria": "arma", "duas_maos": false, "equipado": false},
@@ -48,6 +48,7 @@ var moedas_forja: int:
 			gastar_tipo("material:moeda_forja",atual-maxi(0,valor))
 var _rng_ascensao := RandomNumberGenerator.new()
 
+var saque_campanha: Dictionary = {}
 var mochila: Array = []
 var equipados: Dictionary = {}
 ## A arma selecionada ocupa uma casa da mochila/barra. O item é guardado em
@@ -139,10 +140,10 @@ func guardar_para_nova_partida() -> Dictionary:
 	var pecas: Array = []
 	for slot in SLOTS:
 		var item = equipados[slot]
-		if item != null and Conjuntos.de_tipo(item.tipo) != null:
+		if item != null and (Conjuntos.de_tipo(item.tipo) != null or item.categoria in ["anel","colar","cinto","bracelete"]):
 			pecas.append({"item": item, "equipado": true})
 	for item in mochila:
-		if item != null and (Conjuntos.de_tipo(item.tipo) != null or item.categoria in ["ferramenta","semente","peixe","vara","material","receita","colheita","pocao","produto","comida"]):
+		if item != null and (Conjuntos.de_tipo(item.tipo) != null or item.categoria in ["anel","colar","cinto","bracelete","ferramenta","semente","peixe","vara","material","receita","colheita","pocao","produto","comida"]):
 			pecas.append({"item": item, "equipado": false})
 	return {"pecas": pecas, "moedas_forja": moedas_forja}
 
@@ -271,6 +272,7 @@ func gastar_moeda_forja(quantidade: int = 1) -> bool:
 	return true
 
 func _limpar() -> void:
+	saque_campanha = {}
 	linhas_liberadas=0
 	armas_permanentes_entregues.clear()
 	mochila.clear()
@@ -662,7 +664,7 @@ func dados_save() -> Dictionary:
 		var item = equipados[slot]
 		dados_equipados[slot] = item.para_dict() if item != null else null
 	return {"mochila": fotografar_mochila(), "equipados": dados_equipados, "mao": celulas_da_mao,"linhas_liberadas":linhas_liberadas,
-		"armas_permanentes_entregues": armas_permanentes_entregues}
+		"armas_permanentes_entregues": armas_permanentes_entregues, "saque_campanha":saque_campanha}
 
 static func gravar_dados(caminho: String, dados: Dictionary) -> bool:
 	var arquivo := FileAccess.open(caminho + ".tmp", FileAccess.WRITE)
@@ -699,6 +701,7 @@ func carregar(caminho: String = "") -> bool:
 	if not dados is Dictionary:
 		return false
 	_limpar()
+	if dados.get("saque_campanha") is Dictionary: saque_campanha=dados.saque_campanha.duplicate(true)
 	var dados_mochila = dados.get("mochila", [])
 	linhas_liberadas=clampi(int(dados.get("linhas_liberadas",0)),0,ONDAS_LINHA_EXTRA.size())
 	definir_linhas_extras(linhas_para_onda(Progresso.maior_onda_vencida))

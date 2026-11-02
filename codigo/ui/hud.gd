@@ -518,6 +518,10 @@ func _mostrar_banner(texto: String, subtitulo := "", tempo_visivel := 1.5) -> vo
 		rotulo.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	rotulo_banner.label_settings.font_size = 10
 	subtitulo_banner.label_settings.font_size = 8
+	if get_meta("acabamento_campanha",false):
+		var estilo_campanha=preload("res://codigo/ui/estilo_campanha.gd")
+		estilo_campanha.painel(faixa_banner,false,10)
+		for rotulo in [rotulo_banner,subtitulo_banner]:estilo_campanha.fontes(rotulo)
 	faixa_banner.scale = Vector2.ONE
 	_ajustar_faixa_banner()
 	if is_inside_tree() and get_tree(): await get_tree().process_frame
@@ -658,6 +662,13 @@ func _ajustar_faixa_banner() -> void:
 		var area := painel.get_global_rect()
 		if area.position.y >= tela.y * 0.5:
 			limite_inferior = minf(limite_inferior, area.position.y - 6)
+	var dono := EventosJogo.dono(self)
+	if dono != null and dono.get("maestria") != null:
+		for botao: Button in dono.maestria._botoes:
+			if botao.is_visible_in_tree():
+				var pixels: Rect2 = botao.get_global_transform_with_canvas() * Rect2(Vector2.ZERO, botao.size)
+				var local: Rect2 = faixa_banner.get_global_transform_with_canvas().affine_inverse() * pixels
+				limite_inferior = minf(limite_inferior, faixa_banner.position.y + local.position.y - 6)
 	faixa_banner.position = Vector2(floorf((tela.x - faixa_banner.size.x) / 2), floorf(limite_inferior - faixa_banner.size.y))
 	if is_instance_valid(barra_armas):
 		var area_barra: Rect2 = barra_armas._painel.get_global_rect()

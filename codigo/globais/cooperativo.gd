@@ -25,7 +25,7 @@ const TEMPO_REVIVER := 2.0
 ## Sem controle no teclado: as ações do jogador 1 vão para um device que não existe
 const SEM_CONTROLE := 99
 const ACOES_P2 := ["move_left", "move_right", "move_up", "move_down", "attack", "rolar", "aparar", "usar_pocao", "colher",
-	"ferramenta_anterior", "ferramenta_proxima", "arma_proxima", "open_menu", "open_map"]
+	"ferramenta_anterior", "ferramenta_proxima", "arma_proxima", "open_menu", "open_map", "tecnica_1", "tecnica_2"]
 ## Aparência do jogador 2 (índices de Aparencia e cor do cabelo)
 const APARENCIA_P2 := {"cabelo_atual": 3, "roupa_atual": 1, "apelido": "JOGADOR 2", "cor_cabelo": {"r": 0.55, "g": 0.85, "b": 1.0, "a": 1.0}}
 

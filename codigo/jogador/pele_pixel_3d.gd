@@ -146,6 +146,9 @@ static func com_uv_pixel(malha: ArrayMesh, instancia: MeshInstance3D, esqueleto:
 			for k in 3:
 				var i: int = tri[k]
 				var uv := no_atlas(r.parte, r.cil[k])
+				if a[Mesh.ARRAY_TEX_UV2]!=null and is_equal_approx(a[Mesh.ARRAY_TEX_UV2][i].y,8.0):
+					# Ilha de couro dos aventais, independente do atlas do tronco.
+					uv=no_atlas("mao",Vector2((vertices[i].x+.28)/.56,lerpf(-.2,2.2,clampf((vertices[i].y-.75)/.65,0,1))))
 				if a[Mesh.ARRAY_NORMAL] != null: st.set_normal(a[Mesh.ARRAY_NORMAL][i])
 				if a[Mesh.ARRAY_COLOR] != null: st.set_color(a[Mesh.ARRAY_COLOR][i])
 				if a[Mesh.ARRAY_TEX_UV] != null: st.set_uv(a[Mesh.ARRAY_TEX_UV][i])

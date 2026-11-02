@@ -8,13 +8,21 @@ const MODELOS := {
         {"id":"tunica_campo","nome":"Túnica do campo","cor":"64734e","forma":2,"estilo":2},
         {"id":"jaqueta_viajante","nome":"Jaqueta de viagem","cor":"985563","forma":3,"estilo":3},
         {"id":"blusa_bufante","nome":"Blusa de mangas bufantes","cor":"c27b70","forma":4,"estilo":4},
-        {"id":"casaquinho_lavanda","nome":"Casaquinho rosa antigo","cor":"987588","forma":5,"estilo":5}],
+        {"id":"casaquinho_lavanda","nome":"Casaquinho rosa antigo","cor":"987588","forma":5,"estilo":5},
+        {"id":"tunica_aventureiro","nome":"Túnica de aventureiro","cor":"586c3e","forma":6,"estilo":6},
+        {"id":"tabardo_guarda","nome":"Tabardo da guarda","cor":"334b70","forma":7,"estilo":7},
+        {"id":"avental_ferreiro","nome":"Avental de ferreiro","cor":"c9b58e","forma":8,"estilo":8},
+        {"id":"colete_agricultor","nome":"Colete de agricultor","cor":"68734c","forma":9,"estilo":9},
+        {"id":"tunica_herbalista","nome":"Túnica de herbalista","cor":"4c7b7a","forma":10,"estilo":10},
+        {"id":"colete_mercador","nome":"Colete de mercador","cor":"783947","forma":11,"estilo":11},
+        {"id":"corpete_camponesa","nome":"Corpete com blusa bufante","cor":"222027","forma":12,"estilo":12}],
     "calca":[
         {"id":"calca_sarja","nome":"Calça de sarja","cor":"846047","forma":0,"estilo":0},
         {"id":"calca_cargo","nome":"Calça cargo","cor":"69705b","forma":1,"estilo":1},
         {"id":"calca_pescador","nome":"Calça de pescador","cor":"526074","forma":2,"estilo":2},
         {"id":"saia_pregas","nome":"Saia de pregas com meia-calça","cor":"526074","forma":3,"estilo":3},
-        {"id":"saia_campo","nome":"Saia do campo com meia-calça","cor":"69705b","forma":4,"estilo":4}],
+        {"id":"saia_campo","nome":"Saia do campo com meia-calça","cor":"69705b","forma":4,"estilo":4},
+        {"id":"saia_vinho_longa","nome":"Saia longa vinho","cor":"713c3d","forma":5,"estilo":5}],
     "calcado":[
         {"id":"botas_couro","nome":"Botas de couro","cor":"633f3b","forma":0,"estilo":0,"altura":0.30},
         {"id":"botinas_trabalho","nome":"Botinas de trabalho","cor":"8c5a3c","forma":1,"estilo":1,"altura":0.22},
@@ -25,7 +33,11 @@ const MODELOS := {
         {"id":"cabelo_curto","nome":"Bagunçado","forma":0},
         {"id":"cabelo_raspado","nome":"Raspado","forma":4},
         {"id":"cabelo_cacheado","nome":"Cacheado","forma":3},
-        {"id":"cabelo_liso_longo","nome":"Longo liso","forma":6}]
+        {"id":"cabelo_liso_longo","nome":"Longo liso","forma":6},
+        {"id":"cabelo_coque_alto","nome":"Coque alto","forma":7},
+        {"id":"cabelo_rabo_baixo","nome":"Rabo baixo","forma":8},
+        {"id":"cabelo_tranca_unica","nome":"Trança única","forma":9},
+        {"id":"cabelo_ondulado_medio","nome":"Ondulado médio","forma":10}]
 }
 static func padrao() -> Dictionary:
     return {"camisa":"camisa_bosque","calca":"calca_sarja","calcado":"botas_couro","cabelo":"cabelo_curto"}
@@ -52,7 +64,10 @@ static func normalizar(dados: Dictionary) -> Dictionary:
     return resultado
 
 ## Deriva os moldes aceitos, preservando os mesmos pesos e encaixes do rig.
-static func malha(base: ArrayMesh,categoria: String,forma: int) -> ArrayMesh:
+static func malha(base: ArrayMesh,categoria: String,forma: int,rig: Dictionary={}) -> ArrayMesh:
+    if categoria=="camisa" and forma>=6:
+        assert(not rig.is_empty(),"Roupa de fantasia exige o mapa de ossos canônico")
+        return preload("res://codigo/jogador/roupas_fantasia_3d.gd").construir(base,forma,rig)
     if forma==0: return base
     var nova:=ArrayMesh.new()
     for superficie in base.get_surface_count():

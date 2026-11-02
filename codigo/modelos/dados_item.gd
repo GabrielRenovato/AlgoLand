@@ -39,7 +39,7 @@ const NOMES := {
 
 @export var id: StringName = &""
 @export var tipo: String = "espada_basica"
-@export_enum("arma", "escudo", "secundaria", "cabeca", "corpo", "luvas", "botas", "ferramenta", "semente", "peixe", "vara", "material", "receita", "colheita", "pocao", "produto", "comida") var categoria: String = "arma"
+@export_enum("anel", "colar", "cinto", "bracelete", "arma", "escudo", "secundaria", "cabeca", "corpo", "luvas", "botas", "ferramenta", "semente", "peixe", "vara", "material", "receita", "colheita", "pocao", "produto", "comida") var categoria: String = "arma"
 @export var nivel: int = 1
 @export_enum("comum", "incomum", "raro", "epico", "lendario") var raridade: String = "comum"
 @export var icone: Texture2D
@@ -115,6 +115,7 @@ func nome() -> String:
 	var conjunto := Conjuntos.de_tipo(tipo)
 	if conjunto != null:
 		return conjunto.TIPOS[tipo]["nome"]
+	if preload("res://codigo/dados/acessorios_iniciais.gd").TIPOS.has(tipo): return preload("res://codigo/dados/acessorios_iniciais.gd").TIPOS[tipo].nome
 	return NOMES.get(tipo, tipo.to_upper())
 
 func conteudo() -> String:

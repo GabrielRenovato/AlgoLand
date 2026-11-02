@@ -33,10 +33,39 @@ uniform vec4 tom_pele : source_color = vec4(.9294,.7020,.5765,1.0);
 // Penteados que não são o da pintura (raspado, cacheado, longo...): o cabelo pintado sai e vira pele,
 // e a malha do penteado escolhido cobre o crânio.
 uniform bool sem_cabelo=false;
+uniform bool cabelo_volumetrico=false;
+uniform bool cabelo_raspado=false;
 uniform bool tingir_cabelo=false;
 uniform vec4 tinta_cabelo : source_color = vec4(1.0);
 uniform bool tingir_olhos=false;
 uniform vec4 tinta_olhos : source_color = vec4(1.0);
+// Exclusivo dos NPCs: pigmento na própria pintura, sem geometria sobre o rosto.
+uniform int pelos_faciais_npc=0;
+uniform vec4 cor_pelos_faciais_npc : source_color = vec4(.20,.11,.065,1.0);
+float pelos_na_pose(vec2 pixel,vec2 origem,vec2 olhar,float maxilar) {
+    if (pelos_faciais_npc==0 || (direcao>=3 && direcao<=5)) return 0.0;
+    float altura=max(maxilar-origem.y-olhar.y,1.0);
+    vec2 rosto=(pixel-origem-olhar)/altura;
+    float u=rosto.x*(direcao>=6 ? -1.0 : 1.0);
+    float v=rosto.y;
+    float topo=0.70-0.38*min(abs(u),1.20);
+    float limite=1.35-abs(u);
+    float bigode=0.0;
+    if (direcao==0) {
+        vec2 metade=vec2((abs(u)-.20)/.32,(v-(.52+.06*abs(u)))/.11);
+        bigode=1.0-smoothstep(.82,1.0,length(metade));
+    } else {
+        topo=.67+.20*u;
+        limite=min(u+1.45,.62-u);
+        float centro_u=direcao==2 || direcao==6 ? .12 : .25;
+        float largura=direcao==2 || direcao==6 ? .13 : .30;
+        vec2 metade=vec2((u-centro_u)/largura,(v-.47)/.095);
+        bigode=1.0-smoothstep(.82,1.0,length(metade));
+    }
+    bigode*=1.0-smoothstep(.61,.64,v);
+    float barba=smoothstep(topo,topo+.025,v)*(1.0-smoothstep(.98,1.02,v))*smoothstep(0.0,.035,limite);
+    return pelos_faciais_npc==1 ? max(barba,bigode) : bigode;
+}
 vec3 fechar_olho(vec2 p,vec3 cor,vec4 area) {
     if (p.x>area.x && p.x<area.z && p.y>area.y && p.y<area.w) {
         vec2 meio=(area.xy+area.zw)*.5;
@@ -96,8 +125,19 @@ void fragment() {
     bool iris=paleta.b>paleta.r*1.15 && paleta.b>paleta.g*.95 && paleta.b>.25;
     bool pele=paleta.r>.50 && paleta.g>paleta.r*.58 && paleta.b>paleta.r*.42 && paleta.r>paleta.g*1.08;
     bool cabelo_pintado=!iris && !pele && paleta.r>paleta.g*1.05 && paleta.r>paleta.b*1.10;
-    if (sem_cabelo && cabelo_pintado && (pixel.y-centro.y)<olhar_alvo.y-6.0) {
-        cor=tom_pele.rgb*.80;
+    bool vista_nuca=direcao>=3 && direcao<=5;
+    bool acima_testa=(pixel.y-centro.y)<olhar_alvo.y-90.0;
+    if (sem_cabelo && ((cabelo_pintado && ((pixel.y-centro.y)<olhar_alvo.y-6.0 || vista_nuca)) || acima_testa)) {
+        if (cabelo_volumetrico) discard;
+        if (cabelo_raspado) {
+            // Aparar a silhueta antiga e pintar fios curtos, sem transformar cabelo em pele.
+            if (length((pixel-centro)/vec2(138.0,128.0))>1.0) discard;
+            vec3 tinta=tingir_cabelo ? tinta_cabelo.rgb : vec3(.20,.10,.06);
+            float fios=.72+.13*sin(pixel.x*2.4)*sin(pixel.y*2.1);
+            cor=mix(tom_pele.rgb*.65,tinta,fios);
+        } else {
+            cor=tom_pele.rgb*.80;
+        }
     } else if (iris && direcao>=3 && direcao<=5) {
         cor=tom_pele.rgb*.65;
     } else if (iris && tingir_olhos) {
@@ -110,7 +150,19 @@ void fragment() {
     } else if (pele) {
         cor*=tom_pele.rgb/vec3(.9294,.7020,.5765);
     } else if (tingir_cabelo && !iris && paleta.r>paleta.g*1.05 && paleta.r>paleta.b*1.10) {
-        cor=tinta_cabelo.rgb*(dot(cor,vec3(.2126,.7152,.0722))/.28);
+        cor=tinta_cabelo.rgb*clamp(dot(cor,vec3(.2126,.7152,.0722))/.28,.35,1.25);
+    }
+    if (pelos_faciais_npc>0 && !vista_nuca && !iris) {
+        // Mesma interpolação e os mesmos marcos do rosto: não desliza ao acenar.
+        float base=pelos_na_pose(pixel,centro,olhar_base,queixo);
+        vec2 outro_centro=flexao>=0.0 ? centro_baixo : centro_cima;
+        float outra_pose=pelos_na_pose(outro_pixel,outro_centro,olhar_outro,queixo+outro_centro.y-centro.y);
+        float mascara=mix(base,outra_pose,peso);
+        bool pele_facial=paleta.r>.35 && paleta.g>paleta.r*.52 && paleta.b>paleta.r*.32;
+        if (pele_facial) {
+            float volume=clamp(dot(paleta,vec3(.2126,.7152,.0722))/.67,.60,1.10);
+            cor=mix(cor,cor_pelos_faciais_npc.rgb*volume,mascara);
+        }
     }
     ALBEDO=clamp(cor,vec3(0.0),vec3(1.0));
 }

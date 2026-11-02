@@ -33,6 +33,10 @@ func configurar(dados: Dictionary) -> bool:
 	capsula.radius = 9
 	capsula.height = 25
 	forma.shape = capsula
+	var hurtbox:=visual.get_node_or_null("AlvoGolpes/Forma") as CollisionShape2D
+	if hurtbox!=null and hurtbox.shape!=null:
+		forma.shape=hurtbox.shape.duplicate()
+		forma.transform=hurtbox.transform
 	add_child(forma)
 	collision_layer = 4
 	collision_mask = 0
@@ -128,6 +132,8 @@ func aplicar(e: Array) -> void:
 		s.rotation = float(p[5])
 		if p.size() >= 7 and p[6] is Array and p[6].size() == 4:
 			s.modulate = Color(p[6][0], p[6][1], p[6][2], p[6][3])
+		if p.size()>=8 and p[7] is Array and p[7].size()==2:
+			s.position=Vector2(float(p[7][0]),float(p[7][1]))
 	if e.size() >= 8:
 		_atualizar_gelo_visual(bool(e[7]))
 
@@ -163,7 +169,7 @@ func _mostrar_dano(valor: int) -> void:
 	get_tree().current_scene.add_child(rotulo)
 
 func receber_dano(dano: int, empurrao: Vector2 = Vector2.ZERO) -> void:
-	if controlador != null and not esta_morto: controlador.pedir_golpe(identificador, dano, empurrao)
+	if controlador != null and not esta_morto: controlador.pedir_golpe(identificador, dano, empurrao, get_meta("credito_maestria",{}))
 func receber_dano_efeito(dano: int, _cor: Color) -> void: receber_dano(dano)
 func pedir_raio_conjunto(conjunto: String, dano_golpe: int) -> void:
 	var pecas := {}

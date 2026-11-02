@@ -1,0 +1,782 @@
+{
+  "formato": 1,
+  "id": "campanha_primeira_raiz_v1",
+  "versao_conteudo": 2,
+  "andar_inicial": "andar_01",
+  "destinos": {
+    "andar_01": {
+      "nome": "Vale da Primeira Raiz",
+      "tipo": "andar",
+      "requisitos": [],
+      "conteudo": "planejado",
+      "cena": ""
+    },
+    "andar_02": {
+      "nome": "Bosque da Névoa",
+      "tipo": "andar",
+      "requisitos": [
+        "ativar_reliquia"
+      ],
+      "conteudo": "planejado",
+      "cena": ""
+    },
+    "chegada": {
+      "nome": "Clareiras da Chegada",
+      "tipo": "exploracao",
+      "andar": "andar_01",
+      "requisitos": [],
+      "conteudo": "planejado",
+      "cena": "",
+      "grupo_minimo": 1,
+      "grupo_maximo": 4,
+      "duracao": {
+        "minima": 60,
+        "prevista": [
+          180,
+          480
+        ]
+      }
+    },
+    "estrada": {
+      "nome": "Estrada dos Carreteiros",
+      "tipo": "exploracao",
+      "andar": "andar_01",
+      "requisitos": [
+        "sobreviver_queda"
+      ],
+      "conteudo": "planejado",
+      "cena": "",
+      "grupo_minimo": 1,
+      "grupo_maximo": 4,
+      "duracao": {
+        "minima": 60,
+        "prevista": [
+          120,
+          3600
+        ]
+      }
+    },
+    "vila": {
+      "nome": "Vila das Flores",
+      "tipo": "cidade",
+      "andar": "andar_01",
+      "requisitos": [
+        "estrada_interrompida"
+      ],
+      "conteudo": "planejado",
+      "cena": "",
+      "grupo_minimo": 1,
+      "grupo_maximo": 4,
+      "duracao": {
+        "minima": 60,
+        "prevista": [
+          120,
+          3600
+        ]
+      }
+    },
+    "pomar": {
+      "nome": "Pomar das Cercas Partidas",
+      "tipo": "exploracao",
+      "andar": "andar_01",
+      "requisitos": [
+        "acolhimento"
+      ],
+      "conteudo": "planejado",
+      "cena": "",
+      "grupo_minimo": 1,
+      "grupo_maximo": 4,
+      "duracao": {
+        "minima": 60,
+        "prevista": [
+          120,
+          3600
+        ]
+      }
+    },
+    "moinho": {
+      "nome": "Bacia do Moinho",
+      "tipo": "exploracao",
+      "andar": "andar_01",
+      "requisitos": [
+        "defesa_da_vila"
+      ],
+      "conteudo": "jogavel",
+      "cena": "res://cenas/campanha/terreno_moinho.tscn",
+      "grupo_minimo": 1,
+      "grupo_maximo": 4,
+      "duracao": {
+        "minima": 60,
+        "prevista": [
+          120,
+          3600
+        ]
+      }
+    },
+    "varzeas": {
+      "nome": "Várzeas Afundadas",
+      "tipo": "exploracao",
+      "andar": "andar_01",
+      "requisitos": [
+        "moinho_vazao"
+      ],
+      "conteudo": "planejado",
+      "cena": "",
+      "grupo_minimo": 1,
+      "grupo_maximo": 4,
+      "duracao": {
+        "minima": 60,
+        "prevista": [
+          120,
+          3600
+        ]
+      }
+    },
+    "pedreira": {
+      "nome": "Pedreira dos Veios Vivos",
+      "tipo": "exploracao",
+      "andar": "andar_01",
+      "requisitos": [
+        "defesa_da_vila"
+      ],
+      "conteudo": "planejado",
+      "cena": "",
+      "grupo_minimo": 1,
+      "grupo_maximo": 4,
+      "duracao": {
+        "minima": 60,
+        "prevista": [
+          120,
+          3600
+        ]
+      }
+    },
+    "tuneis": {
+      "nome": "Túneis do Carvão",
+      "tipo": "dungeon",
+      "andar": "andar_01",
+      "requisitos": [
+        "pedreira_veios"
+      ],
+      "conteudo": "planejado",
+      "cena": "",
+      "grupo_minimo": 1,
+      "grupo_maximo": 4,
+      "duracao": {
+        "minima": 60,
+        "prevista": [
+          120,
+          3600
+        ]
+      }
+    },
+    "mata": {
+      "nome": "Mata das Cascas Ocas",
+      "tipo": "exploracao",
+      "andar": "andar_01",
+      "requisitos": [
+        "defesa_da_vila"
+      ],
+      "conteudo": "planejado",
+      "cena": "",
+      "grupo_minimo": 1,
+      "grupo_maximo": 4,
+      "duracao": {
+        "minima": 60,
+        "prevista": [
+          120,
+          3600
+        ]
+      }
+    },
+    "observatorio": {
+      "nome": "Observatório das Passagens",
+      "tipo": "exploracao",
+      "andar": "andar_01",
+      "requisitos": [
+        "mata_rastro"
+      ],
+      "conteudo": "planejado",
+      "cena": "",
+      "grupo_minimo": 1,
+      "grupo_maximo": 4,
+      "duracao": {
+        "minima": 60,
+        "prevista": [
+          120,
+          3600
+        ]
+      }
+    },
+    "jardins": {
+      "nome": "Jardins da Raiz Antiga",
+      "tipo": "exploracao",
+      "andar": "andar_01",
+      "requisitos": [
+        "mata_rastro",
+        "moinho_vazao"
+      ],
+      "conteudo": "planejado",
+      "cena": "",
+      "grupo_minimo": 1,
+      "grupo_maximo": 4,
+      "duracao": {
+        "minima": 60,
+        "prevista": [
+          120,
+          3600
+        ]
+      }
+    },
+    "bastiao": {
+      "nome": "Bastião do Enxerto",
+      "tipo": "dungeon",
+      "andar": "andar_01",
+      "requisitos": [
+        "tuneis_resgate",
+        "jardins_circuito",
+        "observatorio_registros"
+      ],
+      "conteudo": "planejado",
+      "cena": "",
+      "grupo_minimo": 2,
+      "grupo_maximo": 4,
+      "duracao": {
+        "minima": 60,
+        "prevista": [
+          120,
+          3600
+        ]
+      }
+    }
+  },
+  "missoes": {
+    "sobreviver_queda": {
+      "nome": "Sobreviver à queda",
+      "destino": "chegada",
+      "requisitos": [],
+      "opcional": false,
+      "objetivos": [
+        {
+          "id": "espada",
+          "tipo": "coletar",
+          "alvo": "espada_inicial",
+          "regiao": "chegada",
+          "texto": "Abra o baú de resgate e pegue a espada.",
+          "apos": []
+        },
+        {
+          "id": "escudo",
+          "tipo": "coletar",
+          "alvo": "escudo_inicial",
+          "regiao": "chegada",
+          "texto": "Pegue o escudo no baú de resgate.",
+          "apos": []
+        },
+        {
+          "id": "resgate",
+          "tipo": "investigar",
+          "alvo": "kit_resgate",
+          "regiao": "chegada",
+          "texto": "Examine o posto de resgate: a caixa vazia e o tecido azul.",
+          "apos": [
+            "espada",
+            "escudo"
+          ]
+        },
+        {
+          "id": "combate",
+          "tipo": "vencer",
+          "alvo": "criatura_inicial",
+          "regiao": "chegada",
+          "texto": "Afaste o rebento que vigia a passagem.",
+          "apos": [
+            "resgate"
+          ]
+        },
+        {
+          "id": "vestigios",
+          "tipo": "investigar",
+          "alvo": "sulcos_chegada",
+          "regiao": "chegada",
+          "texto": "Siga a trilha até os sulcos na clareira do despertar e investigue.",
+          "apos": [
+            "combate"
+          ]
+        },
+        {
+          "id": "vigilia",
+          "tipo": "vencer",
+          "alvo": "raizes_despertas",
+          "regiao": "chegada",
+          "texto": "Examine as raízes, resista aos rebentos e vença o guardião da clareira.",
+          "apos": [
+            "vestigios"
+          ]
+        },
+        {
+          "id": "saida",
+          "tipo": "descobrir",
+          "alvo": "marco_estrada",
+          "regiao": "chegada",
+          "texto": "Atravesse as ruínas e encontre o marco da estrada.",
+          "apos": [
+            "vigilia"
+          ]
+        }
+      ]
+    },
+    "estrada_interrompida": {
+      "nome": "A estrada interrompida",
+      "destino": "estrada",
+      "requisitos": [
+        "sobreviver_queda"
+      ],
+      "opcional": false,
+      "objetivos": [
+        {
+          "id": "carreto",
+          "tipo": "investigar",
+          "alvo": "carreto",
+          "regiao": "estrada",
+          "texto": "Siga a estrada e examine os rastros perto do carreto.",
+          "apos": []
+        },
+        {
+          "id": "trabalhador",
+          "tipo": "conversar",
+          "alvo": "trabalhador",
+          "regiao": "estrada",
+          "texto": "Encontre o trabalhador refugiado.",
+          "apos": [
+            "carreto"
+          ]
+        }
+      ]
+    },
+    "acolhimento": {
+      "nome": "Um lugar na vila",
+      "destino": "vila",
+      "requisitos": [
+        "estrada_interrompida"
+      ],
+      "opcional": false,
+      "objetivos": [
+        {
+          "id": "dara",
+          "tipo": "conversar",
+          "alvo": "dara",
+          "regiao": "vila",
+          "texto": "Siga a estrada até a vila e fale com Dara na entrada.",
+          "apos": []
+        },
+        {
+          "id": "retorno",
+          "tipo": "entregar",
+          "alvo": "dara",
+          "regiao": "vila",
+          "texto": "Conte a Dara onde encontrou o trabalhador.",
+          "apos": [
+            "dara"
+          ]
+        },
+        {
+          "id": "lia",
+          "tipo": "conversar",
+          "alvo": "lia",
+          "regiao": "vila",
+          "texto": "Fale com Lia sobre a vila.",
+          "apos": [
+            "retorno"
+          ]
+        },
+        {
+          "id": "estela",
+          "tipo": "conversar",
+          "alvo": "estela",
+          "regiao": "vila",
+          "texto": "Converse com Estela sobre o chamado.",
+          "apos": [
+            "lia"
+          ]
+        },
+        {
+          "id": "oficio",
+          "tipo": "oficio",
+          "alvo": "bancada_ivo",
+          "regiao": "vila",
+          "texto": "Prepare uma peça na bancada de Ivo.",
+          "apos": [
+            "estela"
+          ]
+        }
+      ]
+    },
+    "pomar_sulcos": {
+      "nome": "O caminho sob as cercas",
+      "destino": "pomar",
+      "requisitos": [
+        "acolhimento"
+      ],
+      "opcional": false,
+      "objetivos": [
+        {
+          "id": "pedido",
+          "tipo": "conversar",
+          "alvo": "tomas",
+          "regiao": "vila",
+          "texto": "Pergunte a Tomás sobre os ataques.",
+          "apos": []
+        },
+        {
+          "id": "cerca",
+          "tipo": "investigar",
+          "alvo": "cerca_pomar",
+          "regiao": "pomar",
+          "texto": "Examine a cerca partida.",
+          "apos": [
+            "pedido"
+          ]
+        },
+        {
+          "id": "raiz",
+          "tipo": "investigar",
+          "alvo": "raiz_pomar",
+          "regiao": "pomar",
+          "texto": "Examine as raízes junto aos brotos.",
+          "apos": [
+            "pedido"
+          ]
+        },
+        {
+          "id": "sulco",
+          "tipo": "investigar",
+          "alvo": "sulco_pomar",
+          "regiao": "pomar",
+          "texto": "Siga os sulcos no chão.",
+          "apos": [
+            "pedido"
+          ]
+        },
+        {
+          "id": "barreira",
+          "tipo": "reparar",
+          "alvo": "barreira_pomar",
+          "regiao": "pomar",
+          "texto": "Teste uma barreira no pomar.",
+          "apos": [
+            "cerca",
+            "raiz",
+            "sulco"
+          ]
+        },
+        {
+          "id": "canal",
+          "tipo": "descobrir",
+          "alvo": "canal_pomar",
+          "regiao": "pomar",
+          "texto": "Observe o canal sob a barreira.",
+          "apos": [
+            "barreira"
+          ]
+        },
+        {
+          "id": "relato",
+          "tipo": "entregar",
+          "alvo": "tomas",
+          "regiao": "vila",
+          "texto": "Volte a Tomás com a descoberta.",
+          "apos": [
+            "canal"
+          ]
+        }
+      ]
+    },
+    "defesa_da_vila": {
+      "nome": "A primeira defesa",
+      "destino": "vila",
+      "requisitos": [
+        "pomar_sulcos"
+      ],
+      "opcional": false,
+      "objetivos": [
+        {
+          "id": "aviso",
+          "tipo": "conversar",
+          "alvo": "lia",
+          "regiao": "vila",
+          "texto": "Lia quer falar sobre os sulcos que chegam à vila.",
+          "apos": []
+        },
+        {
+          "id": "barreira",
+          "tipo": "reparar",
+          "alvo": "barricada_vila",
+          "regiao": "vila",
+          "texto": "Monte a ligação de Ivo na barreira da entrada, ao sul.",
+          "apos": [
+            "aviso"
+          ]
+        },
+        {
+          "id": "defesa",
+          "tipo": "vencer",
+          "alvo": "barricada_vila",
+          "regiao": "vila",
+          "texto": "Chame a defesa na barreira e resista aos rebentos.",
+          "apos": [
+            "barreira"
+          ]
+        },
+        {
+          "id": "reparo",
+          "tipo": "entregar",
+          "alvo": "osvaldo",
+          "regiao": "vila",
+          "texto": "Fale com Osvaldo sobre os reparos da entrada.",
+          "apos": [
+            "defesa"
+          ]
+        }
+      ]
+    },
+    "moinho_vazao": {
+      "nome": "A água que deixou de voltar",
+      "destino": "moinho",
+      "requisitos": [
+        "defesa_da_vila"
+      ],
+      "opcional": false,
+      "objetivos": [
+        {
+          "id": "margem",
+          "tipo": "investigar",
+          "alvo": "margem_secura",
+          "regiao": "moinho",
+          "texto": "Siga as marcas no lodo até a comporta antiga.",
+          "apos": []
+        },
+        {
+          "id": "comporta",
+          "tipo": "reparar",
+          "alvo": "comporta_moinho",
+          "regiao": "moinho",
+          "texto": "Ajuste os três registros e teste a pressão na comporta.",
+          "apos": [
+            "margem"
+          ]
+        },
+        {
+          "id": "eixo",
+          "tipo": "reparar",
+          "alvo": "roda_moinho",
+          "regiao": "moinho",
+          "texto": "Confira a transmissão do moinho e o fluxo do canal.",
+          "apos": [
+            "comporta"
+          ]
+        },
+        {
+          "id": "dungeon",
+          "tipo": "descobrir",
+          "alvo": "entrada_dungeon",
+          "regiao": "moinho",
+          "texto": "Desça pela escadaria central e leia as inscrições antigas.",
+          "apos": [
+            "eixo"
+          ]
+        },
+        {
+          "id": "relato",
+          "tipo": "conversar",
+          "alvo": "nilo",
+          "regiao": "vila",
+          "texto": "Volte à vila e conte a Nilo o que encontrou sob o moinho.",
+          "apos": [
+            "dungeon"
+          ]
+        }
+      ]
+    },
+    "varzea_amostras": {
+      "nome": "O que a corrente preservou",
+      "destino": "varzeas",
+      "requisitos": [
+        "moinho_vazao"
+      ],
+      "opcional": true
+    },
+    "pedreira_veios": {
+      "nome": "O preço do material",
+      "destino": "pedreira",
+      "requisitos": [
+        "defesa_da_vila"
+      ],
+      "opcional": false
+    },
+    "tuneis_resgate": {
+      "nome": "A equipe isolada",
+      "destino": "tuneis",
+      "requisitos": [
+        "pedreira_veios"
+      ],
+      "opcional": false
+    },
+    "mata_rastro": {
+      "nome": "O rastro dos rebentos",
+      "destino": "mata",
+      "requisitos": [
+        "defesa_da_vila"
+      ],
+      "opcional": false
+    },
+    "observatorio_registros": {
+      "nome": "O círculo sem destinos",
+      "destino": "observatorio",
+      "requisitos": [
+        "mata_rastro"
+      ],
+      "opcional": false
+    },
+    "jardins_circuito": {
+      "nome": "O princípio do retorno",
+      "destino": "jardins",
+      "requisitos": [
+        "mata_rastro",
+        "moinho_vazao"
+      ],
+      "opcional": false
+    },
+    "bastiao_intervencao": {
+      "nome": "A proteção que virou ameaça",
+      "destino": "bastiao",
+      "requisitos": [
+        "tuneis_resgate",
+        "jardins_circuito",
+        "observatorio_registros"
+      ],
+      "opcional": false
+    },
+    "ativar_reliquia": {
+      "nome": "A próxima passagem",
+      "destino": "observatorio",
+      "requisitos": [
+        "bastiao_intervencao",
+        "observatorio_registros"
+      ],
+      "opcional": false
+    },
+    "ferro_que_ainda_serve": {
+      "nome": "Ferro que ainda serve",
+      "destino": "vila",
+      "requisitos": [
+        "acolhimento"
+      ],
+      "opcional": true,
+      "objetivos": [
+        {
+          "id": "pedido",
+          "tipo": "conversar",
+          "alvo": "ivo",
+          "regiao": "vila",
+          "texto": "Fale com Ivo na forja.",
+          "apos": []
+        },
+        {
+          "id": "ferragens",
+          "tipo": "recuperar",
+          "alvo": "carreto",
+          "regiao": "estrada",
+          "texto": "Recupere as ferragens do carreto, na Estrada dos Carreteiros.",
+          "apos": [
+            "pedido"
+          ]
+        },
+        {
+          "id": "entrega",
+          "tipo": "entregar",
+          "alvo": "ivo",
+          "regiao": "vila",
+          "texto": "Leve as ferragens a Ivo.",
+          "apos": [
+            "ferragens"
+          ]
+        }
+      ]
+    },
+    "quem_ficou_para_tras": {
+      "nome": "Quem ficou para trás",
+      "destino": "vila",
+      "requisitos": [
+        "acolhimento"
+      ],
+      "opcional": true,
+      "objetivos": [
+        {
+          "id": "pedido",
+          "tipo": "conversar",
+          "alvo": "rosa",
+          "regiao": "vila",
+          "texto": "Fale com Rosa na enfermaria.",
+          "apos": []
+        },
+        {
+          "id": "suprimentos",
+          "tipo": "entregar",
+          "alvo": "trabalhador",
+          "regiao": "estrada",
+          "texto": "Leve os suprimentos ao trabalhador, no abrigo da estrada.",
+          "apos": [
+            "pedido"
+          ]
+        },
+        {
+          "id": "relato",
+          "tipo": "entregar",
+          "alvo": "rosa",
+          "regiao": "vila",
+          "texto": "Conte a Rosa o que o trabalhador disse.",
+          "apos": [
+            "suprimentos"
+          ]
+        }
+      ]
+    },
+    "antes_de_sair_outra_vez": {
+      "nome": "Antes de sair outra vez",
+      "destino": "vila",
+      "requisitos": [
+        "acolhimento"
+      ],
+      "opcional": true,
+      "objetivos": [
+        {
+          "id": "pedido",
+          "tipo": "conversar",
+          "alvo": "dara",
+          "regiao": "vila",
+          "texto": "Fale com Dara sobre o treino.",
+          "apos": []
+        },
+        {
+          "id": "treino",
+          "tipo": "treinar",
+          "alvo": "treino_dara",
+          "regiao": "vila",
+          "texto": "Complete o treino de Dara: bloqueio, esquiva e contra-ataque.",
+          "apos": [
+            "pedido"
+          ]
+        }
+      ]
+    }
+  },
+  "reliquias": {
+    "reliquia_primeira_raiz": {
+      "nome": "Relíquia da Primeira Raiz",
+      "obtida_em": "bastiao_intervencao",
+      "ativada_em": "ativar_reliquia",
+      "destino": "andar_02"
+    }
+  }
+}

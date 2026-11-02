@@ -1,0 +1,68 @@
+{
+  "tamanho": [
+    1536,
+    1024
+  ],
+  "entrada": [
+    -704,
+    420
+  ],
+  "saida": [
+    720,
+    96
+  ],
+  "inimigo": [
+    -490,
+    96
+  ],
+  "alvos": {
+    "margem_secura": {
+      "p": [
+        -540,
+        80
+      ]
+    },
+    "comporta_moinho": {
+      "p": [
+        -352,
+        -136
+      ]
+    },
+    "roda_moinho": {
+      "p": [
+        -464,
+        -288
+      ]
+    },
+    "entrada_dungeon": {
+      "p": [
+        0,
+        32
+      ]
+    },
+    "saida_regiao": {
+      "p": [
+        720,
+        96
+      ]
+    },
+    "registro_entrada": {
+      "p": [
+        -416,
+        -128
+      ]
+    },
+    "registro_desvio": {
+      "p": [
+        -368,
+        -128
+      ]
+    },
+    "registro_retorno": {
+      "p": [
+        -320,
+        -128
+      ]
+    }
+  }
+}

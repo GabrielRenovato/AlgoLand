@@ -38,7 +38,8 @@ func _ready() -> void:
 
 func atualizar(_valor: Variant = null) -> void:
 	if _titulo == null: return
-	var dados := Jornada.rastreio(Cidade,EventosJogo.dono(self))
+	var cena := Cooperativo.cena_de(self)
+	var dados: Dictionary = cena.objetivo_de_campanha() if cena != null and cena.has_method("objetivo_de_campanha") else Jornada.rastreio(Cidade,EventosJogo.dono(self))
 	var chave: String = dados.id+":"+dados.fase
 	if _chave != "" and chave != _chave:
 		_aviso_ate = Time.get_ticks_msec()+4000
@@ -46,7 +47,7 @@ func atualizar(_valor: Variant = null) -> void:
 	_chave = chave
 	minimizado = _em_andar() and not bool(dados.get("andares", false))
 	_texto.visible = not minimizado
-	_titulo.text = "OBJETIVO ATUALIZADO" if Time.get_ticks_msec() < _aviso_ate else ("LIMIAR CONCLUIDO" if dados.id == "" else "MISSAO PRINCIPAL")
+	_titulo.text = "OBJETIVO ATUALIZADO" if Time.get_ticks_msec() < _aviso_ate else ("LIMIAR CONCLUÍDO" if dados.id == "" else "MISSÃO PRINCIPAL")
 	modulate.a = 0.6 if minimizado else 1.0
 	_texto.text = dados.texto
 	tooltip_text = dados.titulo+"\n"+dados.texto

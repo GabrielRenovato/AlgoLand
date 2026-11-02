@@ -15,7 +15,9 @@ var hp_atual: int:
 	set(valor): hp = valor
 
 func _ready() -> void:
-	atraso = 0.05
+	# Usa a velocidade já recebida para avançar entre pacotes, sem os 50 ms de espera.
+	# A extrapolação continua limitada pelo adversario_remoto quando a rede para.
+	atraso = 0.0
 	remove_from_group("enemy")
 	add_to_group("jogadores")
 	set_meta("parceiro_coop", true)

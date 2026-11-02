@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="PackedScene" path="res://assets/inimigos/goblin_capuz_3d/goblin_capuz_animado.glb" id="1_modelo"]
+[ext_resource type="Script" path="res://codigo/inimigos/goblin_capuz_3d.gd" id="2_visual"]
+
+[node name="GoblinCapuz3D" type="Node3D"]
+script = ExtResource("2_visual")
+
+[node name="Modelo" parent="." instance=ExtResource("1_modelo")]

@@ -241,7 +241,7 @@ offset_left = 86.0
 offset_top = 37.0
 offset_right = 106.0
 offset_bottom = 57.0
-tipo_slot = "anel"
+tipo_slot = "bracelete"
 icone_vazio = SubResource("AtlasTexture_anel")
 
 [node name="SlotColar" parent="Sidebar/Painel" instance=ExtResource("3_slot")]
@@ -252,6 +252,14 @@ offset_right = 106.0
 offset_bottom = 78.0
 tipo_slot = "colar"
 icone_vazio = SubResource("AtlasTexture_colar")
+
+[node name="SlotCinto" parent="Sidebar/Painel" instance=ExtResource("3_slot")]
+layout_mode = 0
+offset_left = 86.0
+offset_top = 100.0
+offset_right = 106.0
+offset_bottom = 120.0
+tipo_slot = "cinto"
 
 [node name="Mochila" type="GridContainer" parent="Sidebar/Painel"]
 layout_mode = 0

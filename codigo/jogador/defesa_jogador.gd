@@ -190,9 +190,11 @@ func resolver(dano: int, forca_knockback: Vector2) -> Dictionary:
 		cancelar()   # pelas costas ou pelo lado a guarda não vale: o golpe entra e a pose de ferido toma o lugar dela
 		return {}
 	if estado == Estado.CONTRA or float(Time.get_ticks_msec() - _inicio_guarda_ms) / 1000.0 <= JANELA_PERFEITA:
+		if jogador.maestria != null: jogador.maestria.registrar_defesa(dano, true, forca_knockback)
 		_aparo_perfeito()
 		return {"tipo": "perfeito"}
-	var custo := float(dano) * STAMINA_POR_DANO
+	var reforco: float = preload("res://codigo/dados/conjuntos_armadura.gd").bonus_fisico(jogador.inventario.equipados).guarda
+	var custo := float(dano) * STAMINA_POR_DANO * (1.0 - minf(0.5, reforco + (jogador.maestria.bonus_defesa("guarda") if jogador.maestria != null else 0.0)))
 	if jogador.stamina < custo:
 		jogador.stamina = 0.0
 		jogador._avisar_stamina()
@@ -202,7 +204,9 @@ func resolver(dano: int, forca_knockback: Vector2) -> Dictionary:
 		return {}
 	jogador._gastar_stamina(custo)
 	_bloqueio()
-	return {"tipo": "bloqueio", "dano": maxi(1, roundi(dano * (1.0 - REDUCAO_BLOQUEIO))), "knockback": forca_knockback * KNOCKBACK_BLOQUEIO}
+	if jogador.maestria != null: jogador.maestria.registrar_defesa(dano, false, forca_knockback)
+	var bonus: float = jogador.maestria.bonus_defesa("reducao_bloqueio") if jogador.maestria != null else 0.0
+	return {"tipo": "bloqueio", "dano": maxi(1, roundi(dano * (1.0 - minf(0.85, REDUCAO_BLOQUEIO + bonus)))), "knockback": forca_knockback * KNOCKBACK_BLOQUEIO}
 
 func _aparo_perfeito() -> void:
 	var j := jogador
@@ -249,6 +253,9 @@ func _duracao_escudada() -> float:
 
 func _iniciar_escudada() -> void:
 	var j := jogador
+	if j.maestria != null and j.maestria.iniciar_finalizador("escudo"):
+		return
+	if j.maestria != null: j.maestria.novo_golpe()
 	j.no_reacao.encerrar()
 	estado = Estado.ESCUDADA
 	_indice = 0
@@ -318,7 +325,7 @@ func _impacto_escudada() -> void:
 				para = direcao_guarda
 		if para.length() > ALCANCE_ESCUDADA or para.normalized().dot(direcao_guarda) < COSSENO_ESCUDADA:
 			continue
-		j.aplicar_golpe(inimigo, para.normalized(), MULT_DANO_ESCUDADA, MULT_EMPURRAO_ESCUDADA)
+		j.aplicar_golpe(inimigo, para.normalized(), MULT_DANO_ESCUDADA, MULT_EMPURRAO_ESCUDADA, {"tipo":"escudo_basico", "especial":true})
 		if is_instance_valid(inimigo) and inimigo.has_method("atordoar"):
 			inimigo.atordoar(ATORDOAR_ESCUDADA)
 

@@ -3,6 +3,7 @@ uniform sampler2D distribuicao : filter_linear, repeat_disable;
 uniform sampler2D grama : source_color, filter_linear_mipmap, repeat_enable;
 uniform sampler2D pedra : source_color, filter_linear_mipmap, repeat_enable;
 uniform sampler2D terra : source_color, filter_linear, repeat_enable;
+uniform float periodo_pedra = 128.0;
 uniform vec2 origem;
 uniform vec2 tamanho;
 varying vec2 mundo;
@@ -16,7 +17,7 @@ void fragment() {
 	vec3 m=mapa(mundo);
 	float cobertura=clamp(m.r+m.g+m.b,0.0,1.0);
 	vec3 verde=texture(grama,mundo/128.0).rgb;
-	vec3 pavimento=texture(pedra,mundo/128.0).rgb;
+	vec3 pavimento=texture(pedra,mundo/periodo_pedra).rgb;
 	vec3 solo=texture(terra,mundo/128.0).rgb;
 	// Arremate contínuo de pedra clara: acompanha cantos, curvas e junções.
 	float perto=min(min(mapa(mundo+vec2(1.1,0)).g,mapa(mundo-vec2(1.1,0)).g),min(mapa(mundo+vec2(0,1.1)).g,mapa(mundo-vec2(0,1.1)).g));

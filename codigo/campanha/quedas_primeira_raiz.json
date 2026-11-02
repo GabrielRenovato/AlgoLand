@@ -1,0 +1,288 @@
+{
+  "referencia": "assets/ui/campanha/mapa_primeira_raiz_cartoon.png",
+  "dimensoes_referencia": [
+    1536,
+    1024
+  ],
+  "pivo_atlas": [
+    196,
+    45
+  ],
+  "base_atlas": [
+    196,
+    445
+  ],
+  "largura_boca_atlas": 216,
+  "quedas": [
+    {
+      "id": "aqueduto_oeste",
+      "esquerda": [
+        733,
+        83
+      ],
+      "direita": [
+        744,
+        87
+      ],
+      "pe": [
+        724,
+        134
+      ]
+    },
+    {
+      "id": "aqueduto_leste",
+      "esquerda": [
+        769,
+        101
+      ],
+      "direita": [
+        781,
+        105
+      ],
+      "pe": [
+        773,
+        152
+      ]
+    },
+    {
+      "id": "jardins_patamar",
+      "esquerda": [
+        783,
+        153
+      ],
+      "direita": [
+        809,
+        155
+      ],
+      "pe": [
+        803,
+        179
+      ]
+    },
+    {
+      "id": "jardins_oeste",
+      "esquerda": [
+        732,
+        214
+      ],
+      "direita": [
+        751,
+        212
+      ],
+      "pe": [
+        743,
+        256
+      ]
+    },
+    {
+      "id": "jardins_leste",
+      "esquerda": [
+        772,
+        207
+      ],
+      "direita": [
+        800,
+        209
+      ],
+      "pe": [
+        791,
+        254
+      ]
+    },
+    {
+      "id": "moinho_posterior",
+      "esquerda": [
+        840,
+        580
+      ],
+      "direita": [
+        884,
+        571
+      ],
+      "pe": [
+        861,
+        628
+      ]
+    },
+    {
+      "id": "moinho_frontal",
+      "esquerda": [
+        748,
+        659
+      ],
+      "direita": [
+        777,
+        657
+      ],
+      "pe": [
+        767,
+        682
+      ]
+    },
+    {
+      "id": "moinho_arco_central",
+      "esquerda": [
+        793,
+        650
+      ],
+      "direita": [
+        803,
+        647
+      ],
+      "pe": [
+        800,
+        671
+      ]
+    },
+    {
+      "id": "moinho_arco_leste",
+      "esquerda": [
+        821,
+        641
+      ],
+      "direita": [
+        832,
+        639
+      ],
+      "pe": [
+        829,
+        659
+      ]
+    },
+    {
+      "id": "mata",
+      "esquerda": [
+        1008,
+        556
+      ],
+      "direita": [
+        1049,
+        568
+      ],
+      "pe": [
+        1022,
+        620
+      ]
+    },
+    {
+      "id": "pedreira",
+      "esquerda": [
+        1245,
+        762
+      ],
+      "direita": [
+        1298,
+        741
+      ],
+      "pe": [
+        1276,
+        797
+      ]
+    },
+    {
+      "id": "varzeas_oeste",
+      "esquerda": [
+        823,
+        903
+      ],
+      "direita": [
+        859,
+        900
+      ],
+      "pe": [
+        841,
+        954
+      ]
+    },
+    {
+      "id": "varzeas_patamar",
+      "esquerda": [
+        1150,
+        908
+      ],
+      "direita": [
+        1170,
+        914
+      ],
+      "pe": [
+        1170,
+        943
+      ]
+    },
+    {
+      "id": "varzeas_leste",
+      "esquerda": [
+        1171,
+        946
+      ],
+      "direita": [
+        1189,
+        948
+      ],
+      "pe": [
+        1186,
+        978
+      ]
+    },
+    {
+      "id": "ponte_oeste",
+      "esquerda": [
+        313,
+        613
+      ],
+      "direita": [
+        340,
+        613
+      ],
+      "pe": [
+        325,
+        688
+      ]
+    },
+    {
+      "id": "ilhota_oeste",
+      "esquerda": [
+        56,
+        781
+      ],
+      "direita": [
+        77,
+        787
+      ],
+      "pe": [
+        52,
+        830
+      ]
+    },
+    {
+      "id": "varzeas_ilha",
+      "esquerda": [
+        1299,
+        862
+      ],
+      "direita": [
+        1313,
+        863
+      ],
+      "pe": [
+        1306,
+        918
+      ]
+    },
+    {
+      "id": "varzeas_extremo",
+      "esquerda": [
+        1200,
+        926
+      ],
+      "direita": [
+        1224,
+        930
+      ],
+      "pe": [
+        1218,
+        968
+      ]
+    }
+  ]
+}

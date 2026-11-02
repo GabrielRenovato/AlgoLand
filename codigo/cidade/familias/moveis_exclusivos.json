@@ -1,0 +1,346 @@
+{
+  "familias/balcao_hospedaria": {
+    "casa": "mara",
+    "canvas_logico": [
+      104,
+      80
+    ],
+    "texturas": [
+      "res://assets/cenario/cidade/interiores_detalhados/familias/balcao_hospedaria/primavera.png",
+      "res://assets/cenario/cidade/interiores_detalhados/familias/balcao_hospedaria/verao.png",
+      "res://assets/cenario/cidade/interiores_detalhados/familias/balcao_hospedaria/outono.png",
+      "res://assets/cenario/cidade/interiores_detalhados/familias/balcao_hospedaria/inverno.png"
+    ],
+    "quadros": 1,
+    "fps": 0,
+    "variantes": [
+      {
+        "escala": 0.0729312762973352,
+        "pivo": [
+          724.0,
+          934
+        ],
+        "usado": [
+          11,
+          172,
+          1437,
+          934
+        ],
+        "canvas": [
+          1448,
+          1086
+        ]
+      },
+      {
+        "escala": 0.07298245614035087,
+        "pivo": [
+          724.5,
+          937
+        ],
+        "usado": [
+          12,
+          170,
+          1437,
+          937
+        ],
+        "canvas": [
+          1448,
+          1086
+        ]
+      },
+      {
+        "escala": 0.07298245614035087,
+        "pivo": [
+          724.5,
+          936
+        ],
+        "usado": [
+          12,
+          173,
+          1437,
+          936
+        ],
+        "canvas": [
+          1448,
+          1086
+        ]
+      },
+      {
+        "escala": 0.0729312762973352,
+        "pivo": [
+          724.0,
+          936
+        ],
+        "usado": [
+          11,
+          160,
+          1437,
+          936
+        ],
+        "canvas": [
+          1448,
+          1086
+        ]
+      }
+    ],
+    "origem": "image_gen nativa; sprite independente; sem Mana Seed/Tiny"
+  },
+  "familias/bancada_padeiro": {
+    "casa": "cora",
+    "canvas_logico": [
+      80,
+      80
+    ],
+    "texturas": [
+      "res://assets/cenario/cidade/interiores_detalhados/familias/bancada_padeiro/primavera.png",
+      "res://assets/cenario/cidade/interiores_detalhados/familias/bancada_padeiro/verao.png",
+      "res://assets/cenario/cidade/interiores_detalhados/familias/bancada_padeiro/outono.png",
+      "res://assets/cenario/cidade/interiores_detalhados/familias/bancada_padeiro/inverno.png"
+    ],
+    "quadros": 1,
+    "fps": 0,
+    "variantes": [
+      {
+        "escala": 0.056818181818181816,
+        "pivo": [
+          724.0,
+          956
+        ],
+        "usado": [
+          20,
+          170,
+          1428,
+          956
+        ],
+        "canvas": [
+          1448,
+          1086
+        ]
+      },
+      {
+        "escala": 0.05669737774627923,
+        "pivo": [
+          724.5,
+          958
+        ],
+        "usado": [
+          19,
+          169,
+          1430,
+          958
+        ],
+        "canvas": [
+          1448,
+          1086
+        ]
+      },
+      {
+        "escala": 0.05669737774627923,
+        "pivo": [
+          725.5,
+          958
+        ],
+        "usado": [
+          20,
+          167,
+          1431,
+          958
+        ],
+        "canvas": [
+          1448,
+          1086
+        ]
+      },
+      {
+        "escala": 0.05598320503848846,
+        "pivo": [
+          733.5,
+          976
+        ],
+        "usado": [
+          19,
+          172,
+          1448,
+          976
+        ],
+        "canvas": [
+          1448,
+          1086
+        ]
+      }
+    ],
+    "origem": "image_gen nativa; sprite independente; sem Mana Seed/Tiny"
+  },
+  "familias/bancada_ervas": {
+    "casa": "rosa",
+    "canvas_logico": [
+      72,
+      80
+    ],
+    "texturas": [
+      "res://assets/cenario/cidade/interiores_detalhados/familias/bancada_ervas/primavera.png",
+      "res://assets/cenario/cidade/interiores_detalhados/familias/bancada_ervas/verao.png",
+      "res://assets/cenario/cidade/interiores_detalhados/familias/bancada_ervas/outono.png",
+      "res://assets/cenario/cidade/interiores_detalhados/familias/bancada_ervas/inverno.png"
+    ],
+    "quadros": 1,
+    "fps": 0,
+    "variantes": [
+      {
+        "escala": 0.06451612903225806,
+        "pivo": [
+          724.0,
+          1016
+        ],
+        "usado": [
+          166,
+          70,
+          1282,
+          1016
+        ],
+        "canvas": [
+          1448,
+          1086
+        ]
+      },
+      {
+        "escala": 0.06428571428571428,
+        "pivo": [
+          725.0,
+          1017
+        ],
+        "usado": [
+          165,
+          68,
+          1285,
+          1017
+        ],
+        "canvas": [
+          1448,
+          1086
+        ]
+      },
+      {
+        "escala": 0.06457399103139014,
+        "pivo": [
+          729.5,
+          1018
+        ],
+        "usado": [
+          172,
+          69,
+          1287,
+          1018
+        ],
+        "canvas": [
+          1448,
+          1086
+        ]
+      },
+      {
+        "escala": 0.06463195691202872,
+        "pivo": [
+          730.0,
+          1019
+        ],
+        "usado": [
+          173,
+          69,
+          1287,
+          1019
+        ],
+        "canvas": [
+          1448,
+          1086
+        ]
+      }
+    ],
+    "origem": "image_gen nativa; sprite independente; sem Mana Seed/Tiny"
+  },
+  "familias/vitrine_padaria": {
+    "casa": "cora",
+    "canvas_logico": [
+      144,
+      80
+    ],
+    "texturas": [
+      "res://assets/cenario/cidade/interiores_detalhados/familias/vitrine_padaria/primavera.png",
+      "res://assets/cenario/cidade/interiores_detalhados/familias/vitrine_padaria/verao.png",
+      "res://assets/cenario/cidade/interiores_detalhados/familias/vitrine_padaria/outono.png",
+      "res://assets/cenario/cidade/interiores_detalhados/familias/vitrine_padaria/inverno.png"
+    ],
+    "quadros": 1,
+    "fps": 0,
+    "variantes": [
+      {
+        "escala": 0.1518987341772152,
+        "pivo": [
+          515.0,
+          348
+        ],
+        "usado": [
+          41,
+          64,
+          989,
+          348
+        ],
+        "canvas": [
+          1024,
+          384
+        ]
+      },
+      {
+        "escala": 0.1518987341772152,
+        "pivo": [
+          515.0,
+          348
+        ],
+        "usado": [
+          41,
+          42,
+          989,
+          348
+        ],
+        "canvas": [
+          1024,
+          384
+        ]
+      },
+      {
+        "escala": 0.15126050420168066,
+        "pivo": [
+          517.0,
+          348
+        ],
+        "usado": [
+          41,
+          36,
+          993,
+          348
+        ],
+        "canvas": [
+          1024,
+          384
+        ]
+      },
+      {
+        "escala": 0.15015641293013557,
+        "pivo": [
+          520.5,
+          347
+        ],
+        "usado": [
+          41,
+          37,
+          1000,
+          347
+        ],
+        "canvas": [
+          1024,
+          384
+        ]
+      }
+    ],
+    "origem": "image_gen nativa; sprite independente; sem Mana Seed/Tiny"
+  }
+}

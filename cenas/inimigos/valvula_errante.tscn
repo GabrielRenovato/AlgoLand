@@ -1,0 +1,57 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://codigo/inimigos/inimigo_bacia.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/inimigos/bacia_moinho/valvula_errante.png" id="2"]
+
+[ext_resource type="Texture2D" path="res://assets/inimigos/bacia_moinho/ataques_corrigidos/valvula.png" id="3"]
+
+[sub_resource type="ConvexPolygonShape2D" id="Corpo"]
+points = PackedVector2Array(0, -25, 18, -18, 25, 0, 18, 18, 0, 25, -18, 18, -25, 0, -18, -18)
+
+[sub_resource type="ConvexPolygonShape2D" id="Ataque"]
+points = PackedVector2Array(0, -29, 22, -22, 29, 0, 22, 22, 0, 29, -22, 22, -29, 0, -22, -22)
+
+[node name="ValvulaErrante" type="CharacterBody2D" groups=["enemy"]]
+scale = Vector2(0.75, 0.75)
+collision_layer = 4
+collision_mask = 64
+script = ExtResource("1")
+especie = "valvula"
+folha_ataque = ExtResource("3")
+pivo_ataque = Vector2(256, 448)
+proporcao_ataque = 0.78
+pivos_andar = {}
+colunas = 4
+linhas = 4
+parado = true
+anims = {"andar_baixo": [0, 1, 2, 3], "andar_lado": [4, 5, 6, 7], "andar_cima": [8, 9, 10, 11], "ataque_baixo": [12, 13, 14, 15], "ataque_lado": [12, 13, 14, 15], "ataque_cima": [12, 13, 14, 15], "morte": [15, 14, 13, 12]}
+fps_andar = 4.0
+fps_ataque = 10.0
+velocidade = 0
+raio_parada = 0.0
+altura_pes = 0.0
+altura_barra_vida = 60.0
+tempo_recarga_ataque = 2.4
+alcance_ataque = 155.0
+dano = 7.0
+vida = 34
+
+[node name="Texture" type="Sprite2D" parent="."]
+texture = ExtResource("2")
+hframes = 4
+vframes = 4
+offset = Vector2(0, -160)
+scale = Vector2(0.19, 0.19)
+texture_filter = 1
+
+[node name="colision_body" type="CollisionShape2D" parent="."]
+position = Vector2(0, -25)
+shape = SubResource("Corpo")
+
+[node name="ataque" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="attack_colision_player" type="CollisionShape2D" parent="ataque"]
+position = Vector2(0, -25)
+shape = SubResource("Ataque")

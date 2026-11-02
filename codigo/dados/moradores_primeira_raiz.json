@@ -1,0 +1,1417 @@
+{
+	"versao": 1,
+	"limite": 15,
+	"moradores": [
+		{
+			"id": "dara",
+			"nome": "Dara",
+			"importante": true,
+			"perfil": "guarda",
+			"semente": 901,
+			"papel": "Vigia da estrada",
+			"local": "guarda de rotas",
+			"desejo": "Manter as rotas abertas e trazer todos de volta.",
+			"falha": "Tenta patrulhar sozinha quando sente medo.",
+			"passado": "Aprendeu resgates procurando uma patrulha que voltou pelo caminho errado.",
+			"voz": "Frases curtas; pergunta sempre pelo caminho de volta.",
+			"cabelo": "cabelo_rabo_baixo",
+			"tom_cabelo": "51372b",
+			"pele": "c89270",
+			"olhos": 0,
+			"rota": [
+				[
+					-52,
+					392
+				],
+				[
+					-40,
+					340
+				],
+				[
+					36,
+					288
+				]
+			],
+			"apresentacao": [
+				"Dara. Cuido desta entrada e da estrada. Se for sair, diga a alguém por onde pretende voltar.",
+				"Muita gente olha só para o portão. Eu olho para quem ainda não passou por ele."
+			],
+			"conversas": [
+				"Antes de prometer que vai resolver, me diz por onde você pretende voltar.",
+				"O Noel conta passos na ronda. Eu conto pessoas. Estamos tentando ensinar um ao outro."
+			],
+			"roupas": {
+				"camisa": "tabardo_guarda",
+				"calca": "calca_cargo",
+				"calcado": "botas_couro"
+			},
+			"movimento": "feminino"
+		},
+		{
+			"id": "lia",
+			"nome": "Lia",
+			"importante": true,
+			"perfil": "mercador",
+			"semente": 902,
+			"papel": "Coordenadora da vila",
+			"local": "coordenação e abrigo",
+			"desejo": "Manter abrigo e mantimentos sem fechar a vila para o mundo.",
+			"falha": "Centraliza tarefas e custa a pedir ajuda.",
+			"passado": "Guarda os registros de quem chegou pela árvore e de quem acolheu essas pessoas.",
+			"voz": "Direta, memória boa e humor seco.",
+			"cabelo": "cabelo_coque_alto",
+			"tom_cabelo": "342a32",
+			"pele": "a46f4d",
+			"olhos": 1,
+			"rota": [
+				[
+					-88,
+					12
+				],
+				[
+					-104,
+					-64
+				],
+				[
+					-168,
+					-192
+				]
+			],
+			"apresentacao": [
+				"Sou Lia. Antes de qualquer explicação: você tem onde dormir e com quem contar aqui.",
+				"Não sei tudo sobre o chamado da árvore. Sei que ninguém recém-chegado deveria enfrentá-lo sozinho."
+			],
+			"conversas": [
+				"Tenho três listas de urgências. A Mara insiste que almoçar devia entrar na primeira.",
+				"Ser útil aqui não exige carregar a vila inteira nas costas. Isso também serve para mim."
+			],
+			"roupas": {
+				"camisa": "colete_mercador",
+				"calca": "saia_pregas",
+				"calcado": "sapatos_viagem"
+			},
+			"movimento": "feminino",
+			"acessorios": [
+				"oculos"
+			]
+		},
+		{
+			"id": "ivo",
+			"nome": "Ivo",
+			"importante": true,
+			"perfil": "ferreiro",
+			"semente": 903,
+			"papel": "Ferreiro",
+			"local": "forja e ferramentas",
+			"desejo": "Fazer equipamento em que qualquer morador possa confiar.",
+			"falha": "Confunde admitir um erro com perder a confiança dos outros.",
+			"passado": "Uma ferramenta rachada sob sua marca o levou a desconfiar dos veios brilhantes.",
+			"voz": "Resmunga sobre o trabalho; fica caloroso ao falar de técnica.",
+			"cabelo": "cabelo_raspado",
+			"tom_cabelo": "51372b",
+			"pele": "825238",
+			"olhos": 2,
+			"rota": [
+				[
+					-440,
+					184
+				],
+				[
+					-392,
+					200
+				],
+				[
+					-360,
+					192
+				]
+			],
+			"apresentacao": [
+				"Ivo. Se alguma ferramenta minha falhar, quero vê-la antes que alguém a jogue fora.",
+				"O minério da pedreira anda estranho. Ainda não sei por quê, e não vou chamar de seguro só porque brilha."
+			],
+			"conversas": [
+				"O Téo pergunta por que eu testo cada cabo. Porque uma mão vale mais que um cabo.",
+				"Bonito no balcão é fácil. Quero ver a peça voltar inteira depois do trabalho."
+			],
+			"roupas": {
+				"camisa": "avental_ferreiro",
+				"calca": "calca_cargo",
+				"calcado": "botinas_trabalho"
+			},
+			"acessorios": [
+				"barba"
+			]
+		},
+		{
+			"id": "rosa",
+			"nome": "Rosa",
+			"importante": true,
+			"perfil": "herbalista",
+			"semente": 904,
+			"papel": "Curandeira",
+			"local": "cuidados e recuperação",
+			"desejo": "Entender o que adoece os moradores e ajudá-los a se recuperar.",
+			"falha": "Adia o próprio descanso para cuidar de mais uma pessoa.",
+			"passado": "Começou a comparar água, cansaço e exposição mineral depois de tratamentos diferentes falharem.",
+			"voz": "Gentil, precisa; sabe dizer não sem humilhar.",
+			"cabelo": "cabelo_tranca_unica",
+			"tom_cabelo": "cec7bb",
+			"pele": "deb08c",
+			"olhos": 3,
+			"rota": [
+				[
+					346,
+					216
+				],
+				[
+					400,
+					216
+				],
+				[
+					440,
+					240
+				]
+			],
+			"apresentacao": [
+				"Pode me chamar de Rosa. Antes de contar sua aventura, sente um instante e veja como está respirando.",
+				"Nem todo mal-estar vem da magia. Água ruim, pouco sono e medo também deixam marcas.",
+				"A Nina é minha sobrinha e mora comigo. Eu cuido dela, e ela insiste em cuidar de todas as minhas plantas."
+			],
+			"conversas": [
+				"A Estela me traz hipóteses; eu peço que traga também as observações. Temos aprendido juntas.",
+				"Descansar antes de cair é cuidado. Descansar depois também, mas costuma doer mais.",
+				"A Nina observa mudanças no jardim que passam despercebidas por mim. Eu escuto, mas confiro antes de deixar que ela colha qualquer folha.",
+				"Quero que a Nina possa brincar sem vigiar o portão o tempo todo. É uma das razões para eu cuidar de quem volta ferido."
+			],
+			"roupas": {
+				"camisa": "tunica_herbalista",
+				"calca": "saia_campo",
+				"calcado": "sapatilhas_vinho"
+			},
+			"movimento": "feminino",
+			"criancas": [
+				"nina"
+			],
+			"rotina": [
+				{
+					"hora": 0,
+					"id": "casa",
+					"rota": [
+						[
+							366,
+							216
+						],
+						[
+							420,
+							216
+						],
+						[
+							460,
+							240
+						]
+					],
+					"falas": [
+						"A Nina está em casa. Deixou uma flor na janela para os amigos encontrarem nosso caminho amanhã."
+					],
+					"velocidade": 22.0
+				},
+				{
+					"hora": 7,
+					"id": "familia",
+					"rota": [
+						[
+							366,
+							216
+						],
+						[
+							420,
+							216
+						],
+						[
+							460,
+							240
+						]
+					],
+					"falas": [
+						"A Nina é minha sobrinha e mora comigo. Eu cuido dela, e ela insiste em cuidar de todas as minhas plantas."
+					],
+					"velocidade": 22.0
+				},
+				{
+					"hora": 10,
+					"id": "trabalho",
+					"rota": [
+						[
+							346,
+							216
+						],
+						[
+							400,
+							216
+						],
+						[
+							440,
+							240
+						]
+					],
+					"falas": [
+						"A Estela me traz hipóteses; eu peço que traga também as observações. Temos aprendido juntas.",
+						"Descansar antes de cair é cuidado. Descansar depois também, mas costuma doer mais.",
+						"A Nina observa mudanças no jardim que passam despercebidas por mim. Eu escuto, mas confiro antes de deixar que ela colha qualquer folha.",
+						"Quero que a Nina possa brincar sem vigiar o portão o tempo todo. É uma das razões para eu cuidar de quem volta ferido."
+					],
+					"velocidade": 22.0
+				},
+				{
+					"hora": 16,
+					"id": "buscar",
+					"rota": [
+						[
+							28,
+							224
+						],
+						[
+							-84,
+							240
+						],
+						[
+							44,
+							176
+						]
+					],
+					"falas": [
+						"Vou procurar a Nina na praça. Ela costuma ficar perto da Bia. Prefiro trazê-la de volta antes que escureça."
+					],
+					"velocidade": 22.0
+				},
+				{
+					"hora": 18,
+					"id": "volta_familia",
+					"rota": [
+						[
+							366,
+							216
+						]
+					],
+					"falas": [
+						"Nina, vamos voltar para o jardim. Depois você me mostra a flor que trouxe; agora é hora de comer."
+					],
+					"velocidade": 22.0
+				},
+				{
+					"hora": 20,
+					"id": "casa",
+					"rota": [
+						[
+							366,
+							216
+						],
+						[
+							420,
+							216
+						],
+						[
+							460,
+							240
+						]
+					],
+					"falas": [
+						"A Nina está em casa. Deixou uma flor na janela para os amigos encontrarem nosso caminho amanhã."
+					],
+					"velocidade": 22.0
+				}
+			],
+			"acessorios": [
+				"lenco"
+			]
+		},
+		{
+			"id": "tomas",
+			"nome": "Tomás",
+			"importante": true,
+			"perfil": "agricultor",
+			"semente": 905,
+			"papel": "Sementes e abastecimento",
+			"local": "estoques e próxima safra",
+			"desejo": "Proteger a próxima colheita enquanto sustenta a vila de hoje.",
+			"falha": "Promete disponibilidade antes de conferir os próprios estoques.",
+			"passado": "Guarda uma reserva de sementes que quase precisou transformar em comida numa seca.",
+			"voz": "Sociável, faz contas em voz baixa quando fica preocupado.",
+			"cabelo": "cabelo_cacheado",
+			"tom_cabelo": "8a5835",
+			"pele": "c89270",
+			"olhos": 4,
+			"rota": [
+				[
+					-448,
+					-72
+				],
+				[
+					-544,
+					-48
+				],
+				[
+					-592,
+					-48
+				]
+			],
+			"apresentacao": [
+				"Tomás. Trabalho com sementes e com o hábito ingrato de contar sacos antes de prometer sacos.",
+				"Tem gente olhando para a próxima expedição. Eu também preciso olhar para a próxima safra."
+			],
+			"conversas": [
+				"A Bia diz que eu converso com meus estoques. Converso. Eles respondem pouco, mas nunca mentem.",
+				"A Cora guarda massa para amanhã. Eu guardo sementes. É a mesma teimosia com receitas diferentes."
+			],
+			"roupas": {
+				"camisa": "colete_agricultor",
+				"calca": "calca_sarja",
+				"calcado": "botinas_trabalho"
+			},
+			"acessorios": [
+				"chapeu_palha"
+			]
+		},
+		{
+			"id": "nilo",
+			"nome": "Nilo",
+			"importante": true,
+			"perfil": "aventureiro",
+			"semente": 906,
+			"papel": "Pescador",
+			"local": "rios e travessias",
+			"desejo": "Recuperar a pesca perto do moinho sem piorar a corrente.",
+			"falha": "Demora a confiar em quem conhece o rio só por desenho.",
+			"passado": "Reconhece mudanças de vazão pelos detritos presos nas redes.",
+			"voz": "Paciente e irônico; compara problemas com a correnteza.",
+			"cabelo": "cabelo_rabo_baixo",
+			"tom_cabelo": "cec7bb",
+			"pele": "a46f4d",
+			"olhos": 5,
+			"rota": [
+				[
+					224,
+					352
+				],
+				[
+					128,
+					336
+				],
+				[
+					72,
+					296
+				]
+			],
+			"apresentacao": [
+				"Nilo. Hoje trouxe as redes para remendar. Os nós ficam mais fáceis longe da corrente.",
+				"Conheço o trecho do moinho. Se a água muda de rumo, alguma coisa muda junto; às vezes demora a aparecer."
+			],
+			"conversas": [
+				"O Osvaldo conserta madeira. Eu aviso quando a água decide testar o conserto.",
+				"Quando alguém diz que basta abrir uma comporta, pergunto quem está lá embaixo."
+			],
+			"roupas": {
+				"camisa": "jaqueta_viajante",
+				"calca": "calca_pescador",
+				"calcado": "sapatos_viagem"
+			},
+			"acessorios": [
+				"chapeu_palha",
+				"barba"
+			]
+		},
+		{
+			"id": "osvaldo",
+			"nome": "Osvaldo",
+			"importante": true,
+			"perfil": "agricultor",
+			"semente": 907,
+			"papel": "Carpinteiro",
+			"local": "reparos e moinho",
+			"desejo": "Manter de pé o que sustenta o cotidiano da vila.",
+			"falha": "Insiste em reparos conhecidos mesmo quando o problema mudou.",
+			"passado": "Herdou medidas e anotações do moinho, incluindo um desvio que ainda precisa compreender.",
+			"voz": "Poucas palavras, exemplos concretos, afeto nos pequenos cuidados.",
+			"cabelo": "cabelo_curto",
+			"tom_cabelo": "cec7bb",
+			"pele": "c89270",
+			"olhos": 0,
+			"rota": [
+				[
+					-263,
+					276
+				],
+				[
+					-208,
+					296
+				],
+				[
+					-160,
+					280
+				]
+			],
+			"apresentacao": [
+				"Osvaldo. Se uma tábua ceder, me mostre onde. Saber quem a pisou não conserta a tábua.",
+				"O moinho tem reparos mais velhos que eu. Nem todos vieram com explicação."
+			],
+			"conversas": [
+				"O Ivo guarda peças partidas. Eu guardo medidas antigas. Às vezes nossas sobras contam a mesma história.",
+				"Uma ponte boa não é a que dispensa cuidado. É a que permite chegar ao outro lado para cuidar dela."
+			],
+			"roupas": {
+				"camisa": "camisa_trabalho",
+				"calca": "calca_cargo",
+				"calcado": "botinas_trabalho"
+			},
+			"acessorios": [
+				"oculos",
+				"barba"
+			]
+		},
+		{
+			"id": "estela",
+			"nome": "Estela",
+			"importante": true,
+			"perfil": "herbalista",
+			"semente": 908,
+			"papel": "Pesquisadora da árvore",
+			"local": "sinais e relíquias",
+			"desejo": "Entender o chamado e a ligação entre as regiões.",
+			"falha": "Se entusiasma com uma explicação antes de procurar o que a contradiz.",
+			"passado": "Compara inscrições com relatos de chegadas anteriores, sem conhecer o passado dos invocados.",
+			"voz": "Curiosa; distingue observação, hipótese e certeza.",
+			"cabelo": "cabelo_ondulado_medio",
+			"tom_cabelo": "342a32",
+			"pele": "f4c6a4",
+			"olhos": 1,
+			"rota": [
+				[
+					544,
+					336
+				],
+				[
+					464,
+					328
+				],
+				[
+					368,
+					352
+				]
+			],
+			"apresentacao": [
+				"Sou Estela. Há sinais de que a árvore participa da sua chegada. Sinais, por enquanto; não todas as respostas.",
+				"Você não precisa inventar um passado que eu consiga explicar. Quero entender o que está acontecendo aqui."
+			],
+			"conversas": [
+				"Tenho uma hipótese nova. Ainda não a chamo de descoberta: falta tentar provar que está errada.",
+				"Rosa acha minhas anotações desorganizadas. Estão organizadas por quanto me deixaram intrigada."
+			],
+			"roupas": {
+				"camisa": "casaquinho_lavanda",
+				"calca": "saia_pregas",
+				"calcado": "sapatilhas_vinho"
+			},
+			"movimento": "feminino",
+			"acessorios": [
+				"oculos"
+			]
+		},
+		{
+			"id": "mara",
+			"nome": "Mara",
+			"importante": false,
+			"perfil": "camponesa",
+			"semente": 909,
+			"papel": "Pousadeira",
+			"local": "pousada",
+			"desejo": "Fazer cada recém-chegado ter um lugar à mesa.",
+			"falha": "Disfarça a preocupação dando tarefas a quem precisa descansar.",
+			"passado": "Conhece a vila pelo que os hóspedes contam ao voltar.",
+			"voz": "Acolhedora e bem-humorada.",
+			"cabelo": "cabelo_coque_alto",
+			"tom_cabelo": "8a5835",
+			"pele": "a46f4d",
+			"olhos": 2,
+			"rota": [
+				[
+					136,
+					-208
+				],
+				[
+					240,
+					-224
+				],
+				[
+					296,
+					-240
+				]
+			],
+			"apresentacao": [
+				"Sou Mara, da pousada. Aqui a primeira pergunta é se você já comeu. A segunda pode esperar.",
+				"O Téo me ajuda a arrumar as mesas. Depois fica inventando aventuras com as migalhas. Uma de cada vez, eu digo."
+			],
+			"conversas": [
+				"A Lia deixou uma lista na minha mesa. Devolvi com uma cadeira desenhada. Ela entendeu.",
+				"Se ouvir passos cedo na pousada, sou eu conferindo se tem pão para quem vai sair.",
+				"O Téo é meu filho. Se aparecer alguém novo na vila, ele já prepara novecentas perguntas.",
+				"Deixo o Téo brincar na praça durante o dia. Quero que ele conheça a vila por mais coisas que o som do alarme."
+			],
+			"movimento": "feminino",
+			"criancas": [
+				"teo"
+			],
+			"rotina": [
+				{
+					"hora": 0,
+					"id": "casa",
+					"rota": [
+						[
+							156,
+							-208
+						],
+						[
+							260,
+							-224
+						],
+						[
+							316,
+							-240
+						]
+					],
+					"falas": [
+						"O Téo já está em casa. Deixo uma luz acesa na pousada; ultimamente ele tem pedido isso."
+					],
+					"velocidade": 22.0
+				},
+				{
+					"hora": 7,
+					"id": "familia",
+					"rota": [
+						[
+							156,
+							-208
+						],
+						[
+							260,
+							-224
+						],
+						[
+							316,
+							-240
+						]
+					],
+					"falas": [
+						"O Téo me ajuda a arrumar as mesas. Depois fica inventando aventuras com as migalhas. Uma de cada vez, eu digo."
+					],
+					"velocidade": 22.0
+				},
+				{
+					"hora": 10,
+					"id": "trabalho",
+					"rota": [
+						[
+							136,
+							-208
+						],
+						[
+							240,
+							-224
+						],
+						[
+							296,
+							-240
+						]
+					],
+					"falas": [
+						"A Lia deixou uma lista na minha mesa. Devolvi com uma cadeira desenhada. Ela entendeu.",
+						"Se ouvir passos cedo na pousada, sou eu conferindo se tem pão para quem vai sair.",
+						"O Téo é meu filho. Se aparecer alguém novo na vila, ele já prepara novecentas perguntas.",
+						"Deixo o Téo brincar na praça durante o dia. Quero que ele conheça a vila por mais coisas que o som do alarme."
+					],
+					"velocidade": 22.0
+				},
+				{
+					"hora": 16,
+					"id": "buscar",
+					"rota": [
+						[
+							44,
+							176
+						],
+						[
+							-84,
+							240
+						],
+						[
+							28,
+							224
+						]
+					],
+					"falas": [
+						"Vim ver onde o Téo se meteu. Ele perde a hora quando está inventando mapas. Já vou chamá-lo para voltar."
+					],
+					"velocidade": 22.0
+				},
+				{
+					"hora": 18,
+					"id": "volta_familia",
+					"rota": [
+						[
+							156,
+							-208
+						]
+					],
+					"falas": [
+						"Téo, está na hora de voltar! Você pode me contar a aventura enquanto arrumamos a mesa."
+					],
+					"velocidade": 22.0
+				},
+				{
+					"hora": 20,
+					"id": "casa",
+					"rota": [
+						[
+							156,
+							-208
+						],
+						[
+							260,
+							-224
+						],
+						[
+							316,
+							-240
+						]
+					],
+					"falas": [
+						"O Téo já está em casa. Deixo uma luz acesa na pousada; ultimamente ele tem pedido isso."
+					],
+					"velocidade": 22.0
+				}
+			]
+		},
+		{
+			"id": "cora",
+			"nome": "Cora",
+			"importante": false,
+			"perfil": "camponesa",
+			"semente": 910,
+			"papel": "Padeira",
+			"local": "mercado",
+			"desejo": "Manter o forno e o costume de repartir o primeiro pão.",
+			"falha": "Fica impaciente quando mudam seus horários.",
+			"passado": "Aprendeu a preservar fermento durante a falta de farinha.",
+			"voz": "Rápida, brincalhona e precisa.",
+			"cabelo": "cabelo_tranca_unica",
+			"tom_cabelo": "b94527",
+			"pele": "deb08c",
+			"olhos": 3,
+			"rota": [
+				[
+					-560,
+					-72
+				],
+				[
+					-512,
+					-48
+				],
+				[
+					-384,
+					-48
+				]
+			],
+			"apresentacao": [
+				"Cora. Se vier só pelo cheiro, já conhece metade da banca. A outra metade dá trabalho antes do sol nascer.",
+				"A Bia é minha filha. Ajuda a separar os pães... e conta cada um duas vezes para ver se sobra um para ela."
+			],
+			"conversas": [
+				"O Tomás conta sementes. Eu conto pães. Às vezes contamos duas vezes só para conseguir dormir.",
+				"Fermento vivo e vila viva têm uma coisa em comum: precisam de cuidado todo dia.",
+				"Minha Bia anda investigando os pássaros da praça. Peço que me conte o que viu antes de sair tirando conclusões.",
+				"Guardo o primeiro pão pequeno para a Bia. Ela divide com a Nina, mesmo dizendo que era para os passarinhos."
+			],
+			"movimento": "feminino",
+			"criancas": [
+				"bia"
+			],
+			"rotina": [
+				{
+					"hora": 0,
+					"id": "casa",
+					"rota": [
+						[
+							-540,
+							-72
+						],
+						[
+							-492,
+							-48
+						],
+						[
+							-364,
+							-48
+						]
+					],
+					"falas": [
+						"A Bia já voltou. Vou conferir os bolsos antes de lavar a jardineira; ontem quase lavei uma coleção de pedrinhas."
+					],
+					"velocidade": 22.0
+				},
+				{
+					"hora": 7,
+					"id": "familia",
+					"rota": [
+						[
+							-540,
+							-72
+						],
+						[
+							-492,
+							-48
+						],
+						[
+							-364,
+							-48
+						]
+					],
+					"falas": [
+						"A Bia é minha filha. Ajuda a separar os pães... e conta cada um duas vezes para ver se sobra um para ela."
+					],
+					"velocidade": 22.0
+				},
+				{
+					"hora": 10,
+					"id": "trabalho",
+					"rota": [
+						[
+							-560,
+							-72
+						],
+						[
+							-512,
+							-48
+						],
+						[
+							-384,
+							-48
+						]
+					],
+					"falas": [
+						"O Tomás conta sementes. Eu conto pães. Às vezes contamos duas vezes só para conseguir dormir.",
+						"Fermento vivo e vila viva têm uma coisa em comum: precisam de cuidado todo dia.",
+						"Minha Bia anda investigando os pássaros da praça. Peço que me conte o que viu antes de sair tirando conclusões.",
+						"Guardo o primeiro pão pequeno para a Bia. Ela divide com a Nina, mesmo dizendo que era para os passarinhos."
+					],
+					"velocidade": 22.0
+				},
+				{
+					"hora": 16,
+					"id": "buscar",
+					"rota": [
+						[
+							44,
+							176
+						],
+						[
+							28,
+							224
+						],
+						[
+							-84,
+							240
+						]
+					],
+					"falas": [
+						"A Bia ainda deve estar na praça. Vou procurá-la antes de fechar a banca; as investigações também têm hora de acabar."
+					],
+					"velocidade": 22.0
+				},
+				{
+					"hora": 18,
+					"id": "volta_familia",
+					"rota": [
+						[
+							-540,
+							-72
+						]
+					],
+					"falas": [
+						"Bia, vamos para casa. Quero ouvir a história desse ovo de dragão antes que ele vire mais uma pedra no seu bolso."
+					],
+					"velocidade": 22.0
+				},
+				{
+					"hora": 20,
+					"id": "casa",
+					"rota": [
+						[
+							-540,
+							-72
+						],
+						[
+							-492,
+							-48
+						],
+						[
+							-364,
+							-48
+						]
+					],
+					"falas": [
+						"A Bia já voltou. Vou conferir os bolsos antes de lavar a jardineira; ontem quase lavei uma coleção de pedrinhas."
+					],
+					"velocidade": 22.0
+				}
+			],
+			"acessorios": [
+				"lenco"
+			]
+		},
+		{
+			"id": "teo",
+			"nome": "Téo",
+			"importante": false,
+			"perfil": "agricultor",
+			"semente": 911,
+			"papel": "Filho de Mara; colecionador de histórias",
+			"local": "Praça, caminhos seguros e casa da família",
+			"desejo": "Guardar as histórias de quem chegou pela árvore.",
+			"falha": "Inventa coragem para esconder que tem medo do portão.",
+			"passado": "Cresceu na vila sob os cuidados de Mara; conhece as marcas que os ataques deixaram nas famílias.",
+			"voz": "Frases curtas, curiosidade e humor; sem falar como adulto em miniatura.",
+			"cabelo": "cabelo_curto",
+			"tom_cabelo": "#51372b",
+			"pele": "#f4c6a4",
+			"olhos": 4,
+			"rota": [
+				[
+					64,
+					176
+				],
+				[
+					-64,
+					240
+				],
+				[
+					48,
+					224
+				]
+			],
+			"apresentacao": [
+				"Você é quem caiu da árvore? Eu sou o Téo! A minha mãe, Mara, disse para eu não fazer mil perguntas. Então vou fazer só novecentas.",
+				"Quando o sino toca, eu volto para a pousada. Você também devia procurar abrigo. Herói pode sentir medo, né?"
+			],
+			"conversas": [
+				"Quando você voltar, me conta como é lá fora? Pode deixar as partes assustadoras para depois.",
+				"Eu desenho mapas. A minha pousada sempre fica gigante, porque é onde cabe todo mundo."
+			],
+			"faixa_etaria": "crianca",
+			"traje_infantil": "campestre",
+			"cabelo_infantil": "franjinha",
+			"movimento": "neutro",
+			"rotina": [
+				{
+					"hora": 0,
+					"id": "casa",
+					"rota": [
+						[
+							136,
+							-208
+						]
+					],
+					"falas": [
+						"Está tudo quietinho lá dentro. Amanhã a gente conversa."
+					],
+					"em_casa": true
+				},
+				{
+					"hora": 7,
+					"id": "ajuda",
+					"rota": [
+						[
+							136,
+							-208
+						],
+						[
+							240,
+							-224
+						],
+						[
+							296,
+							-240
+						]
+					],
+					"falas": [
+						"Estou ajudando Mara. Depois posso ir à praça!"
+					],
+					"em_casa": false
+				},
+				{
+					"hora": 10,
+					"id": "descobertas",
+					"rota": [
+						[
+							48,
+							224
+						],
+						[
+							-64,
+							240
+						],
+						[
+							64,
+							176
+						]
+					],
+					"falas": [
+						"Quando você voltar, me conta como é lá fora? Pode deixar as partes assustadoras para depois.",
+						"Eu desenho mapas. A minha pousada sempre fica gigante, porque é onde cabe todo mundo."
+					],
+					"em_casa": false
+				},
+				{
+					"hora": 14,
+					"id": "brincadeira",
+					"rota": [
+						[
+							64,
+							176
+						],
+						[
+							-64,
+							240
+						],
+						[
+							48,
+							224
+						]
+					],
+					"falas": [
+						"Hoje eu sou o explorador! Mas só até a esquina. A Mara está de olho."
+					],
+					"em_casa": false
+				},
+				{
+					"hora": 18,
+					"id": "volta",
+					"rota": [
+						[
+							136,
+							-208
+						]
+					],
+					"falas": [
+						"A minha mãe veio me buscar! Vou contar para ela tudo que a gente descobriu."
+					],
+					"em_casa": false
+				},
+				{
+					"hora": 20,
+					"id": "casa",
+					"rota": [
+						[
+							136,
+							-208
+						]
+					],
+					"falas": [
+						"Já vou dormir. Amanhã tem mais aventura na praça."
+					],
+					"em_casa": true
+				}
+			],
+			"responsavel": "mara",
+			"vinculo_responsavel": "mae"
+		},
+		{
+			"id": "nina",
+			"nome": "Nina",
+			"importante": false,
+			"perfil": "agricultor",
+			"semente": 912,
+			"papel": "Sobrinha de Rosa; observadora das plantas",
+			"local": "Praça, caminhos seguros e casa da família",
+			"desejo": "Ver as flores do jardim voltarem a abrir.",
+			"falha": "Guarda preocupações para não incomodar a tia.",
+			"passado": "Cresceu na vila sob os cuidados de Rosa; conhece as marcas que os ataques deixaram nas famílias.",
+			"voz": "Frases curtas, curiosidade e humor; sem falar como adulto em miniatura.",
+			"cabelo": "cabelo_rabo_baixo",
+			"tom_cabelo": "#342a32",
+			"pele": "#a46f4d",
+			"olhos": 5,
+			"rota": [
+				[
+					48,
+					224
+				],
+				[
+					-64,
+					240
+				],
+				[
+					64,
+					176
+				]
+			],
+			"apresentacao": [
+				"Meu nome é Nina. A Rosa é minha tia. Eu separo as folhas boas... e ela confere tudo depois.",
+				"Esta flor fechou quando o chão tremeu. Será que as raízes também escutam os monstros?"
+			],
+			"conversas": [
+				"Trouxe uma flor para a praça. Aqui ela pega sol e escuta menos marteladas.",
+				"A tia disse que colher tudo de uma vez mata o canteiro. Eu deixo sempre uma plantinha crescendo."
+			],
+			"movimento": "neutro",
+			"faixa_etaria": "crianca",
+			"traje_infantil": "vestido",
+			"cabelo_infantil": "cacheado",
+			"rotina": [
+				{
+					"hora": 0,
+					"id": "casa",
+					"rota": [
+						[
+							346,
+							216
+						]
+					],
+					"falas": [
+						"Está tudo quietinho lá dentro. Amanhã a gente conversa."
+					],
+					"em_casa": true
+				},
+				{
+					"hora": 7,
+					"id": "ajuda",
+					"rota": [
+						[
+							346,
+							216
+						],
+						[
+							400,
+							216
+						],
+						[
+							440,
+							240
+						]
+					],
+					"falas": [
+						"Estou ajudando Rosa. Depois posso ir à praça!"
+					],
+					"em_casa": false
+				},
+				{
+					"hora": 10,
+					"id": "descobertas",
+					"rota": [
+						[
+							64,
+							176
+						],
+						[
+							-64,
+							240
+						],
+						[
+							48,
+							224
+						]
+					],
+					"falas": [
+						"Trouxe uma flor para a praça. Aqui ela pega sol e escuta menos marteladas.",
+						"A tia disse que colher tudo de uma vez mata o canteiro. Eu deixo sempre uma plantinha crescendo."
+					],
+					"em_casa": false
+				},
+				{
+					"hora": 14,
+					"id": "brincadeira",
+					"rota": [
+						[
+							48,
+							224
+						],
+						[
+							-64,
+							240
+						],
+						[
+							64,
+							176
+						]
+					],
+					"falas": [
+						"A Bia achou um ovo de dragão! Quer dizer... talvez seja só uma pedra."
+					],
+					"em_casa": false
+				},
+				{
+					"hora": 18,
+					"id": "volta",
+					"rota": [
+						[
+							346,
+							216
+						]
+					],
+					"falas": [
+						"A tia Rosa veio me buscar. Amanhã a gente continua procurando flores."
+					],
+					"em_casa": false
+				},
+				{
+					"hora": 20,
+					"id": "casa",
+					"rota": [
+						[
+							346,
+							216
+						]
+					],
+					"falas": [
+						"Já vou dormir. Amanhã tem mais aventura na praça."
+					],
+					"em_casa": true
+				}
+			],
+			"responsavel": "rosa",
+			"vinculo_responsavel": "tia"
+		},
+		{
+			"id": "bia",
+			"nome": "Bia",
+			"importante": false,
+			"perfil": "agricultor",
+			"semente": 913,
+			"papel": "Filha de Cora; pequena investigadora",
+			"local": "Praça, caminhos seguros e casa da família",
+			"desejo": "Descobrir por que os bichos fogem antes das invasões.",
+			"falha": "Tira conclusões antes de ouvir todas as pistas.",
+			"passado": "Cresceu na vila sob os cuidados de Cora; conhece as marcas que os ataques deixaram nas famílias.",
+			"voz": "Frases curtas, curiosidade e humor; sem falar como adulto em miniatura.",
+			"cabelo": "cabelo_cacheado",
+			"tom_cabelo": "#8a5835",
+			"pele": "#c89270",
+			"olhos": 0,
+			"rota": [
+				[
+					64,
+					176
+				],
+				[
+					48,
+					224
+				],
+				[
+					-64,
+					240
+				]
+			],
+			"apresentacao": [
+				"Eu sou a Bia. A Cora é minha mãe. Ajudo ela na padaria e investigo coisas importantes. Tipo quem anda roubando as migalhas.",
+				"Os passarinhos sumiram antes do último ataque. Ninguém me perguntou, mas eu reparei."
+			],
+			"conversas": [
+				"Deixei migalhas longe do portão. Se os pássaros voltarem, eu vou ser a primeira a saber.",
+				"A Cora diz que massa precisa descansar. Por que criança não pode descansar antes de arrumar o quarto?"
+			],
+			"faixa_etaria": "crianca",
+			"traje_infantil": "jardineira",
+			"cabelo_infantil": "chiquinhas",
+			"movimento": "neutro",
+			"rotina": [
+				{
+					"hora": 0,
+					"id": "casa",
+					"rota": [
+						[
+							-560,
+							-72
+						]
+					],
+					"falas": [
+						"Está tudo quietinho lá dentro. Amanhã a gente conversa."
+					],
+					"em_casa": true
+				},
+				{
+					"hora": 7,
+					"id": "ajuda",
+					"rota": [
+						[
+							-560,
+							-72
+						],
+						[
+							-512,
+							-48
+						],
+						[
+							-384,
+							-48
+						]
+					],
+					"falas": [
+						"Estou ajudando Cora. Depois posso ir à praça!"
+					],
+					"em_casa": false
+				},
+				{
+					"hora": 10,
+					"id": "descobertas",
+					"rota": [
+						[
+							-64,
+							240
+						],
+						[
+							48,
+							224
+						],
+						[
+							64,
+							176
+						]
+					],
+					"falas": [
+						"Deixei migalhas longe do portão. Se os pássaros voltarem, eu vou ser a primeira a saber.",
+						"A Cora diz que massa precisa descansar. Por que criança não pode descansar antes de arrumar o quarto?"
+					],
+					"em_casa": false
+				},
+				{
+					"hora": 14,
+					"id": "brincadeira",
+					"rota": [
+						[
+							64,
+							176
+						],
+						[
+							48,
+							224
+						],
+						[
+							-64,
+							240
+						]
+					],
+					"falas": [
+						"Você viu a Nina? Estamos procurando uma pedra que parece um ovo de dragão."
+					],
+					"em_casa": false
+				},
+				{
+					"hora": 18,
+					"id": "volta",
+					"rota": [
+						[
+							-560,
+							-72
+						]
+					],
+					"falas": [
+						"A minha mãe já chamou. Se a pedra for mesmo um ovo de dragão, eu te aviso amanhã!"
+					],
+					"em_casa": false
+				},
+				{
+					"hora": 20,
+					"id": "casa",
+					"rota": [
+						[
+							-560,
+							-72
+						]
+					],
+					"falas": [
+						"Já vou dormir. Amanhã tem mais aventura na praça."
+					],
+					"em_casa": true
+				}
+			],
+			"responsavel": "cora",
+			"vinculo_responsavel": "mae"
+		},
+		{
+			"id": "elia",
+			"nome": "Elia",
+			"importante": false,
+			"perfil": "camponesa",
+			"semente": 914,
+			"papel": "Costureira",
+			"local": "moradias",
+			"desejo": "Fazer roupas que sobrevivam ao trabalho e às viagens.",
+			"falha": "Guarda retalhos demais porque vê uma utilidade em cada um.",
+			"passado": "Reconhece moradores pelas costuras que já refez.",
+			"voz": "Observadora, franca e de humor discreto.",
+			"cabelo": "cabelo_ondulado_medio",
+			"tom_cabelo": "51372b",
+			"pele": "deb08c",
+			"olhos": 1,
+			"rota": [
+				[
+					482,
+					-112
+				],
+				[
+					560,
+					-96
+				],
+				[
+					608,
+					-48
+				]
+			],
+			"apresentacao": [
+				"Elia. Quando uma roupa rasga sempre no mesmo ponto, quero saber o movimento antes de escolher a linha."
+			],
+			"conversas": [
+				"O Téo rasga joelhos. A Bia enche bolsos de pedrinhas. As roupas contam muita coisa antes das pessoas.",
+				"Guardo retalhos para remendos. A Mara chama de bagunça; eu chamo de roupas que ainda não terminei."
+			],
+			"movimento": "feminino"
+		},
+		{
+			"id": "noel",
+			"armadura_npc": "guarda_novato",
+			"nome": "Noel",
+			"importante": false,
+			"perfil": "guarda",
+			"semente": 915,
+			"papel": "Guarda novato",
+			"local": "portão e praça",
+			"desejo": "Aprender a proteger as pessoas sem se esconder atrás de regras.",
+			"falha": "Confunde seguir a ronda com perceber o que acontece nela.",
+			"passado": "Dara o ensinou a perguntar quem está faltando, além de contar quem passou.",
+			"voz": "Educado, um pouco formal e sincero quando não sabe.",
+			"cabelo": "cabelo_curto",
+			"tom_cabelo": "ad713c",
+			"pele": "f4c6a4",
+			"olhos": 2,
+			"rota": [
+				[
+					48,
+					392
+				],
+				[
+					56,
+					336
+				],
+				[
+					0,
+					224
+				]
+			],
+			"apresentacao": [
+				"Noel, da guarda. Se estiver procurando alguém, posso tentar ajudar. Estou aprendendo os nomes também."
+			],
+			"conversas": [
+				"A Dara mudou minha ronda: agora preciso dizer quem encontrei, não quantas voltas dei.",
+				"Ainda pergunto antes de improvisar. Pretendo continuar perguntando mesmo depois de aprender."
+			]
+		}
+	]
+}

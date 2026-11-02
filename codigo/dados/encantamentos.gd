@@ -7,10 +7,10 @@ const TIPOS_ENCANTAVEIS: Array[String] = ["montante_ferro","montante_sentinela",
 
 ## O antigo "vampirico" (roubo de vida) saiu por ser forte demais; armas salvas com ele viram "eletrico" (dados_item.gd)
 const TIPOS := {
-	"fogo": {"nome": "FOGO", "cor": Color(1.0, 0.55, 0.2)},
-	"gelo": {"nome": "GELO", "cor": Color(0.55, 0.85, 1.0)},
-	"raio": {"nome": "RAIO", "cor": Color(1.0, 0.95, 0.4)},
-	"eletrico": {"nome": "ELETRICO", "cor": Color(0.45, 0.78, 1.0)},
+	"fogo": {"nome": "AFIACAO", "cor": Color("cfaa78")},
+	"gelo": {"nome": "BALANCEAMENTO", "cor": Color("abb9bd")},
+	"raio": {"nome": "CONTRAPESO", "cor": Color("d3ba80")},
+	"eletrico": {"nome": "PONTA REFORCADA", "cor": Color("c5bfb3")},
 }
 
 static func custo(proximo_nivel: int) -> int:
@@ -37,14 +37,23 @@ static func efeito(tipo: String, nivel: int) -> Dictionary:
 	return {}
 
 static func descricao(tipo: String, nivel: int) -> String:
-	var e := efeito(tipo, nivel)
 	match tipo:
 		"fogo":
-			return "QUEIMA %d POR 0,5S DURANTE 3S" % e["dano_tick"]
+			return "+%d%% DANO FISICO" % (4 * clampi(nivel,1,3))
 		"gelo":
-			return "DEIXA %d%% MAIS LENTO POR 2S" % roundi(e["lentidao"] * 100)
+			return "-%d%% CONSUMO DE FOLEGO" % (3 * clampi(nivel,1,3))
 		"raio":
-			return "SALTA %d%% DO DANO PARA 1 INIMIGO" % roundi(e["fracao_dano"] * 100)
+			return "+%d%% EMPURRAO" % (10 * clampi(nivel,1,3))
 		"eletrico":
-			return "CHOQUE DE %d%% DO DANO, %d%% DE CHANCE DE PARALISAR" % [roundi(e["fracao_dano"] * 100), roundi(e["chance_paralisia"] * 100)]
+			return "+%d%% DANO NA RESPOSTA APOS APARO" % (8 * clampi(nivel,1,3))
 	return ""
+
+static func modificadores(item: Resource) -> Dictionary:
+	if item == null or not item.tipo in TIPOS_ENCANTAVEIS: return {}
+	var n := clampi(int(item.nivel_encantamento),0,3)
+	match item.encantamento:
+		"fogo": return {"dano":0.04 * n}
+		"gelo": return {"folego":0.03 * n}
+		"raio": return {"empurrao":0.10 * n}
+		"eletrico": return {"resposta":0.08 * n}
+	return {}

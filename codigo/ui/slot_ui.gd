@@ -31,6 +31,8 @@ var _moldura: Control
 
 func _ready() -> void:
 	_fundo.visible = mostrar_fundo
+	if tipo_slot in ["cinto","bracelete"]:
+		icone_vazio=preload("res://codigo/dados/acessorios_iniciais.gd").icone("cinto_couro" if tipo_slot=="cinto" else "bracelete_ferro")
 	_icone_vazio.texture = icone_vazio
 	_icone_vazio.modulate = COR_ICONE_VAZIO
 	mouse_entered.connect(_ao_mouse_entrar)
@@ -78,7 +80,7 @@ func _atualizar_acabamento() -> void:
 	var borda := StyleBoxFlat.new()
 	borda.draw_center = false
 	borda.set_border_width_all(1)
-	borda.set_corner_radius_all(1)
+	borda.set_corner_radius_all(4 if get_meta("estilo_campanha",false) else 1)
 	borda.border_color = item_atual.cor_raridade().lightened(0.12) if item_atual != null and item_atual.raridade != "comum" else Color("ad8250")
 	for lado in [SIDE_LEFT,SIDE_TOP,SIDE_RIGHT,SIDE_BOTTOM]: borda.set_expand_margin(lado,-1)
 	_item_ui.moldura.add_theme_stylebox_override("panel",borda)
@@ -180,7 +182,7 @@ func _ao_entrada(evento: InputEvent) -> void:
 	if evento.is_action_pressed("ui_accept"):
 		_usar_com_controle()
 		accept_event()
-	elif evento.is_action_pressed("colher") and tipo_slot in ["mochila", "arma", "escudo", "cabeca", "corpo", "luvas", "botas", "secundaria", "bau", "saque"]:
+	elif evento.is_action_pressed("colher") and tipo_slot in ["mochila", "arma", "escudo", "cabeca", "corpo", "luvas", "botas", "secundaria", "anel", "colar", "bracelete", "cinto", "bau", "saque"]:
 		mover_com_controle()
 		accept_event()
 
@@ -277,7 +279,7 @@ func _equipar_ou_desequipar() -> void:
 		Sons.tocar("compra" if mensagem.is_empty() else "erro", 0.0)
 		get_tree().call_group("hud_p2" if EventosJogo.eh_do_p2(self) else "hud_p1", "anunciar", "RECEITA APRENDIDA" if mensagem.is_empty() else mensagem, "FABRIQUE COM O IVO" if mensagem.is_empty() else "", 2.0)
 		return
-	if not item_atual.categoria in ["arma", "escudo", "secundaria", "cabeca", "corpo", "luvas", "botas"]:
+	if not item_atual.categoria in ["arma", "escudo", "secundaria", "cabeca", "corpo", "luvas", "botas", "anel", "colar", "cinto", "bracelete"]:
 		return
 	if tipo_slot == "mochila":
 		if not EventosJogo.inventario_de(self).equipar(item_atual):

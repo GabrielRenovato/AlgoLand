@@ -28,7 +28,7 @@ var _botoes_encantamento: Dictionary = {}
 var _botoes_loja: Dictionary = {"totens": [], "sementes": []}
 var _dica_abas: Label
 ## Aberta de dentro da arena (entre as ondas, sozinha ao vencer uma onda ou pelo portal da arena): abas MELHORIAS (os totens, só eles),
-## BIGORNA e ENCANTAR, e um rodapé pequeno com PROXIMA ONDA e CIDADE. Na cidade é o ferreiro de sempre (loja, bigorna, encantar, vender)
+## BIGORNA e AJUSTAR, e um rodapé pequeno com PROXIMA ONDA e CIDADE. Na cidade é o ferreiro de sempre (loja, bigorna, encantar, vender)
 var _modo_arena := false
 var _conversa_guia: HBoxContainer
 var _linha_abas_loja: Control
@@ -208,7 +208,7 @@ func receber_item_do_controle(origem: Control) -> bool:
 	slot.colocar_item(origem)
 	return true
 
-## Com BIGORNA ou ENCANTAR aberta, diz por que o item confirmado não foi para o slot
+## Com BIGORNA ou AJUSTAR aberta, diz por que o item confirmado não foi para o slot
 func _avisar_recusa(origem: Control) -> void:
 	if not is_visible_in_tree():
 		return
@@ -218,9 +218,9 @@ func _avisar_recusa(origem: Control) -> void:
 		mostrar_mensagem("SO SEMENTES DA MOCHILA SE VENDEM")
 	elif _painel_encantar.visible:
 		var escudo: bool = origem.obter_tipo_item() == "escudo_basico"
-		mostrar_mensagem("ESCUDO NAO PODE SER ENCANTADO" if escudo else "SO ARMAS DE ATAQUE PODEM SER ENCANTADAS")
+		mostrar_mensagem("ESCUDO NAO PODE SER AJUSTADO" if escudo else "SO ARMAS DE ATAQUE PODEM SER AJUSTADAS")
 
-## Confirmar (controle) ou clicar (mouse) no slot vazio da BIGORNA/ENCANTAR: coloca o equipado que serve (cada toque passa para o
+## Confirmar (controle) ou clicar (mouse) no slot vazio da BIGORNA/AJUSTAR: coloca o equipado que serve (cada toque passa para o
 ## próximo: arma, escudo, elmo, peitoral, luvas, botas);
 ## sem ela, leva o foco para a primeira arma que serve na mochila (ou avisa que não há nenhuma)
 func _ao_slot_vazio_confirmado(slot: Control) -> void:
@@ -232,7 +232,7 @@ func _ao_slot_vazio_confirmado(slot: Control) -> void:
 		slot.colocar_item(equipado)
 		return
 	var candidato: Control = inventario.primeiro_slot_que_serve(slot)
-	var acao := "ENCANTAR" if slot == _slot_encantar else ("VENDER" if slot == _slot_venda else "MELHORAR")
+	var acao := "AJUSTAR" if slot == _slot_encantar else ("VENDER" if slot == _slot_venda else "MELHORAR")
 	if candidato == null:
 		mostrar_mensagem("VOCE NAO TEM ARMA PARA %s" % acao)
 		return
@@ -256,7 +256,7 @@ func mostrar_mensagem(texto: String) -> void:
 	_tween_mensagem.tween_property(_mensagem, "modulate:a", 0.0, 0.3)
 	_tween_mensagem.tween_callback(_mensagem.hide)
 
-## Para onde o item vai se for confirmado agora ("NA BIGORNA" ou "NO ENCANTO"), ou "" se a tela não o recebe.
+## Para onde o item vai se for confirmado agora ("NA BIGORNA" ou "NO AJUSTE"), ou "" se a tela não o recebe.
 ## O inventário usa isso para dizer o que o botão faz no item em foco
 func destino_do_item(origem: Control) -> String:
 	var slot := _slot_que_recebe(origem)
@@ -264,7 +264,7 @@ func destino_do_item(origem: Control) -> String:
 		return "NA BIGORNA"
 	if slot == _slot_venda:
 		return "PARA VENDER"
-	return "NO ENCANTO" if slot == _slot_encantar else ""
+	return "NO AJUSTE" if slot == _slot_encantar else ""
 
 func _slot_que_recebe(origem: Control) -> Control:
 	if not is_visible_in_tree():
@@ -342,15 +342,15 @@ func _montar_dica_abas() -> void:
 func _atualizar_dicas() -> void:
 	var confirmar := Controle.rotulo_acao("ui_accept", self)
 	if Controle.usando_controle_de(self):
-		_rotulo_arraste_encantar.text = "NO INVENTARIO, APERTE %s NA ARMA PARA ENCANTAR" % confirmar
+		_rotulo_arraste_encantar.text = "NO INVENTARIO, APERTE %s NA ARMA PARA AJUSTAR" % confirmar
 		_rotulo_arraste.text = "NO INVENTARIO, APERTE %s NA ARMA PARA COLOCAR NA BIGORNA" % confirmar
 	else:
-		_rotulo_arraste_encantar.text = "ARRASTE UMA ARMA DO INVENTARIO PARA ENCANTAR"
+		_rotulo_arraste_encantar.text = "ARRASTE UMA ARMA DO INVENTARIO PARA AJUSTAR"
 		_rotulo_arraste.text = "ARRASTE UMA ARMA DO INVENTARIO PARA A BIGORNA"
 	_dica_abas.visible = Controle.usando_controle_de(self)
 	_dica_abas.text = "%s / %s  ABAS  |  %s NA ULTIMA: MOCHILA" % [Controle.rotulo_acao("ferramenta_anterior", self), Controle.rotulo_acao("ferramenta_proxima", self), Controle.rotulo_acao("ferramenta_proxima", self)]
 
-## Arena: MELHORIAS, BIGORNA e ENCANTAR. Na cidade, compra e venda de sementes.
+## Arena: MELHORIAS, BIGORNA e AJUSTAR. Na cidade, compra e venda de sementes.
 func _aplicar_modo() -> void:
 	var abas := _aba_encantar.get_parent()
 	abas.columns = 3 if _modo_arena else 2
@@ -940,7 +940,7 @@ func atualizar_painel_encantar() -> void:
 	if item == null:
 		return
 	if item.encantamento == "":
-		_encantamento_atual.text = "SEM ENCANTAMENTO"
+		_encantamento_atual.text = "SEM TRATAMENTO"
 		_encantamento_atual.modulate = COR_TEXTO_OK
 	else:
 		_encantamento_atual.text = "ATUAL: %s NV %d" % [Encantamentos.nome(item.encantamento), item.nivel_encantamento]
@@ -948,7 +948,7 @@ func atualizar_painel_encantar() -> void:
 	if _encantamento_escolhido == "":
 		_descricao_encantamento.text = "ESCOLHA UM ELEMENTO"
 		_custo_encantamento.text = ""
-		_botao_encantar.text = "ENCANTAR"
+		_botao_encantar.text = "AJUSTAR"
 		_botao_encantar.disabled = true
 		return
 	var proximo := _proximo_nivel_encantamento(item)
@@ -967,7 +967,7 @@ func atualizar_painel_encantar() -> void:
 	var pode := EventosJogo.moedas_de(self) >= custo
 	_custo_encantamento.text = "CUSTO %d MOEDAS" % custo
 	_custo_encantamento.modulate = COR_TEXTO_OK if pode else COR_TEXTO_BLOQUEADO
-	_botao_encantar.text = "MELHORAR" if proximo > 1 else "ENCANTAR"
+	_botao_encantar.text = "MELHORAR" if proximo > 1 else "AJUSTAR"
 	_botao_encantar.disabled = not pode
 
 func _ao_encantar_pressionado() -> void:

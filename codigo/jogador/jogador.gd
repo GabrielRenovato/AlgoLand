@@ -263,6 +263,7 @@ var _stamina_base: float = 100.0
 @export var custo_stamina_dash: float = 35.0
 @export var regeneracao_stamina: float = 30.0
 @export var atraso_regeneracao_stamina: float = 0.6
+var _folego_acessorios := 0.0
 var stamina: float = 100.0
 var _espera_regeneracao: float = 0.0
 var _tempo_proximo_rastro: float = 0.0
@@ -327,8 +328,11 @@ func acao(nome: String) -> String:
 func _vetor_movimento() -> Vector2:
 	return Cooperativo.vetor_p2() if eh_p2 else Controle.vetor_movimento()
 
+var maestria: Node
+
 func _ready() -> void:
 	inventario = InventarioJogador2 if eh_p2 else InventarioJogador
+	var inventario_anterior := FileAccess.file_exists(inventario.caminho_save)
 	add_to_group("jogadores")
 	if eh_p2:
 		remove_from_group("character")
@@ -413,10 +417,15 @@ func _ready() -> void:
 	atualizar_barra_hp()
 
 	_iniciar_inventario()
+	maestria = preload("res://codigo/jogador/maestria_jogador.gd").new()
+	maestria.name = "Maestria"
+	add_child(maestria)
+	maestria.iniciar(self, inventario_anterior)
+	inventario.equipamento_alterado.connect(func(_slot): maestria.cancelar())
 	# As texturas antigas são ícones dos itens básicos; os bônus agora vêm dos slots do modelo.
 	carregar_conjunto_armadura(1)
 
-	_stamina_base = stamina_maxima
+	_stamina_base = stamina_maxima - _folego_acessorios
 	_posicao_acampamento = global_position
 	Progresso.melhorias_alteradas.connect(aplicar_melhorias_permanentes)
 	aplicar_melhorias_permanentes()
@@ -535,12 +544,23 @@ func _aplicar_modelo() -> void:
 		_aplicar_bonus_item(slot, item)
 		set("usando_" + slot, item != null)
 		set("nivel_" + slot, item.nivel if item != null else 1)
+	for slot in preload("res://codigo/dados/acessorios_iniciais.gd").SLOTS:
+		_aplicar_bonus_item(slot,inventario.equipados.get(slot))
+	estatisticas.bonus_vida_acessorios=roundi(bonus_acessorio("vida"))
+	var folego_novo:=bonus_acessorio("folego")
+	stamina_maxima+=folego_novo-_folego_acessorios
+	stamina=clampf(stamina+folego_novo-_folego_acessorios,0,stamina_maxima)
+	_folego_acessorios=folego_novo
 	_atualizar_bonus_conjuntos()
+	_avisar_stamina()
 	_aplicar_aparencia()
 
 	_sincronizando = false
 
 ## Multiplicadores separados dos pacotes: trocar/sincronizar não acumula bônus.
+func bonus_acessorio(efeito: String) -> float:
+	return preload("res://codigo/dados/acessorios_iniciais.gd").bonus(inventario.equipados,efeito)
+
 func _atualizar_bonus_conjuntos() -> void:
 	var anterior: int = estatisticas.hp_maximo
 	var bonus := Conjuntos.bonus_status(inventario.equipados)
@@ -600,7 +620,8 @@ func iniciar_dash() -> void:
 
 	esta_em_dash = true
 	_dash_disponivel = false
-	_gastar_stamina(custo_stamina_dash)
+	if maestria != null: maestria.registrar_esquiva()
+	_gastar_stamina(custo_stamina_dash * (1.0 - minf(0.35, (maestria.bonus("esquiva") if maestria != null else 0.0) + bonus_acessorio("esquiva") + float(Conjuntos.bonus_fisico(inventario.equipados).esquiva))))
 	Sons.tocar("dash")
 	invulneravel = true
 	temporizador_invul = duracao_dash
@@ -624,6 +645,7 @@ func iniciar_dash() -> void:
 	_dash_disponivel = true
 
 func _gastar_stamina(quantidade: float) -> void:
+	quantidade *= 1.0 - float(Encantamentos.modificadores(inventario.equipados.get("arma")).get("folego",0.0))
 	stamina = maxf(stamina - quantidade, 0.0)
 	_espera_regeneracao = atraso_regeneracao_stamina
 	_avisar_stamina()
@@ -636,7 +658,7 @@ func _regenerar_stamina(delta: float) -> void:
 	if _espera_regeneracao > 0.0 and folego <= 0.0:
 		_espera_regeneracao -= delta
 		return
-	stamina = minf(stamina + regeneracao_stamina * (1.0 + folego) * delta, stamina_maxima)
+	stamina = minf(stamina + regeneracao_stamina * (1.0 + folego + (maestria.bonus("regeneracao") if maestria != null else 0.0)) * delta, stamina_maxima)
 	_avisar_stamina()
 
 ## O HUD deste jogador (cooperativo: cada um tem o seu na metade dele)
@@ -768,6 +790,9 @@ func _physics_process(delta: float) -> void:
 			animar()
 		return
 
+	if maestria != null and maestria.executando:
+		maestria.atualizar_tecnica(delta)
+		return
 	if Input.is_action_just_pressed("debug_damage"):
 		receber_dano(1)
 
@@ -1028,15 +1053,7 @@ func curar(quantidade: int) -> void:
 	atualizar_barra_hp()
 
 func _limite_combo_espada() -> int:
-	var base_3d := get_node_or_null("HeroiBase3D")
-	if base_3d != null and base_3d.usa_combo_espada():
-		return base_3d._duracoes_combo().size()
-	var cartoon := get_node_or_null("HeroiCartoon")
-	if cartoon != null and cartoon.usa_combo_espada():
-		return 2
-	# O Raven tem dois golpes próprios de espada; outros visuais mantêm seu combo.
-	var raven := get_node_or_null("HeroiRaven") as CanvasItem
-	return 2 if raven != null and raven.visible and id_arma_atual != "machado" else 3
+	return maestria.limite_combo() if maestria != null else 2
 
 func logica_combo_ataque() -> void:
 	var atacar := _pedido_ataque
@@ -1103,13 +1120,15 @@ func logica_combo_ataque() -> void:
 				elif _fase_combo == 1:
 					_fase_combo = 2
 					iniciar_slash_ataque_lanca("AtaqueLancaSlash_3", _tempo_slash_lanca_3)
-				elif _fase_combo == 2:
+				elif _fase_combo == 2 and _limite_combo_espada() >= 3:
 					_fase_combo = 3
 					iniciar_slash_ataque_lanca("AtaqueLancaSlash_1", _tempo_slash_lanca_1)
 
 var _alvos_area_golpe := {}
 
 func iniciar_slash_ataque_lanca(nome_anim: String, tempo_slash: float) -> void:
+	if maestria != null and _fase_combo >= maestria.limite_combo() and maestria.iniciar_finalizador(maestria.familia_atual()): return
+	if maestria != null: maestria.novo_golpe()
 	var base_3d := get_node_or_null("HeroiBase3D")
 	if base_3d != null and base_3d.usa_combo_lanca():
 		tempo_slash = base_3d.COMBO_LANCA.DURACOES[clampi(_fase_combo,1,3)-1]
@@ -1135,6 +1154,8 @@ func _flash_golpe() -> void:
 			Color(1, 0.95, 0.8), 0.9, 0.7, 0.15)
 
 func iniciar_slash_ataque(nome_anim: String, tempo_slash: float) -> void:
+	if maestria != null and _fase_combo >= maestria.limite_combo() and maestria.iniciar_finalizador(maestria.familia_atual()): return
+	if maestria != null: maestria.novo_golpe()
 	var base_3d := get_node_or_null("HeroiBase3D")
 	if base_3d != null and base_3d.usa_combo_espada():
 		tempo_slash = base_3d._duracoes_combo()[clampi(_fase_combo,1,base_3d._duracoes_combo().size())-1]
@@ -1160,6 +1181,9 @@ func iniciar_slash_ataque(nome_anim: String, tempo_slash: float) -> void:
 		visual_gerado.iniciar_ataque_espada(tempo_slash, false, maxi(1, _fase_combo))
 
 func _on_temporizador_ataque_timeout() -> void:
+	if maestria != null and maestria.executando:
+		_esta_atacando = false
+		return
 	$AreaAtaque.rotation=0.0
 	_esta_atacando = false
 	$AreaAtaque.monitoring = false
@@ -1187,7 +1211,7 @@ func _on_temporizador_ataque_timeout() -> void:
 			if _fase_combo == 1:
 				_fase_combo = 2
 				iniciar_slash_ataque_lanca("AtaqueLancaSlash_3", _tempo_slash_lanca_3)
-			elif _fase_combo == 2:
+			elif _fase_combo == 2 and _limite_combo_espada() >= 3:
 				_fase_combo = 3
 				iniciar_slash_ataque_lanca("AtaqueLancaSlash_1", _tempo_slash_lanca_1)
 			else:
@@ -1276,6 +1300,7 @@ func animar() -> void:
 		_maquina_estados.travel("idle")
 
 func _acertar_alvo_da_area(alvo: Node2D) -> void:
+	if maestria != null and maestria.executando: return
 	if not _esta_atacando: return # Ignora contatos pendentes de um golpe cancelado.
 	var id := alvo.get_instance_id()
 	if _alvos_area_golpe.has(id): return
@@ -1353,7 +1378,7 @@ func aplicar_golpe(alvo: Node, direcao_knockback: Vector2, mult_dano: float = 1.
 	if "esta_morto" in alvo and alvo.esta_morto:
 		return
 	var golpe: Dictionary = disparo.get("golpe", estatisticas.calcular_dano_golpe(efeitos_pocao.bonus("critico"))).duplicate()
-	var tipo: String = disparo.get("tipo", inventario.equipados.arma.tipo if inventario.equipados.arma != null else "")
+	var tipo: String = disparo.get("tipo", maestria.tipo_golpe if maestria != null and not maestria.tipo_golpe.is_empty() else (inventario.equipados.arma.tipo if inventario.equipados.arma != null else ""))
 	var distancia: float = disparo.get("distancia", global_position.distance_to(alvo.global_position))
 	var golpe_comum := mult_dano == 1.0 and disparo.is_empty()
 	var contra: bool = tipo == "espada_basica" and Time.get_ticks_msec() < contragolpe_ate_ms and mult_dano == 1.0
@@ -1363,12 +1388,30 @@ func aplicar_golpe(alvo: Node, direcao_knockback: Vector2, mult_dano: float = 1.
 	if contra: contragolpe_ate_ms = 0
 	mult_dano *= float(estilo.dano)
 	mult_empurrao *= float(estilo.empurrao)
+	var familia_maestria: String = preload("res://codigo/dados/catalogo_maestria.gd").familia(tipo)
+	var tratamento: Dictionary = disparo.get("tratamento",Encantamentos.modificadores(inventario.equipados.get("arma")))
+	mult_dano *= 1.0 + float(tratamento.get("dano",0.0))
+	mult_empurrao *= 1.0 + float(tratamento.get("empurrao",0.0)) + float(Conjuntos.bonus_fisico(inventario.equipados).get("empurrao",0.0)) + bonus_acessorio("empurrao")
+	if contra or Time.get_ticks_msec() < contragolpe_ate_ms: mult_dano *= 1.0 + float(tratamento.get("resposta",0.0))
+	if maestria != null:
+		mult_dano *= float(disparo.get("multiplicador_maestria",maestria.multiplicador(familia_maestria, maestria.limite_combo(familia_maestria) if disparo.get("finalizador",false) else (0 if disparo.get("especial",false) else _fase_combo))))
+		mult_empurrao *= 1.0 + maestria.bonus("empurrao", familia_maestria)
+		if _fase_combo >= maestria.limite_combo(familia_maestria) and not disparo.get("especial",false):
+			var finalizador: Dictionary = maestria.finalizador(familia_maestria)
+			if not finalizador.is_empty():
+				mult_dano *= float(finalizador.dano) * (1.0 + maestria.bonus("dominio_%d" % finalizador.ramo, familia_maestria))
+				mult_empurrao *= float(finalizador.empurrao)
 	# Poção de força
 	golpe["dano"] = maxi(1, roundi(golpe["dano"] * (1.0 + float(disparo.get("forca", efeitos_pocao.bonus("forca")))) * mult_dano))
 	var forca = (225.0 if golpe["critico"] else 150.0) * mult_empurrao
 	var vida_antes := maxi(0,int(alvo.vida)) if "vida" in alvo else 0
+	if maestria != null and is_instance_valid(alvo) and alvo.get_script() == preload("res://codigo/coop_online/inimigo_replica.gd"):
+		alvo.set_meta("credito_maestria", {"familia":familia_maestria,"evento":disparo.get("evento_maestria",maestria.golpe_id)})
 	alvo.receber_dano(golpe["dano"], direcao_knockback * forca)
 	var vida_depois := maxi(0,int(alvo.vida)) if is_instance_valid(alvo) and "vida" in alvo else 0
+	if maestria != null:
+		maestria.registrar_acerto(alvo, maxi(0,vida_antes - vida_depois), vida_antes, tipo, int(disparo.get("evento_maestria",maestria.golpe_id)))
+		if vida_depois < vida_antes: maestria.consumir_abertura()
 	if is_instance_valid(alvo) and float(estilo.atordoar) > 0 and alvo.has_method("atordoar"):
 		alvo.atordoar(float(estilo.atordoar))
 	# Flechas e golpes especiais não congelam o jogo; o acerto corpo a corpo sim
@@ -1376,12 +1419,6 @@ func aplicar_golpe(alvo: Node, direcao_knockback: Vector2, mult_dano: float = 1.
 		_sentir_impacto(golpe["critico"], not is_instance_valid(alvo) or vida_depois <= 0)
 	# Toque leve a cada acerto; o crítico pesa mais
 	Controle.vibrar(0.0, 0.5 if golpe["critico"] else 0.2, 0.07, self)
-	_aplicar_encantamento(alvo, golpe["dano"])
-	_tentar_raio_carrasco(alvo, golpe["dano"])
-	_tentar_congelamento_mordomo(alvo)
-	for conjunto in Conjuntos.CONJUNTOS:
-		if conjunto.ID not in [Carrasco.ID, Mordomo.ID] and conjunto.TIPO_BONUS in ["raio", "congelamento"]:
-			_tentar_bonus_conjunto(conjunto, alvo, golpe["dano"])
 	# Roubo de vida: 1 de vida por mob abatido, não por golpe (equilibra com o dano dos afixos)
 	var abateu := vida_antes > 0 and (not is_instance_valid(alvo) or vida_depois <= 0)
 	if abateu and not estaMorto and hp_atual < estatisticas.hp_maximo and (estatisticas.roubo_vida > 0 or efeitos_pocao.bonus("vampiro") > 0):
@@ -1663,6 +1700,8 @@ func atualizar_texturas_arco() -> void:
 	sprite_escudo.texture = null
 
 func _iniciar_disparo() -> void:
+	if maestria != null and maestria.tentar_finalizador_arco(): return
+	if maestria != null: maestria.novo_golpe()
 	var mira := _mira_do_disparo()
 	_direcao_ataque = mira
 	# Depois do disparo o corpo volta olhando para onde mirou
@@ -1769,7 +1808,7 @@ func _pacote_do_item(item: DadosItem) -> Dictionary:
 ## Troca o que cada slot soma aos status: tira exatamente o pacote anterior e põe o do item novo. Único caminho
 ## destes bônus, então equipar, trocar, desequipar e subir de nível do escudo ou da arma nunca deixam sobras
 func _aplicar_bonus_item(slot: String, item: DadosItem) -> void:
-	var antigo: Dictionary = _pacote_aplicado[slot]
+	var antigo: Dictionary = _pacote_aplicado.get(slot,{})
 	var novo := _pacote_do_item(item)
 	var hp_maximo_anterior: int = estatisticas.hp_maximo
 	var dif_vitalidade: int = int(novo["vitalidade"]) - int(antigo.get("vitalidade", 0))
@@ -1888,6 +1927,7 @@ func aplicar_petrificacao_fatal() -> bool:
 func receber_dano(dano: int, forca_knockback: Vector2 = Vector2.ZERO) -> void:
 	if invulneravel or estaMorto:
 		return
+	if maestria != null and maestria.executando: maestria.cancelar()
 	# Guarda levantada: aparo perfeito anula o golpe e bloqueio deixa passar só uma fração (defesa_jogador.gd)
 	var guarda := defesa.resolver(dano, forca_knockback)
 	var tipo_guarda: String = guarda.get("tipo", "")
@@ -2113,7 +2153,7 @@ func _cancelar_acoes_em_andamento() -> void:
 func aplicar_melhorias_permanentes() -> void:
 	var hp_maximo_anterior: int = estatisticas.hp_maximo
 	var stamina_maxima_anterior := stamina_maxima
-	stamina_maxima = _stamina_base * (1.0 + Progresso.bonus("folego"))
+	stamina_maxima = _stamina_base * (1.0 + Progresso.bonus("folego")) + _folego_acessorios
 	stamina = clampf(stamina + (stamina_maxima - stamina_maxima_anterior), 0.0, stamina_maxima)
 	estatisticas.calcular_estatisticas_derivadas(usando_espada or usando_lanca)
 	hp_atual = mini(hp_atual + maxi(estatisticas.hp_maximo - hp_maximo_anterior, 0), estatisticas.hp_maximo)
@@ -2360,6 +2400,7 @@ func desabilitar_todas_acoes(desabilitar: bool) -> void:
 		ataques_bloqueados = true
 		movimento_habilitado = false
 		return
+	if desabilitar and maestria != null: maestria.cancelar()
 
 	# Código original
 	ataques_bloqueados = desabilitar

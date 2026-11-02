@@ -8,7 +8,7 @@ const ARQUIVOS := [
 	"progresso.json", "calendario.json", "cidade.json", "fazenda.json",
 	"introducao.json", "bau.json", "comercio.json", "inventario.json",
 	"inventario_p2.json", "configuracao_jogador.json", "configuracao_jogador_p2.json",
-	"inventario_introducao_checkpoint.json", "ranking.json", "ranking_p2.json",
+	"inventario_introducao_checkpoint.json", "ranking.json", "ranking_p2.json", "maestria.json", "maestria_p2.json",
 ]
 
 ## Executar antes de qualquer autoload carregar ou salvar o mundo. Nunca remove opções

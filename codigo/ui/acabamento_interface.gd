@@ -87,6 +87,7 @@ func _pintar(no: Control, textura: Texture2D, botao := false, cor := Color.WHITE
 	aplicacoes += 1
 
 func _aplicar(no: Control) -> void:
+	if no.get_meta("acabamento_campanha",false):return
 	# Fichas compactas mantêm sua ação de fechar no rodapé do próprio conteúdo.
 	if no is Button and not no.has_meta("tecla_virtual") and not no.has_meta("fechar_no_fluxo") and (no.has_meta("fechar_circular") or no.text.strip_edges().to_upper() in ["X","FECHAR","×"]):
 		FecharJanela.ligar(no)

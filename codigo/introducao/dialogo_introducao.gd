@@ -3,6 +3,8 @@ extends Control
 ## Fala narrada (prólogo, aulas, Rosa na enfermaria, lojas fechadas): a MESMA caixa de pergaminho das conversas da cidade
 ## (dialogo_cidade.gd), com o busto do morador que fala, boca animada e texto aparecendo letra a letra.
 signal concluido
+## Só dispara em falas abertas com `iniciar_com_opcoes`, antes de `concluido`.
+signal escolhido(indice: int)
 const TEMA := preload("res://recursos/ui/tema_sidebar.tres")
 const FONTE := preload("res://assets/ui/Planes_ValMore.ttf")
 const Dados := preload("res://codigo/cidade/dados_cidade.gd")
@@ -14,6 +16,8 @@ var _titulo: Label
 var _retrato: RetratoFalante
 var _rosto: PanelContainer
 var _avancar: Button
+var _caixa_opcoes: VBoxContainer
+var _opcoes: Array[String] = []
 var _fechar_dialogo: Button
 var _paginas: Array[String] = []
 var _indice := 0
@@ -59,6 +63,10 @@ func _ready() -> void:
 	_estilizar_botao(_avancar)
 	_avancar.pressed.connect(avancar)
 	coluna.add_child(_avancar)
+	_caixa_opcoes = VBoxContainer.new()
+	_caixa_opcoes.add_theme_constant_override("separation", 3)
+	_caixa_opcoes.visible = false
+	coluna.add_child(_caixa_opcoes)
 	_rosto = PanelContainer.new()
 	_rosto.custom_minimum_size = Vector2(66, 70)
 	_rosto.size_flags_vertical = Control.SIZE_SHRINK_CENTER
@@ -120,9 +128,37 @@ func iniciar(paginas: Array[String], narrador := "BENTO", id_retrato := "") -> v
 	if _rosto.visible:
 		_retrato.definir_personagem(folha)
 	_ajustar()
+	_opcoes = []
 	_paginas = _paginar(paginas, _rosto.visible)
 	_indice = 0
 	_mostrar()
+
+## A última página mostra um botão por opção e só fecha quando o jogador escolhe uma.
+func iniciar_com_opcoes(paginas: Array[String], opcoes: Array[String], narrador := "BENTO", id_retrato := "") -> void:
+	iniciar(paginas, narrador, id_retrato)
+	_opcoes = opcoes.duplicate()
+	for botao in _caixa_opcoes.get_children():
+		botao.queue_free()
+	for i in _opcoes.size():
+		var botao := Button.new()
+		botao.text = _opcoes[i]
+		botao.add_theme_font_override("font", FONTE)
+		botao.add_theme_font_size_override("font_size", 9)
+		botao.custom_minimum_size = Vector2(110, 32 if Controle.usando_toque else 19)
+		botao.size_flags_horizontal = Control.SIZE_SHRINK_END
+		_estilizar_botao(botao)
+		botao.pressed.connect(_escolher.bind(i))
+		_caixa_opcoes.add_child(botao)
+	_atualizar_botao()
+
+func _escolher(indice: int) -> void:
+	if not visible or _espera > 0 or _texto.visible_ratio < 1.0 or indice >= _opcoes.size():
+		return
+	_opcoes = []
+	_caixa_opcoes.visible = false
+	EventosJogo.fechar_tela_de(self, "introducao")
+	escolhido.emit(indice)
+	concluido.emit()
 
 func _mostrar() -> void:
 	_texto.text = _paginas[_indice]
@@ -135,10 +171,16 @@ func _mostrar() -> void:
 	_atualizar_botao()
 
 func _atualizar_botao() -> void:
+	var escolhendo := not _opcoes.is_empty() and _indice >= _paginas.size() - 1
+	_avancar.visible = not escolhendo
+	_caixa_opcoes.visible = escolhendo
 	_avancar.text = "%s  %s" % [Controle.rotulo_acao("ui_accept", self), "CONTINUAR" if _indice < _paginas.size() - 1 else "ENTENDI"]
 	_avancar.text = _avancar.text.strip_edges()
 
 func focar_inicio() -> void:
+	if not _opcoes.is_empty() and _indice >= _paginas.size() - 1 and _caixa_opcoes.get_child_count() > 0:
+		Controle.focar(_caixa_opcoes.get_child(0))
+		return
 	Controle.focar(_avancar)
 
 func _process(delta: float) -> void:
@@ -151,6 +193,9 @@ func _input(evento: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 		_indice = _paginas.size() - 1
 		avancar()
+	elif _caixa_opcoes.visible:
+		# Escolhendo: clique e ui_accept pertencem aos botões; consumir aqui impedia a escolha.
+		return
 	elif evento.is_action_pressed("open_menu") or evento.is_action_pressed("attack") or evento.is_action_pressed("ui_accept"):
 		get_viewport().set_input_as_handled()
 		avancar()
@@ -166,11 +211,18 @@ func _fechar_fala() -> void:
 func avancar() -> void:
 	if not visible or _espera > 0:
 		return
+	# Fechar ou pular a fala com opções leva à última página e mostra os botões, sem dispensar a escolha.
+	if not _opcoes.is_empty() and _indice >= _paginas.size() - 1 and not _caixa_opcoes.visible:
+		_mostrar()
+		focar_inicio()
+		return
 	# Com o texto ainda aparecendo, o primeiro toque só completa a fala
 	if _texto.visible_ratio < 1.0:
 		if _digitando != null and _digitando.is_valid():
 			_digitando.kill()
 		_texto.visible_ratio = 1.0
+		return
+	if not _opcoes.is_empty() and _indice >= _paginas.size() - 1:
 		return
 	_indice += 1
 	if _indice >= _paginas.size():
@@ -178,6 +230,8 @@ func avancar() -> void:
 		concluido.emit()
 	else:
 		_mostrar()
+		if not _opcoes.is_empty() and _indice >= _paginas.size() - 1:
+			focar_inicio()
 
 ## Divide por largura real da fonte para aumentar as letras sem cortar falas no celular.
 func _paginar(falas: Array[String], com_retrato: bool) -> Array[String]:

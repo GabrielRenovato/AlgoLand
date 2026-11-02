@@ -5,6 +5,7 @@ const Raridades := preload("res://codigo/dados/raridades.gd")
 const NIVEL_ASCENSAO := 5
 
 ## Cadastro único das peças reais. A prévia do F3 não participa destes bônus.
+const GUARDA_NOVATO := preload("res://assets/personagens/conjuntos/guarda_novato/definicao.gd")
 const CONJUNTOS := [
 	preload("res://codigo/dados/conjunto_carrasco.gd"),
 	preload("res://assets/personagens/conjuntos/cavaleiro_rubro/definicao.gd"),
@@ -19,6 +20,7 @@ const CONJUNTOS := [
 ]
 
 static func de_tipo(tipo: String) -> GDScript:
+	if GUARDA_NOVATO.TIPOS.has(tipo):return GUARDA_NOVATO
 	for conjunto in CONJUNTOS:
 		if conjunto.TIPOS.has(tipo):
 			return conjunto
@@ -63,7 +65,7 @@ static func raizes(equipados: Dictionary) -> Dictionary:
 	return resultado
 
 static func mascara(equipados: Dictionary) -> int:
-	var bits := 0
+	var bits := GUARDA_NOVATO.mascara(equipados)
 	for conjunto in CONJUNTOS:
 		bits |= conjunto.mascara(equipados)
 	return bits
@@ -97,4 +99,19 @@ static func bonus_status(equipados: Dictionary) -> Dictionary:
 		var constantes: Dictionary = conjunto.get_script_constant_map()
 		for atributo in resultado:
 			resultado[atributo] += float(constantes.get("BONUS_" + atributo.to_upper(), 0.0)) * multiplicador
+	return resultado
+
+## Os IDs elementais antigos conservam o valor como propriedades físicas do conjunto.
+static func bonus_fisico(equipados: Dictionary) -> Dictionary:
+	var resultado := {"empurrao":0.0,"guarda":0.0,"esquiva":0.0}
+	for conjunto in CONJUNTOS + [GUARDA_NOVATO]:
+		if conjunto.ID=="guarda_novato":
+			var n:int=conjunto.quantidade(equipados)
+			if n>=2:resultado.guarda+=0.05
+			if n==4:resultado.esquiva+=0.05
+		var escala := fator(conjunto,equipados) * fator_nivel(conjunto,equipados)
+		if conjunto.TIPO_BONUS == "raio": resultado.empurrao += 0.15 * escala
+		elif conjunto.TIPO_BONUS == "congelamento": resultado.guarda += 0.08 * escala
+	resultado.empurrao = minf(0.50,resultado.empurrao)
+	resultado.guarda = minf(0.30,resultado.guarda)
 	return resultado

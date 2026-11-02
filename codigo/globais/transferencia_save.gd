@@ -10,7 +10,7 @@ const VersaoSave := preload("res://codigo/dados/versao_save.gd")
 const ARQUIVOS := ["progresso.json", "calendario.json", "cidade.json", "fazenda.json", "introducao.json",
 	"bau.json", "comercio.json", "inventario.json", "configuracao_jogador.json",
 	"inventario_introducao_checkpoint.json", "ranking.json", "mercado.json",
-	"versao_save.json", "reequilibrio_progressao_1.json"]
+	"versao_save.json", "reequilibrio_progressao_1.json", "maestria.json", "maestria_p2.json"]
 const ERROS := {
 	"codigo_invalido": "CODIGO INVALIDO",
 	"tamanho_invalido": "SAVE GRANDE DEMAIS PARA ENVIAR",
@@ -50,6 +50,10 @@ static func validar(pacote, exigir_versao_app := true) -> String:
 			return "SAVE RECEBIDO ESTA CORROMPIDO"
 		if not JSON.parse_string(arquivos[nome]) is Dictionary:
 			return "SAVE RECEBIDO ESTA CORROMPIDO"
+	for nome in ["maestria.json","maestria_p2.json"]:
+		if arquivos.has(nome):
+			var modelo=preload("res://codigo/modelos/modelo_maestria.gd").new()
+			if modelo.importar(JSON.parse_string(arquivos[nome]))!=OK:return "MAESTRIA RECEBIDA ESTA CORROMPIDA"
 	return ""
 
 ## Grava o pacote no mundo solo, depois de copiar o save atual para user://backups/antes_transferencia_<data>/.

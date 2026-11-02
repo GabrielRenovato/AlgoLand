@@ -72,6 +72,10 @@ func _process(delta: float) -> void:
 	var caminho := cena.scene_file_path
 	if caminho.ends_with("praia.tscn") or caminho.ends_with("palafita.tscn"):
 		definir("praia","mar")
+	elif caminho.ends_with("percurso_prototipo.tscn"):
+		# Clareira: vento e pássaros do bosque; a música muda quando a vigília desperta as raízes.
+		var vigilia: bool = cena.get("regiao") == "chegada" and is_instance_valid(cena.get("encontro")) and bool(cena.encontro.get("ativa"))
+		definir("guardiao" if vigilia else ("fazenda" if cena.get("regiao") == "chegada" else "vila"), "bosque")
 	elif caminho.ends_with("fazenda.tscn") or caminho.ends_with("galinheiro.tscn") or caminho.ends_with("floresta.tscn"):
 		definir("fazenda","bosque")
 	else:

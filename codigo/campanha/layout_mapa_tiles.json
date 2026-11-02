@@ -1,0 +1,32 @@
+{
+ "grade":[96,64], "celula_logica":16, "celula_textura":64,
+ "ilhas":[
+  {"id":"queda","centro":[17,50],"raios":[13,10],"nivel":1},
+  {"id":"vila","centro":[34,34],"raios":[15,11],"nivel":2},
+  {"id":"pomar","centro":[13,28],"raios":[10,11],"nivel":1},
+  {"id":"moinho","centro":[45,42],"raios":[10,7],"nivel":1},
+  {"id":"varzeas","centro":[66,52],"raios":[16,10],"nivel":1},
+  {"id":"pedreira","centro":[82,39],"raios":[12,9],"nivel":2},
+  {"id":"mina","centro":[85,28],"raios":[9,7],"nivel":2},
+  {"id":"mata","centro":[62,27],"raios":[12,9],"nivel":2},
+  {"id":"observatorio","centro":[17,11],"raios":[12,8],"nivel":3},
+  {"id":"jardins","centro":[45,9],"raios":[12,8],"nivel":3},
+  {"id":"bastiao","centro":[80,13],"raios":[14,11],"nivel":3}
+ ],
+ "rotas":[
+  [[18,52],[23,48],[27,39]], [[27,39],[30,35],[33,33]],
+  [[33,33],[25,32],[15,32]], [[33,33],[36,39],[39,42]],
+  [[39,42],[47,45],[55,49],[67,53]], [[67,53],[77,50],[80,42]],
+  [[80,42],[83,37],[83,32]], [[83,32],[73,31],[61,29]],
+  [[61,29],[53,27],[42,30],[33,33]], [[15,32],[13,22],[19,15]],
+  [[19,15],[29,12],[44,13]], [[44,13],[57,14],[67,17],[76,17]],
+  [[76,17],[70,22],[61,29]]
+ ],
+ "rios":[
+  {"ilha":"jardins","x":48,"largura":2},
+  {"ilha":"mata","x":65,"largura":2},
+  {"ilha":"moinho","x":47,"largura":2},
+  {"ilha":"varzeas","x":69,"largura":2},
+  {"ilha":"pedreira","x":86,"largura":2}
+ ]
+}

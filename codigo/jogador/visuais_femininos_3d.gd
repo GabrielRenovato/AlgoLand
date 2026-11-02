@@ -4,6 +4,8 @@ extends RefCounted
 const Modelagem=preload("res://codigo/jogador/roupas_modeladas_3d.gd")
 static func cabelo(base: ArrayMesh,corpo: MeshInstance3D,s: Skeleton3D,forma: int) -> ArrayMesh:
     var cabeca_para_malha:=corpo.global_transform.affine_inverse()*s.global_transform*s.get_bone_global_rest(s.find_bone("DEF-head"))
+    if forma>=7:
+        return load("res://codigo/jogador/cabelos_fantasia_3d.gd").construir(base,corpo,s,forma)
     if forma==6: return _cabelo_liso(corpo,s)
     base=_abrir_franja(base,cabeca_para_malha)
     if forma not in [3,4]: return base
@@ -80,21 +82,25 @@ static func _quad_cabelo(st: SurfaceTool,pontos: Array,t: Transform3D,bind: int)
 static func saia(base: ArrayMesh,corpo: MeshInstance3D,s: Skeleton3D,forma: int) -> ArrayMesh:
     var st:=SurfaceTool.new()
     st.begin(Mesh.PRIMITIVE_TRIANGLES)
-    st.append_from(base,0,Transform3D.IDENTITY)
-    st.deindex()
+    # A saia longa cobre as pernas: não duplica a calça por dentro da saia.
+    # O corpo continua separado e a máscara de vestuário já esconde a região coberta.
+    if forma!=5:
+        st.append_from(base,0,Transform3D.IDENTITY)
+        st.deindex()
     var rig:=Modelagem.ligacoes(corpo,s)
     var aneis: Array=[]
-    var longa:=forma==4
-    var medidas: Array=[[1.055,.242,.178],[1.018,.247,.184],[.92,.285,.215],[.80,.321,.247],[.64 if longa else .71,.355 if longa else .342,.280 if longa else .263]]
+    var longa:=forma in [4,5]
+    var medidas: Array=[[1.055,.242,.178],[1.018,.247,.184],[.92,.285,.215],[.80,.321,.247],[.30 if forma==5 else (.64 if longa else .71),.39 if forma==5 else (.355 if longa else .342),.30 if forma==5 else (.280 if longa else .263)]]
+    if forma==5:medidas=[[1.055,.242,.178],[1.018,.247,.184],[.92,.285,.215],[.80,.321,.247],[.55,.36,.28],[.20,.39,.31]]
     for nivel in medidas.size():
         var m: Array=medidas[nivel]
         var anel: Array=[]
         for q in 48:
             var a:=TAU*q/48.0
-            var prega:=.009*cos(a*(12 if longa else 8))*nivel/4.0
+            var prega:=(.025 if forma==5 else .009)*cos(a*(12 if longa else 8))*nivel/4.0
             var p:=Vector3(cos(a)*(m[1]+prega),m[0],-.012+sin(a)*(m[2]+prega))
             var perna: String="DEF-thigh.L" if p.x>0 else "DEF-thigh.R"
-            var peso:=.20*smoothstep(1.02,.70,p.y)
+            var peso:=(.10*smoothstep(1.02,.30,p.y)) if forma==5 else .20*smoothstep(1.02,.70,p.y)
             anel.append(Modelagem.vertice(p,{"DEF-hips":1.0-peso,perna:peso},rig,.86 if nivel==0 else 1.0))
         aneis.append(anel)
     for n in range(aneis.size()-1): Modelagem.unir(st,aneis[n],aneis[n+1],Vector3(0,0,-.012))
@@ -129,7 +135,7 @@ static func _cabelo_liso(corpo: MeshInstance3D,s: Skeleton3D) -> ArrayMesh:
     var t:=corpo.global_transform.affine_inverse()*s.global_transform*s.get_bone_global_rest(s.find_bone("DEF-head"))
     # [altura, raio, recuo para trás, abertura da frente (0 = fechado)]
     var niveis:=[
-        [.292,.022,.000,0.0],[.280,.078,.000,0.0],[.250,.114,.000,0.0],[.200,.130,.000,0.0], # Calota (acima da cabeça chibi).
+        [.301,.000,.000,0.0],[.292,.022,.000,0.0],[.280,.078,.000,0.0],[.250,.114,.000,0.0],[.200,.130,.000,0.0], # Calota (acima da cabeça chibi).
         [.140,.130,.004,.62],[.080,.130,.010,.95],[.010,.124,.020,1.15], # Testa e laterais do rosto.
         [-.070,.118,.032,1.45],[-.150,.112,.045,1.75],[-.230,.106,.055,1.95],[-.300,.100,.060,2.05]] # Fios até as costas.
     var segmentos:=32

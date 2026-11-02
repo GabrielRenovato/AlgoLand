@@ -1,0 +1,60 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="PackedScene" path="res://cenas/campanha/moinho_lowpoly_3d.tscn" id="1"]
+
+[sub_resource type="Environment" id="Ambiente"]
+background_mode = 1
+background_color = Color(0.49, 0.59, 0.57, 1)
+ambient_light_source = 3
+ambient_light_color = Color(0.72, 0.83, 0.86, 1)
+ambient_light_energy = 0.35
+tonemap_mode = 0
+
+[sub_resource type="PlaneMesh" id="Chao"]
+size = Vector2(200, 200)
+
+[sub_resource type="StandardMaterial3D" id="MaterialChao"]
+albedo_color = Color(0.54, 0.64, 0.52, 1)
+roughness = 1.0
+
+[sub_resource type="GDScript" id="Captura"]
+script/source = "extends Node3D
+
+func _ready() -> void:
+	$Camera3D.look_at(Vector3(-0.25, 1.85, 0.1))
+	var destino := \"\"
+	for argumento in OS.get_cmdline_user_args():
+		if argumento.begins_with(\"--captura=\"):
+			destino = argumento.trim_prefix(\"--captura=\")
+	if destino.is_empty():
+		return
+	await get_tree().create_timer(1.0).timeout
+	await RenderingServer.frame_post_draw
+	get_viewport().get_texture().get_image().save_png(destino)
+	get_tree().quit()
+"
+
+[node name="PreviaMoinhoLowPoly3D" type="Node3D"]
+script = SubResource("Captura")
+
+[node name="Moinho" parent="." instance=ExtResource("1")]
+estacao_previa = 0
+
+[node name="Camera3D" type="Camera3D" parent="."]
+position = Vector3(-8.7, 7.8, 9.1)
+fov = 36.0
+current = true
+
+[node name="Sol" type="DirectionalLight3D" parent="."]
+rotation_degrees = Vector3(-52, -35, 0)
+light_color = Color(1, 0.94, 0.80, 1)
+light_energy = 0.8
+shadow_enabled = true
+
+[node name="Ambiente" type="WorldEnvironment" parent="."]
+environment = SubResource("Ambiente")
+
+[node name="Chao" type="MeshInstance3D" parent="."]
+position = Vector3(0, -0.47, 0)
+mesh = SubResource("Chao")
+material_override = SubResource("MaterialChao")

@@ -3,6 +3,9 @@ extends "res://codigo/ui/previa_heroi_3d.gd"
 const Visual := preload("res://codigo/dados/visual_ranking.gd")
 signal renderizado
 var aparencia: Dictionary = {}
+var armadura_npc: String = ""
+var pecas_armadura_npc: int = 15
+var perfil_movimento: String = "neutro"
 var inventario: RefCounted
 var id_lanca_atual := "lanca_basica"
 
@@ -31,6 +34,7 @@ func _ready() -> void:
 	no_arco = ArcoVisual.new()
 	add_child(no_arco)
 	super._ready()
+	heroi._player.add_animation_library("npcs",load("res://assets/personagens/base_3d/movimentos_npcs.res"))
 	pose(false,0,0)
 	_anunciar_render.call_deferred()
 
@@ -57,6 +61,32 @@ func pose(correndo: bool, direcao: int, tempo: float) -> void:
 	var acao := "correr" if correndo else "parado"
 	var clipe: String = heroi._nome_animacao(acao)
 	_posar(acao,clipe,direcao,fposmod(tempo,heroi._player.get_animation(clipe).length))
+
+## Caminhada nativa do modelo, independente da corrida do jogador.
+func duracao_caminhada() -> float:
+	return heroi._player.get_animation("npcs/Caminhada_Feminina" if perfil_movimento=="feminino" else "Walk_Loop").length
+
+func passada_caminhada() -> float:
+	return float(heroi._player.get_animation_library("npcs").get_meta("passada_feminina_px")) if perfil_movimento=="feminino" else 5.0
+
+func pose_caminhada(andando: bool,direcao: int,tempo: float) -> void:
+	if not andando:
+		if perfil_movimento=="feminino":
+			var descanso:="npcs/Descanso_Feminino"
+			_posar("parado",descanso,direcao,fposmod(tempo,heroi._player.get_animation(descanso).length))
+			return
+		pose(false,direcao,tempo)
+		return
+	var clipe:="Walk_Loop"
+	if perfil_movimento=="feminino":clipe="npcs/Caminhada_Feminina"
+	_posar("andar",clipe,direcao,fposmod(tempo,heroi._player.get_animation(clipe).length))
+
+func pose_conversa(direcao: int,tempo: float) -> void:
+	if perfil_movimento!="feminino":
+		pose_caminhada(false,direcao,tempo)
+		return
+	var clipe:="npcs/Conversa_Feminina"
+	_posar("parado",clipe,direcao,fposmod(tempo,heroi._player.get_animation(clipe).length))
 
 func nome_do_golpe(combo: int) -> String:
 	_fase_combo = maxi(1,combo)

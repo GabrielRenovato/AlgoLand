@@ -3,9 +3,11 @@ extends RefCounted
 const Conjuntos=preload("res://codigo/dados/conjuntos_armadura.gd")
 const Aparencia=preload("res://codigo/dados/aparencia.gd")
 const PECAS=["elmo","peitoral","luvas","botas"]
-const RAIZES=["res://assets/personagens/conjuntos/cavalheiro/","res://assets/personagens/conjuntos/carrasco/","res://assets/personagens/conjuntos/cavaleiro_rubro/"]
+const RAIZES=["res://assets/personagens/conjuntos/cavalheiro/","res://assets/personagens/conjuntos/carrasco/","res://assets/personagens/conjuntos/cavaleiro_rubro/","res://assets/personagens/conjuntos/guarda_novato/"]
 const ELMOS_FECHADOS=[RAIZES[1],RAIZES[2]]
-const ALTURAS_GREVAS={RAIZES[1]:.46,RAIZES[2]:.46}
+const ELMOS_ABERTOS=[RAIZES[3]]
+const ALTURAS_GREVAS={RAIZES[1]:.46,RAIZES[2]:.46,RAIZES[3]:.46}
+const UNIFORMES_NPC={"guarda_novato":RAIZES[3]}
 var raizes_pecas: Array[String]=["","","",""]
 var _recursos: Dictionary={}
 var heroi: Node
@@ -57,11 +59,13 @@ func atualizar():
  var roupa=j.get("roupa_atual")
  var bits: int=j.pecas_cavaleiro if roupa!=null else 0
  var tipos: Array=[]
+ var uniforme=j.get("armadura_npc")
+ var partes_npc=j.get("pecas_armadura_npc")
  if inventario!=null:
   for slot in ["cabeca","corpo","luvas","botas"]:
    var item=inventario.equipados.get(slot)
    tipos.append([item.tipo,item.categoria] if item!=null else [])
- var chave:=hash([roupa,bits,tipos])
+ var chave:=hash([roupa,bits,tipos,uniforme,partes_npc])
  if chave==_chave:return
  _chave=chave
  if inventario!=null:raizes=Conjuntos.raizes(inventario.equipados)
@@ -71,6 +75,11 @@ func atualizar():
    raizes.clear()
    for i in 4:
     if bits & (1<<i):raizes[PECAS[i]]=raiz_visual
+ # Uniforme visual de moradores: nunca cria itens nem concede status ao jogador.
+ if uniforme in UNIFORMES_NPC:
+  raizes.clear()
+  for i in 4:
+   if int(partes_npc) & (1<<i):raizes[PECAS[i]]=UNIFORMES_NPC[uniforme]
  var nova:=0
  var novas: Array[String]=["","","",""]
  for i in 4:

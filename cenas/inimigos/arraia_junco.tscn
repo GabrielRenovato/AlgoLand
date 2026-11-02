@@ -1,0 +1,64 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://codigo/inimigos/inimigo_bacia.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/inimigos/bacia_moinho/arraia_de_junco.png" id="2"]
+
+[ext_resource type="Texture2D" path="res://assets/inimigos/bacia_moinho/ataques_corrigidos/arraia.png" id="3"]
+[ext_resource type="Texture2D" path="res://assets/inimigos/bacia_moinho/ataques_corrigidos/arraia_baixo.png" id="4"]
+[ext_resource type="Texture2D" path="res://assets/inimigos/bacia_moinho/ataques_corrigidos/arraia_cima.png" id="5"]
+
+[ext_resource type="Texture2D" path="res://assets/inimigos/bacia_moinho/ataques_corrigidos/arraia_andar_cima.png" id="6"]
+
+[sub_resource type="ConvexPolygonShape2D" id="Corpo"]
+points = PackedVector2Array(-18, -9, -12, -15, 12, -15, 18, -9, 15, -3, 9, 0, -9, 0, -15, -3)
+
+[sub_resource type="ConvexPolygonShape2D" id="Ataque"]
+points = PackedVector2Array(-19, -11, -13, -17, 13, -17, 19, -11, 15, -2, -15, -2)
+
+[node name="ArraiaDeJunco" type="CharacterBody2D" groups=["enemy"]]
+scale = Vector2(0.75, 0.75)
+collision_layer = 4
+collision_mask = 64
+script = ExtResource("1")
+especie = "arraia"
+folha_ataque = ExtResource("3")
+folha_andar_cima = ExtResource("6")
+pivo_andar_cima = Vector2(256, 330)
+folhas_ataque_direcionais = {"baixo": ExtResource("4"), "cima": ExtResource("5")}
+registro_ataque_direcional = {"baixo": {"pivo": Vector2(256, 448), "proporcao": 0.83}, "cima": {"pivo": Vector2(256, 350), "proporcao": 0.83}}
+pivo_ataque = Vector2(336, 448)
+proporcao_ataque = 0.82
+pivos_andar = {"baixo": Vector2(160, 308), "lado": Vector2(236, 254), "cima": Vector2(160, 308)}
+colunas = 4
+linhas = 4
+anims = {"andar_baixo": [0, 1, 2, 3], "andar_lado": [4, 5, 6, 7], "andar_cima": [8, 9, 10, 11], "ataque_baixo": [12, 13, 14, 15], "ataque_lado": [12, 13, 14, 15], "ataque_cima": [12, 13, 14, 15], "morte": [15, 14, 13, 12]}
+fps_andar = 7.0
+fps_ataque = 10.0
+velocidade = 66
+raio_parada = 8.0
+altura_pes = 0.0
+altura_barra_vida = 58.0
+tempo_recarga_ataque = 1.3
+alcance_ataque = 20.0
+dano = 8.0
+vida = 28
+
+[node name="Texture" type="Sprite2D" parent="."]
+texture = ExtResource("2")
+hframes = 4
+vframes = 4
+offset = Vector2(0, -160)
+scale = Vector2(0.2, 0.2)
+texture_filter = 1
+
+[node name="colision_body" type="CollisionShape2D" parent="."]
+position = Vector2(0, -8)
+shape = SubResource("Corpo")
+
+[node name="ataque" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="attack_colision_player" type="CollisionShape2D" parent="ataque"]
+position = Vector2(0, -8)
+shape = SubResource("Ataque")
