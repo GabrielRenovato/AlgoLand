@@ -59,10 +59,24 @@ func sessao_chat_de(jogador: Node2D) -> Node:
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	_garantir_acoes_tecnicas()
 	Saves.mundo_trocado.connect(_ao_mundo_trocado)
 	Input.joy_connection_changed.connect(func(_id: int, _ligado: bool) -> void:
 		if ativo:
 			_atribuir_controles())
+
+func _garantir_acoes_tecnicas() -> void:
+	var padroes := [{"tecla": KEY_Q, "botao": JOY_BUTTON_RIGHT_SHOULDER}, {"tecla": KEY_E, "botao": JOY_BUTTON_LEFT_STICK}]
+	for i in padroes.size():
+		var nome := "tecnica_%d" % (i+1)
+		if InputMap.has_action(nome): continue
+		InputMap.add_action(nome,0.5)
+		var tecla := InputEventKey.new()
+		tecla.physical_keycode = padroes[i].tecla
+		InputMap.action_add_event(nome,tecla)
+		var botao := InputEventJoypadButton.new()
+		botao.button_index = padroes[i].botao
+		InputMap.action_add_event(nome,botao)
 
 ## O cooperativo é um mundo próprio (Saves.COOP): liga sozinho nele e desliga no solo
 func _ao_mundo_trocado(mundo: String) -> void:
