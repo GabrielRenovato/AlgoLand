@@ -37,8 +37,8 @@ size = Vector2(22, 18)
 size = Vector2(28, 22)
 
 [node name="Gremlin_Greedy" type="CharacterBody2D" groups=["enemy"]]
-collision_layer = 4
-collision_mask = 64
+collision_layer = 36
+collision_mask = 66
 script = ExtResource("1_script")
 texturas = [ExtResource("2_v01"), ExtResource("2_v02"), ExtResource("2_v03"), ExtResource("2_v04"), ExtResource("2_v05"), ExtResource("2_v06"), ExtResource("2_v07"), ExtResource("2_v08"), ExtResource("2_v09"), ExtResource("2_v10"), ExtResource("2_v11"), ExtResource("2_v12"), ExtResource("2_v13"), ExtResource("2_v14"), ExtResource("2_v15"), ExtResource("2_v16"), ExtResource("2_v17"), ExtResource("2_v18"), ExtResource("2_v19"), ExtResource("2_v20"), ExtResource("2_v21"), ExtResource("2_v22"), ExtResource("2_v23"), ExtResource("2_v24"), ExtResource("2_v25"), ExtResource("2_v26"), ExtResource("2_v27"), ExtResource("2_v28")]
 colunas = 8

@@ -3,6 +3,8 @@ class_name TerrenoBaciaMoinho
 
 ## Região modular da Bacia: o canal, os caminhos e os marcos usam peças do jogo.
 const CENA_GOBLIN := preload("res://cenas/inimigos/goblin_pomar.tscn")
+const CENA_GOBLIN_MACHADO := preload("res://cenas/inimigos/goblin_machado_fenda.tscn")
+const QUANTIDADE_GOBLINS_BACIA := 48
 const TAMANHO_MAPA := Vector2(1536, 1024)
 const CENTRO_MAPA := Vector2(-768, -512)
 const PONTOS_GOBLINS_ADICIONAIS := [
@@ -99,6 +101,9 @@ func _tipo_base(canto: Vector2i) -> int:
 	if p.distance_to(Vector2(-455, -315)) < 76.0:
 		return PEDRA
 	return GRAMA
+
+## Paleta da água por estação, do escuro ao brilho (a média de cada faixa de luminância da animação antiga).
+const TONS_AGUA := preload("res://codigo/campanha/paleta_agua.gd").TONS
 
 func _preparar_superficie_agua() -> void:
 	for nome in NOMES:
@@ -275,37 +280,62 @@ func _montar_floresta() -> void:
 		_objeto("arbusto_bacia_%02d" % i, "arbustos", p, rng.randf_range(24, 36), Vector2.ZERO)
 
 func _criar_inimigos() -> void:
+	await get_tree().physics_frame
+	await get_tree().physics_frame
+	if not is_inside_tree(): return
+	NavigationServer2D.map_force_update(get_world_2d().navigation_map)
 	var pontos_usados: Array[Vector2] = []
 	for entrada in [
-		{"posicao": Vector2(-490, 96), "guardiao": false},
-		{"posicao": Vector2(576, 160), "guardiao": false},
-		{"posicao": Vector2(-320, -350), "guardiao": true},
+		{"posicao": Vector2(-490,96), "guardiao":false},
+		{"posicao": Vector2(576,160), "guardiao":false},
+		{"posicao": Vector2(-320,-350), "guardiao":true},
 	]:
-		_criar_goblin_bacia(entrada.posicao, entrada.guardiao, pontos_usados)
-	for posicao in PONTOS_GOBLINS_ADICIONAIS:
-		# O mapa de navegação ainda pode não estar sincronizado durante o _ready deferido.
-		# Estes pontos foram escolhidos e conferidos no próprio terreno modular.
-		var ponto: Vector2 = posicao
-		if not ponto_seguro(ponto): continue
-		if pontos_usados.any(func(outro): return outro.distance_to(ponto) < 96.0): continue
-		var perto_de_alvo := false
+		for raio in [0,24,48,72,96]:
+			var criou := false
+			for i in (1 if raio==0 else 8):
+				var ponto: Vector2 = entrada.posicao+Vector2.from_angle(i*TAU/8)*raio
+				if _ponto_goblin_livre(ponto,pontos_usados,bool(entrada.guardiao)):
+					_criar_goblin_bacia(ponto,entrada.guardiao,pontos_usados)
+					criou = true
+					break
+			if criou: break
+	var candidatos: Array[Vector2] = []
+	for y in range(-448,449,64):
+		for x in range(-704,705,64): candidatos.append(Vector2(x,y))
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 84937
+	while not candidatos.is_empty() and pontos_usados.size()<QUANTIDADE_GOBLINS_BACIA:
+		var ponto: Vector2 = candidatos.pop_at(rng.randi_range(0,candidatos.size()-1))
+		if _ponto_goblin_livre(ponto,pontos_usados): _criar_goblin_bacia(ponto,false,pontos_usados)
+
+func _ponto_goblin_livre(ponto: Vector2, usados: Array[Vector2], guardiao := false) -> bool:
+	if not ponto_seguro(ponto) or usados.any(func(outro): return outro.distance_to(ponto)<72.0): return false
+	if ponto.distance_to(Vector2(0,80))<156.0: return false
+	if not guardiao:
 		for alvo in dados.alvos.values():
-			if ponto.distance_to(Vector2(alvo.p[0], alvo.p[1])) < 88.0:
-				perto_de_alvo = true
-				break
-		if perto_de_alvo: continue
-		_criar_goblin_bacia(ponto, false, pontos_usados)
+			if ponto.distance_to(Vector2(alvo.p[0],alvo.p[1]))<88.0: return false
+	if NavigationServer2D.map_get_closest_point(get_world_2d().navigation_map,to_global(ponto)).distance_to(to_global(ponto))>3: return false
+	var consulta := PhysicsShapeQueryParameters2D.new()
+	var forma := CircleShape2D.new()
+	forma.radius = 9
+	consulta.shape = forma
+	consulta.collision_mask = 64
+	consulta.transform = Transform2D(0,to_global(ponto))
+	return get_world_2d().direct_space_state.intersect_shape(consulta,1).is_empty()
 
 func _criar_goblin_bacia(posicao: Vector2, guardiao: bool, pontos_usados: Array[Vector2]) -> void:
-	var inimigo := CENA_GOBLIN.instantiate() as Node2D
+	var machado := pontos_usados.size()%2==1
+	var inimigo := (CENA_GOBLIN_MACHADO if machado else CENA_GOBLIN).instantiate() as Node2D
+	inimigo.name = ("GoblinMachadoBacia" if machado else "GoblinAdagaBacia")+str(pontos_usados.size())
 	inimigo.position = posicao
-	inimigo.set("velocidade", 55)
-	inimigo.set("fator_velocidade_animacao", 1.35)
-	inimigo.set("tempo_recarga_ataque", 1.1)
-	inimigo.set_meta("encontro_bacia", true)
+	inimigo.set("velocidade",100)
+	inimigo.set("vida",64 if machado else 44)
+	inimigo.set_meta("encontro_bacia",true)
 	add_child(inimigo)
 	pontos_usados.append(posicao)
-	if is_instance_valid(roteiro) and guardiao: roteiro.guardioes.append(inimigo)
+	if is_instance_valid(roteiro):
+		if guardiao: roteiro.guardioes.append(inimigo)
+		if roteiro.cena.get("registro_run")!=null: roteiro.cena.registro_run.registrar_inimigo(inimigo)
 
 func _registrar_ponte(origem: Vector2i, tamanho: Vector2i, vertical: bool) -> void:
 	var travessia: Rect2 = _construcoes.ponte(origem, tamanho, vertical)
@@ -319,15 +349,25 @@ func _registrar_ponte(origem: Vector2i, tamanho: Vector2i, vertical: bool) -> vo
 
 func aplicar_descobertas(cumpridos: Array) -> void:
 	if is_instance_valid(_comporta):
-		_comporta.definir_aberta("comporta" in cumpridos)
+		_comporta.definir_aberta("dungeon" in cumpridos)
 	if is_instance_valid(_roda_moinho):
-		_roda_moinho.definir_ligado("comporta" in cumpridos or "eixo" in cumpridos)
+		_roda_moinho.definir_ligado("dungeon" in cumpridos)
 	if is_instance_valid(_marco_dungeon):
 		_marco_dungeon.set_meta("descoberta", "dungeon" in cumpridos)
+
+func ponto_seguro(ponto:Vector2) -> bool:
+	if is_instance_valid(roteiro) and roteiro.dentro and is_instance_valid(roteiro.dungeon):
+		if not roteiro.sala.has_point(ponto):return false
+		var proximo:=NavigationServer2D.map_get_closest_point(get_world_2d().navigation_map,to_global(ponto))
+		return proximo.distance_to(to_global(ponto))<4
+	return super(ponto)
 
 func definir_estacao(indice: int) -> void:
 	super(indice)
 	if not _atlas_agua.is_empty(): _material.set_shader_parameter("agua_quadros", _atlas_agua[estacao_atual])
+	_material.set_shader_parameter("agua_tons", TONS_AGUA[clampi(estacao_atual, 0, 3)])
 	if is_instance_valid(_construcoes): _construcoes.definir_estacao(indice)
 	if is_instance_valid(_roda_moinho): _roda_moinho.definir_estacao(estacao_atual)
 	if is_instance_valid(_natureza_lowpoly): _natureza_lowpoly.definir_estacao(estacao_atual)
+	if is_instance_valid(roteiro) and is_instance_valid(roteiro.dungeon):
+		roteiro.dungeon.terreno.get_node("Estacoes").definir_estacao(estacao_atual,true)

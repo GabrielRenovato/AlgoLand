@@ -1,6 +1,6 @@
 extends SceneTree
 ## Valida peças independentes no rig real e fotografa o encaixe no motor.
-const SAIDA = "res://arte/previas/personagens/base_3d/"
+const SAIDA = "res://capturas-roupas-base-3d/"
 var falhas := 0
 var verificacoes := 0
 func _initialize():
@@ -15,7 +15,7 @@ func esperar(n: int):
 func foto(heroi: Node,nome: String):
     await RenderingServer.frame_post_draw
     await RenderingServer.frame_post_draw
-    heroi._vp.get_texture().get_image().save_png(SAIDA+nome+".png")
+    heroi._vp.get_texture().get_image().save_png(ProjectSettings.globalize_path(SAIDA+nome+".png"))
 ## Conta aberturas reais após soldar posições; detecta frestas e costuras não-manifold.
 func conferir_costuras(peca: MeshInstance3D,aberturas: int):
     var dados: Array=peca.mesh.surface_get_arrays(0)
@@ -61,6 +61,7 @@ func conferir_costuras(peca: MeshInstance3D,aberturas: int):
 func rodar():
     assert(OS.get_user_data_dir().get_file().begins_with("AlgoLand testes"))
     assert(DisplayServer.get_name() != "headless")
+    DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(SAIDA))
     root.get_node("Introducao").pular_prologo()
     root.get_node("Transicao").hora_salva = 12.0
     change_scene_to_file("res://cenas/fazenda.tscn")
@@ -72,7 +73,7 @@ func rodar():
     painel._ativar_base_3d(true)
     await esperar(6)
     var heroi = jogador.get_node("HeroiBase3D")
-    conferir(heroi.visible and not jogador.get_node("HeroiRaven").visible,"Um único visual do jogador")
+    conferir(heroi.visible,"Um único visual do jogador")
     conferir(heroi._pecas.size()==4,"Quatro peças independentes")
     var corpo = heroi._modelo.find_child("CorpoBase",true,false)
     var a: Array = corpo.mesh.surface_get_arrays(0)
@@ -182,7 +183,12 @@ func rodar():
     for mascara in [0,1,2,4,8,15]:
         heroi.pecas_visiveis = mascara
         for i in 4:
-            conferir(heroi._pecas[i].visible == ((mascara & (1<<i))!=0),"Visibilidade independente %d/%d" % [mascara,i])
+            var visivel: bool = heroi._pecas[i].visible
+            if i == 3 and heroi.roupas_3d.get("cabelo", "") == "cabelo_curto":
+                # O cabelo curto canônico pertence à camada pintada da cabeça.
+                visivel = heroi._cabeca_referencia.visible and not heroi._cabeca_referencia.material.get_shader_parameter("sem_cabelo")
+                conferir(not heroi._pecas[i].visible,"Cabelo pintado não duplica malha")
+            conferir(visivel == ((mascara & (1<<i))!=0),"Visibilidade independente %d/%d" % [mascara,i])
         await foto(heroi,"pecas_%02d" % mascara)
     heroi.pecas_visiveis = 15
     var duracao: float = heroi._player.get_animation(heroi._nome_animacao("correr")).length
@@ -210,7 +216,7 @@ func rodar():
     conferir(heroi.pecas_visiveis==0 and heroi._pecas.all(func(p):return not p.visible),"Corpo base permanece sem cabelo e roupa opcional")
     painel._reaplicar_personagem()
     await esperar(4)
-    conferir(not jogador.has_node("HeroiBase3D") and jogador.get_node("HeroiRaven").visible,"Restaura visual original")
+    conferir(not jogador.has_node("HeroiBase3D"),"Remove o visual 3D")
     FileAccess.open(SAIDA+"revisao_roupas.json",FileAccess.WRITE).store_string(JSON.stringify({"falhas":falhas,"verificacoes":verificacoes,"duracao_corrida":duracao,"save":OS.get_user_data_dir()},"  "))
     print("ROUPAS BASE 3D: %d verificações, %d falhas; 48 poses de corrida renderizadas." % [verificacoes,falhas])
     current_scene.queue_free()

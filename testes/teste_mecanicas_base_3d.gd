@@ -33,7 +33,7 @@ func posicionar(celula: Vector2i):
     j._sem_acao_ate_ms=0
 func conferir_acao(acao: String):
     conferir(j.esta_em_acao_fazenda and h.visible and h._acao=="fazenda_"+acao,"Ação 3D real: "+acao)
-    conferir(not j.get_node("HeroiRaven").visible and not h._demonstracao,"Sem troca para Raven nem demonstração de combate")
+    conferir(not h._demonstracao,"Sem demonstração de combate")
 func rodar():
     assert(OS.get_user_data_dir().get_file().begins_with("AlgoLand testes"))
     assert(DisplayServer.get_name()!="headless")

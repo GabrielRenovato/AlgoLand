@@ -1,0 +1,18 @@
+{
+  "revisao": "Renderização real no Godot, save isolado",
+  "resolucoes": [
+    "960x900",
+    "576x324",
+    "288x512",
+    "320x324"
+  ],
+  "conferido": [
+    "margens e botões dentro da moldura",
+    "slots, raridade, seleção e atributos reais",
+    "placar com quatro retratos e nomes longos",
+    "rolagem e abas em telas estreitas",
+    "estado sem saque"
+  ],
+  "limites": "Resoluções simuladas; sem teste em aparelho físico.",
+  "relatorio_interface": "/tmp/algoland-harness/execucao-azr3brmb/relatorio.json"
+}

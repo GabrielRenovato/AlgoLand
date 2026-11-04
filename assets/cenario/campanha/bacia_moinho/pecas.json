@@ -1,0 +1,55 @@
+{
+  "moinho": {
+    "grupo": "marcos",
+    "variantes": {
+      "inverno": {
+        "largura_visivel": 359,
+        "pivo": [
+          179.5,
+          243
+        ],
+        "quadro": [
+          359,
+          243
+        ],
+        "textura": "res://assets/cenario/campanha/bacia_moinho/inverno/moinho.png"
+      },
+      "outono": {
+        "largura_visivel": 361,
+        "pivo": [
+          180.5,
+          236
+        ],
+        "quadro": [
+          361,
+          236
+        ],
+        "textura": "res://assets/cenario/campanha/bacia_moinho/outono/moinho.png"
+      },
+      "primavera": {
+        "largura_visivel": 359,
+        "pivo": [
+          179.5,
+          233
+        ],
+        "quadro": [
+          359,
+          233
+        ],
+        "textura": "res://assets/cenario/campanha/bacia_moinho/primavera/moinho.png"
+      },
+      "verao": {
+        "largura_visivel": 362,
+        "pivo": [
+          181.0,
+          235
+        ],
+        "quadro": [
+          362,
+          235
+        ],
+        "textura": "res://assets/cenario/campanha/bacia_moinho/verao/moinho.png"
+      }
+    }
+  }
+}

@@ -1,0 +1,108 @@
+{
+  "carreto": {
+    "grupo": "estrada",
+    "variantes": {
+      "primavera": {
+        "textura": "res://assets/cenario/campanha/estrada_carreteiros/primavera/carreto.png",
+        "quadro": [
+          444,
+          444
+        ],
+        "pivo": [
+          228,
+          440
+        ],
+        "largura_visivel": 416
+      },
+      "verao": {
+        "textura": "res://assets/cenario/campanha/estrada_carreteiros/verao/carreto.png",
+        "quadro": [
+          444,
+          444
+        ],
+        "pivo": [
+          228,
+          440
+        ],
+        "largura_visivel": 416
+      },
+      "outono": {
+        "textura": "res://assets/cenario/campanha/estrada_carreteiros/outono/carreto.png",
+        "quadro": [
+          444,
+          444
+        ],
+        "pivo": [
+          228,
+          440
+        ],
+        "largura_visivel": 416
+      },
+      "inverno": {
+        "textura": "res://assets/cenario/campanha/estrada_carreteiros/inverno/carreto.png",
+        "quadro": [
+          444,
+          444
+        ],
+        "pivo": [
+          228,
+          440
+        ],
+        "largura_visivel": 416
+      }
+    }
+  },
+  "abrigo": {
+    "grupo": "estrada",
+    "variantes": {
+      "primavera": {
+        "textura": "res://assets/cenario/campanha/estrada_carreteiros/primavera/abrigo.png",
+        "quadro": [
+          444,
+          444
+        ],
+        "pivo": [
+          224,
+          377
+        ],
+        "largura_visivel": 399
+      },
+      "verao": {
+        "textura": "res://assets/cenario/campanha/estrada_carreteiros/verao/abrigo.png",
+        "quadro": [
+          444,
+          444
+        ],
+        "pivo": [
+          224,
+          377
+        ],
+        "largura_visivel": 399
+      },
+      "outono": {
+        "textura": "res://assets/cenario/campanha/estrada_carreteiros/outono/abrigo.png",
+        "quadro": [
+          444,
+          444
+        ],
+        "pivo": [
+          224,
+          377
+        ],
+        "largura_visivel": 399
+      },
+      "inverno": {
+        "textura": "res://assets/cenario/campanha/estrada_carreteiros/inverno/abrigo.png",
+        "quadro": [
+          444,
+          444
+        ],
+        "pivo": [
+          224,
+          377
+        ],
+        "largura_visivel": 399
+      }
+    }
+  }
+}

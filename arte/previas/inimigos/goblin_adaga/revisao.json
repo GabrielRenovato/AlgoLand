@@ -1,0 +1,25 @@
+{
+  "estado": "modelo-base-estatico",
+  "folha": "arte/previas/inimigos/goblin_adaga/folha_modelo.png",
+  "resolucao": [
+    2172,
+    724
+  ],
+  "quadros": [
+    "frente/baixo",
+    "perfil/direita",
+    "costas/cima"
+  ],
+  "fundo_alfa": true,
+  "correcoes": [
+    "adaga transferida para a mão anatômica direita na vista de costas",
+    "escala de estudo ajustada para 0,06 para igualar altura do jogador"
+  ],
+  "revisao_motor": "Godot 4.7.2; comparação do personagem ao lado do jogador em captura de renderização. A cena de revisão exibiu fundo cinza, então a captura valida desenho e escala relativa, não integração visual em mapa.",
+  "pendente": [
+    "direções cima e esquerda animadas",
+    "integração de combate"
+  ],
+  "animacoes_direita": "revisao_animacoes_direita.json",
+  "animacoes_baixo": "revisao_animacoes_baixo.json"
+}

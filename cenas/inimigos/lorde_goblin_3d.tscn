@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="PackedScene" path="res://assets/inimigos/lorde_goblin_3d/lorde_goblin.glb" id="1_modelo"]
+[ext_resource type="Script" path="res://codigo/inimigos/modelo_lorde_goblin_3d.gd" id="2_visual"]
+
+[node name="LordeGoblin3D" type="Node3D"]
+script = ExtResource("2_visual")
+
+[node name="Modelo" parent="." instance=ExtResource("1_modelo")]

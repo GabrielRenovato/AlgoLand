@@ -20,6 +20,15 @@ func _iniciar_inventario() -> void:
 		for i in inventario.mochila.size():
 			if inventario.mochila[i] != null and inventario.mochila[i].tipo == tipo:
 				inventario.mochila[i] = null
+	# A campanha mantém só a vara entre os utensílios; não altera a mochila do jogo livre.
+	for i in inventario.mochila.size():
+		if inventario.mochila[i]!=null and inventario.mochila[i].categoria=="ferramenta":
+			inventario.mochila[i]=null
+	if inventario.ouro_campanha<0:inventario.ouro_campanha=maxi(0,DadosJogo.moedas)
+	DadosJogo.moedas=inventario.ouro_campanha
+	inventario.sincronizar_vara()
+	inventario._avisar_mochila()
+	inventario.salvar()
 	_aplicar_modelo()
 	equipamento_alterado.connect(_enviar_estado_ao_modelo)
 	inventario.equipamento_alterado.connect(_ao_modelo_equipamento_alterado)
@@ -41,3 +50,16 @@ func receber_dano(dano: int, forca_knockback := Vector2.ZERO) -> void:
 	super.receber_dano(dano,forca_knockback)
 	var cena := get_parent()
 	if cena.get("registro_run")!=null:cena.registro_run.dano_recebido(maxi(0,antes-hp_atual))
+
+## Saldo da campanha viaja na mesma gravação atômica da mochila.
+func adicionar_moedas(quantidade: int) -> void:
+	var anterior: int=inventario.ouro_campanha
+	inventario.ouro_campanha=maxi(0,anterior+quantidade)
+	if not inventario.salvar():
+		inventario.ouro_campanha=anterior
+		return
+	DadosJogo.moedas=inventario.ouro_campanha
+	atualizar_rotulo_moedas()
+
+func gastar_moedas(quantidade: int) -> void:
+	if quantidade>0 and quantidade<=inventario.ouro_campanha:adicionar_moedas(-quantidade)

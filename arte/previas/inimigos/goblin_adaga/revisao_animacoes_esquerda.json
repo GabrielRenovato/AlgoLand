@@ -1,0 +1,71 @@
+{
+  "escopo": "corrida esquerda e correção da faca trocando de mão",
+  "arte": "image_gen integrado; correções isoladas de cinco quadros após falha da edição de folha inteira",
+  "duracoes_ms": [
+    50,
+    60,
+    40,
+    50,
+    50,
+    60,
+    40,
+    50
+  ],
+  "ciclo_ms": 400,
+  "altura_contato_px": 31.453,
+  "pivo": [
+    320,
+    560
+  ],
+  "escala": 0.071,
+  "fontes_sha256": {
+    "corrida_esquerda_v2.png": "721a7d46359d3e95007a27064ba7265dafe32cd2364b0022d5ca63aa67c2aaa1",
+    "esquerda_pose_2_mao_corrigida.png": "17f159a4280c741749d29d6b2d3351107c243351c27e23f86a30b7116a75a7c0",
+    "esquerda_pose_3_mao_corrigida.png": "e805a2695ab1d58085eeeca25d86278d75fc0eb0767c1163feb5bd38c067126f",
+    "esquerda_pose_4_mao_corrigida.png": "a6d2a6ca2674eb2b503677f1026f81145fb226aca9091c5031117d2b0c767bf4",
+    "esquerda_pose_5_mao_corrigida.png": "3a6f55ae84fcdd63840505679206671223fdb6374e9e6b87083a84db7bf85fc4",
+    "esquerda_pose_6_mao_corrigida.png": "7ddc483acfa7115741f7ade6eb4986ee56181d810fbb8e303f8cd8bee2ca1d6d"
+  },
+  "revisao_visual": {
+    "quadros_inspecionados": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "mao_dominante": "direita no lado distante; esquerda próxima vazia em todos os quadros",
+    "correcoes": "Removidos faca/cabo/pomo do punho próximo; corrigidos braço distante e mãos extras na edição intermediária; ligação ombro-cotovelo-punho revisada nas cinco poses isoladas e nos oito quadros montados.",
+    "direcao": "perfil olhando para esquerda, com nuca/orelha/olho e nariz consistentes",
+    "movimento": "contatos, absorções, fases de voo e fechamento7→0 inspecionados; faca acompanha braço distante durante seu balanço",
+    "motor": "Godot4.7.2; projeto/save exclusivos; corrida esquerda e direita ao lado do player, mais de4 ciclos parados e2 ciclos avançando para esquerda",
+    "metodo": "inspeção de quadros/trajetórias na sequência capturada; não se afirma reprodução do GIF pelo visualizador estático",
+    "evidencias": [
+      "correr_esquerda_contato.png",
+      "correr_esquerda.gif",
+      "no_mapa_esquerda.png",
+      "reproducao_motor_esquerda.gif",
+      "reproducao_motor_esquerda_contato.png",
+      "corrida_deslocamento_motor_esquerda.gif",
+      "deslocamento_motor_esquerda_contato.png"
+    ],
+    "aprovacao_usuario": false
+  },
+  "verificacoes": {
+    "perfil": "selecionado --teste goblin_adaga_animacoes",
+    "ok": 38,
+    "falhas": 0,
+    "relatorio": "/tmp/algoland-harness/execucao-_mzv3jh9/relatorio.json"
+  },
+  "auditoria_referencias": {
+    "falhas_gerais_preexistentes": 8,
+    "falhas_nesta_tarefa": 0,
+    "log": "/tmp/algoland-adaga-referencias-esquerda.log"
+  },
+  "contrato": "arte/fontes/inimigos/goblin_adaga/contrato_animacoes_esquerda.md",
+  "estado": "cancelado_por_solicitacao_do_usuario",
+  "substituicao": "Espelhamento horizontal exato de corrida/guarda/combo da direita, por célula, sem alterar ordem ou tempos."
+}

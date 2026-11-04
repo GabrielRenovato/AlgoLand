@@ -1,0 +1,18 @@
+{
+  "triangulos": 3814,
+  "materiais": 26,
+  "bytes_glb": 432056,
+  "unidade": "metro",
+  "roda": {
+    "no": "Roda",
+    "pivo": [
+      -2.86,
+      1.55,
+      0.2
+    ],
+    "eixo": "X",
+    "animacao": "girar_roda",
+    "ciclo_segundos": 12
+  },
+  "estado": "Modelo completo e prévia próprios."
+}

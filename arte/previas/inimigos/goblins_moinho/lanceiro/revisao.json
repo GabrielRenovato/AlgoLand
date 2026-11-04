@@ -1,0 +1,140 @@
+{
+  "motor": "Godot 4.7.2 Compatibility",
+  "referencia": "arte/fontes/inimigos/goblins_moinho/modelos_v1.png / linha superior",
+  "total_quadros": 48,
+  "animacoes": {
+    "andar_baixo": {
+      "quadros": 6,
+      "duracoes_ms": [
+        100.0,
+        100.0,
+        100.0,
+        100.0,
+        100.0,
+        100.0
+      ],
+      "loop": true,
+      "escala": 0.26
+    },
+    "andar_cima": {
+      "quadros": 6,
+      "duracoes_ms": [
+        100.0,
+        100.0,
+        100.0,
+        100.0,
+        100.0,
+        100.0
+      ],
+      "loop": true,
+      "escala": 0.26
+    },
+    "andar_direita": {
+      "quadros": 6,
+      "duracoes_ms": [
+        100.0,
+        100.0,
+        100.0,
+        100.0,
+        100.0,
+        100.0
+      ],
+      "loop": true,
+      "escala": 0.26
+    },
+    "andar_esquerda": {
+      "quadros": 6,
+      "duracoes_ms": [
+        100.0,
+        100.0,
+        100.0,
+        100.0,
+        100.0,
+        100.0
+      ],
+      "loop": true,
+      "escala": 0.26
+    },
+    "ataque_baixo": {
+      "quadros": 6,
+      "duracoes_ms": [
+        140.0,
+        140.0,
+        90.0,
+        100.0,
+        150.0,
+        180.0
+      ],
+      "loop": false,
+      "escala": 0.26
+    },
+    "ataque_cima": {
+      "quadros": 6,
+      "duracoes_ms": [
+        140.0,
+        140.0,
+        90.0,
+        100.0,
+        150.0,
+        180.0
+      ],
+      "loop": false,
+      "escala": 0.288
+    },
+    "ataque_direita": {
+      "quadros": 6,
+      "duracoes_ms": [
+        140.0,
+        140.0,
+        90.0,
+        100.0,
+        150.0,
+        180.0
+      ],
+      "loop": false,
+      "escala": 0.32
+    },
+    "ataque_esquerda": {
+      "quadros": 6,
+      "duracoes_ms": [
+        140.0,
+        140.0,
+        90.0,
+        100.0,
+        150.0,
+        180.0
+      ],
+      "loop": false,
+      "escala": 0.3
+    }
+  },
+  "exportacao": "8 atlas1536x256; células256x256; pivô128,224; SpriteFrames com tempos próprios. Sem rotação/espelhamento para inventar direções.",
+  "revisao": "Folhas de contato dos48quadros, transições6→1 da caminhada e fases da estocada. SpriteFrames reproduzido no mapa do moinho junto do jogador: dois ciclos de caminhada e um ataque, quatro vistas em paralelo.",
+  "ferramenta_visual": "ferramentas/inimigos/previa_lanceiro_moinho.gd",
+  "save": "isolado /tmp/algoland-revisao-mobs4",
+  "log": "/tmp/algoland-revisao-mobs4/previa-lanceiro-final.log",
+  "geracao": "image_gen incorporado; fontes, estudos, guias e prompts preservados",
+  "correcoes_tecnicas": [
+    "Isolamento por faixas da própria figura evita pontas e pés de quadros vizinhos.",
+    "Registro comum por linha conserva deslocamentos internos da pose.",
+    "Máscara de suporte da caminhada traseira exclui halo externo."
+  ],
+  "erros_de_script": 0,
+  "limites": [
+    "Recurso visual; sem IA, colisão ou aplicação de dano nesta tarefa.",
+    "Mapas continuam com os inimigos ativos anteriores; a substituição por goblins está pendente.",
+    "Pintura gerada ainda apresenta pequenas variações em detalhes de roupa e arma entre as poses.",
+    "Revisão não mede desempenho mobile.",
+    "O encerramento do projeto de prévia registra recursos em uso/leaks no log."
+  ],
+  "atlas_sha256": {
+    "andar_direita.png": "9cbbcba880663cb75d36c5396edf2ff42570cd584e8f02e05f247b239bda3058",
+    "andar_esquerda.png": "6a5ae4b7ace431026a03c88d85fee1f895e48d31cd6729deea29df6d83e95db8",
+    "andar_baixo.png": "f3fb6d75e61a459970d08e24498da3232bf9d7a37a27c1279649879726dcc188",
+    "andar_cima.png": "6d1b7001ac7458bcf2e1ec728dcdac471e3b63370cd8c42f76b4f7c9e0813b0e",
+    "ataque_direita.png": "034e3dc2f7e0f762fd0705125c2ec28a6e72a3375328f0388273d0df9e8263e4",
+    "ataque_esquerda.png": "cf80233f4eae577ff7b9c8f312d04da7128ce8a0f871f451e216761aa6aea674",
+    "ataque_baixo.png": "aa0216fd27b48d9709a24b1c3d2750ecae71fa32f6255caaf872d8b3f5281c15",
+    "ataque_cima.png": "941344ba7bc646aa2a4e1c091b5b4fca04463966227565a47b347873021566da"
+  }
+}

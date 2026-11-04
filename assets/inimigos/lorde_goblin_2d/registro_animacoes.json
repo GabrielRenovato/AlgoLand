@@ -1,0 +1,72 @@
+{
+  "celula": [
+    512,
+    512
+  ],
+  "pivo": [
+    256,
+    450
+  ],
+  "escala": 0.2,
+  "fonte": "martelada_direita_v3_pegada_fechada.png",
+  "resolucao_fonte": [
+    1774,
+    887
+  ],
+  "grade": [
+    4,
+    2
+  ],
+  "duracoes_ms": [
+    100,
+    150,
+    180,
+    50,
+    80,
+    110,
+    160,
+    170
+  ],
+  "loop": false,
+  "impacto_quadro": 4,
+  "impacto_ms": 480,
+  "limiar_alfa": 64,
+  "raizes_fonte": [
+    [
+      228,
+      417
+    ],
+    [
+      234,
+      418
+    ],
+    [
+      235,
+      418
+    ],
+    [
+      229,
+      418
+    ],
+    [
+      194,
+      421
+    ],
+    [
+      193,
+      420
+    ],
+    [
+      198,
+      421
+    ],
+    [
+      213,
+      421
+    ]
+  ],
+  "direcoes": [
+    "direita"
+  ],
+  "registro": "Translacao pelo apoio fisico dos pes; escala identica em todos os quadros."
+}

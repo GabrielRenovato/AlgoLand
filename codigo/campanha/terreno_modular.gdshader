@@ -1,5 +1,6 @@
 shader_type canvas_item;
 #include "res://codigo/campanha/detalhe_solo.gdshaderinc"
+#include "res://codigo/campanha/agua_rio.gdshaderinc"
 uniform sampler2D grama : source_color, filter_linear_mipmap, repeat_enable;
 uniform sampler2D terra : source_color, filter_linear_mipmap, repeat_enable;
 uniform sampler2D raizes : source_color, filter_linear_mipmap, repeat_enable;
@@ -7,6 +8,8 @@ uniform sampler2D pedra : source_color, filter_linear_mipmap, repeat_enable;
 uniform sampler2D agua : source_color, filter_linear_mipmap, repeat_enable;
 uniform sampler2D mapa_raizes : filter_linear, repeat_disable;
 uniform bool pedra_nitida = false;
+// Liga a água da Bacia do Moinho (leito de pedras e correnteza) no lugar da textura de água.
+uniform bool rio_do_moinho = false;
 uniform vec2 origem;
 uniform vec2 tamanho;
 varying vec2 mundo;
@@ -66,6 +69,13 @@ void fragment() {
 	vec3 rio = superficie_continua(agua,corrente);
 	float espuma = pesos.a*(1.0-pesos.a)*0.35;
 	rio = mix(rio,vec3(0.72,0.89,0.84),espuma);
+	if (rio_do_moinho) {
+		vec3 campo = texture(campo_corrente,(mundo-origem)/tamanho).rgb;
+		vec4 agua_cor = vec4(0.0);
+		if (pesos.a > 0.01) agua_cor = agua_rio(mundo,campo,fase_corrente.x,TIME);
+		float margem = smoothstep(0.35,0.62,pesos.a)*(1.0-smoothstep(0.84,0.995,pesos.a));
+		rio = mix(agua_cor.rgb,vec3(0.72,0.89,0.91),margem*(0.10+agua_cor.a*0.50));
+	}
 	vec3 cor = floresta*pesos.r+solo*pesos.g+estrada*pesos.b+rio*pesos.a;
 	cor = detalhar_solo(cor,pesos,mundo);
 	COLOR = vec4(cor,1.0)*tom;

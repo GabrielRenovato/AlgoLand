@@ -7,6 +7,7 @@ const PRINCIPAIS: Array[FontFile] = [
 	preload("res://assets/ui/craftpix-net-420010-pixel-game-user-interface-for-platformer/TinyFontCraftpixPixel.otf"),
 ]
 var falhas := 0
+var pasta_capturas := "/tmp"
 func _initialize() -> void: rodar.call_deferred()
 func conferir(ok: bool, mensagem: String) -> void:
 	if not ok:
@@ -18,6 +19,10 @@ func rodar() -> void:
 	if not OS.get_user_data_dir().get_file().begins_with("AlgoLand testes"):
 		quit(1)
 		return
+	for argumento in OS.get_cmdline_user_args():
+		if argumento.begins_with("--capturas="):
+			pasta_capturas = ProjectSettings.globalize_path(argumento.trim_prefix("--capturas="))
+	DirAccess.make_dir_recursive_absolute(pasta_capturas)
 	await process_frame
 	if not OS.has_feature("web"):
 		for fonte in PRINCIPAIS:
@@ -60,7 +65,7 @@ func rodar() -> void:
 			for x in range(area.position.x,area.end.x):
 				if imagem.get_pixel(x,y).a > 0.5: preenchidos += 1
 		conferir(area.has_area() and preenchidos > 0 and imagem.get_pixelv(area.get_center()).a < 0.5,"O visível e vazado, sem bloco sólido: " + fonte.resource_path)
-		imagem.save_png("/tmp/algoland-fontes-web-glifo-%d.png" % i)
+		conferir(imagem.save_png(pasta_capturas + "/algoland-fontes-web-glifo-%d.png" % i) == OK,"Captura do glifo gravada")
 	vista.queue_free()
 	change_scene_to_file("res://cenas/inicio_do_jogo.tscn")
 	await esperar(40)
@@ -89,7 +94,7 @@ func rodar() -> void:
 				if filho is Label:
 					conferir(filho.size.x <= conta_tela._rolagem.size.x,"Texto da conta respeita largura da rolagem")
 		await RenderingServer.frame_post_draw
-		root.get_texture().get_image().save_png("/tmp/algoland-fontes-web-conta-%dx%d.png" % [tamanho.x,tamanho.y])
+		conferir(root.get_texture().get_image().save_png(pasta_capturas + "/algoland-fontes-web-conta-%dx%d.png" % [tamanho.x,tamanho.y]) == OK,"Captura da conta gravada")
 
 	current_scene.queue_free()
 	current_scene = null

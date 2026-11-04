@@ -1,0 +1,188 @@
+{
+  "ferramenta": "image_gen builtin",
+  "originais": "arte/fontes/campanha/dungeon_comporta",
+  "filtro": "nearest",
+  "grade_mundo": 16,
+  "objetos": {
+    "alavanca": {
+      "fonte": "alavanca.png",
+      "grade_fonte": [
+        4,
+        2
+      ],
+      "recorte_comum": [
+        86,
+        29,
+        359,
+        425
+      ],
+      "quadro": [
+        64,
+        64
+      ],
+      "pivo": [
+        32,
+        56
+      ],
+      "estacoes": 4,
+      "estados": [
+        "fechada",
+        "aberta"
+      ]
+    },
+    "comporta": {
+      "fonte": "comporta.png",
+      "grade_fonte": [
+        4,
+        2
+      ],
+      "recorte_comum": [
+        15,
+        17,
+        430,
+        417
+      ],
+      "quadro": [
+        128,
+        128
+      ],
+      "pivo": [
+        64,
+        112
+      ],
+      "estacoes": 4,
+      "estados": [
+        "fechada",
+        "aberta"
+      ]
+    },
+    "barricada": {
+      "fonte": "barricada_limpa.png",
+      "grade_fonte": [
+        2,
+        2
+      ],
+      "recorte_comum": [
+        26,
+        145,
+        601,
+        545
+      ],
+      "quadro": [
+        64,
+        64
+      ],
+      "pivo": [
+        32,
+        56
+      ],
+      "estacoes": 4,
+      "estados": [
+        "estatico"
+      ]
+    },
+    "suprimentos": {
+      "fonte": "suprimentos.png",
+      "grade_fonte": [
+        2,
+        2
+      ],
+      "recorte_comum": [
+        13,
+        59,
+        618,
+        561
+      ],
+      "quadro": [
+        64,
+        64
+      ],
+      "pivo": [
+        32,
+        56
+      ],
+      "estacoes": 4,
+      "estados": [
+        "estatico"
+      ]
+    },
+    "fogueira_panela": {
+      "fonte": "fogueira_panela.png",
+      "grade_fonte": [
+        4,
+        4
+      ],
+      "recorte_comum": [
+        26,
+        12,
+        289,
+        299
+      ],
+      "quadro": [
+        64,
+        64
+      ],
+      "pivo": [
+        32,
+        56
+      ],
+      "estacoes": 4,
+      "estados": [
+        "estatico"
+      ],
+      "quadros": 4,
+      "fps": 6,
+      "loop": true
+    },
+    "mesa": {
+      "fonte": "mesa.png",
+      "grade_fonte": [
+        2,
+        2
+      ],
+      "recorte_comum": [
+        26,
+        116,
+        602,
+        588
+      ],
+      "quadro": [
+        64,
+        64
+      ],
+      "pivo": [
+        32,
+        56
+      ],
+      "estacoes": 4,
+      "estados": [
+        "estatico"
+      ]
+    },
+    "cadeira": {
+      "fonte": "cadeira.png",
+      "grade_fonte": [
+        2,
+        2
+      ],
+      "recorte_comum": [
+        121,
+        37,
+        506,
+        589
+      ],
+      "quadro": [
+        32,
+        32
+      ],
+      "pivo": [
+        16,
+        28
+      ],
+      "estacoes": 4,
+      "estados": [
+        "estatico"
+      ]
+    }
+  }
+}

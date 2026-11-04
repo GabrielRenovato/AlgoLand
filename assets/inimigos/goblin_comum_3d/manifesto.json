@@ -1,0 +1,20 @@
+{
+  "arquivo": "res://assets/inimigos/goblin_comum_3d/goblin_comum.glb",
+  "fonte": "arte/fontes/inimigos/goblin_comum_3d/goblin_comum.blend",
+  "referencia": "referencia.png",
+  "metodo": "modelagem volumétrica própria em Blender, referência de goblin comum; não usa a malha de chefe",
+  "altura_m": 1.35,
+  "triangulos": 26773,
+  "ossos": 16,
+  "materiais": 16,
+  "animacoes": [
+    "parado"
+  ],
+  "frente_blender": "-Y",
+  "frente_godot": "+Z",
+  "limites": [
+    "Modelo base, mãos vazias.",
+    "Caminhada, ataques, colisões e IA não integrados.",
+    "Não perfilado para mobile."
+  ]
+}

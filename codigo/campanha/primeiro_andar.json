@@ -405,7 +405,7 @@
           "tipo": "oficio",
           "alvo": "bancada_ivo",
           "regiao": "vila",
-          "texto": "Prepare uma peça na bancada de Ivo.",
+          "texto": "Escolha com Ivo uma ligação para reforçar a barreira do pomar.",
           "apos": [
             "estela"
           ]
@@ -425,7 +425,7 @@
           "tipo": "conversar",
           "alvo": "tomas",
           "regiao": "vila",
-          "texto": "Pergunte a Tomás sobre os ataques.",
+          "texto": "Pergunte a Tomás sobre os goblins e os danos no pomar.",
           "apos": []
         },
         {
@@ -433,7 +433,7 @@
           "tipo": "investigar",
           "alvo": "cerca_pomar",
           "regiao": "pomar",
-          "texto": "Examine a cerca partida.",
+          "texto": "Examine a cerca por onde os goblins entraram.",
           "apos": [
             "pedido"
           ]
@@ -485,7 +485,7 @@
           "tipo": "entregar",
           "alvo": "tomas",
           "regiao": "vila",
-          "texto": "Volte a Tomás com a descoberta.",
+          "texto": "Conte a Tomás sobre os goblins e os sulcos sob a cerca.",
           "apos": [
             "canal"
           ]
@@ -553,35 +553,35 @@
           "tipo": "investigar",
           "alvo": "margem_secura",
           "regiao": "moinho",
-          "texto": "Siga as marcas no lodo até a comporta antiga.",
+          "texto": "Investigue as marcas da água na margem da bacia.",
           "apos": []
         },
         {
           "id": "comporta",
-          "tipo": "reparar",
+          "tipo": "investigar",
           "alvo": "comporta_moinho",
           "regiao": "moinho",
-          "texto": "Ajuste os três registros e teste a pressão na comporta.",
+          "texto": "Examine a transmissão externa e descubra onde a água foi represada.",
           "apos": [
             "margem"
           ]
         },
         {
           "id": "eixo",
-          "tipo": "reparar",
+          "tipo": "investigar",
           "alvo": "roda_moinho",
           "regiao": "moinho",
-          "texto": "Confira a transmissão do moinho e o fluxo do canal.",
+          "texto": "Inspecione a roda parada e encontre o acesso às galerias.",
           "apos": [
             "comporta"
           ]
         },
         {
           "id": "dungeon",
-          "tipo": "descobrir",
+          "tipo": "reparar",
           "alvo": "entrada_dungeon",
           "regiao": "moinho",
-          "texto": "Desça pela escadaria central e leia as inscrições antigas.",
+          "texto": "Entre nas galerias, vença o guardião e puxe a alavanca da comporta principal.",
           "apos": [
             "eixo"
           ]
@@ -591,7 +591,7 @@
           "tipo": "conversar",
           "alvo": "nilo",
           "regiao": "vila",
-          "texto": "Volte à vila e conte a Nilo o que encontrou sob o moinho.",
+          "texto": "Volte à vila e conte a Nilo que a água voltou ao moinho.",
           "apos": [
             "dungeon"
           ]
@@ -679,7 +679,7 @@
           "tipo": "conversar",
           "alvo": "ivo",
           "regiao": "vila",
-          "texto": "Fale com Ivo na forja.",
+          "texto": "Peça a Ivo as ferragens do carreto para recuperar na estrada.",
           "apos": []
         },
         {
@@ -767,6 +767,114 @@
           "apos": [
             "pedido"
           ]
+        }
+      ]
+    },
+    "pesca_primeiras_fisgadas": {
+      "nome": "Primeiras fisgadas",
+      "destino": "vila",
+      "opcional": true,
+      "requisitos": [
+        "acolhimento"
+      ],
+      "objetivos": [
+        {
+          "id": "pedido",
+          "tipo": "conversar",
+          "alvo": "nilo",
+          "regiao": "vila",
+          "apos": [],
+          "texto": "Fale com Nilo sobre a pesca."
+        },
+        {
+          "id": "captura_1",
+          "tipo": "pescar",
+          "alvo": "rio_pesca",
+          "regiao": "chegada",
+          "apos": [
+            "pedido"
+          ],
+          "texto": "Pesque nos rios: 1/3 peixes."
+        },
+        {
+          "id": "captura_2",
+          "tipo": "pescar",
+          "alvo": "rio_pesca",
+          "regiao": "chegada",
+          "apos": [
+            "captura_1"
+          ],
+          "texto": "Pesque nos rios: 2/3 peixes."
+        },
+        {
+          "id": "captura_3",
+          "tipo": "pescar",
+          "alvo": "rio_pesca",
+          "regiao": "chegada",
+          "apos": [
+            "captura_2"
+          ],
+          "texto": "Pesque nos rios: 3/3 peixes."
+        },
+        {
+          "id": "relato",
+          "tipo": "conversar",
+          "alvo": "nilo",
+          "regiao": "vila",
+          "apos": [
+            "captura_3"
+          ],
+          "texto": "Volte à vila e conte sobre suas capturas."
+        }
+      ]
+    },
+    "pesca_carpas_da_vila": {
+      "nome": "Carpas da vila",
+      "destino": "vila",
+      "opcional": true,
+      "requisitos": [
+        "pesca_primeiras_fisgadas"
+      ],
+      "objetivos": [
+        {
+          "id": "pedido",
+          "tipo": "conversar",
+          "alvo": "lia",
+          "regiao": "vila",
+          "apos": [],
+          "texto": "Fale com Lia sobre a pesca."
+        },
+        {
+          "id": "captura_1",
+          "tipo": "pescar",
+          "alvo": "rio_pesca",
+          "regiao": "chegada",
+          "apos": [
+            "pedido"
+          ],
+          "texto": "Pesque nos rios: 1/2 carpas.",
+          "especie": "carpa"
+        },
+        {
+          "id": "captura_2",
+          "tipo": "pescar",
+          "alvo": "rio_pesca",
+          "regiao": "chegada",
+          "apos": [
+            "captura_1"
+          ],
+          "texto": "Pesque nos rios: 2/2 carpas.",
+          "especie": "carpa"
+        },
+        {
+          "id": "relato",
+          "tipo": "conversar",
+          "alvo": "lia",
+          "regiao": "vila",
+          "apos": [
+            "captura_2"
+          ],
+          "texto": "Volte à vila e conte sobre suas capturas."
         }
       ]
     }

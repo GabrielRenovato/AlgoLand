@@ -49,6 +49,7 @@ var moedas_forja: int:
 var _rng_ascensao := RandomNumberGenerator.new()
 
 var saque_campanha: Dictionary = {}
+var ouro_campanha := -1
 var mochila: Array = []
 var equipados: Dictionary = {}
 ## A arma selecionada ocupa uma casa da mochila/barra. O item é guardado em
@@ -272,6 +273,7 @@ func gastar_moeda_forja(quantidade: int = 1) -> bool:
 	return true
 
 func _limpar() -> void:
+	ouro_campanha=-1
 	saque_campanha = {}
 	linhas_liberadas=0
 	armas_permanentes_entregues.clear()
@@ -664,7 +666,7 @@ func dados_save() -> Dictionary:
 		var item = equipados[slot]
 		dados_equipados[slot] = item.para_dict() if item != null else null
 	return {"mochila": fotografar_mochila(), "equipados": dados_equipados, "mao": celulas_da_mao,"linhas_liberadas":linhas_liberadas,
-		"armas_permanentes_entregues": armas_permanentes_entregues, "saque_campanha":saque_campanha}
+		"armas_permanentes_entregues": armas_permanentes_entregues, "saque_campanha":saque_campanha,"ouro_campanha":ouro_campanha}
 
 static func gravar_dados(caminho: String, dados: Dictionary) -> bool:
 	var arquivo := FileAccess.open(caminho + ".tmp", FileAccess.WRITE)
@@ -701,6 +703,7 @@ func carregar(caminho: String = "") -> bool:
 	if not dados is Dictionary:
 		return false
 	_limpar()
+	ouro_campanha=maxi(-1,int(dados.get("ouro_campanha",-1)))
 	if dados.get("saque_campanha") is Dictionary: saque_campanha=dados.saque_campanha.duplicate(true)
 	var dados_mochila = dados.get("mochila", [])
 	linhas_liberadas=clampi(int(dados.get("linhas_liberadas",0)),0,ONDAS_LINHA_EXTRA.size())

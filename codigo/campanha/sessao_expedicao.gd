@@ -47,7 +47,7 @@ func enviar_chat(texto: String) -> bool:
 	return true
 
 func solicitar(acao: String, id: String, sala := "") -> void:
-	if not id in ["chegada","estrada","vila","pomar"]: return
+	if id=="vila" or not id in preload("res://codigo/campanha/catalogo_campanha.gd").REGIOES_HABILITADAS: return
 	regiao = id
 	_pedir(representante,{"t":"coop_"+acao,"campanha":CAMPANHA,"regiao":id,"codigo":sala,"perfil":_perfil(representante)})
 

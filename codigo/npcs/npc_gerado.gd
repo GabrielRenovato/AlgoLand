@@ -18,6 +18,7 @@ var distancia_andada:=0.0
 var _direcao:=0
 var _alvo:=0
 var _espera:=0.0
+var _pausa:=1.2
 var conversando:=false
 var _aviso:VisibleOnScreenNotifier2D
 var _agente:NavigationAgent2D
@@ -80,7 +81,7 @@ func _physics_process(delta: float) -> void:
 		var destino:=rota[_alvo]
 		if global_position.distance_to(destino)<7:
 			_alvo=(_alvo+1)%rota.size()
-			_espera=1.2
+			_espera=_pausa*randf_range(.7,1.3)
 			if _recolher:
 				visible=false
 				collision_layer=0
@@ -129,12 +130,17 @@ func atualizar_rotina(hora: float,inicial: bool=false) -> void:
 	falas_atividade=periodo.falas
 	if periodo.has("velocidade"):velocidade=float(periodo.velocidade)
 	_recolher=periodo.get("em_casa",false)
+	_pausa=float(periodo.get("pausa",1.2))
 	rota=periodo.rota
 	_alvo=0
-	_espera=0
+	# Ao entrar na vila cada morador sai num instante diferente, para não andarem em fila;
+	# nas trocas de atividade ao longo do dia ele parte na hora.
+	_espera=randf_range(.3,2.5) if inicial else 0.0
 	visible=true
 	collision_layer=32
 	if inicial:
 		position=rota[0]
+		# Quem já nasce no primeiro ponto parte para o seguinte, sem cumprir a pausa de chegada.
+		if rota.size()>1:_alvo=1
 		visible=not _recolher
 		collision_layer=32 if visible else 0

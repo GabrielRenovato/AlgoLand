@@ -1,0 +1,20 @@
+{
+	"animacao": "parado",
+	"importacao": true,
+	"limites_max": [
+		1.44474315643311,
+		3.55649995803833,
+		0.72900003194809
+	],
+	"limites_min": [
+		-1.96674633026123,
+		0.0,
+		-0.565340340137482
+	],
+	"motor": "4.7.2-stable (flathub)",
+	"quadros_capturados": 17,
+	"reproducao_segundos": 6.5,
+	"saves": "projeto mínimo sem autoloads",
+	"triangulos": 66632,
+	"vistas": 8
+}

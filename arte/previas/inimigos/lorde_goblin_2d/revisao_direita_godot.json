@@ -1,0 +1,10 @@
+{
+  "direcao": "direita",
+  "capturas": "/tmp/algoland-lorde-direita-k_02xtn3",
+  "quadros": 8,
+  "golpes": 2,
+  "efeitos": true,
+  "passo_efeitos_ms": 30,
+  "save_isolado": "/tmp/algoland-lorde-direita-k_02xtn3/dados",
+  "log": "/tmp/algoland-lorde-direita-k_02xtn3/godot.log"
+}

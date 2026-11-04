@@ -75,7 +75,7 @@ func drop_recolhido(id: String, item: Resource) -> void:
 	_drops[id].recolhido=true
 
 func _process(delta: float) -> void:
-	if regiao.is_empty() or not is_instance_valid(cena.interface):return
+	if regiao.is_empty() or regiao=="vila" or not is_instance_valid(cena.interface):return
 	var livre: bool=cena.interface._telas_abertas.is_empty() and not get_tree().get_meta("cinema_ativo",false) and not cena.jogador.estaMorto
 	if not concluida and livre:tempo+=delta
 	var autoridade: bool=cena.sessao==null or not cena.sessao.ativo or cena.sessao.sou_host()

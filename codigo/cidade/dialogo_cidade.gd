@@ -567,7 +567,7 @@ func _servico_dialogo(id: String, morador: Dictionary) -> void:
 	var contratado := not id in Progresso.MORADORES or Progresso.tem_morador(id)
 	match morador["servico"]:
 		"forja":
-			_botao("SOBRE A FORJA", func(): _falar("Aprenda as receitas da arena e traga os materiais na mochila ate a bigorna. Voce entrega os materiais ao encomendar; cada arma leva de um a tres dias do nosso calendario. A bigorna mostra a data para voltar e retirar. Atendo das 8h as 18h, exceto quarta."))
+			_botao("SOBRE A FORJA", func(): _falar("O caminho é: consiga um pergaminho de receita na arena, use-o pela mochila para aprender, reúna os materiais e consulte a receita na forja para encomendar. Eu consumo os materiais no pedido; a arma fica pronta em um a três dias. A bigorna mostra a data para voltar e retirar. Use a mochila para equipar a arma. Atendo das 8h às 18h, exceto quarta."))
 		"mercante":
 			_botao("SEMENTES", _abrir_servico.bind("mercante"))
 			_botao("VENDER PEIXES",_abrir_submenu.bind("peixes"))

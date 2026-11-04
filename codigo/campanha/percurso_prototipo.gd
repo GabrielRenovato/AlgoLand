@@ -11,23 +11,32 @@ const Servicos := preload("res://codigo/campanha/servicos_vila.gd")
 var moradores:Dictionary={}
 var hora_da_cidade:=10.0
 var _visitas_moradores:Dictionary={}
+var _reacoes_moradores:Dictionary={}
 var _morador_conversando:Node
 var _treino: Node
 var _escolha_ativa := ""
 var _recompensados: Array = []
 var _nome_servico := ""
 const FALAS_PASSOS := {
-	"ferro_que_ainda_serve:pedido": "O eixo do carreto cedeu, mas o ferro das cintas ainda presta. Se achar as ferragens na estrada, traga para mim. Bom metal não pode enferrujar à beira do caminho.",
-	"ferro_que_ainda_serve:entrega": "Cintas, pinos e até um aro inteiro. Dá para fazer coisa boa com isso. Fique com uma parte e com a receita de luvas que eu guardava.",
+	"pesca_primeiras_fisgadas:pedido":"Os rios da clareira têm peixe o ano inteiro. Leve sua vara, segure o ataque olhando para a água e solte para lançar. Pesque três peixes e volte para contar como foi. Pago 30 de ouro pelo relato.",
+	"pesca_primeiras_fisgadas:relato":"Três boas fisgadas! Continue praticando. Aqui estão os 30 de ouro; os peixes continuam com você.",
+	"pesca_carpas_da_vila:pedido":"Quero saber se as carpas voltaram ao rio. Pesque duas carpas e me traga notícias. Tenho 50 de ouro pelo serviço; você pode ficar com os peixes.",
+	"pesca_carpas_da_vila:relato":"As carpas voltaram! Obrigada pela notícia. Aqui estão seus 50 de ouro.",
+	"acolhimento:dara": "Você veio pela estrada? Nosso trabalhador ainda não voltou. Me diga por onde passou e por onde voltaria: é assim que eu sei quais caminhos ainda estão de pé.",
+	"acolhimento:retorno": "Vivo, então. Vou buscá-lo pelo caminho que você indicou e marcar os dois trechos para a ronda. Obrigada por voltar para contar.",
+	"acolhimento:lia": "Você tem cama e comida aqui, sem dever nada por isso. Mas a vila anda apertada: cerca rachando, mantimento sumindo. Fale com o Tomás, ele sabe dizer onde começou.",
+	"pomar_sulcos:pedido": "Alguém leva minha colheita e eu não sei dizer quem. Veja a cerca partida, o canal e o chão revirado. Se achar pegadas, não vá atrás sozinho: me traga o que viu.",
+	"ferro_que_ainda_serve:pedido": "O eixo do carreto cedeu, mas o ferro das cintas ainda presta. Recupere as ferragens na Estrada dos Carreteiros e traga para mim. Vou separar uma parte para você e lhe dar um projeto de luvas.",
+	"ferro_que_ainda_serve:entrega": "Cintas, pinos e até um aro inteiro. Separei 3 ferros e 2 madeiras para você, além do projeto de luvas. Para fabricar: abra a mochila, use o pergaminho da receita e depois consulte essa arma na forja da cidade. A receita fica aprendida; os materiais são consumidos quando encomendar. Cada peça leva de um a três dias para ficar pronta.",
 	"quem_ficou_para_tras:pedido": "O trabalhador que você achou mal comeu desde o ataque. Leve estes suprimentos ao abrigo da estrada, veja como ele está e depois me conte.",
 	"quem_ficou_para_tras:relato": "As raízes subiram por baixo, sem barulho? Então é isso que Tomás vê no pomar. Obrigada por ir até lá. Leve uns curativos para a próxima saída.",
-	"defesa_da_vila:aviso": "Os sulcos do pomar chegam até as nossas cercas. Se as raízes vierem, vêm pelo sul, pela entrada. Leve a ligação de Ivo e monte a barreira na rua. Eu aviso o povo.",
-	"defesa_da_vila:reparo": "A entrada rachou, mas a madeira está aqui. Em um dia a rua volta a ser rua. Obrigado por segurar a linha.",
-	"moinho_vazao:margem": "A placa da margem explica o circuito: entrada aberta, desvio fechado e retorno aberto. Ajuste os registros e teste a manivela da comporta.",
-	"moinho_vazao:comporta": "A comporta abriu. A água voltou ao moinho e colocou a roda em movimento.",
-	"moinho_vazao:eixo": "A transmissão gira com a roda. As marcas do eixo apontam para uma escadaria escondida sob as pedras centrais.",
-	"moinho_vazao:dungeon": "As inscrições mostram que o canal abastecia as raízes sob a vila antes da construção do moinho. Leve essa descoberta a Nilo.",
-	"moinho_vazao:relato": "Uma escadaria sob o moinho? Então essa água passava por uma estrutura muito mais antiga. Vou avisar Osvaldo e preparar a próxima expedição.",
+	"defesa_da_vila:aviso": "Seu relato bate com o que o Tomás viu. Mas agora os sulcos chegam à entrada sul, e os rebentos vêm primeiro. Leve a ligação do Ivo e monte a barreira; eu aviso o povo.",
+	"defesa_da_vila:reparo": "A entrada rachou, mas dá para consertar: temos madeira. O Nilo viu movimento na margem do moinho. Se for lá, siga a trilha da água; a entrada de manutenção fica junto da roda.",
+	"moinho_vazao:margem": "A marca nas pedras mostra até onde a água chegava. Agora ela está represada sob a bacia. Pegadas de goblins e marcas de sacos arrastados seguem para a transmissão antiga.",
+	"moinho_vazao:comporta": "O comando externo foi calçado com cunhas. Há pegadas de goblins ao redor. A transmissão segue sob a praça; será preciso alcançar a comporta principal pelas galerias.",
+	"moinho_vazao:eixo": "A roda está inteira, mas sem corrente não pode girar. As marcas de manutenção levam à escadaria central. Os goblins ocuparam as galerias que dão acesso à alavanca.",
+	"moinho_vazao:dungeon": "A alavanca destravou a comporta principal. A corrente voltou ao moinho. Retorne pela entrada e leve a notícia a Nilo.",
+	"moinho_vazao:relato": "Ouvi a roda daqui! Com a água de volta, podemos moer o grão que restou. Então os goblins estavam acampados nas galerias, guardando a comporta. Vou avisar a Dara para vigiar a entrada enquanto Osvaldo confere o mecanismo.",
 	"antes_de_sair_outra_vez:pedido": "Antes de sair outra vez, quero ver você bloquear, esquivar e responder no tempo. Se o treino sair limpo, a estrada não pega ninguém de surpresa. Quando quiser, peça o boneco.",
 }
 const DadosCidade := preload("res://codigo/cidade/dados_cidade.gd")
@@ -57,14 +66,16 @@ var carregamento: Node
 var registro_run: Node
 var saque_inicial: Node
 var cinema_cidade: Node
+var lobby_cidade: Node2D
 var vigilia_remota := -1 ## -1 desconhecido; 0 sem vigília no grupo; 1 em andamento (informado pelo anfitrião)
 var _ultima_posicao := Vector2(INF,INF)
+# Carrega apenas a região visitada; as demais podem conter texturas e modelos grandes.
 const TERRENOS := {
-	"chegada":preload("res://cenas/campanha/terreno_chegada.tscn"),
-	"estrada":preload("res://cenas/campanha/terreno_estrada.tscn"),
-	"vila":preload("res://cenas/campanha/terreno_vila.tscn"),
-	"pomar":preload("res://cenas/campanha/terreno_pomar.tscn"),
-	"moinho":preload("res://cenas/campanha/terreno_moinho.tscn")}
+	"chegada":"res://cenas/campanha/terreno_chegada.tscn",
+	"estrada":"res://cenas/campanha/terreno_estrada.tscn",
+	"vila":"res://cenas/campanha/terreno_vila.tscn",
+	"pomar":"res://cenas/campanha/terreno_pomar.tscn",
+	"moinho":"res://cenas/campanha/terreno_moinho.tscn"}
 
 func equipamentos_encontrados(permanentes := false) -> Array:
 	var permitidos := []
@@ -116,7 +127,7 @@ func _recomecar() -> void:
 
 
 func _ready() -> void:
-	if not OS.get_user_data_dir().get_file().begins_with("AlgoLand testes"):
+	if not OS.get_user_data_dir().get_file().begins_with("AlgoLand testes") and get_tree().root.get_node("Saves").mundo != "campanha":
 		push_error("Abra o protótipo pelo launcher isolado.")
 		get_tree().quit(1)
 		return
@@ -134,6 +145,13 @@ func _ready() -> void:
 	if get_tree().has_meta("campanha_destino"):
 		destino = str(get_tree().get_meta("campanha_destino"))
 		get_tree().remove_meta("campanha_destino")
+	# O launcher pode abrir direto numa região (--destino=vila), sem passar pelo seletor.
+	for argumento in OS.get_cmdline_user_args():
+		if argumento.begins_with("--destino=") and Controlador.Catalogo.dados().destinos.has(argumento.trim_prefix("--destino=")):
+			destino = argumento.trim_prefix("--destino=")
+	# Saves e atalhos antigos podem apontar para estágios agora fechados.
+	if not destino in Controlador.Catalogo.REGIOES_HABILITADAS:
+		destino = "vila" if controlador.progresso.acesso_liberado("vila") else "chegada"
 	# Cobre a montagem do mapa: antes aparecia um fundo cinza com o personagem. Os testes automáticos (--script) não a usam.
 	if not "--script" in OS.get_cmdline_args() or "--carregamento" in OS.get_cmdline_user_args():
 		carregamento = preload("res://codigo/campanha/carregamento_campanha.gd").new()
@@ -182,7 +200,7 @@ func _ready() -> void:
 	if carregamento != null:
 		carregamento.definir_progresso(0.95, "QUASE PRONTO")
 		await carregamento.finalizar()
-		if is_instance_valid(jogador) and not jogador.estaMorto and not cinema_cidade_ativa(): jogador.desabilitar_todas_acoes(false)
+		if is_instance_valid(jogador) and not jogador.estaMorto and not cinema_cidade_ativa() and not bool(get_tree().get_meta("cinema_ativo",false)): jogador.desabilitar_todas_acoes(false)
 
 func cinema_cidade_ativa() -> bool:
 	return is_instance_valid(cinema_cidade) and cinema_cidade.ativa
@@ -192,13 +210,15 @@ func objetivo_de_campanha() -> Dictionary:
 	var texto: String = objetivo.get("texto","Percurso disponível concluído. Volte ao mapa para revisitar as regiões; a próxima etapa está em preparação.")
 	if regiao == "moinho" and objetivo.get("alvo","") == "comporta_moinho" and is_instance_valid(terreno.roteiro):
 		texto = terreno.roteiro.instrucao_do_puzzle()
-	if regiao == "chegada" and controlador.progresso.missao_concluida("sobreviver_queda"):
+	if regiao == "moinho" and is_instance_valid(terreno.roteiro) and terreno.roteiro.dentro:
+		texto = terreno.roteiro.instrucao_interna()
+	if regiao == "chegada" and controlador.progresso.missao_concluida("sobreviver_queda") and (objetivo.is_empty() or objetivo.regiao!=regiao):
 		texto = "Clareira concluída! Use a saída para seguir pela Estrada dos Carreteiros."
 		return {"id":"sobreviver_queda","fase":"concluida","texto":texto,"titulo":"Clareira concluída","andares":true}
 	if not objetivo.is_empty() and objetivo.regiao != controlador.regiao:
 		texto += " Vá para " + Controlador.Catalogo.dados().destinos[objetivo.regiao].nome + "."
 	return {"id":objetivo.get("missao","defesa_da_vila"),"fase":objetivo.get("id","preparacao"),
-		"texto":texto,"titulo":"Primeira Raiz","andares":true}
+		"texto":texto,"titulo":"Primeira Raiz","andares":true,"secundaria":not objetivo.is_empty() and bool(controlador._catalogo.missoes[objetivo.missao].opcional)}
 
 func _avisar(texto: String) -> void:
 	hud.anunciar(texto,"",3.0)
@@ -220,7 +240,7 @@ func _resposta(id: String, erro: Error) -> void:
 		_mostrar_conclusao("CLAREIRA CONCLUÍDA", "Você encontrou seus equipamentos e sobreviveu à queda. O caminho está livre. Continue pelo mapa regional até a Estrada dos Carreteiros.", "estrada")
 		return
 	if id == "tomas" and controlador.progresso.missao_concluida("pomar_sulcos"):
-		_mostrar_conclusao("PERCURSO CONCLUÍDO", "Você investigou o pomar e trouxe a descoberta à vila. Lia quer falar sobre os sulcos que chegam à vila: a primeira defesa começa por ela. Seu progresso foi salvo; você pode revisitar as regiões pelo mapa.", "vila")
+		_mostrar_conclusao("PERCURSO CONCLUÍDO", "Tomás recebeu seu relato: goblins saqueiam o pomar, e as raízes atravessam a cerca por baixo. Lia precisa de ajuda com os sulcos que chegaram à entrada da vila. Fale com ela para preparar a defesa. Seu progresso foi salvo.", "vila")
 		return
 	if id in ["dara","trabalhador","lia","estela","tomas"]:
 		var fala := _fala(id)
@@ -255,9 +275,22 @@ func _descansar() -> Error:
 	_avisar("Você descansa um pouco. Vida e fôlego recuperados.")
 	return OK
 
-## A vila comenta o que o jogador já fez; aparece na segunda conversa de cada morador.
+## Cada novidade da campanha entra uma vez nas conversas seguintes de cada morador.
 func _reacao(id: String) -> String:
 	var pomar:bool=controlador.progresso.missao_concluida("pomar_sulcos")
+	if controlador.progresso.missao_concluida("moinho_vazao"):
+		match id:
+			"dara":return "Nilo contou dos goblins nas galerias. Vou manter uma ronda na entrada; ninguém vai descer sozinho para fazer reparos."
+			"lia":return "A água voltou. Agora precisamos levar o grão ao moinho com escolta; ainda há goblins nas trilhas."
+			"nilo":return "A corrente voltou a levar folhas até minhas redes. Depois dos goblins nas galerias, até esse trabalho dá gosto."
+			"osvaldo":return "Vou revisar as cunhas e a transmissão que os goblins travaram. Com a entrada vigiada, consigo levar ferramentas."
+			"cora":return "Ouvi a roda do moinho! Quando chegar farinha nova, guardo um pão para você."
+	if pomar:
+		match id:
+			"tomas":return "Agora sei por onde a colheita saía. A cerca fecha aquele caminho, mas preciso de vigia antes de mandar o pessoal de volta."
+			"ivo":return "Se tem lâmina solta no pomar, escudo com correia frouxa é convite. Estou conferindo as bordas antes de a ronda sair."
+			"nilo":return "Se o pomar tinha ladrão, o moinho também pode ter. Os goblins de machado que vi na margem não estavam só de passagem: as marteladas vinham de baixo da bacia."
+			"estela":return "Seu relato distingue pegadas de goblins dos sulcos das raízes. Ainda não sabemos se há alguma ligação entre eles. Quero examinar os sinais antes de afirmar isso."
 	if controlador.progresso.missao_concluida("defesa_da_vila"):
 		match id:
 			"lia":return "A rua ficou de pé. Já mandei buscar estacas novas para o sul, e o povo dorme melhor."
@@ -303,10 +336,10 @@ func _usar_bancada() -> Error:
 	var escolhida: String=controlador.progresso.preparo
 	var paginas: Array[String] = []
 	if not escolhida.is_empty():
-		paginas.append("A %s está pronta para a barreira do pomar. Se o teste pedir reforço, é ela que vai." % Preparos.texto(escolhida,"nome").to_lower())
+		paginas.append("A %s está pronta para reforçar a barreira do pomar. Se o teste pedir reforço, é ela que vai." % Preparos.texto(escolhida,"nome").to_lower())
 		interface._telas.introducao.iniciar(paginas,"Bancada de Ivo","ferreiro")
 	else:
-		paginas.append("Chegou na hora. Tomás quer testar uma barreira no pomar e a ligação ainda está por fazer. Posso entregar uma hoje.")
+		paginas.append("Esta bancada prepara uma ligação para reforçar a barreira do pomar; não fabrica armas. Escolha uma opção. A ligação é entregue pronta, sem gastar os materiais da mochila.")
 		for id in Preparos.ids():
 			paginas.append("%s: %s" % [Preparos.texto(id,"nome"),Preparos.texto(id,"oferta")])
 		paginas.append("Qual delas você leva?")
@@ -463,14 +496,26 @@ func _livre(posicao: Vector2) -> Vector2:
 	# Os pontos do layout já têm áreas livres. A navegação só deve corrigir
 	# obstáculos, sem colapsar entradas/interações antes da sincronização do mapa.
 	if terreno.ponto_seguro(posicao): return posicao
+	# Corrige junto ao objeto: o ponto de retorno pode estar em outra interação.
+	var mapa := get_world_2d().navigation_map
+	for raio in range(8, 129, 8):
+		for passo in 16:
+			var candidato := posicao+Vector2.DOWN.rotated(TAU*passo/16.0)*raio
+			if not terreno.ponto_seguro(candidato):continue
+			var navegavel := NavigationServer2D.map_get_closest_point(mapa,candidato)
+			if candidato.distance_to(navegavel)<=8 and terreno.ponto_seguro(navegavel) \
+					and not NavigationServer2D.map_get_path(mapa,_ponto,navegavel,true).is_empty():return navegavel
 	var proximo := NavigationServer2D.map_get_closest_point(get_world_2d().navigation_map,posicao)
 	return proximo if terreno.ponto_seguro(proximo) else _ponto
 
 func abrir_regiao(id: String, nova_instancia := true) -> Error:
+	if id=="vila":
+		nova_instancia=false
 	var erro := controlador.definir_regiao(id)
 	if erro != OK:
 		return erro
 	if not TERRENOS.has(id): return ERR_UNAVAILABLE
+	if id=="vila" and sessao!=null and sessao.ativo:sessao.sair()
 	# Uma reentrada encerra as câmeras e efeitos da instância anterior antes de criar o cenário.
 	if cinema_cidade_ativa(): cinema_cidade.cancelar()
 	for no in get_children():
@@ -518,13 +563,21 @@ func abrir_regiao(id: String, nova_instancia := true) -> Error:
 	if is_instance_valid(terreno):
 		remove_child(terreno)
 		terreno.queue_free()
-	terreno = TERRENOS[id].instantiate()
+	terreno = (load(TERRENOS[id]) as PackedScene).instantiate()
 	terreno.name = "Terrains"
 	add_child(terreno)
 	if terreno.has_signal("abertura_bau_concluida"):
 		terreno.abertura_bau_concluida.connect(_ao_bau_aberto)
 		if controlador.progresso.bau_resgate_aberto: terreno.restaurar_bau_aberto()
 	limites = terreno.limites
+	if is_instance_valid(lobby_cidade):
+		remove_child(lobby_cidade)
+		lobby_cidade.queue_free()
+		lobby_cidade=null
+	if id=="vila":
+		lobby_cidade=preload("res://codigo/campanha/lobby_cidade_campanha.gd").new()
+		add_child(lobby_cidade)
+
 	var camera: Camera2D = jogador.get_node("Camera2D")
 	camera.limit_left = int(limites.position.x)
 	camera.limit_top = int(limites.position.y)
@@ -550,8 +603,8 @@ func abrir_regiao(id: String, nova_instancia := true) -> Error:
 		"cerca_pomar":["Cerca partida","investigar",""],"raiz_pomar":["Raízes junto aos brotos","investigar",""],
 		"sulco_pomar":["Sulcos no chão","investigar",""],"barreira_pomar":["Barreira de teste","reparar",""],
 		"canal_pomar":["Canal sob a barreira","descobrir",""],
-		"margem_secura":["Margem com pouca água","investigar",""],"comporta_moinho":["Comporta travada","reparar",""],
-		"roda_moinho":["Eixo do moinho","reparar",""],"entrada_dungeon":["Entrada da manutenção antiga","descobrir",""],
+		"margem_secura":["Marcas da água","investigar",""],"comporta_moinho":["Transmissão externa","investigar",""],
+		"roda_moinho":["Roda sem corrente","investigar",""],"entrada_dungeon":["Entrada das galerias","reparar",""],
 		"registro_entrada":["Registro de entrada","ajustar",""],
 		"registro_desvio":["Registro de desvio","ajustar",""],
 		"registro_retorno":["Registro de retorno","ajustar",""],
@@ -562,16 +615,25 @@ func abrir_regiao(id: String, nova_instancia := true) -> Error:
 		var detalhe: Array = detalhes[alvo]
 		_alvo(alvo,detalhe[0],Vector2(pos[0],pos[1]),detalhe[1],detalhe[2])
 	if id == "moinho":
-		terreno.roteiro = preload("res://codigo/campanha/roteiro_bacia.gd").new()
+		terreno.roteiro = load("res://codigo/campanha/roteiro_bacia.gd").new()
 		terreno.add_child(terreno.roteiro)
 		terreno.roteiro.iniciar(self, terreno)
-	if id=="vila":_criar_moradores()
+	if id=="vila":
+		_criar_moradores()
+		_alvo("leilao","Leilão dos aventureiros",Vector2(-456,-72),"leilao","")
+	if id=="chegada":
+		var margem := preload("res://codigo/campanha/pesca_rios.gd").margem_proxima(terreno,jogador.position)
+		if margem.is_finite():
+			_alvo("rio_pesca","Margem de pesca",margem,"pescar","")
 	if is_instance_valid(encontro): encontro.queue_free()
 	encontro = load("res://codigo/campanha/defesa_vila.gd" if id=="vila" else "res://codigo/campanha/vigilia_chegada.gd").new()
 	encontro.cena = self
 	add_child(encontro)
 	_preparar_criatura()
-	if sessao!=null and sessao.ativo:
+	if is_instance_valid(mundo_online):
+		mundo_online.queue_free()
+		mundo_online=null
+	if id!="vila" and sessao!=null and sessao.ativo:
 		if get_tree().has_meta("campanha_estacao"): terreno.definir_estacao(int(get_tree().get_meta("campanha_estacao")))
 		if is_instance_valid(mundo_online): mundo_online.queue_free()
 		mundo_online = preload("res://codigo/campanha/mundo_expedicao.gd").new()
@@ -649,8 +711,9 @@ func _preparar_criatura() -> void:
 	if equipamentos_encontrados().size() < 2: return
 	if not _rebentos_preparados:
 		_rebentos_preparados=true
+		var cena_rebento := load("res://cenas/inimigos/rebento_raizes.tscn") as PackedScene
 		for ponto in terreno.dados.get("rebentos",[]):
-			var rebento := preload("res://cenas/inimigos/rebento_raizes.tscn").instantiate()
+			var rebento: Node2D = cena_rebento.instantiate()
 			rebento.position=_livre(Vector2(ponto[0],ponto[1]))
 			rebento.vida=18
 			rebento.dano=2
@@ -662,7 +725,7 @@ func _preparar_criatura() -> void:
 	# O rebento que vigia a passagem só aparece depois de examinar o posto de resgate (mesmo lugar do baú).
 	if not "resgate" in controlador.progresso.objetivos_cumpridos("sobreviver_queda"): return
 	if controlador.progresso.missao_concluida("sobreviver_queda") or "combate" in controlador.progresso.objetivos_cumpridos("sobreviver_queda"): return
-	inimigo = preload("res://cenas/inimigos/rebento_raizes.tscn").instantiate()
+	inimigo = load("res://cenas/inimigos/rebento_raizes.tscn").instantiate()
 	var pos: Array = terreno.dados.inimigo
 	inimigo.position = _livre(Vector2(pos[0],pos[1]))
 	inimigo.vida = 18
@@ -676,7 +739,7 @@ func _povoar_goblins(id_terreno: int) -> void:
 	await get_tree().physics_frame
 	await get_tree().physics_frame
 	if regiao != "pomar" or not is_instance_valid(terreno) or terreno.get_instance_id()!=id_terreno:return
-	goblins_espalhados=preload("res://codigo/campanha/goblins_pomar.gd").povoar(self)
+	goblins_espalhados=load("res://codigo/campanha/goblins_pomar.gd").povoar(self)
 
 func _vencer_criatura() -> void:
 	var erro := controlador.interagir("vencer", "criatura_inicial")
@@ -732,6 +795,9 @@ func interagir_proximo() -> Error:
 	if _ocupado or _frame_ultima_interacao==Engine.get_process_frames() or not interface._telas_abertas.is_empty() or jogador.estaMorto:
 		return ERR_BUSY
 	var id := alvo_proximo()
+	if id=="rio_pesca":
+		_avisar("Selecione a vara e segure o ataque olhando para o rio.")
+		return ERR_UNAVAILABLE
 	if id.is_empty():
 		return ERR_UNAVAILABLE
 	if regiao=="estrada" and is_instance_valid(terreno.roteiro):
@@ -752,6 +818,9 @@ func interagir_proximo() -> Error:
 	if id in ["espada_inicial","escudo_inicial"] and not jogador.inventario.tem_espaco():
 		_avisar("Libere espaço na mochila.")
 		return ERR_OUT_OF_MEMORY
+	if id=="leilao":
+		EventosJogo.abrir_tela_de(jogador,"mercado")
+		return OK
 	if moradores.has(id):return _conversar_morador(id)
 	if id=="descanso":return _descansar()
 	if id=="barricada_vila":return _usar_barricada()
@@ -797,17 +866,17 @@ func _fala(id: String) -> String:
 			if "retorno" in controlador.progresso.objetivos_cumpridos("acolhimento"):
 				return "Dara: Você o encontrou com vida. Vou organizar o retorno pela rota que indicou e avisar a Lia."
 			return "Dara: Você veio pela Estrada dos Carreteiros. Nosso trabalhador levava mantimentos para a vila e não voltou. Diga o que viu."
-		"trabalhador": return "Trabalhador: As criaturas vieram pelos sulcos. Consegui me esconder. Siga a estrada até a vila e avise a Dara."
+		"trabalhador": return "Trabalhador: Os rebentos vieram pelos sulcos e viraram o carreto. Me escondi aqui. Antes disso, vi goblins carregando sacos na trilha do pomar. Avise a Dara na vila; não sei se aquela trilha ainda é segura."
 		"lia": return "Lia: Você tem abrigo aqui. Precisamos entender os ataques antes da próxima defesa."
 		"estela": return "Estela: A árvore chama pessoas capazes de atravessar. Ainda temos muito a descobrir."
 		"tomas": return "Tomás: As cercas não seguram essas criaturas. Precisamos seguir o caminho delas."
-		"barreira_pomar": return "A barreira foi recomposta, mas os sulcos seguem por baixo. Procure a origem junto ao canal."
-		"canal_pomar": return "O canal liga as raízes aos sulcos. Tomás precisa saber que outra cerca não basta."
-		"margem_secura": return "A placa mostra o circuito: entrada aberta, desvio fechado e retorno aberto. Ajuste os três registros e teste a manivela da comporta."
-		"comporta_moinho": return "A grade cedeu. Agora a água volta ao canal que alimenta a roda."
-		"roda_moinho": return "A transmissão está funcionando. As marcas na pedra indicam uma passagem de manutenção sob a bacia."
-		"entrada_dungeon": return "As inscrições registram que o canal antigo leva água às raízes sob a vila. O moinho foi erguido sobre essa ligação, muito antes dos ataques."
-		"bancada_ivo": return "Ivo: Uma ligação bem preparada ajuda a manter uma barreira firme."
+		"barreira_pomar": return "A cerca voltou a fechar a passagem usada pelos goblins, mas os sulcos das raízes continuam por baixo. Examine o canal."
+		"canal_pomar": return "Há pegadas de goblins junto ao canal, mas os sulcos seguem entre as raízes, sob a cerca. Leve a Tomás o relato dos saqueadores e da passagem subterrânea."
+		"margem_secura": return FALAS_PASSOS["moinho_vazao:margem"]
+		"comporta_moinho": return FALAS_PASSOS["moinho_vazao:comporta"]
+		"roda_moinho": return FALAS_PASSOS["moinho_vazao:eixo"]
+		"entrada_dungeon": return FALAS_PASSOS["moinho_vazao:dungeon"]
+		"bancada_ivo": return "Ivo: Escolha uma ligação para reforçar a barreira do pomar. Esta bancada não fabrica armas."
 	return "Descoberta registrada no diário da campanha."
 
 func _atualizar() -> void:
@@ -920,12 +989,15 @@ func _conversar_morador(id: String) -> Error:
 		return OK
 	var visitas:int=int(_visitas_moradores.get(id,0))
 	var paginas:Array[String]=Elenco.conversa(id,visitas)
-	if id=="dara":paginas.append("Treine usando suas armas em combate. Na mochila, abra a aba da espada para consultar a arvore de maestria. Cada no explica o que voce pode aprender.")
+	if id=="dara" and visitas==0:paginas.append("Quando quiser treinar, me procure. E na mochila, a aba da espada mostra a árvore de maestria: cada nó explica o que você pode aprender.")
 	if visitas>0 and not morador.falas_atividade.is_empty():
 		paginas=[str(morador.falas_atividade[posmod(visitas-1,morador.falas_atividade.size())])]
 	var reacao:=_reacao(id)
-	if visitas==1 and not reacao.is_empty():paginas=[reacao]
+	if visitas>0 and not reacao.is_empty() and _reacoes_moradores.get(id,"")!=reacao:
+		paginas=[reacao]
+		_reacoes_moradores[id]=reacao
 	if etapa:paginas.push_front(FALAS_PASSOS.get(passo,_fala(id).get_slice(": ",1)))
+	if etapa and passo=="moinho_vazao:relato":paginas.append("Fim do beta da campanha. Obrigado por jogar! As outras regiões da Primeira Raiz chegam nas próximas atualizações; seu progresso fica salvo.")
 	_visitas_moradores[id]=visitas+1
 	if id=="dara" and regiao=="vila" and _oferecer_treino(paginas,alvos[id].nome):return OK
 	if id in ["tomas","rosa"] and regiao=="vila":
@@ -934,3 +1006,9 @@ func _conversar_morador(id: String) -> Error:
 	interface._telas.introducao.iniciar(paginas,alvos[id].nome)
 	EventosJogo.abrir_tela_de(jogador,"introducao")
 	return OK
+
+func alvo_pesca_rio(origem: Vector2, direcao: Vector2, alcance: float) -> Vector2:
+	return preload("res://codigo/campanha/pesca_rios.gd").alvo(terreno,origem,direcao,alcance)
+
+func registrar_captura_pesca(especie: String) -> void:
+	preload("res://codigo/campanha/pedidos_pesca.gd").registrar(self,especie)

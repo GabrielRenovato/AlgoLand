@@ -1,0 +1,13 @@
+{
+  "capturas": "/tmp/algoland-lorde-direita-k_02xtn3",
+  "quadros_amostrados": 60,
+  "passo_ms": 30,
+  "direcao": "direita",
+  "poses_revisadas": 8,
+  "contato_ms": 480,
+  "efeito_ms": 900,
+  "pausa_gif_ms": 400,
+  "dano_implementado": false,
+  "escopo": "Previa solicitada pelo usuario",
+  "correcao_cor": "Ganhos por material/quadro em shader, sem substituir as fontes raster."
+}

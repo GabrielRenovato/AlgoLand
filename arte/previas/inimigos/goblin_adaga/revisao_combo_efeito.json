@@ -1,0 +1,88 @@
+{
+  "escopo": "Substituir combos e subclipes de ataque no goblin de adaga ativo, quatro direções; manter corrida e reações de dano",
+  "fontes": [
+    "combo_efeito_direita_v1.png",
+    "combo_efeito_baixo_v1.png",
+    "combo_efeito_cima_v2.png"
+  ],
+  "prompts": [
+    "prompt_combo_efeito_direita.txt",
+    "prompt_combo_efeito_baixo.txt",
+    "prompt_combo_efeito_cima.txt",
+    "prompt_combo_efeito_cima_correcao.txt"
+  ],
+  "contrato": "arte/fontes/inimigos/goblin_adaga/contrato_combo_efeito.md",
+  "guia": "arte/fontes/inimigos/goblin_adaga/guia_combo_efeito.json",
+  "geracao": "image_gen integrado; modelo canônico da adaga e gestos/efeito do machado como referências; poses próprias, não transferência literal",
+  "recurso": "assets/inimigos/goblin_adaga/animacoes.tres",
+  "grade": [
+    4,
+    3
+  ],
+  "celula": [
+    640,
+    640
+  ],
+  "pivo": [
+    320,
+    560
+  ],
+  "escala": 0.071,
+  "quadros_combo": 12,
+  "duracoes_ms": [
+    100,
+    40,
+    60,
+    270,
+    80,
+    40,
+    60,
+    270,
+    100,
+    40,
+    70,
+    120
+  ],
+  "impactos": [
+    1,
+    5,
+    9
+  ],
+  "efeitos": [
+    1,
+    2,
+    5,
+    6,
+    9,
+    10
+  ],
+  "intervalo_entre_golpes_ms": 200,
+  "esquerda": "espelhamento por célula da direita, mesma ordem temporal",
+  "preservacao": "11 PNGs de modelo/corridas/dano e parados auxiliares idênticos por SHA256",
+  "revisao_visual": {
+    "estado": "inspecionada no Godot",
+    "aprovacao_artistica_usuario": false,
+    "analise": "Adaga curta na mão direita com mão livre equilibrando; cabeça e ombros acompanham o tronco; cortes com rastro branco/azul mais largo no impacto e fino na continuação. Silhuetas inteiras, tamanho do player; esquerda espelhada. Cima v1 rejeitada por recorte/grade; v2 sem recorte e linhas de apoio registradas por golpe.",
+    "metodo": "Contatos dos12quadros por direção, capturas reais do goblin ativo perseguindo e atacando player,12impactos (3 por direção), fases completas da direita, e capturas do perfil goblins-pomar. GIFs exportados dos mesmos atlas/tempos e da captura real. Não se afirma reprodução do GIF no visualizador estático.",
+    "resultado": "Substituição integrada ao goblin ativo nas quatro direções: rastro branco/azul legível, adaga com mão livre equilibrando, lâmina completa, raiz consistente e altura31.17/31.17/31.24/31.31px. Impactos, pausas e retorno à guarda preservados; corrida/dano/modelo idênticos por hash. Revisão do perfil restrita aos goblins e sua integração, sem alteração de interface/mapa.",
+    "evidencias": [
+      "combo_direita_contato.png",
+      "combo_esquerda_contato.png",
+      "combo_baixo_contato.png",
+      "combo_cima_contato.png",
+      "combos_efeito_quatro_direcoes.gif",
+      "combate_efeito_contato.png",
+      "combate_efeito_fases_direita.png",
+      "combate_efeito_motor.gif",
+      "combate_efeito_selecao.json"
+    ]
+  },
+  "testes": {
+    "perfil": "goblins-pomar",
+    "verificacoes_ok": 149,
+    "falhas": 0,
+    "aprovado": true,
+    "estado_preservado": true,
+    "relatorio": "/tmp/algoland-harness/execucao-ttthm7so/relatorio.json"
+  }
+}

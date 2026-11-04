@@ -1,0 +1,61 @@
+{
+  "escopo": "ataque para baixo do goblin de machado; cena visual própria",
+  "fonte": "arte/fontes/inimigos/goblin_machado_2d/ataque_baixo_v1.png",
+  "prompt": "prompt_ataque_baixo.txt",
+  "contrato": "contrato_ataque_baixo.md",
+  "geracao": "image_gen; modelo canônico + ataques direita/cima como referência",
+  "grade": [
+    4,
+    2
+  ],
+  "celula": [
+    640,
+    640
+  ],
+  "pivo": [
+    320,
+    560
+  ],
+  "escala": 0.071,
+  "quadros": 8,
+  "duracoes_ms": [
+    80,
+    160,
+    140,
+    45,
+    55,
+    90,
+    130,
+    180
+  ],
+  "loop": false,
+  "impacto_quadro": 4,
+  "impacto_ms": 425,
+  "efeito_corte_quadros": [
+    3,
+    4,
+    5
+  ],
+  "altura_guarda_px": 31.027,
+  "revisao_visual": {
+    "aprovacao_artistica_usuario": false,
+    "estado": "inspecionada no Godot e no contato de oito quadros",
+    "analise": "Frente real com rosto do canônico e ombreira esquerda anatômica; preparação à esquerda da tela, golpe atravessa abaixo/frente e continua à direita. Corpo transfere peso, cabeça acompanha inclinação/giro, duas mãos no cabo, rastro claro acompanha lâmina.",
+    "metodo": "Capturas reais no mapa, jogador e dois ataques, save isolado; inspeção de fases e oito quadros. GIF exportado com atlas/durações do SpriteFrames. Não se afirma reprodução do GIF pelo visualizador estático.",
+    "resultado": "Ataque frontal/baixo legível no tamanho do player, rosto e ombreira consistentes, tronco e cabeça participam da inclinação/giro. Lâmina completa e pegada contínua; arco cresce à frente das pernas, afina na continuação e desaparece na recuperação. Cena visual própria, sem troca parcial do mob ativo.",
+    "evidencias": [
+      "ataque_baixo_contato.png",
+      "ataque_baixo.gif",
+      "no_mapa_baixo.png",
+      "reproducao_motor_baixo.gif",
+      "reproducao_motor_contato_baixo.png"
+    ]
+  },
+  "testes": {
+    "verificacoes_ok": 28,
+    "falhas": 0,
+    "aprovado": true,
+    "estado_preservado": true,
+    "relatorio": "/tmp/algoland-harness/execucao-thprfaip/relatorio.json"
+  }
+}

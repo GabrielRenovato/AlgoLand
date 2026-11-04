@@ -20,14 +20,19 @@ func ponta() -> Vector2:
 	var heroi := get_parent().get_node_or_null("HeroiBase3D")
 	if heroi != null and heroi.visible and heroi._acao == "pesca":
 		return heroi.ponta_pesca_3d()
-	return get_parent().get_node("HeroiRaven").ponta_pesca(_pose,_linha)
+	return heroi.ponta_pesca_3d() if heroi != null else global_position
 
 func ponta_arremesso() -> Vector2:
 	var heroi := get_parent().get_node_or_null("HeroiBase3D")
 	if heroi != null and heroi.visible and heroi._acao == "pesca":
 		return _origem_arremesso if _origem_arremesso.is_finite() else ponta()
-	return get_parent().get_node("HeroiRaven").ponta_pesca(2,_linha)
+	return ponta()
 
 ## Só fixa a saída depois que o rig terminou a pose do quadro de lançamento.
 func fixar_arremesso_3d() -> void:
 	if not _origem_arremesso.is_finite(): _origem_arremesso = ponta()
+
+## Quadro da pose de pesca (0..3) enviado aos outros jogadores: lançamento em três quadros e vara estendida depois.
+const POSES := [0,1,2,3,3,3,3,3]
+func quadro() -> int:
+	return 3 if em_espera else POSES[clampi(_pose,0,7)]

@@ -1,0 +1,37 @@
+[
+  {
+    "duracao": 2.43333339691162,
+    "nome": "ataque_1",
+    "quadros": 74
+  },
+  {
+    "duracao": 2.29999995231628,
+    "nome": "ataque_2",
+    "quadros": 69
+  },
+  {
+    "duracao": 0.766666650772095,
+    "nome": "correr",
+    "quadros": 23
+  },
+  {
+    "duracao": 1.43333327770233,
+    "nome": "defesa",
+    "quadros": 43
+  },
+  {
+    "duracao": 1.86666667461395,
+    "nome": "ferido",
+    "quadros": 57
+  },
+  {
+    "duracao": 4.43333339691162,
+    "nome": "morrer",
+    "quadros": 134
+  },
+  {
+    "duracao": 4.03333330154419,
+    "nome": "parado",
+    "quadros": 121
+  }
+]

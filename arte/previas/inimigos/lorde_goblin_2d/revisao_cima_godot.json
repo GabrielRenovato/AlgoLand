@@ -1,0 +1,10 @@
+{
+  "direcao": "cima",
+  "capturas": "/tmp/algoland-lorde-cima-lbpsbcch",
+  "quadros": 9,
+  "golpes": 2,
+  "efeitos": true,
+  "passo_efeitos_ms": 30,
+  "save_isolado": "/tmp/algoland-lorde-cima-lbpsbcch/dados",
+  "log": "/tmp/algoland-lorde-cima-lbpsbcch/godot.log"
+}

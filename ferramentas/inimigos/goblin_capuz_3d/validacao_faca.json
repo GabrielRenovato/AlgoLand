@@ -1,0 +1,40 @@
+{
+  "modelo_sha256": "cb2541e7d19551d1f39ad69fc486ce18217975166cb7808715a2277e0f290966",
+  "clipes": [
+    {
+      "clipe": "parado",
+      "quadros": 121,
+      "intersecoes": []
+    },
+    {
+      "clipe": "correr",
+      "quadros": 23,
+      "intersecoes": []
+    },
+    {
+      "clipe": "ataque_1",
+      "quadros": 73,
+      "intersecoes": []
+    },
+    {
+      "clipe": "ataque_2",
+      "quadros": 69,
+      "intersecoes": []
+    },
+    {
+      "clipe": "defesa",
+      "quadros": 43,
+      "intersecoes": []
+    },
+    {
+      "clipe": "ferido",
+      "quadros": 56,
+      "intersecoes": []
+    },
+    {
+      "clipe": "morrer",
+      "quadros": 133,
+      "intersecoes": []
+    }
+  ]
+}

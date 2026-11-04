@@ -1,0 +1,564 @@
+[gd_resource type="SpriteFrames" load_steps=145 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/inimigos/goblin_adaga/correr_direita.png" id="correr_direita"]
+[ext_resource type="Texture2D" path="res://assets/inimigos/goblin_adaga/combo_direita.png" id="combo_direita"]
+[ext_resource type="Texture2D" path="res://assets/inimigos/goblin_adaga/correr_baixo.png" id="correr_baixo"]
+[ext_resource type="Texture2D" path="res://assets/inimigos/goblin_adaga/combo_baixo.png" id="combo_baixo"]
+[ext_resource type="Texture2D" path="res://assets/inimigos/goblin_adaga/correr_cima.png" id="correr_cima"]
+[ext_resource type="Texture2D" path="res://assets/inimigos/goblin_adaga/combo_cima.png" id="combo_cima"]
+[ext_resource type="Texture2D" path="res://assets/inimigos/goblin_adaga/correr_esquerda.png" id="correr_esquerda"]
+[ext_resource type="Texture2D" path="res://assets/inimigos/goblin_adaga/combo_esquerda.png" id="combo_esquerda"]
+[ext_resource type="Texture2D" path="res://assets/inimigos/goblin_adaga/ferido_direita.png" id="ferido_direita"]
+[ext_resource type="Texture2D" path="res://assets/inimigos/goblin_adaga/ferido_baixo.png" id="ferido_baixo"]
+[ext_resource type="Texture2D" path="res://assets/inimigos/goblin_adaga/ferido_cima.png" id="ferido_cima"]
+[ext_resource type="Texture2D" path="res://assets/inimigos/goblin_adaga/ferido_esquerda.png" id="ferido_esquerda"]
+[ext_resource type="Texture2D" path="res://assets/inimigos/goblin_adaga/morte_direita.png" id="morte_direita"]
+[ext_resource type="Texture2D" path="res://assets/inimigos/goblin_adaga/morte_baixo.png" id="morte_baixo"]
+[ext_resource type="Texture2D" path="res://assets/inimigos/goblin_adaga/morte_cima.png" id="morte_cima"]
+[ext_resource type="Texture2D" path="res://assets/inimigos/goblin_adaga/morte_esquerda.png" id="morte_esquerda"]
+
+[sub_resource type="AtlasTexture" id="correr_direita_0"]
+atlas = ExtResource("correr_direita")
+region = Rect2(0, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="correr_direita_1"]
+atlas = ExtResource("correr_direita")
+region = Rect2(640, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="correr_direita_2"]
+atlas = ExtResource("correr_direita")
+region = Rect2(1280, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="correr_direita_3"]
+atlas = ExtResource("correr_direita")
+region = Rect2(1920, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="correr_direita_4"]
+atlas = ExtResource("correr_direita")
+region = Rect2(0, 640, 640, 640)
+
+[sub_resource type="AtlasTexture" id="correr_direita_5"]
+atlas = ExtResource("correr_direita")
+region = Rect2(640, 640, 640, 640)
+
+[sub_resource type="AtlasTexture" id="correr_direita_6"]
+atlas = ExtResource("correr_direita")
+region = Rect2(1280, 640, 640, 640)
+
+[sub_resource type="AtlasTexture" id="correr_direita_7"]
+atlas = ExtResource("correr_direita")
+region = Rect2(1920, 640, 640, 640)
+
+[sub_resource type="AtlasTexture" id="combo_direita_0"]
+atlas = ExtResource("combo_direita")
+region = Rect2(0, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="combo_direita_1"]
+atlas = ExtResource("combo_direita")
+region = Rect2(640, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="combo_direita_2"]
+atlas = ExtResource("combo_direita")
+region = Rect2(1280, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="combo_direita_3"]
+atlas = ExtResource("combo_direita")
+region = Rect2(1920, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="combo_direita_4"]
+atlas = ExtResource("combo_direita")
+region = Rect2(0, 640, 640, 640)
+
+[sub_resource type="AtlasTexture" id="combo_direita_5"]
+atlas = ExtResource("combo_direita")
+region = Rect2(640, 640, 640, 640)
+
+[sub_resource type="AtlasTexture" id="combo_direita_6"]
+atlas = ExtResource("combo_direita")
+region = Rect2(1280, 640, 640, 640)
+
+[sub_resource type="AtlasTexture" id="combo_direita_7"]
+atlas = ExtResource("combo_direita")
+region = Rect2(1920, 640, 640, 640)
+
+[sub_resource type="AtlasTexture" id="combo_direita_8"]
+atlas = ExtResource("combo_direita")
+region = Rect2(0, 1280, 640, 640)
+
+[sub_resource type="AtlasTexture" id="combo_direita_9"]
+atlas = ExtResource("combo_direita")
+region = Rect2(640, 1280, 640, 640)
+
+[sub_resource type="AtlasTexture" id="combo_direita_10"]
+atlas = ExtResource("combo_direita")
+region = Rect2(1280, 1280, 640, 640)
+
+[sub_resource type="AtlasTexture" id="combo_direita_11"]
+atlas = ExtResource("combo_direita")
+region = Rect2(1920, 1280, 640, 640)
+
+[sub_resource type="AtlasTexture" id="correr_baixo_0"]
+atlas = ExtResource("correr_baixo")
+region = Rect2(0, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="correr_baixo_1"]
+atlas = ExtResource("correr_baixo")
+region = Rect2(640, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="correr_baixo_2"]
+atlas = ExtResource("correr_baixo")
+region = Rect2(1280, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="correr_baixo_3"]
+atlas = ExtResource("correr_baixo")
+region = Rect2(1920, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="correr_baixo_4"]
+atlas = ExtResource("correr_baixo")
+region = Rect2(0, 640, 640, 640)
+
+[sub_resource type="AtlasTexture" id="correr_baixo_5"]
+atlas = ExtResource("correr_baixo")
+region = Rect2(640, 640, 640, 640)
+
+[sub_resource type="AtlasTexture" id="correr_baixo_6"]
+atlas = ExtResource("correr_baixo")
+region = Rect2(1280, 640, 640, 640)
+
+[sub_resource type="AtlasTexture" id="correr_baixo_7"]
+atlas = ExtResource("correr_baixo")
+region = Rect2(1920, 640, 640, 640)
+
+[sub_resource type="AtlasTexture" id="combo_baixo_0"]
+atlas = ExtResource("combo_baixo")
+region = Rect2(0, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="combo_baixo_1"]
+atlas = ExtResource("combo_baixo")
+region = Rect2(640, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="combo_baixo_2"]
+atlas = ExtResource("combo_baixo")
+region = Rect2(1280, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="combo_baixo_3"]
+atlas = ExtResource("combo_baixo")
+region = Rect2(1920, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="combo_baixo_4"]
+atlas = ExtResource("combo_baixo")
+region = Rect2(0, 640, 640, 640)
+
+[sub_resource type="AtlasTexture" id="combo_baixo_5"]
+atlas = ExtResource("combo_baixo")
+region = Rect2(640, 640, 640, 640)
+
+[sub_resource type="AtlasTexture" id="combo_baixo_6"]
+atlas = ExtResource("combo_baixo")
+region = Rect2(1280, 640, 640, 640)
+
+[sub_resource type="AtlasTexture" id="combo_baixo_7"]
+atlas = ExtResource("combo_baixo")
+region = Rect2(1920, 640, 640, 640)
+
+[sub_resource type="AtlasTexture" id="combo_baixo_8"]
+atlas = ExtResource("combo_baixo")
+region = Rect2(0, 1280, 640, 640)
+
+[sub_resource type="AtlasTexture" id="combo_baixo_9"]
+atlas = ExtResource("combo_baixo")
+region = Rect2(640, 1280, 640, 640)
+
+[sub_resource type="AtlasTexture" id="combo_baixo_10"]
+atlas = ExtResource("combo_baixo")
+region = Rect2(1280, 1280, 640, 640)
+
+[sub_resource type="AtlasTexture" id="combo_baixo_11"]
+atlas = ExtResource("combo_baixo")
+region = Rect2(1920, 1280, 640, 640)
+
+[sub_resource type="AtlasTexture" id="correr_cima_0"]
+atlas = ExtResource("correr_cima")
+region = Rect2(0, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="correr_cima_1"]
+atlas = ExtResource("correr_cima")
+region = Rect2(640, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="correr_cima_2"]
+atlas = ExtResource("correr_cima")
+region = Rect2(1280, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="correr_cima_3"]
+atlas = ExtResource("correr_cima")
+region = Rect2(1920, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="correr_cima_4"]
+atlas = ExtResource("correr_cima")
+region = Rect2(0, 640, 640, 640)
+
+[sub_resource type="AtlasTexture" id="correr_cima_5"]
+atlas = ExtResource("correr_cima")
+region = Rect2(640, 640, 640, 640)
+
+[sub_resource type="AtlasTexture" id="correr_cima_6"]
+atlas = ExtResource("correr_cima")
+region = Rect2(1280, 640, 640, 640)
+
+[sub_resource type="AtlasTexture" id="correr_cima_7"]
+atlas = ExtResource("correr_cima")
+region = Rect2(1920, 640, 640, 640)
+
+[sub_resource type="AtlasTexture" id="combo_cima_0"]
+atlas = ExtResource("combo_cima")
+region = Rect2(0, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="combo_cima_1"]
+atlas = ExtResource("combo_cima")
+region = Rect2(640, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="combo_cima_2"]
+atlas = ExtResource("combo_cima")
+region = Rect2(1280, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="combo_cima_3"]
+atlas = ExtResource("combo_cima")
+region = Rect2(1920, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="combo_cima_4"]
+atlas = ExtResource("combo_cima")
+region = Rect2(0, 640, 640, 640)
+
+[sub_resource type="AtlasTexture" id="combo_cima_5"]
+atlas = ExtResource("combo_cima")
+region = Rect2(640, 640, 640, 640)
+
+[sub_resource type="AtlasTexture" id="combo_cima_6"]
+atlas = ExtResource("combo_cima")
+region = Rect2(1280, 640, 640, 640)
+
+[sub_resource type="AtlasTexture" id="combo_cima_7"]
+atlas = ExtResource("combo_cima")
+region = Rect2(1920, 640, 640, 640)
+
+[sub_resource type="AtlasTexture" id="combo_cima_8"]
+atlas = ExtResource("combo_cima")
+region = Rect2(0, 1280, 640, 640)
+
+[sub_resource type="AtlasTexture" id="combo_cima_9"]
+atlas = ExtResource("combo_cima")
+region = Rect2(640, 1280, 640, 640)
+
+[sub_resource type="AtlasTexture" id="combo_cima_10"]
+atlas = ExtResource("combo_cima")
+region = Rect2(1280, 1280, 640, 640)
+
+[sub_resource type="AtlasTexture" id="combo_cima_11"]
+atlas = ExtResource("combo_cima")
+region = Rect2(1920, 1280, 640, 640)
+
+[sub_resource type="AtlasTexture" id="correr_esquerda_0"]
+atlas = ExtResource("correr_esquerda")
+region = Rect2(0, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="correr_esquerda_1"]
+atlas = ExtResource("correr_esquerda")
+region = Rect2(640, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="correr_esquerda_2"]
+atlas = ExtResource("correr_esquerda")
+region = Rect2(1280, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="correr_esquerda_3"]
+atlas = ExtResource("correr_esquerda")
+region = Rect2(1920, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="correr_esquerda_4"]
+atlas = ExtResource("correr_esquerda")
+region = Rect2(0, 640, 640, 640)
+
+[sub_resource type="AtlasTexture" id="correr_esquerda_5"]
+atlas = ExtResource("correr_esquerda")
+region = Rect2(640, 640, 640, 640)
+
+[sub_resource type="AtlasTexture" id="correr_esquerda_6"]
+atlas = ExtResource("correr_esquerda")
+region = Rect2(1280, 640, 640, 640)
+
+[sub_resource type="AtlasTexture" id="correr_esquerda_7"]
+atlas = ExtResource("correr_esquerda")
+region = Rect2(1920, 640, 640, 640)
+
+[sub_resource type="AtlasTexture" id="combo_esquerda_0"]
+atlas = ExtResource("combo_esquerda")
+region = Rect2(0, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="combo_esquerda_1"]
+atlas = ExtResource("combo_esquerda")
+region = Rect2(640, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="combo_esquerda_2"]
+atlas = ExtResource("combo_esquerda")
+region = Rect2(1280, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="combo_esquerda_3"]
+atlas = ExtResource("combo_esquerda")
+region = Rect2(1920, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="combo_esquerda_4"]
+atlas = ExtResource("combo_esquerda")
+region = Rect2(0, 640, 640, 640)
+
+[sub_resource type="AtlasTexture" id="combo_esquerda_5"]
+atlas = ExtResource("combo_esquerda")
+region = Rect2(640, 640, 640, 640)
+
+[sub_resource type="AtlasTexture" id="combo_esquerda_6"]
+atlas = ExtResource("combo_esquerda")
+region = Rect2(1280, 640, 640, 640)
+
+[sub_resource type="AtlasTexture" id="combo_esquerda_7"]
+atlas = ExtResource("combo_esquerda")
+region = Rect2(1920, 640, 640, 640)
+
+[sub_resource type="AtlasTexture" id="combo_esquerda_8"]
+atlas = ExtResource("combo_esquerda")
+region = Rect2(0, 1280, 640, 640)
+
+[sub_resource type="AtlasTexture" id="combo_esquerda_9"]
+atlas = ExtResource("combo_esquerda")
+region = Rect2(640, 1280, 640, 640)
+
+[sub_resource type="AtlasTexture" id="combo_esquerda_10"]
+atlas = ExtResource("combo_esquerda")
+region = Rect2(1280, 1280, 640, 640)
+
+[sub_resource type="AtlasTexture" id="combo_esquerda_11"]
+atlas = ExtResource("combo_esquerda")
+region = Rect2(1920, 1280, 640, 640)
+
+[sub_resource type="AtlasTexture" id="ferido_direita_0"]
+atlas = ExtResource("ferido_direita")
+region = Rect2(0, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="ferido_direita_1"]
+atlas = ExtResource("ferido_direita")
+region = Rect2(640, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="ferido_direita_2"]
+atlas = ExtResource("ferido_direita")
+region = Rect2(1280, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="ferido_direita_3"]
+atlas = ExtResource("ferido_direita")
+region = Rect2(1920, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="ferido_baixo_0"]
+atlas = ExtResource("ferido_baixo")
+region = Rect2(0, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="ferido_baixo_1"]
+atlas = ExtResource("ferido_baixo")
+region = Rect2(640, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="ferido_baixo_2"]
+atlas = ExtResource("ferido_baixo")
+region = Rect2(1280, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="ferido_baixo_3"]
+atlas = ExtResource("ferido_baixo")
+region = Rect2(1920, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="ferido_cima_0"]
+atlas = ExtResource("ferido_cima")
+region = Rect2(0, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="ferido_cima_1"]
+atlas = ExtResource("ferido_cima")
+region = Rect2(640, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="ferido_cima_2"]
+atlas = ExtResource("ferido_cima")
+region = Rect2(1280, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="ferido_cima_3"]
+atlas = ExtResource("ferido_cima")
+region = Rect2(1920, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="ferido_esquerda_0"]
+atlas = ExtResource("ferido_esquerda")
+region = Rect2(0, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="ferido_esquerda_1"]
+atlas = ExtResource("ferido_esquerda")
+region = Rect2(640, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="ferido_esquerda_2"]
+atlas = ExtResource("ferido_esquerda")
+region = Rect2(1280, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="ferido_esquerda_3"]
+atlas = ExtResource("ferido_esquerda")
+region = Rect2(1920, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="morte_direita_0"]
+atlas = ExtResource("morte_direita")
+region = Rect2(0, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="morte_direita_1"]
+atlas = ExtResource("morte_direita")
+region = Rect2(640, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="morte_direita_2"]
+atlas = ExtResource("morte_direita")
+region = Rect2(1280, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="morte_direita_3"]
+atlas = ExtResource("morte_direita")
+region = Rect2(1920, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="morte_direita_4"]
+atlas = ExtResource("morte_direita")
+region = Rect2(0, 640, 640, 640)
+
+[sub_resource type="AtlasTexture" id="morte_direita_5"]
+atlas = ExtResource("morte_direita")
+region = Rect2(640, 640, 640, 640)
+
+[sub_resource type="AtlasTexture" id="morte_direita_6"]
+atlas = ExtResource("morte_direita")
+region = Rect2(1280, 640, 640, 640)
+
+[sub_resource type="AtlasTexture" id="morte_direita_7"]
+atlas = ExtResource("morte_direita")
+region = Rect2(1920, 640, 640, 640)
+
+[sub_resource type="AtlasTexture" id="morte_baixo_0"]
+atlas = ExtResource("morte_baixo")
+region = Rect2(0, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="morte_baixo_1"]
+atlas = ExtResource("morte_baixo")
+region = Rect2(640, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="morte_baixo_2"]
+atlas = ExtResource("morte_baixo")
+region = Rect2(1280, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="morte_baixo_3"]
+atlas = ExtResource("morte_baixo")
+region = Rect2(1920, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="morte_baixo_4"]
+atlas = ExtResource("morte_baixo")
+region = Rect2(0, 640, 640, 640)
+
+[sub_resource type="AtlasTexture" id="morte_baixo_5"]
+atlas = ExtResource("morte_baixo")
+region = Rect2(640, 640, 640, 640)
+
+[sub_resource type="AtlasTexture" id="morte_baixo_6"]
+atlas = ExtResource("morte_baixo")
+region = Rect2(1280, 640, 640, 640)
+
+[sub_resource type="AtlasTexture" id="morte_baixo_7"]
+atlas = ExtResource("morte_baixo")
+region = Rect2(1920, 640, 640, 640)
+
+[sub_resource type="AtlasTexture" id="morte_cima_0"]
+atlas = ExtResource("morte_cima")
+region = Rect2(0, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="morte_cima_1"]
+atlas = ExtResource("morte_cima")
+region = Rect2(640, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="morte_cima_2"]
+atlas = ExtResource("morte_cima")
+region = Rect2(1280, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="morte_cima_3"]
+atlas = ExtResource("morte_cima")
+region = Rect2(1920, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="morte_cima_4"]
+atlas = ExtResource("morte_cima")
+region = Rect2(0, 640, 640, 640)
+
+[sub_resource type="AtlasTexture" id="morte_cima_5"]
+atlas = ExtResource("morte_cima")
+region = Rect2(640, 640, 640, 640)
+
+[sub_resource type="AtlasTexture" id="morte_cima_6"]
+atlas = ExtResource("morte_cima")
+region = Rect2(1280, 640, 640, 640)
+
+[sub_resource type="AtlasTexture" id="morte_cima_7"]
+atlas = ExtResource("morte_cima")
+region = Rect2(1920, 640, 640, 640)
+
+[sub_resource type="AtlasTexture" id="morte_esquerda_0"]
+atlas = ExtResource("morte_esquerda")
+region = Rect2(0, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="morte_esquerda_1"]
+atlas = ExtResource("morte_esquerda")
+region = Rect2(640, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="morte_esquerda_2"]
+atlas = ExtResource("morte_esquerda")
+region = Rect2(1280, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="morte_esquerda_3"]
+atlas = ExtResource("morte_esquerda")
+region = Rect2(1920, 0, 640, 640)
+
+[sub_resource type="AtlasTexture" id="morte_esquerda_4"]
+atlas = ExtResource("morte_esquerda")
+region = Rect2(0, 640, 640, 640)
+
+[sub_resource type="AtlasTexture" id="morte_esquerda_5"]
+atlas = ExtResource("morte_esquerda")
+region = Rect2(640, 640, 640, 640)
+
+[sub_resource type="AtlasTexture" id="morte_esquerda_6"]
+atlas = ExtResource("morte_esquerda")
+region = Rect2(1280, 640, 640, 640)
+
+[sub_resource type="AtlasTexture" id="morte_esquerda_7"]
+atlas = ExtResource("morte_esquerda")
+region = Rect2(1920, 640, 640, 640)
+
+[resource]
+animations = [{"frames": [{"duration": 5.0, "texture": SubResource("correr_direita_0")}, {"duration": 6.0, "texture": SubResource("correr_direita_1")}, {"duration": 4.0, "texture": SubResource("correr_direita_2")}, {"duration": 5.0, "texture": SubResource("correr_direita_3")}, {"duration": 5.0, "texture": SubResource("correr_direita_4")}, {"duration": 6.0, "texture": SubResource("correr_direita_5")}, {"duration": 4.0, "texture": SubResource("correr_direita_6")}, {"duration": 5.0, "texture": SubResource("correr_direita_7")}], "loop": true, "name": &"correr_direita", "speed": 100.0},
+{"frames": [{"duration": 10.0, "texture": SubResource("combo_direita_0")}, {"duration": 4.0, "texture": SubResource("combo_direita_1")}, {"duration": 6.0, "texture": SubResource("combo_direita_2")}, {"duration": 27.0, "texture": SubResource("combo_direita_3")}, {"duration": 8.0, "texture": SubResource("combo_direita_4")}, {"duration": 4.0, "texture": SubResource("combo_direita_5")}, {"duration": 6.0, "texture": SubResource("combo_direita_6")}, {"duration": 27.0, "texture": SubResource("combo_direita_7")}, {"duration": 10.0, "texture": SubResource("combo_direita_8")}, {"duration": 4.0, "texture": SubResource("combo_direita_9")}, {"duration": 7.0, "texture": SubResource("combo_direita_10")}, {"duration": 12.0, "texture": SubResource("combo_direita_11")}], "loop": false, "name": &"combo_direita", "speed": 100.0},
+{"frames": [{"duration": 5.0, "texture": SubResource("correr_baixo_0")}, {"duration": 6.0, "texture": SubResource("correr_baixo_1")}, {"duration": 4.0, "texture": SubResource("correr_baixo_2")}, {"duration": 5.0, "texture": SubResource("correr_baixo_3")}, {"duration": 5.0, "texture": SubResource("correr_baixo_4")}, {"duration": 6.0, "texture": SubResource("correr_baixo_5")}, {"duration": 4.0, "texture": SubResource("correr_baixo_6")}, {"duration": 5.0, "texture": SubResource("correr_baixo_7")}], "loop": true, "name": &"correr_baixo", "speed": 100.0},
+{"frames": [{"duration": 10.0, "texture": SubResource("combo_baixo_0")}, {"duration": 4.0, "texture": SubResource("combo_baixo_1")}, {"duration": 6.0, "texture": SubResource("combo_baixo_2")}, {"duration": 27.0, "texture": SubResource("combo_baixo_3")}, {"duration": 8.0, "texture": SubResource("combo_baixo_4")}, {"duration": 4.0, "texture": SubResource("combo_baixo_5")}, {"duration": 6.0, "texture": SubResource("combo_baixo_6")}, {"duration": 27.0, "texture": SubResource("combo_baixo_7")}, {"duration": 10.0, "texture": SubResource("combo_baixo_8")}, {"duration": 4.0, "texture": SubResource("combo_baixo_9")}, {"duration": 7.0, "texture": SubResource("combo_baixo_10")}, {"duration": 12.0, "texture": SubResource("combo_baixo_11")}], "loop": false, "name": &"combo_baixo", "speed": 100.0},
+{"frames": [{"duration": 5.0, "texture": SubResource("correr_cima_0")}, {"duration": 6.0, "texture": SubResource("correr_cima_1")}, {"duration": 4.0, "texture": SubResource("correr_cima_2")}, {"duration": 5.0, "texture": SubResource("correr_cima_3")}, {"duration": 5.0, "texture": SubResource("correr_cima_4")}, {"duration": 6.0, "texture": SubResource("correr_cima_5")}, {"duration": 4.0, "texture": SubResource("correr_cima_6")}, {"duration": 5.0, "texture": SubResource("correr_cima_7")}], "loop": true, "name": &"correr_cima", "speed": 100.0},
+{"frames": [{"duration": 10.0, "texture": SubResource("combo_cima_0")}, {"duration": 4.0, "texture": SubResource("combo_cima_1")}, {"duration": 6.0, "texture": SubResource("combo_cima_2")}, {"duration": 27.0, "texture": SubResource("combo_cima_3")}, {"duration": 8.0, "texture": SubResource("combo_cima_4")}, {"duration": 4.0, "texture": SubResource("combo_cima_5")}, {"duration": 6.0, "texture": SubResource("combo_cima_6")}, {"duration": 27.0, "texture": SubResource("combo_cima_7")}, {"duration": 10.0, "texture": SubResource("combo_cima_8")}, {"duration": 4.0, "texture": SubResource("combo_cima_9")}, {"duration": 7.0, "texture": SubResource("combo_cima_10")}, {"duration": 12.0, "texture": SubResource("combo_cima_11")}], "loop": false, "name": &"combo_cima", "speed": 100.0},
+{"frames": [{"duration": 5.0, "texture": SubResource("correr_esquerda_0")}, {"duration": 6.0, "texture": SubResource("correr_esquerda_1")}, {"duration": 4.0, "texture": SubResource("correr_esquerda_2")}, {"duration": 5.0, "texture": SubResource("correr_esquerda_3")}, {"duration": 5.0, "texture": SubResource("correr_esquerda_4")}, {"duration": 6.0, "texture": SubResource("correr_esquerda_5")}, {"duration": 4.0, "texture": SubResource("correr_esquerda_6")}, {"duration": 5.0, "texture": SubResource("correr_esquerda_7")}], "loop": true, "name": &"correr_esquerda", "speed": 100.0},
+{"frames": [{"duration": 10.0, "texture": SubResource("combo_esquerda_0")}, {"duration": 4.0, "texture": SubResource("combo_esquerda_1")}, {"duration": 6.0, "texture": SubResource("combo_esquerda_2")}, {"duration": 27.0, "texture": SubResource("combo_esquerda_3")}, {"duration": 8.0, "texture": SubResource("combo_esquerda_4")}, {"duration": 4.0, "texture": SubResource("combo_esquerda_5")}, {"duration": 6.0, "texture": SubResource("combo_esquerda_6")}, {"duration": 27.0, "texture": SubResource("combo_esquerda_7")}, {"duration": 10.0, "texture": SubResource("combo_esquerda_8")}, {"duration": 4.0, "texture": SubResource("combo_esquerda_9")}, {"duration": 7.0, "texture": SubResource("combo_esquerda_10")}, {"duration": 12.0, "texture": SubResource("combo_esquerda_11")}], "loop": false, "name": &"combo_esquerda", "speed": 100.0},
+{"frames": [{"duration": 4.5, "texture": SubResource("ferido_direita_0")}, {"duration": 7.5, "texture": SubResource("ferido_direita_1")}, {"duration": 9.0, "texture": SubResource("ferido_direita_2")}, {"duration": 9.0, "texture": SubResource("ferido_direita_3")}], "loop": false, "name": &"ferido_direita", "speed": 100.0},
+{"frames": [{"duration": 4.5, "texture": SubResource("ferido_baixo_0")}, {"duration": 7.5, "texture": SubResource("ferido_baixo_1")}, {"duration": 9.0, "texture": SubResource("ferido_baixo_2")}, {"duration": 9.0, "texture": SubResource("ferido_baixo_3")}], "loop": false, "name": &"ferido_baixo", "speed": 100.0},
+{"frames": [{"duration": 4.5, "texture": SubResource("ferido_cima_0")}, {"duration": 7.5, "texture": SubResource("ferido_cima_1")}, {"duration": 9.0, "texture": SubResource("ferido_cima_2")}, {"duration": 9.0, "texture": SubResource("ferido_cima_3")}], "loop": false, "name": &"ferido_cima", "speed": 100.0},
+{"frames": [{"duration": 4.5, "texture": SubResource("ferido_esquerda_0")}, {"duration": 7.5, "texture": SubResource("ferido_esquerda_1")}, {"duration": 9.0, "texture": SubResource("ferido_esquerda_2")}, {"duration": 9.0, "texture": SubResource("ferido_esquerda_3")}], "loop": false, "name": &"ferido_esquerda", "speed": 100.0},
+{"frames": [{"duration": 8.0, "texture": SubResource("morte_direita_0")}, {"duration": 10.0, "texture": SubResource("morte_direita_1")}, {"duration": 11.0, "texture": SubResource("morte_direita_2")}, {"duration": 10.0, "texture": SubResource("morte_direita_3")}, {"duration": 10.0, "texture": SubResource("morte_direita_4")}, {"duration": 12.0, "texture": SubResource("morte_direita_5")}, {"duration": 16.0, "texture": SubResource("morte_direita_6")}, {"duration": 50.0, "texture": SubResource("morte_direita_7")}], "loop": false, "name": &"morte_direita", "speed": 100.0},
+{"frames": [{"duration": 8.0, "texture": SubResource("morte_baixo_0")}, {"duration": 10.0, "texture": SubResource("morte_baixo_1")}, {"duration": 11.0, "texture": SubResource("morte_baixo_2")}, {"duration": 10.0, "texture": SubResource("morte_baixo_3")}, {"duration": 10.0, "texture": SubResource("morte_baixo_4")}, {"duration": 12.0, "texture": SubResource("morte_baixo_5")}, {"duration": 16.0, "texture": SubResource("morte_baixo_6")}, {"duration": 50.0, "texture": SubResource("morte_baixo_7")}], "loop": false, "name": &"morte_baixo", "speed": 100.0},
+{"frames": [{"duration": 8.0, "texture": SubResource("morte_cima_0")}, {"duration": 10.0, "texture": SubResource("morte_cima_1")}, {"duration": 11.0, "texture": SubResource("morte_cima_2")}, {"duration": 10.0, "texture": SubResource("morte_cima_3")}, {"duration": 10.0, "texture": SubResource("morte_cima_4")}, {"duration": 12.0, "texture": SubResource("morte_cima_5")}, {"duration": 16.0, "texture": SubResource("morte_cima_6")}, {"duration": 50.0, "texture": SubResource("morte_cima_7")}], "loop": false, "name": &"morte_cima", "speed": 100.0},
+{"frames": [{"duration": 8.0, "texture": SubResource("morte_esquerda_0")}, {"duration": 10.0, "texture": SubResource("morte_esquerda_1")}, {"duration": 11.0, "texture": SubResource("morte_esquerda_2")}, {"duration": 10.0, "texture": SubResource("morte_esquerda_3")}, {"duration": 10.0, "texture": SubResource("morte_esquerda_4")}, {"duration": 12.0, "texture": SubResource("morte_esquerda_5")}, {"duration": 16.0, "texture": SubResource("morte_esquerda_6")}, {"duration": 50.0, "texture": SubResource("morte_esquerda_7")}], "loop": false, "name": &"morte_esquerda", "speed": 100.0},
+{"frames": [{"duration": 10.0, "texture": SubResource("combo_direita_0")}, {"duration": 4.0, "texture": SubResource("combo_direita_1")}, {"duration": 6.0, "texture": SubResource("combo_direita_2")}, {"duration": 7.0, "texture": SubResource("combo_direita_3")}], "loop": false, "name": &"ataque_1_direita", "speed": 100.0},
+{"frames": [{"duration": 8.0, "texture": SubResource("combo_direita_4")}, {"duration": 4.0, "texture": SubResource("combo_direita_5")}, {"duration": 6.0, "texture": SubResource("combo_direita_6")}, {"duration": 7.0, "texture": SubResource("combo_direita_7")}], "loop": false, "name": &"ataque_2_direita", "speed": 100.0},
+{"frames": [{"duration": 10.0, "texture": SubResource("combo_direita_8")}, {"duration": 4.0, "texture": SubResource("combo_direita_9")}, {"duration": 7.0, "texture": SubResource("combo_direita_10")}, {"duration": 12.0, "texture": SubResource("combo_direita_11")}], "loop": false, "name": &"ataque_3_direita", "speed": 100.0},
+{"frames": [{"duration": 10.0, "texture": SubResource("combo_direita_11")}], "loop": true, "name": &"parado_direita", "speed": 100.0},
+{"frames": [{"duration": 10.0, "texture": SubResource("combo_baixo_0")}, {"duration": 4.0, "texture": SubResource("combo_baixo_1")}, {"duration": 6.0, "texture": SubResource("combo_baixo_2")}, {"duration": 7.0, "texture": SubResource("combo_baixo_3")}], "loop": false, "name": &"ataque_1_baixo", "speed": 100.0},
+{"frames": [{"duration": 8.0, "texture": SubResource("combo_baixo_4")}, {"duration": 4.0, "texture": SubResource("combo_baixo_5")}, {"duration": 6.0, "texture": SubResource("combo_baixo_6")}, {"duration": 7.0, "texture": SubResource("combo_baixo_7")}], "loop": false, "name": &"ataque_2_baixo", "speed": 100.0},
+{"frames": [{"duration": 10.0, "texture": SubResource("combo_baixo_8")}, {"duration": 4.0, "texture": SubResource("combo_baixo_9")}, {"duration": 7.0, "texture": SubResource("combo_baixo_10")}, {"duration": 12.0, "texture": SubResource("combo_baixo_11")}], "loop": false, "name": &"ataque_3_baixo", "speed": 100.0},
+{"frames": [{"duration": 10.0, "texture": SubResource("combo_baixo_11")}], "loop": true, "name": &"parado_baixo", "speed": 100.0},
+{"frames": [{"duration": 10.0, "texture": SubResource("combo_cima_0")}, {"duration": 4.0, "texture": SubResource("combo_cima_1")}, {"duration": 6.0, "texture": SubResource("combo_cima_2")}, {"duration": 7.0, "texture": SubResource("combo_cima_3")}], "loop": false, "name": &"ataque_1_cima", "speed": 100.0},
+{"frames": [{"duration": 8.0, "texture": SubResource("combo_cima_4")}, {"duration": 4.0, "texture": SubResource("combo_cima_5")}, {"duration": 6.0, "texture": SubResource("combo_cima_6")}, {"duration": 7.0, "texture": SubResource("combo_cima_7")}], "loop": false, "name": &"ataque_2_cima", "speed": 100.0},
+{"frames": [{"duration": 10.0, "texture": SubResource("combo_cima_8")}, {"duration": 4.0, "texture": SubResource("combo_cima_9")}, {"duration": 7.0, "texture": SubResource("combo_cima_10")}, {"duration": 12.0, "texture": SubResource("combo_cima_11")}], "loop": false, "name": &"ataque_3_cima", "speed": 100.0},
+{"frames": [{"duration": 10.0, "texture": SubResource("combo_cima_11")}], "loop": true, "name": &"parado_cima", "speed": 100.0},
+{"frames": [{"duration": 10.0, "texture": SubResource("combo_esquerda_0")}, {"duration": 4.0, "texture": SubResource("combo_esquerda_1")}, {"duration": 6.0, "texture": SubResource("combo_esquerda_2")}, {"duration": 7.0, "texture": SubResource("combo_esquerda_3")}], "loop": false, "name": &"ataque_1_esquerda", "speed": 100.0},
+{"frames": [{"duration": 8.0, "texture": SubResource("combo_esquerda_4")}, {"duration": 4.0, "texture": SubResource("combo_esquerda_5")}, {"duration": 6.0, "texture": SubResource("combo_esquerda_6")}, {"duration": 7.0, "texture": SubResource("combo_esquerda_7")}], "loop": false, "name": &"ataque_2_esquerda", "speed": 100.0},
+{"frames": [{"duration": 10.0, "texture": SubResource("combo_esquerda_8")}, {"duration": 4.0, "texture": SubResource("combo_esquerda_9")}, {"duration": 7.0, "texture": SubResource("combo_esquerda_10")}, {"duration": 12.0, "texture": SubResource("combo_esquerda_11")}], "loop": false, "name": &"ataque_3_esquerda", "speed": 100.0},
+{"frames": [{"duration": 10.0, "texture": SubResource("combo_esquerda_11")}], "loop": true, "name": &"parado_esquerda", "speed": 100.0}]

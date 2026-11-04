@@ -62,7 +62,7 @@ func rodar():
 	var g = get_first_node_in_group("gerenciador_ondas")
 	conferir(g != null and g.onda_atual == 50, "entrou no andar 50 (onda_atual=%s, cena=%s)" % [g.onda_atual if g else -1, current_scene.scene_file_path])
 	var j = current_scene.get_node_or_null("Jogador")
-	conferir(j != null and j.get_node("HeroiRaven").is_visible_in_tree(), "jogador visivel no andar")
+	conferir(j != null and j.get_node("HeroiBase3D").is_visible_in_tree(), "jogador visivel no andar")
 	await RenderingServer.frame_post_draw
 	root.get_texture().get_image().save_png(SAIDA+"andar_50.png")
 	print("CHECKPOINT MAPA: %d falhas" % falhas)

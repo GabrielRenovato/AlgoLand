@@ -1,0 +1,71 @@
+{
+  "escopo": "morte nas quatro direções, integrada ao goblin de adaga ativo",
+  "fontes": [
+    "morte_direita_v1.png",
+    "morte_baixo_v1.png",
+    "morte_cima_v1.png"
+  ],
+  "prompts": [
+    "prompt_morte_direita.txt",
+    "prompt_morte_baixo.txt",
+    "prompt_morte_cima.txt"
+  ],
+  "contrato": "arte/fontes/inimigos/goblin_adaga/contrato_morte.md",
+  "geracao": "image_gen integrado; modelo canônico e colapso do machado como referências, mantendo corpo e adaga próprios",
+  "celula": [
+    640,
+    640
+  ],
+  "grade": [
+    4,
+    2
+  ],
+  "pivo": [
+    320,
+    560
+  ],
+  "escala": 0.071,
+  "duracoes_ms": [
+    80,
+    100,
+    110,
+    100,
+    100,
+    120,
+    160,
+    500
+  ],
+  "loop": false,
+  "esquerda": "espelho da direita",
+  "mob_ativo": {
+    "repouso_ms": 900,
+    "fade_ms": 350,
+    "queda_ms": 1270,
+    "giro_rigido": false,
+    "sinal_morte": "uma vez, no dano fatal; colisão desligada"
+  },
+  "revisao_visual": {
+    "estado": "inspecionada no Godot",
+    "aprovacao_artistica_usuario": false,
+    "analise": "Cabeça acompanha perda de apoio, joelhos dobram e mão livre busca chão; adaga solta durante queda sem trocar mão. Corpo se acomoda, arma fica ao lado; frente/costas preservadas. Corridas/combos/dano anteriores idênticos por hash.",
+    "metodo": "Contatos dos8quadros de cada direção, capturas de4mortes por dano fatal real no mapa, repouso/fade/remoção e capturas do perfil goblins-pomar. GIFs dos atlas/tempos reais e das capturas do motor; não se afirma reprodução de GIF no visualizador estático.",
+    "resultado": "Queda articulada legível na escala do player: perde apoio, ajoelha, solta adaga e deita. Frente/costas e mão preservadas; arma inteira ao lado, sem giro rígido do sprite. Mob ativo reproduz morte direcional, segura corpo opaco, faz fade após repouso e remove instância. Modelo/corridas/combos/dano anteriores idênticos por SHA256. Escopo visual do perfil restrito ao goblin, sem alterações de mapa/interface.",
+    "evidencias": [
+      "morte_direita_contato.png",
+      "morte_esquerda_contato.png",
+      "morte_baixo_contato.png",
+      "morte_cima_contato.png",
+      "morte_quatro_direcoes.gif",
+      "morte_motor.gif",
+      "morte_motor_contato.png"
+    ]
+  },
+  "testes": {
+    "perfil": "goblins-pomar",
+    "verificacoes_ok": 177,
+    "falhas": 0,
+    "aprovado": true,
+    "estado_preservado": true,
+    "relatorio": "/tmp/algoland-harness/execucao-6a_svo57/relatorio.json"
+  }
+}

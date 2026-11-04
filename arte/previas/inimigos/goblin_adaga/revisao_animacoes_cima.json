@@ -1,0 +1,55 @@
+{
+  "escopo": "somente corrida para cima, com aparência e ritmo da corrida frontal aprovada",
+  "arte": "image_gen integrado",
+  "fonte": "arte/fontes/inimigos/goblin_adaga/corrida_cima_v1.png",
+  "prompt": "arte/fontes/inimigos/goblin_adaga/prompt_corrida_cima.txt",
+  "quadros": 8,
+  "duracoes_ms": [
+    50,
+    60,
+    40,
+    50,
+    50,
+    60,
+    40,
+    50
+  ],
+  "ciclo_ms": 400,
+  "pivo": [
+    320,
+    560
+  ],
+  "escala": 0.071,
+  "altura_contato_px": 31.666,
+  "velocidade_px_s": 100,
+  "revisao_visual": {
+    "identidade": "comparada ao canônico traseiro e corrida frontal aprovada; costura dorsal, nuca, cabelo e roupa preservados",
+    "direcao": "todos os oito quadros são costas, sem olhos, peito ou focinho acidental",
+    "mao": "adaga na mão anatômica direita, lado direito da imagem; faixa no quadril esquerdo",
+    "movimento": "apoios alternados, absorções 1/5, calcanhar recuado levantando em lados opostos, voos 3/7, braços em oposição; cabeça/pescoço acompanham tronco; transição7→0 inspecionada",
+    "motor": "Godot4.7.2, projeto/save exclusivos, player e corrida frontal ao lado, mais de4 ciclos no lugar e2 ciclos com movimento para cima",
+    "metodo": "contatos dos oito quadros e sequência de capturas da reprodução real; não se afirma reprodução do GIF pelo visualizador estático",
+    "evidencias": [
+      "correr_cima_contato.png",
+      "correr_cima.gif",
+      "no_mapa_cima.png",
+      "reproducao_motor_cima.gif",
+      "reproducao_motor_cima_contato.png",
+      "corrida_deslocamento_motor_cima.gif",
+      "deslocamento_motor_cima_contato.png"
+    ],
+    "aprovacao_usuario": false
+  },
+  "verificacoes": {
+    "perfil": "selecionado --teste goblin_adaga_animacoes",
+    "ok": 33,
+    "falhas": 0,
+    "relatorio": "/tmp/algoland-harness/execucao-ebh1go3f/relatorio.json"
+  },
+  "auditoria_referencias": {
+    "falhas_gerais_preexistentes": 8,
+    "falhas_nos_caminhos_desta_tarefa": 0,
+    "log": "/tmp/algoland-adaga-referencias-cima.log"
+  },
+  "limite": "Ataques e guarda para cima não fazem parte deste pedido; somente correr_cima foi adicionado."
+}

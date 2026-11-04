@@ -1,0 +1,287 @@
+{
+  "quadro": [
+    1024,
+    1024
+  ],
+  "grade": [
+    8,
+    6
+  ],
+  "pivo": [
+    512,
+    800
+  ],
+  "escala": 0.1,
+  "animacoes": {
+    "parado_baixo": {
+      "quadros": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "duracoes": [
+        0.3,
+        0.3,
+        0.3,
+        0.3
+      ],
+      "loop": true
+    },
+    "andar_baixo": {
+      "quadros": [
+        4,
+        5,
+        6,
+        7
+      ],
+      "duracoes": [
+        0.17,
+        0.17,
+        0.17,
+        0.17
+      ],
+      "loop": true
+    },
+    "andar_lado": {
+      "quadros": [
+        8,
+        9,
+        10,
+        11
+      ],
+      "duracoes": [
+        0.17,
+        0.17,
+        0.17,
+        0.17
+      ],
+      "loop": true
+    },
+    "andar_cima": {
+      "quadros": [
+        12,
+        13,
+        14,
+        15
+      ],
+      "duracoes": [
+        0.17,
+        0.17,
+        0.17,
+        0.17
+      ],
+      "loop": true
+    },
+    "golpe_a_baixo": {
+      "quadros": [
+        16,
+        17,
+        18,
+        19
+      ],
+      "duracoes": [
+        0.32,
+        0.18,
+        0.12,
+        0.3
+      ],
+      "loop": false
+    },
+    "golpe_a_lado": {
+      "quadros": [
+        20,
+        21,
+        22,
+        23
+      ],
+      "duracoes": [
+        0.32,
+        0.18,
+        0.12,
+        0.3
+      ],
+      "loop": false
+    },
+    "golpe_a_cima": {
+      "quadros": [
+        24,
+        25,
+        26,
+        27
+      ],
+      "duracoes": [
+        0.32,
+        0.18,
+        0.12,
+        0.3
+      ],
+      "loop": false
+    },
+    "conjurar_baixo": {
+      "quadros": [
+        28,
+        29,
+        30,
+        31
+      ],
+      "duracoes": [
+        0.45,
+        0.35,
+        0.48,
+        0.42
+      ],
+      "loop": false
+    },
+    "conjurar_lado": {
+      "quadros": [
+        32,
+        33,
+        34,
+        35
+      ],
+      "duracoes": [
+        0.45,
+        0.35,
+        0.48,
+        0.42
+      ],
+      "loop": false
+    },
+    "conjurar_cima": {
+      "quadros": [
+        36,
+        37,
+        38,
+        39
+      ],
+      "duracoes": [
+        0.45,
+        0.35,
+        0.48,
+        0.42
+      ],
+      "loop": false
+    },
+    "reagir": {
+      "quadros": [
+        40,
+        41,
+        42,
+        43
+      ],
+      "duracoes": [
+        0.2,
+        0.2,
+        0.2,
+        0.2
+      ],
+      "loop": false
+    },
+    "morte": {
+      "quadros": [
+        44,
+        45,
+        46,
+        47
+      ],
+      "duracoes": [
+        0.2,
+        0.2,
+        0.2,
+        0.2
+      ],
+      "loop": false
+    },
+    "golpe_b_baixo": {
+      "quadros": [
+        28,
+        29,
+        30,
+        31
+      ],
+      "duracoes": [
+        0.32,
+        0.18,
+        0.12,
+        0.41
+      ],
+      "loop": false
+    },
+    "reagir_baixo": {
+      "quadros": [
+        40
+      ],
+      "duracoes": [
+        0.24
+      ],
+      "loop": false
+    },
+    "golpe_b_lado": {
+      "quadros": [
+        32,
+        33,
+        34,
+        35
+      ],
+      "duracoes": [
+        0.32,
+        0.18,
+        0.12,
+        0.41
+      ],
+      "loop": false
+    },
+    "parado_lado": {
+      "quadros": [
+        8
+      ],
+      "duracoes": [
+        1.0
+      ],
+      "loop": true
+    },
+    "reagir_lado": {
+      "quadros": [
+        41
+      ],
+      "duracoes": [
+        0.24
+      ],
+      "loop": false
+    },
+    "golpe_b_cima": {
+      "quadros": [
+        36,
+        37,
+        38,
+        39
+      ],
+      "duracoes": [
+        0.32,
+        0.18,
+        0.12,
+        0.41
+      ],
+      "loop": false
+    },
+    "parado_cima": {
+      "quadros": [
+        12
+      ],
+      "duracoes": [
+        1.0
+      ],
+      "loop": true
+    },
+    "reagir_cima": {
+      "quadros": [
+        42
+      ],
+      "duracoes": [
+        0.24
+      ],
+      "loop": false
+    }
+  }
+}

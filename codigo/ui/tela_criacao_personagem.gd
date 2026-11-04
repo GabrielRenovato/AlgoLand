@@ -892,6 +892,9 @@ func confirmar() -> void:
 	if trocar_cena and etapa_coop == 1:
 		etapa_coop = 2
 		_sair_para(CENA_CRIACAO)
+	elif trocar_cena and Saves.mundo == Saves.CAMPANHA:
+		etapa_coop = 0
+		_sair_para("res://cenas/campanha/seletor_campanha.tscn")
 	elif trocar_cena:
 		etapa_coop = 0
 		_sair_para(Introducao.cena_continuar())

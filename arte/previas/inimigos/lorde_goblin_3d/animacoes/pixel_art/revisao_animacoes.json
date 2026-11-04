@@ -1,0 +1,728 @@
+{
+	"giro_area": {
+		"duracao_s": 3.79999995231628,
+		"fps_previa": 20,
+		"quadros": [
+			{
+				"arquivo": "giro_area_000.png",
+				"tempo_s": 0.0
+			},
+			{
+				"arquivo": "giro_area_001.png",
+				"tempo_s": 0.05
+			},
+			{
+				"arquivo": "giro_area_002.png",
+				"tempo_s": 0.1
+			},
+			{
+				"arquivo": "giro_area_003.png",
+				"tempo_s": 0.15
+			},
+			{
+				"arquivo": "giro_area_004.png",
+				"tempo_s": 0.2
+			},
+			{
+				"arquivo": "giro_area_005.png",
+				"tempo_s": 0.25
+			},
+			{
+				"arquivo": "giro_area_006.png",
+				"tempo_s": 0.3
+			},
+			{
+				"arquivo": "giro_area_007.png",
+				"tempo_s": 0.35
+			},
+			{
+				"arquivo": "giro_area_008.png",
+				"tempo_s": 0.4
+			},
+			{
+				"arquivo": "giro_area_009.png",
+				"tempo_s": 0.45
+			},
+			{
+				"arquivo": "giro_area_010.png",
+				"tempo_s": 0.5
+			},
+			{
+				"arquivo": "giro_area_011.png",
+				"tempo_s": 0.55
+			},
+			{
+				"arquivo": "giro_area_012.png",
+				"tempo_s": 0.6
+			},
+			{
+				"arquivo": "giro_area_013.png",
+				"tempo_s": 0.65
+			},
+			{
+				"arquivo": "giro_area_014.png",
+				"tempo_s": 0.7
+			},
+			{
+				"arquivo": "giro_area_015.png",
+				"tempo_s": 0.75
+			},
+			{
+				"arquivo": "giro_area_016.png",
+				"tempo_s": 0.8
+			},
+			{
+				"arquivo": "giro_area_017.png",
+				"tempo_s": 0.85
+			},
+			{
+				"arquivo": "giro_area_018.png",
+				"tempo_s": 0.9
+			},
+			{
+				"arquivo": "giro_area_019.png",
+				"tempo_s": 0.95
+			},
+			{
+				"arquivo": "giro_area_020.png",
+				"tempo_s": 1.0
+			},
+			{
+				"arquivo": "giro_area_021.png",
+				"tempo_s": 1.05
+			},
+			{
+				"arquivo": "giro_area_022.png",
+				"tempo_s": 1.1
+			},
+			{
+				"arquivo": "giro_area_023.png",
+				"tempo_s": 1.15
+			},
+			{
+				"arquivo": "giro_area_024.png",
+				"tempo_s": 1.2
+			},
+			{
+				"arquivo": "giro_area_025.png",
+				"tempo_s": 1.25
+			},
+			{
+				"arquivo": "giro_area_026.png",
+				"tempo_s": 1.3
+			},
+			{
+				"arquivo": "giro_area_027.png",
+				"tempo_s": 1.35
+			},
+			{
+				"arquivo": "giro_area_028.png",
+				"tempo_s": 1.4
+			},
+			{
+				"arquivo": "giro_area_029.png",
+				"tempo_s": 1.45
+			},
+			{
+				"arquivo": "giro_area_030.png",
+				"tempo_s": 1.5
+			},
+			{
+				"arquivo": "giro_area_031.png",
+				"tempo_s": 1.55
+			},
+			{
+				"arquivo": "giro_area_032.png",
+				"tempo_s": 1.6
+			},
+			{
+				"arquivo": "giro_area_033.png",
+				"tempo_s": 1.65
+			},
+			{
+				"arquivo": "giro_area_034.png",
+				"tempo_s": 1.7
+			},
+			{
+				"arquivo": "giro_area_035.png",
+				"tempo_s": 1.75
+			},
+			{
+				"arquivo": "giro_area_036.png",
+				"tempo_s": 1.8
+			},
+			{
+				"arquivo": "giro_area_037.png",
+				"tempo_s": 1.85
+			},
+			{
+				"arquivo": "giro_area_038.png",
+				"tempo_s": 1.9
+			},
+			{
+				"arquivo": "giro_area_039.png",
+				"tempo_s": 1.95
+			},
+			{
+				"arquivo": "giro_area_040.png",
+				"tempo_s": 2.0
+			},
+			{
+				"arquivo": "giro_area_041.png",
+				"tempo_s": 2.05
+			},
+			{
+				"arquivo": "giro_area_042.png",
+				"tempo_s": 2.1
+			},
+			{
+				"arquivo": "giro_area_043.png",
+				"tempo_s": 2.15
+			},
+			{
+				"arquivo": "giro_area_044.png",
+				"tempo_s": 2.2
+			},
+			{
+				"arquivo": "giro_area_045.png",
+				"tempo_s": 2.25
+			},
+			{
+				"arquivo": "giro_area_046.png",
+				"tempo_s": 2.3
+			},
+			{
+				"arquivo": "giro_area_047.png",
+				"tempo_s": 2.35
+			},
+			{
+				"arquivo": "giro_area_048.png",
+				"tempo_s": 2.4
+			},
+			{
+				"arquivo": "giro_area_049.png",
+				"tempo_s": 2.45
+			},
+			{
+				"arquivo": "giro_area_050.png",
+				"tempo_s": 2.5
+			},
+			{
+				"arquivo": "giro_area_051.png",
+				"tempo_s": 2.55
+			},
+			{
+				"arquivo": "giro_area_052.png",
+				"tempo_s": 2.6
+			},
+			{
+				"arquivo": "giro_area_053.png",
+				"tempo_s": 2.65
+			},
+			{
+				"arquivo": "giro_area_054.png",
+				"tempo_s": 2.7
+			},
+			{
+				"arquivo": "giro_area_055.png",
+				"tempo_s": 2.75
+			},
+			{
+				"arquivo": "giro_area_056.png",
+				"tempo_s": 2.8
+			},
+			{
+				"arquivo": "giro_area_057.png",
+				"tempo_s": 2.85
+			},
+			{
+				"arquivo": "giro_area_058.png",
+				"tempo_s": 2.9
+			},
+			{
+				"arquivo": "giro_area_059.png",
+				"tempo_s": 2.95
+			},
+			{
+				"arquivo": "giro_area_060.png",
+				"tempo_s": 3.0
+			},
+			{
+				"arquivo": "giro_area_061.png",
+				"tempo_s": 3.05
+			},
+			{
+				"arquivo": "giro_area_062.png",
+				"tempo_s": 3.1
+			},
+			{
+				"arquivo": "giro_area_063.png",
+				"tempo_s": 3.15
+			},
+			{
+				"arquivo": "giro_area_064.png",
+				"tempo_s": 3.2
+			},
+			{
+				"arquivo": "giro_area_065.png",
+				"tempo_s": 3.25
+			},
+			{
+				"arquivo": "giro_area_066.png",
+				"tempo_s": 3.3
+			},
+			{
+				"arquivo": "giro_area_067.png",
+				"tempo_s": 3.35
+			},
+			{
+				"arquivo": "giro_area_068.png",
+				"tempo_s": 3.4
+			},
+			{
+				"arquivo": "giro_area_069.png",
+				"tempo_s": 3.45
+			},
+			{
+				"arquivo": "giro_area_070.png",
+				"tempo_s": 3.5
+			},
+			{
+				"arquivo": "giro_area_071.png",
+				"tempo_s": 3.55
+			},
+			{
+				"arquivo": "giro_area_072.png",
+				"tempo_s": 3.6
+			},
+			{
+				"arquivo": "giro_area_073.png",
+				"tempo_s": 3.65
+			},
+			{
+				"arquivo": "giro_area_074.png",
+				"tempo_s": 3.7
+			},
+			{
+				"arquivo": "giro_area_075.png",
+				"tempo_s": 3.75
+			},
+			{
+				"arquivo": "giro_area_076.png",
+				"tempo_s": 3.79999995231628
+			}
+		]
+	},
+	"golpe_duas_maos": {
+		"duracao_s": 2.04999995231628,
+		"fps_previa": 20,
+		"quadros": [
+			{
+				"arquivo": "golpe_duas_maos_000.png",
+				"tempo_s": 0.0
+			},
+			{
+				"arquivo": "golpe_duas_maos_001.png",
+				"tempo_s": 0.05
+			},
+			{
+				"arquivo": "golpe_duas_maos_002.png",
+				"tempo_s": 0.1
+			},
+			{
+				"arquivo": "golpe_duas_maos_003.png",
+				"tempo_s": 0.15
+			},
+			{
+				"arquivo": "golpe_duas_maos_004.png",
+				"tempo_s": 0.2
+			},
+			{
+				"arquivo": "golpe_duas_maos_005.png",
+				"tempo_s": 0.25
+			},
+			{
+				"arquivo": "golpe_duas_maos_006.png",
+				"tempo_s": 0.3
+			},
+			{
+				"arquivo": "golpe_duas_maos_007.png",
+				"tempo_s": 0.35
+			},
+			{
+				"arquivo": "golpe_duas_maos_008.png",
+				"tempo_s": 0.4
+			},
+			{
+				"arquivo": "golpe_duas_maos_009.png",
+				"tempo_s": 0.45
+			},
+			{
+				"arquivo": "golpe_duas_maos_010.png",
+				"tempo_s": 0.5
+			},
+			{
+				"arquivo": "golpe_duas_maos_011.png",
+				"tempo_s": 0.55
+			},
+			{
+				"arquivo": "golpe_duas_maos_012.png",
+				"tempo_s": 0.6
+			},
+			{
+				"arquivo": "golpe_duas_maos_013.png",
+				"tempo_s": 0.65
+			},
+			{
+				"arquivo": "golpe_duas_maos_014.png",
+				"tempo_s": 0.7
+			},
+			{
+				"arquivo": "golpe_duas_maos_015.png",
+				"tempo_s": 0.75
+			},
+			{
+				"arquivo": "golpe_duas_maos_016.png",
+				"tempo_s": 0.8
+			},
+			{
+				"arquivo": "golpe_duas_maos_017.png",
+				"tempo_s": 0.85
+			},
+			{
+				"arquivo": "golpe_duas_maos_018.png",
+				"tempo_s": 0.9
+			},
+			{
+				"arquivo": "golpe_duas_maos_019.png",
+				"tempo_s": 0.95
+			},
+			{
+				"arquivo": "golpe_duas_maos_020.png",
+				"tempo_s": 1.0
+			},
+			{
+				"arquivo": "golpe_duas_maos_021.png",
+				"tempo_s": 1.05
+			},
+			{
+				"arquivo": "golpe_duas_maos_022.png",
+				"tempo_s": 1.1
+			},
+			{
+				"arquivo": "golpe_duas_maos_023.png",
+				"tempo_s": 1.15
+			},
+			{
+				"arquivo": "golpe_duas_maos_024.png",
+				"tempo_s": 1.2
+			},
+			{
+				"arquivo": "golpe_duas_maos_025.png",
+				"tempo_s": 1.25
+			},
+			{
+				"arquivo": "golpe_duas_maos_026.png",
+				"tempo_s": 1.3
+			},
+			{
+				"arquivo": "golpe_duas_maos_027.png",
+				"tempo_s": 1.35
+			},
+			{
+				"arquivo": "golpe_duas_maos_028.png",
+				"tempo_s": 1.4
+			},
+			{
+				"arquivo": "golpe_duas_maos_029.png",
+				"tempo_s": 1.45
+			},
+			{
+				"arquivo": "golpe_duas_maos_030.png",
+				"tempo_s": 1.5
+			},
+			{
+				"arquivo": "golpe_duas_maos_031.png",
+				"tempo_s": 1.55
+			},
+			{
+				"arquivo": "golpe_duas_maos_032.png",
+				"tempo_s": 1.6
+			},
+			{
+				"arquivo": "golpe_duas_maos_033.png",
+				"tempo_s": 1.65
+			},
+			{
+				"arquivo": "golpe_duas_maos_034.png",
+				"tempo_s": 1.7
+			},
+			{
+				"arquivo": "golpe_duas_maos_035.png",
+				"tempo_s": 1.75
+			},
+			{
+				"arquivo": "golpe_duas_maos_036.png",
+				"tempo_s": 1.8
+			},
+			{
+				"arquivo": "golpe_duas_maos_037.png",
+				"tempo_s": 1.85
+			},
+			{
+				"arquivo": "golpe_duas_maos_038.png",
+				"tempo_s": 1.9
+			},
+			{
+				"arquivo": "golpe_duas_maos_039.png",
+				"tempo_s": 1.95
+			},
+			{
+				"arquivo": "golpe_duas_maos_040.png",
+				"tempo_s": 2.0
+			},
+			{
+				"arquivo": "golpe_duas_maos_041.png",
+				"tempo_s": 2.04999995231628
+			}
+		]
+	},
+	"impacto_area": {
+		"duracao_s": 2.84999990463257,
+		"fps_previa": 20,
+		"quadros": [
+			{
+				"arquivo": "impacto_area_000.png",
+				"tempo_s": 0.0
+			},
+			{
+				"arquivo": "impacto_area_001.png",
+				"tempo_s": 0.05
+			},
+			{
+				"arquivo": "impacto_area_002.png",
+				"tempo_s": 0.1
+			},
+			{
+				"arquivo": "impacto_area_003.png",
+				"tempo_s": 0.15
+			},
+			{
+				"arquivo": "impacto_area_004.png",
+				"tempo_s": 0.2
+			},
+			{
+				"arquivo": "impacto_area_005.png",
+				"tempo_s": 0.25
+			},
+			{
+				"arquivo": "impacto_area_006.png",
+				"tempo_s": 0.3
+			},
+			{
+				"arquivo": "impacto_area_007.png",
+				"tempo_s": 0.35
+			},
+			{
+				"arquivo": "impacto_area_008.png",
+				"tempo_s": 0.4
+			},
+			{
+				"arquivo": "impacto_area_009.png",
+				"tempo_s": 0.45
+			},
+			{
+				"arquivo": "impacto_area_010.png",
+				"tempo_s": 0.5
+			},
+			{
+				"arquivo": "impacto_area_011.png",
+				"tempo_s": 0.55
+			},
+			{
+				"arquivo": "impacto_area_012.png",
+				"tempo_s": 0.6
+			},
+			{
+				"arquivo": "impacto_area_013.png",
+				"tempo_s": 0.65
+			},
+			{
+				"arquivo": "impacto_area_014.png",
+				"tempo_s": 0.7
+			},
+			{
+				"arquivo": "impacto_area_015.png",
+				"tempo_s": 0.75
+			},
+			{
+				"arquivo": "impacto_area_016.png",
+				"tempo_s": 0.8
+			},
+			{
+				"arquivo": "impacto_area_017.png",
+				"tempo_s": 0.85
+			},
+			{
+				"arquivo": "impacto_area_018.png",
+				"tempo_s": 0.9
+			},
+			{
+				"arquivo": "impacto_area_019.png",
+				"tempo_s": 0.95
+			},
+			{
+				"arquivo": "impacto_area_020.png",
+				"tempo_s": 1.0
+			},
+			{
+				"arquivo": "impacto_area_021.png",
+				"tempo_s": 1.05
+			},
+			{
+				"arquivo": "impacto_area_022.png",
+				"tempo_s": 1.1
+			},
+			{
+				"arquivo": "impacto_area_023.png",
+				"tempo_s": 1.15
+			},
+			{
+				"arquivo": "impacto_area_024.png",
+				"tempo_s": 1.2
+			},
+			{
+				"arquivo": "impacto_area_025.png",
+				"tempo_s": 1.25
+			},
+			{
+				"arquivo": "impacto_area_026.png",
+				"tempo_s": 1.3
+			},
+			{
+				"arquivo": "impacto_area_027.png",
+				"tempo_s": 1.35
+			},
+			{
+				"arquivo": "impacto_area_028.png",
+				"tempo_s": 1.4
+			},
+			{
+				"arquivo": "impacto_area_029.png",
+				"tempo_s": 1.45
+			},
+			{
+				"arquivo": "impacto_area_030.png",
+				"tempo_s": 1.5
+			},
+			{
+				"arquivo": "impacto_area_031.png",
+				"tempo_s": 1.55
+			},
+			{
+				"arquivo": "impacto_area_032.png",
+				"tempo_s": 1.6
+			},
+			{
+				"arquivo": "impacto_area_033.png",
+				"tempo_s": 1.65
+			},
+			{
+				"arquivo": "impacto_area_034.png",
+				"tempo_s": 1.7
+			},
+			{
+				"arquivo": "impacto_area_035.png",
+				"tempo_s": 1.75
+			},
+			{
+				"arquivo": "impacto_area_036.png",
+				"tempo_s": 1.8
+			},
+			{
+				"arquivo": "impacto_area_037.png",
+				"tempo_s": 1.85
+			},
+			{
+				"arquivo": "impacto_area_038.png",
+				"tempo_s": 1.9
+			},
+			{
+				"arquivo": "impacto_area_039.png",
+				"tempo_s": 1.95
+			},
+			{
+				"arquivo": "impacto_area_040.png",
+				"tempo_s": 2.0
+			},
+			{
+				"arquivo": "impacto_area_041.png",
+				"tempo_s": 2.05
+			},
+			{
+				"arquivo": "impacto_area_042.png",
+				"tempo_s": 2.1
+			},
+			{
+				"arquivo": "impacto_area_043.png",
+				"tempo_s": 2.15
+			},
+			{
+				"arquivo": "impacto_area_044.png",
+				"tempo_s": 2.2
+			},
+			{
+				"arquivo": "impacto_area_045.png",
+				"tempo_s": 2.25
+			},
+			{
+				"arquivo": "impacto_area_046.png",
+				"tempo_s": 2.3
+			},
+			{
+				"arquivo": "impacto_area_047.png",
+				"tempo_s": 2.35
+			},
+			{
+				"arquivo": "impacto_area_048.png",
+				"tempo_s": 2.4
+			},
+			{
+				"arquivo": "impacto_area_049.png",
+				"tempo_s": 2.45
+			},
+			{
+				"arquivo": "impacto_area_050.png",
+				"tempo_s": 2.5
+			},
+			{
+				"arquivo": "impacto_area_051.png",
+				"tempo_s": 2.55
+			},
+			{
+				"arquivo": "impacto_area_052.png",
+				"tempo_s": 2.6
+			},
+			{
+				"arquivo": "impacto_area_053.png",
+				"tempo_s": 2.65
+			},
+			{
+				"arquivo": "impacto_area_054.png",
+				"tempo_s": 2.7
+			},
+			{
+				"arquivo": "impacto_area_055.png",
+				"tempo_s": 2.75
+			},
+			{
+				"arquivo": "impacto_area_056.png",
+				"tempo_s": 2.8
+			},
+			{
+				"arquivo": "impacto_area_057.png",
+				"tempo_s": 2.84999990463257
+			}
+		]
+	}
+}

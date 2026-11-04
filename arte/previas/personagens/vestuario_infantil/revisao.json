@@ -1,0 +1,31 @@
+{
+  "relatorio": "/tmp/algoland-harness/execucao-sjt_iauk/relatorio.json",
+  "estado": "teste aprovado e revisão visual das capturas reais concluída",
+  "escopo": "três trajes e três penteados combináveis no manequim infantil",
+  "evidencias": [
+    "trajes.png",
+    "cabelos.png",
+    "combinacoes.png",
+    "quatro_vistas.png",
+    "caminhada.gif",
+    "caminhada_campestre_quadros.png",
+    "caminhada_jardineira_quadros.png",
+    "caminhada_vestido_quadros.png"
+  ],
+  "conferencias": [
+    "nove combinações em quatro direções",
+    "oito fases da caminhada por direção nos três trajes",
+    "roupas/cabelo com mesmo Skin e rig, corpo sem alterações de geometria",
+    "bermudas e vestido curto com cobertura só acima da barra; joelhos visíveis",
+    "peitilho da jardineira acompanha a curvatura da camisa, alças ligadas ao rig",
+    "franja acima dos olhos, cachos e caudas curtas; rosto preservado",
+    "remoção/restauração de peças e alteração de aparência preservam o vestuário",
+    "calças e proporções adultas preservadas pelo padrão .24 de cobertura"
+  ],
+  "testes": [
+    "manequim_infantil_3d",
+    "roupas_base_3d",
+    "vestuario_infantil_3d"
+  ],
+  "falhas": 0
+}

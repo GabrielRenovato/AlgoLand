@@ -4,6 +4,8 @@ extends "res://codigo/logica/slime_spawner.gd"
 const Catalogo := preload("res://codigo/fendas/catalogo_andares.gd")
 var PLANTA: Dictionary
 const DISTANCIA_ENTRADA := 140.0
+const CENA_GOBLIN_ADAGA := preload("res://cenas/inimigos/goblin_pomar.tscn")
+const CENA_GOBLIN_MACHADO := preload("res://cenas/inimigos/goblin_machado_fenda.tscn")
 var _populacao: Array[Node2D] = []
 var _pontos: Array[Vector2] = []
 
@@ -69,7 +71,12 @@ func montar_populacao(geracao: int) -> int:
 			var elite: bool = grupo.get_meta("elite",false) and criados == 0
 			var especies := obter_pool_especies(gerenciador_ondas.onda_atual)
 			var cena: PackedScene = especies[criados % especies.size()]
-			if PLANTA.bioma.begins_with("caverna") and criados == 2: cena = CENA_MORCEGO
+			if PLANTA.andar == 4:
+				# A Gruta usa somente os dois goblins próprios, sem criaturas Mana Seed.
+				var composicao: Array[PackedScene] = [CENA_GOBLIN_ADAGA,CENA_GOBLIN_MACHADO]
+				cena = composicao[(criados + int(grupo.get_index())) % composicao.size()]
+			elif PLANTA.bioma.begins_with("caverna") and criados == 2:
+				cena = CENA_MORCEGO
 			var valor_pontos := int(PLANTA.combate.pontos_elite if elite else PLANTA.combate.pontos_comum)
 			pontos_possiveis += valor_pontos
 			var inimigo := _criar(cena,ponto,geracao,valor_pontos,false)

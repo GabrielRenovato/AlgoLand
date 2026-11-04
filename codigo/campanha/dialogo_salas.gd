@@ -131,7 +131,7 @@ func _montar_informacoes() -> void:
 	coluna.add_child(_texto("1–4 aventureiros • padrão",8,true))
 	var duracao: String="Encontro e serviços" if dados.tipo=="cidade" else "%d–%d min previstos" % [dados.duracao.prevista[0]/60,dados.duracao.prevista[1]/60]
 	coluna.add_child(_texto(duracao,8,true))
-	var objetivos := {"chegada":"Encontre os equipamentos.\nResista aos rebentos.\nDerrote o Cerne Partido.","estrada":"Siga os rastros do carreto e encontre os refugiados.","vila":"Conheça os moradores e prepare a próxima expedição.","pomar":"Investigue os sulcos e repare a cerca do pomar."}
+	var objetivos := {"chegada":"Encontre os equipamentos.\nResista aos rebentos.\nDerrote o Cerne Partido.","estrada":"Siga os rastros do carreto e encontre os refugiados.","vila":"Conheça os moradores e prepare a próxima expedição.","pomar":"Enfrente os goblins, investigue os sulcos e repare a cerca do pomar."}
 	informacoes.add_child(_texto("Objetivos do estágio",10))
 	informacoes.add_child(_texto(objetivos.get(regiao,"Explore a região com seu grupo."),9))
 	if _na_sala:

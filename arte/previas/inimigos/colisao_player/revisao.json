@@ -1,0 +1,48 @@
+{
+  "escopo": "Colisão bilateral com jogador em25 tipos de mobs com corpo físico, incluindo chefes. Camada sólida32 adicionada sem retirar camada atingível4; máscara do jogador2 adicionada sem alterar mundo64. ApoioCerne é raiz cortável sem corpo físico e não recebeu barreira nova.",
+  "tipos": [
+    "arraia_junco",
+    "besouro_barranco",
+    "caranguejo",
+    "cerne_partido",
+    "cogumelo",
+    "dragao_vermelho",
+    "esqueleto_arqueiro",
+    "esqueleto_guerreiro",
+    "esqueleto_mago",
+    "falcao",
+    "flor",
+    "goblin_machado_fenda",
+    "goblin_maromba",
+    "goblin_pomar",
+    "golem",
+    "gremlin",
+    "lorde_goblin",
+    "medusa",
+    "mimico",
+    "minotauro",
+    "morcego",
+    "rebento_raizes",
+    "slime",
+    "valvula_errante",
+    "vespa"
+  ],
+  "voadores": "vespa, morcego e falcão bloqueiam jogador mas continuam sem navegação terrestre e sem barreira do mundo",
+  "morte": "setter esta_morto retira camada sólida e detecção de jogador enquanto termina animação",
+  "testes": {
+    "ok": 368,
+    "falhas": 0,
+    "estado_preservado": true,
+    "relatorio": "/tmp/algoland-harness/execucao-bhp0pdol/relatorio.json",
+    "selecao": [
+      "colisao_mobs_player",
+      "goblins_pomar",
+      "colisoes_dragao",
+      "lorde_goblin_combate"
+    ]
+  },
+  "revisao_visual": {
+    "evidencia": "/var/home/alfeim/AlgoLand/arte/previas/inimigos/colisao_player/machado_no_mapa.png",
+    "metodo": "Captura real inspecionada do goblin de machado e player na Bacia do Moinho. Registro confirma bloqueio nos quatro sentidos. As25 espécies foram verificadas por movimento físico dos corpos, com renderização ligada; não se atribui revisão artística individual dessas25 espécies nem aprovação ao usuário."
+  }
+}

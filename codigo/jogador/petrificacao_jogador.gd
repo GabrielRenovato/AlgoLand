@@ -36,7 +36,7 @@ func aplicar(duracao: float, fatal: bool = false) -> bool:
 	jogador._cancelar_acoes_em_andamento()
 	jogador.animar()
 	_visuais.clear()
-	for nome_visual in ["HeroiRaven","HeroiBase3D"]:
+	for nome_visual in ["HeroiBase3D"]:
 		var visual := jogador.get_node_or_null(nome_visual)
 		if visual == null: continue
 		_visuais[visual] = {"processava":visual.is_processing(),"visivel":visual.visible}

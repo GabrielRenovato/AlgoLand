@@ -1,7 +1,9 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=3 format=3]
 
-[ext_resource type="PackedScene" path="res://assets/inimigos/goblin_machado_3d/goblin_machado.glb" id="1_modelo"]
+[ext_resource type="PackedScene" path="res://assets/inimigos/goblin_machado_3d/goblin_machado_animado.glb" id="1_modelo"]
+[ext_resource type="Script" path="res://codigo/inimigos/goblin_machado_3d.gd" id="2_controle"]
 
 [node name="GoblinMachado3D" type="Node3D"]
+script = ExtResource("2_controle")
 
 [node name="Modelo" parent="." instance=ExtResource("1_modelo")]

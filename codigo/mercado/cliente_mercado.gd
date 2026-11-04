@@ -36,7 +36,7 @@ var _compra_pendente := {}
 
 func preparar(jogador: Node) -> void:
 	perfil = Ranking.para_jogador(jogador)
-	arquivo = "user://mercado_p2.json" if jogador != null and bool(jogador.get("eh_p2")) else "user://mercado.json"
+	arquivo = arquivo_do_jogador(jogador)
 	_aplicados = []
 	_anuncio_pendente = {}
 	_compra_pendente = {}
@@ -109,8 +109,8 @@ func anunciar(item: DadosItem, inventario: Node, preco: int, horas: int, quantid
 		if tem_pendencia():
 			return {"ok": false, "erro": EM_CONFERENCIA}
 	var taxa := int(regras.get("taxa_anuncio", 0))
-	if Progresso.brasas < taxa:
-		return {"ok": false, "erro": "FALTAM BRASAS PARA A TAXA"}
+	if saldo() < taxa:
+		return {"ok": false, "erro": "FALTA %s PARA A TAXA" % nome_moeda()}
 	var casa: int = inventario.indice_de(item)
 	if casa == -1:
 		return {"ok": false, "erro": "O ITEM PRECISA ESTAR NA MOCHILA"}
@@ -146,8 +146,8 @@ func comprar(anuncio: Dictionary, inventario: Node) -> Dictionary:
 		if tem_pendencia():
 			return {"ok": false, "erro": EM_CONFERENCIA}
 	var preco := int(anuncio.get("preco", 0))
-	if Progresso.brasas < preco:
-		return {"ok": false, "erro": "BRASAS INSUFICIENTES"}
+	if saldo() < preco:
+		return {"ok": false, "erro": "SALDO INSUFICIENTE EM %s" % nome_moeda()}
 	_mudar_brasas(-preco)
 	_compra_pendente = {"anuncio": int(anuncio.get("id", 0)), "preco": preco}
 	_gravar()
@@ -210,10 +210,10 @@ func retirar_correio(inventario: Node) -> Dictionary:
 				pendentes += 1
 				continue
 			textos.append("%s: %s" % [{"compra": "COMPROU", "cancelado": "CANCELADO", "devolvido": "VOLTOU SEM VENDER"}.get(str(entrega.get("motivo")), "RECEBEU"), resumo(item)])
-		var valor := int(entrega.get("brasas", 0))
+		var valor := valor_entrega(entrega)
 		if valor > 0:
 			brasas += valor
-			textos.append("VENDIDO: +%d BRASAS" % valor)
+			textos.append("VENDIDO: +%d %s" % [valor,nome_moeda()])
 		aplicadas.append(id)
 	if aplicadas.is_empty():
 		return {"textos": textos, "pendentes": pendentes, "erro": ""}
@@ -259,3 +259,10 @@ func _gravar() -> void:
 	var arquivo_aberto := FileAccess.open(arquivo, FileAccess.WRITE)
 	if arquivo_aberto != null:
 		arquivo_aberto.store_string(JSON.stringify({"aplicados": _aplicados, "anuncio_pendente": _anuncio_pendente, "compra_pendente": _compra_pendente}))
+
+func arquivo_do_jogador(jogador: Node) -> String:
+	return "user://mercado_p2.json" if jogador!=null and bool(jogador.get("eh_p2")) else "user://mercado.json"
+
+func saldo() -> int:return Progresso.brasas
+func nome_moeda() -> String:return "BRASAS"
+func valor_entrega(entrega: Dictionary) -> int:return int(entrega.get("brasas",0))

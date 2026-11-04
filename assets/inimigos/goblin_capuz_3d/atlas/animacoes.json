@@ -1,0 +1,53 @@
+{
+  "animacoes": {
+    "ataque_1": {
+      "colunas": 12,
+      "duracao": 1.2,
+      "fim_fonte": 1.55,
+      "impacto": 0.516666666666667,
+      "inicio_fonte": 0.35,
+      "loop": false,
+      "quadros": 24
+    },
+    "correr": {
+      "colunas": 16,
+      "duracao": 0.766666650772095,
+      "fim_fonte": 0.766666650772095,
+      "inicio_fonte": 0.0,
+      "loop": true,
+      "quadros": 16
+    },
+    "ferido": {
+      "colunas": 8,
+      "duracao": 0.22,
+      "fim_fonte": 0.6,
+      "inicio_fonte": 0.0,
+      "loop": false,
+      "quadros": 8
+    },
+    "morrer": {
+      "colunas": 12,
+      "duracao": 1.4,
+      "fim_fonte": 3.1,
+      "inicio_fonte": 0.6,
+      "loop": false,
+      "quadros": 24
+    },
+    "parado": {
+      "colunas": 12,
+      "duracao": 4.03333330154419,
+      "fim_fonte": 4.03333330154419,
+      "inicio_fonte": 0.0,
+      "loop": true,
+      "quadros": 24
+    }
+  },
+  "pivo": [
+    80.0,
+    124.763977050781
+  ],
+  "quadro": [
+    160,
+    160
+  ]
+}

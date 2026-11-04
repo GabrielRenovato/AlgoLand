@@ -1,0 +1,11 @@
+{
+  "capturas": "/tmp/algoland-lorde-cima-lbpsbcch",
+  "quadros_amostrados": 60,
+  "passo_ms": 30,
+  "contato_ms": 540,
+  "efeito_ms": 900,
+  "pausa_gif_ms": 400,
+  "dano_implementado": false,
+  "escopo": "Previa solicitada pelo usuario",
+  "correcao_cor": "Ganhos por material/quadro em shader, sem substituir as fontes raster."
+}

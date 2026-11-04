@@ -33,7 +33,7 @@ position = Vector2(-10, 14)
 
 [node name="Jogador" parent="." instance=ExtResource("5_4qs78")]
 z_index = 1
-position = Vector2(-1066, 14)
+position = Vector2(-1242, 14)
 collision_mask = 96
 
 [node name="Vinheta" parent="." instance=ExtResource("10_vinheta")]

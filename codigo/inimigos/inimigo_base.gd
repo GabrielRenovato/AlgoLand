@@ -38,7 +38,13 @@ var pode_atacar: bool = true
 @export var usar_barra_vida: bool = true
 ## Distância da origem até a barra de vida (acima da cabeça do sprite)
 @export var altura_barra_vida: float = 22.0
-var esta_morto: bool = false
+var esta_morto: bool = false:
+	set(valor):
+		esta_morto = valor
+		if valor:
+			# A animação de morte pode continuar sem prender o jogador no cadáver.
+			set_deferred("collision_layer",collision_layer & ~32)
+			set_deferred("collision_mask",collision_mask & ~2)
 
 # -----------------------------
 # ESTADOS
@@ -241,8 +247,8 @@ func _ready() -> void:
 		_iniciar_chefe()
 
 	# Inimigos de chão seguem a malha de navegação da arena para contornar lago, fogueira, pedras...
-	# Voadores (máscara 0) passam por cima de tudo e continuam indo em linha reta
-	if collision_mask != 0:
+	# Voadores sem a camada mundo seguem em linha reta, mesmo bloqueando o jogador.
+	if collision_mask & 64:
 		_agente = NavigationAgent2D.new()
 		_agente.path_desired_distance = 8.0
 		_agente.target_desired_distance = 6.0

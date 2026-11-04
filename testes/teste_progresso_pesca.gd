@@ -115,7 +115,7 @@ func _rodar() -> void:
 		sessao._esperar()
 		sessao._espera = 999
 		await quadros(3)
-		verificar("pose de pesca alinhada: "+str(direcao),not jogador.get_node("CompositeSprites").visible and sessao._animacao._pose == 2 and jogador.get_node("HeroiRaven").quadro_pesca(2) == 3)
+		verificar("pose de pesca alinhada: "+str(direcao),not jogador.get_node("CompositeSprites").visible and sessao._animacao._pose == 2 and sessao._animacao.quadro() == 3)
 		if DisplayServer.get_name() != "headless":
 			await RenderingServer.frame_post_draw
 			root.get_texture().get_image().save_png("/tmp/algoland-pesca-direcao-%d.png" % sessao._animacao._linha)
@@ -135,7 +135,6 @@ func _rodar() -> void:
 		sessao._esperar()
 		sessao._espera = 999
 		await quadros(3)
-		verificar("conjunto usa página adicional: "+id,jogador.get_node("HeroiRaven")._camadas[1].texture != null)
 		if DisplayServer.get_name() != "headless":
 			await RenderingServer.frame_post_draw
 			root.get_texture().get_image().save_png("/tmp/algoland-pesca-%s.png" % id)

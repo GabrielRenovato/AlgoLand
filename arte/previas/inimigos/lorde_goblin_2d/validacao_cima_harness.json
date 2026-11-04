@@ -1,0 +1,25 @@
+{
+  "assinatura": "51eb259624c9e42b0918efef80eb16d67904319ee5e6db508a3eb85143451339",
+  "perfil": "selecionado",
+  "motor": "3.14.8 (main, Oct  1 2026, 00:00:00) [GCC 16.2.1 20260819 (Red Hat 16.2.1-2)]",
+  "aprovado": true,
+  "etapas": [
+    {
+      "codigo": 0,
+      "segundos": 3.87,
+      "timeout": false,
+      "avisos_conhecidos": [],
+      "erros_esperados": [],
+      "erros": [],
+      "total_erros": 0,
+      "verificacoes_ok": 4,
+      "log": "/tmp/algoland-harness/execucao-8d5m12r0/lorde_goblin_baixo.log",
+      "aprovado": true,
+      "nome": "lorde_goblin_baixo",
+      "modo": "python"
+    }
+  ],
+  "revisao_visual": "nao_aplicavel",
+  "estado_preservado": true,
+  "capturas": []
+}

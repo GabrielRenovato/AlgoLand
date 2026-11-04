@@ -56,7 +56,7 @@ func rodar() -> void:
 	verificar("repetir não duplica armas ou aljava",inv.fotografar_mochila() == antes)
 	painel._area.select(1)
 	painel._selecionar_area(1)
-	var indice_armas: int = painel.AREAS["COMBATE"].find("ARMAS RAVEN")
+	var indice_armas: int = painel.AREAS["COMBATE"].find("ARMAS")
 	painel._categoria.select(indice_armas)
 	painel._selecionar_categoria(indice_armas)
 	painel._painel.show()

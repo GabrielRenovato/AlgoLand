@@ -39,7 +39,7 @@ func _process(delta: float) -> void:
 	var sem_pose: bool = pesca or arco or reacao or _jogador.caido or _jogador.esta_em_dash
 	sem_pose = sem_pose or _jogador.esta_forjando or _jogador.esta_sentado or _jogador.esta_em_acao_fazenda
 	sem_pose = sem_pose or (_jogador._esta_atacando and not _jogador.usando_espada)
-	var outro_visual := _jogador.has_node("HeroiGerado") or _jogador.has_node("HeroiTiny") or _jogador.has_node("HeroiCraftpix")
+	var outro_visual := false
 	if sem_pose or outro_visual:
 		visible = false
 		if not outro_visual:

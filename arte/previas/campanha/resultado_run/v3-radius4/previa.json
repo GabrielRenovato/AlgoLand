@@ -1,0 +1,8 @@
+{
+  "tipo": "previa_interface",
+  "dados": "exemplos ficticios",
+  "raio_bordas_px": 4,
+  "imagem_principal": "resultado-960x900.png",
+  "gerador": "ferramentas/campanha/previa_resultado_run.gd",
+  "revisao": "Godot, quatro tamanhos; botoes dentro do papel livre"
+}

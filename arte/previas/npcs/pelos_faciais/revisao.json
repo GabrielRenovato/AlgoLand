@@ -1,0 +1,23 @@
+{
+  "arquivos_iguais_ao_workspace": true,
+  "relatorio": "/tmp/algoland-harness-barbas-revisao/execucao-zzurtlkx/relatorio.json",
+  "clipe": "Walk_Loop",
+  "duracao_nativa": 1.3333333333333333,
+  "quadros": 8,
+  "intervalos_gif_ms": [
+    170,
+    160,
+    170,
+    170,
+    160,
+    170,
+    170,
+    160
+  ],
+  "arquivo_hashes": {
+    "codigo/npcs/acessorios_npc_3d.gd": "df157956cadd9fe79da88a7b65bd38423b1e15ffd57bc901d1cb2420afdd7f7b",
+    "codigo/jogador/cabeca_referencia_3d.gdshader": "eec0c22cb468ecf0dcac62b885489505def331c92be1a4053641cae20af0c85a",
+    "testes/teste_pelos_faciais_npcs.gd": "d3ff33cf85e6fdb5f92c78568bba049eab18d20d4ce79cde84e1ac46cccd0580"
+  },
+  "revisao_visual": "Oito vistas, castanho/grisalho, quadro a quadro da caminhada e comparação com jogador na cidade inspecionados."
+}

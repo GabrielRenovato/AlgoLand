@@ -1,0 +1,62 @@
+{
+  "escopo": "ataque para cima do mesmo goblin de machado; cena visual própria",
+  "fonte": "arte/fontes/inimigos/goblin_machado_2d/ataque_cima_v1.png",
+  "prompt": "prompt_ataque_cima.txt",
+  "contrato": "contrato_ataque_cima.md",
+  "geracao": "image_gen, modelo canônico e ataque direita como referências, sem transferência literal das poses",
+  "celula": [
+    640,
+    640
+  ],
+  "grade": [
+    4,
+    2
+  ],
+  "pivo": [
+    320,
+    560
+  ],
+  "escala": 0.071,
+  "quadros": 8,
+  "duracoes_ms": [
+    80,
+    160,
+    140,
+    45,
+    55,
+    90,
+    130,
+    180
+  ],
+  "loop": false,
+  "impacto_quadro": 4,
+  "impacto_ms": 425,
+  "efeito_corte_quadros": [
+    3,
+    4,
+    5
+  ],
+  "direcao": "cima, vista elevada de costas",
+  "altura_guarda_px": 31.24,
+  "revisao_visual": {
+    "aprovacao_artistica_usuario": false,
+    "estado": "inspecionada no Godot e no contato de oito quadros",
+    "analise": "Nuca, dorso acolchoado, ombreira esquerda anatômica e calcanhares; cabeça/ombros/quadril acompanham giro. Preparação direita, varrida acima e continuação esquerda, arco branco/azul conectado à lâmina; raiz e massa estáveis.",
+    "metodo": "Capturas reais da cena isolada com jogador e dois ataques; inspeção dos quadros de guarda, preparação, liberação, impacto, continuação e recuperação. GIFs gerados com as mesmas regiões e durações do SpriteFrames; visualizador estático não usado como prova de reprodução de GIF.",
+    "resultado": "Golpe para cima legível com dorso verdadeiro e arco claro acima da cabeça; lâmina inteira, torso/ombros/cabeça giram, pés acompanham transferência de peso. Guarda31.24px comparada ao player. Sem substituição parcial do mob ativo.",
+    "evidencias": [
+      "ataque_cima_contato.png",
+      "ataque_cima.gif",
+      "no_mapa_cima.png",
+      "reproducao_motor_cima.gif",
+      "reproducao_motor_contato_cima.png"
+    ]
+  },
+  "testes": {
+    "verificacoes_ok": 22,
+    "falhas": 0,
+    "aprovado": true,
+    "estado_preservado": true,
+    "relatorio": "/tmp/algoland-harness/execucao-wk2tmgcq/relatorio.json"
+  }
+}

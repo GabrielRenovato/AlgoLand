@@ -99,6 +99,7 @@ func _montar_contatos() -> void:
 	# Recortes da textura viva compartilhada: não criam novos renders por casa.
 	var escala_render := 288.0/float(resolucao_grama)
 	for contato in _contatos:
+		if not is_instance_valid(contato.forma) or contato.forma.is_queued_for_deletion(): continue
 		var ret: Rect2 = contato.ret
 		var faixa := Rect2(ret.position.x-2.0,ret.end.y-9.0,ret.size.x+4.0,16.0)
 		for origem in _blocos:
@@ -185,11 +186,14 @@ func definir_estacao(indice: int) -> void:
 
 static func peso_modular(p: Vector2, tipo_canto: Callable) -> float:
 	var celula := Vector2i((p/16.0).floor())
+	var tipos := [int(tipo_canto.call(celula)),int(tipo_canto.call(celula+Vector2i.RIGHT)),int(tipo_canto.call(celula+Vector2i.DOWN)),int(tipo_canto.call(celula+Vector2i.ONE))]
+	# Regiões uniformes têm o mesmo resultado exato, sem pesos/potências por lâmina.
+	if tipos.all(func(tipo: int) -> bool: return tipo == 0): return 1.0
+	if not tipos.has(0): return 0.0
 	var uv := p/16.0-Vector2(celula)
 	var pesos := [(1.-uv.x)*(1.-uv.y),uv.x*(1.-uv.y),(1.-uv.x)*uv.y,uv.x*uv.y]
-	var cantos := [Vector2i.ZERO,Vector2i.RIGHT,Vector2i.DOWN,Vector2i.ONE]
 	var acumulado := [0.0,0.0,0.0,0.0]
-	for i in 4: acumulado[int(tipo_canto.call(celula+cantos[i]))] += pesos[i]
+	for i in 4: acumulado[tipos[i]] += pesos[i]
 	var total := 0.0
 	for i in 4:
 		acumulado[i] = pow(maxf(float(acumulado[i])-.18,0.0),2.0)

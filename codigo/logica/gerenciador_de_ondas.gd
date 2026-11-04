@@ -42,6 +42,7 @@ const CHEFES: Array[Dictionary] = [
 	{"id": "minotauro", "nome": "MINOTAURO", "cena": preload("res://cenas/inimigos/minotauro.tscn"), "mult_vida": 3.2},
 	{"id": "medusa", "nome": "MEDUSA", "cena": preload("res://cenas/inimigos/medusa.tscn"), "mult_vida": 2.0},
 	{"id": "goblin_maromba", "nome": "GOBLIN MAROMBA", "cena": preload("res://cenas/inimigos/goblin_maromba.tscn"), "mult_vida": 2.0},
+	{"id": "lorde_goblin", "nome": "LORDE GOBLIN", "cena": preload("res://cenas/inimigos/lorde_goblin.tscn"), "mult_vida": 2.0},
 	{"id": "cogumelo", "nome": "COGUMELO ANCIAO", "cena": preload("res://cenas/inimigos/cogumelo.tscn"),
 		"escala": 2.4, "mult_vida": 12.5, "mult_dano": 1.4, "habilidade": "cogumelo", "altura_coroa": 10.0},
 	{"id": "dragao_vermelho", "nome": "DRAGAO VERMELHO", "cena": preload("res://cenas/inimigos/dragao_vermelho.tscn"), "mult_vida": 2.3},

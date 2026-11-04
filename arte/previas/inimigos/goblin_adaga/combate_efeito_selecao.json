@@ -1,0 +1,74 @@
+[
+  {
+    "direcao": "direita",
+    "quadro": 1,
+    "captura": 127,
+    "tempo": 4.374
+  },
+  {
+    "direcao": "direita",
+    "quadro": 5,
+    "captura": 140,
+    "tempo": 4.806
+  },
+  {
+    "direcao": "direita",
+    "quadro": 9,
+    "captura": 154,
+    "tempo": 5.273
+  },
+  {
+    "direcao": "esquerda",
+    "quadro": 1,
+    "captura": 285,
+    "tempo": 9.64
+  },
+  {
+    "direcao": "esquerda",
+    "quadro": 5,
+    "captura": 298,
+    "tempo": 10.072
+  },
+  {
+    "direcao": "esquerda",
+    "quadro": 9,
+    "captura": 312,
+    "tempo": 10.54
+  },
+  {
+    "direcao": "baixo",
+    "quadro": 1,
+    "captura": 183,
+    "tempo": 6.241
+  },
+  {
+    "direcao": "baixo",
+    "quadro": 5,
+    "captura": 196,
+    "tempo": 6.674
+  },
+  {
+    "direcao": "baixo",
+    "quadro": 9,
+    "captura": 210,
+    "tempo": 7.14
+  },
+  {
+    "direcao": "cima",
+    "quadro": 1,
+    "captura": 234,
+    "tempo": 7.941
+  },
+  {
+    "direcao": "cima",
+    "quadro": 5,
+    "captura": 247,
+    "tempo": 8.381
+  },
+  {
+    "direcao": "cima",
+    "quadro": 9,
+    "captura": 261,
+    "tempo": 8.84
+  }
+]

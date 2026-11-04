@@ -1,0 +1,117 @@
+{
+  "modelo_sha256": "e901403adbfdd74ccf8d884ce9d60dbd32875547148c434bb08ed7f769d3c013",
+  "motor": "Godot 4.7.2",
+  "origem_quadros": "renderização do GLB, 30 quadros por segundo, 224x224, ampliação nearest para 672x672",
+  "clipes": [
+    {
+      "id": "parado",
+      "arquivo": "arte/fontes/personagens/base_3d/mixamo/Idle.fbx",
+      "sha256": "efc78505273513c642654f1dd3324640bb13cc237a5baad4a14c40de350da6d6",
+      "duracao": 4.0,
+      "fps": 60,
+      "quadros": 241,
+      "loop": true,
+      "pegada_erro_m": 1.4057727354849284e-07,
+      "alcance_excedido_m": 0,
+      "velocidade_m_s": 0,
+      "impacto_s": null
+    },
+    {
+      "id": "andar",
+      "arquivo": "arte/pacotes/quaternius_ual/Animation Library[Standard]/Godot/AnimationLibrary_Godot_Standard.glb",
+      "sha256": "1b7bf67866360665426bb99e4c71bd619f19b408453c24e30f0c3071601eee5c",
+      "duracao": 1.3333333333333333,
+      "fps": 60,
+      "quadros": 81,
+      "loop": true,
+      "pegada_erro_m": 1.2644054553268208e-07,
+      "alcance_excedido_m": 0,
+      "velocidade_m_s": 0.6151708960533142,
+      "impacto_s": null
+    },
+    {
+      "id": "correr",
+      "arquivo": "arte/fontes/personagens/base_3d/mixamo/Standard Run.fbx",
+      "sha256": "ffd59f715f0c27c13f2ad0b168034ee3148f8faae256b3ddb5136af0b75218bd",
+      "duracao": 0.7333333333333333,
+      "fps": 60,
+      "quadros": 45,
+      "loop": true,
+      "pegada_erro_m": 1.228781230931777e-07,
+      "alcance_excedido_m": 0,
+      "velocidade_m_s": 3.9510291628539562,
+      "impacto_s": null
+    },
+    {
+      "id": "ataque_1",
+      "arquivo": "arte/fontes/personagens/base_3d/mixamo/Great Sword Slash.fbx",
+      "sha256": "24ed485012d772cf6fd6d1610a4840ccb7991f0f39e504e88ef5b20519a23eaa",
+      "duracao": 1.27,
+      "fps": 60,
+      "quadros": 77,
+      "loop": false,
+      "pegada_erro_m": 2.38999946897409e-07,
+      "alcance_excedido_m": 0,
+      "velocidade_m_s": 0,
+      "impacto_s": 0.6223
+    },
+    {
+      "id": "ataque_2",
+      "arquivo": "arte/fontes/personagens/base_3d/mixamo/Great Sword Slash.fbx",
+      "sha256": "24ed485012d772cf6fd6d1610a4840ccb7991f0f39e504e88ef5b20519a23eaa",
+      "duracao": 1.4,
+      "fps": 60,
+      "quadros": 85,
+      "loop": false,
+      "pegada_erro_m": 2.2500259981366246e-07,
+      "alcance_excedido_m": 0,
+      "velocidade_m_s": 0,
+      "impacto_s": 0.756
+    },
+    {
+      "id": "ferido",
+      "arquivo": "arte/fontes/personagens/base_3d/mixamo/Hit Reaction.fbx",
+      "sha256": "b8c787361815b83adb17e99ffde4fc3f627de204238da2b04d64f78806c8b8b5",
+      "duracao": 1.2,
+      "fps": 60,
+      "quadros": 73,
+      "loop": false,
+      "pegada_erro_m": 1.519626234052415e-07,
+      "alcance_excedido_m": 0,
+      "velocidade_m_s": 0,
+      "impacto_s": null
+    },
+    {
+      "id": "morrer",
+      "arquivo": "arte/fontes/personagens/base_3d/mixamo/Dying.fbx",
+      "sha256": "7c35d7c76366c2f0b483f24ecad450506cd80db3fea7e761cb6395e43545608f",
+      "duracao": 3.0,
+      "fps": 60,
+      "quadros": 181,
+      "loop": false,
+      "pegada_erro_m": 1.6118070224511577e-07,
+      "alcance_excedido_m": 0,
+      "velocidade_m_s": 0,
+      "impacto_s": null
+    }
+  ],
+  "reproducao": "dois ciclos de parado/andar/correr e uma reprodução de cada ação no projeto isolado",
+  "conferencias": [
+    "pegada rígida nas duas mãos, inclusive interpolação",
+    "preparação, golpe, apoio dos pés e recuperação nas vistas três-quartos e lateral",
+    "retorno ao repouso e permanência na morte"
+  ],
+  "teste": "/tmp/algoland-harness/execucao-212jlii_/relatorio.json",
+  "falhas": 0,
+  "previas": [
+    "andar.gif",
+    "ataque_1.gif",
+    "ataque_2.gif",
+    "ataque_mixamo_revisado.gif",
+    "ataque_revisado_final.gif",
+    "correr.gif",
+    "ferido.gif",
+    "morrer.gif",
+    "parado.gif"
+  ]
+}

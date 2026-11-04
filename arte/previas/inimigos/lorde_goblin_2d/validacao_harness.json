@@ -1,0 +1,38 @@
+{
+  "assinatura": "a92765d99a2bc12c0e200bbf92a8b7d0f78eecf8987041d7ed88614a96424bba",
+  "perfil": "selecionado",
+  "motor": "Python 3.14.8 / 4.7.2.stable.flathub.ed1daf0bf",
+  "aprovado": true,
+  "etapas": [
+    {
+      "codigo": 0,
+      "segundos": 7.62,
+      "timeout": false,
+      "avisos_conhecidos": [],
+      "erros_esperados": [],
+      "erros": [],
+      "total_erros": 0,
+      "verificacoes_ok": 0,
+      "log": "/tmp/algoland-harness/execucao-vihchd40/testes/importacao.log",
+      "aprovado": true,
+      "nome": "importacao"
+    },
+    {
+      "codigo": 0,
+      "segundos": 3.12,
+      "timeout": false,
+      "avisos_conhecidos": [],
+      "erros_esperados": [],
+      "erros": [],
+      "total_erros": 0,
+      "verificacoes_ok": 6,
+      "log": "/tmp/algoland-harness/execucao-vihchd40/testes/lorde_goblin_2d.log",
+      "aprovado": true,
+      "nome": "lorde_goblin_2d",
+      "modo": "headless"
+    }
+  ],
+  "revisao_visual": "nao_aplicavel",
+  "estado_preservado": true,
+  "capturas": []
+}

@@ -1,0 +1,95 @@
+{
+  "escopo": "integração dos recursos 2D no goblin ativo compartilhado por pomar/moinho/dungeon/fendas",
+  "cena": "cenas/inimigos/goblin_pomar.tscn",
+  "controlador": "codigo/inimigos/goblin_pomar.gd",
+  "corridas_guardas": [
+    "baixo",
+    "direita",
+    "cima",
+    "esquerda"
+  ],
+  "combos_disponiveis": [
+    "direita",
+    "baixo",
+    "cima",
+    "esquerda"
+  ],
+  "combos_ainda_nao_produzidos": [],
+  "ia_sem_ataque_na_direcao": "contorna pela navegação até um ângulo disponível; dano não é desenhado para outro lado",
+  "altura_guardas_px": {
+    "baixo": 30.956,
+    "cima": 31.311,
+    "esquerda": 31.027,
+    "direita": 31.027
+  },
+  "escala": 0.071,
+  "pivo": [
+    320,
+    560
+  ],
+  "velocidade_px_s": 100,
+  "dano": "quadros1/5/9 do SpriteFrames; mesmas pausas de200ms; antecipação0,22s",
+  "ferimento": "flash e recuo, sem troca de modelo",
+  "morte": "queda e fade da pose2D; evento único",
+  "correcao_movimento": "contorno agora escolhe rumo antes da aceleração; histerese de direção perto das diagonais",
+  "verificacoes": {
+    "perfil": "goblins-pomar",
+    "ok": 98,
+    "falhas": 0,
+    "aprovado": true,
+    "estado_preservado": true,
+    "relatorio": "/tmp/algoland-harness/execucao-rjv0a22q/relatorio.json"
+  },
+  "revisao_visual": {
+    "capturas": 362,
+    "clipes_capturados": {
+      "correr_direita": 31,
+      "correr_baixo": 31,
+      "correr_cima": 30,
+      "correr_esquerda": 35,
+      "parado_esquerda": 40,
+      "combo_direita": 42,
+      "parado_direita": 11,
+      "combo_baixo": 44,
+      "parado_baixo": 2,
+      "combo_cima": 44,
+      "parado_cima": 8,
+      "combo_esquerda": 44
+    },
+    "impactos_combo": 3,
+    "evidencias": [
+      "/var/home/alfeim/AlgoLand/arte/previas/inimigos/goblin_adaga/integracao_no_mapa.png",
+      "/var/home/alfeim/AlgoLand/arte/previas/inimigos/goblin_adaga/integracao_no_jogo.gif",
+      "/var/home/alfeim/AlgoLand/arte/previas/inimigos/goblin_adaga/integracao_contato.png",
+      "/var/home/alfeim/AlgoLand/arte/previas/inimigos/goblin_adaga/combos_no_godot.png",
+      "/var/home/alfeim/AlgoLand/arte/previas/inimigos/goblin_adaga/combo_cima_contato.png",
+      "/var/home/alfeim/AlgoLand/arte/previas/inimigos/goblin_adaga/combo_esquerda_contato.png",
+      "/var/home/alfeim/AlgoLand/arte/previas/inimigos/goblin_adaga/correr_esquerda_contato.png"
+    ],
+    "metodo": "Inspeção de capturas reais no Godot, contatos de poses e trajetórias; GIF exportado dos mesmos quadros/instantes. Sem afirmar reprodução do GIF pelo visualizador estático.",
+    "aprovacao_usuario": false,
+    "impactos_por_combo": {
+      "direita": 3,
+      "baixo": 3,
+      "cima": 3,
+      "esquerda": 3
+    },
+    "inspecao": "Contatos das poses e capturas reais inspecionados. Escala próxima ao player, quatro rumos, cabeça/ombros móveis para cima, três impactos por combo; ordem e tempos preservados no espelhamento."
+  },
+  "rede": "Sprite2D/AtlasTexture preserva protocolo existente; teste confirma pose inicial e hurtbox da réplica. Não foi executada partida online completa de dois clientes neste perfil.",
+  "auditoria_referencias": {
+    "falhas_gerais_preexistentes": 8,
+    "falhas_nesta_integracao": 0,
+    "log": "/tmp/algoland-adaga-referencias-integracao.log"
+  },
+  "arte_complementar": {
+    "origem": "image_gen integrado para combo de costas; espelhamento determinístico para esquerda",
+    "fonte": "arte/fontes/inimigos/goblin_adaga/combo_cima_v2.png",
+    "prompts": [
+      "arte/fontes/inimigos/goblin_adaga/prompt_combo_cima.txt",
+      "arte/fontes/inimigos/goblin_adaga/prompt_combo_cima_correcao.txt"
+    ]
+  },
+  "contrato": "arte/fontes/inimigos/goblin_adaga/integracao_personagem.md",
+  "esquerda": "espelhamento horizontal exato da direita por solicitação explícita; fontes próprias canceladas e fora do importador"
+}

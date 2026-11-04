@@ -1,0 +1,9 @@
+{
+  "motor": "Godot 4.7.2",
+  "execucao": "/tmp/algoland-harness/execucao-g3997nyg/relatorio.json",
+  "fontes_capturas": "/tmp/algoland-harness/execucao-g3997nyg/testes/projeto/capturas-gerador-npcs",
+  "corrida_duracao_segundos": 0.73333333333333,
+  "fases_por_direcao": 8,
+  "direcoes": 4,
+  "observacao": "Montagens e GIFs são prévias diagnósticas dos quadros renderizados no motor; não são texturas de produção."
+}

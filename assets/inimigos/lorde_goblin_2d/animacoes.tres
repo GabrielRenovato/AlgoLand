@@ -1,0 +1,39 @@
+[gd_resource type="SpriteFrames" load_steps=10 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/inimigos/lorde_goblin_2d/martelada_direita.png" id="1"]
+
+[sub_resource type="AtlasTexture" id="Quadro_0"]
+atlas = ExtResource("1")
+region = Rect2(0,0,512,512)
+
+[sub_resource type="AtlasTexture" id="Quadro_1"]
+atlas = ExtResource("1")
+region = Rect2(512,0,512,512)
+
+[sub_resource type="AtlasTexture" id="Quadro_2"]
+atlas = ExtResource("1")
+region = Rect2(1024,0,512,512)
+
+[sub_resource type="AtlasTexture" id="Quadro_3"]
+atlas = ExtResource("1")
+region = Rect2(1536,0,512,512)
+
+[sub_resource type="AtlasTexture" id="Quadro_4"]
+atlas = ExtResource("1")
+region = Rect2(0,512,512,512)
+
+[sub_resource type="AtlasTexture" id="Quadro_5"]
+atlas = ExtResource("1")
+region = Rect2(512,512,512,512)
+
+[sub_resource type="AtlasTexture" id="Quadro_6"]
+atlas = ExtResource("1")
+region = Rect2(1024,512,512,512)
+
+[sub_resource type="AtlasTexture" id="Quadro_7"]
+atlas = ExtResource("1")
+region = Rect2(1536,512,512,512)
+
+[resource]
+animations = [{"frames":[{"duration":10.0,"texture":SubResource("Quadro_0")},{"duration":15.0,"texture":SubResource("Quadro_1")},{"duration":18.0,"texture":SubResource("Quadro_2")},{"duration":5.0,"texture":SubResource("Quadro_3")},{"duration":8.0,"texture":SubResource("Quadro_4")},{"duration":11.0,"texture":SubResource("Quadro_5")},{"duration":16.0,"texture":SubResource("Quadro_6")},{"duration":17.0,"texture":SubResource("Quadro_7")}],"loop":false,"name":&"martelada_direita","speed":100.0},
+{"frames":[{"duration":10.0,"texture":SubResource("Quadro_0")}],"loop":true,"name":&"parado_direita","speed":100.0}]

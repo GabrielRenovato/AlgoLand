@@ -3,6 +3,8 @@ extends RefCounted
 ## sem Brasas e sem moeda de forja, só ouro, materiais, poções e receitas.
 const Forja := preload("res://codigo/dados/forja_armas.gd")
 const PREMIOS := {
+	"pesca_primeiras_fisgadas": {"ouro": 30},
+	"pesca_carpas_da_vila": {"ouro": 50},
 	"ferro_que_ainda_serve": {"ouro": 40, "materiais": {"ferro": 3, "madeira": 2}, "receita": "luvas_basicas"},
 	"quem_ficou_para_tras": {"ouro": 25, "materiais": {"fibra": 4}, "pocoes": {"cura": 2}},
 	"antes_de_sair_outra_vez": {"ouro": 60},

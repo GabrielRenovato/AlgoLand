@@ -226,8 +226,8 @@ radius = 8.0
 height = 20.0
 
 [node name="Slime_Slippery" type="CharacterBody2D" groups=["enemy"]]
-collision_layer = 4
-collision_mask = 64
+collision_layer = 36
+collision_mask = 66
 script = ExtResource("1_i62ro")
 raio_parada = 10.0
 texturas = [ExtResource("2_var01"), ExtResource("2_var02"), ExtResource("2_var03"), ExtResource("2_var04"), ExtResource("2_var05"), ExtResource("2_var06"), ExtResource("2_var07"), ExtResource("2_var08"), ExtResource("2_var09"), ExtResource("2_var10")]

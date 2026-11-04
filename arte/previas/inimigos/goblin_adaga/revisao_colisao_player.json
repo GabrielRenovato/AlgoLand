@@ -1,0 +1,9 @@
+{
+  "alteracao": "goblin_pomar collision_mask 64 -> 66: mundo e jogador; player já detecta camada32 do goblin",
+  "validacao": "movimento real de ambos os corpos nas quatro direções, colisão identificada pelo corpo; captura real no Godot em projeto/save isolados",
+  "perfil": "goblins-pomar",
+  "verificacoes_ok": 144,
+  "falhas": 0,
+  "relatorio": "/tmp/algoland-harness/execucao-nqb_l3y5/relatorio.json",
+  "evidencia": "/var/home/alfeim/AlgoLand/arte/previas/inimigos/goblin_adaga/colisao_player_no_mapa.png"
+}

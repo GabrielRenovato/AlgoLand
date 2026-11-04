@@ -1,31 +1,34 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=6 format=3]
 [ext_resource type="Script" path="res://codigo/inimigos/goblin_pomar.gd" id="1"]
-[ext_resource type="Texture2D" path="res://assets/inimigos/goblin_capuz_3d/atlas/parado.png" id="2"]
+[ext_resource type="Texture2D" path="res://assets/inimigos/goblin_adaga/combo_baixo.png" id="2"]
+[sub_resource type="AtlasTexture" id="GuardaFrontal"]
+atlas = ExtResource("2")
+region = Rect2(1920, 1280, 640, 640)
 [sub_resource type="CircleShape2D" id="Corpo"]
 radius = 7.0
 
 [sub_resource type="CapsuleShape2D" id="Atingivel"]
-radius = 12.0
-height = 38.0
+radius = 8.0
+height = 28.0
 [node name="GoblinPomar" type="CharacterBody2D" groups=["enemy", "goblins_pomar"]]
 collision_layer = 32
-collision_mask = 64
+collision_mask = 66
 script = ExtResource("1")
-velocidade = 30
-vida = 28
+velocidade = 100
+vida = 44
 dano = 4.0
 raio_parada = 22.0
 alcance_ataque = 29.0
 alcance_separacao = 22.0
 altura_pes = 0.0
 altura_barra_vida = 38.0
-tempo_recarga_ataque = 1.35
+tempo_recarga_ataque = 0.9
 [node name="Texture" type="Sprite2D" parent="."]
-texture = ExtResource("2")
-hframes = 12
-vframes = 4
-scale = Vector2(0.4, 0.4)
-texture_filter = 1
+texture = SubResource("GuardaFrontal")
+centered = false
+offset = Vector2(-320, -560)
+scale = Vector2(0.071, 0.071)
+texture_filter = 2
 [node name="colision_body" type="CollisionShape2D" parent="."]
 shape = SubResource("Corpo")
 
@@ -36,5 +39,5 @@ monitoring = false
 monitorable = true
 
 [node name="Forma" type="CollisionShape2D" parent="AlvoGolpes"]
-position = Vector2(0, -18)
+position = Vector2(0, -15)
 shape = SubResource("Atingivel")

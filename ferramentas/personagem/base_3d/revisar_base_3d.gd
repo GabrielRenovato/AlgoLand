@@ -24,15 +24,13 @@ func rodar():
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(SAIDA))
 	root.get_texture().get_image().save_png(SAIDA+"no_mapa.png")
 	heroi.set_process(false)
-	var raven = jogador.get_node("HeroiRaven")
 	var colunas := 9
 	var folha := Image.create(RECORTE*AMPLIAR*colunas, RECORTE*AMPLIAR*4, false, Image.FORMAT_RGBA8)
 	for d in 4:
 		for q in colunas:
 			heroi.visible = true
-			raven.visible = false
 			heroi._modelo.rotation.y = [0.0, PI/2.0, PI, -PI/2.0][d]
-			var nome := "Idle_Loop" if q == 0 else (heroi._nome_animacao("correr") if q < 5 else "Sword_Attack")
+			var nome: String = "Idle_Loop" if q == 0 else (heroi._nome_animacao("correr") if q < 5 else "Sword_Attack")
 			var anim: Animation = heroi._player.get_animation(nome)
 			heroi._player.play(nome)
 			heroi._player.speed_scale = 0.0

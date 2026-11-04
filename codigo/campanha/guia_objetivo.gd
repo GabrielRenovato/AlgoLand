@@ -24,6 +24,7 @@ func _process(delta: float) -> void:
 
 ## Ponto do mundo do objetivo atual e sua cor; (INF) quando não há o que apontar nesta região.
 func _alvo_atual() -> Dictionary:
+	if get_tree().get_meta("cinema_ativo",false):return {}
 	if not is_instance_valid(cena) or not is_instance_valid(cena.jogador) or cena.jogador.estaMorto: return {}
 	if not cena.interface._telas_abertas.is_empty(): return {}
 	for n in cena.get_children():
@@ -36,6 +37,14 @@ func _alvo_atual() -> Dictionary:
 	# Compartilha a mesma prioridade do cartão da missão: primeiro um objetivo da região atual;
 	# só aponta a saída quando o próximo objetivo realmente pertence a outra região.
 	var objetivo: Dictionary = cena.controlador.objetivo_atual()
+	if cena.regiao=="moinho" and is_instance_valid(cena.terreno.roteiro):
+		var interno:Dictionary=cena.terreno.roteiro.alvo_interno()
+		if not interno.is_empty():
+			var marcador:Vector2=interno.base+Vector2(0,-34)
+			var dungeon:Node2D=cena.terreno.roteiro.dungeon
+			if interno.combate and is_instance_valid(dungeon.guardiao) and dungeon.guardiao.has_method("ponto_marcador"):
+				marcador=dungeon.guardiao.ponto_marcador()
+			return {"p":marcador,"base":interno.base,"cor":VERMELHO if interno.combate else OURO,"alvo_perto":34.0}
 	if objetivo.is_empty() or objetivo.regiao != cena.regiao:
 		if not cena.alvos.has("saida_regiao"): return {}
 		var saida: Node2D = cena.alvos.saida_regiao.no

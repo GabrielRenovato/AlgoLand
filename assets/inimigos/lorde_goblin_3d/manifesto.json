@@ -1,0 +1,83 @@
+{
+  "arquivo": "res://assets/inimigos/lorde_goblin_3d/lorde_goblin.glb",
+  "fonte": "arte/fontes/inimigos/lorde_goblin_3d/lorde_goblin_kaykit.blend",
+  "referencia": "referencia.png",
+  "atlas_materiais": "atlas_materiais.png",
+  "metodo": "geometria própria criada do zero; nenhum modelo Goblin King importado",
+  "altura_corpo_m": 3.0749999999999997,
+  "escala_chefe": 1.5,
+  "altura_com_martelo_m": 3.5565,
+  "altura_jogador_referencia_m": 1.35,
+  "triangulos": 66632,
+  "ossos": 18,
+  "materiais": 15,
+  "pivo": "centro entre os pés no chão",
+  "frente_blender": "-Y",
+  "frente_godot": "+Z",
+  "animacoes": {
+    "parado": {
+      "duracao_s": 3.2,
+      "ciclo": true
+    },
+    "andar": {
+      "fonte": "Walking_A",
+      "arquivo": "arte/fontes/personagens/base_3d/kaykit/Rig_Medium_MovementBasic.glb",
+      "sha256": "11422afd50abf7e8c92ea107e2e0bc94abd38023d6d15f55ad580347efbfa29e",
+      "fps": 60,
+      "duracao_s": 1.2,
+      "ciclo": true,
+      "pegada_dupla": [
+        0,
+        1.2
+      ]
+    },
+    "golpe_duas_maos": {
+      "fonte": "Melee_2H_Attack_Slice",
+      "arquivo": "arte/fontes/personagens/base_3d/kaykit/Rig_Medium_CombatMelee.glb",
+      "sha256": "c55e6ec1c79e83ae21d46fe1cd921c1b64be8b9a524a24517e51c6ba99231459",
+      "fps": 60,
+      "duracao_s": 2.05,
+      "ciclo": false,
+      "pegada_dupla": [
+        0.3,
+        1.7
+      ]
+    },
+    "impacto_area": {
+      "fonte": "Melee_2H_Attack_Chop",
+      "arquivo": "arte/fontes/personagens/base_3d/kaykit/Rig_Medium_CombatMelee.glb",
+      "sha256": "c55e6ec1c79e83ae21d46fe1cd921c1b64be8b9a524a24517e51c6ba99231459",
+      "fps": 60,
+      "duracao_s": 2.85,
+      "ciclo": false,
+      "pegada_dupla": [
+        0.3,
+        2.5
+      ]
+    },
+    "giro_area": {
+      "fonte": "Melee_2H_Attack_Spinning",
+      "arquivo": "arte/fontes/personagens/base_3d/kaykit/Rig_Medium_CombatMelee.glb",
+      "sha256": "c55e6ec1c79e83ae21d46fe1cd921c1b64be8b9a524a24517e51c6ba99231459",
+      "fps": 60,
+      "duracao_s": 3.8,
+      "ciclo": false,
+      "pegada_dupla": [
+        0.55,
+        3.25
+      ],
+      "elevacao_max_m": 0.5
+    }
+  },
+  "limites": [
+    "Morte usa desaparecimento, sem clipe esquelético de morte.",
+    "Custo em mobile físico não perfilado."
+  ],
+  "fonte_base": "arte/fontes/inimigos/lorde_goblin_3d/lorde_goblin_animado.blend",
+  "integracao": {
+    "ator": "cenas/inimigos/lorde_goblin.tscn",
+    "dungeon": "codigo/campanha/dungeon_comporta.gd",
+    "entrada": "cenas/campanha/chegada_lorde_goblin.tscn",
+    "combate": "Eventos 3D aplicam dano na projeção real das áreas; caminhada gratuita Walking_A."
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "motor": "Godot 4.7.2 Compatibility",
+  "sistema": "codigo/cenario/grama_3d_no_mapa.gd",
+  "origem": "Lâminas 3D, materiais, vento, oito campos de jogadores, rastros e passes de sobreposição reutilizados do moinho. Sem novas texturas de grama.",
+  "integracao": [
+    "chegada: estágio 1",
+    "estrada: estágio 2",
+    "vila: cidade da campanha",
+    "cidade: cidade principal"
+  ],
+  "mascaras": "Campanha: mistura dos quatro cantos reais do terreno, com margem nas bordas. Cidade principal: canal vermelho da distribuição final do chão detalhado, após alinhar as soleiras.",
+  "estacoes": "Quatro capturas por mapa, estacao-0.png até estacao-3.png; conferidas no Godot.",
+  "arvores": "Sprites 2D preservados. Passes de grama na frente das bases das árvores.",
+  "fisica": "Sem novas colisões; caminhos, água, árvores e construções conservados.",
+  "filtro": "Grama sem filtro pixel art, como solicitado anteriormente.",
+  "save": "Projeto isolado AlgoLand testes puzzle 3D moinho; save principal preservado.",
+  "testes_automatizados": "Não executados. Revisão por renderização das cenas reais.",
+  "logs": "Capturas finais sem erros de script ou shader. Avisos preexistentes de recursos no encerramento do motor.",
+  "limites": "Sem nova medição de desempenho em celular ou sessão cooperativa completa.",
+  "aprovacao_usuario": "Pendente",
+  "sobreposicao": "Recorte pelas bases de CollisionShape2D retangulares e CollisionPolygon2D estáticos, considerando a transformação para o mapa. Faixas de contato curtas nas frentes dos objetos/casas reutilizam recortes da textura viva dos blocos, ordenados pela profundidade da base. Árvores e pés mantêm passes próprios. Nas edições de terreno, os recortes de contato acompanham a reconstrução dos blocos.",
+  "revisao_sobreposicao": "Conferidas capturas dos cenários reais com baú, árvores, casas, calçamento, cercas e margem do rio; grama limitada ao chão e às bases.",
+  "correcao_cerca": "Incluídas bases rasas e estreitas (inclusive 20×4 das cercas) nas faixas de contato. Fade em coordenadas de mundo conserva a amostragem das regiões da textura compartilhada. Captura cerca-contato.png e cerca-quatro-estacoes.png.",
+  "contornos_objetos": "Contato generalizado para retângulos estreitos/rasos, círculos, cápsulas e polígonos convexos/CollisionPolygon2D. Frente poligonal amostrada em segmentos de 6px, com profundidade local. Captura pedras-contato-estacoes.png nas quatro estações."
+}

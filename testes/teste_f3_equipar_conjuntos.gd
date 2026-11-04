@@ -40,14 +40,12 @@ func _rodar() -> void:
 	jogador.definir_aparencia(1, 2)
 	jogador.aparencia_raven = {"pele":0,"cabelo":1,"roupa":2,"cor":[1,1,1,1]}
 	inv.equipar(inv.buscar_por_tipo("espada_basica"))
-	var visual := jogador.get_node("HeroiRaven")
 	var painel := root.get_node("PainelDebug")
 	var arma = inv.equipados["arma"]
 	# Usa os callbacks que o dropdown oferece, não apenas o método interno.
 	var ids := ["cavalheiro", "cavaleiro_rubro", "carrasco", "sentinela", "batedor", "guardiao_geada", "templario_solar", "arauto_trovao", "guardiao_esmeralda", "soberano_astral"]
 	for i in ids.size():
 		painel._opcoes["CONJUNTOS"][i][1].call()
-		visual._process(0.0)
 		var id: String = ids[i]
 		var completo := true
 		for slot in ["cabeca", "corpo", "luvas", "botas"]:
@@ -63,8 +61,6 @@ func _rodar() -> void:
 		_verificar(id + ": reaplicar não acumula bônus de status", is_equal_approx(jogador.estatisticas.bonus_defesa_conjunto, esperado.defesa) and is_equal_approx(jogador.estatisticas.bonus_vitalidade_conjunto, esperado.vitalidade))
 		if id == "cavalheiro":
 			# Com arma nas costas, cabelo e cartola usam z=3; a cartola vem depois na hierarquia.
-			var acima: bool = visual._camadas[9].z_index > visual._camadas[6].z_index or (visual._camadas[9].z_index == visual._camadas[6].z_index and visual._camadas[9].get_index() > visual._camadas[6].get_index())
-			_verificar("cartola equipada mantém o cabelo composto", not _origem(visual._camadas[6].texture).contains("vazio") and _origem(visual._camadas[9].texture).contains("cavalheiro/raven_elmo") and acima)
 			_verificar("Mordomo comum congela sem multiplicador de status", jogador.estatisticas.bonus_defesa_conjunto == 0 and Conjuntos.de_tipo("elmo_cavalheiro").RARIDADE == "comum" and Conjuntos.de_tipo("elmo_cavalheiro").TIPO_BONUS == "congelamento" and Conjuntos.de_tipo("elmo_cavalheiro").chance_drop(99, true, true) == 0.1)
 		if id == "cavaleiro_rubro":
 			_verificar("Rubro ativa os 10% pelas quatro peças reais", jogador.estatisticas.bonus_defesa_conjunto == 0.1 and jogador.estatisticas.bonus_vitalidade_conjunto == 0.1)
@@ -92,12 +88,8 @@ func _rodar() -> void:
 	_verificar("equipar retira prévia cosmética e conserva a roupa base", jogador.roupa_atual == 2 and jogador.raizes_armadura["elmo"].ends_with("cavalheiro/"))
 	inv.remover_da_mochila(inv.buscar_por_tipo("lanca_basica"))
 	_verificar("retirada da cartola tem espaço reservado na mochila", inv.desequipar("cabeca"))
-	visual._process(0.0)
-	_verificar("retirar cartola pelo inventário remove o visual e restaura cabelo", jogador.pecas_cavaleiro == 14 and not _origem(visual._camadas[6].texture).contains("vazio") and _origem(visual._camadas[9].texture).contains("vazio"))
+	_verificar("retirar cartola pelo inventário tira a peça do conjunto", jogador.pecas_cavaleiro == 14)
 	painel._equipar_conjunto("cavalheiro")
-	for acao in ["arco","ferido","picareta"]:
-		visual._aplicar_aparencia(acao)
-		_verificar("ação Raven conserva cartola e cabelo pelos slots: "+acao, _origem(visual._camadas[9].texture).contains("cavalheiro/raven_elmo") and not _origem(visual._camadas[6].texture).contains("vazio"))
 	inv.salvar("user://teste_f3_conjuntos.json")
 	var copia = load("res://codigo/modelos/modelo_inventario.gd").new()
 	copia.carregar("user://teste_f3_conjuntos.json")
@@ -107,34 +99,6 @@ func _rodar() -> void:
 	_verificar("equipa peitoral Rubro independente",inv.equipar(inv.buscar_por_tipo("peitoral_cavaleiro_rubro")))
 	_verificar("equipa luvas Carrasco independentes",inv.equipar(inv.buscar_por_tipo("luvas_carrasco")))
 	_verificar("mistura não ativa bônus completo do Rubro",jogador.estatisticas.bonus_defesa_conjunto==0.0 and Conjuntos.de_tipo("elmo_cavalheiro").quantidade(inv.equipados)==2)
-	var vp := SubViewport.new()
-	vp.size=Vector2i(320,320)
-	vp.render_target_update_mode=SubViewport.UPDATE_ALWAYS
-	vp.canvas_item_default_texture_filter=Viewport.DEFAULT_CANVAS_ITEM_TEXTURE_FILTER_NEAREST
-	root.add_child(vp)
-	var fundo := ColorRect.new()
-	fundo.size=vp.size
-	fundo.color=Color("34414b")
-	fundo.z_index=-100
-	vp.add_child(fundo)
-	for d in 4:
-		visual._direcao=d
-		for a in 4:
-			visual._aplicar_aparencia(["correr","espada","arco","picareta"][a])
-			visual.frame=d*4+2
-			for camada in visual._camadas: camada.frame=visual.frame
-			for i in 4:
-				_verificar("peça mista mantém a origem em ação/direção",_origem(visual._camadas[9+i].texture).contains("/"+["cavalheiro","cavaleiro_rubro","carrasco","cavalheiro"][i]+"/raven_"))
-			var previa: Sprite2D=visual.criar_rastro()
-			previa.position=Vector2(d*80+40,a*80+56)
-			vp.add_child(previa)
-	if DisplayServer.get_name()!="headless":
-		var saida := ProjectSettings.globalize_path("res://arte/previas/armaduras_raven")
-		DirAccess.make_dir_recursive_absolute(saida)
-		for quadro in 2: await process_frame
-		await RenderingServer.frame_post_draw
-		vp.get_texture().get_image().save_png(saida+"/misto.png")
-	vp.free()
 	# Mochila cheia com peças do conjunto disponíveis ainda permite troca simples.
 	while inv.tem_espaco():
 		inv.adicionar(Dados.new())

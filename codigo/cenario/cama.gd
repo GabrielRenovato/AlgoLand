@@ -22,11 +22,9 @@ const ORIGEM := Vector2(-16, -58)
 ## A cabeça e o cobertor acompanham a profundidade da cama mesmo quando a planta muda.
 var _z_sobre_a_cama: int
 
-## Recorte da pose Raven de frente, na grade nativa de 80 px.
+## Tamanho do retrato da cabeça sobre o travesseiro.
 const RECORTE_CABECA := Rect2(28, 10, 24, 24)
 const TOPO_CABECA := 2.0
-const OLHOS_X := [37, 41]
-const OLHO_LINHA := 27
 ## Região do cobertor (x, y_linha, largura, altura) relativa ao sprite da cama
 const LINHA_COBERTOR := 25
 const ALTURA_COBERTOR := 19
@@ -99,49 +97,11 @@ func _montar_cabeca() -> void:
 	add_child(_cabeca)
 
 static func criar_cabeca(jogador: Node2D, olhos_fechados := false) -> Node2D:
-	if jogador.has_node("HeroiBase3D"):
-		var retrato := preload("res://codigo/ui/cabeca_heroi_3d.gd").new()
-		retrato.aparencia = preload("res://codigo/dados/visual_ranking.gd").do_jogador(jogador)
-		retrato.olhos_fechados = olhos_fechados
-		return retrato
-	var cabeca := Node2D.new()
-	var raven := jogador.get_node_or_null("HeroiRaven")
-	if raven == null:
-		return cabeca
-	var previa: Sprite2D = raven.criar_previa()
-	var camadas: Array = [previa]
-	camadas.append_array(previa.get_children())
-	for origem: Sprite2D in camadas:
-		# Ferramentas, escudo e aljava ficam fora do travesseiro.
-		if str(origem.name) in ["Camada5", "Camada7", "Camada8", "Camada13"]:
-			continue
-		var parte := Sprite2D.new()
-		parte.name = "sprite_corpo" if origem == previa else origem.name
-		var imagem := origem.texture.get_image().get_region(Rect2i(RECORTE_CABECA))
-		if origem == previa and olhos_fechados:
-			_fechar_olhos(imagem)
-		parte.texture = ImageTexture.create_from_image(imagem)
-		parte.centered = false
-		parte.z_index = 0 if origem == previa else origem.z_index
-		parte.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-		parte.modulate = origem.modulate
-		parte.self_modulate = origem.self_modulate
-		parte.material = origem.material
-		cabeca.add_child(parte)
-	previa.free()
-	return cabeca
-
-# Os olhos pertencem ao corpo: cabelo e elmo continuam por cima. Amostrar
-# a própria pele preserva os três tons e o shader de acabamento Raven.
-static func _fechar_olhos(imagem: Image) -> void:
-	var pele := imagem.get_pixel(38 - int(RECORTE_CABECA.position.x),24 - int(RECORTE_CABECA.position.y))
-	var contorno := imagem.get_pixel(35 - int(RECORTE_CABECA.position.x),23 - int(RECORTE_CABECA.position.y))
-	# Os olhos Raven ocupam três linhas: pele acima e pálpebra escura embaixo.
-	# Amostrar a borda do olho como pele apagava a leitura do rosto.
-	for x in OLHOS_X:
-		for linha in 3:
-			for coluna in 2:
-				imagem.set_pixel(x+coluna-int(RECORTE_CABECA.position.x),OLHO_LINHA-1+linha-int(RECORTE_CABECA.position.y),contorno if linha == 2 else pele)
+	if not jogador.has_node("HeroiBase3D"): return Node2D.new()
+	var retrato := preload("res://codigo/ui/cabeca_heroi_3d.gd").new()
+	retrato.aparencia = preload("res://codigo/dados/visual_ranking.gd").do_jogador(jogador)
+	retrato.olhos_fechados = olhos_fechados
+	return retrato
 
 ## Acordou: o jogador volta e a cama fica como era
 func levantar() -> void:

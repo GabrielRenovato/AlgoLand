@@ -1,0 +1,17 @@
+{
+	"giro_area": {
+		"duracao_s": 3.79999995231628,
+		"fps_previa": 20,
+		"quadros": []
+	},
+	"golpe_duas_maos": {
+		"duracao_s": 2.04999995231628,
+		"fps_previa": 20,
+		"quadros": []
+	},
+	"impacto_area": {
+		"duracao_s": 2.84999990463257,
+		"fps_previa": 20,
+		"quadros": []
+	}
+}

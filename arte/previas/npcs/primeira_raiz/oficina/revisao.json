@@ -1,0 +1,10 @@
+{
+  "relatorio": "/tmp/algoland-harness/execucao-lb7aj6lj/relatorio.json",
+  "revisao_visual": "aprovada",
+  "resolucoes": [
+    "576x324",
+    "288x512",
+    "320x324"
+  ],
+  "observacoes": "Revisão das capturas reais no Godot: títulos, seletores e rodapé com margens; controles restantes acessíveis por rolagem. Ivo carrega a mesma aparência da cidade; 15 identidades e edição isolada validadas."
+}

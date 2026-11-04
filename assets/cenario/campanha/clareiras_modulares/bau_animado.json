@@ -1,0 +1,59 @@
+{
+  "quadros": 4,
+  "grade": [
+    2,
+    2
+  ],
+  "duracao_quadro": 0.16,
+  "loop": false,
+  "variantes": {
+    "primavera": {
+      "textura": "res://assets/cenario/campanha/clareiras_modulares/primavera/bau_animado.png",
+      "quadro": [
+        768,
+        768
+      ],
+      "pivo": [
+        440,
+        710
+      ],
+      "largura_corpo": 510.0
+    },
+    "verao": {
+      "textura": "res://assets/cenario/campanha/clareiras_modulares/verao/bau_animado.png",
+      "quadro": [
+        768,
+        768
+      ],
+      "pivo": [
+        440,
+        710
+      ],
+      "largura_corpo": 510.0
+    },
+    "outono": {
+      "textura": "res://assets/cenario/campanha/clareiras_modulares/outono/bau_animado.png",
+      "quadro": [
+        768,
+        768
+      ],
+      "pivo": [
+        440,
+        710
+      ],
+      "largura_corpo": 510.0
+    },
+    "inverno": {
+      "textura": "res://assets/cenario/campanha/clareiras_modulares/inverno/bau_animado.png",
+      "quadro": [
+        768,
+        768
+      ],
+      "pivo": [
+        440,
+        710
+      ],
+      "largura_corpo": 510.0
+    }
+  }
+}

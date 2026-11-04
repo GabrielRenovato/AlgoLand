@@ -1,0 +1,49 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://codigo/inimigos/goblin_pomar.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/inimigos/goblin_machado_2d/ataque_baixo.png" id="2"]
+[sub_resource type="AtlasTexture" id="GuardaFrontal"]
+atlas = ExtResource("2")
+region = Rect2(1920, 640, 640, 640)
+[sub_resource type="CircleShape2D" id="Corpo"]
+radius = 7.0
+[sub_resource type="CapsuleShape2D" id="Atingivel"]
+radius = 8.0
+height = 28.0
+
+[node name="GoblinMachadoFenda" type="CharacterBody2D" groups=["enemy", "goblins_dungeon"]]
+collision_layer = 32
+collision_mask = 66
+script = ExtResource("1")
+arma_goblin = "machado"
+chance_combo = 0.0
+antecipacao_ataque = 0.14
+velocidade = 100
+vida = 32
+dano = 5.0
+raio_parada = 24.0
+alcance_ataque = 34.0
+alcance_separacao = 24.0
+altura_pes = 0.0
+altura_barra_vida = 38.0
+tempo_recarga_ataque = 1.35
+
+[node name="Texture" type="Sprite2D" parent="."]
+texture = SubResource("GuardaFrontal")
+centered = false
+offset = Vector2(-320, -560)
+scale = Vector2(0.071, 0.071)
+texture_filter = 2
+
+[node name="colision_body" type="CollisionShape2D" parent="."]
+shape = SubResource("Corpo")
+
+[node name="AlvoGolpes" type="Area2D" parent="." groups=["hurtbox_inimigo"]]
+collision_layer = 4
+collision_mask = 0
+monitoring = false
+monitorable = true
+
+[node name="Forma" type="CollisionShape2D" parent="AlvoGolpes"]
+position = Vector2(0, -15)
+shape = SubResource("Atingivel")

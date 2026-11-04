@@ -62,7 +62,8 @@ export function criarServidor(config = CONFIG) {
   });
   const wss = new WebSocketServer({
     server: servidorHttp,
-    maxPayload: 8192,
+    // Lotes do coop (relay) chegam a ~48 KiB; o resto continua limitado a 8 KiB em aoMensagem.
+    maxPayload: 65536,
     verifyClient: ({ origin }) => config.origens.length === 0 || !origin || config.origens.includes(origin),
   });
 
@@ -93,7 +94,7 @@ export function criarServidor(config = CONFIG) {
   function aplicarEstado(jogador, estado, agora) {
     if (!estadoValido(estado)) return 'posicao_invalida';
     let mapa = Number.isInteger(estado.mapa) ? estado.mapa : (estado.cidade === true ? 1 : 0);
-    if (mapa < 0 || mapa > 3) return 'estado_invalido';
+    if (mapa < 0 || mapa > 4) return 'estado_invalido';
     const aparencia = estado.aparencia;
     if (aparencia !== undefined && aparencia !== null) {
       if (typeof aparencia !== 'object' || aparencia.versao !== 1 || JSON.stringify(aparencia).length > 4096) return 'aparencia_invalida';
@@ -170,10 +171,20 @@ export function criarServidor(config = CONFIG) {
 
   function aoMensagem(jogador, bruto) {
     const agora = Date.now();
-    // Máximo de 30 mensagens por segundo por conexão
-    jogador.janela = jogador.janela.filter((t) => agora - t < 1000);
-    if (jogador.janela.length >= 30) { enviar(jogador, { erro: 'aguarde' }); return; }
-    jogador.janela.push(agora);
+    // O relay do coop manda um lote por quadro: tem janela e cota de bytes próprias.
+    const relay = bruto.length > 17 && bruto.subarray(0, 17).toString('utf8') === '{"t":"coop_rede",';
+    if (relay) {
+      jogador.janelaRede = (jogador.janelaRede ?? []).filter((r) => agora - r.t < 1000);
+      const bytes = jogador.janelaRede.reduce((soma, r) => soma + r.n, 0);
+      if (jogador.janelaRede.length >= 240 || bytes + bruto.length > 3 * 1024 * 1024) return;
+      jogador.janelaRede.push({ t: agora, n: bruto.length });
+    } else {
+      if (bruto.length > 8192) return;
+      // Máximo de 30 mensagens por segundo por conexão
+      jogador.janela = jogador.janela.filter((t) => agora - t < 1000);
+      if (jogador.janela.length >= 30) { enviar(jogador, { erro: 'aguarde' }); return; }
+      jogador.janela.push(agora);
+    }
     // Qualquer mensagem mostra que a conexão está viva (a do duelo não manda presença de mapa).
     jogador.vistoEm = agora;
     let dados;
@@ -269,7 +280,7 @@ export function criarServidor(config = CONFIG) {
 
   function estadoAdmin() {
     const agora = Date.now();
-    const porMapa = { 0: 0, 1: 0, 2: 0, 3: 0 };
+    const porMapa = { 0: 0, 1: 0, 2: 0, 3: 0, 4: 0 };
     const lista = [...jogadores.values()].map((p) => {
       porMapa[p.mapa] += 1;
       return { id: p.id.slice(0, 8), apelido: p.apelido, mapa: p.mapa, desdeSeg: Math.round((agora - p.entrouEm) / 1000),

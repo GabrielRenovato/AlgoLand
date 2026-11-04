@@ -1,0 +1,63 @@
+{
+  "acao": "ferido",
+  "direcoes": [
+    "direita",
+    "esquerda",
+    "baixo",
+    "cima"
+  ],
+  "fonte": "arte/fontes/inimigos/goblin_adaga/ferido_tres_direcoes_v1.png",
+  "prompt": "arte/fontes/inimigos/goblin_adaga/prompt_ferido.txt",
+  "origem": "image_gen integrado para direita/baixo/cima; esquerda espelhada deterministicamente",
+  "duracoes_ms": [
+    45,
+    75,
+    90,
+    90
+  ],
+  "loop": false,
+  "raiz": [
+    320,
+    560
+  ],
+  "escala": 0.071,
+  "alturas_neutras_px": {
+    "direita": 31.098,
+    "esquerda": 31.098,
+    "baixo": 31.169,
+    "cima": 30.672
+  },
+  "capturas_godot": 184,
+  "clipes": {
+    "parado_direita": 26,
+    "ferido_direita": 20,
+    "parado_baixo": 26,
+    "ferido_baixo": 20,
+    "parado_cima": 26,
+    "ferido_cima": 20,
+    "parado_esquerda": 26,
+    "ferido_esquerda": 20
+  },
+  "revisao_visual": {
+    "responsavel": "Codex",
+    "metodo": "Inspeção de todos os quadros por direção, trajetória cabeça/ombros e capturas reais do Godot; GIFs exportados dos mesmos quadros e tempos. Visualizador estático não reproduz GIF.",
+    "resultado": "Recuo e flexão legíveis; cabeça acompanha torso; mão mantém adaga abaixada; recuperação retorna à guarda. Quatro direções registradas duas vezes no mapa. Efeitos existentes de flash/piscar e número de dano continuam no jogo.",
+    "evidencias": [
+      "/var/home/alfeim/AlgoLand/arte/previas/inimigos/goblin_adaga/ferido_no_godot_contato.png",
+      "/var/home/alfeim/AlgoLand/arte/previas/inimigos/goblin_adaga/ferido_no_jogo.gif",
+      "/var/home/alfeim/AlgoLand/arte/previas/inimigos/goblin_adaga/ferido_quatro_direcoes.gif",
+      "/var/home/alfeim/AlgoLand/arte/previas/inimigos/goblin_adaga/ferido_direita_contato.png",
+      "/var/home/alfeim/AlgoLand/arte/previas/inimigos/goblin_adaga/ferido_baixo_contato.png",
+      "/var/home/alfeim/AlgoLand/arte/previas/inimigos/goblin_adaga/ferido_cima_contato.png",
+      "/var/home/alfeim/AlgoLand/arte/previas/inimigos/goblin_adaga/ferido_esquerda_contato.png"
+    ],
+    "aprovacao_artistica_usuario": false
+  },
+  "testes": {
+    "ok": 135,
+    "falhas": 0,
+    "perfil": "goblins-pomar",
+    "estado_preservado": true,
+    "relatorio": "/tmp/algoland-harness/execucao-86rtmxi6/relatorio.json"
+  }
+}

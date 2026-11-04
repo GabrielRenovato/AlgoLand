@@ -1,0 +1,54 @@
+{
+  "assinatura": "b3a820d09197d1ad847293e7a076b061654aa2879461a3471ddb7e13085b522c",
+  "perfil": "selecionado",
+  "motor": "Python 3.14.8 / 4.7.2.stable.flathub.ed1daf0bf",
+  "aprovado": true,
+  "etapas": [
+    {
+      "codigo": 0,
+      "segundos": 7.54,
+      "timeout": false,
+      "avisos_conhecidos": [],
+      "erros_esperados": [],
+      "erros": [],
+      "total_erros": 0,
+      "verificacoes_ok": 0,
+      "log": "/tmp/algoland-harness/execucao-ehigyvtc/testes/importacao.log",
+      "aprovado": true,
+      "nome": "importacao"
+    },
+    {
+      "codigo": 0,
+      "segundos": 2.12,
+      "timeout": false,
+      "avisos_conhecidos": [],
+      "erros_esperados": [],
+      "erros": [],
+      "total_erros": 0,
+      "verificacoes_ok": 16,
+      "log": "/tmp/algoland-harness/execucao-ehigyvtc/testes/lorde_goblin_3d.log",
+      "aprovado": true,
+      "nome": "lorde_goblin_3d",
+      "modo": "headless"
+    },
+    {
+      "codigo": 0,
+      "segundos": 1.92,
+      "timeout": false,
+      "avisos_conhecidos": [
+        "ERROR: 3 resources still in use at exit (run with --verbose for details)."
+      ],
+      "erros_esperados": [],
+      "erros": [],
+      "total_erros": 0,
+      "verificacoes_ok": 16,
+      "log": "/tmp/algoland-harness/execucao-ehigyvtc/testes/lorde_goblin_combate.log",
+      "aprovado": true,
+      "nome": "lorde_goblin_combate",
+      "modo": "headless"
+    }
+  ],
+  "revisao_visual": "nao_aplicavel",
+  "estado_preservado": true,
+  "capturas": []
+}

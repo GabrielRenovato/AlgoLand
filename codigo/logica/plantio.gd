@@ -488,9 +488,6 @@ func _atualizar_cursor() -> void:
 		celula = celula_alvo()
 		visivel = Fazenda.dentro_da_area(celula) and not _eh_extracao(Fazenda.acao_da_ferramenta(_lado()))
 		# O teste de espada no F3 não usa a ferramenta nem seu marcador de solo.
-		var cartoon := jogador.get_node_or_null("HeroiCartoon") as CanvasItem
-		if cartoon != null and cartoon.visible:
-			visivel = false
 		var base_3d := jogador.get_node_or_null("HeroiBase3D") as CanvasItem
 		if base_3d != null and base_3d.visible and base_3d.demonstrar_combate_na_fazenda:
 			visivel = false

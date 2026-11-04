@@ -2,7 +2,7 @@ extends Control
 
 ## Navegação opt-in: mundo → regiões → cenário de teste.
 const Controlador := preload("res://codigo/campanha/controlador_campanha.gd")
-const CENARIOS_PROTOTIPO := ["chegada", "estrada", "vila", "pomar", "moinho"]
+const CENARIOS_PROTOTIPO := Controlador.Catalogo.REGIOES_HABILITADAS
 const POSICOES := {
 	"chegada":Vector2(0.19,0.82), "estrada":Vector2(0.28,0.61), "vila":Vector2(0.35,0.52),
 	"pomar":Vector2(0.16,0.50), "moinho":Vector2(0.41,0.66), "varzeas":Vector2(0.70,0.83),
@@ -40,7 +40,7 @@ const CELULAS_DOMINIOS := {"andar_01": Rect2(616,342,150,106)}
 
 
 func _ready() -> void:
-	if not OS.get_user_data_dir().get_file().begins_with("AlgoLand testes"):
+	if not OS.get_user_data_dir().get_file().begins_with("AlgoLand testes") and get_tree().root.get_node("Saves").mundo != "campanha":
 		push_error("Abra pelo launcher de campanha isolada.")
 		get_tree().quit(1); return
 	if controlador.iniciar("user://percurso_primeira_raiz","prototipo") != OK:
@@ -164,6 +164,17 @@ func _montar() -> void:
 	_entrar.focus_mode = Control.FOCUS_NONE
 	_entrar.pressed.connect(entrar_selecionado)
 	coluna.add_child(_entrar)
+	var menu := Button.new()
+	menu.text = "MENU"
+	menu.add_theme_font_size_override("font_size",10)
+	Estilo.botao(menu)
+	menu.focus_mode = Control.FOCUS_NONE
+	menu.custom_minimum_size = Vector2(64,28)
+	menu.z_index = 20
+	menu.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_LEFT, Control.PRESET_MODE_MINSIZE, 8)
+	menu.pressed.connect(func() -> void:
+		if not _em_transicao: get_tree().change_scene_to_file("res://cenas/inicio_do_jogo.tscn"))
+	add_child(menu)
 	_conteudo.draw.connect(_desenhar_ligacao)
 	_conteudo.resized.connect(_posicionar)
 	_transicao = ColorRect.new()
@@ -282,6 +293,9 @@ func selecionar(id: String) -> void:
 		if _regiao_concluida(id): _descricao.text += " Missão concluída. Rejogar inicia uma nova tentativa."
 		_entrar.text = ("Rejogar" if _regiao_concluida(id) else "Entrar") if liberado and id in CENARIOS_PROTOTIPO else ("Bloqueada" if not liberado else "Em preparação")
 		_entrar.disabled = not liberado or not id in CENARIOS_PROTOTIPO
+		if id=="vila" and liberado:
+			_entrar.text="Visitar cidade"
+			_descricao.text="Cidade • encontro online e serviços."
 		_campo_regional.focar(POSICOES[id])
 	for no in _nos:
 		if tela == "regioes":
@@ -296,6 +310,9 @@ func entrar_selecionado() -> Error:
 		return OK
 	if not selecionado in CENARIOS_PROTOTIPO or not controlador.progresso.acesso_liberado(selecionado):
 		return ERR_UNAUTHORIZED
+	if selecionado=="vila":
+		jogar_solo()
+		return OK
 	if is_instance_valid(dialogo_salas): return ERR_BUSY
 	dialogo_salas = preload("res://codigo/campanha/dialogo_salas.gd").new()
 	dialogo_salas.regiao = selecionado
@@ -309,7 +326,7 @@ func _clicar_estagio(id: String) -> void:
 	entrar_selecionado()
 
 func jogar_solo() -> void:
-	get_tree().set_meta("campanha_nova_instancia",true)
+	get_tree().set_meta("campanha_nova_instancia",selecionado!="vila")
 	get_tree().set_meta("campanha_destino",selecionado)
 	get_tree().change_scene_to_file("res://cenas/campanha/percurso_prototipo.tscn")
 

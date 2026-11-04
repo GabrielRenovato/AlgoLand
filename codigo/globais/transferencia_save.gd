@@ -11,6 +11,16 @@ const ARQUIVOS := ["progresso.json", "calendario.json", "cidade.json", "fazenda.
 	"bau.json", "comercio.json", "inventario.json", "configuracao_jogador.json",
 	"inventario_introducao_checkpoint.json", "ranking.json", "mercado.json",
 	"versao_save.json", "reequilibrio_progressao_1.json", "maestria.json", "maestria_p2.json"]
+## Mundo da campanha (beta), em user://percurso_primeira_raiz/. Pacotes antigos não trazem estes arquivos; a marca
+## "campanha" no pacote diz se a ausência de um deles significa apagar.
+const ARQUIVOS_CAMPANHA := ["percurso_primeira_raiz/configuracao_jogador.json", "percurso_primeira_raiz/progresso.json",
+	"percurso_primeira_raiz/calendario.json", "percurso_primeira_raiz/cidade.json", "percurso_primeira_raiz/fazenda.json",
+	"percurso_primeira_raiz/introducao.json", "percurso_primeira_raiz/bau.json", "percurso_primeira_raiz/comercio.json",
+	"percurso_primeira_raiz/inventario.json", "percurso_primeira_raiz/maestria.json", "percurso_primeira_raiz/leilao.json",
+	"percurso_primeira_raiz/campanhas/prototipo/campanha_primeira_raiz_v1.json"]
+
+static func todos() -> Array:
+	return ARQUIVOS + ARQUIVOS_CAMPANHA
 const ERROS := {
 	"codigo_invalido": "CODIGO INVALIDO",
 	"tamanho_invalido": "SAVE GRANDE DEMAIS PARA ENVIAR",
@@ -28,11 +38,11 @@ static func versao_app() -> String:
 ## Pacote do mundo solo: {formato, versao_app, versao_save, arquivos: {nome: texto}}
 static func empacotar() -> Dictionary:
 	var arquivos := {}
-	for nome in ARQUIVOS:
+	for nome in todos():
 		var caminho: String = "user://" + nome
 		if FileAccess.file_exists(caminho):
 			arquivos[nome] = FileAccess.get_file_as_string(caminho)
-	return {"formato": FORMATO, "versao_app": versao_app(), "versao_save": VersaoSave.ATUAL, "arquivos": arquivos}
+	return {"formato": FORMATO, "versao_app": versao_app(), "versao_save": VersaoSave.ATUAL, "arquivos": arquivos, "campanha": true}
 
 ## Confere o pacote recebido. Devolve "" ou o motivo da recusa.
 static func validar(pacote, exigir_versao_app := true) -> String:
@@ -43,14 +53,14 @@ static func validar(pacote, exigir_versao_app := true) -> String:
 	if int(pacote.get("versao_save", -1)) != VersaoSave.ATUAL:
 		return "SAVE DE OUTRA VERSAO DO JOGO"
 	var arquivos: Dictionary = pacote.arquivos
-	if not arquivos.has("configuracao_jogador.json"):
+	if not arquivos.has("configuracao_jogador.json") and not arquivos.has(ARQUIVOS_CAMPANHA[0]):
 		return "O OUTRO APARELHO NAO TEM PERSONAGEM CRIADO"
 	for nome in arquivos:
-		if not nome in ARQUIVOS or not arquivos[nome] is String:
+		if not nome in todos() or not arquivos[nome] is String:
 			return "SAVE RECEBIDO ESTA CORROMPIDO"
 		if not JSON.parse_string(arquivos[nome]) is Dictionary:
 			return "SAVE RECEBIDO ESTA CORROMPIDO"
-	for nome in ["maestria.json","maestria_p2.json"]:
+	for nome in ["maestria.json","maestria_p2.json","percurso_primeira_raiz/maestria.json"]:
 		if arquivos.has(nome):
 			var modelo=preload("res://codigo/modelos/modelo_maestria.gd").new()
 			if modelo.importar(JSON.parse_string(arquivos[nome]))!=OK:return "MAESTRIA RECEBIDA ESTA CORROMPIDA"
@@ -64,15 +74,17 @@ static func aplicar(pacote: Dictionary, exigir_versao_app := true) -> String:
 		return erro
 	var backup := "user://backups/antes_transferencia_%s/" % Time.get_datetime_string_from_system().replace(":", "-")
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(backup))
-	for nome in ARQUIVOS:
+	for nome in todos():
 		var caminho: String = "user://" + nome
 		if FileAccess.file_exists(caminho):
+			DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path((backup + nome).get_base_dir()))
 			if DirAccess.copy_absolute(ProjectSettings.globalize_path(caminho), ProjectSettings.globalize_path(backup + nome)) != OK:
 				return "NAO FOI POSSIVEL GUARDAR UMA COPIA DO SAVE ATUAL"
 	var arquivos: Dictionary = pacote.arquivos
-	for nome in ARQUIVOS:
+	for nome in todos():
 		var caminho: String = "user://" + nome
 		if arquivos.has(nome):
+			DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(caminho.get_base_dir()))
 			var temporario := caminho + ".tmp"
 			var arquivo := FileAccess.open(temporario, FileAccess.WRITE)
 			if arquivo == null:
@@ -83,7 +95,7 @@ static func aplicar(pacote: Dictionary, exigir_versao_app := true) -> String:
 			arquivo.close()
 			if erro_gravacao != OK or DirAccess.rename_absolute(ProjectSettings.globalize_path(temporario), ProjectSettings.globalize_path(caminho)) != OK:
 				return "NAO FOI POSSIVEL GRAVAR O SAVE"
-		elif FileAccess.file_exists(caminho):
+		elif FileAccess.file_exists(caminho) and (nome in ARQUIVOS or bool(pacote.get("campanha", false))):
 			if DirAccess.remove_absolute(ProjectSettings.globalize_path(caminho)) != OK:
 				return "NAO FOI POSSIVEL GRAVAR O SAVE"
 	return ""

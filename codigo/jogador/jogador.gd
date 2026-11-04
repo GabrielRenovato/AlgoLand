@@ -5,7 +5,6 @@ const Encantamentos := preload("res://codigo/dados/encantamentos.gd")
 const Carrasco := preload("res://codigo/dados/conjunto_carrasco.gd")
 const Mordomo := preload("res://assets/personagens/conjuntos/cavalheiro/definicao.gd")
 const Conjuntos := preload("res://codigo/dados/conjuntos_armadura.gd")
-const CARTOON := "res://codigo/jogador/heroi_cartoon.gd"
 const RaioCarrasco := preload("res://codigo/efeitos/raio.gd")
 const Equipamentos := preload("res://codigo/dados/equipamentos.gd")
 const ArcoJogador := preload("res://codigo/jogador/arco_jogador.gd")
@@ -429,10 +428,7 @@ func _ready() -> void:
 	_posicao_acampamento = global_position
 	Progresso.melhorias_alteradas.connect(aplicar_melhorias_permanentes)
 	aplicar_melhorias_permanentes()
-	add_child(preload("res://codigo/jogador/heroi_raven.gd").new())
 	# Visual de teste do F3: só existe na pasta de trabalho, nunca em pacote publicado.
-	if get_tree().get_meta("visual_cartoon_p2" if eh_p2 else "visual_cartoon_p1", false) and ResourceLoader.exists(CARTOON):
-		add_child(load(CARTOON).new())
 	# Personagem 3D é o visual padrão; F3 → RAVEN: REAPLICAR VISUAL volta ao Raven 2D nesta sessão.
 	if get_tree().get_meta("visual_base_3d_p2" if eh_p2 else "visual_base_3d_p1", true):
 		var visual_3d = preload("res://codigo/jogador/heroi_base_3d.gd").new()
@@ -629,12 +625,7 @@ func iniciar_dash() -> void:
 	_tempo_proximo_rastro = 0.0
 	_direcao_ataque = dir
 	acao_visual.emit("dash", duracao_dash, 0)
-	var raven := get_node_or_null("HeroiRaven")
-	if raven != null and raven.visible:
-		no_reacao.encerrar()
-		raven._process(0.0)
-	else:
-		_tocar_pose("esquiva", duracao_dash)
+	_tocar_pose("esquiva", duracao_dash)
 
 	await get_tree().create_timer(duracao_dash).timeout
 	# Sai do dash com parte do impulso, para não parar seco
@@ -696,17 +687,6 @@ func _criar_rastro_dash() -> void:
 		desaparecer.tween_property(rastro,"modulate:a",0.0,duracao_rastro_dash)
 		desaparecer.tween_callback(rastro.queue_free)
 		return
-	var raven := get_node_or_null("HeroiRaven")
-	if raven != null and raven.is_visible_in_tree():
-		# A pose precisa acompanhar este passo físico antes de fotografar o rastro.
-		raven._process(0.0)
-		rastro.add_child(raven.criar_rastro())
-		cena_atual.add_child(rastro)
-		rastro.global_transform = raven.global_transform
-		var desaparecer := rastro.create_tween()
-		desaparecer.tween_property(rastro, "modulate:a", 0.0, duracao_rastro_dash)
-		desaparecer.tween_callback(rastro.queue_free)
-		return
 	for camada in [$CompositeSprites/BaseSprites, $CompositeSprites/Armaduras, no_arco, no_reacao]:
 		if camada == null or not camada.is_visible_in_tree():
 			continue
@@ -734,7 +714,7 @@ func bloquear_ataques(bloquear: bool) -> void:
 	ataques_bloqueados = bloquear
 
 func carregar_conjunto_armadura(_id_conjunto: int) -> void:
-	# Os itens conservam seus bônus; as peças são compostas em HeroiRaven.
+	# Os itens conservam seus bônus; as peças são desenhadas pelo HeroiBase3D.
 	pass
 
 func conectar_sinal_se_nao_conectado(no: Node, nome_sinal: String, metodo: String) -> void:
@@ -956,9 +936,6 @@ func mover() -> void:
 
 		# Trocar o item da mão não altera a velocidade de deslocamento.
 		var velocidade_base = 114.0
-		var visual_gerado := get_node_or_null("HeroiGerado")
-		if visual_gerado != null:
-			velocidade_base = visual_gerado.velocidade_de_teste()
 
 		# 2) Soma os bônus que já estão em estatisticas
 		#    (quando compra item, incrementa estatisticas.bonus_velocidade_item)
@@ -972,9 +949,6 @@ func mover() -> void:
 		# 5) Poção de velocidade multiplica por cima (pode passar do teto enquanto dura)
 		velocidade_final *= 1.0 + efeitos_pocao.bonus("velocidade")
 		velocidade_final *= fator_golpe
-		var visual_cartoon := get_node_or_null("HeroiCartoon")
-		if visual_cartoon != null:
-			velocidade_final *= visual_cartoon.fator_velocidade_movimento()
 
 		# Move interpolando a velocidade atual para a velocidade desejada
 		velocity.x = lerp(velocity.x, dir.x * velocidade_final, _aceleracao)
@@ -1069,15 +1043,11 @@ func logica_combo_ataque() -> void:
 	# Na fazenda o ataque vira "usar ferramenta" (quem decide e toca a animação é o Plantio)
 	if modo_fazenda:
 		if atacar and not esta_em_acao_fazenda:
-			var cartoon := get_node_or_null("HeroiCartoon")
-			if cartoon != null and cartoon.visible:
-				cartoon.pedir_golpe_na_fazenda()
+			var base_3d := get_node_or_null("HeroiBase3D")
+			if base_3d != null and base_3d.visible and base_3d.demonstrar_combate_na_fazenda:
+				base_3d.pedir_golpe_na_fazenda()
 			else:
-				var base_3d := get_node_or_null("HeroiBase3D")
-				if base_3d != null and base_3d.visible and base_3d.demonstrar_combate_na_fazenda:
-					base_3d.pedir_golpe_na_fazenda()
-				else:
-					ferramenta_pedida.emit()
+				ferramenta_pedida.emit()
 		return
 	if picareta_arena_ativa:
 		if atacar:
@@ -1159,9 +1129,6 @@ func iniciar_slash_ataque(nome_anim: String, tempo_slash: float) -> void:
 	var base_3d := get_node_or_null("HeroiBase3D")
 	if base_3d != null and base_3d.usa_combo_espada():
 		tempo_slash = base_3d._duracoes_combo()[clampi(_fase_combo,1,base_3d._duracoes_combo().size())-1]
-	var cartoon := get_node_or_null("HeroiCartoon")
-	if cartoon != null and cartoon.usa_combo_espada():
-		tempo_slash = cartoon.DURACAO_GOLPE
 	Ranking.registrar_uso(self,id_arma_atual)
 	_alvos_area_golpe.clear()
 	_apontar_golpe()
@@ -1176,9 +1143,6 @@ func iniciar_slash_ataque(nome_anim: String, tempo_slash: float) -> void:
 	_maquina_estados.travel(nome_anim)
 	_temporizador.start(tempo_slash)
 	_pode_encadear_combo = true
-	var visual_gerado := get_node_or_null("HeroiGerado")
-	if visual_gerado != null:
-		visual_gerado.iniciar_ataque_espada(tempo_slash, false, maxi(1, _fase_combo))
 
 func _on_temporizador_ataque_timeout() -> void:
 	if maestria != null and maestria.executando:

@@ -22,9 +22,9 @@ const DADOS := {
 			"Pouca gente aqui confia em quem chega de fora. Ganhe essa confiança aos poucos."],
 		"dica": "Converse com todos: cada morador guarda uma peça do que acontece."},
 	"moinho": {"titulo": "BACIA DO MOINHO", "etiqueta": "Primeira Raiz  ·  O circuito antigo",
-		"historia": ["A roda parou, mas a água continua sumindo por canais que não aparecem nos mapas da vila. Sob o lodo, inscrições antigas ainda mostram como distribuir a corrente.",
-			"Restaure os registros, libere o eixo e investigue a escadaria no centro da bacia. Algo guarda a ligação entre o moinho e as raízes."],
-		"dica": "Observe a placa do circuito antes de testar a pressão."},
+		"historia": ["O moinho parou e a vila precisa da farinha que ele produz. A água está represada nas galerias antigas sob a bacia, agora ocupadas por goblins.",
+			"Siga os vestígios até a entrada de manutenção. A comporta principal só pode ser aberta pela alavanca na câmara mais profunda, protegida pelo guardião do canal."],
+		"dica": "A alavanca principal fica dentro da dungeon. Investigar o exterior revela o acesso."},
 	"pomar": {"titulo": "POMAR DAS CERCAS PARTIDAS", "etiqueta": "Primeira Raiz  ·  O pomar",
 		"historia": ["As cercas do pomar foram quebradas por dentro. Raízes sobem junto dos brotos e há sulcos novos na terra, que ninguém da vila admite ter visto.",
 			"Algo se move debaixo do chão. Descubra o que é antes que chegue às casas."],
@@ -162,6 +162,9 @@ func _rotulo(pai: Node, texto: String, tamanho: int, cor: Color) -> Label:
 func _atualizar_layout() -> void:
 	if _raiz == null or _caixa == null: return
 	_caixa.vertical = _raiz.size.x < _raiz.size.y * 1.1
+	# Em retrato, reservar altura para os dois parágrafos, a dica e o andamento.
+	var imagem:Control=_caixa.get_child(0)
+	imagem.size_flags_stretch_ratio=(0.5 if _raiz.size.y>=400 else 0.3) if _caixa.vertical else 1.5
 
 func definir_progresso(valor: float, texto := "") -> void:
 	_progresso = maxf(_progresso, clampf(valor, 0.0, 1.0))

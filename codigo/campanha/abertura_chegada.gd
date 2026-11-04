@@ -209,7 +209,7 @@ func _invocacao(jogador: CharacterBody2D) -> void:
 	await _tween.finished
 	if _heroi_3d and ativa:
 		# Termina de se levantar antes de devolver o controle.
-		await get_tree().create_timer(1.3).timeout
+		await get_tree().create_timer(1.5).timeout
 
 func _process(_delta: float) -> void:
 	if is_instance_valid(_brilho): _brilho.pulso = _pulso

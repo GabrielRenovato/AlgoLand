@@ -1,4 +1,5 @@
 extends CanvasLayer
+var script_cliente_mercado: Script
 
 const IconesItens := preload("res://codigo/ui/icones_itens.gd")
 const ControlesToque := preload("res://codigo/ui/controles_toque.gd")
@@ -65,6 +66,7 @@ func _ready() -> void:
 	_paineis["ranking"] = ranking.painel
 	ranking.hide()
 	var mercado := preload("res://codigo/mercado/tela_mercado.gd").new()
+	if script_cliente_mercado!=null:mercado.script_cliente=script_cliente_mercado
 	mercado.name = "TelaMercado"
 	add_child(mercado)
 	_telas["mercado"] = mercado

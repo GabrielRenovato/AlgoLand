@@ -1,0 +1,655 @@
+{
+	"animacoes": {
+		"ataque_baixo": {
+			"correcoes": {},
+			"deslocamento_grade": [
+				70,
+				85
+			],
+			"duracoes_ms": [
+				80,
+				160,
+				140,
+				45,
+				55,
+				90,
+				130,
+				180
+			],
+			"espelhada_de": "",
+			"fonte": "ataque_baixo_v1.png",
+			"grade": [
+				4,
+				2
+			],
+			"lado_intermediario": 500,
+			"limiar_alfa": 64,
+			"linha_fonte": -1,
+			"loop": false,
+			"ordem_fontes": [
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7
+			],
+			"resolucao_fonte": [
+				1774,
+				887
+			]
+		},
+		"ataque_cima": {
+			"correcoes": {},
+			"deslocamento_grade": [
+				20,
+				10
+			],
+			"duracoes_ms": [
+				80,
+				160,
+				140,
+				45,
+				55,
+				90,
+				130,
+				180
+			],
+			"espelhada_de": "",
+			"fonte": "ataque_cima_v1.png",
+			"grade": [
+				4,
+				2
+			],
+			"lado_intermediario": 600,
+			"limiar_alfa": 64,
+			"linha_fonte": -1,
+			"loop": false,
+			"ordem_fontes": [
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7
+			],
+			"resolucao_fonte": [
+				1774,
+				887
+			]
+		},
+		"ataque_direita": {
+			"correcoes": {},
+			"deslocamento_grade": [
+				0,
+				-23
+			],
+			"duracoes_ms": [
+				80,
+				160,
+				140,
+				45,
+				55,
+				90,
+				130,
+				180
+			],
+			"efeito_corte": {
+				"composicao": "sobre o corpo; mesma celula, sem deslocamento",
+				"fonte": "efeito_corte_reddit_v1.png",
+				"limiar_alfa": 64,
+				"quadros": [
+					3,
+					4,
+					5
+				]
+			},
+			"espelhada_de": "",
+			"fonte": "ataque_reddit_direita_v4.png",
+			"grade": [
+				4,
+				2
+			],
+			"lado_intermediario": 640,
+			"limiar_alfa": 200,
+			"linha_fonte": -1,
+			"loop": false,
+			"ordem_fontes": [
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7
+			],
+			"resolucao_fonte": [
+				1774,
+				887
+			]
+		},
+		"ataque_esquerda": {
+			"correcoes": {},
+			"deslocamento_grade": [
+				0,
+				0
+			],
+			"duracoes_ms": [
+				80,
+				160,
+				140,
+				45,
+				55,
+				90,
+				130,
+				180
+			],
+			"espelhada_de": "ataque_direita",
+			"fonte": "ataque_reddit_direita_v4.png",
+			"grade": [
+				4,
+				2
+			],
+			"lado_intermediario": 640,
+			"limiar_alfa": 200,
+			"linha_fonte": -1,
+			"loop": false,
+			"ordem_fontes": [
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7
+			],
+			"resolucao_fonte": [
+				2560,
+				1280
+			]
+		},
+		"correr_baixo": {
+			"correcoes": {},
+			"deslocamento_grade": [
+				80,
+				92
+			],
+			"duracoes_ms": [
+				60,
+				70,
+				50,
+				60,
+				60,
+				70,
+				50,
+				60
+			],
+			"espelhada_de": "",
+			"fonte": "corrida_baixo_v1.png",
+			"grade": [
+				4,
+				2
+			],
+			"lado_intermediario": 480,
+			"limiar_alfa": 128,
+			"linha_fonte": -1,
+			"loop": true,
+			"ordem_fontes": [
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7
+			],
+			"resolucao_fonte": [
+				1774,
+				887
+			]
+		},
+		"correr_cima": {
+			"correcoes": {},
+			"deslocamento_grade": [
+				82,
+				97
+			],
+			"duracoes_ms": [
+				60,
+				70,
+				50,
+				60,
+				60,
+				70,
+				50,
+				60
+			],
+			"espelhada_de": "",
+			"fonte": "corrida_cima_v2.png",
+			"grade": [
+				4,
+				2
+			],
+			"lado_intermediario": 476,
+			"limiar_alfa": 128,
+			"linha_fonte": -1,
+			"loop": true,
+			"ordem_fontes": [
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7
+			],
+			"resolucao_fonte": [
+				1774,
+				887
+			]
+		},
+		"correr_direita": {
+			"correcoes": {},
+			"deslocamento_grade": [
+				70,
+				88
+			],
+			"duracoes_ms": [
+				60,
+				70,
+				50,
+				60,
+				60,
+				70,
+				50,
+				60
+			],
+			"espelhada_de": "",
+			"fonte": "corrida_modelo_proprio_direita_v2.png",
+			"grade": [
+				4,
+				2
+			],
+			"lado_intermediario": 500,
+			"limiar_alfa": 16,
+			"linha_fonte": -1,
+			"loop": true,
+			"ordem_fontes": [
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7
+			],
+			"resolucao_fonte": [
+				1774,
+				887
+			]
+		},
+		"correr_esquerda": {
+			"correcoes": {},
+			"deslocamento_grade": [
+				0,
+				0
+			],
+			"duracoes_ms": [
+				60,
+				70,
+				50,
+				60,
+				60,
+				70,
+				50,
+				60
+			],
+			"espelhada_de": "correr_direita",
+			"fonte": "corrida_modelo_proprio_direita_v2.png",
+			"grade": [
+				4,
+				2
+			],
+			"lado_intermediario": 640,
+			"limiar_alfa": 16,
+			"linha_fonte": -1,
+			"loop": true,
+			"ordem_fontes": [
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7
+			],
+			"resolucao_fonte": [
+				2560,
+				1280
+			]
+		},
+		"ferido_baixo": {
+			"correcoes": {},
+			"deslocamento_grade": [
+				29,
+				0
+			],
+			"duracoes_ms": [
+				45,
+				75,
+				90,
+				90
+			],
+			"espelhada_de": "",
+			"fonte": "dano_morte_baixo_v1.png",
+			"grade": [
+				4,
+				1
+			],
+			"lado_intermediario": 582,
+			"limiar_alfa": 128,
+			"linha_fonte": 0,
+			"loop": false,
+			"ordem_fontes": [
+				0,
+				1,
+				2,
+				3
+			],
+			"resolucao_fonte": [
+				1448,
+				1086
+			]
+		},
+		"ferido_cima": {
+			"correcoes": {},
+			"deslocamento_grade": [
+				30,
+				36
+			],
+			"duracoes_ms": [
+				45,
+				75,
+				90,
+				90
+			],
+			"espelhada_de": "",
+			"fonte": "dano_morte_cima_v1.png",
+			"grade": [
+				4,
+				1
+			],
+			"lado_intermediario": 580,
+			"limiar_alfa": 128,
+			"linha_fonte": 0,
+			"loop": false,
+			"ordem_fontes": [
+				0,
+				1,
+				2,
+				3
+			],
+			"resolucao_fonte": [
+				1448,
+				1086
+			]
+		},
+		"ferido_direita": {
+			"correcoes": {},
+			"deslocamento_grade": [
+				38,
+				43
+			],
+			"duracoes_ms": [
+				45,
+				75,
+				90,
+				90
+			],
+			"espelhada_de": "",
+			"fonte": "dano_morte_direita_v1.png",
+			"grade": [
+				4,
+				1
+			],
+			"lado_intermediario": 564,
+			"limiar_alfa": 128,
+			"linha_fonte": 0,
+			"loop": false,
+			"ordem_fontes": [
+				0,
+				1,
+				2,
+				3
+			],
+			"resolucao_fonte": [
+				1448,
+				1086
+			]
+		},
+		"ferido_esquerda": {
+			"correcoes": {},
+			"deslocamento_grade": [
+				0,
+				0
+			],
+			"duracoes_ms": [
+				45,
+				75,
+				90,
+				90
+			],
+			"espelhada_de": "ferido_direita",
+			"fonte": "dano_morte_direita_v1.png",
+			"grade": [
+				4,
+				1
+			],
+			"lado_intermediario": 640,
+			"limiar_alfa": 128,
+			"linha_fonte": -1,
+			"loop": false,
+			"ordem_fontes": [
+				0,
+				1,
+				2,
+				3
+			],
+			"resolucao_fonte": [
+				2560,
+				640
+			]
+		},
+		"morte_baixo": {
+			"correcoes": {},
+			"deslocamento_grade": [
+				29,
+				0
+			],
+			"duracoes_ms": [
+				80,
+				100,
+				110,
+				100,
+				100,
+				120,
+				160,
+				500
+			],
+			"espelhada_de": "",
+			"fonte": "dano_morte_baixo_v1.png",
+			"grade": [
+				4,
+				2
+			],
+			"lado_intermediario": 582,
+			"limiar_alfa": 128,
+			"linha_fonte": 1,
+			"loop": false,
+			"ordem_fontes": [
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7
+			],
+			"resolucao_fonte": [
+				1448,
+				1086
+			]
+		},
+		"morte_cima": {
+			"correcoes": {},
+			"deslocamento_grade": [
+				30,
+				36
+			],
+			"duracoes_ms": [
+				80,
+				100,
+				110,
+				100,
+				100,
+				120,
+				160,
+				500
+			],
+			"espelhada_de": "",
+			"fonte": "dano_morte_cima_v1.png",
+			"grade": [
+				4,
+				2
+			],
+			"lado_intermediario": 580,
+			"limiar_alfa": 128,
+			"linha_fonte": 1,
+			"loop": false,
+			"ordem_fontes": [
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7
+			],
+			"resolucao_fonte": [
+				1448,
+				1086
+			]
+		},
+		"morte_direita": {
+			"correcoes": {},
+			"deslocamento_grade": [
+				38,
+				43
+			],
+			"duracoes_ms": [
+				80,
+				100,
+				110,
+				100,
+				100,
+				120,
+				160,
+				500
+			],
+			"espelhada_de": "",
+			"fonte": "dano_morte_direita_v1.png",
+			"grade": [
+				4,
+				2
+			],
+			"lado_intermediario": 564,
+			"limiar_alfa": 128,
+			"linha_fonte": 1,
+			"loop": false,
+			"ordem_fontes": [
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7
+			],
+			"resolucao_fonte": [
+				1448,
+				1086
+			]
+		},
+		"morte_esquerda": {
+			"correcoes": {},
+			"deslocamento_grade": [
+				0,
+				0
+			],
+			"duracoes_ms": [
+				80,
+				100,
+				110,
+				100,
+				100,
+				120,
+				160,
+				500
+			],
+			"espelhada_de": "morte_direita",
+			"fonte": "dano_morte_direita_v1.png",
+			"grade": [
+				4,
+				2
+			],
+			"lado_intermediario": 640,
+			"limiar_alfa": 128,
+			"linha_fonte": -1,
+			"loop": false,
+			"ordem_fontes": [
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7
+			],
+			"resolucao_fonte": [
+				2560,
+				1280
+			]
+		}
+	},
+	"celula": [
+		640,
+		640
+	],
+	"direcoes": [
+		"direita",
+		"cima",
+		"baixo",
+		"esquerda"
+	],
+	"escala": 0.071,
+	"impacto_ataque": 4,
+	"pivo": [
+		320,
+		560
+	],
+	"velocidade_corrida_px_s": 100
+}

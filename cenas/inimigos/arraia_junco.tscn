@@ -17,8 +17,8 @@ points = PackedVector2Array(-19, -11, -13, -17, 13, -17, 19, -11, 15, -2, -15, -
 
 [node name="ArraiaDeJunco" type="CharacterBody2D" groups=["enemy"]]
 scale = Vector2(0.75, 0.75)
-collision_layer = 4
-collision_mask = 64
+collision_layer = 36
+collision_mask = 66
 script = ExtResource("1")
 especie = "arraia"
 folha_ataque = ExtResource("3")

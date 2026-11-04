@@ -3,11 +3,12 @@ extends RefCounted
 const Moldes=preload("res://codigo/jogador/moldes_mordomo_3d.gd")
 const Carrasco=preload("res://codigo/jogador/moldes_carrasco_3d.gd")
 const Rubro=preload("res://codigo/jogador/moldes_rubro_3d.gd")
+const Guarda=preload("res://codigo/jogador/moldes_guarda_novato_3d.gd")
 const Tecido=preload("res://codigo/jogador/roupas_modeladas_3d.gd")
 const PECAS=["elmo","peitoral","luvas","botas"]
 
 static func gerar(config: Dictionary) -> int:
- if config.id not in ["cavalheiro","carrasco","cavaleiro_rubro"] or not config.has("base_3d"):
+ if config.id not in ["cavalheiro","carrasco","cavaleiro_rubro","guarda_novato"] or not config.has("base_3d"):
   push_error("Manifesto sem adaptador 3D suportado");return 1
  var cena=load("res://cenas/personagem/base_3d/personagem.tscn").instantiate()
  (Engine.get_main_loop() as SceneTree).root.add_child(cena)
@@ -17,14 +18,14 @@ static func gerar(config: Dictionary) -> int:
  if config.id=="cavalheiro":
   malhas=[Moldes.cartola(corpo,rig),Moldes.casaca(corpo,rig,cena.find_child("Camisa",true,false).mesh,cena.find_child("Calca",true,false).mesh),Moldes.luvas(corpo),Moldes.ajustar(cena.find_child("Botas",true,false).mesh,Tecido.ligacoes(corpo,rig),"botas")]
  else:
-  var modelo: GDScript=Rubro if config.id=="cavaleiro_rubro" else Carrasco
+  var modelo: GDScript=Guarda if config.id=="guarda_novato" else (Rubro if config.id=="cavaleiro_rubro" else Carrasco)
   malhas=[modelo.elmo(corpo,rig),modelo.peitoral(corpo,rig,cena.find_child("Camisa",true,false).mesh,cena.find_child("Calca",true,false).mesh),modelo.luvas(corpo,rig),modelo.botas(cena.find_child("Botas",true,false).mesh,corpo,rig)]
  var destino: String=config.base_3d.destino
  DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(destino))
  for i in 4:
   var material:=ShaderMaterial.new()
-  if config.id in ["carrasco","cavaleiro_rubro"]:
-   material.shader=load("res://codigo/jogador/rubro_base_3d.gdshader" if config.id=="cavaleiro_rubro" else "res://codigo/jogador/carrasco_base_3d.gdshader")
+  if config.id in ["carrasco","cavaleiro_rubro","guarda_novato"]:
+   material.shader=load("res://codigo/jogador/guarda_novato_base_3d.gdshader" if config.id=="guarda_novato" else ("res://codigo/jogador/rubro_base_3d.gdshader" if config.id=="cavaleiro_rubro" else "res://codigo/jogador/carrasco_base_3d.gdshader"))
    var nomes=["escuro","metal","metal_meio","metal_luz","prata","couro","couro_luz"]
    var tons=[0,1,2,4,5,9,10]
    for j in nomes.size():material.set_shader_parameter(nomes[j],Color(config.paleta[tons[j]]))

@@ -29,6 +29,10 @@ func rodar():
 	await process_frame
 	Conexao = load("res://codigo/coop_online/conexao_coop.gd")
 	root.get_node("Introducao").pular_prologo()
+	var cidade: Node = root.get_node("Cidade")
+	cidade.apagar()
+	cidade.ondas_vencidas = 0 if host else 4
+	conferir(cidade.aceitar("cancao"), "missao de andares aceita no save proprio")
 	var inv: Node = root.get_node("InventarioJogador")
 	inv.limpar()
 	inv.criar_itens_iniciais()
@@ -61,7 +65,7 @@ func rodar():
 		conferir(false, "entrada no andar"); quit(1); return
 	var controle: Node = current_scene.get_node("AndarCoop")
 	if not host:
-		# Dois conjuntos parciais reais: raio e gelo, com nível acima do inicial.
+		# Dois conjuntos parciais reais convertidos para bônus físicos, com nível acima do inicial.
 		var drop = load("res://codigo/logica/equipamento_drop.gd")
 		var rng := RandomNumberGenerator.new()
 		for tipo in ["elmo_carrasco", "peitoral_carrasco", "luvas_cavalheiro", "botas_cavalheiro"]:
@@ -92,12 +96,13 @@ func rodar():
 		marcar("alvo", JSON.stringify({"id": id, "x": inimigo.global_position.x, "y": inimigo.global_position.y}))
 		conferir(await esperar(func(): return inimigo.vida < vida_antes), "golpe do convidado aplicado somente no anfitriao")
 		marcar("golpe_validado")
-		conferir(await esperar(func(): return inimigo.esta_congelado()), "congelamento do conjunto do convidado aplicado no anfitriao")
-		# Carrasco 2/4 nível 3: o sorteio muda, mas o raio mantém 200% x 1,5 de dano.
-		conferir(await esperar(func(): return inimigo.vida == vida_antes - 2 - 60 and vizinho.vida == vizinho_antes - 60), "raio do convidado causa dano integral em area, separado do golpe")
-		conferir(await esperar(func(): return tem("efeitos_vistos")), "raio e casca de gelo aparecem na tela do convidado")
+		await create_timer(0.5).timeout
+		conferir(not inimigo.esta_congelado(), "pedido elemental antigo nao congela no anfitriao")
+		conferir(inimigo.vida == vida_antes - 2 and vizinho.vida == vizinho_antes, "equipamento fisico nao causa dano magico em area")
+		conferir(await esperar(func(): return tem("efeitos_vistos")), "convidado recebeu maestria confirmada")
 		marcar("efeitos_validados")
 		if "--somente-conjuntos" in OS.get_cmdline_user_args():
+			await validar_missoes(controle)
 			conferir(await esperar(func(): return tem("fim_conjuntos")), "convidado concluiu a revisao visual")
 			await encerrar()
 			return
@@ -131,22 +136,21 @@ func rodar():
 		var alvo: Node2D = controle._inimigos[id]
 		controle.jogador.global_position = Vector2(dados_alvo.x, dados_alvo.y) + Vector2(12, 0)
 		await create_timer(0.3).timeout
-		alvo.receber_dano(2, Vector2.ZERO)
+		var maestria:Node=controle.jogador.maestria
+		var xp_antes:int=maestria.modelo.experiencia.espada
+		maestria.novo_golpe()
+		controle.jogador.aplicar_golpe(alvo, Vector2.RIGHT, 1.0, 1.0, {"golpe":{"dano":2,"critico":false}})
 		conferir(await esperar(func(): return tem("golpe_validado")), "acao local chegou ao host")
-		conferir(controle.jogador._tentar_raio_carrasco(alvo, 20, 0.0), "conjunto parcial do convidado solicita raio")
-		conferir(not controle.jogador._tentar_raio_carrasco(alvo, 20, 0.0), "recarga local impede raio duplicado")
-		# Mesmo um pedido repetido na rede não pode duplicar o dano no anfitrião.
-		alvo.pedir_raio_conjunto("carrasco", 20)
-		conferir(controle.jogador._tentar_congelamento_mordomo(alvo, 0.0), "conjunto parcial do convidado solicita gelo")
-		conferir(await esperar(func(): return is_instance_valid(alvo._gelo_visual) and controle._espelhos.values().any(func(n): return is_instance_valid(n) and n.get_script() == load("res://codigo/efeitos/raio.gd"))), "replicas exibem o raio e o congelamento autoritativos")
+		conferir(await esperar(func(): return maestria.modelo.experiencia.espada>xp_antes), "uso da espada recebe maestria confirmada por WebRTC")
+		var fisico:Dictionary=load("res://codigo/dados/conjuntos_armadura.gd").bonus_fisico(inv.equipados)
+		conferir(fisico.empurrao>0 and fisico.guarda>0, "troca de conjuntos em rede conserva bonus fisicos locais")
+		alvo.aplicar_congelamento(1.0)
 		await RenderingServer.frame_post_draw
 		root.get_texture().get_image().save_png(pasta + "/convidado_conjuntos.png")
 		marcar("efeitos_vistos")
-		conferir(await esperar(func(): return tem("efeitos_validados")), "efeitos validados sem aplicar dano pelo espelho")
+		conferir(await esperar(func(): return tem("efeitos_validados")), "host rejeita poderes elementais antigos")
 		if "--somente-conjuntos" in OS.get_cmdline_user_args():
-			await esperar(func(): return controle._espelhos.values().any(func(n): return is_instance_valid(n) and n.get_script() == load("res://codigo/efeitos/raio.gd") and n.caiu))
-			await RenderingServer.frame_post_draw
-			root.get_texture().get_image().save_png(pasta + "/convidado_raio.png")
+			await validar_missoes(controle)
 			marcar("fim_conjuntos")
 			await esperar(func(): return not sessao.ativo)
 			await encerrar()
@@ -173,6 +177,33 @@ func rodar():
 		await esperar(func(): return tem("fim_teste"))
 		conferir(await esperar(func(): return not sessao.ativo), "saida do anfitriao encerra a sessao")
 	await encerrar()
+
+func validar_missoes(controle: Node) -> void:
+	var cidade: Node = root.get_node("Cidade")
+	var progresso: Node = root.get_node("Progresso")
+	var ondas_antes: int = cidade.ondas_vencidas
+	var chefes_antes: int = progresso.chefes
+	if host:
+		conferir(await esperar(func(): return tem("missoes_prontas")), "convidado pronto para validar a missao")
+		controle.gerente.pontos = controle.gerente.META_PROGRESSO
+		await controle.gerente._invocar_guardiao(controle.gerente._geracao)
+		controle.gerente.guardiao.receber_dano(controle.gerente.guardiao.vida + 1)
+	else:
+		controle._receber({"t": "concluido", "de": "outro_jogador", "andar": controle.andar})
+		conferir(not controle._andar_concluido and cidade.ondas_vencidas == ondas_antes, "outro jogador nao confirma vitoria nem missao")
+		marcar("missoes_prontas")
+	conferir(await esperar(func(): return controle._andar_concluido), "vitoria do guardiao confirmada em rede")
+	conferir(cidade.ondas_vencidas == ondas_antes + 1 and cidade.progresso_missao("cancao") == Vector2i(1, 3), "vitoria conta na missao propria de andares")
+	conferir(progresso.chefes == chefes_antes + 1 and progresso.checkpoint_max >= controle.andar, "guardiao conta para missao de chefe")
+	if not host:
+		controle._receber({"t": "concluido", "de": sessao.dono, "andar": controle.andar})
+		conferir(cidade.ondas_vencidas == ondas_antes + 1 and progresso.chefes == chefes_antes + 1, "vitoria repetida nao duplica missao nem chefe")
+	cidade.carregar()
+	conferir(cidade.ondas_vencidas == ondas_antes + 1 and cidade.progresso_missao("cancao") == Vector2i(1, 3), "progresso da missao persiste no save proprio")
+	if host:
+		conferir(await esperar(func(): return tem("missoes_validadas")), "convidado validou persistencia da missao")
+	else:
+		marcar("missoes_validadas")
 
 func encerrar() -> void:
 	print("COOP ONLINE ", "HOST" if host else "CONVIDADO", ": ", falhas, " falhas")

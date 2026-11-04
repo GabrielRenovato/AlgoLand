@@ -1,0 +1,12 @@
+{
+  "tipo": "previa_interface",
+  "dados": "exemplos ficticios, sem integracao com a partida",
+  "gerador": "ferramentas/campanha/previa_resultado_run.gd",
+  "referencias": [
+    "codigo/ui/estilo_expedicoes.gd",
+    "assets/personagens/conjuntos/guarda_novato/icones/",
+    "assets/ui/acessorios_iniciais/"
+  ],
+  "revisao_visual": "Godot: desktop completo, paisagem compacta, retrato e tela dividida com rolagem; margens e botoes inspecionados",
+  "imagem_principal": "resultado-768x544.png"
+}

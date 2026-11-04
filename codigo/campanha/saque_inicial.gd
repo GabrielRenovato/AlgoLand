@@ -47,7 +47,7 @@ func _abate(inimigo:Node2D,garantia:String) -> void:
   cena.sessao.enviar({"t":"saque_inicial","andar":1,"evento":evento,"regiao":cena.regiao,"x":p.x,"y":p.y,"garantia":garantia})
 func receber(evento:String,regiao:String,p:Vector2,garantia:="") -> Error:
  if not _pronto:return ERR_UNCONFIGURED
- if not regiao in ["chegada","estrada"] or not p.is_finite() or p.length()>5000 or evento.is_empty() or evento.length()>128:return ERR_INVALID_PARAMETER
+ if not regiao in ["chegada","estrada","moinho"] or not p.is_finite() or p.length()>(7500 if regiao=="moinho" else 5000) or evento.is_empty() or evento.length()>128:return ERR_INVALID_PARAMETER
  if not garantia in ["","guarda","cerne","resgate"]:return ERR_INVALID_PARAMETER
  if garantia=="resgate" and regiao!="estrada" or garantia in ["guarda","cerne"] and regiao!="chegada":return ERR_INVALID_PARAMETER
  var estado:Dictionary=inventario.saque_campanha
@@ -55,7 +55,7 @@ func receber(evento:String,regiao:String,p:Vector2,garantia:="") -> Error:
  if not garantia.is_empty() and garantia in estado.garantias:return ERR_ALREADY_EXISTS
  var antes:Dictionary=estado.duplicate(true)
  var possuidos:Array=[]
- for tipo in Catalogo.Conjunto.TIPOS:
+ for tipo in Catalogo.Acessorios.TIPOS:
   if inventario.buscar_por_tipo(tipo)!=null:possuidos.append(tipo)
  for pendente in estado.pendentes.values():
   if pendente is Dictionary:possuidos.append(pendente.get("item",{}).get("tipo",""))
@@ -71,6 +71,9 @@ func receber(evento:String,regiao:String,p:Vector2,garantia:="") -> Error:
 func _mostrar(id:String) -> void:
  if _visiveis.has(id) and is_instance_valid(_visiveis[id]):return
  var dado:Dictionary=inventario.saque_campanha.pendentes[id]
+ if dado.regiao=="moinho" and float(dado.posicao[0])>2704:
+  var roteiro=cena.terreno.get("roteiro")
+  if not is_instance_valid(roteiro) or not roteiro.dentro or not is_instance_valid(roteiro.dungeon) or not roteiro.dungeon.pronta:return
  var tipo:String=dado.get("item",{}).get("tipo","")
  var item=Catalogo.criar(tipo,str(dado.get("item",{}).get("raridade","comum")),rng)
  if item==null:return
@@ -89,6 +92,9 @@ func _process(_delta:float) -> void:
   _visiveis.clear();_regiao=cena.regiao
   for id in inventario.saque_campanha.pendentes:
    if inventario.saque_campanha.pendentes[id].get("regiao")==_regiao:_mostrar(id)
+ # O subsolo da mesma região só existe depois de entrar; pendências aguardam o mapa.
+ for id in inventario.saque_campanha.pendentes:
+  if inventario.saque_campanha.pendentes[id].regiao==_regiao and (not _visiveis.has(id) or not is_instance_valid(_visiveis[id])):_mostrar(id)
  var progresso=cena.controlador.progresso
  # Garante recuperação de saves anteriores e falhas de escrita sem exigir repetir um combate concluído.
  var objetivos:Array=progresso.objetivos_cumpridos("sobreviver_queda")
@@ -108,7 +114,7 @@ static func validar_estado(d:Dictionary) -> bool:
   if not id is String or id.is_empty() or id.length()>128:return false
  for id in d.pendentes:
   var p=d.pendentes[id]
-  if not id is String or not p is Dictionary or not p.get("regiao") in ["chegada","estrada"] or not p.get("item") is Dictionary:return false
+  if not id is String or not p is Dictionary or not p.get("regiao") in ["chegada","estrada","moinho"] or not p.get("item") is Dictionary:return false
   var item:Dictionary=p.item
   var tipo:String=str(item.get("tipo",""))
   if not Catalogo.Conjunto.TIPOS.has(tipo) and not Catalogo.Acessorios.TIPOS.has(tipo):return false
@@ -116,5 +122,5 @@ static func validar_estado(d:Dictionary) -> bool:
   if item.get("categoria")!=slot or item.get("nivel")!=1 or not item.get("raridade") in ["comum","raro"]:return false
   if not p.get("posicao") is Array or p.posicao.size()!=2:return false
   for v in p.posicao:
-   if not (v is float or v is int) or not is_finite(float(v)) or absf(float(v))>5000:return false
+   if not (v is float or v is int) or not is_finite(float(v)) or absf(float(v))>(7500 if p.regiao=="moinho" else 5000):return false
  return true

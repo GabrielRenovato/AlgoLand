@@ -9,7 +9,9 @@ signal mundo_trocado(mundo: String)
 
 const SOLO := "solo"
 const COOP := "coop"
-const PASTAS := {SOLO: "user://", COOP: "user://coop/"}
+## Campanha (beta): mundo próprio, para o percurso não mexer no prólogo nem no inventário do solo.
+const CAMPANHA := "campanha"
+const PASTAS := {SOLO: "user://", COOP: "user://coop/", CAMPANHA: "user://percurso_primeira_raiz/"}
 const VersaoSave := preload("res://codigo/dados/versao_save.gd")
 const ReequilibrioSave := preload("res://codigo/dados/reequilibrio_save.gd")
 

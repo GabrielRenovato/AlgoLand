@@ -22,6 +22,7 @@ const INTERVALO_AVISO := 120.0
 ## Última contagem avisada por arquivo de jogador: trocar de mapa recria a tela sem repetir o aviso
 static var _avisados := {}
 
+var script_cliente: Script=Cliente
 var painel: PanelContainer
 var _cliente: Node
 var _saldo: Label
@@ -66,7 +67,7 @@ func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = MOUSE_FILTER_IGNORE
 	theme = TEMA
-	_cliente = Cliente.new()
+	_cliente = script_cliente.new()
 	_cliente.name = "Cliente"
 	add_child(_cliente)
 	painel = PanelContainer.new()
@@ -102,9 +103,15 @@ func _ready() -> void:
 	_estado.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_estado.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	coluna.add_child(_estado)
+	var rolagem_conteudo := ScrollContainer.new()
+	rolagem_conteudo.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	rolagem_conteudo.size_flags_vertical = SIZE_EXPAND_FILL
+	rolagem_conteudo.follow_focus = true
+	coluna.add_child(rolagem_conteudo)
 	var conteudo := MarginContainer.new()
+	conteudo.size_flags_horizontal = SIZE_EXPAND_FILL
 	conteudo.size_flags_vertical = SIZE_EXPAND_FILL
-	coluna.add_child(conteudo)
+	rolagem_conteudo.add_child(conteudo)
 	_paginas = [_montar_comprar(), _montar_vender(), _montar_meus()]
 	for pagina in _paginas:
 		conteudo.add_child(pagina)
@@ -210,13 +217,13 @@ func _montar_vender() -> Control:
 	_linha_quantidade.add_child(_total_quantidade)
 	for passo in [1, 10]:
 		_linha_quantidade.add_child(_botao("+" + str(passo), _mudar_quantidade.bind(passo)))
-	detalhe.add_child(_legenda("PRECO EM BRASAS (DIGITE OU USE OS BOTOES)"))
+	detalhe.add_child(_legenda("PREÇO EM %s (DIGITE OU USE OS BOTÕES)" % _cliente.nome_moeda()))
 	var linha_preco := HBoxContainer.new()
 	linha_preco.add_theme_constant_override("separation", 2)
 	detalhe.add_child(linha_preco)
 	for passo in [-10, -1]:
 		linha_preco.add_child(_botao(str(passo), _mudar_preco.bind(passo)))
-	_preco_venda = _campo_numero("PRECO EM BRASAS", _digitar_preco)
+	_preco_venda = _campo_numero("PREÇO EM %s" % _cliente.nome_moeda(), _digitar_preco)
 	linha_preco.add_child(_preco_venda)
 	for passo in [1, 10]:
 		linha_preco.add_child(_botao("+" + str(passo), _mudar_preco.bind(passo)))
@@ -310,7 +317,7 @@ func _marcar_aba(aba: Button, ativa: bool) -> void:
 			aba.add_theme_color_override(cor, TEMA.get_color(cor, variacao))
 
 func _mostrar_saldo() -> void:
-	_saldo.text = "BRASAS: %d" % Progresso.brasas
+	_saldo.text = "%s: %d" % [_cliente.nome_moeda(),_cliente.saldo()]
 
 # --- COMPRAR ---
 
@@ -360,7 +367,7 @@ func _buscar() -> void:
 		var detalhe := "%s  |  POR %s  |  %s" % [_atributos(item), str(anuncio.get("vendedor", "")), _restante(str(anuncio.get("expira_em", "")))]
 		var comprar := _botao("COMPRAR", Callable())
 		comprar.pressed.connect(_ao_comprar.bind(anuncio, comprar))
-		_lista_compra.add_child(_linha(item, detalhe, "%d BRASAS" % int(anuncio.get("preco", 0)), comprar))
+		_lista_compra.add_child(_linha(item, detalhe, "%d %s" % [int(anuncio.get("preco", 0)),_cliente.nome_moeda()], comprar))
 	_anterior.disabled = _pagina == 0
 	_proxima.disabled = not bool(r["dados"].get("mais", false))
 	_rotulo_pagina.text = "PAGINA %d" % (_pagina + 1)
@@ -501,8 +508,8 @@ func _mostrar_venda() -> void:
 		_rotulo_quantidade.text = str(_quantidade) if pilha else ""
 	_total_quantidade.text = "DE %d" % _item_venda.quantidade if pilha else ""
 	_detalhe_venda.text = ("" if _item_venda.empilhavel() else _atributos(_item_venda)) if _item_venda != null else ""
-	_recebe_venda.text = "TAXA PARA ANUNCIAR: %d BRASA(S)\nVOCE RECEBE %d SE VENDER (TAXA DE %d%%)" % [
-		int(_cliente.regras.get("taxa_anuncio", 0)), _cliente.liquido(_preco), int(_cliente.regras.get("taxa_venda_pct", 0))]
+	_recebe_venda.text = "TAXA PARA ANUNCIAR: %d %s\nVOCE RECEBE %d SE VENDER (TAXA DE %d%%)" % [
+		int(_cliente.regras.get("taxa_anuncio", 0)), _cliente.nome_moeda(), _cliente.liquido(_preco), int(_cliente.regras.get("taxa_venda_pct", 0))]
 	_anunciar.disabled = _item_venda == null
 	_anunciar.text = "ANUNCIAR"
 	_anunciar.remove_meta("confirmar")
@@ -550,7 +557,7 @@ func _buscar_meus() -> void:
 		if estado == "aberto":
 			acao = _botao("CANCELAR", Callable())
 			acao.pressed.connect(_ao_cancelar.bind(int(anuncio.get("id", 0)), acao))
-		_lista_meus.add_child(_linha(item, "%s  |  %s" % [_atributos(item), situacao], "%d BRASAS" % int(anuncio.get("preco", 0)), acao))
+		_lista_meus.add_child(_linha(item, "%s  |  %s" % [_atributos(item), situacao], "%d %s" % [int(anuncio.get("preco", 0)),_cliente.nome_moeda()], acao))
 
 func _ao_cancelar(anuncio_id: int, botao: Button) -> void:
 	if _ocupado:

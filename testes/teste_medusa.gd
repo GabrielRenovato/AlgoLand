@@ -162,7 +162,7 @@ func _rodar() -> void:
 	arena.get_node("enemySpawner/GerenciadorOndas").parar_ondas()
 	var jogador: Node = arena.get_node("Jogador")
 	jogador.set_physics_process(false)
-	var raven: Sprite2D = jogador.get_node("HeroiRaven")
+	var heroi: Node2D = jogador.get_node("HeroiBase3D")
 	var chefe_real: Node2D = load("res://cenas/inimigos/medusa.tscn").instantiate()
 	arena.add_child(chefe_real)
 	chefe_real.set_physics_process(false)
@@ -210,9 +210,8 @@ func _rodar() -> void:
 	jogador.esta_em_dash = false
 	verificar("Jogador real vira pedra", jogador.aplicar_petrificacao(2.25) and jogador.esta_petrificado())
 	verificar("Visual de pedra e animação parados", jogador.sprite_corpo.material is ShaderMaterial and not jogador._arvore_animacao.active)
-	var quadro_pedra := raven.frame
 	await create_timer(0.1).timeout
-	verificar("Renderizador atual fica petrificado sem avançar poses", raven.material is ShaderMaterial and not raven.is_processing() and raven.frame == quadro_pedra)
+	verificar("Renderizador atual fica petrificado sem avançar poses", not heroi.is_processing() and not heroi._player.active)
 	var posicao: Vector2 = jogador.position
 	Input.action_press("move_right")
 	jogador._physics_process(0.5)
@@ -231,14 +230,14 @@ func _rodar() -> void:
 	verificar("Mecânica fatal legada continua disponível a outros consumidores", jogador.aplicar_petrificacao_fatal())
 	jogador.petrificacao.atualizar(0.7)
 	await process_frame
-	verificar("Jogador petrificado começa a virar cascalho", jogador.petrificacao._esfarelando and not raven.visible)
+	verificar("Jogador petrificado começa a virar cascalho", jogador.petrificacao._esfarelando and not heroi.visible)
 	jogador.petrificacao.atualizar(0.6)
 	verificar("Cascalho causa hit kill sem reviver", jogador.hp_atual == 0 and jogador.estaMorto)
 	await process_frame
-	verificar("Corpo atual continua oculto após morte fatal", not raven.visible)
+	verificar("Corpo atual continua oculto após morte fatal", not heroi.visible)
 	jogador.reiniciar_para_nova_partida()
 	await process_frame
-	verificar("Nova partida restaura corpo e limpa cascalho", raven.visible and not jogador.get_node("CompositeSprites").visible and jogador.petrificacao == null and not jogador.estaMorto)
+	verificar("Nova partida restaura corpo e limpa cascalho", heroi.visible and not jogador.get_node("CompositeSprites").visible and jogador.petrificacao == null and not jogador.estaMorto)
 	arena.queue_free()
 	await process_frame
 	print("Falhas: ", falhas)

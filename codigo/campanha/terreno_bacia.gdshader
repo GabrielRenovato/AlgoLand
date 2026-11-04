@@ -1,12 +1,11 @@
 shader_type canvas_item;
 #include "res://codigo/campanha/detalhe_solo.gdshaderinc"
+#include "res://codigo/campanha/agua_rio.gdshaderinc"
 uniform sampler2D grama : source_color, filter_linear_mipmap, repeat_enable;
 uniform sampler2D terra : source_color, filter_linear_mipmap, repeat_enable;
 uniform sampler2D raizes : source_color, filter_linear_mipmap, repeat_enable;
 uniform sampler2D pedra : source_color, filter_linear_mipmap, repeat_enable;
 uniform sampler2D agua_quadros : source_color, filter_nearest, repeat_disable;
-uniform sampler2D campo_corrente : filter_linear, repeat_disable;
-uniform vec3 fase_corrente = vec3(0.0);
 uniform sampler2D agua : source_color, filter_linear_mipmap, repeat_enable;
 uniform sampler2D mapa_raizes : filter_linear, repeat_disable;
 uniform bool pedra_nitida = false;
@@ -69,20 +68,14 @@ void fragment() {
 	float tempo_corrente = fase_corrente.x;
 	if (mundo.x < -520.0) tempo_corrente = mix(tempo_corrente,fase_corrente.z,1.0-smoothstep(-255.0,-235.0,mundo.y));
 	if (mundo.x > 380.0) tempo_corrente = mix(tempo_corrente,fase_corrente.y,smoothstep(-215.0,-190.0,mundo.y));
-	float quadro = mod(floor(tempo_corrente * 8.0), 24.0);
 	vec3 campo = texture(campo_corrente, (mundo-origem)/tamanho).rgb;
-	vec2 direcao = campo.rg * 2.0 - 1.0;
-	vec2 pixel_h = floor(mod(mundo, vec2(64.0))) + 0.5;
-	vec2 pixel_v = floor(mod(mundo.yx, vec2(64.0))) + 0.5;
-	vec3 horizontal = texture(agua_quadros, vec2((pixel_h.x + quadro * 64.0) / 1536.0, pixel_h.y / 64.0)).rgb;
-	vec3 vertical = texture(agua_quadros, vec2((pixel_v.x + quadro * 64.0) / 1536.0, pixel_v.y / 64.0)).rgb;
-	float mistura = abs(direcao.y) / max(abs(direcao.x)+abs(direcao.y), 0.001);
-	vec3 rio = mix(horizontal, vertical, mistura);
-	float centro = smoothstep(0.05, 0.85, campo.b);
-	rio *= mix(1.16, 0.94, centro);
+	vec4 agua_cor = vec4(0.0);
+	if (pesos.a > 0.01) agua_cor = agua_rio(mundo, campo, tempo_corrente, TIME);
+	vec3 rio = agua_cor.rgb;
 	float margem = smoothstep(0.35, 0.62, pesos.a) * (1.0-smoothstep(0.84, 0.995, pesos.a));
-	float brilho = smoothstep(0.25, 0.57, max(rio.g, rio.b));
-	float espuma = margem * (0.17 + brilho * 0.38);
+	// A espuma da margem quebra em traços que acompanham a correnteza.
+	float traco = agua_cor.a;
+	float espuma = margem * (0.10 + traco * 0.50);
 	rio = mix(rio,vec3(0.72,0.89,0.91),espuma);
 	vec3 cor = floresta*pesos.r+solo*pesos.g+estrada*pesos.b+rio*pesos.a;
 	cor = detalhar_solo(cor,pesos,mundo);

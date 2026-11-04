@@ -1,0 +1,36 @@
+{
+  "escopo": "Análise visual dos mobs atuais no mapa do moinho; nenhum asset ou código de jogo alterado.",
+  "motor": "Godot 4.7.2, gráfico, projeto com save isolado",
+  "capturas": [
+    "valvula-ataque.png",
+    "valvula-mapa.png",
+    "besouro-ataque.png",
+    "besouro-mapa.png",
+    "arraia-ataque.png",
+    "arraia-mapa.png"
+  ],
+  "achados": [
+    {
+      "problema": "Sprite gira ao redor dos pés e desloca o corpo do collider no ataque",
+      "evidencia": "sprite.rotation com offset (0,-160) nas três cenas; capturas besouro-ataque e valvula-ataque"
+    },
+    {
+      "problema": "Vista de costas do besouro continua mostrando os chifres e a frente",
+      "evidencia": "andar_cima=[4,5,6,7] aponta para a segunda linha frontal do atlas"
+    },
+    {
+      "problema": "Morte reutiliza ataque ao contrário",
+      "evidencia": "morte=[15,14,13,12] nas três cenas"
+    },
+    {
+      "problema": "Extremos dos desenhos atingem as bordas das células e há fragmentos periféricos",
+      "evidencia": "Inspeção dos três atlas 4x4 de 1280px"
+    },
+    {
+      "problema": "Ataque ativo deixa de atualizar efeitos e não consulta atordoamento",
+      "evidencia": "Ramo _golpe_ativo retorna antes da rotina base; _atualizar_golpe não processa esses estados"
+    }
+  ],
+  "recomendacao": "Preservar as três identidades, refazer direções e ações faltantes, fixar pivô por corpo, separar efeitos do desenho e alinhar área/aviso ao golpe.",
+  "limites": "Capturas e poses amostradas no motor; não é aprovação dos ciclos completos nem análise em celular."
+}

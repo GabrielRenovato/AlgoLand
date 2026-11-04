@@ -1,0 +1,10 @@
+{
+  "direcao": "baixo",
+  "capturas": "/tmp/algoland-lorde-baixo-ouj4drf8",
+  "quadros": 9,
+  "golpes": 2,
+  "efeitos": true,
+  "passo_efeitos_ms": 30,
+  "save_isolado": "/tmp/algoland-lorde-baixo-ouj4drf8/dados",
+  "log": "/tmp/algoland-lorde-baixo-ouj4drf8/godot.log"
+}

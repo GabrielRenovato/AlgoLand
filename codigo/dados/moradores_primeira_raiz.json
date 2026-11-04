@@ -34,18 +34,153 @@
 			],
 			"apresentacao": [
 				"Dara. Cuido desta entrada e da estrada. Se for sair, diga a alguém por onde pretende voltar.",
-				"Muita gente olha só para o portão. Eu olho para quem ainda não passou por ele."
+				"Muita gente olha só para o portão. Eu olho para quem ainda não passou por ele.",
+				"As patrulhas viram goblins rondando as trilhas do pomar. Se for até lá, não vá sozinho: prefiro ouvir você reclamando da companhia a ficar sem notícia."
 			],
 			"conversas": [
 				"Antes de prometer que vai resolver, me diz por onde você pretende voltar.",
-				"O Noel conta passos na ronda. Eu conto pessoas. Estamos tentando ensinar um ao outro."
+				"O Noel conta passos na ronda. Eu conto pessoas. Estamos tentando ensinar um ao outro.",
+				"Eu não durmo mal por medo. Durmo mal por contar quem ainda não voltou."
 			],
 			"roupas": {
 				"camisa": "tabardo_guarda",
 				"calca": "calca_cargo",
 				"calcado": "botas_couro"
 			},
-			"movimento": "feminino"
+			"movimento": "feminino",
+			"rotina": [
+				{
+					"hora": 0,
+					"id": "vigia_noite",
+					"rota": [
+						[
+							-52,
+							392
+						],
+						[
+							-40,
+							350
+						]
+					],
+					"falas": [
+						"À noite o portão fica comigo. Se ouvir passos de fora, finja que não é medo.",
+						"O Noel dorme em pé quando acha que ninguém vê. Eu finjo que não vejo."
+					],
+					"velocidade": 19,
+					"pausa": 10
+				},
+				{
+					"hora": 6,
+					"id": "abrir_portao",
+					"rota": [
+						[
+							-52,
+							392
+						],
+						[
+							-32,
+							398
+						]
+					],
+					"falas": [
+						"O portão abre com o sol. Quem sai cedo costuma voltar cedo, é uma boa regra.",
+						"Você já disse a alguém por onde vai voltar?"
+					],
+					"velocidade": 20,
+					"pausa": 6
+				},
+				{
+					"hora": 9,
+					"id": "ronda_estrada",
+					"rota": [
+						[
+							-52,
+							392
+						],
+						[
+							0,
+							300
+						],
+						[
+							0,
+							200
+						],
+						[
+							-8,
+							-40
+						]
+					],
+					"falas": [
+						"Estou conferindo a estrada até a praça. Se algo mudou de lugar, quero saber antes de todo mundo.",
+						"Ronda é isso: andar devagar para ver o que os apressados perdem."
+					],
+					"velocidade": 24,
+					"pausa": 3
+				},
+				{
+					"hora": 13,
+					"id": "treino_noel",
+					"rota": [
+						[
+							36,
+							288
+						],
+						[
+							0,
+							230
+						]
+					],
+					"falas": [
+						"Estou ensinando o Noel a olhar para os lados. Ele ainda olha para mim.",
+						"Quando quiser treinar bloqueio e esquiva, me procure aqui perto."
+					],
+					"velocidade": 21,
+					"pausa": 8
+				},
+				{
+					"hora": 17,
+					"id": "ronda_tarde",
+					"rota": [
+						[
+							-52,
+							392
+						],
+						[
+							0,
+							300
+						],
+						[
+							40,
+							260
+						]
+					],
+					"falas": [
+						"A luz baixa engana. Prefiro andar duas vezes pelo mesmo trecho.",
+						"Quem volta de noite precisa de um portão que ainda esteja aberto. Eu cuido disso."
+					],
+					"velocidade": 23,
+					"pausa": 4
+				},
+				{
+					"hora": 21,
+					"id": "vigia_noite",
+					"rota": [
+						[
+							-52,
+							392
+						],
+						[
+							-40,
+							350
+						]
+					],
+					"falas": [
+						"À noite o portão fica comigo. Se ouvir passos de fora, finja que não é medo."
+					],
+					"velocidade": 19,
+					"pausa": 10
+				}
+			]
 		},
 		{
 			"id": "lia",
@@ -79,11 +214,13 @@
 			],
 			"apresentacao": [
 				"Sou Lia. Antes de qualquer explicação: você tem onde dormir e com quem contar aqui.",
-				"Não sei tudo sobre o chamado da árvore. Sei que ninguém recém-chegado deveria enfrentá-lo sozinho."
+				"Não sei tudo sobre o chamado da árvore. Sei que ninguém recém-chegado deveria enfrentá-lo sozinho.",
+				"Com a estrada cortada e o moinho parado, cada saco que chega faz falta, e os goblins do pomar levam o resto. Se o Tomás pedir ajuda, ouça primeiro: ele conta antes de falar."
 			],
 			"conversas": [
 				"Tenho três listas de urgências. A Mara insiste que almoçar devia entrar na primeira.",
-				"Ser útil aqui não exige carregar a vila inteira nas costas. Isso também serve para mim."
+				"Ser útil aqui não exige carregar a vila inteira nas costas. Isso também serve para mim.",
+				"Quando a vila reclama, é porque está viva. Quando fica quieta demais, eu levanto e vou ver."
 			],
 			"roupas": {
 				"camisa": "colete_mercador",
@@ -93,6 +230,143 @@
 			"movimento": "feminino",
 			"acessorios": [
 				"oculos"
+			],
+			"rotina": [
+				{
+					"hora": 0,
+					"id": "casa",
+					"rota": [
+						[
+							-176,
+							-252
+						]
+					],
+					"falas": [
+						"Em casa, com a lista do dia seguinte. Fala amanhã, que a vila também precisa dormir."
+					],
+					"em_casa": true
+				},
+				{
+					"hora": 7,
+					"id": "abrir_sede",
+					"rota": [
+						[
+							-176,
+							-235
+						],
+						[
+							-170,
+							-205
+						]
+					],
+					"falas": [
+						"Abrindo a sede. Quem chega de madrugada merece ver uma porta aberta.",
+						"Se precisar de alguma coisa, é aqui que começa a lista."
+					],
+					"velocidade": 21,
+					"pausa": 5
+				},
+				{
+					"hora": 9,
+					"id": "ronda_vila",
+					"rota": [
+						[
+							-88,
+							12
+						],
+						[
+							-104,
+							-64
+						],
+						[
+							-8,
+							-48
+						],
+						[
+							0,
+							150
+						]
+					],
+					"falas": [
+						"Estou passando pela vila para ver quem precisa do quê. Papel aceita tudo, gente não.",
+						"Pergunto como as pessoas estão antes de perguntar se terminaram o trabalho."
+					],
+					"velocidade": 23,
+					"pausa": 4
+				},
+				{
+					"hora": 13,
+					"id": "lista",
+					"rota": [
+						[
+							-70,
+							28
+						],
+						[
+							-50,
+							34
+						]
+					],
+					"falas": [
+						"Quinze minutos sentada. É o que a Mara me obriga a tirar por dia.",
+						"Sentar aqui perto do banco é a minha única reunião sem pauta."
+					],
+					"velocidade": 22,
+					"pausa": 12
+				},
+				{
+					"hora": 16,
+					"id": "pousada",
+					"rota": [
+						[
+							110,
+							-205
+						],
+						[
+							150,
+							-215
+						]
+					],
+					"falas": [
+						"Fui conversar com a Mara. A lista dela é mais curta que a minha e muito mais sensata.",
+						"Se o Téo perguntar o que escrevo, diga que são mapas."
+					],
+					"velocidade": 22,
+					"pausa": 8
+				},
+				{
+					"hora": 19,
+					"id": "balanco",
+					"rota": [
+						[
+							-104,
+							-64
+						],
+						[
+							-176,
+							-195
+						]
+					],
+					"falas": [
+						"Fecho o dia conferindo quem voltou. É a lista que importa."
+					],
+					"velocidade": 21,
+					"pausa": 6
+				},
+				{
+					"hora": 21,
+					"id": "casa",
+					"rota": [
+						[
+							-176,
+							-252
+						]
+					],
+					"falas": [
+						"Em casa, com a lista do dia seguinte. Fala amanhã, que a vila também precisa dormir."
+					],
+					"em_casa": true
+				}
 			]
 		},
 		{
@@ -127,11 +401,13 @@
 			],
 			"apresentacao": [
 				"Ivo. Se alguma ferramenta minha falhar, quero vê-la antes que alguém a jogue fora.",
-				"O minério da pedreira anda estranho. Ainda não sei por quê, e não vou chamar de seguro só porque brilha."
+				"O minério da pedreira anda estranho. Ainda não sei por quê, e não vou chamar de seguro só porque brilha.",
+				"A Dara me pediu para revisar os escudos da ronda. Com goblin armado nas trilhas, correia solta no portão vira problema de todo mundo."
 			],
 			"conversas": [
 				"O Téo pergunta por que eu testo cada cabo. Porque uma mão vale mais que um cabo.",
-				"Bonito no balcão é fácil. Quero ver a peça voltar inteira depois do trabalho."
+				"Bonito no balcão é fácil. Quero ver a peça voltar inteira depois do trabalho.",
+				"Ferro e gente têm algo em comum: o que parece teimoso quase sempre só está esperando o calor certo."
 			],
 			"roupas": {
 				"camisa": "avental_ferreiro",
@@ -140,6 +416,144 @@
 			},
 			"acessorios": [
 				"barba"
+			],
+			"rotina": [
+				{
+					"hora": 0,
+					"id": "casa",
+					"rota": [
+						[
+							-428,
+							152
+						]
+					],
+					"falas": [
+						"A forja está apagada e eu estou dormindo. Volte depois do sol."
+					],
+					"em_casa": true
+				},
+				{
+					"hora": 7,
+					"id": "acender_forja",
+					"rota": [
+						[
+							-428,
+							165
+						],
+						[
+							-440,
+							184
+						]
+					],
+					"falas": [
+						"Forja acesa. O primeiro ferro do dia mostra se a semana vai ser boa.",
+						"Ferro frio ensina paciência, e eu aprendo devagar."
+					],
+					"velocidade": 20,
+					"pausa": 6
+				},
+				{
+					"hora": 9,
+					"id": "forja",
+					"rota": [
+						[
+							-440,
+							184
+						],
+						[
+							-392,
+							200
+						]
+					],
+					"falas": [
+						"Se algo quebrou, traga inteiro ou em pedaços, mas traga. Eu leio onde cedeu.",
+						"Não grito com o ferro. Só converso alto."
+					],
+					"velocidade": 20,
+					"pausa": 10
+				},
+				{
+					"hora": 12,
+					"id": "pao_da_cora",
+					"rota": [
+						[
+							-384,
+							-44
+						],
+						[
+							-364,
+							-38
+						]
+					],
+					"falas": [
+						"Dou uma saída para o pão da Cora. Meu estômago também precisa de oficina.",
+						"Ela me cobra a mais pelo que eu reclamo. É justo."
+					],
+					"velocidade": 22,
+					"pausa": 12
+				},
+				{
+					"hora": 14,
+					"id": "forja_tarde",
+					"rota": [
+						[
+							-440,
+							184
+						],
+						[
+							-392,
+							200
+						],
+						[
+							-360,
+							192
+						]
+					],
+					"falas": [
+						"De tarde o martelo canta melhor. Não me pergunte por quê.",
+						"Um corte limpo vale mais que dez remendos."
+					],
+					"velocidade": 20,
+					"pausa": 9
+				},
+				{
+					"hora": 18,
+					"id": "revisar_escudos",
+					"rota": [
+						[
+							-232,
+							-48
+						],
+						[
+							-8,
+							-48
+						],
+						[
+							-40,
+							340
+						]
+					],
+					"falas": [
+						"Vou ao portão ver os escudos da ronda. Correia solta é problema de todos depois.",
+						"A Dara tem boa mão com espada e péssima com ferramenta. Eu passo para consertar."
+					],
+					"velocidade": 22,
+					"pausa": 5
+				},
+				{
+					"hora": 20,
+					"id": "casa",
+					"rota": [
+						[
+							-428,
+							152
+						]
+					],
+					"falas": [
+						"A forja está apagada e eu estou dormindo. Volte depois do sol."
+					],
+					"em_casa": true
+				}
 			]
 		},
 		{
@@ -357,11 +771,13 @@
 			],
 			"apresentacao": [
 				"Tomás. Trabalho com sementes e com o hábito ingrato de contar sacos antes de prometer sacos.",
-				"Tem gente olhando para a próxima expedição. Eu também preciso olhar para a próxima safra."
+				"Tem gente olhando para a próxima expedição. Eu também preciso olhar para a próxima safra.",
+				"Goblins andam levando sacos pela cerca partida do pomar, e o chão lá está todo revirado. Antes de mandar alguém colher, preciso saber por onde eles entram."
 			],
 			"conversas": [
 				"A Bia diz que eu converso com meus estoques. Converso. Eles respondem pouco, mas nunca mentem.",
-				"A Cora guarda massa para amanhã. Eu guardo sementes. É a mesma teimosia com receitas diferentes."
+				"A Cora guarda massa para amanhã. Eu guardo sementes. É a mesma teimosia com receitas diferentes.",
+				"A Elia me paga em silêncio e eu retribuo em linha. Combina bem."
 			],
 			"roupas": {
 				"camisa": "colete_agricultor",
@@ -370,6 +786,136 @@
 			},
 			"acessorios": [
 				"chapeu_palha"
+			],
+			"rotina": [
+				{
+					"hora": 0,
+					"id": "casa",
+					"rota": [
+						[
+							-464,
+							-168
+						]
+					],
+					"falas": [
+						"Estou contando sacos. Em sonho, mas contando."
+					],
+					"em_casa": true
+				},
+				{
+					"hora": 7,
+					"id": "abrir_banca",
+					"rota": [
+						[
+							-464,
+							-158
+						],
+						[
+							-448,
+							-72
+						]
+					],
+					"falas": [
+						"Abrindo a banca. Semente exposta cedo vende mais, é o que eu digo.",
+						"Nenhuma semente é igual, mas a Cora jura que é."
+					],
+					"velocidade": 22,
+					"pausa": 5
+				},
+				{
+					"hora": 9,
+					"id": "banca",
+					"rota": [
+						[
+							-448,
+							-72
+						],
+						[
+							-544,
+							-48
+						]
+					],
+					"falas": [
+						"Hoje a conta não fecha. Nunca fecha, mas hoje fecha menos.",
+						"Se for passar pelo pomar, traga o que viu antes de contar para os outros."
+					],
+					"velocidade": 21,
+					"pausa": 9
+				},
+				{
+					"hora": 12,
+					"id": "estoque",
+					"rota": [
+						[
+							-592,
+							-48
+						],
+						[
+							-640,
+							-76
+						]
+					],
+					"falas": [
+						"Estou conferindo o estoque no fundo. Barulho de saco me acalma.",
+						"Quando falta um saco, eu sei antes de contar."
+					],
+					"velocidade": 22,
+					"pausa": 8
+				},
+				{
+					"hora": 15,
+					"id": "banca_tarde",
+					"rota": [
+						[
+							-448,
+							-72
+						],
+						[
+							-544,
+							-48
+						]
+					],
+					"falas": [
+						"À tarde sai mais semente que à manhã. Ninguém sabe por quê.",
+						"A Elia compra linha comigo e fala pouco. Gosto disso."
+					],
+					"velocidade": 21,
+					"pausa": 9
+				},
+				{
+					"hora": 18,
+					"id": "contas",
+					"rota": [
+						[
+							-464,
+							-158
+						],
+						[
+							-444,
+							-152
+						]
+					],
+					"falas": [
+						"Fechando as contas. Quando a soma bate, durmo melhor.",
+						"Não deixo conta aberta de um dia para o outro."
+					],
+					"velocidade": 20,
+					"pausa": 12
+				},
+				{
+					"hora": 20,
+					"id": "casa",
+					"rota": [
+						[
+							-464,
+							-168
+						]
+					],
+					"falas": [
+						"Estou contando sacos. Em sonho, mas contando."
+					],
+					"em_casa": true
+				}
 			]
 		},
 		{
@@ -404,11 +950,13 @@
 			],
 			"apresentacao": [
 				"Nilo. Hoje trouxe as redes para remendar. Os nós ficam mais fáceis longe da corrente.",
-				"Conheço o trecho do moinho. Se a água muda de rumo, alguma coisa muda junto; às vezes demora a aparecer."
+				"Conheço o trecho do moinho. Se a água muda de rumo, alguma coisa muda junto; às vezes demora a aparecer.",
+				"Fui ver o moinho e voltei logo. Vi goblins de machado na margem, e as marteladas vinham de baixo da bacia, onde ninguém da vila trabalha."
 			],
 			"conversas": [
 				"O Osvaldo conserta madeira. Eu aviso quando a água decide testar o conserto.",
-				"Quando alguém diz que basta abrir uma comporta, pergunto quem está lá embaixo."
+				"Quando alguém diz que basta abrir uma comporta, pergunto quem está lá embaixo.",
+				"Ouvi dizer que o rio sobe depois de chuva forte. Eu digo que ele sobe quando quer."
 			],
 			"roupas": {
 				"camisa": "jaqueta_viajante",
@@ -418,6 +966,130 @@
 			"acessorios": [
 				"chapeu_palha",
 				"barba"
+			],
+			"rotina": [
+				{
+					"hora": 0,
+					"id": "casa",
+					"rota": [
+						[
+							-521,
+							326
+						]
+					],
+					"falas": [
+						"Quem dorme também escuta a água. Volte de manhã, que o rio acorda comigo."
+					],
+					"em_casa": true
+				},
+				{
+					"hora": 6,
+					"id": "ida_ao_rio",
+					"rota": [
+						[
+							-300,
+							340
+						],
+						[
+							72,
+							296
+						]
+					],
+					"falas": [
+						"Levando as redes para o rio. A manhã é a hora em que a água fala menos."
+					],
+					"velocidade": 21,
+					"pausa": 3
+				},
+				{
+					"hora": 8,
+					"id": "pesca",
+					"rota": [
+						[
+							72,
+							296
+						],
+						[
+							48,
+							288
+						]
+					],
+					"falas": [
+						"A água está calma. Isso quase nunca é bom sinal.",
+						"Peixe é como notícia: o grande sempre escapa."
+					],
+					"velocidade": 20,
+					"pausa": 12
+				},
+				{
+					"hora": 12,
+					"id": "remendar",
+					"rota": [
+						[
+							72,
+							296
+						],
+						[
+							92,
+							302
+						]
+					],
+					"falas": [
+						"Remendando rede aqui, onde dá sombra e não tem vento.",
+						"Cada nó conta uma história de peixe que fugiu."
+					],
+					"velocidade": 20,
+					"pausa": 15
+				},
+				{
+					"hora": 15,
+					"id": "pesca_tarde",
+					"rota": [
+						[
+							72,
+							296
+						],
+						[
+							48,
+							288
+						]
+					],
+					"falas": [
+						"À tarde a corrente muda. Eu também.",
+						"Se gritar, o peixe vai embora. Se esperar, ele também vai, mas com mais educação."
+					],
+					"velocidade": 20,
+					"pausa": 12
+				},
+				{
+					"hora": 18,
+					"id": "volta",
+					"rota": [
+						[
+							-521,
+							326
+						]
+					],
+					"falas": [
+						"Voltando para casa. Hoje trouxe dois peixes e muita paciência."
+					],
+					"velocidade": 21,
+					"em_casa": true
+				},
+				{
+					"hora": 20,
+					"id": "casa",
+					"rota": [
+						[
+							-521,
+							326
+						]
+					],
+					"falas": [
+						"Quem dorme também escuta a água. Volte de manhã, que o rio acorda comigo."
+					],
+					"em_casa": true
+				}
 			]
 		},
 		{
@@ -452,11 +1124,13 @@
 			],
 			"apresentacao": [
 				"Osvaldo. Se uma tábua ceder, me mostre onde. Saber quem a pisou não conserta a tábua.",
-				"O moinho tem reparos mais velhos que eu. Nem todos vieram com explicação."
+				"O moinho tem reparos mais velhos que eu. Nem todos vieram com explicação.",
+				"A entrada de manutenção fica junto da roda. Vi goblins por ali e dei meia-volta: não mando aprendiz para o meio deles."
 			],
 			"conversas": [
 				"O Ivo guarda peças partidas. Eu guardo medidas antigas. Às vezes nossas sobras contam a mesma história.",
-				"Uma ponte boa não é a que dispensa cuidado. É a que permite chegar ao outro lado para cuidar dela."
+				"Uma ponte boa não é a que dispensa cuidado. É a que permite chegar ao outro lado para cuidar dela.",
+				"A Lia pede prateleira nova toda semana. Eu cuido de onde ela vai guardar a lista."
 			],
 			"roupas": {
 				"camisa": "camisa_trabalho",
@@ -466,6 +1140,118 @@
 			"acessorios": [
 				"oculos",
 				"barba"
+			],
+			"rotina": [
+				{
+					"hora": 0,
+					"id": "casa",
+					"rota": [
+						[
+							-263,
+							256
+						]
+					],
+					"falas": [
+						"A serra descansa e eu também. Volte de manhã."
+					],
+					"em_casa": true
+				},
+				{
+					"hora": 7,
+					"id": "serrar",
+					"rota": [
+						[
+							-263,
+							276
+						],
+						[
+							-208,
+							296
+						]
+					],
+					"falas": [
+						"Madeira nova pede paciência. Bem-feita, dura mais que eu.",
+						"Só sei de uma coisa: tábua bem medida nunca mente."
+					],
+					"velocidade": 20,
+					"pausa": 9
+				},
+				{
+					"hora": 11,
+					"id": "cercas_do_portao",
+					"rota": [
+						[
+							-160,
+							280
+						],
+						[
+							-60,
+							330
+						],
+						[
+							-40,
+							342
+						]
+					],
+					"falas": [
+						"Conferindo as cercas do portão. Madeira que cede aparece primeiro no sul.",
+						"Dara pediu cunhas novas. Faço duas para cada uma que ela pede."
+					],
+					"velocidade": 21,
+					"pausa": 6
+				},
+				{
+					"hora": 14,
+					"id": "serrar_tarde",
+					"rota": [
+						[
+							-208,
+							296
+						],
+						[
+							-263,
+							276
+						]
+					],
+					"falas": [
+						"À tarde corto o que for preciso e deixo o resto para o dia seguinte."
+					],
+					"velocidade": 20,
+					"pausa": 10
+				},
+				{
+					"hora": 17,
+					"id": "ponte",
+					"rota": [
+						[
+							-232,
+							-48
+						],
+						[
+							-176,
+							-208
+						]
+					],
+					"falas": [
+						"Passando pela sede. Lia vive pedindo prateleira nova, e eu vivo medindo."
+					],
+					"velocidade": 22,
+					"pausa": 6
+				},
+				{
+					"hora": 19,
+					"id": "casa",
+					"rota": [
+						[
+							-263,
+							256
+						]
+					],
+					"falas": [
+						"A serra descansa e eu também. Volte de manhã."
+					],
+					"em_casa": true
+				}
 			]
 		},
 		{
@@ -504,7 +1290,8 @@
 			],
 			"conversas": [
 				"Tenho uma hipótese nova. Ainda não a chamo de descoberta: falta tentar provar que está errada.",
-				"Rosa acha minhas anotações desorganizadas. Estão organizadas por quanto me deixaram intrigada."
+				"Rosa acha minhas anotações desorganizadas. Estão organizadas por quanto me deixaram intrigada.",
+				"Quando a Rosa pede observação, eu levo desenho. Ela aceita, mas confere."
 			],
 			"roupas": {
 				"camisa": "casaquinho_lavanda",
@@ -514,6 +1301,116 @@
 			"movimento": "feminino",
 			"acessorios": [
 				"oculos"
+			],
+			"rotina": [
+				{
+					"hora": 0,
+					"id": "casa",
+					"rota": [
+						[
+							560,
+							305
+						]
+					],
+					"falas": [
+						"Estou anotando o que vi no escuro. Amanhã eu comparo."
+					],
+					"em_casa": true
+				},
+				{
+					"hora": 8,
+					"id": "anotar",
+					"rota": [
+						[
+							544,
+							336
+						],
+						[
+							464,
+							328
+						]
+					],
+					"falas": [
+						"Estou medindo onde as raízes mexem. Não confio em ninguém que diga que não mexem.",
+						"Anoto o horário de cada tremor. Pequeno é diferente de nada."
+					],
+					"velocidade": 20,
+					"pausa": 14
+				},
+				{
+					"hora": 12,
+					"id": "visitar_rosa",
+					"rota": [
+						[
+							346,
+							200
+						],
+						[
+							366,
+							206
+						]
+					],
+					"falas": [
+						"Vim comparar hipóteses com a Rosa. Ela pede observações; eu trago o que tenho.",
+						"Quando discordamos, anotamos as duas versões."
+					],
+					"velocidade": 21,
+					"pausa": 15
+				},
+				{
+					"hora": 15,
+					"id": "campo",
+					"rota": [
+						[
+							368,
+							352
+						],
+						[
+							464,
+							328
+						]
+					],
+					"falas": [
+						"Estou vendo se o chão responde ao passo. Se você pisar forte, me avise.",
+						"Nenhuma pista é pequena se aparece duas vezes."
+					],
+					"velocidade": 21,
+					"pausa": 10
+				},
+				{
+					"hora": 18,
+					"id": "anotar_noite",
+					"rota": [
+						[
+							544,
+							336
+						],
+						[
+							564,
+							342
+						]
+					],
+					"falas": [
+						"A luz do fim do dia mostra desenhos nas raízes. Só se vê agora.",
+						"Fico mais um pouco. Depois eu comparo com as anotações da manhã."
+					],
+					"velocidade": 20,
+					"pausa": 16
+				},
+				{
+					"hora": 21,
+					"id": "casa",
+					"rota": [
+						[
+							560,
+							305
+						]
+					],
+					"falas": [
+						"Estou anotando o que vi no escuro. Amanhã eu comparo."
+					],
+					"em_casa": true
+				}
 			]
 		},
 		{
@@ -728,7 +1625,8 @@
 				"O Tomás conta sementes. Eu conto pães. Às vezes contamos duas vezes só para conseguir dormir.",
 				"Fermento vivo e vila viva têm uma coisa em comum: precisam de cuidado todo dia.",
 				"Minha Bia anda investigando os pássaros da praça. Peço que me conte o que viu antes de sair tirando conclusões.",
-				"Guardo o primeiro pão pequeno para a Bia. Ela divide com a Nina, mesmo dizendo que era para os passarinhos."
+				"Guardo o primeiro pão pequeno para a Bia. Ela divide com a Nina, mesmo dizendo que era para os passarinhos.",
+				"O Tomás perdeu sacos e o moinho não mói o que sobra. Estou contando farinha por fornada, e a conta não fecha."
 			],
 			"movimento": "feminino",
 			"criancas": [
@@ -800,7 +1698,8 @@
 						"O Tomás conta sementes. Eu conto pães. Às vezes contamos duas vezes só para conseguir dormir.",
 						"Fermento vivo e vila viva têm uma coisa em comum: precisam de cuidado todo dia.",
 						"Minha Bia anda investigando os pássaros da praça. Peço que me conte o que viu antes de sair tirando conclusões.",
-						"Guardo o primeiro pão pequeno para a Bia. Ela divide com a Nina, mesmo dizendo que era para os passarinhos."
+						"Guardo o primeiro pão pequeno para a Bia. Ela divide com a Nina, mesmo dizendo que era para os passarinhos.",
+						"Os goblins levam os sacos do pomar, e o moinho não mói o que sobra. Estou contando farinha por fornada."
 					],
 					"velocidade": 22.0
 				},
@@ -1370,9 +2269,119 @@
 			],
 			"conversas": [
 				"O Téo rasga joelhos. A Bia enche bolsos de pedrinhas. As roupas contam muita coisa antes das pessoas.",
-				"Guardo retalhos para remendos. A Mara chama de bagunça; eu chamo de roupas que ainda não terminei."
+				"Guardo retalhos para remendos. A Mara chama de bagunça; eu chamo de roupas que ainda não terminei.",
+				"O Ivo reclama que minha linha prende no cabo. Eu digo que a ferramenta dele é que rasga a linha."
 			],
-			"movimento": "feminino"
+			"movimento": "feminino",
+			"rotina": [
+				{
+					"hora": 0,
+					"id": "casa",
+					"rota": [
+						[
+							482,
+							-148
+						]
+					],
+					"falas": [
+						"A máquina de costura dorme. Eu, às vezes, também."
+					],
+					"em_casa": true
+				},
+				{
+					"hora": 8,
+					"id": "costura",
+					"rota": [
+						[
+							482,
+							-118
+						],
+						[
+							502,
+							-112
+						]
+					],
+					"falas": [
+						"Linha, agulha e luz de janela. A combinação mais honesta que conheço.",
+						"Cada rasgo conta um movimento. Aprendo mais com um joelho rasgado que com um discurso."
+					],
+					"velocidade": 19,
+					"pausa": 18
+				},
+				{
+					"hora": 11,
+					"id": "entregas",
+					"rota": [
+						[
+							560,
+							-96
+						],
+						[
+							608,
+							-48
+						]
+					],
+					"falas": [
+						"Fazendo entregas. Roupa pronta atrasada vira roupa de outra pessoa.",
+						"A Mara paga em pão. O Tomás em linha. A Cora em fofoca."
+					],
+					"velocidade": 22,
+					"pausa": 6
+				},
+				{
+					"hora": 14,
+					"id": "provas",
+					"rota": [
+						[
+							352,
+							-96
+						],
+						[
+							296,
+							-60
+						]
+					],
+					"falas": [
+						"Estou levando uma prova de manga para a Rosa. Se ela não gostar, eu desfaço."
+					],
+					"velocidade": 22,
+					"pausa": 9
+				},
+				{
+					"hora": 17,
+					"id": "costura_tarde",
+					"rota": [
+						[
+							482,
+							-118
+						],
+						[
+							502,
+							-112
+						]
+					],
+					"falas": [
+						"À tarde o fio escorrega melhor.",
+						"Remendo bom não aparece. Esse é o elogio."
+					],
+					"velocidade": 19,
+					"pausa": 16
+				},
+				{
+					"hora": 20,
+					"id": "casa",
+					"rota": [
+						[
+							482,
+							-148
+						]
+					],
+					"falas": [
+						"A máquina de costura dorme. Eu, às vezes, também."
+					],
+					"em_casa": true
+				}
+			]
 		},
 		{
 			"id": "noel",
@@ -1410,7 +2419,140 @@
 			],
 			"conversas": [
 				"A Dara mudou minha ronda: agora preciso dizer quem encontrei, não quantas voltas dei.",
-				"Ainda pergunto antes de improvisar. Pretendo continuar perguntando mesmo depois de aprender."
+				"Ainda pergunto antes de improvisar. Pretendo continuar perguntando mesmo depois de aprender.",
+				"Na guarda me ensinam que coragem é ver a coisa de perto e ainda perguntar o que fazer."
+			],
+			"rotina": [
+				{
+					"hora": 0,
+					"id": "vigia_noite",
+					"rota": [
+						[
+							48,
+							392
+						],
+						[
+							56,
+							350
+						]
+					],
+					"falas": [
+						"Fico ao lado da Dara. Ela diz que silêncio também é turno.",
+						"Estou contando passos e nomes, na ordem que ela pediu."
+					],
+					"velocidade": 19,
+					"pausa": 10
+				},
+				{
+					"hora": 6,
+					"id": "ronda",
+					"rota": [
+						[
+							48,
+							392
+						],
+						[
+							56,
+							336
+						],
+						[
+							0,
+							224
+						]
+					],
+					"falas": [
+						"Ronda da manhã. Estou aprendendo a olhar para o que está fora do lugar.",
+						"Se perguntar o nome de alguém, eu posso tentar achar."
+					],
+					"velocidade": 22,
+					"pausa": 4
+				},
+				{
+					"hora": 10,
+					"id": "treino",
+					"rota": [
+						[
+							36,
+							288
+						],
+						[
+							0,
+							230
+						]
+					],
+					"falas": [
+						"Treinando bloqueio com a Dara. Eu erro em silêncio, ela corrige em voz baixa.",
+						"Ainda pergunto antes de improvisar. Pretendo continuar."
+					],
+					"velocidade": 21,
+					"pausa": 8
+				},
+				{
+					"hora": 14,
+					"id": "ronda_tarde",
+					"rota": [
+						[
+							48,
+							392
+						],
+						[
+							56,
+							336
+						],
+						[
+							0,
+							224
+						],
+						[
+							-8,
+							-40
+						]
+					],
+					"falas": [
+						"Ronda da tarde. A praça muda de cor quando o sol baixa."
+					],
+					"velocidade": 23,
+					"pausa": 4
+				},
+				{
+					"hora": 18,
+					"id": "portao",
+					"rota": [
+						[
+							48,
+							392
+						],
+						[
+							68,
+							398
+						]
+					],
+					"falas": [
+						"O portão fecha em breve. Quem estiver fora, eu aviso.",
+						"Fico aqui até a Dara me liberar. Ela sempre libera."
+					],
+					"velocidade": 19,
+					"pausa": 18
+				},
+				{
+					"hora": 22,
+					"id": "vigia_noite",
+					"rota": [
+						[
+							48,
+							392
+						],
+						[
+							56,
+							350
+						]
+					],
+					"falas": [
+						"Fico ao lado da Dara. Ela diz que silêncio também é turno."
+					],
+					"velocidade": 19,
+					"pausa": 10
+				}
 			]
 		}
 	]

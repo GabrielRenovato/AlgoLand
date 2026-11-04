@@ -1,0 +1,20 @@
+{
+  "relatorio": "/tmp/algoland-harness/execucao-bkpn7hfp/relatorio.json",
+  "revisao_visual": "conferida no Godot",
+  "fonte": "Human Basic Motions FREE, Kevin Iglesias; FBX femininos baixados da página oficial",
+  "evidencias": [
+    "andar_quadros.png",
+    "parado_quadros.png",
+    "conversa_quadros.png",
+    "moradoras.png"
+  ],
+  "conferencias": [
+    "12 fases por ação nas quatro direções; alternância de pernas, braços opostos e fechamento",
+    "corpo, cabelo, roupas e pivô mantidos; clipes retarget, sem substituir a base por modelo externo",
+    "saia longa e saias curtas; oito NPCs com escolha explícita de movimento",
+    "nome permanece ancorado sobre a cabeça; conversa interrompe o passeio",
+    "UI revista em 576x324, 288x512 e 320x324"
+  ],
+  "testes_aprovados": 4,
+  "falhas": 0
+}

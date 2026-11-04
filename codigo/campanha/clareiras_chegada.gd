@@ -27,6 +27,8 @@ var _material: ShaderMaterial
 var _atlas: TileSetAtlasSource
 var modo_modular := true
 var _grama_3d: Node2D
+const PaletaAgua := preload("res://codigo/campanha/paleta_agua.gd")
+var _tempo_rio := 0.0
 
 func _ready() -> void:
 	margem_obstaculos_navegacao = 0.0
@@ -47,6 +49,28 @@ func _ready() -> void:
 	definir_estacao(Calendario.estacao())
 	Calendario.estacao_mudou.connect(definir_estacao)
 	_montar_grama_3d()
+
+## A água do estágio 1 é a mesma do moinho: leito de pedras e estrias que seguem o sentido do rio.
+func _preparar_rio_moinho() -> void:
+	var campo := Image.create(192,128,false,Image.FORMAT_RGBA8)
+	for y in 128:
+		for x in 192:
+			var p := limites.position+Vector2(x*8+4,y*8+4)
+			var direcao := Vector2.ZERO
+			var profundidade := 0.0
+			for trecho in dados.rios:
+				var a := _da_imagem(_ponto(trecho[0]))
+				var b := _da_imagem(_ponto(trecho[1]))
+				var raio := float(trecho[2])
+				var d := p.distance_to(Geometry2D.get_closest_point_to_segment(p,a,b))
+				direcao += (b-a).normalized()*pow(maxf(1.0-d/(raio+16.0),0.0),3.0)
+				profundidade = maxf(profundidade,1.0-d/raio)
+			if direcao.length_squared() < 0.001: direcao = Vector2.RIGHT
+			direcao = direcao.normalized()
+			campo.set_pixel(x,y,Color(direcao.x*0.5+0.5,direcao.y*0.5+0.5,clampf(profundidade,0.0,1.0),1.0))
+	_material.set_shader_parameter("rio_do_moinho",true)
+	_material.set_shader_parameter("campo_corrente",ImageTexture.create_from_image(campo))
+	_material.set_shader_parameter("agua_tons",PaletaAgua.TONS[clampi(Calendario.estacao(),0,3)])
 
 func _montar_grama_3d() -> void:
 	if is_instance_valid(_grama_3d): return
@@ -98,6 +122,7 @@ func _montar_tiles() -> void:
 	_material.set_shader_parameter("tamanho",limites.size)
 	_material.set_shader_parameter("mapa_raizes",_campo_raizes())
 	chao.material = _material
+	if regiao == "chegada": _preparar_rio_moinho()
 	chao.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 	add_child(chao)
 	for y in range(-32,32):
@@ -254,6 +279,7 @@ func definir_estacao(indice: int) -> void:
 	for tipo in ["grama","pedra","agua"]:
 		_material.set_shader_parameter(tipo,load(RAIZ+nome+"/"+tipo+".png"))
 	_material.set_shader_parameter("raizes",load(RAIZ+nome+"/terra_raizes.png"))
+	if regiao == "chegada": _material.set_shader_parameter("agua_tons",PaletaAgua.TONS[estacao_atual])
 	_material.set_shader_parameter("terra",load("res://assets/cenario/fazenda/natureza_detalhada/%s/terra.png" % nome))
 	for registro in _pecas.values():
 		var ficha: Dictionary = _fichas[registro.tipo]
@@ -308,6 +334,9 @@ func abrir_bau() -> Error:
 	return OK
 
 func _process(delta: float) -> void:
+	if regiao == "chegada":
+		_tempo_rio += delta
+		_material.set_shader_parameter("fase_corrente",Vector3(_tempo_rio,_tempo_rio,_tempo_rio))
 	if estado_bau!=EstadoBau.ABRINDO: return
 	_tempo_bau+=delta
 	var proximo := mini(int(_tempo_bau/float(_ficha_bau.duracao_quadro)),3)

@@ -1,5 +1,5 @@
 extends Node2D
-## Tempos e sinais da ação; o visual é desenhado exclusivamente por HeroiRaven.
+## Tempos e sinais da ação; o visual é desenhado pelo HeroiBase3D.
 
 
 signal disparo_liberado(direcao: Vector2)

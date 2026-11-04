@@ -1,0 +1,9 @@
+{
+  "tipo": "previa_interface",
+  "dados": "exemplos ficticios, sem integracao com a partida",
+  "gerador": "ferramentas/campanha/previa_resultado_run.gd",
+  "fonte": "Noto Sans Regular, raster com oversampling 2; variacao de peso nos destaques",
+  "glifos_verificados": "áàâãéêíóôõúüçÁÀÂÃÉÊÍÓÔÕÚÜÇ",
+  "revisao_visual": "Renderizacao Godot: desktop, paisagem compacta, retrato e tela dividida com rolagem. Acentos, margens e botoes conferidos.",
+  "imagem_principal": "resultado-768x640.png"
+}

@@ -1,0 +1,42 @@
+{
+  "animacoes": {
+    "ataque_1": {
+      "duracao": 1.28333330154419,
+      "impacto": 0.6223,
+      "loop": false
+    },
+    "ataque_2": {
+      "duracao": 1.41666662693024,
+      "impacto": 0.756,
+      "loop": false
+    },
+    "correr": {
+      "duracao": 0.75,
+      "loop": true
+    },
+    "ferido": {
+      "duracao": 1.21666669845581,
+      "loop": false
+    },
+    "morrer": {
+      "duracao": 3.01666665077209,
+      "loop": false
+    },
+    "parado": {
+      "duracao": 4.01666688919067,
+      "loop": true
+    }
+  },
+  "grade": [
+    12,
+    4
+  ],
+  "pivo": [
+    80.0,
+    124.763977050781
+  ],
+  "quadro": [
+    160,
+    160
+  ]
+}

@@ -1,0 +1,1274 @@
+{
+  "carvalho": {
+    "grupo": "arvores",
+    "variantes": {
+      "primavera": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/primavera/carvalho.png",
+        "quadro": [
+          680,
+          640
+        ],
+        "pivo": [
+          335.5,
+          636
+        ],
+        "largura_visivel": 623
+      },
+      "verao": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/verao/carvalho.png",
+        "quadro": [
+          680,
+          640
+        ],
+        "pivo": [
+          336.5,
+          639
+        ],
+        "largura_visivel": 623
+      },
+      "outono": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/outono/carvalho.png",
+        "quadro": [
+          680,
+          640
+        ],
+        "pivo": [
+          336.0,
+          639
+        ],
+        "largura_visivel": 622
+      },
+      "inverno": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/inverno/carvalho.png",
+        "quadro": [
+          680,
+          640
+        ],
+        "pivo": [
+          335.0,
+          639
+        ],
+        "largura_visivel": 612
+      }
+    }
+  },
+  "jovem": {
+    "grupo": "arvores",
+    "variantes": {
+      "primavera": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/primavera/jovem.png",
+        "quadro": [
+          574,
+          640
+        ],
+        "pivo": [
+          278.0,
+          639
+        ],
+        "largura_visivel": 502
+      },
+      "verao": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/verao/jovem.png",
+        "quadro": [
+          574,
+          640
+        ],
+        "pivo": [
+          279.5,
+          639
+        ],
+        "largura_visivel": 503
+      },
+      "outono": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/outono/jovem.png",
+        "quadro": [
+          574,
+          640
+        ],
+        "pivo": [
+          280.0,
+          639
+        ],
+        "largura_visivel": 506
+      },
+      "inverno": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/inverno/jovem.png",
+        "quadro": [
+          574,
+          640
+        ],
+        "pivo": [
+          279.5,
+          639
+        ],
+        "largura_visivel": 499
+      }
+    }
+  },
+  "pinheiro": {
+    "grupo": "arvores",
+    "variantes": {
+      "primavera": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/primavera/pinheiro.png",
+        "quadro": [
+          619,
+          614
+        ],
+        "pivo": [
+          361.5,
+          594
+        ],
+        "largura_visivel": 381
+      },
+      "verao": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/verao/pinheiro.png",
+        "quadro": [
+          619,
+          614
+        ],
+        "pivo": [
+          363.0,
+          595
+        ],
+        "largura_visivel": 380
+      },
+      "outono": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/outono/pinheiro.png",
+        "quadro": [
+          619,
+          614
+        ],
+        "pivo": [
+          363.0,
+          596
+        ],
+        "largura_visivel": 382
+      },
+      "inverno": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/inverno/pinheiro.png",
+        "quadro": [
+          619,
+          614
+        ],
+        "pivo": [
+          359.5,
+          596
+        ],
+        "largura_visivel": 395
+      }
+    }
+  },
+  "arbustos": {
+    "grupo": "arvores",
+    "variantes": {
+      "primavera": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/primavera/arbustos.png",
+        "quadro": [
+          635,
+          614
+        ],
+        "pivo": [
+          318.5,
+          553
+        ],
+        "largura_visivel": 569
+      },
+      "verao": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/verao/arbustos.png",
+        "quadro": [
+          635,
+          614
+        ],
+        "pivo": [
+          318.5,
+          555
+        ],
+        "largura_visivel": 569
+      },
+      "outono": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/outono/arbustos.png",
+        "quadro": [
+          635,
+          614
+        ],
+        "pivo": [
+          319.0,
+          555
+        ],
+        "largura_visivel": 566
+      },
+      "inverno": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/inverno/arbustos.png",
+        "quadro": [
+          635,
+          614
+        ],
+        "pivo": [
+          319.5,
+          555
+        ],
+        "largura_visivel": 567
+      }
+    }
+  },
+  "pedras": {
+    "grupo": "natureza",
+    "variantes": {
+      "primavera": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/primavera/pedras.png",
+        "quadro": [
+          564,
+          571
+        ],
+        "pivo": [
+          287.0,
+          559
+        ],
+        "largura_visivel": 498
+      },
+      "verao": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/verao/pedras.png",
+        "quadro": [
+          564,
+          571
+        ],
+        "pivo": [
+          290.0,
+          564
+        ],
+        "largura_visivel": 504
+      },
+      "outono": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/outono/pedras.png",
+        "quadro": [
+          564,
+          571
+        ],
+        "pivo": [
+          286.5,
+          567
+        ],
+        "largura_visivel": 543
+      },
+      "inverno": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/inverno/pedras.png",
+        "quadro": [
+          564,
+          571
+        ],
+        "pivo": [
+          288.5,
+          561
+        ],
+        "largura_visivel": 499
+      }
+    }
+  },
+  "tronco": {
+    "grupo": "natureza",
+    "variantes": {
+      "primavera": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/primavera/tronco.png",
+        "quadro": [
+          690,
+          571
+        ],
+        "pivo": [
+          350.5,
+          535
+        ],
+        "largura_visivel": 643
+      },
+      "verao": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/verao/tronco.png",
+        "quadro": [
+          690,
+          571
+        ],
+        "pivo": [
+          351.5,
+          538
+        ],
+        "largura_visivel": 645
+      },
+      "outono": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/outono/tronco.png",
+        "quadro": [
+          690,
+          571
+        ],
+        "pivo": [
+          352.0,
+          547
+        ],
+        "largura_visivel": 646
+      },
+      "inverno": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/inverno/tronco.png",
+        "quadro": [
+          690,
+          571
+        ],
+        "pivo": [
+          349.0,
+          538
+        ],
+        "largura_visivel": 644
+      }
+    }
+  },
+  "toco": {
+    "grupo": "natureza",
+    "variantes": {
+      "primavera": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/primavera/toco.png",
+        "quadro": [
+          552,
+          683
+        ],
+        "pivo": [
+          281.0,
+          589
+        ],
+        "largura_visivel": 496
+      },
+      "verao": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/verao/toco.png",
+        "quadro": [
+          552,
+          683
+        ],
+        "pivo": [
+          282.0,
+          593
+        ],
+        "largura_visivel": 498
+      },
+      "outono": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/outono/toco.png",
+        "quadro": [
+          552,
+          683
+        ],
+        "pivo": [
+          282.0,
+          594
+        ],
+        "largura_visivel": 500
+      },
+      "inverno": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/inverno/toco.png",
+        "quadro": [
+          552,
+          683
+        ],
+        "pivo": [
+          283.0,
+          592
+        ],
+        "largura_visivel": 494
+      }
+    }
+  },
+  "raizes": {
+    "grupo": "natureza",
+    "variantes": {
+      "primavera": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/primavera/raizes.png",
+        "quadro": [
+          702,
+          683
+        ],
+        "pivo": [
+          351.5,
+          619
+        ],
+        "largura_visivel": 667
+      },
+      "verao": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/verao/raizes.png",
+        "quadro": [
+          702,
+          683
+        ],
+        "pivo": [
+          352.0,
+          620
+        ],
+        "largura_visivel": 670
+      },
+      "outono": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/outono/raizes.png",
+        "quadro": [
+          702,
+          683
+        ],
+        "pivo": [
+          352.0,
+          622
+        ],
+        "largura_visivel": 672
+      },
+      "inverno": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/inverno/raizes.png",
+        "quadro": [
+          702,
+          683
+        ],
+        "pivo": [
+          353.0,
+          620
+        ],
+        "largura_visivel": 670
+      }
+    }
+  },
+  "muro": {
+    "grupo": "ruinas",
+    "variantes": {
+      "primavera": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/primavera/muro.png",
+        "quadro": [
+          715,
+          608
+        ],
+        "pivo": [
+          355.0,
+          556
+        ],
+        "largura_visivel": 640
+      },
+      "verao": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/verao/muro.png",
+        "quadro": [
+          715,
+          608
+        ],
+        "pivo": [
+          355.5,
+          562
+        ],
+        "largura_visivel": 643
+      },
+      "outono": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/outono/muro.png",
+        "quadro": [
+          715,
+          608
+        ],
+        "pivo": [
+          355.5,
+          565
+        ],
+        "largura_visivel": 645
+      },
+      "inverno": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/inverno/muro.png",
+        "quadro": [
+          715,
+          608
+        ],
+        "pivo": [
+          356.5,
+          563
+        ],
+        "largura_visivel": 645
+      }
+    }
+  },
+  "pilar": {
+    "grupo": "ruinas",
+    "variantes": {
+      "primavera": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/primavera/pilar.png",
+        "quadro": [
+          539,
+          608
+        ],
+        "pivo": [
+          257.0,
+          600
+        ],
+        "largura_visivel": 426
+      },
+      "verao": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/verao/pilar.png",
+        "quadro": [
+          539,
+          608
+        ],
+        "pivo": [
+          260.5,
+          607
+        ],
+        "largura_visivel": 433
+      },
+      "outono": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/outono/pilar.png",
+        "quadro": [
+          539,
+          608
+        ],
+        "pivo": [
+          256.5,
+          607
+        ],
+        "largura_visivel": 435
+      },
+      "inverno": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/inverno/pilar.png",
+        "quadro": [
+          539,
+          608
+        ],
+        "pivo": [
+          259.5,
+          606
+        ],
+        "largura_visivel": 427
+      }
+    }
+  },
+  "arco": {
+    "grupo": "ruinas",
+    "variantes": {
+      "primavera": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/primavera/arco.png",
+        "quadro": [
+          648,
+          646
+        ],
+        "pivo": [
+          320.5,
+          580
+        ],
+        "largura_visivel": 611
+      },
+      "verao": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/verao/arco.png",
+        "quadro": [
+          648,
+          646
+        ],
+        "pivo": [
+          323.5,
+          580
+        ],
+        "largura_visivel": 611
+      },
+      "outono": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/outono/arco.png",
+        "quadro": [
+          648,
+          646
+        ],
+        "pivo": [
+          321.5,
+          579
+        ],
+        "largura_visivel": 611
+      },
+      "inverno": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/inverno/arco.png",
+        "quadro": [
+          648,
+          646
+        ],
+        "pivo": [
+          323.0,
+          582
+        ],
+        "largura_visivel": 612
+      }
+    }
+  },
+  "resgate": {
+    "grupo": "ruinas",
+    "variantes": {
+      "primavera": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/primavera/resgate.png",
+        "quadro": [
+          606,
+          646
+        ],
+        "pivo": [
+          301.0,
+          566
+        ],
+        "largura_visivel": 578
+      },
+      "verao": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/verao/resgate.png",
+        "quadro": [
+          606,
+          646
+        ],
+        "pivo": [
+          301.0,
+          566
+        ],
+        "largura_visivel": 582
+      },
+      "outono": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/outono/resgate.png",
+        "quadro": [
+          606,
+          646
+        ],
+        "pivo": [
+          300.5,
+          565
+        ],
+        "largura_visivel": 577
+      },
+      "inverno": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/inverno/resgate.png",
+        "quadro": [
+          606,
+          646
+        ],
+        "pivo": [
+          302.0,
+          568
+        ],
+        "largura_visivel": 580
+      }
+    }
+  },
+  "grama": {
+    "grupo": "chao",
+    "variantes": {
+      "primavera": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/primavera/grama.png",
+        "quadro": [
+          627,
+          627
+        ],
+        "pivo": [
+          313.5,
+          626
+        ],
+        "largura_visivel": 627
+      },
+      "verao": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/verao/grama.png",
+        "quadro": [
+          627,
+          627
+        ],
+        "pivo": [
+          313.5,
+          626
+        ],
+        "largura_visivel": 627
+      },
+      "outono": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/outono/grama.png",
+        "quadro": [
+          627,
+          627
+        ],
+        "pivo": [
+          313.5,
+          626
+        ],
+        "largura_visivel": 627
+      },
+      "inverno": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/inverno/grama.png",
+        "quadro": [
+          627,
+          627
+        ],
+        "pivo": [
+          313.5,
+          626
+        ],
+        "largura_visivel": 627
+      }
+    }
+  },
+  "terra_raizes": {
+    "grupo": "chao",
+    "variantes": {
+      "primavera": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/primavera/terra_raizes.png",
+        "quadro": [
+          627,
+          627
+        ],
+        "pivo": [
+          313.5,
+          626
+        ],
+        "largura_visivel": 627
+      },
+      "verao": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/verao/terra_raizes.png",
+        "quadro": [
+          627,
+          627
+        ],
+        "pivo": [
+          313.5,
+          626
+        ],
+        "largura_visivel": 627
+      },
+      "outono": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/outono/terra_raizes.png",
+        "quadro": [
+          627,
+          627
+        ],
+        "pivo": [
+          313.5,
+          626
+        ],
+        "largura_visivel": 627
+      },
+      "inverno": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/inverno/terra_raizes.png",
+        "quadro": [
+          627,
+          627
+        ],
+        "pivo": [
+          313.5,
+          626
+        ],
+        "largura_visivel": 627
+      }
+    }
+  },
+  "pedra": {
+    "grupo": "chao",
+    "variantes": {
+      "primavera": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/primavera/pedra.png",
+        "quadro": [
+          627,
+          627
+        ],
+        "pivo": [
+          313.5,
+          626
+        ],
+        "largura_visivel": 627
+      },
+      "verao": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/verao/pedra.png",
+        "quadro": [
+          627,
+          627
+        ],
+        "pivo": [
+          313.5,
+          626
+        ],
+        "largura_visivel": 627
+      },
+      "outono": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/outono/pedra.png",
+        "quadro": [
+          627,
+          627
+        ],
+        "pivo": [
+          313.5,
+          626
+        ],
+        "largura_visivel": 627
+      },
+      "inverno": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/inverno/pedra.png",
+        "quadro": [
+          627,
+          627
+        ],
+        "pivo": [
+          313.5,
+          626
+        ],
+        "largura_visivel": 627
+      }
+    }
+  },
+  "agua": {
+    "grupo": "chao",
+    "variantes": {
+      "primavera": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/primavera/agua.png",
+        "quadro": [
+          627,
+          627
+        ],
+        "pivo": [
+          313.5,
+          626
+        ],
+        "largura_visivel": 627
+      },
+      "verao": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/verao/agua.png",
+        "quadro": [
+          627,
+          627
+        ],
+        "pivo": [
+          313.5,
+          626
+        ],
+        "largura_visivel": 627
+      },
+      "outono": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/outono/agua.png",
+        "quadro": [
+          627,
+          627
+        ],
+        "pivo": [
+          313.5,
+          626
+        ],
+        "largura_visivel": 627
+      },
+      "inverno": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/inverno/agua.png",
+        "quadro": [
+          627,
+          627
+        ],
+        "pivo": [
+          313.5,
+          626
+        ],
+        "largura_visivel": 627
+      }
+    }
+  },
+  "poste_resgate": {
+    "grupo": "equipamentos",
+    "variantes": {
+      "primavera": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/primavera/poste_resgate.png",
+        "quadro": [
+          627,
+          677
+        ],
+        "pivo": [
+          340.0,
+          623
+        ],
+        "largura_visivel": 322
+      },
+      "verao": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/verao/poste_resgate.png",
+        "quadro": [
+          627,
+          677
+        ],
+        "pivo": [
+          340.5,
+          624
+        ],
+        "largura_visivel": 325
+      },
+      "outono": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/outono/poste_resgate.png",
+        "quadro": [
+          627,
+          677
+        ],
+        "pivo": [
+          330.5,
+          625
+        ],
+        "largura_visivel": 347
+      },
+      "inverno": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/inverno/poste_resgate.png",
+        "quadro": [
+          627,
+          677
+        ],
+        "pivo": [
+          338.5,
+          624
+        ],
+        "largura_visivel": 329
+      }
+    }
+  },
+  "bau_resgate": {
+    "grupo": "equipamentos",
+    "variantes": {
+      "primavera": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/primavera/bau_resgate.png",
+        "quadro": [
+          627,
+          677
+        ],
+        "pivo": [
+          307.5,
+          660
+        ],
+        "largura_visivel": 453
+      },
+      "verao": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/verao/bau_resgate.png",
+        "quadro": [
+          627,
+          677
+        ],
+        "pivo": [
+          308.5,
+          663
+        ],
+        "largura_visivel": 455
+      },
+      "outono": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/outono/bau_resgate.png",
+        "quadro": [
+          627,
+          677
+        ],
+        "pivo": [
+          303.5,
+          664
+        ],
+        "largura_visivel": 493
+      },
+      "inverno": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/inverno/bau_resgate.png",
+        "quadro": [
+          627,
+          677
+        ],
+        "pivo": [
+          308.5,
+          665
+        ],
+        "largura_visivel": 463
+      }
+    }
+  },
+  "espada_chao": {
+    "grupo": "equipamentos",
+    "variantes": {
+      "primavera": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/primavera/espada_chao.png",
+        "quadro": [
+          627,
+          577
+        ],
+        "pivo": [
+          356.0,
+          508
+        ],
+        "largura_visivel": 242
+      },
+      "verao": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/verao/espada_chao.png",
+        "quadro": [
+          627,
+          577
+        ],
+        "pivo": [
+          356.0,
+          510
+        ],
+        "largura_visivel": 246
+      },
+      "outono": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/outono/espada_chao.png",
+        "quadro": [
+          627,
+          577
+        ],
+        "pivo": [
+          356.5,
+          509
+        ],
+        "largura_visivel": 245
+      },
+      "inverno": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/inverno/espada_chao.png",
+        "quadro": [
+          627,
+          577
+        ],
+        "pivo": [
+          357.0,
+          510
+        ],
+        "largura_visivel": 246
+      }
+    }
+  },
+  "escudo_chao": {
+    "grupo": "equipamentos",
+    "variantes": {
+      "primavera": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/primavera/escudo_chao.png",
+        "quadro": [
+          627,
+          577
+        ],
+        "pivo": [
+          312.5,
+          512
+        ],
+        "largura_visivel": 337
+      },
+      "verao": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/verao/escudo_chao.png",
+        "quadro": [
+          627,
+          577
+        ],
+        "pivo": [
+          313.0,
+          514
+        ],
+        "largura_visivel": 342
+      },
+      "outono": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/outono/escudo_chao.png",
+        "quadro": [
+          627,
+          577
+        ],
+        "pivo": [
+          312.5,
+          514
+        ],
+        "largura_visivel": 341
+      },
+      "inverno": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/inverno/escudo_chao.png",
+        "quadro": [
+          627,
+          577
+        ],
+        "pivo": [
+          312.5,
+          523
+        ],
+        "largura_visivel": 339
+      }
+    }
+  },
+  "ponte": {
+    "grupo": "complementos",
+    "variantes": {
+      "primavera": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/primavera/ponte.png",
+        "quadro": [
+          627,
+          640
+        ],
+        "pivo": [
+          320.5,
+          627
+        ],
+        "largura_visivel": 581
+      },
+      "verao": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/verao/ponte.png",
+        "quadro": [
+          627,
+          640
+        ],
+        "pivo": [
+          320.5,
+          631
+        ],
+        "largura_visivel": 587
+      },
+      "outono": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/outono/ponte.png",
+        "quadro": [
+          627,
+          640
+        ],
+        "pivo": [
+          319.5,
+          630
+        ],
+        "largura_visivel": 587
+      },
+      "inverno": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/inverno/ponte.png",
+        "quadro": [
+          627,
+          640
+        ],
+        "pivo": [
+          321.5,
+          627
+        ],
+        "largura_visivel": 583
+      }
+    }
+  },
+  "estela": {
+    "grupo": "complementos",
+    "variantes": {
+      "primavera": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/primavera/estela.png",
+        "quadro": [
+          665,
+          640
+        ],
+        "pivo": [
+          347.5,
+          618
+        ],
+        "largura_visivel": 587
+      },
+      "verao": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/verao/estela.png",
+        "quadro": [
+          665,
+          640
+        ],
+        "pivo": [
+          351.5,
+          625
+        ],
+        "largura_visivel": 597
+      },
+      "outono": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/outono/estela.png",
+        "quadro": [
+          665,
+          640
+        ],
+        "pivo": [
+          349.0,
+          620
+        ],
+        "largura_visivel": 592
+      },
+      "inverno": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/inverno/estela.png",
+        "quadro": [
+          665,
+          640
+        ],
+        "pivo": [
+          349.0,
+          620
+        ],
+        "largura_visivel": 592
+      }
+    }
+  },
+  "broto": {
+    "grupo": "complementos",
+    "variantes": {
+      "primavera": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/primavera/broto.png",
+        "quadro": [
+          614,
+          614
+        ],
+        "pivo": [
+          317.0,
+          545
+        ],
+        "largura_visivel": 534
+      },
+      "verao": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/verao/broto.png",
+        "quadro": [
+          614,
+          614
+        ],
+        "pivo": [
+          317.5,
+          546
+        ],
+        "largura_visivel": 539
+      },
+      "outono": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/outono/broto.png",
+        "quadro": [
+          614,
+          614
+        ],
+        "pivo": [
+          317.5,
+          546
+        ],
+        "largura_visivel": 535
+      },
+      "inverno": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/inverno/broto.png",
+        "quadro": [
+          614,
+          614
+        ],
+        "pivo": [
+          317.5,
+          546
+        ],
+        "largura_visivel": 537
+      }
+    }
+  },
+  "suprimentos": {
+    "grupo": "complementos",
+    "variantes": {
+      "primavera": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/primavera/suprimentos.png",
+        "quadro": [
+          640,
+          614
+        ],
+        "pivo": [
+          320.0,
+          499
+        ],
+        "largura_visivel": 578
+      },
+      "verao": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/verao/suprimentos.png",
+        "quadro": [
+          640,
+          614
+        ],
+        "pivo": [
+          324.0,
+          503
+        ],
+        "largura_visivel": 588
+      },
+      "outono": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/outono/suprimentos.png",
+        "quadro": [
+          640,
+          614
+        ],
+        "pivo": [
+          323.0,
+          501
+        ],
+        "largura_visivel": 584
+      },
+      "inverno": {
+        "textura": "res://assets/cenario/campanha/clareiras_modulares/inverno/suprimentos.png",
+        "quadro": [
+          640,
+          614
+        ],
+        "pivo": [
+          321.0,
+          500
+        ],
+        "largura_visivel": 578
+      }
+    }
+  }
+}

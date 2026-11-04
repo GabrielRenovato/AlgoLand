@@ -16,7 +16,7 @@ func iniciar(pasta: String, perfil: String) -> Error:
 func definir_regiao(id: String) -> Error:
 	if not _catalogo.destinos.has(id) or _catalogo.destinos[id].tipo == "andar":
 		return ERR_INVALID_PARAMETER
-	if not progresso.acesso_liberado(id):
+	if not id in Catalogo.REGIOES_HABILITADAS or not progresso.acesso_liberado(id):
 		return ERR_UNAUTHORIZED
 	regiao = id
 	alterado.emit()
@@ -43,7 +43,7 @@ func interagir(tipo: String, alvo: String) -> Error:
 				return ERR_UNAUTHORIZED
 			var missao: Dictionary = _catalogo.missoes[objetivo.missao]
 			var faltantes: Array = missao.objetivos.filter(func(o):return not o.id in progresso.objetivos_cumpridos(objetivo.missao))
-			if faltantes.size()==1 and _catalogo.destinos[missao.destino].tipo!="cidade" and tempo_ativo(missao.destino)<float(_catalogo.destinos[missao.destino].get("duracao",{}).get("minima",60)):
+			if faltantes.size()==1 and _catalogo.destinos[missao.destino].tipo!="cidade" and missao.destino!="estrada" and tempo_ativo(missao.destino)<float(_catalogo.destinos[missao.destino].get("duracao",{}).get("minima",60)):
 				return ERR_BUSY
 			var erro := progresso.registrar_objetivo(objetivo.missao, objetivo.id)
 			if erro == OK:

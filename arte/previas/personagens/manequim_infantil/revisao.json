@@ -1,0 +1,15 @@
+{
+  "relatorio": "/tmp/algoland-harness/execucao-fwr4sd7j/relatorio.json",
+  "escopo": "um manequim infantil de estudo, sem mudar elenco da cidade ou jogador",
+  "visual": "capturas reais no Godot; quatro vistas, comparação com adulto na mesma escala e oito fases da caminhada em quatro direções",
+  "proporcao_medida": "44 px de altura infantil / 62 px de adulto no viewport 160x160; cabeça proporcionalmente maior",
+  "chao": "mesmo pivô e pés com diferença de 1 pixel no render, dentro da margem da animação nativa",
+  "roupas": "camisa/calça/calçado/cabelo independentes, mesmos pesos e rig; corpo preservado",
+  "evidencias": [
+    "comparacao.png",
+    "quatro_vistas.png",
+    "caminhada_quadros.png",
+    "caminhada.gif"
+  ],
+  "resultado": "sem falhas no teste; revisão visual das capturas concluída; aparência sujeita à avaliação do usuário"
+}

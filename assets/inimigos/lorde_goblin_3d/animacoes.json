@@ -1,0 +1,131 @@
+{
+  "golpe_duas_maos": {
+    "duracao_s": 2.05,
+    "pegada_dupla": [
+      0.3,
+      1.7
+    ],
+    "eventos": [
+      {
+        "tempo_s": 0.9,
+        "tipo": "impacto",
+        "raio_m": 1.05,
+        "centro_local_m": [
+          -0.67976,
+          2.26571,
+          3.24023
+        ]
+      }
+    ]
+  },
+  "impacto_area": {
+    "duracao_s": 2.85,
+    "pegada_dupla": [
+      0.3,
+      2.5
+    ],
+    "eventos": [
+      {
+        "tempo_s": 1.1966666666666668,
+        "tipo": "aviso",
+        "raio_m": 2.4,
+        "centro_local_m": [
+          -0.86517,
+          0.0,
+          2.98454
+        ]
+      },
+      {
+        "tempo_s": 1.6166666666666667,
+        "tipo": "impacto",
+        "raio_m": 2.4,
+        "centro_local_m": [
+          -0.86517,
+          0.0,
+          2.98454
+        ]
+      }
+    ]
+  },
+  "giro_area": {
+    "duracao_s": 3.8,
+    "pegada_dupla": [
+      0.55,
+      3.25
+    ],
+    "eventos": [
+      {
+        "tempo_s": 0.67,
+        "tipo": "impacto",
+        "raio_m": 3.5,
+        "centro_local_m": [
+          0.0,
+          0.0,
+          -0.0
+        ]
+      },
+      {
+        "tempo_s": 1.08,
+        "tipo": "impacto",
+        "raio_m": 3.5,
+        "centro_local_m": [
+          0.0,
+          0.0,
+          -0.0
+        ]
+      },
+      {
+        "tempo_s": 1.49,
+        "tipo": "impacto",
+        "raio_m": 3.5,
+        "centro_local_m": [
+          0.0,
+          0.0,
+          -0.0
+        ]
+      },
+      {
+        "tempo_s": 1.9,
+        "tipo": "impacto",
+        "raio_m": 3.5,
+        "centro_local_m": [
+          0.0,
+          0.0,
+          -0.0
+        ]
+      },
+      {
+        "tempo_s": 2.31,
+        "tipo": "impacto",
+        "raio_m": 3.5,
+        "centro_local_m": [
+          0.0,
+          0.0,
+          -0.0
+        ]
+      },
+      {
+        "tempo_s": 2.72,
+        "tipo": "impacto",
+        "raio_m": 3.5,
+        "centro_local_m": [
+          0.0,
+          0.0,
+          -0.0
+        ]
+      },
+      {
+        "tempo_s": 3.13,
+        "tipo": "impacto",
+        "raio_m": 3.5,
+        "centro_local_m": [
+          0.0,
+          0.0,
+          -0.0
+        ]
+      }
+    ],
+    "voltas": 3,
+    "elevacao_max_m": 0.5
+  }
+}

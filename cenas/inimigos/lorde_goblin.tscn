@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://codigo/inimigos/lorde_goblin.gd" id="1"]
+[ext_resource type="Script" path="res://codigo/inimigos/lorde_goblin_visual.gd" id="2"]
+[sub_resource type="CircleShape2D" id="Corpo"]
+radius = 15.0
+[sub_resource type="CapsuleShape2D" id="Atingivel"]
+radius = 22.0
+height = 70.0
+
+[node name="LordeGoblin" type="CharacterBody2D" groups=["enemy", "boss_lorde_goblin"]]
+collision_layer = 32
+collision_mask = 66
+script = ExtResource("1")
+velocidade = 46
+aceleracao = 180.0
+raio_parada = 24.0
+alcance_separacao = 35.0
+dano = 10.0
+vida = 600
+usar_barra_vida = false
+altura_pes = 0.0
+altura_barra_vida = 80.0
+
+[node name="Texture" type="Sprite2D" parent="."]
+script = ExtResource("2")
+
+[node name="colision_body" type="CollisionShape2D" parent="."]
+shape = SubResource("Corpo")
+
+[node name="AlvoGolpes" type="Area2D" parent="." groups=["hurtbox_inimigo"]]
+collision_layer = 4
+collision_mask = 0
+monitoring = false
+monitorable = true
+
+[node name="Forma" type="CollisionShape2D" parent="AlvoGolpes"]
+position = Vector2(0, -30)
+shape = SubResource("Atingivel")

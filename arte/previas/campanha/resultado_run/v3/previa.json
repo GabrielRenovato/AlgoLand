@@ -1,0 +1,12 @@
+{
+  "tipo": "previa_interface",
+  "dados": "exemplos ficticios, sem integracao com a partida",
+  "gerador": "ferramentas/campanha/previa_resultado_run.gd",
+  "arte": "assets/ui/resultado_expedicao/moldura_primeira_raiz.png",
+  "fonte_titulos": "Noto Serif SemiBold",
+  "fonte_conteudo": "Noto Sans Regular",
+  "geracao": "arte/fontes/ui/resultado_expedicao/geracao.json",
+  "revisao_visual": "Godot: desktop, paisagem compacta, retrato e tela dividida com rolagem. Botoes recuados para fora da moldura e das folhas. Acentos conferidos.",
+  "verificacao_automatica": "Botoes devem caber no retangulo de papel livre Rect2(88,144,784,576) na previa desktop.",
+  "imagem_principal": "resultado-960x900.png"
+}

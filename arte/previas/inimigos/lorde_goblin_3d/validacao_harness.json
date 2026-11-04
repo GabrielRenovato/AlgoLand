@@ -1,0 +1,19 @@
+{
+  "aprovado": true,
+  "motor": "Python 3.14.8 / 4.7.2.stable.flathub.ed1daf0bf",
+  "estado_preservado": true,
+  "etapas": [
+    {
+      "nome": "importacao",
+      "aprovado": true,
+      "verificacoes_ok": 0,
+      "total_erros": 0
+    },
+    {
+      "nome": "lorde_goblin_3d",
+      "aprovado": true,
+      "verificacoes_ok": 8,
+      "total_erros": 0
+    }
+  ]
+}

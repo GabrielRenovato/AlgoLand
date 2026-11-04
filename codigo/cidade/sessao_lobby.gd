@@ -87,8 +87,9 @@ func _ready() -> void:
  _http.request_completed.connect(_receber)
  var preferencias := ConfigFile.new()
  preferencias.load("user://opcoes.cfg")
+ var campanha_publica := not "--script" in OS.get_cmdline_args() and "--campanha-online" in OS.get_cmdline_user_args()
  var escolhido := bool(preferencias.get_value("lobby","online_p2" if jogador.eh_p2 else "online_p1",false))
- _permitido = not(("--script" in OS.get_cmdline_args() or OS.get_user_data_dir().get_file().begins_with("AlgoLand testes")) \
+ _permitido = not(("--script" in OS.get_cmdline_args() or (OS.get_user_data_dir().get_file().begins_with("AlgoLand testes") and not campanha_publica)) \
   and not (_url.begins_with("http://127.0.0.1:") or _url_ws.begins_with("ws://127.0.0.1:")))
  if not _permitido: escolhido=false
  definir_online(escolhido,false)
@@ -150,7 +151,7 @@ func _endereco_ws() -> String:
  var salvo := str(preferencias.get_value("lobby","servidor",""))
  if not salvo.is_empty(): candidato = salvo
  # Scripts e saves de teste só falam com o servidor local passado por argumento, nunca com o padrão do jogo
- if "--script" in OS.get_cmdline_args() or OS.get_user_data_dir().get_file().begins_with("AlgoLand testes"): candidato = ""
+ if "--script" in OS.get_cmdline_args() or (OS.get_user_data_dir().get_file().begins_with("AlgoLand testes") and not "--campanha-online" in OS.get_cmdline_user_args()): candidato = ""
  for argumento in OS.get_cmdline_user_args():
   if argumento.begins_with("--lobby-ws="): candidato = argumento.trim_prefix("--lobby-ws=")
  return candidato if candidato.begins_with("wss://") or candidato.begins_with("ws://127.0.0.1:") or candidato.begins_with("ws://localhost:") else ""
@@ -238,8 +239,6 @@ func _conectar_ws() -> void:
  if not is_instance_valid(jogador) or not jogador.is_inside_tree(): return
  _ws = WebSocketPeer.new()
  _ws.heartbeat_interval = 15.0
- # Sem Nagle: as posições pequenas e frequentes saem na hora.
- _ws.set_no_delay(true)
  _ws_entrou = false
  _ws_tempo_conexao = 0.0
  if _ws.connect_to_url(_url_ws)!=OK:
@@ -248,6 +247,8 @@ func _conectar_ws() -> void:
   _ws_espera = 5.0
 
 func _entrar_ws() -> void:
+ # O TCP só existe depois de conectar; preserva a baixa latência sem erro no Godot 4.7.
+ if not OS.has_feature("web"): _ws.set_no_delay(true)
  var montado := _montar_estado(true)
  if montado.is_empty(): return
  var pedido_entrada := {"t":"entrar","codigo":_codigo,"geracao":geracao,"depois":_depois,"estado":montado.conteudo}
@@ -313,10 +314,10 @@ func _sincronizar() -> void:
  else: _http.set_meta("retrato",retrato)
 
 ## Quadro 0 a 3 da pose de pesca enquanto o jogador pesca; -1 fora dela
-func _quadro_de_pesca(raven: Node) -> int:
- var pesca := jogador.get_node_or_null("AnimacaoPesca")
- if pesca == null or raven == null or not raven.has_method("quadro_pesca"): return -1
- return clampi(int(raven.quadro_pesca(int(pesca._pose))),0,3)
+func _quadro_de_pesca() -> int:
+ var pesca := jogador.get_node_or_null("AnimacaoPesca") if is_instance_valid(jogador) else null
+ if pesca == null: return -1
+ return clampi(int(pesca.quadro()),0,3)
 
 ## A direção do compositor 2D fica parada enquanto o modelo 3D está ativo.
 func _direcao_visual() -> int:
@@ -332,7 +333,6 @@ func _montar_estado(incluir_aparencia := false) -> Dictionary:
  var posicao := cidade.to_local(jogador.global_position) if mapa>0 else Vector2.ZERO
  var retangulo := _retangulo_do_mapa()
  var normalizada := (posicao-retangulo.position)/retangulo.size*ENVELOPE if mapa>0 else Vector2.ZERO
- var raven := jogador.get_node_or_null("HeroiRaven")
  var visual := Visual.do_jogador(jogador)
  var arma = jogador.inventario.equipados.get("arma")
  if arma != null:
@@ -340,7 +340,7 @@ func _montar_estado(incluir_aparencia := false) -> Dictionary:
   visual.nivel_arma = clampi(arma.nivel,1,99)
  # "cidade" continua indicando a praça para servidores e clientes antigos; "mapa" distingue cidade, floresta e praia
  var conteudo := {"cidade":mapa==1,"mapa":mapa,"x":clampf(normalizada.x,0,1024),"y":clampf(normalizada.y,0,576),"direcao":_direcao_visual(),
-  "andando":posicao.distance_to(_ultima_posicao)>1,"apelido":Ranking.apelido_personagem(jogador.apelido),"pesca":_quadro_de_pesca(raven)}
+  "andando":posicao.distance_to(_ultima_posicao)>1,"apelido":Ranking.apelido_personagem(jogador.apelido),"pesca":_quadro_de_pesca()}
  _ultima_posicao = posicao
  var retrato := JSON.stringify(visual)
  if incluir_aparencia or retrato!=_ultimo_visual: conteudo.aparencia = visual

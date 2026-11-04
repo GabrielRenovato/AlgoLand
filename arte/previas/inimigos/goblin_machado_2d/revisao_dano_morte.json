@@ -1,0 +1,78 @@
+{
+  "escopo": "dano e morte do novo goblin de machado nas quatro direções, na cena visual própria",
+  "fontes": [
+    "dano_morte_direita_v1.png",
+    "dano_morte_baixo_v1.png",
+    "dano_morte_cima_v1.png"
+  ],
+  "prompts": [
+    "prompt_dano_morte_direita.txt",
+    "prompt_dano_morte_baixo.txt",
+    "prompt_dano_morte_cima.txt"
+  ],
+  "contrato": "arte/fontes/inimigos/goblin_machado_2d/contrato_dano_morte.md",
+  "geracao": "image_gen integrado, modelo aceito e vistas de ataque como referências",
+  "celula": [
+    640,
+    640
+  ],
+  "pivo": [
+    320,
+    560
+  ],
+  "escala": 0.071,
+  "dano": {
+    "quadros": 4,
+    "duracoes_ms": [
+      45,
+      75,
+      90,
+      90
+    ],
+    "loop": false,
+    "fim": "retorna à guarda da mesma direção"
+  },
+  "morte": {
+    "quadros": 8,
+    "duracoes_ms": [
+      80,
+      100,
+      110,
+      100,
+      100,
+      120,
+      160,
+      500
+    ],
+    "loop": false,
+    "fim": "permanece no último quadro deitado; sinal único de término"
+  },
+  "esquerda": "espelha direita por célula",
+  "revisao_visual": {
+    "estado": "inspecionada no Godot",
+    "aprovacao_artistica_usuario": false,
+    "analise": "Cabeça e ombros acompanham recuo; morte dobra joelhos, apoia no chão, desaba, solta arma e acomoda corpo. Forma baixa final sem rotação rígida de sprite. Modelo, corrida e ataques preservados.",
+    "metodo": "Contatos dos4quadros de dano e8de morte por direção; capturas reais no mapa/save isolado com player e quatro instâncias, inspecionadas na reação, recuperação, perda de apoio, contato e repouso. GIF com mesmos atlas/tempos e GIF das capturas reais; não se afirma reprodução de GIF no visualizador estático.",
+    "resultado": "Recuo de cabeça/ombros legível na escala do player; joelhos cedem, mãos soltam arma e corpo se acomoda. Corpse e lâmina inteiros, chão coerente, vistas frontal/costas preservadas; fim permanece estático e não aceita ataques. Recursos anteriores preservados por SHA256. Disponível na cena visual do novo goblin, sem substituição parcial do inimigo ativo antigo.",
+    "evidencias": [
+      "ferido_direita_contato.png",
+      "ferido_esquerda_contato.png",
+      "ferido_baixo_contato.png",
+      "ferido_cima_contato.png",
+      "morte_direita_contato.png",
+      "morte_esquerda_contato.png",
+      "morte_baixo_contato.png",
+      "morte_cima_contato.png",
+      "dano_morte_quatro_direcoes.gif",
+      "dano_morte_motor.gif",
+      "dano_morte_motor_contato.png"
+    ]
+  },
+  "testes": {
+    "verificacoes_ok": 68,
+    "falhas": 0,
+    "aprovado": true,
+    "estado_preservado": true,
+    "relatorio": "/tmp/algoland-harness/execucao-vogoo4eh/relatorio.json"
+  }
+}

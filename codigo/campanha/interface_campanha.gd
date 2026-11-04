@@ -7,6 +7,7 @@ var _relatorio: Button
 
 ## Conserva mochila e pausa, sem atalhos para modos fora do percurso isolado.
 func _ready() -> void:
+	script_cliente_mercado=preload("res://codigo/campanha/cliente_leilao.gd")
 	super._ready()
 	var lobby = _telas.lobby
 	lobby.set_process(false)
@@ -69,10 +70,17 @@ func _somente_ouro(hud: Node) -> void:
 
 func _process(delta: float) -> void:
 	super._process(delta)
+	var cidade_publica: bool=get_parent().regiao=="vila"
+	_telas.lobby.set_process(cidade_publica)
+	_telas.lobby.set_process_input(cidade_publica)
+	_telas.lobby.set_process_unhandled_input(cidade_publica)
+	_telas.lobby._botao_hud.visible=cidade_publica
+	if not cidade_publica:_telas.lobby._historico.hide()
+
 	if _botao_duelo != null: _botao_duelo.hide()
 	if _botao_amigos != null: _botao_amigos.hide()
 	if _relatorio!=null:
-		_relatorio.visible=get_parent().registro_run.apresentada and _telas_abertas.is_empty() and not get_parent().cinema_cidade_ativa()
+		_relatorio.visible=not cidade_publica and get_parent().registro_run.apresentada and _telas_abertas.is_empty() and not get_parent().cinema_cidade_ativa()
 		var medida := preload("res://codigo/ui/escala_interface.gd").tamanho_logico(self)
 		_relatorio.position=Vector2(medida.x-_relatorio.size.x-8,8)
 

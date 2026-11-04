@@ -10,8 +10,8 @@ size = Vector2(38, 20)
 size = Vector2(42, 46)
 
 [node name="DragaoVermelho" type="CharacterBody2D" groups=["enemy", "boss_dragao"]]
-collision_layer = 0
-collision_mask = 64
+collision_layer = 32
+collision_mask = 66
 script = ExtResource("1")
 velocidade = 28.0
 aceleracao = 220.0

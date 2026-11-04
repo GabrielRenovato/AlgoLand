@@ -1,0 +1,18 @@
+{
+  "triangulos": 2484,
+  "materiais": 22,
+  "bytes_glb": 285604,
+  "unidade": "metro",
+  "roda": {
+    "no": "Roda",
+    "pivo": [
+      -2.86,
+      1.55,
+      0.2
+    ],
+    "eixo": "X",
+    "animacao": "girar_roda",
+    "ciclo_segundos": 12
+  },
+  "estado": "Integrado ao estágio 4 por SubViewport, com filtro pixel art e colisões 2D."
+}

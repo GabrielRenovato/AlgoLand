@@ -13,11 +13,46 @@ from preparar_testes import preparar
 from testar_coop import ARGUMENTOS_TESTES, ERROS_ESPERADOS, executar
 
 RAIZ = Path(__file__).resolve().parents[2]
-GRAFICOS = {"lote_mixamo_3d", "corrida_mixamo_3d", "ferramentas_kaykit_3d", "natureza_fazenda", "acabamento_cidade", "chao_detalhado", "ponte_cidade", "urbanismo_cidade", "enfeites_detalhados", "nitidez_exteriores", "botoes_carta", "cama_raven", "entrada_portal", "f3_equipar_conjuntos", "cores_armas_raven", "previa_inventario_raven", "migracao_raven", "dash_raven", "catalogo_armas_raven", "espera_pesca_raven", "acabamento_raven", "camadas_corrida_raven", "personalizacao_raven", "heroi_raven", "rotina_aves", "painel_debug", "obra_carpinteiro","atendimento_cidade", "dialogo_cidade", "familia_carpinteiro", "casa_carpinteiro", "galinheiro", "relevo_gentle", "enseada_visual", "mapa_mundi", "fazenda_tiny", "sobreposicao_cais", "pegadas_praia", "heroi_gerado", "rotas_visuais", "barra_energia", "continuidade_caverna"}
+GRAFICOS = {"lote_mixamo_3d", "corrida_mixamo_3d", "ferramentas_kaykit_3d", "natureza_fazenda", "acabamento_cidade", "chao_detalhado", "ponte_cidade", "urbanismo_cidade", "enfeites_detalhados", "nitidez_exteriores", "botoes_carta", "cama_raven", "entrada_portal", "f3_equipar_conjuntos", "previa_inventario_raven", "catalogo_armas_raven", "rotina_aves", "painel_debug", "obra_carpinteiro","atendimento_cidade", "dialogo_cidade", "familia_carpinteiro", "casa_carpinteiro", "galinheiro", "relevo_gentle", "enseada_visual", "mapa_mundi", "fazenda_tiny", "sobreposicao_cais", "pegadas_praia", "rotas_visuais", "barra_energia", "continuidade_caverna"}
+GRAFICOS.update({"interface_campanha", "maestria_combate", "maestria_coop", "drops_iniciais_visual", "instancias_campanha"})
+GRAFICOS.add("goblins_pomar")
+# Os dois abrem a vila da campanha com janela; sem tela encerram logo no início.
+GRAFICOS.update({"vila_defesa", "vila_missoes"})
+GRAFICOS.add("colisao_mobs_player")
+GRAFICOS.add("moinho_mobile")
 GRAFICOS.add("fluidez_medusa")
 GRAFICOS.add("camadas_magias_medusa")
 GRAFICOS.add("fontes_web")
-GRAFICOS.update({"marcadores_missao", "alinhamento_chat_marcador"})
+GRAFICOS.add("moradores_primeira_raiz")
+GRAFICOS.add("historia_goblins")
+GRAFICOS.add("guarda_novato_3d")
+GRAFICOS.add("movimentos_npcs")
+GRAFICOS.add("manequim_infantil_3d")
+GRAFICOS.add("vestuario_infantil_3d")
+GRAFICOS.add("casas_familias")
+GRAFICOS.add("mapas_modulares")
+GRAFICOS.add("campanha_pesca_social")
+GRAFICOS.add("bacia_moinho")
+GRAFICOS.add("entrada_dungeon_visual")
+GRAFICOS.add("estrada_carreteiros")
+GRAFICOS.add("monstro_raizes")
+GRAFICOS.add("cerne_partido")
+GRAFICOS.add("salas_campanha")
+GRAFICOS.update({"percurso_campanha", "mapas_campanha"})
+GRAFICOS.update({"marcadores_missao", "alinhamento_chat_marcador", "gerador_npcs_3d", "roupas_base_3d", "tintura_cabelo_3d", "pelos_faciais_npcs"})
+
+
+def liberar(saida, tmp_antes, texto_teste=""):
+    """Apaga o que o teste que acabou de terminar gravou (saves, cache do Godot, capturas), mantendo só o log."""
+    shutil.rmtree(saida / "dados", ignore_errors=True)
+    previas = saida / "projeto" / "arte" / "previas"
+    if previas.is_dir():
+        for item in previas.iterdir():
+            shutil.rmtree(item, ignore_errors=True) if item.is_dir() else item.unlink(missing_ok=True)
+    # Só o que este teste escreve em /tmp: outra sessão pode estar usando outras pastas algoland-*.
+    for novo in set(Path("/tmp").glob("algoland-*")) - tmp_antes:
+        if novo.name.split("-")[0] + "-" + novo.name.split("-")[1] not in texto_teste: continue
+        shutil.rmtree(novo, ignore_errors=True) if novo.is_dir() and not novo.is_symlink() else novo.unlink(missing_ok=True)
 
 
 def main():
@@ -43,7 +78,10 @@ def main():
     for caminho in args.aproveitar:
         for resultado in json.loads(caminho.read_text())["testes"]:
             anteriores[resultado["nome"]] = dict(resultado, reaproveitado_de=str(caminho.resolve()))
-    saida = args.saida.resolve() if args.saida else Path(tempfile.mkdtemp(prefix="algoland-tudo-"))
+    # /tmp é tmpfs (RAM) nesta máquina: a saída padrão fica no disco.
+    cache = Path.home() / ".cache"
+    cache.mkdir(parents=True, exist_ok=True)
+    saida = args.saida.resolve() if args.saida else Path(tempfile.mkdtemp(prefix="algoland-tudo-", dir=cache))
     saida.mkdir(parents=True, exist_ok=True)
     if list(saida.iterdir()):
         parser.error("--saida precisa ser uma pasta vazia")
@@ -95,7 +133,9 @@ def main():
                     comando = motor + ([] if nome in GRAFICOS else ["--headless"]) + ["--path", str(projeto), "--script", "res://testes/" + caminho.name]
                     if nome in ARGUMENTOS_TESTES:
                         comando += ["--"] + ARGUMENTOS_TESTES[nome]
+                tmp_antes = set(Path("/tmp").glob("algoland-*"))
                 resultado = executar(comando, saida / (nome + ".log"), args.limite, ERROS_ESPERADOS.get(nome, ()))
+                liberar(saida, tmp_antes, caminho.read_text(errors="replace"))
                 resultado.update(nome=nome, modo="python" if caminho.suffix == ".py" else "grafico" if nome in GRAFICOS else "headless")
             relatorio["testes"].append(resultado)
             relatorio["falhas"] = sum(not r["aprovado"] for r in relatorio["testes"])
@@ -104,6 +144,9 @@ def main():
             for erro in resultado["erros"][:3]:
                 print("  " + erro, flush=True)
     relatorio["falhas"] = sum(not r["aprovado"] for r in relatorio["testes"]) + int(not importacao["aprovado"])
+    # Ao fim só ficam os logs e o relatório: a cópia do projeto e os dados vão embora.
+    shutil.rmtree(saida / "dados", ignore_errors=True)
+    shutil.rmtree(projeto, ignore_errors=True)
     relatorio["aprovado"] = relatorio["falhas"] == 0 and len(relatorio["testes"]) == len(testes)
     (saida / "relatorio.json").write_text(json.dumps(relatorio, ensure_ascii=False, indent=2) + "\n")
     print("%d testes; %d falhas. Relatório: %s" % (len(relatorio["testes"]), relatorio["falhas"], saida / "relatorio.json"))

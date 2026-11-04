@@ -35,7 +35,7 @@ var _acoes_atuais: Array = []
 var _selecoes: Dictionary = {}
 const AREAS := {
 	"FAZENDA E VILA": ["OBRA DO OSVALDO", "GALINHEIRO", "FAZENDA E ITENS", "VISUAL DA FAZENDA"],
-	"COMBATE": ["ANDARES", "MINOTAURO", "MEDUSA", "GOBLIN", "DRAGAO", "ARMAS RAVEN", "MONTANTES", "DROPS"],
+	"COMBATE": ["ANDARES", "MINOTAURO", "MEDUSA", "GOBLIN", "DRAGAO", "ARMAS", "MONTANTES", "DROPS"],
 	"PERSONAGEM": ["PERSONAGEM", "CONJUNTOS", "ANIMACOES"],
 	"MUNDO": ["HORARIO", "CALENDARIO", "CLIMA", "ESTACAO", "TEMPESTADE"],
 }
@@ -114,12 +114,9 @@ func _montar() -> void:
 			["VISITAR OSVALDO E FAMILIA", _familia_carpinteiro_debug]],
 		"VISUAL DA FAZENDA": [["ORIGINAL / TINY RPG", _alternar_fazenda_tiny],
 			["FILTRO PIXEL NO MAPA (TESTE)", _alternar_filtro_pixel_mapa]],
-		"PERSONAGEM": [["RAVEN: REAPLICAR VISUAL", _reaplicar_personagem],
-			["CARTOON: ANDAR + 2 GOLPES", _ativar_cartoon],
-			["CARTOON: CAVALEIRO DE ACO", _ativar_cartoon.bind(true)],
-			["PERSONAGEM 3D: COMPLETO", _ativar_base_3d.bind(true)],
+		"PERSONAGEM": [["PERSONAGEM 3D: COMPLETO", _ativar_base_3d.bind(true)],
 			["CUSTOMIZAR ROUPAS 3D", _customizar_roupas_3d]],
-		"ARMAS RAVEN": [["RECEBER TODAS (MOCHILA)", _receber_armas_raven],
+		"ARMAS": [["RECEBER TODAS (MOCHILA)", _receber_armas_raven],
 			["ALJAVA", _receber_armas_raven.bind("aljava_basica")]],
 		"CONJUNTOS": [
 			["MORDOMO (EQUIPAR)", _equipar_conjunto.bind("cavalheiro")],
@@ -171,7 +168,7 @@ func _montar() -> void:
 	for tipo in preload("res://codigo/dados/armas_montantes.gd").MODELOS:
 		_opcoes["MONTANTES"].append([preload("res://codigo/modelos/dados_item.gd").NOMES[tipo], _receber_armas_raven.bind(tipo)])
 	for tipo in preload("res://codigo/ui/icones_itens.gd").ARMAS_RAVEN:
-		_opcoes["ARMAS RAVEN"].append([preload("res://codigo/modelos/dados_item.gd").NOMES[tipo], _receber_armas_raven.bind(tipo)])
+		_opcoes["ARMAS"].append([preload("res://codigo/modelos/dados_item.gd").NOMES[tipo], _receber_armas_raven.bind(tipo)])
 	for i in CLIMAS.size():
 		_opcoes["CLIMA"].append([CLIMAS[i], _ao_clima.bind(i)])
 	for i in ESTACOES.size():
@@ -243,8 +240,6 @@ func _selecionar_acao(indice: int) -> void:
 	_acao.tooltip_text = _acao.get_item_text(indice)
 	if _aviso != null:
 		_aviso.text = "Obra com materiais gratis; no nivel maximo, testa uma reforma." if categoria == "OBRA DO OSVALDO" and indice == 0 else "Altera a partida de teste atual."
-		if categoria == "PERSONAGEM" and indice == 1:
-			_aviso.text = "Ataque testa a espada sem dano na fazenda."
 	_ajustar_altura.call_deferred()
 
 func _executar_selecao() -> void:
@@ -589,7 +584,6 @@ func _atualizar_estado() -> void:
 		_rotulo_estado.text += " / ANDAR %d" % gerenciador.onda_atual
 
 ## Reaplica a base refinada sem alterar a aparência salva ou os equipamentos.
-## Protótipo: liga/desliga o herói do Tiny RPG (codigo/jogador/heroi_tiny.gd) no jogador da cena
 ## Atalhos explícitos de debug: preservam as aves existentes, nomes e vínculo.
 func _preparar_galinheiro_debug(nivel: int) -> void:
 	if Transicao.ocupada: return
@@ -676,20 +670,6 @@ func _alternar_filtro_pixel_mapa() -> void:
 	camada.add_child(tela)
 	raiz.add_child(camada)
 
-func _alternar_heroi_tiny() -> void:
-	_desativar_base_vila()
-	var cena := get_tree().current_scene
-	var jogador := cena.get_node_or_null("Jogador") if cena != null else null
-	if jogador == null:
-		return
-	var atual := jogador.get_node_or_null("HeroiTiny")
-	if atual != null:
-		jogador.remove_child(atual)
-		atual.free()
-		return
-	_remover_prototipo(jogador, "HeroiGerado")
-	jogador.add_child(HeroiTiny.new())
-
 func _remover_prototipo(jogador: Node, nome: String) -> void:
 	var atual := jogador.get_node_or_null(nome)
 	if atual != null:
@@ -704,50 +684,7 @@ func _desativar_base_vila() -> void:
 func _ativar_base_vila() -> void:
 	get_tree().set_meta("visual_base_vila", true)
 	for jogador in get_tree().get_nodes_in_group("jogadores"):
-		for nome in ["HeroiTiny", "HeroiGerado", "HeroiCraftpix"]:
-			_remover_prototipo(jogador, nome)
 		jogador._instalar_base_vila()
-
-func _ativar_heroi_gerado(correndo: bool) -> void:
-	_desativar_base_vila()
-	var cena := get_tree().current_scene
-	var jogador := cena.get_node_or_null("Jogador") if cena != null else null
-	if jogador == null:
-		return
-	_remover_prototipo(jogador, "HeroiTiny")
-	var visual := jogador.get_node_or_null("HeroiGerado")
-	if visual == null:
-		visual = preload("res://codigo/jogador/heroi_gerado.gd").new()
-		visual.name = "HeroiGerado"
-		visual.correndo = correndo
-		jogador.add_child(visual)
-	else:
-		visual.correndo = correndo
-		visual._aplicar_folha()
-	visual.teste_espada = false
-	# O teste abre olhando para a direção que já tem as poses desenhadas.
-	jogador._direcao_ataque = Vector2.RIGHT
-	jogador.virar_para(Vector2.RIGHT)
-	visual._process(0.0)
-
-func _ativar_heroi_craftpix() -> void:
-	_desativar_base_vila()
-	var cena := get_tree().current_scene
-	var jogador := cena.get_node_or_null("Jogador") if cena != null else null
-	if jogador == null:
-		return
-	_remover_prototipo(jogador, "HeroiTiny")
-	_remover_prototipo(jogador, "HeroiGerado")
-	if not jogador.has_node("HeroiCraftpix"):
-		jogador.add_child(preload("res://codigo/jogador/heroi_craftpix.gd").new())
-	jogador.get_node("HeroiCraftpix")._process(0.0)
-
-func _ativar_espada_gerada() -> void:
-	_ativar_heroi_gerado(true)
-	var cena := get_tree().current_scene
-	var jogador := cena.get_node_or_null("Jogador") if cena != null else null
-	if jogador != null and jogador.has_node("HeroiGerado"):
-		jogador.get_node("HeroiGerado").teste_espada = true
 
 func _reaplicar_personagem() -> void:
 	_desativar_base_vila()
@@ -755,14 +692,8 @@ func _reaplicar_personagem() -> void:
 	var cena := get_tree().current_scene
 	var jogador := cena.get_node_or_null("Jogador") if cena != null else null
 	if jogador != null:
-		get_tree().set_meta("visual_cartoon_p1", false)
-		get_tree().set_meta("armadura_cartoon_p1", 0)
-		_remover_prototipo(jogador, "HeroiCartoon")
 		get_tree().set_meta("visual_base_3d_p1", false)
 		_remover_prototipo(jogador, "HeroiBase3D")
-		_remover_prototipo(jogador, "HeroiTiny")
-		_remover_prototipo(jogador, "HeroiGerado")
-		_remover_prototipo(jogador, "HeroiCraftpix")
 		jogador._aplicar_aparencia()
 		if jogador.usando_espada:
 			jogador.atualizar_texturas_espada()
@@ -802,16 +733,6 @@ func _ativar_base_3d(com_roupa: bool = false,teste_pixel: bool = true,teste_lanc
 	get_tree().set_meta("pixel_base_3d_p1",teste_pixel)
 	get_tree().set_meta("pecas_base_3d_p1",visual.pecas_visiveis)
 	jogador.add_child(visual)
-
-func _ativar_cartoon(com_armadura: bool = false) -> void:
-	_reaplicar_personagem()
-	var cena := get_tree().current_scene
-	var jogador := cena.get_node_or_null("Jogador") if cena != null else null
-	if jogador == null:
-		return
-	get_tree().set_meta("visual_cartoon_p1", true)
-	get_tree().set_meta("armadura_cartoon_p1",15 if com_armadura else 0)
-	jogador.add_child(preload("res://codigo/jogador/heroi_cartoon.gd").new())
 
 func _feno_galinheiro_debug() -> void:
 	InventarioJogador.adicionar_coletavel("produto","feno",14)

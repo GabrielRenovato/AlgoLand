@@ -1,0 +1,124 @@
+{
+  "versao": 1,
+  "id": "guarda_novato",
+  "nome": "Guarda Novato",
+  "raridade": "comum",
+  "arte": "res://arte/fontes/armaduras/guarda_novato/referencia_usuario.png",
+  "destino": "res://assets/personagens/conjuntos/guarda_novato/",
+  "onda_minima": 1,
+  "chances_drop": {
+    "normal": 0,
+    "mutante": 0,
+    "chefe": 0
+  },
+  "preco_base": 24,
+  "bonus": {
+    "tipo": "nenhum",
+    "pecas": 4,
+    "chance": 0.0,
+    "recarga": 0.0,
+    "multiplicador_dano": 0.0,
+    "aviso": 0.0
+  },
+  "bases": {
+    "cabeca": {
+      "vitalidade": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "defesa": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    "corpo": {
+      "vitalidade": [
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "defesa": [
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    "luvas": {
+      "vitalidade": [
+        1,
+        1,
+        2,
+        2,
+        3
+      ],
+      "defesa": [
+        1,
+        2,
+        2,
+        3,
+        4
+      ]
+    },
+    "botas": {
+      "vitalidade": [
+        1,
+        2,
+        2,
+        3,
+        4
+      ],
+      "defesa": [
+        1,
+        2,
+        3,
+        3,
+        4
+      ]
+    }
+  },
+  "recortes": {
+    "fim_elmo": 0.46,
+    "fim_peitoral": 0.76
+  },
+  "paleta": [
+    "131c24",
+    "404d57",
+    "596b75",
+    "72858e",
+    "94abb5",
+    "cad5d5",
+    "e2e5df",
+    "f2eee0",
+    "292b30",
+    "493629",
+    "775639",
+    "a57c50"
+  ],
+  "base_3d": {
+    "destino": "res://assets/personagens/conjuntos/guarda_novato/base_3d/",
+    "rig": "res://cenas/personagem/base_3d/personagem.tscn",
+    "fonte": "res://codigo/jogador/moldes_guarda_novato_3d.gd",
+    "grade_render": [
+      160,
+      160
+    ],
+    "pecas": [
+      "elmo",
+      "peitoral",
+      "luvas",
+      "botas"
+    ],
+    "uso": "Uniforme de Noel e conjunto inicial equipável da campanha; mesmos quatro recursos e rig. Drops exclusivos da campanha.",
+    "referencia": "res://arte/fontes/armaduras/guarda_novato/referencia_usuario.png"
+  }
+}

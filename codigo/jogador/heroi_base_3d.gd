@@ -3,7 +3,7 @@ extends Node2D
 ## Library) com proporção chibi, roupas/cabelo independentes e acabamento de
 ## paleta opcional. Corte e plantio próprios; demais ações vêm dos clipes prontos.
 ## A espada é presa a um osso: nas costas fora do golpe, na mão no golpe.
-## Ações ainda sem animação voltam ao Raven 2D.
+## Todas as ações do jogador são desenhadas aqui; sem animação própria, usam a mais próxima.
 const CENA_EDITAVEL := "res://cenas/personagem/base_3d/personagem.tscn"
 const CENA_COMPILADA := "res://cenas/personagem/base_3d/personagem.scn"
 const ARQUIVO := "res://assets/personagens/base_3d/manequim_ual1.glb"
@@ -712,7 +712,8 @@ func _acao_do_jogador() -> String:
 	if not invocacao.is_empty(): return invocacao
 	if _jogador.esta_sentado:
 		return "sentar" if _jogador._tempo_sentado<TEMPO_SENTAR else "sentado"
-	if _jogador.esta_forjando: return ""
+	# Sem animação de forja: fica de pé diante da bigorna.
+	if _jogador.esta_forjando: return "parado"
 	if _jogador.esta_em_acao_fazenda:
 		var acao: String=_jogador.no_fazenda.acao_atual
 		if acao in ["enxada","picareta"]: return "fazenda_"+acao
@@ -735,7 +736,8 @@ func _acao_do_jogador() -> String:
 	if _jogador._esta_atacando:
 		if _jogador.usando_lanca: return "lanca"
 		if _arma_pesada() != null: return "pesada"
-		return "espada" if _tem_espada() else ""
+		# Sem espada o golpe usa o mesmo movimento; a lâmina fica escondida.
+		return "espada"
 	return "correr" if _jogador.velocity.length() > 2.0 else "parado"
 
 ## Cores da personalização (aparencia_raven): tom de pele 0..2, cor do cabelo e dos olhos.

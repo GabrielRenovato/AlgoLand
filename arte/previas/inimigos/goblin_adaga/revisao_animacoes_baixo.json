@@ -1,0 +1,98 @@
+{
+  "escopo": "correcao do movimento de corrida para baixo com referencia externa; aparencia preservada",
+  "ferramenta_arte": "image_gen integrado; fontes originais, prompts e correcoes isoladas preservados",
+  "altura_guarda_px": 30.956,
+  "escala": 0.071,
+  "corrida": {
+    "quadros": 8,
+    "duracao_ms": 400,
+    "velocidade_referencia_px_s": 100,
+    "loop": true,
+    "ordem_fontes": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "observacao": "Apoios alternados e compressão em 1/5; perna recuada encurta, braços se opõem à perna em avanço. Cabeça acompanha tronco em pequena oscilação vertical, com orientação frontal contínua; removidos grandes acenos e extensão excessiva do pescoço. Revisados oito quadros, transições e 7→0 na sequência capturada no motor.",
+    "correcoes_isoladas_herdadas": [
+      1,
+      6
+    ],
+    "fonte": "corrida_baixo_referencia_v1.png",
+    "referencia_movimento": {
+      "autor": "Oul Studio",
+      "pagina": "https://oul-studio.itch.io/top-down-player-template",
+      "arquivo": "arte/fontes/inimigos/goblin_adaga/referencias_internet/oul_corrida_frontal_limpa.png",
+      "aplicacao": "referência de coordenação, não cópia literal de articulações/pixels"
+    }
+  },
+  "combo": {
+    "golpes": [
+      "corte diagonal para baixo",
+      "retorno diagonal",
+      "estocada frontal para baixo"
+    ],
+    "quadros": 12,
+    "duracao_ms": 1250,
+    "duracao_golpes_sem_intervalos_ms": 850,
+    "intervalo_entre_golpes_ms": 200,
+    "impactos_ms": [
+      100,
+      550,
+      1020
+    ],
+    "loop": false,
+    "observacao": "Cabeça acompanha os cortes com inclinação e recolhe o queixo na estocada; pescoço comprime no seguimento e estende na recuperação. Adaga na mão anatômica direita, pausas preservadas e retorno à guarda frontal."
+  },
+  "revisao_visual": {
+    "quadros_e_trajetorias_inspecionados": true,
+    "reproducao_Godot": "4.7.2; projeto e save exclusivos; dois combos, mais de quatro ciclos de corrida e dois com deslocamento para baixo",
+    "cenario_real": "Bacia do Moinho; jogador ao lado",
+    "evidencias": [
+      "no_mapa_baixo.png",
+      "reproducao_motor_baixo.gif",
+      "corrida_deslocamento_motor_baixo.gif",
+      "reproducao_motor_baixo_contato.png",
+      "deslocamento_motor_baixo_contato.png",
+      "correr_baixo_contato.png",
+      "combo_baixo_contato.png"
+    ],
+    "metodo": "Contatos de todos os quadros dos atlas e sequência de capturas da reprodução real no Godot, com deslocamento; GIFs exportados dos mesmos quadros/tempos.",
+    "aprovacao_usuario": false,
+    "limite": "Inspeção de quadros e trajetórias nas capturas; não se afirma reprodução visual do GIF pelo visualizador estático."
+  },
+  "verificacoes": {
+    "perfil": "selecionado --teste goblin_adaga_animacoes",
+    "direcoes": [
+      "direita",
+      "baixo"
+    ],
+    "ok": 28,
+    "falhas": 0,
+    "relatorio": "/tmp/algoland-harness/execucao-qxcmul3j/relatorio.json",
+    "execucao_anterior": "27 OK e 1 falha na aferição por relógio dos intervalos do combo baixo durante revisão concorrente; repetição isolada sem mudanças no recurso ou teste: 28 OK, zero falhas."
+  },
+  "auditoria_referencias": {
+    "falhas_gerais": 8,
+    "falhas_nos_arquivos_desta_tarefa": 0,
+    "log": "/tmp/algoland-adaga-referencias-baixo.log"
+  },
+  "arquivos": {
+    "recursos": "assets/inimigos/goblin_adaga/animacoes.tres",
+    "contrato_e_prompts": "arte/fontes/inimigos/goblin_adaga/contrato_animacoes_baixo.md",
+    "cena_visual": "cenas/inimigos/goblin_adaga_visual.tscn"
+  },
+  "fontes_cabeca": [
+    "corrida_baixo_referencia_v1.png",
+    "combo_baixo_cabeca_v1.png"
+  ],
+  "prompts_cabeca": [
+    "prompt_cabeca_corrida_baixo.txt",
+    "prompt_cabeca_combo_baixo.txt"
+  ]
+}

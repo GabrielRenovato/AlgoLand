@@ -22,6 +22,9 @@ GRUPOS = {
     "sistemas": ["inventario", "fazenda", "plantio", "pocoes", "defesa", "morte", "transicoes", "introducao", "dialogo_cidade", "varas_catalogo", "cartas_peixes", "peixes_mochila", "loja_nilo_pedidos", "progresso_pesca", "pesca", "retratos_dialogo"],
 }
 ARGUMENTOS_TESTES = {"economia_festa": ["--festa-coop"], "pesca_coop": ["--ambos", "--p1-sai"]}
+ARGUMENTOS_TESTES["fontes_web"] = ["--capturas=res://capturas-fontes-web"]
+ARGUMENTOS_TESTES["percurso_campanha"] = ["--capturas=res://capturas-campanha"]
+ARGUMENTOS_TESTES["mapas_campanha"] = ["--capturas=res://capturas-mapas-campanha"]
 # Uma ocorrência exata: o teste injeta JSON inválido e verifica a recuperação.
 ERROS_ESPERADOS = {"calendario": ["ERROR: Parse JSON failed. Error at line 0: Expected 'true', 'false', or 'null', got 'isto'"]}
 ERROS = re.compile(r"SCRIPT ERROR|Parse Error|^ERROR:|^FALHA(?:\s|:)|^FALHAS:\s*[1-9]", re.M)

@@ -35,7 +35,7 @@ func _ready() -> void:
 # --- Pacote
 
 static func tem_save_local() -> bool:
-	return FileAccess.file_exists("user://configuracao_jogador.json")
+	return FileAccess.file_exists("user://configuracao_jogador.json") or FileAccess.file_exists("user://percurso_primeira_raiz/configuracao_jogador.json")
 
 static func codificar(pacote: Dictionary) -> String:
 	var bytes := JSON.stringify(pacote).to_utf8_buffer()

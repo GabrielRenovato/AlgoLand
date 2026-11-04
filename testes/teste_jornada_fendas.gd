@@ -48,12 +48,23 @@ func rodar() -> void:
 			if i.has_node("PatrulhaAndar"): i.get_node("PatrulhaAndar").set_physics_process(false)
 		var comuns := 0
 		var elites := 0
+		var goblins_por_grupo := {}
 		for i in gerador._populacao:
 			if i.has_meta("elite_andar"): elites += 1
 			else: comuns += 1
+			if andar == 4 and i.has_meta("grupo_andar"):
+				var grupo_nome: String = str(i.get_meta("grupo_andar"))
+				if not goblins_por_grupo.has(grupo_nome): goblins_por_grupo[grupo_nome] = {"adaga":0,"machado":0}
+				if i.scene_file_path.ends_with("goblin_pomar.tscn"): goblins_por_grupo[grupo_nome].adaga += 1
+				elif i.scene_file_path.ends_with("goblin_machado_fenda.tscn"): goblins_por_grupo[grupo_nome].machado += 1
 		var esperados := 0
 		for s in dados.setores: esperados += int(s.grupos)*int(dados.combate.comuns_por_grupo)
 		verificar("populacao completa e dois tipos de recompensa %d" % andar, comuns == esperados and elites == int(dados.combate.elites))
+		if andar == 4:
+			var mistura_por_camara := goblins_por_grupo.size()==terreno.get_node("GruposCombate").get_child_count()
+			for mistura in goblins_por_grupo.values():
+				if int(mistura.adaga)<1 or int(mistura.machado)<1:mistura_por_camara=false
+			verificar("cada câmara mistura goblins de adaga e machado",mistura_por_camara)
 		var disponivel: int = comuns*int(dados.combate.pontos_comum)+elites*int(dados.combate.pontos_elite)
 		verificar("100 por cento alcancavel com sobra %d" % andar, gerente.META_PROGRESSO == Catalogo.meta(andar) and disponivel > gerente.META_PROGRESSO)
 		var mapa := terreno.get_world_2d().navigation_map

@@ -1,0 +1,6 @@
+{
+  "causa": "O recorte da cabeça pintada eliminava a pele da nuca e a cabeça infantil ficava acima do pescoço, deixando uma linha transparente.",
+  "correcao": "Preservar a base posterior da cabeça e pele do pescoço no material infantil; encaixar a cabeça menor ao pescoço sem alterar os adultos.",
+  "revisao": "Quatro vistas das três crianças no Godot; teste de linhas transparentes nas costas parado e caminhando.",
+  "flag_material": "preservar_nuca; false por padrão, true somente no manequim infantil."
+}

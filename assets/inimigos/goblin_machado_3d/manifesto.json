@@ -1,0 +1,37 @@
+{
+  "arquivo": "res://assets/inimigos/goblin_machado_3d/goblin_machado.glb",
+  "fonte": "arte/fontes/inimigos/goblin_machado_3d/goblin_machado.blend",
+  "referencia": "referencia.png",
+  "pintura": "materiais_pixel.png",
+  "altura_m": 1.723,
+  "triangulos": 70532,
+  "superficies": 27,
+  "materiais": 20,
+  "metodo": "escultura volumétrica original Blender com UVs e albedos pixelados incorporados",
+  "frente_blender": "-Y",
+  "frente_godot": "+Z",
+  "animacoes": 0,
+  "rig": false,
+  "limites": [
+    "modelo estático",
+    "não integrado à campanha",
+    "sem perfil de desempenho mobile"
+  ],
+  "versao_animada": {
+    "arquivo": "res://assets/inimigos/goblin_machado_3d/goblin_machado_animado.glb",
+    "fonte": "arte/fontes/inimigos/goblin_machado_3d/goblin_machado_animado.blend",
+    "ficha": "arte/fontes/inimigos/goblin_machado_3d/animacoes.json",
+    "rig_ossos": 23,
+    "clipes": [
+      "parado",
+      "andar",
+      "correr",
+      "ataque_1",
+      "ataque_2",
+      "ferido",
+      "morrer"
+    ],
+    "ataques": "Duas cadências do Great Sword Slash do Mixamo, adaptadas ao machado",
+    "integracao": "Cena visual independente; sem IA ou dano"
+  }
+}

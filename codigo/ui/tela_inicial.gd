@@ -324,6 +324,7 @@ func _montar_menu() -> void:
 	botao_sim.pressed.connect(_ao_confirmar_novo_jogo)
 	botao_nao.pressed.connect(_fechar_painel)
 	_montar_coop()
+	_montar_campanha()
 	_montar_transferencia()
 	_montar_conta()
 	var primeiro := botao_continuar if botao_continuar.visible else botao_novo_jogo
@@ -583,6 +584,26 @@ var _botao_coop: Button
 var _botao_continuar_coop: Button
 var _botao_novo_coop: Button
 var _confirmando_novo_coop := false
+
+## Campanha (beta): mundo de save próprio em user://percurso_primeira_raiz/. Quem já tem personagem no solo leva a
+## aparência; quem não tem cria um antes do mapa.
+func _montar_campanha() -> void:
+	var botao := botao_novo_jogo.duplicate() as Button
+	botao.name = "BotaoCampanha"
+	botao.unique_name_in_owner = false
+	botao.text = "CAMPANHA (BETA)"
+	menu.add_child(botao)
+	menu.move_child(botao, botao_novo_jogo.get_index() + 1)
+	botao.pressed.connect(_ao_campanha)
+	_configurar_botao(botao)
+
+func _ao_campanha() -> void:
+	if _saindo:
+		return
+	Saves.trocar(Saves.CAMPANHA)
+	if not Saves.existe_mundo(Saves.CAMPANHA) and FileAccess.file_exists(caminho_save_personagem):
+		DirAccess.copy_absolute(ProjectSettings.globalize_path(caminho_save_personagem), ProjectSettings.globalize_path(Saves.caminho_personagem()))
+	_trocar_cena("res://cenas/campanha/seletor_campanha.tscn" if Saves.existe_mundo(Saves.CAMPANHA) else CENA_CUSTOMIZACAO)
 
 func _montar_coop() -> void:
 	_botao_coop = botao_novo_jogo.duplicate() as Button

@@ -1,0 +1,27 @@
+{
+  "estado": "base aceita pelo usuário para iniciar animações; direita produzida em revisão própria",
+  "motivo": "Usuário rejeitou reaproveitamento do mesmo goblin de adaga com outra arma",
+  "fonte": "arte/fontes/inimigos/goblin_machado_2d/modelo_proprio_direita_v1.png",
+  "prompt": "arte/fontes/inimigos/goblin_machado_2d/prompt_modelo_proprio.txt",
+  "gerador": "image_gen integrado",
+  "recurso": "assets/inimigos/goblin_machado_2d/modelo_direita.png",
+  "registro": {
+    "celula": [
+      640,
+      640
+    ],
+    "raiz": [
+      320,
+      560
+    ],
+    "escala": 0.071,
+    "altura_corpo_px": 31.24,
+    "transformacao": "fonte1312×1199 redimensionada uniformemente para largura614, altura561; deslocamento54,20; alfa residual<16 removido; sem recortar/recentralizar contorno"
+  },
+  "revisao_visual": "Fonte ampliada e captura real no Godot inspecionadas, player/adaga/machado no mesmo chão. Rosto quadrado, moicano curto, ombreira/gola, torso largo e machado com duas mãos distinguem a identidade. Ainda não há corrida/ataque para esta nova base.",
+  "aprovacao_artistica_usuario": true,
+  "evidencias": [
+    "modelo_proprio_no_mapa.png",
+    "modelo_proprio_comparacao_ampliada.png"
+  ]
+}

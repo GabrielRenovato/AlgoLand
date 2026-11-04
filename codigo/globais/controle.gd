@@ -242,7 +242,7 @@ func rotulo_acao(acao: String, no: Node = null) -> String:
 		if evento is InputEventKey:
 			var tecla: Key = evento.keycode
 			if tecla == KEY_NONE:
-				tecla = evento.physical_keycode if OS.has_feature("web") else DisplayServer.keyboard_get_keycode_from_physical(evento.physical_keycode)
+				tecla = evento.physical_keycode if OS.has_feature("web") or DisplayServer.get_name() == "headless" else DisplayServer.keyboard_get_keycode_from_physical(evento.physical_keycode)
 			return OS.get_keycode_string(tecla).to_upper()
 	return ""
 

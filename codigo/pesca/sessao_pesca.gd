@@ -169,6 +169,13 @@ func _lancar() -> void:
 			_terminar()
 			return
 		_alvo = jogador.to_local(destino)
+	var cena := Cooperativo.cena_de(jogador)
+	if ambiente=="rio" and cena!=null and cena.has_method("alvo_pesca_rio"):
+		var destino: Vector2 = cena.alvo_pesca_rio(jogador.to_global(Vector2(0,14)),_frente,alcance)
+		if not destino.is_finite():
+			_terminar()
+			return
+		_alvo=jogador.to_local(destino)
 	# O lago pequeno limita a linha à água real, sem lançar a boia sobre a margem oposta.
 	if ambiente == "rio":
 		for lago in get_tree().get_nodes_in_group("lago_fazenda"):
@@ -278,6 +285,10 @@ func _pegar(perfeita := false) -> void:
 			return
 		_xp_ganha = Progressao.xp(jogador) - xp_antes
 		preload("res://codigo/pesca/varas.gd").registrar_peixe(jogador)
+		var cena := Cooperativo.cena_de(jogador)
+		if ambiente=="rio" and cena!=null and cena.has_method("registrar_captura_pesca"):
+			cena.registrar_captura_pesca(peixe)
+
 	Sons.tocar("moeda", 0.05)
 	_avisar_online()
 	if _sombra != null:

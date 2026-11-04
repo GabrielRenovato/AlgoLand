@@ -360,7 +360,7 @@ func _atualizar() -> void:
 	else:
 		_titulo_materiais.text = "CUSTO"
 		_dados.text = "AVE - %d BRASAS\nGALINHEIRO: %d / %d AVES" % [Criacao.PRECO_GALINHA, estado.aves.size() + int(int(estado.incubacao) >= 0), Criacao.CAPACIDADES[nivel]]
-		_linha_custo("BRASAS", "res://assets/ui/fazenda/brasa.png" if ResourceLoader.exists("res://assets/ui/fazenda/brasa.png") else "", Progresso.brasas, Criacao.PRECO_GALINHA)
+		_linha_custo("BRASAS", "res://assets/ui/icone_brasa.png", Progresso.brasas, Criacao.PRECO_GALINHA)
 		if nivel == 0:
 			motivo = "CONSTRUA O GALINHEIRO PRIMEIRO"
 		elif estado.aves.size() + int(int(estado.incubacao) >= 0) >= Criacao.CAPACIDADES[nivel]:

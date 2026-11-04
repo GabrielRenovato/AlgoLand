@@ -21,7 +21,7 @@ func rodar():
 			if categoria=="calca" and modelo.forma>=3:
 				malha=preload("res://codigo/jogador/visuais_femininos_3d.gd").saia(h._moldes_roupas[i],h._modelo.find_child("CorpoBase",true,false),h._esqueleto,modelo.forma)
 			else:
-				malha=catalogo.malha(h._moldes_roupas[i],categoria,modelo.forma)
+				malha=catalogo.malha(h._moldes_roupas[i],categoria,modelo.forma,preload("res://codigo/jogador/roupas_modeladas_3d.gd").ligacoes(h._modelo.find_child("CorpoBase",true,false),h._esqueleto))
 			var faixas: Dictionary=h.PELE_PIXEL.extensoes(malha,h._pecas[i],h._esqueleto)
 			h.PELE_PIXEL.guardar_malha(modelo.id,malha,h.PELE_PIXEL.com_uv_pixel(malha,h._pecas[i],h._esqueleto))
 			var imagem: Image=gerador.pintar(categoria,modelo.estilo,faixas)

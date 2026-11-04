@@ -5,121 +5,173 @@
   "estacao": 3,
   "grade": 16,
   "limites": [
-    -1250,
-    -640,
-    2500,
-    1280
+    -1392,
+    -928,
+    2784,
+    1856
   ],
   "entrada": [
-    -1056,
+    -1232,
     0
   ],
   "guardiao": [
-    1024,
-    -272
+    1200,
+    0
   ],
   "setores": [
     {
       "id": "entrada",
       "nome": "Portal",
       "centro": [
-        -1056,
+        -1232,
         0
       ],
       "raios": [
-        136,
-        112
+        160,
+        128
       ],
       "grupos": 0
     },
     {
       "id": "area_1",
-      "nome": "Camara 1",
+      "nome": "Galeria das Raízes Altas",
       "centro": [
-        -768,
-        -416
+        -944,
+        -560
       ],
       "raios": [
-        136,
-        112
+        176,
+        144
       ],
       "grupos": 1
     },
     {
       "id": "area_2",
-      "nome": "Camara 2",
+      "nome": "Galeria das Raízes Baixas",
       "centro": [
-        -640,
-        416
+        -960,
+        512
       ],
       "raios": [
-        136,
-        112
+        176,
+        144
       ],
       "grupos": 1
     },
     {
       "id": "area_3",
-      "nome": "Camara 3",
+      "nome": "Câmara dos Veios",
       "centro": [
-        -176,
-        -192
+        -544,
+        -320
       ],
       "raios": [
-        136,
-        112
+        176,
+        144
       ],
       "grupos": 1
     },
     {
       "id": "area_4",
-      "nome": "Camara 4",
+      "nome": "Câmara do Eco",
       "centro": [
-        176,
-        336
+        -448,
+        592
       ],
       "raios": [
-        136,
-        112
+        176,
+        144
       ],
       "grupos": 1
     },
     {
       "id": "area_5",
-      "nome": "Camara 5",
+      "nome": "Salão das Colunas",
       "centro": [
-        464,
-        -384
+        -64,
+        -592
       ],
       "raios": [
-        136,
-        112
+        184,
+        152
       ],
       "grupos": 1
     },
     {
       "id": "area_6",
-      "nome": "Camara 6",
+      "nome": "Salão das Poças",
       "centro": [
-        768,
-        160
+        32,
+        224
       ],
       "raios": [
-        136,
-        112
+        184,
+        152
+      ],
+      "grupos": 1
+    },
+    {
+      "id": "area_7",
+      "nome": "Ninho de Pedra",
+      "centro": [
+        448,
+        -400
+      ],
+      "raios": [
+        176,
+        144
+      ],
+      "grupos": 1
+    },
+    {
+      "id": "area_8",
+      "nome": "Câmara das Lianas",
+      "centro": [
+        448,
+        624
+      ],
+      "raios": [
+        176,
+        144
+      ],
+      "grupos": 1
+    },
+    {
+      "id": "area_9",
+      "nome": "Galeria do Coração",
+      "centro": [
+        -256,
+        64
+      ],
+      "raios": [
+        176,
+        144
+      ],
+      "grupos": 1
+    },
+    {
+      "id": "area_10",
+      "nome": "Câmara do Guardião",
+      "centro": [
+        816,
+        64
+      ],
+      "raios": [
+        176,
+        144
       ],
       "grupos": 1
     },
     {
       "id": "guardiao",
-      "nome": "Guardiao",
+      "nome": "Câmara da Comporta",
       "centro": [
-        1024,
-        -272
+        1200,
+        0
       ],
       "raios": [
-        176,
-        144
+        192,
+        168
       ],
       "grupos": 0
     }
@@ -128,106 +180,197 @@
     {
       "pontos": [
         [
-          -1056,
+          -1232,
           0
         ],
         [
-          -768,
-          -416
+          -944,
+          -560
         ]
       ],
-      "raio": 80
+      "raio": 64
     },
     {
       "pontos": [
         [
-          -1056,
+          -1232,
           0
         ],
         [
-          -640,
-          416
+          -960,
+          512
         ]
       ],
-      "raio": 80
+      "raio": 64
     },
     {
       "pontos": [
         [
-          -768,
-          -416
+          -944,
+          -560
         ],
         [
-          -176,
-          -192
+          -544,
+          -320
         ]
       ],
-      "raio": 80
+      "raio": 64
     },
     {
       "pontos": [
         [
-          -640,
-          416
+          -960,
+          512
         ],
         [
-          176,
-          336
+          -448,
+          592
         ]
       ],
-      "raio": 80
+      "raio": 64
     },
     {
       "pontos": [
         [
-          -176,
-          -192
+          -544,
+          -320
         ],
         [
-          464,
-          -384
+          -64,
+          -592
         ]
       ],
-      "raio": 80
+      "raio": 64
     },
     {
       "pontos": [
         [
-          176,
-          336
+          -448,
+          592
         ],
         [
-          768,
-          160
+          32,
+          224
         ]
       ],
-      "raio": 80
+      "raio": 64
     },
     {
       "pontos": [
         [
-          464,
-          -384
+          -544,
+          -320
         ],
         [
-          768,
-          160
+          -256,
+          64
         ]
       ],
-      "raio": 80
+      "raio": 64
     },
     {
       "pontos": [
         [
-          768,
-          160
+          -448,
+          592
         ],
         [
-          1024,
-          -272
+          -256,
+          64
         ]
       ],
-      "raio": 80
+      "raio": 64
+    },
+    {
+      "pontos": [
+        [
+          -256,
+          64
+        ],
+        [
+          -64,
+          -592
+        ]
+      ],
+      "raio": 64
+    },
+    {
+      "pontos": [
+        [
+          -256,
+          64
+        ],
+        [
+          32,
+          224
+        ]
+      ],
+      "raio": 64
+    },
+    {
+      "pontos": [
+        [
+          -64,
+          -592
+        ],
+        [
+          448,
+          -400
+        ]
+      ],
+      "raio": 64
+    },
+    {
+      "pontos": [
+        [
+          32,
+          224
+        ],
+        [
+          448,
+          624
+        ]
+      ],
+      "raio": 64
+    },
+    {
+      "pontos": [
+        [
+          448,
+          -400
+        ],
+        [
+          816,
+          64
+        ]
+      ],
+      "raio": 64
+    },
+    {
+      "pontos": [
+        [
+          448,
+          624
+        ],
+        [
+          816,
+          64
+        ]
+      ],
+      "raio": 64
+    },
+    {
+      "pontos": [
+        [
+          816,
+          64
+        ],
+        [
+          1200,
+          0
+        ]
+      ],
+      "raio": 64
     }
   ],
   "lago": {
@@ -237,16 +380,23 @@
   "combate": {
     "comuns_por_grupo": 6,
     "elites": 2,
-    "meta": 101,
+    "meta": 158,
     "pontos_comum": 3,
     "pontos_elite": 9,
-    "fracao_exigida": 0.802
+    "fracao_exigida": 0.798
   },
-  "guardiao_id": "medusa",
+  "guardiao_id": "lorde_goblin",
   "contrato_visual": {
     "referencia": "RPGW_Caves_v2.1: MainLev2.0.png e decorative.png",
     "grade": "Peças32x32 originais subdivididas na grade16x16, sem escala",
     "estacoes": "quatro folhas privadas e calendario",
-    "encaixe": "Contexto das peças originais e bordas nativas; colisão derivada da transparência"
+    "encaixe": "Câmaras amplas irregulares e galerias de 128 px; a mesma máscara orienta paredes, colisão e navegação."
+  },
+  "historia": {
+    "missao": "A água que deixou de voltar",
+    "objetivo": "Liberar a comporta principal pela alavanca interna após vencer o guardião.",
+    "guardiao_pendente": true,
+    "ocupacao": "Goblins de adaga e machado ocupam as antigas galerias do canal.",
+    "recursos": "Objetos próprios; sem Mana Seed."
   }
 }

@@ -28,6 +28,16 @@ assert.equal(recebidas.get('d').some(m=>m.t==='coop_sinal'),false);
 const total=recebidas.get('b').length;
 for(const dados of [{tipo:'mundo',segredo:1},{tipo:'offer',sdp:'x'.repeat(6001)},{tipo:'ice',mid:'0',indice:-1,candidato:'x'}])coop.aoMensagem(a,{t:'coop_sinal',para:'b',dados});
 assert.equal(recebidas.get('b').length,total,'não transporta gameplay, SDP grande ou ICE inválido');
+// Relay: anfitrião para todos ou um convidado; convidado só para o anfitrião.
+coop.aoMensagem(a,{t:'coop_rede',p:[{p:'*',e:1,m:{t:'jogador',x:1}},{p:'d',e:0,m:{t:'dano'}}]});
+assert.deepEqual(recebidas.get('b').at(-1),{t:'coop_rede',p:[{de:'a',e:1,m:{t:'jogador',x:1}}]});
+assert.deepEqual(recebidas.get('d').at(-1),{t:'coop_rede',p:[{de:'a',e:1,m:{t:'jogador',x:1}},{de:'a',e:0,m:{t:'dano'}}]});
+coop.aoMensagem(b,{t:'coop_rede',p:[{p:'d',e:0,m:{t:'golpe'}}]});
+assert.deepEqual(recebidas.get('a').at(-1),{t:'coop_rede',p:[{de:'b',e:0,m:{t:'golpe'}}]},'convidado só fala com o anfitrião');
+assert.equal(recebidas.get('d').at(-1).p.length,2);
+const antesRede=recebidas.get('c').length;
+coop.aoMensagem(c,{t:'coop_rede',p:[{p:'*',e:0,m:{t:'x'}}]});
+assert.equal(recebidas.get('c').length,antesRede,'fora da sala não repassa');
 coop.aoMensagem(b,{t:'coop_iniciar'});
 coop.aoMensagem(c,{t:'coop_listar'});
 assert.equal(recebidas.get('c').at(-1).salas[0].em_partida,false,'só o anfitrião inicia');
@@ -74,6 +84,9 @@ await ate(y,m=>m.t==='coop_sala');
 const yid=(await ate(y,m=>m.eu)).eu;
 x.ws.send(JSON.stringify({t:'coop_sinal',para:yid,dados:{tipo:'offer',sdp:'sdp-teste'}}));
 assert.equal((await ate(y,m=>m.t==='coop_sinal')).dados.sdp,'sdp-teste');
+// Relay pelo socket real: um lote por quadro passa da janela de 30/s das outras mensagens.
+for(let i=0;i<40;i++)x.ws.send(JSON.stringify({t:'coop_rede',p:[{p:'*',e:0,m:{t:'n',i}}]}));
+assert.equal((await ate(y,m=>m.t==='coop_rede'&&m.p[0].m.i===39)).p[0].de,criada.dono);
 x.ws.close();
 const fim=await ate(y,m=>m.t==='coop_fim');
 assert.equal(fim.motivo,'parceiro_saiu');

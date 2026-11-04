@@ -44,7 +44,6 @@ func _rodar() -> void:
 	var jogador := current_scene.get_node("Jogador")
 	jogador.set_physics_process(false)
 	jogador.position = Vector2(376, 256)
-	jogador.add_child(load("res://codigo/jogador/heroi_tiny.gd").new())
 	for hud in get_nodes_in_group("hud"):
 		hud.hide()
 	for n in current_scene.find_children("*", "CanvasLayer", true, false):

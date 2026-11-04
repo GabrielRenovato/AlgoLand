@@ -30,8 +30,26 @@ var _estacao := -1
 var _rng := RandomNumberGenerator.new()
 var _volume: ArrayMesh
 var _tufo: ArrayMesh
+## Supersample da grama (tela 3D maior que o pixel lógico, reduzida com filtro linear): 3x afina as lâminas no PC;
+## no celular 2x desenha 44% dos pixels e mantém a forma das lâminas (1,5x já granulava).
+var _fator_grama := 3.0
+## Blocos e frentes de grama sem ninguém perto só animam o vento: redesenhados a cada N quadros, não a todo quadro.
+var _passo_vento := 2
+var _quadro := 0
+## Mundo 3D único: o solo e a grama de todos os blocos moram na mesma cena e saem de duas telas do tamanho da
+## tela do jogo (antes eram 24 blocos x 2 telas por bloco). A câmera 3D segue a Camera2D, travada na grade de 2 px.
+var _mundo: Dictionary = {}
+var _visor_grama: SubViewport
+var _camera_grama: Camera3D
+var _imagem_solo: Sprite2D
+var _imagem_grama: Sprite2D
+var _tamanho_mundo := Vector2i.ZERO
+const MARGEM_MUNDO := 64
 
 func _ready() -> void:
+	if preload("res://codigo/globais/dispositivo.gd").celular():
+		_fator_grama = 2.0
+		_passo_vento = 3
 	_solo = ShaderMaterial.new()
 	_solo.shader = preload("res://codigo/campanha/solo_bacia_lowpoly.gdshader")
 	_solo.set_shader_parameter("mascaras",load("res://assets/cenario/campanha/clareiras_modulares/mascaras.png"))
@@ -42,10 +60,70 @@ func _ready() -> void:
 	_pedra = StandardMaterial3D.new()
 	_volume = FABRICA.new().volume(46,3,7)
 	_tufo = _malha_tufo()
+	_criar_mundo()
 	for y in range(-512,512,256):
 		for x in range(-768,768,256):
 			_montar_bloco(Vector2(x,y))
 	terreno.terreno_alterado.connect(_ao_terreno_alterado)
+
+func _criar_mundo() -> void:
+	var tamanho := Vector2i(get_viewport_rect().size)+Vector2i.ONE*MARGEM_MUNDO
+	tamanho += Vector2i(tamanho.x%2,tamanho.y%2)
+	_mundo = _visor(tamanho,0,tamanho.y/PIXELS_METRO)
+	var visor: SubViewport = _mundo.visor
+	_visores.erase(visor)
+	visor.name = "MundoSolo"
+	visor.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+	(_mundo.camera as Camera3D).cull_mask = 1
+	_imagem_solo = Sprite2D.new()
+	_imagem_solo.name = "SoloMundo"
+	_imagem_solo.texture = visor.get_texture()
+	_imagem_solo.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	_imagem_solo.z_as_relative = false
+	_imagem_solo.z_index = terreno.Profundidade.Z_CHAO+1
+	add_child(_imagem_solo)
+	_visor_grama = SubViewport.new()
+	_visor_grama.name = "MundoGrama"
+	_visor_grama.transparent_bg = true
+	_visor_grama.world_3d = visor.find_world_3d()
+	_visor_grama.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+	add_child(_visor_grama)
+	_camera_grama = Camera3D.new()
+	_camera_grama.projection = Camera3D.PROJECTION_ORTHOGONAL
+	_camera_grama.cull_mask = 2
+	_camera_grama.position = Vector3(0,30,30)
+	_visor_grama.add_child(_camera_grama)
+	_camera_grama.look_at(Vector3.ZERO)
+	_camera_grama.current = true
+	_imagem_grama = Sprite2D.new()
+	_imagem_grama.name = "GramaMundo"
+	_imagem_grama.texture = _visor_grama.get_texture()
+	_imagem_grama.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
+	_imagem_grama.z_as_relative = false
+	_imagem_grama.z_index = terreno.Profundidade.Z_CHAO+2
+	add_child(_imagem_grama)
+	_ajustar_mundo(tamanho)
+
+func _ajustar_mundo(tamanho: Vector2i) -> void:
+	_tamanho_mundo = tamanho
+	_mundo.visor.size = tamanho
+	(_mundo.camera as Camera3D).size = tamanho.y/PIXELS_METRO
+	_visor_grama.size = Vector2i(Vector2(tamanho)*_fator_grama)
+	_camera_grama.size = tamanho.y/PIXELS_METRO
+	_imagem_grama.scale = Vector2.ONE/_fator_grama
+
+## Centra as duas telas no meio da área visível; chamado a cada quadro, então tem de ser barato.
+func _seguir_camera(visivel: Rect2) -> void:
+	var tamanho := Vector2i(visivel.size)+Vector2i.ONE*MARGEM_MUNDO
+	tamanho += Vector2i(tamanho.x%2,tamanho.y%2)
+	if tamanho != _tamanho_mundo: _ajustar_mundo(tamanho)
+	var centro := ((visivel.get_center()/2.0).round()*2.0)
+	var alvo := _ponto(centro)
+	(_mundo.camera as Camera3D).position = alvo+Vector3(0,30,30)
+	_camera_grama.position = alvo+Vector3(0,30,30)
+	_imagem_solo.position = centro
+	_imagem_grama.position = centro
+	_aplicar_filtro_pixel(_imagem_solo)
 
 func _ao_terreno_alterado(celula: Vector2i, _tipo: int) -> void:
 	var afetados: Dictionary = {}
@@ -126,20 +204,10 @@ func _peso_grama(p: Vector2) -> float:
 	return float(acumulado[0])/maxf(total,.001)
 
 func _montar_bloco(origem: Vector2) -> void:
-	if _blocos.has(origem):
-		var antigo: Dictionary = _blocos[origem]
-		_visores.erase(antigo.visor)
-		antigo.visor.queue_free()
-		antigo.imagem.queue_free()
-		_visores.erase(antigo.visor_grama)
-		antigo.visor_grama.queue_free()
-		antigo.imagem_grama.queue_free()
-	# Margem de 16px permite desenhar os tufos sem recortá-los nas emendas.
-	var centro := origem+Vector2(128,128)
-	var render := _visor(Vector2i(288,288),0,9.0)
-	var visor: SubViewport = render.visor
-	(render.camera as Camera3D).cull_mask = 1
-	visor.name = "Solo_%d_%d" % [origem.x,origem.y]
+	if _blocos.has(origem): _blocos[origem].no.queue_free()
+	var bloco := Node3D.new()
+	bloco.name = "Bloco_%d_%d" % [origem.x,origem.y]
+	_mundo.visor.add_child(bloco)
 	var st := SurfaceTool.new()
 	st.begin(Mesh.PRIMITIVE_TRIANGLES)
 	for y in range(int(origem.y/16),int(origem.y/16)+16):
@@ -151,13 +219,13 @@ func _montar_bloco(origem: Vector2) -> void:
 				st.set_normal(_normal(p))
 				st.set_uv((Vector2(indice%16,indice/16)+canto*.999+Vector2.ONE*.0005)/16.0)
 				st.set_uv2(p)
-				var vertice := _ponto(p-centro)
+				var vertice := _ponto(p)
 				vertice.y = _altura(p)
 				st.add_vertex(vertice)
 	var malha := MeshInstance3D.new()
 	malha.mesh = st.commit()
 	malha.material_override = _solo
-	visor.add_child(malha)
+	bloco.add_child(malha)
 	_rng.seed = int(origem.x)*771+int(origem.y)*139+840417
 	var tufos: Array[Transform3D] = []
 	var pedras: Array[Transform3D] = []
@@ -168,48 +236,15 @@ func _montar_bloco(origem: Vector2) -> void:
 			if terreno.peso_agua(p) > .30: continue
 			if _rng.randf() > smoothstep(.18,.80,_peso_grama(p)): continue
 			var b := Basis(Vector3.UP,_rng.randf()*TAU).scaled(Vector3.ONE*_rng.randf_range(.8,1.25))
-			tufos.append(Transform3D(b,_ponto(p-centro)+Vector3.UP*_altura(p)))
+			tufos.append(Transform3D(b,_ponto(p)+Vector3.UP*_altura(p)))
 	for i in 250:
 		var p := origem+Vector2(_rng.randf_range(3,253),_rng.randf_range(3,253))
 		if terreno._tipo_canto(Vector2i((p/16).floor())) != 1 or terreno.peso_agua(p) > .1: continue
 		var b := Basis(Vector3.UP,_rng.randf()*TAU).scaled(Vector3(_rng.randf_range(.035,.09),.03,_rng.randf_range(.03,.075)))
-		pedras.append(Transform3D(b,_ponto(p-centro)+Vector3(0,_altura(p)+.015,0)))
-	_gramados[origem] = _instancias(visor,_tufo,_grama,tufos,centro,true)
-	_instancias(visor,_volume,_pedra,pedras)
-	var imagem := Sprite2D.new()
-	imagem.texture = visor.get_texture()
-	imagem.position = centro
-	imagem.scale = Vector2.ONE
-	imagem.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-	imagem.z_as_relative = false
-	imagem.z_index = terreno.Profundidade.Z_CHAO+1
-	add_child(imagem)
-	_aplicar_filtro_pixel(imagem)
-	var visor_grama := SubViewport.new()
-	visor_grama.size = Vector2i(864,864)
-	visor_grama.transparent_bg = true
-	visor_grama.world_3d = visor.find_world_3d()
-	add_child(visor_grama)
-	_visores.append(visor_grama)
-	var camera_grama := Camera3D.new()
-	camera_grama.projection = Camera3D.PROJECTION_ORTHOGONAL
-	camera_grama.size = 9.0
-	camera_grama.position = Vector3(0,30,30)
-	camera_grama.cull_mask = 2
-	visor_grama.add_child(camera_grama)
-	camera_grama.look_at(Vector3.ZERO)
-	camera_grama.current = true
-	var imagem_grama := Sprite2D.new()
-	imagem_grama.texture = visor_grama.get_texture()
-	imagem_grama.position = centro
-	imagem_grama.scale = Vector2.ONE/3.0
-	imagem_grama.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
-	imagem_grama.z_as_relative = false
-	imagem_grama.z_index = terreno.Profundidade.Z_CHAO+2
-	add_child(imagem_grama)
-	_blocos[origem] = {"visor":visor,"imagem":imagem,"visor_grama":visor_grama,"imagem_grama":imagem_grama}
-	for item in _vegetacao:
-		if is_instance_valid(item.sprite): _sombra_3d(item.registro,item.render,origem)
+		pedras.append(Transform3D(b,_ponto(p)+Vector3(0,_altura(p)+.015,0)))
+	_gramados[origem] = _instancias(bloco,_tufo,_grama,tufos,Vector2.ZERO,true)
+	_instancias(bloco,_volume,_pedra,pedras)
+	_blocos[origem] = {"no":bloco}
 
 func _instancias(pai: Node, malha: Mesh, material: Material, transformacoes: Array[Transform3D], centro := Vector2.ZERO, interativa := false) -> MultiMesh:
 	if transformacoes.is_empty(): return null
@@ -294,7 +329,7 @@ func substituir(registro: Dictionary) -> void:
 	_vegetacao.append({"sprite":sprite,"render":render,"escala":escala,"registro":registro})
 	_aplicar_sprite(_vegetacao.back())
 	_sombra(registro,tipo)
-	for origem in _blocos: _sombra_3d(registro,render,origem)
+	_sombra_3d(registro,render)
 	_montar_frente_base(registro)
 	sprite.tree_exiting.connect(_invalidar_sombras)
 
@@ -343,17 +378,14 @@ func _sombra(registro: Dictionary, tipo: String) -> void:
 	# Integra a sombra ao ciclo de remoção do objeto, sem deixar manchas órfãs.
 	registro.sprite.tree_exiting.connect(sombra.queue_free)
 
-func _sombra_3d(registro: Dictionary, render: Dictionary, origem: Vector2) -> void:
-	var centro := origem+Vector2(128,128)
-	var area := Rect2(origem,Vector2(256,256)).grow(160)
-	if not area.has_point(registro.ponto): return
+func _sombra_3d(registro: Dictionary, render: Dictionary) -> void:
 	var proxy := render.modelo.duplicate() as Node3D
-	proxy.position = _ponto(registro.ponto-centro+Vector2(0,-8))
+	proxy.position = _ponto(registro.ponto+Vector2(0,-8))
 	proxy.position.y = _altura(registro.ponto)
 	proxy.scale = Vector3.ONE*float(registro.largura)/(44.0 if registro.tipo == "arbustos" else 96.0)
 	for parte in proxy.get_children():
 		if parte is GeometryInstance3D: parte.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_SHADOWS_ONLY
-	_blocos[origem].visor.add_child(proxy)
+	_mundo.visor.add_child(proxy)
 	_proxies_sombra.append({"no":proxy,"modelo":render.modelo})
 	registro.sprite.tree_exiting.connect(proxy.queue_free)
 
@@ -384,6 +416,10 @@ func definir_estacao(indice: int) -> void:
 		if is_instance_valid(visor): visor.render_target_update_mode = SubViewport.UPDATE_ONCE
 
 func _process(delta: float) -> void:
+	# A região pode entrar na árvore antes de criar as telas compartilhadas.
+	# Mapas 2D com grama em blocos (vila, chegada, estrada) não têm mundo único, mas precisam reagir ao jogador.
+	var mundo_unico := not _mundo.is_empty() and is_instance_valid(_camera_grama)
+	if not mundo_unico and (not _mundo.is_empty() or _blocos.is_empty()): return
 	var jogadores := PackedVector4Array()
 	var atores_frente := PackedVector2Array()
 	var atores: Array[Node2D] = []
@@ -446,9 +482,13 @@ func _process(delta: float) -> void:
 		material.set_shader_parameter("quantidade_rastros",_rastros.size())
 		material.set_shader_parameter("atores_frente",atores_frente)
 		material.set_shader_parameter("quantidade_atores_frente",quantidade_atores_frente)
-	for origem in _blocos:
-		var bloco: Dictionary = _blocos[origem]
-		bloco.visor_grama.render_target_update_mode = SubViewport.UPDATE_ALWAYS if visivel.intersects(Rect2(origem,Vector2(256,256))) else SubViewport.UPDATE_DISABLED
+	_quadro += 1
+	var pisados: Array[Rect2] = []
+	for ator in atores:
+		var pes := _pes_ator(ator)
+		pisados.append(Rect2(pes-Vector2(24,24),Vector2(48,48)))
+	if mundo_unico: _seguir_camera(Rect2(inicio, fim - inicio).abs())
+	var n := 0
 	for chave in _frentes.keys():
 		var frente: Dictionary = _frentes[chave]
 		if not ativos.has(frente.ator):
@@ -459,17 +499,36 @@ func _process(delta: float) -> void:
 		frente.imagem.visible = false
 		frente.visor.render_target_update_mode = SubViewport.UPDATE_DISABLED
 	for base in _bases_frentes:
+		n += 1
 		if is_instance_valid(base.visor):
-			base.visor.render_target_update_mode = SubViewport.UPDATE_ALWAYS if visivel.has_point(base.p) else SubViewport.UPDATE_DISABLED
+			base.visor.render_target_update_mode = _modo_grama(visivel.has_point(base.p), Rect2(base.p-Vector2(32,24),Vector2(64,48)), pisados, n)
+	if not mundo_unico:
+		# Cada bloco tem o próprio mundo: o que está sob o jogador atualiza no mesmo quadro, o resto em rodízio.
+		for origem in _blocos:
+			n += 1
+			var visor: SubViewport = _blocos[origem].get("visor")
+			if not is_instance_valid(visor): continue
+			var area := Rect2(origem,Vector2(256,256))
+			if not visivel.intersects(area):
+				visor.render_target_update_mode = SubViewport.UPDATE_DISABLED
+			elif pisados.any(func(pisado: Rect2) -> bool: return area.intersects(pisado)):
+				visor.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+			else:
+				# Blocos de 864 px são caros: o vento só os redesenha de tempos em tempos.
+				visor.render_target_update_mode = SubViewport.UPDATE_ONCE if (_quadro+n)%8 == 0 else SubViewport.UPDATE_DISABLED
+		return
 	for ator in atores:
 		var pes := _pes_ator(ator)
 		if _peso_grama(pes) < .08: continue
-		var origens: Dictionary = {}
-		for dy in [-20.0,20.0]:
-			for dx in [-20.0,20.0]:
-				var origem := ((pes+Vector2(dx,dy))/256.0).floor()*256.0
-				if _blocos.has(origem): origens[origem] = true
-		for origem in origens: _atualizar_frente(ator,pes,origem)
+		_atualizar_frente(ator,pes)
+
+## Grama pisada responde no mesmo quadro; o resto só balança ao vento e é redesenhado em rodízio (cada tela num
+## quadro diferente, para o custo não cair todo de uma vez).
+func _modo_grama(visivel: bool, area: Rect2, pisados: Array[Rect2], indice: int) -> SubViewport.UpdateMode:
+	if not visivel: return SubViewport.UPDATE_DISABLED
+	for pisado in pisados:
+		if area.intersects(pisado): return SubViewport.UPDATE_ALWAYS
+	return SubViewport.UPDATE_ONCE if (_quadro + indice) % _passo_vento == 0 else SubViewport.UPDATE_DISABLED
 
 func _pes_ator(ator: Node2D) -> Vector2:
 	var altura: float = terreno.Profundidade.PES_JOGADOR
@@ -477,11 +536,11 @@ func _pes_ator(ator: Node2D) -> Vector2:
 		altura = float(ator.get("altura_pes"))
 	return ator.global_position + Vector2(0, altura)
 
-func _atualizar_frente(ator: Node2D, pes: Vector2, origem: Vector2) -> void:
-	var chave := "%d_%d_%d" % [ator.get_instance_id(),origem.x,origem.y]
+func _atualizar_frente(ator: Node2D, pes: Vector2) -> void:
+	var chave := "%d" % ator.get_instance_id()
 	if not _frentes.has(chave):
 		var visor := SubViewport.new()
-		visor.size = Vector2i(192,144)
+		visor.size = Vector2i(Vector2(64,48)*_fator_grama)
 		visor.transparent_bg = true
 		add_child(visor)
 		var camera := Camera3D.new()
@@ -492,7 +551,7 @@ func _atualizar_frente(ator: Node2D, pes: Vector2, origem: Vector2) -> void:
 		camera.current = true
 		var imagem := Sprite2D.new()
 		imagem.texture = visor.get_texture()
-		imagem.scale = Vector2.ONE/3.0
+		imagem.scale = Vector2.ONE/_fator_grama
 		imagem.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
 		var mascara := ShaderMaterial.new()
 		mascara.shader = preload("res://codigo/campanha/frente_grama_bacia.gdshader")
@@ -501,8 +560,8 @@ func _atualizar_frente(ator: Node2D, pes: Vector2, origem: Vector2) -> void:
 		add_child(imagem)
 		_frentes[chave] = {"visor":visor,"camera":camera,"imagem":imagem,"ator":ator.get_instance_id()}
 	var frente: Dictionary = _frentes[chave]
-	frente.visor.world_3d = _blocos[origem].visor.find_world_3d()
-	var alvo := _ponto(pes-origem-Vector2(128,128))
+	frente.visor.world_3d = _mundo.visor.find_world_3d()
+	var alvo := _ponto(pes)
 	frente.camera.position = alvo+Vector3(0,30,30)
 	frente.camera.look_at(alvo)
 	frente.imagem.position = pes
@@ -529,13 +588,13 @@ func _montar_frente_base(registro: Dictionary) -> void:
 			transformacao.origin = _ponto(p-centro)+Vector3.UP*dado.b
 			transformacoes.append(transformacao)
 	if transformacoes.is_empty(): return
-	var render := _visor(Vector2i(192,144),0,1.5)
+	var render := _visor(Vector2i(Vector2(64,48)*_fator_grama),0,1.5)
 	(render.camera as Camera3D).cull_mask = 2
 	var visor: SubViewport = render.visor
 	_instancias(visor,_tufo,_grama,transformacoes,centro,true)
 	var imagem := Sprite2D.new()
 	imagem.texture = visor.get_texture()
-	imagem.scale = Vector2.ONE/3.0
+	imagem.scale = Vector2.ONE/_fator_grama
 	imagem.position = centro
 	imagem.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
 	imagem.z_as_relative = false

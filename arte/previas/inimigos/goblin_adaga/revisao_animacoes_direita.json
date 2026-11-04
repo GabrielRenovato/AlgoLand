@@ -1,0 +1,59 @@
+{
+  "escopo": "corrida e combo somente para direita",
+  "ferramenta_arte": "image_gen integrado; fontes originais preservadas",
+  "altura_guarda_px": 31.027,
+  "escala": 0.071,
+  "corrida": {
+    "quadros": 8,
+    "duracao_ms": 400,
+    "velocidade_px_s": 100,
+    "loop": true,
+    "observacao": "Contatos próximos e distantes alternados; fases aéreas e fechamento 7→0 inspecionados na folha e na reprodução com deslocamento."
+  },
+  "combo": {
+    "golpes": [
+      "corte descendente",
+      "corte de retorno ascendente",
+      "estocada"
+    ],
+    "quadros": 12,
+    "duracao_ms": 1250,
+    "impactos_ms": [
+      100,
+      550,
+      1020
+    ],
+    "loop": false,
+    "pausa_demonstracao_gif_ms": 250,
+    "observacao": "Punho permanece na empunhadura; torso acompanha cortes; estocada tem extensão própria e recuperação até guarda. Duas pausas extras de 200 ms nas poses de ligação separam os golpes, sem desacelerar cada ataque.",
+    "duracao_golpes_sem_intervalos_ms": 850,
+    "intervalo_entre_golpes_ms": 200
+  },
+  "ajuste_ritmo": "Golpes e corrida preservam ritmo acelerado; combo acrescenta dois intervalos de 200 ms.",
+  "revisao_visual": {
+    "quadros_e_trajetorias_inspecionados": true,
+    "reproducao_Godot": "4.7.2; projeto e save exclusivos; dois combos, mais de quatro ciclos de corrida e dois com deslocamento",
+    "cenario_real": "Bacia do Moinho; comparação ao lado do jogador",
+    "evidencias": [
+      "no_mapa.png",
+      "reproducao_motor.gif",
+      "corrida_deslocamento_motor.gif",
+      "reproducao_motor_contato.png",
+      "deslocamento_motor_contato.png",
+      "correr_direita_contato.png",
+      "combo_direita_contato.png"
+    ]
+  },
+  "verificacoes": {
+    "perfil": "selecionado --teste goblin_adaga_animacoes",
+    "ok": 15,
+    "falhas": 0,
+    "relatorio": "/tmp/algoland-harness/execucao-wake701j/relatorio.json"
+  },
+  "auditoria_referencias": {
+    "falhas_gerais": 8,
+    "falhas_nos_arquivos_desta_tarefa": 0,
+    "log": "/tmp/algoland-adaga-referencias.log"
+  },
+  "uso": "cenas/inimigos/goblin_adaga_visual.tscn; recurso visual independente com sinais dos três impactos; sem expansão para outras direções ou IA de combate."
+}

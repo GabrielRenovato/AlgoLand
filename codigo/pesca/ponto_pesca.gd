@@ -21,6 +21,13 @@ func _process(_delta: float) -> void:
 	_aviso.visible = false
 
 static func tentar_lancar(jogador: Node2D) -> bool:
+	var cena := Cooperativo.cena_de(jogador)
+	if cena!=null and cena.has_method("alvo_pesca_rio") and jogador.movimento_habilitado and not Sessao.em_andamento(jogador):
+		var direcao: Vector2 = jogador.direcao_apontada()
+		var destino: Vector2 = cena.alvo_pesca_rio(jogador.to_global(Vector2(0,14)),direcao,44.0)
+		if destino.is_finite() and EventosJogo.inventario_de(jogador).vara_na_mao:
+			Sessao.new().iniciar(jogador,direcao,"rio",true)
+			return true
 	var escolhido: Area2D
 	var distancia := INF
 	for ponto in jogador.get_tree().get_nodes_in_group("pontos_pesca"):

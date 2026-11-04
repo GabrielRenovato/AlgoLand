@@ -1,0 +1,188 @@
+{
+  "quadro": [
+    640,
+    640
+  ],
+  "grade": [
+    8,
+    5
+  ],
+  "pivo": [
+    320,
+    520
+  ],
+  "escala": 0.26,
+  "animacoes": {
+    "parado": {
+      "quadros": [
+        8
+      ],
+      "duracoes": [
+        1
+      ],
+      "loop": true
+    },
+    "andar": {
+      "quadros": [
+        12,
+        13,
+        14,
+        15
+      ],
+      "duracoes": [
+        0.22,
+        0.22,
+        0.22,
+        0.22
+      ],
+      "loop": true
+    },
+    "lado": {
+      "quadros": [
+        9
+      ],
+      "duracoes": [
+        1
+      ],
+      "loop": true
+    },
+    "costas": {
+      "quadros": [
+        10
+      ],
+      "duracoes": [
+        1
+      ],
+      "loop": true
+    },
+    "combo": {
+      "quadros": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "duracoes": [
+        0.42,
+        0.16,
+        0.12,
+        0.35,
+        0.42,
+        0.16,
+        0.12,
+        0.45
+      ],
+      "loop": false
+    },
+    "investida": {
+      "quadros": [
+        16,
+        17,
+        18,
+        19
+      ],
+      "duracoes": [
+        0.8,
+        0.18,
+        0.65,
+        0.65
+      ],
+      "loop": false
+    },
+    "conjurar": {
+      "quadros": [
+        20,
+        21,
+        22,
+        23
+      ],
+      "duracoes": [
+        0.6,
+        0.7,
+        3.2,
+        0.6
+      ],
+      "loop": false
+    },
+    "pancada": {
+      "quadros": [
+        24,
+        25,
+        26,
+        27
+      ],
+      "duracoes": [
+        0.65,
+        0.25,
+        0.2,
+        0.9
+      ],
+      "loop": false
+    },
+    "transformar": {
+      "quadros": [
+        28,
+        29,
+        30,
+        31
+      ],
+      "duracoes": [
+        0.4,
+        0.5,
+        0.6,
+        0.5
+      ],
+      "loop": false
+    },
+    "reagir": {
+      "quadros": [
+        32,
+        33
+      ],
+      "duracoes": [
+        0.15,
+        0.2
+      ],
+      "loop": false
+    },
+    "cair": {
+      "quadros": [
+        34,
+        35
+      ],
+      "duracoes": [
+        0.4,
+        3.6
+      ],
+      "loop": false
+    },
+    "vulneravel": {
+      "quadros": [
+        35
+      ],
+      "duracoes": [
+        1
+      ],
+      "loop": true
+    },
+    "morte": {
+      "quadros": [
+        36,
+        37,
+        38,
+        39
+      ],
+      "duracoes": [
+        0.5,
+        0.5,
+        0.6,
+        1.4
+      ],
+      "loop": false
+    }
+  }
+}

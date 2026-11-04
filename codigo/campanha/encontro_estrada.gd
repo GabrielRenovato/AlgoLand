@@ -111,10 +111,12 @@ func interagir(id: String) -> Error:
 	cena._frame_ultima_interacao=Engine.get_process_frames()
 	if id=="saida_regiao":
 		if not cena.controlador.progresso.missao_concluida("estrada_interrompida"):
-			cena._avisar("Investigue o carreto e encontre o trabalhador antes de seguir para a vila.")
+			var feitos: Array = cena.controlador.progresso.objetivos_cumpridos("estrada_interrompida")
+			cena._avisar("Fale com o trabalhador refugiado antes de seguir para a vila." if "carreto" in feitos else "Examine o carreto e fale com o trabalhador refugiado antes de seguir para a vila.")
 			return ERR_UNAVAILABLE
-		if cena.controlador.tempo_ativo("estrada")<60:
-			cena._avisar("Há sinais do ataque na estrada. Examine o carreto antes de seguir para a vila.")
+		var vivos := rebentos.filter(func(r): return is_instance_valid(r) and not r.is_queued_for_deletion()).size()
+		if vivos>0:
+			cena._avisar("Ainda há %d rebento%s na estrada. Derrote %s para concluir a estrada." % [vivos,"" if vivos==1 else "s","o" if vivos==1 else "todos"])
 			return ERR_BUSY
 		cena._mostrar_conclusao("ESTRADA CONCLUÍDA", "Você encontrou o trabalhador com vida. Siga até a Vila das Flores e conte a Dara onde ele está.", "vila")
 		return OK

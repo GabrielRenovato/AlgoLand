@@ -1,0 +1,15 @@
+{
+  "origem": "/tmp/algoland-harness/execucao-2ppnvd_w/testes/projeto/capturas-moradores-primeira-raiz",
+  "quadros_por_ciclo": 12,
+  "duracao_motor_segundos": 1.03333330154419,
+  "duracao_gif_ms": 1030,
+  "metodo": "Capturas reais, caixa/pivô comuns e ampliação inteira sem filtro; sprites não editados.",
+  "direcoes": [
+    "frente",
+    "direita",
+    "costas",
+    "esquerda"
+  ],
+  "rotinas": "07h ajuda;10h descobertas;14h brincadeira;18h volta;20h em casa.",
+  "limite_moradores": 15
+}

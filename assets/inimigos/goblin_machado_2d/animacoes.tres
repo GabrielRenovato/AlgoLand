@@ -1,0 +1,488 @@
+[gd_resource type="SpriteFrames" load_steps=129 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/inimigos/goblin_machado_2d/correr_direita.png" id="correr_direita"]
+[ext_resource type="Texture2D" path="res://assets/inimigos/goblin_machado_2d/ataque_direita.png" id="ataque_direita"]
+[ext_resource type="Texture2D" path="res://assets/inimigos/goblin_machado_2d/ataque_cima.png" id="ataque_cima"]
+[ext_resource type="Texture2D" path="res://assets/inimigos/goblin_machado_2d/ataque_baixo.png" id="ataque_baixo"]
+[ext_resource type="Texture2D" path="res://assets/inimigos/goblin_machado_2d/correr_cima.png" id="correr_cima"]
+[ext_resource type="Texture2D" path="res://assets/inimigos/goblin_machado_2d/correr_baixo.png" id="correr_baixo"]
+[ext_resource type="Texture2D" path="res://assets/inimigos/goblin_machado_2d/correr_esquerda.png" id="correr_esquerda"]
+[ext_resource type="Texture2D" path="res://assets/inimigos/goblin_machado_2d/ataque_esquerda.png" id="ataque_esquerda"]
+[ext_resource type="Texture2D" path="res://assets/inimigos/goblin_machado_2d/ferido_direita.png" id="ferido_direita"]
+[ext_resource type="Texture2D" path="res://assets/inimigos/goblin_machado_2d/morte_direita.png" id="morte_direita"]
+[ext_resource type="Texture2D" path="res://assets/inimigos/goblin_machado_2d/ferido_baixo.png" id="ferido_baixo"]
+[ext_resource type="Texture2D" path="res://assets/inimigos/goblin_machado_2d/morte_baixo.png" id="morte_baixo"]
+[ext_resource type="Texture2D" path="res://assets/inimigos/goblin_machado_2d/ferido_cima.png" id="ferido_cima"]
+[ext_resource type="Texture2D" path="res://assets/inimigos/goblin_machado_2d/morte_cima.png" id="morte_cima"]
+[ext_resource type="Texture2D" path="res://assets/inimigos/goblin_machado_2d/ferido_esquerda.png" id="ferido_esquerda"]
+[ext_resource type="Texture2D" path="res://assets/inimigos/goblin_machado_2d/morte_esquerda.png" id="morte_esquerda"]
+
+[sub_resource type="AtlasTexture" id="correr_direita_0"]
+atlas = ExtResource("correr_direita")
+region = Rect2(0,0,640,640)
+
+[sub_resource type="AtlasTexture" id="correr_direita_1"]
+atlas = ExtResource("correr_direita")
+region = Rect2(640,0,640,640)
+
+[sub_resource type="AtlasTexture" id="correr_direita_2"]
+atlas = ExtResource("correr_direita")
+region = Rect2(1280,0,640,640)
+
+[sub_resource type="AtlasTexture" id="correr_direita_3"]
+atlas = ExtResource("correr_direita")
+region = Rect2(1920,0,640,640)
+
+[sub_resource type="AtlasTexture" id="correr_direita_4"]
+atlas = ExtResource("correr_direita")
+region = Rect2(0,640,640,640)
+
+[sub_resource type="AtlasTexture" id="correr_direita_5"]
+atlas = ExtResource("correr_direita")
+region = Rect2(640,640,640,640)
+
+[sub_resource type="AtlasTexture" id="correr_direita_6"]
+atlas = ExtResource("correr_direita")
+region = Rect2(1280,640,640,640)
+
+[sub_resource type="AtlasTexture" id="correr_direita_7"]
+atlas = ExtResource("correr_direita")
+region = Rect2(1920,640,640,640)
+
+[sub_resource type="AtlasTexture" id="ataque_direita_0"]
+atlas = ExtResource("ataque_direita")
+region = Rect2(0,0,640,640)
+
+[sub_resource type="AtlasTexture" id="ataque_direita_1"]
+atlas = ExtResource("ataque_direita")
+region = Rect2(640,0,640,640)
+
+[sub_resource type="AtlasTexture" id="ataque_direita_2"]
+atlas = ExtResource("ataque_direita")
+region = Rect2(1280,0,640,640)
+
+[sub_resource type="AtlasTexture" id="ataque_direita_3"]
+atlas = ExtResource("ataque_direita")
+region = Rect2(1920,0,640,640)
+
+[sub_resource type="AtlasTexture" id="ataque_direita_4"]
+atlas = ExtResource("ataque_direita")
+region = Rect2(0,640,640,640)
+
+[sub_resource type="AtlasTexture" id="ataque_direita_5"]
+atlas = ExtResource("ataque_direita")
+region = Rect2(640,640,640,640)
+
+[sub_resource type="AtlasTexture" id="ataque_direita_6"]
+atlas = ExtResource("ataque_direita")
+region = Rect2(1280,640,640,640)
+
+[sub_resource type="AtlasTexture" id="ataque_direita_7"]
+atlas = ExtResource("ataque_direita")
+region = Rect2(1920,640,640,640)
+
+[sub_resource type="AtlasTexture" id="ataque_cima_0"]
+atlas = ExtResource("ataque_cima")
+region = Rect2(0,0,640,640)
+
+[sub_resource type="AtlasTexture" id="ataque_cima_1"]
+atlas = ExtResource("ataque_cima")
+region = Rect2(640,0,640,640)
+
+[sub_resource type="AtlasTexture" id="ataque_cima_2"]
+atlas = ExtResource("ataque_cima")
+region = Rect2(1280,0,640,640)
+
+[sub_resource type="AtlasTexture" id="ataque_cima_3"]
+atlas = ExtResource("ataque_cima")
+region = Rect2(1920,0,640,640)
+
+[sub_resource type="AtlasTexture" id="ataque_cima_4"]
+atlas = ExtResource("ataque_cima")
+region = Rect2(0,640,640,640)
+
+[sub_resource type="AtlasTexture" id="ataque_cima_5"]
+atlas = ExtResource("ataque_cima")
+region = Rect2(640,640,640,640)
+
+[sub_resource type="AtlasTexture" id="ataque_cima_6"]
+atlas = ExtResource("ataque_cima")
+region = Rect2(1280,640,640,640)
+
+[sub_resource type="AtlasTexture" id="ataque_cima_7"]
+atlas = ExtResource("ataque_cima")
+region = Rect2(1920,640,640,640)
+
+[sub_resource type="AtlasTexture" id="ataque_baixo_0"]
+atlas = ExtResource("ataque_baixo")
+region = Rect2(0,0,640,640)
+
+[sub_resource type="AtlasTexture" id="ataque_baixo_1"]
+atlas = ExtResource("ataque_baixo")
+region = Rect2(640,0,640,640)
+
+[sub_resource type="AtlasTexture" id="ataque_baixo_2"]
+atlas = ExtResource("ataque_baixo")
+region = Rect2(1280,0,640,640)
+
+[sub_resource type="AtlasTexture" id="ataque_baixo_3"]
+atlas = ExtResource("ataque_baixo")
+region = Rect2(1920,0,640,640)
+
+[sub_resource type="AtlasTexture" id="ataque_baixo_4"]
+atlas = ExtResource("ataque_baixo")
+region = Rect2(0,640,640,640)
+
+[sub_resource type="AtlasTexture" id="ataque_baixo_5"]
+atlas = ExtResource("ataque_baixo")
+region = Rect2(640,640,640,640)
+
+[sub_resource type="AtlasTexture" id="ataque_baixo_6"]
+atlas = ExtResource("ataque_baixo")
+region = Rect2(1280,640,640,640)
+
+[sub_resource type="AtlasTexture" id="ataque_baixo_7"]
+atlas = ExtResource("ataque_baixo")
+region = Rect2(1920,640,640,640)
+
+[sub_resource type="AtlasTexture" id="correr_cima_0"]
+atlas = ExtResource("correr_cima")
+region = Rect2(0,0,640,640)
+
+[sub_resource type="AtlasTexture" id="correr_cima_1"]
+atlas = ExtResource("correr_cima")
+region = Rect2(640,0,640,640)
+
+[sub_resource type="AtlasTexture" id="correr_cima_2"]
+atlas = ExtResource("correr_cima")
+region = Rect2(1280,0,640,640)
+
+[sub_resource type="AtlasTexture" id="correr_cima_3"]
+atlas = ExtResource("correr_cima")
+region = Rect2(1920,0,640,640)
+
+[sub_resource type="AtlasTexture" id="correr_cima_4"]
+atlas = ExtResource("correr_cima")
+region = Rect2(0,640,640,640)
+
+[sub_resource type="AtlasTexture" id="correr_cima_5"]
+atlas = ExtResource("correr_cima")
+region = Rect2(640,640,640,640)
+
+[sub_resource type="AtlasTexture" id="correr_cima_6"]
+atlas = ExtResource("correr_cima")
+region = Rect2(1280,640,640,640)
+
+[sub_resource type="AtlasTexture" id="correr_cima_7"]
+atlas = ExtResource("correr_cima")
+region = Rect2(1920,640,640,640)
+
+[sub_resource type="AtlasTexture" id="correr_baixo_0"]
+atlas = ExtResource("correr_baixo")
+region = Rect2(0,0,640,640)
+
+[sub_resource type="AtlasTexture" id="correr_baixo_1"]
+atlas = ExtResource("correr_baixo")
+region = Rect2(640,0,640,640)
+
+[sub_resource type="AtlasTexture" id="correr_baixo_2"]
+atlas = ExtResource("correr_baixo")
+region = Rect2(1280,0,640,640)
+
+[sub_resource type="AtlasTexture" id="correr_baixo_3"]
+atlas = ExtResource("correr_baixo")
+region = Rect2(1920,0,640,640)
+
+[sub_resource type="AtlasTexture" id="correr_baixo_4"]
+atlas = ExtResource("correr_baixo")
+region = Rect2(0,640,640,640)
+
+[sub_resource type="AtlasTexture" id="correr_baixo_5"]
+atlas = ExtResource("correr_baixo")
+region = Rect2(640,640,640,640)
+
+[sub_resource type="AtlasTexture" id="correr_baixo_6"]
+atlas = ExtResource("correr_baixo")
+region = Rect2(1280,640,640,640)
+
+[sub_resource type="AtlasTexture" id="correr_baixo_7"]
+atlas = ExtResource("correr_baixo")
+region = Rect2(1920,640,640,640)
+
+[sub_resource type="AtlasTexture" id="correr_esquerda_0"]
+atlas = ExtResource("correr_esquerda")
+region = Rect2(0,0,640,640)
+
+[sub_resource type="AtlasTexture" id="correr_esquerda_1"]
+atlas = ExtResource("correr_esquerda")
+region = Rect2(640,0,640,640)
+
+[sub_resource type="AtlasTexture" id="correr_esquerda_2"]
+atlas = ExtResource("correr_esquerda")
+region = Rect2(1280,0,640,640)
+
+[sub_resource type="AtlasTexture" id="correr_esquerda_3"]
+atlas = ExtResource("correr_esquerda")
+region = Rect2(1920,0,640,640)
+
+[sub_resource type="AtlasTexture" id="correr_esquerda_4"]
+atlas = ExtResource("correr_esquerda")
+region = Rect2(0,640,640,640)
+
+[sub_resource type="AtlasTexture" id="correr_esquerda_5"]
+atlas = ExtResource("correr_esquerda")
+region = Rect2(640,640,640,640)
+
+[sub_resource type="AtlasTexture" id="correr_esquerda_6"]
+atlas = ExtResource("correr_esquerda")
+region = Rect2(1280,640,640,640)
+
+[sub_resource type="AtlasTexture" id="correr_esquerda_7"]
+atlas = ExtResource("correr_esquerda")
+region = Rect2(1920,640,640,640)
+
+[sub_resource type="AtlasTexture" id="ataque_esquerda_0"]
+atlas = ExtResource("ataque_esquerda")
+region = Rect2(0,0,640,640)
+
+[sub_resource type="AtlasTexture" id="ataque_esquerda_1"]
+atlas = ExtResource("ataque_esquerda")
+region = Rect2(640,0,640,640)
+
+[sub_resource type="AtlasTexture" id="ataque_esquerda_2"]
+atlas = ExtResource("ataque_esquerda")
+region = Rect2(1280,0,640,640)
+
+[sub_resource type="AtlasTexture" id="ataque_esquerda_3"]
+atlas = ExtResource("ataque_esquerda")
+region = Rect2(1920,0,640,640)
+
+[sub_resource type="AtlasTexture" id="ataque_esquerda_4"]
+atlas = ExtResource("ataque_esquerda")
+region = Rect2(0,640,640,640)
+
+[sub_resource type="AtlasTexture" id="ataque_esquerda_5"]
+atlas = ExtResource("ataque_esquerda")
+region = Rect2(640,640,640,640)
+
+[sub_resource type="AtlasTexture" id="ataque_esquerda_6"]
+atlas = ExtResource("ataque_esquerda")
+region = Rect2(1280,640,640,640)
+
+[sub_resource type="AtlasTexture" id="ataque_esquerda_7"]
+atlas = ExtResource("ataque_esquerda")
+region = Rect2(1920,640,640,640)
+
+[sub_resource type="AtlasTexture" id="ferido_direita_0"]
+atlas = ExtResource("ferido_direita")
+region = Rect2(0,0,640,640)
+
+[sub_resource type="AtlasTexture" id="ferido_direita_1"]
+atlas = ExtResource("ferido_direita")
+region = Rect2(640,0,640,640)
+
+[sub_resource type="AtlasTexture" id="ferido_direita_2"]
+atlas = ExtResource("ferido_direita")
+region = Rect2(1280,0,640,640)
+
+[sub_resource type="AtlasTexture" id="ferido_direita_3"]
+atlas = ExtResource("ferido_direita")
+region = Rect2(1920,0,640,640)
+
+[sub_resource type="AtlasTexture" id="morte_direita_0"]
+atlas = ExtResource("morte_direita")
+region = Rect2(0,0,640,640)
+
+[sub_resource type="AtlasTexture" id="morte_direita_1"]
+atlas = ExtResource("morte_direita")
+region = Rect2(640,0,640,640)
+
+[sub_resource type="AtlasTexture" id="morte_direita_2"]
+atlas = ExtResource("morte_direita")
+region = Rect2(1280,0,640,640)
+
+[sub_resource type="AtlasTexture" id="morte_direita_3"]
+atlas = ExtResource("morte_direita")
+region = Rect2(1920,0,640,640)
+
+[sub_resource type="AtlasTexture" id="morte_direita_4"]
+atlas = ExtResource("morte_direita")
+region = Rect2(0,640,640,640)
+
+[sub_resource type="AtlasTexture" id="morte_direita_5"]
+atlas = ExtResource("morte_direita")
+region = Rect2(640,640,640,640)
+
+[sub_resource type="AtlasTexture" id="morte_direita_6"]
+atlas = ExtResource("morte_direita")
+region = Rect2(1280,640,640,640)
+
+[sub_resource type="AtlasTexture" id="morte_direita_7"]
+atlas = ExtResource("morte_direita")
+region = Rect2(1920,640,640,640)
+
+[sub_resource type="AtlasTexture" id="ferido_baixo_0"]
+atlas = ExtResource("ferido_baixo")
+region = Rect2(0,0,640,640)
+
+[sub_resource type="AtlasTexture" id="ferido_baixo_1"]
+atlas = ExtResource("ferido_baixo")
+region = Rect2(640,0,640,640)
+
+[sub_resource type="AtlasTexture" id="ferido_baixo_2"]
+atlas = ExtResource("ferido_baixo")
+region = Rect2(1280,0,640,640)
+
+[sub_resource type="AtlasTexture" id="ferido_baixo_3"]
+atlas = ExtResource("ferido_baixo")
+region = Rect2(1920,0,640,640)
+
+[sub_resource type="AtlasTexture" id="morte_baixo_0"]
+atlas = ExtResource("morte_baixo")
+region = Rect2(0,0,640,640)
+
+[sub_resource type="AtlasTexture" id="morte_baixo_1"]
+atlas = ExtResource("morte_baixo")
+region = Rect2(640,0,640,640)
+
+[sub_resource type="AtlasTexture" id="morte_baixo_2"]
+atlas = ExtResource("morte_baixo")
+region = Rect2(1280,0,640,640)
+
+[sub_resource type="AtlasTexture" id="morte_baixo_3"]
+atlas = ExtResource("morte_baixo")
+region = Rect2(1920,0,640,640)
+
+[sub_resource type="AtlasTexture" id="morte_baixo_4"]
+atlas = ExtResource("morte_baixo")
+region = Rect2(0,640,640,640)
+
+[sub_resource type="AtlasTexture" id="morte_baixo_5"]
+atlas = ExtResource("morte_baixo")
+region = Rect2(640,640,640,640)
+
+[sub_resource type="AtlasTexture" id="morte_baixo_6"]
+atlas = ExtResource("morte_baixo")
+region = Rect2(1280,640,640,640)
+
+[sub_resource type="AtlasTexture" id="morte_baixo_7"]
+atlas = ExtResource("morte_baixo")
+region = Rect2(1920,640,640,640)
+
+[sub_resource type="AtlasTexture" id="ferido_cima_0"]
+atlas = ExtResource("ferido_cima")
+region = Rect2(0,0,640,640)
+
+[sub_resource type="AtlasTexture" id="ferido_cima_1"]
+atlas = ExtResource("ferido_cima")
+region = Rect2(640,0,640,640)
+
+[sub_resource type="AtlasTexture" id="ferido_cima_2"]
+atlas = ExtResource("ferido_cima")
+region = Rect2(1280,0,640,640)
+
+[sub_resource type="AtlasTexture" id="ferido_cima_3"]
+atlas = ExtResource("ferido_cima")
+region = Rect2(1920,0,640,640)
+
+[sub_resource type="AtlasTexture" id="morte_cima_0"]
+atlas = ExtResource("morte_cima")
+region = Rect2(0,0,640,640)
+
+[sub_resource type="AtlasTexture" id="morte_cima_1"]
+atlas = ExtResource("morte_cima")
+region = Rect2(640,0,640,640)
+
+[sub_resource type="AtlasTexture" id="morte_cima_2"]
+atlas = ExtResource("morte_cima")
+region = Rect2(1280,0,640,640)
+
+[sub_resource type="AtlasTexture" id="morte_cima_3"]
+atlas = ExtResource("morte_cima")
+region = Rect2(1920,0,640,640)
+
+[sub_resource type="AtlasTexture" id="morte_cima_4"]
+atlas = ExtResource("morte_cima")
+region = Rect2(0,640,640,640)
+
+[sub_resource type="AtlasTexture" id="morte_cima_5"]
+atlas = ExtResource("morte_cima")
+region = Rect2(640,640,640,640)
+
+[sub_resource type="AtlasTexture" id="morte_cima_6"]
+atlas = ExtResource("morte_cima")
+region = Rect2(1280,640,640,640)
+
+[sub_resource type="AtlasTexture" id="morte_cima_7"]
+atlas = ExtResource("morte_cima")
+region = Rect2(1920,640,640,640)
+
+[sub_resource type="AtlasTexture" id="ferido_esquerda_0"]
+atlas = ExtResource("ferido_esquerda")
+region = Rect2(0,0,640,640)
+
+[sub_resource type="AtlasTexture" id="ferido_esquerda_1"]
+atlas = ExtResource("ferido_esquerda")
+region = Rect2(640,0,640,640)
+
+[sub_resource type="AtlasTexture" id="ferido_esquerda_2"]
+atlas = ExtResource("ferido_esquerda")
+region = Rect2(1280,0,640,640)
+
+[sub_resource type="AtlasTexture" id="ferido_esquerda_3"]
+atlas = ExtResource("ferido_esquerda")
+region = Rect2(1920,0,640,640)
+
+[sub_resource type="AtlasTexture" id="morte_esquerda_0"]
+atlas = ExtResource("morte_esquerda")
+region = Rect2(0,0,640,640)
+
+[sub_resource type="AtlasTexture" id="morte_esquerda_1"]
+atlas = ExtResource("morte_esquerda")
+region = Rect2(640,0,640,640)
+
+[sub_resource type="AtlasTexture" id="morte_esquerda_2"]
+atlas = ExtResource("morte_esquerda")
+region = Rect2(1280,0,640,640)
+
+[sub_resource type="AtlasTexture" id="morte_esquerda_3"]
+atlas = ExtResource("morte_esquerda")
+region = Rect2(1920,0,640,640)
+
+[sub_resource type="AtlasTexture" id="morte_esquerda_4"]
+atlas = ExtResource("morte_esquerda")
+region = Rect2(0,640,640,640)
+
+[sub_resource type="AtlasTexture" id="morte_esquerda_5"]
+atlas = ExtResource("morte_esquerda")
+region = Rect2(640,640,640,640)
+
+[sub_resource type="AtlasTexture" id="morte_esquerda_6"]
+atlas = ExtResource("morte_esquerda")
+region = Rect2(1280,640,640,640)
+
+[sub_resource type="AtlasTexture" id="morte_esquerda_7"]
+atlas = ExtResource("morte_esquerda")
+region = Rect2(1920,640,640,640)
+
+[resource]
+animations = [{"frames":[{"duration":6.0,"texture":SubResource("correr_direita_0")},{"duration":7.0,"texture":SubResource("correr_direita_1")},{"duration":5.0,"texture":SubResource("correr_direita_2")},{"duration":6.0,"texture":SubResource("correr_direita_3")},{"duration":6.0,"texture":SubResource("correr_direita_4")},{"duration":7.0,"texture":SubResource("correr_direita_5")},{"duration":5.0,"texture":SubResource("correr_direita_6")},{"duration":6.0,"texture":SubResource("correr_direita_7")}],"loop":true,"name":&"correr_direita","speed":100.0},
+{"frames":[{"duration":8.0,"texture":SubResource("ataque_direita_0")},{"duration":16.0,"texture":SubResource("ataque_direita_1")},{"duration":14.0,"texture":SubResource("ataque_direita_2")},{"duration":4.5,"texture":SubResource("ataque_direita_3")},{"duration":5.5,"texture":SubResource("ataque_direita_4")},{"duration":9.0,"texture":SubResource("ataque_direita_5")},{"duration":13.0,"texture":SubResource("ataque_direita_6")},{"duration":18.0,"texture":SubResource("ataque_direita_7")}],"loop":false,"name":&"ataque_direita","speed":100.0},
+{"frames":[{"duration":8.0,"texture":SubResource("ataque_cima_0")},{"duration":16.0,"texture":SubResource("ataque_cima_1")},{"duration":14.0,"texture":SubResource("ataque_cima_2")},{"duration":4.5,"texture":SubResource("ataque_cima_3")},{"duration":5.5,"texture":SubResource("ataque_cima_4")},{"duration":9.0,"texture":SubResource("ataque_cima_5")},{"duration":13.0,"texture":SubResource("ataque_cima_6")},{"duration":18.0,"texture":SubResource("ataque_cima_7")}],"loop":false,"name":&"ataque_cima","speed":100.0},
+{"frames":[{"duration":8.0,"texture":SubResource("ataque_baixo_0")},{"duration":16.0,"texture":SubResource("ataque_baixo_1")},{"duration":14.0,"texture":SubResource("ataque_baixo_2")},{"duration":4.5,"texture":SubResource("ataque_baixo_3")},{"duration":5.5,"texture":SubResource("ataque_baixo_4")},{"duration":9.0,"texture":SubResource("ataque_baixo_5")},{"duration":13.0,"texture":SubResource("ataque_baixo_6")},{"duration":18.0,"texture":SubResource("ataque_baixo_7")}],"loop":false,"name":&"ataque_baixo","speed":100.0},
+{"frames":[{"duration":6.0,"texture":SubResource("correr_cima_0")},{"duration":7.0,"texture":SubResource("correr_cima_1")},{"duration":5.0,"texture":SubResource("correr_cima_2")},{"duration":6.0,"texture":SubResource("correr_cima_3")},{"duration":6.0,"texture":SubResource("correr_cima_4")},{"duration":7.0,"texture":SubResource("correr_cima_5")},{"duration":5.0,"texture":SubResource("correr_cima_6")},{"duration":6.0,"texture":SubResource("correr_cima_7")}],"loop":true,"name":&"correr_cima","speed":100.0},
+{"frames":[{"duration":6.0,"texture":SubResource("correr_baixo_0")},{"duration":7.0,"texture":SubResource("correr_baixo_1")},{"duration":5.0,"texture":SubResource("correr_baixo_2")},{"duration":6.0,"texture":SubResource("correr_baixo_3")},{"duration":6.0,"texture":SubResource("correr_baixo_4")},{"duration":7.0,"texture":SubResource("correr_baixo_5")},{"duration":5.0,"texture":SubResource("correr_baixo_6")},{"duration":6.0,"texture":SubResource("correr_baixo_7")}],"loop":true,"name":&"correr_baixo","speed":100.0},
+{"frames":[{"duration":6.0,"texture":SubResource("correr_esquerda_0")},{"duration":7.0,"texture":SubResource("correr_esquerda_1")},{"duration":5.0,"texture":SubResource("correr_esquerda_2")},{"duration":6.0,"texture":SubResource("correr_esquerda_3")},{"duration":6.0,"texture":SubResource("correr_esquerda_4")},{"duration":7.0,"texture":SubResource("correr_esquerda_5")},{"duration":5.0,"texture":SubResource("correr_esquerda_6")},{"duration":6.0,"texture":SubResource("correr_esquerda_7")}],"loop":true,"name":&"correr_esquerda","speed":100.0},
+{"frames":[{"duration":8.0,"texture":SubResource("ataque_esquerda_0")},{"duration":16.0,"texture":SubResource("ataque_esquerda_1")},{"duration":14.0,"texture":SubResource("ataque_esquerda_2")},{"duration":4.5,"texture":SubResource("ataque_esquerda_3")},{"duration":5.5,"texture":SubResource("ataque_esquerda_4")},{"duration":9.0,"texture":SubResource("ataque_esquerda_5")},{"duration":13.0,"texture":SubResource("ataque_esquerda_6")},{"duration":18.0,"texture":SubResource("ataque_esquerda_7")}],"loop":false,"name":&"ataque_esquerda","speed":100.0},
+{"frames":[{"duration":4.5,"texture":SubResource("ferido_direita_0")},{"duration":7.5,"texture":SubResource("ferido_direita_1")},{"duration":9.0,"texture":SubResource("ferido_direita_2")},{"duration":9.0,"texture":SubResource("ferido_direita_3")}],"loop":false,"name":&"ferido_direita","speed":100.0},
+{"frames":[{"duration":8.0,"texture":SubResource("morte_direita_0")},{"duration":10.0,"texture":SubResource("morte_direita_1")},{"duration":11.0,"texture":SubResource("morte_direita_2")},{"duration":10.0,"texture":SubResource("morte_direita_3")},{"duration":10.0,"texture":SubResource("morte_direita_4")},{"duration":12.0,"texture":SubResource("morte_direita_5")},{"duration":16.0,"texture":SubResource("morte_direita_6")},{"duration":50.0,"texture":SubResource("morte_direita_7")}],"loop":false,"name":&"morte_direita","speed":100.0},
+{"frames":[{"duration":4.5,"texture":SubResource("ferido_baixo_0")},{"duration":7.5,"texture":SubResource("ferido_baixo_1")},{"duration":9.0,"texture":SubResource("ferido_baixo_2")},{"duration":9.0,"texture":SubResource("ferido_baixo_3")}],"loop":false,"name":&"ferido_baixo","speed":100.0},
+{"frames":[{"duration":8.0,"texture":SubResource("morte_baixo_0")},{"duration":10.0,"texture":SubResource("morte_baixo_1")},{"duration":11.0,"texture":SubResource("morte_baixo_2")},{"duration":10.0,"texture":SubResource("morte_baixo_3")},{"duration":10.0,"texture":SubResource("morte_baixo_4")},{"duration":12.0,"texture":SubResource("morte_baixo_5")},{"duration":16.0,"texture":SubResource("morte_baixo_6")},{"duration":50.0,"texture":SubResource("morte_baixo_7")}],"loop":false,"name":&"morte_baixo","speed":100.0},
+{"frames":[{"duration":4.5,"texture":SubResource("ferido_cima_0")},{"duration":7.5,"texture":SubResource("ferido_cima_1")},{"duration":9.0,"texture":SubResource("ferido_cima_2")},{"duration":9.0,"texture":SubResource("ferido_cima_3")}],"loop":false,"name":&"ferido_cima","speed":100.0},
+{"frames":[{"duration":8.0,"texture":SubResource("morte_cima_0")},{"duration":10.0,"texture":SubResource("morte_cima_1")},{"duration":11.0,"texture":SubResource("morte_cima_2")},{"duration":10.0,"texture":SubResource("morte_cima_3")},{"duration":10.0,"texture":SubResource("morte_cima_4")},{"duration":12.0,"texture":SubResource("morte_cima_5")},{"duration":16.0,"texture":SubResource("morte_cima_6")},{"duration":50.0,"texture":SubResource("morte_cima_7")}],"loop":false,"name":&"morte_cima","speed":100.0},
+{"frames":[{"duration":4.5,"texture":SubResource("ferido_esquerda_0")},{"duration":7.5,"texture":SubResource("ferido_esquerda_1")},{"duration":9.0,"texture":SubResource("ferido_esquerda_2")},{"duration":9.0,"texture":SubResource("ferido_esquerda_3")}],"loop":false,"name":&"ferido_esquerda","speed":100.0},
+{"frames":[{"duration":8.0,"texture":SubResource("morte_esquerda_0")},{"duration":10.0,"texture":SubResource("morte_esquerda_1")},{"duration":11.0,"texture":SubResource("morte_esquerda_2")},{"duration":10.0,"texture":SubResource("morte_esquerda_3")},{"duration":10.0,"texture":SubResource("morte_esquerda_4")},{"duration":12.0,"texture":SubResource("morte_esquerda_5")},{"duration":16.0,"texture":SubResource("morte_esquerda_6")},{"duration":50.0,"texture":SubResource("morte_esquerda_7")}],"loop":false,"name":&"morte_esquerda","speed":100.0},
+{"frames":[{"duration":10.0,"texture":SubResource("ataque_direita_7")}],"loop":true,"name":&"parado_direita","speed":100.0},
+{"frames":[{"duration":10.0,"texture":SubResource("ataque_cima_7")}],"loop":true,"name":&"parado_cima","speed":100.0},
+{"frames":[{"duration":10.0,"texture":SubResource("ataque_baixo_7")}],"loop":true,"name":&"parado_baixo","speed":100.0},
+{"frames":[{"duration":10.0,"texture":SubResource("ataque_esquerda_7")}],"loop":true,"name":&"parado_esquerda","speed":100.0}]

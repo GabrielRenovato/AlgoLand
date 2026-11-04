@@ -130,22 +130,22 @@ func _rodar() -> void:
 	await _guardar(Vector2.RIGHT)
 	_verificar("segurar o botão levanta a guarda", _defesa.estado == _defesa.Estado.GUARDA and _defesa.em_guarda(), "estado=%d" % _defesa.estado)
 	_verificar("a pose de aparar aparece e esconde o corpo normal", _jogador.no_reacao.visible and not _jogador.get_node("CompositeSprites/BaseSprites").visible, "")
-	_verificar("guarda Raven para a direita (quadro 7)", _visual_raven().frame == 7, "quadro=%d" % _visual_raven().frame)
+	_verificar("guarda usa a pose 3D de guarda", _visual_3d()._acao in ["guarda", "guarda_livre"], "acao=%s" % _visual_3d()._acao)
 	_verificar("entrar na guarda gasta estamina", _jogador.stamina < stamina_antes - _defesa.CUSTO_INICIAL + 1.0, "antes=%.1f agora=%.1f" % [stamina_antes, _jogador.stamina])
 	_verificar("a guarda aponta para a direita", _defesa.direcao_guarda == Vector2.RIGHT, str(_defesa.direcao_guarda))
 	_verificar("não anda segurando a guarda", _jogador.velocity.length() < 5.0, str(_jogador.velocity))
 	# girar com as setas
 	Input.action_press("move_up")
 	await _fisica(3)
-	_verificar("as setas giram a guarda (para cima, quadro 11) sem andar",
-			_defesa.direcao_guarda == Vector2.UP and _visual_raven().frame == 11 and _jogador.velocity.length() < 5.0,
-			"dir=%s quadro=%d" % [_defesa.direcao_guarda, _visual_raven().frame])
+	_verificar("as setas giram a guarda (para cima) sem andar",
+			_defesa.direcao_guarda == Vector2.UP and _jogador.velocity.length() < 5.0,
+			"dir=%s" % _defesa.direcao_guarda)
 	Input.action_release("move_up")
 	# soltar
 	Input.action_release("aparar")
 	await _fisica(3)
 	_verificar("soltar o botão baixa a guarda e some a pose", _defesa.estado == _defesa.Estado.LIVRE and not _jogador.no_reacao.visible
-			and _visual_raven().visible and not _jogador.get_node("CompositeSprites").visible, "")
+			and _visual_3d().visible and not _jogador.get_node("CompositeSprites").visible, "")
 
 	# --- aparo perfeito + escudada
 	_zerar()
@@ -163,15 +163,13 @@ func _rodar() -> void:
 	var vida_alvo: int = alvo.vida
 	await _ms(180)
 	_verificar("depois da pausa começa a escudada", _defesa.estado == _defesa.Estado.ESCUDADA and _jogador._esta_atacando, "estado=%d" % _defesa.estado)
-	var visual := _visual_raven()
-	_verificar("escudada usa corpo e escudo Raven", visual._animacao == "bloquear" and visual._escudo_ativo and not _jogador.get_node("CompositeSprites").visible, "")
-	_verificar("escudada para a direita mantém linha Raven", visual.frame >= 4 and visual.frame <= 7, "quadro=%d" % visual.frame)
-	_verificar("camadas da escudada sincronizadas", visual._camadas.all(func(c): return c.frame == visual.frame), "")
+	var visual := _visual_3d()
+	_verificar("escudada usa a animação 3D de escudada", visual._acao == "escudada" and not _jogador.get_node("CompositeSprites").visible, "acao=%s" % visual._acao)
 	_verificar("não anda nem ataca durante a escudada", _jogador.velocity.length() < 5.0, "")
 	await _ms(500)
 	_verificar("a escudada machuca o inimigo e o atordoa", alvo.vida < vida_alvo and alvo.esta_atordoado(), "vida %d -> %d" % [vida_alvo, alvo.vida])
 	_verificar("acabou: livre, sprites normais de volta", _defesa.estado == _defesa.Estado.LIVRE and not _jogador._esta_atacando
-			and _visual_raven().visible and not _jogador.get_node("CompositeSprites").visible, "estado=%d" % _defesa.estado)
+			and _visual_3d().visible and not _jogador.get_node("CompositeSprites").visible, "estado=%d" % _defesa.estado)
 	_soltar_tudo()
 	alvo.queue_free()
 
@@ -182,8 +180,7 @@ func _rodar() -> void:
 		await _guardar(dados[0])
 		_jogador.receber_dano(1, -dados[0] * 150.0)
 		await _ms(180)
-		var q: int = _visual_raven().frame
-		_verificar("escudada para %s usa os quadros %d a %d" % [dados[0], dados[1], dados[2]], _defesa.estado == _defesa.Estado.ESCUDADA and q >= dados[1] and q <= dados[2], "quadro=%d estado=%d" % [q, _defesa.estado])
+		_verificar("escudada para %s" % dados[0], _defesa.estado == _defesa.Estado.ESCUDADA and _visual_3d()._acao == "escudada", "acao=%s estado=%d" % [_visual_3d()._acao, _defesa.estado])
 		await _ms(500)
 	_zerar()
 
@@ -298,8 +295,8 @@ func _rodar() -> void:
 	_verificar("lança equipada", _jogador.usando_lanca and not _jogador.usando_espada, "")
 	_zerar()
 	await _guardar(Vector2.DOWN)
-	_verificar("guarda Raven com lança, direção baixo (quadro 0)", _defesa.estado == _defesa.Estado.GUARDA and _jogador.no_reacao.visible
-			and _visual_raven().frame == 0, "quadro=%d" % _visual_raven().frame)
+	_verificar("guarda com lança, direção baixo", _defesa.estado == _defesa.Estado.GUARDA and _jogador.no_reacao.visible
+			and _defesa.direcao_guarda == Vector2.DOWN, "dir=%s" % _defesa.direcao_guarda)
 	hp = _jogador.hp_atual
 	_jogador.receber_dano(10, Vector2(0, -150))
 	_verificar("lança: aparo perfeito sem dano e sem escudada", _jogador.hp_atual == hp and _defesa.estado == _defesa.Estado.GUARDA, "estado=%d" % _defesa.estado)
@@ -360,7 +357,7 @@ func _rodar() -> void:
 	print("FALHAS: ", _falhas)
 	quit(1 if _falhas > 0 else 0)
 
-func _visual_raven() -> Sprite2D:
-	var visual: Sprite2D = _jogador.get_node("HeroiRaven")
+func _visual_3d() -> Node2D:
+	var visual: Node2D = _jogador.get_node("HeroiBase3D")
 	visual._process(0.0)
 	return visual

@@ -34,8 +34,13 @@ func _ready() -> void:
 		if item.get("peca","") in ["carvalho","pinheiro","jovem"]:
 			grama._montar_frente_base({"tipo":"arbustos","ponto":item.sprite.position,"sprite":item.sprite})
 
+var _tipos_modulares: Dictionary = {}
+
 func _tipo_modular(canto: Vector2i) -> int:
-	return PEDRA_MODULAR if _terreno(Vector2(canto*16))=="pedra" else GRAMA_MODULAR
+	# A grama consulta os mesmos cantos centenas de milhares de vezes; o mapa da vila não muda.
+	if not _tipos_modulares.has(canto):
+		_tipos_modulares[canto] = PEDRA_MODULAR if _terreno(Vector2(canto*16))=="pedra" else GRAMA_MODULAR
+	return _tipos_modulares[canto]
 
 func _montar_chao() -> void:
 	chao = TileMapLayer.new()
@@ -88,8 +93,7 @@ func _paisagem() -> void:
 	for i in 3:_barraca(Vector2(-560+i*104,-112),i)
 	for p in [Vector2(-512,-272),Vector2(-560,-272),Vector2(584,-208),Vector2(584,-144),Vector2(-600,176),Vector2(-600,224),Vector2(624,192)]:
 		_enfeite("mobiliario/horta",p,Vector2(48,10))
-	for p in [Vector2(-368,176),Vector2(-352,208),Vector2(-192,264)]:
-		_enfeite("mobiliario/lenha",p,Vector2(40,10))
+	# O estoque das oficinas agora está nas cenas independentes de toras e tábuas da carpintaria.
 	for p in [Vector2(256,-192),Vector2(280,-144)]:
 		_enfeite("mobiliario/mesa_piquenique",p,Vector2(40,12))
 	_enfeite("mobiliario/mural",Vector2(-104,112),Vector2(34,8))
@@ -101,24 +105,36 @@ func _paisagem() -> void:
 	_floresta()
 
 func _casa(id: String,p: Vector2) -> void:
-	# Mantém os IDs e as bases do mapa; diferencia os três lares familiares.
-	var familia := "mara" if id=="pousada" else ("rosa" if id=="enfermaria" else ("cora" if id=="casa_jogador" and p.x<0 else ""))
-	if not familia.is_empty():
-		var fachada=preload("res://codigo/cidade/familias/exterior_familia.gd").new()
-		fachada.id=familia
+	# Cora compartilha o id de moradia, mas conserva fachada e modelo próprios.
+	var modelo_id := "cora" if id=="casa_jogador" and p.x<0 else id
+	# Conversão individual: cada edifício só troca a arte quando recebe modelo próprio.
+	if modelo_id in ["forja","carpintaria","mistica","enfermaria","venda","pousada","sede","casa_bento","cora","casa_jogador"]:
+		var fachada := preload("res://codigo/campanha/casa_vila_3d.gd").new()
+		fachada.id=modelo_id
 		fachada.largura=float(ARTE[id][2])
-		fachada.position=p
-		fachada.name=id.to_pascal_case()
-		fachada.z_index=Profundidade.z_de(p.y)
+		# O pivô original inclui a peça mais à frente: bigorna, cavalete ou degrau.
+		var medidas: Vector3 = fachada.MEDIDAS[modelo_id]
+		var profundidade_frente: float = {"forja":1.54,"carpintaria":1.55,"mistica":1.64,"enfermaria":1.79,"venda":1.94,"pousada":1.90,"sede":2.29,"casa_bento":1.91,"cora":1.80,"casa_jogador":1.91}[modelo_id]
+		var frente := fachada.largura/medidas.x*profundidade_frente*sin(atan2(7.0,10.0))
+		var eixo_porta := 0.62 if modelo_id=="cora" else 0.0
+		fachada.position=p-Vector2(eixo_porta*fachada.largura/medidas.x,frente)
+		fachada.z_index=Profundidade.z_de(fachada.position.y)
 		add_child(fachada)
-		_fachadas_familias.append(fachada)
-		var base:float=float(ARTE[id][2])*0.65
-		_colisao(Rect2(p-Vector2(base/2,38),Vector2(base,40)))
-		return
-	var sprite:=_arte(id,p)
-	var largura:float=ARTE[id][2]*0.65
-	_colisao(Rect2(p-Vector2(largura/2,38),Vector2(largura,40)))
-	sprite.name=id.to_pascal_case()
+	else:
+		var familia := "mara" if id=="pousada" else ("rosa" if id=="enfermaria" else ("cora" if id=="casa_jogador" and p.x<0 else ""))
+		if familia.is_empty():
+			_arte(id,p)
+		else:
+			var fachada=preload("res://codigo/cidade/familias/exterior_familia.gd").new()
+			fachada.id=familia
+			fachada.largura=float(ARTE[id][2])
+			fachada.position=p
+			fachada.name=id.to_pascal_case()
+			fachada.z_index=Profundidade.z_de(p.y)
+			add_child(fachada)
+			_fachadas_familias.append(fachada)
+	var base:float=float(ARTE[id][2])*0.65
+	_colisao(Rect2(p-Vector2(base/2,38),Vector2(base,40)))
 
 func _arte(id: String,p: Vector2) -> Sprite2D:
 	var dados: Array=ARTE[id]
@@ -197,6 +213,8 @@ func _jardins() -> void:
 		for i in 14:
 			var p:Vector2=centro+Vector2(rng.randf_range(-48,48),rng.randf_range(-30,30))
 			if _terreno(p)!="grama":continue
+			# A vegetação solta do bairro não cobre a porta e os degraus da moradia leste.
+			if Rect2(480,-226,68,94).has_point(p):continue
 			_miudo("vegetacao/arbusto" if i%3==0 else "vegetacao/flores",p,36)
 	for p in [Vector2(-128,112),Vector2(128,112)]:
 		_enfeite("mobiliario/banco_piquenique_esquerdo",p,Vector2(10,8))

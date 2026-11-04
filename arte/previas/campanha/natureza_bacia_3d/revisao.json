@@ -1,0 +1,21 @@
+{
+  "motor": "Godot 4.7.2 Compatibility",
+  "referencia_grama": "arte/fontes/campanha/natureza_bacia_3d/grama-geometria-referencia.png",
+  "capturas_detalhe": "gramado-final/moinho-0.png .. moinho-3.png",
+  "capturas_mapa": "mapa-gramado-final/moinho-0.png .. moinho-3.png",
+  "jogavel": "jogavel.png",
+  "revisao": "Gramado 3D denso sem imagem de grama, solo com relevo e cascalho, copas de folhas e pinheiros modelados, sombras sobre o chão. Quatro estações renderizadas no motor.",
+  "execucao": "Prévia jogável com save isolado AlgoLand testes puzzle 3D moinho; instância aberta",
+  "escopo": "Visual 3D em câmera fixa; atores, física e navegação continuam 2D.",
+  "testes_automatizados": "Não executados.",
+  "limitacoes": "Atores/física continuam 2D. Não foi realizada uma sessão cooperativa completa.",
+  "aprovacao_usuario": "Pendente",
+  "filtro_pixel": "Solo: 2 pixels; árvores: 1 pixel lógico com amostragem curta; grama e sobreposição sem filtro.",
+  "interacao": "interacao-final/: quatro estações e sequências passagem-XX/retorno-XX; passagem.gif",
+  "sobreposicao": "Pés do jogador e bases das árvores/arbustos recebem lâminas na frente; recuperação e vento conferidos na sequência renderizada.",
+  "desempenho": "Sem medição mobile. Texturas das copas compartilhadas por variante e renderizadas somente na criação/troca de estação; sombras possuem proxies 3D.",
+  "referencia_arvores": "arte/fontes/campanha/natureza_bacia_3d/arvore-cartoon-usuario.png",
+  "capturas_arvores": "arvores-2d-restauradas/moinho-0.png .. moinho-3.png",
+  "arvores": "Árvores 2D cartoon originais restauradas; grama na frente da base mantida.",
+  "revisao_arvores": "Restauração dos sprites sazonais originais; pivôs e base física mantidos. Versão 3D cartoon rejeitada pelo usuário."
+}

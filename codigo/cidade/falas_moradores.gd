@@ -15,7 +15,7 @@ extends RefCounted
 const FALAS := {
 	"ferreiro": {
 		"jeito": "Ferreiro meticuloso, de humor seco. Mede duas vezes, martela uma. Gosta de reparar antes de descartar.",
-		"boas_vindas": "Ivo. Ferreiro. Essa mecha branca? Uma receita que deu errado. Brincadeira... duas. Minha forja fica ao norte da venda. As receitas caem na arena. Colete o pergaminho e use na mochila para aprender. Depois traga os materiais na mochila. Depois da primeira fabricacao, o modelo fica seu para sempre.",
+		"boas_vindas": "Ivo. Ferreiro. Essa mecha branca? Uma receita que deu errado. Brincadeira... duas. Minha forja fica ao norte da venda. O caminho é: consiga um pergaminho de receita na arena, use-o pela mochila para aprender, reúna os materiais e consulte a receita na forja para encomendar. Eu consumo os materiais no pedido; a arma fica pronta em um a três dias. Depois da primeira fabricação, o modelo fica seu para sempre.",
 		"saudacoes": {"novo": ["{periodo}. Cuidado com a bancada: ela ganha qualquer disputa com um joelho."],
 			"conhecido": ["{periodo}. Trouxe material ou uma historia de como quebrou a ultima arma?", "{periodo}. O fogo ja esta no ponto."],
 			"amigo": ["{periodo}, camarada. Separei um lugar longe das faiscas para voce.", "Chegou em boa hora. Preciso de alguem que saiba ouvir o silencio entre as marteladas."]},
@@ -23,7 +23,7 @@ const FALAS := {
 			{"texto": "O Bento emprestou a enxada favorita dele. Pediu para nao mudar o cabo. Fingi que nao vi o nome que ele gravou na madeira."},
 			{"texto": "O Caio quer uma espada que cante. Estou fazendo uma que fique quieta. Ele ja faz barulho pelos dois."},
 			{"texto": "No inverno o fogo aquece a casa inteira. O dificil e convencer os vizinhos a ir embora antes de dormir."}],
-		"dicas": [{"chave": "forja", "prioridade": 25, "texto": "A receita e um pergaminho que cai na arena. Use na mochila para aprender; so entao o craft fica disponivel aqui."},
+		"dicas": [{"chave": "forja", "prioridade": 25, "texto": "Receita é um pergaminho: use pela mochila para aprender. Depois, na forja, escolha o modelo, confira os materiais e encomende. Eles são consumidos no pedido; a arma leva de um a três dias para ficar pronta. Use a mochila para equipar a arma recebida."},
 			{"chave": "deposito", "prioridade": 20, "texto": "Madeira, pedra, minerio, fibras, fragmentos e nucleos ocupam espaco na mochila. Itens iguais empilham. Eu uso os materiais de quem faz o pedido; o bau serve para guardar e trocar com seu parceiro."},
 			{"chave": "modelo", "prioridade": 20, "texto": "Fabrique cada modelo uma vez. A proxima partida entrega uma copia comum no nivel 1. Melhorias e encantamentos da arena continuam valendo so aquela partida."}],
 		"historias": [{"amizade": 3, "texto": "Aprendi com minha mae. Ela dizia que ferro lembra cada golpe. Levei anos para entender que gente tambem lembra."},

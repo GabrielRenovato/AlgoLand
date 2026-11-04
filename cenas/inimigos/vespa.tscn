@@ -25,8 +25,8 @@ size = Vector2(14, 14)
 size = Vector2(18, 18)
 
 [node name="Vespa_Wayward" type="CharacterBody2D" groups=["enemy"]]
-collision_layer = 4
-collision_mask = 0
+collision_layer = 36
+collision_mask = 2
 script = ExtResource("1_script")
 texturas = [ExtResource("2_v01"), ExtResource("2_v02"), ExtResource("2_v03"), ExtResource("2_v04"), ExtResource("2_v05"), ExtResource("2_v06"), ExtResource("2_v07"), ExtResource("2_v08"), ExtResource("2_v09"), ExtResource("2_v10"), ExtResource("2_v11"), ExtResource("2_v12"), ExtResource("2_v13"), ExtResource("2_v14"), ExtResource("2_v15"), ExtResource("2_v16")]
 colunas = 4

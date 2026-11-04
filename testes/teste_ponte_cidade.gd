@@ -109,7 +109,6 @@ func rodar() -> void:
 		jogador.position=Vector2(676,274)
 		jogador.z_index = Profundidade.z_de(jogador.position.y + 11)
 		jogador._direcao_ataque=Vector2.DOWN
-		jogador.get_node("HeroiRaven")._process(0.0)
 		await esperar(3)
 		await RenderingServer.frame_post_draw
 		vp.get_texture().get_image().save_png("/tmp/algoland-ponte-cidade/estacao_%d.png" % e)

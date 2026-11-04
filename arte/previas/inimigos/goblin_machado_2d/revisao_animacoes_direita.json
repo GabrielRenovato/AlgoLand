@@ -1,0 +1,85 @@
+{
+  "escopo": "corrida e ataque para direita sobre novo modelo parrudo aceito pelo usuário; cena visual própria, sem troca parcial do inimigo ativo de quatro rumos",
+  "geracao": "image_gen integrado; modelo aceito + referência de movimento do Reddit, sem transferência literal de poses",
+  "fontes": [
+    "arte/fontes/inimigos/goblin_machado_2d/corrida_modelo_proprio_direita_v2.png",
+    "arte/fontes/inimigos/goblin_machado_2d/ataque_reddit_direita_v4.png",
+    "arte/fontes/inimigos/goblin_machado_2d/efeito_corte_reddit_v1.png"
+  ],
+  "prompts": [
+    "prompt_corrida_modelo_proprio.txt",
+    "prompt_corrida_modelo_proprio_correcao.txt",
+    "prompt_ataque_modelo_proprio.txt",
+    "prompt_ataque_modelo_proprio_correcao.txt",
+    "prompt_ataque_reddit.txt",
+    "prompt_efeito_corte.txt"
+  ],
+  "recurso": "assets/inimigos/goblin_machado_2d/animacoes.tres",
+  "registro": "assets/inimigos/goblin_machado_2d/registro_animacoes.json",
+  "cena": "cenas/inimigos/goblin_machado_2d_visual.tscn",
+  "altura_guarda_px": 31.24,
+  "corrida": {
+    "quadros": 8,
+    "duracao_ms": 480,
+    "loop": true,
+    "velocidade_px_s": 100,
+    "fases": "contato, absorção, passagem e voo; apoio alternado; duas mãos estabilizam arma; cabeça e ombros acompanham compressão e impulso",
+    "sha256_preservado": "316b5015323689627e2d1ffc21bff297fe3051abba3ec872961a6daf3d14799a"
+  },
+  "ataque": {
+    "quadros_temporais": 8,
+    "ordem_fontes": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "duracao_ms": 880,
+    "impacto_quadro": 4,
+    "impacto_ms": 425,
+    "loop": false,
+    "referencia": "https://www.reddit.com/r/PixelArt/comments/1p4i02s/heavy_axe_attack_looped/",
+    "analise": "Preparação oposta ao alvo, quadril e ombros giram até mostrar dorso; impacto em varrida para direita, continuação baixa e recuperação. Ordem natural substitui repetição/recuo da versão rejeitada.",
+    "limpeza_alfa": 200,
+    "efeito_corte": {
+      "quadros": [
+        3,
+        4,
+        5
+      ],
+      "duracoes_ms": [
+        45,
+        55,
+        90
+      ],
+      "estilo": "crescente branco com azul claro da referencia; cresce no impacto e afina ao desaparecer",
+      "composicao": "mesma grade 640, sobre corpo, sem deslocamento"
+    }
+  },
+  "revisao_visual": {
+    "responsavel": "Codex",
+    "metodo": "Inspeção dos contatos, fases do golpe e capturas reais no Godot, com player e duas reproduções; corrida em deslocamento por dois ciclos. GIFs exportados dos mesmos atlas e capturas. Não se afirma reprodução de GIF pelo visualizador estático.",
+    "resultado": "Inspeção das oito poses e das capturas reais no Godot: preparação, giro do dorso no impacto, continuação baixa e retorno à guarda legíveis; lâmina completa, chão comum, escala próxima do player e pegada contínua. Corrida preservada por hash. Prévia de direita; não representa substituição do inimigo ativo de quatro direções. Rastro inspecionado nas capturas reais de passagem/impacto/continuação no Godot: arco branco largo conectado à região da lâmina, legível na escala de jogo, desaparece na recuperação.",
+    "aprovacao_artistica_usuario": false,
+    "evidencias": [
+      "/var/home/alfeim/AlgoLand/arte/previas/inimigos/goblin_machado_2d/no_mapa.png",
+      "/var/home/alfeim/AlgoLand/arte/previas/inimigos/goblin_machado_2d/reproducao_motor.gif",
+      "/var/home/alfeim/AlgoLand/arte/previas/inimigos/goblin_machado_2d/reproducao_motor_contato.png",
+      "/var/home/alfeim/AlgoLand/arte/previas/inimigos/goblin_machado_2d/corrida_deslocamento_motor.gif",
+      "/var/home/alfeim/AlgoLand/arte/previas/inimigos/goblin_machado_2d/corrida_deslocamento_contato.png",
+      "/var/home/alfeim/AlgoLand/arte/previas/inimigos/goblin_machado_2d/correr_direita_contato.png",
+      "/var/home/alfeim/AlgoLand/arte/previas/inimigos/goblin_machado_2d/ataque_direita_contato.png"
+    ]
+  },
+  "testes": {
+    "verificacoes_ok": 16,
+    "falhas": 0,
+    "aprovado": true,
+    "estado_preservado": true,
+    "relatorio": "/tmp/algoland-harness/execucao-usv92ibk/relatorio.json"
+  }
+}

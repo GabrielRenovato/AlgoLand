@@ -210,6 +210,8 @@ func _validar_save(dados: Dictionary) -> Error:
 ## A tentativa é independente do histórico de desbloqueios. Entregas em outra região sobrevivem ao mapa.
 func iniciar_instancia(regiao: String) -> Error:
 	if not _pronto or not acesso_liberado(regiao): return ERR_UNAUTHORIZED
+	# A cidade conserva suas missões; só as expedições iniciam novas tentativas.
+	if regiao=="vila":return OK
 	var missao := ""
 	for id in _catalogo.missoes:
 		if _catalogo.missoes[id].destino == regiao:
