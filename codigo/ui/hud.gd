@@ -430,6 +430,10 @@ func atualizar_rotulo_onda(onda: int) -> void:
 	rotulo_onda.text = "ANDAR %d" % onda
 
 ## Avisos compactos junto à borda inferior, acima da barra de ações.
+## Recado curto de progresso (maestria da arma subiu etc.), na faixa do anúncio.
+func avisar(texto: String) -> void:
+	anunciar(texto, "", 2.5)
+
 func anunciar(texto: String, subtitulo := "", tempo_visivel := 1.5) -> void:
 	_mostrar_banner(texto, subtitulo, tempo_visivel)
 

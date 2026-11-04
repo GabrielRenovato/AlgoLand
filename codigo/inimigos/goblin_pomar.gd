@@ -193,7 +193,7 @@ func iniciar_ataque(rumo: Vector2) -> void:
 	velocity = Vector2.ZERO
 	_tocar("ataque_1",true)
 	_aviso.rotation = _rumo.angle()
-	_aviso.show()
+	# Sem linha de aviso nos inimigos comuns: a pose de preparo já anuncia o golpe.
 
 func _resolver_impactos() -> void:
 	var t := 0.0

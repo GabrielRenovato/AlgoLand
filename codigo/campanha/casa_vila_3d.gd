@@ -27,6 +27,8 @@ var _construcao: Node3D
 var _estacao := -1
 var _objetos: Array[Node2D] = []
 var _largura_modelo := 4.7
+## Base da construção no chão (px, local): sombra de contato e colisão usam o mesmo contorno.
+var contorno_chao := PackedVector2Array()
 
 func _ready() -> void:
 	name = id.to_pascal_case()
@@ -185,6 +187,7 @@ func _sombra_construcao() -> void:
 	if id == "cora": contorno = PackedVector2Array([Vector2(-2.43,-1.16),Vector2(2.43,-1.16),Vector2(2.43,1.16),Vector2(1.27,1.16),Vector2(1.27,1.80),Vector2(-0.03,1.80),Vector2(-0.03,1.42),Vector2(-2.43,1.42)])
 	var escala_unidade := largura/_largura_modelo
 	for i in contorno.size(): contorno[i] = Vector2(contorno[i].x+0.055,contorno[i].y*sin(atan2(ELEVACAO_CAMERA,10.0))+0.075)*escala_unidade
+	contorno_chao = contorno
 	var sombra := Polygon2D.new()
 	sombra.name = "SombraDeContatoDaConstrucao"
 	sombra.polygon = contorno

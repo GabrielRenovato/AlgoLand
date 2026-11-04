@@ -4,6 +4,7 @@
 	"moradores": [
 		{
 			"id": "dara",
+			"armadura_npc": "guarda_novato",
 			"nome": "Dara",
 			"importante": true,
 			"perfil": "guarda",

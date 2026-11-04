@@ -7,11 +7,35 @@ const ARTE := {
 	"enfermaria":["enfermaria_mistica",0,240.0],"mistica":["enfermaria_mistica",1,240.0],
 	"carvalho_praca":["arvore_portaria",0,320.0],"portaria":["arvore_portaria",1,112.0],
 	"venda":["venda_casa",0,240.0],"casa_bento":["venda_casa",1,208.0],"casa_jogador":["venda_casa",1,192.0]}
+## As construções ficavam grandes demais perto do jogador; a escala vale para fachada, colisão e base.
+const ESCALA_CASAS := 0.8
 var setores: Dictionary = {}
 var _barracas: Array[Sprite2D] = []
 var _pecas_referencia: Array[Dictionary] = []
 var _fontes_arte: Dictionary = {}
 var _fachadas_familias: Array[Node2D] = []
+## Casas que ficam translúcidas quando um jogador passa por trás delas.
+var _casas: Array[Node2D] = []
+const ALFA_ATRAS := 0.45
+
+func _process(delta: float) -> void:
+	var jogadores := get_tree().get_nodes_in_group("jogadores")
+	for casa in _casas:
+		if not is_instance_valid(casa): continue
+		var atras := false
+		var area := _area_visivel(casa)
+		for j in jogadores:
+			var p: Vector2 = (j as Node2D).global_position
+			if p.y < casa.global_position.y and area.has_point(p):
+				atras = true
+				break
+		casa.modulate.a = move_toward(casa.modulate.a, ALFA_ATRAS if atras else 1.0, delta*4.0)
+
+func _area_visivel(casa: Node2D) -> Rect2:
+	for filho in casa.get_children():
+		if filho is Sprite2D and filho.texture != null:
+			return filho.get_global_transform() * filho.get_rect()
+	return Rect2(casa.global_position, Vector2.ZERO)
 
 ## Chão no padrão modular da chegada e da estrada: tiles por cantos de 16 px e texturas contínuas por estação.
 const RAIZ_MODULAR := "res://assets/cenario/campanha/clareiras_modulares/"
@@ -111,7 +135,7 @@ func _casa(id: String,p: Vector2) -> void:
 	if modelo_id in ["forja","carpintaria","mistica","enfermaria","venda","pousada","sede","casa_bento","cora","casa_jogador"]:
 		var fachada := preload("res://codigo/campanha/casa_vila_3d.gd").new()
 		fachada.id=modelo_id
-		fachada.largura=float(ARTE[id][2])
+		fachada.largura=float(ARTE[id][2])*ESCALA_CASAS
 		# O pivô original inclui a peça mais à frente: bigorna, cavalete ou degrau.
 		var medidas: Vector3 = fachada.MEDIDAS[modelo_id]
 		var profundidade_frente: float = {"forja":1.54,"carpintaria":1.55,"mistica":1.64,"enfermaria":1.79,"venda":1.94,"pousada":1.90,"sede":2.29,"casa_bento":1.91,"cora":1.80,"casa_jogador":1.91}[modelo_id]
@@ -120,6 +144,12 @@ func _casa(id: String,p: Vector2) -> void:
 		fachada.position=p-Vector2(eixo_porta*fachada.largura/medidas.x,frente)
 		fachada.z_index=Profundidade.z_de(fachada.position.y)
 		add_child(fachada)
+		_casas.append(fachada)
+		if fachada.contorno_chao.size() >= 3:
+			var base_casa := PackedVector2Array()
+			for ponto in fachada.contorno_chao: base_casa.append(fachada.position+ponto)
+			_colisao_poligono(base_casa)
+			return
 	else:
 		var familia := "mara" if id=="pousada" else ("rosa" if id=="enfermaria" else ("cora" if id=="casa_jogador" and p.x<0 else ""))
 		if familia.is_empty():
@@ -127,13 +157,14 @@ func _casa(id: String,p: Vector2) -> void:
 		else:
 			var fachada=preload("res://codigo/cidade/familias/exterior_familia.gd").new()
 			fachada.id=familia
-			fachada.largura=float(ARTE[id][2])
+			fachada.largura=float(ARTE[id][2])*ESCALA_CASAS
 			fachada.position=p
 			fachada.name=id.to_pascal_case()
 			fachada.z_index=Profundidade.z_de(p.y)
 			add_child(fachada)
 			_fachadas_familias.append(fachada)
-	var base:float=float(ARTE[id][2])*0.65
+			_casas.append(fachada)
+	var base:float=float(ARTE[id][2])*ESCALA_CASAS*0.65
 	_colisao(Rect2(p-Vector2(base/2,38),Vector2(base,40)))
 
 func _arte(id: String,p: Vector2) -> Sprite2D:

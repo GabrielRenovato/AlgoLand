@@ -15,6 +15,8 @@ var _reacoes_moradores:Dictionary={}
 var _morador_conversando:Node
 var _treino: Node
 var _escolha_ativa := ""
+## Poções de cura que vêm no baú de resgate, junto com a espada.
+const POCOES_INICIAIS := 5
 var _recompensados: Array = []
 var _nome_servico := ""
 const FALAS_PASSOS := {
@@ -364,6 +366,8 @@ func _ao_escolher(indice: int) -> void:
 		"tomas_compra":
 			if indice<3:_abrir_menu.call_deferred("tomas_compra",[Servicos.comprar(jogador,["ferro","madeira","fibra"][indice])],_nome_servico)
 			else:_abrir_menu.call_deferred("tomas_menu",[],_nome_servico)
+		"bau_inicial":
+			if indice==0:_pegar_bau()
 		"rosa_menu":
 			match indice:
 				0:_abrir_menu.call_deferred("rosa_menu",[Servicos.tratar(jogador)],_nome_servico)
@@ -381,6 +385,15 @@ func _abrir_menu(menu: String,paginas: Array,nome: String) -> void:
 		"tomas_compra":
 			falas.append("Ferro, madeira ou fibra?")
 			opcoes=["Ferro (%d)" % Servicos.PRECOS_COMPRA.ferro,"Madeira (%d)" % Servicos.PRECOS_COMPRA.madeira,"Fibra (%d)" % Servicos.PRECOS_COMPRA.fibra,"Voltar"]
+		"bau_inicial":
+			var itens: Array[String] = []
+			var feitos: Array = controlador.progresso.objetivos_cumpridos("sobreviver_queda")
+			if not "espada" in feitos: itens.append("• Espada")
+			if not "escudo" in feitos: itens.append("• Escudo")
+			if not "espada" in feitos: itens.append("• %d poções de cura" % POCOES_INICIAIS)
+			if itens.is_empty(): return
+			falas.append("Dentro do baú de resgate:\n" + "\n".join(itens))
+			opcoes=["Pegar tudo","Deixar para depois"]
 		"rosa_menu":
 			falas.append("Posso cuidar de você ou preparar um curativo.")
 			opcoes=["Tratar ferimentos (%d)" % Servicos.CUSTO_TRATAMENTO,"Comprar cura (%d)" % Servicos.PRECO_CURA,"Sair"]
@@ -845,6 +858,7 @@ func interagir_proximo() -> Error:
 		return encontro.iniciar()
 	var erro := controlador.interagir(tipo,id)
 	if erro == OK and id in ["espada_inicial","escudo_inicial","kit_resgate"]:
+		if id == "espada_inicial": _dar_pocoes_iniciais()
 		if id != "kit_resgate": _restaurar_equipamentos()
 		_preparar_criatura()
 	if erro == OK: salvar_retorno()
@@ -857,8 +871,29 @@ func _ao_bau_aberto() -> void:
 	if erro!=OK:
 		_avisar("Não foi possível salvar a abertura do baú.")
 	else:
-		_avisar("Baú aberto. Pegue a espada e o escudo.")
+		_abrir_menu.call_deferred("bau_inicial",[],"Baú de resgate")
 	_atualizar()
+
+## Recolhe o que falta do baú inicial (espada, escudo e, junto com a espada, as poções de cura).
+func _pegar_bau() -> void:
+	for id in ["espada_inicial","escudo_inicial"]:
+		if (("espada" if id=="espada_inicial" else "escudo") in controlador.progresso.objetivos_cumpridos("sobreviver_queda")):continue
+		if not jogador.inventario.tem_espaco():
+			_avisar("Libere espaço na mochila.")
+			break
+		var erro := controlador.interagir("coletar",id)
+		if erro!=OK:continue
+		if id=="espada_inicial":_dar_pocoes_iniciais()
+		_restaurar_equipamentos()
+		_preparar_criatura()
+	salvar_retorno()
+	_atualizar()
+	_avisar("Equipamento recolhido.")
+
+func _dar_pocoes_iniciais() -> void:
+	var mochila: Node = jogador.inventario
+	if not mochila.adicionar_coletavel("pocao","cura",POCOES_INICIAIS) or not mochila.salvar():
+		_avisar("Não foi possível guardar as poções.")
 
 func _fala(id: String) -> String:
 	match id:

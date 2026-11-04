@@ -110,7 +110,7 @@ func _iniciar_ataque(direcao: Vector2) -> void:
 	_estado = "ataque"
 	_quadro = 0.0
 	_aviso_golpe.rotation = _direcao_golpe.angle()
-	_aviso_golpe.visible = true
+	_aviso_golpe.visible = false
 
 func _atualizar_golpe(delta: float) -> void:
 	_tempo_golpe += delta
@@ -152,7 +152,7 @@ func _golpe_arraia() -> void:
 	# 0–0,30s prepara; 0,30–0,52s dá o bote; o resto é recuperação.
 	if _tempo_golpe < 0.30:
 		velocity = Vector2.ZERO
-		_aviso_golpe.visible = true
+		_aviso_golpe.visible = false
 		move_and_slide()
 		return
 	_aviso_golpe.visible = false
@@ -170,7 +170,7 @@ func _golpe_besouro() -> void:
 	# Aviso mais longo; o besouro vira uma bola pesada e percorre uma distância maior.
 	if _tempo_golpe < 0.42:
 		velocity = Vector2.ZERO
-		_aviso_golpe.visible = true
+		_aviso_golpe.visible = false
 		move_and_slide()
 		return
 	_aviso_golpe.visible = false
@@ -189,7 +189,7 @@ func _golpe_valvula() -> void:
 	velocity = Vector2.ZERO
 	move_and_slide()
 	if _tempo_golpe < 0.48:
-		_aviso_golpe.visible = true
+		_aviso_golpe.visible = false
 		return
 	if _tempo_golpe >= 0.48 and not _jato_disparado:
 		_jato_disparado = true
