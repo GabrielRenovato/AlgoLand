@@ -1,0 +1,32 @@
+{
+  "familia": "machado",
+  "direcao": "direita",
+  "celula": 640,
+  "linhas": 7,
+  "acoes": [
+    {
+      "nome": "correr_direita",
+      "linha": 0,
+      "quadros": 8,
+      "linhas": 2
+    },
+    {
+      "nome": "ataque_direita",
+      "linha": 2,
+      "quadros": 8,
+      "linhas": 2
+    },
+    {
+      "nome": "ferido_direita",
+      "linha": 4,
+      "quadros": 4,
+      "linhas": 1
+    },
+    {
+      "nome": "morte_direita",
+      "linha": 5,
+      "quadros": 8,
+      "linhas": 2
+    }
+  ]
+}

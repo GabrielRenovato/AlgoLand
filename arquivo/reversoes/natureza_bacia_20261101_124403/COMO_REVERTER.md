@@ -1,0 +1,1 @@
+No inspetor de cenas/campanha/terreno_moinho.tscn, desative natureza_lowpoly. Também é possível iniciar o jogo com -- --natureza-original. Isso mantém o moinho e o puzzle 3D e restaura somente o terreno e a vegetação anteriores.

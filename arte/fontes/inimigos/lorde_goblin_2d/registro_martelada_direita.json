@@ -1,0 +1,38 @@
+{
+  "direcao": "direita",
+  "grade": [
+    4,
+    2
+  ],
+  "celula": [
+    640,
+    640
+  ],
+  "pivo": [
+    320,
+    500
+  ],
+  "quantidade_quadros": 8,
+  "duracoes_ms": [
+    100,
+    150,
+    180,
+    50,
+    80,
+    110,
+    160,
+    170
+  ],
+  "impacto_quadro": 4,
+  "impacto_ms": 480,
+  "folha_final": "martelada_direita_escolhida_atlas.png",
+  "fonte": "martelada_folha_escolhida_usuario.png",
+  "transformacao_comum": {
+    "escala": 1,
+    "translacao": [
+      98,
+      70
+    ]
+  },
+  "escopo": "Previa/GIF da folha escolhida pelo usuario; sem substituir o chefe ativo"
+}

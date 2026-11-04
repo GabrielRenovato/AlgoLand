@@ -1,0 +1,23 @@
+{
+  "modelo_canonico": "res://cenas/personagem/base_3d/personagem.tscn",
+  "referencia": "referencia_usuario.png",
+  "pecas": [
+    "elmo",
+    "peitoral",
+    "luvas",
+    "botas"
+  ],
+  "camera": "mesma câmera elevada do HeroiBase3D",
+  "render_nativo": [
+    160,
+    160
+  ],
+  "filtro": "nearest, sem MSAA",
+  "pivo": "rig e pés originais; sem recentralizar quadros",
+  "materiais": "12 tons, aço azul-acinzentado e couro marrom; crista de metal sem pluma",
+  "movimento": "Walk_Loop nativo, 1.333333373s; idle, quatro direções e ações do rig",
+  "destino": "res://assets/personagens/conjuntos/guarda_novato/base_3d/",
+  "integracao": "Noel na primeira cidade e seletor nominal da oficina; 4 peças removíveis, corpo e cabelo restaurados",
+  "geracao": "modelagem de malhas skinned por código via gerador compartilhado; sem geração raster por IA",
+  "elmo": "Calota com abertura central até o queixo, rosto canônico visível, cabelo recolhido; abas laterais, nuca e crista preservadas. Sem viseira solta na frente."
+}

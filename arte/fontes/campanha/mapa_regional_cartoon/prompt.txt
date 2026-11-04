@@ -1,0 +1,15 @@
+Create a production background illustration for AlgoLand's interactive REGION SELECTION MAP, entirely original, using the attached Mario map ONLY as a reference for legible winding stage routes, stepped terrain and overview composition. Use the second reference (AlgoLand miniature atlas) for warm cartoon fantasy village, giant roots, terracotta cottages and golden-green trees. NOT pixel art. High quality clean hand-painted 2.5D cartoon videogame map, crisp readable chunky silhouettes, restrained surface texture, orthographic elevated overview, not a cinematic landscape. Landscape 1536x1024. Edge-to-edge continuous world with no frame, NO text, NO numerals, NO interface, NO labels, NO circular level markers, NO characters, no Mario pipes or symbols.
+World: Primeira Raiz, a coherent large forested river-valley island with distinct connected terraces, surrounded by deep teal water at the image perimeter, a winding turquoise river, waterfalls, wooden bridges, sunny olive-green meadows and amber stone cliffs. Keep landmark shapes large and readable at 576x384 and on a movable mobile map. Draw comfortable pale ochre walking trails physically connecting all 12 landmarks, with small open arrival clearings beside each landmark for game markers. Starting lower-left and progressing around and toward upper-right, branching routes and shortcuts. Position these landmarks approximately at normalized centers (x,y from top-left):
+1 isolated mossy arrival clearing with a glowing root fissure at (.16,.76);
+2 winding wagon road, a small abandoned cart and bridge at (.28,.63);
+3 welcoming village with 5 terracotta-roof cottages grouped around a great ROOT TREE on central-left terrace (.35,.46);
+4 tidy orchard with pale fences and rows of fruit trees (.16,.39);
+5 watermill, big wooden water wheel, river and sluice pond (.49,.65);
+6 shallow reed wetlands with a sunken broken stone causeway (.68,.80);
+7 rocky amber quarry with a few luminous teal mineral veins and equipment (.81,.61);
+8 dark mine portal in a cliff with mine rails (.86,.43);
+9 dense old-growth forest with one curving huge root arch (.58,.37);
+10 ruined astronomer's circular stone observatory and telescope (.20,.20);
+11 overgrown tiered root gardens, old aqueduct and warm lanterns (.49,.18);
+12 imposing ancient stone-root fortress with a closed ornate portal under a colossal sacred golden-green tree (.78,.20).
+One connected large region with varied elevation and a clear route network, not 12 disconnected floating icons. There should be geographical breathing room around the giant tree village, orchard, river and quarry so these are distinct exploration destinations. The visual hierarchy is terrain, connecting routes, landmark architecture. Moderate decorative detail; avoid noisy tiny stippling. No heavy clouds hiding destinations, no white margins, no excessive ocean empty area. The whole scene is an interface cartographic illustration, not physical gameplay terrain or a tileset. Preserve the established warm green/gold/terracotta palette and legibility of AlgoLand.

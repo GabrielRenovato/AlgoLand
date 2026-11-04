@@ -1,0 +1,6 @@
+interface:
+  display_name: "Artista 3D Pixel do AlgoLand"
+  short_description: "Cria arte 3D pintada como pixel art para o jogo"
+  default_prompt: "Use $arte-3d-pixel para criar este recurso no estilo visual do AlgoLand."
+policy:
+  allow_implicit_invocation: true

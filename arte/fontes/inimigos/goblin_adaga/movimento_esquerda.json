@@ -1,0 +1,517 @@
+{
+  "direcao": "esquerda",
+  "acao": "correr",
+  "modelo": "mesmo goblin e corrida direita; vista do outro lado do corpo, mão direita distante da câmera",
+  "celula": [
+    640,
+    640
+  ],
+  "pivo": [
+    320,
+    560
+  ],
+  "escala": 0.071,
+  "altura_referencia_px": 31,
+  "duracao_ms": 400,
+  "velocidade_px_s": 100,
+  "mao_dominante": "direita no lado distante; braço esquerdo próximo vazio",
+  "referencia": "corrida_direita_v1.png para identidade e fases; corrida frontal aprovada para cabeça/tronco solidários; estudo externo Oul Studio já registrado",
+  "quadros": [
+    {
+      "quadro": 0,
+      "fase": "contato direito",
+      "duracao_ms": 50,
+      "apoio": "direito",
+      "articulacoes_guia": {
+        "cabeca": [
+          298,
+          248
+        ],
+        "ombro": [
+          310,
+          307
+        ],
+        "quadril": [
+          338,
+          406
+        ],
+        "joelho_direito": [
+          284,
+          454
+        ],
+        "pe_direito": [
+          236,
+          532
+        ],
+        "joelho_esquerdo": [
+          391,
+          449
+        ],
+        "pe_esquerdo": [
+          416,
+          488
+        ],
+        "mao_adaga": [
+          375,
+          390
+        ],
+        "cotovelo_direito": [
+          355,
+          356
+        ],
+        "cotovelo_esquerdo": [
+          276,
+          349
+        ],
+        "mao_esquerda": [
+          257,
+          385
+        ]
+      }
+    },
+    {
+      "quadro": 1,
+      "fase": "absorcao direita",
+      "duracao_ms": 60,
+      "apoio": "direito",
+      "articulacoes_guia": {
+        "cabeca": [
+          298,
+          258
+        ],
+        "ombro": [
+          310,
+          317
+        ],
+        "quadril": [
+          338,
+          416
+        ],
+        "joelho_direito": [
+          306,
+          466
+        ],
+        "pe_direito": [
+          276,
+          532
+        ],
+        "joelho_esquerdo": [
+          384,
+          435
+        ],
+        "pe_esquerdo": [
+          398,
+          463
+        ],
+        "mao_adaga": [
+          334,
+          409
+        ],
+        "cotovelo_direito": [
+          334,
+          366
+        ],
+        "cotovelo_esquerdo": [
+          276,
+          359
+        ],
+        "mao_esquerda": [
+          257,
+          395
+        ]
+      }
+    },
+    {
+      "quadro": 2,
+      "fase": "passagem esquerda",
+      "duracao_ms": 40,
+      "apoio": "direito",
+      "articulacoes_guia": {
+        "cabeca": [
+          298,
+          248
+        ],
+        "ombro": [
+          310,
+          307
+        ],
+        "quadril": [
+          338,
+          406
+        ],
+        "joelho_direito": [
+          344,
+          464
+        ],
+        "pe_direito": [
+          344,
+          532
+        ],
+        "joelho_esquerdo": [
+          276,
+          454
+        ],
+        "pe_esquerdo": [
+          293,
+          503
+        ],
+        "mao_adaga": [
+          276,
+          377
+        ],
+        "cotovelo_direito": [
+          305,
+          356
+        ],
+        "cotovelo_esquerdo": [
+          276,
+          349
+        ],
+        "mao_esquerda": [
+          257,
+          385
+        ]
+      }
+    },
+    {
+      "quadro": 3,
+      "fase": "voo para esquerda",
+      "duracao_ms": 50,
+      "apoio": "nenhum",
+      "articulacoes_guia": {
+        "cabeca": [
+          298,
+          235
+        ],
+        "ombro": [
+          310,
+          294
+        ],
+        "quadril": [
+          338,
+          393
+        ],
+        "joelho_direito": [
+          388,
+          444
+        ],
+        "pe_direito": [
+          418,
+          491
+        ],
+        "joelho_esquerdo": [
+          277,
+          441
+        ],
+        "pe_esquerdo": [
+          250,
+          513
+        ],
+        "mao_adaga": [
+          266,
+          354
+        ],
+        "cotovelo_direito": [
+          300,
+          343
+        ],
+        "cotovelo_esquerdo": [
+          276,
+          336
+        ],
+        "mao_esquerda": [
+          257,
+          372
+        ]
+      }
+    },
+    {
+      "quadro": 4,
+      "fase": "contato esquerdo",
+      "duracao_ms": 50,
+      "apoio": "esquerdo",
+      "articulacoes_guia": {
+        "cabeca": [
+          298,
+          248
+        ],
+        "ombro": [
+          310,
+          307
+        ],
+        "quadril": [
+          338,
+          406
+        ],
+        "joelho_direito": [
+          391,
+          449
+        ],
+        "pe_direito": [
+          416,
+          488
+        ],
+        "joelho_esquerdo": [
+          284,
+          454
+        ],
+        "pe_esquerdo": [
+          236,
+          532
+        ],
+        "mao_adaga": [
+          266,
+          361
+        ],
+        "cotovelo_direito": [
+          300,
+          356
+        ],
+        "cotovelo_esquerdo": [
+          362,
+          349
+        ],
+        "mao_esquerda": [
+          379,
+          385
+        ]
+      }
+    },
+    {
+      "quadro": 5,
+      "fase": "absorcao esquerda",
+      "duracao_ms": 60,
+      "apoio": "esquerdo",
+      "articulacoes_guia": {
+        "cabeca": [
+          298,
+          258
+        ],
+        "ombro": [
+          310,
+          317
+        ],
+        "quadril": [
+          338,
+          416
+        ],
+        "joelho_direito": [
+          384,
+          435
+        ],
+        "pe_direito": [
+          398,
+          463
+        ],
+        "joelho_esquerdo": [
+          306,
+          466
+        ],
+        "pe_esquerdo": [
+          276,
+          532
+        ],
+        "mao_adaga": [
+          299,
+          391
+        ],
+        "cotovelo_direito": [
+          317,
+          366
+        ],
+        "cotovelo_esquerdo": [
+          362,
+          359
+        ],
+        "mao_esquerda": [
+          379,
+          395
+        ]
+      }
+    },
+    {
+      "quadro": 6,
+      "fase": "passagem direita",
+      "duracao_ms": 40,
+      "apoio": "esquerdo",
+      "articulacoes_guia": {
+        "cabeca": [
+          298,
+          248
+        ],
+        "ombro": [
+          310,
+          307
+        ],
+        "quadril": [
+          338,
+          406
+        ],
+        "joelho_direito": [
+          276,
+          454
+        ],
+        "pe_direito": [
+          293,
+          503
+        ],
+        "joelho_esquerdo": [
+          344,
+          464
+        ],
+        "pe_esquerdo": [
+          344,
+          532
+        ],
+        "mao_adaga": [
+          346,
+          406
+        ],
+        "cotovelo_direito": [
+          340,
+          356
+        ],
+        "cotovelo_esquerdo": [
+          362,
+          349
+        ],
+        "mao_esquerda": [
+          379,
+          385
+        ]
+      }
+    },
+    {
+      "quadro": 7,
+      "fase": "voo para direita",
+      "duracao_ms": 50,
+      "apoio": "nenhum",
+      "articulacoes_guia": {
+        "cabeca": [
+          298,
+          235
+        ],
+        "ombro": [
+          310,
+          294
+        ],
+        "quadril": [
+          338,
+          393
+        ],
+        "joelho_direito": [
+          277,
+          441
+        ],
+        "pe_direito": [
+          250,
+          513
+        ],
+        "joelho_esquerdo": [
+          388,
+          444
+        ],
+        "pe_esquerdo": [
+          418,
+          491
+        ],
+        "mao_adaga": [
+          375,
+          394
+        ],
+        "cotovelo_direito": [
+          355,
+          343
+        ],
+        "cotovelo_esquerdo": [
+          362,
+          336
+        ],
+        "mao_esquerda": [
+          379,
+          372
+        ]
+      }
+    }
+  ],
+  "observacao": "Guia de posições refletidas apenas para estudo do movimento; a arte será redesenhada com oclusão e braço dominante corretos, sem espelhamento do sprite.",
+  "registro_final": {
+    "fonte": "corrida_esquerda_v2.png",
+    "lado_intermediario": 560,
+    "deslocamento": [
+      40,
+      44
+    ],
+    "correcoes_maos": {
+      "2": "esquerda_pose_2_mao_corrigida.png",
+      "3": "esquerda_pose_3_mao_corrigida.png",
+      "4": "esquerda_pose_4_mao_corrigida.png",
+      "5": "esquerda_pose_5_mao_corrigida.png",
+      "6": "esquerda_pose_6_mao_corrigida.png"
+    }
+  },
+  "revisao_mao_dominante": {
+    "problema": "Folha v1 transferia faca ao braço próximo (esquerdo); edição de folha inteira ainda deixou restos de cabo e uma mão extra.",
+    "metodo": "Correções isoladas dos quadros2,3,4,5,6 pelo image_gen; revisão de cada ligação ombro/cotovelo/mão e remoção de arma do punho próximo.",
+    "quadros": [
+      {
+        "quadro": 0,
+        "mao_proxima": "esquerda vazia",
+        "mao_distante": "direita com adaga",
+        "posicao_arma": "atrás do quadril",
+        "numero_maos": 2
+      },
+      {
+        "quadro": 1,
+        "mao_proxima": "esquerda vazia",
+        "mao_distante": "direita com adaga",
+        "posicao_arma": "atrás do quadril",
+        "numero_maos": 2
+      },
+      {
+        "quadro": 2,
+        "mao_proxima": "esquerda vazia",
+        "mao_distante": "direita com adaga",
+        "posicao_arma": "atrás do quadril",
+        "numero_maos": 2
+      },
+      {
+        "quadro": 3,
+        "mao_proxima": "esquerda vazia",
+        "mao_distante": "direita com adaga",
+        "posicao_arma": "atrás do quadril",
+        "numero_maos": 2
+      },
+      {
+        "quadro": 4,
+        "mao_proxima": "esquerda vazia",
+        "mao_distante": "direita com adaga",
+        "posicao_arma": "à frente do tronco, braço parcialmente ocluído",
+        "numero_maos": 2
+      },
+      {
+        "quadro": 5,
+        "mao_proxima": "esquerda vazia",
+        "mao_distante": "direita com adaga",
+        "posicao_arma": "à frente do tronco, braço parcialmente ocluído",
+        "numero_maos": 2
+      },
+      {
+        "quadro": 6,
+        "mao_proxima": "esquerda vazia",
+        "mao_distante": "direita com adaga",
+        "posicao_arma": "à frente do tronco, braço parcialmente ocluído",
+        "numero_maos": 2
+      },
+      {
+        "quadro": 7,
+        "mao_proxima": "esquerda vazia",
+        "mao_distante": "direita com adaga",
+        "posicao_arma": "atrás do quadril",
+        "numero_maos": 2
+      }
+    ]
+  },
+  "estado": "cancelado_por_solicitacao_do_usuario",
+  "substituicao": "Espelhamento horizontal exato de corrida/guarda/combo da direita, por célula, sem alterar ordem ou tempos."
+}

@@ -1,0 +1,212 @@
+[gd_resource type="SpriteFrames" load_steps=57 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/inimigos/goblins_moinho/lanceiro/andar_direita.png" id="andar_direita"]
+[ext_resource type="Texture2D" path="res://assets/inimigos/goblins_moinho/lanceiro/andar_esquerda.png" id="andar_esquerda"]
+[ext_resource type="Texture2D" path="res://assets/inimigos/goblins_moinho/lanceiro/andar_baixo.png" id="andar_baixo"]
+[ext_resource type="Texture2D" path="res://assets/inimigos/goblins_moinho/lanceiro/andar_cima.png" id="andar_cima"]
+[ext_resource type="Texture2D" path="res://assets/inimigos/goblins_moinho/lanceiro/ataque_direita.png" id="ataque_direita"]
+[ext_resource type="Texture2D" path="res://assets/inimigos/goblins_moinho/lanceiro/ataque_esquerda.png" id="ataque_esquerda"]
+[ext_resource type="Texture2D" path="res://assets/inimigos/goblins_moinho/lanceiro/ataque_baixo.png" id="ataque_baixo"]
+[ext_resource type="Texture2D" path="res://assets/inimigos/goblins_moinho/lanceiro/ataque_cima.png" id="ataque_cima"]
+
+[sub_resource type="AtlasTexture" id="andar_direita_0"]
+atlas = ExtResource("andar_direita")
+region = Rect2(0, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="andar_direita_1"]
+atlas = ExtResource("andar_direita")
+region = Rect2(256, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="andar_direita_2"]
+atlas = ExtResource("andar_direita")
+region = Rect2(512, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="andar_direita_3"]
+atlas = ExtResource("andar_direita")
+region = Rect2(768, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="andar_direita_4"]
+atlas = ExtResource("andar_direita")
+region = Rect2(1024, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="andar_direita_5"]
+atlas = ExtResource("andar_direita")
+region = Rect2(1280, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="andar_esquerda_0"]
+atlas = ExtResource("andar_esquerda")
+region = Rect2(0, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="andar_esquerda_1"]
+atlas = ExtResource("andar_esquerda")
+region = Rect2(256, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="andar_esquerda_2"]
+atlas = ExtResource("andar_esquerda")
+region = Rect2(512, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="andar_esquerda_3"]
+atlas = ExtResource("andar_esquerda")
+region = Rect2(768, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="andar_esquerda_4"]
+atlas = ExtResource("andar_esquerda")
+region = Rect2(1024, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="andar_esquerda_5"]
+atlas = ExtResource("andar_esquerda")
+region = Rect2(1280, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="andar_baixo_0"]
+atlas = ExtResource("andar_baixo")
+region = Rect2(0, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="andar_baixo_1"]
+atlas = ExtResource("andar_baixo")
+region = Rect2(256, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="andar_baixo_2"]
+atlas = ExtResource("andar_baixo")
+region = Rect2(512, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="andar_baixo_3"]
+atlas = ExtResource("andar_baixo")
+region = Rect2(768, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="andar_baixo_4"]
+atlas = ExtResource("andar_baixo")
+region = Rect2(1024, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="andar_baixo_5"]
+atlas = ExtResource("andar_baixo")
+region = Rect2(1280, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="andar_cima_0"]
+atlas = ExtResource("andar_cima")
+region = Rect2(0, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="andar_cima_1"]
+atlas = ExtResource("andar_cima")
+region = Rect2(256, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="andar_cima_2"]
+atlas = ExtResource("andar_cima")
+region = Rect2(512, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="andar_cima_3"]
+atlas = ExtResource("andar_cima")
+region = Rect2(768, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="andar_cima_4"]
+atlas = ExtResource("andar_cima")
+region = Rect2(1024, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="andar_cima_5"]
+atlas = ExtResource("andar_cima")
+region = Rect2(1280, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="ataque_direita_0"]
+atlas = ExtResource("ataque_direita")
+region = Rect2(0, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="ataque_direita_1"]
+atlas = ExtResource("ataque_direita")
+region = Rect2(256, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="ataque_direita_2"]
+atlas = ExtResource("ataque_direita")
+region = Rect2(512, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="ataque_direita_3"]
+atlas = ExtResource("ataque_direita")
+region = Rect2(768, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="ataque_direita_4"]
+atlas = ExtResource("ataque_direita")
+region = Rect2(1024, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="ataque_direita_5"]
+atlas = ExtResource("ataque_direita")
+region = Rect2(1280, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="ataque_esquerda_0"]
+atlas = ExtResource("ataque_esquerda")
+region = Rect2(0, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="ataque_esquerda_1"]
+atlas = ExtResource("ataque_esquerda")
+region = Rect2(256, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="ataque_esquerda_2"]
+atlas = ExtResource("ataque_esquerda")
+region = Rect2(512, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="ataque_esquerda_3"]
+atlas = ExtResource("ataque_esquerda")
+region = Rect2(768, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="ataque_esquerda_4"]
+atlas = ExtResource("ataque_esquerda")
+region = Rect2(1024, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="ataque_esquerda_5"]
+atlas = ExtResource("ataque_esquerda")
+region = Rect2(1280, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="ataque_baixo_0"]
+atlas = ExtResource("ataque_baixo")
+region = Rect2(0, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="ataque_baixo_1"]
+atlas = ExtResource("ataque_baixo")
+region = Rect2(256, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="ataque_baixo_2"]
+atlas = ExtResource("ataque_baixo")
+region = Rect2(512, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="ataque_baixo_3"]
+atlas = ExtResource("ataque_baixo")
+region = Rect2(768, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="ataque_baixo_4"]
+atlas = ExtResource("ataque_baixo")
+region = Rect2(1024, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="ataque_baixo_5"]
+atlas = ExtResource("ataque_baixo")
+region = Rect2(1280, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="ataque_cima_0"]
+atlas = ExtResource("ataque_cima")
+region = Rect2(0, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="ataque_cima_1"]
+atlas = ExtResource("ataque_cima")
+region = Rect2(256, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="ataque_cima_2"]
+atlas = ExtResource("ataque_cima")
+region = Rect2(512, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="ataque_cima_3"]
+atlas = ExtResource("ataque_cima")
+region = Rect2(768, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="ataque_cima_4"]
+atlas = ExtResource("ataque_cima")
+region = Rect2(1024, 0, 256, 256)
+
+[sub_resource type="AtlasTexture" id="ataque_cima_5"]
+atlas = ExtResource("ataque_cima")
+region = Rect2(1280, 0, 256, 256)
+
+[resource]
+animations = [{"frames": [{"duration": 10.0, "texture": SubResource("andar_direita_0")}, {"duration": 10.0, "texture": SubResource("andar_direita_1")}, {"duration": 10.0, "texture": SubResource("andar_direita_2")}, {"duration": 10.0, "texture": SubResource("andar_direita_3")}, {"duration": 10.0, "texture": SubResource("andar_direita_4")}, {"duration": 10.0, "texture": SubResource("andar_direita_5")}], "loop": true, "name": &"andar_direita", "speed": 100.0},
+{"frames": [{"duration": 10.0, "texture": SubResource("andar_esquerda_0")}, {"duration": 10.0, "texture": SubResource("andar_esquerda_1")}, {"duration": 10.0, "texture": SubResource("andar_esquerda_2")}, {"duration": 10.0, "texture": SubResource("andar_esquerda_3")}, {"duration": 10.0, "texture": SubResource("andar_esquerda_4")}, {"duration": 10.0, "texture": SubResource("andar_esquerda_5")}], "loop": true, "name": &"andar_esquerda", "speed": 100.0},
+{"frames": [{"duration": 10.0, "texture": SubResource("andar_baixo_0")}, {"duration": 10.0, "texture": SubResource("andar_baixo_1")}, {"duration": 10.0, "texture": SubResource("andar_baixo_2")}, {"duration": 10.0, "texture": SubResource("andar_baixo_3")}, {"duration": 10.0, "texture": SubResource("andar_baixo_4")}, {"duration": 10.0, "texture": SubResource("andar_baixo_5")}], "loop": true, "name": &"andar_baixo", "speed": 100.0},
+{"frames": [{"duration": 10.0, "texture": SubResource("andar_cima_0")}, {"duration": 10.0, "texture": SubResource("andar_cima_1")}, {"duration": 10.0, "texture": SubResource("andar_cima_2")}, {"duration": 10.0, "texture": SubResource("andar_cima_3")}, {"duration": 10.0, "texture": SubResource("andar_cima_4")}, {"duration": 10.0, "texture": SubResource("andar_cima_5")}], "loop": true, "name": &"andar_cima", "speed": 100.0},
+{"frames": [{"duration": 14.0, "texture": SubResource("ataque_direita_0")}, {"duration": 14.0, "texture": SubResource("ataque_direita_1")}, {"duration": 9.0, "texture": SubResource("ataque_direita_2")}, {"duration": 10.0, "texture": SubResource("ataque_direita_3")}, {"duration": 15.0, "texture": SubResource("ataque_direita_4")}, {"duration": 18.0, "texture": SubResource("ataque_direita_5")}], "loop": false, "name": &"ataque_direita", "speed": 100.0},
+{"frames": [{"duration": 14.0, "texture": SubResource("ataque_esquerda_0")}, {"duration": 14.0, "texture": SubResource("ataque_esquerda_1")}, {"duration": 9.0, "texture": SubResource("ataque_esquerda_2")}, {"duration": 10.0, "texture": SubResource("ataque_esquerda_3")}, {"duration": 15.0, "texture": SubResource("ataque_esquerda_4")}, {"duration": 18.0, "texture": SubResource("ataque_esquerda_5")}], "loop": false, "name": &"ataque_esquerda", "speed": 100.0},
+{"frames": [{"duration": 14.0, "texture": SubResource("ataque_baixo_0")}, {"duration": 14.0, "texture": SubResource("ataque_baixo_1")}, {"duration": 9.0, "texture": SubResource("ataque_baixo_2")}, {"duration": 10.0, "texture": SubResource("ataque_baixo_3")}, {"duration": 15.0, "texture": SubResource("ataque_baixo_4")}, {"duration": 18.0, "texture": SubResource("ataque_baixo_5")}], "loop": false, "name": &"ataque_baixo", "speed": 100.0},
+{"frames": [{"duration": 14.0, "texture": SubResource("ataque_cima_0")}, {"duration": 14.0, "texture": SubResource("ataque_cima_1")}, {"duration": 9.0, "texture": SubResource("ataque_cima_2")}, {"duration": 10.0, "texture": SubResource("ataque_cima_3")}, {"duration": 15.0, "texture": SubResource("ataque_cima_4")}, {"duration": 18.0, "texture": SubResource("ataque_cima_5")}], "loop": false, "name": &"ataque_cima", "speed": 100.0}]

@@ -1,0 +1,20 @@
+# Padrões do AlgoLand para novas sessões locais; seleções explícitas prevalecem.
+model = "gpt-6-luna"
+model_reasoning_effort = "low"
+service_tier = "default"
+
+# Ferramentas externas são habilitadas por tarefa; instalações ficam preservadas.
+[apps._default]
+enabled = false
+
+[mcp_servers.pixellab]
+enabled = false
+
+[plugins."work-pets@openai-curated-remote"]
+enabled = false
+
+[plugins."sites@openai-curated-remote"]
+enabled = false
+
+[plugins."openai-templates@openai-curated-remote"]
+enabled = false

@@ -1,0 +1,12 @@
+{
+  "referencia": "referencia.webp",
+  "metodo": "geometria original; primitivas utilitárias compartilhadas, sem malhas de outros personagens",
+  "animacoes": 0,
+  "rig": false,
+  "altura_m": 1.48,
+  "limites": [
+    "estático",
+    "não integrado ao mapa",
+    "não perfilado para mobile"
+  ]
+}

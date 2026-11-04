@@ -1,0 +1,50 @@
+{
+  "uso": "Ilustração cartográfica de interface para seleção das regiões, não cenário físico nem TileMap.",
+  "referencias": [
+    "Referência do usuário: organização de rotas e relevo do mapa de Mario World, sem reproduzir personagens ou arquitetura.",
+    "assets/ui/campanha/tabuleiro/miniaturas.png: domínio cartoon da Primeira Raiz."
+  ],
+  "origem": "/home/alfeim/.codex/generated_images/01a18825-d372-7e30-a431-b4f63c5488ff/exec-29ffba17-7f68-4970-8ae5-f7eefff4d6df.png",
+  "recurso": "assets/ui/campanha/regiao_camadas/terreno.png",
+  "dimensoes": [
+    1536,
+    1024
+  ],
+  "encaixe": "Mapa ocupa toda a janela, com escala uniforme e câmera limitada às bordas; marcadores em coordenadas normalizadas nos acessos dos locais.",
+  "variantes": "Ilustração simbólica de interface, sem variantes sazonais físicas.",
+  "integracao": [
+    "codigo/campanha/mapa_regional.gd",
+    "codigo/campanha/marcador_regiao.gd",
+    "codigo/campanha/seletor_campanha.gd"
+  ],
+  "revisao": "Godot gráfico com saves isolados, desktop 576x324, retrato 288x512 e tela dividida 320x324; foco dos 12 destinos, arrasto e entrada sem burlar requisitos.",
+  "animacao": {
+    "base": "Terreno RGBA com água e roda removidas; pintura original preservada como referência, sem deformação do bitmap.",
+    "agua": "ColorRect independente sob a terra, com correnteza e espuma geradas em resolução de renderização.",
+    "roda": "Dois Sprite2D independentes, frente e verso na mesma projeção, com pás ligando os discos.",
+    "cachoeiras": "Quatorze quedas medidas na referência original, incluindo aqueduto, patamares e saídas do moinho. AnimatedSprite2D em projeção afim com lábio inclinado e pé próprios; atlas 4x2, oito quadros 384x512, 10 fps.",
+    "camera": "Escala uniforme para cobrir a janela, sem a ampliação mínima de 540px. A água cobre a reserva de deslocamento além da terra.",
+    "dimensoes_reais": {
+      "terreno": [
+        1536,
+        1024
+      ],
+      "roda": [
+        1254,
+        1254
+      ],
+      "cachoeira": [
+        1536,
+        1024
+      ]
+    },
+    "fontes": {
+      "terreno": "exec-c959beb9-0469-437f-80f3-2e0eab26c0f8.png",
+      "roda": "exec-b526446b-ed94-45f9-b5e3-c1db5cbccaab.png",
+      "cachoeira": "exec-14eabf75-8e82-4b5a-9e25-90b86519fc07.png"
+    },
+    "contrato": "CAMADAS.txt",
+    "canal": "Polígono de água animada sobre o leito do moinho, alimentando a queda frontal e sob a roda; arquitetura estática.",
+    "ancoras": "codigo/campanha/quedas_primeira_raiz.json — posições medidas no original 1536x1024. A névoa compartilha o mesmo ponto de base. A ponte dos jardins passa à frente das quedas."
+  }
+}

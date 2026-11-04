@@ -1,0 +1,74 @@
+{
+  "recurso": "Enfermaria da Vila das Flores, conversão individual em geometria 3D",
+  "id_campanha": "enfermaria",
+  "fonte_visual": "assets/cenario/campanha/cidade_fiel/enfermaria_mistica.png; coluna esquerda, quatro estações; telhado vermelho conforme proposta aceita no chat",
+  "referencia": "referencias/frente_lateral_objetos.png",
+  "prompt": "referencias/frente_lateral_objetos.prompt.txt",
+  "geracao_referencia": "image_gen incorporado, imagem como guia de modelagem; sem aplicação na fachada",
+  "cena": "cenas/campanha/enfermaria/construcao.tscn",
+  "modelo": "codigo/campanha/enfermaria_vila_3d.gd",
+  "materiais_compartilhados": "codigo/campanha/enfermaria_malha_3d.gd",
+  "cenas_objetos": "cenas/campanha/enfermaria/*.tscn",
+  "silhueta": "Entrada deslocada à esquerda, telhado frontal vermelho sobre telhado transversal, ala direita recuada e chaminé quadrada vazada",
+  "acabamento": "Cruz verde extrudada, reboco claro pintado com baixo contraste, madeira com veios orientados, cantaria chanfrada, janelas e porta em arcos com recuos, ferragens com rebites, floreiras, degraus, lanterna e caixa de ervas apoiada na cobertura",
+  "objetos_independentes": [
+    "placa_cruz",
+    "canteiro_rosas",
+    "canteiro_margaridas",
+    "vaso_medicinal",
+    "dois barris reutilizados da forja"
+  ],
+  "camera": "Ortográfica frontal elevada, yaw zero, elevação atan2(7,10)",
+  "dimensoes": {
+    "largura_logica_px": 240,
+    "largura_nominal_m": 4.8,
+    "camera_ortografica_m": 4.8,
+    "escala_vertical_construcao": 0.85,
+    "grade": "Módulo visual 16px; pós-processo em grade global 2px",
+    "pivo": "Último degrau no apoio original da arte",
+    "posicao_mapa": [
+      346,
+      182
+    ]
+  },
+  "integracao": "cidade_primeira_raiz.gd e casa_vila_3d.gd; id enfermaria recebe modelo próprio, preservando posição e corpo principal",
+  "base_fisica": "Acessórios com pivôs no chão, sombras de contato, colisões e profundidade próprios; placa colide na base do poste; canteiros e vaso preservam faixa até a porta",
+  "estacoes": {
+    "primavera": "Folhagem verde, flores rosas e margaridas claras",
+    "verao": "Folhas verdes quentes, flores amarelas e claras",
+    "outono": "Ervas e pétalas ocres, madeira seca",
+    "inverno": "Folhagem dormente e geada nas bordas expostas; beirais, cumeeira, chaminé, degraus e floreiras com acúmulo fino"
+  },
+  "mobile": {
+    "render_construcao": "256x256 UPDATE_ONCE na montagem e troca de estação",
+    "render_objetos": "96x96 UPDATE_ONCE",
+    "geometria": "Fundida por material; 10820 triângulos e 22 superfícies na construção",
+    "triangulos_objetos": {
+      "placa_cruz": 398,
+      "canteiro_rosas": 1604,
+      "canteiro_margaridas": 1604,
+      "barril": 544,
+      "vaso_medicinal": 500
+    },
+    "materiais": "Cache compartilhado; pinturas de madeira, cerâmica e pedra do moinho",
+    "limitacao": "Sem medição em aparelho físico"
+  },
+  "revisao_visual": "Capturas reais no Godot 4.7.2 Compatibility, construção isolada e integrada à cidade nas quatro estações; vista lateral complementar confirma volume, encaixes dos telhados e vão da chaminé",
+  "evidencias": [
+    "arte/previas/campanha/enfermaria_3d/isolada_estacao_0.png",
+    "arte/previas/campanha/enfermaria_3d/isolada_estacao_1.png",
+    "arte/previas/campanha/enfermaria_3d/isolada_estacao_2.png",
+    "arte/previas/campanha/enfermaria_3d/isolada_estacao_3.png",
+    "arte/previas/campanha/enfermaria_3d/cidade_estacao_0.png",
+    "arte/previas/campanha/enfermaria_3d/cidade_estacao_1.png",
+    "arte/previas/campanha/enfermaria_3d/cidade_estacao_2.png",
+    "arte/previas/campanha/enfermaria_3d/cidade_estacao_3.png",
+    "arte/previas/campanha/enfermaria_3d/volume_lateral.png"
+  ],
+  "estado": "Integrada e revisada no Godot nas quatro estações; instancias-campanha e mapas-modulares aprovados",
+  "validacao": {
+    "instancias_campanha": "/tmp/algoland-harness/execucao-g_6f1_us/relatorio.json",
+    "mapas_modulares": "/tmp/algoland-harness/execucao-y30q2e3f/relatorio.json",
+    "observacao": "Revisão visual das oficinas feita separadamente das aprovações funcionais; não certifica aparelhos físicos"
+  }
+}

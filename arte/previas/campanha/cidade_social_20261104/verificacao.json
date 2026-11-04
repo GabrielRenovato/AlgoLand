@@ -1,0 +1,83 @@
+{
+  "data": "2026-11-04",
+  "publicacao_autorizada": "Servidor e duas migrações, confirmação explícita do usuário",
+  "servidor": "algoland-duelo",
+  "maquina_preservada": true,
+  "imagem_anterior": {
+    "registry": "registry.fly.io",
+    "repository": "algoland-duelo",
+    "tag": "deployment-01M6ES8T95274GQB99KZ5JNM8B",
+    "digest": "sha256:a83ac35c9d9d42d96b0de3b588160b3d845f9b1e3fd246d59525b74ec63d1cf2"
+  },
+  "imagem_publicada": {
+    "registry": "registry.fly.io",
+    "repository": "algoland-duelo",
+    "tag": "deployment-01M6KSR0J8KT9FKY2M3M8358XV",
+    "digest": "sha256:f59f32ea992d138537abe50e41a869649cffcdd3cbf9ebf5a892518ebd2d060e"
+  },
+  "migracoes": {
+    "ferramentas/lobby/20261104090000_cidade_campanha.sql": "d2a9aad1850179dd31f1873430b056984a7df8094064ad573c20dbdacde55dd3",
+    "ferramentas/mercado/20261104090000_campanha_ouro.sql": "6304b51d03101f1d4687eaf83f2f06ae1d4aeb7caec705ee6df3e610a9ea14e6"
+  },
+  "verificacao_publica": {
+    "encontroReciproco": true,
+    "mapasSeparados": true,
+    "semMensagensEnviadas": true,
+    "quando": "2026-11-04T17:32:30.346Z"
+  },
+  "mercado_legado": {
+    "anuncios_antes": 34,
+    "anuncios_depois": 34,
+    "correios_antes": 8,
+    "correios_depois": 8,
+    "funcao_regras_preservada": true
+  },
+  "testes": [
+    {
+      "perfil": "campanha-social",
+      "aprovado": true,
+      "relatorio": "/tmp/algoland-harness/execucao-m0to4b8u/relatorio.json",
+      "assinatura": "5026b1b420c92a627275115f04ddd209c67e3cffd3b1fe243f952ff1200bb329",
+      "verificacoes": 88
+    },
+    {
+      "perfil": "campanha",
+      "aprovado": true,
+      "relatorio": "/tmp/algoland-harness/execucao-qrwibp39/relatorio.json",
+      "assinatura": "78f6a0b36b4298a7470671085d410bba3e16e896c8a19f6c207ffae35e1204e8",
+      "verificacoes": 280
+    },
+    {
+      "perfil": "instancias-campanha",
+      "aprovado": true,
+      "relatorio": "/tmp/algoland-harness/execucao-h9zbub6a/relatorio.json",
+      "assinatura": "f3f8eab4a4700100cb12860a5c98c4d58fabe3ffb53c7188c2ddae3a214700f4",
+      "verificacoes": 123
+    },
+    {
+      "perfil": "campanha-percurso",
+      "aprovado": true,
+      "relatorio": "/tmp/algoland-harness/execucao-baf5d3vl/relatorio.json",
+      "assinatura": "8c6c1a0445425254612ff55ca5cf07fdda6147c230cdc7c43e8496969e940774",
+      "verificacoes": 671
+    }
+  ],
+  "revisao_visual": {
+    "aprovada": true,
+    "conferidas": [
+      "leilão PC e celular",
+      "abas comprar, vender, meus anúncios conectadas ao serviço público",
+      "rolagem do formulário de venda e foco no botão anunciar",
+      "taxa em ouro",
+      "missão e captura de pesca",
+      "avatares e chat na cidade"
+    ],
+    "pendente": [],
+    "capturas_publicas": "leilao-publico-*.png",
+    "nenhum_anuncio_de_teste_criado_no_servico_publico": true
+  },
+  "arquivos_revisados": {
+    "codigo/mercado/tela_mercado.gd": "8c87e04c7c4f916d42391ead889f9e54bd9ad6d08504ec8ec51ea238ff755ac4",
+    "codigo/campanha/percurso_prototipo.gd": "c9eb82b6517fb85cacbe4aee86c9dbcf4b11bfe45f54499b3589996c48ec671c"
+  }
+}

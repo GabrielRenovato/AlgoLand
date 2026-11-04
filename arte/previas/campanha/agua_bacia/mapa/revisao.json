@@ -1,0 +1,7 @@
+{
+  "mapa": "Estágio 4 — Bacia do Moinho",
+  "superficie": "4 atlas reutilizáveis, 24 quadros de 64x64, 8 FPS, ciclo de 3 s; shader compartilha fase e orienta a corrente por um campo vetorial",
+  "camadas": "superfície e espuma separadas, pontes e bases físicas preservadas",
+  "inspecao_visual": "Godot 4.7.2 Compatibility; mapa inteiro nas 4 estações; 25 s de reprodução em tempo real",
+  "testes_automatizados": "não executados"
+}

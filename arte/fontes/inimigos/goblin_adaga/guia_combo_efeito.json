@@ -1,0 +1,416 @@
+{
+  "direcao_representativa": "direita",
+  "articulacoes_aproximadas": [
+    {
+      "quadro": 0,
+      "fase": "preparar diagonal",
+      "cabeca": [
+        330,
+        205
+      ],
+      "ombro_direito": [
+        300,
+        300
+      ],
+      "quadril": [
+        300,
+        430
+      ],
+      "pe_tras": [
+        240,
+        560
+      ],
+      "pe_frente": [
+        400,
+        560
+      ],
+      "cotovelo_direito": [
+        245,
+        280
+      ],
+      "mao_adaga": [
+        210,
+        230
+      ],
+      "braco_livre": "contrabalança o giro sem segurar a arma",
+      "efeito": false
+    },
+    {
+      "quadro": 1,
+      "fase": "impacto diagonal",
+      "cabeca": [
+        365,
+        235
+      ],
+      "ombro_direito": [
+        330,
+        320
+      ],
+      "quadril": [
+        320,
+        435
+      ],
+      "pe_tras": [
+        230,
+        550
+      ],
+      "pe_frente": [
+        420,
+        560
+      ],
+      "cotovelo_direito": [
+        410,
+        315
+      ],
+      "mao_adaga": [
+        470,
+        350
+      ],
+      "braco_livre": "contrabalança o giro sem segurar a arma",
+      "efeito": true
+    },
+    {
+      "quadro": 2,
+      "fase": "continuar diagonal",
+      "cabeca": [
+        375,
+        250
+      ],
+      "ombro_direito": [
+        340,
+        330
+      ],
+      "quadril": [
+        325,
+        440
+      ],
+      "pe_tras": [
+        230,
+        550
+      ],
+      "pe_frente": [
+        420,
+        560
+      ],
+      "cotovelo_direito": [
+        410,
+        390
+      ],
+      "mao_adaga": [
+        450,
+        440
+      ],
+      "braco_livre": "contrabalança o giro sem segurar a arma",
+      "efeito": true
+    },
+    {
+      "quadro": 3,
+      "fase": "guarda",
+      "cabeca": [
+        330,
+        205
+      ],
+      "ombro_direito": [
+        300,
+        300
+      ],
+      "quadril": [
+        300,
+        430
+      ],
+      "pe_tras": [
+        250,
+        560
+      ],
+      "pe_frente": [
+        390,
+        560
+      ],
+      "cotovelo_direito": [
+        310,
+        380
+      ],
+      "mao_adaga": [
+        340,
+        420
+      ],
+      "braco_livre": "contrabalança o giro sem segurar a arma",
+      "efeito": false
+    },
+    {
+      "quadro": 4,
+      "fase": "preparar reverso",
+      "cabeca": [
+        340,
+        225
+      ],
+      "ombro_direito": [
+        310,
+        315
+      ],
+      "quadril": [
+        310,
+        435
+      ],
+      "pe_tras": [
+        240,
+        560
+      ],
+      "pe_frente": [
+        400,
+        560
+      ],
+      "cotovelo_direito": [
+        270,
+        390
+      ],
+      "mao_adaga": [
+        245,
+        450
+      ],
+      "braco_livre": "contrabalança o giro sem segurar a arma",
+      "efeito": false
+    },
+    {
+      "quadro": 5,
+      "fase": "impacto reverso",
+      "cabeca": [
+        360,
+        220
+      ],
+      "ombro_direito": [
+        330,
+        305
+      ],
+      "quadril": [
+        320,
+        430
+      ],
+      "pe_tras": [
+        230,
+        560
+      ],
+      "pe_frente": [
+        420,
+        560
+      ],
+      "cotovelo_direito": [
+        410,
+        280
+      ],
+      "mao_adaga": [
+        460,
+        220
+      ],
+      "braco_livre": "contrabalança o giro sem segurar a arma",
+      "efeito": true
+    },
+    {
+      "quadro": 6,
+      "fase": "continuar reverso",
+      "cabeca": [
+        365,
+        210
+      ],
+      "ombro_direito": [
+        335,
+        295
+      ],
+      "quadril": [
+        320,
+        430
+      ],
+      "pe_tras": [
+        230,
+        560
+      ],
+      "pe_frente": [
+        420,
+        560
+      ],
+      "cotovelo_direito": [
+        405,
+        230
+      ],
+      "mao_adaga": [
+        440,
+        185
+      ],
+      "braco_livre": "contrabalança o giro sem segurar a arma",
+      "efeito": true
+    },
+    {
+      "quadro": 7,
+      "fase": "guarda",
+      "cabeca": [
+        330,
+        205
+      ],
+      "ombro_direito": [
+        300,
+        300
+      ],
+      "quadril": [
+        300,
+        430
+      ],
+      "pe_tras": [
+        250,
+        560
+      ],
+      "pe_frente": [
+        390,
+        560
+      ],
+      "cotovelo_direito": [
+        310,
+        380
+      ],
+      "mao_adaga": [
+        340,
+        420
+      ],
+      "braco_livre": "contrabalança o giro sem segurar a arma",
+      "efeito": false
+    },
+    {
+      "quadro": 8,
+      "fase": "preparar varrida",
+      "cabeca": [
+        330,
+        215
+      ],
+      "ombro_direito": [
+        300,
+        310
+      ],
+      "quadril": [
+        305,
+        435
+      ],
+      "pe_tras": [
+        235,
+        560
+      ],
+      "pe_frente": [
+        400,
+        560
+      ],
+      "cotovelo_direito": [
+        250,
+        320
+      ],
+      "mao_adaga": [
+        215,
+        345
+      ],
+      "braco_livre": "contrabalança o giro sem segurar a arma",
+      "efeito": false
+    },
+    {
+      "quadro": 9,
+      "fase": "impacto varrida",
+      "cabeca": [
+        370,
+        230
+      ],
+      "ombro_direito": [
+        340,
+        315
+      ],
+      "quadril": [
+        325,
+        435
+      ],
+      "pe_tras": [
+        230,
+        550
+      ],
+      "pe_frente": [
+        420,
+        560
+      ],
+      "cotovelo_direito": [
+        420,
+        325
+      ],
+      "mao_adaga": [
+        475,
+        330
+      ],
+      "braco_livre": "contrabalança o giro sem segurar a arma",
+      "efeito": true
+    },
+    {
+      "quadro": 10,
+      "fase": "continuar varrida",
+      "cabeca": [
+        375,
+        250
+      ],
+      "ombro_direito": [
+        345,
+        335
+      ],
+      "quadril": [
+        325,
+        445
+      ],
+      "pe_tras": [
+        230,
+        550
+      ],
+      "pe_frente": [
+        420,
+        560
+      ],
+      "cotovelo_direito": [
+        410,
+        390
+      ],
+      "mao_adaga": [
+        450,
+        430
+      ],
+      "braco_livre": "contrabalança o giro sem segurar a arma",
+      "efeito": true
+    },
+    {
+      "quadro": 11,
+      "fase": "guarda",
+      "cabeca": [
+        330,
+        205
+      ],
+      "ombro_direito": [
+        300,
+        300
+      ],
+      "quadril": [
+        300,
+        430
+      ],
+      "pe_tras": [
+        250,
+        560
+      ],
+      "pe_frente": [
+        390,
+        560
+      ],
+      "cotovelo_direito": [
+        310,
+        380
+      ],
+      "mao_adaga": [
+        340,
+        420
+      ],
+      "braco_livre": "contrabalança o giro sem segurar a arma",
+      "efeito": false
+    }
+  ],
+  "baixo": "mesma transferência de peso e corte à frente/abaixo, rosto visível",
+  "cima": "mesma transferência, corte acima; nuca e dorso, sem rosto",
+  "esquerda": "espelhar direita"
+}

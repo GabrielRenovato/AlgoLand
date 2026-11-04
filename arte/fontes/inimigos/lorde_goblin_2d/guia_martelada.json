@@ -1,0 +1,524 @@
+{
+  "celula": [
+    512,
+    512
+  ],
+  "pivo": [
+    256,
+    450
+  ],
+  "quadros": [
+    {
+      "indice": 0,
+      "fase": "guarda",
+      "duracao_ms": 100,
+      "apoio": "dois pes plantados",
+      "pontos": {
+        "cabeca": [
+          258,
+          160
+        ],
+        "ombro_d": [
+          222,
+          217
+        ],
+        "ombro_e": [
+          277,
+          211
+        ],
+        "quadril": [
+          250,
+          332
+        ],
+        "cotovelo_d": [
+          180,
+          269
+        ],
+        "cotovelo_e": [
+          250,
+          267
+        ],
+        "mao_d": [
+          174,
+          315
+        ],
+        "mao_e": [
+          203,
+          310
+        ],
+        "joelho_d": [
+          222,
+          385
+        ],
+        "joelho_e": [
+          286,
+          385
+        ],
+        "pe_d": [
+          212,
+          450
+        ],
+        "pe_e": [
+          302,
+          450
+        ],
+        "cabo": [
+          130,
+          323
+        ],
+        "marreta": [
+          404,
+          275
+        ]
+      }
+    },
+    {
+      "indice": 1,
+      "fase": "preparacao",
+      "duracao_ms": 150,
+      "apoio": "dois pes plantados",
+      "pontos": {
+        "cabeca": [
+          242,
+          167
+        ],
+        "ombro_d": [
+          210,
+          221
+        ],
+        "ombro_e": [
+          264,
+          214
+        ],
+        "quadril": [
+          244,
+          340
+        ],
+        "cotovelo_d": [
+          182,
+          239
+        ],
+        "cotovelo_e": [
+          268,
+          233
+        ],
+        "mao_d": [
+          190,
+          266
+        ],
+        "mao_e": [
+          216,
+          256
+        ],
+        "joelho_d": [
+          220,
+          390
+        ],
+        "joelho_e": [
+          285,
+          390
+        ],
+        "pe_d": [
+          212,
+          450
+        ],
+        "pe_e": [
+          302,
+          450
+        ],
+        "cabo": [
+          146,
+          285
+        ],
+        "marreta": [
+          385,
+          183
+        ]
+      }
+    },
+    {
+      "indice": 2,
+      "fase": "elevacao",
+      "duracao_ms": 180,
+      "apoio": "dois pes plantados",
+      "pontos": {
+        "cabeca": [
+          245,
+          163
+        ],
+        "ombro_d": [
+          218,
+          219
+        ],
+        "ombro_e": [
+          270,
+          210
+        ],
+        "quadril": [
+          250,
+          328
+        ],
+        "cotovelo_d": [
+          240,
+          148
+        ],
+        "cotovelo_e": [
+          310,
+          153
+        ],
+        "mao_d": [
+          328,
+          94
+        ],
+        "mao_e": [
+          300,
+          89
+        ],
+        "joelho_d": [
+          224,
+          384
+        ],
+        "joelho_e": [
+          286,
+          383
+        ],
+        "pe_d": [
+          212,
+          450
+        ],
+        "pe_e": [
+          302,
+          450
+        ],
+        "cabo": [
+          369,
+          102
+        ],
+        "marreta": [
+          153,
+          61
+        ]
+      }
+    },
+    {
+      "indice": 3,
+      "fase": "descida",
+      "duracao_ms": 50,
+      "apoio": "dois pes plantados",
+      "pontos": {
+        "cabeca": [
+          280,
+          180
+        ],
+        "ombro_d": [
+          241,
+          230
+        ],
+        "ombro_e": [
+          293,
+          226
+        ],
+        "quadril": [
+          254,
+          339
+        ],
+        "cotovelo_d": [
+          253,
+          169
+        ],
+        "cotovelo_e": [
+          325,
+          191
+        ],
+        "mao_d": [
+          299,
+          100
+        ],
+        "mao_e": [
+          322,
+          122
+        ],
+        "joelho_d": [
+          224,
+          389
+        ],
+        "joelho_e": [
+          287,
+          388
+        ],
+        "pe_d": [
+          212,
+          450
+        ],
+        "pe_e": [
+          302,
+          450
+        ],
+        "cabo": [
+          269,
+          75
+        ],
+        "marreta": [
+          405,
+          204
+        ]
+      }
+    },
+    {
+      "indice": 4,
+      "fase": "impacto",
+      "duracao_ms": 80,
+      "apoio": "dois pes plantados",
+      "pontos": {
+        "cabeca": [
+          305,
+          245
+        ],
+        "ombro_d": [
+          253,
+          281
+        ],
+        "ombro_e": [
+          306,
+          286
+        ],
+        "quadril": [
+          247,
+          349
+        ],
+        "cotovelo_d": [
+          251,
+          318
+        ],
+        "cotovelo_e": [
+          329,
+          316
+        ],
+        "mao_d": [
+          280,
+          310
+        ],
+        "mao_e": [
+          303,
+          330
+        ],
+        "joelho_d": [
+          221,
+          400
+        ],
+        "joelho_e": [
+          290,
+          398
+        ],
+        "pe_d": [
+          212,
+          450
+        ],
+        "pe_e": [
+          302,
+          450
+        ],
+        "cabo": [
+          240,
+          275
+        ],
+        "marreta": [
+          429,
+          438
+        ]
+      }
+    },
+    {
+      "indice": 5,
+      "fase": "absorcao",
+      "duracao_ms": 110,
+      "apoio": "dois pes plantados",
+      "pontos": {
+        "cabeca": [
+          310,
+          255
+        ],
+        "ombro_d": [
+          256,
+          291
+        ],
+        "ombro_e": [
+          308,
+          295
+        ],
+        "quadril": [
+          243,
+          359
+        ],
+        "cotovelo_d": [
+          258,
+          327
+        ],
+        "cotovelo_e": [
+          331,
+          332
+        ],
+        "mao_d": [
+          288,
+          322
+        ],
+        "mao_e": [
+          311,
+          342
+        ],
+        "joelho_d": [
+          220,
+          404
+        ],
+        "joelho_e": [
+          289,
+          403
+        ],
+        "pe_d": [
+          212,
+          450
+        ],
+        "pe_e": [
+          302,
+          450
+        ],
+        "cabo": [
+          249,
+          290
+        ],
+        "marreta": [
+          431,
+          439
+        ]
+      }
+    },
+    {
+      "indice": 6,
+      "fase": "recuperacao",
+      "duracao_ms": 160,
+      "apoio": "dois pes plantados",
+      "pontos": {
+        "cabeca": [
+          277,
+          202
+        ],
+        "ombro_d": [
+          236,
+          250
+        ],
+        "ombro_e": [
+          287,
+          244
+        ],
+        "quadril": [
+          247,
+          342
+        ],
+        "cotovelo_d": [
+          208,
+          292
+        ],
+        "cotovelo_e": [
+          291,
+          291
+        ],
+        "mao_d": [
+          218,
+          328
+        ],
+        "mao_e": [
+          247,
+          330
+        ],
+        "joelho_d": [
+          220,
+          392
+        ],
+        "joelho_e": [
+          288,
+          391
+        ],
+        "pe_d": [
+          212,
+          450
+        ],
+        "pe_e": [
+          302,
+          450
+        ],
+        "cabo": [
+          175,
+          322
+        ],
+        "marreta": [
+          421,
+          350
+        ]
+      }
+    },
+    {
+      "indice": 7,
+      "fase": "guarda",
+      "duracao_ms": 170,
+      "apoio": "dois pes plantados",
+      "pontos": {
+        "cabeca": [
+          258,
+          160
+        ],
+        "ombro_d": [
+          222,
+          217
+        ],
+        "ombro_e": [
+          277,
+          211
+        ],
+        "quadril": [
+          250,
+          332
+        ],
+        "cotovelo_d": [
+          180,
+          269
+        ],
+        "cotovelo_e": [
+          250,
+          267
+        ],
+        "mao_d": [
+          174,
+          315
+        ],
+        "mao_e": [
+          203,
+          310
+        ],
+        "joelho_d": [
+          222,
+          385
+        ],
+        "joelho_e": [
+          286,
+          385
+        ],
+        "pe_d": [
+          212,
+          450
+        ],
+        "pe_e": [
+          302,
+          450
+        ],
+        "cabo": [
+          130,
+          323
+        ],
+        "marreta": [
+          404,
+          275
+        ]
+      }
+    }
+  ]
+}

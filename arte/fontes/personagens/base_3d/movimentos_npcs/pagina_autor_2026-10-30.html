@@ -1,0 +1,2054 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kevin Iglesias – 3D animations for video games</title>
+    
+    <meta name="description" content="Royalty-free 3D animation for video games. Unity, Godot and Unreal game engines.">
+	<meta name="keywords" content="Unity, Blender, Asset Store, Asset, Lowpoly, itch.io, Unreal, Godot, 3D Animations, Mecanim, Retargeting">
+	<meta name="author" content="Kevin Iglesias">
+
+    <meta name="google-site-verification" content="vBNiVSyKzXjWqrcKnCeAgeS93qiPz5-2ug-ITVdJlcM" />
+
+	<link rel = "shortcut icon" href = "/images/favIcon.png">
+	
+	<link rel="icon" href="/images/favIcon.png" type="image/png">
+	
+	<link rel="canonical" href="https://www.keviniglesias.com/"/>
+    
+    <!-- OG -->
+	<meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Kevin Iglesias">
+    <meta property="og:title" content="Kevin Iglesias">
+    <meta property="og:url" content="https://www.keviniglesias.com">
+    
+	<meta name="twitter:image" content="https://www.keviniglesias.com/og.png">
+	<meta property="og:image" content="https://www.keviniglesias.com/og.png">
+    <meta property="og:logo" content="https://www.keviniglesias.com/og.png">
+    
+    <meta name="twitter:creator" content="@KevDev3D" />
+    <meta name="twitter:site" content="@KevDev3D" />
+    
+    <meta name="twitter:description" content="3D models and animations for video games. Check my latest assets, some of them are free!">
+    <meta property="og:description" content="3D models and animations for video games. Check my latest assets, some of them are free!">
+
+    <meta name="twitter:image:width" content="1200">
+    <meta name="twitter:image:height" content="630">
+
+    <link rel="stylesheet" href="styles.css">
+
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav>
+        <span class="menu-icon" onclick="toggleSidebar()">☰</span>
+        <ul>
+            <li><a href="#newAssets" onclick="handleNewAssetsClick(event)"></a></li><!--NEW ASSETS-->
+            <li><a href="#freeAssets" onclick="handleFreeAssetsClick(event)"></a></li><!--FREE ASSETS-->
+            <li><a href="#license" onclick="handleLicenseClick(event)"></a></li><!--LICENSE-->
+            <li><a href="#contact" onclick="handleContactClick(event)"></a></li><!--CONTACT-->
+            <li><a href="https://www.keviniglesias.com/rpg.html"></a></li><!--GAMES-->
+            <li><a href="https://www.keviniglesias.com/presskit.html"></a></li><!--PRESS KIT-->
+            <li><button id="nav-language-button" class="language-switcher-button"></button></li>
+            <li><button id="nav-home-button" class="home-button" onclick="scrollToTop()">⬆ TOP</button></li>
+        </ul>
+    </nav>
+
+    <!-- Sidebar for smaller screens -->
+    <div id="sidebar" class="sidebar">
+        <ul>
+            <li><button id="sidebar-language-button" class="language-switcher-button" onclick="toggleLanguage()">🌐 Español</button></li>
+        </ul>
+    </div>
+
+    <header>
+        <div class="logo animated-logo" style="width:315px; height:204px;">
+            <div class="logo-upper" id="logo-upper">
+                <img src="/images/logo/LogoDefaultUpper.svg" alt="Upper Logo" />
+            </div>
+            <div class="logo-lower" id="logo-lower">
+                <img src="/images/logo/LogoDefaultLower.svg" alt="Lower Logo" />
+            </div>
+        </div>
+    </header>
+
+    <div class="social-media-section">
+    <div class="social-media-icons">
+        
+        <!--<a href="https://www.facebook.com/keviniglesias.profile" target="_blank"><img src="/images/icons/facebook.png" alt="Facebook"></a>-->
+        <a href="https://discord.gg/W6EzcfM" target="_blank"><img src="/images/icons/discord.png" alt="Discord"></a>
+        <a href="https://www.youtube.com/keviniglesias/" target="_blank"><img src="/images/icons/utube.png" alt="YouTube"></a>
+        <a href="https://bsky.app/profile/keviniglesias.com" target="_blank"><img src="/images/icons/bluesky.png" alt="Bluesky"></a>
+        <a href="https://twitter.com/KevDev3D" target="_blank"><img src="/images/icons/twitter.png" alt="Twitter"></a>
+        
+        
+        <!--<a href="https://www.instagram.com/kevdev3d" target="_blank"><img src="/images/icons/insta.png" alt="Instagram"></a>-->
+        <!--<a href="https://www.tiktok.com/@kevdev3d" target="_blank"><img src="/images/icons/tiktok.png" alt="TikTok"></a>-->
+        
+        <!--<a href="https://assetstore.unity.com/publishers/36307" target="_blank"><img src="/images/icons/unity.png" alt="Unity"></a>
+        <a href="https://kevdev.itch.io/" target="_blank"><img src="/images/icons/logo.io.png" alt="itch.io"></a>-->
+    </div>
+    </div>
+    
+    <div class="language-switcher">
+        <button id="language-button">🌐 Español</button>
+    </div>
+    
+    <div class="intro">
+        <h1>
+            Royalty-free 3D animations for video games
+        </h1>
+        <p>
+            
+        </p>
+     </div>
+ 
+ 
+     <section class="new-assets" id="news">
+        <h3 id="news-header"><a href="#news" class="section-link">USEFUL LINKS</a></h3>
+        
+        <div class="asset-items">
+                
+                <div class="asset-item">
+                    <a href="https://www.keviniglesias.com/armoryCrafter.html">
+                    <img src="/assets/ArmoryCrafter/capsule.png" width="480" height="320" alt="Armory Crafter">
+                    <p id="armoryCrafterTitle">Armory Crafter (3D Weapon Editor)</p>
+                    </a>
+                </div>
+                
+                <div class="asset-item">
+                    <a href="https://www.keviniglesias.com/animationBlenderFiles.html">
+                    <img src="/blenderOG.png" width="480" height="320" alt="Blender Exporting Guide">
+                    <p id="news01Title">Blender Animations Exporting Guide</p>
+                    </a>
+                </div>
+                
+                <div class="asset-item">
+                    <a href="https://www.keviniglesias.com/spine-proxy.html">
+                    <img src="/spine-proxyOg.png" width="480" height="320" alt="Spine Proxy">
+                    <p id="spineProxyTitle">Spine Proxy (Unity only)</p>
+                    </a>
+
+                </div>
+        </div>
+    
+    </section> 
+    
+    <br>
+    
+    
+  
+    <section class="new-assets" id="currentDeals">
+        <h3 id="salesTitle"><a href="#deals" class="section-link"></a></h3>
+        
+        <h4 id="salesH4"><span style="color: red; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;"></span></h4>
+        <div class="asset-items">
+         
+         
+
+                
+                <div class="asset-item">
+                    <a href="/assets/basicMotions.html" onclick="event.preventDefault(); openModal('basicMotions'); history.pushState(null, '', '/assets/basicMotions.html');">
+                        <img src="/assets/BasicMotions/Card.png" width="480" height="320" alt="Human Basic Motions">
+                        <p>Human Basic Motions <span style="color: red; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;"><strong>(50% OFF)</strong></span></p>
+                       
+                    </a>
+                </div>
+               
+                
+                
+                <div class="asset-item">
+                    <a href="/assets/soldierAnimations.html" onclick="event.preventDefault(); openModal('soldierAnimations'); history.pushState(null, '', '/assets/soldierAnimations.html');">
+                        <img src="/assets/SoldierAnimations/images/Card.png" width="480" height="320" alt="Human Soldier Animations">
+                        <p>Human Soldier Animations <span style="color: red; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;"><strong>(50% OFF)</strong></span></p>
+                    </a>
+                </div>
+                <!--
+                <div class="asset-item">
+                        <a href="/assets/casterMageAnimations.html" onclick="event.preventDefault(); openModal('casterMageAnimations'); history.pushState(null, '', '/assets/casterMageAnimations.html');">
+                            <img src="/assets/CasterMageAnimations/images/Card.png" width="480" height="320" alt="Human Spellcasting Animations">
+                            <p>Human Spellcasting Animations <span style="color: red; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;"><strong>(50% OFF)</strong></span></p>
+                        </a>
+                </div>
+                -->
+                
+                <!--<div class="asset-item">-->
+                    <!--<a href="/assets/villagerAnimations.html" onclick="event.preventDefault(); openModal('villagerAnimations'); history.pushState(null, '', '/assets/villagerAnimations.html');">-->
+                        <!--<img src="/assets/VillagerAnimations/images/Card.png" width="480" height="320" alt="Human Crafting Warriors">-->
+                        <!--<p>Human Crafting Animations <span style="color: red; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;"><strong>(50% OFF)</strong></span></p>-->
+                    <!--</a>-->
+                <!--</div> -->
+               
+                
+                <!--
+                <div class="asset-item">
+                    <a href="/assets/meleeWarriorAnimations.html" onclick="event.preventDefault(); openModal('meleeWarriorAnimations'); history.pushState(null, '', '/assets/meleeWarriorAnimations.html');">
+                        <img src="/assets/MeleeWarriorAnimations/images/Medium.png" width="480" height="320" alt="Human Melee Warriors">
+                        <p>Human Melee Animations <span style="color: red; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;"><strong>(50% OFF)</strong></span></p>
+                    </a>
+                </div>
+                 -->
+                 
+                <!--
+                <div class="asset-item">
+                    <a href="/assets/megaAnimationsPack.html" onclick="event.preventDefault(); openModal('megaAnimationsPack'); history.pushState(null, '', '/assets/megaAnimationsPack.html');">
+                        <img src="/assets/MegaPack/images/Card.png" width="480" height="320" alt="Human Mega Animations Pack">
+                        <p>Human Mega Animations Pack <span style="color: red; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;"><strong>(50% OFF)</strong></span></p>
+                    </a>
+                </div>
+                -->
+                
+                <!--
+                <div class="asset-item">
+                    <a href="/assets/armoryCrafter.html" onclick="event.preventDefault(); openModal('armoryCrafter'); history.pushState(null, '', '/assets/armoryCrafter.html');">
+                        <img src="/assets/ArmoryCrafter/Card.png" width="480" height="320" alt="Armory Crafter">
+                        <p>Armory Crafter <span style="color: red; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;"><strong>(50% OFF)</strong></span></p>
+                    </a>
+                </div>
+                -->
+
+                <!--
+                <div class="asset-item">
+                    <a href="#humanMegaAnimationsPackLite2" onclick="event.preventDefault(); openModal('humanMegaAnimationsPackLite2'); history.pushState(null, '', '/assets/humanMegaAnimationsPackLite2.html');">
+                        <img src="/assets/HumanMegaAnimationsPackLite2/Card.png"  width="480" height="320" alt="Human Mega Animations Pack Lite II">
+                        <p>Human Mega Animations Pack Lite II <span style="color: red; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;"><strong>(50% OFF)</strong></span></p>
+                    </a>
+                </div>
+                -->
+                
+                <!--
+                <div class="asset-item">
+                    <a href="/assets/armoryCrafter.html" onclick="event.preventDefault(); openModal('armoryCrafter'); history.pushState(null, '', '/assets/armoryCrafter.html');">
+                        <img src="/assets/ArmoryCrafter/Card.png" width="480" height="320" alt="Armory Crafter">
+                        <p>Armory Crafter <span style="color: red; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;"><strong>(75% OFF)</strong></span></p>
+                    </a>
+                </div>
+                -->
+             
+ 
+        </div>
+    </section> 
+   <!--  -->
+            
+            
+   
+     <!--
+            <div class="asset-items">
+                
+                <div class="asset-item">
+                <a href="/assets/villagerAnimations.html" onclick="event.preventDefault(); openModal('villagerAnimations'); history.pushState(null, '', '/assets/villagerAnimations.html');">
+                    <img src="/assets/VillagerAnimations/images/Card.png" width="480" height="320" alt="Villager Animations">
+                    <p>Human Crafting Animations <span style="color: red; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;"><strong>50% OFF</strong></span></p>
+
+                </a>
+            </div>
+            
+        
+            <div class="asset-item">
+                <a href="/assets/meleeWarriorAnimations.html" onclick="event.preventDefault(); openModal('meleeWarriorAnimations'); history.pushState(null, '', '/assets/meleeWarriorAnimations.html');">
+                    <img src="/assets/MeleeWarriorAnimations/images/Medium.png" width="480" height="320" alt="Melee Warriors">
+                    
+                    <p>Human Melee Animations <span style="color: red; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;"><strong>50% OFF</strong></span></p>
+
+                </a>
+            </div>
+            -->
+                
+                 <!--
+                     <div class="asset-item">
+                            <a href="#basicMotions" onclick="event.preventDefault(); openModal('basicMotions'); history.pushState(null, '', '/assets/basicMotions.html');">
+                                <img src="/assets/BasicMotions/Card.png" alt="Human Basic Motions">
+                                <p>Human Basic Motions <span style="color: red; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;"><strong>(89% OFF)</strong></span></p>
+                            </a>
+                    </div>
+               
+                    <div class="asset-item">
+                            <a href="#humanMegaAnimationsPackLite" onclick="event.preventDefault(); openModal('humanMegaAnimationsPackLite'); history.pushState(null, '', '/assets/humanMegaAnimationsPackLite.html');">
+                                <img src="/assets/HumanMegaAnimationsPackLite/Card.png"  width="480" height="320" alt="Human Mega Animations Pack Lite">
+                                <p>Human Mega Animations Pack Lite <span style="color: #ff3b21; text-shadow: -1px 0px 0 #000, 0px -1px 0 #000, -1px 0px 0 #000, 0px 0px 0 #000;"><strong>(50% OFF)</strong></span></p>
+                            </a>
+                    </div>
+                    <div class="asset-item">
+                            <a href="#basicMotions" onclick="openModal('basicMotions')">
+                                <img src="/assets/BasicMotions/Card.png" alt="Basic Motions">
+                                <p>Basic Motions <span style="color: red; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;"><strong>(50% OFF)</strong></span></p>
+                            </a>
+                    </div>
+                    
+                    <div class="asset-item">
+                            <a href="#villagerAnimations" onclick="openModal('villagerAnimations')">
+                                <img src="/assets/VillagerAnimations/images/Large.png" width="480" height="320" alt="Villager Animations">
+                                <p>Villager Animations <span style="color: red; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;"><strong>(60% OFF)</strong></span></p>
+                            </a>
+                    </div>
+                
+                    <div class="asset-item">
+                        <a href="#meleeWarriorAnimations" onclick="openModal('meleeWarriorAnimations')">
+                            <img src="/assets/MeleeWarriorAnimations/images/Medium.png" width="480" height="320" alt="Melee Warriors">
+                            <p>Melee Warrior Animations <span style="color: red; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;"><strong>(60% OFF)</strong></span></p>
+                        </a>
+                    </div>
+                -->
+     <!--         
+            </div>
+    </section> 
+    <br>
+    -->
+    
+     <!--
+     -->
+
+    
+     
+
+    <section class="new-assets" id="newAssets">
+    <h2><a href="#newAssets" class="section-link">COMPLETE ASSETS</a></h2>
+     <!-- <h1>(For Godot, Unreal and Unity)</h1>-->
+    <div class="asset-items">
+        
+        
+         <div class="asset-item">
+                <a href="/assets/archerAnimations.html" onclick="event.preventDefault(); openModal('archerAnimations'); history.pushState(null, '', '/assets/archerAnimations.html');">
+                    <img src="/assets/ArcherAnimations/images/Card.png" width="480" height="320" alt="Human Archer Animations">
+                    <p>Human Archer Animations</p>
+                </a>
+        </div>
+        
+        <div class="asset-item">
+            <a href="/assets/basicMotions.html" onclick="event.preventDefault(); openModal('basicMotions'); history.pushState(null, '', '/assets/basicMotions.html');">
+                <img src="/assets/BasicMotions/Card.png" width="480" height="320" alt="Human Basic Motions">
+                <!--<p>Human Basic Motions <span style="color: red; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;"><strong>(50% OFF)</strong></span></p>-->
+                <p>Human Basic Motions <span style="color: red; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;"><strong>(50% OFF)</strong></span></p>
+            </a>
+        </div>
+
+         <div class="asset-item">
+                <a href="/assets/villagerAnimations.html" onclick="event.preventDefault(); openModal('villagerAnimations'); history.pushState(null, '', '/assets/villagerAnimations.html');">
+                    <img src="/assets/VillagerAnimations/images/Card.png" width="480" height="320" alt="Villager Animations">
+                    <p>Human Crafting Animations <span style="color: red; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;"><strong></strong></span></p>
+                    <!--<p>Villager Animations</p>-->
+                </a>
+        </div>
+        
+
+
+        <div class="asset-item">
+                <a href="/assets/danceAnimations.html" onclick="event.preventDefault(); openModal('danceAnimations'); history.pushState(null, '', '/assets/danceAnimations.html');">
+                    <img src="/assets/DanceAnimations/images/Card.png" width="480" height="320" alt="Dance Animations">
+                    <p>Human Dance Animations</p>
+                </a>
+        </div>
+        
+         <div class="asset-item">
+                <a href="/assets/meleeWarriorAnimations.html" onclick="event.preventDefault(); openModal('meleeWarriorAnimations'); history.pushState(null, '', '/assets/meleeWarriorAnimations.html');">
+                    <img src="/assets/MeleeWarriorAnimations/images/Medium.png" width="480" height="320" alt="Melee Warriors">
+                    
+                    <p>Human Melee Animations <span style="color: red; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;"><strong></strong></span></p>
+                    <!--<p>Melee Warriors Animations</p>-->
+                </a>
+        </div>
+        
+         
+        <div class="asset-item">
+                <a href="/assets/soldierAnimations.html" onclick="event.preventDefault(); openModal('soldierAnimations'); history.pushState(null, '', '/assets/soldierAnimations.html');">
+                    <img src="/assets/SoldierAnimations/images/Card.png" width="480" height="320" alt="Human Soldier Animations">
+                    <p>Human Soldier Animations <span style="color: red; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;"><strong>(50% OFF)</strong></span></p>
+                </a>
+        </div>
+        
+        
+        <div class="asset-item">
+                <a href="/assets/casterMageAnimations.html" onclick="event.preventDefault(); openModal('casterMageAnimations'); history.pushState(null, '', '/assets/casterMageAnimations.html');">
+                    <img src="/assets/CasterMageAnimations/images/Card.png" width="480" height="320" alt="Human Spellcasting Animations">
+                    <p>Human Spellcasting Animations <span style="color: red; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;"><strong></strong></span></p>
+                </a>
+        </div>
+        
+       
+        
+        <div class="asset-item">
+                <a href="/assets/throwingAnimations.html" onclick="event.preventDefault(); openModal('throwingAnimations'); history.pushState(null, '', '/assets/throwingAnimations.html');">
+                    <img src="/assets/Throwing/images/Card.png" width="480" height="320" alt="Human Throwing Animations">
+                    <p>Human Throwing Animations</p>
+                </a>
+        </div>
+        
+        <div class="asset-item">
+                <a href="#humanMegaAnimationsPackLite" onclick="event.preventDefault(); openModal('humanMegaAnimationsPackLite'); history.pushState(null, '', '/assets/humanMegaAnimationsPackLite.html');">
+                    <img src="/assets/HumanMegaAnimationsPackLite/Card.png"  width="480" height="320" alt="Human Mega Animations Pack Lite I">
+                    <p>Human Mega Animations Pack Lite I <span style="color: #ff3b21; text-shadow: -1px 0px 0 #000, 0px -1px 0 #000, -1px 0px 0 #000, 0px 0px 0 #000;"><strong></strong></span></p>
+                </a>
+        </div>
+        
+         <div class="asset-item">
+                <a href="#humanMegaAnimationsPackLite2" onclick="event.preventDefault(); openModal('humanMegaAnimationsPackLite2'); history.pushState(null, '', '/assets/humanMegaAnimationsPackLite2.html');">
+                    <img src="/assets/HumanMegaAnimationsPackLite2/Card.png"  width="480" height="320" alt="Human Mega Animations Pack Lite II">
+                    <p>Human Mega Animations Pack Lite II <span style="color: red; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;"><strong></strong></span></p>
+                </a>
+        </div>
+        
+        <div class="asset-item">
+                <a href="/assets/megaAnimationsPack.html" onclick="event.preventDefault(); openModal('megaAnimationsPack'); history.pushState(null, '', '/assets/megaAnimationsPack.html');">
+                    <img src="/assets/MegaPack/images/Card.png" width="480" height="320" alt="Mega Animations Pack">
+                    <!-- <p>Human Mega Animations Pack <span style="color: red; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;"><strong></strong></span></p>-->
+                    
+                    <p>Human Mega Animations Pack <span style="color: red; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;"><strong></strong></span></p>
+                    
+                    <!--<p>Mega Animations Pack</p>-->
+                </a>
+        </div>
+        
+         <div class="asset-item">
+                    <a href="/assets/armoryCrafter.html" onclick="event.preventDefault(); openModal('armoryCrafter'); history.pushState(null, '', '/assets/armoryCrafter.html');">
+                        <img src="/assets/ArmoryCrafter/Card.png" width="480" height="320" alt="Armory Crafter">
+                        <p>Armory Crafter <span style="color: red; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;"><strong></strong></span></p>
+                    </a>
+                </div>
+        
+         
+    </div>
+    </section> <br>
+    <!--
+    <section class="old-assets" id ="oldAssets">
+        <h2><a href="#oldAssets" class="section-link">OLD ASSETS</a></h2>
+        <h1>(Made for Unity, may not work properly in other game engines)</h1>
+        <div class="asset-items">
+            
+    
+    
+            <div class="asset-item">
+                <a href="/assets/giantAnimations.html" onclick="event.preventDefault(); openModal('giantAnimations'); history.pushState(null, '', '/assets/giantAnimations.html');">
+                    <img src="/assets/GiantAnimations/Card.png" width="480" height="320" alt="Giant Animations">
+                    <p>Giant Animations</p>
+                </a>
+            </div>
+    
+            <div class="asset-item">
+                <a href="/assets/skeletonAnimations.html" onclick="event.preventDefault(); openModal('skeletonAnimations'); history.pushState(null, '', '/assets/skeletonAnimations.html');">
+                    <img src="/assets/SkeletonAnimations/Card.webp" width="480" height="320" alt="Skeleton Animations">
+                    <p>Skeleton Animations</p>
+                </a>
+            </div>
+    
+            <div class="asset-item">
+                <a href="/assets/zombieAnimations.html" onclick="event.preventDefault(); openModal('zombieAnimations'); history.pushState(null, '', '/assets/zombieAnimations.html');">
+                    <img src="/assets/Zombie/Card.png" width="480" height="320" alt="Zombie Animations">
+                    <p>Zombie Animations</p>
+                </a>
+            </div>
+    
+        </div>
+    </section> <br>
+    -->
+    
+    <section class="old-assets" id="freeAssets">
+        <h2><a href="#freeAssets" class="section-link">FREE ASSETS</a></h2>
+         <!-- <h1>(Made for Unity, may not work properly in other game engines)</h1>-->
+        <div class="asset-items">
+            
+            <div class="asset-item">
+                <a href="/assets/archerAnimationsFREE.html" onclick="event.preventDefault(); openModal('archerAnimationsFREE'); history.pushState(null, '', '/assets/archerAnimationsFREE.html');">
+                    <img src="/assets/ArcherAnimations/images/CardFREE.png" width="480" height="320" alt="Human Archer Animations FREE">
+                    <p>Human Archer Animations FREE</p>
+                </a>
+            </div>
+            
+            <div class="asset-item">
+                <a href="/assets/basicMotionsFREE.html" onclick="event.preventDefault(); openModal('basicMotionsFREE'); history.pushState(null, '', '/assets/basicMotionsFREE.html');">
+                    <img src="/assets/BasicMotions/CardFREE.png" width="480" height="320" alt="Human Basic Motions FREE">
+                    <p>Human Basic Motions FREE</p>
+                </a>
+            </div>
+            
+            <div class="asset-item">
+                <a href="/assets/villagerAnimationsFREE.html" onclick="event.preventDefault(); openModal('villagerAnimationsFREE'); history.pushState(null, '', '/assets/villagerAnimationsFREE.html');">
+                    <img src="/assets/VillagerAnimations/images/CardFREE.png" width="480" height="320" alt="Villager Animations FREE">
+                    <p>Human Crafting Animations FREE</p>
+                </a>
+         </div>
+         
+         <div class="asset-item">
+            <a href="/assets/danceAnimationsFREE.html" onclick="event.preventDefault(); openModal('danceAnimationsFREE'); history.pushState(null, '', '/assets/danceAnimationsFREE.html');">
+                <img src="/assets/DanceAnimations/images/CardFREE.png" width="480" height="320" alt="Dance Animations FREE">
+                <p>Human Dance Animations FREE</p>
+            </a>
+         </div>
+         
+         <div class="asset-item">
+                <a href="/assets/meleeWarriorAnimationsFREE.html" onclick="event.preventDefault(); openModal('meleeWarriorAnimationsFREE'); history.pushState(null, '', '/assets/meleeWarriorAnimationsFREE.html');">
+                    <img src="/assets/MeleeWarriorAnimations/images/Free.png" width="480" height="320" alt="Melee Warriors FREE">
+                    <p>Human Melee Animations FREE</p>
+                </a>
+        </div>
+        
+         <div class="asset-item">
+                <a href="/assets/soldierAnimationsFREE.html" onclick="event.preventDefault(); openModal('soldierAnimationsFREE'); history.pushState(null, '', '/assets/soldierAnimationsFREE.html');">
+                    <img src="/assets/SoldierAnimations/images/CardFREE.png" width="480" height="320" alt="Human Soldier Animations FREE">
+                    <p>Human Soldier Animations FREE</p>
+                </a>
+        </div>
+        
+        <div class="asset-item">
+                <a href="/assets/casterMageAnimationsFREE.html" onclick="event.preventDefault(); openModal('casterMageAnimationsFREE'); history.pushState(null, '', '/assets/casterMageAnimationsFREE.html');">
+                    <img src="/assets/CasterMageAnimations/images/CardFREE.png" width="480" height="320" alt="Human Spellcasting Animations FREE">
+                    <p>Human Spellcasting Animations FREE</p>
+                </a>
+        </div>
+        
+        <div class="asset-item">
+                <a href="/assets/throwingAnimationsFREE.html" onclick="event.preventDefault(); openModal('throwingAnimationsFREE'); history.pushState(null, '', '/assets/throwingAnimationsFREE.html');">
+                    <img src="/assets/Throwing/images/CardFREE.png" width="480" height="320" alt="Human Throwing Animations FREE">
+                    <p>Human Throwing Animations FREE</p>
+                </a>
+        </div>
+        
+        
+        <div class="asset-item">
+            <a href="/assets/humanDummy.html" onclick="event.preventDefault(); openModal('humanDummy'); history.pushState(null, '', '/assets/humanDummy.html');">
+                <img src="/assets/HumanDummy/Card.png" width="480" height="320" alt="Human Character Dummy">
+                <p>Human Character Dummy</p>
+            </a>
+        </div>
+        
+        <div class="asset-item">
+                <a href="/assets/dwarfBasicMotionsFREE.html" onclick="event.preventDefault(); openModal('dwarfBasicMotionsFREE'); history.pushState(null, '', '/assets/dwarfBasicMotionsFREE.html');">
+                    <img src="/assets/DwarfBasicMotions/Card_FREE.png" width="480" height="320" alt="Dwarf Basic Motions FREE">
+                    <p>Dwarf Basic Motions FREE</p>
+                </a>
+        </div>
+        
+        <div class="asset-item">
+                <a href="/assets/dwarfMeleeAnimationsFREE.html" onclick="event.preventDefault(); openModal('dwarfMeleeAnimationsFREE'); history.pushState(null, '', '/assets/dwarfMeleeAnimationsFREE.html');">
+                    <img src="/assets/DwarfMeleeAnimations/CardFREE.png" width="480" height="320" alt="Dwarf Melee Animations FREE">
+                    <p>Dwarf Melee Animations FREE</p>
+                </a>
+        </div>
+        
+        <div class="asset-item">
+            <a href="/assets/dwarfDummy.html" onclick="event.preventDefault(); openModal('dwarfDummy'); history.pushState(null, '', '/assets/dwarfDummy.html');">
+                <img src="/assets/DwarfDummy/Card.png" width="480" height="320" alt="Dwarf Character Dummy">
+                <p>Dwarf Character Dummy</p>
+            </a>
+        </div>
+            <!--
+            <div class="asset-item">
+                <a href="/assets/giantAnimationsFREE.html" onclick="event.preventDefault(); openModal('giantAnimationsFREE'); history.pushState(null, '', '/assets/giantAnimationsFREE.html');">
+                    <img src="/assets/GiantAnimations/CardFree.png" width="480" height="320" alt="Giant Animations FREE">
+                    <p>Giant Animations FREE</p>
+                </a>
+            </div>
+    
+            <div class="asset-item">
+                <a href="/assets/skeletonAnimationsFREE.html" onclick="event.preventDefault(); openModal('skeletonAnimationsFREE'); history.pushState(null, '', '/assets/skeletonAnimationsFREE.html');">
+                    <img src="/assets/SkeletonAnimations/CardFREE.webp" width="480" height="320" alt="Skeleton Animations FREE">
+                    <p>Skeleton Animations FREE</p>
+                </a>
+            </div>
+    
+            <div class="asset-item">
+                <a href="/assets/zombieAnimationsFREE.html" onclick="event.preventDefault(); openModal('zombieAnimationsFREE'); history.pushState(null, '', '/assets/zombieAnimationsFREE.html');">
+                    <img src="/assets/Zombie/CardFREE.png" width="480" height="320" alt="Zombie Animations FREE">
+                    <p>Zombie Animations FREE</p>
+                </a>
+            </div>
+    
+            <div class="asset-item">
+                <a href="/assets/golemModelFREE.html" onclick="event.preventDefault(); openModal('golemModelFREE'); history.pushState(null, '', '/assets/golemModelFREE.html');">
+                    <img src="/assets/GiantAnimations/Golem.png" width="480" height="320" alt="Golem - Giant Model FREE">
+                    <p>Golem - Giant Model FREE</p>
+                </a>
+            </div>
+            -->
+        </div>
+    </section> <br>
+
+    <section class="text" id="license">
+        <h2>
+            <a href="#license" class="section-link">LICENSE</a>
+        </h2>
+        <div class="update-items">
+            <div class="update-item" style="margin-right: 20px">
+                
+            <p>
+                
+            </p>
+
+            
+            
+            <hr>
+            <p></p>
+            </div>
+        </div>
+    </section> <br>
+
+    <section class="text" id="contact">
+        <h2><a href="#contact" class="section-link">CONTACT</a></h2>
+        <div class="update-items">
+            <div class="update-item">
+            <p>
+                For support, questions, or to report issues regarding my products, send an email to: <i style="color: #00aaff;">support@keviniglesias.com</i>
+            </p>
+            </div>
+        </div>
+    </section> <br><br><br>
+
+    <div id="imageModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h3 id="modalTitle"></h3>
+            
+            <iframe id="modalVideo" src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            
+            <img id="modalImage" src="" alt="Modal Image" style="display: none;" width="300" height="200" target="_blank">
+            <p id="modalSubtitle" class="modal-subtitle" style="margin-top: 20px; font-size: 20px; color: white;"></p>
+            <div id="modalPrice" class="modal-price" style="margin-bottom: -25px; font-size: 20px; color: #00ff88; font-weight: bold;"></div>
+            <div class="link-container" id="linkContainer">
+                <!-- Fancy buttons with images as icons for the modal links (up to 6 links) -->
+                <a id="link1" href="#" class="fancy-button" style="display: none;" target="_blank">
+                    <img src="/images/icons/unity.png" alt="Icon 1" class="button-icon">
+                    <span>Link 1</span>
+                </a>
+                <a id="link2" href="#" class="fancy-button" style="display: none;" target="_blank">
+                    <img src="/images/icons/unity.png" alt="Icon 2" class="button-icon">
+                    <span>Link 2</span>
+                </a>
+                <a id="link3" href="#" class="fancy-button" style="display: none;" target="_blank">
+                    <img src="/images/icons/unity.png" alt="Icon 3" class="button-icon">
+                    <span>Link 3</span>
+                </a>
+                <a id="link4" href="#" class="fancy-button" style="display: none;" target="_blank">
+                    <img src="/images/icons/unity.png" alt="Icon 4" class="button-icon">
+                    <span>Link 3</span>
+                </a>
+                <a id="link5" href="#" class="fancy-button" style="display: none;" target="_blank">
+                    <img src="/images/icons/unity.png" alt="Icon 5" class="button-icon">
+                    <span>Link 3</span>
+                </a>
+                <a id="link6" href="#" class="fancy-button" style="display: none;" target="_blank">
+                    <img src="/images/icons/unity.png" alt="Icon 6" class="button-icon">
+                    <span>Link 3</span>
+                </a>
+            </div>
+        </div>
+        
+        <!-- Share section (hidden initially) -->
+        <div id="shareModal" class="modal" style="display: none; background-color: rgba(0, 0, 0, 0.33);">
+            <div id="share-modal" class="share-container">
+                <div class="share-link">
+                    <input type="text" id="share-url" readonly>
+                </div>
+                <div class="share-buttons">
+                    <button id="copy-button" class="copy-button">Copy</button>
+                    <button id="close-share-button" class="close-share">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content" id="cookies">
+            <div class="footer-social-icons">
+                <a href="https://discord.gg/W6EzcfM" target="_blank"><img src="/images/icons/discord.png" alt="Discord"></a>
+                <a href="https://www.youtube.com/keviniglesias/" target="_blank"><img src="/images/icons/utube.png" alt="YouTube"></a>
+                <a href="https://bsky.app/profile/keviniglesias.com" target="_blank"><img src="/images/icons/bluesky.png" alt="Bluesky"></a>
+                <a href="https://twitter.com/KevDev3D" target="_blank"><img src="/images/icons/twitter.png" alt="Twitter"></a>
+                <!--<a href="https://www.instagram.com/kevdev3d" target="_blank"><img src="/images/icons/insta.png" alt="Instagram"></a>
+                <a href="https://www.tiktok.com/@kevdev3d" target="_blank"><img src="/images/icons/tiktok.png" alt="TikTok"></a>-->
+                        
+                        
+                <!--<a href="https://assetstore.unity.com/publishers/36307" target="_blank"><img src="/images/icons/unity.png" alt="Unity"></a>
+                <a href="https://kevdev.itch.io/" target="_blank"><img src="/images/icons/logo.io.png" alt="itch.io"></a>-->
+
+                
+                
+            </div>
+            
+            <div class="footer-home-button">
+                <a href="#" onclick="scrollToTop()" id="footer-home-button">BACK TO TOP</a>
+            </div>
+                        
+            <p><a href="#" onclick="scrollToTop()">www.keviniglesias.com</a></p>
+            
+            <p><a href="mailto:support@keviniglesias.com" target="_blank" style="all:unset;cursor:pointer;">support@keviniglesias.com</a></p>
+            <p id="cookie-status">
+                <!-- DONT USE THIS!!! USE LANGUAGE ENTRY -->
+               
+            
+            <!-- Footer Language Toggle Button -->
+            <div class="language-switcher">
+                <button id="footer-language-button">🌐 Español</button>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Centralized data for all modals
+        const modalData = {
+            armoryCrafter: {
+                imageSrc: '/assets/ArmoryCrafter/Cover.png',
+                title: 'ArmoryCrafter',
+                subtitle: {
+                    en: 'Modular 3D weapon editor and material authoring tool. Create, edit, apply lowpoly or PBR textures and export game-ready assets for Godot, Unity or Unreal. More information in its <a href="https://www.keviniglesias.com/armoryCrafter.html" target="_blank">website</a>.',
+                    es: 'Herramienta para crear armas modulares y aplicarles materiales. Crea, edita y texturiza diferentes estilos de armas y expórtalos directametne a Godot, Unity o Unreal. Más información en su <a href="https://www.keviniglesias.com/armoryCrafter.html" target="_blank">sitio web</a>.'
+                },
+                price: '$49.99',
+                //price: '<span style="text-decoration: line-through; color: #ccc;">$49.99</span> <span style="color: #ff3b21;">$12.49 (75% OFF)</span>',
+                //price: '<span style="text-decoration: line-through; color: #ccc;">$49.99</span> <span style="color: #ff3b21;">$25.00 (50% OFF)</span>',
+                 //priceColor: '#ff3b21',
+                links: [
+                    //['/images/basicMotionsViewer.png', 'Animations Viewer', 'https://www.keviniglesias.com/basic-motions-view'],
+                    //['/images/basicMotionsPlay.png', 'Playable Scene', 'https://www.keviniglesias.com/basic-motions-game'],
+                    ['/images/icons/steam.png', 'Steam Download', 'https://store.steampowered.com/app/4595970/Armory_Crafter/'],
+                    ['/images/icons/logo.io.png', 'itch.io Download', 'https://kevdev.itch.io/armory-crafter'],
+                    //['/images/icons/gumroad.png', 'Gumroad Download', 'https://keviniglesias.gumroad.com/l/human-mega-animations-pack-lite'],
+                    ['/images/icons/shareIcon.png', 'Share', ''],
+                    ['/images/IconArmory.png', 'Website', 'https://www.keviniglesias.com/armoryCrafter.html']
+                ]
+            },
+            humanMegaAnimationsPackLite: {
+                imageSrc: '/assets/HumanMegaAnimationsPackLite/Cover.png',
+                title: 'Human Mega Animations Pack Lite I',
+                subtitle: {
+                    en: 'Bundle containing <a href="https://www.keviniglesias.com/assets/basicMotions.html" target="_blank">Human Basic Motions</a>, <a href="https://www.keviniglesias.com/assets/villagerAnimations.html" target="_blank">Human Crafting</a>, <a href="https://www.keviniglesias.com/assets/danceAnimations.html" target="_blank">Human Dance</a> and <a href="https://www.keviniglesias.com/assets/meleeWarriorAnimations.html" target="_blank">Human Melee Animations</a> at a discounted price. 774 animation files. FBX and BLEND formats.',
+                    es: 'Pack ahorro que contiene <a href="https://www.keviniglesias.com/assets/basicMotions.html" target="_blank">Human Basic Motions</a>, <a href="https://www.keviniglesias.com/assets/villagerAnimations.html" target="_blank">Human Crafting</a>, <a href="https://www.keviniglesias.com/assets/danceAnimations.html" target="_blank">Human Dance</a> y <a href="https://www.keviniglesias.com/assets/meleeWarriorAnimations.html" target="_blank">Human Melee Animations</a> a un precio reducido. 774 archivos de animación en formato FBX y BLEND.'
+                },
+                //price: '<span style="text-decoration: line-through; color: #ccc;">$65.00</span> <span style="color: #ff3b21;">$32.50 (50% OFF)</span>',
+                price: '$65.00',
+                priceColor: '#ff3b21',
+                links: [
+                    //['/images/basicMotionsViewer.png', 'Animations Viewer', 'https://www.keviniglesias.com/basic-motions-view'],
+                    //['/images/basicMotionsPlay.png', 'Playable Scene', 'https://www.keviniglesias.com/basic-motions-game'],
+                    ['/images/icons/unity.png', 'Asset Store Download', 'https://assetstore.unity.com/packages/3d/animations/human-mega-animations-pack-lite-i-320526'],
+                    ['/images/icons/logo.io.png', 'itch.io Download', 'https://itch.io/s/153141/human-mega-animations-pack-lite-i'],
+                    //['/images/icons/gumroad.png', 'Gumroad Download', 'https://keviniglesias.gumroad.com/l/human-mega-animations-pack-lite'],
+                    ['/images/icons/shareIcon.png', 'Share', '']
+                ]
+            },
+            humanMegaAnimationsPackLite2: {
+                imageSrc: '/assets/HumanMegaAnimationsPackLite2/Cover.png',
+                title: 'Human Mega Animations Pack Lite II',
+                subtitle: {
+                    en: 'Bundle containing <a href="https://www.keviniglesias.com/assets/archerAnimations.html" target="_blank">Human Archer Animations</a>, <a href="https://www.keviniglesias.com/assets/soldierAnimations.html" target="_blank">Human Soldier</a>, <a href="https://www.keviniglesias.com/assets/casterMageAnimations.html" target="_blank">Human Spellcasting</a> and <a href="https://www.keviniglesias.com/assets/throwingAnimations.html" target="_blank">Human Throwing Animations</a> at a discounted price. 809 animation files. FBX and BLEND formats.',
+                    es: 'Pack ahorro que contiene <a href="https://www.keviniglesias.com/assets/archerAnimations.html" target="_blank">Human Archer Animations</a>, <a href="https://www.keviniglesias.com/assets/soldierAnimations.html" target="_blank">Human Soldier</a>, <a href="https://www.keviniglesias.com/assets/casterMageAnimations.html" target="_blank">Human Spellcasting</a> y <a href="https://www.keviniglesias.com/assets/throwingAnimations.html" target="_blank">Human Throwing Animations</a> a un precio reducido. 809 archivos de animación en formato FBX y BLEND.'
+                },
+                price: '$72.00',
+                //priceColor: '#ff3b21',
+                //price: '<span style="text-decoration: line-through; color: #ccc;">$72.00</span> <span style="color: #ff3b21;">$36.00 (50% OFF)</span>',
+                links: [
+                    //['/images/basicMotionsViewer.png', 'Animations Viewer', 'https://www.keviniglesias.com/basic-motions-view'],
+                    //['/images/basicMotionsPlay.png', 'Playable Scene', 'https://www.keviniglesias.com/basic-motions-game'],
+                    ['/images/icons/unity.png', 'Asset Store Download', 'https://assetstore.unity.com/packages/3d/animations/human-mega-animations-pack-lite-ii-344756'],
+                    ['/images/icons/logo.io.png', 'itch.io Download', 'https://itch.io/s/173603/human-mega-animations-pack-lite-ii'],
+                    //['/images/icons/gumroad.png', 'Gumroad Download', 'https://keviniglesias.gumroad.com/l/human-mega-animations-pack-lite'],
+                    ['/images/icons/shareIcon.png', 'Share', '']
+                ]
+            },
+            basicMotions: {
+                imageSrc: '/assets/BasicMotions/Cover.png',
+                title: 'Human Basic Motions',
+                subtitle: {
+                    en: 'Human movement and interaction animations, 404 animation files. FBX and BLEND formats. Free version with less animations available <a href="#" onclick="history.pushState(null, \'\', \'/assets/basicMotionsFREE.html\'); openModal(&quot;basicMotionsFREE&quot;); history.replaceState(null, \'\', \'/assets/basicMotionsFREE.html\'); return false;" style="color:#00aaff; text-decoration: none;">here</a>.',
+                    es: 'Animaciones de movimiento e interacción (modelo humano), 404 archivos de animación en formato FBX y BLEND. Versión gratuita con menos animaciones disponible <a href="#" onclick="history.pushState(null, \'\', \'/assets/basicMotionsFREE.html\'); openModal(&quot;basicMotionsFREE&quot;); history.replaceState(null, \'\', \'/assets/basicMotionsFREE.html\'); return false;" style="color:#00aaff; text-decoration: none;">aquí</a>.'
+                },
+                //price: '$18.00',
+                price: '<span style="text-decoration: line-through; color: #ccc;">$18.00</span> <span style="color: #ff3b21;">$9.00 (50% OFF)</span>',
+                 //priceColor: '#ff3b21',
+                links: [
+                    //['/images/basicMotionsViewer.png', 'Animations Viewer', 'https://www.keviniglesias.com/basic-motions-view'],
+                    //['/images/basicMotionsPlay.png', 'Playable Scene', 'https://www.keviniglesias.com/basic-motions-game'],
+                    ['/images/icons/unity.png', 'Asset Store Download (50% OFF)', 'https://assetstore.unity.com/packages/3d/animations/basic-motions-157744'],
+                    //['/images/icons/fab.png', 'Fab Download', 'https://www.fab.com/listings/0640034f-cb1f-47e6-84d1-4b70173b62f5'],
+                    ['/images/icons/logo.io.png', 'itch.io Download (50% OFF)', 'https://kevdev.itch.io/basic-motions'],
+                    //['/images/icons/gumroad.png', 'Gumroad Download', 'https://keviniglesias.gumroad.com/l/human-basic-motions'],
+                    ['/images/icons/shareIcon.png', 'Share', ''],
+                    ['/images/animationListIcon.png', 'Animations list', 'https://www.keviniglesias.com/documentation/Human%20Basic%20Motions.pdf'],
+                ]
+            },
+            basicMotionsFREE: {
+                imageSrc: '/assets/BasicMotions/CoverFREE.png',
+                title: 'Human Basic Motions FREE',
+                subtitle: {
+                    en: 'Free sample of human movement and interaction animations, 118 animation files. FBX and BLEND formats. Get full collection <a href="#" onclick="history.pushState(null, \'\', \'/assets/basicMotions.html\'); openModal(&quot;basicMotions&quot;); history.replaceState(null, \'\', \'/assets/basicMotions.html\'); return false;" style="color:#00aaff; text-decoration: none;"> here</a>.',
+                    es: 'Versión gratuita de animaciones de movimiento e interacción (modelo humano), 118 archivos de animación en formato FBX y BLEND. Colección completa <a href="#" onclick="history.pushState(null, \'\', \'/assets/basicMotions.html\'); openModal(&quot;basicMotions&quot;); history.replaceState(null, \'\', \'/assets/basicMotions.html\'); return false;" style="color:#00aaff; text-decoration: none;">aquí</a>.'
+                },
+                price: '$0.00 (FREE)',
+                links: [
+                    //['/images/basicMotionsViewer.png', 'Animations Viewer (Full version)', 'https://www.keviniglesias.com/basic-motions-view'],
+                    //['/images/basicMotionsPlay.png', 'Playable Scene (Full version)', 'https://www.keviniglesias.com/basic-motions-game'],
+                    ['/images/icons/unity.png', 'Asset Store Download', 'https://assetstore.unity.com/packages/3d/animations/basic-motions-free-154271'],
+                    //['/images/icons/fab.png', 'Fab Download', 'https://www.fab.com/listings/175dad08-3762-40ac-b815-7618fbd47af5'],
+                    ['/images/icons/logo.io.png', 'itch.io Download', 'https://kevdev.itch.io/basic-motions-free'],
+                    ['/images/icons/gumroad.png', 'Gumroad Download', 'https://keviniglesias.gumroad.com/l/human-basic-motions-free'],
+                    ['/images/icons/shareIcon.png', 'Share', ''],
+                    ['/images/animationListIcon.png', 'Animations list', 'https://www.keviniglesias.com/documentation/Human%20Basic%20Motions%20FREE.pdf'],
+                ]
+            },
+            villagerAnimations: {
+                imageSrc: '/assets/VillagerAnimations/images/Large.png',
+                title: 'Human Crafting Animations',
+                subtitle: {
+                    en: 'Human crafting and gathering animations, 322 animation files. FBX and BLEND formats. Free version with less animations available <a href="#" onclick="history.pushState(null, \'\', \'/assets/villagerAnimationsFREE.html\'); openModal(&quot;villagerAnimationsFREE&quot;); history.replaceState(null, \'\', \'/assets/villagerAnimationsFREE.html\'); return false;" style="color:#00aaff; text-decoration: none;">here</a>.',
+                    es: 'Animaciones de crafteo y recolección (modelo humano), 322 archivos de animación en formato FBX y BLEND. Versión gratuita con menos animaciones disponible <a href="#" onclick="history.pushState(null, \'\', \'/assets/villagerAnimationsFREE.html\'); openModal(&quot;villagerAnimationsFREE&quot;); history.replaceState(null, \'\', \'/assets/villagerAnimationsFREE.html\'); return false;" style="color:#00aaff; text-decoration: none;">aquí</a>.'
+                },
+                price: '$25.00',
+                //price: '<span style="text-decoration: line-through; color: #ccc;">$25.00</span> <span style="color: #ff3b21;">$12.50 (50% OFF)</span>',
+                links: [
+                    ['/images/icons/unity.png', 'Asset Store Download', 'https://assetstore.unity.com/packages/3d/animations/villager-animations-pack-147875'],
+                    //['/images/icons/fab.png', 'Fab Download', 'https://www.fab.com/listings/b8a22e61-f7cf-4411-af8b-5f81595a5499'],
+                    ['/images/icons/logo.io.png', 'itch.io Download', 'https://kevdev.itch.io/human-villager-animations'],
+                    //['/images/icons/gumroad.png', 'Gumroad Download', 'https://keviniglesias.gumroad.com/l/human-crafting-animations'],
+                    //['/images/icons/gumroad.png', 'Gumroad Download', 'https://keviniglesias.gumroad.com/l/human-crafting-animations-sale'],
+                    ['/images/icons/shareIcon.png', 'Share', ''],
+                    ['/images/animationListIcon.png', 'Animations list', 'https://www.keviniglesias.com/documentation/Human%20Crafting%20Animations.pdf'],
+                ]
+            },
+            villagerAnimationsFREE: {
+                imageSrc: '/assets/VillagerAnimations/images/LargeFREE.png',
+                title: 'Human Crafting Animations FREE',
+                subtitle: {
+                    en: 'Free sample of human crafting and gathering animations, 62 animation files. FBX and BLEND formats. Get full collection <a href="#" onclick="history.pushState(null, \'\', \'/assets/villagerAnimations.html\'); openModal(&quot;villagerAnimations&quot;); history.replaceState(null, \'\', \'/assets/villagerAnimations.html\'); return false;" style="color:#00aaff; text-decoration: none;"> here</a>.',
+                    es: 'Versión gratuita de animaciones de crafteo y recolección (modelo humano), 62 archivos de animación en formato FBX y BLEND. Colección completa <a href="#" onclick="history.pushState(null, \'\', \'/assets/villagerAnimations.html\'); openModal(&quot;villagerAnimations&quot;); history.replaceState(null, \'\', \'/assets/villagerAnimations.html\'); return false;" style="color:#00aaff; text-decoration: none;">aquí</a>.'
+                },
+                price: '$0.00 (FREE)',
+                links: [
+                    ['/images/icons/unity.png', 'Asset Store Download', 'https://assetstore.unity.com/packages/3d/animations/villager-animations-free-157920'],
+                    //['/images/icons/fab.png', 'Fab Download', 'https://www.fab.com/listings/ce0974cb-c5f7-46fe-abfe-a35ee301d26d'],
+                    ['/images/icons/logo.io.png', 'itch.io Download', 'https://kevdev.itch.io/human-villager-animations-free'],
+                    ['/images/icons/gumroad.png', 'Gumroad Download', 'https://keviniglesias.gumroad.com/l/human-crafting-animations-free'],
+                    ['/images/icons/shareIcon.png', 'Share', ''],
+                    ['/images/animationListIcon.png', 'Animations list', 'https://www.keviniglesias.com/documentation/Human%20Crafting%20Animations%20FREE.pdf'],
+                ]
+            },
+            humanDummy: {
+                imageSrc: '/assets/HumanDummy/Cover.png',
+                title: 'Human Character Dummy',
+                subtitle: {
+                    en: 'Human 3D dummy character models, Blender source files included.',
+                    es: 'Modelos 3D de muñeco (humano). Archivos fuente originales incluidos.'
+                },
+                price: '$0.00 (FREE)',
+                links: [
+                    ['/images/icons/unity.png', 'Asset Store Download', 'https://assetstore.unity.com/packages/3d/characters/humanoids/humans/human-character-dummy-178395'],
+                    ['/images/icons/logo.io.png', 'itch.io Download', 'https://kevdev.itch.io/human-character-dummy'],
+                    ['/images/icons/gumroad.png', 'Gumroad Download', 'https://keviniglesias.gumroad.com/l/human-dummy'],
+                    ['/images/icons/shareIcon.png', 'Share', ''],
+                ]
+            },
+            dwarfBasicMotionsFREE: {
+                imageSrc: '/assets/DwarfBasicMotions/Cover_FREE.png',
+                title: 'Dwarf Basic Motions FREE',
+                subtitle: {
+                    en: 'Free sample of upcoming dwarf movement and interaction animations, 118 animation files. FBX and BLEND formats.',
+                    es: 'Versión gratuita de próximo pack de animaciones de movimiento e interacción (modelo enano), 118 archivos de animación en formato FBX y BLEND.'
+                },
+                price: '$0.00 (FREE)',
+                links: [
+                    //['/images/basicMotionsViewer.png', 'Animations Viewer (Full version)', 'https://www.keviniglesias.com/basic-motions-view'],
+                    //['/images/basicMotionsPlay.png', 'Playable Scene (Full version)', 'https://www.keviniglesias.com/basic-motions-game'],
+                    ['/images/icons/unity.png', 'Asset Store Download', 'https://assetstore.unity.com/packages/3d/animations/dwarf-basic-motions-free-388254'],
+                    //['/images/icons/fab.png', 'Fab Download', 'https://www.fab.com/listings/175dad08-3762-40ac-b815-7618fbd47af5'],
+                    ['/images/icons/logo.io.png', 'itch.io Download', 'https://kevdev.itch.io/dwarf-basic-motions-free'],
+                    ['/images/icons/gumroad.png', 'Gumroad Download', 'https://keviniglesias.gumroad.com/l/dwarf-basic-motions-free'],
+                    ['/images/icons/shareIcon.png', 'Share', ''],
+                    ['/images/animationListIcon.png', 'Animations list', 'https://www.keviniglesias.com/documentation/Dwarf%20Basic%20Motions%20FREE.pdf'],
+                ]
+            },
+            dwarfMeleeAnimationsFREE: {
+                imageSrc: '/assets/DwarfMeleeAnimations/CoverFREE.png',
+                title: 'Dwarf Melee Animations FREE',
+                subtitle: {
+                    en: 'Free sample of upcoming dwarf movement and interaction animations, 96 animation files. FBX and BLEND formats. Included weapons made with <a href="https://www.keviniglesias.com/armoryCrafter.html" target="_blank">Armory Crafter</a>.',
+                    es: 'Versión gratuita del próximo pack de animaciones de combate cuerpo a cuerpo (modelo enano), 96 archivos de animación en formato FBX y BLEND. Armas incluidas hechas con <a href="https://www.keviniglesias.com/armoryCrafter.html" target="_blank">Armory Crafter</a>.'
+                },
+                price: '$0.00 (FREE)',
+                links: [
+                    ['/images/icons/unity.png', 'Asset Store Download', 'https://assetstore.unity.com/packages/3d/animations/dwarf-melee-animations-free-402664'],
+                    ['/images/icons/logo.io.png', 'itch.io Download', 'https://kevdev.itch.io/dwarf-melee-animations-free'],
+                    ['/images/icons/gumroad.png', 'Gumroad Download', 'https://keviniglesias.gumroad.com/l/dwarf-melee-warriors-free'],
+                    ['/images/icons/shareIcon.png', 'Share', ''],
+                    ['/images/animationListIcon.png', 'Animations list', 'https://www.keviniglesias.com/documentation/Dwarf%20Melee%20Animations%20FREE.pdf'],
+                ]
+            },
+            dwarfDummy: {
+                imageSrc: '/assets/DwarfDummy/Cover.png',
+                title: 'Dwarf Character Dummy',
+                subtitle: {
+                    en: 'Dwarf 3D dummy character models, Blender source files included.',
+                    es: 'Modelos 3D de muñeco (humano). Archivos fuente originales incluidos.'
+                },
+                price: '$0.00 (FREE)',
+                links: [
+                    ['/images/icons/unity.png', 'Asset Store Download', 'https://assetstore.unity.com/packages/3d/characters/humanoids/fantasy/dwarf-character-dummy-381574'],
+                    ['/images/icons/logo.io.png', 'itch.io Download', 'https://kevdev.itch.io/dwarf-character-dummy'],
+                    ['/images/icons/gumroad.png', 'Gumroad Download', 'https://keviniglesias.gumroad.com/l/dwarf-dummy'],
+                    ['/images/icons/shareIcon.png', 'Share', ''],
+                ]
+            },
+            treasureChestAnimations: {
+                imageSrc: '/assets/TreasureChestAnimations/Cover.png',
+                title: 'Treasure Chest Animations',
+                subtitle: {
+                    en: '',
+                    es: ''
+                },
+                links: [
+                    ['/images/icons/unity.png', 'Asset Store Download', 'https://assetstore.unity.com/packages/3d/animations/treasure-chest-animations-302117'],
+                    ['/images/icons/logo.io.png', 'itch.io Download', 'https://kevdev.itch.io/treasure-chest-animations'],
+                    ['/images/autoRigChestDocuIcon.png', 'Auto Rig Chest Documentation', 'https://kevin-iglesias.gitbook.io/auto-rig-chest/'],
+                    ['/images/icons/shareIcon.png', 'Share', '']
+                ]
+            },
+            treasureChestBaseMeshes: {
+                imageSrc: '/assets/TreasureChestBaseMeshes/Cover.png',
+                title: 'Treasure Chest Base Meshes',
+                subtitle: {
+                    en: '',
+                    es: ''
+                },
+                links: [
+                    ['/images/icons/unity.png', 'Asset Store Download', 'https://assetstore.unity.com/packages/3d/props/furniture/treasure-chest-base-meshes-302125'],
+                    ['/images/icons/logo.io.png', 'itch.io Download', 'https://kevdev.itch.io/treasure-chest-base-meshes'],
+                    ['/images/icons/shareIcon.png', 'Share', '']
+                ]
+            },
+            megaAnimationsPack: {
+                imageSrc: '/assets/MegaPack/images/Cover.png',
+                title: 'Human Mega Animations Pack',
+                subtitle: {
+                    en: 'Bundle containing <a href="https://www.keviniglesias.com/assets/archerAnimations.html" target="_blank">Human Archer Animations</a>, <a href="https://www.keviniglesias.com/assets/basicMotions.html" target="_blank">Human Basic Motions</a>, <a href="https://www.keviniglesias.com/assets/villagerAnimations.html" target="_blank">Human Crafting Animations</a>, <a href="https://www.keviniglesias.com/assets/danceAnimations.html" target="_blank">Human Dance Animations</a>, <a href="https://www.keviniglesias.com/assets/meleeWarriorAnimations.html" target="_blank">Human Melee Animations</a>, <a href="https://www.keviniglesias.com/assets/soldierAnimations.html" target="_blank">Human Soldier Animations</a>, <a href="https://www.keviniglesias.com/assets/casterMageAnimations.html" target="_blank">Human Spellcasting Animations</a> and <a href="https://www.keviniglesias.com/assets/throwingAnimations.html" target="_blank">Human Throwing Animations</a> at a discounted price. 1307 animation files. FBX and BLEND formats.',
+                    es: 'Pack ahorro que contiene <a href="https://www.keviniglesias.com/assets/archerAnimations.html" target="_blank">Human Archer Animations</a>, <a href="https://www.keviniglesias.com/assets/basicMotions.html" target="_blank">Human Basic Motions</a>, <a href="https://www.keviniglesias.com/assets/villagerAnimations.html" target="_blank">Human Crafting Animations</a>, <a href="https://www.keviniglesias.com/assets/danceAnimations.html" target="_blank">Human Dance Animations</a>, <a href="https://www.keviniglesias.com/assets/meleeWarriorAnimations.html" target="_blank">Human Melee Animations</a>, <a href="https://www.keviniglesias.com/assets/soldierAnimations.html" target="_blank">Human Soldier Animations</a>, <a href="https://www.keviniglesias.com/assets/casterMageAnimations.html" target="_blank">Human Spellcasting Animations</a> y <a href="https://www.keviniglesias.com/assets/throwingAnimations.html" target="_blank">Human Throwing Animations</a> a un precio reducido. 1307 archivos de animación en formato FBX y BLEND.'
+                },
+                price: '$130.00',
+                //price: '<span style="text-decoration: line-through; color: #ccc;">$130.00</span> <span style="color: #ff3b21;">$65 (50% OFF)</span>',
+                //priceColor: '#ff3b21',
+                links: [
+                    ['/images/icons/unity.png', 'Asset Store Download', 'https://assetstore.unity.com/packages/3d/animations/mega-animations-pack-162341'],
+                    ['/images/icons/logo.io.png', 'itch.io Download', 'https://itch.io/s/168923/human-mega-animations-pack'],
+                    //['/images/icons/logo.io.png', 'itch.io Download', 'https://itch.io/s/184327/spring-sale'],
+                    
+                    ['/images/icons/shareIcon.png', 'Share', '']
+                ]
+            },
+            meleeWarriorAnimations: {
+                imageSrc: '/assets/MeleeWarriorAnimations/images/Medium.png',
+                title: 'Human Melee Animations',
+                subtitle: {
+                    en: 'Human melee fighting motions, 284 animation files. FBX and BLEND formats. Free version with less animations available <a href="#" onclick="history.pushState(null, \'\', \'/assets/meleeWarriorAnimationsFREE.html\'); openModal(&quot;meleeWarriorAnimationsFREE&quot;); history.replaceState(null, \'\', \'/assets/meleeWarriorAnimationsFREE.html\'); return false;" style="color:#00aaff; text-decoration: none;">here</a>.',
+                    es: 'Animaciones de combate cuerpo a cuerpo (modelo humano), 284 archivos de animación en formato FBX y BLEND. Versión gratuita con menos animaciones disponible <a href="#" onclick="history.pushState(null, \'\', \'/assets/meleeWarriorAnimationsFREE.html\'); openModal(&quot;meleeWarriorAnimationsFREE&quot;); history.replaceState(null, \'\', \'/assets/meleeWarriorAnimationsFREE.html\'); return false;" style="color:#00aaff; text-decoration: none;">aquí</a>.'
+                },
+                price: '$23.00',
+                //price: '<span style="text-decoration: line-through; color: #ccc;">$23.00</span> <span style="color: #ff3b21;">$11.50 (50% OFF)</span>',
+                links: [
+                    ['/images/icons/unity.png', 'Asset Store Download', 'https://assetstore.unity.com/packages/3d/animations/human-melee-animations-151650'],
+                    //['/images/icons/fab.png', 'Fab Download', 'https://www.fab.com/listings/d070fb8d-45d0-4b85-bd73-1aa95b19228c'],
+                    ['/images/icons/logo.io.png', 'itch.io Download', 'https://kevdev.itch.io/human-melee-animations'],
+                    //['/images/icons/gumroad.png', 'Gumroad Download', 'https://keviniglesias.gumroad.com/l/human-melee-animations'],
+                    //['/images/icons/gumroad.png', 'Gumroad Download', 'https://keviniglesias.gumroad.com/l/human-melee-animations-sale'],
+                    ['/images/icons/shareIcon.png', 'Share', ''],
+                    ['/images/animationListIcon.png', 'Animations list', 'https://www.keviniglesias.com/documentation/Human%20Melee%20Animations.pdf'],
+                ]
+            },
+            meleeWarriorAnimationsFREE: {
+                imageSrc: '/assets/MeleeWarriorAnimations/images/Free.png',
+                title: 'Human Melee Animations FREE',
+                subtitle: {
+                    en: 'Free sample of human melee fighting motions, 94 animation files. FBX and BLEND formats. Get full collection <a href="#" onclick="history.pushState(null, \'\', \'/assets/meleeWarriorAnimations.html\'); openModal(&quot;meleeWarriorAnimations&quot;); history.replaceState(null, \'\', \'/assets/meleeWarriorAnimations.html\'); return false;" style="color:#00aaff; text-decoration: none;"> here</a>.',
+                    es: 'Versión gratuita de animaciones de combate cuerpo a cuerpo (modelo humano), 94 archivos de animación en formato FBX y BLEND. Colección completa <a href="#" onclick="history.pushState(null, \'\', \'/assets/meleeWarriorAnimations.html\'); openModal(&quot;meleeWarriorAnimations&quot;); history.replaceState(null, \'\', \'/assets/meleeWarriorAnimations.html\'); return false;" style="color:#00aaff; text-decoration: none;">aquí</a>.'
+                },
+                price: '$0.00 (FREE)',
+                links: [
+                    ['/images/icons/unity.png', 'Asset Store Download', 'https://assetstore.unity.com/packages/3d/animations/human-melee-animations-free-165785'],
+                    //['/images/icons/fab.png', 'Fab Download', 'https://www.fab.com/listings/4fcd49f9-cece-492c-9627-1c1f76328106'],
+                    ['/images/icons/logo.io.png', 'itch.io Download', 'https://kevdev.itch.io/human-melee-animatons-free'],
+                    ['/images/icons/gumroad.png', 'Gumroad Download', 'https://keviniglesias.gumroad.com/l/human-melee-animations-free'],
+                    ['/images/icons/shareIcon.png', 'Share', ''],
+                    ['/images/animationListIcon.png', 'Animations list', 'https://www.keviniglesias.com/documentation/Human%20Melee%20Animations%20FREE.pdf'],
+                ]
+            },
+            casterMageAnimations: {
+                imageSrc: '/assets/CasterMageAnimations/images/Large.png',
+                title: 'Human Spellcasting Animations',
+                subtitle: {
+                    en: 'Human casting magic motions, 276 animation files. FBX and BLEND formats. Free version with less animations available <a href="#" onclick="history.pushState(null, \'\', \'/assets/casterMageAnimationsFREE.html\'); openModal(&quot;casterMageAnimationsFREE&quot;); history.replaceState(null, \'\', \'/assets/casterMageAnimationsFREE.html\'); return false;" style="color:#00aaff; text-decoration: none;">here</a>.',
+                    es: 'Animaciones lanzamiento de hechizos (modelo humano), 276 archivos de animación en formato FBX y BLEND. Versión gratuita con menos animaciones disponible <a href="#" onclick="history.pushState(null, \'\', \'/assets/casterMageAnimationsFREE.html\'); openModal(&quot;casterMageAnimationsFREE&quot;); history.replaceState(null, \'\', \'/assets/casterMageAnimationsFREE.html\'); return false;" style="color:#00aaff; text-decoration: none;">aquí</a>.'
+                },
+                //price: '<span style="text-decoration: line-through; color: #ccc;">$28.00</span> <span style="color: #ff3b21;">$14.00 (50% OFF)</span>',
+               price: '$28.00',
+                links: [
+                    ['/images/icons/unity.png', 'Asset Store Download', 'https://assetstore.unity.com/packages/3d/animations/caster-mage-animations-pack-156596'],
+                    ['/images/icons/logo.io.png', 'itch.io Download', 'https://kevdev.itch.io/human-spellcasting-animations'],
+                    ['/images/icons/shareIcon.png', 'Share', ''],
+                    ['/images/animationListIcon.png', 'Animations list', 'https://www.keviniglesias.com/documentation/Human%20Spellcasting%20Animations.pdf'],
+                ]
+            },
+            casterMageAnimationsFREE: {
+                imageSrc: '/assets/CasterMageAnimations/images/CoverFREE.png',
+                title: 'Human Spellcasting Animations FREE',
+                subtitle: {
+                    en: 'Free sample of casting magic, 90 animation files. FBX and BLEND formats. Get full collection <a href="#" onclick="history.pushState(null, \'\', \'/assets/casterMageAnimations.html\'); openModal(&quot;casterMageAnimations&quot;); history.replaceState(null, \'\', \'/assets/casterMageAnimations.html\'); return false;" style="color:#00aaff; text-decoration: none;"> here</a>.',
+                    es: 'Versión gratuita de animaciones lanzamiento de hechizos (modelo humano), 90 archivos de animación en formato FBX y BLEND. Colección completa <a href="#" onclick="history.pushState(null, \'\', \'/assets/casterMageAnimations.html\'); openModal(&quot;casterMageAnimations&quot;); history.replaceState(null, \'\', \'/assets/casterMageAnimations.html\'); return false;" style="color:#00aaff; text-decoration: none;">aquí</a>.'
+                },
+                price: '$0.00 (FREE)',
+                links: [
+                    ['/images/icons/unity.png', 'Asset Store Download', 'https://assetstore.unity.com/packages/3d/animations/human-spellcasting-animations-free-326043'],
+                    ['/images/icons/logo.io.png', 'itch.io Download', 'https://kevdev.itch.io/human-spellcasting-animations-free'],
+                    ['/images/icons/gumroad.png', 'Gumroad Download', 'https://keviniglesias.gumroad.com/l/human-spellcasting-animations-free'],
+                    ['/images/icons/shareIcon.png', 'Share', ''],
+                    ['/images/animationListIcon.png', 'Animations list', 'https://www.keviniglesias.com/documentation/Human%20Spellcasting%20Animations%20FREE.pdf'],
+                ]
+            },
+            danceAnimations: {
+                imageSrc: '/assets/DanceAnimations/images/Large.png',
+                title: 'Human Dance Animations',
+                subtitle: {
+                    en: 'Human dance motions and poses, 90 animation files. FBX and BLEND formats. Free version with less animations available <a href="#" onclick="history.pushState(null, \'\', \'/assets/danceAnimationsFREE.html\'); openModal(&quot;danceAnimationsFREE&quot;); history.replaceState(null, \'\', \'/assets/danceAnimationsFREE.html\'); return false;" style="color:#00aaff; text-decoration: none;">here</a>.',
+                    es: 'Animaciones y poses de baile (modelo humano), 90 archivos de animación en formato FBX y BLEND. Versión gratuita con menos animaciones disponible <a href="#" onclick="history.pushState(null, \'\', \'/assets/danceAnimationsFREE.html\'); openModal(&quot;danceAnimationsFREE&quot;); history.replaceState(null, \'\', \'/assets/danceAnimationsFREE.html\'); return false;" style="color:#00aaff; text-decoration: none;">aquí</a>.'
+                },
+                price: '$18.00',
+                links: [
+                    ['/images/icons/unity.png', 'Asset Store Download', 'https://assetstore.unity.com/packages/3d/animations/human-dance-animations-163508'],
+                    //['/images/icons/fab.png', 'Fab Download', 'https://www.fab.com/listings/45f7724c-dc50-4fd1-a081-2f9b18653b6d'],
+                    ['/images/icons/logo.io.png', 'itch.io Download', 'https://kevdev.itch.io/human-dance-animations'],
+                    //['/images/icons/gumroad.png', 'Gumroad Download', 'https://keviniglesias.gumroad.com/l/human-dance-animations'],
+                    ['/images/icons/shareIcon.png', 'Share', ''],
+                    ['/images/animationListIcon.png', 'Animations list', 'https://www.keviniglesias.com/documentation/Human%20Dance%20Animations.pdf'],
+                ]
+            },
+            danceAnimationsFREE: {
+                imageSrc: '/assets/DanceAnimations/images/LargeFREE.png',
+                title: 'Human Dance Animations FREE',
+                subtitle: {
+                    en: 'Free sample of human dance motions and poses, 36 animation files. FBX and BLEND formats. Get full collection <a href="#" onclick="history.pushState(null, \'\', \'/assets/danceAnimations.html\'); openModal(&quot;danceAnimations&quot;); history.replaceState(null, \'\', \'/assets/danceAnimations.html\'); return false;" style="color:#00aaff; text-decoration: none;"> here</a>.',
+                    es: 'Versión gratuita de animaciones y poses de baile (modelo humano), 36 archivos de animación en formato FBX y BLEND. Colección completa <a href="#" onclick="history.pushState(null, \'\', \'/assets/danceAnimations.html\'); openModal(&quot;danceAnimations&quot;); history.replaceState(null, \'\', \'/assets/danceAnimations.html\'); return false;" style="color:#00aaff; text-decoration: none;">aquí</a>.'
+                },
+                price: '$0.00 (FREE)',
+                links: [
+                    ['/images/icons/unity.png', 'Asset Store Download', 'https://assetstore.unity.com/packages/3d/animations/human-dance-animations-free-161313'],
+                    //['/images/icons/fab.png', 'Fab Download', 'https://www.fab.com/listings/032f6132-6e58-4d87-a871-8eec487a089c'],
+                    ['/images/icons/logo.io.png', 'itch.io Download', 'https://kevdev.itch.io/human-dance-animations-free'],
+                    ['/images/icons/gumroad.png', 'Gumroad Download', 'https://keviniglesias.gumroad.com/l/human-dance-animations-free'],
+                    ['/images/icons/shareIcon.png', 'Share', ''],
+                    ['/images/animationListIcon.png', 'Animations list', 'https://www.keviniglesias.com/documentation/Human%20Dance%20Animations%20FREE.pdf'],
+                ]
+            },
+            throwingAnimations: {
+                imageSrc: '/assets/Throwing/images/Cover.png',
+                title: 'Human Throwing Animations',
+                subtitle: {
+                    en: 'Human animations of throwing axes, knives and spears. 251 animation files. FBX and BLEND formats. Free version with less animations available <a href="#" onclick="history.pushState(null, \'\', \'/assets/throwingAnimationsFREE.html\'); openModal(&quot;throwingAnimationsFREE&quot;); history.replaceState(null, \'\', \'/assets/throwingAnimationsFREE.html\'); return false;" style="color:#00aaff; text-decoration: none;">here</a>.',
+                    es: 'Animaciones de lanzamiento de hachas, cuchillos y lanzas (modelo humano), 251 archivos de animación en formato FBX y BLEND. Versión gratuita con menos animaciones disponible <a href="#" onclick="history.pushState(null, \'\', \'/assets/throwingAnimationsFREE.html\'); openModal(&quot;throwingAnimationsFREE&quot;); history.replaceState(null, \'\', \'/assets/throwingAnimationsFREE.html\'); return false;" style="color:#00aaff; text-decoration: none;">aquí</a>.'
+                },
+                price: '$12.00',
+                links: [
+                    ['/images/icons/unity.png', 'Asset Store Download', 'https://assetstore.unity.com/packages/3d/animations/human-throwing-animations-157745'],
+                    ['/images/icons/logo.io.png', 'itch.io Download', 'https://kevdev.itch.io/human-throwing-animations'],
+                    ['/images/icons/shareIcon.png', 'Share', ''],
+                    ['/images/animationListIcon.png', 'Animations list', 'https://www.keviniglesias.com/documentation/Human%20Throwing%20Animations.pdf'],
+                ]
+            },
+            throwingAnimationsFREE: {
+                imageSrc: '/assets/Throwing/images/CoverFREE.png',
+                title: 'Human Throwing Animations FREE',
+                subtitle: {
+                    en: 'Human animations of throwing axes, knives and spears (free sample). 103 animation files. FBX and BLEND formats. Get full collection <a href="#" onclick="history.pushState(null, \'\', \'/assets/throwingAnimations.html\'); openModal(&quot;throwingAnimations&quot;); history.replaceState(null, \'\', \'/assets/throwingAnimations.html\'); return false;" style="color:#00aaff; text-decoration: none;"> here</a>.',
+                    es: 'Versión gratuita de animaciones de lanzamiento de hachas, cuchillos y lanzas (modelo humano), 103 archivos de animación en formato FBX y BLEND. Colección completa <a href="#" onclick="history.pushState(null, \'\', \'/assets/throwingAnimations.html\'); openModal(&quot;throwingAnimations&quot;); history.replaceState(null, \'\', \'/assets/throwingAnimations.html\'); return false;" style="color:#00aaff; text-decoration: none;">aquí</a>.'
+                },
+                price: '$0.00 (FREE)',
+                links: [
+                    ['/images/icons/unity.png', 'Asset Store Download', 'https://assetstore.unity.com/packages/3d/animations/human-throwing-animations-free-345572'],
+                    ['/images/icons/logo.io.png', 'itch.io Download', 'https://kevdev.itch.io/human-throwing-animations-free'],
+                    ['/images/icons/gumroad.png', 'Gumroad Download', 'https://keviniglesias.gumroad.com/l/human-throwing-animations-free'],
+                    ['/images/icons/shareIcon.png', 'Share', ''],
+                    ['/images/animationListIcon.png', 'Animations list', 'https://www.keviniglesias.com/documentation/Human%20Throwing%20Animations%20FREE.pdf'],
+                ]
+            },
+            archerAnimations: {
+                imageSrc: '/assets/ArcherAnimations/images/Large.png',
+                title: 'Human Archer Animations',
+                subtitle: {
+                    en: 'Human animations using bow, 258 animation files. FBX and BLEND formats. Free version with less animations available <a href="#" onclick="history.pushState(null, \'\', \'/assets/archerAnimationsFREE.html\'); openModal(&quot;archerAnimationsFREE&quot;); history.replaceState(null, \'\', \'/assets/archerAnimationsFREE.html\'); return false;" style="color:#00aaff; text-decoration: none;">here</a>.',
+                    es: 'Animaciones usando arco (modelo humano), 258 archivos de animación en formato FBX y BLEND. Versión gratuita con menos animaciones disponible <a href="#" onclick="history.pushState(null, \'\', \'/assets/archerAnimationsFREE.html\'); openModal(&quot;archerAnimationsFREE&quot;); history.replaceState(null, \'\', \'/assets/archerAnimationsFREE.html\'); return false;" style="color:#00aaff; text-decoration: none;">aquí</a>.'
+                },
+                price: '$24.00',
+                links: [
+                    ['/images/icons/unity.png', 'Asset Store Download', 'https://assetstore.unity.com/packages/3d/animations/archer-animations-182939'],
+                    ['/images/icons/logo.io.png', 'itch.io Download', 'https://kevdev.itch.io/human-archer-animations'],
+                    ['/images/icons/shareIcon.png', 'Share', ''],
+                    ['/images/animationListIcon.png', 'Animations list', 'https://www.keviniglesias.com/documentation/Human%20Archer%20Animations.pdf'],
+                ]
+            },
+            archerAnimationsFREE: {
+                imageSrc: '/assets/ArcherAnimations/images/CoverFREE.png',
+                title: 'Human Archer Animations FREE',
+                subtitle: {
+                    en: 'Free sample of human animations using bow, 136 animation files. FBX and BLEND formats. Get full collection <a href="#" onclick="history.pushState(null, \'\', \'/assets/archerAnimations.html\'); openModal(&quot;archerAnimations&quot;); history.replaceState(null, \'\', \'/assets/archerAnimations.html\'); return false;" style="color:#00aaff; text-decoration: none;"> here</a>.',
+                    es: 'Versión gratuita de animaciones usando arco (modelo humano), 136 archivos de animación en formato FBX y BLEND. Colección completa <a href="#" onclick="history.pushState(null, \'\', \'/assets/archerAnimations.html\'); openModal(&quot;archerAnimations&quot;); history.replaceState(null, \'\', \'/assets/archerAnimations.html\'); return false;" style="color:#00aaff; text-decoration: none;">aquí</a>.'
+                },
+                price: '$0.00 (FREE)',
+                links: [
+                    ['/images/icons/unity.png', 'Asset Store Download', 'https://assetstore.unity.com/packages/3d/animations/human-archer-animations-free-335880'],
+                    //['/images/icons/fab.png', 'Fab Download', 'https://www.fab.com/listings/4fcd49f9-cece-492c-9627-1c1f76328106'],
+                    ['/images/icons/logo.io.png', 'itch.io Download', 'https://kevdev.itch.io/human-archer-animations-free'],
+                    ['/images/icons/gumroad.png', 'Gumroad Download', 'https://keviniglesias.gumroad.com/l/human-archer-animations-free'],
+                    ['/images/icons/shareIcon.png', 'Share', ''],
+                    ['/images/animationListIcon.png', 'Animations list', 'https://www.keviniglesias.com/documentation/Human%20Archer%20Animations%20FREE.pdf'],
+                ]
+            },
+            soldierAnimations: {
+                imageSrc: '/assets/SoldierAnimations/images/Cover.png',
+                title: 'Human Soldier Animations',
+                subtitle: {
+                    en: 'Human animations using guns and other firearms. 538 animation files. FBX and BLEND formats. Free version with less animations available <a href="#" onclick="history.pushState(null, \'\', \'/assets/soldierAnimationsFREE.html\'); openModal(&quot;soldierAnimationsFREE&quot;); history.replaceState(null, \'\', \'/assets/soldierAnimationsFREE.html\'); return false;" style="color:#00aaff; text-decoration: none;">here</a>.',
+                    es: 'Animaciones usando armas de fuego (modelo humano), 538 archivos de animación en formato FBX y BLEND. Versión gratuita con menos animaciones disponible <a href="#" onclick="history.pushState(null, \'\', \'/assets/soldierAnimationsFREE.html\'); openModal(&quot;soldierAnimationsFREE&quot;); history.replaceState(null, \'\', \'/assets/soldierAnimationsFREE.html\'); return false;" style="color:#00aaff; text-decoration: none;">aquí</a>.'
+                },
+                price: '<span style="text-decoration: line-through; color: #ccc;">$30.00</span> <span style="color: #ff3b21;">$15.00 (50% OFF)</span>',
+                //price: '$30.00',
+                links: [
+                    ['/images/icons/unity.png', 'Asset Store Download (50% OFF)', 'https://assetstore.unity.com/packages/3d/animations/soldier-animations-180600'],
+                    ['/images/icons/logo.io.png', 'itch.io Download (50% OFF)', 'https://kevdev.itch.io/human-soldier-animations'],
+                    ['/images/icons/shareIcon.png', 'Share', ''],
+                    ['/images/animationListIcon.png', 'Animations list', 'https://www.keviniglesias.com/documentation/Human%20Soldier%20Animations.pdf'],
+                ]
+            },
+            soldierAnimationsFREE: {
+                imageSrc: '/assets/SoldierAnimations/images/CoverFREE.png',
+                title: 'Human Soldier Animations FREE',
+                subtitle: {
+                    en: 'Free sample of human animations using guns and other firearms, 128 animation files. FBX and BLEND formats. Get full collection <a href="#" onclick="history.pushState(null, \'\', \'/assets/soldierAnimations.html\'); openModal(&quot;soldierAnimations&quot;); history.replaceState(null, \'\', \'/assets/soldierAnimations.html\'); return false;" style="color:#00aaff; text-decoration: none;"> here</a>.',
+                    es: 'Versión gratuita de animaciones usando armas de fuego (modelo humano), 128 archivos de animación en formato FBX y BLEND. Colección completa <a href="#" onclick="history.pushState(null, \'\', \'/assets/soldierAnimations.html\'); openModal(&quot;soldierAnimations&quot;); history.replaceState(null, \'\', \'/assets/soldierAnimations.html\'); return false;" style="color:#00aaff; text-decoration: none;">aquí</a>.'
+                },
+                price: '$0.00 (FREE)',
+                links: [
+                    ['/images/icons/unity.png', 'Asset Store Download', 'https://u3d.as/3Gh3'],
+                    ['/images/icons/logo.io.png', 'itch.io Download', 'https://kevdev.itch.io/human-soldier-animations-free'],
+                    ['/images/icons/gumroad.png', 'Gumroad Download', 'https://keviniglesias.gumroad.com/l/human-soldier-animations-free'],
+                    ['/images/icons/shareIcon.png', 'Share', ''],
+                    ['/images/animationListIcon.png', 'Animations list', 'https://www.keviniglesias.com/documentation/Human%20Soldier%20Animations%20FREE.pdf'],
+                ]
+            },
+            giantAnimations: {
+                imageSrc: '/assets/GiantAnimations/Card.png',
+                title: 'Giant Animations',
+                subtitle: {
+                    en: '',
+                    es: ''
+                },
+                links: [
+                    ['/images/icons/unity.png', 'Asset Store Download', 'https://u3d.as/2Ma4'],
+                    ['/images/icons/shareIcon.png', 'Share', '']
+                ]
+            },
+            skeletonAnimations: {
+                imageSrc: '/assets/SkeletonAnimations/Card.webp',
+                title: 'Skeleton Animations',
+                subtitle: {
+                    en: '',
+                    es: ''
+                },
+                links: [
+                    ['/images/icons/unity.png', 'Asset Store Download', 'https://assetstore.unity.com/packages/3d/animations/skeleton-animations-217503'],
+                    ['/images/icons/shareIcon.png', 'Share', '']
+                ]
+            },
+            zombieAnimations: {
+                imageSrc: '/assets/Zombie/Card.png',
+                title: 'Zombie Animations',
+                subtitle: {
+                    en: '',
+                    es: ''
+                },
+                links: [
+                    ['/images/icons/unity.png', 'Asset Store Download', 'https://assetstore.unity.com/packages/3d/characters/humanoids/fantasy/zombie-monster-animations-259560'],
+                    ['/images/icons/shareIcon.png', 'Share', '']
+                ]
+            },
+            
+            
+            giantAnimationsFREE: {
+                imageSrc: '/assets/GiantAnimations/CardFree.png',
+                title: 'Giant Animations FREE',
+                subtitle: {
+                    en: '',
+                    es: ''
+                },
+                links: [
+                    ['/images/icons/unity.png', 'Asset Store Download', 'https://assetstore.unity.com/packages/3d/animations/giant-animations-free-215962'],
+                    ['/images/icons/shareIcon.png', 'Share', '']
+                ]
+            },
+            skeletonAnimationsFREE: {
+                imageSrc: '/assets/SkeletonAnimations/CardFREE.webp',
+                title: 'Skeleton Animations FREE',
+                subtitle: {
+                    en: '',
+                    es: ''
+                },
+                links: [
+                    ['/images/icons/unity.png', 'Asset Store Download', 'https://assetstore.unity.com/packages/3d/animations/skeleton-animations-free-217504'],
+                    ['/images/icons/shareIcon.png', 'Share', '']
+                ]
+            },
+            zombieAnimationsFREE: {
+                imageSrc: '/assets/Zombie/CardFREE.png',
+                title: 'Zombie Animations FREE',
+                subtitle: {
+                    en: '',
+                    es: ''
+                },
+                links: [
+                    ['/images/icons/unity.png', 'Asset Store Download', 'https://assetstore.unity.com/packages/3d/characters/humanoids/fantasy/zombie-monster-animations-free-259680'],
+                    ['/images/icons/shareIcon.png', 'Share', '']
+                ]
+            },
+            golemModelFREE: {
+                imageSrc: '/assets/GiantAnimations/Golem.png',
+                title: 'Golem - Giant Model FREE',
+                subtitle: {
+                    en: '',
+                    es: ''
+                },
+                links: [
+                    ['/images/icons/unity.png', 'Asset Store Download', 'https://assetstore.unity.com/packages/3d/characters/humanoids/giant-monster-model-golem-278960'],
+                    ['/images/icons/shareIcon.png', 'Share', '']
+                ]
+            }
+        };
+
+        // Function to animate the title of the section based on the current hash
+        function animateSectionTitle() {
+            const hash = window.location.hash.substring(1); // Get hash without '#'
+            const section = document.getElementById(hash);
+        
+            // Remove active class from all section titles
+            document.querySelectorAll('section h2').forEach(title => {
+                title.classList.remove('section-title-active');
+            });
+        
+            // If the section with the hash exists, add the bounce animation to the title
+            if (section) {
+                const title = section.querySelector('h2');
+                if (title) {
+                    title.classList.add('section-title-active');
+                    
+                    // Optionally, remove the class after the animation ends for reusability
+                    title.addEventListener('animationend', () => {
+                        title.classList.remove('section-title-active');
+                    }, { once: true });
+                }
+            }
+        }
+        
+        // Run the function on hash change or page load
+        window.addEventListener('hashchange', animateSectionTitle);
+        window.addEventListener('load', animateSectionTitle);
+
+        // Optional: Reset sidebar on window resize
+        window.addEventListener("resize", function() {
+            const sidebar = document.getElementById("sidebar");
+            if (window.innerWidth > 864) {
+                sidebar.classList.remove("show"); // Hide sidebar when screen is larger than 768px
+                if (window.location.hash) {
+                    history.replaceState(null, null, window.location.pathname);
+                }
+            }
+            
+        });
+        
+        document.addEventListener("DOMContentLoaded", () => {
+        document.addEventListener("click", function(event) {
+            const sidebar = document.getElementById("sidebar");
+            const menuIcon = document.querySelector(".menu-icon");
+    
+            const clickedInsideSidebar = sidebar.contains(event.target);
+            const clickedMenuIcon = menuIcon.contains(event.target);
+            const clickedLanguageButton = event.target.closest("#sidebar-language-button");
+
+            if (
+                sidebar.classList.contains("show") &&
+                window.innerWidth <= 864 &&
+                !clickedInsideSidebar &&
+                !clickedMenuIcon &&
+                !clickedLanguageButton
+            ) {
+                sidebar.classList.remove("show");
+                if (window.location.hash === "#sidebar") {
+                    history.replaceState(null, null, window.location.pathname);
+                }
+            }
+        });
+    });
+    
+    
+    document.addEventListener("DOMContentLoaded", function() {
+        const upperLogoImg = document.querySelector('#logo-upper img');
+        const lowerLogoImg = document.querySelector('#logo-lower img');
+    
+        let upperLoaded = false;
+        let lowerLoaded = false;
+    
+        function startAnimationIfReady() {
+            if (upperLoaded && lowerLoaded) {
+                document.getElementById('logo-upper').classList.add('start-animation');
+                document.getElementById('logo-lower').classList.add('start-animation');
+            }
+        }
+    
+        upperLogoImg.addEventListener('load', function() {
+            upperLoaded = true;
+            startAnimationIfReady();
+        });
+    
+        lowerLogoImg.addEventListener('load', function() {
+            lowerLoaded = true;
+            startAnimationIfReady();
+        });
+    
+        // Edge case: if the image is cached and already complete
+        if (upperLogoImg.complete) {
+            upperLoaded = true;
+        }
+        if (lowerLogoImg.complete) {
+            lowerLoaded = true;
+        }
+        startAnimationIfReady();
+    });
+
+        function toggleSidebar() {
+            
+            const sidebar = document.getElementById("sidebar");
+            sidebar.classList.toggle("show");
+            
+            if (sidebar.classList.contains("show")) {
+                // Add a new state to the history when the sidebar is opened
+                window.history.pushState({ sidebarOpen: true }, "", "#sidebar");
+            }else{
+                
+             if (window.location.hash) {
+                    history.replaceState(null, null, window.location.pathname);
+                }   
+            }
+            
+        }
+        
+        
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape' || event.key === 'Esc') {
+                closeModal();  // Call the existing closeModal function
+            }
+        });
+        
+        let backCloses = false;
+    
+        //DO THIS FOR THE SHARE WINDOW TOO??
+        // Listen for the popstate event (triggers when the user navigates back)
+       window.addEventListener("popstate", function(event) {
+            const path = window.location.pathname;
+            const modalKeyMatch = path.match(/\/assets\/(.*?)\.html/);
+            
+            if (modalKeyMatch) {
+                const modalKey = modalKeyMatch[1];
+                openModal(modalKey);
+            } else {
+                closeModal();
+            }
+        });
+    
+        // Unified modal opening function
+        function openModal(modalKey) {
+            const data = modalData[modalKey];
+            if (data) {
+                openModalImage(data.imageSrc, data.title, data.links, modalKey);
+            }
+
+        }
+    
+        // Function to open the modal with an image
+        function openModalImage(imageSrc, title, links = [], modalKey) {
+
+            document.getElementById('modalPrice').innerHTML = '';
+            clearPrivacyPolicyContent();
+        
+            document.getElementById('modalImage').src = imageSrc;
+            document.getElementById('modalTitle').innerText = title;
+        
+            const subtitleText = modalData[modalKey].subtitle?.[currentLanguage] || '';
+            document.getElementById('modalSubtitle').innerHTML = subtitleText;
+        
+            const priceText = modalData[modalKey].price || '';
+            document.getElementById('modalPrice').innerHTML = priceText;
+        
+            document.getElementById('modalImage').style.display = "block";
+            document.getElementById('modalVideo').style.display = "none";
+        
+            setTimeout(() => {
+                backCloses = true;
+            }, 50);
+        
+            document.getElementById('imageModal').style.display = "flex";
+        
+            // Hide and reset all link buttons initially
+            for (let i = 1; i <= 6; i++) {
+                const oldButton = document.getElementById(`link${i}`);
+                const newButton = oldButton.cloneNode(true);
+                oldButton.parentNode.replaceChild(newButton, oldButton);
+        
+                newButton.style.display = 'none';
+                newButton.style.pointerEvents = 'auto';
+                newButton.style.background = '';
+                newButton.style.cursor = '';
+                newButton.className = 'fancy-button';
+                newButton.href = '#';
+            }
+        
+            // Dynamically show the number of links provided
+            links.forEach((link, index) => {
+                const linkElement = document.getElementById(`link${index + 1}`);
+        
+                const icon = linkElement.querySelector('.button-icon');
+                const labelSpan = linkElement.querySelector('span');
+        
+                linkElement.href = link[2];
+                icon.src = link[0];
+        
+                let originalLabel = link[1];
+                const discountMatch = originalLabel.match(/\((50|75)% OFF\)/);
+                const hasDiscount = !!discountMatch;
+                const discountText = discountMatch ? discountMatch[0] : "";
+        
+                let label = originalLabel.replace(/\((50|75)% OFF\)/, "").trim();
+        
+                if (label === 'Asset Store Download') {
+                    label = currentLanguage === 'es' ? 'Descarga desde Asset Store' : 'Asset Store Download';
+                }
+                if (label === 'itch.io Download') {
+                    label = currentLanguage === 'es' ? 'Descarga desde itch.io' : 'itch.io Download';
+                }
+                if (label === 'Gumroad Download') {
+                    label = currentLanguage === 'es' ? 'Descarga desde Gumroad' : 'Gumroad Download';
+                }
+                if (label === 'Share') {
+                    label = currentLanguage === 'es' ? 'Compartir' : 'Share';
+                }
+                if (label === 'Animations list') {
+                    label = currentLanguage === 'es' ? 'Listado de animaciones' : 'Animations list';
+                }
+        
+                if (hasDiscount) {
+                    labelSpan.innerHTML = `${label} <span style="color: #ff3b21; font-weight: bold; text-shadow: -0.5px -0.5px 0 #000, 0.5px -0.5px 0 #000, -0.5px 0.5px 0 #000, 0.5px 0.5px 0 #000;">${discountText}</span>`;
+                } else {
+                    labelSpan.innerText = label;
+                }
+        
+                linkElement.style.pointerEvents = 'auto';
+                linkElement.style.background = '';
+                linkElement.style.display = 'inline-block';
+                linkElement.className = 'fancy-button';
+        
+                if (link[1] === "Share") {
+                    linkElement.removeAttribute('href');
+                    linkElement.style.cursor = 'pointer';
+        
+                    linkElement.classList.add('share-default', 'share-hover');
+        
+                    const shareUrl = `https://www.keviniglesias.com/assets/${modalKey}.html`;
+                    document.getElementById('share-url').value = shareUrl;
+        
+                    linkElement.addEventListener('click', function(event) {
+                        event.preventDefault();
+                        event.stopPropagation();
+        
+                        const shareModal = document.getElementById('shareModal');
+                        shareModal.style.display = 'flex';
+                    });
+                }
+        
+                if (link[2] === "_") {
+                    linkElement.removeAttribute('href');
+                    linkElement.style.pointerEvents = 'none';
+                    linkElement.style.background = 'none';
+                }
+        
+                if (link[1] === 'Animations list') {
+                    linkElement.classList.add('list-default', 'list-hover');
+                }
+            });
+        
+            // Prevent duplicate copy-button listeners
+            const oldCopyButton = document.getElementById('copy-button');
+            const copyButton = oldCopyButton.cloneNode(true);
+            oldCopyButton.parentNode.replaceChild(copyButton, oldCopyButton);
+        
+            let copyTimeout;
+        
+            copyButton.addEventListener('click', function() {
+                const shareUrl = document.getElementById('share-url');
+                shareUrl.select();
+                document.execCommand('copy');
+        
+                copyButton.innerText = 'Copied!';
+        
+                if (copyTimeout) {
+                    clearTimeout(copyTimeout);
+                }
+        
+                copyTimeout = setTimeout(() => {
+                    copyButton.innerText = 'Copy';
+                }, 750);
+            });
+        
+            // Prevent duplicate close-share-button listeners
+            const oldCloseShareButton = document.getElementById('close-share-button');
+            const closeShareButton = oldCloseShareButton.cloneNode(true);
+            oldCloseShareButton.parentNode.replaceChild(closeShareButton, oldCloseShareButton);
+        
+            closeShareButton.addEventListener('click', function() {
+                closeShareModal();
+            });
+        
+            document.getElementById('linkContainer').style.display = "block";
+            document.getElementById('imageModal').style.display = "flex";
+            document.body.classList.add("modal-open");
+        
+            document.querySelector('nav').classList.add('hidden');
+        }
+    
+        // Function to open the modal with a video
+        function openModalVideo(videoSrc, title, links = []) {
+            clearPrivacyPolicyContent(); // Clear privacy policy if added
+            document.getElementById('modalVideo').src = videoSrc;
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalVideo').style.display = "block";
+            document.getElementById('modalImage').style.display = "none";
+        
+            // Hide all link buttons initially
+            for (let i = 1; i <= 6; i++) {
+                document.getElementById(`link${index + 1}`).style.display = 'none';
+            }
+        
+            // Dynamically show the number of links provided
+            links.forEach((link, index) => {
+                let linkElement = document.getElementById(`link${index + 1}`);
+                linkElement.href = link[2]; // URL
+                linkElement.querySelector('.button-icon').src = link[0]; // Icon image source
+                linkElement.querySelector('span').innerText = link[1]; // Text
+                linkElement.style.display = 'inline-block'; // Show the link
+            });
+        
+            document.getElementById('linkContainer').style.display = "block"; 
+            document.getElementById('imageModal').style.display = "flex"; 
+            document.body.classList.add("modal-open"); // Disable scrolling
+        }
+        
+        let privacyTexts = {};
+
+        fetch('privacy.json')
+          .then(res => res.json())
+          .then(data => {
+            privacyTexts = data;
+          });
+        
+        // Function to open the modal with privacy policy content
+        function openPrivacyPolicy() {
+
+
+            document.getElementById('modalPrice').innerHTML  = '';
+            history.replaceState(null, null, '#cookies');
+            
+            //const hash = window.location.hash.substring(1); // Remove the '#' symbol
+            
+            //console.log("THIS: "+location.hash);
+
+            clearPrivacyPolicyContent(); // Clear any previous privacy policy content
+            document.getElementById('modalTitle').innerText = 'Privacy Policy';
+            document.getElementById('modalImage').style.display = "none";
+            document.getElementById('modalVideo').style.display = "none";
+            document.getElementById('linkContainer').style.display = "none";
+
+            const privacyContentEN = privacyTexts.en
+            
+            const privacyContentES = privacyTexts.es;
+            
+            
+            if(currentLanguage === 'en')
+            {
+                document.getElementById('modalTitle').insertAdjacentHTML('afterend', privacyContentEN);
+                
+            } else {
+                
+                document.getElementById('modalTitle').insertAdjacentHTML('afterend', privacyContentES);
+            }
+            
+            
+            document.getElementById('imageModal').style.display = "flex"; 
+            document.body.classList.add("modal-open"); // Disable scrolling
+            
+            document.querySelector('nav').classList.add('hidden');
+
+            setTimeout(() => {
+            backCloses = true;
+            }, 50);
+        }
+
+        // Function to close the modal
+        function closeModal() {
+            document.getElementById('modalSubtitle').innerText = '';
+            document.getElementById('imageModal').style.display = "none";
+            document.getElementById('modalVideo').src = ""; // Stop the YouTube video / Reset image
+            document.body.classList.remove("modal-open"); // Enable scrolling
+            
+            if (window.location.href !== "https://www.keviniglesias.com/") {
+                history.replaceState(null, null, "/");
+            }
+                        
+            backCloses = false;
+            
+            clearPrivacyPolicyContent(); // Remove privacy content if present
+            
+            closeShareModal();
+            
+            
+            
+            document.querySelector('nav').classList.remove('hidden');
+
+        }
+        
+         // Function to close the modal
+        function closeShareModal() {
+            document.getElementById('shareModal').style.display = 'none';
+            document.getElementById('copy-button').innerText = 'Copy';
+        }
+
+        // Clear the dynamically added privacy policy content
+        function clearPrivacyPolicyContent() {
+            const privacyElements = document.querySelectorAll('#modalTitle + .privacy-content');
+            privacyElements.forEach(el => el.remove());
+        }
+
+        // Close modal if user clicks outside the modal-content
+        window.onclick = function(event) {
+            if (event.target === document.getElementById('imageModal')) {
+                closeModal();
+            }
+            
+            if (event.target === document.getElementById('shareModal')) {
+                closeShareModal();
+            }
+        }
+        
+        // Function to automatically open the modal based on URL hash
+       function checkForHash() {
+            const hash = window.location.hash.substring(1); // Remove the '#' symbol
+            const sidebar = document.getElementById("sidebar");
+        
+            // 🔒 Prevent modal from closing if it's already open
+            if (document.getElementById('imageModal').style.display === "flex") {
+                return;
+            }
+        
+            if (!hash) {
+                closeModal(); // Close modal if open
+                if (sidebar.classList.contains("show")) {
+                    sidebar.classList.remove("show"); // Close sidebar if open
+                }
+                return;
+            }
+        
+            
+            if (hash === 'cookies') {
+                 
+                openPrivacyPolicy();
+            } else if (hash === 'sidebar') {
+                // Sidebar opened, no action needed
+            } else if (modalData.hasOwnProperty(hash)) {
+                // ✅ Only open modal and replace path if the hash matches a known modal key
+                openModal(hash);
+        
+                const expectedPath = `/assets/${hash}.html`;
+                if (window.location.pathname !== expectedPath) {
+                    history.replaceState({ modalOpen: true }, '', expectedPath);
+                }
+            } else {
+                // ✅ Do nothing for internal section links like #newAssets
+                // Optionally scroll or animate section title if needed
+            }
+        
+            // Close sidebar if open and any other hash is clicked
+            if (sidebar.classList.contains("show")) {
+                sidebar.classList.remove("show");
+            }
+        }
+
+        window.onload = checkForHash;
+
+        // You may also want to call this function when the hash changes (if the user clicks a different link)
+        //window.onhashchange = checkForHash;
+        
+        //window.addEventListener("hashchange", checkForHash);
+        
+        
+        function handleLicenseClick(event) {
+            // Slight delay to allow other handlers (e.g. closeModal) to finish
+            setTimeout(() => {
+                history.replaceState(null, null, '#license');
+            
+            }, 50); // 50ms delay is typically enough
+        }
+        
+        function handleNewAssetsClick(event) {
+            // Slight delay to allow other handlers (e.g. closeModal) to finish
+            setTimeout(() => {
+                history.replaceState(null, null, '#newAssets');
+            
+            }, 50); // 50ms delay is typically enough
+        }
+        
+        function handleOldAssetsClick(event) {
+            // Slight delay to allow other handlers (e.g. closeModal) to finish
+            setTimeout(() => {
+                history.replaceState(null, null, '#oldAssets');
+            
+            }, 50); // 50ms delay is typically enough
+        }
+        
+        function handleFreeAssetsClick(event) {
+            // Slight delay to allow other handlers (e.g. closeModal) to finish
+            setTimeout(() => {
+                history.replaceState(null, null, '#freeAssets');
+            
+            }, 50); // 50ms delay is typically enough
+        }
+        
+        function handleContactClick(event) {
+            // Slight delay to allow other handlers (e.g. closeModal) to finish
+            setTimeout(() => {
+                history.replaceState(null, null, '#contact');
+            
+            }, 50); // 50ms delay is typically enough
+        }
+        
+        // Language Toggle Buttons
+        const topLanguageButton = document.getElementById('language-button');
+        const footerLanguageButton = document.getElementById('footer-language-button');
+        const navLanguageButton = document.getElementById('nav-language-button');
+        const sidebarLanguageButton = document.getElementById('sidebar-language-button');
+
+        const cookieStatus = document.getElementById('cookie-status');
+        
+        // Check the current language on page load
+        let currentLanguage = localStorage.getItem('language') || detectUserLanguage();
+        setLanguage(currentLanguage);
+        
+        // Add event listeners to both buttons
+        topLanguageButton.addEventListener('click', toggleLanguage);
+        footerLanguageButton.addEventListener('click', toggleLanguage);
+        navLanguageButton.addEventListener('click', toggleLanguage);
+        sidebarLanguageButton.addEventListener('click', toggleLanguage);
+        
+                
+        // Function to detect the user's preferred language
+        function detectUserLanguage() {
+            const userLang = navigator.language || navigator.userLanguage; // Detect browser language
+            return userLang.startsWith('es') ? 'es' : 'en'; // Default to English if not Spanish
+        }
+        
+        // Function to toggle language
+        function toggleLanguage() {
+            currentLanguage = currentLanguage === 'en' ? 'es' : 'en';
+            setLanguage(currentLanguage);
+        }
+        
+        // Function to set the language and update button text
+        function setLanguage(language) {
+            if (language === 'en') {
+                document.documentElement.lang = 'en';
+                topLanguageButton.textContent = '🌐 Español';
+                footerLanguageButton.textContent = '🌐 Español';
+                localStorage.setItem('language', 'en');
+                loadEnglishContent();
+            } else {
+                document.documentElement.lang = 'es';
+                topLanguageButton.textContent = '🌐 English';
+                footerLanguageButton.textContent = '🌐 English';
+                localStorage.setItem('language', 'es');
+                loadSpanishContent();
+            }
+
+            navLanguageButton.textContent = language === 'en' ? '🌐 Español' : '🌐 English';
+            sidebarLanguageButton.textContent = language === 'en' ? '🌐 Español' : '🌐 English';
+            
+            document.getElementById('footer-home-button').textContent = language === 'en' ? 'BACK TO TOP' : 'INICIO';
+            
+            // Update the cookie status text
+            if (language === 'en') {
+               
+                cookieStatus.innerHTML = '<a href="#cookies" onclick="event.preventDefault(); location.hash = &quot;cookies&quot;; openPrivacyPolicy()">THIS WEBSITE IS FREE OF COOKIES ✅</a>';
+                document.getElementById('nav-home-button').textContent = '⬆ TOP';
+            } else {
+                cookieStatus.innerHTML = '<a href="#cookies" onclick="event.preventDefault(); location.hash = &quot;cookies&quot;; openPrivacyPolicy()">ESTA PÁGINA NO TIENE COOKIES ✅</a>';
+                document.getElementById('nav-home-button').textContent = '⬆ INICIO';
+            }
+            
+        }
+        
+        // Example functions to load English or Spanish content
+        function loadEnglishContent() {
+            
+            const introContent = `Welcome, I am Kevin Iglesias and this is my collection of 3D models and animations. Whether you\'re an indie developer or part of a big company, you\'ll find a variety of assets here to bring your ideas to life, accelerate your project development, or quickly prototype your game. All assets are royalty-free, can be used in commercial projects, and crediting me is not required (but appreciated).<br><br>
+            Take a look, many of them are free to download!`;
+            
+            document.querySelector('.intro p').innerHTML = introContent;
+            
+            const h1Content = `Royalty-free 3D animations for video games`;
+            
+            document.querySelector('.intro h1').innerHTML = h1Content;
+            
+
+            const salesTitleContent = `CURRENT DEALS`;
+            document.getElementById('salesTitle').innerHTML = salesTitleContent;
+            
+            const h4Content = `<h4>Until November 4, Open World Sale<span style="color: #ff3b21; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;"><!--LAST DAY TODAY!--></span></h4>`;
+            document.getElementById('salesH4').innerHTML = h4Content;
+            
+            const newsTitle = `USEFUL LINKS`;
+            document.getElementById('news-header').innerHTML = newsTitle;
+            
+            const armoryCrafterTitle = `Armory Crafter (3D Weapon Editor)`;
+            document.getElementById('armoryCrafterTitle').innerHTML = armoryCrafterTitle;
+            
+            const news01Title = `Blender Animations Exporting Guide`;
+            document.getElementById('news01Title').innerHTML = news01Title;
+            
+            const spineProxyTitle = `Spine Proxy (Unity only)`;
+            document.getElementById('spineProxyTitle').innerHTML = spineProxyTitle;
+            
+            // Update navbar links
+            const navbarLinks = document.querySelectorAll('nav ul li a');
+            const navbarTexts = ['COMPLETE ASSETS', 'FREE ASSETS', 'LICENSE', 'CONTACT', 'GAMES', 'PRESS KIT'];
+            navbarLinks.forEach((link, index) => {
+                link.textContent = navbarTexts[index];
+            });
+            
+            // Section titles
+            const sectionTitles = document.querySelectorAll('section h2 a');
+            const sectionTitlesTexts = ['COMPLETE ASSETS', 'FREE ASSETS', 'LICENSE', 'CONTACT', 'GAMES', 'PRESS KIT'];
+            sectionTitles.forEach((title, index) => {
+                title.textContent = sectionTitlesTexts[index];
+            });
+            
+            document.querySelector('#sidebar ul').innerHTML = `
+                <li><a href="#" onclick="scrollToTop(); toggleSidebar();" id="sidebar-home-button">⬆ TOP</a></li>
+                <li><a href="#newAssets" onclick="toggleSidebar(); handleNewAssetsClick(event);">COMPLETE ASSETS</a></li>
+                <li><a href="#freeAssets" onclick="toggleSidebar(); handleFreeAssetsClick(event);">FREE ASSETS</a></li>
+                <li><a href="#license" onclick="toggleSidebar(); handleLicenseClick(event);">LICENSE</a></li>
+                <li><a href="#contact" onclick="toggleSidebar(); handleContactClick(event);">CONTACT</a></li>
+                <li><a href="https://www.keviniglesias.com/rpg.html">GAMES</a></li>
+                <li><a href="https://www.keviniglesias.com/presskit.html">PRESS KIT</a></li>
+                <li><button id="sidebar-language-button" class="language-switcher-button" onclick="toggleLanguage()">🌐 Español</button></li>
+            `;
+
+            // Update the sidebar menu icon text
+            document.querySelector('.menu-icon').textContent = '☰';
+            
+            // Subtitles for asset sections
+            const subtitles = document.querySelectorAll('section h1');
+            const englishSubtitles = [
+                '(For Godot, Unreal and Unity)',
+                '(Made for Unity, may not work properly in other game engines)',
+                '(Made for Unity, may not work properly in other game engines)'
+            ];
+            subtitles.forEach((subtitle, index) => {
+                subtitle.textContent = englishSubtitles[index];
+            });
+            
+            // License Section
+            const licenseContent = `
+            
+                    My assets are available through the <a href="https://assetstore.unity.com/publishers/36307" target="_blank" style="color: #00aaff; text-decoration: none;">Unity Asset Store</a>, <a href="https://kevdev.itch.io/" target="_blank" style="color: #00aaff; text-decoration: none;">itch.io</a>, and <a href="https://keviniglesias.gumroad.com/" target="_blank" style="color: #00aaff; text-decoration: none;">Gumroad</a>.<br><br>
+                
+                    Assets purchased through the <strong>Unity Asset Store</strong> are licensed under the <a href="https://unity.com/legal/as-terms" target="_blank" style="color: #00aaff; text-decoration: none;">Unity Asset Store EULA</a> and the license type selected at purchase (Single Entity or Multi Entity, where applicable).<br><br>
+                
+                    Assets purchased or downloaded through <strong>itch.io or Gumroad</strong> are licensed directly by me under the terms below, with usage rights intended to be equivalent in scope to a <strong>Single Entity</strong> license.<br><br>
+                                
+                    <strong>SUMMARY OF USE RIGHTS — ALL PLATFORMS</strong><br>
+                    <u><strong>Royalty-free assets for commercial use</strong></u><br>
+                    Regardless of which of the platforms listed above you obtain the asset from, once you have purchased or downloaded one of my assets, you may use it in games, apps, videos, movies, or other digital projects, including commercial projects, on a royalty-free basis.<br><br>
+                
+                    This also applies to assets available as free downloads.<br><br>
+                
+                    Credit is appreciated but not required.<br><br>
+                
+                    <u><strong>Resale and redistribution restrictions</strong></u><br>
+                    Assets may not be sold, sublicensed, shared, or distributed as standalone items, or included in asset packs, libraries, templates, or similar products where the original files are accessible or extractable for reuse.<br><br>
+                
+                    Assets must be incorporated into a larger end product that provides substantial content or functionality beyond the asset itself, and the asset must not be the primary value of that product.<br><br>
+                
+                    <strong>ADDITIONAL TERMS FOR ITCH.IO & GUMROAD</strong><br>
+                    In addition to the terms above, assets obtained through <strong>itch.io or Gumroad</strong> are licensed to <strong>one individual or one legal entity</strong>, equivalent in scope to a Unity Asset Store Single Entity license.<br><br>
+                
+                    If obtained by a company or other legal entity, the asset may be used by members of that same legal entity for its projects.<br><br>
+                
+                    If an individual purchases an asset through a personal account for use by a company they own or legally represent, they may designate that company as the licensed entity without requiring an additional purchase. The license then applies exclusively to that company and its members, and does not grant separate usage rights to the individual or any other legal entity.<br><br>
+                
+                    The license does not extend to separate companies, affiliated entities, clients, or independent contractors. Anyone outside the licensed entity who needs to work directly with the asset files must have their own license.<br><br>
+    
+                    If you need to share the asset with affiliated entities or independent contractors working on your project, a <strong>Multi Entity</strong> license is available through the <a href="https://assetstore.unity.com/publishers/36307" target="_blank" style="color: #00aaff; text-decoration: none;">Unity Asset Store</a> where applicable.<br><br>
+                
+                    <strong>FULL LICENSE</strong><br>
+                    For purchases made through the Unity Asset Store, please refer to the full <a href="https://unity.com/legal/as-terms" target="_blank" style="color: #00aaff; text-decoration: none;">Unity Asset Store EULA</a>.<br><br>
+                
+                    The itch.io and Gumroad license described above is provided directly by me, Kevin Iglesias, and is separate from the Unity Asset Store EULA.<br><br>
+                
+                    If you still have doubts about how to properly use my assets, feel free to contact me at: <a href="mailto:support@keviniglesias.com" target="_blank" style="all:unset;cursor:pointer;color: #00aaff;"><u>support@keviniglesias.com</u></a><br><br>
+                
+                    Please note: Armory Crafter software and creations made with it are governed by a separate license:<br>
+                    - <a href="https://keviniglesias.com/ArmoryCrafter/license.html?lang=en" target="_blank" style="color:#00aaff;text-decoration:none;">Armory Crafter License & Usage Terms</a>
+                                
+                `;
+            document.querySelector('#license .update-item p').innerHTML = licenseContent;
+            
+            // Update Dates
+            document.querySelector('#license .update-item p:last-of-type').textContent = 'Last update: October 15, 2026'; //LICENSE UPDATE
+            
+            // Contact Section
+            document.querySelector('#contact .update-item p').innerHTML = `
+                For support, questions, feedback or to report issues regarding my products, send an email to: <a href="mailto:support@keviniglesias.com" target="_blank" style="all:unset;cursor:pointer;color: #00aaff;"><u>support@keviniglesias.com</u></a>
+            `;
+        }
+        
+        function loadSpanishContent() {
+            
+            const introContent = `Bienvenido, soy Kevin Iglesias y esta es mi colección de modelos y animaciones 3D. Ya seas un desarrollador independiente o parte de una gran empresa, encontrarás una variedad de assets aquí para dar vida a tus ideas, acelerar el desarrollo de tu proyecto o crear prototipos de tu juego rápidamente. Todos los assets son aptos para uso comercial sin costes adicionales, y no es necesario que me menciones en los créditos (aunque lo agradecería).<br><br>
+            Echa un vistazo, ¡algunos son gratis!`;
+            
+            document.querySelector('.intro p').innerHTML = introContent;
+            
+            const h1Content = `Animaciones 3D para videojuegos<br> sin costes adicionales`;
+            document.querySelector('.intro h1').innerHTML = h1Content;
+            
+            const salesTitleContent = `OFERTAS`;
+            document.getElementById('salesTitle').innerHTML = salesTitleContent;
+            
+            const h4Content = `<h4>Rebajas hasta el 4 de noviembre (Open World Sale)<span style="color: #ff3b21; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;"><!--¡ÚLTIMO DÍA HOY!--></span></h4>`;
+
+            document.getElementById('salesH4').innerHTML = h4Content;
+
+            //const newsTitle = `NOTICIAS`;
+            const newsTitle = `ENLACES ÚTILES`;
+            document.getElementById('news-header').innerHTML = newsTitle;
+            
+            const armoryCrafterTitle = `Armory Crafter (Editor de Armas 3D)`;
+            document.getElementById('armoryCrafterTitle').innerHTML = armoryCrafterTitle;
+
+            const news01Title = `Guía de exportación de animaciones en Blender`;
+            document.getElementById('news01Title').innerHTML = news01Title;
+            
+            const spineProxyTitle = `Spine Proxy (Unity)`;
+            document.getElementById('spineProxyTitle').innerHTML = spineProxyTitle;
+            
+            // Update navbar links
+            const navbarLinks = document.querySelectorAll('nav ul li a');
+            const navbarTexts = ['ASSETS COMPLETOS', 'ASSETS GRATUITOS', 'LICENCIA', 'CONTACTO', 'JUEGOS', 'PRESS KIT'];
+            navbarLinks.forEach((link, index) => {
+                link.textContent = navbarTexts[index];
+            });
+            
+             // Section titles
+            const sectionTitles = document.querySelectorAll('section h2 a');
+            const sectionTitlesTexts = ['ASSETS COMPLETOS', 'ASSETS GRATUITOS', 'LICENCIA', 'CONTACTO', 'JUEGOS', 'PRESS KIT'];
+            sectionTitles.forEach((title, index) => {
+                title.textContent = sectionTitlesTexts[index];
+            });
+            
+            document.querySelector('#sidebar ul').innerHTML = `
+                <li><a href="#" onclick="scrollToTop(); toggleSidebar();" id="sidebar-home-button">INICIO</a></li>
+                <li><a href="#newAssets" onclick="toggleSidebar()">ASSETS COMPLETOS</a></li>
+                <li><a href="#freeAssets" onclick="toggleSidebar()">ASSETS GRATUITOS</a></li>
+                <li><a href="#license" onclick="toggleSidebar()">LICENCIA</a></li>
+                <li><a href="#contact" onclick="toggleSidebar()">CONTACTO</a></li>
+                <li><a href="https://www.keviniglesias.com/rpg.html">JUEGO</a></li>
+                <li><a href="https://www.keviniglesias.com/presskit.html">PRESS KIT</a></li>
+                <li><button id="sidebar-language-button" class="language-switcher-button" onclick="toggleLanguage()">🌐 English</button></li>
+            `;
+        
+            // Update the sidebar menu icon text
+            document.querySelector('.menu-icon').textContent = '☰';
+            
+            // Subtitles for asset sections
+            const subtitles = document.querySelectorAll('section h1');
+            const spanishSubtitles = [
+                '(Para Godot, Unreal y Unity)',
+                '(Hechos para Unity, pueden no funcionar correctamente en otros motores)',
+                '(Hechos para Unity, pueden no funcionar correctamente en otros motores)'
+            ];
+            subtitles.forEach((subtitle, index) => {
+                subtitle.textContent = spanishSubtitles[index];
+            });
+
+                
+            // License Section
+            const licenseContent = `
+            
+                    Mis assets están disponibles a través de <a href="https://assetstore.unity.com/publishers/36307" target="_blank" style="color: #00aaff; text-decoration: none;">Unity Asset Store</a>, <a href="https://kevdev.itch.io/" target="_blank" style="color: #00aaff; text-decoration: none;">itch.io</a> y <a href="https://keviniglesias.gumroad.com/" target="_blank" style="color: #00aaff; text-decoration: none;">Gumroad</a>.<br><br>
+                
+                    Los assets adquiridos a través de <strong>Unity Asset Store</strong> están sujetos a la <a href="https://unity.com/legal/as-terms" target="_blank" style="color: #00aaff; text-decoration: none;">EULA de Unity Asset Store</a> y al tipo de licencia seleccionado en el momento de la compra (Single Entity o Multi Entity, cuando corresponda).<br><br>
+                
+                    Los assets adquiridos o descargados a través de <strong>itch.io o Gumroad</strong> son licenciados directamente por mí bajo las siguientes condiciones, con unos derechos de uso cuyo alcance pretende ser equivalente al de una licencia <strong>Single Entity</strong>.<br><br>
+                                
+                    <strong>RESUMEN DE DERECHOS DE USO — TODAS LAS PLATAFORMAS</strong><br>
+                    <u><strong>Assets libres de royalties para uso comercial</strong></u><br>
+                    Independientemente de cuál de las plataformas mencionadas anteriormente utilices para obtener el asset, una vez hayas comprado o descargado uno de mis assets, puedes utilizarlo en videojuegos, aplicaciones, vídeos, películas u otros proyectos digitales, incluidos proyectos comerciales, sin necesidad de pagar royalties.<br><br>
+                
+                    Esto también se aplica a los assets disponibles como descarga gratuita.<br><br>
+                
+                    Se agradece la atribución, pero no es obligatoria.<br><br>
+                
+                    <u><strong>Restricciones de reventa y redistribución</strong></u><br>
+                    Los assets no pueden venderse, sublicenciarse, compartirse o distribuirse como elementos independientes, ni incluirse en packs de assets, bibliotecas, plantillas o productos similares en los que los archivos originales sean accesibles o puedan extraerse para su reutilización.<br><br>
+                
+                    Los assets deben estar integrados en un producto final de mayor alcance que aporte contenido o funcionalidad sustancial más allá del propio asset, y el asset no debe constituir el valor principal de dicho producto.<br><br>
+                
+                    <strong>CONDICIONES ADICIONALES PARA ITCH.IO Y GUMROAD</strong><br>
+                    Además de las condiciones anteriores, los assets obtenidos a través de <strong>itch.io o Gumroad</strong> se licencian a <strong>una persona física o una única entidad jurídica</strong>, con un alcance equivalente al de una licencia Single Entity de Unity Asset Store.<br><br>
+                
+                    Si el asset es adquirido por una empresa u otra entidad jurídica, podrá ser utilizado por los miembros de esa misma entidad para sus proyectos.<br><br>
+                
+                    Si una persona física adquiere un asset a través de una cuenta personal para su uso por parte de una empresa de la que es propietaria o representante legal, podrá designar a dicha empresa como titular de la licencia sin necesidad de realizar una compra adicional. A partir de ese momento, la licencia se aplicará exclusivamente a dicha empresa y a sus miembros, sin otorgar derechos de uso independientes a la persona física ni a ninguna otra entidad jurídica.<br><br>
+                
+                    La licencia no se extiende a otras empresas, entidades afiliadas, clientes o contratistas independientes. Cualquier persona ajena a la entidad que necesite trabajar directamente con los archivos del asset deberá disponer de su propia licencia.<br><br>
+                
+                    Si necesitas compartir el asset con entidades afiliadas o contratistas independientes que trabajen en tu proyecto, puedes adquirir una licencia <strong>Multi Entity</strong> a través de <a href="https://assetstore.unity.com/publishers/36307" target="_blank" style="color: #00aaff; text-decoration: none;">Unity Asset Store</a> cuando esté disponible.<br><br>
+                
+                    <strong>LICENCIA COMPLETA</strong><br>
+                    Para las compras realizadas a través de Unity Asset Store, consulta la <a href="https://unity.com/legal/as-terms" target="_blank" style="color: #00aaff; text-decoration: none;">EULA completa de Unity Asset Store</a>.<br><br>
+                
+                    La licencia para itch.io y Gumroad descrita anteriormente es proporcionada directamente por mi, Kevin Iglesias, y es independiente de la EULA de Unity Asset Store.<br><br>
+                
+                    Si tienes alguna duda sobre cómo puedes utilizar mis assets, puedes contactar conmigo en: <a href="mailto:support@keviniglesias.com" target="_blank" style="all:unset;cursor:pointer;color: #00aaff;"><u>support@keviniglesias.com</u></a><br><br>
+                
+                    Nota: El software Armory Crafter y las creaciones realizadas con él se rigen por una licencia independiente:<br>
+                    - <a href="https://keviniglesias.com/ArmoryCrafter/license.html?lang=es" target="_blank" style="color:#00aaff;text-decoration:none;">Licencia y condiciones de uso de Armory Crafter</a>
+                                
+                `;
+            document.querySelector('#license .update-item p').innerHTML = licenseContent;
+            
+            // Update Dates
+            document.querySelector('#license .update-item p:last-of-type').textContent = 'Última actualización: 15 de octubre de 2026'; //LICENSE UPDATE
+
+            
+            // Contact Section
+            document.querySelector('#contact .update-item p').innerHTML = `
+                Para soporte, preguntas, feedback o reportar problemas relacionados con mis productos, envía un correo a: <a href="mailto:support@keviniglesias.com" target="_blank" style="all:unset;cursor:pointer;color: #00aaff;"><u>support@keviniglesias.com</u></a>
+            `;
+        }
+    </script>
+</body>
+</html>

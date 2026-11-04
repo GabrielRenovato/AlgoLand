@@ -1,0 +1,36 @@
+{
+  "ferramenta": "image_gen, modo integrado",
+  "prompt": "Create a NEW production modular architectural tilesheet for the AlgoLand watermill, using the reference ONLY for its warm timber, terracotta, cream plaster and muted sandstone material palette. Not a complete building, not a scene. Exact square 1024x1024, exact 4 columns x 4 rows, sixteen equal 256x256 cells, NO gutters, NO labels, NO grid lines. Each cell is ONE independently reusable architectural module, in elevated top-down 3/4 RPG perspective with horizontal facade courses, NOT isometric. Crisp illustrated pixel art with deliberate clusters and no photographic microtexture. Design to remain clearly readable at 32 logical pixels per module beside a 34px-tall player. Light upper left. Genuine transparent background outside each edge piece; repeat tiles completely fill their cells and align to neighbor cell edges. Row 1: (1) left sloping red roof rake edge, a continuous diagonal from top-right to bottom-left with transparent outside upper-left, filling the lower-right triangle; (2) fully filled seamless repeatable red curved roof shingles, two horizontal courses, consistent pitch; (3) right sloping roof rake edge, mirror silhouette of left, filling lower-left triangle and transparent upper-right; (4) horizontal roof ridge repeat, red rounded caps with timber underneath, transparency only above the ridge. Row 2: (1) left half of triangular front gable facade, timber diagonal and cream plaster, rise from bottom-left to top-right, transparent upper-left; (2) rectangular center gable facade module with dark timber kingpost and cream plaster, fills whole cell; (3) right half triangular gable facade, mirror silhouette of left; (4) single small round attic window with wooden radial frame, dark glass, transparent outside frame. Row 3: (1) full timber wall repeat, cream plaster and one narrow vertical timber stud at left edge, no doors or windows; (2) full horizontal sandstone foundation course repeat, two courses only with large stones; (3) single dark timber diagonal structural brace with iron bolt, transparent outside; (4) single stout wooden axle bearing mount, brass circular bearing at center and a timber block, transparent outside. Row 4: (1) left corner of roof eave, red tile end cap over carved oak beam, transparency below beam; (2) straight horizontal roof eave repeat continuous at both side edges, red tiles above oak fascia, no isolated posts; (3) right corner of roof eave, mirrored left; (4) short stone chimney section, with a dark opening and plain stone cap, transparent outside chimney. Maintain exactly identical materials, scale, elevation and perspective across every piece. Roofing must have no random perspective drift. No floor, water, vegetation, wheel, people, barrels, lettering, furniture or complete house. Grid alignment is critical: every module begins exactly at its own cell boundary.",
+  "referencia": "assets/cenario/campanha/bacia_tiles/componentes.png (paleta e materiais)",
+  "atlas": "assets/cenario/campanha/moinho_modular/componentes.png",
+  "original": "arte/fontes/campanha/moinho_modular/original.png",
+  "grade_logica": [
+    16,
+    16
+  ],
+  "tile_grafico": [
+    64,
+    64
+  ],
+  "escala": 0.25,
+  "grade_pedida": [
+    4,
+    4
+  ],
+  "tamanho_gerado": [
+    1254,
+    1254
+  ],
+  "contrato_recortes": "codigo/campanha/construcao_bacia.gd: PECAS_MOINHO",
+  "composicao": "fachada e fundacao em repeticoes; esquadrias e frontao independentes; telhado com cantos inclinados, preenchimento de telhas repetiveis e beiral; eixo entre dois mancais e apoio externo",
+  "pivo_roda": "centro_roda calculado a partir da origem da construcao, compartilhado com os dois mancais",
+  "colisao": "fachada na base original 160x96; apoio externo 24x18; acesso frontal ao objetivo preservado",
+  "estacoes": [
+    "primavera",
+    "verao",
+    "outono",
+    "inverno"
+  ],
+  "revisao": "capturas reais no Godot nas quatro estacoes, jogador em escala de jogo, teste de eixo e fechamento da rotacao",
+  "rollback": "arquivo/reversoes/moinho_20261101_085048"
+}

@@ -1,0 +1,17 @@
+{
+  "mara": {
+    "verao": "Change ONLY the small vase's spring daisies to summer orange calendula flowers with healthy green leaves. Keep every other object completely unchanged.",
+    "outono": "Change ONLY the small vase's spring daisies to a modest arrangement of dried golden autumn flowers and muted amber leaves. Keep every other object completely unchanged.",
+    "inverno": "Change ONLY the small vase's spring daisies to evergreen sprigs with a few red winter berries. This is indoors: absolutely NO snow, frost, white filter or icy furniture. Keep every other object completely unchanged."
+  },
+  "cora": {
+    "verao": "Change ONLY the contents of the small fruit bowl on the right from strawberries to ripe summer blueberries. Keep every loaf, flour bowl, rolling pin, dough portion, linen towel, drawer and leg unchanged.",
+    "outono": "Change ONLY the contents of the small fruit bowl on the right from strawberries to small autumn apples and two cinnamon sticks. Keep every loaf, flour bowl, rolling pin, dough portion, linen towel, drawer and leg unchanged.",
+    "inverno": "Change ONLY the contents of the small fruit bowl on the right from strawberries to dried nuts and preserved orange slices, winter pantry ingredients. Indoors, no snow or frost. Keep every loaf, flour bowl, rolling pin, dough portion, linen towel, drawer and leg unchanged."
+  },
+  "rosa": {
+    "verao": "Change ONLY the plant materials: deeper green summer leaves, some purple lavender in the hanging bundles and basket instead of the white chamomile. The notebook has a lavender pressed-flower drawing. Keep table, rack posts, all bottles, mortar, basket location and their shapes unchanged.",
+    "outono": "Change ONLY the plant materials to golden-brown dried autumn herbs, muted ochre leaves and dried flowerheads in the existing basket. The notebook shows a pressed amber leaf. Preserve table, rack, all bottles, mortar, basket location and their shapes.",
+    "inverno": "Change ONLY the plant materials to stored dried winter medicinal herbs and dark evergreen sprigs, dried roots in the existing basket. The notebook shows a dried sprig. Absolutely no snow, frost or white filter: indoor furniture. Preserve table, rack posts, all bottles, mortar, basket location and their shapes."
+  }
+}

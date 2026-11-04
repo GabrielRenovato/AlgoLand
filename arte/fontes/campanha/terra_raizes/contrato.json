@@ -1,0 +1,26 @@
+{
+  "uso": "piso inteiro da primeira região, substitui os círculos de solo isolados",
+  "grade_atlas": [
+    2,
+    2
+  ],
+  "tile": [
+    512,
+    512
+  ],
+  "periodo_logico": 128,
+  "repeticao": "espelhada no shader para continuidade das bordas",
+  "estacoes": [
+    "primavera",
+    "verao",
+    "outono",
+    "inverno"
+  ],
+  "referencias": [
+    "assets/cenario/fazenda/natureza_detalhada/primavera/terra.png",
+    "assets/cenario/campanha/clareiras/primavera/solo.png"
+  ],
+  "integracao": "codigo/campanha/chao_campanha.gd",
+  "shader": "codigo/campanha/terra_raizes.gdshader",
+  "preparacao": "ferramentas/campanha/preparar_terra_raizes.py"
+}

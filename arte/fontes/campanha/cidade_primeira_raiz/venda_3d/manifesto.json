@@ -1,0 +1,81 @@
+{
+  "recurso": "Venda da Vila das Flores, construção individual modelada em 3D",
+  "id_campanha": "venda",
+  "fonte_visual": "assets/cenario/campanha/cidade_fiel/venda_casa.png; coluna esquerda, quatro estações",
+  "referencia": "referencias/frente_lateral_objetos.png",
+  "prompt": "referencias/frente_lateral_objetos.prompt.txt",
+  "geracao_referencia": "image_gen incorporado; folha de modelagem inspecionada antes da malha, não aplicada à fachada",
+  "cena": "cenas/campanha/venda/construcao.tscn",
+  "modelo": "codigo/campanha/venda_vila_3d.gd",
+  "materiais": "codigo/campanha/venda_malha_3d.gd; pinturas de madeira, cerâmica e pedra do moinho, reboco com contraste suave, tecido fosco azul e marfim",
+  "silhueta": "Bloco comercial frontal com sótão em empena, janela à esquerda, telhado transversal traseiro, anexo de madeira e entrada à direita, chaminé estreita quadrada vazada",
+  "toldo": "Geometria curva com espessura e nove faixas alternadas, abas semicirculares extrudadas, vigas e postes apoiados. Altura ajustada para leitura das prateleiras",
+  "interior": "Prateleiras recuadas com potes tridimensionais, piso em tábuas e paredes laterais; interior não é pintura de fundo",
+  "objetos_independentes": [
+    "banca_frutas",
+    "banca_verduras",
+    "placa_espiga",
+    "caixas_estoque",
+    "cesto_colheita",
+    "dois barris reutilizados da forja"
+  ],
+  "mercadorias": "Volumes fechados facetados, talos e folhas; produtos apoiados dentro das bandejas com borda dianteira; prateleiras e produtos sob o toldo preservados no inverno",
+  "camera": "Ortográfica frontal elevada sem yaw, elevação atan2(7,10)",
+  "dimensoes": {
+    "largura_logica_px": 240,
+    "largura_nominal_m": 5.7,
+    "camera_ortografica_m": 5.6,
+    "escala_vertical_construcao": 0.85,
+    "grade": "Módulo 16px e filtro global 2px depois da iluminação 3D",
+    "pivo": "Frente das bancas no apoio original da arte",
+    "posicao_mapa": [
+      -464,
+      -185
+    ]
+  },
+  "integracao": "cidade_primeira_raiz.gd e casa_vila_3d.gd; apenas id venda recebe esta construção; posição original e base principal preservadas",
+  "colisoes": "Bases físicas e sombras próprias para acessórios; placa colide apenas no poste; porta e escada laterais com aproximação livre",
+  "estacoes": {
+    "primavera": "Paleta base",
+    "verao": "Madeira e pedra mais quentes, folha estival",
+    "outono": "Madeira seca e folha ocre",
+    "inverno": "Geada limitada a cumeeira, beirais, borda superior do toldo, chaminé, janela, placa, caixa exposta e barris; alimentos abrigados sem neve"
+  },
+  "mobile": {
+    "construcao": "256x256 UPDATE_ONCE na montagem e troca de estação",
+    "objetos": "96x96 UPDATE_ONCE",
+    "triangulos_construcao": 13364,
+    "superficies_construcao": 22,
+    "triangulos_objetos": {
+      "banca_frutas": 1800,
+      "banca_verduras": 1776,
+      "placa_espiga": 413,
+      "barril": 544,
+      "caixas_estoque": 752,
+      "cesto_colheita": 988
+    },
+    "geometria": "Fundida por material e materiais/pinturas em cache compartilhado",
+    "limitacao": "Sem medição em aparelho físico"
+  },
+  "revisao_visual": "Godot 4.7.2 Compatibility: construção isolada e integrada à cidade nas quatro estações; vista lateral de volume. Revistos toldo, oclusão do interior, bases das bancas, produtos, porta lateral e neve apenas exposta.",
+  "evidencias": [
+    "arte/previas/campanha/venda_3d/isolada_estacao_0.png",
+    "arte/previas/campanha/venda_3d/isolada_estacao_1.png",
+    "arte/previas/campanha/venda_3d/isolada_estacao_2.png",
+    "arte/previas/campanha/venda_3d/isolada_estacao_3.png",
+    "arte/previas/campanha/venda_3d/cidade_estacao_0.png",
+    "arte/previas/campanha/venda_3d/cidade_estacao_1.png",
+    "arte/previas/campanha/venda_3d/cidade_estacao_2.png",
+    "arte/previas/campanha/venda_3d/cidade_estacao_3.png",
+    "arte/previas/campanha/venda_3d/volume_lateral.png"
+  ],
+  "estado": "Integrada e revisada no Godot nas quatro estações; verificações de instâncias e mapas aprovadas",
+  "validacao": {
+    "instancias_campanha_runner": "/tmp/algoland-harness/execucao-x30pnf0_/testes/relatorio.json",
+    "instancias_verificacoes": 154,
+    "instancias_erros": 0,
+    "observacao_instancias": "Runner concluiu aprovado; processo agregador do harness encerrou antes de gravar o relatório externo",
+    "mapas_modulares": "/tmp/algoland-harness/execucao-dhjh4sxw/relatorio.json",
+    "observacao": "Revisão visual separada da aprovação funcional; aparelho físico não medido"
+  }
+}

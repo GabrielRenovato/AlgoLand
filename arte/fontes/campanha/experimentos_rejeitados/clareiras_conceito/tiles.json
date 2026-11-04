@@ -1,0 +1,33 @@
+{
+  "referencia": "arte/conceitos/campanha/clareiras_chegada_v1.png",
+  "atlas": [
+    1536,
+    1024
+  ],
+  "grade": [
+    48,
+    32
+  ],
+  "tile_fonte": [
+    32,
+    32
+  ],
+  "tile_mundo": [
+    16,
+    16
+  ],
+  "densidade": 2,
+  "ampliacao_artificial": false,
+  "estacoes": [
+    "primavera",
+    "verao",
+    "outono",
+    "inverno"
+  ],
+  "camadas": [
+    "piso em TileMapLayer",
+    "recortes de copas e arco por profundidade"
+  ],
+  "geometria": "codigo/campanha/regioes_iniciais.json",
+  "integracao": "codigo/campanha/clareiras_chegada.gd"
+}

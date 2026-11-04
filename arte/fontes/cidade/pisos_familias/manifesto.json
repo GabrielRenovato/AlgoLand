@@ -1,0 +1,147 @@
+{
+  "resolucao": 4,
+  "periodo_logico": 128,
+  "estacoes": [
+    "primavera",
+    "verao",
+    "outono",
+    "inverno"
+  ],
+  "materiais": {
+    "mara/medio": {
+      "recorte": [
+        61,
+        64,
+        318,
+        344
+      ],
+      "repeticoes": 1,
+      "texturas": [
+        "res://assets/cenario/cidade/interiores_detalhados/familias/arquitetura/mara/primavera/piso_medio.png",
+        "res://assets/cenario/cidade/interiores_detalhados/familias/arquitetura/mara/verao/piso_medio.png",
+        "res://assets/cenario/cidade/interiores_detalhados/familias/arquitetura/mara/outono/piso_medio.png",
+        "res://assets/cenario/cidade/interiores_detalhados/familias/arquitetura/mara/inverno/piso_medio.png"
+      ]
+    },
+    "mara/claro": {
+      "recorte": [
+        4,
+        421,
+        400,
+        408
+      ],
+      "repeticoes": 1,
+      "texturas": [
+        "res://assets/cenario/cidade/interiores_detalhados/familias/arquitetura/mara/primavera/piso_claro.png",
+        "res://assets/cenario/cidade/interiores_detalhados/familias/arquitetura/mara/verao/piso_claro.png",
+        "res://assets/cenario/cidade/interiores_detalhados/familias/arquitetura/mara/outono/piso_claro.png",
+        "res://assets/cenario/cidade/interiores_detalhados/familias/arquitetura/mara/inverno/piso_claro.png"
+      ]
+    },
+    "mara/escuro": {
+      "recorte": [
+        57,
+        920,
+        236,
+        212
+      ],
+      "repeticoes": 1,
+      "texturas": [
+        "res://assets/cenario/cidade/interiores_detalhados/familias/arquitetura/mara/primavera/piso_escuro.png",
+        "res://assets/cenario/cidade/interiores_detalhados/familias/arquitetura/mara/verao/piso_escuro.png",
+        "res://assets/cenario/cidade/interiores_detalhados/familias/arquitetura/mara/outono/piso_escuro.png",
+        "res://assets/cenario/cidade/interiores_detalhados/familias/arquitetura/mara/inverno/piso_escuro.png"
+      ]
+    },
+    "cora/medio": {
+      "recorte": [
+        446,
+        28,
+        282,
+        280
+      ],
+      "repeticoes": 2,
+      "texturas": [
+        "res://assets/cenario/cidade/interiores_detalhados/familias/arquitetura/cora/primavera/piso_medio.png",
+        "res://assets/cenario/cidade/interiores_detalhados/familias/arquitetura/cora/verao/piso_medio.png",
+        "res://assets/cenario/cidade/interiores_detalhados/familias/arquitetura/cora/outono/piso_medio.png",
+        "res://assets/cenario/cidade/interiores_detalhados/familias/arquitetura/cora/inverno/piso_medio.png"
+      ]
+    },
+    "cora/claro": {
+      "recorte": [
+        533,
+        475,
+        292,
+        276
+      ],
+      "repeticoes": 2,
+      "texturas": [
+        "res://assets/cenario/cidade/interiores_detalhados/familias/arquitetura/cora/primavera/piso_claro.png",
+        "res://assets/cenario/cidade/interiores_detalhados/familias/arquitetura/cora/verao/piso_claro.png",
+        "res://assets/cenario/cidade/interiores_detalhados/familias/arquitetura/cora/outono/piso_claro.png",
+        "res://assets/cenario/cidade/interiores_detalhados/familias/arquitetura/cora/inverno/piso_claro.png"
+      ]
+    },
+    "cora/escuro": {
+      "recorte": [
+        501,
+        895,
+        320,
+        318
+      ],
+      "repeticoes": 2,
+      "texturas": [
+        "res://assets/cenario/cidade/interiores_detalhados/familias/arquitetura/cora/primavera/piso_escuro.png",
+        "res://assets/cenario/cidade/interiores_detalhados/familias/arquitetura/cora/verao/piso_escuro.png",
+        "res://assets/cenario/cidade/interiores_detalhados/familias/arquitetura/cora/outono/piso_escuro.png",
+        "res://assets/cenario/cidade/interiores_detalhados/familias/arquitetura/cora/inverno/piso_escuro.png"
+      ]
+    },
+    "rosa/medio": {
+      "recorte": [
+        904,
+        20,
+        266,
+        262
+      ],
+      "repeticoes": 2,
+      "texturas": [
+        "res://assets/cenario/cidade/interiores_detalhados/familias/arquitetura/rosa/primavera/piso_medio.png",
+        "res://assets/cenario/cidade/interiores_detalhados/familias/arquitetura/rosa/verao/piso_medio.png",
+        "res://assets/cenario/cidade/interiores_detalhados/familias/arquitetura/rosa/outono/piso_medio.png",
+        "res://assets/cenario/cidade/interiores_detalhados/familias/arquitetura/rosa/inverno/piso_medio.png"
+      ]
+    },
+    "rosa/claro": {
+      "recorte": [
+        854,
+        420,
+        390,
+        384
+      ],
+      "repeticoes": 1,
+      "texturas": [
+        "res://assets/cenario/cidade/interiores_detalhados/familias/arquitetura/rosa/primavera/piso_claro.png",
+        "res://assets/cenario/cidade/interiores_detalhados/familias/arquitetura/rosa/verao/piso_claro.png",
+        "res://assets/cenario/cidade/interiores_detalhados/familias/arquitetura/rosa/outono/piso_claro.png",
+        "res://assets/cenario/cidade/interiores_detalhados/familias/arquitetura/rosa/inverno/piso_claro.png"
+      ]
+    },
+    "rosa/escuro": {
+      "recorte": [
+        880,
+        927,
+        265,
+        304
+      ],
+      "repeticoes": 2,
+      "texturas": [
+        "res://assets/cenario/cidade/interiores_detalhados/familias/arquitetura/rosa/primavera/piso_escuro.png",
+        "res://assets/cenario/cidade/interiores_detalhados/familias/arquitetura/rosa/verao/piso_escuro.png",
+        "res://assets/cenario/cidade/interiores_detalhados/familias/arquitetura/rosa/outono/piso_escuro.png",
+        "res://assets/cenario/cidade/interiores_detalhados/familias/arquitetura/rosa/inverno/piso_escuro.png"
+      ]
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "tipo": "materiais_pixel_art_para_cenario_3d",
+  "funcao": "Pintura da estrutura, roda, telhado e base de pedra do moinho no estágio 4.",
+  "geometria_existente": "assets/cenario/campanha/moinho_lowpoly/moinho_mapa.glb",
+  "referencias": ["madeira.png", "telhado_pedra_atlas.png"],
+  "recursos": [
+    "assets/cenario/campanha/moinho_lowpoly/pinturas_pixel_art/madeira.png",
+    "assets/cenario/campanha/moinho_lowpoly/pinturas_pixel_art/telhado_pedra_atlas.png"
+  ],
+  "integracao_codigo": "codigo/campanha/moinho_lowpoly_3d.gd",
+  "mapeamento": "Triplanar, sem UV, com filtro nearest e texturas amostradas em 64x64 para a resolução do SubViewport.",
+  "variantes": ["primavera", "verao", "outono", "inverno"],
+  "revisao": "Conferir captura do estágio 4 em escala de jogo e detalhe, nas quatro estações."
+}

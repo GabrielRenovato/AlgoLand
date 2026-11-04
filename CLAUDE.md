@@ -52,6 +52,7 @@ Neste ambiente não há `git` no PATH: use `host-spawn git ...`.
 - Buscas em `assets/`, `arte/`, `arquivo/`, `builds/` e `.godot/` só quando a tarefa for de recursos.
 - Publicar patch com uma chamada: `host-spawn python3 ferramentas/projeto/publicar_conteudo.py --resumo "..."` (`--simular` lista os passos); só quando o usuário pedir.
 - Respostas e atualizações curtas; sem subagentes salvo pedido.
+- Limpar o contexto: ao concluir uma tarefa e o próximo assunto for outro, ou quando a conversa já estiver longa (muitos arquivos lidos, várias rodadas de ajustes), grave antes na memória o que for útil adiante e chame `clear_session` (ferramenta do app) em vez de seguir arrastando o contexto. Se a próxima mensagem do usuário ainda depender do que foi discutido, não limpe. Na dúvida, avise em uma linha que é um bom ponto para `/clear`.
 
 ## Arquitetura
 

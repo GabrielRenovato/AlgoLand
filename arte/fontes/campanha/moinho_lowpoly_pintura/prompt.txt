@@ -1,0 +1,7 @@
+Recurso e função: texturas pintadas para o moinho 3D existente da Bacia, no estágio 4.
+Referência e destino: geometria em assets/cenario/campanha/moinho_lowpoly/moinho_mapa.glb e mapa em codigo/campanha/bacia_moinho.gd. Madeira em pintura pixel art quente; telhas terracota e pedra de rio em atlas separado.
+Perspectiva e estilo: materiais foscos com grupos de pixels nítidos, sombras e luz pintadas, coerentes com o estilo 3D do AlgoLand.
+Escala: amostrar os padrões em 64x64 com filtro nearest; projetar por triplanar pois o GLB não contém coordenadas UV.
+Encaixe: madeira nos materiais estruturais e na roda; telha nos materiais do telhado; pedra na base. Preservar geometria, pivô, movimento, colisões e montagem atuais.
+Variantes: primavera, verão, outono e inverno por modulação sazonal do material; geometria e orientação da textura permanecem iguais.
+Entrega: recursos em assets/cenario/campanha/moinho_lowpoly/pinturas_pixel_art/; integração em codigo/campanha/moinho_lowpoly_3d.gd.

@@ -1,0 +1,66 @@
+{
+  "recurso": "Carpintaria da Vila das Flores: galpão aberto modelado individualmente",
+  "fonte_visual": "assets/cenario/campanha/cidade_fiel/oficinas.png; coluna direita, quatro estações",
+  "referencia": "referencias/frente_lateral_objetos.png",
+  "prompt": "referencias/frente_lateral_objetos.prompt.txt",
+  "geracao_referencia": "image_gen incorporado; apenas referência de modelagem, nunca aplicado à fachada",
+  "cena": "cenas/campanha/carpintaria/construcao.tscn",
+  "modelo": "codigo/campanha/carpintaria_vila_3d.gd",
+  "cenas_objetos": "cenas/campanha/carpintaria/*.tscn",
+  "objetos_exteriores": [
+    "toras",
+    "pilha_tabuas",
+    "cavalete",
+    "estante_carpinteiro",
+    "barril e balde reutilizados da forja"
+  ],
+  "objetos_interiores": "BancadaInterna e PainelDeFerramentas são PackedScenes independentes dentro do galpão; conservam oclusão real 3D sob o telhado",
+  "mapa": "Cada acessório exterior tem Node2D, pivô no chão, profundidade, sombra de contato e colisão separados",
+  "camera": "Ortográfica frontal elevada, sem yaw; elevação atan2(7,10)",
+  "dimensoes": {
+    "largura_logica_px": 280,
+    "largura_modelo_m": 5.3,
+    "enquadramento_ortografico_m": 5.6,
+    "escala_vertical_construcao": 0.85,
+    "pivo": "Frente do cavalete no apoio original da arte"
+  },
+  "materiais": "Pinturas do moinho, veios orientados por peça, juntas e cumeeiras curvas de cerâmica construídas em geometria, anéis de crescimento nas toras e ferragens com rebites",
+  "filtro": "Mesmo pós-processo pixel art das oficinas: grade global de 2 px e 32 níveis por canal, preservando a geometria",
+  "estacoes": {
+    "primavera": "Materiais base",
+    "verao": "Tom quente discreto",
+    "outono": "Madeira e cerâmica mais secas",
+    "inverno": "Neve apenas nas partes expostas; bancada, estante e tábuas abrigadas preservadas"
+  },
+  "mobile": {
+    "render_construcao": "256x256, UPDATE_ONCE",
+    "render_objetos": "96x96, UPDATE_ONCE",
+    "geometria": "Fundida por material, com acessórios reutilizáveis",
+    "limitacao": "Sem medição em aparelho físico",
+    "triangulos_construcao": 5084,
+    "superficies_construcao": 14,
+    "triangulos_acessorios": {
+      "toras": 312,
+      "pilha_tabuas": 300,
+      "cavalete": 212,
+      "estante_carpinteiro": 132,
+      "barril": 544,
+      "balde": 184
+    }
+  },
+  "integracao": "codigo/campanha/cidade_primeira_raiz.gd: _casa; apenas forja e carpintaria usam modelos individuais. Lenheiros 2D sobrepostos foram substituídos pelos estoques 3D.",
+  "previas": "arte/previas/campanha/carpintaria_3d/",
+  "estado": "Acabamento revisado no Godot, isolado e na cidade, nas quatro estações; integração de campanha e mapas-modulares aprovados",
+  "revisao_visual": "Capturas reais no Godot: quatro estações isoladas e na cidade; ferramentas, ferragens, telhas, madeira, profundidade dos acessórios e neve apenas exposta inspecionadas.",
+  "evidencias_acabamento": [
+    "arte/previas/campanha/carpintaria_3d/acabamento_estacao_0.png",
+    "arte/previas/campanha/carpintaria_3d/acabamento_estacao_1.png",
+    "arte/previas/campanha/carpintaria_3d/acabamento_estacao_2.png",
+    "arte/previas/campanha/carpintaria_3d/acabamento_estacao_3.png"
+  ],
+  "validacao_acabamento": {
+    "instancias_campanha": "/tmp/algoland-harness/execucao-g6dyugyt/relatorio.json",
+    "mapas_modulares": "/tmp/algoland-harness/execucao-g_vsn_st/relatorio.json",
+    "observacao": "Revisão visual das oficinas feita separadamente; não certifica desempenho em aparelho físico"
+  }
+}

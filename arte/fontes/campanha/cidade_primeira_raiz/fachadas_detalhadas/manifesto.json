@@ -1,0 +1,16 @@
+{
+  "ferramenta": "imagegen integrado",
+  "referencia_de_estilo": "assets/cenario/cidade/interiores_detalhados/familias/bancada_padeiro/primavera.png",
+  "dimensoes": [1086, 1448],
+  "grade": "2 colunas x 4 linhas; colunas e linhas com tamanhos iguais",
+  "linhas": ["primavera", "verao", "outono", "inverno"],
+  "fachadas": {
+    "oficinas": ["forja", "carpintaria"],
+    "sede_pousada": ["sede", "pousada"],
+    "enfermaria_mistica": ["enfermaria", "mistica"],
+    "venda_casa": ["venda", "casa_bento", "casa_jogador"]
+  },
+  "integracao": "codigo/campanha/cidade_primeira_raiz.gd",
+  "recuperacao": "As imagens anteriores continuam em assets/cenario/campanha/cidade_fiel/* sem o sufixo _detalhado. Para reverter, restaurar os nomes antigos em ARTE no script de integração.",
+  "prompts": "prompts.txt"
+}

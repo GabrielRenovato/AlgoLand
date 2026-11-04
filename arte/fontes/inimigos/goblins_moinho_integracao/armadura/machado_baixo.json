@@ -1,0 +1,32 @@
+{
+  "familia": "machado",
+  "direcao": "baixo",
+  "celula": 640,
+  "linhas": 7,
+  "acoes": [
+    {
+      "nome": "correr_baixo",
+      "linha": 0,
+      "quadros": 8,
+      "linhas": 2
+    },
+    {
+      "nome": "ataque_baixo",
+      "linha": 2,
+      "quadros": 8,
+      "linhas": 2
+    },
+    {
+      "nome": "ferido_baixo",
+      "linha": 4,
+      "quadros": 4,
+      "linhas": 1
+    },
+    {
+      "nome": "morte_baixo",
+      "linha": 5,
+      "quadros": 8,
+      "linhas": 2
+    }
+  ]
+}

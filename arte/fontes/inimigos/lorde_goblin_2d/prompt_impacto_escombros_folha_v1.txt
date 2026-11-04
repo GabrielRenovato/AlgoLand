@@ -1,0 +1,12 @@
+Create an ORIGINAL painted2D RPG GROUND SLAM VFX animated SPRITE SHEET, no character, no hammer. Visual research: rock-impact animation studies show an instantaneous broken-ground burst, several irregular angular stone chunks hurled radially upward/outward, then their fall and dissipating low dust. Use this physical action structure, not a glowing magic ring or six static rock icons. This effect belongs to a heavy goblin sledgehammer striking floor.
+Output EXACT3columns3rows square atlas, NINE equal square cells in chronological row-major order. Same camera and common ground pivot in every cell. At a418square cell the contact point is x209,y300; floor is horizontal ellipse around that point. All content at least20px inside cell. Native crisp painted sprite shapes, earthy warm-gray stones with broad facets, muted beige dust, dark cracks. Match the supplied own goblin art style, restrained outline, not photoreal or3D.
+1 immediate contact: compact jagged radial burst of broken earth at floor pivot with 5-7 short cracks and a tight compressed dust puff, a few sharp chips starting upward. No huge smoke hiding contact.
+2 explosive launch: 7-10 angular irregular chunks rise from pivot in a wide radial fan, some near foreground and some behind, low rolling dust arcs begin expanding. Obvious upward and outward motion.
+3 rise: large chunks farther out and higher, small chips between, broad low earth dust ring with BROKEN scalloped edges (not geometrically perfect or glowing).
+4 apex: 5-8 larger chunks suspended at their respective ballistic peaks, dust expands farther along floor, center is clear with cracks. Carry exact same individual fragments along coherent trajectories.
+5 falling: chunks descend, move farther outward; dust less opaque. No new rockspawn.
+6 landing: some large chunks hit floor around perimeter, small tiny landing puffs, others still descending.
+7 settled: fragments lie flat on floor, low dust fades and breaks apart.
+8 sparse tiny remnants: only a few scattered resting chips and faint dust.
+9 almost gone: faint cracks and one or two tiny pebbles, about95percent transparent.
+Preserve rocks identities between frames, no crystal spikes erupting as giant permanent mountains, no fire, no sparks, no aura, no yellow circle, no neon, no giant boulder, no floor background, no labels/grid. Real transparent alpha. Complete sprite sequence for one single impact, grounded low dust and flying chunks clearly distinguished. Leave space to see a goblin standing at origin when composited.

@@ -103,5 +103,20 @@
     "arquivo": "Standing Aim Recoil.fbx",
     "loop": false,
     "sha256": "37b9c461341940edd73c27fbcff12b8bda4edb9dec2058c8c3a76c4fbae8c8bc"
+  },
+  "KneelingDown": {
+    "arquivo": "Kneeling Down.fbx",
+    "loop": false,
+    "sha256": "9dc82db6be90ab97345ef9574f68520c35c6a739460b450e884a7b4c41689058"
+  },
+  "KneelingIdle": {
+    "arquivo": "Kneeling Idle.fbx",
+    "loop": true,
+    "sha256": "b16070581ae4612618b52bb4797ff149ae69c9e65f68c2b23f32f6f423b845f1"
+  },
+  "StandUpFromKneel": {
+    "arquivo": "Standing.fbx",
+    "loop": false,
+    "sha256": "2ff51a877ba2c7d0cf6e8a4affbfd97b4823653220c31d8a5d8c5f4cdb41f31b"
   }
 }

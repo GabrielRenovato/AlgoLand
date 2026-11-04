@@ -1,0 +1,10 @@
+{
+  "ferramenta": "image_gen.imagegen",
+  "tipo": "moldura de interface, sem textos",
+  "origem": "/home/alfeim/.codex/generated_images/01a19038-e9f4-7ee2-8f9d-c6123fc21754/exec-a8b30ba5-d48a-4fb4-9f23-fb297d193618.png",
+  "dimensoes": "1374x1145",
+  "uso": "Prévia do relatório de expedição; não é cenário nem TileMap.",
+  "composicao": "Pergaminho marfim, moldura de nogueira e bronze envelhecido, brasão com árvore enraizada e espadas; folhas e raízes nas bordas. Centro vazio para texto nativo.",
+  "restricoes": "Sem letras, números, botões, brilho mágico ou cartões de aplicativo. Decoração fora do espaço de leitura.",
+  "prompt": "Use case: ui-mockup. Blank illustrated fantasy expedition journal UI backplate for AlgoLand, Primeira Raiz. Frontal rectangular pale ivory parchment, slender walnut and antique brass frame with hand-carved root patterns, oxidized corner mounts, centered green crest with embossed rooted tree and crossed steel swords. Leaves only in corners, clean empty paper center, restrained painterly RPG UI, sharp contours, low visual noise. No text, letters, numbers, cards, buttons, magic, logos or watermark. Intended size 1536x1280, logical layout 768x640; UI art only, not scenery."
+}

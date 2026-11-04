@@ -1,0 +1,9 @@
+Recurso e função no AlgoLand: folha de modelo base de um inimigo comum ágil de curta distância, o primeiro goblin 2D da linha.
+Referência: usar a imagem anexada apenas para acabamento, linguagem de formas e escala do goblin pequeno; ignorar as armas e roupas da referência.
+Perspectiva e estilo: RPG de fazenda de cima com perspectiva elevada de três quartos. Pintura 2D com clusters de pixels definidos, bordas escuras seletivas, luz superior esquerda, paleta natural e materiais quentes, no acabamento do goblin 2D já usado no projeto. Não parecer modelo 3D, render low-poly ou concept art realista.
+Grade e tamanho: exatamente 1536×512, três células iguais de 512×512, sem linhas divisórias. Uma pose estática por célula: frente olhando para baixo, perfil olhando à direita, costas olhando para cima. Personagem compacto, cerca de 280 px de altura na fonte, com margens transparentes; raiz em x=256 e sola em y≈448 em cada célula.
+Personagem: o mesmo goblin pequeno e ágil nas três vistas, pele verde oliva, orelhas pontudas, duas presas pequenas, cabelo escuro curto e desalinhado, túnica simples de couro castanho gasto, faixa de tecido ocre e botas leves. Segura uma única adaga curta de ferro na mão direita, com cabo de madeira e lâmina inteira visível. Mão esquerda vazia e em posição relaxada.
+Consistência: mesmas proporções, roupa, tons e equipamento em todas as vistas; perfil realmente lateral; costas mostrando nuca e dorso, sem olhos ou rosto aparecendo.
+Restrições: sem escudo, lança, espada longa, armadura pesada, pose de ataque, quadros de animação, texto, sombra projetada fora do corpo, fundo, moldura, células extras ou arma duplicada/cortada. Transparência real.
+
+Saída final recebida do gerador: PNG RGBA 2172×724, com três células quadradas de 724×724. O arquivo fonte é preservado nessa resolução; escala de jogo do estudo: 0,05.

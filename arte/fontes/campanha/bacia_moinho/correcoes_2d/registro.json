@@ -1,0 +1,1055 @@
+{
+  "besouro": {
+    "celula": [
+      512,
+      512
+    ],
+    "pivo": [
+      256,
+      448
+    ],
+    "proporcao": 0.83,
+    "quadros": [
+      {
+        "origem": [
+          28,
+          220,
+          368,
+          265
+        ],
+        "destino": [
+          92,
+          188
+        ]
+      },
+      {
+        "origem": [
+          440,
+          236,
+          308,
+          246
+        ],
+        "destino": [
+          120,
+          204
+        ]
+      },
+      {
+        "origem": [
+          834,
+          224,
+          270,
+          262
+        ],
+        "destino": [
+          130,
+          192
+        ]
+      },
+      {
+        "origem": [
+          1214,
+          220,
+          264,
+          266
+        ],
+        "destino": [
+          126,
+          188
+        ]
+      },
+      {
+        "origem": [
+          65,
+          696,
+          265,
+          259
+        ],
+        "destino": [
+          129,
+          200
+        ]
+      },
+      {
+        "origem": [
+          427,
+          689,
+          307,
+          261
+        ],
+        "destino": [
+          107,
+          193
+        ]
+      },
+      {
+        "origem": [
+          776,
+          709,
+          367,
+          240
+        ],
+        "destino": [
+          72,
+          213
+        ]
+      },
+      {
+        "origem": [
+          1161,
+          706,
+          363,
+          245
+        ],
+        "destino": [
+          73,
+          210
+        ]
+      }
+    ],
+    "registro": "Pés por linha no besouro; queixo/frente do focinho na arraia, com trajetória vertical explícita. Sem escalar/recentralizar cada silhueta.",
+    "recorte": "Regiões próprias das oito figuras, com margem de seis pixels. O deslocamento da região é compensado no destino: não há recentralização nem escala individual."
+  },
+  "arraia": {
+    "celula": [
+      512,
+      512
+    ],
+    "pivo": [
+      336,
+      448
+    ],
+    "proporcao": 0.82,
+    "quadros": [
+      {
+        "origem": [
+          7,
+          239,
+          385,
+          209
+        ],
+        "destino": [
+          53,
+          243
+        ]
+      },
+      {
+        "origem": [
+          425,
+          194,
+          330,
+          261
+        ],
+        "destino": [
+          109,
+          196
+        ]
+      },
+      {
+        "origem": [
+          808,
+          163,
+          317,
+          290
+        ],
+        "destino": [
+          118,
+          168
+        ]
+      },
+      {
+        "origem": [
+          1143,
+          240,
+          376,
+          236
+        ],
+        "destino": [
+          62,
+          246
+        ]
+      },
+      {
+        "origem": [
+          5,
+          725,
+          398,
+          169
+        ],
+        "destino": [
+          50,
+          283
+        ]
+      },
+      {
+        "origem": [
+          402,
+          753,
+          396,
+          159
+        ],
+        "destino": [
+          63,
+          295
+        ]
+      },
+      {
+        "origem": [
+          803,
+          640,
+          350,
+          266
+        ],
+        "destino": [
+          88,
+          181
+        ]
+      },
+      {
+        "origem": [
+          1154,
+          723,
+          376,
+          199
+        ],
+        "destino": [
+          61,
+          253
+        ]
+      }
+    ],
+    "registro": "Pés por linha no besouro; queixo/frente do focinho na arraia, com trajetória vertical explícita. Sem escalar/recentralizar cada silhueta.",
+    "recorte": "Regiões próprias das oito figuras, com margem de seis pixels. O deslocamento da região é compensado no destino: não há recentralização nem escala individual."
+  },
+  "valvula": {
+    "celula": [
+      512,
+      512
+    ],
+    "pivo": [
+      256,
+      448
+    ],
+    "proporcao": 0.78,
+    "quadros": [
+      {
+        "origem": [
+          22,
+          134,
+          355,
+          348
+        ],
+        "destino": [
+          86,
+          91
+        ]
+      },
+      {
+        "origem": [
+          408,
+          121,
+          361,
+          368
+        ],
+        "destino": [
+          81,
+          83
+        ]
+      },
+      {
+        "origem": [
+          792,
+          138,
+          358,
+          348
+        ],
+        "destino": [
+          86,
+          92
+        ]
+      },
+      {
+        "origem": [
+          1179,
+          142,
+          346,
+          348
+        ],
+        "destino": [
+          88,
+          95
+        ]
+      },
+      {
+        "origem": [
+          34,
+          605,
+          348,
+          361
+        ],
+        "destino": [
+          71,
+          72
+        ]
+      },
+      {
+        "origem": [
+          410,
+          608,
+          359,
+          353
+        ],
+        "destino": [
+          84,
+          74
+        ]
+      },
+      {
+        "origem": [
+          789,
+          608,
+          356,
+          353
+        ],
+        "destino": [
+          85,
+          74
+        ]
+      },
+      {
+        "origem": [
+          1170,
+          608,
+          358,
+          353
+        ],
+        "destino": [
+          84,
+          75
+        ]
+      }
+    ],
+    "registro": "Registro pela lente central da válvula. Geometria e perspectiva originais preservadas.",
+    "recorte": "Regiões próprias das oito figuras, com margem de seis pixels. O deslocamento da região é compensado no destino: não há recentralização nem escala individual."
+  },
+  "besouro_baixo": {
+    "celula": [
+      512,
+      512
+    ],
+    "pivo": [
+      256,
+      448
+    ],
+    "proporcao": 0.83,
+    "ancoras_por_linha": [
+      [
+        192,
+        520
+      ],
+      [
+        192,
+        440
+      ]
+    ],
+    "registro": "Âncora anatômica comum por linha; recorte compensado, sem redimensionamento nem recentralização individual.",
+    "quadros": [
+      {
+        "origem": [
+          16,
+          210,
+          362,
+          318
+        ],
+        "destino": [
+          80,
+          138
+        ]
+      },
+      {
+        "origem": [
+          421,
+          218,
+          322,
+          289
+        ],
+        "destino": [
+          101,
+          146
+        ]
+      },
+      {
+        "origem": [
+          804,
+          214,
+          314,
+          301
+        ],
+        "destino": [
+          100,
+          142
+        ]
+      },
+      {
+        "origem": [
+          1186,
+          211,
+          305,
+          304
+        ],
+        "destino": [
+          98,
+          139
+        ]
+      },
+      {
+        "origem": [
+          45,
+          633,
+          305,
+          300
+        ],
+        "destino": [
+          109,
+          129
+        ]
+      },
+      {
+        "origem": [
+          418,
+          648,
+          321,
+          296
+        ],
+        "destino": [
+          98,
+          144
+        ]
+      },
+      {
+        "origem": [
+          769,
+          651,
+          369,
+          304
+        ],
+        "destino": [
+          65,
+          147
+        ]
+      },
+      {
+        "origem": [
+          1157,
+          647,
+          362,
+          308
+        ],
+        "destino": [
+          69,
+          143
+        ]
+      }
+    ]
+  },
+  "besouro_cima": {
+    "celula": [
+      512,
+      512
+    ],
+    "pivo": [
+      256,
+      448
+    ],
+    "proporcao": 0.83,
+    "ancoras_por_linha": [
+      [
+        192,
+        480
+      ],
+      [
+        192,
+        440
+      ]
+    ],
+    "registro": "Âncora anatômica comum por linha; recorte compensado, sem redimensionamento nem recentralização individual.",
+    "quadros": [
+      {
+        "origem": [
+          18,
+          89,
+          338,
+          399
+        ],
+        "destino": [
+          82,
+          57
+        ]
+      },
+      {
+        "origem": [
+          410,
+          126,
+          339,
+          334
+        ],
+        "destino": [
+          90,
+          94
+        ]
+      },
+      {
+        "origem": [
+          808,
+          161,
+          315,
+          315
+        ],
+        "destino": [
+          104,
+          129
+        ]
+      },
+      {
+        "origem": [
+          1191,
+          160,
+          315,
+          315
+        ],
+        "destino": [
+          103,
+          128
+        ]
+      },
+      {
+        "origem": [
+          34,
+          628,
+          317,
+          314
+        ],
+        "destino": [
+          98,
+          124
+        ]
+      },
+      {
+        "origem": [
+          410,
+          566,
+          339,
+          386
+        ],
+        "destino": [
+          90,
+          62
+        ]
+      },
+      {
+        "origem": [
+          788,
+          626,
+          348,
+          316
+        ],
+        "destino": [
+          84,
+          122
+        ]
+      },
+      {
+        "origem": [
+          1169,
+          566,
+          342,
+          389
+        ],
+        "destino": [
+          81,
+          62
+        ]
+      }
+    ]
+  },
+  "arraia_baixo": {
+    "celula": [
+      512,
+      512
+    ],
+    "pivo": [
+      256,
+      448
+    ],
+    "proporcao": 0.83,
+    "ancoras_por_linha": [
+      [
+        192,
+        464
+      ],
+      [
+        192,
+        432
+      ]
+    ],
+    "registro": "Âncora anatômica comum por linha; recorte compensado, sem redimensionamento nem recentralização individual.",
+    "quadros": [
+      {
+        "origem": [
+          26,
+          71,
+          369,
+          405
+        ],
+        "destino": [
+          90,
+          55
+        ]
+      },
+      {
+        "origem": [
+          436,
+          51,
+          323,
+          424
+        ],
+        "destino": [
+          116,
+          35
+        ]
+      },
+      {
+        "origem": [
+          836,
+          26,
+          228,
+          453
+        ],
+        "destino": [
+          132,
+          10
+        ]
+      },
+      {
+        "origem": [
+          1135,
+          46,
+          394,
+          433
+        ],
+        "destino": [
+          47,
+          30
+        ]
+      },
+      {
+        "origem": [
+          113,
+          508,
+          181,
+          451
+        ],
+        "destino": [
+          177,
+          12
+        ]
+      },
+      {
+        "origem": [
+          488,
+          507,
+          188,
+          450
+        ],
+        "destino": [
+          168,
+          11
+        ]
+      },
+      {
+        "origem": [
+          736,
+          509,
+          411,
+          451
+        ],
+        "destino": [
+          32,
+          13
+        ]
+      },
+      {
+        "origem": [
+          1163,
+          542,
+          369,
+          411
+        ],
+        "destino": [
+          75,
+          46
+        ]
+      }
+    ]
+  },
+  "arraia_cima": {
+    "celula": [
+      512,
+      512
+    ],
+    "pivo": [
+      256,
+      350
+    ],
+    "proporcao": 0.83,
+    "ancoras_por_linha": [
+      [
+        192,
+        340
+      ],
+      [
+        192,
+        340
+      ]
+    ],
+    "registro": "Âncora anatômica comum por linha; recorte compensado, sem redimensionamento nem recentralização individual.",
+    "quadros": [
+      {
+        "origem": [
+          14,
+          50,
+          364,
+          432
+        ],
+        "destino": [
+          78,
+          60
+        ]
+      },
+      {
+        "origem": [
+          420,
+          40,
+          322,
+          443
+        ],
+        "destino": [
+          100,
+          50
+        ]
+      },
+      {
+        "origem": [
+          877,
+          22,
+          163,
+          463
+        ],
+        "destino": [
+          173,
+          32
+        ]
+      },
+      {
+        "origem": [
+          1141,
+          48,
+          391,
+          437
+        ],
+        "destino": [
+          53,
+          58
+        ]
+      },
+      {
+        "origem": [
+          101,
+          527,
+          175,
+          452
+        ],
+        "destino": [
+          165,
+          25
+        ]
+      },
+      {
+        "origem": [
+          492,
+          520,
+          181,
+          460
+        ],
+        "destino": [
+          172,
+          18
+        ]
+      },
+      {
+        "origem": [
+          763,
+          535,
+          383,
+          434
+        ],
+        "destino": [
+          59,
+          33
+        ]
+      },
+      {
+        "origem": [
+          1167,
+          538,
+          364,
+          431
+        ],
+        "destino": [
+          79,
+          36
+        ]
+      }
+    ]
+  },
+  "besouro_andar_cima": {
+    "celula": [
+      512,
+      512
+    ],
+    "pivo": [
+      256,
+      448
+    ],
+    "proporcao": 0.83,
+    "ancoras_por_linha": [
+      [
+        192,
+        470
+      ],
+      [
+        192,
+        470
+      ]
+    ],
+    "registro": "Âncora anatômica comum por linha; recorte compensado, sem redimensionamento nem recentralização individual.",
+    "quadros": [
+      {
+        "origem": [
+          18,
+          66,
+          350,
+          407
+        ],
+        "destino": [
+          82,
+          44
+        ]
+      },
+      {
+        "origem": [
+          399,
+          60,
+          356,
+          397
+        ],
+        "destino": [
+          79,
+          38
+        ]
+      },
+      {
+        "origem": [
+          782,
+          77,
+          361,
+          398
+        ],
+        "destino": [
+          78,
+          55
+        ]
+      },
+      {
+        "origem": [
+          1167,
+          61,
+          354,
+          412
+        ],
+        "destino": [
+          79,
+          39
+        ]
+      },
+      {
+        "origem": [
+          12,
+          594,
+          366,
+          388
+        ],
+        "destino": [
+          76,
+          60
+        ]
+      },
+      {
+        "origem": [
+          397,
+          563,
+          358,
+          420
+        ],
+        "destino": [
+          77,
+          29
+        ]
+      },
+      {
+        "origem": [
+          784,
+          563,
+          351,
+          404
+        ],
+        "destino": [
+          80,
+          29
+        ]
+      },
+      {
+        "origem": [
+          1167,
+          578,
+          357,
+          404
+        ],
+        "destino": [
+          79,
+          44
+        ]
+      }
+    ]
+  },
+  "arraia_andar_cima": {
+    "celula": [
+      512,
+      512
+    ],
+    "pivo": [
+      256,
+      330
+    ],
+    "proporcao": 0.83,
+    "ancoras_por_linha": [
+      [
+        192,
+        320
+      ],
+      [
+        192,
+        320
+      ]
+    ],
+    "registro": "Âncora anatômica comum por linha; recorte compensado, sem redimensionamento nem recentralização individual.",
+    "quadros": [
+      {
+        "origem": [
+          11,
+          24,
+          375,
+          469
+        ],
+        "destino": [
+          75,
+          34
+        ]
+      },
+      {
+        "origem": [
+          417,
+          22,
+          323,
+          473
+        ],
+        "destino": [
+          97,
+          32
+        ]
+      },
+      {
+        "origem": [
+          867,
+          15,
+          183,
+          482
+        ],
+        "destino": [
+          163,
+          25
+        ]
+      },
+      {
+        "origem": [
+          1185,
+          23,
+          320,
+          473
+        ],
+        "destino": [
+          97,
+          33
+        ]
+      },
+      {
+        "origem": [
+          110,
+          517,
+          163,
+          477
+        ],
+        "destino": [
+          174,
+          15
+        ]
+      },
+      {
+        "origem": [
+          420,
+          525,
+          313,
+          458
+        ],
+        "destino": [
+          100,
+          23
+        ]
+      },
+      {
+        "origem": [
+          776,
+          529,
+          373,
+          459
+        ],
+        "destino": [
+          72,
+          27
+        ]
+      },
+      {
+        "origem": [
+          1163,
+          529,
+          368,
+          455
+        ],
+        "destino": [
+          75,
+          27
+        ]
+      }
+    ]
+  }
+}

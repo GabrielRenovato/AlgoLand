@@ -1,0 +1,207 @@
+{
+  "quadros_revisados": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "referencia_cor": "Primeiro quadro da mesma direcao; preserva sombras e textura",
+  "medianas_rgb": [
+    {
+      "couro": [
+        97,
+        71,
+        54
+      ],
+      "manto": [
+        37.0,
+        49.0,
+        48.0
+      ]
+    },
+    {
+      "couro": [
+        94.0,
+        69.0,
+        52.0
+      ],
+      "manto": [
+        34,
+        46,
+        45
+      ]
+    },
+    {
+      "couro": [
+        90.0,
+        66.0,
+        50.0
+      ],
+      "manto": [
+        31.0,
+        42.0,
+        40.0
+      ]
+    },
+    {
+      "couro": [
+        91.0,
+        67.0,
+        51.0
+      ],
+      "manto": [
+        38.0,
+        49.0,
+        47.0
+      ]
+    },
+    {
+      "couro": [
+        96,
+        72,
+        54
+      ],
+      "manto": [
+        44,
+        57,
+        55
+      ]
+    },
+    {
+      "couro": [
+        96,
+        72,
+        54
+      ],
+      "manto": [
+        42.0,
+        56.0,
+        54.0
+      ]
+    },
+    {
+      "couro": [
+        94.0,
+        70.0,
+        53.0
+      ],
+      "manto": [
+        36,
+        48,
+        46
+      ]
+    },
+    {
+      "couro": [
+        97.0,
+        71.0,
+        54.0
+      ],
+      "manto": [
+        38.0,
+        51.0,
+        49.0
+      ]
+    }
+  ],
+  "ganhos_couro": [
+    [
+      1.0,
+      1.0,
+      1.0
+    ],
+    [
+      1.032,
+      1.029,
+      1.038
+    ],
+    [
+      1.078,
+      1.076,
+      1.08
+    ],
+    [
+      1.066,
+      1.06,
+      1.059
+    ],
+    [
+      1.01,
+      0.986,
+      1.0
+    ],
+    [
+      1.01,
+      0.986,
+      1.0
+    ],
+    [
+      1.032,
+      1.014,
+      1.019
+    ],
+    [
+      1.0,
+      1.0,
+      1.0
+    ]
+  ],
+  "ganhos_manto": [
+    [
+      1.0,
+      1.0,
+      1.0
+    ],
+    [
+      1.088,
+      1.065,
+      1.067
+    ],
+    [
+      1.18,
+      1.167,
+      1.18
+    ],
+    [
+      0.974,
+      1.0,
+      1.021
+    ],
+    [
+      0.841,
+      0.86,
+      0.873
+    ],
+    [
+      0.881,
+      0.875,
+      0.889
+    ],
+    [
+      1.028,
+      1.021,
+      1.043
+    ],
+    [
+      0.974,
+      0.961,
+      0.98
+    ]
+  ],
+  "contato": [
+    486,
+    497
+  ],
+  "posicao_previa": [
+    250,
+    520
+  ],
+  "escopo": "Ajuste de renderizacao da previa; fontes raster preservadas",
+  "revisao_visual": "Quadros e contato do efeito inspecionados nas capturas reais do Godot",
+  "evidencia": "martelada_direita_cores_revisadas_contato.png",
+  "capturas": "/tmp/algoland-lorde-direita-k_02xtn3"
+}

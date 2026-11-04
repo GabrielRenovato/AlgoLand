@@ -1,0 +1,210 @@
+{
+  "referencia_usuario": "https://www.reddit.com/r/PixelArt/comments/1p4i02s/heavy_axe_attack_looped/",
+  "autor": "u/Sufficient_Hornet253",
+  "recorte_analisado_quadros": [
+    0,
+    8,
+    15,
+    19,
+    21,
+    23,
+    26,
+    30
+  ],
+  "tipo": "interpretacao e adaptacao do gesto para um golpe individual; sem copia literal do sprite ou do combo inteiro",
+  "celula": [
+    640,
+    640
+  ],
+  "raiz": [
+    320,
+    560
+  ],
+  "pegada": "mao direita anatomica proxima da base; esquerda proxima da cabeca. Cotovelos/maos conduzem haste, sem troca de ordem; placa de ferro permanece no ombro esquerdo anatomico durante giro.",
+  "fases": [
+    {
+      "quadro": 0,
+      "fase": "guarda",
+      "cabeca": [
+        350,
+        200
+      ],
+      "quadril": [
+        300,
+        425
+      ],
+      "pes": [
+        [
+          240,
+          560
+        ],
+        [
+          400,
+          560
+        ]
+      ],
+      "ombros_cotovelos_maos": "corpo lateral direito, arma baixa do canon"
+    },
+    {
+      "quadro": 1,
+      "fase": "puxar / carregar",
+      "cabeca": [
+        345,
+        205
+      ],
+      "quadril": [
+        300,
+        430
+      ],
+      "pes": [
+        [
+          220,
+          560
+        ],
+        [
+          410,
+          560
+        ]
+      ],
+      "ombros_cotovelos_maos": "peito abre para camera; ombros torcem para esquerda e arma vai para o lado oposto ao alvo"
+    },
+    {
+      "quadro": 2,
+      "fase": "antecipacao maxima",
+      "cabeca": [
+        340,
+        190
+      ],
+      "quadril": [
+        295,
+        435
+      ],
+      "pes": [
+        [
+          215,
+          560
+        ],
+        [
+          410,
+          560
+        ]
+      ],
+      "ombros_cotovelos_maos": "joelhos carregados, axe acima/atras do ombro esquerdo; cabeca ainda acompanha alvo direito"
+    },
+    {
+      "quadro": 3,
+      "fase": "liberar",
+      "cabeca": [
+        370,
+        230
+      ],
+      "quadril": [
+        320,
+        435
+      ],
+      "pes": [
+        [
+          215,
+          550
+        ],
+        [
+          420,
+          560
+        ]
+      ],
+      "ombros_cotovelos_maos": "quadril inicia giro para direita, tronco segue, cabeca inclina com torso; maos conduzem haste"
+    },
+    {
+      "quadro": 4,
+      "fase": "corte / impacto",
+      "cabeca": [
+        385,
+        245
+      ],
+      "quadril": [
+        330,
+        440
+      ],
+      "pes": [
+        [
+          220,
+          550
+        ],
+        [
+          420,
+          560
+        ]
+      ],
+      "ombros_cotovelos_maos": "ombros atravessam a direcao direita e mostram costas tres-quartos; machado varre a frente na altura da cintura"
+    },
+    {
+      "quadro": 5,
+      "fase": "continuacao",
+      "cabeca": [
+        390,
+        265
+      ],
+      "quadril": [
+        330,
+        445
+      ],
+      "pes": [
+        [
+          220,
+          552
+        ],
+        [
+          420,
+          560
+        ]
+      ],
+      "ombros_cotovelos_maos": "mantem torcao das costas e termina arco baixo; joelhos amortecem, nao trava em contato"
+    },
+    {
+      "quadro": 6,
+      "fase": "recuperar",
+      "cabeca": [
+        365,
+        220
+      ],
+      "quadril": [
+        310,
+        432
+      ],
+      "pes": [
+        [
+          235,
+          560
+        ],
+        [
+          400,
+          560
+        ]
+      ],
+      "ombros_cotovelos_maos": "retorna por baixo para guarda; desenrola ombros sem repetir o golpe ao contrario"
+    },
+    {
+      "quadro": 7,
+      "fase": "guarda",
+      "cabeca": [
+        350,
+        200
+      ],
+      "quadril": [
+        300,
+        425
+      ],
+      "pes": [
+        [
+          240,
+          560
+        ],
+        [
+          400,
+          560
+        ]
+      ],
+      "ombros_cotovelos_maos": "mesmo neutro do canon"
+    }
+  ]
+}

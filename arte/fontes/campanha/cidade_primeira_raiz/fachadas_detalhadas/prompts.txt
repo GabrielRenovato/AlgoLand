@@ -1,0 +1,9 @@
+Referência de acabamento para todas as gerações: assets/cenario/cidade/interiores_detalhados/familias/bancada_padeiro/primavera.png. Preservar conteúdo e ordem dos atlas originais de cada par, redesenhar com contornos limpos, materiais distinguíveis, texturas finas legíveis, luz quente e detalhes nítidos como a referência. Manter atlas RGBA transparente 1086x1448, 2 colunas por 4 linhas, linhas primavera/verão/outono/inverno. Manter arquitetura, escala, silhueta, posição e base iguais entre estações; variar folhagem, flores e neve de modo coerente. Sem fundo, texto, grade ou NPCs.
+
+oficinas.png: usar assets/cenario/campanha/cidade_fiel/oficinas.png como referência de conteúdo. Coluna esquerda: forja com chaminé de pedra e braseiro; direita: oficina de carpintaria com madeira e bancadas.
+
+sede_pousada.png: usar assets/cenario/campanha/cidade_fiel/sede_pousada.png como referência de conteúdo. Coluna esquerda: sede de pedra e madeira com bandeiras azuis e porta central; direita: pousada de madeira com sacada, janelas e entrada.
+
+enfermaria_mistica.png: usar assets/cenario/campanha/cidade_fiel/enfermaria_mistica.png como referência de conteúdo. Coluna esquerda: enfermaria de telhado verde; direita: loja mística com telhado roxo e símbolo lunar.
+
+venda_casa.png: usar assets/cenario/campanha/cidade_fiel/venda_casa.png como referência de conteúdo. Coluna esquerda: mercado com toldo azul e creme, frutas, placa e barris; direita: casa acolhedora de telhado vermelho, porta verde e jardim.

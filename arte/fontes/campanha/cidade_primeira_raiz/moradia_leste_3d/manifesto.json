@@ -1,0 +1,93 @@
+{
+  "recurso": "Moradia leste da Vila das Flores, última casa da campanha a receber fachada 3D",
+  "id_campanha": "casa_jogador na posição (482,-160)",
+  "fonte_visual": "assets/cenario/campanha/cidade_fiel/venda_casa.png; coluna direita, mesmo recurso original utilizado por casa_bento",
+  "referencia": "../casa_bento_3d/referencias/frente_lateral_objetos.png",
+  "prompt": "../casa_bento_3d/referencias/frente_lateral_objetos.prompt.txt",
+  "origem_referencia": "Referência image_gen já gerada e inspecionada antes da modelagem da mesma arquitetura; modelo existente reutilizado sem nova modelagem nem nova geração",
+  "cena": "cenas/campanha/casa_bento/construcao.tscn",
+  "modelo": "codigo/campanha/bento_vila_3d.gd",
+  "materiais": "codigo/campanha/bento_malha_3d.gd; pinturas do moinho, reboco creme, porta verde e cantaria",
+  "reuso": "A fachada original já era compartilhada com Bento; agora compartilha também as cenas e pinturas 3D, preservando o id da moradia e sua largura menor",
+  "objetos_independentes": [
+    "dois canteiros floridos",
+    "dois barris",
+    "um vaso de flores"
+  ],
+  "dimensoes": {
+    "largura_logica_px": 192,
+    "largura_nominal_m": 4.8,
+    "camera_ortografica_m": 5.3,
+    "escala_vertical_construcao": 0.85,
+    "camera": "Ortográfica frontal elevada sem yaw, deslocamento vertical 7 e profundidade 10",
+    "grade": "Módulo 16px e filtro global 2px após iluminação",
+    "profundidade_pivo_m": 1.91,
+    "posicao_mapa": [
+      482,
+      -160
+    ]
+  },
+  "integracao": "casa_vila_3d.gd associa casa_jogador à cena da arquitetura existente; cidade_primeira_raiz.gd preserva Cora na moradia ocidental, posição e colisão principal originais, e usa sinal do terreno para as estações",
+  "acesso": "Eliminada vegetação solta aleatória na região Rect2(480,-226,68,94) para não cobrir a porta e os degraus. Hortas, árvores e cercas existentes mantidas",
+  "estacoes": {
+    "primavera": "Flores rosas e brancas e folhagem verde",
+    "verao": "Flores amarelas e folhagem estival",
+    "outono": "Flores e folhas ocres",
+    "inverno": "Folhagem dormente e neve discreta em beirais, chaminé, floreira, barris, vaso e degraus"
+  },
+  "mobile": {
+    "construcao": "256x256 UPDATE_ONCE na montagem e troca de estação",
+    "objetos": "96x96 UPDATE_ONCE",
+    "triangulos_construcao": 9929,
+    "superficies_construcao": 22,
+    "triangulos_por_objeto": {
+      "canteiro_bento": 1860,
+      "barril": 544,
+      "vaso_bento": 1784
+    },
+    "reuso": "Cenas, pinturas e materiais compartilhados com a arquitetura existente",
+    "limitacao": "Sem medição em aparelho físico"
+  },
+  "revisao_visual": "Treze capturas reais no Godot 4.7.2 Compatibility: isolada, no mapa e vila completa nas quatro estações, mais volume lateral. Corrigida moita antiga sobre a porta",
+  "evidencias": [
+    "arte/previas/campanha/moradia_leste_3d/isolada_estacao_0.png",
+    "arte/previas/campanha/moradia_leste_3d/isolada_estacao_1.png",
+    "arte/previas/campanha/moradia_leste_3d/isolada_estacao_2.png",
+    "arte/previas/campanha/moradia_leste_3d/isolada_estacao_3.png",
+    "arte/previas/campanha/moradia_leste_3d/cidade_estacao_0.png",
+    "arte/previas/campanha/moradia_leste_3d/cidade_estacao_1.png",
+    "arte/previas/campanha/moradia_leste_3d/cidade_estacao_2.png",
+    "arte/previas/campanha/moradia_leste_3d/cidade_estacao_3.png",
+    "arte/previas/campanha/moradia_leste_3d/vila_completa_estacao_0.png",
+    "arte/previas/campanha/moradia_leste_3d/vila_completa_estacao_1.png",
+    "arte/previas/campanha/moradia_leste_3d/vila_completa_estacao_2.png",
+    "arte/previas/campanha/moradia_leste_3d/vila_completa_estacao_3.png",
+    "arte/previas/campanha/moradia_leste_3d/volume_lateral.png"
+  ],
+  "conferencia_da_vila": {
+    "instancias_3d": 10,
+    "ids": [
+      "sede",
+      "pousada",
+      "venda",
+      "casa_bento",
+      "casa_jogador",
+      "forja",
+      "carpintaria",
+      "cora",
+      "enfermaria",
+      "mistica"
+    ],
+    "fachadas_familia_2d": 0,
+    "atlas_remanescente": "Somente carvalho da praça e duas portarias, sem fachadas de casas",
+    "registro": "Prévia carregou terreno_vila.tscn e enumerou os nós efetivamente montados"
+  },
+  "estado": "Integrada e revisada no Godot nas quatro estações; instancias-campanha e mapas-modulares aprovados; 10 casas/prédios da cidade com modelos 3D",
+  "validacao": {
+    "instancias_campanha": "/tmp/algoland-harness/execucao-gdbwp83l/relatorio.json",
+    "instancias_verificacoes_ok": 74,
+    "mapas_modulares": "/tmp/algoland-harness/execucao-_zr097a3/relatorio.json",
+    "observacao": "Revisão visual própria registrada separadamente; testes não certificam desempenho em aparelho físico",
+    "mapas_verificacoes_ok": 725
+  }
+}

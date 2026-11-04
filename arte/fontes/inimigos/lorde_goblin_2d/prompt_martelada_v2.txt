@@ -1,0 +1,14 @@
+Create an EIGHT-frame animated sprite sheet of the EXACT 2D Goblin Lord from image1, performing one very heavy two-handed HAMMER GROUND SLAM.
+References: image1 is the immutable character identity and painting style. Image2 is a published 2D HAMMER animation artwork: study ONLY its SECOND ROW marked Attack2 (raise a heavy sledgehammer overhead, drive it forward and DOWN to ground). Image3 is the custom pose guide defining joint motion and root registration for our eight frames; obey its gesture but draw the actual detailed goblin, never a stick figure.
+Precise 4 columns x 2 rows, eight equal square cells, order left-to-right top then bottom, total canvas2:1, true transparent background. Same scale and camera in all cells, feet at88 percent cell height, root50 percent width; enough margin to keep raised hammer and extended hammer entirely inside each cell. Body about62 percent of cell height. Do not let individual poses fill their bounding boxes or change size.
+Preserve IDENTICAL face, long ears, tusks, scar, black swept hair, fur-trimmed dark teal cape on the original shoulder, overlapping dark iron plates, brown leather, red waistcloth, boots and mineral belt charms. Detailed hand-painted TWO-DIMENSIONAL fantasy RPG art exactly like image1, no 3D render.
+The big RECTANGULAR stone hammer is heavy: keep same head shape and shaft length; right hand holds near pommel, left hand holds closer to head. Both hands always grip shaft, hands never trade places or detach. Same planted boot positions, bend at knees and hips to express force. Spine, shoulders, elbows and cape move with the swing; no extra limbs, floating hands, stretchy hammer or changing armor.
+Frame1: original ready stance with hammer horizontal low in front.
+Frame2: load weight back and raise hammer diagonally, deliberate anticipation.
+Frame3: hammer lifted ABOVE and BEHIND head, elbows bent high, body extended.
+Frame4: powerful accelerating downward-forward arc, hammer head now passing above and in front of face, torso starts lunging downward.
+Frame5: IMPACT with heavy stone head ON THE GROUND to screen-right, farther ahead than front boot. Chest bends forward about45degrees, arms stretch DOWN toward shaft, knees flex to absorb weight.
+Frame6: FOLLOW-THROUGH, hold hammer on ground, shoulders lower slightly, knees sink, cape continues forward naturally. This is visibly low and heavy.
+Frame7: RECOVERY, pull hammer up toward original horizontal guard, straighten torso halfway.
+Frame8: return EXACTLY to frame1 ready pose, same foot/body/hammer position.
+Give clear in-between poses along one single arc without reversing motion in the downswing. No text, numbers, gridlines, environment, effects, shockwave, trails, dust, framing or extra characters. Every entire body and hammer visible in its cell.

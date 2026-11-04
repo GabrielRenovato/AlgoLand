@@ -1,0 +1,59 @@
+{
+  "assinatura": "efd56cfc43c95492616d215af7eaa08e46a9e40ed99cc78fe6583d7326324283",
+  "perfil": "campanha-percurso",
+  "motor": "Python 3.14.8 / 4.7.2.stable.flathub.ed1daf0bf",
+  "aprovado": true,
+  "etapas": [
+    {
+      "codigo": 0,
+      "segundos": 9.99,
+      "timeout": false,
+      "avisos_conhecidos": [],
+      "erros_esperados": [],
+      "erros": [],
+      "total_erros": 0,
+      "verificacoes_ok": 0,
+      "log": "/tmp/algoland-harness/execucao-i1mk7d6y/testes/importacao.log",
+      "aprovado": true,
+      "nome": "importacao"
+    },
+    {
+      "codigo": 0,
+      "segundos": 132.16,
+      "timeout": false,
+      "avisos_conhecidos": [
+        "ERROR: Texture with GL ID of 27: leaked 984 bytes.",
+        "ERROR: Texture with GL ID of 28: leaked 1596 bytes.",
+        "ERROR: Texture with GL ID of 29: leaked 2676 bytes.",
+        "ERROR: Texture with GL ID of 30: leaked 1068 bytes.",
+        "ERROR: Texture with GL ID of 31: leaked 588 bytes.",
+        "ERROR: Texture with GL ID of 32: leaked 348 bytes.",
+        "ERROR: Texture with GL ID of 33: leaked 212 bytes.",
+        "ERROR: Texture with GL ID of 264: leaked 1528 bytes.",
+        "ERROR: Texture with GL ID of 265: leaked 1576 bytes.",
+        "ERROR: Texture with GL ID of 266: leaked 1824 bytes.",
+        "ERROR: Texture with GL ID of 267: leaked 1924 bytes.",
+        "ERROR: Texture with GL ID of 268: leaked 2308 bytes.",
+        "ERROR: Texture with GL ID of 269: leaked 784 bytes.",
+        "ERROR: Texture with GL ID of 270: leaked 1020 bytes.",
+        "ERROR: Texture with GL ID of 271: leaked 836 bytes.",
+        "ERROR: Texture with GL ID of 272: leaked 944 bytes.",
+        "ERROR: Texture with GL ID of 273: leaked 944 bytes.",
+        "ERROR: Texture with GL ID of 274: leaked 944 bytes.",
+        "ERROR: 18 RID allocations of type 'N5GLES37TextureE' were leaked at exit.",
+        "ERROR: 19 resources still in use at exit (run with --verbose for details)."
+      ],
+      "erros_esperados": [],
+      "erros": [],
+      "total_erros": 0,
+      "verificacoes_ok": 458,
+      "log": "/tmp/algoland-harness/execucao-i1mk7d6y/testes/percurso_campanha.log",
+      "aprovado": true,
+      "nome": "percurso_campanha",
+      "modo": "grafico"
+    }
+  ],
+  "revisao_visual": "pendente",
+  "estado_preservado": true,
+  "capturas": []
+}

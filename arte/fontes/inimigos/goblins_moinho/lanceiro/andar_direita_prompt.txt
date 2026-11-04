@@ -1,0 +1,12 @@
+Create a production WALK CYCLE sprite sheet for ONLY THE SPEAR GOBLIN in TOP ROW of the reference. Bottom row swordsman MUST NOT appear. Match exact approved goblin identity: lean olive-green skin, long pointed ears, amber eyes, hooked nose, small ivory lower tusks, short scruffy black crest; brown leather vest, ochre torn tunic/skirt, patched charcoal trousers, ankle wraps/leather boots, one wood spear with triangular iron point. Hand-painted 2D fantasy RPG, clean shaded volumes and dark selective outlines matching reference. NOT3D, not pixel art.
+ONE action, ONE direction: walking RIGHT in fixed elevated three-quarter SIDE view (same game camera elevation as the top middle reference). No camera turns.
+EXACT1536x1024 transparent PNG, 3columns x2rows of512x512. Six chronological frames reading left→right then next row. Root/hip x256, planted feet baseline local y448, constant camera, scale and body volume in ALL six cells. Skull-to-feet about300px. Entire spear and body fit with at least20px empty margins. Carry the spear in the SAME two-hand guard as top-middle reference, tilted upward enough to fit, both hands stay attached to SAME shaft points; stable spear length/point, no additional weapon. Spear may bob naturally with torso but does not spin or attack.
+Six distinct WALK phases for a repeating cycle:
+1 left leg reaching forward RIGHT, heel/sole contacts ground; right leg behind toe push-off.
+2 left leg supports bent knee under forward body; right heel lifts, rear toe releases.
+3 left support foot moves toward rear relative to hip, right swing knee and foot pass it forward.
+4 right leg reaching forward RIGHT contacts ground; left leg behind pushes off. This is OPPOSITE of frame1, not a duplicate.
+5 right leg supports bent knee; left heel lifts, rear toe releases.
+6 right support foot moves to rear, left swing knee/foot passes forward, leading smoothly toframe1.
+Rear foot stays behind body, front foot ahead; each leg's boot/wraps distinct and structurally consistent. Use natural small hip bob, do not shift the whole actor between cells. The feet must ALTERNATE, not the same foot stepping six times. Torso/spear balanced, knees not deformed. Character remains in place; source is a locomotion loop, not six translated copies.
+No text, labels, grid lines, shadows on ground, speed lines, scenery, background, duplicates or extra goblins. True transparent alpha.

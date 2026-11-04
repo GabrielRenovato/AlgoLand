@@ -1,0 +1,21 @@
+Use case: precise-object-edit.
+Create the NORTH / UP running direction of this exact goblin. A new sprite sheet with 4 columns, 2 rows, 8 evenly spaced square frames on transparent background.
+Image 1 is the approved SOUTH run: preserve its character design, body/head proportions, art style, cell framing, scale and subtle coordinated bounce. Redraw each pose genuinely from BEHIND, running away toward top of screen; NOT a vertically flipped or horizontally mirrored image.
+Image 2 is the canonical BACK appearance reference: dark short shaggy spiky hair covering back of skull, pointed olive ears, visible nape, brown sleeveless weathered leather vest with central sewn BACK SEAM, ochre sash, patched dark trousers, brown boot heels, wrist wraps. IMPORTANT: static back reference mistakenly puts dagger on viewer left. Correct that: ONE dagger in anatomical RIGHT hand, on VIEWER RIGHT in ALL eight back frames. Sash hanging end is anatomical LEFT hip, VIEWER LEFT from behind. Preserve same brown/olive palette and rendering quality.
+Image 3 is an approximate back-view movement/joint guide, not artwork. Use contact, absorption, passage, flight, opposite contact, absorption, passage, flight; coordinated whole torso/head movement with compact neck. Do not draw the guide.
+
+Camera remains slightly elevated orthographic game camera. ALL EIGHT drawings are back view: show nape, rear shoulders, BACK SEAM and boot heels/soles; NO eyes, nose, mouth, tusks, frontal chest lacing or accidentally turned profile. Head keeps looking ahead away from camera, rides chest's small vertical bounce (about12-16px at640cell); no nodding, no stretching neck. Hair and ears retain volume.
+
+Eight sequential phases, anatomical right appears on screen right:
+1 right foot contacts in front of pelvis along the path away/up, left foot bent behind with lifted heel; right dagger arm back nearer viewer, left arm forward partly occluded.
+2 right stance knee absorbs weight, torso and head sink together slightly; left thigh swings forward; planted right heel travels rearward relative to body.
+3 right toe pushes off behind, left thigh reaches forward away/up, legs pass and left shin unfolds; left dagger-side? NO: dagger is ALWAYS RIGHT, and right arm now swings forward, left arm back.
+4 brief airborne phase into LEFT foot contact: left leg extends away/up, right heel curls upward behind with some SOLE visible closer to viewer. Both feet genuinely off ground.
+5 left foot contacts away/up on screen left, right heel lifted behind; right dagger arm forward partly hidden, left arm back.
+6 left stance knee absorbs, torso and head lower slightly, right thigh swings forward.
+7 left toe pushes off, right leg passes and unfolds forward away/up; left arm moves forward and right dagger arm back.
+8 airborne into RIGHT foot contact: right leg reaches away/up, left heel curls upward behind with sole visible; smoothly closes into frame1.
+
+Running AWAY anatomy: advancing thigh/hand partly hidden behind torso; the trailing boot folds UP at knee, exposing its sole toward viewer, alternating sides. Do not put two big forward-facing boot toes pointing down to viewer. Keep a flowing coherent leg cycle, matching opposing arms. Spine mildly leans in direction of travel, shoulders/pelvis counterrotate gently without turning head sideways.
+Grid equivalent to 640x640 per cell: body centerline x320, common root/ground y560. At contact poses hair top near y120, body height approximately438px, so it matches approved south run at31 game pixels. Same constant physical scale all frames; don't recenter by silhouette. Moderate hips/head bob at absorption and airborne phases, feet height changes with stride.
+No text, grid, shadows, motion trails, extra weapons or scenery. Transparent background. Preserve the approved art appearance.

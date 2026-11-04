@@ -1,0 +1,28 @@
+{
+  "recurso": "Componentes modulares da Bacia do Moinho",
+  "modo": "image_gen integrado; recortes tecnicos normalizados pelo carregador",
+  "referencia": "madeira estrutural Starter Pack e alvenaria existente; folha isometrica enviada como referencia de inventario de pecas",
+  "grade_logica": [
+    16,
+    16
+  ],
+  "tile_grafico": [
+    64,
+    64
+  ],
+  "escala": 0.25,
+  "atlas_original": [
+    1254,
+    1254
+  ],
+  "carregador": "res://codigo/campanha/construcao_bacia.gd",
+  "geometria": "parede, esquadrias, telhado, escada, canal e piso editaveis em camadas separadas",
+  "estacoes": {
+    "primavera": "materiais originais",
+    "verao": "madeira aquecida e seca",
+    "outono": "musgo ocre sobre materiais preservados",
+    "inverno": "neve em topos expostos e musgo, faces verticais preservadas"
+  },
+  "prompt": "Production modular tileset atlas, elevated top-down 3/4 fantasy RPG, warm timber, sandstone, terracotta; separate repeatable wall courses, roof middle and edge pieces, bridge planks, pillars, stairs, door halves and sluice mechanism. Transparent background, no complete building, no map illustration. Generated grid not exact; technical crop catalogue RECORTES in the loader is the source of truth.",
+  "colisao": "bases e bordas; abertura central da ruina livre; centro das pontes caminhavel"
+}

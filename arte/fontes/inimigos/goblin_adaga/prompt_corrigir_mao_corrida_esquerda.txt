@@ -1,0 +1,15 @@
+Use case: precise-object-edit. Edit this EXACT sprite sheet, 4 columns x2 rows, eight left-running goblin poses. LOCAL correction of hands, forearms, dagger and occlusion ONLY. Preserve ALL head/face/hair, clothing, torso, legs, feet poses, scale, registration, lighting, style and transparent background unchanged.
+
+ERROR TO FIX: The knife switches hands. The arm with the large exposed shoulder and forearm drawn IN FRONT OF THE VEST is the anatomical LEFT arm. That NEAR LEFT arm must be EMPTY in EVERY frame. Currently frames3,4,5,6,7 (1-based reading order) incorrectly attach the dagger to it. REMOVE ALL parts of that dagger (blade, guard and pommel) from the near hand and redraw that NEAR hand as an EMPTY closed fist with knuckles, matching empty near fists in frames1,2,8. Do not just hide blade while retaining hilt.
+The other arm goes BEHIND the torso and is the anatomical RIGHT arm. ONLY THAT FAR RIGHT HAND holds the ONE short iron dagger through the ENTIRE cycle. Put the hilt visibly in the FAR hand, and render blade behind the body/near arm whenever they overlap. Camera sees goblin's LEFT side, looking LEFT. Knife always belongs to far shoulder/elbow/hand, never the clearly exposed near shoulder/elbow/hand.
+Frame1: near left fist forward EMPTY; FAR right hand behind hip, knife blade points down and back screen RIGHT, visible beyond rear hip.
+Frame2: near left fist bent forward EMPTY; FAR right hand near rear hip still holding knife, blade down/back visible outside hip.
+Frame3: near left hand at front of hip EMPTY, far RIGHT forearm is starting to swing forward behind abdomen, dagger gripped by FAR hand BEHIND torso. Knife can be mostly occluded; show small blade tip beyond front-left waist, separate from EMPTY near knuckles.
+Frame4: near left fist retracting by hip EMPTY, FAR right hand swings forward behind abdomen, knife tip peeks ahead of waist toward LEFT.
+Frame5: near left fist behind hip EMPTY, FAR right hand forward toward LEFT (visible beyond left front body silhouette), holding short dagger pointing LEFT and slightly down; near arm overlays torso, far arm doesn't overlay torso.
+Frame6: near left fist remains near rear hip EMPTY, FAR right hand forward near chest/waist holds dagger ahead LEFT, partly hidden when it crosses torso.
+Frame7: near left fist beginning forward EMPTY, FAR right hand recoils behind hip with knife down/back toward RIGHT; blade never attached to near empty fist.
+Frame8: keep near left forward fist EMPTY; far right hand behind body grips dagger as frame1 with blade partly visible behind hip.
+
+Throughout all8 frames the NEAR EMPTY arm swings forward while FAR ARMED arm swings back and vice versa. Right arm stays on far rendering layer BEHIND torso/left arm. Preserve compact fists and arm proportions, no extra hands, no floating blades, no hand swapping. Exactly ONE dagger in every frame even when partly hidden by the body.
+Keep original RUNNING poses and leg motion intact. Same canvas/grid, no labels/effects/shadows. Transparent output.

@@ -1,0 +1,589 @@
+{
+	"android_nativo": false,
+	"aparelho_fisico": false,
+	"carga_primeiro_quadro_cidade_ms": 7803.039,
+	"casas": [
+		{
+			"id": "sede",
+			"modo_final": 1,
+			"objetos": 6,
+			"superficies": 18,
+			"triangulos": 14854,
+			"viewport": "(256, 256)"
+		},
+		{
+			"id": "pousada",
+			"modo_final": 1,
+			"objetos": 5,
+			"superficies": 20,
+			"triangulos": 15734,
+			"viewport": "(256, 256)"
+		},
+		{
+			"id": "venda",
+			"modo_final": 1,
+			"objetos": 7,
+			"superficies": 22,
+			"triangulos": 13364,
+			"viewport": "(256, 256)"
+		},
+		{
+			"id": "casa_bento",
+			"modo_final": 1,
+			"objetos": 5,
+			"superficies": 22,
+			"triangulos": 9929,
+			"viewport": "(256, 256)"
+		},
+		{
+			"id": "casa_jogador",
+			"modo_final": 1,
+			"objetos": 5,
+			"superficies": 22,
+			"triangulos": 9929,
+			"viewport": "(256, 256)"
+		},
+		{
+			"id": "forja",
+			"modo_final": 1,
+			"objetos": 6,
+			"superficies": 18,
+			"triangulos": 10332,
+			"viewport": "(256, 256)"
+		},
+		{
+			"id": "carpintaria",
+			"modo_final": 1,
+			"objetos": 6,
+			"superficies": 14,
+			"triangulos": 5084,
+			"viewport": "(256, 256)"
+		},
+		{
+			"id": "cora",
+			"modo_final": 1,
+			"objetos": 7,
+			"superficies": 26,
+			"triangulos": 27062,
+			"viewport": "(256, 256)"
+		},
+		{
+			"id": "enfermaria",
+			"modo_final": 1,
+			"objetos": 6,
+			"superficies": 22,
+			"triangulos": 10820,
+			"viewport": "(256, 256)"
+		},
+		{
+			"id": "mistica",
+			"modo_final": 1,
+			"objetos": 6,
+			"superficies": 19,
+			"triangulos": 14048,
+			"viewport": "(256, 256)"
+		}
+	],
+	"celular_simulado": true,
+	"cpu": "AMD Ryzen 5 5600X 6-Core Processor",
+	"escopo": "Configuração mobile e toque simulados no PC; OpenGL ES no driver da GPU desktop. Não mede um Android físico.",
+	"falhas": [],
+	"fps_limitado": false,
+	"gpu": "NVIDIA GeForce RTX 4060 Ti",
+	"grama": {
+		"blocos": 108,
+		"fator": 3.0,
+		"passo_tufo": 5,
+		"passo_vento": 2,
+		"resolucao": 864
+	},
+	"liberacao_recursos": {
+		"antes": {
+			"estatica_mb": 420.189220428467,
+			"rss_mb": 1404.453125,
+			"video_mb": 1543.78097343445
+		},
+		"apos_remover_grama": {
+			"estatica_mb": 381.531777381897,
+			"rss_mb": 1404.45703125,
+			"video_mb": 1386.89425468445
+		},
+		"apos_remover_grama_e_casas": {
+			"estatica_mb": 359.844124794006,
+			"rss_mb": 1404.46484375,
+			"video_mb": 1361.30423355103
+		},
+		"observacao": "Diferenças de recursos liberados; caches e materiais compartilhados continuam residentes."
+	},
+	"logico": "576x324",
+	"medidas": [
+		{
+			"cenario": "1280x720-praca-movimento",
+			"cpu_fisica_ms": 2.36613125,
+			"cpu_process_ms": 51.8585187499998,
+			"draw_calls_media": 344.1125,
+			"fps_medio_pc": 53.2191604943528,
+			"jogador_moveu_px": 321.883661240339,
+			"max_ms": 23.133,
+			"mediana_ms": 18.783,
+			"memoria": {
+				"estatica_mb": 419.741466522217,
+				"rss_mb": 1388.2734375,
+				"video_mb": 1544.49981880188
+			},
+			"p95_ms": 21.507,
+			"p99_ms": 22.953,
+			"primitivas_media": 631841.575,
+			"quadros": 160,
+			"quadros_acima_16_67_pct": 91.875,
+			"quadros_acima_33_33_pct": 0.0,
+			"telas_abertas": []
+		},
+		{
+			"cenario": "1280x720-oficinas-fogo",
+			"cpu_fisica_ms": 2.03194797687861,
+			"cpu_process_ms": 64.9096300578035,
+			"draw_calls_media": 351.462427745665,
+			"fps_medio_pc": 57.43148473667,
+			"jogador_moveu_px": 0.0,
+			"max_ms": 24.483,
+			"mediana_ms": 17.811,
+			"memoria": {
+				"estatica_mb": 419.747171401978,
+				"rss_mb": 1393.4453125,
+				"video_mb": 1544.49981880188
+			},
+			"p95_ms": 21.456,
+			"p99_ms": 23.554,
+			"primitivas_media": 618533.50867052,
+			"quadros": 173,
+			"quadros_acima_16_67_pct": 77.4566473988439,
+			"quadros_acima_33_33_pct": 0.0,
+			"telas_abertas": []
+		},
+		{
+			"cenario": "1280x720-moradias-grama",
+			"cpu_fisica_ms": 0.73286561264822,
+			"cpu_process_ms": 33.6788379446639,
+			"draw_calls_media": 331.233201581028,
+			"fps_medio_pc": 84.1353908039021,
+			"jogador_moveu_px": 353.97265625,
+			"max_ms": 18.584,
+			"mediana_ms": 11.022,
+			"memoria": {
+				"estatica_mb": 419.79341506958,
+				"rss_mb": 1393.8671875,
+				"video_mb": 1544.49981880188
+			},
+			"p95_ms": 16.257,
+			"p99_ms": 17.422,
+			"primitivas_media": 606065.648221344,
+			"quadros": 253,
+			"quadros_acima_16_67_pct": 3.16205533596838,
+			"quadros_acima_33_33_pct": 0.0,
+			"telas_abertas": []
+		},
+		{
+			"cenario": "1920x1080-praca-movimento",
+			"cpu_fisica_ms": 2.15398039215686,
+			"cpu_process_ms": 46.457058823529,
+			"draw_calls_media": 343.888888888889,
+			"fps_medio_pc": 101.866080060081,
+			"jogador_moveu_px": 250.863555196673,
+			"max_ms": 18.069,
+			"mediana_ms": 8.954,
+			"memoria": {
+				"estatica_mb": 419.669471740723,
+				"rss_mb": 1394.32421875,
+				"video_mb": 1553.19408607483
+			},
+			"p95_ms": 15.133,
+			"p99_ms": 17.022,
+			"primitivas_media": 616260.437908497,
+			"quadros": 306,
+			"quadros_acima_16_67_pct": 1.30718954248366,
+			"quadros_acima_33_33_pct": 0.0,
+			"telas_abertas": []
+		},
+		{
+			"cenario": "1920x1080-oficinas-fogo",
+			"cpu_fisica_ms": 0.552893719806766,
+			"cpu_process_ms": 36.375729468599,
+			"draw_calls_media": 349.985507246377,
+			"fps_medio_pc": 137.782854221746,
+			"jogador_moveu_px": 0.0,
+			"max_ms": 10.119,
+			"mediana_ms": 7.146,
+			"memoria": {
+				"estatica_mb": 419.669851303101,
+				"rss_mb": 1400.15234375,
+				"video_mb": 1553.19408607483
+			},
+			"p95_ms": 8.34,
+			"p99_ms": 9.833,
+			"primitivas_media": 616808.420289855,
+			"quadros": 414,
+			"quadros_acima_16_67_pct": 0.0,
+			"quadros_acima_33_33_pct": 0.0,
+			"telas_abertas": []
+		},
+		{
+			"cenario": "1920x1080-moradias-grama",
+			"cpu_fisica_ms": 0.433752500000004,
+			"cpu_process_ms": 25.6357224999999,
+			"draw_calls_media": 331.255,
+			"fps_medio_pc": 133.235272173014,
+			"jogador_moveu_px": 353.97265625,
+			"max_ms": 10.104,
+			"mediana_ms": 7.402,
+			"memoria": {
+				"estatica_mb": 419.691459655762,
+				"rss_mb": 1401.5703125,
+				"video_mb": 1553.19408607483
+			},
+			"p95_ms": 8.56,
+			"p99_ms": 9.846,
+			"primitivas_media": 608107.035,
+			"quadros": 400,
+			"quadros_acima_16_67_pct": 0.0,
+			"quadros_acima_33_33_pct": 0.0,
+			"telas_abertas": []
+		},
+		{
+			"cenario": "diagnostico-completo",
+			"cpu_fisica_ms": 0.55114108910891,
+			"cpu_process_ms": 10.4784752475247,
+			"draw_calls_media": 349.089108910891,
+			"fps_medio_pc": 134.332045541223,
+			"jogador_moveu_px": 0.0,
+			"max_ms": 12.075,
+			"mediana_ms": 7.285,
+			"memoria": {
+				"estatica_mb": 419.053936004639,
+				"rss_mb": 1403.4453125,
+				"video_mb": 1543.64240074158
+			},
+			"p95_ms": 9.12,
+			"p99_ms": 10.233,
+			"primitivas_media": 616878.292079208,
+			"quadros": 404,
+			"quadros_acima_16_67_pct": 0.0,
+			"quadros_acima_33_33_pct": 0.0,
+			"telas_abertas": []
+		},
+		{
+			"cenario": "diagnostico-sem-render-casas",
+			"cpu_fisica_ms": 0.56810626702997,
+			"cpu_process_ms": 10.7856757493189,
+			"draw_calls_media": 324.0,
+			"fps_medio_pc": 122.234038549352,
+			"jogador_moveu_px": 0.0,
+			"max_ms": 15.803,
+			"mediana_ms": 7.97,
+			"memoria": {
+				"estatica_mb": 419.05578994751,
+				"rss_mb": 1403.4453125,
+				"video_mb": 1543.64240074158
+			},
+			"p95_ms": 9.836,
+			"p99_ms": 11.266,
+			"primitivas_media": 616303.397820164,
+			"quadros": 367,
+			"quadros_acima_16_67_pct": 0.0,
+			"quadros_acima_33_33_pct": 0.0,
+			"telas_abertas": []
+		},
+		{
+			"cenario": "diagnostico-sem-render-casas-e-grama",
+			"cpu_fisica_ms": 0.733646739130435,
+			"cpu_process_ms": 18.7528260869565,
+			"draw_calls_media": 304.0,
+			"fps_medio_pc": 61.0661891113675,
+			"jogador_moveu_px": 0.0,
+			"max_ms": 22.358,
+			"mediana_ms": 16.188,
+			"memoria": {
+				"estatica_mb": 419.051593780518,
+				"rss_mb": 1403.4453125,
+				"video_mb": 1543.64240074158
+			},
+			"p95_ms": 19.687,
+			"p99_ms": 22.113,
+			"primitivas_media": 387513.0,
+			"quadros": 184,
+			"quadros_acima_16_67_pct": 34.7826086956522,
+			"quadros_acima_33_33_pct": 0.0,
+			"telas_abertas": []
+		},
+		{
+			"cenario": "diagnostico-casas-sem-grama",
+			"cpu_fisica_ms": 0.969732954545455,
+			"cpu_process_ms": 23.1790511363636,
+			"draw_calls_media": 330.318181818182,
+			"fps_medio_pc": 58.5352939552664,
+			"jogador_moveu_px": 0.0,
+			"max_ms": 22.106,
+			"mediana_ms": 16.819,
+			"memoria": {
+				"estatica_mb": 419.053634643555,
+				"rss_mb": 1403.4453125,
+				"video_mb": 1543.64240074158
+			},
+			"p95_ms": 20.138,
+			"p99_ms": 21.941,
+			"primitivas_media": 388950.090909091,
+			"quadros": 176,
+			"quadros_acima_16_67_pct": 54.5454545454545,
+			"quadros_acima_33_33_pct": 0.0,
+			"telas_abertas": []
+		},
+		{
+			"cenario": "1280x720-inverno-moradias",
+			"cpu_fisica_ms": 0.917466666666673,
+			"cpu_process_ms": 48.372928888889,
+			"draw_calls_media": 332.475555555556,
+			"fps_medio_pc": 74.9798304256155,
+			"jogador_moveu_px": 353.97265625,
+			"max_ms": 25.018,
+			"mediana_ms": 11.848,
+			"memoria": {
+				"estatica_mb": 419.913887023926,
+				"rss_mb": 1403.45703125,
+				"video_mb": 1543.78097343445
+			},
+			"p95_ms": 19.355,
+			"p99_ms": 20.95,
+			"primitivas_media": 605491.977777778,
+			"quadros": 225,
+			"quadros_acima_16_67_pct": 26.2222222222222,
+			"quadros_acima_33_33_pct": 0.0,
+			"telas_abertas": []
+		}
+	],
+	"memoria_antes": {
+		"estatica_mb": 56.5993566513062,
+		"rss_mb": 353.2421875,
+		"video_mb": 161.35865688324
+	},
+	"memoria_carregada": {
+		"estatica_mb": 419.556608200073,
+		"rss_mb": 1382.82421875,
+		"video_mb": 1544.36124610901
+	},
+	"motor": "4.7.2-stable (flathub)",
+	"save_isolado": "/tmp/algoland-cidade-mobile-dados/godot/app_userdata/AlgoLand testes Carrasco",
+	"texturas_maiores": [
+		{
+			"altura": 2304,
+			"arquivo": "res://assets/ui/fundos_menu/primavera.png",
+			"classe": "CompressedTexture2D",
+			"largura": 2816,
+			"pixels": 6488064
+		},
+		{
+			"altura": 1774,
+			"arquivo": "",
+			"classe": "ImageTexture",
+			"largura": 887,
+			"pixels": 1573538
+		},
+		{
+			"altura": 887,
+			"arquivo": "res://assets/ui/mapa_mundi/algoland.png",
+			"classe": "CompressedTexture2D",
+			"largura": 1774,
+			"pixels": 1573538
+		},
+		{
+			"altura": 1024,
+			"arquivo": "res://assets/cenario/cidade/objetos/barraca.png",
+			"classe": "CompressedTexture2D",
+			"largura": 1536,
+			"pixels": 1572864
+		},
+		{
+			"altura": 1254,
+			"arquivo": "res://assets/ui/inicio_detalhado/atlas.png",
+			"classe": "CompressedTexture2D",
+			"largura": 1254,
+			"pixels": 1572516
+		},
+		{
+			"altura": 1254,
+			"arquivo": "res://assets/ui/mapa_mundi/servicos.png",
+			"classe": "CompressedTexture2D",
+			"largura": 1254,
+			"pixels": 1572516
+		},
+		{
+			"altura": 864,
+			"arquivo": "",
+			"classe": "ViewportTexture",
+			"largura": 864,
+			"pixels": 746496
+		},
+		{
+			"altura": 864,
+			"arquivo": "",
+			"classe": "ViewportTexture",
+			"largura": 864,
+			"pixels": 746496
+		},
+		{
+			"altura": 864,
+			"arquivo": "",
+			"classe": "ViewportTexture",
+			"largura": 864,
+			"pixels": 746496
+		},
+		{
+			"altura": 864,
+			"arquivo": "",
+			"classe": "ViewportTexture",
+			"largura": 864,
+			"pixels": 746496
+		},
+		{
+			"altura": 864,
+			"arquivo": "",
+			"classe": "ViewportTexture",
+			"largura": 864,
+			"pixels": 746496
+		},
+		{
+			"altura": 864,
+			"arquivo": "",
+			"classe": "ViewportTexture",
+			"largura": 864,
+			"pixels": 746496
+		},
+		{
+			"altura": 864,
+			"arquivo": "",
+			"classe": "ViewportTexture",
+			"largura": 864,
+			"pixels": 746496
+		},
+		{
+			"altura": 864,
+			"arquivo": "",
+			"classe": "ViewportTexture",
+			"largura": 864,
+			"pixels": 746496
+		},
+		{
+			"altura": 864,
+			"arquivo": "",
+			"classe": "ViewportTexture",
+			"largura": 864,
+			"pixels": 746496
+		},
+		{
+			"altura": 864,
+			"arquivo": "",
+			"classe": "ViewportTexture",
+			"largura": 864,
+			"pixels": 746496
+		},
+		{
+			"altura": 864,
+			"arquivo": "",
+			"classe": "ViewportTexture",
+			"largura": 864,
+			"pixels": 746496
+		},
+		{
+			"altura": 864,
+			"arquivo": "",
+			"classe": "ViewportTexture",
+			"largura": 864,
+			"pixels": 746496
+		},
+		{
+			"altura": 864,
+			"arquivo": "",
+			"classe": "ViewportTexture",
+			"largura": 864,
+			"pixels": 746496
+		},
+		{
+			"altura": 864,
+			"arquivo": "",
+			"classe": "ViewportTexture",
+			"largura": 864,
+			"pixels": 746496
+		},
+		{
+			"altura": 864,
+			"arquivo": "",
+			"classe": "ViewportTexture",
+			"largura": 864,
+			"pixels": 746496
+		},
+		{
+			"altura": 864,
+			"arquivo": "",
+			"classe": "ViewportTexture",
+			"largura": 864,
+			"pixels": 746496
+		},
+		{
+			"altura": 864,
+			"arquivo": "",
+			"classe": "ViewportTexture",
+			"largura": 864,
+			"pixels": 746496
+		},
+		{
+			"altura": 864,
+			"arquivo": "",
+			"classe": "ViewportTexture",
+			"largura": 864,
+			"pixels": 746496
+		},
+		{
+			"altura": 864,
+			"arquivo": "",
+			"classe": "ViewportTexture",
+			"largura": 864,
+			"pixels": 746496
+		},
+		{
+			"altura": 864,
+			"arquivo": "",
+			"classe": "ViewportTexture",
+			"largura": 864,
+			"pixels": 746496
+		},
+		{
+			"altura": 864,
+			"arquivo": "",
+			"classe": "ViewportTexture",
+			"largura": 864,
+			"pixels": 746496
+		},
+		{
+			"altura": 864,
+			"arquivo": "",
+			"classe": "ViewportTexture",
+			"largura": 864,
+			"pixels": 746496
+		},
+		{
+			"altura": 864,
+			"arquivo": "",
+			"classe": "ViewportTexture",
+			"largura": 864,
+			"pixels": 746496
+		},
+		{
+			"altura": 864,
+			"arquivo": "",
+			"classe": "ViewportTexture",
+			"largura": 864,
+			"pixels": 746496
+		}
+	],
+	"texturas_observacao": "Lista parcial por dimensões: nós de imagem, sazonais e atlas do terreno; não equivale a uma contagem de bytes GPU nem inclui todos os materiais/fontes do motor.",
+	"vsync": false
+}

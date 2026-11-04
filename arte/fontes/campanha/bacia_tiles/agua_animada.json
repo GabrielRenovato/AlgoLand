@@ -1,0 +1,43 @@
+{
+  "quadros": 8,
+  "fps": 8,
+  "duracao_ciclo": 1.0,
+  "atlas": [
+    128,
+    16
+  ],
+  "quadro": [
+    16,
+    16
+  ],
+  "grade": [
+    8,
+    1
+  ],
+  "origem": "res://assets/cenario/cidade/terreno/{estacao}/grama_agua_{quadro}.png",
+  "recorte": [
+    0,
+    80,
+    16,
+    16
+  ],
+  "ordem": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "selecao": "quadros discretos, relogio TIME compartilhado, sem UV em deslocamento",
+  "estacoes": [
+    "primavera",
+    "verao",
+    "outono",
+    "inverno"
+  ],
+  "margens": "mascara de terreno independente; colisao nao acompanha animacao",
+  "shader": "res://codigo/campanha/terreno_bacia.gdshader"
+}

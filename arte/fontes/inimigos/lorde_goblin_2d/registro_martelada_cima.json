@@ -1,0 +1,114 @@
+{
+  "direcao": "cima",
+  "grade": [
+    3,
+    3
+  ],
+  "celula": [
+    640,
+    640
+  ],
+  "pivo": [
+    320,
+    500
+  ],
+  "quantidade_quadros": 9,
+  "ordem": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "duracoes_ms": [
+    100,
+    150,
+    180,
+    60,
+    50,
+    80,
+    110,
+    160,
+    170
+  ],
+  "pausa_gif_final_ms": 500,
+  "impacto_quadro": 5,
+  "impacto_ms": 540,
+  "fonte": "martelada_cima_gerada_v1.png",
+  "folha_final": "martelada_cima_v5.png",
+  "descida": {
+    "fonte": "cima_descida_impactos_estudo_v4.png",
+    "indice": 4,
+    "celula_fonte": 0,
+    "tamanho": [
+      470,
+      470
+    ],
+    "translacao": [
+      85,
+      70
+    ]
+  },
+  "impactos": {
+    "fonte": "cima_impacto_entre_pernas_v5.png",
+    "indices": [
+      5,
+      6
+    ],
+    "tamanho": [
+      444,
+      444
+    ],
+    "translacao": [
+      98,
+      100
+    ]
+  },
+  "correcao": {
+    "fonte": "cima_dorso_maos_v3.png",
+    "indices": [
+      2,
+      3,
+      4
+    ],
+    "celulas_fonte": [
+      0,
+      1,
+      2
+    ],
+    "tamanho": [
+      584,
+      584
+    ],
+    "translacao": [
+      40,
+      -5
+    ]
+  },
+  "transformacao_comum": {
+    "tamanho": [
+      600,
+      600
+    ],
+    "translacao": [
+      20,
+      18
+    ]
+  },
+  "margens_px": [
+    140,
+    140,
+    81,
+    23,
+    86,
+    138,
+    138,
+    125,
+    114
+  ],
+  "escopo": "Estudo da direcao norte; sem substituir o chefe ativo."
+}

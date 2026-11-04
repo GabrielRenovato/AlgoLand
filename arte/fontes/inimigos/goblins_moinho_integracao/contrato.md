@@ -1,0 +1,7 @@
+# Goblins do moinho e das galerias
+
+Pedido: povoar exterior com goblin de adaga e novo goblin de machado 2D; interior usa mesmos dois modelos com equipamento visível que pode cair como item equipável. Reutilizar Guarda Novato (elmo/peitoral/luvas/botas independentes no inventário), sem criar novo set ou alterar ids e bônus. Exceção de obtenção autorizada explicitamente pelo usuário: goblins armadurados das galerias podem dropar peças prontas. Sem alterar sorteios da arena ou de outros mobs.
+
+Completar corrida cima/baixo do machado mantendo peso, duas mãos e porte31px; esquerda espelha direita. Ciclo480ms,100px/s,8quadros, grade4x2, célula640 raiz320/560 escala.071. Contato direito, compressão, passagem/voo e contato esquerdo; cabeça/ombros seguem impulsão e quadril, pés apoiados recuam para compensar deslocamento. Vistas frontal/costas verdadeiras, sem inverter verticalmente.
+
+Versões armaduradas partem dos atlas finalizados, preservam poses/ordem/tempo/escala e identidade. Aço fosco cinza/azul do Guarda Novato com elmo aberto, peito, manoplas e grevas; sem arma diferente nem mexer no corpo base. Fontes originais preservadas. Guardas normais externos não recebem set. Galerias têm tabela pessoal persistente de peças comuns/raras com chance explícita, retirada na mochila, equipável pelo sistema compartilhado. Manter objetivos/seta/saídas, colisão com jogador, navegação e posições seguras. Revisão Godot com saves isolados; preservar partida do usuário.

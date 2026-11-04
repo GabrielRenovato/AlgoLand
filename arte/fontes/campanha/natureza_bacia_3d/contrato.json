@@ -1,0 +1,41 @@
+{
+  "uso": "Solo, grama, pedras pequenas e vegetação independentes do estágio 4, combinando com o moinho 3D",
+  "referencia": "referencia.png",
+  "origem": "imagegen integrado; referência de modelagem, não usada como fundo",
+  "projecao": "Ortográfica frontal elevada, sem yaw. Renders em 3 pixels nativos por pixel lógico para preservar detalhe de desktop, filtro nearest; moinho mantém a configuração existente.",
+  "grade": 16,
+  "terreno": "blocos de malha de 256px; materiais contínuos e geometria de tufos reutilizada",
+  "arvores": "Árvores 2D cartoon originais restauradas por solicitação do usuário: carvalho, jovem e pinheiro usam fichas sazonais do terreno, pivôs, escala e colisões originais. Grama 3D na frente das bases preservada.",
+  "estacoes": [
+    "primavera",
+    "verao",
+    "outono",
+    "inverno"
+  ],
+  "reversao": "natureza_lowpoly=false no terreno_moinho ou argumento --natureza-original",
+  "aprovacao_usuario": "pendente de avaliação no jogo",
+  "direcao_corrigida": "Cenário novo com o acabamento 3D estilizado do moinho. Copas de folhas e galhos, pinheiro denso e casca texturizada. Não restaurar o visual antigo como solução estética.",
+  "paleta": "Grama verde natural com redução seletiva do amarelo; flores preservadas. Terra marrom quente com saturação reduzida. Ajustes separados para as quatro estações.",
+  "solo": "Blocos de malha de 256px, UVs globais contínuos, materiais novos de grama e terra, tufos em MultiMesh e cascalho independente. O piso de pedra existente permanece integrado.",
+  "materiais_novos": {
+    "grama": "Sem textura de vegetação: lâminas curvas com nervura e gradiente de cor nos vértices. Multimesh denso, distribuição modulada pelos quatro cantos do terreno.",
+    "terra": "assets/cenario/campanha/natureza_bacia_3d/terra.png",
+    "origem": "imagegen integrado, gerados com captura do moinho como referência; prompts neste diretório",
+    "estacoes": "Cores e iluminação da geometria mudam com a estação; solo recebe neve no inverno e tons secos no outono."
+  },
+  "volume_real": [
+    "Malha do terreno com altura contínua, baixios e taludes. Rotas recebem relevo mínimo para preservar os pés dos atores 2D.",
+    "Gramado denso em MultiMesh, oito lâminas curvas por tufo, três segmentos e nervura central, implantado por máscara contínua de grama e água. Nenhuma imagem de grama cobre o piso.",
+    "Carvalhos cartoon: distribuição de até 270 folhas por modelo, cada uma com 8 faixas e 14 segmentos, lente oval espessa com normais suaves. Galhos e troncos interpolados por curvas. Pinheiros conservam ramos e agulhas.",
+    "As geometrias das árvores projetam sombras direcionais reais sobre o solo 3D, respeitando remoção e estações."
+  ],
+  "limite": "Renderização 3D com câmera fixa composta no mundo 2D. Física, navegação e atores continuam em 2D; não é uma migração do jogo inteiro para física 3D.",
+  "referencia_grama": "grama-geometria-referencia.png, fornecida pelo usuário: lâminas densas com volume, sem piso florido",
+  "comparacao": "A primeira textura de grama foi rejeitada e arquivada; não é carregada pelo jogo.",
+  "filtro_pixel": "Solo: grade de 2 pixels. Árvores: grade de 1 pixel lógico, amostragem curta para preservar folhas e galhos. Grama e sobreposições sem filtro pixel art.",
+  "movimento_grama": "Shader de vértices nas lâminas 3D: vento contínuo, dobra pela posição/direção do jogador e rastros que se recuperam gradualmente. Até oito jogadores entram no campo de interação.",
+  "sobreposicao": "Passes de grama à frente dos pés e das bases de árvores/arbustos, recortados na região inferior e ordenados por profundidade. Copas preservadas.",
+  "referencia_arvores": "arvore-cartoon-usuario.png (referência fornecida pelo usuário); arvore-cartoon-modelagem.png (prancha derivada, inspecionada antes de modelar); arvore-cartoon-prompt.txt",
+  "reversao_arvores": "arquivo/reversoes/arvore_cartoon_20261101_153115/ contém os arquivos anteriores à versão cartoon.",
+  "render_arvores": "Copas 3D desativadas no mapa. Modelos experimentais arquivados no código; sprites originais são carregados pelo terreno em cada estação."
+}

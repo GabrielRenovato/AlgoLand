@@ -1,0 +1,32 @@
+{
+  "familia": "machado",
+  "direcao": "cima",
+  "celula": 640,
+  "linhas": 7,
+  "acoes": [
+    {
+      "nome": "correr_cima",
+      "linha": 0,
+      "quadros": 8,
+      "linhas": 2
+    },
+    {
+      "nome": "ataque_cima",
+      "linha": 2,
+      "quadros": 8,
+      "linhas": 2
+    },
+    {
+      "nome": "ferido_cima",
+      "linha": 4,
+      "quadros": 4,
+      "linhas": 1
+    },
+    {
+      "nome": "morte_cima",
+      "linha": 5,
+      "quadros": 8,
+      "linhas": 2
+    }
+  ]
+}

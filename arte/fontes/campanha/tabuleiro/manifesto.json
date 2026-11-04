@@ -1,0 +1,55 @@
+{
+  "uso": "Tabuleiro de seleção dos andares; ilustrações simbólicas de interface, independentes das estações dos cenários físicos.",
+  "referencia": "Composição em miniaturas sobre tabuleiro da referência enviada pelo usuário, com lugares originais do AlgoLand e acabamento cartoon.",
+  "camadas": [
+    "oceano animado em shader",
+    "tabuleiro transparente estático",
+    "miniaturas independentes em atlas 2x2",
+    "indicador e textos nativos Godot"
+  ],
+  "atlas": [
+    "Primeira Raiz",
+    "Bosque da Névoa",
+    "Relíquia da Primeira Raiz",
+    "Encaixe vazio"
+  ],
+  "base_visual": "Plinto dos lugares na região inferior de cada célula; pivôs alinhados na interface, sem colisão física.",
+  "originais": {
+    "referencia_oceano.png": "/home/alfeim/.codex/generated_images/01a18825-d372-7e30-a431-b4f63c5488ff/exec-66ffb56f-596d-4dc5-978b-c191d335f813.png",
+    "miniaturas.png": "/home/alfeim/.codex/generated_images/01a18825-d372-7e30-a431-b4f63c5488ff/exec-ea5a67e0-a12c-4ad0-8385-f7a4725fe0e5.png",
+    "tabuleiro.png": "/home/alfeim/.codex/generated_images/01a18825-d372-7e30-a431-b4f63c5488ff/exec-0bb30c2b-7e5f-4bcd-b652-9da510705ff4.png"
+  },
+  "integracao_atual": "Primeira Raiz representada por ilha 3D nativa no SubViewport, baseada na miniatura cartoon aprovada: plinto rochoso com grama, árvore grande com raízes, três casinhas de telha e entrada de pedra. Ilha inteira gira no eixo Y e flutua. Atlas preservado como referência.",
+  "regiao_primeira_peca": {
+    "x": 0,
+    "y": 0,
+    "largura": 627,
+    "altura": 677.16
+  },
+  "agua": "Shader oceano_tabuleiro.gdshader: deslocamento suave da pintura de referência, ondas e espuma derivados do recorte; a terra não se desloca.",
+  "ocupacao_tabuleiro": {
+    "andar_01": {
+      "coluna": 4,
+      "linha": 3,
+      "interior_celula_px": [
+        616,
+        342,
+        150,
+        106
+      ]
+    },
+    "regra": "Um domínio por célula; miniatura e destaque contidos no espaço, com margem interna proporcional."
+  },
+  "reliquia_3d": {
+    "codigo": "codigo/campanha/reliquia_tabuleiro.gd",
+    "viewport": [
+      256,
+      256
+    ],
+    "camera": "ortogonal",
+    "encaixe": "Ilha inteira em geometria 3D, contida com margem de 1% na célula; câmera ortogonal 4.7, centro vertical ajustado e sombra 2D no tabuleiro.",
+    "variantes": "Miniatura simbólica de interface sem variantes sazonais.",
+    "referencia": "Primeiro domínio cartoon em miniaturas.png (quadrante superior esquerdo).",
+    "proporcao": "Escala horizontal X/Z de 1.12, preservando altura e largura coerente durante todo o giro."
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "autor": "Kevin Iglesias",
+  "clipes": [
+    {
+      "arquivo": "Movement/Walk/HumanF@Walk01_Forward.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 0.8,
+      "mascara": false,
+      "nome": "HumanF_Walk01_Forward",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Idles/HumanF@Idle01.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 2.7,
+      "mascara": false,
+      "nome": "HumanF_Idle01",
+      "ossos": 51
+    },
+    {
+      "arquivo": "Social/Conversation/HumanF@Talk01.fbx",
+      "correcao_vertical_rm": 0.0,
+      "duracao": 2.26666666666667,
+      "mascara": false,
+      "nome": "HumanF_Talk01",
+      "ossos": 51
+    }
+  ],
+  "destino": "res://assets/personagens/base_3d/movimentos_npcs.res",
+  "fonte": "https://kevdev.itch.io/basic-motions-free",
+  "metodo": "retarget de rotações globais e repousos via importar_melee.gd; poses do FBX preservadas"
+}

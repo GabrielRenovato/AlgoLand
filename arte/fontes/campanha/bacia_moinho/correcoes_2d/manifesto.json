@@ -1,0 +1,19 @@
+{
+  "anteriores": {
+    "cenas/inimigos/arraia_junco.tscn": "6ec15e1ef9c36c3f52e71201fc64005ad80cba11a89061ec4abfe8b9e0c97a86",
+    "cenas/inimigos/besouro_barranco.tscn": "7db2051c60fe8f6b442340b5313aa4d769a01ec463be6068bf8d35fd0aa3894d",
+    "cenas/inimigos/valvula_errante.tscn": "a4f8a27d83cd108237ce3bde7e1360840150de1b42cbf62ed53220d592f9bfac",
+    "codigo/inimigos/inimigo_bacia.gd": "07158b9eeb12c6c7ece560d4fb012ab116b5f0d0ded8b5f437a0f58ade8f0278"
+  },
+  "aplicados": {
+    "cenas/inimigos/arraia_junco.tscn": "89f220adceb53bed50def2c3ad47f2d0f8ec61b7036d32596ca6950c3b6bb16c",
+    "cenas/inimigos/besouro_barranco.tscn": "f18b299bfaee8392f8b3f32705a8e3110590158e4af88ebf4a03269348f055bd",
+    "cenas/inimigos/valvula_errante.tscn": "78bb50ade658454e351cb39777244c622f26c7cf406a0a7ecf12ac1ce80460b3",
+    "codigo/inimigos/inimigo_bacia.gd": "f9cdd93c7edeb191aa0e5cd9f0d566ed4469fd19b07ceab141d8c6e26175ce36"
+  },
+  "atlas_originais": {
+    "assets/inimigos/bacia_moinho/arraia_de_junco.png": "8e8cbd44c4fad5d89ee48a92911963449039c5ff578a07ce3e93750ffd66de1a",
+    "assets/inimigos/bacia_moinho/besouro_de_barranco.png": "a1d40ee8d810cac07df5c19beb223721d5c1bccf76d7c75f0d178a16c2adaca1",
+    "assets/inimigos/bacia_moinho/valvula_errante.png": "a8ae81d055d2cc8c4eceb03627b5846de33845ea41a0b42ece148f9b1077207b"
+  }
+}

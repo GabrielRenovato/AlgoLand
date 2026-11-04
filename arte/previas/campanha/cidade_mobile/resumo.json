@@ -1,0 +1,181 @@
+{
+  "data": "2026-11-04",
+  "aparelho_fisico": false,
+  "hardware": {
+    "gpu": "NVIDIA GeForce RTX 4060 Ti",
+    "cpu": "AMD Ryzen 5 5600X 6-Core Processor",
+    "motor": "4.7.2-stable (flathub)"
+  },
+  "configuracao": {
+    "renderizador": "Compatibility / OpenGL ES 3.2 (driver NVIDIA no PC)",
+    "celular_simulado": "Dispositivo.celular() = true somente na cópia de teste",
+    "toque": true,
+    "tamanho_logico": "576x324",
+    "resolucoes": [
+      "1280x720",
+      "1920x1080"
+    ],
+    "android_nativo": false,
+    "sincronizacao_vertical_solicitada": false,
+    "limite_fps_motor": 0,
+    "limitacao": "Não simula capacidade computacional, memória unificada, drivers ou compressão de texturas de um Android físico. Pacing do compositor/driver e carga do PC podem afetar FPS."
+  },
+  "carga_cidade_ms": [
+    8576.399,
+    7803.039
+  ],
+  "memoria_carregada": [
+    {
+      "estatica_mb": 419.526961326599,
+      "rss_mb": 1433.7578125,
+      "video_mb": 1542.32973670959
+    },
+    {
+      "estatica_mb": 419.556608200073,
+      "rss_mb": 1382.82421875,
+      "video_mb": 1544.36124610901
+    }
+  ],
+  "grama": {
+    "blocos": 108,
+    "fator": 3.0,
+    "passo_tufo": 5,
+    "passo_vento": 2,
+    "resolucao": 864
+  },
+  "liberacao_recursos": {
+    "antes": {
+      "estatica_mb": 420.189220428467,
+      "rss_mb": 1404.453125,
+      "video_mb": 1543.78097343445
+    },
+    "apos_remover_grama": {
+      "estatica_mb": 381.531777381897,
+      "rss_mb": 1404.45703125,
+      "video_mb": 1386.89425468445
+    },
+    "apos_remover_grama_e_casas": {
+      "estatica_mb": 359.844124794006,
+      "rss_mb": 1404.46484375,
+      "video_mb": 1361.30423355103
+    },
+    "observacao": "Diferenças de recursos liberados; caches e materiais compartilhados continuam residentes."
+  },
+  "medidas": [
+    {
+      "cenario": "1280x720-praca-movimento",
+      "fps_pc_min": 53.2191604943528,
+      "fps_pc_max": 129.463064420688,
+      "p95_ms_min": 8.977,
+      "p95_ms_max": 21.507,
+      "chamadas_media": 344.1125,
+      "primitivas_media": 631841.575
+    },
+    {
+      "cenario": "1280x720-oficinas-fogo",
+      "fps_pc_min": 57.43148473667,
+      "fps_pc_max": 106.61463872297,
+      "p95_ms_min": 17.226,
+      "p95_ms_max": 21.456,
+      "chamadas_media": 351.462427745665,
+      "primitivas_media": 618533.50867052
+    },
+    {
+      "cenario": "1280x720-moradias-grama",
+      "fps_pc_min": 57.6639372403039,
+      "fps_pc_max": 84.1353908039021,
+      "p95_ms_min": 16.257,
+      "p95_ms_max": 20.257,
+      "chamadas_media": 331.233201581028,
+      "primitivas_media": 606065.648221344
+    },
+    {
+      "cenario": "1920x1080-praca-movimento",
+      "fps_pc_min": 55.6087038610089,
+      "fps_pc_max": 101.866080060081,
+      "p95_ms_min": 15.133,
+      "p95_ms_max": 21.541,
+      "chamadas_media": 343.888888888889,
+      "primitivas_media": 616260.437908497
+    },
+    {
+      "cenario": "1920x1080-oficinas-fogo",
+      "fps_pc_min": 91.0901529882391,
+      "fps_pc_max": 137.782854221746,
+      "p95_ms_min": 8.34,
+      "p95_ms_max": 16.108,
+      "chamadas_media": 349.985507246377,
+      "primitivas_media": 616808.420289855
+    },
+    {
+      "cenario": "1920x1080-moradias-grama",
+      "fps_pc_min": 114.768321015976,
+      "fps_pc_max": 133.235272173014,
+      "p95_ms_min": 8.56,
+      "p95_ms_max": 10.964,
+      "chamadas_media": 331.255,
+      "primitivas_media": 608107.035
+    },
+    {
+      "cenario": "diagnostico-completo",
+      "fps_pc_min": 134.332045541223,
+      "fps_pc_max": 137.236032985946,
+      "p95_ms_min": 8.055,
+      "p95_ms_max": 9.12,
+      "chamadas_media": 349.089108910891,
+      "primitivas_media": 616878.292079208
+    },
+    {
+      "cenario": "diagnostico-sem-render-casas",
+      "fps_pc_min": 122.234038549352,
+      "fps_pc_max": 141.483257204244,
+      "p95_ms_min": 8.104,
+      "p95_ms_max": 9.836,
+      "chamadas_media": 324.0,
+      "primitivas_media": 616303.397820164
+    },
+    {
+      "cenario": "diagnostico-sem-render-casas-e-grama",
+      "fps_pc_min": 61.0661891113675,
+      "fps_pc_max": 150.211611857192,
+      "p95_ms_min": 7.663,
+      "p95_ms_max": 19.687,
+      "chamadas_media": 304.0,
+      "primitivas_media": 387513.0
+    },
+    {
+      "cenario": "diagnostico-casas-sem-grama",
+      "fps_pc_min": 58.5352939552664,
+      "fps_pc_max": 135.818275147852,
+      "p95_ms_min": 8.834,
+      "p95_ms_max": 20.138,
+      "chamadas_media": 330.318181818182,
+      "primitivas_media": 388950.090909091
+    },
+    {
+      "cenario": "1280x720-inverno-moradias",
+      "fps_pc_min": 57.4417630172,
+      "fps_pc_max": 74.9798304256155,
+      "p95_ms_min": 19.355,
+      "p95_ms_max": 19.748,
+      "chamadas_media": 332.475555555556,
+      "primitivas_media": 605491.977777778
+    }
+  ],
+  "diagnostico": "Memória residente e de vídeo elevadas e montagem demorada. A grama da cidade conserva valores de desktop no perfil mobile. FPS variam; não há base para prever FPS de telefone nem atribuir diferenças pequenas entre casos a um único sistema. Liberação de recursos indica cerca de157MiB para grama e26MiB para casas, excluindo caches e materiais compartilhados. O restante da memória demanda auditoria dos demais recursos residentes.",
+  "validacao": {
+    "execucoes_completas": 2,
+    "cenarios_por_execucao": 11,
+    "falhas_de_cenario": 0,
+    "erros_script_execucao_final": [],
+    "avisos_conhecidos_encerramento": 20,
+    "movimento": "Confirmado por distância percorrida; nenhuma tela de resultado/menu aberta durante as amostras.",
+    "exclusoes": "Piloto com tela de resultado e repetição interrompida na coleta de metadados não entram nos intervalos finais."
+  },
+  "reproducao": {
+    "script": "ferramentas/desempenho/medir_cidade_mobile.gd",
+    "preparo": "preparar_testes.py /tmp/algoland-cidade-mobile; recriar código por symlinks na cópia, exceto globais/dispositivo.gd com celular() retornando true. Nunca alterar o arquivo original.",
+    "comando": "flatpak run --filesystem=/var/home/alfeim/AlgoLand --filesystem=/tmp --command=env org.godotengine.Godot XDG_DATA_HOME=/tmp/algoland-cidade-mobile-dados godot --path /tmp/algoland-cidade-mobile --rendering-method gl_compatibility --rendering-driver opengl3_es --disable-vsync --script res://ferramentas/desempenho/medir_cidade_mobile.gd -- --toque",
+    "janelas": "3 segundos por cenário após aquecimento de650ms; 2s após montagem inicial; capturas fora das amostras. Tempo de carga começa na troca para percurso_prototipo e termina no primeiro quadro com terreno."
+  }
+}

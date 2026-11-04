@@ -1,0 +1,17 @@
+{
+  "modelo_base.png": "dd0c98a28d0708ce02da24ae164bc18087177ef7e758bd8f4290b2c96b9fc6e1",
+  "correr_direita.png": "d1fd8a4a4df6e3de1f28dc7f895da224d854e6513fa35a6fe3e8b41ddc4d037e",
+  "combo_direita.png": "88eec8fd5c9d62624a52feb52b6bcce475223e87bf495cd3492f667719f7704e",
+  "correr_baixo.png": "e4f3558bb7b9d4cf47a89a00ba101a0c86c137992334f812cd974d901f10bec1",
+  "combo_baixo.png": "c1de51ad2fc603222e8fe8ae5d1280c38b7f45b702a95295b4b6d68da92b3a25",
+  "correr_cima.png": "65234a052e1656fed50043494d9bac10d8c03333ff81aff4c8aca45d518bdf32",
+  "correr_esquerda.png": "ec534570155afaa9ab4d5f92ce9ae1b81103ee3becea44ed2a54233be81a1c2a",
+  "parado_esquerda.png": "fb3b190f3ced8fa31d9eb6c2b1c96209027ede7481e02abbe0c93f236058adf7",
+  "parado_cima.png": "4cb3ab97c404cc58466d89961d8764ff7ef9364c6f8ee63e193699d6b3acf40c",
+  "combo_cima.png": "b4288d1ce6a1eba5a7a91e6b04de863501c52670a238ec13a5c3d74514d1c7fd",
+  "combo_esquerda.png": "6dc8cb14ace84216cbd3dd97ff25da0183cb59185a9d1f4d6a791b55405d4f43",
+  "ferido_direita.png": "5ed67218ce8de765cbd49f067bc614d04c44b8b20af50c482c23245f3c11eb3e",
+  "ferido_baixo.png": "0c60f1253434e945477d6acdb46c326b955ca276b091382823dfa8f01d3a3930",
+  "ferido_cima.png": "a6a49d528ecf402cdb8003e57126d600c9b95fcd45b3ac25c20347501f537297",
+  "ferido_esquerda.png": "e16e5179335521d04999b54a1e2fb7d810aa0a0f9133cf390c84a99b5a496782"
+}

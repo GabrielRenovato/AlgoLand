@@ -1,0 +1,72 @@
+{
+  "recurso": "Casa da feiticeira da Vila das Flores, conversão individual em geometria 3D",
+  "id_campanha": "mistica",
+  "fonte_visual": "assets/cenario/campanha/cidade_fiel/enfermaria_mistica.png; coluna direita, quatro estações",
+  "referencia": "referencias/frente_lateral_objetos.png",
+  "prompt": "referencias/frente_lateral_objetos.prompt.txt",
+  "geracao_referencia": "image_gen incorporado, imagem apenas como guia de modelagem",
+  "cena": "cenas/campanha/mistica/construcao.tscn",
+  "modelo": "codigo/campanha/mistica_vila_3d.gd",
+  "materiais_compartilhados": "codigo/campanha/mistica_malha_3d.gd",
+  "cenas_objetos": "cenas/campanha/mistica/*.tscn",
+  "silhueta": "Telhado frontal alto com telhas roxas arredondadas sobrepostas, telhado transversal traseiro, torre estreita de pedra à esquerda e pináculo dourado",
+  "acabamento": "Reboco creme, madeira pintada com veios por peça, arcos com aduelas chanfradas, degraus, dobradiças e rebites, medalhão com lua côncava extrudada, gema azul, janelas recuadas e trepadeiras volumétricas",
+  "objetos_independentes": [
+    "placa_lua",
+    "canteiro_lavanda (duas instâncias)",
+    "barril_ingredientes (duas instâncias)",
+    "vaso_ervas"
+  ],
+  "camera": "Ortográfica frontal elevada, sem yaw; elevação atan2(7,10)",
+  "grade": "Módulo visual 16px, filtro global 2px depois da iluminação 3D",
+  "dimensoes": {
+    "largura_logica_px": 240,
+    "largura_nominal_m": 4.8,
+    "camera_ortografica_m": 5.2,
+    "escala_vertical_construcao": 0.85,
+    "pivo": "Último degrau no apoio original da arte",
+    "posicao_mapa": [
+      560,
+      290
+    ]
+  },
+  "integracao": "codigo/campanha/cidade_primeira_raiz.gd e casa_vila_3d.gd; substituição apenas do id mistica; posições e área física principal preservadas",
+  "base_fisica": "Corpo principal original; acessórios com bases e profundidade próprios; placa colide apenas na base do poste, porta e escada com faixa central livre",
+  "estacoes": {
+    "primavera": "Trepadeiras verdes e lavandas violetas",
+    "verao": "Folhagem escura, flores quentes e madeira de verão",
+    "outono": "Folhas e flores ocres, madeira seca",
+    "inverno": "Trepadeiras dormentes, geada em beirais/cumeeira/degraus/bordas expostas; sem pintar reboco e telhado inteiros de branco"
+  },
+  "mobile": {
+    "render_construcao": "256x256 UPDATE_ONCE na montagem e troca de estação",
+    "render_objetos": "96x96 UPDATE_ONCE",
+    "geometria": "Fundida por material; 14048 triângulos e 19 superfícies na construção",
+    "triangulos_objetos": {
+      "placa_lua": 414,
+      "canteiro_lavanda": 904,
+      "barril_ingredientes": 472,
+      "vaso_ervas": 380
+    },
+    "materiais": "Cache compartilhado de materiais e pinturas derivadas do moinho",
+    "limitacao": "Sem medição em aparelho físico"
+  },
+  "revisao_visual": "Godot 4.7.2 Compatibility, capturas isoladas e na cidade, quatro estações; revistos silhueta, medalhão, arcos, cor do telhado, apoios e objetos",
+  "evidencias": [
+    "arte/previas/campanha/mistica_3d/isolada_estacao_0.png",
+    "arte/previas/campanha/mistica_3d/isolada_estacao_1.png",
+    "arte/previas/campanha/mistica_3d/isolada_estacao_2.png",
+    "arte/previas/campanha/mistica_3d/isolada_estacao_3.png",
+    "arte/previas/campanha/mistica_3d/cidade_estacao_0.png",
+    "arte/previas/campanha/mistica_3d/cidade_estacao_1.png",
+    "arte/previas/campanha/mistica_3d/cidade_estacao_2.png",
+    "arte/previas/campanha/mistica_3d/cidade_estacao_3.png",
+    "arte/previas/campanha/mistica_3d/volume_lateral.png"
+  ],
+  "estado": "Modelo integrado e revisado no Godot nas quatro estações, isolado, na cidade e em vista de volume; perfis instancias-campanha e mapas-modulares aprovados",
+  "revisao_volume": "Vista complementar real no Godot com câmera lateral apenas para inspeção da geometria; a câmera do mapa mantém yaw zero. Conferidos telhas sobrepostas, extrusão da lua, recuos, paredes laterais e apoios.",
+  "validacao": {
+    "instancias_campanha": "/tmp/algoland-harness/execucao-olqrs1tf/relatorio.json",
+    "mapas_modulares": "/tmp/algoland-harness/execucao-jx1_2rkg/relatorio.json"
+  }
+}

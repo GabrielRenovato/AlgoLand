@@ -1,0 +1,14 @@
+{
+  "ferramenta": "imagegen integrado",
+  "referencia": "arte/fontes/campanha/cidade_primeira_raiz/conceito.png",
+  "origens": {
+    "sede_pousada": "/home/alfeim/.codex/generated_images/01a18825-d372-7e30-a431-b4f63c5488ff/exec-994bfdb1-ffd7-4cc9-b04f-e309a05aa53c.png",
+    "oficinas": "/home/alfeim/.codex/generated_images/01a18825-d372-7e30-a431-b4f63c5488ff/exec-79df61b8-0012-495a-8902-01bcea680fd2.png",
+    "enfermaria_mistica": "/home/alfeim/.codex/generated_images/01a18825-d372-7e30-a431-b4f63c5488ff/exec-1be24c7c-c9d5-4939-b7b3-fd630f607796.png",
+    "arvore_portaria": "/home/alfeim/.codex/generated_images/01a18825-d372-7e30-a431-b4f63c5488ff/exec-aa021c00-67c9-472f-ba0c-cd076d01412f.png",
+    "venda_casa": "/home/alfeim/.codex/generated_images/01a18825-d372-7e30-a431-b4f63c5488ff/exec-77a9a18b-2cbe-4f91-a8b0-8939fc6e9df4.png"
+  },
+  "grade": "Duas colunas por quatro estações. No atlas arvore_portaria, a separação efetiva entre as colunas é x=534; não usar metade da largura.",
+  "ancoras": "Pés alinhados à base-centro de cada objeto; recortes alfa próprios por estação, escala comum ao conjunto.",
+  "integracao": "codigo/campanha/cidade_primeira_raiz.gd"
+}

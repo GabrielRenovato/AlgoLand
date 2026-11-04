@@ -1,0 +1,434 @@
+[
+  {
+    "quadro": 0,
+    "fase": "GUARDA",
+    "cabeca": [
+      350,
+      200
+    ],
+    "ombro_direito": [
+      260,
+      300
+    ],
+    "cotovelo_direito": [
+      235,
+      385
+    ],
+    "mao_direita": [
+      277.6,
+      422.8
+    ],
+    "ombro_esquerdo": [
+      350,
+      300
+    ],
+    "cotovelo_esquerdo": [
+      390,
+      350
+    ],
+    "mao_esquerda": [
+      424.8,
+      404.4
+    ],
+    "quadril": [
+      300,
+      425
+    ],
+    "pes": [
+      [
+        240,
+        560
+      ],
+      [
+        400,
+        560
+      ]
+    ],
+    "cabo_base": [
+      220,
+      430
+    ],
+    "cabeca_machado": [
+      540,
+      390
+    ]
+  },
+  {
+    "quadro": 1,
+    "fase": "PREPARAR",
+    "cabeca": [
+      342,
+      190
+    ],
+    "ombro_direito": [
+      252,
+      290
+    ],
+    "cotovelo_direito": [
+      215,
+      245
+    ],
+    "mao_direita": [
+      269.9,
+      280.2
+    ],
+    "ombro_esquerdo": [
+      342,
+      285
+    ],
+    "cotovelo_esquerdo": [
+      385,
+      235
+    ],
+    "mao_esquerda": [
+      410.20000000000005,
+      229.6
+    ],
+    "quadril": [
+      295,
+      425
+    ],
+    "pes": [
+      [
+        220,
+        560
+      ],
+      [
+        400,
+        560
+      ]
+    ],
+    "cabo_base": [
+      215,
+      300
+    ],
+    "cabeca_machado": [
+      520,
+      190
+    ]
+  },
+  {
+    "quadro": 2,
+    "fase": "ALTO / PESO ATRAS",
+    "cabeca": [
+      332,
+      185
+    ],
+    "ombro_direito": [
+      245,
+      290
+    ],
+    "cotovelo_direito": [
+      200,
+      225
+    ],
+    "mao_direita": [
+      205.8,
+      154.7
+    ],
+    "ombro_esquerdo": [
+      335,
+      285
+    ],
+    "cotovelo_esquerdo": [
+      350,
+      225
+    ],
+    "mao_esquerda": [
+      348.4,
+      115.6
+    ],
+    "quadril": [
+      290,
+      420
+    ],
+    "pes": [
+      [
+        210,
+        560
+      ],
+      [
+        400,
+        560
+      ]
+    ],
+    "cabo_base": [
+      150,
+      170
+    ],
+    "cabeca_machado": [
+      460,
+      85
+    ]
+  },
+  {
+    "quadro": 3,
+    "fase": "ACELERAR",
+    "cabeca": [
+      370,
+      210
+    ],
+    "ombro_direito": [
+      280,
+      305
+    ],
+    "cotovelo_direito": [
+      290,
+      370
+    ],
+    "mao_direita": [
+      345.0,
+      374.0
+    ],
+    "ombro_esquerdo": [
+      370,
+      300
+    ],
+    "cotovelo_esquerdo": [
+      420,
+      295
+    ],
+    "mao_esquerda": [
+      460.0,
+      282.0
+    ],
+    "quadril": [
+      310,
+      425
+    ],
+    "pes": [
+      [
+        210,
+        554
+      ],
+      [
+        410,
+        560
+      ]
+    ],
+    "cabo_base": [
+      300,
+      410
+    ],
+    "cabeca_machado": [
+      550,
+      210
+    ]
+  },
+  {
+    "quadro": 4,
+    "fase": "IMPACTO",
+    "cabeca": [
+      390,
+      245
+    ],
+    "ombro_direito": [
+      310,
+      335
+    ],
+    "cotovelo_direito": [
+      280,
+      380
+    ],
+    "mao_direita": [
+      297.6,
+      400.0
+    ],
+    "ombro_esquerdo": [
+      385,
+      325
+    ],
+    "cotovelo_esquerdo": [
+      395,
+      365
+    ],
+    "mao_esquerda": [
+      444.8,
+      400.0
+    ],
+    "quadril": [
+      320,
+      440
+    ],
+    "pes": [
+      [
+        210,
+        550
+      ],
+      [
+        410,
+        560
+      ]
+    ],
+    "cabo_base": [
+      240,
+      400
+    ],
+    "cabeca_machado": [
+      560,
+      400
+    ]
+  },
+  {
+    "quadro": 5,
+    "fase": "CONTINUAR",
+    "cabeca": [
+      392,
+      260
+    ],
+    "ombro_direito": [
+      315,
+      350
+    ],
+    "cotovelo_direito": [
+      285,
+      390
+    ],
+    "mao_direita": [
+      282.2,
+      375.2
+    ],
+    "ombro_esquerdo": [
+      390,
+      340
+    ],
+    "cotovelo_esquerdo": [
+      415,
+      400
+    ],
+    "mao_esquerda": [
+      415.6,
+      439.6
+    ],
+    "quadril": [
+      320,
+      445
+    ],
+    "pes": [
+      [
+        210,
+        552
+      ],
+      [
+        410,
+        560
+      ]
+    ],
+    "cabo_base": [
+      230,
+      350
+    ],
+    "cabeca_machado": [
+      520,
+      490
+    ]
+  },
+  {
+    "quadro": 6,
+    "fase": "RECUPERAR",
+    "cabeca": [
+      365,
+      220
+    ],
+    "ombro_direito": [
+      280,
+      315
+    ],
+    "cotovelo_direito": [
+      265,
+      385
+    ],
+    "mao_direita": [
+      280.8,
+      370.3
+    ],
+    "ombro_esquerdo": [
+      365,
+      310
+    ],
+    "cotovelo_esquerdo": [
+      400,
+      365
+    ],
+    "mao_esquerda": [
+      423.4,
+      409.4
+    ],
+    "quadril": [
+      310,
+      432
+    ],
+    "pes": [
+      [
+        235,
+        560
+      ],
+      [
+        400,
+        560
+      ]
+    ],
+    "cabo_base": [
+      225,
+      355
+    ],
+    "cabeca_machado": [
+      535,
+      440
+    ]
+  },
+  {
+    "quadro": 7,
+    "fase": "GUARDA",
+    "cabeca": [
+      350,
+      200
+    ],
+    "ombro_direito": [
+      260,
+      300
+    ],
+    "cotovelo_direito": [
+      235,
+      385
+    ],
+    "mao_direita": [
+      277.6,
+      422.8
+    ],
+    "ombro_esquerdo": [
+      350,
+      300
+    ],
+    "cotovelo_esquerdo": [
+      390,
+      350
+    ],
+    "mao_esquerda": [
+      424.8,
+      404.4
+    ],
+    "quadril": [
+      300,
+      425
+    ],
+    "pes": [
+      [
+        240,
+        560
+      ],
+      [
+        400,
+        560
+      ]
+    ],
+    "cabo_base": [
+      220,
+      430
+    ],
+    "cabeca_machado": [
+      540,
+      390
+    ]
+  }
+]

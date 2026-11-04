@@ -1,0 +1,21 @@
+Create the DOWN / SOUTH / FACING-VIEWER direction of the EXACT approved Goblin Lord 2D HAMMER ATTACK in the attached spritesheet. The image is the canonical approved character AND movement. Keep its identity, proportions, equipment, hand order, and art finish; draw new genuine FRONT views of these same eight phases.
+
+One precise sprite sheet: FOUR COLUMNS by TWO ROWS, EIGHT equal SQUARE cells, chronological left-to-right top then bottom. Landscape2:1 canvas. Genuinely transparent RGBA background. No labels, numbers, grid lines, ground shadows or environment.
+
+All eight goblins face STRAIGHT TOWARD THE VIEWER / BOTTOM EDGE OF IMAGE. Show BOTH EYES, broad front nose, two tusks, both ears, chest and front of boots. Elevated orthographic RPG game view, slightly see tops of head/shoulders/boots. No side view, no right-facing profile, no back view, no isometric lateral yaw. Head can nod with force but stays facing the target BELOW him. The SAME broad muscular olive-green goblin with black swept mohawk, brow scar, amber eyes, fur collar, brown leather, asymmetrical dark iron plates, red sash, belt minerals, layered boots and dark teal cape. In front view the fur/teal cape drapes from SCREEN-LEFT shoulder, the large iron shoulder plate is SCREEN-RIGHT. Do not reverse this asymmetry.
+
+Heavy stone rectangular hammer with iron straps and long wrapped wooden handle, identical to approved art. Two hands grip the shaft continuously in the same anatomical order as the reference: anatomical RIGHT hand toward the butt (screen-left in guard), anatomical LEFT hand toward hammer head (screen-right in guard). Keep the approved source grip; do not replace it with a new close-grip character variant. Correct shoulder-elbow-wrist chain, no detached hands or extra limbs. Keep head/body volume, arm lengths, hammer size and camera constant between all poses.
+
+Fixed feet root at horizontal50percent, ground line80percent of each cell. Neutral body around60percent cell height, reserve top space for overhead hammer AND bottom15percent for ground contact in front of boots. Every pose and the COMPLETE hammer inside the cell with padding, no frame overflow. No individual recentering or zoom.
+
+Eight exact phases matching approved sheet:
+1 FRONTAL GUARD: upright facing viewer, shaft across front of hips, hammer head to screen-right.
+2 LOAD: knees flex and torso prepares, bring hammer diagonally up toward one shoulder, face remains frontal.
+3 OVERHEAD PEAK: both arms up, hammer raised ABOVE AND BEHIND the head, stone head near upper center, shoulders and chest remain frontal.
+4 DOWNSWING: pull with shoulders and torso, hammer accelerates straight FORWARD TOWARD VIEWER and DOWN, stone head moving in front of face/chest, correct foreshortening; do NOT swing toward the right edge.
+5 IMPACT: torso bends forward, knees absorb force, arms reach downward in front, hammer head rests ON GROUND centered in the lower part of cell, BELOW AND IN FRONT OF BOOTS. Shaft foreshortens toward viewer. Keep face visible tilted down, not a back view.
+6 FOLLOW THROUGH: same low grounded hammer, shoulders dip slightly more, cape follows momentum behind torso.
+7 RECOVER: pull hammer back up and straighten torso halfway into frontal guard.
+8 RETURN to exactly the same frontal guard and fixed foot positions as frame1.
+
+Use the same detailed hand-painted TWO-DIMENSIONAL fantasy RPG illustration style, crisp selective dark outlines, natural warm color highlights, matte leather/iron/stone and teal cloth. No 3D render, no chibi redesign, no photorealism, no special effects, no smears, no dust or motion trails. Most important: EVERY frame is the FRONT / DOWN direction of this same approved character, with an overhead hammer slam aimed toward the bottom of the sheet.

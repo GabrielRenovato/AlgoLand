@@ -1,0 +1,75 @@
+{
+  "autor": "Kay Lousberg",
+  "fonte": "https://kaylousberg.itch.io/kaykit-character-animations",
+  "licenca": "CC0",
+  "clipes": {
+    "andar": {
+      "fonte": "Walking_A",
+      "arquivo": "arte/fontes/personagens/base_3d/kaykit/Rig_Medium_MovementBasic.glb",
+      "sha256": "11422afd50abf7e8c92ea107e2e0bc94abd38023d6d15f55ad580347efbfa29e",
+      "fps": 60,
+      "duracao_s": 1.2,
+      "ciclo": true,
+      "pegada_dupla": [
+        0,
+        1.2
+      ]
+    },
+    "golpe_duas_maos": {
+      "fonte": "Melee_2H_Attack_Slice",
+      "arquivo": "arte/fontes/personagens/base_3d/kaykit/Rig_Medium_CombatMelee.glb",
+      "sha256": "c55e6ec1c79e83ae21d46fe1cd921c1b64be8b9a524a24517e51c6ba99231459",
+      "fps": 60,
+      "duracao_s": 2.05,
+      "ciclo": false,
+      "pegada_dupla": [
+        0.3,
+        1.7
+      ]
+    },
+    "impacto_area": {
+      "fonte": "Melee_2H_Attack_Chop",
+      "arquivo": "arte/fontes/personagens/base_3d/kaykit/Rig_Medium_CombatMelee.glb",
+      "sha256": "c55e6ec1c79e83ae21d46fe1cd921c1b64be8b9a524a24517e51c6ba99231459",
+      "fps": 60,
+      "duracao_s": 2.85,
+      "ciclo": false,
+      "pegada_dupla": [
+        0.3,
+        2.5
+      ]
+    },
+    "giro_area": {
+      "fonte": "Melee_2H_Attack_Spinning",
+      "arquivo": "arte/fontes/personagens/base_3d/kaykit/Rig_Medium_CombatMelee.glb",
+      "sha256": "c55e6ec1c79e83ae21d46fe1cd921c1b64be8b9a524a24517e51c6ba99231459",
+      "fps": 60,
+      "duracao_s": 3.8,
+      "ciclo": false,
+      "pegada_dupla": [
+        0.55,
+        3.25
+      ],
+      "elevacao_max_m": 0.5
+    }
+  },
+  "metricas": {
+    "andar": {
+      "projecao_max_m": 0.3252693448554244,
+      "erro_alcance_m": 0
+    },
+    "golpe_duas_maos": {
+      "projecao_max_m": 0.3816781927028643,
+      "erro_alcance_m": 0
+    },
+    "impacto_area": {
+      "projecao_max_m": 0.4609051810265188,
+      "erro_alcance_m": 0
+    },
+    "giro_area": {
+      "projecao_max_m": 0.3114215436056785,
+      "erro_alcance_m": 0
+    }
+  },
+  "metodo": "Transferência de trajetória e eixo Y do slot da arma, rotações de tronco e pés da biblioteca. IK acomoda os membros do Lorde; entradas/saídas apenas ligam ao repouso."
+}

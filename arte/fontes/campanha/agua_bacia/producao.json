@@ -1,0 +1,29 @@
+{
+  "quadro": [
+    64,
+    64
+  ],
+  "atlas": [
+    1536,
+    64
+  ],
+  "quadros": 24,
+  "fps": 8,
+  "ciclo_segundos": 3,
+  "ordem": "esquerda para direita",
+  "pixels_logicos": 2,
+  "sentido_nativo": "esquerda para direita; shader orienta conforme o canal",
+  "encaixe": "ondas periódicas em X/Y e tempo, mesmo relógio e origem mundial em todos os tiles",
+  "camadas": "superfície por quadros; espuma, margens, pontes e colisões independentes",
+  "estacoes": [
+    "primavera",
+    "verao",
+    "outono",
+    "inverno"
+  ],
+  "origem": "geração matemática de ondas e iluminação; sem imagem de mapa completo",
+  "gerador": "ferramentas/campanha/gerar_agua_bacia.py",
+  "shader": "codigo/campanha/terreno_bacia.gdshader",
+  "referencia": "Água 3D e paleta turquesa do moinho low poly; filtro em pixels de 2 unidades lógicas.",
+  "integracao": "Bacia do Moinho, estágio 4; campo de direção por canal e espuma independente."
+}

@@ -1,0 +1,19 @@
+{
+  "relatorio": "/tmp/algoland-harness/execucao-fqz5vrqd/relatorio.json",
+  "revisao_visual": "conferida no Godot",
+  "modelo": "guarda_novato; elmo aberto",
+  "evidencias": [
+    "elmo_aberto_quatro_vistas.png",
+    "caminhada_quadros.png",
+    "caminhada.gif",
+    "pecas_independentes.png"
+  ],
+  "conferencias": [
+    "rosto original visível de frente; nuca protegida",
+    "sem fragmentos de viseira suspensos nos perfis",
+    "caminhada com oito fases por direção, mesma grade/pivô/tempo do rig",
+    "16 máscaras; recolhimento e restauração de cabelo e roupa",
+    "Noel na cidade; seletores da oficina em desktop, celular e tela dividida"
+  ],
+  "falhas_testes": 0
+}

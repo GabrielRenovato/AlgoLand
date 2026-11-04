@@ -1,0 +1,5 @@
+Prancha de referência para os modelos 3D das casas da Vila das Flores.
+
+Prompt usado: criar oito fachadas distintas em uma folha 2 colunas por 4 linhas, uma peça por célula, fundo transparente, sem texto. Preservar as formas e funções das imagens atuais de sede, pousada, forja, carpintaria, enfermaria, loja mística, venda e casa familiar. Vista de jogo frontal elevada, câmera ortográfica, pouco giro lateral e volume visível no telhado e nas laterais; superfícies pintadas como pixel art, cores quentes e sombras de contato. Remover árvores e jardins das fontes para que continuem como objetos separados do mapa. Usadas como referência estas imagens existentes: assets/cenario/campanha/cidade_fiel/{sede_pousada,oficinas,enfermaria_mistica,venda_casa}_detalhado.png.
+
+Revisão: prancha inspecionada em 2026-11-03. As oito silhuetas e elementos distintivos foram usados para definir os modelos procedurais em codigo/campanha/casa_vila_3d.gd.

@@ -1,0 +1,14 @@
+Referência enviada pelo usuário: ponte estreita de madeira em perspectiva elevada, com piso de tábuas transversais, dois corrimãos contínuos e altos, montantes robustos e travessas diagonais formando triângulos entre eles. A forma foi reinterpretada em `referencia_ponte_pixelada.png` para o estilo 3D pintado como pixel art do AlgoLand.
+
+Prompt visual: Gere uma prancha de referência da ponte de pedestres da imagem anexada. Preserve a geometria: ponte estreita em perspectiva elevada, tábuas de piso transversais, corrimãos altos e contínuos nos dois lados, montantes verticais robustos e travessas diagonais alternadas entre montantes. Transfira tudo para o estilo AlgoLand: modelo 3D low-poly com superfície pintada como pixel art, clusters de pixels grandes e bem definidos, paleta curta de madeira castanha quente, highlights e sombras em blocos, sem gradientes suaves, sem riscos finos, sem antialiasing ou aparência fotográfica. Silhueta e peças claramente legíveis. Objeto inteiro isolado sobre fundo azul muito claro, orientação vertical na imagem, câmera ortográfica elevada 3/4. Sem água, personagens, cenário, texto ou decoração.
+
+Padrão reutilizável: `ferramentas/projeto/ESTILO_3D_ALGOLAND.md`. A prancha é referência de forma e pintura; a geometria final usa peças low-poly independentes e a pintura do piso usa clusters de pixels nítidos, sem microtextura.
+
+Recurso e função no AlgoLand: objeto de cenário 3D reutilizável; duas pontes para atravessar os canais da Bacia do Moinho no estágio 4.
+Referências: `arte/previas/campanha/bacia_moinho/godot/bacia_moinho_primavera.png`, a imagem de referência do usuário e `referencia_ponte_pixelada.png`.
+Perspectiva e estilo: câmera ortográfica frontal elevada, sem yaw; volumes reais em 3D com superfícies pintadas como pixel art, paleta curta de madeira quente, sombras em blocos e filtro nearest.
+Grade e tamanho lógico: grade de 16 px; uma ponte mede 64 x 160 px e a segunda reutiliza a mesma geometria rotacionada 90 graus (160 x 64 px).
+Composição e contato: piso plano com tábuas transversais; corrimãos altos contínuos dos dois lados, com montantes verticais e diagonais cruzadas; travessas e apoios discretos; as extremidades encostam nas margens; manter o caminho e as colisões existentes.
+Variantes: primavera, verão, outono e inverno preservando geometria; modular o tom da madeira e exibir geada apenas nas bordas no inverno.
+Entrega: referência e prompt nesta pasta; geometria final em `codigo/campanha/modelo_ponte_bacia_3d.gd`; projeção e camadas em `codigo/campanha/ponte_bacia_3d_no_mapa.gd`.
+Restrições: sem pavimento de pedra, sem microtextura fotográfica; preservar a legibilidade dos corrimãos e das tábuas na escala real.

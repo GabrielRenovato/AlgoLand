@@ -1,0 +1,74 @@
+{
+  "recurso": "Sede da Vila das Flores, conversão individual em geometria 3D",
+  "id_campanha": "sede",
+  "fonte_visual": "assets/cenario/campanha/cidade_fiel/sede_pousada.png; coluna esquerda",
+  "referencia": "referencias/frente_lateral_objetos.png",
+  "prompt": "referencias/frente_lateral_objetos.prompt.txt",
+  "geracao_referencia": "image_gen incorporado; referência específica inspecionada antes da modelagem, não aplicada à fachada",
+  "cena": "cenas/campanha/sede/construcao.tscn",
+  "modelo": "codigo/campanha/sede_vila_3d.gd",
+  "materiais": "codigo/campanha/sede_malha_3d.gd; madeira e telhas pintadas do moinho, cantaria, reboco claro, estandartes azuis",
+  "reuso": "Ferramentas de geometria e pinturas da oficina; cantaria e flores da enfermaria, sem instanciar sua construção",
+  "silhueta": "Portal central alto com empena íngreme, alas baixas de pedra, telhas vermelhas, escadaria de quatro degraus",
+  "acabamento": "Porta dupla arqueada com tábuas e ferragens em geometria, pedras chanfradas no arco, janelas recuadas, estandartes com emblemas brancos extrudados e suportes até a parede",
+  "objetos_independentes": [
+    "dois jardins elípticos de pedra",
+    "duas luminárias de ferro",
+    "dois vasos em pedestal"
+  ],
+  "camera": "Ortográfica frontal elevada sem yaw; deslocamento vertical 7 e profundidade 10",
+  "dimensoes": {
+    "largura_logica_px": 320,
+    "largura_nominal_m": 7.2,
+    "camera_ortografica_m": 6.5,
+    "escala_vertical_construcao": 0.85,
+    "grade": "Filtro global 2px após iluminação 3D",
+    "profundidade_pivo_m": 2.29,
+    "pivo": "Último degrau no apoio original da fachada",
+    "posicao_mapa": [
+      -176,
+      -267
+    ]
+  },
+  "integracao": "Somente id sede; posição e colisão principal originais preservadas; estações propagadas pelo sinal do terreno",
+  "base_fisica": "Jardins, luminárias e vasos independentes com pivô no chão, profundidade, sombra e colisão próprias; entrada e escadaria livres",
+  "estacoes": {
+    "primavera": "Flores rosas e brancas, folhagem verde",
+    "verao": "Flores amarelas e folhagem estival",
+    "outono": "Flores e folhas ocres",
+    "inverno": "Folhagem dormente e neve nas bordas expostas, degraus, parapeitos, floreiras e suportes"
+  },
+  "mobile": {
+    "construcao": "256x256 UPDATE_ONCE na montagem e troca de estação",
+    "objetos": "96x96 UPDATE_ONCE",
+    "triangulos_construcao": 14854,
+    "superficies_construcao": 18,
+    "triangulos_por_objeto": {
+      "jardim_sede": 2944,
+      "luminaria_sede": 292,
+      "vaso_pedestal": 484
+    },
+    "geometria": "Fundida por material; pinturas e materiais em cache; sem luz dinâmica adicional nas luminárias",
+    "limitacao": "Desempenho não medido em aparelho físico"
+  },
+  "revisao_visual": "Nove capturas reais no Godot 4.7.2 Compatibility: isolada e no mapa nas quatro estações e vista lateral. Corrigidas oclusão dos estandartes pelo beiral e cor dos vidros; jardins elípticos fechados",
+  "evidencias": [
+    "arte/previas/campanha/sede_3d/isolada_estacao_0.png",
+    "arte/previas/campanha/sede_3d/isolada_estacao_1.png",
+    "arte/previas/campanha/sede_3d/isolada_estacao_2.png",
+    "arte/previas/campanha/sede_3d/isolada_estacao_3.png",
+    "arte/previas/campanha/sede_3d/cidade_estacao_0.png",
+    "arte/previas/campanha/sede_3d/cidade_estacao_1.png",
+    "arte/previas/campanha/sede_3d/cidade_estacao_2.png",
+    "arte/previas/campanha/sede_3d/cidade_estacao_3.png",
+    "arte/previas/campanha/sede_3d/volume_lateral.png"
+  ],
+  "estado": "Integrada e revisada no Godot nas quatro estações; instancias-campanha e mapas-modulares aprovados",
+  "validacao": {
+    "instancias_campanha": "/tmp/algoland-harness/execucao-_qsp_ioh/relatorio.json",
+    "instancias_verificacoes_ok": 154,
+    "mapas_modulares": "/tmp/algoland-harness/execucao-nmmko_to/relatorio.json",
+    "observacao": "Evidências visuais próprias registradas separadamente dos perfis funcionais; avisos conhecidos do motor no encerramento constam no relatório",
+    "mapas_verificacoes_ok": 725
+  }
+}

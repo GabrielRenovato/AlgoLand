@@ -187,5 +187,32 @@
     "loop": false,
     "ossos": 52,
     "raiz": "Deslocamento XZ removido; física do jogador controla a posição."
+  },
+  {
+    "amostras": 84,
+    "arquivo": "Kneeling Down.fbx",
+    "duracao": 2.76666666666667,
+    "id": "KneelingDown",
+    "loop": false,
+    "ossos": 52,
+    "raiz": "Deslocamento XZ removido; física do jogador controla a posição."
+  },
+  {
+    "amostras": 129,
+    "arquivo": "Kneeling Idle.fbx",
+    "duracao": 4.26666666666667,
+    "id": "KneelingIdle",
+    "loop": true,
+    "ossos": 52,
+    "raiz": "Deslocamento XZ removido; física do jogador controla a posição."
+  },
+  {
+    "amostras": 84,
+    "arquivo": "Standing.fbx",
+    "duracao": 2.76666666666667,
+    "id": "StandUpFromKneel",
+    "loop": false,
+    "ossos": 52,
+    "raiz": "Deslocamento XZ removido; física do jogador controla a posição."
   }
 ]

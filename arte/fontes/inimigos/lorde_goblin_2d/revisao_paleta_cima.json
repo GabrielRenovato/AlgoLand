@@ -1,0 +1,116 @@
+{
+  "quadros_revisados": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "referencia_cor": "Primeiro quadro da martelada norte, no mesmo fundo e luz",
+  "achados": [
+    "Couro mais claro nos quadros3/4",
+    "Manto menos azulado nos quadros3/4/5",
+    "Couro dos impactos6/7 mais escuro"
+  ],
+  "ajuste": "Ganhos suaves por material no shader, mantendo relevo, luz e fontes originais",
+  "ganhos_couro": [
+    [
+      1,
+      1,
+      1
+    ],
+    [
+      1.02,
+      1.01,
+      1
+    ],
+    [
+      0.89,
+      0.86,
+      0.86
+    ],
+    [
+      0.89,
+      0.88,
+      0.87
+    ],
+    [
+      1,
+      0.99,
+      0.97
+    ],
+    [
+      1.08,
+      1.09,
+      1.02
+    ],
+    [
+      1.08,
+      1.08,
+      1.02
+    ],
+    [
+      1,
+      1,
+      1
+    ],
+    [
+      1,
+      1,
+      1
+    ]
+  ],
+  "ganhos_manto": [
+    [
+      1,
+      1,
+      1
+    ],
+    [
+      1.02,
+      1.03,
+      1.02
+    ],
+    [
+      1.08,
+      1.13,
+      1.13
+    ],
+    [
+      1.04,
+      1.08,
+      1.08
+    ],
+    [
+      1.08,
+      1.13,
+      1.13
+    ],
+    [
+      1,
+      1,
+      1
+    ],
+    [
+      1,
+      1,
+      1
+    ],
+    [
+      1,
+      1,
+      1
+    ],
+    [
+      1,
+      1,
+      1
+    ]
+  ],
+  "evidencia": "martelada_cima_cores_revisadas_contato.png",
+  "limitacao": "Ajuste na previa; fontes raster e chefe ativo preservados; sem aprovacao estetica presumida"
+}

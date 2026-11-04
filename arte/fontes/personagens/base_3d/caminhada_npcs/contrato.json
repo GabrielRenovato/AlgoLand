@@ -1,0 +1,43 @@
+{
+  "fonte_local": "res://cenas/personagem/base_3d/personagem.scn",
+  "clipe": "Walk_Loop",
+  "download_novo": false,
+  "referencia_biblioteca": "https://quaternius.com/packs/universalanimationlibrary.html",
+  "rig": "canônico do personagem; roupas e cabelos independentes",
+  "duracao_segundos": 1.33333337306976,
+  "loop": true,
+  "direcoes": [
+    "sul",
+    "leste",
+    "norte",
+    "oeste"
+  ],
+  "camera_inclinacao_graus": 20,
+  "camera_tamanho_metros": 4,
+  "area_logica_pixels": [
+    80,
+    80
+  ],
+  "subviewport_pixel_art": [
+    160,
+    160
+  ],
+  "pivo": "origem dos pés do personagem existente",
+  "apoio_medido_metros": {
+    "DEF-foot.L": 0.24133142828941,
+    "DEF-foot.R": 0.2604316920042
+  },
+  "amostras_medicao_por_pe": 60,
+  "passada_nominal_pixels_por_ciclo": 5,
+  "velocidade_moradores_pixels_por_segundo": [
+    4,
+    4.5
+  ],
+  "fase": "distância efetivamente percorrida / passada × duração; parado usa idle",
+  "integracao": [
+    "codigo/jogador/representacao_heroi_3d.gd:pose_caminhada",
+    "codigo/npcs/npc_gerado.gd",
+    "codigo/ui/oficina_npcs.gd"
+  ],
+  "restricao": "A corrida do jogador e seus clipes permanecem no fluxo existente."
+}

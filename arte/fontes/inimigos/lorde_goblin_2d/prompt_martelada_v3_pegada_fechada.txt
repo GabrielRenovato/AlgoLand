@@ -1,0 +1,11 @@
+Correct the HAND GRIP in image1, an eight-frame 2D Goblin Lord hammer slam spritesheet. Image2 is the REAL HUMAN reference showing precisely how the grip MUST work: BOTH FISTS TOGETHER ONE DIRECTLY ABOVE THE OTHER AT THE VERY BOTTOM END OF THE HANDLE, throughout the overhead lift AND the downward strike. Image3 is the technical joint guide for that close grip.
+Keep the same goblin identity, style, outfit, cape, head proportions, hammer design, overall eight body poses, fixed camera and scale, exact4 columns x2 rows chronological layout from image1.
+Crucial correction in EVERY FRAME: TWO CLEAR DISTINCT FISTS side-by-side along the shaft, directly touching or at most a tiny gap, near the pommel. NO length of empty shaft between the hands, NO hand placed halfway along the shaft or near the hammer head. Most of the long shaft extends freely beyond BOTH hands toward the stone head, just like the real man in image2. The visible shaft between fists must be ZERO. Do not merge both hands into one mitten. Adjust the connected elbows and forearms to let both fists meet naturally near the same point. No extra arms. Hands grip rather than hovering.
+Frame1 ready: both fists together near the butt by the goblin's hip, long hammer extends right.
+Frame2 lift: keep fists adjacent while bringing hammer upward.
+Frame3 overhead peak: fists stacked TOGETHER above forehead, stone head behind his head as in real overhead slam.
+Frame4 descending: both fists move forward-down as a pair, arms and shoulders follow.
+Frames5&6 impact and absorption: fists remain close TOGETHER near bottom of shaft in front of waist; long free shaft reaches hammer head resting on ground far in front of boots; torso leans down, knees bend.
+Frame7 recovery: both hands lift the handle together.
+Frame8 ready: same close-fisted grip and pose as frame1.
+The previous wide-grip version was rejected by the user. This output must visibly solve that problem in all eight frames, not merely change where the goblin stands. Keep whole head, feet, cape and entire hammer inside EACH cell with at least4percent transparent padding on all sides. All eight equal square cells. GENUINE transparent alpha0 background, absolutely no white/gray haze or shadows. One seamless sprite sheet, no text, labels, grid, effects or environment. Preserve detailed 2D hand-painted fantasy RPG art.

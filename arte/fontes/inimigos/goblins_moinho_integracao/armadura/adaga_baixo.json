@@ -1,0 +1,32 @@
+{
+  "familia": "adaga",
+  "direcao": "baixo",
+  "celula": 640,
+  "linhas": 8,
+  "acoes": [
+    {
+      "nome": "correr_baixo",
+      "linha": 0,
+      "quadros": 8,
+      "linhas": 2
+    },
+    {
+      "nome": "combo_baixo",
+      "linha": 2,
+      "quadros": 12,
+      "linhas": 3
+    },
+    {
+      "nome": "ferido_baixo",
+      "linha": 5,
+      "quadros": 4,
+      "linhas": 1
+    },
+    {
+      "nome": "morte_baixo",
+      "linha": 6,
+      "quadros": 8,
+      "linhas": 2
+    }
+  ]
+}

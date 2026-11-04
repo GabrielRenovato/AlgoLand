@@ -1,0 +1,32 @@
+{
+  "grade": [
+    3,
+    3
+  ],
+  "celula": [
+    512,
+    512
+  ],
+  "pivo": [
+    256,
+    367
+  ],
+  "duracoes_ms": [
+    30,
+    60,
+    90,
+    120,
+    90,
+    120,
+    120,
+    150,
+    120
+  ],
+  "deslocamentos_linhas_px": [
+    0,
+    24,
+    50
+  ],
+  "inicio_ms": 540,
+  "escopo": "Previa/GIF, sem dano no combate"
+}

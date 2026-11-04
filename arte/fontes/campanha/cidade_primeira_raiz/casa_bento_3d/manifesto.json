@@ -1,0 +1,75 @@
+{
+  "recurso": "Casa do Bento, Vila das Flores, conversão individual em geometria 3D",
+  "id_campanha": "casa_bento",
+  "fonte_visual": "assets/cenario/campanha/cidade_fiel/venda_casa.png; coluna direita",
+  "referencia": "referencias/frente_lateral_objetos.png",
+  "prompt": "referencias/frente_lateral_objetos.prompt.txt",
+  "geracao_referencia": "image_gen incorporado; folha específica gerada e inspecionada antes da modelagem, não aplicada à fachada",
+  "cena": "cenas/campanha/casa_bento/construcao.tscn",
+  "modelo": "codigo/campanha/bento_vila_3d.gd",
+  "materiais": "codigo/campanha/bento_malha_3d.gd; telhas, madeira e pedra pintadas do moinho, reboco creme, madeira verde e vidro azul acinzentado no sótão",
+  "reuso": "Geometria e pinturas da oficina; reboco e flores da enfermaria; barris da forja. Nenhuma construção alheia instanciada",
+  "silhueta": "Casa pequena com empena frontal, telhado vermelho de duas águas, pequena ala traseira à esquerda e chaminé de pedra à direita",
+  "acabamento": "Porta verde em arco à direita com tábuas, painéis, puxador e dobradiças; janela à esquerda com floreira e apoios; janela no sótão, diagonais de madeira, lanterna apoiada na parede, boca da chaminé vazada e três degraus",
+  "objetos_independentes": [
+    "dois canteiros floridos com base de pedras",
+    "dois barris",
+    "vaso de flores em madeira"
+  ],
+  "camera": "Ortográfica frontal elevada sem yaw; deslocamento vertical 7 e profundidade 10",
+  "dimensoes": {
+    "largura_logica_px": 208,
+    "largura_nominal_m": 4.8,
+    "camera_ortografica_m": 5.3,
+    "escala_vertical_construcao": 0.85,
+    "grade": "Módulo 16px; filtro global 2px após iluminação 3D",
+    "profundidade_pivo_m": 1.91,
+    "pivo": "Último degrau no apoio original da fachada",
+    "posicao_mapa": [
+      584,
+      -328
+    ]
+  },
+  "integracao": "Somente id casa_bento convertido; casas do jogador preservadas. Posição e colisão principal originais mantidas, estações propagadas pelo sinal do terreno",
+  "base_fisica": "Canteiros, barris e vaso com pivôs, profundidade, sombra e colisão próprios; acesso da escada livre; árvores existentes do mapa mantidas",
+  "estacoes": {
+    "primavera": "Flores rosas e brancas, folhagem verde",
+    "verao": "Flores amarelas e folhagem estival",
+    "outono": "Flores e folhas ocres, madeira e reboco aquecidos",
+    "inverno": "Folhas dormentes e neve discreta na cumeeira, beirais, chaminé, floreira, barris, vaso e degraus"
+  },
+  "mobile": {
+    "construcao": "256x256 UPDATE_ONCE na montagem e troca de estação",
+    "objetos": "96x96 UPDATE_ONCE",
+    "triangulos_construcao": 9929,
+    "superficies_construcao": 22,
+    "triangulos_por_objeto": {
+      "canteiro_bento": 1860,
+      "barril": 544,
+      "vaso_bento": 1784
+    },
+    "geometria": "Fundida por material, pinturas e materiais em cache; lanterna sem luz dinâmica adicional",
+    "limitacao": "Desempenho não medido em aparelho físico"
+  },
+  "revisao_visual": "Nove capturas reais no Godot 4.7.2 Compatibility: isolada e no mapa nas quatro estações, mais vista lateral de volume. Corrigidas paredes atravessando as telhas, fechada subcobertura contínua e ajustada cor do vidro do sótão",
+  "evidencias": [
+    "arte/previas/campanha/casa_bento_3d/isolada_estacao_0.png",
+    "arte/previas/campanha/casa_bento_3d/isolada_estacao_1.png",
+    "arte/previas/campanha/casa_bento_3d/isolada_estacao_2.png",
+    "arte/previas/campanha/casa_bento_3d/isolada_estacao_3.png",
+    "arte/previas/campanha/casa_bento_3d/cidade_estacao_0.png",
+    "arte/previas/campanha/casa_bento_3d/cidade_estacao_1.png",
+    "arte/previas/campanha/casa_bento_3d/cidade_estacao_2.png",
+    "arte/previas/campanha/casa_bento_3d/cidade_estacao_3.png",
+    "arte/previas/campanha/casa_bento_3d/volume_lateral.png"
+  ],
+  "estado": "Integrada e revisada no Godot nas quatro estações; 154 verificações de instâncias e 725 de mapas aprovadas",
+  "validacao": {
+    "instancias_campanha": "/tmp/algoland-harness/execucao-awy6s4zx/testes/relatorio.json",
+    "mapas_modulares": "/tmp/algoland-harness/execucao-n0ji0l3u/relatorio.json",
+    "observacao": "Revisão visual própria registrada separadamente dos perfis funcionais; não certifica desempenho em celular físico",
+    "instancias_verificacoes_ok": 154,
+    "instancias_observacao": "Runner interno concluiu com 154 verificações e 0 falhas; processo externo do harness interrompido (143) antes de gravar seu relatório agregado. Código permaneceu sem alterações durante as verificações.",
+    "mapas_verificacoes_ok": 725
+  }
+}

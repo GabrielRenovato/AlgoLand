@@ -1,0 +1,31 @@
+{
+  "autor": "Kevin Iglesias",
+  "pacote": "Human Basic Motions FREE Godot/Unreal",
+  "fonte": "https://kevdev.itch.io/basic-motions-free",
+  "licenca_fonte": "https://www.keviniglesias.com/#license",
+  "licenca_resumo": "Licença direta do autor para itch.io: uso em jogos comerciais, sem redistribuição dos arquivos como pacote de assets. Sem compra ou login. Página oficial preservada localmente.",
+  "data": "2026-10-30",
+  "zip_sha256": "063d5e1822f85549d14035ef342b1feae45bac37962499a8b478c7eb997200cd",
+  "fonte_local": "/tmp/algoland-human-basic-free",
+  "modelo_canonico": "res://cenas/personagem/base_3d/personagem.tscn",
+  "metodo": "Retarget FBX com rotações globais, bone rest e proporção de altura; importar_melee.gd reutilizado. Substitui o estudo procedural inicial.",
+  "clipes": {
+    "Caminhada_Feminina": {
+      "fonte": "HumanF@Walk01_Forward.fbx",
+      "duracao": 0.8
+    },
+    "Descanso_Feminino": {
+      "fonte": "HumanF@Idle01.fbx",
+      "duracao": 2.7
+    },
+    "Conversa_Feminina": {
+      "fonte": "HumanF@Talk01.fbx",
+      "duracao": 2.2666666667
+    }
+  },
+  "cadencia": "20.220837593px/ciclo, medida no rig chibi a 120 Hz por mediana do recuo do pé apoiado; NPC usa distância realmente percorrida.",
+  "pixel_art": "160x160 render; câmera/pivô/cores/corpo/roupas originais, nearest; quatro direções",
+  "integracao": "Dara, Lia, Rosa, Estela, Mara, Cora, Yuna, Elia; ficha explícita movimento=feminino, independente de roupas. Oficina permite neutro/feminino e prévia de conversa.",
+  "destino": "res://assets/personagens/base_3d/movimentos_npcs.res",
+  "revisao": "Godot com save isolado, quatro direções, contato/passagem/fechamento, roupas longas e gestos de conversa."
+}

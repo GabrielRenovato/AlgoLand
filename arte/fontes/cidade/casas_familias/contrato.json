@@ -1,0 +1,17 @@
+{
+  "funcao": "Plantas e primeira montagem modular das três moradias familiares da Primeira Raiz",
+  "casas": {"mara": "Pousada, quarto de Mara, quarto de Téo, hóspedes, cozinha e salão", "cora": "Padaria, forno, despensa, quarto de Cora e quarto de Bia", "rosa": "Atendimento, preparo de ervas, cozinha, quarto de Rosa e quarto de Nina"},
+  "referencias": ["assets/cenario/cidade/interiores_detalhados/manifesto.json", "arte/fontes/cidade/interiores_detalhados/catalogo.json"],
+  "origem": "Materiais e móveis próprios pintados do AlgoLand já existentes; nenhuma nova imagem gerada nesta tarefa",
+  "exclusoes": ["Mana Seed", "Tiny", "Farm RPG Tiny", "Starter Pack Mana Seed"],
+  "grade": "8 px nos interiores existentes; coordenadas principais em múltiplos de16; portas48 px",
+  "escala": "Materiais pintados4×, resolução lógica preservada; sem esticar os móveis",
+  "ancora": "Base-centro de cada peça; colisão somente na base; profundidade pela altura dos pés",
+  "variantes": ["primavera", "verao", "outono", "inverno"],
+  "integracao_sazonal": "Calendario.estacao_mudou e prévia via Terrains/Estacoes; texturas sazonais próprias já existentes",
+  "forno": "AtlasTexture da fornalha própria, região lógica [0,0,50,56], removendo a bigorna e o barril laterais sem gerar ou pintar uma imagem nova",
+  "destino": "cenas/cidade/familias/casa_mara.tscn, casa_cora.tscn e casa_rosa.tscn",
+  "revisao": "Capturas reais no Godot das três casas nas quatro estações e bancada em576×324,288×512,320×324; colisões de paredes/móveis e acesso aos cômodos com margem6px para personagem de raio5px",
+  "escopo": "Cenas reutilizáveis e bancada de revisão; portas da vila e permanência dos NPCs dentro das casas ainda não integradas",
+  "abrir": "python3 ferramentas/casas/abrir_casas_familias.py"
+}

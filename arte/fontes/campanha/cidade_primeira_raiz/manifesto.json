@@ -1,0 +1,26 @@
+{
+  "tipo": "Referência de composição da cidade, reproduzida com recursos modulares no cenário jogável.",
+  "origem": "imagegen integrado; exec-c1685a64-51a2-4395-8375-91d3f7b51254.png",
+  "conceito": "conceito.png",
+  "prompt": "prompt.txt",
+  "grade_logica": 16,
+  "area_logica": [
+    1536,
+    1024
+  ],
+  "integracao": [
+    "codigo/campanha/cidade_primeira_raiz.gd",
+    "codigo/campanha/regioes_iniciais.json",
+    "cenas/campanha/terreno_vila.tscn"
+  ],
+  "referencias": [
+    "assets/ui/campanha/mapa_primeira_raiz_cartoon.png",
+    "assets/cenario/cidade/fachadas_detalhadas/manifesto.json",
+    "assets/cenario/cidade/enfeites_detalhados/manifesto.json"
+  ],
+  "encaixe": "Pisos Wang com bordas/cantos; fachadas pelas âncoras e colisões originais; caminhos e acessos validados por navegação. Profundidade por pés.",
+  "variantes": "Cinco atlas RGBA com quatro linhas sazonais, integrados a definir_estacao. Base e recorte por objeto, mipmaps e pivô nos pés. Tendas recebem cor distinta no tecido e iluminação sazonal.",
+  "diferencas_da_referencia": "Composição medida sobre a referência; dez edifícios e duas torres. Atlas próprios derivados da referência em fiel/, quatro estações. Piso, vegetação de fundo, cercas e pequenos enfeites reutilizam módulos do jogo. A referência continua sendo a imagem de comparação, sem uso como piso.",
+  "estado": "Cenário de campanha isolado; não implementa serviços novos, interiores ou lobby multiplayer.",
+  "revisao": "Visões gerais e setores nas quatro estações; navegação até NPCs e dez fachadas; retrato e tela dividida."
+}

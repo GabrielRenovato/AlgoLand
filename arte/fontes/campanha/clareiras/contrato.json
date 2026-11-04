@@ -1,0 +1,44 @@
+{
+  "origem": "atlas.png",
+  "grade": [
+    4,
+    4
+  ],
+  "quadro_consumido": [
+    384,
+    384
+  ],
+  "estacoes": [
+    "primavera",
+    "verao",
+    "outono",
+    "inverno"
+  ],
+  "pecas": [
+    "solo",
+    "resgate",
+    "ruina",
+    "raizes"
+  ],
+  "pivo_solo": [
+    192,
+    250
+  ],
+  "pivo_objetos": [
+    192,
+    380
+  ],
+  "escala": {
+    "solo": 0.3,
+    "resgate": 0.24,
+    "ruina": 0.32,
+    "raizes": 0.26
+  },
+  "integracao": "codigo/campanha/clareiras_chegada.gd",
+  "preparacao": "ferramentas/campanha/preparar_clareiras.py",
+  "referencias": [
+    "assets/cenario/fazenda/natureza_detalhada/",
+    "assets/cenario/cidade/decoracao/mobiliario/"
+  ],
+  "revisao": "arte/previas/campanha/clareiras/revisao.json"
+}

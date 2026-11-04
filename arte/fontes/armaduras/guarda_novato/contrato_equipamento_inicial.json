@@ -1,0 +1,33 @@
+{
+  "referencia": "Mesmo modelo de Noel: assets/personagens/conjuntos/guarda_novato/base_3d/",
+  "alteracao": "Dados dos itens e integração; quatro malhas, skin, pesos e material preservados.",
+  "icones": {
+    "origem": "SVGs de formas geométricas na grade nativa, sem geração por IA",
+    "grade": [
+      16,
+      16
+    ],
+    "pivo": [
+      8,
+      8
+    ],
+    "filtro": "nearest",
+    "armaduras": "assets/personagens/conjuntos/guarda_novato/icones/",
+    "acessorios": "assets/ui/acessorios_iniciais/"
+  },
+  "render_personagem": {
+    "quadro": [
+      160,
+      160
+    ],
+    "rig": "cenas/personagem/base_3d/personagem.tscn",
+    "direcoes": [
+      "frente",
+      "direita",
+      "costas",
+      "esquerda"
+    ],
+    "movimento": "Quadros capturados durante reprodução do AnimationPlayer no Godot; 12 amostras por direção, intervalos em tempos.json do teste."
+  },
+  "validacao": "harness.py testar --perfil drops-iniciais; testes de inventário, uniforme de Noel, conjuntos, maestria, percurso e expedição WebRTC."
+}

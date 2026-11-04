@@ -1,0 +1,6 @@
+Quatro estações inspecionadas com o jogador no vão.
+Teste gráfico: 24 verificações aprovadas; zero falhas.
+Ator visível nos degraus e na passagem; oculto atrás do pilar.
+Fundo contido no arco; degraus sem cobertura indevida.
+Passagem central, colisão de muretas e entrada/retorno: OK em save isolado.
+Harness: /tmp/algoland-harness/execucao-lm3m6xgz/relatorio.json

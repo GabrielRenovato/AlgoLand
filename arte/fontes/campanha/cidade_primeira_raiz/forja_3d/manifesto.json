@@ -1,0 +1,87 @@
+{
+  "recurso": "Forja da Vila das Flores; conversão individual da casa do ferreiro",
+  "fonte_visual": "assets/cenario/campanha/cidade_fiel/oficinas.png; coluna esquerda, quatro estações",
+  "referencia_modelagem": "referencias/forja_frente_lateral.png",
+  "prompt": "referencias/forja_frente_lateral.prompt.txt",
+  "geracao_referencia": "Ferramenta image_gen incorporada; imagem apenas como guia, nunca aplicada à fachada",
+  "modelo": "codigo/campanha/forja_vila_3d.gd",
+  "malhas_e_materiais": "codigo/campanha/oficina_malha_3d.gd",
+  "integracao": "codigo/campanha/cidade_primeira_raiz.gd: _casa; somente forja usa o modelo desta etapa",
+  "camera": "Ortográfica frontal elevada; yaw 0, elevação atan2(7,10)",
+  "dimensoes": {
+    "largura_logica_px": 256,
+    "unidades_na_largura": 4.7,
+    "compressao_vertical_construcao": 0.85,
+    "pivo": "Contato com o chão na base da bigorna; construção recuada para preservar a área da referência"
+  },
+  "acessorios": {
+    "cenas": "cenas/campanha/forja/*.tscn",
+    "tipos": [
+      "bigorna",
+      "bancada",
+      "barril",
+      "estante",
+      "suporte",
+      "balde"
+    ],
+    "organizacao": "Cada acessório é um Node3D/PackedScene próprio; no mapa tem Node2D, pivô, profundidade, sombra e colisão separados",
+    "renderizador": "codigo/campanha/objeto_oficina_mapa.gd"
+  },
+  "materiais": "Pinturas de madeira e telha do moinho; alvenaria seca derivada da pintura de pedra, metal fosco e forno com luz local",
+  "estacoes": {
+    "primavera": "Paleta base",
+    "verao": "Tom quente discreto",
+    "outono": "Madeira, pedra e telha com cores mais secas",
+    "inverno": "Faixas de neve na cumeeira e beiral, borda da chaminé e alguns acessórios"
+  },
+  "mobile": {
+    "malha": "Fundida por material; não um nó para cada tijolo/telha",
+    "render": "Construção 256x256, somente enquanto visível, a 8 FPS; acessórios 96x96 em UPDATE_ONCE na montagem e troca de estação",
+    "limitacao": "Sem medição em aparelho físico; pausa fora da tela verificada no Godot",
+    "triangulos_construcao": 10332,
+    "superficies_construcao": 18,
+    "triangulos_acessorios": {
+      "bigorna": 136,
+      "bancada": 308,
+      "barril": 544,
+      "estante": 336,
+      "suporte": 256,
+      "balde": 184
+    }
+  },
+  "previas": "arte/previas/campanha/forja_3d/",
+  "estado": "Acabamento revisado no Godot, isolado e na cidade, nas quatro estações; integração de campanha e mapas-modulares aprovados",
+  "cena_construcao": "cenas/campanha/forja/construcao.tscn",
+  "editor": "As cenas 3D geram suas malhas no editor com @tool e podem ser posicionadas individualmente.",
+  "revisao_visual": "Capturas reais no Godot: quatro estações isoladas e na cidade; ferramentas, ferragens, telhas, madeira, profundidade dos acessórios e neve apenas exposta inspecionadas.",
+  "filtro_pixel_art": {
+    "codigo": "codigo/campanha/filtro_objeto_3d.gd",
+    "shader": "codigo/campanha/filtro_pixel_natureza.gdshader",
+    "grade_mundo_px": 2,
+    "niveis_cor_por_canal": 32,
+    "suavizacao": 0,
+    "etapa": "Após geometria, iluminação e materiais 3D; a origem global alinha a grade de todos os acessórios",
+    "preservados": "Escala, pivô, posições, colisões e objetos independentes"
+  },
+  "animacao_fogo": {
+    "shader": "codigo/campanha/fogo_forja_3d.gdshader",
+    "fps": 8,
+    "ciclo_segundos": 2,
+    "quadros_ciclo": 16,
+    "previa": "arte/previas/campanha/forja_3d/fogo_acabamento.gif",
+    "movimento": "Deslocamento tridimensional das pontas, base fixa no carvão e variação de emissão/luz do forno",
+    "revisao": "32 quadros capturados no Godot (dois ciclos), 16 quadros distintos por ciclo e igualdade entre os quadros 0 e 16; pausa fora da tela e retomada verificadas"
+  },
+  "acabamento": "Veios orientados por peça, telhas sem juntas pintadas repetidas, capas curvas na cumeeira, cantaria chanfrada no forno e janela, ferragens, rebites, bigorna chanfrada e ferramentas distintas no suporte",
+  "evidencias_acabamento": [
+    "arte/previas/campanha/forja_3d/acabamento_estacao_0.png",
+    "arte/previas/campanha/forja_3d/acabamento_estacao_1.png",
+    "arte/previas/campanha/forja_3d/acabamento_estacao_2.png",
+    "arte/previas/campanha/forja_3d/acabamento_estacao_3.png"
+  ],
+  "validacao_acabamento": {
+    "instancias_campanha": "/tmp/algoland-harness/execucao-g6dyugyt/relatorio.json",
+    "mapas_modulares": "/tmp/algoland-harness/execucao-g_vsn_st/relatorio.json",
+    "observacao": "Revisão visual das oficinas feita separadamente; não certifica desempenho em aparelho físico"
+  }
+}

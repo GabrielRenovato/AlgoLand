@@ -1,0 +1,23 @@
+{
+  "referencia": "referencia.png",
+  "prompt": "prompt.txt",
+  "modelo": "codigo/campanha/entrada_dungeon_bacia_3d.gd",
+  "integracao": "codigo/campanha/construcao_bacia.gd:ruina",
+  "pintura_reutilizada": "assets/cenario/campanha/moinho_lowpoly/pinturas_pixel_art/telhado_pedra_atlas.png",
+  "grade_px": 16,
+  "largura_px": 192,
+  "vao_px": 64,
+  "camera": "ortografica frontal elevada sem yaw",
+  "variantes": [
+    "primavera",
+    "verao",
+    "outono",
+    "inverno"
+  ],
+  "revisao": "Quatro estações inspecionadas no Godot com o jogador no vão; personagem visível nos degraus e na passagem, ocultação por pilares conferida. Passagem e entrada/retorno preservados em save isolado.",
+  "capturas": "arte/previas/campanha/bacia_moinho/entrada_dungeon_3d/",
+  "limitacao_testes": "Perfis bacia-moinho e mapas-modulares interrompidos por verificação antiga de tiles e referência centro_roda ausente no teste do moinho.",
+  "regressao_visual": "testes/teste_entrada_dungeon_visual.gd: 24 verificações aprovadas, incluindo composição real com um ator na frente, no vão e atrás do pilar.",
+  "relatorio_focado": "/tmp/algoland-harness/execucao-lm3m6xgz/relatorio.json",
+  "camadas": "Imagem completa sob os atores; segunda imagem contém apenas pilares, arco e muretas para oclusão. Ambas renderizadas uma vez e atualizadas na troca de estação."
+}

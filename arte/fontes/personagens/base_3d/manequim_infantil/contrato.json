@@ -1,0 +1,12 @@
+{
+  "tipo": "estudo de manequim infantil, aproximadamente 7–10 anos",
+  "modelo": "mesmo rig e acabamento dos NPCs, com perfil de proporções próprio",
+  "camera": "mesma câmera elevada ortográfica, render 160x160 nearest",
+  "proporcoes": "tronco mais baixo e estreito; braços e pernas mais curtos; cabeça proporcionalmente maior; rosto arredondado com escala própria do billboard",
+  "roupa": "camisa azul, calça marrom, sapatos; cabelo castanho; todas peças separadas",
+  "pivo": "origem e câmera originais; compensação vertical das pernas mantém pés na linha de chão",
+  "variantes": "frente, costas, direita, esquerda; estudo de caminhada com 8 amostras do Walk_Loop nativo de 1.333333373s",
+  "escopo": "apenas manequim de estudo; não altera personagem do jogador nem o elenco de 15 NPCs",
+  "destino": "codigo/npcs/manequim_infantil_3d.gd; proporcao_infantil_3d.gd",
+  "revisao": "comparar com adulto na mesma escala, render real no Godot com save isolado"
+}

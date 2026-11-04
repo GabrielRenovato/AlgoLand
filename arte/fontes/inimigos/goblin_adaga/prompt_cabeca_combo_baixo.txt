@@ -1,0 +1,15 @@
+Use case: precise-object-edit. Edit target: attached transparent game sprite sheet, 4 columns x 3 rows, twelve frames reading order. Fix ONLY stiff head and neck of down-facing dagger goblin. Retain exact grid/canvas proportions, each body/feet/arm/dagger pose, original sprite size and cell registration. Same painted 2D olive goblin identity, dark short hair, yellow eyes, tusks, ears, leather clothes. Truly transparent background. No text or effects.
+Head must physically follow chest rotation, cuts and downward lunge, not stay vertically upright as an identical pasted face. Maintain south-facing towards viewer, subtle overhead camera. Redraw pitch, roll, neck compression, perspective of forehead/muzzle to show weight. Do not simply slide entire figure or grow/shrink head.
+Frame1 windup: chin slightly lifted, head angled gently toward raised weapon on viewer left, stretched neck.
+Frame2 first impact: strong downward head pitch 15 degrees, chin tucks, eyes aim lower; head rolls 7 degrees toward viewer right following crossbody cut, some crown visible.
+Frame3 followthrough: head follows torso DOWN and toward viewer right, lowered chin with neck compression. Maximum dip, preserve anatomy.
+Frame4 recovery pause: lift head back toward neutral with small remaining tilt right, eyes ahead.
+Frame5 reverse chamber: head angles toward viewer right, chin modestly down.
+Frame6 reverse impact: follow cut toward viewer left with 7 degree roll left and downward pitch.
+Frame7 upward followthrough: head rises and rolls slightly left toward raised dagger, neck extends, chin higher.
+Frame8 link pause: recover almost neutral, chin slightly tucked.
+Frame9 thrust chamber: neutral prepared, eyes aim down toward target.
+Frame10 downward forward thrust: most pronounced forward/downward pitch, chin toward sternum, more hair crown visible, head center lowers with shoulders, forehead projects forward, muzzle foreshortened; do NOT keep upright face.
+Frame11 recoil: head starts rising with residual chin tuck.
+Frame12 ready: preserve original upright neutral head pose, size and location exactly to retain idle and player height.
+Head motion amplitude 20-30px on equivalent640px cells, physically connected neck/shoulders. Keep all feet, dagger, body poses/positions exactly, single dagger anatomical RIGHT hand. Preserve expressive facial identity but CHANGE head orientation clearly with each strike.

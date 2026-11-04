@@ -1,0 +1,59 @@
+{
+  "escopo": "Mobile simulado em PC, OpenGL ES, saves isolados; não certifica desempenho de celular físico. Medições sequenciais, sem outros testes do trabalho em execução.",
+  "alteracoes": [
+    "Carregar terrenos apenas ao entrar na região.",
+    "Carregar goblins, rebentos e dungeon apenas nos encontros que os usam.",
+    "Evitar cálculos de mistura em células uniformes de grama, preservando pesos e distribuição."
+  ],
+  "reduzidos": {
+    "texturas_mb": 336.746555328364,
+    "texturas_pct": 27.958600574192424,
+    "video_mb": 371.28221511841
+  },
+  "configuracao_grama": {
+    "blocos": 108,
+    "fator": 3.0,
+    "passo_tufo": 5,
+    "passo_vento": 2,
+    "resolucao": 864
+  },
+  "validacoes": [
+    {
+      "perfil": "mapas-modulares",
+      "aprovado": true,
+      "falhas": 0,
+      "verificacoes_ok": 726
+    },
+    {
+      "perfil": "campanha-percurso",
+      "aprovado": true,
+      "falhas": 0,
+      "verificacoes_ok": 458
+    },
+    {
+      "perfil": "instancias-campanha",
+      "aprovado": true,
+      "falhas": 0,
+      "verificacoes_ok": 154
+    }
+  ],
+  "revisao_visual": {
+    "capturas": 8,
+    "estacoes": 4,
+    "resultado": "Inspeção no Godot preserva o visual nas quatro estações. Detalhes idênticos pixel a pixel; vistas gerais idênticas fora do fogo animado da forja.",
+    "comparacao": "comparacao_visual.json",
+    "observacao": "Um ajuste de sombras foi descartado por alterar a grama. Não houve redução de resolução, densidade, geometria nem cadência das animações."
+  },
+  "ressalvas": [
+    "FPS do PC varia com carga do sistema; uma comparação por lado não demonstra ganho de FPS ou tempo de carga garantido.",
+    "Memória continua relevante para mobile; falta validação em aparelho físico.",
+    "Avisos conhecidos de recursos/RID ao encerrar foram preservados nos logs."
+  ],
+  "fontes_sha256": {
+    "codigo/campanha/percurso_prototipo.gd": "72e441b9ce3e718628568ce70ac1d08cdf556b940783463418607dca41dcdba9",
+    "codigo/cenario/grama_3d_no_mapa.gd": "4e77ae19f1eabec75f87e3d4bcd473bf8a3cbabc3d91d1f54874a8a23be5e2d8",
+    "testes/teste_percurso_campanha.gd": "b38fa4d1b643fa1014888416ad7d2fb92c56c6f2f4de9e97ddb89f3c8cdeb4cc",
+    "testes/teste_mapas_modulares.gd": "d8baacec59f9f3b9f8333de26d8bbe6b78d10b91e6b37011beb02efa47f50169",
+    "ferramentas/desempenho/medir_cidade_mobile.gd": "24ce73579e678c08fdfbadd925f99243eaee86b852c73682301c61e693426434"
+  }
+}

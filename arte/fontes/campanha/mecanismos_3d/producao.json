@@ -1,0 +1,33 @@
+{
+  "gerador": "image_gen integrado",
+  "prompts": {
+    "comporta": "Use case: stylized-concept. Create a 3D MODELING REFERENCE BOARD for AlgoLand, matching the supplied watermill's warm timber, gray-green masonry, muted iron and brass accents. Subject: ONE compact, physically credible medieval water sluice gate with its ATTACHED operating lever. High quality stylized LOW POLY 3D concept, clearly beveled solid edges, rich but restrained material colors, no pixelation. Neutral light background, soft studio lighting. Board shows the SAME design in three coherent views: large elevated three-quarter view on left, front orthographic upper right, side orthographic lower right. Gate spans a small canal 2.4 meters wide: two squat stone abutments, thick timber uprights fixed into the stones, substantial timber lintel, a vertically sliding WOODEN PANEL with seven vertical planks and TWO dark iron horizontal braces, guide rails on posts. A central vertical iron lifting rack connects panel to a visible compact pinion housing under the lintel, physically complete linkage. One operating lever with a honey-brown wooden grip on an iron bracket fixed to the near abutment, visible axle linked to pinion via protected shaft along the near upright. Clear opening under raised panel, gate shown partly raised. Modest dimensions: frame height 2.2 meters, opening width 2.4 meters, iron hardware large enough to read from a top-down RPG camera. Water only as a small translucent blue flow below to clarify function, NOT a large landscape scene. Material matching reference but simplify texture detail for game readability; detailed modeled corners, bolts, timber end grain, sturdy stone bases touching ground, no decorative loose gears, no disconnected parts, no giant factory machinery. Absolutely no text, no labels, no UI, no complete mill building. This image must guide actual separate 3D meshes: static frame, sliding panel, lifting rack, rotating lever. Clear silhouette, consistent dimensions in all views.",
+    "alavanca": "Use case: stylized-concept. Make a modeling reference board for ONE medieval hydraulic CONTROL LEVER MODULE in the EXACT material family of the supplied sluice gate: warm golden brown timber, beveled gray-green stone, charcoal iron, small brass bearings. Stylized low-poly fantasy RPG 3D, confident clean modeled volumes, no pixel art. Three coherent views of the same object on pale neutral studio background: large elevated three-quarter view left, front orthographic top right, side orthographic bottom right. Object proportions: compact waist-high pedestal for a 1.7 meter human, total height 0.95 m, base width .55m. Two courses of sturdy stone blocks with beveled corners, a short dark iron bracket fixed by four bolts, hinged mechanical LEVER with thick wooden grip on top. Show three discrete lever positions only in small side-view ghost silhouettes, main lever centered. Visible hinge axle and an output shaft with a short iron pipe elbow exiting behind base make its connection to hydraulic machinery readable. A small brass collar and a simple three-notch indicator plate. No giant gear and no floating handle. Sparse restrained moss on base, no flowers or props, no terrain scene, no water, no mill, no characters, no labels, no UI, no text. This is an actual functional game prop design with fixed pedestal and rotating lever as separate meshes. Match the reference material colors and edge treatment."
+  },
+  "estado": "Referências geradas e inspecionadas antes da modelagem; sem aprovação estética atribuída ao usuário.",
+  "modelos": {
+    "comporta": {
+      "arquivo": "assets/cenario/campanha/mecanismos_3d/comporta.glb",
+      "triangulos": 5576,
+      "bytes": 475128,
+      "pivos": [
+        "Pinhao",
+        "Folha",
+        "Alavanca"
+      ]
+    },
+    "registro": {
+      "arquivo": "assets/cenario/campanha/mecanismos_3d/registro.glb",
+      "triangulos": 1104,
+      "bytes": 97644,
+      "pivos": [
+        "Alavanca"
+      ]
+    }
+  },
+  "fontes_modelagem": [
+    "codigo/campanha/modelo_mecanismo_bacia_3d.gd",
+    "ferramentas/campanha/exportar_mecanismos_3d.gd"
+  ],
+  "integracao": "Estágio 4, renderização 3D em SubViewport, filtro nearest 2x, materiais sazonais e colisões 2D nas bases."
+}

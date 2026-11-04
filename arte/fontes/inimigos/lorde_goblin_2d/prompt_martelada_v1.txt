@@ -1,0 +1,14 @@
+Animate the attached canonical 2D Goblin Lord illustration as a sprite sheet. Image 1 is the EXACT CHARACTER IDENTITY reference, not a different goblin. Image 2 is ONLY a two-handed heavy weapon movement reference; never copy that red character or 3D style.
+Output one transparent RGBA image, precise FOUR columns by TWO rows, EIGHT equal SQUARE cells, read left to right top row then bottom row. Canvas 2:1, preferably 2048x1024. Every pose fits completely in its own cell with generous margin, no cross-cell pixels. No grid lines, labels, numbers, background or effects.
+Keep the original hand-painted 2D art, scar, black swept hair, amber eyes, tusks, teal cape over the SAME shoulder, layered iron armor, brown leather, red sash, mineral belt charms and large rectangular stone hammer. Preserve identical head/body proportions and hammer dimensions across ALL frames. ONE continuous heavy overhead ground-slam, facing three-quarter RIGHT in every frame. Body about 62 percent of each square cell height, feet root at x50%, y88% in every cell, reserve top space for raised hammer. Fixed camera, fixed scale; never center the changing silhouettes.
+Both hands hold the SAME points of the shaft for the entire strike: anatomical right hand on handle butt, left hand toward hammer head. Shoulder-elbow-hand chain connected and natural. No extra fingers or duplicated weapons. Both boots remain planted on the same ground line; knees bend and weight shifts, cape reacts naturally. Keep weapon in the plane of the swing aimed to screen-right.
+Eight exact phases:
+1 guard: original pose, hammer low across hips to the right.
+2 anticipation: knees bend, torso leans back a little, hammer pulls upward and back.
+3 windup peak: both hands above forehead, stone head HIGH overhead and slightly behind, torso extended.
+4 accelerating downswing: torso rotates forward, hammer head arcs forward above face level toward screen-right.
+5 IMPACT: hammer head touches ground well in front of the right boot at screen-right, torso leans forward, knees bend deeply, arms extend downward.
+6 follow-through: hammer remains low at ground, torso absorbs weight, deeper low posture, never raise the hammer yet.
+7 recovery: rise, draw hammer back up toward hips.
+8 return to original guard: body, weapon and feet match frame1.
+Show actual distinct coordinated body and weapon motion, not slight image warps. Crisp clean 2D painted outlines and material shading matching the reference. No 3D render, no montage backgrounds, no shockwaves, no dust, no motion trails.

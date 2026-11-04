@@ -1,0 +1,107 @@
+[
+  {
+    "arquivo": "01_combo.png",
+    "origem": "/home/alfeim/.codex/generated_images/01a18d62-7ed4-79c3-83af-8df866609b66/exec-108a8481-1161-4bb6-ad84-52a68704c8fa.png",
+    "tamanho": [
+      1774,
+      887
+    ],
+    "grade": [
+      4,
+      2
+    ],
+    "transparencia_real": true,
+    "quadros_chave": 8,
+    "integrado_no_motor": false,
+    "celula_nominal": [
+      443.5,
+      443.5
+    ],
+    "atlas_registrado": false,
+    "tipo": "folha de estudo visual com quadros-chave; pivôs e grade final ainda não registrados"
+  },
+  {
+    "arquivo": "02_vistas_movimento.png",
+    "origem": "/home/alfeim/.codex/generated_images/01a18d62-7ed4-79c3-83af-8df866609b66/exec-6479a3b9-86a7-40d8-a258-156cfff83ef5.png",
+    "tamanho": [
+      1774,
+      887
+    ],
+    "grade": [
+      4,
+      2
+    ],
+    "transparencia_real": true,
+    "quadros_chave": 8,
+    "integrado_no_motor": false,
+    "celula_nominal": [
+      443.5,
+      443.5
+    ],
+    "atlas_registrado": false,
+    "tipo": "folha de estudo visual com quadros-chave; pivôs e grade final ainda não registrados"
+  },
+  {
+    "arquivo": "03_especiais.png",
+    "origem": "/home/alfeim/.codex/generated_images/01a18d62-7ed4-79c3-83af-8df866609b66/exec-1673ca07-aaeb-4661-be19-e3f910e0bbcd.png",
+    "tamanho": [
+      1774,
+      887
+    ],
+    "grade": [
+      4,
+      2
+    ],
+    "transparencia_real": true,
+    "quadros_chave": 8,
+    "integrado_no_motor": false,
+    "celula_nominal": [
+      443.5,
+      443.5
+    ],
+    "atlas_registrado": false,
+    "tipo": "folha de estudo visual com quadros-chave; pivôs e grade final ainda não registrados"
+  },
+  {
+    "arquivo": "04_pancada_fase2.png",
+    "origem": "/home/alfeim/.codex/generated_images/01a18d62-7ed4-79c3-83af-8df866609b66/exec-71031e26-12a5-41a1-b729-b776dca9a91a.png",
+    "tamanho": [
+      1774,
+      887
+    ],
+    "grade": [
+      4,
+      2
+    ],
+    "transparencia_real": true,
+    "quadros_chave": 8,
+    "integrado_no_motor": false,
+    "celula_nominal": [
+      443.5,
+      443.5
+    ],
+    "atlas_registrado": false,
+    "tipo": "folha de estudo visual com quadros-chave; pivôs e grade final ainda não registrados"
+  },
+  {
+    "arquivo": "05_reacao_queda_morte.png",
+    "origem": "/home/alfeim/.codex/generated_images/01a18d62-7ed4-79c3-83af-8df866609b66/exec-8ade4910-0cce-4345-a654-d19cb317c73a.png",
+    "tamanho": [
+      1774,
+      887
+    ],
+    "grade": [
+      4,
+      2
+    ],
+    "transparencia_real": true,
+    "quadros_chave": 8,
+    "integrado_no_motor": false,
+    "celula_nominal": [
+      443.5,
+      443.5
+    ],
+    "atlas_registrado": false,
+    "tipo": "folha de estudo visual com quadros-chave; pivôs e grade final ainda não registrados"
+  }
+]

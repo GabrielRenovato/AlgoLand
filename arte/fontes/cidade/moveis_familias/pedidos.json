@@ -1,0 +1,31 @@
+{
+  "ferramenta": "image_gen nativa",
+  "referencias": [
+    "/var/home/alfeim/AlgoLand/assets/cenario/cidade/interiores_detalhados/moveis/interior/pousada/balcao/primavera.png",
+    "/var/home/alfeim/AlgoLand/assets/cenario/cidade/interiores_detalhados/moveis/interior/pousada/mesa/primavera.png"
+  ],
+  "base": {
+    "mara": "ONE isolated reception counter for Mara's cozy fantasy village inn. Honey walnut timber, deep moss-green fabric inset, cream stone countertop. On the counter: a thick open guest ledger with abstract illegible pen marks, brass ink pot, a short stack of folded hand-drawn adventure maps made by her child Téo, a small standing wooden rack holding three brass room keys, a small ceramic vase with fresh spring daisies. ALL objects physically rest on the countertop, not floating. Clear squat readable silhouette. Front of the counter faces viewer. No separate objects outside the furniture.",
+    "cora": "ONE isolated baker's workbench for Cora's fantasy village bakery. Sturdy warm oak table with drawers and lower storage shelf. On its broad tabletop: two risen braided loaves in a shallow wicker basket, a bowl of flour, a wooden rolling pin, three rounded dough portions on a floured board and a small ceramic bowl of spring strawberries. A folded cream linen towel hangs over one corner. A closed flour sack under the table. EVERYTHING supported naturally on the workbench. No forge equipment, no anvil, no sharp machinery, no people.",
+    "rosa": "ONE isolated herbalist preparation workbench for Rosa and her young niece Nina's fantasy village home. Warm slightly aged walnut table, drawers, small attached upper rack with three bundles of fresh spring herbs hanging downward, supported by solid vertical wood posts fixed to the table. On the worktop: stone mortar and pestle, three stoppered amber medicine bottles, open pressed-flower notebook with illegible markings, a low basket of fresh spring chamomile flowers. Cozy sage-green linen runner. All items supported, no floating props. Whole rack and all legs visible."
+  },
+  "contrato": {
+    "assets": [
+      "balcao_hospedaria",
+      "bancada_padeiro",
+      "bancada_ervas"
+    ],
+    "pivo": "base-centro, ancoragem em pixels da imagem original, sem editar o bitmap",
+    "perspectiva": "ortográfica elevada frontal, igual aos móveis existentes",
+    "exclusoes": [
+      "Mana Seed",
+      "Tiny"
+    ],
+    "variantes": [
+      "primavera",
+      "verao",
+      "outono",
+      "inverno"
+    ]
+  }
+}

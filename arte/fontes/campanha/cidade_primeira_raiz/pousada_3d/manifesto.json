@@ -1,0 +1,73 @@
+{
+  "recurso": "Pousada de Mara, Vila das Flores, conversão individual em geometria 3D",
+  "id_campanha": "pousada",
+  "fonte_visual": "assets/cenario/cidade/interiores_detalhados/familias/arquitetura/mara/{estacao}/fachada.png; fachada efetivamente carregada na campanha",
+  "referencia": "referencias/frente_lateral_objetos.png",
+  "prompt": "referencias/frente_lateral_objetos.prompt.txt",
+  "geracao_referencia": "image_gen incorporado; folha específica inspecionada antes da modelagem, não aplicada à fachada",
+  "cena": "cenas/campanha/pousada/construcao.tscn",
+  "modelo": "codigo/campanha/pousada_vila_3d.gd",
+  "materiais": "codigo/campanha/pousada_malha_3d.gd; madeira e pedra do moinho, reboco claro, ardósia azul e venezianas verde-azuladas",
+  "reuso": "Cantaria, janelas e flores usam enfermaria_malha_3d.gd, sem instanciar sua construção; barris reutilizam a forja",
+  "silhueta": "Dois andares, telhado de quatro águas com subcobertura contínua e telhas sobrepostas, duas águas-furtadas, empena central avançada, duas chaminés vazadas e varanda esquerda",
+  "acabamento": "Vigas e placas de ferragens, porta dupla em arco com argolas douradas, janelas recuadas e venezianas abertas, floreiras, trepadeiras, lanternas, degraus e corrimãos conectados",
+  "objetos_independentes": [
+    "placa_chave",
+    "jardineira_chao",
+    "vaso_pousada",
+    "dois barris"
+  ],
+  "camera": "Ortográfica frontal elevada sem yaw, elevação atan2(7,10)",
+  "dimensoes": {
+    "largura_logica_px": 330,
+    "largura_nominal_m": 8.0,
+    "camera_ortografica_m": 7.0,
+    "escala_vertical_construcao": 0.85,
+    "grade": "Módulo 16px e grade global 2px aplicada depois da iluminação 3D",
+    "pivo": "Último degrau no apoio original da fachada",
+    "posicao_mapa": [
+      155,
+      -252
+    ]
+  },
+  "integracao": "cidade_primeira_raiz.gd e casa_vila_3d.gd; somente id pousada passa ao novo modelo. Posição e corpo principal preservados; troca de estação conectada ao sinal do terreno",
+  "base_fisica": "Objetos com pivô no chão, profundidade, sombra e colisão próprias; placa colide na base do poste, jardineira e vaso não fecham a escada central",
+  "estacoes": {
+    "primavera": "Flores rosas e trepadeiras verdes",
+    "verao": "Flores amarelas e folhagem estival",
+    "outono": "Folhas e flores ocres, madeira seca",
+    "inverno": "Trepadeiras dormentes e neve nas bordas de cobertura, chaminés, floreiras, placa, barris e degraus"
+  },
+  "mobile": {
+    "construcao": "256x256 UPDATE_ONCE na montagem e troca de estação",
+    "objetos": "96x96 UPDATE_ONCE",
+    "triangulos_construcao": 15734,
+    "superficies_construcao": 20,
+    "triangulos_objetos": {
+      "placa_chave": 461,
+      "jardineira_chao": 1252,
+      "vaso_pousada": 440,
+      "barril": 544
+    },
+    "geometria": "Fundida por material; materiais e pinturas em cache",
+    "limitacao": "Sem medição em aparelho físico"
+  },
+  "revisao_visual": "Capturas reais no Godot 4.7.2 Compatibility, isolada e no mapa nas quatro estações, e vista lateral de volume. Corrigidas frestas da cobertura e oclusão da janela central",
+  "evidencias": [
+    "arte/previas/campanha/pousada_3d/isolada_estacao_0.png",
+    "arte/previas/campanha/pousada_3d/isolada_estacao_1.png",
+    "arte/previas/campanha/pousada_3d/isolada_estacao_2.png",
+    "arte/previas/campanha/pousada_3d/isolada_estacao_3.png",
+    "arte/previas/campanha/pousada_3d/cidade_estacao_0.png",
+    "arte/previas/campanha/pousada_3d/cidade_estacao_1.png",
+    "arte/previas/campanha/pousada_3d/cidade_estacao_2.png",
+    "arte/previas/campanha/pousada_3d/cidade_estacao_3.png",
+    "arte/previas/campanha/pousada_3d/volume_lateral.png"
+  ],
+  "estado": "Integrada e revisada no Godot nas quatro estações; instancias-campanha e mapas-modulares aprovados",
+  "validacao": {
+    "instancias_campanha": "/tmp/algoland-harness/execucao-zss5lfqy/relatorio.json",
+    "mapas_modulares": "/tmp/algoland-harness/execucao-rjcy47ov/relatorio.json",
+    "observacao": "Revisão visual própria da pousada registrada nas evidências; resultados funcionais não certificam desempenho em celular físico"
+  }
+}

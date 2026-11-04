@@ -1,0 +1,64 @@
+{
+  "rig": 22,
+  "animacoes": [
+    {
+      "id": "parado",
+      "arquivo": "Idle.fbx",
+      "sha256": "efc78505273513c642654f1dd3324640bb13cc237a5baad4a14c40de350da6d6",
+      "quadros": 121,
+      "fps": 30,
+      "loop": true
+    },
+    {
+      "id": "correr",
+      "arquivo": "Standard Run.fbx",
+      "sha256": "ffd59f715f0c27c13f2ad0b168034ee3148f8faae256b3ddb5136af0b75218bd",
+      "quadros": 23,
+      "fps": 30,
+      "loop": true
+    },
+    {
+      "id": "ataque_1",
+      "arquivo": "Standing Melee Attack Horizontal.fbx",
+      "sha256": "47edd24b1a891326b948d5f846cb089561234213fec1ad48679428e1c58ea394",
+      "quadros": 73,
+      "fps": 30,
+      "loop": false
+    },
+    {
+      "id": "ataque_2",
+      "arquivo": "Standing Melee Attack Downward.fbx",
+      "sha256": "acd2d97751013297b86f3f616c215a319d8c5bed15ef2e5a8915c07e6dac113f",
+      "quadros": 69,
+      "fps": 30,
+      "loop": false
+    },
+    {
+      "id": "defesa",
+      "arquivo": "Sword And Shield Block Idle.fbx",
+      "sha256": "3eff4f4cf72e954d4d64b69395357642c6de7c81993bd631e662cd2af7ac7d36",
+      "quadros": 43,
+      "fps": 30,
+      "loop": true
+    },
+    {
+      "id": "ferido",
+      "arquivo": "Hit Reaction.fbx",
+      "sha256": "b8c787361815b83adb17e99ffde4fc3f627de204238da2b04d64f78806c8b8b5",
+      "quadros": 56,
+      "fps": 30,
+      "loop": false
+    },
+    {
+      "id": "morrer",
+      "arquivo": "Dying.fbx",
+      "sha256": "7c35d7c76366c2f0b483f24ecad450506cd80db3fea7e761cb6395e43545608f",
+      "quadros": 133,
+      "fps": 30,
+      "loop": false
+    }
+  ],
+  "retarget": "rotações globais; comprimentos do goblin; raiz X/Y removida exceto morte",
+  "arma": "mão direita",
+  "pendencia": "sem IA ou integração nos mapas"
+}

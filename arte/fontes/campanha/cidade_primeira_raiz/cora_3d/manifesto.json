@@ -1,0 +1,77 @@
+{
+  "recurso": "Casa da Cora com padaria, Vila das Flores, conversão individual em geometria 3D",
+  "id_campanha": "casa_jogador somente na posição ocidental (-521,312)",
+  "id_modelo": "cora",
+  "fonte_visual": "assets/cenario/cidade/interiores_detalhados/familias/arquitetura/cora/{estacao}/fachada.png; fachada efetivamente carregada na campanha",
+  "referencia": "referencias/frente_lateral_objetos.png",
+  "prompt": "referencias/frente_lateral_objetos.prompt.txt",
+  "geracao_referencia": "image_gen incorporado; folha específica inspecionada antes da modelagem, não aplicada à fachada",
+  "cena": "cenas/campanha/cora/construcao.tscn",
+  "modelo": "codigo/campanha/cora_vila_3d.gd",
+  "materiais": "codigo/campanha/cora_malha_3d.gd; tijolos vermelhos em geometria com argamassa, reboco creme, toldo vermelho e creme e materiais pintados do moinho",
+  "reuso": "Geometria e pinturas da oficina, reboco e flores da enfermaria, arcos e lanterna da casa do Bento, barris da forja; nenhuma construção anterior instanciada",
+  "silhueta": "Dois pavimentos, térreo em tijolos vermelhos, telhado transversal e volume central avançado com empena frontal, água-furtada esquerda e chaminé alta de tijolos",
+  "acabamento": "Vitrine com profundidade, bancada, cestas e pães modelados com cortes; toldo em tecido curvo listrado com braços de ferro; placa suspensa por correntes com pão em volume; portal de pedra, vidraça da porta, argola, floreiras com suportes e trepadeiras",
+  "objetos_independentes": [
+    "duas jardineiras de madeira",
+    "três vasos de flores",
+    "dois barris"
+  ],
+  "camera": "Ortográfica frontal elevada sem yaw; deslocamento vertical 7 e profundidade 10",
+  "dimensoes": {
+    "largura_logica_px": 192,
+    "largura_nominal_m": 6.4,
+    "camera_ortografica_m": 6.2,
+    "escala_vertical_construcao": 0.85,
+    "grade": "Módulo 16px; filtro global 2px após iluminação 3D",
+    "profundidade_pivo_m": 1.8,
+    "eixo_porta_m": 0.62,
+    "deslocamento_horizontal_px": -18.6,
+    "pivo": "Centro da entrada e último degrau no apoio da fachada original; pivo original da família (414,364) em fonte de largura591",
+    "posicao_mapa": [
+      -521,
+      312
+    ]
+  },
+  "integracao": "cidade_primeira_raiz.gd seleciona modelo cora apenas para a moradia ocidental; moradia oriental mantém sua fachada. Entrada conserva eixo horizontal, posição lógica e colisão principal originais. Estações pelo sinal do terreno",
+  "base_fisica": "Jardineiras, vasos e barris com pivô no chão, profundidade, sombra e colisão próprios; escada livre, sinalização de missão continua usando o ponto de entrada original",
+  "estacoes": {
+    "primavera": "Flores rosas e brancas, trepadeiras verdes",
+    "verao": "Flores amarelas e folhagem estival",
+    "outono": "Flores e folhas ocres",
+    "inverno": "Folhagem dormente, materiais levemente frios e neve discreta na cumeeira, beirais, chaminé, toldo, placa, floreiras, barris, vasos e degraus"
+  },
+  "mobile": {
+    "construcao": "256x256 UPDATE_ONCE na montagem e troca de estação",
+    "objetos": "96x96 UPDATE_ONCE",
+    "triangulos_construcao": 27062,
+    "superficies_construcao": 26,
+    "triangulos_por_objeto": {
+      "jardineira_cora": 1228,
+      "vaso_cora": 440,
+      "barril": 544
+    },
+    "geometria": "Fundida por material, pinturas e materiais em cache; lanterna sem luz dinâmica adicional",
+    "limitacao": "Desempenho não medido em aparelho físico"
+  },
+  "revisao_visual": "Nove capturas reais no Godot 4.7.2 Compatibility: isolada e no mapa nas quatro estações e vista lateral. Corrigida altura do toldo para preservar leitura dos pães na câmera frontal elevada. Fachada e entrada conferidas no mapa",
+  "evidencias": [
+    "arte/previas/campanha/cora_3d/isolada_estacao_0.png",
+    "arte/previas/campanha/cora_3d/isolada_estacao_1.png",
+    "arte/previas/campanha/cora_3d/isolada_estacao_2.png",
+    "arte/previas/campanha/cora_3d/isolada_estacao_3.png",
+    "arte/previas/campanha/cora_3d/cidade_estacao_0.png",
+    "arte/previas/campanha/cora_3d/cidade_estacao_1.png",
+    "arte/previas/campanha/cora_3d/cidade_estacao_2.png",
+    "arte/previas/campanha/cora_3d/cidade_estacao_3.png",
+    "arte/previas/campanha/cora_3d/volume_lateral.png"
+  ],
+  "estado": "Integrada e revisada no Godot nas quatro estações; instancias-campanha e mapas-modulares aprovados",
+  "validacao": {
+    "instancias_campanha": "/tmp/algoland-harness/execucao-2yg5zj1o/relatorio.json",
+    "mapas_modulares": "/tmp/algoland-harness/execucao-mj43ga6g/relatorio.json",
+    "observacao": "Evidências visuais próprias separadas dos perfis funcionais; não certificam desempenho em celular físico",
+    "instancias_verificacoes_ok": 154,
+    "mapas_verificacoes_ok": 725
+  }
+}

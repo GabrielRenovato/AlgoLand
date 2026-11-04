@@ -1,0 +1,66 @@
+{
+  "grade": [
+    3,
+    3
+  ],
+  "celula": [
+    640,
+    640
+  ],
+  "pivo": [
+    320,
+    500
+  ],
+  "quantidade_quadros": 9,
+  "ordem": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "duracoes_ms": [
+    100,
+    150,
+    180,
+    60,
+    50,
+    80,
+    110,
+    160,
+    170
+  ],
+  "pausa_gif_final_ms": 500,
+  "base_preservada": "martelada_baixo_v5.png",
+  "folha_final": "martelada_baixo_v6.png",
+  "impacto_quadro": 5,
+  "impacto_ms": 540,
+  "quadro_inserido": {
+    "indice": 3,
+    "fonte": "baixo_intermediario_marreta_vertical.png",
+    "tamanho": [
+      627,
+      627
+    ],
+    "translacao": [
+      7,
+      5
+    ]
+  },
+  "margens_px": [
+    134,
+    134,
+    124,
+    19,
+    134,
+    109,
+    108,
+    142,
+    137
+  ],
+  "escopo": "GIF e atlas do estudo frontal; sem substituir o chefe ativo."
+}

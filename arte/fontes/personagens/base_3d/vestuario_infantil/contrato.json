@@ -1,0 +1,24 @@
+{
+  "uso": "vestuário e cabelos exclusivos do manequim infantil; não modifica catálogo/IDs do adulto",
+  "referencia": "manequim_infantil_3d.gd e renders da etapa anterior; roupa simples de vila e acabamento pixel art do jogo",
+  "modelagem": "malhas próprias por código, skinned no mesmo rig; camisa, parte inferior, calçado e cabelo independentes; corpo intacto",
+  "trajes": [
+    "roupa de brincar: túnica verde, bermuda marrom com barra dobrada",
+    "jardineira azul com peitilho/alças reais e camisa creme",
+    "vestido coral de mangas bufantes, saia curta e barra creme"
+  ],
+  "cabelos": [
+    "franjinha curta",
+    "maria-chiquinhas curtas",
+    "cachos curtos"
+  ],
+  "dimensoes": "render nativo 160x160, proporções infantis existentes, nearest; sem reamostrar poses isoladamente",
+  "pivo": "rig e chão comuns; mesmos pesos/câmera das quatro vistas e caminhada",
+  "material": "cores próprias, faixas de luz e detalhes presos à superfície, sem repintar o corpo; coverage da bermuda/saia curta limita ocultação das pernas à altura da barra",
+  "revisao": "Godot em save isolado: nove combinações em quatro vistas e três pares em movimento, máscaras individuais, mistura de roupas e cabelos",
+  "fontes": [
+    "codigo/npcs/vestuario_infantil_3d.gd",
+    "codigo/npcs/vestuario_infantil.gdshader"
+  ],
+  "entrega": "arte/previas/personagens/vestuario_infantil"
+}

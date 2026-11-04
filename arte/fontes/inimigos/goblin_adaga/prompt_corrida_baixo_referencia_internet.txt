@@ -1,0 +1,20 @@
+Use case: precise-object-edit.
+Asset: eight-frame south-facing run cycle, transparent 4-column by 2-row sprite sheet.
+Image 1 is the EDIT TARGET, the original goblin running sprites. Preserve its character design and rendering quality exactly: same olive skin, dark spiky hair, pointed ears, yellow eyes, tusks, brown leather tunic, ochre sash, patched trousers and brown boots; one short iron dagger in anatomical RIGHT hand, viewer LEFT. Same physical head/body/limb sizes and same cell framing.
+Image 2 is MOVEMENT REFERENCE ONLY: Oul Studio's color-coded front run animation. Cyan=head, orange=torso, green=right arm on viewer left, purple=left arm on viewer right, yellow=right leg on viewer left, red=left leg on viewer right. Do NOT copy its palette, faceless head, blocky style or body proportions. Study its coordinated torso bounce, opposing arm-leg timing, tucked rear foot, flying phase and continuous alternation. Use reference frames 5,6,7,8,1,2,3,4 in that order to align with the goblin's first right-leg contact.
+
+REDRAW THE RUN MOTION, all eight full-body poses, as a coherent cycle. The previous animation had disconnected legs and artificially nodding/elongating neck. Fix physical weight, matching limb timing, stable volumes and subtle whole-torso head follow-through. Keep the same 640-square equivalent cells, centerline x320, ground y560, resting body about438px tall (31 game pixels). Do NOT recenter each figure based on its feet.
+
+Eight phases:
+1 right foot leading/contact on viewer left, left leg bent trailing; right dagger arm behind, left arm forward.
+2 right-leg compression under pelvis, left knee swings forward; torso/head drop together about12px, knee carries weight, rear heel lifts.
+3 right toe pushing behind and lifting, left thigh forward, left lower leg unfolding; both legs genuinely bend, do not simply swap the same straight boot.
+4 airborne passing into left contact: left foot reaches forward lower on screen, right heel tucked behind closer to buttocks, body slightly higher.
+5 left-foot contact on viewer right, right leg trailing; right dagger arm forward, left arm back.
+6 left-leg compression, right knee forward; torso/head lower together; counterphase of frame2.
+7 left toe pushes behind and lifts, right thigh and lower leg reach forward; counterphase of frame3.
+8 brief flight into right contact, right foot forward, left heel tucked behind; smooth closure into frame1.
+At planted foot phases the thigh/ankle align under the supporting side of pelvis. Rear leg foreshortens upward/back, not two boots kicked toward viewer. Hips and shoulders rotate gently in opposite directions; retain frontal down-facing camera and both sides of face. Feet change screen depth with stride rather than touching an identical bottom line every frame. Dagger grip stable and wrist follows elbow.
+
+Head/neck: maintain a constant modest forward running lean and gaze AHEAD, not looking up/down on every step. Head rides the chest's subtle vertical bounce, about12-16px total at640cell. At impact a tiny one-frame lag with 2-degree countertilt is enough. Compact muscular neck attached to shoulders at ALL times. NO nodding sequence, NO raised chin revealing a long neck, NO turtle-head retraction, NO bobblehead, NO stretching or resizing skull. Face proportions consistent. Same angry expression throughout.
+Transparent background. No text, shadows, motion trails or grid. 4x2 equally sized square cells, all eight distinct sequential poses, no overlap. Preserve the original art style; this is a MOTION correction, not a redesign.

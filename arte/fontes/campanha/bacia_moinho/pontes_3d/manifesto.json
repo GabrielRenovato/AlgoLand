@@ -1,0 +1,36 @@
+{
+  "tipo": "objeto_cenario_3d",
+  "funcao": "Duas travessias de madeira dos canais na Bacia do Moinho (estagio 4).",
+  "referencia": "referencia_ponte_pixelada.png",
+  "prompt": "prompt_ponte.txt",
+  "origens_visuais": [
+    "arte/previas/campanha/bacia_moinho/godot/bacia_moinho_primavera.png",
+    "arte/fontes/campanha/bacia_moinho/pontes_3d/referencia_ponte_pixelada.png",
+    "arte/fontes/campanha/bacia_moinho/pontes_3d/piso_pixel_art.png"
+  ],
+  "geometria_codigo": "codigo/campanha/modelo_ponte_bacia_3d.gd",
+  "integracao_codigo": "codigo/campanha/ponte_bacia_3d_no_mapa.gd",
+  "guia_estilo_3d": "ferramentas/projeto/ESTILO_3D_ALGOLAND.md",
+  "dimensoes_mundo_px": [
+    [
+      64,
+      160
+    ],
+    [
+      160,
+      64
+    ]
+  ],
+  "grade_px": 16,
+  "camera": "Ortografica frontal elevada, sem yaw; render 3D em SubViewport e ampliacao nearest-neighbor.",
+  "pivo": "Centro da plataforma no nivel do solo; ancoragem projetada por Camera3D.unproject_position.",
+  "base_fisica": "Retangulos 2D de travessia e barreiras laterais reaproveitados do sistema atual.",
+  "variantes": [
+    "primavera",
+    "verao",
+    "outono",
+    "inverno"
+  ],
+  "pintura_pixel_art": "Geometria low-poly baseada em ponte com corrimãos altos, montantes e diagonais cruzadas. O piso usa tábuas transversais pintadas em blocos de pixels grandes, bordas escuras e variação curta de madeira; filtro nearest. O render dos corrimãos usa viewport transparente separado para respeitar a profundidade sobre personagens.",
+  "revisao_referencia": "A prancha gerada e a referência enviada pelo usuário definem a silhueta da ponte: tábuas transversais, corrimãos altos e travessas diagonais. O jogo mantém a paleta quente e as massas de pixels próprias do AlgoLand."
+}

@@ -1,0 +1,482 @@
+{
+  "direcao": "cima",
+  "acao": "correr",
+  "aparencia": "mesmo goblin aprovado para baixo; modelo_base vista de costas para nuca/dorso",
+  "referencia_movimento": "corrida_baixo_referencia_v1.png, aprovada pelo usuário; estudo Oul Studio registrado em referencias_internet/REFERENCIAS.md",
+  "celula": [
+    640,
+    640
+  ],
+  "pivo": [
+    320,
+    560
+  ],
+  "escala": 0.071,
+  "altura_referencia_px": 31,
+  "duracao_ms": 400,
+  "velocidade_px_s": 100,
+  "mao_dominante": "direita, à direita do observador nas costas",
+  "correcao_modelo_estatico": "Modelo estático traseiro exibe adaga do lado errado; manter anatomia da frente, adaga à direita e pano da faixa no quadril esquerdo.",
+  "camera": "costas em perspectiva elevada do jogo, sem olho/focinho acidental",
+  "quadros": [
+    {
+      "quadro": 0,
+      "duracao_ms": 50,
+      "fase": "contato direito",
+      "apoio": "direito",
+      "articulacoes_guia_aproximadas": {
+        "cabeca": [
+          320,
+          216
+        ],
+        "ombro_direito": [
+          374,
+          300
+        ],
+        "ombro_esquerdo": [
+          266,
+          300
+        ],
+        "quadril": [
+          320,
+          384
+        ],
+        "joelho_direito": [
+          352,
+          457
+        ],
+        "pe_direito": [
+          356,
+          530
+        ],
+        "joelho_esquerdo": [
+          288,
+          431
+        ],
+        "pe_esquerdo": [
+          284,
+          478
+        ],
+        "cotovelo_direito": [
+          410,
+          354
+        ],
+        "mao_adaga": [
+          420,
+          410
+        ],
+        "cotovelo_esquerdo": [
+          230,
+          320
+        ],
+        "mao_esquerda": [
+          220,
+          350
+        ]
+      }
+    },
+    {
+      "quadro": 1,
+      "duracao_ms": 60,
+      "fase": "absorção direita",
+      "apoio": "direito",
+      "articulacoes_guia_aproximadas": {
+        "cabeca": [
+          320,
+          228
+        ],
+        "ombro_direito": [
+          374,
+          312
+        ],
+        "ombro_esquerdo": [
+          266,
+          312
+        ],
+        "quadril": [
+          320,
+          396
+        ],
+        "joelho_direito": [
+          352,
+          477
+        ],
+        "pe_direito": [
+          356,
+          558
+        ],
+        "joelho_esquerdo": [
+          288,
+          434
+        ],
+        "pe_esquerdo": [
+          284,
+          472
+        ],
+        "cotovelo_direito": [
+          410,
+          354
+        ],
+        "mao_adaga": [
+          420,
+          410
+        ],
+        "cotovelo_esquerdo": [
+          230,
+          320
+        ],
+        "mao_esquerda": [
+          220,
+          350
+        ]
+      }
+    },
+    {
+      "quadro": 2,
+      "duracao_ms": 40,
+      "fase": "passagem esquerda",
+      "apoio": "direito",
+      "articulacoes_guia_aproximadas": {
+        "cabeca": [
+          320,
+          216
+        ],
+        "ombro_direito": [
+          374,
+          300
+        ],
+        "ombro_esquerdo": [
+          266,
+          300
+        ],
+        "quadril": [
+          320,
+          384
+        ],
+        "joelho_direito": [
+          352,
+          475
+        ],
+        "pe_direito": [
+          356,
+          566
+        ],
+        "joelho_esquerdo": [
+          288,
+          446
+        ],
+        "pe_esquerdo": [
+          284,
+          508
+        ],
+        "cotovelo_direito": [
+          410,
+          320
+        ],
+        "mao_adaga": [
+          420,
+          350
+        ],
+        "cotovelo_esquerdo": [
+          230,
+          354
+        ],
+        "mao_esquerda": [
+          220,
+          410
+        ]
+      }
+    },
+    {
+      "quadro": 3,
+      "duracao_ms": 50,
+      "fase": "voo para contato esquerdo",
+      "apoio": "nenhum",
+      "articulacoes_guia_aproximadas": {
+        "cabeca": [
+          320,
+          208
+        ],
+        "ombro_direito": [
+          374,
+          292
+        ],
+        "ombro_esquerdo": [
+          266,
+          292
+        ],
+        "quadril": [
+          320,
+          376
+        ],
+        "joelho_direito": [
+          352,
+          428
+        ],
+        "pe_direito": [
+          356,
+          480
+        ],
+        "joelho_esquerdo": [
+          288,
+          452
+        ],
+        "pe_esquerdo": [
+          284,
+          528
+        ],
+        "cotovelo_direito": [
+          410,
+          320
+        ],
+        "mao_adaga": [
+          420,
+          350
+        ],
+        "cotovelo_esquerdo": [
+          230,
+          354
+        ],
+        "mao_esquerda": [
+          220,
+          410
+        ]
+      }
+    },
+    {
+      "quadro": 4,
+      "duracao_ms": 50,
+      "fase": "contato esquerdo",
+      "apoio": "esquerdo",
+      "articulacoes_guia_aproximadas": {
+        "cabeca": [
+          320,
+          216
+        ],
+        "ombro_direito": [
+          374,
+          300
+        ],
+        "ombro_esquerdo": [
+          266,
+          300
+        ],
+        "quadril": [
+          320,
+          384
+        ],
+        "joelho_direito": [
+          352,
+          431
+        ],
+        "pe_direito": [
+          356,
+          478
+        ],
+        "joelho_esquerdo": [
+          288,
+          457
+        ],
+        "pe_esquerdo": [
+          284,
+          530
+        ],
+        "cotovelo_direito": [
+          410,
+          320
+        ],
+        "mao_adaga": [
+          420,
+          350
+        ],
+        "cotovelo_esquerdo": [
+          230,
+          354
+        ],
+        "mao_esquerda": [
+          220,
+          410
+        ]
+      }
+    },
+    {
+      "quadro": 5,
+      "duracao_ms": 60,
+      "fase": "absorção esquerda",
+      "apoio": "esquerdo",
+      "articulacoes_guia_aproximadas": {
+        "cabeca": [
+          320,
+          228
+        ],
+        "ombro_direito": [
+          374,
+          312
+        ],
+        "ombro_esquerdo": [
+          266,
+          312
+        ],
+        "quadril": [
+          320,
+          396
+        ],
+        "joelho_direito": [
+          352,
+          434
+        ],
+        "pe_direito": [
+          356,
+          472
+        ],
+        "joelho_esquerdo": [
+          288,
+          477
+        ],
+        "pe_esquerdo": [
+          284,
+          558
+        ],
+        "cotovelo_direito": [
+          410,
+          320
+        ],
+        "mao_adaga": [
+          420,
+          350
+        ],
+        "cotovelo_esquerdo": [
+          230,
+          354
+        ],
+        "mao_esquerda": [
+          220,
+          410
+        ]
+      }
+    },
+    {
+      "quadro": 6,
+      "duracao_ms": 40,
+      "fase": "passagem direita",
+      "apoio": "esquerdo",
+      "articulacoes_guia_aproximadas": {
+        "cabeca": [
+          320,
+          216
+        ],
+        "ombro_direito": [
+          374,
+          300
+        ],
+        "ombro_esquerdo": [
+          266,
+          300
+        ],
+        "quadril": [
+          320,
+          384
+        ],
+        "joelho_direito": [
+          352,
+          446
+        ],
+        "pe_direito": [
+          356,
+          508
+        ],
+        "joelho_esquerdo": [
+          288,
+          475
+        ],
+        "pe_esquerdo": [
+          284,
+          566
+        ],
+        "cotovelo_direito": [
+          410,
+          354
+        ],
+        "mao_adaga": [
+          420,
+          410
+        ],
+        "cotovelo_esquerdo": [
+          230,
+          320
+        ],
+        "mao_esquerda": [
+          220,
+          350
+        ]
+      }
+    },
+    {
+      "quadro": 7,
+      "duracao_ms": 50,
+      "fase": "voo para contato direito",
+      "apoio": "nenhum",
+      "articulacoes_guia_aproximadas": {
+        "cabeca": [
+          320,
+          208
+        ],
+        "ombro_direito": [
+          374,
+          292
+        ],
+        "ombro_esquerdo": [
+          266,
+          292
+        ],
+        "quadril": [
+          320,
+          376
+        ],
+        "joelho_direito": [
+          352,
+          452
+        ],
+        "pe_direito": [
+          356,
+          528
+        ],
+        "joelho_esquerdo": [
+          288,
+          428
+        ],
+        "pe_esquerdo": [
+          284,
+          480
+        ],
+        "cotovelo_direito": [
+          410,
+          354
+        ],
+        "mao_adaga": [
+          420,
+          410
+        ],
+        "cotovelo_esquerdo": [
+          230,
+          320
+        ],
+        "mao_esquerda": [
+          220,
+          350
+        ]
+      }
+    }
+  ],
+  "destino": "assets/inimigos/goblin_adaga/correr_cima.png",
+  "limite": "Guia anatômico aproximado próprio; não é transferência literal da referência nem medição da arte final. Somente corrida para cima neste pedido.",
+  "registro_final": {
+    "fonte": "corrida_cima_v1.png",
+    "lado_intermediario": 608,
+    "deslocamento": [
+      16,
+      9
+    ],
+    "observacao": "Transformação comum da folha inteira para coincidir com escala e raiz do ciclo frontal; sem recorte/reescala individual por contorno."
+  }
+}

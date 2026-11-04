@@ -1,0 +1,13 @@
+{
+  "tamanho": [1536, 1024],
+  "entrada": [-704, 420],
+  "saida": [720, -132],
+  "inimigo": [-590, 95],
+  "alvos": {
+    "margem_secura": {"p": [-560, 88]},
+    "comporta_moinho": {"p": [-390, -215]},
+    "roda_moinho": {"p": [-455, -365]},
+    "entrada_dungeon": {"p": [0, 0]},
+    "saida_regiao": {"p": [720, -132]}
+  }
+}

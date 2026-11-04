@@ -1,0 +1,41 @@
+{
+  "fonte": "martelada_folha_escolhida_usuario.png",
+  "sha256": "dfb3509fb73f0b94b1dd2a679b28fb3100c57ad98eb86b40810e9edc5879a56c",
+  "origem": "Imagem anexada e escolhida pelo usuario nesta conversa, 2026-11-03",
+  "grade": [
+    4,
+    2
+  ],
+  "ordem": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "celula_saida": [
+    512,
+    512
+  ],
+  "translacao_comum": [
+    32,
+    32
+  ],
+  "duracoes_gif_ms": [
+    100,
+    150,
+    180,
+    50,
+    80,
+    110,
+    160,
+    670
+  ],
+  "pausa_demonstracao_final_ms": 500,
+  "desenhos": "Recortes integrais da folha, sem redesenho, deformacao ou redimensionamento individual.",
+  "saida": "arte/previas/inimigos/lorde_goblin_2d/martelada_folha_escolhida.gif",
+  "escopo": "Montagem do GIF solicitado; recurso de combate independente anterior nao foi substituido."
+}
