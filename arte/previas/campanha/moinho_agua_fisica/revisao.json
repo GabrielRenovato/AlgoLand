@@ -1,0 +1,15 @@
+{
+  "motor": "Godot 4.7.2 Compatibility",
+  "mapa": "Estágio 4 — Bacia do Moinho",
+  "fisica": "Passos de física do Godot: gravidade 9.8 m/s², contato analítico com a roda, retenção e descarga por pá, impacto no plano do canal. Não é fluido volumétrico.",
+  "orçamento": {
+    "gotas": 384,
+    "pas": 12,
+    "espuma_maxima": 64
+  },
+  "filtro": "SubViewport 128x120; ampliação nearest 2x",
+  "revisao_visual": "4 estações, 16 fases da roda e 25 segundos de movimento em tempo real",
+  "evidencias": "moinho-0.png até moinho-3.png; agua-00.png até agua-24.png",
+  "save": "AlgoLand testes agua moinho (partida isolada, roda liberada para demonstração)",
+  "testes_automatizados": "não executados"
+}

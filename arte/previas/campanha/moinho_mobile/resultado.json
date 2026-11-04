@@ -1,0 +1,58 @@
+{
+	"aparelho_fisico": false,
+	"escopo": "Simulacao de resolucoes e eventos de toque no desktop; nao valida hardware mobile.",
+	"falhas": 0,
+	"gpu": "NVIDIA GeForce RTX 4060 Ti",
+	"medidas": [
+		{
+			"cenario": "paisagem-16x9",
+			"cpu_process_ms": 20.5707111111112,
+			"draw_calls_media": 319.0,
+			"fps_medio_pc": 60.0044403285843,
+			"memoria_estatica_mb": 248.716540336609,
+			"memoria_video_mb": 1157.5788269043,
+			"primitivas_media": 849943.0,
+			"quadro_max_ms": 16.769,
+			"quadro_p95_ms": 16.726,
+			"quadros": 90
+		},
+		{
+			"cenario": "paisagem-20x9",
+			"cpu_process_ms": 35.2381111111111,
+			"draw_calls_media": 327.0,
+			"fps_medio_pc": 60.0201267491699,
+			"memoria_estatica_mb": 247.633082389832,
+			"memoria_video_mb": 1157.16533279419,
+			"primitivas_media": 853821.0,
+			"quadro_max_ms": 16.901,
+			"quadro_p95_ms": 16.743,
+			"quadros": 90
+		},
+		{
+			"cenario": "retrato",
+			"cpu_process_ms": 90.8783222222219,
+			"draw_calls_media": 242.0,
+			"fps_medio_pc": 60.0048803969389,
+			"memoria_estatica_mb": 248.686800956726,
+			"memoria_video_mb": 1157.95376014709,
+			"primitivas_media": 836503.0,
+			"quadro_max_ms": 16.818,
+			"quadro_p95_ms": 16.751,
+			"quadros": 90
+		},
+		{
+			"cenario": "moinho-agua-roda-ligada",
+			"cpu_process_ms": 71.776333333333,
+			"draw_calls_media": 260.411111111111,
+			"fps_medio_pc": 60.0034802018517,
+			"memoria_estatica_mb": 248.960522651672,
+			"memoria_video_mb": 1162.18037414551,
+			"primitivas_media": 761130.333333333,
+			"quadro_max_ms": 17.03,
+			"quadro_p95_ms": 16.774,
+			"quadros": 90
+		}
+	],
+	"save": "/tmp/algoland-harness/execucao-frlk3698/testes/dados/AlgoLand testes 73a82d19d4b74c90837974ee95e50721 moinho_mobile",
+	"verificacoes": 103
+}

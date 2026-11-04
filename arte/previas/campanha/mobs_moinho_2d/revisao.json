@@ -1,0 +1,54 @@
+{
+  "motor": "Godot 4.7.2 Compatibility",
+  "cena": "cenas/campanha/percurso_prototipo.tscn / moinho",
+  "save": "isolado /tmp/algoland-revisao-mobs4",
+  "revisao": "Renderização no mapa das oito poses em três vistas de cada espécie, ciclos traseiros em oito poses e execução dos golpes com física habilitada.",
+  "direcoes": [
+    "baixo",
+    "cima",
+    "lado direito; lado esquerdo usa espelhamento"
+  ],
+  "alteracoes": [
+    "Ataques direcionais 2D de besouro e arraia",
+    "Caminhada traseira de besouro e arraia",
+    "Escala de corpo físico e arte 75%",
+    "Pivôs anatômicos; nenhuma rotação da folha lateral para fingir vista vertical",
+    "Janela de dano e duração de estados preservadas durante golpes"
+  ],
+  "tempos_besouro_ms": [
+    140,
+    140,
+    140,
+    110,
+    120,
+    140,
+    150,
+    140
+  ],
+  "tempos_arraia_ms": [
+    100,
+    100,
+    100,
+    80,
+    80,
+    70,
+    120,
+    110
+  ],
+  "ciclo_caminhada_cima_fps": {
+    "besouro": 12,
+    "arraia": 14
+  },
+  "atlas_originais_identicos_ao_backup": {
+    "assets/inimigos/bacia_moinho/arraia_de_junco.png": true,
+    "assets/inimigos/bacia_moinho/besouro_de_barranco.png": true,
+    "assets/inimigos/bacia_moinho/valvula_errante.png": true
+  },
+  "erros_de_script_na_renderizacao": 0,
+  "limites": [
+    "Não é medição de desempenho/mobile.",
+    "As capturas de movimento incluem custo da leitura de GPU e gravação; os GIFs publicados usam poses com os tempos do consumidor.",
+    "O encerramento da cena de revisão registra avisos de recursos em uso/liberação no log; não houve erro de script.",
+    "Campanha não publicada."
+  ]
+}

@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Moinho • prévia 3D</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#182629;color:#f5e8ce;font-family:system-ui,sans-serif;overflow:hidden}canvas{display:block;width:100vw;height:100vh;touch-action:none}header{position:absolute;top:24px;left:28px;pointer-events:none}h1{font-size:24px;margin:0 0 8px}p{margin:0;font-size:14px;color:#c1c9bf;max-width:370px;line-height:1.5}footer{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);display:flex;gap:12px;align-items:center;padding:12px 18px;background:#162021e8;border:1px solid #76847455;border-radius:18px;white-space:nowrap}button{background:#d8b57c;border:0;border-radius:8px;color:#25302e;padding:10px 16px;font:inherit;cursor:pointer}label{font-size:13px;display:flex;align-items:center;gap:8px}input{width:90px;accent-color:#d8b57c}@media(max-width:600px){header{left:18px;top:18px}h1{font-size:20px}p{font-size:12px;max-width:280px}footer{gap:8px;padding:10px}button{padding:9px;font-size:12px}label{font-size:12px}input{width:65px}}
+</style></head><body><header><h1>Moinho d’água</h1><p>Prévia de geometria 3D com roda e água animadas.<br>Arraste para girar a câmera. Use a roda do mouse para aproximar.</p></header><canvas id="c"></canvas><footer><button id="pause">Pausar</button><button id="reset">Restaurar câmera</button><label>Fluxo <input id="flow" type="range" min="0" max="2" value="1" step="0.05"></label></footer>
+<script>
+'use strict';
+const canvas=document.getElementById('c'),ctx=canvas.getContext('2d');
+let width,height,dpr,yaw=-0.82,pitch=0.48,zoom=1,time=0,previous=0,paused=false,flow=1;
+const fixed=[],moving=[];
+const colors={wood:'#83502c',timber:'#573b28',cream:'#e3cfa4',stone:'#a5a38a',roof:'#b95732',water:'#409eaf'};
+const sub=(a,b)=>a.map((v,i)=>v-b[i]),cross=(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]],dot=(a,b)=>a.reduce((s,v,i)=>s+v*b[i],0);
+function face(points,color,target=fixed,alpha=1){target.push({points,color,alpha});}
+function box(x,y,z,w,h,d,color,target=fixed){let p=[[x-w/2,y-h/2,z-d/2],[x+w/2,y-h/2,z-d/2],[x+w/2,y+h/2,z-d/2],[x-w/2,y+h/2,z-d/2],[x-w/2,y-h/2,z+d/2],[x+w/2,y-h/2,z+d/2],[x+w/2,y+h/2,z+d/2],[x-w/2,y+h/2,z+d/2]];for(const f of [[0,3,2,1],[4,5,6,7],[0,4,7,3],[1,2,6,5],[3,7,6,2],[0,1,5,4]])face(f.map(i=>p[i]),color,target);}
+function cylinderX(x,y,z,length,r,color,target=fixed,n=20){const a=[],b=[];for(let i=0;i<n;i++){const t=i/n*Math.PI*2;a.push([x-length/2,y+r*Math.cos(t),z+r*Math.sin(t)]);b.push([x+length/2,y+r*Math.cos(t),z+r*Math.sin(t)]);}face(a.slice().reverse(),color,target);face(b,color,target);for(let i=0;i<n;i++)face([a[i],a[(i+1)%n],b[(i+1)%n],b[i]],color,target);}
+function beam(a,b,size,color,target=fixed){const delta=sub(b,a),length=Math.hypot(...delta),u=delta.map(v=>v/length);let v=cross(u,Math.abs(u[1])>.9?[1,0,0]:[0,1,0]);const vl=Math.hypot(...v);v=v.map(q=>q/vl*size/2);const w=cross(u,v);let p=[];for(const end of [a,b])for(const signs of [[-1,-1],[1,-1],[1,1],[-1,1]])p.push(end.map((q,i)=>q+v[i]*signs[0]+w[i]*signs[1]));for(const f of [[0,1,2,3],[4,7,6,5],[0,4,5,1],[1,5,6,2],[2,6,7,3],[3,7,4,0]])face(f.map(i=>p[i]),color,target);}
+// Terreno, canal e fundação: peças de geometria independentes.
+box(0,-.25,0,8,.4,7,'#72835b');box(-2.7,-.03,.4,1.55,.15,6.8,'#346875');
+for(const x of [-3.58,-1.83])for(let z=-3;z<3.3;z+=.53){box(x,.12,z,.3,.45,.5,colors.stone);box(x,.37,z,.34,.10,.51,'#b9b69a');}
+box(.5,.23,.15,4.25,.65,3.25,colors.stone);box(.5,1.9,.15,4,2.8,3,colors.cream);
+for(const x of [-1.5,.5,2.5])for(const z of [-1.38,1.68])box(x,1.93,z,.15,2.9,.15,colors.timber);
+for(const y of [.65,2.35,3.32]){box(.5,y,1.7,4.15,.16,.16,colors.timber);box(-1.54,y,.15,.16,.16,3.2,colors.timber);}
+beam([-1.4,.8,1.79],[.35,2.25,1.79],.12,colors.wood);beam([.65,2.25,1.79],[2.38,.8,1.79],.12,colors.wood);
+// Frontões e telhado de duas águas, com telhas independentes.
+for(const z of [-1.37,1.67])face([[-1.5,3.3,z],[2.5,3.3,z],[.5,4.85,z]],colors.cream);
+for(const z of [-1.5,1.8]){beam([-1.7,3.3,z],[.5,4.95,z],.18,colors.timber);beam([.5,4.95,z],[2.7,3.3,z],.18,colors.timber);}
+for(const side of [-1,1])for(let row=0;row<7;row++)for(let col=0;col<11;col++){
+const x0=.5+side*(row/7*2.3),x1=.5+side*((row+1)/7*2.3),y0=4.96-row/7*1.7,y1=4.96-(row+1)/7*1.7,z0=-1.62+col*.325,z1=z0+.342;
+const color=['#b95832','#c46438','#cb7141','#ae4d2c'][(row*5+col*3)%4];face([[x0,y0,z0],[x1,y1,z0],[x1,y1,z1],[x0,y0,z1]],color);face([[x1,y1,z0],[x1,y1-.07,z0],[x1,y1-.07,z1],[x1,y1,z1]],'#8c412b');}
+beam([.5,4.99,-1.72],[.5,4.99,1.98],.16,'#dd824c');
+box(1.65,4.5,-.65,.48,1.65,.48,colors.stone);box(1.65,5.36,-.65,.62,.16,.62,'#c1b99c');box(1.65,5.46,-.65,.25,.08,.25,'#473f32');
+// Porte, fenêtres, volets et marche.
+box(1.18,1.27,1.72,.86,1.4,.16,colors.timber);for(let i=0;i<6;i++)box(.84+i*.135,1.26,1.825,.12,1.26,.035,'#a5743f');
+for(const y of [.92,1.58])box(1.18,y,1.86,.72,.065,.06,'#504c3a');box(1.48,1.22,1.9,.08,.08,.06,'#d7bd68');
+for(let i=0;i<3;i++)box(1.18,.14+i*.13,2.15-i*.17,1.15,.18,.65,colors.stone);
+function windowFront(x,y){box(x,y,1.73,.8,.83,.12,colors.timber);box(x,y,1.81,.61,.65,.06,'#edba62');box(x,y,1.86,.055,.68,.055,colors.wood);box(x,y,1.86,.65,.06,.055,colors.wood);for(const s of [-1,1])box(x+s*.54,y,1.76,.23,.79,.1,colors.wood);box(x,y-.48,1.85,.94,.11,.29,colors.wood);}
+windowFront(-.65,1.55);windowFront(.5,3.64);
+for(const z of [-.7,.9]){box(-1.61,2.72,z,.12,.56,.65,colors.timber);box(-1.69,2.72,z,.04,.43,.5,'#efc274');}
+// Arrivée d’eau au sommet de la roue, avec supports.
+box(-2.65,3.15,-1.85,.72,.12,2.1,colors.wood);for(const x of [-3.05,-2.25])box(x,3.37,-1.85,.12,.44,2.1,colors.wood);
+for(const z of [-2.65,-1.1])for(const x of [-3,-2.3])box(x,1.6,z,.12,3.1,.12,colors.timber);
+cylinderX(-2.1,1.55,.2,2.25,.14,'#624631');box(-3.5,.6,.2,.45,1.3,.48,colors.stone);cylinderX(-3.5,1.55,.2,.23,.25,'#777a72');
+// Végétation simple pour juger les volumes et l’échelle.
+for(let i=0;i<28;i++){const x=Math.sin(i*22.8)*3.6,z=Math.cos(i*7.1)*2.9;if(x>-1.9&&x<2.9&&z<2.3)continue;for(let j=0;j<3;j++)beam([x,0,z],[x+Math.sin(j*2+i)*.13,.16+j*.08,z+Math.cos(j+i)*.13],.06,'#496747');}
+function wheel(angle){const cy=1.55,cz=.2,R=1.27;for(const x of [-3.17,-2.55]){
+for(let i=0;i<32;i++){const a=i/32*Math.PI*2+angle,b=(i+1)/32*Math.PI*2+angle;beam([x,cy+R*Math.cos(a),cz+R*Math.sin(a)],[x,cy+R*Math.cos(b),cz+R*Math.sin(b)],.15,'#a16d38',moving);}
+for(let i=0;i<8;i++){const a=i/8*Math.PI*2+angle;beam([x,cy,cz],[x,cy+R*Math.cos(a),cz+R*Math.sin(a)],.12,'#b1844b',moving);}cylinderX(x,cy,cz,.18,.24,colors.wood,moving);}
+for(let i=0;i<12;i++){const a=i/12*Math.PI*2+angle,y=cy+R*Math.cos(a),z=cz+R*Math.sin(a);beam([-3.2,y,z],[-2.52,y,z],.19,'#936238',moving);}}
+function water(t){
+for(let i=0;i<48;i++){const z=-3.1+i*.14;const y=.10+Math.sin(z*5-t*4)*.018;face([[-3.39,y,z],[-2.02,y,z],[-2.02,y,z+.145],[-3.39,y,z+.145]],i%4===0?'#68b8bc':'#388f9d',moving,.88);}
+if(flow<=.01)return;
+face([[-2.98,3.24,-2.9],[-2.32,3.24,-2.9],[-2.32,3.24,-.8],[-2.98,3.24,-.8]],'#62bdc6',moving,.85);
+for(let i=0;i<125;i++){const phase=(i*.618033+t*(.8+flow*.6))%1,spread=Math.sin(i*8.1)*.24,x=-2.75+spread,y=3.23-3.05*phase*phase,z=-.8+phase*.6;const sz=.022+(i%3)*.012;box(x,y,z,sz*1.3,sz*2.7,sz,i%4===0?'#d5f4eb':'#79cbd2',moving);}
+for(let i=0;i<55;i++){const p=(t*1.3+i*.433)%1,a=i*2.399,x=-2.78+Math.cos(a)*p*.6,z=-.1+Math.sin(a)*p*.8,y=.16+Math.sin(p*Math.PI)*.4;box(x,y,z,.035,.035,.035,'#d8f3e9',moving);}
+for(let i=0;i<24;i++){const p=(t*.34+i*.137)%1,x=-2.72+Math.sin(i*4.2)*.4,z=.1+p*3;box(x,.14,z,.07,.015,.15,'#a6d8d1',moving);}}
+function project(p){const x=p[0]*Math.cos(yaw)-p[2]*Math.sin(yaw),z=p[0]*Math.sin(yaw)+p[2]*Math.cos(yaw),dy=p[1]-2;const yy=dy*Math.cos(pitch)-z*Math.sin(pitch),depth=dy*Math.sin(pitch)+z*Math.cos(pitch);const scale=Math.min(width/10.8,height/8)*zoom;return [width/2+x*scale,height*.51-yy*scale,depth];}
+function shade(hex,n){const l=Math.hypot(...n)||1,light=[-.4,.8,.5];const k=.68+.32*Math.abs(dot(n,light)/l);return '#'+hex.slice(1).match(/../g).map(v=>Math.min(255,Math.round(parseInt(v,16)*k)).toString(16).padStart(2,'0')).join('');}
+function draw(ms){const dt=Math.min((ms-previous)/1000,.04);previous=ms;if(!paused)time+=dt;moving.length=0;wheel(-time*.55*flow);water(time);
+ctx.clearRect(0,0,width,height);const bg=ctx.createRadialGradient(width*.5,height*.45,10,width*.5,height*.5,Math.max(width,height)*.8);bg.addColorStop(0,'#526361');bg.addColorStop(1,'#182629');ctx.fillStyle=bg;ctx.fillRect(0,0,width,height);
+const faces=fixed.concat(moving).map(f=>{const points=f.points.map(project);return {f,points,depth:points.reduce((s,p)=>s+p[2],0)/points.length};}).sort((a,b)=>a.depth-b.depth);
+for(const {f,points} of faces){ctx.beginPath();points.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.closePath();ctx.globalAlpha=f.alpha;ctx.fillStyle=shade(f.color,cross(sub(f.points[1],f.points[0]),sub(f.points[2],f.points[0])));ctx.fill();}ctx.globalAlpha=1;requestAnimationFrame(draw);}
+function resize(){dpr=Math.min(devicePixelRatio||1,2);width=innerWidth;height=innerHeight;canvas.width=width*dpr;canvas.height=height*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);}addEventListener('resize',resize);resize();requestAnimationFrame(draw);
+let drag=null;canvas.onpointerdown=e=>{drag=[e.clientX,e.clientY];canvas.setPointerCapture(e.pointerId);};canvas.onpointermove=e=>{if(!drag)return;yaw+=(e.clientX-drag[0])*.008;pitch=Math.max(.12,Math.min(1.2,pitch+(e.clientY-drag[1])*.005));drag=[e.clientX,e.clientY];};canvas.onpointerup=canvas.onpointercancel=()=>drag=null;canvas.addEventListener('wheel',e=>{e.preventDefault();zoom=Math.max(.5,Math.min(2,zoom*Math.exp(-e.deltaY*.001)));},{passive:false});
+document.getElementById('pause').onclick=e=>{paused=!paused;e.target.textContent=paused?'Continuar':'Pausar';};document.getElementById('reset').onclick=()=>{yaw=-.82;pitch=.48;zoom=1;};document.getElementById('flow').oninput=e=>flow=Number(e.target.value);
+</script></body></html>

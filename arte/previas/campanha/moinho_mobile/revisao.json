@@ -1,0 +1,15 @@
+{
+  "tipo": "Revisão visual do perfil mobile simulado no desktop",
+  "funcional": "103 verificações aprovadas, zero falhas. Movimento por joystick, multitoque, liberação dos dedos, botões dentro da tela, AGIR altera registro real e comporta liga a roda.",
+  "aparelho_fisico": false,
+  "gpu": "NVIDIA GeForce RTX 4060 Ti",
+  "amostragem": "90 quadros por cenário, com aquecimento e sem salvar PNGs durante a medição; VSync próximo de 60 FPS.",
+  "limites": "Memória gráfica reportada pelo motor para o processo inteiro, incluindo recursos carregados pela campanha; não é uso exclusivo do mapa nem medição de Android/iOS.",
+  "visuais": [
+    "Barra de equipamentos muda para a faixa central em paisagem quando evita o jogador; revisar a composição no toque.",
+    "No retrato a barra compacta deixa apenas um slot e o botão de página visíveis.",
+    "Grama, rio, ponte, mecanismos e controles renderizados nas três proporções."
+  ],
+  "aprovacao_mobile": "Pendente de aparelho físico e revisão da barra; teste funcional aprovado não certifica qualidade mobile.",
+  "relatorio_harness": "/tmp/algoland-harness/execucao-frlk3698/relatorio.json"
+}

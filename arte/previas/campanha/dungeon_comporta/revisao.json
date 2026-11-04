@@ -1,0 +1,51 @@
+{
+  "revisao_visual": "inspecionada nas capturas reais do Godot",
+  "capturas": [
+    "acampamento_04_estacao_0.png",
+    "acampamento_04_estacao_1.png",
+    "acampamento_04_estacao_2.png",
+    "acampamento_04_estacao_3.png",
+    "fogueira_04_quadro_0.png",
+    "fogueira_04_quadro_1.png",
+    "fogueira_04_quadro_2.png",
+    "fogueira_04_quadro_3.png",
+    "fogueira_04_quadro_4.png",
+    "fogueira_04_quadro_5.png",
+    "fogueira_04_quadro_6.png",
+    "fogueira_04_quadro_7.png",
+    "comporta_04_estacao_0.png",
+    "comporta_04_estacao_1.png",
+    "comporta_04_estacao_2.png",
+    "comporta_04_estacao_3.png",
+    "dungeon_comporta_04.png",
+    "../../fenda/jornada/goblins_04.png",
+    "oclusao_comparacao.png",
+    "oclusao_goblin_0_atras.png",
+    "oclusao_goblin_0_frente.png",
+    "oclusao_goblin_1_atras.png",
+    "oclusao_goblin_1_frente.png"
+  ],
+  "conferido": [
+    "portao de madeira removido da montagem",
+    "60 goblins: 30 de adaga e 30 de machado, sem morcegos",
+    "quatro cozinhas com oito goblins voltados as panelas",
+    "tres areas de refeicao, mesas, cadeiras e suprimentos independentes",
+    "bases acomodadas fora de rochas e passagem navegavel ate a alavanca",
+    "cadeira antes encoberta por rocha reposicionada e revisada",
+    "quatro variantes sazonais, sem neve interna",
+    "chama, vapor e caldo animados: quatro quadros a 6 FPS; capturas de dois ciclos",
+    "goblins abandonam a atividade ao sofrer dano; percepcao usa distancia e linha de visao",
+    "textos completos em 576x324, 288x512 e 320x324",
+    "profundidade dos goblins atualizada tambem parados, durante golpe e morte",
+    "adaga e machado revisados na frente e atras da mesma rocha nativa",
+    "regressao automatica da ordem de desenho inicial, parada e durante ataque"
+  ],
+  "validacao_bacia": "/tmp/algoland-harness/execucao-8o4keyrj/relatorio.json",
+  "validacao_mapas_modulares": "/tmp/algoland-harness/execucao-zgwulq7v/relatorio.json",
+  "render_final": "/tmp/render-oclusao.log",
+  "pendencias": [
+    "Boss pendente por pedido do usuario; alavanca bloqueada ate sua integracao.",
+    "Personagens usam poses existentes; sem animacao de sentar ou mexer a panela.",
+    "Perfil mapas-modulares falha no sistema preexistente de grama 3D: natureza_bacia_lowpoly acessa visor/camera ausentes. Bacia e entrada aprovadas."
+  ]
+}

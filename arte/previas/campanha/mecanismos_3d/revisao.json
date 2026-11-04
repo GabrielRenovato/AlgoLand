@@ -1,0 +1,10 @@
+{
+  "referencias": "arte/fontes/campanha/mecanismos_3d/",
+  "modelos": "assets/cenario/campanha/mecanismos_3d/",
+  "motor": "Godot 4.7.2 Compatibility",
+  "revisao": "4 estações, folha deslizante com pinhão e cremalheira, três posições de alavanca, apoios e separação dos controles",
+  "save": "isolado",
+  "testes_automatizados": "não executados",
+  "encaixe_comporta": "Transversal ao canal leste-oeste; centro (-352,-224), apoios nas margens norte e sul. Câmera frontal elevada sem yaw. Colisões e acionamento usam a mesma base transformada do modelo.",
+  "capturas_encaixe": "arte/previas/campanha/mecanismos_3d/transversal/"
+}

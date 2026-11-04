@@ -1,0 +1,14 @@
+{
+  "cena": "res://cenas/campanha/terreno_moinho.tscn",
+  "renderizacao": "Godot 4.7.2 Compatibility; SubViewport 128x120, ampliação 2x nearest",
+  "arte": "modelo low poly vivo, materiais com cores por vértice, sombras dinâmicas e sombra de contato 2D",
+  "estacoes": [
+    "primavera",
+    "verao",
+    "outono",
+    "inverno"
+  ],
+  "capturas": "moinho-0.png até moinho-3.png; roda-00.png até roda-15.png",
+  "save": "isolado: AlgoLand previa moinho mapa",
+  "testes_automatizados": "não executados nesta alteração"
+}

@@ -1,0 +1,29 @@
+{
+  "mapa": "Bacia do Moinho — estágio 4",
+  "objetos_3d": [
+    "comporta.glb",
+    "registro.glb"
+  ],
+  "estados": [
+    "fechado",
+    "pela metade",
+    "aberto"
+  ],
+  "solucao": {
+    "entrada": "aberto",
+    "desvio": "fechado",
+    "retorno": "aberto"
+  },
+  "integracao": [
+    "Alavancas animadas por estado",
+    "Folha, cremalheira e pinhão sincronizados",
+    "Reação da manivela à pressão insuficiente",
+    "Corrente dos canais e vazão do moinho ligadas ao circuito",
+    "Roda permanece presa até liberar o eixo",
+    "Guia e distância apontam para o próximo registro necessário",
+    "Enquadramento da câmera ao aproximar dos controles"
+  ],
+  "partida": "AlgoLand testes puzzle 3D moinho; progresso isolado, puzzle não resolvido previamente",
+  "captura": "puzzle-jogavel.png",
+  "testes_automatizados": "não executados"
+}

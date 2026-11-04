@@ -1,0 +1,45 @@
+{
+  "revisao_visual": "Renderização real no Godot, com saves isolados",
+  "resolucoes": [
+    "576x324",
+    "960x540",
+    "288x512",
+    "320x324"
+  ],
+  "conferido": [
+    "mapa regional e salas de expedição",
+    "mochila, equipamentos, atributos e ícones das abas",
+    "árvore de maestria com estados preservados",
+    "pausa e opções",
+    "mercante e forja com paginação e textos dentro dos slots",
+    "conversas, avisos do HUD e barra de armas",
+    "histórias de carregamento das quatro regiões",
+    "botões de fechar dentro das molduras",
+    "cinema de Dara: falas, botões, margens e enquadramento",
+    "tooltip da maestria, estados dos nós e seleção"
+  ],
+  "limites": "Resoluções simuladas; sem teste em aparelho físico.",
+  "relatorio_interface": "/tmp/algoland-harness/execucao-qbm67fl1/relatorio.json",
+  "perfis": {
+    "interface-campanha": {
+      "aprovado": true,
+      "erros": 0,
+      "verificacoes": 321
+    },
+    "campanha-percurso": {
+      "aprovado": true,
+      "erros": 0,
+      "verificacoes": 649
+    },
+    "drops-iniciais": {
+      "aprovado": true,
+      "erros": 0,
+      "verificacoes": 1498
+    },
+    "maestria": {
+      "aprovado": true,
+      "erros": 0,
+      "verificacoes": 1648
+    }
+  }
+}

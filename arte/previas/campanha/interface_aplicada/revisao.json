@@ -1,0 +1,27 @@
+{
+  "revisao_visual": "aprovada",
+  "origem": "Renderização real do Godot; campanha com save isolado.",
+  "resolucoes_logicas": [
+    "960x900",
+    "576x324",
+    "288x512",
+    "320x324"
+  ],
+  "conferido": [
+    "margens da moldura e dos botões",
+    "fontes e acentos",
+    "abas Resumo, Saque e Grupo",
+    "rolagem do saque",
+    "mapa e preparação da expedição",
+    "conversa com Dara em paisagem, retrato e tela dividida"
+  ],
+  "limite": "Resolucões simuladas; sem certificação em aparelho físico.",
+  "perfis_aprovados": [
+    "interface-campanha",
+    "campanha-percurso",
+    "campanha-online",
+    "instancias-campanha",
+    "drops-iniciais",
+    "maestria"
+  ]
+}
