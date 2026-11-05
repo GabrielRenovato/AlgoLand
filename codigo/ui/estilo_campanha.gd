@@ -107,6 +107,8 @@ static func pergaminho(no: Control,margem := 10.0) -> void:
 	painel(no,false,margem)
 
 static func vestir(no: Node) -> void:
+	# Molduras de estado (seleção na barra): o painel opaco da campanha cobriria o ícone.
+	if no.has_meta("sem_acabamento"):return
 	if "tipo_slot" in no:
 		no.set_meta("estilo_campanha",true)
 		if no.has_method("item_ui"):no.item_ui().set_meta("acabamento_campanha",true)

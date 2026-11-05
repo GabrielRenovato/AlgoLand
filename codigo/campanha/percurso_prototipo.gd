@@ -134,6 +134,8 @@ func _ready() -> void:
 		get_tree().quit(1)
 		return
 	sessao = get_tree().root.get_node_or_null("CampanhaOnline")
+	# Todos os personagens 3D da campanha numa tela só (antes, uma tela por personagem a todo quadro).
+	add_child(preload("res://codigo/jogador/atlas_herois_3d.gd").new())
 	Introducao.pular_prologo()
 	Introducao.aula_arena = false
 	var erro := controlador.iniciar("user://percurso_primeira_raiz", "prototipo")

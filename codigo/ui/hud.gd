@@ -117,6 +117,7 @@ func _ready() -> void:
 	if jogador:
 		jogador.atualizar_barra_hp()
 		atualizar_stamina(jogador.stamina, jogador.stamina_maxima)
+	_criar_barra_maestria()
 	_conectar_gerenciador()
 	add_child(preload("res://codigo/ui/objetivo_principal.gd").new())
 	preload("res://codigo/ui/escala_interface.gd").ligar(self)
@@ -430,9 +431,81 @@ func atualizar_rotulo_onda(onda: int) -> void:
 	rotulo_onda.text = "ANDAR %d" % onda
 
 ## Avisos compactos junto à borda inferior, acima da barra de ações.
-## Recado curto de progresso (maestria da arma subiu etc.), na faixa do anúncio.
+## Recado curto de progresso, na faixa do anúncio.
 func avisar(texto: String) -> void:
 	anunciar(texto, "", 2.5)
+
+## XP da maestria da arma na mão: mesma linha da vida e do fôlego (ícone, barra de peças, número ao lado).
+const CatalogoMaestria := preload("res://codigo/dados/catalogo_maestria.gd")
+const IconesItens := preload("res://codigo/ui/icones_itens.gd")
+const COR_XP := Color(0.58, 0.47, 1.0)
+var _linha_xp: HBoxContainer
+var _icone_xp: TextureRect
+var _barra_xp: Control
+var _texto_xp: Label
+var _chave_xp := ""
+var _tween_xp: Tween
+
+func _criar_barra_maestria() -> void:
+	_linha_xp = HBoxContainer.new()
+	_linha_xp.name = "LinhaMaestria"
+	_linha_xp.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_linha_xp.add_theme_constant_override("separation", 3)
+	_icone_xp = TextureRect.new()
+	_icone_xp.custom_minimum_size = Vector2(12, 12)
+	_icone_xp.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	_icone_xp.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_icone_xp.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	_icone_xp.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_linha_xp.add_child(_icone_xp)
+	_barra_xp = preload("res://codigo/ui/barra_pecas.gd").new()
+	_barra_xp.cor = COR_XP
+	_barra_xp.custom_minimum_size = Vector2(96, 8)
+	_barra_xp.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	_barra_xp.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_linha_xp.add_child(_barra_xp)
+	_texto_xp = Label.new()
+	_texto_xp.label_settings = (%RotuloVida as Label).label_settings
+	_texto_xp.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_linha_xp.add_child(_texto_xp)
+	var status := %RotuloVida.get_parent().get_parent() as Container
+	status.add_child(_linha_xp)
+	status.move_child(_linha_xp, %BarraStamina.get_parent().get_index() + 1)
+	_linha_xp.hide()
+
+func _atualizar_barra_maestria() -> void:
+	if _linha_xp == null: return
+	var jogador := EventosJogo.dono(self)
+	var maestria: Node = jogador.get("maestria") if jogador != null else null
+	var familia: String = maestria.familia_atual() if maestria != null else ""
+	if familia.is_empty() or not maestria.modelo.pronto:
+		_linha_xp.hide()
+		_chave_xp = ""
+		return
+	var arma = jogador.inventario.equipados.get("arma")
+	var xp := int(maestria.modelo.experiencia.get(familia, 0))
+	var chave := "%s:%s:%d" % [familia, arma.tipo, xp]
+	if chave == _chave_xp: return
+	_chave_xp = chave
+	var nivel := CatalogoMaestria.nivel(xp)
+	var fracao := 1.0
+	if nivel < 100:
+		var base := CatalogoMaestria.xp_para_nivel(nivel)
+		fracao = float(xp - base) / float(maxi(1, CatalogoMaestria.xp_para_nivel(nivel + 1) - base))
+	_barra_xp.definir(fracao, 1.0, false)
+	_texto_xp.text = "NV %d MAX" % nivel if nivel >= 100 else "NV %d  %d%%" % [nivel, floori(fracao * 100.0)]
+	_icone_xp.texture = IconesItens.obter(arma, get_tree())
+	_linha_xp.show()
+
+## A arma subiu de nível: a barra pisca em dourado (mais vezes quando ganhou ponto de maestria).
+func maestria_subiu(novo_ponto: bool) -> void:
+	_atualizar_barra_maestria()
+	if _barra_xp == null: return
+	if _tween_xp and _tween_xp.is_running(): _tween_xp.kill()
+	_tween_xp = create_tween()
+	for i in (3 if novo_ponto else 1):
+		_tween_xp.tween_property(_linha_xp, "modulate", Color(1.6, 1.35, 0.6), 0.12)
+		_tween_xp.tween_property(_linha_xp, "modulate", Color.WHITE, 0.25)
 
 func anunciar(texto: String, subtitulo := "", tempo_visivel := 1.5) -> void:
 	_mostrar_banner(texto, subtitulo, tempo_visivel)
@@ -587,6 +660,7 @@ func _atualizar_andar() -> void:
 	rotulo_evento.modulate = Color("e7c884")
 
 func _process(_delta: float) -> void:
+	_atualizar_barra_maestria()
 	if Controle.usando_toque and _botao_mapa_toque == null:
 		_montar_botao_mapa()
 	if _layout_toque != int(Controle.usando_toque):

@@ -214,6 +214,7 @@ func _nova_casa(indice: int) -> Control:
 	var marco := Panel.new()
 	marco.name = "Marco"
 	marco.visible = false
+	marco.set_meta("sem_acabamento", true)
 	marco.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	marco.size = Vector2(lado, lado)
 	conteudo.add_child(marco)

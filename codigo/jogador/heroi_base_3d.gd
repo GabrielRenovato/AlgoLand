@@ -112,6 +112,9 @@ var _mao_esquerda: BoneAttachment3D
 var _escudo: Node3D
 var _mao: BoneAttachment3D
 var _sprite: Sprite2D
+## Álbum compartilhado (atlas_herois_3d.gd): com ele a tela própria fica parada e o modelo é desenhado junto com os outros.
+var _atlas: Node
+var _espera_atlas := 0
 var _rastro: MeshInstance3D
 var _progresso_golpe := 0.0
 var _golpe_visual_espada := 1
@@ -152,6 +155,8 @@ func _ready() -> void:
 	process_priority = 110 # Decide antes do compositor Raven (120).
 	_montar_cena()
 	_carregar_modelo()
+	# Moradores não rodam _process (o morador anima o corpo): a entrada no álbum também acontece aqui.
+	(func() -> void: if _atlas == null: _espera_atlas = 0; _procurar_atlas()).call_deferred()
 	# Modo pixel: pele em pixel art pintada no modelo; os outros modos usam a pintura projetada.
 	if acabamento_pixel_art and not acabamento_low_poly and ResourceLoader.exists(PELE_PIXEL.TEXTURA):
 		PELE_PIXEL.aplicar(_modelo.find_child("CorpoBase",true,false),_esqueleto)
@@ -372,7 +377,7 @@ func _atualizar_renderizacao() -> void:
 	var pixel := acabamento_pixel_art and not acabamento_low_poly
 	var suave := 8 if OS.has_feature("mobile") else NITIDEZ
 	var amostras := amostras_pixel_art if pixel else suave
-	_vp.size = TAMANHO*amostras
+	if _atlas == null: _vp.size = TAMANHO*amostras
 	_vp.msaa_3d = Viewport.MSAA_DISABLED if pixel else Viewport.MSAA_4X
 	_sprite.texture_filter = TEXTURE_FILTER_NEAREST if pixel else TEXTURE_FILTER_LINEAR
 	_sprite.scale = Vector2.ONE/amostras
@@ -770,6 +775,7 @@ func _aplicar_cores() -> void:
 	if _cabeca_referencia!=null:_atualizar_pecas()
 
 func _process(delta: float) -> void:
+	if _atlas == null: _procurar_atlas()
 	_armaduras.atualizar()
 	_acabamento_armas.atualizar()
 	_aplicar_cores()
@@ -1103,9 +1109,20 @@ static func direcao_em_oito(dir: Vector2) -> Vector2:
 	if dir.length_squared()<0.0001: return Vector2.DOWN
 	return Vector2.from_angle(snappedf(dir.angle(),PI/4.0)).normalized()
 
+func _procurar_atlas() -> void:
+	_espera_atlas -= 1
+	if _espera_atlas > 0: return
+	_espera_atlas = 30
+	var atlas := preload("res://codigo/jogador/atlas_herois_3d.gd").da_arvore(get_tree())
+	if atlas != null and atlas.registrar(self): _atlas = atlas
+
+## Quadro atual do personagem, venha da tela própria ou do recorte no álbum.
+func imagem_quadro() -> Image:
+	return _atlas.imagem(self) if is_instance_valid(_atlas) else _vp.get_texture().get_image()
+
 func criar_rastro() -> Sprite2D:
 	var copia:=Sprite2D.new()
-	copia.texture=ImageTexture.create_from_image(_vp.get_texture().get_image())
+	copia.texture=ImageTexture.create_from_image(imagem_quadro())
 	copia.centered=false
 	copia.offset=_sprite.offset
 	copia.scale=_sprite.scale

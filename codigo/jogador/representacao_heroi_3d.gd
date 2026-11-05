@@ -120,7 +120,7 @@ func pose_pesca(quadro: int, direcao: int) -> void:
 	_posar("pesca",clipe,direcao,0.0 if quadro==3 else [1.05,1.5,2.0][clampi(quadro,0,2)])
 
 func retangulo_aparente() -> Rect2:
-	var usado: Rect2i = heroi._vp.get_texture().get_image().get_used_rect()
+	var usado: Rect2i = heroi.imagem_quadro().get_used_rect()
 	return heroi.transform*heroi._sprite.transform*Rect2(Vector2(usado.position)+heroi._sprite.offset,Vector2(usado.size))
 
 func topo_aparente() -> float:

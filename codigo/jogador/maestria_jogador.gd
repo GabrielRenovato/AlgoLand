@@ -143,9 +143,7 @@ func _creditar(f: String, xp: int, ticket := "") -> void:
 	_resumo[f] = int(_resumo.get(f,0)) + xp
 	_silencio = 0
 	if modelo.nivel(f) > anterior:
-		var ponto := Catalogo.pontos(modelo.nivel(f)) > Catalogo.pontos(anterior)
-		get_tree().call_group(jogador.grupo_hud(), "anunciar", "%s SUBIU PARA O NIVEL %d" % [Catalogo.NOMES[f], modelo.nivel(f)],
-			"NOVO PONTO DE MAESTRIA: ABRA A MOCHILA" if ponto else "MAESTRIA DA ARMA", 2.8)
+		get_tree().call_group(jogador.grupo_hud(), "maestria_subiu", Catalogo.pontos(modelo.nivel(f)) > Catalogo.pontos(anterior))
 
 func receber_credito(ticket: String, f: String, xp: int) -> void:
 	if ticket.is_empty() or ticket in modelo.recebidos or not f in Catalogo.FAMILIAS or xp < 1 or xp > 180: return

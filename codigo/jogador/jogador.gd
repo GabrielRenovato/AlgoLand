@@ -30,9 +30,6 @@ const FATOR_MOVIMENTO_NO_GOLPE := 0.4
 const FRACAO_GOLPE_CANCELAVEL := 0.5
 ## O dano do corte sai quando a lâmina encosta (45% do golpe, o contato dos clipes 3D), não no primeiro quadro.
 const FRACAO_CONTATO_GOLPE := 0.45
-## Passo curto à frente no início do golpe, no lugar de parar seco.
-const AVANCO_GOLPE := 95.0
-const DURACAO_AVANCO_S := 0.11
 ## Esquiva e ataque pedidos um instante cedo demais ficam guardados por esta janela
 const JANELA_BUFFER_MS := 150
 ## Parada de impacto no acerto (ms reais): golpe comum, crítico e golpe final
@@ -277,7 +274,6 @@ var _tempo_proximo_rastro: float = 0.0
 # ---------------------------
 var _esta_atacando: bool = false
 var _contato_pendente := false
-var _direcao_golpe := Vector2.ZERO
 var _movimento_no_inicio_golpe := Vector2.ZERO
 var _fase_combo: int = 0
 var _pode_encadear_combo: bool = false
@@ -936,8 +932,7 @@ func mover() -> void:
 		# Personagem base 3D de teste: com ANDAR_NO_GOLPE desligado, planta os pés no golpe (para na hora, sem escorregar).
 		var visual_3d := get_node_or_null("HeroiBase3D")
 		if visual_3d != null and not visual_3d.ANDAR_NO_GOLPE:
-			var no_avanco := not _temporizador.is_stopped() and _temporizador.wait_time - _temporizador.time_left < DURACAO_AVANCO_S
-			velocity = _direcao_golpe * AVANCO_GOLPE if no_avanco else Vector2.ZERO
+			velocity = Vector2.ZERO
 			return
 		if _temporizador.is_stopped():
 			velocity.x = lerp(velocity.x, 0.0, _friccao)
@@ -1029,8 +1024,13 @@ func _entrada_fazenda_fora_da_cena(evento: InputEvent) -> bool:
 
 ## O cinto vale na arena e nos encontros de estrada, com o jogador vivo e sem tela aberta.
 func _cinto_de_pocoes_ativo() -> bool:
-	return efeitos_pocao != null and (gerenciador_ondas != null or Comercio.em_combate) and not modo_fazenda and not estaMorto \
+	return efeitos_pocao != null and (gerenciador_ondas != null or Comercio.em_combate or _na_campanha()) and not modo_fazenda and not estaMorto \
 			and movimento_habilitado and get_viewport().gui_get_focus_owner() == null
+
+## A campanha não tem gerenciador de ondas, mas é toda de combate: o cinto vale lá também.
+func _na_campanha() -> bool:
+	var cena := get_tree().current_scene
+	return cena != null and cena.scene_file_path.ends_with("percurso_prototipo.tscn")
 
 ## Bebe a poção escolhida no cinto; se não deu, o HUD mostra o motivo
 func usar_pocao() -> String:
@@ -1129,7 +1129,6 @@ func iniciar_slash_ataque_lanca(nome_anim: String, tempo_slash: float) -> void:
 	# Ajusta a velocidade da animação se necessário (pode ser removido se não for desejado)
 	reprodutor_anim.speed_scale = 0.2
 	_apontar_golpe()
-	_direcao_golpe = _direcao_ataque
 	_flash_golpe()
 	Sons.tocar("golpe_lanca")
 	acao_visual.emit("ataque", tempo_slash, _fase_combo)
@@ -1156,7 +1155,6 @@ func iniciar_slash_ataque(nome_anim: String, tempo_slash: float) -> void:
 	_alvos_area_golpe.clear()
 	_contato_pendente = true
 	_apontar_golpe()
-	_direcao_golpe = _direcao_ataque
 	_flash_golpe()
 	Sons.tocar("golpe_espada")
 	acao_visual.emit("ataque", tempo_slash, _fase_combo)
