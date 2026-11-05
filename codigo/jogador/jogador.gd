@@ -28,6 +28,11 @@ const ZONA_MORTA_MIRA := 0.25
 const FATOR_MOVIMENTO_NO_GOLPE := 0.4
 ## A esquiva cancela o golpe a partir desta fração da duração dele
 const FRACAO_GOLPE_CANCELAVEL := 0.5
+## O dano do corte sai quando a lâmina encosta (45% do golpe, o contato dos clipes 3D), não no primeiro quadro.
+const FRACAO_CONTATO_GOLPE := 0.45
+## Passo curto à frente no início do golpe, no lugar de parar seco.
+const AVANCO_GOLPE := 95.0
+const DURACAO_AVANCO_S := 0.11
 ## Esquiva e ataque pedidos um instante cedo demais ficam guardados por esta janela
 const JANELA_BUFFER_MS := 150
 ## Parada de impacto no acerto (ms reais): golpe comum, crítico e golpe final
@@ -271,6 +276,8 @@ var _tempo_proximo_rastro: float = 0.0
 # COMBO
 # ---------------------------
 var _esta_atacando: bool = false
+var _contato_pendente := false
+var _direcao_golpe := Vector2.ZERO
 var _movimento_no_inicio_golpe := Vector2.ZERO
 var _fase_combo: int = 0
 var _pode_encadear_combo: bool = false
@@ -588,6 +595,17 @@ func _tremer_camera(forca: float, duracao: float) -> void:
 	_tween_tremor.tween_property(camera, "offset", Vector2.ZERO, duracao / 4.0)
 
 ## Golpe corpo a corpo (o temporizador só roda nos golpes de espada e lança) já na metade final: a esquiva pode cortá-lo
+## No instante do contato, acerta quem já está dentro da área (os que entrarem depois chegam pelos sinais).
+func _verificar_contato_golpe() -> void:
+	if not _contato_pendente: return
+	if not _esta_atacando or _temporizador.is_stopped():
+		_contato_pendente = false
+		return
+	if _temporizador.wait_time - _temporizador.time_left < _temporizador.wait_time * FRACAO_CONTATO_GOLPE: return
+	_contato_pendente = false
+	for corpo in $AreaAtaque.get_overlapping_bodies(): _on_corpo_entrou_area_ataque(corpo)
+	for area in $AreaAtaque.get_overlapping_areas(): _on_area_entrou_area_ataque(area)
+
 func _golpe_cancelavel() -> bool:
 	return not _temporizador.is_stopped() and _temporizador.time_left <= _temporizador.wait_time * FRACAO_GOLPE_CANCELAVEL
 
@@ -723,6 +741,7 @@ func conectar_sinal_se_nao_conectado(no: Node, nome_sinal: String, metodo: Strin
 
 func _physics_process(delta: float) -> void:
 	sustento_combate.avancar(delta)
+	_verificar_contato_golpe()
 	if _interacao_bloqueada:
 		pode_iniciar_interacao()
 	_recarga_carrasco = maxf(_recarga_carrasco - delta, 0.0)
@@ -906,7 +925,8 @@ func mover() -> void:
 		# Soltar/reapertar ou mudar a direção é um novo pedido de movimento.
 		if apontando.length() < ZONA_MORTA_MIRA:
 			_movimento_no_inicio_golpe = Vector2.ZERO
-		elif _movimento_no_inicio_golpe.length() < ZONA_MORTA_MIRA or _movimento_no_inicio_golpe.normalized().dot(apontando.normalized()) < 0.85:
+		# Mexer o direcional só interrompe a recuperação: o corte sempre chega ao contato.
+		elif _golpe_cancelavel() and not _contato_pendente and (_movimento_no_inicio_golpe.length() < ZONA_MORTA_MIRA or _movimento_no_inicio_golpe.normalized().dot(apontando.normalized()) < 0.85):
 			_cancelar_golpe()
 	if apontando.length() >= ZONA_MORTA_MIRA:
 		_direcao_ataque = apontando.normalized()
@@ -916,7 +936,8 @@ func mover() -> void:
 		# Personagem base 3D de teste: com ANDAR_NO_GOLPE desligado, planta os pés no golpe (para na hora, sem escorregar).
 		var visual_3d := get_node_or_null("HeroiBase3D")
 		if visual_3d != null and not visual_3d.ANDAR_NO_GOLPE:
-			velocity = Vector2.ZERO
+			var no_avanco := not _temporizador.is_stopped() and _temporizador.wait_time - _temporizador.time_left < DURACAO_AVANCO_S
+			velocity = _direcao_golpe * AVANCO_GOLPE if no_avanco else Vector2.ZERO
 			return
 		if _temporizador.is_stopped():
 			velocity.x = lerp(velocity.x, 0.0, _friccao)
@@ -1104,9 +1125,11 @@ func iniciar_slash_ataque_lanca(nome_anim: String, tempo_slash: float) -> void:
 		tempo_slash = base_3d.COMBO_LANCA.DURACOES[clampi(_fase_combo,1,3)-1]
 	Ranking.registrar_uso(self,id_lanca_atual)
 	_alvos_area_golpe.clear()
+	_contato_pendente = true
 	# Ajusta a velocidade da animação se necessário (pode ser removido se não for desejado)
 	reprodutor_anim.speed_scale = 0.2
 	_apontar_golpe()
+	_direcao_golpe = _direcao_ataque
 	_flash_golpe()
 	Sons.tocar("golpe_lanca")
 	acao_visual.emit("ataque", tempo_slash, _fase_combo)
@@ -1131,7 +1154,9 @@ func iniciar_slash_ataque(nome_anim: String, tempo_slash: float) -> void:
 		tempo_slash = base_3d._duracoes_combo()[clampi(_fase_combo,1,base_3d._duracoes_combo().size())-1]
 	Ranking.registrar_uso(self,id_arma_atual)
 	_alvos_area_golpe.clear()
+	_contato_pendente = true
 	_apontar_golpe()
+	_direcao_golpe = _direcao_ataque
 	_flash_golpe()
 	Sons.tocar("golpe_espada")
 	acao_visual.emit("ataque", tempo_slash, _fase_combo)
@@ -1266,6 +1291,7 @@ func animar() -> void:
 func _acertar_alvo_da_area(alvo: Node2D) -> void:
 	if maestria != null and maestria.executando: return
 	if not _esta_atacando: return # Ignora contatos pendentes de um golpe cancelado.
+	if _contato_pendente: return # Antes do contato da lâmina; _verificar_contato_golpe acerta quem estiver na área.
 	var id := alvo.get_instance_id()
 	if _alvos_area_golpe.has(id): return
 	_alvos_area_golpe[id] = true
