@@ -40,6 +40,7 @@ func morrer(_ignorar_reviver: bool = false) -> void:
 	if get_parent().get("registro_run")!=null:get_parent().registro_run.morte()
 	estaMorto = true
 	hp_atual = 0
+	atualizar_barra_hp()
 	velocity = Vector2.ZERO
 	defesa.cancelar()
 	desabilitar_todas_acoes(true)

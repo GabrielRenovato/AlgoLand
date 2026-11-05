@@ -30,6 +30,9 @@ const FATOR_MOVIMENTO_NO_GOLPE := 0.4
 const FRACAO_GOLPE_CANCELAVEL := 0.5
 ## O dano do corte sai quando a lâmina encosta (45% do golpe, o contato dos clipes 3D), não no primeiro quadro.
 const FRACAO_CONTATO_GOLPE := 0.45
+## Distância do centro da área de contato ao jogador (px), na direção do golpe.
+const ALCANCE_CONTATO := 22.0
+const ALCANCE_CONTATO_LANCA := 30.0
 ## Esquiva e ataque pedidos um instante cedo demais ficam guardados por esta janela
 const JANELA_BUFFER_MS := 150
 ## Parada de impacto no acerto (ms reais): golpe comum, crítico e golpe final
@@ -601,6 +604,21 @@ func _verificar_contato_golpe() -> void:
 	_contato_pendente = false
 	for corpo in $AreaAtaque.get_overlapping_bodies(): _on_corpo_entrou_area_ataque(corpo)
 	for area in $AreaAtaque.get_overlapping_areas(): _on_area_entrou_area_ataque(area)
+	# A forma da AreaAtaque ainda segue as janelas da animação 2D antiga (liga ~0,07 s e desliga ~0,13 s); no
+	# contato da lâmina 3D ela podia estar desligada ou em outra direção e o golpe errava (sobretudo o primeiro,
+	# que ainda sai da animação de parado). Consulta própria, na direção real do golpe:
+	var forma := RectangleShape2D.new()
+	forma.size = Vector2(24, 22)
+	var consulta := PhysicsShapeQueryParameters2D.new()
+	consulta.shape = forma
+	consulta.transform = Transform2D(0.0, global_position + Vector2(-1, -6) + _direcao_ataque * (ALCANCE_CONTATO_LANCA if usando_lanca else ALCANCE_CONTATO))
+	consulta.collision_mask = $AreaAtaque.collision_mask
+	consulta.collide_with_areas = true
+	consulta.collide_with_bodies = true
+	for resultado in get_world_2d().direct_space_state.intersect_shape(consulta, 16):
+		var alvo = resultado.collider
+		if alvo is Area2D: _on_area_entrou_area_ataque(alvo)
+		elif alvo is Node2D: _on_corpo_entrou_area_ataque(alvo)
 
 func _golpe_cancelavel() -> bool:
 	return not _temporizador.is_stopped() and _temporizador.time_left <= _temporizador.wait_time * FRACAO_GOLPE_CANCELAVEL

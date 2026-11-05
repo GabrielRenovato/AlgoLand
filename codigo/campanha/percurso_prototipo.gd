@@ -57,6 +57,9 @@ var interface: CanvasLayer
 var _ocupado := false
 var _frame_ultima_interacao := -1
 var _destino_apos_conclusao := ""
+## Derrota em curso: a janela "Você caiu" leva de volta à entrada da região ao fechar ou ao escolher.
+var _derrota_pendente := false
+const TEMPO_QUEDA_DERROTA := 2.2
 var _ponto := Vector2(-464,224)
 var _nome_proximo := ""
 var terreno: Node2D
@@ -118,6 +121,21 @@ func _ao_derrota() -> void:
 	if sessao!=null and sessao.ativo:
 		sessao._falhar("A expedição terminou. Seu progresso foi preservado.")
 		return
+	# Antes a cena recarregava no mesmo quadro: parecia travar e o jogador sumia para a entrada.
+	# Agora o corpo cai (animação "morrer" do herói 3D), e uma janela explica e oferece tentar de novo.
+	_derrota_pendente = true
+	await get_tree().create_timer(TEMPO_QUEDA_DERROTA).timeout
+	if not is_inside_tree() or not _derrota_pendente: return
+	var nome: String = Controlador.Catalogo.dados().destinos.get(regiao, {}).get("nome", "região")
+	var paginas: Array[String] = ["Você foi derrotado. As missões e os itens continuam salvos; você volta para a entrada de %s." % nome]
+	var opcoes: Array[String] = ["Tentar de novo"]
+	_escolha_ativa = "derrota"
+	interface._telas.introducao.iniciar_com_opcoes(paginas, opcoes, "Você caiu")
+	EventosJogo.abrir_tela_de(jogador, "introducao")
+
+func _sair_da_derrota() -> void:
+	if not _derrota_pendente: return
+	_derrota_pendente = false
 	_recomecar.call_deferred()
 
 func _recomecar() -> void:
@@ -370,6 +388,8 @@ func _ao_escolher(indice: int) -> void:
 			else:_abrir_menu.call_deferred("tomas_menu",[],_nome_servico)
 		"bau_inicial":
 			if indice==0:_pegar_bau()
+		"derrota":
+			_sair_da_derrota()
 		"rosa_menu":
 			match indice:
 				0:_abrir_menu.call_deferred("rosa_menu",[Servicos.tratar(jogador)],_nome_servico)
@@ -492,6 +512,9 @@ func _mostrar_conclusao(titulo: String, texto: String, destino: String) -> void:
 	EventosJogo.abrir_tela_de(jogador,"introducao")
 
 func _apos_conclusao() -> void:
+	if _derrota_pendente:
+		_sair_da_derrota()
+		return
 	if is_instance_valid(_morador_conversando):_morador_conversando.encerrar_conversa()
 	_morador_conversando=null
 	if _destino_apos_conclusao.is_empty(): return
