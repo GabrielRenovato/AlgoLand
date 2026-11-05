@@ -60,3 +60,38 @@ pedido do usuário.
 - **Fase 1, parte B (falta):** árvores, moinho, mecanismo, ponte e entrada da dungeon ainda são imagens de telas
   próprias coladas no 2D. Para entrarem no mundo único é preciso que os atores também estejam nele (billboard ou
   3D), senão a árvore deixa de tapar o jogador. Por isso a parte B anda junto com a fase 2.
+
+## Decisão de 05/11: cenário 3D, objetos em sprite 2D, personagens 3D
+
+O usuário quer manter a mistura 2D + 3D. Fica assim:
+
+- **Cenário 3D no mundo único:** terreno, casas, moinho, ponte e árvores entram direto no `Mundo3D` da região (sem
+  `SubViewport` por peça).
+- **Objetos 2D como `Sprite3D`:** a mesma arte (flores, caixas, cercas, móveis, efeitos, inimigos ainda 2D) vira
+  sprite em pé, `billboard` fixo (a câmera não gira), `pixel_size` = 1/32 m, `texture_filter` nearest e
+  `alpha_cut` (recorte, sem mistura: evita a ordem piscando). Sombra redonda no chão.
+- **Personagens 3D como estão hoje:** herói, moradores e inimigos 3D saem do `SubViewport` próprio (`heroi_base_3d`,
+  160×160 px por personagem, redesenhado a todo quadro) e entram no mesmo mundo. É o principal ganho no celular:
+  na vila são ~16 telas por quadro.
+- **Lógica no plano** como na arquitetura acima; HUD, balões e números de dano seguem na camada 2D.
+
+Motivo imediato: travada num Poco M6 Pro (Helio G99 / Mali-G57). Ordem proposta: vila primeiro (moradores 3D são
+o maior custo e as casas já são 3D), depois chegada, estrada, pomar e Bacia. Paliativos enquanto isso: 30 FPS
+padrão no Android, personagem fora da tela sem redesenho, personagem longe/parado a ~12 FPS e um "Modo leve".
+
+### Andamento da vila (05/11, não publicado)
+
+- **Feito:** grama no mundo único (`codigo/cenario/grama_3d_no_mapa.gd`, vale para vila, chegada e cidade principal).
+  Os 24 blocos de 256 px moram num só mundo 3D e saem de uma tela do tamanho da tela do jogo (`_criar_mundo_grama`,
+  `_seguir_camera`); supersample = `resolucao_grama/288` (vila 3x, cidade 1x; celular no máximo 2x); sol sem sombra.
+  Faixas de contato e a grama à frente do pé das árvores viraram recortes da tela única (`_recorte`), com a região
+  refeita a cada quadro. Vila: 194 -> 87 telas 3D; ~80 MB de textura de grama -> ~9 MB (PC 3x) / ~4 MB (celular).
+- **Feito:** personagens num álbum (`codigo/jogador/atlas_herois_3d.gd`, criado pelo `percurso_prototipo`): todos
+  os `heroi_base_3d` da campanha moram num mundo 3D só, lado a lado (6x4 células de 160 px com 20% de folga), e
+  saem de uma tela só; cada sprite mostra o recorte da sua célula e mantém o z 2D. A tela e a câmera de cada herói
+  ficam paradas (UPDATE_DISABLED) mas servem às contas de projeção (ponta da arma, pesca, cabeça), que não mudaram.
+  Fora da tela o corpo não entra na passada. Armadilhas: trocar o `world_3d` solta a malha do esqueleto (pose de T)
+  -> `_religar_esqueletos`; moradores não rodam `_process`, então o registro também sai do `_ready` (deferred).
+  Vila: telas que redesenham a todo quadro ~20 -> 2 (álbum e grama).
+- **Falta (opcional):** casas e objetos 3D das oficinas desenham uma vez só (custo por quadro baixo); levá-los ao
+  mundo único exige o cenário 3D com objetos 2D em `Sprite3D` (profundidade real), descrito acima.
