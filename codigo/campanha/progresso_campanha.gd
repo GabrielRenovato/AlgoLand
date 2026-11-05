@@ -14,6 +14,8 @@ var tempos_regioes: Dictionary = {}
 var bau_resgate_aberto := false
 var preparo := ""
 var recompensas: Array = []
+## Baús escondidos já abertos (ids "regiao:n"); cada um entrega o conteúdo uma vez.
+var baus_abertos: Array = []
 var _arquivo := ""
 var _perfil := ""
 var _pronto := false
@@ -31,6 +33,7 @@ func iniciar(pasta: String, perfil: String) -> Error:
 	bau_resgate_aberto = false
 	preparo = ""
 	recompensas = []
+	baus_abertos = []
 	_arquivo = ""
 	_perfil = ""
 	_existia = false
@@ -73,6 +76,8 @@ func iniciar(pasta: String, perfil: String) -> Error:
 		bau_resgate_aberto = json.data.get("bau_resgate_aberto",false)
 		preparo = json.data.get("preparo","")
 		recompensas = json.data.get("recompensas",[]).duplicate()
+		var baus: Variant = json.data.get("baus_abertos",[])
+		baus_abertos = baus.filter(func(id): return id is String and id.length() <= 32) if baus is Array else []
 		_tentativas = json.data.get("tentativas",{}).duplicate(true)
 	_pronto = true
 
@@ -247,6 +252,14 @@ func registrar_abertura_bau() -> Error:
 	if erro!=OK: bau_resgate_aberto=false
 	return erro
 
+func registrar_bau_escondido(id: String) -> Error:
+	if not _pronto: return ERR_UNCONFIGURED
+	if id in baus_abertos: return ERR_ALREADY_EXISTS
+	baus_abertos.append(id)
+	var erro := _gravar(_concluidas)
+	if erro != OK: baus_abertos.erase(id)
+	return erro
+
 func registrar_objetivo(missao: String, id: String) -> Error:
 	if not _pronto:
 		return ERR_UNCONFIGURED
@@ -377,7 +390,7 @@ func _snapshot(concluidas: Array, objetivos: Variant = null) -> Dictionary:
 	# Relíquia e acesso são derivados do mesmo registro de conclusões. Não há
 	# uma segunda escrita para conceder recompensa que possa ficar pela metade.
 	return {"versao": VERSAO_SAVE, "campanha": Catalogo.ID, "versao_conteudo": _catalogo.versao_conteudo,
-		"perfil": _perfil, "concluidas": concluidas.duplicate(), "objetivos": objetivos.duplicate(true), "retorno":_retorno.duplicate(true), "tempos_regioes":tempos_regioes.duplicate(), "bau_resgate_aberto":bau_resgate_aberto,"preparo":preparo,"recompensas":recompensas.duplicate(),"tentativas":_tentativas.duplicate(true)}
+		"perfil": _perfil, "concluidas": concluidas.duplicate(), "objetivos": objetivos.duplicate(true), "retorno":_retorno.duplicate(true), "tempos_regioes":tempos_regioes.duplicate(), "bau_resgate_aberto":bau_resgate_aberto,"preparo":preparo,"recompensas":recompensas.duplicate(),"tentativas":_tentativas.duplicate(true),"baus_abertos":baus_abertos.duplicate()}
 
 func _gravar(novas: Array, objetivos: Variant = null) -> Error:
 	if objetivos == null:

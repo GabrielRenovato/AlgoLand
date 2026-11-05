@@ -20,6 +20,9 @@ var _teclas: Array[Label] = []
 var _interface: Node
 var _acoes: Array = []
 var _fechado_na_introducao := false
+## Some sozinho depois de um minuto à vista (fora da aula de combate): os comandos voltam como dicas na hora certa.
+const TEMPO_AUTOMATICO_S := 60.0
+var _tempo_visivel := 0.0
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -138,7 +141,10 @@ func _encaixar() -> void:
 	_painel.offset_top = -rodape - margens.w - _painel.size.y
 	_painel.offset_bottom = -rodape - margens.w
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	# Menus e botões de toque já apresentam seus próprios comandos.
 	var exibir := (Introducao.etapa == Introducao.Etapa.COMBATE and not _fechado_na_introducao) if Introducao.ativa() else not esta_fechado()
 	visible = exibir and not bool(get_tree().get_meta("cinema_ativo", false)) and not Controle.usando_toque and (not is_instance_valid(_interface) or _interface._telas_abertas.is_empty())
+	if visible and not Introducao.ativa():
+		_tempo_visivel += delta
+		if _tempo_visivel >= TEMPO_AUTOMATICO_S: _ao_fechar()

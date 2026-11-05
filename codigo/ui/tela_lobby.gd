@@ -88,6 +88,17 @@ func _ready() -> void:
  teclado.add_theme_font_size_override("font_size",7)
  teclado.pressed.connect(_abrir_teclado)
  entrada.add_child(teclado)
+ # Frases rápidas (emotes): um toque envia, sem teclado; aparecem no balão sobre o personagem.
+ var rapidas := HBoxContainer.new()
+ rapidas.add_theme_constant_override("separation",4)
+ coluna.add_child(rapidas)
+ for frase in FRASES_RAPIDAS:
+  var botao := Button.new()
+  botao.text = frase
+  botao.add_theme_font_size_override("font_size",7)
+  botao.size_flags_horizontal = SIZE_EXPAND_FILL
+  botao.pressed.connect(_enviar_frase.bind(frase))
+  rapidas.add_child(botao)
  var botoes := HBoxContainer.new()
  botoes.add_theme_constant_override("separation",8)
  coluna.add_child(botoes)
@@ -365,6 +376,14 @@ func _trocar_modo() -> void:
   _sessao.definir_online(not _sessao.online)
   _ultimo_chat = -1
   _atualizar()
+
+const FRASES_RAPIDAS := ["OI!", "VALEU!", "BORA!", "SOCORRO!", "GG"]
+
+func _enviar_frase(frase: String) -> void:
+ if _sessao==null: return
+ var erro: String = _sessao.enviar_mensagem(frase)
+ _avisar(erro if not erro.is_empty() else "ENVIANDO...")
+ _atualizar()
 
 func _enviar_mensagem() -> void:
  if _sessao==null: return

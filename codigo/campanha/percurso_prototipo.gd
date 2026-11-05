@@ -659,6 +659,8 @@ func abrir_regiao(id: String, nova_instancia := true) -> Error:
 	if id=="vila":
 		_criar_moradores()
 		_alvo("leilao","Leilão dos aventureiros",Vector2(-456,-72),"leilao","")
+	_criar_bau_escondido(id)
+	_aplicar_atmosfera(id)
 	if id=="chegada":
 		var margem := preload("res://codigo/campanha/pesca_rios.gd").margem_proxima(terreno,jogador.position)
 		if margem.is_finite():
@@ -792,6 +794,7 @@ func _process(_delta: float) -> void:
 		return
 	if is_instance_valid(terreno) and terreno.has_method("atualizar_oclusao"):
 		terreno.atualizar_oclusao(jogador,_delta)
+	_atualizar_marcadores(_delta)
 	if regiao=="vila" and interface._telas_abertas.is_empty() and not cinema_cidade_ativa():
 		var luz:=get_tree().get_first_node_in_group("iluminacao")
 		hora_da_cidade=float(luz.hora) if luz!=null else fposmod(hora_da_cidade+_delta/24.0,24.0)
@@ -856,6 +859,8 @@ func interagir_proximo() -> Error:
 	if id in ["espada_inicial","escudo_inicial"] and not jogador.inventario.tem_espaco():
 		_avisar("Libere espaço na mochila.")
 		return ERR_OUT_OF_MEMORY
+	if id.begins_with("bau_escondido"): return _abrir_bau_escondido(id)
+	if id == "trabalhador_vila": return _conversar_trabalhador()
 	if id=="leilao":
 		EventosJogo.abrir_tela_de(jogador,"mercado")
 		return OK
@@ -1009,6 +1014,49 @@ func _criar_moradores() -> void:
 		interacao.so_entre_ondas=false
 		morador.add_child(interacao)
 		morador.visual.renderizado.connect(_rotular_morador.bind(id,morador,interacao),CONNECT_ONE_SHOT)
+	_criar_trabalhador_vila()
+
+## O trabalhador resgatado na estrada passa a morar na vila depois do acolhimento (a vila reage ao progresso).
+func _criar_trabalhador_vila() -> void:
+	if not controlador.progresso.missao_concluida("acolhimento") or not moradores.has("rosa"): return
+	var trabalhador: CharacterBody2D = preload("res://cenas/npcs/npc_gerado.tscn").instantiate()
+	trabalhador.name = "TrabalhadorResgatado"
+	var ficha: Dictionary = preload("res://codigo/dados/gerador_npcs.gd").gerar(4417, "agricultor")
+	ficha.nome = "Bento"
+	trabalhador.ficha = ficha
+	var ponto := _ponto_morador(moradores["rosa"].rota[0] + Vector2(36, 18))
+	trabalhador.rota.append(ponto)
+	trabalhador.position = ponto
+	add_child(trabalhador)
+	alvos["trabalhador_vila"] = {"no":trabalhador,"nome":"Bento","tipo":"conversar","rotulo":null}
+	var interacao := preload("res://codigo/campanha/interacao_campanha.gd").new()
+	interacao.id = "trabalhador_vila"
+	interacao.cena_responsavel = self
+	interacao.so_entre_ondas = false
+	trabalhador.add_child(interacao)
+	trabalhador.visual.renderizado.connect(_rotular_trabalhador.bind(trabalhador, interacao), CONNECT_ONE_SHOT)
+
+func _rotular_trabalhador(trabalhador: Node, interacao: Node) -> void:
+	if not is_instance_valid(trabalhador): return
+	var rotulo: Label = trabalhador.get_node_or_null("NomeNPC")
+	if rotulo == null: return
+	rotulo.visible = false
+	interacao._aviso.position = Vector2(0, rotulo.position.y-13)
+
+func _conversar_trabalhador() -> Error:
+	var trabalhador: Node = alvos["trabalhador_vila"].no
+	_frame_ultima_interacao = Engine.get_process_frames()
+	trabalhador.iniciar_conversa(jogador.global_position)
+	_morador_conversando = trabalhador
+	var fala := "Obrigado por me tirar da estrada. Agora ajudo a Rosa com os curativos enquanto a perna sara."
+	if controlador.progresso.missao_concluida("pomar_sulcos"):
+		fala = "Disseram que você fechou a passagem do pomar. Se as carroças voltarem a andar, eu volto a carregar o grão."
+	if controlador.progresso.missao_concluida("moinho_vazao"):
+		fala = "Ouvi a roda do moinho girando de novo! Amanhã mesmo levo o primeiro saco de grão para lá."
+	var paginas: Array[String] = [fala]
+	interface._telas.introducao.iniciar(paginas, "Bento")
+	EventosJogo.abrir_tela_de(jogador, "introducao")
+	return OK
 
 func _rotular_morador(id: String,morador: Node,interacao: Node) -> void:
 	if not is_instance_valid(morador) or not moradores.has(id) or moradores[id]!=morador:return
@@ -1017,6 +1065,145 @@ func _rotular_morador(id: String,morador: Node,interacao: Node) -> void:
 	alvos[id].rotulo=rotulo
 	# Nome e botão mantêm a mesma âncora acima da cabeça, em duas alturas.
 	interacao._aviso.position=Vector2(0,rotulo.position.y-13)
+
+## "!" acima de quem tem missão ou entrega para o jogador agora (o mesmo objetivo que a conversa registraria).
+var _marcadores: Dictionary = {}
+var _espera_marcadores := 0.0
+func _atualizar_marcadores(delta: float) -> void:
+	_espera_marcadores -= delta
+	if _espera_marcadores > 0.0: return
+	_espera_marcadores = 0.2
+	var com_missao: Dictionary = {}
+	for objetivo in controlador.objetivos_disponiveis():
+		if objetivo.get("regiao","") == regiao and moradores.has(objetivo.get("alvo","")): com_missao[objetivo.alvo] = true
+	for id in moradores:
+		var morador: Node = moradores[id]
+		if not is_instance_valid(morador): continue
+		var marcador: Label = _marcadores.get(id)
+		if com_missao.has(id) and marcador == null:
+			marcador = Label.new()
+			marcador.text = "!"
+			marcador.add_theme_font_override("font", preload("res://codigo/ui/estilo_campanha.gd").FONTE)
+			marcador.add_theme_font_size_override("font_size", 18)
+			marcador.add_theme_color_override("font_color", Color("ffd34d"))
+			marcador.add_theme_color_override("font_outline_color", Color("2a1a08"))
+			marcador.add_theme_constant_override("outline_size", 4)
+			marcador.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+			marcador.size = Vector2(16, 20)
+			# Logo acima da cabeça (os pés do morador ficam na origem).
+			marcador.position = Vector2(-8, -40)
+			marcador.z_index = 50
+			morador.add_child(marcador)
+			var pulo := marcador.create_tween().set_loops()
+			pulo.tween_property(marcador, "position:y", marcador.position.y - 3, 0.45).set_trans(Tween.TRANS_SINE)
+			pulo.tween_property(marcador, "position:y", marcador.position.y, 0.45).set_trans(Tween.TRANS_SINE)
+			_marcadores[id] = marcador
+		elif not com_missao.has(id) and marcador != null:
+			if is_instance_valid(marcador): marcador.queue_free()
+			_marcadores.erase(id)
+		# Perto o bastante para o botão de conversar aparecer, o "!" sai do caminho.
+		if is_instance_valid(_marcadores.get(id)):
+			_marcadores[id].visible = morador.global_position.distance_to(jogador.global_position) > 44.0
+
+## Diário de missões (tecla J ou toque no painel da missão): principais e secundárias, com o passo atual de cada uma.
+func abrir_diario() -> void:
+	if not interface._telas_abertas.is_empty() or jogador.estaMorto: return
+	var andamento: Array[String] = []
+	var secundarias: Array[String] = []
+	var concluidas: Array[String] = []
+	var catalogo: Dictionary = controlador._catalogo
+	var destinos: Dictionary = Controlador.Catalogo.dados().destinos
+	var disponiveis: Array[Dictionary] = controlador.objetivos_disponiveis()
+	for missao in catalogo.missoes:
+		var dados: Dictionary = catalogo.missoes[missao]
+		# Regiões ainda fechadas no beta não entram no diário.
+		if not str(dados.get("destino","")) in Controlador.Catalogo.REGIOES_HABILITADAS: continue
+		if controlador.progresso.missao_concluida(missao):
+			concluidas.append(str(dados.nome))
+			continue
+		if not controlador.progresso.pode_concluir(missao): continue
+		var passo := ""
+		for objetivo in disponiveis:
+			if objetivo.missao == missao:
+				passo = str(objetivo.texto)
+				var lugar: String = destinos[objetivo.regiao].nome
+				if objetivo.regiao != regiao and not lugar in passo: passo += " (" + lugar + ")"
+				break
+		var linha := "• %s: %s" % [dados.nome, passo] if not passo.is_empty() else "• %s" % dados.nome
+		if bool(dados.get("opcional", false)): secundarias.append(linha)
+		else: andamento.append(linha)
+	var paginas: Array[String] = []
+	for grupo in [["EM ANDAMENTO", andamento], ["SECUNDÁRIAS", secundarias]]:
+		var linhas: Array = grupo[1]
+		for inicio in range(0, linhas.size(), 2):
+			paginas.append(grupo[0] + "\n" + "\n".join(linhas.slice(inicio, inicio + 2)))
+	if not concluidas.is_empty(): paginas.append("CONCLUÍDAS\n" + ", ".join(concluidas) + ".")
+	if paginas.is_empty(): return
+	interface._telas.introducao.iniciar(paginas, "Diário de missões")
+	EventosJogo.abrir_tela_de(jogador, "introducao")
+
+func _unhandled_input(evento: InputEvent) -> void:
+	if evento is InputEventKey and evento.pressed and not evento.echo and evento.physical_keycode == KEY_J and not Controle.digitando:
+		abrir_diario()
+		get_viewport().set_input_as_handled()
+
+## Tom de luz fixo por região (a campanha não tem relógio de dia: o da Iluminacao encerra o dia e leva a dormir).
+const ATMOSFERAS := {"chegada": Color(0.96, 0.98, 1.0), "estrada": Color(1.0, 0.96, 0.9),
+	"vila": Color(1.0, 1.0, 1.0), "pomar": Color(1.0, 0.94, 0.84), "moinho": Color(0.93, 0.97, 1.0)}
+func _aplicar_atmosfera(id_regiao: String) -> void:
+	var tom := get_node_or_null("AtmosferaRegiao") as CanvasModulate
+	if tom == null:
+		tom = CanvasModulate.new()
+		tom.name = "AtmosferaRegiao"
+		add_child(tom)
+	tom.color = ATMOSFERAS.get(id_regiao, Color.WHITE)
+
+## Um baú escondido por região, longe da entrada e das missões; o lugar é sempre o mesmo para a mesma região.
+const POCOES_BAU_ESCONDIDO := 2
+func _criar_bau_escondido(id_regiao: String) -> void:
+	var id := "bau_escondido_" + id_regiao
+	if id in controlador.progresso.baus_abertos or not is_instance_valid(terreno) or terreno.get("limites") == null: return
+	var entrada := Vector2(terreno.dados.entrada[0], terreno.dados.entrada[1])
+	var rng := RandomNumberGenerator.new()
+	rng.seed = hash(id)
+	var limites: Rect2 = terreno.limites.grow(-48)
+	var ponto := Vector2.INF
+	for tentativa in 600:
+		var candidato := Vector2(rng.randf_range(limites.position.x, limites.end.x), rng.randf_range(limites.position.y, limites.end.y))
+		if candidato.distance_to(entrada) < 320.0 or not terreno.ponto_seguro(candidato): continue
+		# Longe de casas, cercas e troncos: perto deles o baú some atrás da arte.
+		var obstaculos: Array = terreno.get("obstaculos") if terreno.get("obstaculos") is Array else []
+		if obstaculos.any(func(area: Rect2) -> bool: return area.grow(56.0).has_point(candidato)): continue
+		if alvos.values().any(func(alvo: Dictionary) -> bool: return is_instance_valid(alvo.no) and alvo.no.global_position.distance_to(candidato) < 140.0): continue
+		ponto = candidato
+		break
+	if not ponto.is_finite(): return
+	_alvo(id, "Baú escondido", ponto, "abrir", "")
+	var bau := Sprite2D.new()
+	bau.texture = load("res://assets/cenario/campanha/clareiras_modulares/primavera/bau_resgate.png")
+	bau.scale = Vector2.ONE * 0.05
+	bau.position.y = -10
+	alvos[id].no.add_child(bau)
+
+func _abrir_bau_escondido(id: String) -> Error:
+	if _ocupado or not interface._telas_abertas.is_empty(): return ERR_BUSY
+	_frame_ultima_interacao = Engine.get_process_frames()
+	var ouro := 20 + (hash(id) % 3) * 10
+	var mochila: Node = jogador.inventario
+	if not mochila.adicionar_coletavel("pocao", "cura", POCOES_BAU_ESCONDIDO) or not mochila.salvar():
+		_avisar("Libere espaço na mochila.")
+		return ERR_OUT_OF_MEMORY
+	if controlador.progresso.registrar_bau_escondido(id) != OK:
+		_avisar("Não foi possível guardar o baú.")
+		return FAILED
+	jogador.adicionar_moedas(ouro)
+	Sons.tocar("moeda")
+	if alvos.has(id) and is_instance_valid(alvos[id].no): alvos[id].no.queue_free()
+	alvos.erase(id)
+	var paginas: Array[String] = ["Você achou um baú escondido!\n• %d poções de cura\n• %d de ouro" % [POCOES_BAU_ESCONDIDO, ouro]]
+	interface._telas.introducao.iniciar(paginas, "Baú escondido")
+	EventosJogo.abrir_tela_de(jogador, "introducao")
+	return OK
 
 func _ponto_morador(ponto: Vector2) -> Vector2:
 	for raio in [0,16,32,48,64]:
@@ -1058,6 +1245,10 @@ func _conversar_morador(id: String) -> Error:
 		_reacoes_moradores[id]=reacao
 	if etapa:paginas.push_front(FALAS_PASSOS.get(passo,_fala(id).get_slice(": ",1)))
 	if etapa and passo=="moinho_vazao:relato":paginas.append("Fim do beta da campanha. Obrigado por jogar! As outras regiões da Primeira Raiz chegam nas próximas atualizações; seu progresso fica salvo.")
+	# A conversa que avança a missão termina sempre dizendo o próximo passo, em uma linha.
+	if etapa and passo!="moinho_vazao:relato":
+		var proximo: String = str(objetivo_de_campanha().get("texto",""))
+		if not proximo.is_empty(): paginas.append("Próximo: " + proximo)
 	_visitas_moradores[id]=visitas+1
 	if id=="dara" and regiao=="vila" and _oferecer_treino(paginas,alvos[id].nome):return OK
 	if id in ["tomas","rosa"] and regiao=="vila":

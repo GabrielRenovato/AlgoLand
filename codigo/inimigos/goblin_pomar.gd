@@ -24,6 +24,13 @@ var _impactou := false
 var _rumo := Vector2.DOWN
 var _aviso: Line2D
 var _vida_cheia := 1
+## Goblin de adaga é covarde: com pouca vida corre para longe uma vez e depois volta (o de machado não foge).
+const VIDA_FUGA := 0.3
+const TEMPO_FUGA := 1.7
+## Velocidade do passo para trás no preparo do golpe de machado (px/s).
+const RECUO_PREPARO := 45.0
+var _fuga_restante := 0.0
+var _ja_fugiu := false
 var _postura := 0.0
 var _postura_quebrada := false
 var _combo_pendente := false
@@ -115,6 +122,9 @@ func _physics_process(delta: float) -> void:
 			return
 		velocity = Vector2.ZERO
 		_animar(delta)
+		# Machado toma impulso: recua um passo no preparo antes de avançar no corte (aviso legível sem linha).
+		if arma_goblin == "machado" and not _impactou and tempo_animacao < antecipacao_ataque*0.6:
+			move_and_collide(-_rumo*RECUO_PREPARO*delta)
 		# Avanço curto, limitado pela distância ao alvo; nunca atravessa paredes.
 		if not _impactou and tempo_animacao >= antecipacao_ataque+.055:
 			var alvo_golpe := obter_jogador()
@@ -137,13 +147,18 @@ func _physics_process(delta: float) -> void:
 	else: _tocar("correr" if velocity.length()>2.0 else "parado")
 	_animar(delta)
 	_reacao_dano_restante = maxf(0.0,_reacao_dano_restante-delta)
+	_fuga_restante = maxf(0.0,_fuga_restante-delta)
 	var alvo := obter_jogador()
-	if alvo != null and _recarga == 0.0 and not esta_recuando and not esta_atordoado() and _reacao_dano_restante == 0.0:
+	if alvo != null and _recarga == 0.0 and _fuga_restante == 0.0 and not esta_recuando and not esta_atordoado() and _reacao_dano_restante == 0.0:
 		if global_position.distance_to(alvo.global_position)<=alcance_ataque and not _parede(alvo.global_position):
 			iniciar_ataque(alvo.global_position-global_position)
 
 ## O contorno escolhe o rumo antes da aceleração, sem girar a velocidade já integrada.
 func _direcao_ate(alvo: Node2D, para_alvo: Vector2, delta: float) -> Vector2:
+	if _fuga_restante > 0.0:
+		var fuga := -para_alvo.normalized()
+		if test_move(global_transform,fuga*10.0): fuga = fuga.orthogonal()*_lado_giro
+		return fuga
 	var rumo := super(alvo,para_alvo,delta)
 	if rumo.is_zero_approx(): return rumo
 	var distancia := global_position.distance_to(alvo.global_position)
@@ -169,6 +184,9 @@ func receber_dano(quantidade_dano: int,forca_knockback := Vector2.ZERO) -> void:
 	_tranco=1.0;_lado_tranco=1.0 if randf()<.5 else -1.0
 	super(quantidade_dano,forca_knockback)
 	if esta_morto: return
+	if arma_goblin == "adaga" and not _ja_fugiu and vida <= _vida_cheia*VIDA_FUGA:
+		_ja_fugiu = true
+		_fuga_restante = TEMPO_FUGA
 	if esta_atacando: _cancelar_golpe()
 	_direcao_ferido = direcao
 	_reacao_dano_restante = .3
@@ -193,7 +211,10 @@ func iniciar_ataque(rumo: Vector2) -> void:
 	velocity = Vector2.ZERO
 	_tocar("ataque_1",true)
 	_aviso.rotation = _rumo.angle()
-	# Sem linha de aviso nos inimigos comuns: a pose de preparo já anuncia o golpe.
+	# Sem linha de aviso nos inimigos comuns: o corpo acende durante o preparo e apaga no golpe.
+	var brilho := create_tween()
+	brilho.tween_property(sprite,"self_modulate",Color(1.55,1.35,0.9),maxf(antecipacao_ataque*0.7,0.08))
+	brilho.tween_property(sprite,"self_modulate",Color.WHITE,0.14)
 
 func _resolver_impactos() -> void:
 	var t := 0.0

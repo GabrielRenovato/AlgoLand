@@ -37,6 +37,10 @@ var _selecionado := -1
 var _aba := 1
 var _entrada: Tween
 var _revelaveis: Array[Control] = []
+## Comemoração da entrada: o brasão pula e faíscas douradas sobem atrás do título.
+var _brasao: TextureRect
+## Só na conclusão de uma etapa (o botão Relatório abre a mesma tela no meio da exploração).
+var comemorar := false
 
 # Acabamento nativo: madeira, filetes de latão, encaixes e rebites. Sem textura ampliada.
 class Quadro extends PanelContainer:
@@ -142,6 +146,7 @@ func montar(medida: Vector2i) -> void:
 	var brasao := TextureRect.new();brasao.texture=BRASAO;brasao.custom_minimum_size=Vector2(32,38) if baixo or compacto else Vector2(48,54)
 	brasao.expand_mode=TextureRect.EXPAND_IGNORE_SIZE;brasao.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	cabeca.add_child(brasao)
+	_brasao = brasao
 	var titulos := coluna(1);titulos.size_flags_horizontal=Control.SIZE_EXPAND_FILL;cabeca.add_child(titulos)
 	var vitoria := texto(titulo_estado,17 if baixo or compacto else 24,Color("edd298"),true)
 	vitoria.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;titulos.add_child(vitoria)
@@ -318,6 +323,41 @@ func _animar_entrada() -> void:
 		if _entrada!=null:_entrada.kill()
 		return
 	_entrada=create_tween()
+	_comemorar.call_deferred()
 	for no in _revelaveis:
 		no.modulate.a=0
 		_entrada.tween_property(no,"modulate:a",1.0,.16).set_trans(Tween.TRANS_SINE)
+
+func _comemorar() -> void:
+	if not comemorar or not is_instance_valid(_brasao): return
+	comemorar = false
+	# Espera o painel se posicionar: antes disso o brasão ainda está fora da tela.
+	await get_tree().process_frame
+	await get_tree().process_frame
+	if not is_instance_valid(_brasao): return
+	Sons.tocar("onda_fim")
+	_brasao.pivot_offset = _brasao.size*0.5
+	_brasao.scale = Vector2.ONE*0.4
+	var pulo := create_tween()
+	pulo.tween_property(_brasao,"scale",Vector2.ONE*1.15,0.22).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	pulo.tween_property(_brasao,"scale",Vector2.ONE,0.12)
+	var faiscas := CPUParticles2D.new()
+	faiscas.amount = 40
+	faiscas.lifetime = 1.1
+	faiscas.one_shot = true
+	faiscas.explosiveness = 0.85
+	# Em todas as direções: o brasão fica colado no topo da tela e faíscas para cima saíam de vista.
+	faiscas.direction = Vector2.RIGHT
+	faiscas.spread = 180.0
+	faiscas.initial_velocity_min = 70.0
+	faiscas.initial_velocity_max = 150.0
+	faiscas.gravity = Vector2(0, 40)
+	faiscas.scale_amount_min = 1.5
+	faiscas.scale_amount_max = 2.5
+	faiscas.color = Color("f2cf72")
+	faiscas.position = _brasao.size*0.5
+	faiscas.local_coords = true
+	faiscas.show_behind_parent = true
+	_brasao.add_child(faiscas)
+	faiscas.emitting = true
+	faiscas.finished.connect(faiscas.queue_free)

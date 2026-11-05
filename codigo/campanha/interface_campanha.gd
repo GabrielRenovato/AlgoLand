@@ -136,6 +136,7 @@ func mostrar_resultado(destino := "") -> void:
 		titulo="Clareira pacificada"
 	var dados: Dictionary=cena.registro_run.dados()
 	dados["objetivo"]=cena.controlador.objetivo_atual().get("texto","")
+	_telas.resultado.comemorar = not destino.is_empty()
 	_telas.resultado.apresentar(dados,cena.regiao,titulo)
 	cena.registro_run.apresentada=true
 	_paineis["resultado"]=_telas.resultado.painel

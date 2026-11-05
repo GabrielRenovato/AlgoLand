@@ -73,9 +73,19 @@ func _process(delta: float) -> void:
 	if caminho.ends_with("praia.tscn") or caminho.ends_with("palafita.tscn"):
 		definir("praia","mar")
 	elif caminho.ends_with("percurso_prototipo.tscn"):
-		# Clareira: vento e pássaros do bosque; a música muda quando a vigília desperta as raízes.
-		var vigilia: bool = cena.get("regiao") == "chegada" and is_instance_valid(cena.get("encontro")) and bool(cena.encontro.get("ativa"))
-		definir("guardiao" if vigilia else ("fazenda" if cena.get("regiao") == "chegada" else "vila"), "bosque")
+		# Cada região com sua trilha; encontros (vigília, defesa da vila, guardião das galerias) trocam para a de luta.
+		var regiao: String = str(cena.get("regiao"))
+		var luta: bool = is_instance_valid(cena.get("encontro")) and cena.encontro.get("ativa") == true
+		var terreno = cena.get("terreno")
+		var roteiro = terreno.get("roteiro") if is_instance_valid(terreno) else null
+		var galerias: bool = is_instance_valid(roteiro) and roteiro.get("dentro") == true
+		if galerias:
+			var dungeon = roteiro.get("dungeon")
+			var guardiao = dungeon.get("guardiao") if is_instance_valid(dungeon) else null
+			luta = luta or (is_instance_valid(guardiao) and guardiao.get("em_combate") == true)
+		var musica: String = {"chegada": "fazenda", "estrada": "fenda", "vila": "vila", "pomar": "fazenda", "moinho": "fenda"}.get(regiao, "vila")
+		var som: String = "caverna" if galerias else ("mar" if regiao == "moinho" else "bosque")
+		definir("guardiao" if luta else musica, som)
 	elif caminho.ends_with("fazenda.tscn") or caminho.ends_with("galinheiro.tscn") or caminho.ends_with("floresta.tscn"):
 		definir("fazenda","bosque")
 	else:

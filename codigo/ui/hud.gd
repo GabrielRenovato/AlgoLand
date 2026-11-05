@@ -506,6 +506,15 @@ func maestria_subiu(novo_ponto: bool) -> void:
 	for i in (3 if novo_ponto else 1):
 		_tween_xp.tween_property(_linha_xp, "modulate", Color(1.6, 1.35, 0.6), 0.12)
 		_tween_xp.tween_property(_linha_xp, "modulate", Color.WHITE, 0.25)
+	# Na primeira vez, explica onde gastar o ponto (muita gente não descobre a árvore de maestria).
+	var dicas := ConfigFile.new()
+	dicas.load("user://dicas.cfg")
+	if novo_ponto and not bool(dicas.get_value("vistas", "maestria", false)):
+		dicas.set_value("vistas", "maestria", true)
+		dicas.save("user://dicas.cfg")
+		var jogador := EventosJogo.dono(self)
+		var tecla: String = Controle.rotulo_acao(jogador.acao("open_inventory")) if jogador != null else "I"
+		anunciar("NOVO PONTO DE MAESTRIA", "ABRA A MOCHILA (%s) NA ABA DA ARMA" % tecla, 3.5)
 
 func anunciar(texto: String, subtitulo := "", tempo_visivel := 1.5) -> void:
 	_mostrar_banner(texto, subtitulo, tempo_visivel)

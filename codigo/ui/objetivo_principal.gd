@@ -31,12 +31,16 @@ func _ready() -> void:
 		else: _texto = rotulo
 	_titulo.add_theme_color_override("font_color",Color("f6d879"))
 	_titulo.add_theme_font_size_override("font_size",7)
+	# Na campanha, tocar no painel abre o diário de missões.
+	gui_input.connect(_ao_toque)
 	Cidade.alterado.connect(atualizar)
 	Fazenda.bolsas_alteradas.connect(atualizar)
 	Progresso.checkpoint_alterado.connect(atualizar)
 	atualizar()
 
 func atualizar(_valor: Variant = null) -> void:
+	var cena_atual := get_tree().current_scene if is_inside_tree() else null
+	mouse_filter = Control.MOUSE_FILTER_STOP if cena_atual != null and cena_atual.has_method("abrir_diario") else Control.MOUSE_FILTER_IGNORE
 	if _titulo == null: return
 	var cena := Cooperativo.cena_de(self)
 	var dados: Dictionary = cena.objetivo_de_campanha() if cena != null and cena.has_method("objetivo_de_campanha") else Jornada.rastreio(Cidade,EventosJogo.dono(self))
@@ -53,6 +57,14 @@ func atualizar(_valor: Variant = null) -> void:
 	tooltip_text = dados.titulo+"\n"+dados.texto
 
 ## Está dentro de um andar da fenda (a cena do jogador desta tela tem o gerenciador de andar)
+func _ao_toque(evento: InputEvent) -> void:
+	var tocou: bool = (evento is InputEventMouseButton and evento.pressed and evento.button_index == MOUSE_BUTTON_LEFT) \
+			or (evento is InputEventScreenTouch and evento.pressed)
+	var cena := get_tree().current_scene
+	if tocou and cena != null and cena.has_method("abrir_diario"):
+		cena.abrir_diario()
+		accept_event()
+
 func _em_andar() -> bool:
 	if not is_inside_tree() or get_viewport() == null:
 		return false
