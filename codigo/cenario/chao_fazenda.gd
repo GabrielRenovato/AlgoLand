@@ -5,7 +5,9 @@ extends Node2D
 const SHADER := preload("res://codigo/cenario/chao_fazenda.gdshader")
 const LimitePlantio := preload("res://codigo/cenario/limite_plantio.gd")
 const ESTACOES := ["primavera","verao","outono","inverno"]
-const ESCALA := 4
+## Supersample da composição: 4x no PC; 2x no celular, onde a tela tem ~3 px por pixel do jogo e a cópia 4x
+## ocupava 70-90 MB de vídeo (fazenda 4992x3456, floresta 6016x3840).
+var ESCALA := 2 if preload("res://codigo/globais/dispositivo.gd").celular() else 4
 ## Altura em pixels da faixa de grama no pé do penhasco.
 const RODAPE := 4
 const GRAMAS: Array[Vector2i] = [Vector2i(0,1),Vector2i(0,2),Vector2i(0,3),Vector2i(0,4),Vector2i(0,5)]

@@ -12,8 +12,10 @@ var _ancora := Vector2.ZERO
 var _espuma: Node2D
 var _vazao_recebida := 0.0
 
+var visor: SubViewport
+
 func _ready() -> void:
-	var visor := SubViewport.new()
+	visor = SubViewport.new()
 	visor.name = "RenderMoinho3D"
 	visor.size = TAMANHO
 	visor.transparent_bg = true
@@ -124,6 +126,9 @@ func definir_estacao(indice: int) -> void:
 	modelo._atualizar_estacao()
 
 func _process(_delta: float) -> void:
+	# A roda gira devagar: metade dos quadros basta e não se nota no pixel art.
+	if instante_forcado < 0.0 and is_instance_valid(visor):
+		visor.render_target_update_mode = SubViewport.UPDATE_WHEN_VISIBLE if Engine.get_process_frames() % 2 == 0 else SubViewport.UPDATE_DISABLED
 	if instante_forcado >= 0.0:
 		modelo._tempo = instante_forcado
 		modelo._roda.rotation.x = -instante_forcado * 0.32

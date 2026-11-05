@@ -75,7 +75,8 @@ func _criar_camada_corrimaos(ancora: Vector2) -> void:
 	visor_corrimaos.size = visor.size
 	visor_corrimaos.transparent_bg = true
 	visor_corrimaos.world_3d = visor.find_world_3d()
-	visor_corrimaos.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+	# Corrimãos são estáticos como o tabuleiro: uma passada basta (antes redesenhavam a todo quadro).
+	visor_corrimaos.render_target_update_mode = SubViewport.UPDATE_ONCE
 	visor_corrimaos.msaa_3d = Viewport.MSAA_DISABLED
 	add_child(visor_corrimaos)
 	var camera_corrimaos := Camera3D.new()
@@ -133,4 +134,4 @@ func definir_estacao(indice: int) -> void:
 	if is_instance_valid(visor):
 		visor.render_target_update_mode = SubViewport.UPDATE_ONCE
 	if is_instance_valid(visor_corrimaos):
-		visor_corrimaos.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+		visor_corrimaos.render_target_update_mode = SubViewport.UPDATE_ONCE

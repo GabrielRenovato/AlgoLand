@@ -23,7 +23,9 @@ func configurar(terreno: TileMapLayer, agua: TileMapLayer, preparar_material := 
 		# Compor uma vez por estação. No jogo, o chão custa uma textura,
 		# em vez de executar as misturas e o acabamento em todos os quadros.
 		_cache=SubViewport.new()
-		_cache.size=Vector2i(area.size*4)
+		# 4x no PC; 2x no celular (um quarto da memória de vídeo; ver chao_fazenda.gd).
+		var escala := 2 if preload("res://codigo/globais/dispositivo.gd").celular() else 4
+		_cache.size=Vector2i(area.size*escala)
 		_cache.disable_3d=true
 		_cache.transparent_bg=true
 		_cache.world_2d=World2D.new()
@@ -35,12 +37,12 @@ func configurar(terreno: TileMapLayer, agua: TileMapLayer, preparar_material := 
 		_renderizador.configurar(terreno,agua,true)
 		var camera:=Camera2D.new()
 		camera.position=area.get_center()
-		camera.zoom=Vector2(4,4)
+		camera.zoom=Vector2(escala,escala)
 		_cache.add_child(camera)
 		_sprite=Sprite2D.new()
 		_sprite.centered=false
 		_sprite.position=area.position
-		_sprite.scale=Vector2(.25,.25)
+		_sprite.scale=Vector2.ONE/float(escala)
 		_sprite.texture_filter=CanvasItem.TEXTURE_FILTER_LINEAR
 		_sprite.texture=_cache.get_texture()
 		add_child(_sprite)

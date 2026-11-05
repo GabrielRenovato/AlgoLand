@@ -3,6 +3,8 @@ extends RefCounted
 ## No navegador, quem decide é o dedo como ponteiro principal (pointer: coarse); notebook com tela de toque e mouse não conta.
 ## Sem referências a autoloads: pode ser carregado por qualquer script, mesmo no início da inicialização.
 static func celular() -> bool:
+	# Teste no PC do caminho de celular (memória, supersample): só com a opção explícita na linha de comando.
+	if "--simular-celular" in OS.get_cmdline_user_args(): return true
 	if OS.has_feature("mobile") or OS.has_feature("web_ios") or OS.has_feature("web_android"):
 		return true
 	if OS.has_feature("web"):

@@ -36,6 +36,8 @@ var _grama_3d: Node2D
 func _ready() -> void:
 	if local == "cidade":
 		super._ready()
+		# Jogador, pódio do ranking e jogadores online: todos os personagens 3D numa tela só.
+		add_child(preload("res://codigo/jogador/atlas_herois_3d.gd").new())
 		var clima := get_tree().get_first_node_in_group("clima")
 		if clima != null:
 			var cobertura := clima.get_node_or_null("Mundo/Nuvens/Cobertura") as TextureRect

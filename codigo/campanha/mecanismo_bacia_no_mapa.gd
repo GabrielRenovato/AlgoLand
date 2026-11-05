@@ -16,8 +16,10 @@ var _cores: Array[Color] = []
 var _reacao := 0.0
 var _tempo := 0.0
 
+var visor: SubViewport
+
 func _ready() -> void:
-	var visor := SubViewport.new()
+	visor = SubViewport.new()
 	visor.size = Vector2i(96,128) if tipo == 0 else Vector2i(32,48)
 	visor.transparent_bg = true
 	visor.own_world_3d = true
@@ -121,6 +123,8 @@ func definir_estacao(indice: int) -> void:
 			if "pedra_clara" in material.resource_name:
 				material.albedo_color = _cores[i].lerp(Color("cbdedc"),.6)
 
+var _quadro_parado_desenhado := false
+
 func _process(delta: float) -> void:
 	_tempo += delta
 	_reacao = move_toward(_reacao,0.0,delta*.22)
@@ -133,3 +137,11 @@ func _process(delta: float) -> void:
 		var angulo := -0.65+estado*.65 if tipo == 1 else -_abertura*.8
 		if tipo == 0: angulo += sin(_tempo*38.0)*_reacao
 		_alavanca.rotation.z = lerp_angle(_alavanca.rotation.z,angulo,1.0-exp(-delta*8.0))
+	# Parado (sem tranco, comporta e alavanca no lugar) o quadro não muda: não redesenha.
+	var parado := _reacao <= 0.0 and is_equal_approx(_abertura,_alvo_abertura) and (_alavanca == null or absf(angle_difference(_alavanca.rotation.z, -0.65+estado*.65 if tipo == 1 else -_abertura*.8)) < 0.002)
+	if parado and not _quadro_parado_desenhado:
+		visor.render_target_update_mode = SubViewport.UPDATE_ONCE
+		_quadro_parado_desenhado = true
+	elif not parado:
+		visor.render_target_update_mode = SubViewport.UPDATE_WHEN_VISIBLE
+		_quadro_parado_desenhado = false

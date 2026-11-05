@@ -18,6 +18,9 @@ var _passo_px := 0
 var _passo_m := 0.0
 var _ocupadas: Dictionary = {}
 var _iluminacao_mapa: Node
+## Só as linhas ocupadas entram na tela (com 1 ou 2 personagens não se limpa o álbum inteiro a cada quadro).
+var _linhas_ativas := 0
+var _camera_base := Vector3.ZERO
 
 static func da_arvore(arvore: SceneTree) -> Node:
 	return arvore.get_first_node_in_group("atlas_herois_3d") if arvore != null else null
@@ -30,7 +33,7 @@ func _ready() -> void:
 	_passo_m = Heroi.TAMANHO_CAMERA*float(_passo_px)/float(_celula_px.y)
 	visor = SubViewport.new()
 	visor.name = "AtlasHerois3D"
-	visor.size = Vector2i(COLUNAS*_passo_px, LINHAS*_passo_px)
+	visor.size = Vector2i(COLUNAS*_passo_px, _passo_px)
 	visor.transparent_bg = true
 	visor.own_world_3d = true
 	visor.msaa_3d = Viewport.MSAA_DISABLED
@@ -51,11 +54,23 @@ func _ready() -> void:
 	_camera = Camera3D.new()
 	_camera.projection = Camera3D.PROJECTION_ORTHOGONAL
 	_camera.keep_aspect = Camera3D.KEEP_HEIGHT
-	_camera.size = LINHAS*_passo_m
 	visor.add_child(_camera)
 	var angulo := deg_to_rad(Heroi.INCLINACAO_CAMERA)
 	_camera.look_at_from_position(Heroi.ALVO_CAMERA+Vector3(0, sin(angulo), cos(angulo))*10.0, Heroi.ALVO_CAMERA)
 	_camera.current = true
+	_camera_base = _camera.position
+	_ajustar_linhas()
+
+## Células contam a partir do topo: crescer ou encolher o álbum não mexe no recorte de quem já está nele.
+func _ajustar_linhas() -> void:
+	var maior := -1
+	for indice in _ocupadas: maior = maxi(maior, indice)
+	var linhas := maxi(1, ceili(float(maior+1)/COLUNAS))
+	if linhas == _linhas_ativas: return
+	_linhas_ativas = linhas
+	visor.size = Vector2i(COLUNAS*_passo_px, linhas*_passo_px)
+	_camera.size = linhas*_passo_m
+	_camera.position = _camera_base - _camera.global_basis.y*(linhas*_passo_m*0.5)
 
 ## Coloca o herói no álbum. Só entra quem desenha no tamanho padrão (pixel art, 2 amostras).
 func registrar(heroi: Node) -> bool:
@@ -74,7 +89,7 @@ func registrar(heroi: Node) -> bool:
 	var coluna := indice % COLUNAS
 	var linha := indice / COLUNAS
 	var x := (coluna+0.5)*_passo_m - COLUNAS*_passo_m*0.5
-	var y := LINHAS*_passo_m*0.5 - (linha+0.5)*_passo_m
+	var y := -(linha+0.5)*_passo_m
 	mundo.position = _camera.global_basis.x*x + _camera.global_basis.y*y
 	heroi._vp.own_world_3d = false
 	heroi._vp.world_3d = visor.find_world_3d()
@@ -86,6 +101,7 @@ func registrar(heroi: Node) -> bool:
 	heroi._sprite.region_enabled = true
 	heroi._sprite.region_rect = regiao
 	_ocupadas[indice] = {"heroi": heroi, "mundo": mundo}
+	_ajustar_linhas()
 	heroi.tree_exiting.connect(_liberar.bind(indice), CONNECT_ONE_SHOT)
 	return true
 
@@ -100,6 +116,7 @@ func _religar_esqueletos(mundo: Node3D) -> void:
 
 func _liberar(indice: int) -> void:
 	_ocupadas.erase(indice)
+	if is_inside_tree(): _ajustar_linhas.call_deferred()
 
 ## Recorte atual do herói no álbum (rastro, retrato, área aparente).
 func imagem(heroi: Node) -> Image:
