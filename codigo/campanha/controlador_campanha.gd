@@ -27,6 +27,9 @@ func objetivos_disponiveis() -> Array[Dictionary]:
 	for missao in _catalogo.missoes:
 		if progresso.missao_concluida(missao) or not progresso.pode_concluir(missao):
 			continue
+		# Missões de regiões fora do beta (o pomar, por exemplo) não aparecem em painel, marcador nem diário.
+		if not str(_catalogo.missoes[missao].get("destino","")) in Catalogo.REGIOES_HABILITADAS:
+			continue
 		var cumpridos: Array = progresso.objetivos_cumpridos(missao)
 		for objetivo in _catalogo.missoes[missao].get("objetivos", []):
 			if objetivo.id in cumpridos or not Catalogo.requisitos_cumpridos(objetivo.apos, cumpridos):

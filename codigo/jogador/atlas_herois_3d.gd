@@ -91,6 +91,7 @@ func registrar(heroi: Node) -> bool:
 	var x := (coluna+0.5)*_passo_m - COLUNAS*_passo_m*0.5
 	var y := -(linha+0.5)*_passo_m
 	mundo.position = _camera.global_basis.x*x + _camera.global_basis.y*y
+	# A troca gera um aviso inofensivo do servidor ("scenario is null"), uma vez por personagem; a ordem inversa dobra.
 	heroi._vp.own_world_3d = false
 	heroi._vp.world_3d = visor.find_world_3d()
 	heroi._vp.render_target_update_mode = SubViewport.UPDATE_DISABLED

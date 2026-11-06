@@ -36,7 +36,7 @@
 			"apresentacao": [
 				"Dara. Cuido desta entrada e da estrada. Se for sair, diga a alguém por onde pretende voltar.",
 				"Muita gente olha só para o portão. Eu olho para quem ainda não passou por ele.",
-				"As patrulhas viram goblins rondando as trilhas do pomar. Se for até lá, não vá sozinho: prefiro ouvir você reclamando da companhia a ficar sem notícia."
+				"As patrulhas viram goblins rondando as trilhas do moinho. Se for até lá, não vá sozinho: prefiro ouvir você reclamando da companhia a ficar sem notícia."
 			],
 			"conversas": [
 				"Antes de prometer que vai resolver, me diz por onde você pretende voltar.",
@@ -216,7 +216,7 @@
 			"apresentacao": [
 				"Sou Lia. Antes de qualquer explicação: você tem onde dormir e com quem contar aqui.",
 				"Não sei tudo sobre o chamado da árvore. Sei que ninguém recém-chegado deveria enfrentá-lo sozinho.",
-				"Com a estrada cortada e o moinho parado, cada saco que chega faz falta, e os goblins do pomar levam o resto. Se o Tomás pedir ajuda, ouça primeiro: ele conta antes de falar."
+				"Com a estrada cortada e o moinho parado, cada saco que chega faz falta, e os goblins das trilhas levam o resto. Se o Tomás pedir ajuda, ouça primeiro: ele conta antes de falar."
 			],
 			"conversas": [
 				"Tenho três listas de urgências. A Mara insiste que almoçar devia entrar na primeira.",
@@ -773,7 +773,7 @@
 			"apresentacao": [
 				"Tomás. Trabalho com sementes e com o hábito ingrato de contar sacos antes de prometer sacos.",
 				"Tem gente olhando para a próxima expedição. Eu também preciso olhar para a próxima safra.",
-				"Goblins andam levando sacos pela cerca partida do pomar, e o chão lá está todo revirado. Antes de mandar alguém colher, preciso saber por onde eles entram."
+				"Goblins andam levando sacos pelas trilhas, e os sulcos já chegam perto da cerca sul. Antes de mandar alguém colher, preciso saber por onde eles entram."
 			],
 			"conversas": [
 				"A Bia diz que eu converso com meus estoques. Converso. Eles respondem pouco, mas nunca mentem.",
@@ -838,7 +838,7 @@
 					],
 					"falas": [
 						"Hoje a conta não fecha. Nunca fecha, mas hoje fecha menos.",
-						"Se for passar pelo pomar, traga o que viu antes de contar para os outros."
+						"Se for passar pelo moinho, traga o que viu antes de contar para os outros."
 					],
 					"velocidade": 21,
 					"pausa": 9
@@ -1700,7 +1700,7 @@
 						"Fermento vivo e vila viva têm uma coisa em comum: precisam de cuidado todo dia.",
 						"Minha Bia anda investigando os pássaros da praça. Peço que me conte o que viu antes de sair tirando conclusões.",
 						"Guardo o primeiro pão pequeno para a Bia. Ela divide com a Nina, mesmo dizendo que era para os passarinhos.",
-						"Os goblins levam os sacos do pomar, e o moinho não mói o que sobra. Estou contando farinha por fornada."
+						"Os goblins levam os sacos pelas trilhas, e o moinho não mói o que sobra. Estou contando farinha por fornada."
 					],
 					"velocidade": 22.0
 				},

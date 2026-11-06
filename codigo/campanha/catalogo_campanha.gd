@@ -4,8 +4,9 @@ extends RefCounted
 const Manifesto := preload("res://codigo/campanha/primeiro_andar.json")
 const ID := "campanha_primeira_raiz_v1"
 const FORMATO := 1
-# Limite atual da campanha: estágios 1 a 4. O conteúdo posterior fica preservado.
-const REGIOES_HABILITADAS := ["chegada", "estrada", "vila", "pomar", "moinho"]
+# Limite atual da campanha: estágios 1 a 4 (chegada, estrada, vila, Bacia do Moinho). O pomar e o conteúdo
+# posterior ficam preservados, fora do beta.
+const REGIOES_HABILITADAS := ["chegada", "estrada", "vila", "moinho"]
 
 static func dados() -> Dictionary:
 	return Manifesto.data.duplicate(true)

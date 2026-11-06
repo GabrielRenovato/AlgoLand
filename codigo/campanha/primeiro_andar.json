@@ -405,7 +405,7 @@
           "tipo": "oficio",
           "alvo": "bancada_ivo",
           "regiao": "vila",
-          "texto": "Escolha com Ivo uma ligação para reforçar a barreira do pomar.",
+          "texto": "Escolha com Ivo uma ligação para reforçar a barreira da entrada da vila.",
           "apos": [
             "estela"
           ]
@@ -496,7 +496,7 @@
       "nome": "A primeira defesa",
       "destino": "vila",
       "requisitos": [
-        "pomar_sulcos"
+        "acolhimento"
       ],
       "opcional": false,
       "objetivos": [

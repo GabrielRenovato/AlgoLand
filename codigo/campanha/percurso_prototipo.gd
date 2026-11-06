@@ -31,8 +31,8 @@ const FALAS_PASSOS := {
 	"ferro_que_ainda_serve:pedido": "O eixo do carreto cedeu, mas o ferro das cintas ainda presta. Recupere as ferragens na Estrada dos Carreteiros e traga para mim. Vou separar uma parte para você e lhe dar um projeto de luvas.",
 	"ferro_que_ainda_serve:entrega": "Cintas, pinos e até um aro inteiro. Separei 3 ferros e 2 madeiras para você, além do projeto de luvas. Para fabricar: abra a mochila, use o pergaminho da receita e depois consulte essa arma na forja da cidade. A receita fica aprendida; os materiais são consumidos quando encomendar. Cada peça leva de um a três dias para ficar pronta.",
 	"quem_ficou_para_tras:pedido": "O trabalhador que você achou mal comeu desde o ataque. Leve estes suprimentos ao abrigo da estrada, veja como ele está e depois me conte.",
-	"quem_ficou_para_tras:relato": "As raízes subiram por baixo, sem barulho? Então é isso que Tomás vê no pomar. Obrigada por ir até lá. Leve uns curativos para a próxima saída.",
-	"defesa_da_vila:aviso": "Seu relato bate com o que o Tomás viu. Mas agora os sulcos chegam à entrada sul, e os rebentos vêm primeiro. Leve a ligação do Ivo e monte a barreira; eu aviso o povo.",
+	"quem_ficou_para_tras:relato": "As raízes subiram por baixo, sem barulho? Então é isso que anda revirando a estrada. Obrigada por ir até lá. Leve uns curativos para a próxima saída.",
+	"defesa_da_vila:aviso": "Os sulcos que você viu na estrada chegaram à entrada sul, e os rebentos vêm primeiro. Leve a ligação do Ivo e monte a barreira; eu aviso o povo.",
 	"defesa_da_vila:reparo": "A entrada rachou, mas dá para consertar: temos madeira. O Nilo viu movimento na margem do moinho. Se for lá, siga a trilha da água; a entrada de manutenção fica junto da roda.",
 	"moinho_vazao:margem": "A marca nas pedras mostra até onde a água chegava. Agora ela está represada sob a bacia. Pegadas de goblins e marcas de sacos arrastados seguem para a transmissão antiga.",
 	"moinho_vazao:comporta": "O comando externo foi calçado com cunhas. Há pegadas de goblins ao redor. A transmissão segue sob a praça; será preciso alcançar a comporta principal pelas galerias.",
@@ -299,7 +299,7 @@ func _descansar() -> Error:
 
 ## Cada novidade da campanha entra uma vez nas conversas seguintes de cada morador.
 func _reacao(id: String) -> String:
-	var pomar:bool=controlador.progresso.missao_concluida("pomar_sulcos")
+	var acolhido:bool=controlador.progresso.missao_concluida("acolhimento")
 	if controlador.progresso.missao_concluida("moinho_vazao"):
 		match id:
 			"dara":return "Nilo contou dos goblins nas galerias. Vou manter uma ronda na entrada; ninguém vai descer sozinho para fazer reparos."
@@ -307,26 +307,22 @@ func _reacao(id: String) -> String:
 			"nilo":return "A corrente voltou a levar folhas até minhas redes. Depois dos goblins nas galerias, até esse trabalho dá gosto."
 			"osvaldo":return "Vou revisar as cunhas e a transmissão que os goblins travaram. Com a entrada vigiada, consigo levar ferramentas."
 			"cora":return "Ouvi a roda do moinho! Quando chegar farinha nova, guardo um pão para você."
-	if pomar:
-		match id:
-			"tomas":return "Agora sei por onde a colheita saía. A cerca fecha aquele caminho, mas preciso de vigia antes de mandar o pessoal de volta."
-			"ivo":return "Se tem lâmina solta no pomar, escudo com correia frouxa é convite. Estou conferindo as bordas antes de a ronda sair."
-			"nilo":return "Se o pomar tinha ladrão, o moinho também pode ter. Os goblins de machado que vi na margem não estavam só de passagem: as marteladas vinham de baixo da bacia."
-			"estela":return "Seu relato distingue pegadas de goblins dos sulcos das raízes. Ainda não sabemos se há alguma ligação entre eles. Quero examinar os sinais antes de afirmar isso."
 	if controlador.progresso.missao_concluida("defesa_da_vila"):
 		match id:
 			"lia":return "A rua ficou de pé. Já mandei buscar estacas novas para o sul, e o povo dorme melhor."
 			"tomas":return "Vendi mais tábua esta semana do que no ano todo. Quem viu a defesa quer cerca nova."
 			"dara":return "Você segurou a entrada como alguém que já viu coisa pior. Quando precisar de treino, estou aqui."
 			"rosa":return "Dois feridos leves, ninguém grave. Guarde as ervas que sobraram."
+			"nilo":return "Os goblins de machado que vi na margem não estavam só de passagem: as marteladas vinham de baixo da bacia do moinho."
+			"estela":return "Os sulcos e os goblins chegaram juntos. Ainda não sei se há ligação entre eles; quero examinar os sinais antes de afirmar."
 	match id:
 		"lia":return "Aquele banco perto de mim é para quem volta machucado. Sente, descanse e só então saia outra vez."
 		"rosa":return "O trabalhador do carreto já senta na cama e pede pão. Ainda não aguenta caminhar, mas está inteiro."
 		"ivo":return "O Cerne Partido caiu na clareira e a vila inteira ouviu. Quem bate ferro agradece a quem o derrubou."
 		"nilo":return "Dizem que o Cerne Partido caiu. Até os peixes andaram mais agitados depois disso."
-		"osvaldo":return "Madeira para cerca nunca falta. Falta saber onde ela vai servir, agora que o pomar falou." if pomar else "Alguém derrubou o Cerne Partido na clareira. Bom serviço."
-		"tomas":return "Depois do pomar sei que cerca nenhuma basta. Estou separando o que dá para a defesa da vila." if pomar else ""
-		"dara":return "Quando a defesa vier, quero você ao meu lado na linha de frente." if pomar else ""
+		"osvaldo":return "Madeira para cerca nunca falta. Falta saber onde ela vai servir, agora que os sulcos chegaram à estrada." if acolhido else "Alguém derrubou o Cerne Partido na clareira. Bom serviço."
+		"tomas":return "Os sulcos já cruzaram a estrada. Estou separando o que dá para a defesa da vila." if acolhido else ""
+		"dara":return "Quando a defesa vier, quero você ao meu lado na linha de frente." if acolhido else ""
 	return ""
 
 ## Entrega os prêmios das missões concluídas e grava o recibo no save; a falta de espaço na mochila adia a entrega.
@@ -358,10 +354,10 @@ func _usar_bancada() -> Error:
 	var escolhida: String=controlador.progresso.preparo
 	var paginas: Array[String] = []
 	if not escolhida.is_empty():
-		paginas.append("A %s está pronta para reforçar a barreira do pomar. Se o teste pedir reforço, é ela que vai." % Preparos.texto(escolhida,"nome").to_lower())
+		paginas.append("A %s está pronta para reforçar a barreira da entrada. Quando a defesa vier, é ela que vai." % Preparos.texto(escolhida,"nome").to_lower())
 		interface._telas.introducao.iniciar(paginas,"Bancada de Ivo","ferreiro")
 	else:
-		paginas.append("Esta bancada prepara uma ligação para reforçar a barreira do pomar; não fabrica armas. Escolha uma opção. A ligação é entregue pronta, sem gastar os materiais da mochila.")
+		paginas.append("Esta bancada prepara uma ligação para reforçar a barreira da entrada da vila; não fabrica armas. Escolha uma opção. A ligação é entregue pronta, sem gastar os materiais da mochila.")
 		for id in Preparos.ids():
 			paginas.append("%s: %s" % [Preparos.texto(id,"nome"),Preparos.texto(id,"oferta")])
 		paginas.append("Qual delas você leva?")
@@ -931,7 +927,7 @@ func _fala(id: String) -> String:
 			if "retorno" in controlador.progresso.objetivos_cumpridos("acolhimento"):
 				return "Dara: Você o encontrou com vida. Vou organizar o retorno pela rota que indicou e avisar a Lia."
 			return "Dara: Você veio pela Estrada dos Carreteiros. Nosso trabalhador levava mantimentos para a vila e não voltou. Diga o que viu."
-		"trabalhador": return "Trabalhador: Os rebentos vieram pelos sulcos e viraram o carreto. Me escondi aqui. Antes disso, vi goblins carregando sacos na trilha do pomar. Avise a Dara na vila; não sei se aquela trilha ainda é segura."
+		"trabalhador": return "Trabalhador: Os rebentos vieram pelos sulcos e viraram o carreto. Me escondi aqui. Antes disso, vi goblins carregando sacos na trilha do moinho. Avise a Dara na vila; não sei se aquela trilha ainda é segura."
 		"lia": return "Lia: Você tem abrigo aqui. Precisamos entender os ataques antes da próxima defesa."
 		"estela": return "Estela: A árvore chama pessoas capazes de atravessar. Ainda temos muito a descobrir."
 		"tomas": return "Tomás: As cercas não seguram essas criaturas. Precisamos seguir o caminho delas."
@@ -941,7 +937,7 @@ func _fala(id: String) -> String:
 		"comporta_moinho": return FALAS_PASSOS["moinho_vazao:comporta"]
 		"roda_moinho": return FALAS_PASSOS["moinho_vazao:eixo"]
 		"entrada_dungeon": return FALAS_PASSOS["moinho_vazao:dungeon"]
-		"bancada_ivo": return "Ivo: Escolha uma ligação para reforçar a barreira do pomar. Esta bancada não fabrica armas."
+		"bancada_ivo": return "Ivo: Escolha uma ligação para reforçar a barreira da entrada da vila. Esta bancada não fabrica armas."
 	return "Descoberta registrada no diário da campanha."
 
 func _atualizar() -> void:
@@ -1049,8 +1045,8 @@ func _conversar_trabalhador() -> Error:
 	trabalhador.iniciar_conversa(jogador.global_position)
 	_morador_conversando = trabalhador
 	var fala := "Obrigado por me tirar da estrada. Agora ajudo a Rosa com os curativos enquanto a perna sara."
-	if controlador.progresso.missao_concluida("pomar_sulcos"):
-		fala = "Disseram que você fechou a passagem do pomar. Se as carroças voltarem a andar, eu volto a carregar o grão."
+	if controlador.progresso.missao_concluida("defesa_da_vila"):
+		fala = "Disseram que você segurou a entrada sul. Se as carroças voltarem a andar, eu volto a carregar o grão."
 	if controlador.progresso.missao_concluida("moinho_vazao"):
 		fala = "Ouvi a roda do moinho girando de novo! Amanhã mesmo levo o primeiro saco de grão para lá."
 	var paginas: Array[String] = [fala]
