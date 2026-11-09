@@ -1,0 +1,19 @@
+codigo/globais/atualizacao_chave.gd
+  s_d1141464d40496::t_483c17f820ad8b 3,5-11
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.6",
+  "base_commit_sha": "71869449471839b7f4fab3753f4664e33f92922d",
+  "prompts": {},
+  "sessions": {
+    "s_d1141464d40496": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "81fcdcf8-b81a-4200-91fe-c64bf3525df8",
+        "model": "unknown"
+      },
+      "human_author": "Gabriel Renovato <86806861+GabrielRenovato@users.noreply.github.com>"
+    }
+  }
+}
