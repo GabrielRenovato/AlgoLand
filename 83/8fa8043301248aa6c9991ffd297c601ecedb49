@@ -1,0 +1,56 @@
+testes/teste_historia_goblins.gd
+  s_25190b8eaff727::t_14da2fa687517a 62
+  s_25190b8eaff727::t_312ae9ab087109 60
+codigo/campanha/carregamento_campanha.gd
+  s_25190b8eaff727::t_f98db4a688c511 31-36,60,108,138,146-147,208
+codigo/campanha/percurso_prototipo.gd
+  s_25190b8eaff727::t_6d8865f578f274 15-16,302-307,309-350,599,818,1266-1271,1273-1275,1281
+codigo/campanha/progresso_campanha.gd
+  s_25190b8eaff727::t_a919ee44411993 19-20,39,85,199-207,276-287,418
+codigo/cidade/sessao_lobby.gd
+  s_25190b8eaff727::t_b42dec28c85966 213,246,313,354,410,414
+codigo/conta/cliente_conta.gd
+  s_25190b8eaff727::t_550fa75f5c3684 264
+codigo/conta/painel_conta.gd
+  s_25190b8eaff727::t_6ef3076e4b6cca 42
+codigo/coop_online/conexao_coop.gd
+  s_25190b8eaff727::t_b8d0e603de3909 372
+codigo/dados/reacoes_primeira_raiz.json
+  s_25190b8eaff727::t_98ca4abf96d906 1-107
+codigo/duelo/arena_duelo.gd
+  s_25190b8eaff727::t_7e01f9345ab06b 237
+codigo/duelo/conexao_duelo.gd
+  s_25190b8eaff727::t_d575f8b5ccf7ef 25
+codigo/globais/ranking.gd
+  s_25190b8eaff727::t_ec66c391c4a720 145,150,194,217,223
+codigo/globais/transferencia_save.gd
+  s_25190b8eaff727::t_37da0c0b13d051 106,114,119,122,151,155
+codigo/mercado/cliente_mercado.gd
+  s_25190b8eaff727::t_3315c2aa175c32 25-26
+codigo/ui/tela_lobby.gd
+  s_25190b8eaff727::t_ba903822679138 241-242,430-433
+docs/avaliacao-2026-11/AVALIACAO.md
+  s_25190b8eaff727::t_2842992349c133 97-116
+testes/teste_moradores_primeira_raiz.gd
+  s_25190b8eaff727::t_61c545822d6de7 75-76,83,188-189
+testes/teste_reacoes_moradores.gd
+  s_25190b8eaff727::t_00a78d2e91e188 1-122
+testes/teste_reacoes_moradores.gd.uid
+  s_25190b8eaff727::t_d72021440ccbda 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.6",
+  "base_commit_sha": "838fa8043301248aa6c9991ffd297c601ecedb49",
+  "prompts": {},
+  "sessions": {
+    "s_25190b8eaff727": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "7fe41582-3cec-49e6-9c85-7ef090db8d02",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Gabriel Renovato <86806861+GabrielRenovato@users.noreply.github.com>"
+    }
+  }
+}
