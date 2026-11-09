@@ -1,0 +1,29 @@
+ferramentas/atualizacao/gerar_atualizacao.py
+  s_25190b8eaff727::t_41455faaaf6363 23-36
+  s_25190b8eaff727::t_49d312176428b6 126
+  s_25190b8eaff727::t_0db08f0bdf5083 197
+  s_25190b8eaff727::t_277158c68c5e2c 115,117
+  s_25190b8eaff727::t_e0cf040873bea2 41,48,142,147
+codigo/globais/atualizacao_chave.gd
+  s_25190b8eaff727::t_f18418b6568a38 3
+export_presets.cfg
+  s_25190b8eaff727::t_5ccb463952c37e 165-166
+project.godot
+  s_25190b8eaff727::t_81c0fe98ea6388 27
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.6",
+  "base_commit_sha": "535e754138e483fc005778b4371bb4cd902c5aaa",
+  "prompts": {},
+  "sessions": {
+    "s_25190b8eaff727": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "7fe41582-3cec-49e6-9c85-7ef090db8d02",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Gabriel Renovato <86806861+GabrielRenovato@users.noreply.github.com>"
+    }
+  }
+}
