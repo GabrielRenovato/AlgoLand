@@ -2,7 +2,7 @@
 
 - Comunicação obrigatória em pt-BR; preservar o padrão de nomes e comentários do código.
 - Nunca apresentar como concluído algo pela metade ou visualmente mal acabado. Corrigir defeitos evidentes antes de entregar; conferir a renderização real, o acabamento e a integração. Se existir impedimento real, declarar a pendência sem chamar o resultado de pronto. Testes funcionais aprovados não comprovam qualidade visual.
-- Antes de alterar personagens, animações, armaduras, arte, TileMaps ou cenários (inclusive por código), ler [as regras visuais](ferramentas/projeto/REGRAS_VISUAIS.md). Elas preservam as skills obrigatórias, quatro estações, padrão de armaduras e revisão no Godot.
+- Antes de alterar personagens, animações, armaduras, arte, TileMaps ou cenários (inclusive por código), ler [as regras visuais](ferramentas/projeto/REGRAS_VISUAIS.md) e conferir o resultado contra o [guia de arte](ferramentas/projeto/GUIA_ARTE.md). Elas preservam as skills obrigatórias, quatro estações, padrão de armaduras e revisão no Godot.
 - Antes de modelar novos objetos 3D de cenário, gerar e inspecionar imagens de referência da peça; guardar referências e prompts vinculados ao modelo, conforme as regras visuais.
 - Alterações de interface exigem revisão da renderização real, margens e alinhamento nas resoluções suportadas, inclusive celular e tela dividida. Testes funcionais não substituem essa revisão.
 - Todo estágio jogável deve exibir uma seta até o próximo objetivo ativo da missão. A seta e a distância devem usar o mesmo alvo; se o objetivo estiver em outra região, a seta aponta para a saída correta da região atual. Atualizar ambos ao avançar a missão e validar o caminho em cada estágio.

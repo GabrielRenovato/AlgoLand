@@ -1,5 +1,7 @@
 # Regras de arte e cenários do AlgoLand
 
+O estilo (assinatura, paletas, ícones, ilustrações, arte gerada por IA e checklist de aprovação) está no [guia de arte](GUIA_ARTE.md). Conferir toda arte nova contra ele antes de colocá-la em `assets/`.
+
 ## Acabamento obrigatório antes da entrega
 
 - Nunca entregar como pronto um recurso incompleto, feio ou com defeitos visíveis. Comparar o resultado com a referência, conferir no Godot e corrigir os problemas antes da entrega. Uma prévia continua sendo uma prévia até passar por essa revisão.
