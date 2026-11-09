@@ -71,7 +71,7 @@ func _ready() -> void:
 	titulo.text = "CARPINTARIA DO OSVALDO"
 	titulo.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_legenda = _rotulo(titulos, 8)
-	_legenda.text = "8H AS 17H"
+	_legenda.text = "8H ÀS 17H"
 	_legenda.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_legenda.add_theme_color_override("font_color", Color("e4bd72"))
 	_fechar = Button.new()

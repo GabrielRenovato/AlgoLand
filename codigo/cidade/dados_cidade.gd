@@ -182,15 +182,15 @@ static func servico_fechado(id: String, hora: float, dia_semana: int) -> String:
 		return "FOLGA HOJE"
 	var horario: Array = HORARIOS[id]
 	if hora < float(horario[0]):
-		return "ABRE AS %dH" % int(horario[0])
+		return "ABRE ÀS %dH" % int(horario[0])
 	if hora >= float(horario[1]):
-		return "FECHOU AS %dH" % int(horario[1])
+		return "FECHOU ÀS %dH" % int(horario[1])
 	return ""
 
 ## A bigorna permite consultar receitas; fabricar e retirar exigem o ferreiro atendendo.
 static func atendimento_forja(cena: Node, dia_semana: int) -> String:
 	if cena == null or cena.get("local") != "forja":
-		return "FABRICACAO SOMENTE NA FORJA"
+		return "FABRICAÇÃO SOMENTE NA FORJA"
 	var fechado := servico_fechado("ferreiro", cena.hora_atual(), dia_semana)
 	if fechado != "":
 		return fechado

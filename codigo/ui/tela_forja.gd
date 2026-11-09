@@ -102,7 +102,7 @@ func _ready() -> void:
 	titulo.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	var legenda := _rotulo(titulos,8)
 	_legenda = legenda
-	legenda.text = "8H AS 18H - FOLGA: QUARTA"
+	legenda.text = "8H ÀS 18H - FOLGA: QUARTA"
 	legenda.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	legenda.add_theme_color_override("font_color",Color("e4bd72"))
 	_fechar = Button.new()
@@ -346,10 +346,10 @@ func _atualizar() -> void:
 	_icone_previa.self_modulate = Color.WHITE if _receita_visivel(_tipo) else Color.BLACK
 	var item = Receitas.criar_item(_tipo)
 	var prazo := Receitas.dias_fabricacao(_tipo)
-	_dados_arma.text = "%s - NIVEL 1\nPRAZO: %d DIA%s DO JOGO" % [item.categoria.to_upper(),prazo,"S" if prazo != 1 else ""]
+	_dados_arma.text = "%s - NÍVEL 1\nPRAZO: %d DIA%s DO JOGO" % [item.categoria.to_upper(),prazo,"S" if prazo != 1 else ""]
 	var encomendada := str(Progresso.encomenda_forja.get("tipo","")) == _tipo
 	var custos: Dictionary = Progresso.encomenda_forja.get("materiais",{}) if encomendada else Receitas.RECEITAS[_tipo]
-	_material_titulo.text = ("MATERIAIS ENTREGUES" if not custos.is_empty() else "PAGAMENTO CONFIRMADO") if encomendada else "MATERIAIS NECESSARIOS"
+	_material_titulo.text = ("MATERIAIS ENTREGUES" if not custos.is_empty() else "PAGAMENTO CONFIRMADO") if encomendada else "MATERIAIS NECESSÁRIOS"
 	for filho in _custos.get_children():
 		filho.free()
 	for id in custos:
@@ -455,7 +455,7 @@ func _ao_fabricar() -> void:
 		return
 	if not Progresso.arma_liberada(_tipo):
 		var oficina := _oficina()
-		_mensagem = oficina.iniciar(_tipo,EventosJogo.inventario_de(self)) if oficina != null else "OFICINA INDISPONIVEL"
+		_mensagem = oficina.iniciar(_tipo,EventosJogo.inventario_de(self)) if oficina != null else "OFICINA INDISPONÍVEL"
 		_atualizar()
 		if _mensagem.is_empty():
 			EventosJogo.fechar_tela_de(get_parent(),"forja")
@@ -523,7 +523,7 @@ func _atualizar_ferramenta() -> void:
 	var fechado := DadosCidade.atendimento_forja(Cooperativo.cena_de(self),Calendario.dia_da_semana())
 	_situacao.text=_mensagem if not _mensagem.is_empty() else ("TRAGA OS MATERIAIS DA SUA MOCHILA.\nNAO PRECISA DE RECEITA." if motivo.is_empty() else motivo)
 	if not fechado.is_empty(): _situacao.text=fechado
-	_fabricar.text="NIVEL MAXIMO" if grau==3 else "MELHORAR FERRAMENTA"
+	_fabricar.text="NÍVEL MÁXIMO" if grau==3 else "MELHORAR FERRAMENTA"
 	_fabricar.disabled=not motivo.is_empty() or not fechado.is_empty()
 	_fontes.text="Madeira, pedra e fibra: fazenda. Ferro: andares. A vara continua com Nilo."
 	for tipo in _botoes:

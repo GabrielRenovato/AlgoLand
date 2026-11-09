@@ -3,7 +3,7 @@ extends Control
 ## Lembrete compacto de comandos; acompanha o teclado ou o controle em uso.
 const TEMA := preload("res://recursos/ui/tema_sidebar.tres")
 const ACOES := [["attack", "ATACAR"], ["rolar", "ESQUIVAR"], ["aparar", "DEFENDER"],
-	["open_menu", "INTERAGIR"], ["usar_pocao", "BEBER POCAO"],
+	["open_menu", "INTERAGIR"], ["usar_pocao", "BEBER POÇÃO"],
 	["open_inventory", "MOCHILA"], ["arma_proxima", "TROCAR ARMA"], ["pausar", "PAUSA"], ["open_map", "MAPA"]]
 
 const Opcoes := preload("res://codigo/globais/opcoes_jogo.gd")
@@ -116,9 +116,9 @@ func _rotulo(texto: String, cor: Color) -> Label:
 
 func _atualizar() -> void:
 	_botao_fechar.text = "%s X" % Controle.rotulo_botao(BOTAO_FECHAR_CONTROLE) if Controle.usando_controle else "X"
-	_teclas[0].text = "ANALOGICO" if Controle.usando_controle else "".join([Controle.rotulo_acao("move_up"),Controle.rotulo_acao("move_left"),Controle.rotulo_acao("move_down"),Controle.rotulo_acao("move_right")])
+	_teclas[0].text = "ANALÓGICO" if Controle.usando_controle else "".join([Controle.rotulo_acao("move_up"),Controle.rotulo_acao("move_left"),Controle.rotulo_acao("move_down"),Controle.rotulo_acao("move_right")])
 	for i in _acoes.size():
-		var tecla := Controle.rotulo_acao(_acoes[i][0]).replace("SPACE", "ESPACO").replace("ESCAPE", "ESC")
+		var tecla := Controle.rotulo_acao(_acoes[i][0]).replace("SPACE", "ESPAÇO").replace("ESCAPE", "ESC")
 		if tecla.is_empty() and Controle.usando_controle:
 			for evento in InputMap.action_get_events(_acoes[i][0]):
 				if evento is InputEventJoypadButton and evento.button_index == JOY_BUTTON_GUIDE:
@@ -142,6 +142,9 @@ func _encaixar() -> void:
 	_painel.offset_bottom = -rodape - margens.w
 
 func _process(delta: float) -> void:
+	# O HUD pode nascer antes da interface (campanha): sem isto o lembrete fica por cima de diálogos e menus.
+	if not is_instance_valid(_interface) or not _interface.is_inside_tree():
+		_interface = EventosJogo.interface_de(self)
 	# Menus e botões de toque já apresentam seus próprios comandos.
 	var exibir := (Introducao.etapa == Introducao.Etapa.COMBATE and not _fechado_na_introducao) if Introducao.ativa() else not esta_fechado()
 	visible = exibir and not bool(get_tree().get_meta("cinema_ativo", false)) and not Controle.usando_toque and (not is_instance_valid(_interface) or _interface._telas_abertas.is_empty())

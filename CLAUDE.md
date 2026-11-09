@@ -6,7 +6,9 @@ Regras de projeto (idioma, arte, economia de contexto) estão em `AGENTS.md` e v
 
 ## Comandos
 
-Godot 4.7 roda pelo flatpak. Não há `godot` no PATH.
+Os comandos abaixo são do ambiente Linux, onde Godot 4.7 roda pelo flatpak e não há `godot` no PATH.
+
+**No Windows** (`C:\Users\ofici\AlgoLand\AlgoLand`): não há flatpak nem `host-spawn`; `git` está no PATH direto. O Godot fica em `C:\Users\ofici\Downloads\Godot_v4.7.2-stable_win64.exe\Godot_v4.7.2-stable_win64_console.exe` (use a versão `_console` para `--headless`/`--script`; troque `flatpak run org.godotengine.Godot` por esse caminho). Python não está instalado (o `python` do PATH é o atalho da Microsoft Store), então os scripts de `ferramentas/` não rodam aqui; `testar_coop.py` e `harness.py` procuram `godot`/`godot4` no PATH antes de cair no flatpak. Para testes, use o scratchpad da sessão no lugar de `/tmp`.
 
 ```bash
 # Abrir o editor

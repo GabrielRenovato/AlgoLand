@@ -114,7 +114,9 @@ func rodar():
 		if is_instance_valid(no):no._tentar_pegar()
 	await quadros(3)
 	var dados: Dictionary=r.dados()
-	verificar("saque do boss aparece com atributos reais",dados.drops.any(func(d):return d.item.raridade=="raro" and d.recolhido))
+	# SAQUE_INICIAL.md: o Cerne Partido fica sem drop de equipamento até a definição de sua recompensa.
+	verificar("boss sem drop de equipamento",not dados.drops.any(func(d):return d.item.raridade=="raro"))
+	verificar("saque recolhido aparece com atributos reais",dados.drops.all(func(d):return d.recolhido and not str(d.item.tipo).is_empty()))
 	verificar("maestria conquistada aparece",not dados.maestria.is_empty() and dados.maestria[0].xp>0)
 	var xp: Dictionary=j.maestria.modelo.experiencia.duplicate()
 	r._process(2.1);await quadros(6)
@@ -122,7 +124,8 @@ func rodar():
 	var resultado: Control=cena.interface._telas.resultado
 	for medida in [Vector2i(960,900),Vector2i(576,324),Vector2i(288,512),Vector2i(320,324)]:
 		root.content_scale_size=medida;root.size=medida*2;await quadros(40)
-		verificar("moldura cabe "+str(medida),Rect2(Vector2.ZERO,Vector2(medida)).encloses(resultado.painel.get_global_transform_with_canvas()*Rect2(Vector2.ZERO,resultado.painel.size)))
+		# A janela pode ser reduzida ao tamanho do monitor; com stretch "expand" a área visível muda de proporção.
+		verificar("moldura cabe "+str(medida),root.get_visible_rect().encloses(resultado.painel.get_global_transform_with_canvas()*Rect2(Vector2.ZERO,resultado.painel.size)))
 		for b in resultado.find_children("*","Button",true,false):
 			verificar("botao dentro da moldura "+b.text,resultado.painel.get_global_rect().grow(-8).encloses(b.get_global_rect()))
 		verificar("slots do saque mostram drops reais",resultado.slots.size()==dados.drops.size())
