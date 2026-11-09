@@ -369,7 +369,7 @@ func _process(delta: float) -> void:
 		elif _ws.get_ready_state() == WebSocketPeer.STATE_CLOSED:
 			_ws = null
 			# A partida passa pelo servidor: sem ele não há como continuar.
-			_falhar("CONEXAO COM O SERVIDOR DE SALAS ENCERRADA")
+			_falhar("CONEXÃO COM O SERVIDOR DE SALAS ENCERRADA")
 			return
 	var agora := Time.get_ticks_msec()
 	for id in _pares.keys():

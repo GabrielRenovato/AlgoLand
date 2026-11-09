@@ -72,12 +72,15 @@ func rodar() -> void:
 		await quadros(2)
 		var anterior:Dictionary=cena.controlador.progresso.retrato()
 		anterior.erase("retorno")
+		# A memória das conversas (visitas e reações ouvidas) não é avanço de missão.
+		anterior.erase("conversas")
 		conferir("conversa disponível "+id,cena.interagir_proximo()==OK)
 		await quadros(2)
 		conferir("fala identificada e NPC parado "+id,cena.interface._telas.introducao.visible and npc.conversando and npc.velocity==Vector2.ZERO)
 		if id!="dara":
 			var depois:Dictionary=cena.controlador.progresso.retrato()
 			depois.erase("retorno")
+			depois.erase("conversas")
 			conferir("conversa não antecipa campanha "+id,depois==anterior)
 		await fechar()
 		conferir("fechar libera rotina "+id,not npc.conversando)
@@ -182,6 +185,8 @@ func conferir_criancas() -> void:
 		cena.jogador.position=bia.position+Vector2(0,12)
 		cena.jogador.get_node("Camera2D").reset_smoothing()
 		cena._visitas_moradores.bia=1
+		# As reações ao progresso já foram ouvidas: aqui interessa a fala da rotina.
+		cena._reacoes_moradores.bia=cena.MARCOS_REACAO+cena.PEDIDOS_REACAO
 		conferir("fala ligada à brincadeira",cena._conversar_morador("bia")==OK)
 		var dialogo:Node=cena.interface._telas.introducao
 		dialogo._texto.visible_ratio=1

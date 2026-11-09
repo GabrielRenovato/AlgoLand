@@ -39,7 +39,7 @@ func _texto_estado() -> void:
 		texto = "NUVEM: SALVO HA %s" % ("MENOS DE 1 MIN" if minutos < 1 else ("%d MIN" % minutos if minutos < 120 else "%d H" % (minutos / 60)))
 	else:
 		texto = "NUVEM: AINDA NAO SINCRONIZOU"
-	if conta.offline: texto += "\nSEM CONEXAO: VOLTA A SINCRONIZAR QUANDO HOUVER REDE"
+	if conta.offline: texto += "\nSEM CONEXÃO: VOLTA A SINCRONIZAR QUANDO HOUVER REDE"
 	elif not nuvem.mensagem.is_empty(): texto += "\n" + nuvem.mensagem
 	_atualizacao.text = texto
 

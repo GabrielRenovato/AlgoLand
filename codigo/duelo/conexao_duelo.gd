@@ -22,7 +22,7 @@ const ERROS := {
 	"senha_errada": "SENHA ERRADA", "sala_cheia": "SALA CHEIA", "sala_em_jogo": "PARTIDA EM ANDAMENTO",
 	"sala_inexistente": "A SALA NAO EXISTE MAIS", "muitas_salas": "MUITAS SALAS ABERTAS",
 	"adversario_nao_pronto": "O ADVERSARIO AINDA NAO ESTA PRONTO", "perfil_invalido": "PERFIL INVALIDO",
-	"sem_servidor": "SEM SERVIDOR DE DUELO", "sem_conexao": "SEM CONEXAO COM O SERVIDOR",
+	"sem_servidor": "SEM SERVIDOR DE DUELO", "sem_conexao": "SEM CONEXÃO COM O SERVIDOR",
 }
 
 var eu := ""

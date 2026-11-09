@@ -103,7 +103,7 @@ static func aplicar(pacote: Dictionary, exigir_versao_app := true) -> String:
 ## Envia o save deste aparelho. Devolve {"codigo", "minutos"} ou {"erro"}.
 func enviar() -> Dictionary:
 	if _ranking().codigo_secreto().is_empty() or not _ranking().disponivel():
-		return {"erro": "SEM CONEXAO COM O SERVIDOR"}
+		return {"erro": "SEM CONEXÃO COM O SERVIDOR"}
 	if not FileAccess.file_exists("user://configuracao_jogador.json"):
 		return {"erro": "CRIE UM PERSONAGEM ANTES DE ENVIAR"}
 	_ranking().gravar_perfis()
@@ -111,15 +111,15 @@ func enviar() -> Dictionary:
 		"p_dados": JSON.stringify(empacotar())})
 	if resposta.has("codigo"):
 		return {"codigo": _formatar(str(resposta.codigo)), "minutos": int(resposta.get("minutos", 15))}
-	return {"erro": ERROS.get(str(resposta.get("erro", "")), str(resposta.get("erro", "FALHA NA CONEXAO")))}
+	return {"erro": ERROS.get(str(resposta.get("erro", "")), str(resposta.get("erro", "FALHA NA CONEXÃO")))}
 
 ## Baixa o save pelo código e confere a versão. Devolve {"pacote"} ou {"erro"}. Não grava nada.
 func receber(codigo: String) -> Dictionary:
 	if not _ranking().disponivel():
-		return {"erro": "SEM CONEXAO COM O SERVIDOR"}
+		return {"erro": "SEM CONEXÃO COM O SERVIDOR"}
 	var resposta := await _rpc("transferencia_receber", {"p_codigo": codigo})
 	if not resposta.has("dados"):
-		return {"erro": ERROS.get(str(resposta.get("erro", "")), str(resposta.get("erro", "FALHA NA CONEXAO")))}
+		return {"erro": ERROS.get(str(resposta.get("erro", "")), str(resposta.get("erro", "FALHA NA CONEXÃO")))}
 	var pacote = JSON.parse_string(str(resposta.dados))
 	var erro := validar(pacote)
 	if not erro.is_empty():
@@ -148,10 +148,10 @@ func _rpc(funcao: String, corpo: Dictionary) -> Dictionary:
 	add_child(http)
 	if http.request(_ranking().url_servico + "/rest/v1/rpc/" + funcao, _ranking().cabecalhos_servico(), HTTPClient.METHOD_POST, JSON.stringify(corpo)) != OK:
 		http.queue_free()
-		return {"erro": "FALHA NA CONEXAO"}
+		return {"erro": "FALHA NA CONEXÃO"}
 	var resposta: Array = await http.request_completed
 	http.queue_free()
 	if int(resposta[0]) != HTTPRequest.RESULT_SUCCESS or int(resposta[1]) >= 300:
-		return {"erro": "FALHA NA CONEXAO (%d)" % int(resposta[1])}
+		return {"erro": "FALHA NA CONEXÃO (%d)" % int(resposta[1])}
 	var dados = JSON.parse_string((resposta[3] as PackedByteArray).get_string_from_utf8())
 	return dados if dados is Dictionary else {"erro": "RESPOSTA INVALIDA DO SERVIDOR"}

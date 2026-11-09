@@ -210,7 +210,7 @@ func _processar_ws(delta: float) -> void:
     _falhar("PERFIL ONLINE EM OUTRO LUGAR",30.0)
     _ws_espera = 30.0
    else:
-    _falhar("SEM CONEXAO - TENTANDO NOVAMENTE",3.0)
+    _falhar("SEM CONEXÃO - TENTANDO NOVAMENTE",3.0)
     _ws_espera = 3.0
 
 ## Cada mapa traz um Jogador novo: escuta os golpes, disparos e esquivas dele para mostrá-los aos outros
@@ -243,7 +243,7 @@ func _conectar_ws() -> void:
  _ws_tempo_conexao = 0.0
  if _ws.connect_to_url(_url_ws)!=OK:
   _ws = null
-  _falhar("SEM CONEXAO - TENTANDO NOVAMENTE",5.0)
+  _falhar("SEM CONEXÃO - TENTANDO NOVAMENTE",5.0)
   _ws_espera = 5.0
 
 func _entrar_ws() -> void:
@@ -310,7 +310,7 @@ func _sincronizar() -> void:
  var erro := _http.request(_url+"/rest/v1/rpc/chat_global",_cabecalhos(),HTTPClient.METHOD_POST,JSON.stringify(dados))
  if erro!=OK:
   _ocupado = false
-  _falhar("SEM CONEXAO - TENTANDO NOVAMENTE",5.0)
+  _falhar("SEM CONEXÃO - TENTANDO NOVAMENTE",5.0)
  else: _http.set_meta("retrato",retrato)
 
 ## Quadro 0 a 3 da pose de pesca enquanto o jogador pesca; -1 fora dela
@@ -351,7 +351,7 @@ func _receber(_resultado: int, codigo: int, _cabecalhos_resposta: PackedStringAr
  if not online: return
  var dados = JSON.parse_string(corpo.get_string_from_utf8())
  if codigo<200 or codigo>=300 or not dados is Dictionary:
-  _falhar("SEM CONEXAO - TENTANDO NOVAMENTE",5.0)
+  _falhar("SEM CONEXÃO - TENTANDO NOVAMENTE",5.0)
   return
  _processar(dados,int(_http.get_meta("mapa",0)),str(_http.get_meta("retrato","")))
 
@@ -407,11 +407,11 @@ func _processar(dados: Dictionary, mapa_pedido: int, retrato: String) -> void:
   mensagem_confirmada.emit(texto,"MENSAGEM NAO PERMITIDA" if dados.get("aviso")=="mensagem_recusada" else "")
  conectado = true
  # Mostra qual canal está em uso: servidor próprio (todos se enxergam) ou canal reserva do banco
- estado = "CHAT GLOBAL ONLINE" + (" (SERVIDOR PROPRIO)" if usa_ws() else (" (CANAL RESERVA)" if not _url_ws.is_empty() else ""))
+ estado = "CHAT GLOBAL ONLINE" + (" (SERVIDOR PRÓPRIO)" if usa_ws() else (" (CANAL RESERVA)" if not _url_ws.is_empty() else ""))
  alterada.emit()
 
 func enviar_mensagem(texto: String) -> String:
- if not online or not conectado: return "ATIVE O CHAT GLOBAL E AGUARDE A CONEXAO"
+ if not online or not conectado: return "ATIVE O CHAT GLOBAL E AGUARDE A CONEXÃO"
  if not _envio.is_empty(): return "AGUARDE O ENVIO DA MENSAGEM ANTERIOR"
  var limpo := RegEx.create_from_string("[[:cntrl:]]").sub(texto," ",true).strip_edges().left(160)
  if limpo.is_empty(): return "DIGITE UMA MENSAGEM"

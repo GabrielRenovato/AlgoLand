@@ -234,7 +234,7 @@ func _ao_fim(dados: Dictionary) -> void:
 	_encerrando = true
 	jogador.desabilitar_todas_acoes(true)
 	var vencedor := str(dados.get("vencedor", ""))
-	var texto := "VITORIA!" if vencedor == Duelo.eu else ("CONEXAO PERDIDA" if vencedor.is_empty() else "DERROTA")
+	var texto := "VITÓRIA!" if vencedor == Duelo.eu else ("CONEXÃO PERDIDA" if vencedor.is_empty() else "DERROTA")
 	if str(dados.get("motivo", "")) == "abandono" and vencedor == Duelo.eu: texto = "VITORIA! (ADVERSARIO SAIU)"
 	_mostrar(texto, 3.0)
 	_atualizar_placar()

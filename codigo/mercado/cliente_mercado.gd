@@ -22,8 +22,8 @@ const ERROS := {
 	"proprio_anuncio": "ESSE ANUNCIO E SEU",
 	"preco_mudou": "O PRECO MUDOU, ATUALIZE A LISTA",
 }
-const SEM_CONEXAO := "SEM CONEXAO COM O MERCADO"
-const EM_CONFERENCIA := "SEM CONEXAO: A OPERACAO SERA CONFERIDA QUANDO A CONEXAO VOLTAR"
+const SEM_CONEXAO := "SEM CONEXÃO COM O MERCADO"
+const EM_CONFERENCIA := "SEM CONEXÃO: A OPERAÇÃO SERÁ CONFERIDA QUANDO A CONEXÃO VOLTAR"
 
 ## Perfil do Ranking do jogador (P1 ou P2): código e apelido
 var perfil: Node

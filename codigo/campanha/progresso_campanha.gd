@@ -16,6 +16,8 @@ var preparo := ""
 var recompensas: Array = []
 ## Baús escondidos já abertos (ids "regiao:n"); cada um entrega o conteúdo uma vez.
 var baus_abertos: Array = []
+## Visitas e reações já vistas por morador: {id: {"visitas": int, "vistas": [missao]}}.
+var conversas: Dictionary = {}
 var _arquivo := ""
 var _perfil := ""
 var _pronto := false
@@ -34,6 +36,7 @@ func iniciar(pasta: String, perfil: String) -> Error:
 	preparo = ""
 	recompensas = []
 	baus_abertos = []
+	conversas = {}
 	_arquivo = ""
 	_perfil = ""
 	_existia = false
@@ -79,6 +82,7 @@ func iniciar(pasta: String, perfil: String) -> Error:
 		var baus: Variant = json.data.get("baus_abertos",[])
 		baus_abertos = baus.filter(func(id): return id is String and id.length() <= 32) if baus is Array else []
 		_tentativas = json.data.get("tentativas",{}).duplicate(true)
+		conversas = json.data.get("conversas",{}).duplicate(true)
 	_pronto = true
 
 	return OK
@@ -192,6 +196,15 @@ func _validar_save(dados: Dictionary) -> Error:
 		if not Catalogo._lista_ids(tentativas[missao],conhecidos): return ERR_FILE_CORRUPT
 		for id in tentativas[missao]:
 			if not Catalogo.requisitos_cumpridos(conhecidos[id].apos,tentativas[missao]): return ERR_FILE_CORRUPT
+	var lista_conversas: Variant = dados.get("conversas",{})
+	if not lista_conversas is Dictionary or lista_conversas.size() > 64: return ERR_FILE_CORRUPT
+	for id in lista_conversas:
+		var registro: Variant = lista_conversas[id]
+		if not id is String or id.length() > 32 or not registro is Dictionary: return ERR_FILE_CORRUPT
+		var visitas: Variant = registro.get("visitas",0)
+		if not (visitas is int or visitas is float) or visitas != int(visitas) or visitas < 0: return ERR_FILE_CORRUPT
+		var vistas: Variant = registro.get("vistas",[])
+		if not vistas is Array or not vistas.all(func(m): return m is String and _catalogo.missoes.has(m)): return ERR_FILE_CORRUPT
 	var tempos: Variant = dados.get("tempos_regioes",{})
 	if not tempos is Dictionary: return ERR_FILE_CORRUPT
 	for id in tempos:
@@ -258,6 +271,18 @@ func registrar_bau_escondido(id: String) -> Error:
 	baus_abertos.append(id)
 	var erro := _gravar(_concluidas)
 	if erro != OK: baus_abertos.erase(id)
+	return erro
+
+## Guarda quantas vezes o jogador falou com o morador e quais reações já ouviu: a apresentação não se repete a cada volta à vila.
+func registrar_conversa(id: String, visitas: int, vistas: Array) -> Error:
+	if not _pronto: return ERR_UNCONFIGURED
+	if id.is_empty() or id.length() > 32 or visitas < 0 or not vistas.all(func(m): return m is String and _catalogo.missoes.has(m)): return ERR_INVALID_PARAMETER
+	var anterior: Variant = conversas.get(id)
+	conversas[id] = {"visitas": visitas, "vistas": vistas.duplicate()}
+	var erro := _gravar(_concluidas)
+	if erro != OK:
+		if anterior == null: conversas.erase(id)
+		else: conversas[id] = anterior
 	return erro
 
 func registrar_objetivo(missao: String, id: String) -> Error:
@@ -390,7 +415,7 @@ func _snapshot(concluidas: Array, objetivos: Variant = null) -> Dictionary:
 	# Relíquia e acesso são derivados do mesmo registro de conclusões. Não há
 	# uma segunda escrita para conceder recompensa que possa ficar pela metade.
 	return {"versao": VERSAO_SAVE, "campanha": Catalogo.ID, "versao_conteudo": _catalogo.versao_conteudo,
-		"perfil": _perfil, "concluidas": concluidas.duplicate(), "objetivos": objetivos.duplicate(true), "retorno":_retorno.duplicate(true), "tempos_regioes":tempos_regioes.duplicate(), "bau_resgate_aberto":bau_resgate_aberto,"preparo":preparo,"recompensas":recompensas.duplicate(),"tentativas":_tentativas.duplicate(true),"baus_abertos":baus_abertos.duplicate()}
+		"perfil": _perfil, "concluidas": concluidas.duplicate(), "objetivos": objetivos.duplicate(true), "retorno":_retorno.duplicate(true), "tempos_regioes":tempos_regioes.duplicate(), "bau_resgate_aberto":bau_resgate_aberto,"preparo":preparo,"recompensas":recompensas.duplicate(),"tentativas":_tentativas.duplicate(true),"baus_abertos":baus_abertos.duplicate(),"conversas":conversas.duplicate(true)}
 
 func _gravar(novas: Array, objetivos: Variant = null) -> Error:
 	if objetivos == null:

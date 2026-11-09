@@ -28,7 +28,12 @@ const DADOS := {
 	"pomar": {"titulo": "POMAR DAS CERCAS PARTIDAS", "etiqueta": "Primeira Raiz  ·  O pomar",
 		"historia": ["As cercas do pomar foram quebradas por dentro. Raízes sobem junto dos brotos e há sulcos novos na terra, que ninguém da vila admite ter visto.",
 			"Algo se move debaixo do chão. Descubra o que é antes que chegue às casas."],
-		"dica": "Siga os sulcos: eles mostram o caminho do que fugiu."}
+		"dica": "Siga os sulcos: eles mostram o caminho do que fugiu."},
+	# Encerramento do beta: sempre espera um toque e não mostra "carregando".
+	"fim_beta": {"titulo": "A ÁGUA VOLTOU", "etiqueta": "Primeira Raiz  ·  Fim do beta", "imagem": "moinho", "estado": "FIM DO BETA", "espera": true,
+		"historia": ["A roda gira de novo, e a Vila das Flores tem farinha, peixe e uma noite inteira de sono. Dara vigia as galerias; Osvaldo já pede ferramentas.",
+			"Mas os sulcos não pararam. Estela os mediu: seguem para o norte, rumo à pedreira, onde o minério anda estranho. A Primeira Raiz ainda chama você."],
+		"dica": "Obrigado por jogar! As próximas regiões chegam nas atualizações; seu progresso fica salvo."}
 }
 var ativa := false
 var _id := ""
@@ -52,7 +57,7 @@ var _zoom: Tween
 func mostrar(id: String) -> void:
 	_id = id if DADOS.has(id) else "chegada"
 	var vistas: Dictionary = get_tree().get_meta("carregamento_visto", {})
-	_primeira = not vistas.has(_id)
+	_primeira = not vistas.has(_id) or DADOS[_id].get("espera", false)
 	vistas[_id] = true
 	get_tree().set_meta("carregamento_visto", vistas)
 	layer = 128
@@ -100,7 +105,7 @@ func _construir() -> void:
 	_imagem.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	_imagem.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
 	_imagem.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	var caminho: String = IMAGENS % _id
+	var caminho: String = IMAGENS % dados.get("imagem", _id)
 	if ResourceLoader.exists(caminho):
 		_imagem.texture = load(caminho)
 	elif FileAccess.file_exists(caminho):
@@ -130,7 +135,7 @@ func _construir() -> void:
 	dica.size_flags_vertical = Control.SIZE_SHRINK_END
 	var andamento := HBoxContainer.new()
 	coluna.add_child(andamento)
-	_estado = _rotulo(andamento, "CARREGANDO", 8, Color("805532"))
+	_estado = _rotulo(andamento, dados.get("estado", "CARREGANDO"), 8, Color("805532"))
 	_barra = ProgressBar.new()
 	_barra.show_percentage = false
 	_barra.custom_minimum_size.y = 8
@@ -138,6 +143,8 @@ func _construir() -> void:
 	var preenchimento := Estilo.superficie(Color("5a7750"),Color("5a7750"),0)
 	_barra.add_theme_stylebox_override("fill", preenchimento)
 	coluna.add_child(_barra)
+	# No encerramento não há o que carregar: só o rótulo de estado fica.
+	_barra.visible = not dados.has("estado")
 	_aviso = _rotulo(coluna, "Toque ou pressione uma tecla", 8, Color("493020"))
 	_aviso.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_aviso.modulate.a = 0.0
@@ -198,7 +205,7 @@ func _input(evento: InputEvent) -> void:
 func finalizar() -> void:
 	_progresso = 1.0
 	_finalizando = true
-	if is_instance_valid(_estado): _estado.text = "PRONTO"
+	if is_instance_valid(_estado) and not DADOS[_id].has("estado"): _estado.text = "PRONTO"
 	await fechada
 
 func _fechar() -> void:

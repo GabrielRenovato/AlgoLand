@@ -94,3 +94,23 @@ Fontes: `teste_campanha_pesca_social.gd` (capturas `vila-entrada-576`, `pesca-57
 - **Drop raro do Cerne:** não é bug. `ferramentas/projeto/SAQUE_INICIAL.md` diz que o "Cerne Partido fica sem drop de equipamento até a definição de sua recompensa", e `catalogo_saque_inicial.gd` segue isso desde o commit `9391105e7`. O teste foi atualizado e agora verifica que o chefe não dá drop de equipamento e que todo saque recolhido aparece com dados reais. Resultado: `teste_interface_campanha.gd` sem falhas (221 OK). Quando a recompensa do Cerne for definida, a verificação precisa ser trocada.
 - **Moldura 960×900:** era um problema do ambiente de teste. A janela de 1920×1800 não cabia no monitor e foi reduzida para 1920×1069; com stretch `expand` a área visível ficou 1616×900, e o painel, centralizado nela, passava de x=960. O teste agora compara com `root.get_visible_rect()`.
 - **Ainda aberto:** o erro `Parameter "scenario" is null` em `atlas_herois_3d.gd:95` (44 vezes na última rodada).
+
+## Vila viva: reações, memória e encerramento (09/11/2026)
+
+- **A apresentação se repetia a cada volta à vila.** As visitas aos moradores ficavam só na memória da cena e eram zeradas na troca de região. Ao voltar da clareira, cada morador repetia a apresentação inteira. Agora `progresso_campanha.gd` guarda as visitas e as reações já ouvidas no save (`conversas`, validado ao carregar), e `percurso_prototipo.gd` as recarrega em cada região.
+- **Reações para os 15 moradores.** Os textos saíram do `match` em `percurso_prototipo.gd` e foram para `codigo/dados/reacoes_primeira_raiz.json`. Todos os moradores reagem à chegada, à defesa e ao moinho (os de apoio e as crianças antes não reagiam). A maioria também reage ao acolhimento, e há falas próprias para os pedidos opcionais: ferragens, suprimentos, treino e pesca. Dos marcos principais vale só o mais recente; cada pedido concluído rende uma fala, e cada reação aparece uma vez. São 73 falas, 54 delas novas (19 vieram do código), todas na voz descrita na ficha do morador. Isso resolve os itens 3, 4 e parte do 5 da seção "Vila e moradores".
+- **Fim do beta com cena.** Depois do relato ao Nilo, ele conta que Estela mediu os sulcos rumo à pedreira, e abre um cartão ilustrado, "A ÁGUA VOLTOU". O cartão reaproveita a tela de carregamento, mostra o que mudou na vila e deixa o gancho para a próxima região. Ele espera um toque para fechar e não mostra barra de progresso. Conferido em 576×324 e 288×512. Resolve o item 7.
+- **"CHAT GLOBAL OFFLINE" na campanha solo:** o registro do canto some quando não há conexão na campanha, mas o ENTER continua abrindo o chat. Na cidade do modo clássico o comportamento não mudou, porque o teste do lobby exige o registro offline ali. Resolve o item 8.
+- **Acentos de conexão:** `SEM CONEXÃO` no mercado, no chat, na conta, no ranking, no duelo, no cooperativo e na transferência de save.
+- **Teste novo:** `testes/teste_reacoes_moradores.gd` confere a cobertura das reações e a ordem marco → pedido. Também confere que nada se repete depois de trocar de região, que o save rejeita registros inválidos e que o epílogo abre, cabe e fecha.
+- **Continua aberto:**
+  - retratos próprios para Dara, Tomás e os moradores de apoio (exige arte);
+  - ofertas fixas de moradores no leilão (mexe no fluxo de compra do servidor);
+  - papel de serviço para Elia e Noel;
+  - mistura de resolução da água e das barracas;
+  - o aviso `scenario is null`, que o próprio `atlas_herois_3d.gd` documenta como inofensivo da troca de mundo.
+- **Testes desta rodada:**
+  - Sem falhas: `teste_reacoes_moradores` (74 OK), `teste_historia_goblins` (42), `teste_campanha_pesca_social` (56), `teste_campanha_primeiro_andar` (139) e `teste_interface_campanha` (209).
+  - O `teste_historia_goblins` já estava desatualizado: esperava as reações ao pomar, que não existiam.
+  - O `teste_moradores_primeira_raiz` tem 10 falhas que já existiam: são as mesmas com as mudanças guardadas no stash (passeio do Nilo, "responsável vai buscar", "abre fala em"). Ficam para investigar.
+  - O `teste_lobby_cidade` precisa de uma pasta de save própria ("AlgoLand testes lobby rede") e de dois processos, e não roda na cópia de testes do Windows.

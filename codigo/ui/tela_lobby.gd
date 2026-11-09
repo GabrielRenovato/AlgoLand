@@ -238,7 +238,8 @@ func _process(_delta: float) -> void:
  _historico.size = Vector2(clampf(logico.x*0.3,120.0,LARGURA_HISTORICO),clampf(logico.y*0.3,72.0,ALTURA_HISTORICO))
  _historico.position = Vector2(8,logico.y-8-_historico.size.y)
  _evitar_barra_de_itens()
- _historico.visible = not Controle.usando_toque and _sessao!=null and get_parent()._telas_abertas.is_empty() and not Introducao.cinematica
+ # Na campanha o canto sem conexão só repetiria "CHAT GLOBAL OFFLINE"; o ENTER continua abrindo o painel.
+ _historico.visible = not Controle.usando_toque and _sessao!=null and (_sessao.conectado or not _sessao.mensagens.is_empty() or not _na_campanha()) and get_parent()._telas_abertas.is_empty() and not Introducao.cinematica
  var escrevendo: bool = _historico.visible and is_instance_valid(_sessao) and _sessao.online and _sessao.conectado and not EventosJogo.eh_do_p2(self)
  _historico_campo.visible = escrevendo
  if not escrevendo and _historico_campo.has_focus(): _historico_campo.release_focus()
@@ -426,3 +427,7 @@ func _unhandled_key_input(evento: InputEvent) -> void:
    if _historico_campo.visible: _historico_campo.grab_focus()
    else: EventosJogo.abrir_tela_de(self,"lobby")
    get_viewport().set_input_as_handled()
+
+func _na_campanha() -> bool:
+ var cena := get_tree().current_scene
+ return cena != null and cena.has_method("objetivo_de_campanha")

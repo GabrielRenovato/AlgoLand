@@ -12,6 +12,8 @@ var moradores:Dictionary={}
 var hora_da_cidade:=10.0
 var _visitas_moradores:Dictionary={}
 var _reacoes_moradores:Dictionary={}
+## O cartão de encerramento do beta abre quando o relato ao Nilo termina.
+var _epilogo_pendente:=false
 var _morador_conversando:Node
 var _treino: Node
 var _escolha_ativa := ""
@@ -297,33 +299,55 @@ func _descansar() -> Error:
 	_avisar("Você descansa um pouco. Vida e fôlego recuperados.")
 	return OK
 
-## Cada novidade da campanha entra uma vez nas conversas seguintes de cada morador.
+## Reações ao progresso (codigo/dados/reacoes_primeira_raiz.json). Dos marcos principais vale só o mais recente
+## que tenha texto para o morador; cada pedido opcional concluído rende uma fala própria. Cada reação aparece uma vez.
+const Reacoes := preload("res://codigo/dados/reacoes_primeira_raiz.json")
+const MARCOS_REACAO := ["moinho_vazao","pomar_sulcos","defesa_da_vila","acolhimento","estrada_interrompida"]
+const PEDIDOS_REACAO := ["quem_ficou_para_tras","ferro_que_ainda_serve","antes_de_sair_outra_vez","pesca_primeiras_fisgadas","pesca_carpas_da_vila"]
+
 func _reacao(id: String) -> String:
-	var acolhido:bool=controlador.progresso.missao_concluida("acolhimento")
-	if controlador.progresso.missao_concluida("moinho_vazao"):
-		match id:
-			"dara":return "Nilo contou dos goblins nas galerias. Vou manter uma ronda na entrada; ninguém vai descer sozinho para fazer reparos."
-			"lia":return "A água voltou. Agora precisamos levar o grão ao moinho com escolta; ainda há goblins nas trilhas."
-			"nilo":return "A corrente voltou a levar folhas até minhas redes. Depois dos goblins nas galerias, até esse trabalho dá gosto."
-			"osvaldo":return "Vou revisar as cunhas e a transmissão que os goblins travaram. Com a entrada vigiada, consigo levar ferramentas."
-			"cora":return "Ouvi a roda do moinho! Quando chegar farinha nova, guardo um pão para você."
-	if controlador.progresso.missao_concluida("defesa_da_vila"):
-		match id:
-			"lia":return "A rua ficou de pé. Já mandei buscar estacas novas para o sul, e o povo dorme melhor."
-			"tomas":return "Vendi mais tábua esta semana do que no ano todo. Quem viu a defesa quer cerca nova."
-			"dara":return "Você segurou a entrada como alguém que já viu coisa pior. Quando precisar de treino, estou aqui."
-			"rosa":return "Dois feridos leves, ninguém grave. Guarde as ervas que sobraram."
-			"nilo":return "Os goblins de machado que vi na margem não estavam só de passagem: as marteladas vinham de baixo da bacia do moinho."
-			"estela":return "Os sulcos e os goblins chegaram juntos. Ainda não sei se há ligação entre eles; quero examinar os sinais antes de afirmar."
-	match id:
-		"lia":return "Aquele banco perto de mim é para quem volta machucado. Sente, descanse e só então saia outra vez."
-		"rosa":return "O trabalhador do carreto já senta na cama e pede pão. Ainda não aguenta caminhar, mas está inteiro."
-		"ivo":return "O Cerne Partido caiu na clareira e a vila inteira ouviu. Quem bate ferro agradece a quem o derrubou."
-		"nilo":return "Dizem que o Cerne Partido caiu. Até os peixes andaram mais agitados depois disso."
-		"osvaldo":return "Madeira para cerca nunca falta. Falta saber onde ela vai servir, agora que os sulcos chegaram à estrada." if acolhido else "Alguém derrubou o Cerne Partido na clareira. Bom serviço."
-		"tomas":return "Os sulcos já cruzaram a estrada. Estou separando o que dá para a defesa da vila." if acolhido else ""
-		"dara":return "Quando a defesa vier, quero você ao meu lado na linha de frente." if acolhido else ""
-	return ""
+	return str(_reacao_marco(id)[1])
+
+func _reacao_marco(id: String) -> Array:
+	var textos: Dictionary = Reacoes.data.get(id,{})
+	for missao in MARCOS_REACAO:
+		if textos.has(missao) and controlador.progresso.missao_concluida(missao):return [missao,str(textos[missao])]
+	return ["",""]
+
+## Primeira reação ainda não ouvida: o marco atual, depois os pedidos concluídos.
+func _reacao_pendente(id: String) -> Array:
+	var vistas: Array = _reacoes_moradores.get(id,[])
+	var candidatas: Array = [_reacao_marco(id)]
+	var textos: Dictionary = Reacoes.data.get(id,{})
+	for missao in PEDIDOS_REACAO:
+		if textos.has(missao) and controlador.progresso.missao_concluida(missao):candidatas.append([missao,str(textos[missao])])
+	for par in candidatas:
+		if not str(par[0]).is_empty() and not par[0] in vistas:return par
+	return ["",""]
+
+## Encerramento do beta: cartão ilustrado com o que mudou e o gancho para as próximas regiões.
+func _mostrar_epilogo() -> void:
+	_epilogo_pendente=false
+	var cartao:=preload("res://codigo/campanha/carregamento_campanha.gd").new()
+	cartao.name="Epilogo"
+	add_child(cartao)
+	jogador.desabilitar_todas_acoes(true)
+	cartao.mostrar("fim_beta")
+	await cartao.finalizar()
+	if is_instance_valid(jogador) and not jogador.estaMorto:jogador.desabilitar_todas_acoes(false)
+
+## Visitas e reações vêm do save: voltar à vila não repete a apresentação de cada morador.
+func _carregar_conversas() -> void:
+	_visitas_moradores.clear()
+	_reacoes_moradores.clear()
+	for id in controlador.progresso.conversas:
+		var registro: Dictionary = controlador.progresso.conversas[id]
+		_visitas_moradores[id]=int(registro.get("visitas",0))
+		_reacoes_moradores[id]=Array(registro.get("vistas",[])).duplicate()
+
+func _guardar_conversa(id: String) -> void:
+	var vistas: Variant = _reacoes_moradores.get(id,[])
+	controlador.progresso.registrar_conversa(id,int(_visitas_moradores.get(id,0)),vistas if vistas is Array else [])
 
 ## Entrega os prêmios das missões concluídas e grava o recibo no save; a falta de espaço na mochila adia a entrega.
 func _conferir_missoes() -> void:
@@ -572,7 +596,7 @@ func abrir_regiao(id: String, nova_instancia := true) -> Error:
 	_frame_ultima_interacao = -1
 
 	if cinema_cidade_ativa(): cinema_cidade.cancelar()
-	_visitas_moradores.clear()
+	_carregar_conversas()
 	regiao = id
 	for goblin in goblins_espalhados:
 		if is_instance_valid(goblin):
@@ -791,6 +815,7 @@ func _process(_delta: float) -> void:
 	if is_instance_valid(terreno) and terreno.has_method("atualizar_oclusao"):
 		terreno.atualizar_oclusao(jogador,_delta)
 	_atualizar_marcadores(_delta)
+	if _epilogo_pendente and interface._telas_abertas.is_empty():_mostrar_epilogo()
 	if regiao=="vila" and interface._telas_abertas.is_empty() and not cinema_cidade_ativa():
 		var luz:=get_tree().get_first_node_in_group("iluminacao")
 		hora_da_cidade=float(luz.hora) if luz!=null else fposmod(hora_da_cidade+_delta/24.0,24.0)
@@ -1238,17 +1263,22 @@ func _conversar_morador(id: String) -> Error:
 	if id=="dara" and visitas==0:paginas.append("Quando quiser treinar, me procure. E na mochila, a aba da espada mostra a árvore de maestria: cada nó explica o que você pode aprender.")
 	if visitas>0 and not morador.falas_atividade.is_empty():
 		paginas=[str(morador.falas_atividade[posmod(visitas-1,morador.falas_atividade.size())])]
-	var reacao:=_reacao(id)
-	if visitas>0 and not reacao.is_empty() and _reacoes_moradores.get(id,"")!=reacao:
-		paginas=[reacao]
-		_reacoes_moradores[id]=reacao
+	var reacao:=_reacao_pendente(id)
+	if visitas>0 and not str(reacao[1]).is_empty():
+		paginas=[str(reacao[1])]
+		var vistas:Array=_reacoes_moradores.get(id,[]) if _reacoes_moradores.get(id) is Array else []
+		vistas.append(reacao[0])
+		_reacoes_moradores[id]=vistas
 	if etapa:paginas.push_front(FALAS_PASSOS.get(passo,_fala(id).get_slice(": ",1)))
-	if etapa and passo=="moinho_vazao:relato":paginas.append("Fim do beta da campanha. Obrigado por jogar! As outras regiões da Primeira Raiz chegam nas próximas atualizações; seu progresso fica salvo.")
+	if etapa and passo=="moinho_vazao:relato":
+		paginas.append("A Estela passou a manhã medindo os sulcos perto da bacia. Diz que eles não terminam no pomar: seguem para o norte, na direção da pedreira. Eu só sei que o rio sabia antes de nós.")
+		_epilogo_pendente=true
 	# A conversa que avança a missão termina sempre dizendo o próximo passo, em uma linha.
 	if etapa and passo!="moinho_vazao:relato":
 		var proximo: String = str(objetivo_de_campanha().get("texto",""))
 		if not proximo.is_empty(): paginas.append("Próximo: " + proximo)
 	_visitas_moradores[id]=visitas+1
+	_guardar_conversa(id)
 	if id=="dara" and regiao=="vila" and _oferecer_treino(paginas,alvos[id].nome):return OK
 	if id in ["tomas","rosa"] and regiao=="vila":
 		_abrir_menu(id+"_menu",paginas,alvos[id].nome)

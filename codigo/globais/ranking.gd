@@ -142,12 +142,12 @@ func _enviar_pendente() -> void:
 			envio_concluido.emit("")
 		else:
 			var texto := corpo.get_string_from_utf8()
-			envio_concluido.emit("ATUALIZE O JOGO PARA ENVIAR AO RANKING" if texto.contains("atualize_o_jogo") or texto.contains("temporada_invalida") else "SEM CONEXAO COM O RANKING"))
+			envio_concluido.emit("ATUALIZE O JOGO PARA ENVIAR AO RANKING" if texto.contains("atualize_o_jogo") or texto.contains("temporada_invalida") else "SEM CONEXÃO COM O RANKING"))
 	var corpo_json := JSON.stringify({"p_codigo": _codigo, "p_apelido": apelido, "p_andar": andar,"p_temporada":Config.TEMPORADA})
 	if http.request(url_servico + "/rest/v1/rpc/enviar_pontuacao_ranking", _cabecalhos(), HTTPClient.METHOD_POST, corpo_json) != OK:
 		http.queue_free()
 		_ocupado = false
-		envio_concluido.emit("SEM CONEXAO COM O RANKING")
+		envio_concluido.emit("SEM CONEXÃO COM O RANKING")
 
 ## A praça e o encerramento da arena capturam antes de qualquer descarregamento/reset.
 func capturar_jogador(jogador: Node2D) -> void:
@@ -191,7 +191,7 @@ func _enviar_visual() -> void:
 	if http.request(url_servico + "/rest/v1/rpc/atualizar_perfil_ranking",_cabecalhos(),HTTPClient.METHOD_POST,corpo) != OK:
 		http.queue_free()
 		_ocupado = false
-		envio_concluido.emit("SEM CONEXAO COM O RANKING")
+		envio_concluido.emit("SEM CONEXÃO COM O RANKING")
 
 func buscar() -> void:
 	if _buscando: return
@@ -214,13 +214,13 @@ func buscar() -> void:
 					lista_cache.append({"apelido":str(linha.apelido).left(16),"andar":clampi(int(linha.andar),1,1000),"aparencia":Visual.normalizar(linha.get("aparencia")),"arma_mais_usada":Armas.validar(linha.get("arma_mais_usada"))})
 			erro_consulta = ""
 		else:
-			erro_consulta = "SEM CONEXAO - EXIBINDO ULTIMA CONSULTA" if not lista_cache.is_empty() else "SEM CONEXAO COM O RANKING"
+			erro_consulta = "SEM CONEXÃO - EXIBINDO ÚLTIMA CONSULTA" if not lista_cache.is_empty() else "SEM CONEXÃO COM O RANKING"
 		lista_atualizada.emit(lista_cache))
 	var consulta := "/rest/v1/ranking_publico?select=apelido,andar,aparencia,arma_mais_usada&order=andar.desc,atualizado_em.asc&temporada=eq.%d&limit=%d" % [Config.TEMPORADA,TAMANHO_LISTA]
 	if http.request(url_servico + consulta, _cabecalhos()) != OK:
 		http.queue_free()
 		_buscando = false
-		erro_consulta = "SEM CONEXAO COM O RANKING"
+		erro_consulta = "SEM CONEXÃO COM O RANKING"
 		lista_atualizada.emit(lista_cache)
 
 func _cabecalhos() -> PackedStringArray:

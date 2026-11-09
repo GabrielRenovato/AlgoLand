@@ -57,9 +57,9 @@ func conferir_historia_goblins() -> void:
  conferir("Dara reage as galerias liberadas",cena._reacao("dara").contains("ronda"))
  conferir("Nilo reconhece agua de volta",cena._reacao("nilo").contains("corrente voltou"))
  cena._visitas_moradores["nilo"]=4
- cena._reacoes_moradores["nilo"]="relato anterior"
+ cena._reacoes_moradores["nilo"]=[]
  conferir("nova descoberta entra apos varias visitas",cena._conversar_morador("nilo")==OK)
- conferir("reacao nova aparece na conversa real",cena.interface._telas.introducao._paginas[0].contains("corrente voltou"))
+ conferir("reacao nova aparece na conversa real",cena.interface._telas.introducao._paginas.any(func(p):return p.replace("\n"," ").contains("corrente voltou")))
  await fechar()
  # Exibe textos reais pelo diálogo usado pelos moradores e pelas missões.
  var falas:Array=[

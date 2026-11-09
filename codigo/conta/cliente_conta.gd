@@ -261,7 +261,7 @@ func adotar_codigo_local() -> String:
 # --- Rede
 
 func _erro(r: Dictionary) -> String:
-	if int(r.status) == 0: return "SEM CONEXAO COM O SERVIDOR"
+	if int(r.status) == 0: return "SEM CONEXÃO COM O SERVIDOR"
 	if int(r.status) >= 200 and int(r.status) < 300: return ""
 	var corpo = r.corpo
 	if corpo is Dictionary:

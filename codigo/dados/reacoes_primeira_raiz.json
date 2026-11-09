@@ -1,0 +1,107 @@
+{
+	"_sobre": "Reações dos moradores ao progresso da campanha, por id de missão. Marcos principais: só o mais recente com texto aparece. Pedidos opcionais: cada um aparece uma vez. Ordem e uso em percurso_prototipo.gd (_reacao_pendente).",
+	"dara": {
+		"estrada_interrompida": "Você chegou pela estrada inteira. Muita gente não consegue. Da próxima vez, avise antes de sair.",
+		"acolhimento": "Quando a defesa vier, quero você ao meu lado na linha de frente.",
+		"defesa_da_vila": "Você segurou a entrada como alguém que já viu coisa pior. Quando precisar de treino, estou aqui.",
+		"moinho_vazao": "Nilo contou dos goblins nas galerias. Vou manter uma ronda na entrada; ninguém vai descer sozinho para fazer reparos.",
+		"antes_de_sair_outra_vez": "Bloqueio, esquiva, contra-ataque. Repita até o corpo lembrar antes da cabeça. E volte pelo mesmo caminho.",
+		"ferro_que_ainda_serve": "O Ivo voltou a sorrir para uma correia. Foram as ferragens do carreto? Então a estrada devolveu alguma coisa."
+	},
+	"lia": {
+		"estrada_interrompida": "Aquele banco perto de mim é para quem volta machucado. Sente, descanse e só então saia outra vez.",
+		"acolhimento": "Seu nome já está na minha lista. Na de gente, não na de urgências. Por enquanto.",
+		"defesa_da_vila": "A rua ficou de pé. Já mandei buscar estacas novas para o sul, e o povo dorme melhor.",
+		"moinho_vazao": "A água voltou. Agora precisamos levar o grão ao moinho com escolta; ainda há goblins nas trilhas.",
+		"pesca_primeiras_fisgadas": "O Nilo veio me dizer que você tem mão para a vara. Ele não elogia ninguém; anotei a data.",
+		"pesca_carpas_da_vila": "As carpas viraram caldo para a enfermaria e ainda sobrou para a pousada. Isso entra na lista do que deu certo."
+	},
+	"ivo": {
+		"estrada_interrompida": "O Cerne Partido caiu na clareira e a vila inteira ouviu. Quem bate ferro agradece a quem o derrubou.",
+		"acolhimento": "Escolheu seu ofício? Ótimo. Agora só falta errar nele umas cem vezes. Eu ainda estou na milésima.",
+		"defesa_da_vila": "Vi os escudos depois da defesa. Amassados, mas nenhum rachou. Isso eu chamo de elogio.",
+		"moinho_vazao": "Os goblins deixaram cunhas de ferro nas galerias. Ferro ruim, malhado com pressa. Alguém ensinou o básico a eles, e isso me preocupa.",
+		"ferro_que_ainda_serve": "As ferragens do carreto ainda servem. Um pouco de calor, um pouco de paciência, e voltam a carregar sacos em vez de ferrugem."
+	},
+	"rosa": {
+		"estrada_interrompida": "O trabalhador do carreto já senta na cama e pede pão. Ainda não aguenta caminhar, mas está inteiro.",
+		"acolhimento": "Agora que você mora aqui, vale a regra da casa: quem volta ferido passa por mim antes de passar pela Mara.",
+		"defesa_da_vila": "Dois feridos leves, ninguém grave. Guarde as ervas que sobraram.",
+		"moinho_vazao": "Água corrente de novo. Menos febre de poço parado nas próximas semanas, e uma preocupação a menos para a Nina.",
+		"quem_ficou_para_tras": "O trabalhador mandou dizer que vai voltar andando. Eu disse que ele volta quando eu deixar. Obrigada por levar os suprimentos."
+	},
+	"tomas": {
+		"estrada_interrompida": "A estrada caiu com três carroças do lado errado. Se achar sacos com a minha marca, não precisa trazer: só me diga onde estão.",
+		"acolhimento": "Os sulcos já cruzaram a estrada. Estou separando o que dá para a defesa da vila.",
+		"defesa_da_vila": "Vendi mais tábua esta semana do que no ano todo. Quem viu a defesa quer cerca nova.",
+		"pomar_sulcos": "Agora sei por onde a colheita sumia. Ainda dói contar o que perdi, mas pelo menos a conta tem fim.",
+		"moinho_vazao": "Com o moinho rodando, grão volta a virar farinha. Minhas contas até sorriram hoje. Pouco, mas sorriram.",
+		"ferro_que_ainda_serve": "As ferragens do carreto voltaram? Então talvez as carroças também voltem. Já estou fazendo a conta, desculpe."
+	},
+	"nilo": {
+		"estrada_interrompida": "Dizem que o Cerne Partido caiu. Até os peixes andaram mais agitados depois disso.",
+		"acolhimento": "A Lia achou um lugar para você. Ela faz isso com todo mundo que chega molhado da correnteza.",
+		"defesa_da_vila": "Os goblins de machado que vi na margem não estavam só de passagem: as marteladas vinham de baixo da bacia do moinho.",
+		"pomar_sulcos": "Os goblins do pomar levavam machado, iguais aos que vi na margem. E as marteladas continuam vindo de baixo da bacia do moinho.",
+		"moinho_vazao": "A corrente voltou a levar folhas até minhas redes. Depois dos goblins nas galerias, até esse trabalho dá gosto.",
+		"pesca_primeiras_fisgadas": "Três peixes na primeira tentativa. Não conte ao rio: ele fica orgulhoso e muda de lugar.",
+		"pesca_carpas_da_vila": "A Lia me contou das carpas. Agora tem gente na vila achando que pescar é fácil. Obrigado por isso."
+	},
+	"osvaldo": {
+		"estrada_interrompida": "Alguém derrubou o Cerne Partido na clareira. Bom serviço.",
+		"acolhimento": "Madeira para cerca nunca falta. Falta saber onde ela vai servir, agora que os sulcos chegaram à estrada.",
+		"defesa_da_vila": "As estacas do sul aguentaram. As que eu pus com pressa, não. Vou refazer essas primeiro.",
+		"moinho_vazao": "Vou revisar as cunhas e a transmissão que os goblins travaram. Com a entrada vigiada, consigo levar ferramentas."
+	},
+	"estela": {
+		"estrada_interrompida": "Você caiu, levantou e derrubou o Cerne Partido. Anoto isso como observação. A explicação ainda não tenho.",
+		"acolhimento": "Fiz três perguntas sobre sua queda e você respondeu duas. Ótimo. A terceira é a que me interessa.",
+		"defesa_da_vila": "Os sulcos e os goblins chegaram juntos. Ainda não sei se há ligação entre eles; quero examinar os sinais antes de afirmar.",
+		"pomar_sulcos": "Os sulcos do pomar seguem o traçado das raízes antigas. Ainda não sabemos se elas guiam os goblins ou se fogem deles.",
+		"moinho_vazao": "A água voltou e os sulcos perto da bacia pararam de crescer. Coincidência, por enquanto. Vou medir de novo daqui a uma semana."
+	},
+	"mara": {
+		"estrada_interrompida": "Chegou pela estrada? Então chegou com fome. Senta aí, que a conversa vem depois do prato.",
+		"acolhimento": "Agora você tem cama aqui, e cama tem regra: botas fora da colcha. O Téo já decorou essa.",
+		"defesa_da_vila": "Na noite da defesa a pousada virou abrigo. Doze pessoas, uma panela e o Téo contando histórias. Ninguém dormiu, mas ninguém chorou.",
+		"moinho_vazao": "A Cora prometeu farinha nova e eu prometi bolo. Agora que a roda gira, não tenho mais desculpa.",
+		"quem_ficou_para_tras": "A Rosa contou que você levou comida até o abrigo da estrada. Foi pouco? Da próxima vez, passe aqui antes."
+	},
+	"cora": {
+		"estrada_interrompida": "Você é quem caiu da árvore? Então precisa de pão de verdade. Hoje é por conta da casa; amanhã a gente conversa.",
+		"acolhimento": "Guardei um pão com o seu nome. Escrito em farinha, então coma antes que vire só pão.",
+		"defesa_da_vila": "Na defesa eu fiquei no forno. Alguém tinha que garantir que todo mundo ia ter o que comer depois.",
+		"moinho_vazao": "Ouvi a roda do moinho! Quando chegar farinha nova, guardo um pão para você."
+	},
+	"teo": {
+		"estrada_interrompida": "Você derrubou o Cerne Partido? Eu ouvi o barulho daqui! Era maior que a pousada? Maior que duas pousadas?",
+		"acolhimento": "Agora você mora aqui! Desenhei você no meu mapa. Ficou meio torto, mas a espada ficou ótima.",
+		"defesa_da_vila": "Eu fiquei na pousada durante a defesa. Não fiquei com medo. Só um pouquinho. Tá bom, bastante.",
+		"moinho_vazao": "Você entrou embaixo do moinho? Tinha goblin? Tinha tesouro? Pode contar a parte do goblin bem devagar."
+	},
+	"nina": {
+		"estrada_interrompida": "A tia disse que você se machucou na queda. Esta folha é boa para isso. Mas pergunta para ela antes, tá?",
+		"defesa_da_vila": "Depois da defesa, as flores perto do portão fecharam de novo. Acho que elas não gostam de barulho.",
+		"pomar_sulcos": "Os sulcos do pomar parecem raízes com pressa. Desenhei um para a tia. Ela disse que eu desenho bem raiz.",
+		"moinho_vazao": "A água voltou e a terra do jardim ficou mais escura. A tia diz que é umidade. Eu acho que é felicidade."
+	},
+	"bia": {
+		"estrada_interrompida": "Você caiu da árvore, né? Os passarinhos fugiram um pouco antes. Eu anotei. Ninguém pergunta, mas eu anoto.",
+		"defesa_da_vila": "Os passarinhos sumiram de novo antes da defesa! Eu falei! Agora a mãe acredita em mim. Mais ou menos.",
+		"moinho_vazao": "Os patos voltaram para o rio do moinho. Então água boa chama bicho bom. Essa eu descobri sozinha.",
+		"pesca_primeiras_fisgadas": "Você pescou três peixes? Eu pesquei uma bota uma vez. Era do Noel. Ele não quis de volta."
+	},
+	"elia": {
+		"estrada_interrompida": "Sua roupa chegou rasgada nos três pontos de quem cai de lado. Quando quiser, eu remendo.",
+		"acolhimento": "Se vai ficar, sua roupa precisa aguentar trabalho. Traga quando rasgar de novo. E vai rasgar.",
+		"defesa_da_vila": "Remendei seis capas depois da defesa, todas rasgadas no ombro esquerdo. Os goblins atacam pelo mesmo lado; já avisei a Dara.",
+		"moinho_vazao": "Galeria úmida apodrece costura. Se voltar lá embaixo, passe sebo nas botas antes, não depois."
+	},
+	"noel": {
+		"estrada_interrompida": "Você veio pela estrada? Anotei na ronda. A Dara disse que agora também preciso perguntar como foi.",
+		"acolhimento": "A Lia disse que você é morador agora. Vou decorar seu nome. Pode repetir mais devagar?",
+		"defesa_da_vila": "Na defesa eu esqueci metade do que treinei. A outra metade funcionou. A Dara disse que é um bom começo.",
+		"moinho_vazao": "A Dara me deixou vigiar a entrada das galerias. Não deixo ninguém descer sozinho. Nem eu.",
+		"antes_de_sair_outra_vez": "Vi você treinando com a Dara. Ela pegou leve? Comigo ela nunca pega leve."
+	}
+}
