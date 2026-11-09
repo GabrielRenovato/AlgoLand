@@ -1,13 +1,13 @@
 extends RefCounted
 
-## Chave pÃºblica que confere a assinatura dos patches (gerada por ferramentas/atualizacao/gerar_atualizacao.py chave).
+## Chave pública que confere a assinatura dos patches (gerada por ferramentas/atualizacao/gerar_atualizacao.py chave).
 const PUBLICA := """-----BEGIN PUBLIC KEY-----
-MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA57CRhN3ZwxD1jZeZFHK/
-7ZB6kkIbknavDmhL30rxC3DYhkKfJim9nuLgR3eujE+n1xYv41BdD53iAC6OMMEM
-p/DYi8Jw2SAYGYQpunS8vPpt3HIjWArdAb2Nf7yg/Pa94oYaukLry9xu3MOWlsLL
-ebfwMAVCShPZ4E+szj1Fsoh4QdfNuw5K1VNsAFod6qUmW3AHfU8T2z2D7lCtjQWo
-M+Bjyjs4hknRAeISlummXr7/14YOHJnitRfNuM8uty2TAG3aBQGIekZW8+vkp29Y
-/bKu68xNbhdkJobce2ILlMncwFC1yAsvGdl49yGG7TO6HI+bqKEUasDbh2WuUhVA
-DQIDAQAB
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA4VwNNDvo3UfKwu47QGF4
+7AlDs2WqsyiJpHDWJmJLBFXPxYPwwMvfdijfodlWD/5EZj+F9UtJnSH5sV2AnGiD
+gm7HdPxVDQXvpj8KSsyTQWpIrDg6T9xjeISfj96c//aRy/js6GG0G+GDx1aAV5a0
+5/VYEqAJ3B43u32hmlro1jQ4F+yXMYKtmJkPXutgk9B0lhjRSs/S2JCaeQk8IWze
+2NT85VLztshUEGr0JQCJkRaS/lRIP6cN7Ww8YLSKMjmbyv9HihOHlj5s0EYfyvgs
+ioeomNb/99DhMooGhZVQlRofrDNKMYKyKiR8zNUrMoxuohOj2CCCnfM/BUXCFAEE
+hwIDAQAB
 -----END PUBLIC KEY-----
 """
