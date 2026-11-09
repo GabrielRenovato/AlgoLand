@@ -1,6 +1,6 @@
 extends RefCounted
 
-## Chave pública que confere a assinatura dos patches (gerada por ferramentas/atualizacao/gerar_atualizacao.py chave).
+## Chave pÃºblica que confere a assinatura dos patches (gerada por ferramentas/atualizacao/gerar_atualizacao.py chave).
 const PUBLICA := """-----BEGIN PUBLIC KEY-----
 MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA4VwNNDvo3UfKwu47QGF4
 7AlDs2WqsyiJpHDWJmJLBFXPxYPwwMvfdijfodlWD/5EZj+F9UtJnSH5sV2AnGiD

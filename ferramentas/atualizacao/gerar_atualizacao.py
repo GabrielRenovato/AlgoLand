@@ -20,19 +20,32 @@ PRIVADA = Path.home() / '.config/algoland/atualizacao_privada.pem'
 CHAVE_GD = RAIZ / 'codigo/globais/atualizacao_chave.gd'
 BASES = RAIZ / 'builds/atualizacao'
 PUBLICACAO = RAIZ.parent / 'AlgoLand-wiki/public/jogar/atualizacao'
-GODOT = ['flatpak', 'run', '--filesystem=/tmp', 'org.godotengine.Godot']
+GODOT_WINDOWS = Path.home() / 'Downloads/Godot_v4.7.2-stable_win64.exe/Godot_v4.7.2-stable_win64_console.exe'
+
+
+def comando_godot() -> list[str]:
+    """ALGOLAND_GODOT manda; no Windows usa o executável _console baixado; no Linux, o flatpak."""
+    import os
+    if os.environ.get('ALGOLAND_GODOT'):
+        return [os.environ['ALGOLAND_GODOT']]
+    if sys.platform == 'win32':
+        return [str(GODOT_WINDOWS)]
+    return ['flatpak', 'run', '--filesystem=/tmp', 'org.godotengine.Godot']
+
+
+GODOT = comando_godot()
 PRESET = 'Android'
 
 
 def versao_projeto() -> str:
-    m = re.search(r'^config/version="([^"]*)"', (RAIZ / 'project.godot').read_text(), re.M)
+    m = re.search(r'^config/version="([^"]*)"', (RAIZ / 'project.godot').read_text(encoding='utf-8'), re.M)
     if not m:
         sys.exit('project.godot não tem application/config/version')
     return m.group(1)
 
 
 def versao_preset() -> str:
-    t = (RAIZ / 'export_presets.cfg').read_text()
+    t = (RAIZ / 'export_presets.cfg').read_text(encoding='utf-8')
     i = t.index(f'name="{PRESET}"')
     m = re.search(r'^version/name="([^"]*)"', t[i:], re.M)
     return m.group(1) if m else ''
@@ -99,8 +112,9 @@ def cmd_chave(_: argparse.Namespace) -> None:
         PRIVADA.chmod(0o600)
         print('Chave privada criada em', PRIVADA, '(guarde um backup; sem ela não há como assinar patches)')
     publica = subprocess.run(['openssl', 'pkey', '-in', str(PRIVADA), '-pubout'], check=True, capture_output=True, text=True).stdout
+    # UTF-8 e \n explícitos: no Windows o padrão é cp1252/CRLF e o Godot recusa o script (o autoload de patches não compila).
     CHAVE_GD.write_text('extends RefCounted\n\n## Chave pública que confere a assinatura dos patches (gerada por ferramentas/atualizacao/gerar_atualizacao.py chave).\n'
-                        'const PUBLICA := """' + publica.strip() + '\n"""\n')
+                        'const PUBLICA := """' + publica.strip() + '\n"""\n', encoding='utf-8', newline='\n')
     print('Chave pública gravada em', CHAVE_GD.relative_to(RAIZ), '— o próximo APK precisa dela.')
 
 
@@ -109,7 +123,7 @@ def cmd_base(_: argparse.Namespace) -> None:
     BASES.mkdir(parents=True, exist_ok=True)
     destino = caminho_base(v)
     exportar(['--export-pack', PRESET, str(destino)])
-    destino.with_suffix('.json').write_text(json.dumps(nucleo_atual(), sort_keys=True))
+    destino.with_suffix('.json').write_text(json.dumps(nucleo_atual(), sort_keys=True), encoding='utf-8')
     print('Base guardada:', destino)
 
 
@@ -125,12 +139,12 @@ def cmd_patch(a: argparse.Namespace) -> None:
     if not base.exists():
         sys.exit(f'Falta {base}: rode "base" na hora de exportar o aplicativo dessa versão.')
     registro_base = base.with_suffix('.json')
-    if not registro_base.exists() or json.loads(registro_base.read_text()) != nucleo_atual():
+    if not registro_base.exists() or json.loads(registro_base.read_text(encoding='utf-8')) != nucleo_atual():
         sys.exit('Núcleo/configuração diferente da base: exporte um aplicativo novo e registre a base novamente.')
     destino_pub = Path(a.publicacao)
     destino_pub.mkdir(parents=True, exist_ok=True)
     registro = destino_pub / 'versao.json'
-    versao = json.loads(registro.read_text()) if registro.exists() else {'apk': v, 'url_apk': '', 'patches': {}}
+    versao = json.loads(registro.read_text(encoding='utf-8')) if registro.exists() else {'apk': v, 'url_apk': '', 'patches': {}}
     anterior = versao.setdefault('pacotes', {}).get(identidade(), {}).get(v, {})
     numero = int(json.loads(anterior.get('dados', '{}')).get('conteudo', 0)) + 1
     nome = f'patch-{identidade()}-{v}-{numero}.pck'
@@ -180,7 +194,7 @@ def cmd_patch(a: argparse.Namespace) -> None:
     if a.url_apk is not None:
         versao['url_apk'] = a.url_apk
     temporario_json = registro.with_suffix('.tmp')
-    temporario_json.write_text(json.dumps(versao, indent=2) + '\n')
+    temporario_json.write_text(json.dumps(versao, indent=2) + '\n', encoding='utf-8', newline='\n')
     temporario_json.replace(registro)
     print(f'Conteúdo {numero} ({identidade()}) para {v}: {len(mudados)} arquivos em {len(pacotes)} pacotes')
     print('Publicado em', destino_pub, '— falta enviar o site (wiki) para a hospedagem.')
