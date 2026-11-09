@@ -1,0 +1,39 @@
+docs/avaliacao-2026-11/AVALIACAO.md
+  s_25190b8eaff727::t_87628a1a2c8bf9 27,29
+  s_25190b8eaff727::t_1d383f3c06b95c 57-61,63-64
+  s_25190b8eaff727::t_4b091bbcff782b 62
+  s_25190b8eaff727::t_c2623bb6be7981 1-26,30-56
+  s_25190b8eaff727::t_eaa860ba5484e3 28
+CLAUDE.md
+  s_25190b8eaff727::t_01eff0f91ca1c8 9-11
+codigo/ui/mini_tutorial.gd
+  s_25190b8eaff727::t_9f6709238fa527 145-147
+  s_25190b8eaff727::t_921f8c5071992e 6,119,121
+testes/teste_interface_campanha.gd
+  s_25190b8eaff727::t_d94cade85d0ac9 117-119
+  s_25190b8eaff727::t_dbe13ef142fa2a 127-128
+codigo/cidade/dados_cidade.gd
+  s_25190b8eaff727::t_ec8988ee410039 185,187,193
+codigo/dados/acessorios_iniciais.gd
+  s_25190b8eaff727::t_4521bb06864c2a 4-5,7
+codigo/ui/tela_carpintaria.gd
+  s_25190b8eaff727::t_09fb89c870a09c 74
+codigo/ui/tela_forja.gd
+  s_25190b8eaff727::t_dfc7e9fd6edeea 105,349,352,458,526
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.6",
+  "base_commit_sha": "cc3b1686adb8455172b3b880c36ed2e92ad46cd1",
+  "prompts": {},
+  "sessions": {
+    "s_25190b8eaff727": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "7fe41582-3cec-49e6-9c85-7ef090db8d02",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Gabriel Renovato <86806861+GabrielRenovato@users.noreply.github.com>"
+    }
+  }
+}
