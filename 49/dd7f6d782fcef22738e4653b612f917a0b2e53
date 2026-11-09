@@ -1,0 +1,24 @@
+testes/teste_campanha_pesca_social.gd
+  s_25190b8eaff727::t_11fac7581007b5 83-85
+codigo/campanha/percurso_prototipo.gd
+  s_25190b8eaff727::t_c5c0cbb9dd6136 1078-1081
+docs/avaliacao-2026-11/AVALIACAO.md
+  s_25190b8eaff727::t_45053bd800af69 58-63,68-89
+  s_25190b8eaff727::t_3d85bd490ee597 64-67
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.6",
+  "base_commit_sha": "49dd7f6d782fcef22738e4653b612f917a0b2e53",
+  "prompts": {},
+  "sessions": {
+    "s_25190b8eaff727": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "7fe41582-3cec-49e6-9c85-7ef090db8d02",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Gabriel Renovato <86806861+GabrielRenovato@users.noreply.github.com>"
+    }
+  }
+}
