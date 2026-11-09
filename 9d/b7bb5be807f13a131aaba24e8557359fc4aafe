@@ -1,0 +1,23 @@
+ferramentas/projeto/REGRAS_VISUAIS.md
+  s_25190b8eaff727::t_c333078d268afa 3-4
+AGENTS.md
+  s_25190b8eaff727::t_24e46de8ee1b71 5
+ferramentas/projeto/GUIA_ARTE.md
+  s_25190b8eaff727::t_6feb430b4b8d85 1-116
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.6",
+  "base_commit_sha": "9db7bb5be807f13a131aaba24e8557359fc4aafe",
+  "prompts": {},
+  "sessions": {
+    "s_25190b8eaff727": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "7fe41582-3cec-49e6-9c85-7ef090db8d02",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Gabriel Renovato <86806861+GabrielRenovato@users.noreply.github.com>"
+    }
+  }
+}
