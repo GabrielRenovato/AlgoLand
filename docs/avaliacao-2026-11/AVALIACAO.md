@@ -55,6 +55,38 @@ O manifesto tem 14 destinos e 19 missões (13 principais, 6 opcionais), mas o be
 4. Decidir o estilo do mapa: refazer em pixel art ou dar ao mapa uma moldura de "pergaminho" que justifique o estilo diferente.
 5. Jogar os primeiros 20 minutos de verdade (no celular e no PC) para avaliar ritmo e combate, que este relatório não cobre.
 
+## Vila e moradores: o que falta
+
+Fontes: `teste_campanha_pesca_social.gd` (capturas `vila-entrada-576`, `pesca-576`, `mercado-576`), `codigo/dados/moradores_primeira_raiz.json`, `percurso_prototipo.gd` e `docs/narrativa/ROADMAP_PRIMEIRO_ANDAR.md`.
+
+**O que já está bom:** a entrada da vila é a cena mais bonita do jogo (portões, estandartes, lampiões, cerca e flores). Os 15 moradores das personas existem, cada um com aparência, rotina e voz própria. As falas têm personalidade, e várias reagem ao progresso (Cerne derrubado, defesa vencida, água de volta).
+
+### Bugs encontrados (resolvidos em 09/11/2026)
+1. **Pedidos de pesca:** não era bug do jogo. Uma das falhas vinha de saves herdados de outro teste rodado na mesma cópia: no Windows não há o `testar_tudo.py`, então é preciso apagar `%APPDATA%/Godot/app_userdata/AlgoLand testes Carrasco` entre testes. As outras duas vinham do teste desatualizado: desde a missão da defesa, a primeira conversa com a Lia dá o aviso da defesa e só a segunda libera o pedido de carpas. O teste foi ajustado e passa sem falhas.
+   - **Ponto de design:** o jogador não sabe que a Lia ainda tem um pedido depois do aviso. O "!" continua sobre ela, mas vale a conversa da defesa terminar com "Ah, e tenho um pedido sobre as carpas…".
+2. **Marcador "!" sumia ao voltar à vila:** `_atualizar_marcadores` guardava a referência a marcadores já liberados com os moradores antigos. O resultado era o erro `previously freed instance` e o "!" não era recriado. Corrigido em `percurso_prototipo.gd`; o erro não aparece mais nos dois testes.
+
+### Conteúdo
+3. **Pouca fala por morador:** 2 a 5 conversas cada (uns 60 textos ao todo para 15 pessoas). Da quinta visita em diante tudo se repete. No roadmap continua aberto: "falas de encontro, missão, andamento, resolução e reação posterior".
+4. **Reações ao progresso só em três marcos** (Cerne, defesa, moinho) e não para todos. Missões como "Um lugar na vila" e a estrada quase não mudam o que a cidade diz.
+5. **Moradores de apoio sem papel:** Mara, Téo, Nina, Bia, Elia e Noel falam, mas não ligam a nenhuma missão principal nem a serviço próprio (Elia costureira e Noel guarda pediriam isso).
+6. **Retratos repetidos no diálogo:** só existem 3 (`lia`, `mistica`, `mercador`). Dara usa o retrato da Lia, e Tomás e o trabalhador usam o do mercador.
+7. **O fim do beta é seco:** uma linha no relato ao Nilo. Falta uma cena de encerramento e um gancho para a próxima região.
+
+### Interface na vila
+8. **"CHAT GLOBAL OFFLINE"** ocupa o canto inferior esquerdo na campanha solo, sem uso.
+9. **Mercado vazio sem conexão** ("SEM CONEXAO COM O MERCADO", também sem acento). No beta, com poucos jogadores, ele fica vazio mesmo com conexão. Ofertas fixas de moradores (Tomás, Cora) dariam vida.
+
+### Arte
+10. **Mistura de resolução:** a água da pesca e as barracas do mercado são pixel grande, ampliado e quadriculado, ao lado de árvores pintadas em alta resolução. É o contraste mais visível depois do mapa. Ver `GUIA_ARTE.md`, seção 5.
+11. **Moradores pequenos e parecidos de longe:** na entrada, guarda, fazendeiro e criança se distinguem só pela roupa. Silhuetas e cores mais marcadas (avental, chapéu, cesto) ajudariam a reconhecer cada um.
+
+### Do roadmap, ainda aberto
+- Mapa regional com destinos visitados, disponíveis e bloqueados.
+- Invasões depois da primeira defesa.
+- As três famílias de monstros (rebentos, cascudos de minério e sentinelas enxertadas). Hoje o beta usa rebentos e goblins.
+- O pomar continua fora do beta.
+
 ## Correções de 09/11/2026
 
 - **Painéis sobrepostos:** o `MiniTutorial` procurava a interface uma vez só, no `_ready`. Na campanha o HUD nasce antes da interface (`percurso_prototipo.gd`), então ele nunca via as telas abertas. Agora `mini_tutorial.gd` procura de novo no `_process` enquanto não acha uma interface válida. Conferido nas capturas: o diálogo e a forja aparecem sem o quadro de controles.

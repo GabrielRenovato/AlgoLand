@@ -80,7 +80,9 @@ func rodar():
 	verificar("pedido paga 30 de ouro",inv.ouro_campanha==ouro_antes+30)
 	cena._conferir_missoes();await quadros(3)
 	verificar("recompensa não duplica",inv.ouro_campanha==ouro_antes+30)
-	verificar("Lia libera pedido de carpas",cena.controlador.interagir("conversar","lia")==OK)
+	# A missão principal vem antes: a primeira conversa com Lia é o aviso da defesa.
+	verificar("Lia dá o aviso da defesa primeiro",cena.controlador.interagir("conversar","lia")==OK and "aviso" in cena.controlador.progresso.objetivos_cumpridos("defesa_da_vila"))
+	verificar("Lia libera pedido de carpas",cena.controlador.interagir("conversar","lia")==OK and "pedido" in cena.controlador.progresso.objetivos_cumpridos("pesca_carpas_da_vila"))
 	cena.abrir_regiao("chegada",false);await quadros(35);await parar_cinema()
 	await capturar_peixe("bagre")
 	verificar("pedido de carpas não conta outras espécies",not "captura_1" in cena.controlador.progresso.objetivos_cumpridos("pesca_carpas_da_vila"))

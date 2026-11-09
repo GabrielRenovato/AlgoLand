@@ -1075,7 +1075,10 @@ func _atualizar_marcadores(delta: float) -> void:
 	for id in moradores:
 		var morador: Node = moradores[id]
 		if not is_instance_valid(morador): continue
-		var marcador: Label = _marcadores.get(id)
+		# Ao trocar de região os moradores são recriados e o "!" antigo é liberado junto com eles.
+		var guardado: Variant = _marcadores.get(id)
+		var marcador: Label = guardado if is_instance_valid(guardado) else null
+		if marcador == null: _marcadores.erase(id)
 		if com_missao.has(id) and marcador == null:
 			marcador = Label.new()
 			marcador.text = "!"
